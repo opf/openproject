@@ -68,10 +68,13 @@ module Storages
     # rubocop:disable Metrics/AbcSize
     def apply_permission_to_folders
       info "Setting permissions to project folders"
-      active_project_storages_scope.includes(:project).where.not(project_folder_id: nil).find_each do |project_storage|
-        permissions = {}
-        admin_remote_identities_scope.pluck(:origin_user_id).each do |user_id|
-          permissions[user_id.to_sym] = { write_files: true }
+      active_project_storages_scope.includes(:project)
+                                   .where.not(project_folder_id: nil)
+                                   .find_each do |project_storage|
+        permissions = admin_remote_identities_scope
+                        .pluck(:origin_user_id)
+                        .map do |origin_user_id|
+          { user_id: origin_user_id, permissions: [:write_files] }
         end
 
         project_remote_identities(project_storage).each do |identity|
@@ -79,17 +82,17 @@ module Storages
         end
 
         info "Setting permissions for #{project_storage.managed_project_folder_name}: #{permissions}"
-        set_folder_permissions(project_storage.project_folder_id, permissions)
+
+        project_folder_id = project_storage.project_folder_id
+        build_permissions_input_data(project_folder_id, permissions)
+          .either(
+            ->(input_data) { set_permissions.call(storage: @storage, auth_strategy:, input_data:) },
+            ->(failure) { log_validation_error(failure, project_folder_id:, permissions:) }
+          )
       end
     end
 
     # rubocop:enable Metrics/AbcSize
-
-    def set_folder_permissions(folder_id, permissions)
-      set_permissions.call(storage: @storage,
-                           auth_strategy:,
-                           input_data: set_permissions_input_data(folder_id, permissions))
-    end
 
     def ensure_folders_exist(folder_map)
       info "Ensuring that automatically managed project folders exist and are correctly named."
@@ -108,18 +111,23 @@ module Storages
     def hide_inactive_folders(folder_map)
       info "Hiding folders related to inactive projects"
 
-      inactive_folder_ids(folder_map).each do |item_id|
-        info "Hiding folder with ID #{item_id} as it does not belong to any active project"
+      inactive_folder_ids(folder_map).each { |item_id| hide_folder(item_id) }
+    end
 
-        # FIXME: Set permissions wont ever fail.
-        set_permissions.call(storage: @storage,
-                             auth_strategy:,
-                             input_data: set_permissions_input_data(item_id, {}))
-                       .on_failure do |service_result|
-          log_storage_error(service_result.errors, item_id:, context: "hide_folder")
-          add_error(:hide_inactive_folders, service_result.errors, options: { path: folder_map[item_id] })
-        end
-      end
+    def hide_folder(item_id)
+      info "Hiding folder with ID #{item_id} as it does not belong to any active project"
+
+      build_permissions_input_data(item_id, [])
+        .either(
+          ->(input_data) do
+            set_permissions.call(storage: @storage, auth_strategy:, input_data:)
+                           .on_failure do |service_result|
+              log_storage_error(service_result.errors, item_id:, context: "hide_folder")
+              add_error(:hide_inactive_folders, service_result.errors, options: { path: folder_map[item_id] })
+            end
+          end,
+          ->(failure) { log_validation_error(failure, item_id:, context: "hide_folder") }
+        )
     end
 
     def inactive_folder_ids(folder_map)
@@ -128,8 +136,12 @@ module Storages
 
     def add_user_to_permission_list(permissions, identity, project)
       op_user_permissions = identity.user.all_permissions_for(project)
-      permissions[identity.origin_user_id.to_sym] = { read_files: op_user_permissions.member?(:read_files),
-                                                      write_files: op_user_permissions.member?(:write_files) }
+
+      if op_user_permissions.member?(:write_files)
+        permissions << { user_id: identity.origin_user_id, permissions: [:write_files] }
+      elsif op_user_permissions.member?(:read_files)
+        permissions << { user_id: identity.origin_user_id, permissions: [:read_files] }
+      end
     end
 
     def rename_project_folder(current_folder_name, project_storage)
@@ -222,8 +234,8 @@ module Storages
 
     def auth_strategy = userless.call
 
-    def set_permissions_input_data(file_id, permissions)
-      Peripherals::StorageInteraction::Inputs::SetPermissions.new(file_id:, permissions:)
+    def build_permissions_input_data(file_id, user_permissions)
+      Peripherals::StorageInteraction::Inputs::SetPermissions.build(file_id:, user_permissions:)
     end
 
     # @param attribute [Symbol] attribute to which the error will be tied to

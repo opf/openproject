@@ -32,24 +32,13 @@ module Storages
   module Peripherals
     module StorageInteraction
       module Inputs
-        # user_permissions - A list of user specific file permissions.
-        # IMPORTANT: the user ids are considered to be the ids of the remote identities.
-        #   Example:
-        #     [
-        #       {user_id: "d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [ :read_files,
-        #                                                                        :write_files,
-        #                                                                        :create_files,
-        #                                                                        :delete_files,
-        #                                                                        :share_files ]},
-        #       {user_id: "f6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [:read_files, :write_files]}
-        #     ]
-        SetPermissions = Data.define(:file_id, :user_permissions) do
-          private_class_method :new
-
-          def self.build(file_id:, user_permissions:, contract: SetPermissionsContract.new)
-            contract.call(file_id:, user_permissions:)
-                    .to_monad
-                    .fmap { |result| new(file_id: result[:file_id], user_permissions: result[:user_permissions]) }
+        class SetPermissionsContract < Dry::Validation::Contract
+          params do
+            required(:file_id).filled(:string)
+            required(:user_permissions).array(:hash) do
+              required(:user_id).filled(:string)
+              required(:permissions).array(:symbol, included_in?: OpenProject::Storages::Engine.permissions)
+            end
           end
         end
       end

@@ -45,6 +45,12 @@ module Storages
             def update? = permission_ids.any? && user_ids.any?
           end
 
+          # Instantiates the command and executes it.
+          #
+          # @param storage [Storage] The storage to interact with.
+          # @param auth_strategy [AuthenticationStrategy] The authentication strategy to use.
+          # @param input_data [Inputs::SetPermissions] The data needed for setting permissions, containing the file id
+          # and the permissions for an array of users.
           def self.call(storage:, auth_strategy:, input_data:)
             new(storage).call(auth_strategy:, input_data:)
           end
@@ -53,12 +59,8 @@ module Storages
             @storage = storage
           end
 
-          # rubocop:disable Metrics/AbcSize
           def call(auth_strategy:, input_data:)
             with_tagged_logger do
-              info "Validating input data"
-              validate_input_data(input_data).on_failure { return _1 }
-
               Authentication[auth_strategy].call(storage: @storage) do |http|
                 item = input_data.file_id
                 item_exists?(http, item).on_failure { return _1 }
@@ -81,26 +83,16 @@ module Storages
             end
           end
 
-          # rubocop:enable Metrics/AbcSize
-
           private
 
-          def validate_input_data(input_data)
-            if input_data.is_a?(Inputs::SetPermissions) && input_data.valid?
-              ServiceResult.success
-            else
-              ServiceResult.failure(result: :error,
-                                    errors: StorageError.new(code: :error,
-                                                             data: StorageErrorData.new(source: self.class),
-                                                             log_message: "Invalid input data: #{input_data.inspect}"))
-            end
-          end
-
           def role_to_user_map(input_data)
-            input_data.permissions
-                      .each_with_object({ read: [], write: [] }) do |(user_id, permissions), map|
-              map[:read] << user_id if permissions[:read_files]
-              map[:write] << user_id if permissions[:write_files]
+            input_data.user_permissions
+                      .each_with_object({ read: [], write: [] }) do |user_permission_set, map|
+              if user_permission_set[:permissions].include?(:write_files)
+                map[:write] << user_permission_set[:user_id]
+              elsif user_permission_set[:permissions].include?(:read_files)
+                map[:read] << user_permission_set[:user_id]
+              end
             end
           end
 
