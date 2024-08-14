@@ -48,6 +48,24 @@ RSpec.describe "work package export" do
   let(:query) { create(:query, user: current_user, project:) }
   let(:expected_columns) { query.displayable_columns.map { |c| c.name.to_s } - ["bcf_thumbnail"] }
   let(:default_params) { {} }
+  let(:cf_text_a) do
+    create(
+      :work_package_custom_field,
+      id: 42,
+      name: "Long text custom field",
+      field_format: "text",
+      is_for_all: false
+    )
+  end
+  let(:cf_text_b) do
+    create(
+      :work_package_custom_field,
+      id: 43,
+      name: "Second lt cf",
+      field_format: "text",
+      is_for_all: false
+    )
+  end
 
   before do
     service_instance = instance_double(WorkPackages::Exports::ScheduleService)
@@ -196,6 +214,8 @@ RSpec.describe "work package export" do
     let(:expected_mime_type) { :pdf }
 
     before do
+      cf_text_a
+      cf_text_b
       open_export_dialog!
     end
 
@@ -213,9 +233,30 @@ RSpec.describe "work package export" do
     context "as report" do
       let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
       let(:export_sub_type) { I18n.t("export.dialog.pdf.export_type.options.report.label") }
+      let(:default_params_report) { default_params.merge({ pdf_export_type: "report" }) }
+
+      context "with custom fields" do
+        let(:expected_params) { default_params_report.merge({ cfs: "description 42 43" }) }
+
+        it "exports a pdf report with all long text custom fields by default" do
+          choose export_sub_type
+          export!
+        end
+      end
+
+      context "with custom fields selection" do
+        let(:expected_params) { default_params_report.merge({ cfs: "description 43" }) }
+
+        it "exports a pdf report with all remaining custom fields" do
+          choose export_sub_type
+          find("span.op-draggable-autocomplete--item-text", text: "Long text custom field")
+            .sibling(".op-draggable-autocomplete--remove-item").click
+          export!
+        end
+      end
 
       context "with image" do
-        let(:expected_params) { default_params.merge({ pdf_export_type: "report", show_images: "true" }) }
+        let(:expected_params) { default_params_report.merge({ show_images: "true" }) }
 
         it "exports a pdf report with image by default" do
           choose export_sub_type
@@ -230,7 +271,7 @@ RSpec.describe "work package export" do
       end
 
       context "without images" do
-        let(:expected_params) { default_params.merge({ pdf_export_type: "report", show_images: "false" }) }
+        let(:expected_params) { default_params_report.merge({ show_images: "false" }) }
 
         it "exports a pdf report with checked input" do
           choose export_sub_type

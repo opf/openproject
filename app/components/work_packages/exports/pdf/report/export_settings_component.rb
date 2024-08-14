@@ -33,6 +33,20 @@ module WorkPackages
     module PDF
       module Report
         class ExportSettingsComponent < BaseExportSettingsComponent
+          DESCRIPTION_CF = { id: "description", name: WorkPackage.human_attribute_name("description") }.freeze
+
+          def available_cfs
+            [DESCRIPTION_CF] + WorkPackageCustomField.where(field_format: "text")
+                                                     .map { |cf| { id: cf.id, name: cf.name } }
+          end
+
+          def selected_cfs
+            available_cfs
+          end
+
+          def protected_cfs
+            []
+          end
         end
       end
     end
