@@ -47,20 +47,20 @@ module OpenProject::GitlabIntegration
         permission(:show_gitlab_content,
                    {},
                    permissible_on: %i[work_package project])
-
-        menu :work_package_split_view,
-             :gitlab,
-             { tab: :gitlab },
-             if: ->(project) {
-               User.current.allowed_in_project?(:show_gitlab_content, project)
-             },
-             skip_permissions_check: true,
-             badge: ->(work_package:, **) {
-               work_package.gitlab_merge_requests.count +
-                 work_package.gitlab_issues.count
-             },
-             caption: :project_module_github
       end
+
+      menu :work_package_split_view,
+           :gitlab,
+           { tab: :gitlab },
+           if: ->(project) {
+             User.current.allowed_in_project?(:show_gitlab_content, project)
+           },
+           skip_permissions_check: true,
+           badge: ->(work_package:, **) {
+             work_package.gitlab_merge_requests.count +
+               work_package.gitlab_issues.count
+           },
+           caption: :project_module_github
     end
 
     patches %w[WorkPackage]
