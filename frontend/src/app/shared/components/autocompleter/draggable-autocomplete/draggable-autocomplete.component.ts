@@ -70,6 +70,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   /** Decide whether to bind the component to the component or to the body */
   /** Binding to the component in case the component is inside a Primer Dialog which uses popover */
   @Input() appendToComponent = false;
+  @Input() formControlId = 'op-draggable-autocomplete-container';
 
   /** Output when autocompleter changes values or items removed */
   @Output() onChange = new EventEmitter<DraggableOption[]>();
@@ -103,7 +104,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
     // Setup groups
     this.columnsGroup = this.dragula.createGroup(
       this.dragAreaName,
-      { mirrorContainer: this.appendToComponent ? document.getElementById('op-draggable-autocomplete-container')! : document.body },
+      { mirrorContainer: this.appendToComponent ? document.getElementById(this.formControlId)! : document.body },
     );
 
     // Set cursor when dragging
@@ -135,7 +136,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
       },
     );
 
-    this.appendTo = this.appendToComponent ? '#op-draggable-autocomplete-container' : 'body';
+    this.appendTo = this.appendToComponent ? `#${this.formControlId}` : 'body';
   }
 
   ngAfterViewInit():void {
