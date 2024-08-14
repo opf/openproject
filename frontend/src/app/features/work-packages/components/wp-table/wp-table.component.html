@@ -8,8 +8,8 @@
         <col *ngIf="configuration.dragAndDropEnabled">
         <col *ngIf="baselineEnabled">
         <!-- Generate col elements dynamically(!) for each requested column plus one for the action menu's column. -->
-        <col opHighlightCol *ngFor="let column of [].constructor(columns.length)">
-        <col opHighlightCol *ngIf="configuration.columnMenuEnabled">
+        <col *ngFor="let column of [].constructor(columns.length)">
+        <col *ngIf="configuration.columnMenuEnabled">
         <col *ngIf="!configuration.columnMenuEnabled">
       </colgroup>
       <caption class="hidden-for-sighted">

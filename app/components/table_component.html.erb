@@ -29,10 +29,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 <div class="generic-table--container <%= container_class %>" data-test-selector="<%= test_selector %>">
   <div class="generic-table--results-container">
-    <table class="generic-table">
+    <table class="generic-table" data-controller="table-highlighting">
       <colgroup>
         <% headers.each do |_name, _options| %>
-          <col opHighlightCol>
+          <col>
         <% end %>
         <col>
       </colgroup>

@@ -62,9 +62,7 @@ import { EnterprisePageComponent } from 'core-app/shared/components/enterprise-p
 import { FreeTrialButtonComponent } from 'core-app/features/enterprise/free-trial-button/free-trial-button.component';
 import { HomescreenNewFeaturesBlockComponent } from 'core-app/features/homescreen/blocks/new-features.component';
 import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
-import { HookService } from 'core-app/features/plugins/hook-service';
 import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
-import { highlightColSelector, OpHighlightColDirective, } from './directives/highlight-col/highlight-col.directive';
 import { CopyToClipboardService } from './components/copy-to-clipboard/copy-to-clipboard.service';
 import { CopyToClipboardComponent } from './components/copy-to-clipboard/copy-to-clipboard.component';
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
@@ -112,14 +110,6 @@ export function bootstrapModule(injector:Injector):void {
     project: currentProject.identifier || 'global',
     'router state': uiRouterGlobals.current.name || 'unknown',
   }));
-
-  const hookService = injector.get(HookService);
-  hookService.register('openProjectAngularBootstrap', () => [
-    {
-      selector: highlightColSelector,
-      cls: OpHighlightColDirective,
-    },
-  ]);
 }
 
 @NgModule({
@@ -181,9 +171,6 @@ export function bootstrapModule(injector:Injector):void {
     UploadProgressComponent,
     OpDateTimeComponent,
 
-    // Table highlight
-    OpHighlightColDirective,
-
     ResizerComponent,
 
     TablePaginationComponent,
@@ -228,9 +215,6 @@ export function bootstrapModule(injector:Injector):void {
 
     OPContextMenuComponent,
     IconTriggeredContextMenuComponent,
-
-    // Table highlight
-    OpHighlightColDirective,
 
     // Add functionality to rails rendered templates
     CopyToClipboardComponent,

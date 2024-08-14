@@ -31,10 +31,10 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="generic-table--flex-container">
     <div class="generic-table--container <%= container_class %>">
       <div class="generic-table--results-container">
-        <table class="generic-table" <%= table_id ? "id=\"#{table_id}\"".html_safe : '' %>>
+        <table class="generic-table" data-controller="table-highlighting" <%= table_id ? "id=\"#{table_id}\"".html_safe : '' %>>
           <colgroup>
             <% columns.each do |column| %>
-              <col <%= "opHighlightCol" unless column.attribute == :hierarchy %> >
+              <col>
             <% end %>
             <col>
           </colgroup>
