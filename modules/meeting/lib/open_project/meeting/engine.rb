@@ -132,7 +132,7 @@ module OpenProject::Meeting
              User.current.allowed_in_any_project?(:view_meetings)
            },
            badge: ->(work_package:, **) {
-             work_package.meetings.count
+             work_package.meetings.where(meetings: { start_time: Time.zone.today.beginning_of_day.. }).count
            },
            caption: :label_meeting_plural
 
