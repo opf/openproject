@@ -270,7 +270,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     end
 
     describe "with no long text fields" do
-      let(:options) { { pdf_export_type: "report" } }
+      let(:options) { { pdf_export_type: "report", long_text_fields: "" } }
       let(:long_text_fields) { [] }
 
       it "contains correct data" do
