@@ -39,7 +39,7 @@ def wait_for_network_idle(...)
   if using_cuprite?
     page.driver.wait_for_network_idle(...)
   else
-    warn "wait_for_network_idle used in spec not using cuprite"
+    warn_about_cuprite_helper_misuse(:wait_for_network_idle)
   end
 end
 
@@ -49,8 +49,14 @@ def wait_for_reload
   if using_cuprite?
     page.driver.wait_for_reload
   else
-    warn "wait_for_reload used in spec not using cuprite"
+    warn_about_cuprite_helper_misuse(:wait_for_reload)
   end
+end
+
+def warn_about_cuprite_helper_misuse(method_name)
+  stack = caller(2)
+  cause = [stack[0], stack.find { |line| line["_spec.rb:"] }].uniq.join(" … ")
+  warn "#{method_name} used in spec not using cuprite (#{cause})"
 end
 
 # Ferrum is yet support `fill_options` as a Hash
