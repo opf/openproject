@@ -42,7 +42,7 @@ import {
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { TurboRequestsService } from "core-app/core/turbo/turbo-requests.service";
+import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 
 @Component({
   templateUrl: './watchers-tab.html',

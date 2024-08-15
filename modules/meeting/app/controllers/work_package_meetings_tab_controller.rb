@@ -84,9 +84,7 @@ class WorkPackageMeetingsTabController < ApplicationController
         past_meetings_count: @past_meetings_count
       )
 
-      replace_via_turbo_stream(
-        component: WorkPackages::Details::UpdateCounterComponent.new(work_package: @work_package, menu_name: "meetings")
-      )
+      replace_tab_counter_via_turbo_stream(work_package: @work_package)
 
       # TODO: show success message?
     else
