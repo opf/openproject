@@ -53,6 +53,7 @@ import { debounce } from 'lodash';
 import {
   SpotDropModalTeleportationService,
 } from 'core-app/spot/components/drop-modal/drop-modal-teleportation.service';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'op-modal-single-date-picker',
@@ -216,6 +217,9 @@ export class OpModalSingleDatePickerComponent implements ControlValueAccessor, O
   private initializeDatepickerAfterOpen():void {
     this.spotDropModalTeleportationService
       .afterRenderOnce$(true)
+      .pipe(
+        delay(100),
+      )
       .subscribe(() => {
         this.initializeDatepicker();
       });
