@@ -46,6 +46,11 @@ RSpec.describe "Admin lists project mappings for a storage",
   shared_let(:archived_project) { create(:project, active: false, name: "My archived Project") }
   shared_let(:storage) { create(:nextcloud_storage_with_complete_configuration, name: "My Nextcloud Storage") }
   shared_let(:project_storage) { create(:project_storage, project:, storage:, project_folder_mode: "automatic") }
+  shared_let(:oauth_client_token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user: admin) }
+
+  shared_let(:remote_identity) do
+    create(:remote_identity, oauth_client: storage.oauth_client, user: admin, origin_user_id: "admin")
+  end
 
   shared_let(:archived_project_project_storage) do
     create(:project_storage, project: archived_project, storage:, project_folder_mode: "inactive")
@@ -54,7 +59,6 @@ RSpec.describe "Admin lists project mappings for a storage",
   let(:project_storages_index_page) { Pages::Admin::Storages::ProjectStorages::Index.new }
 
   current_user { admin }
-
 
   context "with insufficient permissions" do
     it "is not accessible" do
@@ -86,7 +90,7 @@ RSpec.describe "Admin lists project mappings for a storage",
     end
   end
 
-  context "with sufficient permissions and an completely configured storage" do
+  context "with sufficient permissions and a completely configured storage" do
     before do
       login_as(admin)
       storage.update!(host: "https://example.com")
@@ -187,10 +191,6 @@ RSpec.describe "Admin lists project mappings for a storage",
 
     describe "Linking a project to a storage with a manually managed folder" do
       context "when the user has granted OAuth access" do
-        let(:oauth_client_token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user: admin) }
-        let(:remote_identity) do
-          create(:remote_identity, oauth_client: storage.oauth_client, user: admin, origin_user_id: "admin")
-        end
         let(:location_picker) { Components::FilePickerDialog.new }
 
         let(:root_xml_response) { build(:webdav_data) }
@@ -212,9 +212,6 @@ RSpec.describe "Admin lists project mappings for a storage",
         end
 
         before do
-          oauth_client_token
-          remote_identity
-
           stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{remote_identity.origin_user_id}")
             .to_return(status: 207, body: root_xml_response, headers: {})
           stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{remote_identity.origin_user_id}/Folder1")
@@ -303,17 +300,15 @@ RSpec.describe "Admin lists project mappings for a storage",
       end
 
       context "when the user has not granted oauth access" do
-        before do
-          OAuthClientToken.where(user: admin, oauth_client: storage.oauth_client).destroy_all
-        end
-
         it "show a storage login button" do
+          OAuthClientToken.where(user: admin, oauth_client: storage.oauth_client).destroy_all
+
           click_on "Add projects"
 
           within("dialog") do
-            choose "Existing folder with manually managed permissions"
-            wait_for(page).to have_button("Nextcloud login")
-            click_on("Nextcloud login")
+            wait_for(page).to have_button("Login")
+            click_on("Login")
+
             wait_for(page).to have_current_path(
               %r{/index.php/apps/oauth2/authorize\?client_id=.*&redirect_uri=.*&response_type=code&state=.*}
             )
