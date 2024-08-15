@@ -42,8 +42,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, } from '@angular/forms';
-import { onDayCreate, parseDate, setDates, } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { onDayCreate, parseDate, setDates } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
@@ -51,11 +51,11 @@ import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from '../../dataset-inputs';
 import { debounce } from 'lodash';
 import {
-  SpotDropModalTeleportationService
+  SpotDropModalTeleportationService,
 } from 'core-app/spot/components/drop-modal/drop-modal-teleportation.service';
 
 @Component({
-  selector: 'opce-modal-single-date-picker',
+  selector: 'op-modal-single-date-picker',
   templateUrl: './modal-single-date-picker.component.html',
   styleUrls: ['../styles/datepicker.modal.sass', './modal-single-date-picker.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
