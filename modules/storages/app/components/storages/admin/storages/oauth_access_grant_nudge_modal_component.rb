@@ -52,15 +52,15 @@ module Storages
 
         attr_reader :storage
 
-        def confirm_button_text = I18n.t("storages.oauth_grant_nudge_modal.confirm_button_label", provider_type:)
+        def login_button_label = I18n.t("storages.oauth_grant_nudge_modal.login_button_label", provider_type:)
         def heading_text = I18n.t("storages.oauth_grant_nudge_modal.heading", provider_type:)
         def waiting_title = I18n.t("storages.oauth_grant_nudge_modal.requesting_access_to", storage: storage.name)
         def cancel_button_text = I18n.t(:button_close)
-        def body_text = I18n.t("storages.oauth_grant_nudge_modal.body", provider_type:)
+        def body_text = I18n.t("storages.oauth_grant_nudge_modal.description", provider_type:)
         def provider_type = I18n.t("storages.provider_types.#{storage.short_provider_type}.name")
 
-        def confirm_button_aria_label
-          I18n.t("storages.oauth_grant_nudge_modal.confirm_button_aria_label", storage: storage.name)
+        def login_button_aria_label
+          I18n.t("storages.oauth_grant_nudge_modal.login_button_aria_label", storage: storage.name)
         end
 
         def confirm_button_url
