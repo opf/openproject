@@ -25,7 +25,15 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-import { ChangeDetectorRef, Component, ElementRef, Injector, Input, OnInit, } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Injector,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -37,6 +45,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 @Component({
   selector: 'opce-global-search-title',
   templateUrl: './global-search-title.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public searchTerm:string;
@@ -56,11 +65,13 @@ export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements O
     in: this.I18n.t('js.label_in'),
   };
 
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     readonly cdRef:ChangeDetectorRef,
     readonly globalSearchService:GlobalSearchService,
     readonly I18n:I18nService,
-    readonly injector:Injector) {
+    readonly injector:Injector,
+  ) {
     super();
   }
 
@@ -76,6 +87,7 @@ export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements O
       )
       .subscribe(([newSearchTerm, newProjectScope]) => {
         this.searchTerm = newSearchTerm;
+        /* eslint-disable-next-line @typescript-eslint/no-unsafe-argument */
         this.project = this.projectText(newProjectScope);
         this.searchTitle = `${this.text.search_for} ${this.searchTerm} ${this.project === '' ? '' : this.text.in} ${this.project}`;
 

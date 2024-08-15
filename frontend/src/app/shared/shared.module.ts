@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 import { FormsModule } from '@angular/forms';
-import { Injector, NgModule, } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
 import { UIRouterGlobals } from '@uirouter/core';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -40,19 +40,19 @@ import { UIRouterModule } from '@uirouter/angular';
 import { OpSpotModule } from 'core-app/spot/spot.module';
 import { CurrentUserModule } from 'core-app/core/current-user/current-user.module';
 import {
-  OpenprojectAutocompleterModule
+  OpenprojectAutocompleterModule,
 } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
 import {
-  IconTriggeredContextMenuComponent
+  IconTriggeredContextMenuComponent,
 } from 'core-app/shared/components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import {
-  SortHeaderDirective
+  SortHeaderDirective,
 } from 'core-app/features/work-packages/components/wp-table/sort-header/sort-header.directive';
 import {
-  ZenModeButtonComponent
+  ZenModeButtonComponent,
 } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import { OPContextMenuComponent } from 'core-app/shared/components/op-context-menu/op-context-menu.component';
 import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/principal/principal-rendering.module';
@@ -70,7 +70,7 @@ import { ToastComponent } from './components/toaster/toast.component';
 
 // Old datepickers
 import {
-  OpMultiDatePickerComponent
+  OpMultiDatePickerComponent,
 } from 'core-app/shared/components/datepicker/multi-date-picker/multi-date-picker.component';
 
 import { ToastsContainerComponent } from './components/toaster/toasts-container.component';
@@ -81,7 +81,7 @@ import { NoResultsComponent } from './components/no-results/no-results.component
 import { EditableToolbarTitleComponent } from './components/editable-toolbar-title/editable-toolbar-title.component';
 import { PersistentToggleComponent } from './components/persistent-toggle/persistent-toggle.component';
 import {
-  AddSectionDropdownComponent
+  AddSectionDropdownComponent,
 } from './components/hide-section/add-section-dropdown/add-section-dropdown.component';
 import { HideSectionLinkComponent } from './components/hide-section/hide-section-link/hide-section-link.component';
 import { RemoteFieldUpdaterComponent } from './components/remote-field-updater/remote-field-updater.component';
@@ -90,11 +90,11 @@ import { OpProjectIncludeComponent } from './components/project-include/project-
 import { OpProjectIncludeListComponent } from './components/project-include/list/project-include-list.component';
 import { OpLoadingProjectListComponent } from './components/searchable-project-list/loading-project-list.component';
 import {
-  OpNonWorkingDaysListComponent
+  OpNonWorkingDaysListComponent,
 } from './components/op-non-working-days-list/op-non-working-days-list.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import {
-  OpenprojectContentLoaderModule
+  OpenprojectContentLoaderModule,
 } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { FullCalendarModule } from '@fullcalendar/angular';

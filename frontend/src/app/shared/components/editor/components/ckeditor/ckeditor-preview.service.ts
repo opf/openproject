@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Injectable, Injector, } from '@angular/core';
+import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Injectable, Injector } from '@angular/core';
 
 @Injectable()
 export class CKEditorPreviewService {

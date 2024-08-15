@@ -26,13 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit, } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { Subscription } from 'rxjs';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
 import { ScrollableTabsComponent } from 'core-app/shared/components/tabs/scrollable-tabs/scrollable-tabs.component';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
-
 
 @Component({
   selector: 'opce-global-search-tabs',
@@ -60,12 +59,14 @@ export class GlobalSearchTabsComponent extends ScrollableTabsComponent implement
     this.currentTabSub = this.globalSearchService
       .currentTab$
       .subscribe((currentTab) => {
+        /* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */
         this.currentTabId = currentTab;
       });
 
     this.tabsSub = this.globalSearchService
       .tabs$
       .subscribe((tabs) => {
+        /* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */
         this.tabs = tabs;
         this.tabs.map((tab) => (tab.path = '#'));
       });

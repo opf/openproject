@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, ElementRef, OnInit, } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import {
-  ExternalRelationQueryConfigurationService
+  ExternalRelationQueryConfigurationService,
 } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service';
 import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
 import { DragulaService, DrakeWithModels } from 'ng2-dragula';
@@ -29,7 +29,6 @@ export interface TypeGroup {
   query?:any;
   type:TypeGroupType;
 }
-
 
 export const emptyTypeGroup = '__empty';
 
@@ -234,7 +233,8 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
         this.form.off('submit.typeformupdater');
         this.form.trigger('submit');
       })
-      .catch(() => {});
+      .catch(() => {
+      });
 
     $event.preventDefault();
     return false;

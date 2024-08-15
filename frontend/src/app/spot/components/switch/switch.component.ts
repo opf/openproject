@@ -16,6 +16,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
 export type SpotSwitchState = boolean;
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'spot-switch',
   templateUrl: './switch.component.html',
   providers: [{
@@ -83,9 +84,11 @@ export class SpotSwitchComponent implements ControlValueAccessor {
     this.onTouched(value);
   }
 
-  onChange = (_:SpotSwitchState):void => {};
+  onChange = (_:SpotSwitchState):void => {
+  };
 
-  onTouched = (_:SpotSwitchState):void => {};
+  onTouched = (_:SpotSwitchState):void => {
+  };
 
   registerOnChange(fn:(_:SpotSwitchState) => void):void {
     this.onChange = fn;

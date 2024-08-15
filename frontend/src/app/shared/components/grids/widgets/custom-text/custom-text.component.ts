@@ -13,7 +13,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  CustomTextEditFieldService
+  CustomTextEditFieldService,
 } from 'core-app/shared/components/grids/widgets/custom-text/custom-text-edit-field.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -61,9 +61,9 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
         this.untilDestroyed(),
         filter((value) => value !== this.resource.options.text),
       ).subscribe((newText) => {
-        const changeset = this.setChangesetOptions({ text: { raw: newText } });
-        this.resourceChanged.emit(changeset);
-      });
+      const changeset = this.setChangesetOptions({ text: { raw: newText } });
+      this.resourceChanged.emit(changeset);
+    });
   }
 
   ngOnChanges(changes:SimpleChanges):void {

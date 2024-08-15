@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { IToast, ToastService } from './toast.service';
 
@@ -47,7 +47,7 @@ export class ToastsContainerComponent extends UntilDestroyedMixin implements OnI
 
   constructor(
     readonly toastService:ToastService,
-    readonly cdRef:ChangeDetectorRef
+    readonly cdRef:ChangeDetectorRef,
   ) {
     super();
   }

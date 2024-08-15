@@ -172,9 +172,21 @@ module ApplicationHelper
   end
 
   def html_hours(text)
-    text.gsub(%r{(\d+)\.(\d+)},
-              '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
-        .html_safe
+    html_safe_gsub(text,
+                   %r{(\d+)\.(\d+)},
+                   '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
+  end
+
+  def html_safe_gsub(string, *gsub_args, &)
+    html_safe = string.html_safe?
+    string.gsub(*gsub_args, &)
+
+    # We only mark the string as safe if the previous string was already safe
+    if html_safe
+      string.html_safe # rubocop:disable Rails/OutputSafety
+    else
+      string
+    end
   end
 
   def authoring(created, author, options = {})
@@ -252,11 +264,9 @@ module ApplicationHelper
 
   # Same as Rails' simple_format helper without using paragraphs
   def simple_format_without_paragraph(text)
-    text.to_s
-        .gsub(/\r\n?/, "\n") # \r\n and \r -> \n
-        .gsub(/\n\n+/, "<br /><br />") # 2+ newline  -> 2 br
-        .gsub(/([^\n]\n)(?=[^\n])/, '\1<br />') # 1 newline   -> br
-        .html_safe
+    html_safe_gsub(text.to_s, /\r\n?/, "\n")
+      .then { |res| html_safe_gsub(res, /\n\n+/, "<br /><br />") }
+      .then { |res| html_safe_gsub(res, /([^\n]\n)(?=[^\n])/, '\1<br />') }
   end
 
   def lang_options_for_select(blank = true)
@@ -345,7 +355,7 @@ module ApplicationHelper
   #   A hash containing the following keys:
   #   * width: (default '100px') the css-width for the progress bar
   #   * legend: (default: '') the text displayed alond with the progress bar
-  def progress_bar(pcts, options = {})
+  def progress_bar(pcts, options = {}) # rubocop:disable Metrics/AbcSize
     pcts = Array(pcts).map(&:round)
     closed = pcts[0]
     done = pcts[1] || 0

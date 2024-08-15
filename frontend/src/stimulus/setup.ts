@@ -6,7 +6,7 @@ import OpDisableWhenCheckedController from './controllers/disable-when-checked.c
 import PrintController from './controllers/print.controller';
 import RefreshOnFormChangesController from './controllers/refresh-on-form-changes.controller';
 import AsyncDialogController from './controllers/async-dialog.controller';
-import TableHighlightingController from "./controllers/table-highlighting.controller";
+import TableHighlightingController from './controllers/table-highlighting.controller';
 
 declare global {
   interface Window {

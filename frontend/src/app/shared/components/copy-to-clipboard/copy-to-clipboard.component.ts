@@ -26,12 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 import { CopyToClipboardService } from './copy-to-clipboard.service';
-
 
 @Component({
   template: '',
@@ -51,7 +50,8 @@ export class CopyToClipboardComponent implements OnInit {
     readonly elementRef:ElementRef,
     readonly I18n:I18nService,
     protected copyToClipboardService:CopyToClipboardService,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     const element = this.elementRef.nativeElement;

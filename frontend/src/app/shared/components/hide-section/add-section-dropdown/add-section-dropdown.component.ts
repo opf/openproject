@@ -27,7 +27,7 @@
 //++
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   HideSectionDefinition,
   HideSectionService,
@@ -53,9 +53,11 @@ export class AddSectionDropdownComponent extends UntilDestroyedMixin implements 
 
   public placeholder = this.I18n.t('js.placeholders.selection');
 
-  constructor(protected hideSectionService:HideSectionService,
+  constructor(
+    protected hideSectionService:HideSectionService,
     protected elementRef:ElementRef,
-    protected I18n:I18nService) {
+    protected I18n:I18nService,
+  ) {
     super();
   }
 
@@ -68,12 +70,12 @@ export class AddSectionDropdownComponent extends UntilDestroyedMixin implements 
       .pipe(
         this.untilDestroyed(),
       ).subscribe((displayed) => {
-        this.selectable = this.hideSectionService.all
-          .filter((el) => displayed.indexOf(el.key) === -1)
-          .sort((a, b) => a.label.localeCompare(b.label));
+      this.selectable = this.hideSectionService.all
+        .filter((el) => displayed.indexOf(el.key) === -1)
+        .sort((a, b) => a.label.localeCompare(b.label));
 
-        (this.option.nativeElement as HTMLOptionElement).selected = true;
-      });
+      (this.option.nativeElement as HTMLOptionElement).selected = true;
+    });
   }
 
   show(value:string) {

@@ -36,28 +36,25 @@ import {
   OnInit,
   Renderer2,
 } from '@angular/core';
-import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
-import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import {
-  WorkPackageTableConfigurationObject
+  WorkPackageTableConfigurationObject,
 } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import {
-  WorkPackageViewFiltersService
+  WorkPackageViewFiltersService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { debounceTime, distinctUntilChanged, skip } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import {
-  WorkPackageFiltersService
+  WorkPackageFiltersService,
 } from 'core-app/features/work-packages/components/filters/wp-filters/wp-filters.service';
 import {
-  WorkPackageIsolatedQuerySpaceDirective
-} from "core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive";
-
+  WorkPackageIsolatedQuerySpaceDirective,
+} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 
 @Component({
   selector: 'opce-global-search-work-packages',
@@ -72,6 +69,7 @@ import {
 })
 
 export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin implements OnInit, OnDestroy, AfterViewInit {
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   public queryProps:{ [key:string]:any };
 
   public resultsHidden = false;
@@ -87,7 +85,6 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
   };
 
   constructor(
-    readonly FocusHelper:FocusHelperService,
     readonly elementRef:ElementRef,
     readonly renderer:Renderer2,
     readonly I18n:I18nService,
@@ -97,7 +94,6 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
     readonly querySpace:IsolatedQuerySpace,
     readonly wpFilters:WorkPackageFiltersService,
     readonly cdRef:ChangeDetectorRef,
-    private UrlParamsHelper:UrlParamsHelperService,
   ) {
     super();
   }
@@ -113,7 +109,7 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
         debounceTime(10),
         this.untilDestroyed(),
       )
-      .subscribe(([]) => {
+      .subscribe(() => {
         this.wpFilters.visible = false;
         this.setQueryProps();
       });
@@ -131,6 +127,7 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
   }
 
   private setQueryProps():void {
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     const filters:any[] = [];
     let columns = ['id', 'project', 'subject', 'type', 'status', 'updatedAt'];
 

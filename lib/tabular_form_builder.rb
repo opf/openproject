@@ -83,7 +83,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     super
   end
 
-  def date_picker(field, options = {})
+  def date_picker(field, options = {}) # rubocop:disable Metrics/AbcSize
     options[:class] = Array(options[:class])
     options[:container_class] ||= "-xslim"
     merge_required_attributes(options[:required], options)

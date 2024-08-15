@@ -14,7 +14,7 @@ import {
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ChartOptions } from 'chart.js';
 import {
-  WpGraphConfigurationService
+  WpGraphConfigurationService,
 } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service';
 import {
   WpGraphConfiguration,

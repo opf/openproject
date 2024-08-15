@@ -34,7 +34,7 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { CdkPortalOutlet, ComponentPortal, } from '@angular/cdk/portal';
+import { CdkPortalOutlet, ComponentPortal } from '@angular/cdk/portal';
 import { combineLatest } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
 
@@ -75,7 +75,8 @@ export class OpModalOverlayComponent {
     readonly modalService:OpModalService,
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
-  ) {}
+  ) {
+  }
 
   setupListener():void {
     combineLatest([
@@ -100,7 +101,7 @@ export class OpModalOverlayComponent {
       });
   }
 
-  protected isDefaultTarget(modalData:ModalData | null):boolean {
+  protected isDefaultTarget(modalData:ModalData|null):boolean {
     if (modalData === null) return true;
 
     return modalData.target === PortalOutletTarget.Default;

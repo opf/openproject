@@ -29,7 +29,7 @@
 class Widget::Filters::Date < Widget::Filters::Base
   include AngularHelper
 
-  def render
+  def render # rubocop:disable Metrics/AbcSize
     @calendar_headers_tags_included = true
 
     name = "values[#{filter_class.underscore_name}][]"

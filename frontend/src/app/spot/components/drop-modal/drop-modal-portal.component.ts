@@ -7,7 +7,7 @@ import {
   HostBinding,
   OnInit,
 } from '@angular/core';
-import { SpotDropModalTeleportationService, TeleportInstance, } from './drop-modal-teleportation.service';
+import { SpotDropModalTeleportationService, TeleportInstance } from './drop-modal-teleportation.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 
