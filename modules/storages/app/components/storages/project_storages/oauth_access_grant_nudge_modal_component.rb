@@ -48,6 +48,10 @@ module Storages
         )
       end
 
+      def cancel_button_text
+        I18n.t("storages.oauth_grant_nudge_modal.cancel_button_label")
+      end
+
       def find_project_storage(project_storage_record_or_id)
         return if project_storage_record_or_id.blank?
         return project_storage_record_or_id if project_storage_record_or_id.is_a?(::Storages::ProjectStorage)

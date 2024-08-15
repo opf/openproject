@@ -3,14 +3,15 @@
     render(
       Primer::Alpha::Dialog.new(
         id: dialog_id,
-        title:,
+        title: heading_text,
         data: {
           'application-target': 'dynamic',
           controller: 'storages--oauth-access-grant-nudge-modal',
           'storages--oauth-access-grant-nudge-modal-close-button-label-value': I18n.t('button_close'),
           'storages--oauth-access-grant-nudge-modal-loading-screen-reader-message-value': waiting_title,
         },
-        test_selector: 'oauth-access-grant-nudge-modal'
+        test_selector: 'oauth-access-grant-nudge-modal',
+        size: :large
       )
     ) do |dialog|
       dialog.with_header(
@@ -19,7 +20,8 @@
         aria: { live: :assertive },
         data: {
           'storages--oauth-access-grant-nudge-modal-target': 'header'
-        }
+        },
+        visually_hide_title: true
       )
 
       dialog.with_body(
@@ -37,13 +39,17 @@
           ) { render(Storages::OpenProjectStorageModalComponent::Body.new(:waiting, waiting_title:)) }
         )
         concat(
-          render(
-            Primer::Beta::Text.new(
-              data: {
-                'storages--oauth-access-grant-nudge-modal-target': 'requestAccessBody'
-              }
-            )
-          ) { body_text }
+          render(Primer::Beta::Blankslate.new(
+                  border: false,
+                  data: { "storages--oauth-access-grant-nudge-modal-target": "requestAccessBody" }
+                )) do |component|
+            component.with_visual_icon(icon: :"sign-in", size: :medium)
+
+            component.with_heading(tag: :h2, aria: { hidden: true })
+                    .with_content(heading_text)
+
+            component.with_description(color: :subtle) { body_text }
+          end
         )
       end
 
@@ -81,7 +87,10 @@
                   action: 'storages--oauth-access-grant-nudge-modal#requestAccess'
                 }
               )
-            ) { confirm_button_text }
+            ) do |button|
+              button.with_trailing_action_icon(icon: :"link-external")
+              confirm_button_text
+            end
           end
         )
       end

@@ -36,14 +36,16 @@ RSpec.describe Storages::ProjectStorages::OAuthAccessGrantNudgeModalComponent, t
   it "renders the nudge modal" do
     render_inline(described_class.new(project_storage:))
 
-    expect(page).to have_css('[role="alert"]', text: "One more step...", aria: { live: :assertive })
+    expect(page).to have_css('[role="alert"]', text: "Login to Nextcloud required", aria: { live: :assertive })
+
     expect(page).to have_test_selector(
       "oauth-access-grant-nudge-modal-body",
-      text: "To get access to the project folder you need to login to #{storage.name}."
+      text: "In order to add projects to this storage you need to be logged into Nextcloud. " \
+            "Please, log in and try again."
     )
 
     expect(page).to have_button("I will do it later")
-    expect(page).to have_button("Login", aria: { label: "Login to #{storage.name}" })
+    expect(page).to have_button("Nextcloud log in", aria: { label: "Login to #{storage.name}" })
   end
 
   context "with no project storage" do
