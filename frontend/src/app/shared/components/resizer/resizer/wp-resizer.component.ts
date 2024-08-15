@@ -67,7 +67,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   private resizer:HTMLElement;
 
   // Min-width this element is allowed to have
-  private elementMinWidth = 600;
+  private elementMinWidth = 530;
 
   public moving = false;
 
@@ -86,9 +86,9 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
     // Get element
     // We use this more complicated approach of taking the last element of the class as it allows
     // to still work in case an element is duplicated by Angular.
-    const contentBodyRight = document.querySelector('#content-bodyRight') as HTMLElement;
-    if (contentBodyRight && contentBodyRight.children.length>0) {
-      this.resizingElement = contentBodyRight;
+    const splitView = document.querySelector('.op-work-package-split-view') as HTMLElement;
+    if (splitView) {
+      this.resizingElement = splitView;
       // set the resizeStyle to width since parent element is a grid
       this.resizeStyle = 'width';
     } else {
