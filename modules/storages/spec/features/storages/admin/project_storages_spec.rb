@@ -178,6 +178,13 @@ RSpec.describe "Admin lists project mappings for a storage",
       end
     end
 
+    it "links to the delete page of a storage" do
+      page.find_test_selector("storage-delete-button").click
+
+      expect(page).to have_text("DELETE FILE STORAGE")
+      expect(page).to have_current_path("#{confirm_destroy_admin_settings_storage_path(storage)}?utf8=%E2%9C%93")
+    end
+
     describe "Linking a project to a storage with a manually managed folder" do
       context "when the user has granted OAuth access" do
         let(:oauth_client_token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user: admin) }

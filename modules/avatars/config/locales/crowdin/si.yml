@@ -11,7 +11,6 @@ si:
   message_avatar_uploaded: "අවතාර් සාර්ථකව වෙනස් විය."
   error_image_upload: "රූපය සුරැකීමේ දෝෂය."
   error_image_size: "රූපය ඉතා විශාලයි."
-  button_change_avatar: "වෙනස් අවතාරය"
   are_you_sure_delete_avatar: "ඔබට ඔබේ අවතාරය මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?"
   avatar_deleted: "අවතාර් සාර්ථකව මකා දැමීය."
   unable_to_delete_avatar: "අවතාර් මකා දැමිය නොහැකි විය."

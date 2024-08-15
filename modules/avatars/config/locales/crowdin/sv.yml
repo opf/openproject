@@ -11,7 +11,6 @@ sv:
   message_avatar_uploaded: "Profilbild ändrades."
   error_image_upload: "Kunde inte spara bilden."
   error_image_size: "Bilden är för stor."
-  button_change_avatar: "Ändra profilbild"
   are_you_sure_delete_avatar: "Är du säker på att du vill ta bort din avatar?"
   avatar_deleted: "Avatar har tagits bort."
   unable_to_delete_avatar: "Avatar kunde inte raderas."

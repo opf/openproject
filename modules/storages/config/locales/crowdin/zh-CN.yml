@@ -66,7 +66,7 @@ zh-CN:
       inactive: 没有指定文件夹
       manual: 手动管理现有文件夹
     remove_project:
-      deletion_failure_flash: Failed to remove the project from the storage. %{error}
+      deletion_failure_flash: 无法从存储中删除此项目。 %{error}
       dialog:
         automatically_managed_appendix: 而且，在这种情况下，这个存储有一个自动托管的项目文件夹，它和它的文件将被永久删除。
         confirmation_text: 请确认您已理解并要从此项目中删除此文件存储

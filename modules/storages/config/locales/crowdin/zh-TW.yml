@@ -66,7 +66,7 @@ zh-TW:
       inactive: 未指定文件夾
       manual: 手動管理現有資料夾
     remove_project:
-      deletion_failure_flash: Failed to remove the project from the storage. %{error}
+      deletion_failure_flash: 從儲存裝置移除專案失敗. %{error}
       dialog:
         automatically_managed_appendix: 此外，在這種情況下，此儲存空間有一個自動管理的專案資料夾，此資料夾及其檔案將永遠刪除。
         confirmation_text: 請確認您瞭解並希望從本專案中移除此檔案儲存空間
