@@ -11,7 +11,6 @@
   message_avatar_uploaded: "Profilbildet har blitt endret."
   error_image_upload: "Feil ved lagring av bilde."
   error_image_size: "Bildet er for stor."
-  button_change_avatar: "Endre profilbilde"
   are_you_sure_delete_avatar: "Er du sikker på at du vil slette profilbildet din?"
   avatar_deleted: "Profilbildet har blitt endret."
   unable_to_delete_avatar: "Profilbildet kunne ikke slettes."

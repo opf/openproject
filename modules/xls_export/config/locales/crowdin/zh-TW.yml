@@ -1,6 +1,6 @@
 zh-TW:
   plugin_openproject_xls_export:
-    name: "OpenProject XLS Export"
+    name: "匯出 OpenProject XLS"
     description: "將問題列表導出為 Excel 電子錶格 (.xls)"
   export_to_excel: "匯出到 XLS"
   print_with_description: "預覽列印（含描述）"
