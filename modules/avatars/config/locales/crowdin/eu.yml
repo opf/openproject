@@ -11,7 +11,6 @@ eu:
   message_avatar_uploaded: "Abatarra ongi aldatu da."
   error_image_upload: "Irudia gordetzeak akatsa eman du."
   error_image_size: "Irudia handiegia da."
-  button_change_avatar: "Aldatu abatarra"
   are_you_sure_delete_avatar: "Ziur zure abatarra ezabatu nahi duzula?"
   avatar_deleted: "Abatarra ongi ezabatu da."
   unable_to_delete_avatar: "Abatarra ezin da ezabatu."

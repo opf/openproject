@@ -11,7 +11,6 @@ pt-PT:
   message_avatar_uploaded: "Avatar alterado com sucesso."
   error_image_upload: "Erro ao guardar a imagem."
   error_image_size: "A imagem é demasiado grande."
-  button_change_avatar: "Alterar avatar"
   are_you_sure_delete_avatar: "Tem a certeza de que deseja apagar o seu avatar?"
   avatar_deleted: "Avatar apagado com sucesso."
   unable_to_delete_avatar: "Não foi possível eliminar o avatar."

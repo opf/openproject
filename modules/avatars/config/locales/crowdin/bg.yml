@@ -11,7 +11,6 @@ bg:
   message_avatar_uploaded: "Успешно променен аватар."
   error_image_upload: "Грешка при съхранение на образа."
   error_image_size: "Образа е твърде голям."
-  button_change_avatar: "Промяна на аватара"
   are_you_sure_delete_avatar: "Сигурни ли сте, че искате да изтриете аватара си?"
   avatar_deleted: "Аватара е изтрит успешно."
   unable_to_delete_avatar: "Аватара не може да бъде изтрит."

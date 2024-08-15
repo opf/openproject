@@ -11,7 +11,6 @@ af:
   message_avatar_uploaded: "Avatar is suksesvol verander."
   error_image_upload: "Fout met berging van die beeld."
   error_image_size: "Die beeld is te groot."
-  button_change_avatar: "Verander avatar"
   are_you_sure_delete_avatar: "Is jy seker jy wil jou avatar uitvee?"
   avatar_deleted: "Avatar is suksesvol uitgevee."
   unable_to_delete_avatar: "Avatar kon nie uitgevee word nie."
