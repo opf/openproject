@@ -11,7 +11,6 @@ vi:
   message_avatar_uploaded: "Hình đại diện đã thay đổi thành công"
   error_image_upload: "Lỗi khi lưu ảnh!"
   error_image_size: "Ảnh quá lớn"
-  button_change_avatar: "Đổi ảnh đại diện"
   are_you_sure_delete_avatar: "Bạn có chắc muốn xóa hình đại diện của bạn ?"
   avatar_deleted: "Hình đại diện đã xóa thành công"
   unable_to_delete_avatar: "Hình đại diện không thể bị xóa"

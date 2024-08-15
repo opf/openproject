@@ -11,7 +11,6 @@ uk:
   message_avatar_uploaded: "Avatar успішно змінено."
   error_image_upload: "Помилка під час збереження зображення."
   error_image_size: "Зображення завелике."
-  button_change_avatar: "Змінити avatar"
   are_you_sure_delete_avatar: "Ви впевнені, що хочете видалити свій avatar?"
   avatar_deleted: "Аватар успішно видалено."
   unable_to_delete_avatar: "Avatar не може бути видалений."
