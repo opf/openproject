@@ -36,6 +36,10 @@ module Tables
 
     class_attribute :eager_load
 
+    def table_id
+      "#{model_name.underscore}-table"
+    end
+
     def container_class
       "generic-table--container_visible-overflow generic-table--container_height-100"
     end
