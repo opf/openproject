@@ -64,7 +64,8 @@ module Storages
         end
 
         def confirm_button_url
-          url_helpers.oauth_access_grant_admin_settings_storage_project_storages_path(storage)
+          options[:confirm_button_url] ||
+            url_helpers.oauth_access_grant_admin_settings_storage_project_storages_path(storage)
         end
 
         def find_storage(storage_record_or_id)
