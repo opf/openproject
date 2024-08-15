@@ -46,8 +46,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
 
   def write_work_package_detail_content!(work_package)
     write_attributes_table! work_package
-    write_description! work_package
-    write_custom_fields! work_package
+    write_long_text_fields! work_package
   end
 
   private
@@ -178,14 +177,28 @@ module WorkPackage::PDFExport::WorkPackageDetail
     ]
   end
 
+  def write_long_text_fields!(work_package)
+    selected_long_text_fields.each do |field_id_or_desc|
+      if field_id_or_desc == "description"
+        write_description!(work_package)
+      else
+        write_long_text_field!(work_package, field_id_or_desc.to_i)
+      end
+    end
+  end
+
+  def selected_long_text_fields
+    @selected_long_text_fields ||= (options[:long_text_fields] || "").split
+  end
+
   def write_description!(work_package)
     write_markdown_field!(work_package, work_package.description, WorkPackage.human_attribute_name(:description))
   end
 
-  def write_custom_fields!(work_package)
-    work_package.custom_field_values
-                .select { |cv| cv.custom_field.formattable? }
-                .each do |custom_value|
+  def write_long_text_field!(work_package, field_id)
+    custom_value = work_package.custom_field_values
+                .find { |cv| cv.custom_field.id == field_id && cv.custom_field.formattable? }
+    if custom_value&.value
       write_markdown_field!(work_package, custom_value.value, custom_value.custom_field.name)
     end
   end

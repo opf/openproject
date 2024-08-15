@@ -35,16 +35,16 @@ module WorkPackages
         class ExportSettingsComponent < BaseExportSettingsComponent
           DESCRIPTION_CF = { id: "description", name: WorkPackage.human_attribute_name("description") }.freeze
 
-          def available_cfs
+          def available_long_text_fields
             [DESCRIPTION_CF] + WorkPackageCustomField.where(field_format: "text")
                                                      .map { |cf| { id: cf.id, name: cf.name } }
           end
 
-          def selected_cfs
-            available_cfs
+          def selected_long_text_fields
+            available_long_text_fields
           end
 
-          def protected_cfs
+          def protected_long_text_fields
             []
           end
         end

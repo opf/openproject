@@ -1797,7 +1797,7 @@ en:
         paper_size:
           label: "Paper size"
           caption: "Depending on the chart size more than one page might be exported."
-        custom_fields:
+        long_text_fields:
           input_caption: "By default all long text fields are selected."
           input_label: "Add long text fields"
           input_placeholder: "Search for long text fields"

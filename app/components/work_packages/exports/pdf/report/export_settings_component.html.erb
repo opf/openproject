@@ -10,18 +10,18 @@
     <hr class="mt-2 mb-4"/>
     <%= helpers.angular_component_tag "opce-draggable-autocompleter",
                                       inputs: {
-                                        id: "cfs-select-export-pdf-report",
-                                        name: 'cfs',
-                                        dragAreaName: "cfs-select-export-pdf-report_dragarea",
-                                        formControlId: "cfs-select-export-pdf-report_autocompleter",
+                                        id: "ltf-select-export-pdf-report",
+                                        name: 'long_text_fields',
+                                        dragAreaName: "ltf-select-export-pdf-report_dragarea",
+                                        formControlId: "ltf-select-export-pdf-report_autocompleter",
                                         appendToComponent: true,
-                                        options: available_cfs,
-                                        selected: selected_cfs,
-                                        protected: protected_cfs,
-                                        inputLabel: I18n.t(:"export.dialog.pdf.custom_fields.input_label"),
-                                        inputCaption: I18n.t(:"export.dialog.pdf.custom_fields.input_caption"),
-                                        inputPlaceholder: I18n.t(:"export.dialog.pdf.custom_fields.input_placeholder"),
-                                        dragAreaLabel: I18n.t(:"export.dialog.pdf.custom_fields.drag_area_label"),
+                                        options: available_long_text_fields,
+                                        selected: selected_long_text_fields,
+                                        protected: protected_long_text_fields,
+                                        inputLabel: I18n.t(:"export.dialog.pdf.long_text_fields.input_label"),
+                                        inputCaption: I18n.t(:"export.dialog.pdf.long_text_fields.input_caption"),
+                                        inputPlaceholder: I18n.t(:"export.dialog.pdf.long_text_fields.input_placeholder"),
+                                        dragAreaLabel: I18n.t(:"export.dialog.pdf.long_text_fields.drag_area_label"),
                                       }
     %>
   <% end %>

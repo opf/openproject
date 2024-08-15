@@ -235,8 +235,8 @@ RSpec.describe "work package export" do
       let(:export_sub_type) { I18n.t("export.dialog.pdf.export_type.options.report.label") }
       let(:default_params_report) { default_params.merge({ pdf_export_type: "report" }) }
 
-      context "with custom fields" do
-        let(:expected_params) { default_params_report.merge({ cfs: "description 42 43" }) }
+      context "with long text fields" do
+        let(:expected_params) { default_params_report.merge({ long_text_fields: "description 42 43" }) }
 
         it "exports a pdf report with all long text custom fields by default" do
           choose export_sub_type
@@ -244,8 +244,8 @@ RSpec.describe "work package export" do
         end
       end
 
-      context "with custom fields selection" do
-        let(:expected_params) { default_params_report.merge({ cfs: "description 43" }) }
+      context "with long text fields selection" do
+        let(:expected_params) { default_params_report.merge({ long_text_fields: "description 43" }) }
 
         it "exports a pdf report with all remaining custom fields" do
           choose export_sub_type
