@@ -26,12 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input } from '@angular/core';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
@@ -48,6 +43,8 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
       [workPackageId]="workPackageId"
       [activeTab]="activeTab"
       [showTabs]="false"
+      [resizeStyle]="resizeStyle"
+      [resizerClass]="resizerClass"
     ></op-wp-split-view>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -55,6 +52,8 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
 export class WorkPackageSplitViewEntryComponent {
   @Input() workPackageId:string;
   @Input() activeTab:string;
+  @Input() resizerClass:string;
+  @Input() resizeStyle:string;
 
   constructor(readonly elementRef:ElementRef) {
     populateInputsFromDataset(this);
