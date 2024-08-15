@@ -86,15 +86,9 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
     // Get element
     // We use this more complicated approach of taking the last element of the class as it allows
     // to still work in case an element is duplicated by Angular.
-    const splitView = document.querySelector('.op-work-package-split-view') as HTMLElement;
-    if (splitView) {
-      this.resizingElement = splitView;
-      // set the resizeStyle to width since parent element is a grid
-      this.resizeStyle = 'width';
-    } else {
-      const elements = document.getElementsByClassName(this.elementClass);
-      this.resizingElement = <HTMLElement>elements[elements.length - 1];
-    }
+    const elements = document.getElementsByClassName(this.elementClass);
+    this.resizingElement = <HTMLElement>elements[elements.length - 1];
+    
     if (!this.resizingElement) {
       return;
     }
