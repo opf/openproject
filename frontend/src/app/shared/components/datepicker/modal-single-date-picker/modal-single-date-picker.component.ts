@@ -264,6 +264,7 @@ export class OpModalSingleDatePickerComponent implements ControlValueAccessor, O
       },
       this.flatpickrTarget.nativeElement as HTMLElement,
     );
+    this.cdRef.detectChanges();
   }
 
   writeWorkingValue(value:string):void {

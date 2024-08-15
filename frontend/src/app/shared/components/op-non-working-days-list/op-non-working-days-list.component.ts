@@ -171,6 +171,7 @@ export class OpNonWorkingDaysListComponent implements OnInit, AfterViewInit {
       .forEach((el) => {
         this.nonWorkingDays.push({ ...el });
       });
+    this.cdRef.detectChanges();
   }
 
   ngAfterViewInit():void {
