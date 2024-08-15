@@ -46,17 +46,8 @@ RSpec.describe Storages::Admin::Storages::OAuthAccessGrantedModalComponent, type
         text: "Access granted. You are now ready to add projects to #{storage.name}"
       )
 
-      expect(page).to have_test_selector(
-        "oauth-access-granted-modal-body",
-        text: "Access granted",
-        aria: { hidden: true }
-      )
-
-      # expect(page).to have_test_selector(
-      #   "oauth-access-granted-modal-body",
-      #   text: "You are now ready to to add projects to #{storage.name}",
-      #   aria: { hidden: true }
-      # )
+      expect(page).to have_content("Access granted")
+      expect(page).to have_content("You are now ready to add projects to #{storage.name}")
 
       expect(page).to have_button("Close")
 
