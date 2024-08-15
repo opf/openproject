@@ -129,6 +129,12 @@ turbo_tests() {
 	cleanup
 }
 
+rspec() {
+	reset_dbs
+	execute "TEST_ENV_NUMBER=1 time bundle exec rspec $@"
+	cleanup
+}
+
 run_units() {
 	turbo_tests --runtime-log spec/support/runtime-logs/turbo_runtime_units.log {,modules/*/}spec/!(features)
 }
@@ -151,6 +157,11 @@ fi
 if [ "$1" == "turbo_tests" ]; then
 	shift
 	turbo_tests "$@"
+fi
+
+if [ "$1" == "rspec" ]; then
+	shift
+	rspec "$@"
 fi
 
 if [ "$1" == "run-units" ]; then
