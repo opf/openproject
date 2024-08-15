@@ -299,8 +299,10 @@ RSpec.describe "Admin lists project mappings for a storage",
           click_on "Add projects"
 
           within("dialog") do
-            wait_for(page).to have_button("Login")
-            click_on("Login")
+            wait_for(page).to have_button("Nextcloud log in")
+
+            expect(page).to have_text("Login to Nextcloud required")
+            click_on("Nextcloud log in")
 
             wait_for(page).to have_current_path(
               %r{/index.php/apps/oauth2/authorize\?client_id=.*&redirect_uri=.*&response_type=code&state=.*}
