@@ -1693,7 +1693,7 @@ zh-TW:
         file_links_journal: >
           從現在開始，與文件鏈接(存儲在外部存儲器中的文件) 相關的活動將出現在“活動”選項卡中。以下是與已經存在的鏈接相關的活動的表示：
         progress_calculation_adjusted_from_disabled_mode: >-
-          自動計算進度<a href="%{href}" target="_blank">設定為「Work-based」模式並隨著版本更新進行調整</a>。
+          自動計算進度<a href="%{href}" target="_blank">設定為「基於工時」模式並隨著版本更新進行調整</a>。
         progress_calculation_adjusted: >-
           自動計算進度<a href="%{href}" target="_blank">隨版本更新調整</a>。
         totals_removed_from_childless_work_packages: >-
@@ -2357,7 +2357,7 @@ zh-TW:
   label_work_package_new: "新增工作項目"
   label_work_package_edit: "編輯工作項目 %{name}"
   label_work_package_plural: "工作項目"
-  label_work_packages_settings: "工作包設置"
+  label_work_packages_settings: "工作項目設置"
   label_work_package_status: "工作項目狀態"
   label_work_package_status_new: "新狀態"
   label_work_package_status_plural: "工作項目狀態"
@@ -2965,7 +2965,7 @@ zh-TW:
   setting_consent_info: "條文"
   setting_consent_required: "是否需要使用者允許"
   setting_consent_decline_mail: "同意郵件列在通訊錄"
-  setting_cross_project_work_package_relations: "允許跨專案的工作項目關聯起來"
+  setting_cross_project_work_package_relations: "允許將跨專案之工作項目關聯起來"
   setting_first_week_of_year: "一年的第一週從哪一天開始"
   setting_date_format: "日期"
   setting_default_language: "預設語言"
@@ -2995,7 +2995,7 @@ zh-TW:
   setting_work_package_done_ratio_field: "基於工時"
   setting_work_package_done_ratio_status: "基於狀態"
   setting_work_package_done_ratio_explanation_html: >
-    在<b>work-based</b>模式中，"完成百分比"是根據已完成的工作量與總工作量來計算的。在 <b>status-based</b> 模式中，每個狀態都有一個與其關聯的完成百分比值。更改狀態將更改完成百分比。
+    在<b>基於工時</b>模式中，"完成百分比"是根據已完成的工作量與總工作量來計算的。在 <b>基於狀態</b> 模式中，每個狀態都有一個與其關聯的完成百分比值。更改狀態將更改完成百分比。
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
   setting_work_packages_projects_export_limit: "工作項目/專案匯出數量限制"
@@ -3090,7 +3090,7 @@ zh-TW:
     highlighting:
       mode_long:
         inline: "專案屬性"
-        none: "不強調"
+        none: "無高亮度顯示"
         status: "依工作項目狀態區分"
         type: "依工作項目類型區分"
         priority: "依工作項目優先順序區分"
@@ -3379,7 +3379,7 @@ zh-TW:
       modal:
         work_based_help_text: "完成百分比由 \"工時\" 和 \"剩餘工時\" 自動得出。"
         status_based_help_text: "完成百分比由工作包狀態設定。"
-        migration_warning_text: "在「Work-based」進度計算模式下，完成百分比無法手動設置，並且與「Work」相關聯。目前手動輸入數值已保留，無法編輯。 請務必輸入「Work」才能進行。"
+        migration_warning_text: "在「基於工時」進度計算模式下，完成百分比無法手動設置，並且與「工時」相關聯。目前手動輸入數值已保留，無法編輯。 請務必輸入「工時」才能進行。"
     permissions:
       comment: "留言"
       comment_description: "可查看此工作項目與留言"

@@ -1,7 +1,7 @@
 #English strings go here for Rails i18n
 zh-TW:
   plugin_openproject_two_factor_authentication:
-    name: "OpenProject 兩階段認證(Two-factor authentication)"
+    name: "OpenProject 兩階段驗證"
     description: >-
       該 OpenProject 插件基於 TOTP 標準通過使用一次性密碼(如 Google Authenticator) 、通過簡訊或語音發送到用戶手機，對用戶進行兩階短驗證。
   activerecord:

@@ -68,7 +68,7 @@ zh-TW:
     button_close: "關閉"
     button_change_project: "切換專案"
     button_check_all: "勾選全部"
-    button_configure-form: "配置表單"
+    button_configure-form: "表單設定"
     button_confirm: "確認"
     button_continue: "繼續"
     button_copy: "複製"
@@ -79,10 +79,10 @@ zh-TW:
     button_delete: "删除"
     button_delete_watcher: "刪除監看者"
     button_details_view: "詳細檢視"
-    button_duplicate: "複本"
+    button_duplicate: "複製"
     button_edit: "編輯"
     button_filter: "篩選條件"
-    button_collapse_all: "全部摺疊"
+    button_collapse_all: "全部收合"
     button_expand_all: "全部展開"
     button_advanced_filter: "進階篩選"
     button_list_view: "清單檢視"
@@ -139,11 +139,11 @@ zh-TW:
     description_subwork_package: "子工作項目 #%{id}"
     editor:
       preview: "切換預覽模式"
-      source_code: "切換標記源模式"
-      error_saving_failed: "保存文檔失敗, 出現以下錯誤: %{error}"
+      source_code: "切換Markdown模式"
+      error_saving_failed: "保存文件失敗, 出現以下錯誤: %{error}"
       ckeditor_error: "CKEditor 出現錯誤"
       mode:
-        manual: "切換到標記源模式"
+        manual: "切換到Markdown模式"
         wysiwyg: "切換到所見即所得編輯器"
       macro:
         error: "無法展開巨集(macro)：%{message}"
@@ -153,18 +153,18 @@ zh-TW:
           nested_macro: "該macro遞歸引用 %{model} %{id}。"
           invalid_attribute: "所選屬性 '%{name}' 不存在。"
         child_pages:
-          button: "指向子頁面的連結"
+          button: "導到子頁面"
           include_parent: "包括主項目"
           text: "[Placeholder] 連結到子頁面"
           page: "維基頁面"
           this_page: " 本頁"
           hint: |
-            將此欄位留空, 以列出當前頁的所有子頁面。如果要引用其他頁面, 請提供其標題或 slug。
+            將此欄位留空, 以列出當前頁的所有子頁面。如果要引用其他頁面, 請提供其標題或名稱。
         code_block:
           button: "插入程式碼片段"
           title: "插入/編輯程式碼片段"
-          language: "設定語言"
-          language_hint: "輸入將用於突出顯示的格式語言 (如果支援)。"
+          language: "格式化語言"
+          language_hint: "輸入可用來突顯之格式化語言 (如果支援)。"
         dropdown:
           macros: "巨集"
           chose_macro: "選擇macro"
@@ -176,12 +176,12 @@ zh-TW:
           page: "維基頁面"
           not_set: "(頁面尚未設置)"
           hint: |
-            通過指定其標題或Slug, 包括另一個 Wiki 頁面的內容。您可以通過將另一個專案的 Wiki 頁與下面的示例類似的冒號進行分隔, 從而包括該頁面。
+            通過指定其標題或名稱（slug）, 包括另一個 Wiki 頁面的內容。您可以通過將另一個專案的 Wiki 頁與下面的示例類似的冒號進行分隔, 從而包括該頁面。
         work_package_button:
           button: "插入「新增工作項目按鈕」"
           type: "工作項目類型"
           button_style: "使用按鈕樣式"
-          button_style_hint: "可選: 檢查以使宏顯示為按鈕, 而不是連結。"
+          button_style_hint: "可選: 檢查以使巨集顯示為按鈕, 而不是連結。"
           without_type: "建立工作項目"
           with_type: "新增工作項目 (類型: %{typename})"
         embedded_table:
@@ -242,7 +242,7 @@ zh-TW:
             description: "本地部署的 Enterprise edition 具有哪些優勢？"
             high_security: "安全功能"
             high_security_text: "單點登錄（SAML，OpenID Connect，CAS），LDAP 群組。\n"
-            installation: "安裝說明"
+            installation: "支援安裝"
             installation_text: "經驗豐富的軟件工程師將指導您在自己的基礎設施中完成整個安裝和設置過程。"
             premium_features: "企業版附加插件"
             premium_features_text: "敏捷看板、客製化主題與標誌、圖表、具備客製化動作的智慧工作流程、支援全文檢索工作項目文件及複選客製欄位。"
@@ -333,7 +333,7 @@ zh-TW:
         quarters: "季"
         years: "年"
         description: >
-          選擇自動縮放無法接通應顯示的初始縮放級別。
+          選擇初始縮放級別，當自動縮放無法顯示。
       export:
         title: "甘特圖 PDF 選項"
         button_export: "匯出"
@@ -417,7 +417,7 @@ zh-TW:
     label_display: "顯示"
     label_cancel_comment: "取消注釋"
     label_closed_work_packages: "已關閉"
-    label_collapse: "折疊"
+    label_collapse: "收合"
     label_collapsed: "已收合"
     label_collapse_all: "全部摺疊"
     label_comment: "留言"
@@ -445,9 +445,9 @@ zh-TW:
     label_group_by: "分組依據"
     label_group_plural: "群組"
     label_hide_attributes: "簡略"
-    label_hide_column: "隱藏欄"
+    label_hide_column: "隱藏欄位"
     label_hide_project_menu: "折疊專案選單"
-    label_in: "在"
+    label_in: "於"
     label_in_less_than: "少於"
     label_in_more_than: "多於"
     label_incoming_emails: "接收到的電子郵件"
@@ -548,8 +548,8 @@ zh-TW:
     label_starred_queries: "收藏"
     label_global_queries: "公開"
     label_custom_queries: "私人"
-    label_columns: "欄"
-    label_attachments: 附加檔
+    label_columns: "欄位"
+    label_attachments: 附件
     label_drop_files: "將檔案拖至此處當作附件"
     label_drop_or_click_files: "將檔案拖至此處，或點選上傳。"
     label_drop_folders_hint: 不能將資料夾作為附件上載。請選擇單個檔。
@@ -620,7 +620,7 @@ zh-TW:
         accountable: "負責人"
         created: "已建立"
         scheduled: "已排程"
-        commented: "已評論"
+        commented: "已留言"
         processed: "已處理"
         prioritized: "已優先"
         dateAlert: "日期提醒"
@@ -810,7 +810,7 @@ zh-TW:
       duplicates: "重複"
       duplicated: "重複於"
       blocks: "攔阻"
-      blocked: "攔阻於"
+      blocked: "被阻擋"
       precedes: "後置項目"
       follows: "前置項目"
       includes: "包括"
@@ -865,8 +865,8 @@ zh-TW:
     sort:
       sorted_asc: "已套用升冪排序， "
       sorted_dsc: "已套用降冪排序， "
-      sorted_no: "已套用不排序, "
-      sorting_disabled: "已禁用排序"
+      sorted_no: "不需排序, "
+      sorting_disabled: "已停用排序"
       activate_asc: "啟動以套用昇冪排序"
       activate_dsc: "啟動以套用降冪排序"
       activate_no: "啟動以移除排序"
@@ -886,8 +886,8 @@ zh-TW:
       heading1: "標題 1"
       heading2: "標題 2"
       heading3: "標題 3"
-      unordered_list: "項目符號清單"
-      ordered_list: "編號清單"
+      unordered_list: "未排序清單"
+      ordered_list: "排序清單"
       quote: "引言"
       unquote: "取消引言"
       preformatted_text: "預先格式化文字"
@@ -907,7 +907,7 @@ zh-TW:
       button_clear: "清除"
       comment_added: "成功發表意見。"
       comment_send_failed: "發生錯誤。無法留言。"
-      comment_updated: "注釋已成功更新。"
+      comment_updated: "留言已成功更新。"
       confirm_edit_cancel: "是否確定取消編輯中的工作項目"
       datepicker_modal:
         automatically_scheduled_parent: "自動安排。日期來源於關係。"
@@ -924,12 +924,12 @@ zh-TW:
       description_options_show: "顯示選項"
       edit_attribute: "%{attribute} - 編輯"
       key_value: "%{key}: %{value}"
-      label_enable_multi_select: "啟用複選"
-      label_disable_multi_select: "停用複選"
+      label_enable_multi_select: "啟用多選"
+      label_disable_multi_select: "停用多選"
       label_filter_add: "新增條件"
       label_filter_by_text: "用文字篩選"
       label_options: "選項"
-      label_column_multiselect: "組合的下拉欄位: 使用方向鍵選擇，用 enter 鍵確認，用backspace鍵刪除"
+      label_column_multiselect: "複合下拉欄位: 使用方向鍵選擇，用 enter 鍵確認，用backspace鍵刪除"
       message_error_during_bulk_delete: 刪除工作項目時發生錯誤
       message_successful_bulk_delete: 成功刪除工作項目
       message_successful_show_in_fullscreen: "點擊此處以全螢幕檢視此工作項目"
@@ -981,7 +981,7 @@ zh-TW:
         assignee: "執行者"
         author: "作者"
         createdAt: "建立於"
-        description: "說明"
+        description: "敘述"
         date: "日期"
         percentComplete: "完成度(%)"
         percentCompleteAlternative: "進度"
@@ -1028,7 +1028,7 @@ zh-TW:
         date: "選擇日期"
       query:
         column_names: "欄"
-        group_by: "分組依據"
+        group_by: "依據此條件分組"
         group: "分組依據"
         group_by_disabled_by_hierarchy: "目前為層級模式顯示、無法以群組模式呈現。"
         hierarchy_disabled_by_group_by: "層次結構模式已禁用，因為結果依據 %{column} 分組。"
@@ -1045,7 +1045,7 @@ zh-TW:
         rename_query_placeholder: "此檢視的名稱"
         star_text: "將此版面收藏起來，並新增至左側已儲存版面側邊欄。"
         public_text: >
-          發布此檢視圖，允許其他使用者存取您的視圖。 具有「管理公用檢視圖」權限的使用者可以修改或刪除公用查詢。 這不會影響該檢視圖中工作項目的可見性，並且根據使用者的權限，使用者可能會看到不同的結果。
+          發布此版面，允許其他使用者存取您的版面。 具有「管理公開版面」權限的使用者可以修改或刪除公開查詢。 這不會影響該版面中工作項目的可見性，並且根據使用者的權限，使用者可能會看到不同的結果。
         errors:
           unretrievable_query: "無法從 url 取得版面"
           not_found: "無此查詢"
@@ -1120,7 +1120,7 @@ zh-TW:
         hide_hierarchy: "隱藏層次結構"
         hide_sums: "隱藏匯總"
         save: "儲存"
-        save_as: "保存為"
+        save_as: "另存為"
         export: "匯出"
         visibility_settings: "可見度設定"
         share_calendar: "訂閱日曆"
