@@ -46,7 +46,12 @@ module WorkPackage::PDFExport::WorkPackageDetail
 
   def write_work_package_detail_content!(work_package)
     write_attributes_table! work_package
-    write_long_text_fields! work_package
+    if options[:long_text_fields].nil?
+      write_description! work_package
+      write_custom_fields! work_package
+    else
+      write_long_text_fields! work_package
+    end
   end
 
   private
@@ -57,7 +62,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
       link_target_at_current_y(work_package.id)
       level_string_width = write_work_package_level!(level_path, text_style)
       title = get_column_value work_package, :subject
-      @pdf.indent(level_string_width) do
+      pdf.indent(level_string_width) do
         pdf.formatted_text([text_style.merge({ text: title })])
       end
     end
@@ -68,7 +73,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
 
     level_string = "#{level_path.join('.')}. "
     level_string_width = measure_text_width(level_string, text_style)
-    @pdf.float { @pdf.formatted_text([text_style.merge({ text: level_string })]) }
+    pdf.float { pdf.formatted_text([text_style.merge({ text: level_string })]) }
     level_string_width
   end
 
@@ -199,6 +204,14 @@ module WorkPackage::PDFExport::WorkPackageDetail
     custom_value = work_package.custom_field_values
                 .find { |cv| cv.custom_field.id == field_id && cv.custom_field.formattable? }
     if custom_value&.value
+      write_markdown_field!(work_package, custom_value.value, custom_value.custom_field.name)
+    end
+  end
+
+  def write_custom_fields!(work_package)
+    work_package.custom_field_values
+                .select { |cv| cv.custom_field.formattable? }
+                .each do |custom_value|
       write_markdown_field!(work_package, custom_value.value, custom_value.custom_field.name)
     end
   end
