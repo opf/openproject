@@ -31,8 +31,8 @@ module WorkPackages::Scopes::IncludeSpentTime
 
   class_methods do
     def include_spent_time(user, work_package = nil)
-      scope = with(visible_time_entries_cte.name => allowed_to_view_time_entries(user))
-              .left_join_self_and_descendants(user, work_package)
+      scope = left_join_self_and_descendants(user, work_package)
+              .with(visible_time_entries_cte.name => allowed_to_view_time_entries(user))
               .joins(join_visible_time_entries.join_sources)
               .group(:id)
               .select("SUM(#{visible_time_entries_cte.name}.hours) AS hours")
