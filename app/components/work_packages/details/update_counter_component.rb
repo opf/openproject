@@ -18,7 +18,7 @@ class WorkPackages::Details::UpdateCounterComponent < ApplicationComponent
       .new(count:,
            hide_if_zero: true,
            id: wrapper_key,
-           test_selector: "wp-details-tab-component--tab-counter")
+           test_selector: "wp-details-tab-component--#{@menu.name}-counter")
   end
 
   # We don't need a wrapper component, but wrap on the counter id

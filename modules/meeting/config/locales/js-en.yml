@@ -29,3 +29,6 @@
 en:
   js:
     label_meetings: 'Meetings'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'
