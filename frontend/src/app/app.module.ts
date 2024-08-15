@@ -236,9 +236,6 @@ import { ColorsAutocompleterComponent } from 'core-app/shared/components/colors/
 import {
   StaticAttributeHelpTextComponent,
 } from 'core-app/shared/components/attribute-help-texts/static-attribute-help-text.component';
-import {
-  AvatarUploadFormComponent,
-} from 'core-app/features/plugins/linked/openproject-avatars/avatar-upload-form/avatar-upload-form.component';
 import { appBaseSelector, ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
 import { SpotSwitchComponent } from 'core-app/spot/components/switch/switch.component';
 
@@ -471,6 +468,5 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-global-search-tabs', GlobalSearchTabsComponent, { injector });
     registerCustomElement('opce-zen-mode-toggle-button', ZenModeButtonComponent, { injector });
     registerCustomElement('opce-colors-autocompleter', ColorsAutocompleterComponent, { injector });
-    registerCustomElement('opce-avatar-upload-form', AvatarUploadFormComponent, { injector });
   }
 }

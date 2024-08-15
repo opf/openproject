@@ -27,6 +27,7 @@
 import { Injector, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AvatarUploadFormComponent } from './avatar-upload-form/avatar-upload-form.component';
+import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-elements.helper';
 
 @NgModule({
   imports: [
@@ -38,5 +39,6 @@ import { AvatarUploadFormComponent } from './avatar-upload-form/avatar-upload-fo
 })
 export class PluginModule {
   constructor(injector:Injector) {
+    registerCustomElement('opce-avatar-upload-form', AvatarUploadFormComponent, { injector });
   }
 }
