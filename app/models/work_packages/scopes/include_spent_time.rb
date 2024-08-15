@@ -31,12 +31,11 @@ module WorkPackages::Scopes::IncludeSpentTime
 
   class_methods do
     def include_spent_time(user, work_package = nil)
-      query = join_time_entries(user)
-
       scope = left_join_self_and_descendants(user, work_package)
-              .joins(query.join_sources)
+              .with(visible_time_entries_cte.name => allowed_to_view_time_entries(user))
+              .joins(join_visible_time_entries.join_sources)
               .group(:id)
-              .select("SUM(time_entries.hours) AS hours")
+              .select("SUM(#{visible_time_entries_cte.name}.hours) AS hours")
 
       if work_package
         scope.where(id: work_package.id)
@@ -47,18 +46,14 @@ module WorkPackages::Scopes::IncludeSpentTime
 
     protected
 
-    def join_time_entries(user)
-      join_condition = time_entries_table[:work_package_id]
-                       .eq(wp_descendants[:id])
-                       .and(allowed_to_view_time_entries(user))
-
+    def join_visible_time_entries
       wp_table
-        .outer_join(time_entries_table)
-        .on(join_condition)
+        .outer_join(visible_time_entries_cte)
+        .on(visible_time_entries_cte[:work_package_id].eq(wp_descendants[:id]))
     end
 
     def allowed_to_view_time_entries(user)
-      time_entries_table[:id].in(TimeEntry.not_ongoing.visible(user).select(:id).arel)
+      TimeEntry.not_ongoing.visible(user).select(:id, :work_package_id, :hours).arel
     end
 
     def wp_table
@@ -71,8 +66,8 @@ module WorkPackages::Scopes::IncludeSpentTime
       @wp_descendants ||= wp_table.alias("descendants")
     end
 
-    def time_entries_table
-      @time_entries_table ||= TimeEntry.arel_table
+    def visible_time_entries_cte
+      @visible_time_entries_cte ||= Arel::Table.new("visible_time_entries")
     end
   end
 end
