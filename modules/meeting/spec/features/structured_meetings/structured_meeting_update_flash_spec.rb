@@ -74,7 +74,7 @@ RSpec.describe "Structured meetings CRUD",
         show_page.trigger_change_poll
         expect(page).to have_css(flash_component, wait: 5)
         expect(page).to have_text I18n.t(:notice_meeting_updated)
-        click_on "Reload"
+        click_link_or_button "Reload"
       end
 
       # Expect no notification in window2
@@ -103,7 +103,7 @@ RSpec.describe "Structured meetings CRUD",
         expect(page).to have_css(flash_component, wait: 5)
         expect(page).to have_text I18n.t(:notice_meeting_updated)
 
-        click_on "Reload"
+        click_link_or_button "Reload"
 
         ## Add section
         show_page.add_section do
@@ -119,7 +119,7 @@ RSpec.describe "Structured meetings CRUD",
         show_page.trigger_change_poll
         expect(page).to have_css(flash_component, wait: 5)
         expect(page).to have_text I18n.t(:notice_meeting_updated)
-        click_on "Reload"
+        click_link_or_button "Reload"
       end
 
       # Expect no notification in window2
