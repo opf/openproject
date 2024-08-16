@@ -16,7 +16,7 @@
                                   data: filter_input_data_attributes)
 
       subheader.with_filter_component do
-        render(Filter::FilterButtonComponent.new(query: @query, disabled: @disable_buttons))
+        render(Projects::ProjectFilterButtonComponent.new(query: @query, disabled: @disable_buttons))
       end
 
       subheader.with_action_button(tag: :a,
