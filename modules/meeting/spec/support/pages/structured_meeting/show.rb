@@ -43,11 +43,9 @@ module Pages::StructuredMeeting
 
     def trigger_change_poll
       script = <<~JS
-        var event = new CustomEvent(
-          'op:poll-for-changes:trigger',
-        );
-
-        document.querySelector('[data-test-selector="meeting-page-header"]').dispatchEvent(event);
+        var target = document.querySelector('[data-test-selector="meeting-page-header"]');
+        var controller = window.Stimulus.getControllerForElementAndIdentifier(target, 'poll-for-changes')
+        controller.triggerTurboStream();
       JS
 
       page.execute_script(script)
