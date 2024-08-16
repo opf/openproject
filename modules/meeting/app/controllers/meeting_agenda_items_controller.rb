@@ -81,7 +81,7 @@ class MeetingAgendaItemsController < ApplicationController
     @meeting_agenda_item = call.result
 
     if call.success?
-      set_meeting_from_agenda_item
+      reset_meeting_from_agenda_item
       # enable continue editing
       add_item_via_turbo_stream(clear_slate: false)
       update_header_component_via_turbo_stream
@@ -120,7 +120,7 @@ class MeetingAgendaItemsController < ApplicationController
       .call(meeting_agenda_item_params)
 
     if call.success?
-      set_meeting_from_agenda_item
+      reset_meeting_from_agenda_item
       update_item_via_turbo_stream
       update_section_header_via_turbo_stream(meeting_section: @meeting_agenda_item.meeting_section)
       update_header_component_via_turbo_stream
@@ -142,7 +142,7 @@ class MeetingAgendaItemsController < ApplicationController
       .call
 
     if call.success?
-      set_meeting_from_agenda_item
+      reset_meeting_from_agenda_item
       remove_item_via_turbo_stream(clear_slate: @meeting.agenda_items.empty?)
       update_header_component_via_turbo_stream
       update_section_header_via_turbo_stream(meeting_section: section) if section&.reload.present?
@@ -202,7 +202,7 @@ class MeetingAgendaItemsController < ApplicationController
 
   # In case we updated the meeting as part of the service flow
   # it needs to be reassigned for the controller in order to get correct timestamps
-  def set_meeting_from_agenda_item
+  def reset_meeting_from_agenda_item
     @meeting = @meeting_agenda_item.meeting
   end
 

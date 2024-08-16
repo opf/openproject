@@ -49,6 +49,7 @@ class MeetingSectionsController < ApplicationController
     @meeting_section = call.result
 
     if call.success?
+      reset_meeting_from_agenda_section
       add_section_via_turbo_stream
       update_section_via_turbo_stream(force_wrapper: true, state: :edit)
       # update the section header of the previously last section in order to ensure the action menu move options are updated
@@ -90,6 +91,7 @@ class MeetingSectionsController < ApplicationController
       .call(meeting_section_params)
 
     if call.success?
+      reset_meeting_from_agenda_section
       update_section_header_via_turbo_stream(state: :show)
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream
@@ -109,6 +111,7 @@ class MeetingSectionsController < ApplicationController
       .call
 
     if call.success?
+      reset_meeting_from_agenda_section
       remove_section_via_turbo_stream
       # in case the destroy action was called from the cancel_edit action
       # we need to update the new button state, which was disabled before
@@ -169,6 +172,12 @@ class MeetingSectionsController < ApplicationController
   def set_meeting
     @meeting = Meeting.find(params[:meeting_id])
     @project = @meeting.project # required for authorization via before_action
+  end
+
+  # In case we updated the meeting as part of the service flow
+  # it needs to be reassigned for the controller in order to get correct timestamps
+  def reset_meeting_from_agenda_section
+    @meeting = @meeting_section.meeting
   end
 
   def set_agenda_item_type
