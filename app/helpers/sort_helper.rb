@@ -286,7 +286,7 @@ module SortHelper
     allowed_params ||= %w[filters per_page expand columns]
 
     # Don't lose other params.
-    link_to_content_update(h(caption), safe_query_params(allowed_params).merge(sort_options), html_options)
+    link_to_content_update(h(caption), safe_query_params(allowed_params).merge(sort_options), html_options.merge(rel: :nofollow))
   end
 
   # Returns a table header <th> tag with a sort link for the named column

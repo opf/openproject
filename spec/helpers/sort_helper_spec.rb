@@ -148,6 +148,7 @@ RSpec.describe SortHelper do
             <div class="generic-table--sort-header">
               <span>
                 <a href="/work_packages?sort=sort_criteria_params"
+                   rel="nofollow"
                    title="Sort by &quot;Id&quot;">Id</a>
               </span>
             </div>
@@ -166,6 +167,7 @@ RSpec.describe SortHelper do
               <div class="generic-table--sort-header">
                 <span class="sort asc">
                   <a href="/work_packages?sort=sort_criteria_params"
+                     rel="nofollow"
                      title="Ascending sorted by &quot;Id&quot;">Id</a>
                 </span>
               </div>
@@ -186,6 +188,7 @@ RSpec.describe SortHelper do
               <div class="generic-table--sort-header">
                 <span class="sort desc">
                   <a href="/work_packages?sort=sort_criteria_params"
+                     rel="nofollow"
                      title="Descending sorted by &quot;Id&quot;">Id</a>
                 </span>
               </div>
@@ -216,6 +219,7 @@ RSpec.describe SortHelper do
                 <div class="generic-table--sort-header">
                   <span>
                     <a href="/work_packages?columns=a%2Cb%2Cc&amp;expand=nope&amp;filters=xyz&amp;per_page=42&amp;sort=sort_criteria_params"
+                       rel="nofollow"
                        title="Sort by &quot;Id&quot;">Id</a>
                   </span>
                 </div>
@@ -235,6 +239,7 @@ RSpec.describe SortHelper do
                 <div class="generic-table--sort-header">
                   <span>
                     <a href="/work_packages?baz=foo&amp;foo=bar&amp;sort=sort_criteria_params"
+                       rel="nofollow"
                        title="Sort by &quot;Id&quot;">Id</a>
                   </span>
                 </div>
