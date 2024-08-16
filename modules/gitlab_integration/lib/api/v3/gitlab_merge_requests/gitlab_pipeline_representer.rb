@@ -27,8 +27,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -38,7 +38,7 @@ module API
         include API::Decorators::DateProperty
 
         self_link id_attribute: :id,
-                  title_getter: ->(*) { nil }
+                  title_getter: ->(*) {}
 
         property :gitlab_html_url, as: :htmlUrl
         property :gitlab_user_avatar_url, as: :userAvatarUrl
@@ -53,7 +53,7 @@ module API
         date_time_property :completed_at
 
         def _type
-          'GitlabPipeline'
+          "GitlabPipeline"
         end
       end
     end

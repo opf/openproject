@@ -1,1 +1,1 @@
-require 'open_project/two_factor_authentication'
+require "open_project/two_factor_authentication"

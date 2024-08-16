@@ -2,7 +2,7 @@
 cs:
   js:
     storages:
-      link_files_in_storage: "Prolinkovat soubory v"
+      link_files_in_storage: "Prolinkovat soubory v %{storageType}"
       link_existing_files: "Odkaz na existující soubory"
       upload_files: "Nahrát soubory"
       drop_files: "Přetáhněte soubory pro jejich nahrání na %{name}."
@@ -64,9 +64,9 @@ cs:
           other: "Propojit %{count} souborů"
         success_create:
           one: "Odkaz na soubor byl úspěšně vytvořen."
-          few: "Odkazů na soubor byl úspěšně vytvořen."
-          many: "Odkazů na soubor byl úspěšně vytvořen."
-          other: "Odkazů na soubor byl úspěšně vytvořen."
+          few: "%{count} odkazů na soubor byl úspěšně vytvořen."
+          many: "%{count} odkazů na soubor byl úspěšně vytvořen."
+          other: "%{count} odkazů na soubor byl úspěšně vytvořen."
         upload_error:
           default: >
             Váš soubor (%{fileName}) nelze nahrát.

@@ -12,6 +12,7 @@ ru:
         tenant: ID каталога (арендатора)
     errors:
       messages:
+        invalid_host_url: не является допустимым URL-адресом.
         not_linked_to_project: не связан с проектом.
       models:
         storages/file_link:
@@ -22,6 +23,8 @@ ru:
           attributes:
             project_folder_mode:
               mode_unavailable: не доступен для этого хранилища.
+            project_ids:
+              blank: Пожалуйста, выберите проект.
         storages/storage:
           attributes:
             host:
@@ -39,21 +42,107 @@ ru:
   api_v3:
     errors:
       too_many_elements_created_at_once: Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}.
-  permission_create_files: Создать файлы
-  permission_delete_files: Удалить файлы
+  external_file_storages: Внешние хранилища файлов
+  permission_create_files: 'Автоматически управляемые папки проекта: Создание файлов'
+  permission_create_files_explanation: Это разрешение доступно только для хранилищ Nextcloud
+  permission_delete_files: 'Автоматически управляемые папки проекта: Удаление файлов'
+  permission_delete_files_explanation: Это разрешение доступно только для хранилищ Nextcloud
+  permission_header_for_project_module_storages: Автоматически управляемые папки проектов
   permission_manage_file_links: Управление ссылками файлов
-  permission_manage_storages_in_project: Управление файловыми хранилищами в проекте
-  permission_read_files: Чтение файлов
-  permission_share_files: Поделиться файлами
+  permission_manage_files_in_project: Управление файлами в проекте
+  permission_read_files: 'Автоматически управляемые папки проекта: Чтение файлов'
+  permission_share_files: 'Автоматически управляемые папки проекта: Делиться файлами'
+  permission_share_files_explanation: Это разрешение доступно только для хранилищ Nextcloud
   permission_view_file_links: Просмотр ссылок на файл
-  permission_write_files: Записать файлы
-  project_module_storages: Файловые хранилища
+  permission_write_files: 'Автоматически управляемые папки проекта: Запись файлов'
+  project_module_storages: Файлы
+  project_storages:
+    project_folder_mode:
+      automatic: Автоматическое управление
+      inactive: Нет определенной папки
+      manual: Существующая папка управляется вручную
+    remove_project:
+      dialog:
+        automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
+        confirmation_text: Please, confirm you understand and want to remove this file storage from this project
+        heading: Remove project from %{storage_type}
+        text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
+      label: Remove project
+  services:
+    attributes:
+      nextcloud_sync_service:
+        add_user_to_group: 'Add User to Group:'
+        create_folder: 'Managed Project Folder Creation:'
+        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
+        hide_inactive_folders: 'Hide Inactive Folders Step:'
+        remote_folders: 'Read contents of the group folder:'
+        remove_user_from_group: 'Remove User from Group:'
+        rename_project_folder: 'Rename managed project Folder:'
+      one_drive_sync_service:
+        create_folder: 'Managed Project Folder Creation:'
+        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
+        hide_inactive_folders: 'Hide Inactive Folders Step:'
+        remote_folders: 'Read contents of the group folder:'
+        rename_project_folder: 'Rename managed project Folder:'
+    errors:
+      models:
+        nextcloud_sync_service:
+          attributes:
+            add_user_to_group:
+              conflict: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+              failed_to_add: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+            create_folder:
+              conflict: The %{folder_name} already exists on %{parent_location}.
+              not_found: "%{parent_location} wasn't found."
+            ensure_root_folder_permissions:
+              not_found: "%{group_folder} wasn't found. Please check your Nextcloud Group Folder setup."
+              permission_not_set: could not set permissions on %{group_folder}.
+            hide_inactive_folders:
+              permission_not_set: could not set permissions on %{path}.
+            remote_folders:
+              not_allowed: The %{username} doesn't have access to the %{group_folder}. Please check the folder permissions on Nextcloud.
+              not_found: "%{group_folder} wasn't found. Please check your Nextcloud setup."
+            remove_user_from_group:
+              conflict: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
+              failed_to_remove: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
+            rename_project_folder:
+              forbidden: OpenProject user does not have access to %{current_path} folder.
+              not_found: "%{current_path} wasn't found."
+            set_folders_permissions:
+              permission_not_set: could not set permissions on %{path}.
+          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
+          group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
+          insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
+          not_allowed: Nextcloud block the request.
+          unauthorized: OpenProject could not sync with Nextcloud. Please check you storage and Nextcloud configuration.
+          user_does_not_exist: "%{user} does not exist in Nextcloud."
+        one_drive_sync_service:
+          attributes:
+            create_folder:
+              conflict: The %{folder_name} already exists on %{parent_location}.
+              not_found: "%{parent_location} wasn't found."
+            hide_inactive_folders:
+              permission_not_set: could not set permissions on %{path}.
+            remote_folders:
+              request_error: OpenProject could not access your drive %{drive_id}. Please check if your storage configuration is correct.
+            rename_project_folder:
+              conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists
+              forbidden: OpenProject does not have access to %{current_path} in order to rename it.
+              not_found: "%{current_path} wasn't found."
+            set_folders_permissions:
+              permission_not_set: could not set permissions on %{path}.
+          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
+          not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
+          unauthorized: OpenProject could not sync with OneDrive. Please check you storage and Azure Application configuration.
+          user_does_not_exist: "%{user} does not exist in Nextcloud."
   storages:
     buttons:
       complete_without_setup: Обходитесь без этого
       done_complete_setup: Готово, завершить установку
       done_continue: Готово, продолжить
-      replace_provider_type_oauth: Заменить %{provider_type} OAuth
+      open_storage: Open file storage
+      replace_oauth_application: Заменить OAuth OpenProject
+      replace_oauth_client: Заменить %{provider_type} OAuth
       save_and_continue: Сохранить и продолжить
       select_folder: Выберите папку
     configuration_checks:
@@ -62,8 +151,8 @@ ru:
         one_drive: Разрешить OpenProject доступ к данным Azure, используя OAuth для подключения OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Завершите установку с правильным перенаправлением URI.
-    confirm_replace_oauth_application: Вы уверены? Всем пользователям придется снова авторизоваться в OpenProject.
-    confirm_replace_oauth_client: Вы уверены? Все пользователи должны будут снова авторизоваться на хранилище.
+    confirm_replace_oauth_application: Это действие приведет к сбросу текущих учетных данных OAuth. После подтверждения вам придется повторно ввести учетные данные у поставщика хранилища, и всем удаленным пользователям придется снова авторизоваться в OpenProject. Вы уверены, что хотите продолжить?
+    confirm_replace_oauth_client: Это действие приведет к сбросу текущих учетных данных OAuth. После подтверждения вам нужно будет ввести новые учетные данные от поставщика хранилища, и всем пользователям придется снова авторизоваться в %{provider_type}. Вы уверены, что хотите продолжить?
     delete_warning:
       input_delete_confirmation: Введите имя хранилища файлов %{file_storage} для подтверждения удаления.
       irreversible_notice: Удаление хранилища файлов является необратимым действием.
@@ -74,8 +163,21 @@ ru:
       storage_delete_result_1: Удалить все настройки хранилища для всех проектов, использующих это хранилище.
       storage_delete_result_2: Удалить все ссылки из пакетов работ всех проектов в файлы и папки этого хранилища.
       storage_delete_result_3: В случае, если хранилище имеет автоматически управляемые папки проектов, они и содержащиеся в них файлы будут удалены навсегда.
+    dependencies:
+      nextcloud:
+        group_folders_app: Папки группы
+        integration_app: Интеграция OpenProject
     error_invalid_provider_type: Пожалуйста, выберите допустимого поставщика хранилища.
     file_storage_view:
+      access_management:
+        automatic_management: Автоматически управляемый доступ и папки
+        automatic_management_description: Разрешить OpenProject автоматически создавать папки для каждого проекта и управлять доступом пользователей к ним. Это рекомендуется, так как гарантирует, что каждый член команды всегда будет иметь правильные права на доступ.
+        description: Выберите тип управления доступом пользователя и созданием папок. Мы рекомендуем использовать "автоматически управляемый доступ" для более организованной структуры и гарантировать доступ всем необходимым пользователям.
+        manual_management: Вручную управляемый доступ и папки
+        manual_management_description: Создавайте и управляйте папками для каждого проекта вручную. Вам нужно будет вручную обеспечить доступ соответствующим пользователям.
+        setup_incomplete: Выберите тип управления доступом пользователя и созданием папок.
+        subtitle: Управление доступом
+        title: Доступ и папки проекта
       automatically_managed_folders: Автоматически управляемые папки
       general_information: Информация общего характера
       nextcloud_oauth: Nextcloud OAuth
@@ -87,18 +189,42 @@ ru:
       storage_provider: Поставщик хранилища
     health:
       checked: Последняя проверка %{datetime}
+      connection_validation:
+        action: Перепроверьте соединение
+        app_version_mismatch: Версия приложения "Интеграция OpenProject" не поддерживается. Пожалуйста, обновите ваш сервер Nextcloud.
+        client_id_wrong: Настроенный идентификатор клиента OAuth 2 недействителен. Пожалуйста, проверьте конфигурацию.
+        client_secret_wrong: Настроенный ключ клиента OAuth 2 недействителен. Пожалуйста, проверьте конфигурацию.
+        drive_id_wrong: Настроенный идентификатор диска не найден. Пожалуйста, проверьте конфигурацию.
+        group_folder_version_mismatch: Версия групповой папки не поддерживается. Пожалуйста, обновите ваш сервер Nextcloud.
+        host_not_found: По настроенному адресу хоста сервер Nextcloud не найден. Пожалуйста, проверьте конфигурацию.
+        missing_dependencies: 'Для файлового хранилища отсутствует необходимая зависимость. Пожалуйста, добавьте следующую зависимость: %{dependency}.'
+        not_configured: Соединение не удалось подтвердить. Пожалуйста, сначала завершите настройку.
+        placeholder: Проверьте подключение к серверу.
+        subtitle: Проверка соединения
+        tenant_id_wrong: Настроенный идентификатор каталога недействителен. Пожалуйста, проверьте конфигурацию.
+        unexpected_content: На диске обнаружено неожидаемое содержимое.
+        unknown_error: Соединение не удалось подтвердить. Произошла неизвестная ошибка. Пожалуйста, проверьте журналы сервера для получения дополнительной информации.
       label_error: Ошибка
       label_healthy: Здоровые
       label_pending: В ожидании
+      label_warning: Предупреждение
+      project_folders:
+        subtitle: Автоматически управляемые папки проекта
       since: с %{datetime}
-      subtitle: Автоматически управляемые папки проекта
       title: Состояние здоровья
+    health_email_notifications:
+      description_subscribed: Все администраторы получают уведомления о состоянии здоровья этого хранилища.
+      description_unsubscribed: Уведомления о состоянии здоровья этого хранилища были отключены для всех администраторов.
+      error_could_not_be_saved: Не удалось сохранить настройки уведомления по электронной почте. Пожалуйста, попробуйте еще раз.
+      subscribe: Подписаться
+      title: Уведомления по электронной почте
+      unsubscribe: Отписаться
     help_texts:
       project_folder: Папка проекта является папкой по умолчанию для загрузки файлов для этого проекта. Тем не менее, пользователи по-прежнему могут загружать файлы в другие места.
+      project_folder_bulk: Папка проекта - это папка по умолчанию для загрузки файлов для всех выбранных проектов. Вы можете изменить этот параметр в настройках каждого проекта. Тем не менее, пользователи могут загружать файлы в другие места.
     instructions:
       all_available_storages_already_added: Все доступные хранилища уже добавлены в проект.
       automatic_folder: Это автоматически создаст корневую папку для этого проекта и будет управлять правами доступа для каждого участника проекта.
-      copy_from: Скопировать это значение из
       empty_project_folder_validation: Выбор папки является обязательным для продолжения.
       existing_manual_folder: Вы можете назначить существующую папку в качестве корневой папки для этого проекта. Однако разрешения не управляются автоматически, администратору необходимо вручную обеспечить доступ соответствующим пользователям. Выбранная папка может использоваться несколькими проектами.
       host: Пожалуйста, добавьте адрес вашего хранилища, включая https://. Он не должен быть длиннее 255 символов.
@@ -142,9 +268,9 @@ ru:
     label_creator: Создатель
     label_delete_storage: Удалить хранилище
     label_edit_storage: Редактировать хранилище
+    label_edit_storage_access_management: Редактировать управление доступом к хранилищу
     label_edit_storage_automatically_managed_folders: Редактирование хранилища автоматически управляемых папок
     label_edit_storage_host: Изменить узел хранения
-    label_edit_storage_oauth_client: Редактировать хранилище OAuth клиента
     label_existing_manual_folder: Существующая папка с разрешениями, управляемыми вручную
     label_file_storage: Файловое хранилище
     label_host: URL хоста
@@ -178,11 +304,14 @@ ru:
       Хранилище подключено успешно! Не забудьте активировать модуль и конкретное хранилище в настройках проекта для его дальнейшего использования.
     oauth_grant_nudge_modal:
       access_granted: Доступ предоставлен
-      body: To get access to the project folder you need to login to %{storage}.
+      access_granted_screen_reader: Доступ разрешен. Хранилище %{storage} готово к использованию.
+      body: Чтобы получить доступ к папке проекта, вам нужно войти в %{storage}.
       cancel_button_label: Я сделаю это позже
-      confirm_button_label: Login
+      confirm_button_aria_label: Войти в %{storage}
+      confirm_button_label: Входное имя
+      requesting_access_to: Запрос доступа к %{storage}
       storage_ready: Теперь вы готовы к использованию %{storage}
-      title: One more step...
+      title: Еще один шаг...
     open_project_storage_modal:
       success:
         subtitle: Вы будете перенаправлены
@@ -195,8 +324,6 @@ ru:
         delete: Удалить хранилище файлов
         subtitle: Добавьте внешнее хранилище файлов для загрузки, чтобы связывать и управлять файлами в пакетах работ.
       managed_project_folders:
-        one_drive_information: |-
-          Для включения автоматического управления папками проекта в OneDrive / SharePoint, требуется дополнительная настройка на диске, используемого как хранилище файлов. Если OpenProject управляет разрешениями этого диска, он, скорее всего, будет непригоден для других случаев использования в SharePoint. Для получения дополнительной информации и рекомендаций, пожалуйста, обратитесь к %{drive_id_link_text}.
         subtitle: |-
           Разрешите OpenProject автоматическое создание папки для каждого проекта. Это гарантирует наличие прав доступа для каждого члена команды.
         subtitle_short: Позволить OpenProject создавать папки для каждого проекта автоматически.
@@ -204,12 +331,12 @@ ru:
       project_settings:
         delete: Удалить хранилище файлов
         edit: Редактировать хранилище файлов для этого проекта
-        index: Файловые хранилища, доступные в этом проекте
         members_connection_status: Статус подключения участников
         new: Добавить хранилище файлов в этот проект
       project_storage_members:
         subtitle: Проверьте статус подключения для хранилища %{storage_name_link} всех участников проекта.
         title: Статус подключения участников
+    permission_header_explanation: 'Разрешения для файлов во внешних хранилищах применяются только к папкам и файлам в автоматически управляемых папках проекта. Обратите внимание, что не все разрешения для файлов поддерживаются всеми поставщиками хранилищ. Для получения дополнительной информации ознакомьтесь с документацией по <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>разрешениям на хранение файлов</a>.'
     provider_types:
       label: Тип поставщика
       nextcloud:
@@ -222,6 +349,9 @@ ru:
         label_oauth_client_secret: Секретное значение клиента Azure OAuth
         name: OneDrive/SharePoint
         name_placeholder: напр. OneDrive
+    show_attachments_toggle:
+      description: 'Деактивация этой опции скроет список вложений на вкладке «Файлы» пакетов работ. Файлы, прикрепленные к описанию пакета работ, по-прежнему будут загружены во внутреннее хранилище вложений.'
+      label: Показывать вложения во вкладке "Файлы" пакетов работ
     storage_list_blank_slate:
       description: Добавьте хранилище, чтобы увидеть его здесь.
       heading: У вас пока нет хранилищ.

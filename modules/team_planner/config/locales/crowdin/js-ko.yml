@@ -12,6 +12,8 @@ ko:
       remove_assignee: '담당자 제거'
       two_weeks: '2주'
       one_week: '1주'
+      four_weeks: '4주'
+      eight_weeks: '8주'
       work_week: '근무 주'
       today: '오늘'
       drag_here_to_remove: '담당자와 시작 날짜 및 종료 날짜를 제거하려면 여기로 드래그하세요.'

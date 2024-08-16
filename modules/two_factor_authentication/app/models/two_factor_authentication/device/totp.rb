@@ -1,10 +1,10 @@
-require 'rotp'
+require "rotp"
 
 module TwoFactorAuthentication
   class Device::Totp < Device
     validates_presence_of :otp_secret
 
-    def device_type
+    def self.device_type
       :totp
     end
 
@@ -57,11 +57,11 @@ module TwoFactorAuthentication
     end
 
     def allowed_drift
-      self.class.manager.configuration['otp_drift_window'] || 60
+      self.class.manager.configuration["otp_drift_window"] || 60
     end
 
     def totp
-      @totp ||= ::ROTP::TOTP.new otp_secret, issuer: Setting.app_title.presence || 'OpenProject'
+      @totp ||= ::ROTP::TOTP.new otp_secret, issuer: Setting.app_title.presence || "OpenProject"
     end
   end
 end

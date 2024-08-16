@@ -33,13 +33,16 @@ module OpenProject::GitlabIntegration
     # Handles Gitlab commit notifications.
     class PushHook
       include OpenProject::GitlabIntegration::NotificationHandler::Helper
-      
-      def process(payload_params)
+
+      def process(payload_params) # rubocop:disable Metrics/AbcSize
         @payload = wrap_payload(payload_params)
-        return nil unless payload.object_kind == 'push'
+        return nil unless payload.object_kind == "push"
+
         payload.commits.each do |commit|
           user = User.find_by_id(payload.open_project_user_id)
-          text = commit['title'] + " - " + commit['message']
+          text = [commit["title"], commit["message"]]
+            .select(&:present?)
+            .join(" - ")
           work_packages = find_mentioned_work_packages(text, user)
           notes = generate_notes(commit, payload)
           comment_on_referenced_work_packages(work_packages, user, notes)
@@ -51,16 +54,17 @@ module OpenProject::GitlabIntegration
       attr_reader :payload
 
       def generate_notes(commit, payload)
-        commit_id = commit['id']
-        I18n.t("gitlab_integration.push_single_commit_comment",
-          :commit_number => commit_id[0, 8],
-          :commit_note => commit['message'],
-          :commit_url => commit['url'],
-          :commit_timestamp => commit['timestamp'],
-          :repository => payload.repository.name,
-          :repository_url => payload.repository.homepage,
-          :gitlab_user => payload.user_name,
-          :gitlab_user_url => payload.user_avatar)
+        commit_id = commit["id"]
+        I18n.t("gitlab_integration.push_single_commit_comment_with_ref",
+               reference: payload.ref,
+               commit_number: commit_id[0, 8],
+               commit_note: commit["message"].presence || commit["title"],
+               commit_url: commit["url"],
+               commit_timestamp: commit["timestamp"],
+               repository: payload.repository.name,
+               repository_url: payload.repository.homepage,
+               gitlab_user: payload.user_name,
+               gitlab_user_url: payload.user_avatar)
       end
     end
   end

@@ -8,10 +8,10 @@ module Webhooks
     validates_uniqueness_of :name
     validates :url, url: true
 
-    has_many :events, foreign_key: :webhooks_webhook_id, class_name: '::Webhooks::Event', dependent: :delete_all
-    has_many :webhook_projects, foreign_key: :webhooks_webhook_id, class_name: '::Webhooks::Project', dependent: :delete_all
+    has_many :events, foreign_key: :webhooks_webhook_id, class_name: "::Webhooks::Event", dependent: :delete_all
+    has_many :webhook_projects, foreign_key: :webhooks_webhook_id, class_name: "::Webhooks::Project", dependent: :delete_all
     has_many :projects, through: :webhook_projects
-    has_many :deliveries, foreign_key: :webhooks_webhook_id, class_name: '::Webhooks::Log', dependent: :delete_all
+    has_many :deliveries, foreign_key: :webhooks_webhook_id, class_name: "::Webhooks::Log", dependent: :delete_all
 
     def self.enabled
       where(enabled: true)

@@ -28,8 +28,8 @@
 
 class RemoveRenamedCronjobs < ActiveRecord::Migration[7.0]
   def up
-    Delayed::Job.where("handler LIKE '%job_class: CleanupUncontaineredFileLinksJob%'").delete_all
-    Delayed::Job.where("handler LIKE '%job_class: ManageNextcloudIntegrationJob%'").delete_all
+    execute("DELETE FROM delayed_jobs WHERE handler LIKE '%job_class: CleanupUncontaineredFileLinksJob%'")
+    execute("DELETE FROM delayed_jobs WHERE handler LIKE '%job_class: ManageNextcloudIntegrationJob%'")
   end
 
   def down; end

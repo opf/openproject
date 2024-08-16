@@ -28,6 +28,6 @@
 
 module OpenProject
   module TeamPlanner
-    require 'open_project/team_planner/engine'
+    require "open_project/team_planner/engine"
   end
 end

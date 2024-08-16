@@ -1,13 +1,14 @@
 module ::TwoFactorAuthentication
   class TwoFactorSettingsController < ApplicationController
+    include EnterpriseTrialHelper
     before_action :require_admin
     before_action :check_enabled
 
-    layout 'admin'
+    layout "admin"
     menu_item :two_factor_authentication
 
     def show
-      render template: 'two_factor_authentication/settings',
+      render template: "two_factor_authentication/settings",
              locals: {
                settings: Setting.plugin_openproject_two_factor_authentication,
                strategy_manager: manager,
@@ -23,7 +24,7 @@ module ::TwoFactorAuthentication
         flash[:notice] = I18n.t(:notice_successful_update)
       rescue ArgumentError => e
         Setting.plugin_openproject_two_factor_authentication = current_settings
-        flash[:error] = I18n.t('two_factor_authentication.settings.failed_to_save_settings', message: e.message)
+        flash[:error] = I18n.t("two_factor_authentication.settings.failed_to_save_settings", message: e.message)
         Rails.logger.error "Failed to save 2FA settings: #{e.message}"
       end
 
@@ -51,12 +52,10 @@ module ::TwoFactorAuthentication
       ::OpenProject::TwoFactorAuthentication::TokenStrategyManager
     end
 
-    def default_breadcrumb
-      t('two_factor_authentication.settings.title')
-    end
+    def default_breadcrumb; end
 
     def show_local_breadcrumb
-      true
+      false
     end
   end
 end

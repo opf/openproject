@@ -35,7 +35,7 @@ module Webhooks
         option = params.delete :project_ids
         selected = params.delete :selected_project_ids
 
-        if option == 'all'
+        if option == "all"
           webhook.all_projects = true
         else
           webhook.all_projects = false

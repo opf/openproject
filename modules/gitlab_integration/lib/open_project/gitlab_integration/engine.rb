@@ -27,12 +27,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'open_project/plugins'
+require "open_project/plugins"
 
-require_relative './patches/api/work_package_representer'
-require_relative './notification_handlers'
-require_relative './hook_handler'
-require_relative './services'
+require_relative "patches/api/work_package_representer"
+require_relative "notification_handlers"
+require_relative "hook_handler"
+require_relative "services"
 
 module OpenProject::GitlabIntegration
   class Engine < ::Rails::Engine
@@ -40,39 +40,41 @@ module OpenProject::GitlabIntegration
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'openproject-gitlab_integration',
-             :author_url => 'https://github.com/btey/openproject',
+    register "openproject-gitlab_integration",
+             author_url: "https://github.com/btey/openproject",
              bundled: true do
       project_module(:gitlab, dependencies: :work_package_tracking) do
         permission(:show_gitlab_content,
-                  {},
-                  permissible_on: %i[work_package project])
+                   {},
+                   permissible_on: %i[work_package project])
       end
     end
 
     patches %w[WorkPackage]
 
-    initializer 'gitlab.register_hook' do
-      ::OpenProject::Webhooks.register_hook 'gitlab' do |hook, environment, params, user|
+    initializer "gitlab.register_hook" do
+      ::OpenProject::Webhooks.register_hook "gitlab" do |hook, environment, params, user|
         HookHandler.new.process(hook, environment, params, user)
       end
     end
 
-    initializer 'gitlab.subscribe_to_notifications' do
-      ::OpenProject::Notifications.subscribe('gitlab.merge_request_hook',
+    initializer "gitlab.subscribe_to_notifications" do
+      ::OpenProject::Notifications.subscribe("gitlab.merge_request_hook",
                                              &NotificationHandlers.method(:merge_request_hook))
-      ::OpenProject::Notifications.subscribe('gitlab.note_hook',
+      ::OpenProject::Notifications.subscribe("gitlab.note_hook",
                                              &NotificationHandlers.method(:note_hook))
-      ::OpenProject::Notifications.subscribe('gitlab.issue_hook',
+      ::OpenProject::Notifications.subscribe("gitlab.issue_hook",
                                              &NotificationHandlers.method(:issue_hook))
-      ::OpenProject::Notifications.subscribe('gitlab.push_hook',
+      ::OpenProject::Notifications.subscribe("gitlab.push_hook",
                                              &NotificationHandlers.method(:push_hook))
-      ::OpenProject::Notifications.subscribe('gitlab.pipeline_hook',
+      ::OpenProject::Notifications.subscribe("gitlab.pipeline_hook",
                                              &NotificationHandlers.method(:pipeline_hook))
+      ::OpenProject::Notifications.subscribe("gitlab.system_hook",
+                                             &NotificationHandlers.method(:system_hook))
     end
 
     extend_api_response(:v3, :work_packages, :work_package,
-      &::OpenProject::GitlabIntegration::Patches::API::WorkPackageRepresenter.extension)
+                        &::OpenProject::GitlabIntegration::Patches::API::WorkPackageRepresenter.extension)
 
     add_api_path :gitlab_merge_requests_by_work_package do |id|
       "#{work_package(id)}/gitlab_merge_requests"
@@ -90,18 +92,21 @@ module OpenProject::GitlabIntegration
       "gitlab_pipeline/#{id}"
     end
 
-    add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
+    add_api_endpoint "API::V3::WorkPackages::WorkPackagesAPI", :id do
       mount ::API::V3::GitlabMergeRequests::GitlabMergeRequestsByWorkPackageAPI
     end
-    
-    add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
+
+    add_api_endpoint "API::V3::WorkPackages::WorkPackagesAPI", :id do
       mount ::API::V3::GitlabIssues::GitlabIssuesByWorkPackageAPI
     end
 
-    config.to_prepare do
-      # Register the cron job to clean up old gitlab merge requests
-      ::Cron::CronJob.register! ::Cron::ClearOldMergeRequestsJob
+    add_cron_jobs do
+      {
+        "Cron::ClearOldMergeRequestsJob": {
+          cron: "25 1 * * *", # runs at 1:25 nightly
+          class: ::Cron::ClearOldMergeRequestsJob.name
+        }
+      }
     end
-
   end
 end

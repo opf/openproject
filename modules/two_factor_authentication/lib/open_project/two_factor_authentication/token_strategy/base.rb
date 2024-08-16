@@ -7,16 +7,16 @@ module OpenProject::TwoFactorAuthentication
         @channel = channel.presence || device.channel
 
         unless self.class.supported?(device.channel)
-          raise ArgumentError, I18n.t('two_factor_authentication.channel_unavailable', channel: device.channel)
+          raise ArgumentError, I18n.t("two_factor_authentication.channel_unavailable", channel: device.channel)
         end
 
         @user = user
         @device = device
       end
 
-      def verify(input_token)
+      def verify(input_token, **)
         # Ensure this strategy uses mobile tokens or overrode this method
-        raise 'Cannot verify mobile token' unless self.class.mobile_token?
+        raise "Cannot verify mobile token" unless self.class.mobile_token?
 
         token = user.otp_tokens.find_by_plaintext_value(input_token)
 
@@ -44,7 +44,7 @@ module OpenProject::TwoFactorAuthentication
       end
 
       def transmit_success_message
-        I18n.t('two_factor_authentication.mobile_transmit_notification')
+        I18n.t("two_factor_authentication.mobile_transmit_notification")
       end
 
       def self.mobile_token?

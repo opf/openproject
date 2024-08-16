@@ -12,6 +12,8 @@ cs:
       remove_assignee: 'Odstranit řešitele'
       two_weeks: '2 týdny'
       one_week: '1 týden'
+      four_weeks: '4 týdny'
+      eight_weeks: '8 týdnů'
       work_week: 'Pracovní týden'
       today: 'Dnes'
       drag_here_to_remove: 'Přetažením sem odstraníte pověřenou osobu a datum začátku a ukončení.'

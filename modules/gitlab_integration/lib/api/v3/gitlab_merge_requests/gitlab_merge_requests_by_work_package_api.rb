@@ -44,7 +44,7 @@ module API
             GitlabMergeRequestCollectionRepresenter.new(@gitlab_merge_requests,
                                                         @gitlab_merge_requests.count,
                                                         self_link: path,
-                                                        current_user: current_user)
+                                                        current_user:)
           end
         end
       end

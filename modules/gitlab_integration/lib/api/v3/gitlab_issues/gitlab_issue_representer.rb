@@ -27,8 +27,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -42,7 +42,7 @@ module API
         def initialize(model, current_user:, **_opts)
           # We force `embed_links` so that github_user and github_check_runs
           # are embedded and we can avoid having separate endpoints.
-          super(model, current_user: current_user, embed_links: true)
+          super(model, current_user:, embed_links: true)
         end
 
         cached_representer key_parts: %i[gitlab_user]
@@ -61,7 +61,7 @@ module API
 
         date_time_property :gitlab_updated_at,
                            render_nil: true,
-                           setter: ->(*) { nil }
+                           setter: ->(*) {}
 
         property :title,
                  render_nil: true
@@ -80,7 +80,7 @@ module API
         date_time_property :updated_at
 
         def _type
-          'GitlabIssue'
+          "GitlabIssue"
         end
 
         self.to_eager_load = %i[gitlab_user]

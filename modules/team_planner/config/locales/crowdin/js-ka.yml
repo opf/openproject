@@ -12,6 +12,8 @@ ka:
       remove_assignee: 'Remove assignee'
       two_weeks: '2 კვირა'
       one_week: '1 კვირა'
+      four_weeks: '4-week'
+      eight_weeks: '8-week'
       work_week: 'სამუშაო კვირა'
       today: 'დღეს'
       drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'

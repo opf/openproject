@@ -27,8 +27,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -37,14 +37,14 @@ module API
         include API::Caching::CachedRepresenter
 
         self_link id_attribute: :id,
-                  title_getter: ->(*) { nil }
+                  title_getter: ->(*) {}
 
         property :gitlab_name, as: :login
         property :gitlab_email, as: :email
         property :gitlab_avatar_url, as: :avatarUrl
 
         def _type
-          'GitlabUser'
+          "GitlabUser"
         end
       end
     end

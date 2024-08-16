@@ -47,10 +47,14 @@ module API::V3::ProjectStorages
     end
 
     link :open do
+      next unless show_open_storage_links
+
       { href: api_v3_paths.project_storage_open(represented.id) }
     end
 
     link :openWithConnectionEnsured do
+      next unless show_open_storage_links
+
       { href: represented.open_with_connection_ensured }
     end
 
@@ -63,7 +67,17 @@ module API::V3::ProjectStorages
                         skip_link: ->(*) { false }
 
     def _type
-      'ProjectStorage'
+      "ProjectStorage"
+    end
+
+    private
+
+    def show_open_storage_links
+      if represented.project_folder_automatic?
+        return current_user.allowed_in_project?(:read_files, represented.project)
+      end
+
+      true
     end
   end
 end

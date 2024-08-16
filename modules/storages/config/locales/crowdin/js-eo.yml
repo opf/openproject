@@ -16,7 +16,7 @@ eo:
       types:
         nextcloud: "Nextcloud"
         one_drive: "OneDrive/SharePoint"
-        default: "Storage"
+        default: "Konservejo"
       information:
         connection_error: >
           Some %{storageType} settings are not working. Please contact your %{storageType} administrator.

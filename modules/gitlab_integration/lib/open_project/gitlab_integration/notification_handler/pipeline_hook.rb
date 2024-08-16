@@ -37,14 +37,16 @@ module OpenProject::GitlabIntegration
       def process(payload_params)
         @payload = wrap_payload(payload_params)
 
-        return unless associated_with_mr?
+        return if payload.merge_request.blank?
+
         merge_request = find_merge_request
         return unless merge_request
+        return unless associated_with_mr?
 
         # disabled until gitlab issue resolution
         OpenProject::GitlabIntegration::Services::UpsertPipeline.new.call(
           payload,
-          merge_request: merge_request
+          merge_request:
         )
       end
 
@@ -53,12 +55,12 @@ module OpenProject::GitlabIntegration
       attr_reader :payload
 
       def associated_with_mr?
-        payload.merge_request.iid?.present?
+        payload.merge_request.iid.present?
       end
 
       def find_merge_request
         gitlab_id = payload.merge_request.iid
-        GitlabMergeRequest.find_by(gitlab_id: gitlab_id)
+        GitlabMergeRequest.find_by(gitlab_id:)
       end
     end
   end

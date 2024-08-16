@@ -12,6 +12,8 @@ lt:
       remove_assignee: 'Išimti paskirtąjį'
       two_weeks: '2-savaitės'
       one_week: '1-savaitė'
+      four_weeks: '4-savaitės'
+      eight_weeks: '8-savaitės'
       work_week: 'Darbo savaitė'
       today: 'Šiandien'
       drag_here_to_remove: 'Pertempkite čia, kad išimtumėte paskirtąjį ir pradžios bei pabaigos datas.'

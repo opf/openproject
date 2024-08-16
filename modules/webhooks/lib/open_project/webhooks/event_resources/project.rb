@@ -1,4 +1,4 @@
-require_relative 'base'
+require_relative "base"
 
 module OpenProject::Webhooks::EventResources
   class Project < Base
@@ -21,7 +21,7 @@ module OpenProject::Webhooks::EventResources
       protected
 
       def handle_notification(payload, event_name)
-        action = event_name.split('_').last
+        action = event_name.split("_").last
         event_name = prefixed_event_name(action)
 
         active_webhooks.with_event_name(event_name).pluck(:id).each do |id|

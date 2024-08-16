@@ -58,12 +58,12 @@ pl:
         select_all: "Zaznacz wszystkie"
         selection:
           zero: "Wybierz pliki do połączenia"
-          one: "Połącz %{count} plik"
+          one: "Połącz 1 plik"
           few: "Połącz %{count} pliki"
           many: "Połącz %{count} plików"
           other: "Połącz %{count} plików"
         success_create:
-          one: "Pomyślnie utworzono %{count} połączenie plików."
+          one: "Pomyślnie utworzono 1 połączenie plików."
           few: "Pomyślnie utworzono %{count} połączenia plików."
           many: "Pomyślnie utworzono %{count} połączeń plików."
           other: "Pomyślnie utworzono %{count} połączeń plików."

@@ -12,6 +12,8 @@ pl:
       remove_assignee: 'Usuń osobę przypisaną'
       two_weeks: '2 tygodnie'
       one_week: '1 tydzień'
+      four_weeks: '4 tygodnie'
+      eight_weeks: '8 tygodni'
       work_week: 'Tydzień roboczy'
       today: 'Dzisiaj'
       drag_here_to_remove: 'Przeciągnij tutaj, aby usunąć przypisaną osobę oraz daty rozpoczęcia i zakończenia.'

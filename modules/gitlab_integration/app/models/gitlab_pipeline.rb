@@ -34,17 +34,17 @@ class GitlabPipeline < ApplicationRecord
 
   # TODO: confirm with the gitlab documentation what are the different statuses.
   enum status: {
-    created: 'created',
-    running: 'running',
-    success: 'success',
-    waiting: 'waiting',
-    preparing: 'preparing',
-    failed: 'failed',
-    pending: 'pending',
-    canceled: 'canceled',
-    skipped: 'skipped',
-    manual: 'manual',
-    scheduled: 'scheduled'
+    created: "created",
+    running: "running",
+    success: "success",
+    waiting: "waiting",
+    preparing: "preparing",
+    failed: "failed",
+    pending: "pending",
+    canceled: "canceled",
+    skipped: "skipped",
+    manual: "manual",
+    scheduled: "scheduled"
   }
 
   validates_presence_of :gitlab_user_avatar_url,

@@ -15,7 +15,7 @@ module ::Webhooks
 
         def enabled
           if webhook.enabled?
-            helpers.op_icon 'icon-yes'
+            helpers.op_icon "icon-yes"
           end
         end
 
@@ -30,9 +30,9 @@ module ::Webhooks
 
           count = selected_events.count
           if count <= 3
-            selected_events.join(', ')
+            selected_events.join(", ")
           else
-            content_tag('span', count, class: 'badge -border-only')
+            content_tag("span", count, class: "badge -border-only")
           end
         end
 
@@ -50,17 +50,17 @@ module ::Webhooks
           if selected.empty?
             "(#{I18n.t(:label_all)})"
           elsif selected.size <= 3
-            webhook.projects.pluck(:name).join(', ')
+            webhook.projects.pluck(:name).join(", ")
           else
-            content_tag('span', selected, class: 'badge -border-only')
+            content_tag("span", selected, class: "badge -border-only")
           end
         end
 
         def row_css_class
           [
-            'webhooks--outgoing-webhook-row',
+            "webhooks--outgoing-webhook-row",
             "webhooks--outgoing-webhook-row-#{model.id}"
-          ].join(' ')
+          ].join(" ")
         end
 
         ###
@@ -71,7 +71,7 @@ module ::Webhooks
 
         def edit_link
           link_to(
-            helpers.op_icon('icon icon-edit button--link'),
+            helpers.op_icon("icon icon-edit button--link"),
             { controller: table.target_controller, action: :edit, webhook_id: webhook.id },
             title: t(:button_edit)
           )
@@ -79,7 +79,7 @@ module ::Webhooks
 
         def delete_link
           link_to(
-            helpers.op_icon('icon icon-delete button--link'),
+            helpers.op_icon("icon icon-delete button--link"),
             { controller: table.target_controller, action: :destroy, webhook_id: webhook.id },
             method: :delete,
             data: { confirm: I18n.t(:text_are_you_sure) },

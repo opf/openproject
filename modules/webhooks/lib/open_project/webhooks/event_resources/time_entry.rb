@@ -1,4 +1,4 @@
-require_relative 'base'
+require_relative "base"
 
 module OpenProject::Webhooks::EventResources
   class TimeEntry < Base
@@ -14,7 +14,7 @@ module OpenProject::Webhooks::EventResources
       end
 
       def resource_name
-        I18n.t 'webhooks.resources.time_entry.name'
+        I18n.t "webhooks.resources.time_entry.name"
       end
 
       protected

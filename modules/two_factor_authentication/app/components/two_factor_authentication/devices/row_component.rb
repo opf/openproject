@@ -17,21 +17,21 @@ module ::TwoFactorAuthentication
 
       def default
         if device.default
-          helpers.op_icon 'icon-yes'
+          helpers.op_icon "icon-yes"
         else
-          '-'
+          "-"
         end
       end
 
       def confirmed
         if device.active
-          helpers.op_icon 'icon-yes'
+          helpers.op_icon "icon-yes"
         elsif table.self_table?
-          link_to t('two_factor_authentication.devices.confirm_now'),
+          link_to t("two_factor_authentication.devices.confirm_now"),
                   { controller: table.target_controller, action: :confirm, device_id: device.id }
 
         else
-          helpers.op_icon 'icon-no'
+          helpers.op_icon "icon-no"
         end
       end
 
@@ -49,17 +49,17 @@ module ::TwoFactorAuthentication
           device,
           url: { controller: table.target_controller, action: :make_default, device_id: device.id },
           method: :post,
-          html: { id: 'two_factor_make_default_form', class: 'form--inline' }
+          html: { id: "two_factor_make_default_form", class: "form--inline" }
         ) do |f|
           f.submit I18n.t(:button_make_default),
-                   class: 'button--link two-factor--mark-default-button'
+                   class: "button--link two-factor--mark-default-button"
         end
       end
 
       def delete_link
         title =
           if deletion_blocked?
-            I18n.t('two_factor_authentication.devices.is_default_cannot_delete')
+            I18n.t("two_factor_authentication.devices.is_default_cannot_delete")
           else
             I18n.t(:button_delete)
           end
@@ -68,10 +68,10 @@ module ::TwoFactorAuthentication
           device,
           url: { controller: table.target_controller, action: :destroy, device_id: device.id },
           method: :delete,
-          html: { id: 'two_factor_delete_form', class: '' }
+          html: { id: "two_factor_delete_form", class: "" }
         ) do |f|
           f.submit I18n.t(:button_delete),
-                   class: 'button--link two-factor--delete-button',
+                   class: "button--link two-factor--delete-button",
                    disabled: deletion_blocked?,
                    title:
         end
@@ -85,7 +85,7 @@ module ::TwoFactorAuthentication
 
       def column_css_class(_column)
         if device.default
-          'mobile-otp--device-default'
+          "mobile-otp--device-default"
         end
       end
     end

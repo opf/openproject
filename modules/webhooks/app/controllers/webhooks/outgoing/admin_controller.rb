@@ -1,7 +1,7 @@
 module Webhooks
   module Outgoing
     class AdminController < ::ApplicationController
-      layout 'admin'
+      layout "admin"
 
       before_action :require_admin
       before_action :find_webhook, only: %i[show edit update destroy]
@@ -74,12 +74,10 @@ module Webhooks
       end
 
       def show_local_breadcrumb
-        true
+        false
       end
 
-      def default_breadcrumb
-        []
-      end
+      def default_breadcrumb; end
     end
   end
 end

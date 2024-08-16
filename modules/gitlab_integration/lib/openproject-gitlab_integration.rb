@@ -27,4 +27,4 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'open_project/gitlab_integration'
+require "open_project/gitlab_integration"

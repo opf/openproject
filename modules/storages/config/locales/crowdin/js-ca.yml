@@ -79,7 +79,7 @@ ca:
           S'ha produït un error en enllaçar els fitxers carregats recentment "%{fileName}" al paquet de treball %{workPackageId}.
         tooltip:
           not_logged_in: "Please log in to the storage to access this file."
-          view_not_allowed: "You have no permission to see this file."
+          view_not_allowed: "No tens permisos per veure aquest fitxer."
           not_found: "This file cannot be found."
         already_linked_file: "Aquest fitxer ja està enllaçat a aquest paquet de treball."
         already_linked_directory: "Aquest directori ja està enllaçat a aquest paquet de treball."
