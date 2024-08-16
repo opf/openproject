@@ -22,5 +22,5 @@
 ro:
   js:
     reporting_engine:
-      label_remove: "Ștergere"
+      label_remove: "Șterge"
       label_response_error: "S-a produs o eroare în tratarea interogării."

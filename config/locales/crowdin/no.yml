@@ -400,8 +400,8 @@
       new_access_token_dialog_text: "Dette tokenet tillater tredjepartsprogrammer å kommunisere med forekomsten. For å differensiere den nye API-token, vennligst gi den et navn."
       new_access_token_dialog_attention_text: "Behandle API-token som passord. Alle med denne lenken vil ha tilgang til informasjon fra denne forekomsten, del den bare med pålitelige brukere."
       failed_to_reset_token: "Tilgangstoken kunne ikke tilbakestilles: %{error}"
-      failed_to_create_token: "Failed to create access token: %{error}"
-      failed_to_revoke_token: "Failed to revoke access token: %{error}"
+      failed_to_create_token: "Tilgangsnøkkelen kunne ikke opprettes: %{error}"
+      failed_to_revoke_token: "Kunne ikke oppheve tilgangstoken: %{error}"
       notice_reset_token: "En ny %{type} token har blitt generert. Din tilgangstoken er:"
       token_value_warning: "Merk: Du vil ikke kunne se denne token på nytt, sørg for å kopiere den nå."
       no_results_title_text: Det er ingen tilgangsnøkler tilgjengelig.
@@ -527,9 +527,9 @@
       no_common_statuses_exists: "Det er ingen status tilgjengelig for alle valgte arbeidspakker. Status kan ikke endres."
       unsupported_for_multiple_projects: "Bulk flytt/kopi er ikke støttet for arbeidspakker fra flere prosjekter"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Den gjeldende typen arbeidspakke er ikke aktivert i målprosjektet. Vennligst aktiver typen i målprosjektet hvis du ønsker det uforandret. Ellers velger du en tilgjengelig type i målprosjektet fra listen.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+        De gjeldende typene av arbeidspakker er ikke aktivert i målprosjektet. Aktiver typen i målprosjektet hvis du ønsker at de forblir uendret. Ellers velger du en tilgjengelig type i målprosjektet fra listen.
     sharing:
       missing_workflow_warning:
         title: "Arbeidsflyt mangler for deling av arbeidspakker"
@@ -708,7 +708,7 @@
         is_closed: "Arbeidspakke lukket"
         is_readonly: "Arbeidspakken er skrivebeskyttet"
         excluded_from_totals: "Unnta fra beregning av totaler i hierarki"
-        default_done_ratio: "% Complete"
+        default_done_ratio: "% Ferdig "
       time_entry:
         activity: "Aktivitet"
         hours: "Timer"
@@ -742,7 +742,7 @@
         auto_hide_popups: "Auto-skjul suksessvarsler"
         warn_on_leaving_unsaved: "Varsle meg når jeg forlater en arbeidspakke med ulagrede endringer"
         theme: "Modus"
-        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
+        mode_guideline: "Noen moduser vil overskrive tilpassede temafarger for tilgjengelighet og leselighet. For å få fullstendig tilpasset tema, velg lys modus."
       version:
         effective_date: "Sluttdato"
         sharing: "Deling"
@@ -934,7 +934,7 @@
         project_custom_field_project_mapping:
           attributes:
             project_ids:
-              blank: "Please select a project."
+              blank: "Velg et prosjekt."
         query:
           attributes:
             project:
@@ -1000,7 +1000,7 @@
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "må være mellom 0 og 100."
           readonly_default_exlusive: "kan ikke aktiveres for statuser som er merket som standard."
         time_entry:
           attributes:
@@ -1647,11 +1647,11 @@
     image:
       omitted: "Bilde ikke eksportert."
     macro:
-      error: "Macro error, %{message}"
-      attribute_not_found: "attribute not found: %{attribute}"
-      model_not_found: "invalid attribute model: %{model}"
-      resource_not_found: "resource not found: %{resource}"
-      rich_text_unsupported: "Rich text embedding currently not supported in export"
+      error: "Makrofeil, %{message}"
+      attribute_not_found: "attributtet ble ikke funnet: %{attribute}"
+      model_not_found: "ugyldig attributtmodell: %{model}"
+      resource_not_found: "ressurs ikke funnet: %{resource}"
+      rich_text_unsupported: "Rik tekstinnebygging støttes ikke for eksport"
     units:
       hours: t
       days: d
@@ -1797,7 +1797,7 @@
       shared: "Delt"
       watched: "Overvåker"
     menu:
-      by_project: "Ulest av prosjektet"
+      by_project: "Ulest etter prosjekt"
       by_reason: "Grunn"
       inbox: "Innboks"
     send_notifications: "Send varsler for denne handlingen"
@@ -1819,7 +1819,7 @@
   label_add_another_file: "Legg til en annen fil"
   label_add_columns: "Legg til valgte kolonner"
   label_add_note: "Legg til et notat"
-  label_add_projects: "Add projects"
+  label_add_projects: "Legg til prosjekter"
   label_add_related_work_packages: "Legg til relaterte arbeidspakker"
   label_add_subtask: "Legg til underoppgave"
   label_added: "lagt til"
@@ -1860,7 +1860,7 @@
   label_ldap_auth_source_plural: "LDAP-forbindelser"
   label_attribute_expand_text: "Den fullstendige teksten for '%{attribute}'"
   label_authentication: "Autentisering"
-  label_authentication_settings: "Authentication settings"
+  label_authentication_settings: "Autentiseringsinnstillinger"
   label_available_global_roles: "Tilgjengelige globale roller"
   label_available_project_attributes: "Tilgjengelige prosjektegenskaper"
   label_available_project_forums: "Tilgjengelige forum"
@@ -2058,10 +2058,10 @@
   label_introduction_video: "Introduksjonsvideo"
   label_invite_user: "Inviter bruker"
   label_share: "Del"
-  label_share_project_list: "Share project list"
+  label_share_project_list: "Del prosjektliste"
   label_share_work_package: "Del arbeidspakke"
   label_show_hide: "Vis/Skjul"
-  label_show_hide_n_items: "Show/hide %{count} items"
+  label_show_hide_n_items: "Vis/skjul %{count} elementer"
   label_show_all_registered_users: "Vis alle registrerte brukere"
   label_journal: "Journal"
   label_journal_diff: "Sammenligning av beskrivelse"
@@ -2219,7 +2219,7 @@
   label_project_latest: "Siste prosjekter"
   label_project_default_type: "Tillatt tom type"
   label_project_hierarchy: "Prosjekthierarki"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Aktivert i prosjekter"
   label_project_new: "Nytt prosjekt"
   label_project_plural: "Prosjekter"
   label_project_list_plural: "Prosjektlister"
@@ -2280,7 +2280,7 @@
   label_role_search: "Tilordne rolle til nye medlemmer"
   label_scm: "SCM"
   label_search: "Søk"
-  label_search_by_name: "Search by name"
+  label_search_by_name: "Søk på navn"
   label_send_information: "Send nye opplysninger til brukeren"
   label_send_test_email: "Send en testmail"
   label_session: "Økt"
@@ -2393,7 +2393,7 @@
   label_work_package_new: "Ny arbeidspakke"
   label_work_package_edit: "Rediger arbeidspakke %{name}"
   label_work_package_plural: "Arbeidspakker"
-  label_work_packages_settings: "Work packages settings"
+  label_work_packages_settings: "Innstillinger for arbeidspakker"
   label_work_package_status: "Status for arbeidspakke"
   label_work_package_status_new: "Ny status"
   label_work_package_status_plural: "Statuser for arbeidspakke"
@@ -2401,7 +2401,7 @@
   label_work_package_tracking: "Sporing av arbeidspakke"
   label_work_package_view_all: "Vis alle arbeidspakker"
   label_workflow: "Arbeidsflyt"
-  label_workflow_copy: "Copy workflow"
+  label_workflow_copy: "Kopier arbeidsflyt"
   label_workflow_plural: "Arbeidsflyt"
   label_workflow_summary: "Sammendrag"
   label_working_days_and_hours: "Arbeidsdager og timer"
@@ -2653,7 +2653,7 @@
   notice_principals_found_multiple: "Det finnes %{number} resultater. \n bruk tab for å fokusere det første resultatet."
   notice_principals_found_single: "Det er ett resultat. \n Bruk tab for å fokusere det."
   notice_project_not_deleted: "Prosjektet ble ikke slettet."
-  notice_project_not_found: "Project not found."
+  notice_project_not_found: "Prosjektet ble ikke funnet."
   notice_successful_connection: "Vellykket tilkobling."
   notice_successful_create: "Opprettelsen var vellykket."
   notice_successful_delete: "Slettingen var vellykket."
@@ -2736,7 +2736,7 @@
   permission_edit_own_messages: "Rediger egne meldinger"
   permission_edit_own_time_entries: "Rediger egne tidsrapporter"
   permission_edit_project: "Rediger prosjekt"
-  permission_edit_project_attributes: "Edit project attributes"
+  permission_edit_project_attributes: "Rediger prosjektattributter"
   permission_edit_reportings: "Rediger rapporteringer"
   permission_edit_time_entries: "Rediger tidslogger for andre brukere"
   permission_edit_timelines: "Rediger tidslinjer"
@@ -2787,13 +2787,13 @@
   permission_work_package_assigned: "Bli utførende/ansvarlig"
   permission_work_package_assigned_explanation: "Arbeidspakker kan tildeles brukere og grupper med denne rollen i det respektive prosjektet"
   permission_view_project_activity: "Vis prosjektaktivitet"
-  permission_view_project_attributes: "View project attributes"
+  permission_view_project_attributes: "Vis prosjektattributter"
   permission_save_bcf_queries: "Lagre BCF-spørringer"
   permission_manage_public_bcf_queries: "Administrere offentlige BCF-spørringer"
   permission_edit_attribute_help_texts: "Rediger hjelpetekster for egenskap"
   permission_manage_public_project_queries: "Administrere offentlige prosjektlister"
-  permission_view_project_query: "View project query"
-  permission_edit_project_query: "Edit project query"
+  permission_view_project_query: "Vis prosjektspørring"
+  permission_edit_project_query: "Rediger prosjektspørring"
   placeholders:
     default: "-"
   project:
@@ -3014,10 +3014,10 @@
   setting_default_projects_public: "Nye prosjekter er offentlige som standard"
   setting_diff_max_lines_displayed: "Maks antall linjeforskjeller som vises"
   setting_display_subprojects_work_packages: "Vis arbeidspakker for underprosjekter som standard for hovedprosjekter"
-  setting_duration_format: "Duration format"
-  setting_duration_format_hours_only: "Hours only"
-  setting_duration_format_days_and_hours: "Days and hours"
-  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
+  setting_duration_format: "Varighetsformat"
+  setting_duration_format_hours_only: "Kun timer"
+  setting_duration_format_days_and_hours: "Dager og timer"
+  setting_duration_format_instructions: "Dette definerer hvordan arbeid, gjenstående arbeid og varighet på brukt tid vises."
   setting_emails_footer: "Bunntekst for e-post"
   setting_emails_header: "Topptekst for e-post"
   setting_email_login: "Bruk e-post som innlogging"
@@ -3030,7 +3030,7 @@
   setting_host_name: "Vertsnavn"
   setting_hours_per_day: "Timer per dag"
   setting_hours_per_day_explanation: >-
-    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
+    Dette vil definere hva som anses som en "dag" når varigheten vises i dager og timer (for eksempel hvis dagen er 8 timer, vil 32 timer være 4 dager).
   setting_invitation_expiration_days: "Aktiverings e-post utløper etter"
   setting_work_package_done_ratio: "Beregning av fremdrift"
   setting_work_package_done_ratio_field: "Arbeidsbasert"
@@ -3443,7 +3443,7 @@
       group: "Gruppe"
       role: "Rolle"
       type: "Type"
-    denied: "You don't have permissions to share %{entities}."
+    denied: "Du har ikke tillatelser til å dele %{entities}."
     label_search: "Søk etter brukere for å invitere"
     label_search_placeholder: "Søk med bruker eller e-postadresse"
     label_toggle_all: "Veksle melom delinger"
@@ -3451,12 +3451,12 @@
     share: "Del"
     text_empty_search_description: "Det er ingen brukere med gjeldende filterkriterier."
     text_empty_search_header: "Vi kunne ikke finne noen matchende resultater."
-    text_empty_state_description: "The %{entity} has not been shared with anyone yet."
+    text_empty_state_description: "%{entity} har ikke blitt delt med noen enda."
     text_empty_state_header: "Ikke delt"
-    text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
+    text_user_limit_reached: "Å legge til ekstra brukere vil overskride gjeldende grense. Kontakt en administrator for å øke brukergrensen for å sikre at eksterne brukere har tilgang til %{entity}."
     text_user_limit_reached_admins: 'Å legge til ekstra brukere overskrider gjeldende grense. <a href="%{upgrade_url}">oppgradere din plan</a> for å kunne legge til flere brukere.'
     warning_user_limit_reached: >
-      Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
+      Å legge til ekstra brukere vil overskride gjeldende grense. Kontakt en administrator for å øke brukergrensen for å sikre at eksterne brukere har tilgang til %{entity}.
     warning_user_limit_reached_admin: >
       Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
     warning_no_selected_user: "Please select users to share this %{entity} with"

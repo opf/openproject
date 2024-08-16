@@ -116,10 +116,10 @@ ro:
     attachments:
       text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
-      title: "Copy meeting: %{title}"
-      attachments: "Copy attachments"
-      attachments_text: "Copy over all attached files to the new meeting"
-      agenda: "Copy agenda"
+      title: "Copiază întâlnirea: %{title}"
+      attachments: "Copiază atașamentele"
+      attachments_text: "Copiază peste toate fișierele atașate la noua ședință"
+      agenda: "Copiază agenda"
       agenda_text: "Copy the agenda of the old meeting"
     email:
       send_emails: "Send emails"

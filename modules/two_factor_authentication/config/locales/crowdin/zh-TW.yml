@@ -65,7 +65,7 @@ zh-TW:
       error_invalid_settings: "您選擇的2FA 策略無效"
       failed_to_save_settings: "未能更新2FA 設置: %{message}"
     admin:
-      self_edit_path: "要添加或修改您自己的2FA 設備, 請轉到 %{self_edit_link}"
+      self_edit_path: "要添加或修改您自己的2FA 設備, 請連結到 %{self_edit_link}"
       self_edit_link_name: "雙重驗證於您的帳號頁面"
       self_edit_forbidden: "無法於此路徑編輯您擁有的2FA設備．請至 我的帳號 > 雙重認證．"
       no_devices_for_user: "沒有為該使用者註冊的 2FA 設備。"
