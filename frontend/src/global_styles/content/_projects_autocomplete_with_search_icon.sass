@@ -1,11 +1,12 @@
 @import 'helpers'
 
 .projects-autocomplete-with-search-icon
-  ng-select
-    .ng-placeholder
+  ng-select[ng-reflect-multiple='false']
+    input
       margin-left: 18px
-    .ng-value-container
+  ng-select
+    .ng-select-container
       @extend .icon-search
       &:before
         @include icon-font-common
-        padding-right: 5px
+        padding-left: 10px
