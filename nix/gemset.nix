@@ -3314,10 +3314,10 @@
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
-      sha256 = "0flmg6f444liaxjgdwdrwcfwyyhc54a7wp26kqih2cklwll5gp40";
+      sha256 = "03f49f54837e407d43ee93ec733a8a94dc1bcf8185647ac61606e63aaedaa0db";
       type = "gem";
     };
-    version = "1.0.7";
+    version = "1.0.8";
   };
   stackprof = {
     groups = ["development" "test"];

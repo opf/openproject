@@ -10,6 +10,11 @@ CLI="${APP_NAME}"
 ${CLI} config:set OPENPROJECT_SEED_ADMIN_USER_MAIL="$(wiz_get "openproject/admin_email" || wiz_get "smtp/admin_email")"
 ${CLI} config:set RECOMPILE_RAILS_ASSETS="true"
 
+# Convert language pt to pt-BR (work packages #53374 and #55318)
+if [ "$(wiz_get "openproject/default_language")" = "pt" ]; then
+        wiz_set "openproject/default_language" "pt-BR"
+fi
+
 # Set the configured default language
 # Will be unset at installation postinstall before restart to ensure the setting is writable
 ${CLI} config:set OPENPROJECT_DEFAULT_LANGUAGE="$(wiz_get "openproject/default_language" || echo "en")"
@@ -62,8 +67,6 @@ fi
 # And we can use it for backend precompilation
 ${CLI} config:set EXECJS_RUNTIME="Node"
 
-rake_commands="db:migrate db:seed"
-
 # set rails_cache_store
 memcached_servers="$(${CLI} config:get MEMCACHED_SERVERS || echo "")"
 if [ -z "$memcached_servers" ]; then
@@ -104,8 +107,9 @@ fi
 # Allow other tasks to run before the environment is loaded
 ${CLI} run rake "packager:before_postinstall"
 
-# Use the OpenProject internal setup in one environment task
-${CLI} run rake "${rake_commands} packager:postinstall"
+# Use the OpenProject internal setup
+${CLI} run rake "db:migrate"
+${CLI} run rake "db:seed packager:postinstall"
 
 # For some reason RHEL8 creates files with chmod 0600
 find "${APP_HOME}/public" -type f -exec chmod 0644 {} \;

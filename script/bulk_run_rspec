@@ -5,18 +5,18 @@
 # Run with --help for more information
 
 # rubocop:disable Rails
-require 'fileutils'
-require 'optparse'
-require 'ostruct'
-require 'pathname'
+require "fileutils"
+require "optparse"
+require "ostruct"
+require "pathname"
 
-RAILS_ROOT = Pathname.new File.expand_path('../', __dir__)
-RSPEC_EXAMPLE_STATUS_PERSISTENCE_FILE_PATH = RAILS_ROOT.join('tmp/spec_examples.txt')
-PATTERN = ENV['BULK_RUN_PATTERN'] ? Regexp.new(ENV['BULK_RUN_PATTERN']) : /features/
+RAILS_ROOT = Pathname.new File.expand_path("../", __dir__)
+RSPEC_EXAMPLE_STATUS_PERSISTENCE_FILE_PATH = RAILS_ROOT.join("tmp/spec_examples.txt")
+PATTERN = ENV["BULK_RUN_PATTERN"] ? Regexp.new(ENV["BULK_RUN_PATTERN"]) : /features/
 
 class Options
   DEFAULTS = {
-    run_count: ENV['BULK_RUN_COUNT'] ? ENV['BULK_RUN_COUNT'].to_i : 5
+    run_count: ENV["BULK_RUN_COUNT"] ? ENV["BULK_RUN_COUNT"].to_i : 5
   }.freeze
 
   BANNER = <<~BANNER.freeze
@@ -89,7 +89,7 @@ class Options
 end
 
 def normalized(path)
-  path.sub(/^\.\//, '').tr('/', '__').tr('[]:', '_')
+  path.sub(/^\.\//, "").tr("/", "__").tr("[]:", "_")
 end
 
 class String
@@ -112,7 +112,7 @@ class Test
   end
 
   def to_line
-    [path, normalized_name, runs.count, runs.count(&:passed?), runs.count(&:failed?)].join(' | ')
+    [path, normalized_name, runs.count, runs.count(&:passed?), runs.count(&:failed?)].join(" | ")
   end
 
   def normalized_name
@@ -162,7 +162,7 @@ class BulkRunner
       else
         lines = File.readlines(RSPEC_EXAMPLE_STATUS_PERSISTENCE_FILE_PATH)
         lines = lines.grep(PATTERN)
-        lines.map { |line| line.split('|').first.strip }
+        lines.map { |line| line.split("|").first.strip }
       end
   end
 
@@ -172,23 +172,23 @@ class BulkRunner
 
   # rubocop:disable Metrics/AbcSize
   def run
-    FileUtils.rm_rf(bulk_run_dir('logs')) if bulk_run_dir('logs').exist?
-    `mkdir -p #{bulk_run_dir('logs')}`
+    FileUtils.rm_rf(bulk_run_dir("logs")) if bulk_run_dir("logs").exist?
+    `mkdir -p #{bulk_run_dir("logs")}`
     puts "#{tests.count} tests to run"
     puts "logs: #{bulk_run_dir('logs')}"
     tests.each do |test|
-      puts '=' * 80
+      puts "=" * 80
       puts "Running #{test.path} #{Options.run_count} times"
-      puts '=' * 80
+      puts "=" * 80
       Options.run_count.times do |i|
-        puts " Run #{i} ".center(80, '-')
+        puts " Run #{i} ".center(80, "-")
         run = Run.new(test.path)
         run.output = `DISABLE_PRY=1 CI=true bundle exec rspec '#{run.path}' 2>&1`
         if $?.success?
-          puts 'ok'.green
+          puts "ok".green
           run.passed!
         else
-          puts 'ko'.red
+          puts "ko".red
           run.failed!
         end
         File.write(bulk_run_dir("logs/#{test.normalized_name}.#{run.result}.#{i}.log"), run.output)
@@ -196,22 +196,22 @@ class BulkRunner
       end
 
       if test.runs.all?(&:passed?)
-        puts 'PASSED'.green
+        puts "PASSED".green
       else
-        puts 'FAILED'.red
+        puts "FAILED".red
       end
     end
   end
   # rubocop:enable Metrics/AbcSize
 
   def bulk_run_dir(path)
-    RAILS_ROOT.join('tmp/bulk_run').join(path)
+    RAILS_ROOT.join("tmp/bulk_run").join(path)
   end
 
   def save
     puts "Saving"
-    File.open(bulk_run_dir('results.txt'), 'w') do |results|
-      results.puts('test_path | log_prefix | count | passed | failed')
+    File.open(bulk_run_dir("results.txt"), "w") do |results|
+      results.puts("test_path | log_prefix | count | passed | failed")
       tests.each do |test|
         results.puts(test.to_line)
       end

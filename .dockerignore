@@ -33,3 +33,5 @@ frontend/node_modules
 node_modules
 # travis
 vendor/bundle
+/public/assets
+/config/frontend_assets.manifest.json
