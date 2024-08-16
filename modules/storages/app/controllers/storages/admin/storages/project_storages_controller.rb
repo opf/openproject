@@ -33,6 +33,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   include OpTurbo::DialogStreamHelper
   include FlashMessagesOutputSafetyHelper
   include ApplicationComponentStreams
+  include Storages::OAuthAccessGrantable
 
   layout "admin"
 
@@ -53,7 +54,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
 
   def new
     respond_with_dialog(
-      if storage_oauth_access_granted?
+      if storage_oauth_access_granted?(storage: @storage)
         ::Storages::Admin::Storages::ProjectsStorageModalComponent.new(
           project_storage: @project_storage, last_project_folders: {}
         )
@@ -64,14 +65,10 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   end
 
   def oauth_access_grant
-    nonce = SecureRandom.uuid
-    cookies["oauth_state_#{nonce}"] = {
-      value: { href: admin_settings_storage_project_storages_url(@storage),
-               storageId: @storage.id }.to_json,
-      expires: 1.hour
-    }
-    session[:oauth_callback_flash_modal] = oauth_access_granted_modal_params
-    redirect_to(@storage.oauth_configuration.authorization_uri(state: nonce), allow_other_host: true)
+    open_redirect_to_storage_authorization_with(
+      callback_url: admin_settings_storage_project_storages_url(@storage),
+      storage: @storage
+    )
   end
 
   def create # rubocop:disable Metrics/AbcSize
@@ -205,10 +202,6 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
                        .result
   end
 
-  def storage_oauth_access_granted?
-    OAuthClientToken.exists?(user: current_user, oauth_client: @storage.oauth_client)
-  end
-
   def include_sub_projects?
     ActiveRecord::Type::Boolean.new.cast(params.to_unsafe_h[:storages_project_storage][:include_sub_projects])
   end
@@ -224,12 +217,5 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     )
     respond_with_turbo_streams
     false
-  end
-
-  def oauth_access_granted_modal_params
-    {
-      type: Storages::Admin::Storages::OAuthAccessGrantedModalComponent.name,
-      parameters: { storage: @storage.id }
-    }
   end
 end
