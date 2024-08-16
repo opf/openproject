@@ -1,14 +1,14 @@
 zh-TW:
   js:
     grid:
-      add_widget: '新增部件'
-      remove: '移除部件'
-      configure: '設定部件'
+      add_widget: '新增小工具'
+      remove: '移除小工具'
+      configure: '設定小工具'
       upsale:
         text: "某些組件，如工作包圖組件，只在企業版提供。"
         link: '企業版。'
       widgets:
-        missing_permission: "您沒有必要的權限來檢視此部件。"
+        missing_permission: "您沒有必要的權限來檢視小工具。"
         custom_text:
           title: '自訂文字'
         documents:
@@ -66,5 +66,5 @@ zh-TW:
         work_packages_calendar:
           title: '行事曆'
         work_packages_overview:
-          title: '工作項目概覽'
+          title: '工作項目總覽'
           placeholder: '點擊編輯'

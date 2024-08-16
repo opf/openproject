@@ -372,7 +372,7 @@ zh-TW:
       title: "訂閱日曆"
       inital_setup_error_message: "更新資料時發生錯誤"
       description: "您可以使用 URL (iCalendar) 在外部客戶端中訂閱此日曆，並從外部客戶端查看最新工作包信息。"
-      warning: "請不要與其他用戶共享此 URL 。擁有這個鏈接的任何人都可以在沒有帳戶或密碼的情況下查看工作包的詳細信息。"
+      warning: "請不要與其他用戶共用此 URL 。擁有這個鏈接的任何人都可以在沒有帳戶或密碼的情況下查看工作包的詳細信息。"
       token_name_label: "您將在哪裡使用它？"
       token_name_placeholder: '輸入名稱，例如“Phone”'
       token_name_description_text: '如果您從多個設備訂閱此日曆，此名稱將有助於在<a href="my/access_token", target="_blank">訪問權杖</a>列表中區分它們。'
@@ -446,7 +446,7 @@ zh-TW:
     label_group_plural: "群組"
     label_hide_attributes: "簡略"
     label_hide_column: "隱藏欄位"
-    label_hide_project_menu: "折疊專案選單"
+    label_hide_project_menu: "收合專案選單"
     label_in: "於"
     label_in_less_than: "少於"
     label_in_more_than: "多於"
@@ -489,7 +489,7 @@ zh-TW:
     label_project: "專案"
     label_project_list: "列出專案"
     label_project_plural: "專案"
-    label_visibility_settings: "可見度設定"
+    label_visibility_settings: "公開設定"
     label_quote_comment: "引述這個留言"
     label_recent: "最近"
     label_reset: "重置"
@@ -499,7 +499,7 @@ zh-TW:
     label_remove_row: "移除列"
     label_report: "報表"
     label_repository_plural: "版本庫"
-    label_save_as: "保存為"
+    label_save_as: "另存為"
     label_search_columns: "選取欄位"
     label_select_project: "選擇專案"
     label_select_watcher: "選擇監看者"
@@ -605,11 +605,11 @@ zh-TW:
           gantt_menu: "使用甘特圖模塊輕鬆創建項目時間表和時間線。"
           timeline: "您可以在此<b>編輯您的項目計劃</b>、創建新的工作包（例如任務、里程碑、階段等）以及<b>添加依賴項</b>。所有團隊成員都可以隨時查看和更新最新計劃。"
         team_planner:
-          overview: "工作組規劃器使您可以直觀地為團隊成員分配任務，並全面瞭解哪些成員正在處理哪些工作。"
-          calendar: "單周或雙周規劃面板可以顯示分配給您的團隊成員的所有工作包。"
-          add_assignee: "首先，請將受理人添加到工作組規劃器。"
-          add_existing: "搜索現有工作包並將其拖動到工作組規劃器，以立即將其分配給團隊成員並定義開始日期和結束日期。"
-          card: "水平拖動工作包以前移或後移其時間，拖動邊緣以更改開始日期和結束日期，甚至可以將其垂直拖動到不同的行以分配給其他成員。"
+          overview: "小組工作企劃使您可以直觀地為小組成員分配任務，並全面瞭解哪些成員正在處理哪些工作。"
+          calendar: "單周或雙周規劃面版，可以顯示分配給您的小組成員的所有工作項目。"
+          add_assignee: "首先，請將執行者新增到小組工作企劃。"
+          add_existing: "搜索現有工作項目並將其拖動到小組工作企劃中，立即將其分配給小組成員並規定開始日期和結束日期。"
+          card: "水平拖動工作項目前後移其時間，拖曳可更改開始日期和結束日期，甚至可以將其垂直拖動到不同的行以分配給其他成員。"
     notifications:
       title: "通知"
       no_unread: "無未讀通知"
@@ -624,7 +624,7 @@ zh-TW:
         processed: "已處理"
         prioritized: "已優先"
         dateAlert: "日期提醒"
-        shared: "共享"
+        shared: "共用"
       date_alerts:
         milestone_date: "里程碑日期"
         overdue: "逾期"
@@ -678,7 +678,7 @@ zh-TW:
             description: "每當有人提及我時都收到通知"
           assignee: "執行者"
           responsible: "負責人"
-          shared: "共享"
+          shared: "共用"
           watched: "監看者\n"
           work_package_commented: "有新留言"
           work_package_created: "新增工作項目"
@@ -690,7 +690,7 @@ zh-TW:
             title: "參與中"
             description: "你參與的工作項目中所有活動的通知（執行者、負責人或監看者）。"
           delayed:
-            title: "非參與中"
+            title: "未參與之工作項目"
             description: "額外通知"
           date_alerts:
             title: "日期提醒"
@@ -890,7 +890,7 @@ zh-TW:
       wiki_link: "連結到一個 Wiki 頁面"
       image: "圖片"
     sharing:
-      share: "共享"
+      share: "共用"
       selected_count: "已選取 %{count} 個"
       selection:
         mixed: "混合"
@@ -1051,10 +1051,10 @@ zh-TW:
         is_parent: "此工作包的日期會自動從其子項推導出。可啟用“手動計劃”來設置日期。"
         is_switched_from_manual_to_automatic: "由於與其他工作包的關係，在從手動計劃切換為自動計劃後，此工作包的日期可能需要重新計算。"
       sharing:
-        title: "共享工作項目"
-        show_all_users: "顯示與之共享工作包的所有用戶"
+        title: "共用工作項目"
+        show_all_users: "顯示與之共用工作項目的所有用戶"
         upsale:
-          description: "與不是專案成員的使用者共享工作項目。"
+          description: "與不是專案成員的使用者共用工作項目。"
       table:
         configure_button: "設定工作項目"
         summary: "由工作項目和工作項目屬性列組成的表格。"
@@ -1070,7 +1070,7 @@ zh-TW:
         display_settings: "顯示設定"
         default_mode: "展開清單"
         hierarchy_mode: "階層"
-        hierarchy_hint: "所有已篩選的資料與其來源將一起優化。階層可以展開和折疊。"
+        hierarchy_hint: "所有已篩選的資料與其來源將一起優化。階層可以展開和收合。"
         display_sums_hint: "在表格結果下方的一行中顯示總和。"
         show_timeline_hint: "在表格的右側顯示互動式甘特圖。可以通過在表和甘特圖之間拖動分隔線來更改其寬度。"
         highlighting: "強調"
@@ -1118,7 +1118,7 @@ zh-TW:
         save: "儲存"
         save_as: "另存為"
         export: "匯出"
-        visibility_settings: "可見度設定"
+        visibility_settings: "公開設定"
         share_calendar: "訂閱日曆"
         page_settings: "重新命名版面"
         delete: "删除"

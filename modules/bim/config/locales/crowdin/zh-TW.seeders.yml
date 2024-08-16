@@ -107,7 +107,7 @@ zh-TW:
             item_2:
               name: 任務
             item_3:
-              name: 團隊規劃
+              name: 小組工作企劃
           boards:
             bcf:
               name: 簡單的拖放工作流程
@@ -169,7 +169,7 @@ zh-TW:
             item_2:
               name: 任務
             item_3:
-              name: 團隊規劃
+              name: 小組工作企劃
           project-overview:
             widgets:
               item_0:
@@ -420,7 +420,7 @@ zh-TW:
             item_2:
               name: 任務
             item_3:
-              name: 團隊規劃
+              name: 小組工作企劃
           project-overview:
             widgets:
               item_0:
@@ -693,7 +693,7 @@ zh-TW:
             item_6:
               name: 任務
             item_7:
-              name: 團隊規劃
+              name: 小組工作企劃
           boards:
             bcf:
               name: BCF 問題
