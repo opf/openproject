@@ -45,7 +45,7 @@ module OpTurbo
     included do
       def render_as_turbo_stream(view_context:, action: :update)
         case action
-        when :update, *inline_actions
+        when :update, *INLINE_ACTIONS
           @inner_html_only = true
           template = render_in(view_context)
         when :replace
