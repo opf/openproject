@@ -37,7 +37,7 @@ class MeetingSectionsController < ApplicationController
                 except: %i[create]
   before_action :authorize
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     call = ::MeetingSections::CreateService
       .new(user: current_user)
       .call(
