@@ -11,7 +11,6 @@ pl:
   message_avatar_uploaded: "Awatar został zmieniony."
   error_image_upload: "Błąd podczas zapisywania obrazu."
   error_image_size: "Obraz jest za duży."
-  button_change_avatar: "Zmień awatar"
   are_you_sure_delete_avatar: "Czy na pewno chcesz usunąć ten awatar?"
   avatar_deleted: "Awatar został usunięty."
   unable_to_delete_avatar: "Nie można usunąć awatara."

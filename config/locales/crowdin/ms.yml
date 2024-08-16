@@ -381,6 +381,9 @@ ms:
       will_revoke_access_to_all: "Tindakan ini akan membatalkan akses mereka kepada semuanya."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Please provide an API token name"
         token_name_in_use: "This API token name is already in use, please select a different one"
@@ -1144,6 +1147,8 @@ ms:
       role:
         other: "Peranan\n"
       status: "Status pakej kerja"
+      token/api:
+        other: Access tokens
       type: "Jenis"
       user: "Pengguna"
       version: "Versi"
@@ -2129,6 +2134,8 @@ ms:
   label_next_week: "Minggu hadapan"
   label_no_change_option: "(Tiada perubahan)"
   label_no_data: "Tiada data untuk dipaparkan"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Tiada halaman induk"
   label_nothing_display: "Tiada apa untuk dipaparkan"
   label_nobody: "tiada siapa"

@@ -22,13 +22,13 @@ RSpec.describe "My Account 2FA configuration", :js, with_settings: {
     expect(page).to have_css(".generic-table--empty-row", text: I18n.t("two_factor_authentication.devices.not_existing"))
     expect(page).to have_css(".on-off-status.-disabled")
 
-    # Visit inline create
-    find(".wp-inline-create--add-link").click
-    expect(page).to have_css("h2", text: I18n.t("two_factor_authentication.devices.add_new"))
-    expect(page).to have_current_path new_my_2fa_device_path
-
     # Select SMS
-    find(".mobile-otp-new-device-sms .button").click
+    menu_button = find_test_selector("two_factor_authentication_devices_button")
+    menu_button.click
+    wait_for_network_idle if using_cuprite?
+    expect(page).to have_test_selector("two_factor_authentication_devices_sms")
+    sms_menu_item = find_test_selector("two_factor_authentication_devices_sms")
+    sms_menu_item.click
 
     # Try to save with invalid phone number
     fill_in "device_phone_number", with: "invalid!"
@@ -68,14 +68,17 @@ RSpec.describe "My Account 2FA configuration", :js, with_settings: {
     expect(page).to have_css(".on-off-status.-enabled")
 
     # Create another one as totp
-    # Visit create button
     visit my_2fa_devices_path
-    find(".toolbar-item .button", text: "2FA device").click
-    expect(page).to have_css("h2", text: I18n.t("two_factor_authentication.devices.add_new"))
-    expect(page).to have_current_path new_my_2fa_device_path, ignore_query: true
-
+    menu_button = find_test_selector("two_factor_authentication_devices_button")
+    menu_button.click
+    wait_for_network_idle if using_cuprite?
+    expect(page).to have_test_selector("two_factor_authentication_devices_totp")
     # Select totp
-    find(".mobile-otp-new-device-totp .button").click
+    totp_menu_item = find_test_selector("two_factor_authentication_devices_totp")
+    totp_menu_item.click
+    expect(page).to have_test_selector("two_factor_authentication_new_device_header_title",
+                                       text: I18n.t("two_factor_authentication.devices.add_new"))
+    expect(page).to have_current_path new_my_2fa_device_path, ignore_query: true
 
     # Change identifier
     fill_in "device_identifier", with: "custom identifier"

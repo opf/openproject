@@ -1,9 +1,9 @@
 #English strings go here for Rails i18n
 zh-TW:
   plugin_openproject_two_factor_authentication:
-    name: "OpenProject 兩階段認證(Two-factor authentication)"
+    name: "OpenProject 兩階段驗證"
     description: >-
-      該 OpenProject 插件基於 TOTP 標準通過使用一次性密碼(如 Google Authenticator) 或通過短信或語音呼叫發送到用戶的手機，對用戶進行雙因子認證。
+      該 OpenProject 插件基於 TOTP 標準通過使用一次性密碼(如 Google Authenticator) 、通過簡訊或語音發送到用戶手機，對用戶進行兩階短驗證。
   activerecord:
     attributes:
       two_factor_authentication/device:
@@ -28,7 +28,7 @@ zh-TW:
     error_2fa_disabled: "2FA 發送已被禁用。"
     error_no_device: "未為該使用者找到已註冊的2FA 設備, 儘管此實例是必需的。"
     error_no_matching_strategy: "沒有匹配的2FA 策略可供此使用者使用。請聯繫您的系統管理員。"
-    error_is_enforced_not_active: "配置錯誤: 已強制執行雙因素身份驗證, 但不存在有效原則。"
+    error_is_enforced_not_active: "配置錯誤: 已強制執行兩階段驗證, 但無規則可套用。"
     error_invalid_backup_code: "不正確2FA 備份代碼"
     channel_unavailable: "傳遞通道 %{channel} 不可用。"
     no_valid_phone_number: "不存在有效電話號碼。"
@@ -40,12 +40,12 @@ zh-TW:
     label_devices: "2FA 設備"
     label_one_time_password: "一次性密碼"
     label_2fa_enabled: "雙重驗證已啟用"
-    label_2fa_disabled: "雙因驗證已關閉"
+    label_2fa_disabled: "兩階段驗證已關閉"
     text_otp_delivery_message_sms: "%{app_title} 一次性密碼為 %{token}"
     text_otp_delivery_message_voice: "您的 %{app_title} 一次性密碼為: %{pause} %{token}。 %{pause} 重複: %{pause} %{token}"
     text_enter_2fa: "請從您的設備取得一次性密碼。"
     text_2fa_enabled: "於每次登錄, 您都將被要求從預設的2FA 設備中取得 OTP 密碼。"
-    text_2fa_disabled: "要啟用雙因素身份驗證, 請使用上面的按鈕註冊新的2FA 設備。如果已有設備, 則需要將其設置為預設值。"
+    text_2fa_disabled: "要啟用兩階段驗證, 請使用上面的按鈕註冊新的2FA 設備。如果已有設備, 則需要將其設置為預設值。"
     login:
       enter_backup_code_title: 輸入備份代碼
       enter_backup_code_text: 請從代碼清單中輸入有效的備份代碼, 以防您無法再訪問已註冊的2FA 設備。
@@ -65,7 +65,7 @@ zh-TW:
       error_invalid_settings: "您選擇的2FA 策略無效"
       failed_to_save_settings: "未能更新2FA 設置: %{message}"
     admin:
-      self_edit_path: "要添加或修改您自己的2FA 設備, 請轉到 %{self_edit_link}"
+      self_edit_path: "要添加或修改您自己的2FA 設備, 請連結到 %{self_edit_link}"
       self_edit_link_name: "雙重驗證於您的帳號頁面"
       self_edit_forbidden: "無法於此路徑編輯您擁有的2FA設備．請至 我的帳號 > 雙重認證．"
       no_devices_for_user: "沒有為該使用者註冊的 2FA 設備。"
@@ -78,7 +78,7 @@ zh-TW:
       only_sms_allowed: "只能為其他用戶設置短信發送。"
     upsale:
       title: "雙重身分驗證"
-      description: "向所有專案成員提供(或強制執行) 雙因素驗證，以加強 OpenProject 實例的安全性。"
+      description: "向所有專案成員提供(或強制執行) 兩階段驗證，以加強 OpenProject 實例的安全性。"
     backup_codes:
       none_found: 這個帳戶沒有存在備份代碼
       singular: 備份代碼
@@ -102,43 +102,43 @@ zh-TW:
       make_default_failed: "更新預設 2FA 裝置失敗。"
       deletion_are_you_sure: "您確定要刪除這個 2FA 裝置嗎？"
       registration_complete: "2FA 裝置註冊完成！"
-      registration_failed_token_invalid: "2FA 裝置註冊失敗，密碼無效。"
-      registration_failed_update: "2FA 裝置註冊失敗，密碼有效但裝置無法更新。"
-      confirm_send_failed: "確認您的 2FA 裝置失敗。"
+      registration_failed_token_invalid: "2FA 裝置註冊失敗，權杖「token」無效。"
+      registration_failed_update: "2FA 裝置註冊失敗，權杖「Token」有效但裝置無法更新。"
+      confirm_send_failed: "確認您的 2FA 裝置無法使用。"
       button_complete_registration: "完成兩階段驗證(2FA)註冊"
       text_confirm_to_complete_html: "請完成裝置註冊 <strong>%{identifier}</strong>輸入預設裝置的一次性密碼。"
       text_confirm_to_change_default_html: "請確認將您的預設裝置變更為 <strong>%{new_identifier}</strong>從您目前的預設裝置輸入一次性密碼。"
       text_identifier: "您可以為裝置設定ID。"
       failed_to_delete: "刪除 2FA 裝置失敗。"
-      is_default_cannot_delete: "裝置已標示為預設值，且由於安全政策有效，因此無法刪除。在刪除之前，請將其他裝置標記為預設值。"
+      is_default_cannot_delete: "裝置已標示為預設值，且由於安全政策已啟用，因此無法刪除。在刪除之前，請將其他裝置標記為預設值。"
       not_existing: "您沒有註冊 2FA 設備。"
       2fa_from_input: 請輸入您的 <strong>%{device_name}</strong> 中的程式碼以驗證您的身分。
       2fa_from_webauthn: 請提供支援「 WebAuthn」裝置 <strong>%{device_name}</strong>. 如果是USB設備，請確定插入以及觸碰驗證後，再點選登入按鈕。
       webauthn:
         title: "WebAuthn"
-        description: 使用 Web 身份驗證註冊 FIDO2 設備(如 YubiKey) 或使用移動設備的安全隔區作為第二要素。
+        description: 註冊 FIDO2 設備(如 YubiKey)或行動裝置的安全區域。
         further_steps: 選擇名稱後，可以點擊“繼續”按鈕。瀏覽器將提示您出示 WebAuthn 設備。完成後，設備註冊即告完成。
       totp:
-        title: "使用您的APP驗證器"
+        title: "基於應用程式的身份驗證器"
         provisioning_uri: "分配的URI"
         secret_key: "密鑰"
         time_based: "基於時間"
         account: "帳號名稱/發行者"
         setup: |
-          若要使用 Google Authenticator 設定雙重認證，請從 Apple App store 或 Google Play Store 下載應用程式。
+          若要使用 Google Authenticator 設定兩階段驗證，請從 Apple App store 或 Google Play Store 下載應用程式。
           開啟應用程式後，您可以掃描以下 QR 碼來註冊裝置。
         question_cannot_scan: |
           不能掃描QR Code?
         text_cannot_scan: |
           如果無法掃描代碼，您可以使用下列詳細資訊手動輸入項目：
         description: |
-          註冊一個APP驗證器。 常見 Google 驗證器或 Authy。
+          使用由 Authy 或 Google Authenticator 等身份驗證器產生的一次性程式碼。
       sms:
-        title: "使用您的手機"
+        title: "行動裝置"
         redacted_identifier: "行動裝置 (%{redacted_number})"
-        request_2fa_identifier: "%{redacted_identifier}, 我們通過 %{delivery_channel} 向您發送了驗證碼"
+        request_2fa_identifier: "%{redacted_identifier}, 我們經由 %{delivery_channel} 向您發送了驗證碼"
         description: |
-          註冊您的行動電話號碼，以便傳送 OpenProject 一次性密碼。
+          每次登入時，您都會透過手機簡訊接收 2FA 代碼。
     sns:
       delivery_failed: "SNS 傳送失敗："
     message_bird:
@@ -155,7 +155,7 @@ zh-TW:
       required_to_add_device: "活動安全性原則要求您啟用雙重身份驗證。請使用以下表格註冊設備。"
     remember:
       active_session_notice: >
-        您的帳戶有一個有效的記憶 cookie，有效期至 %{expires_on}。此 cookie 允許您在沒有雙因認證情況下登錄到您的帳戶。
+        您的帳戶有一個有效的記憶 cookie，有效期至 %{expires_on}。此 cookie 允許您在沒有兩階段驗證情況下登錄到您的帳戶。
       other_active_session_notice: 您的帳戶在另一個連線中有一個作用中且記憶之cookie。
       label: "記住"
       clear_cookie: "按一下此處以移除所有已記憶之 2FA 連線。"

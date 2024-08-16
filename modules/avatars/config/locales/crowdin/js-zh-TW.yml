@@ -7,8 +7,8 @@ zh-TW:
       label_choose_avatar: "選擇大頭貼"
       uploading_avatar: "上傳您的大頭貼。"
       text_upload_instructions: |
-        上傳您自己的 128 x 128 像素自定大頭貼。 較大的文件將被調整大小和裁剪。
-        選擇了圖像後，在上傳之前將顯示您的大頭貼預覽。
+        上傳您自己的 128 x 128 像素自定大頭貼。 較大圖片將被調整大小和裁剪。
+        選擇了圖片後，上傳前將預覽您的大頭貼。
       error_image_too_large: "圖片太大。"
       wrong_file_format: "允許的格式是jpg, png以及gif"
       empty_file_error: "請上傳一個有效的圖片 （jpg, png, gif)"

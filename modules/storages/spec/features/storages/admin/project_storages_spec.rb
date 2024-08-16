@@ -55,10 +55,6 @@ RSpec.describe "Admin lists project mappings for a storage",
 
   current_user { admin }
 
-  before do
-    Storages::Peripherals::Registry
-      .stub("#{storage.short_provider_type}.commands.delete_folder", ->(_) { ServiceResult.success })
-  end
 
   context "with insufficient permissions" do
     it "is not accessible" do
@@ -180,6 +176,13 @@ RSpec.describe "Admin lists project mappings for a storage",
           end
         end
       end
+    end
+
+    it "links to the delete page of a storage" do
+      page.find_test_selector("storage-delete-button").click
+
+      expect(page).to have_text("DELETE FILE STORAGE")
+      expect(page).to have_current_path("#{confirm_destroy_admin_settings_storage_path(storage)}?utf8=%E2%9C%93")
     end
 
     describe "Linking a project to a storage with a manually managed folder" do
@@ -320,6 +323,20 @@ RSpec.describe "Admin lists project mappings for a storage",
     end
 
     describe "Removal of a project from a storage" do
+      let(:success_delete_service) do
+        Class.new do
+          def initialize(user:, model:)
+            @user = user
+            @model = model
+          end
+
+          def call
+            @model.destroy!
+            ServiceResult.success
+          end
+        end
+      end
+
       it "shows a warning dialog that can be aborted" do
         expect(page).to have_text(project.name)
         project_storages_index_page.click_menu_item_of("Remove project", project)
@@ -337,13 +354,25 @@ RSpec.describe "Admin lists project mappings for a storage",
         expect(page).to have_text(project.name)
         project_storages_index_page.click_menu_item_of("Remove project", project)
 
+        # The original DeleteService would try to remove actual files from actual storages,
+        # which is of course not possible in this test since no real storage is used.
+        expect(Storages::ProjectStorages::DeleteService)
+          .to receive(:new) # rubocop:disable RSpec/MessageSpies
+          .and_wrap_original do |_original_method, *args, &_block|
+            user, model = *args.first.values
+            success_delete_service.new(user:, model:)
+          end
+
         page.within("dialog") do
           expect(page).to have_button("Remove", disabled: true)
-          check "Please, confirm you understand and want to remove this file storage from this project"
-          expect(page).to have_button("Remove", disabled: false, wait: 3) # ensure button is clickable
-          click_on "Remove"
+          Retryable.repeat_until_success do
+            check "Please, confirm you understand and want to remove this file storage from this project"
+            expect(page).to have_button("Remove", disabled: false) # ensure button is clickable
+            click_on "Remove"
+          end
         end
 
+        expect(page).to have_text("Successful deletion.")
         expect(page).to have_no_text(project.name)
       end
     end

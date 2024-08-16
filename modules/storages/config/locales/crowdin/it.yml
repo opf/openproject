@@ -66,6 +66,7 @@ it:
       inactive: Nessuna cartella specifica
       manual: Cartella esistente gestita manualmente
     remove_project:
+      deletion_failure_flash: Failed to remove the project from the storage. %{error}
       dialog:
         automatically_managed_appendix: 'Inoltre, in questo caso l''archivio ha una cartella di progetto gestita automaticamente: questa e i suoi file verranno eliminati per sempre.'
         confirmation_text: Conferma di aver compreso e di voler rimuovere questo archivio di file da questo progetto
@@ -106,9 +107,9 @@ it:
               not_found: "Impossibile trovare %{parent_location}."
             ensure_root_folder_permissions:
               not_found: "Impossibile trovare %{group_folder}. Verifica le impostazioni della cartella di gruppo Nextcloud."
-              permission_not_set: non è riuscito a impostare i permessi su %{group_folder}.
+              permission_not_set: impossibile impostare i permessi su %{group_folder}.
             hide_inactive_folders:
-              permission_not_set: non è riuscito a impostare i permessi su %{path}.
+              permission_not_set: impossibile impostare i permessi su %{path}.
             remote_folders:
               not_allowed: '%{username} non ha accesso a %{group_folder}. Verifica i permessi della cartella su Nextcloud.'
               not_found: "Impossibile trovare %{group_folder}. Verifica la configurazione di Nextcloud."
@@ -119,7 +120,7 @@ it:
               forbidden: L'utente OpenProject non ha accesso alla cartella %{current_path}.
               not_found: "Impossibile trovare %{current_path}."
             set_folders_permissions:
-              permission_not_set: non è riuscito a impostare i permessi su %{path}.
+              permission_not_set: impossibile impostare i permessi su %{path}.
           error: Si è verificato un errore imprevisto. Assicurati che la tua istanza Nextcloud sia raggiungibile e controlla i log dei worker di OpenProject per ulteriori informazioni
           group_does_not_exist: "%{group} non esiste. Controlla la configurazione della tua istanza Nextcloud."
           insufficient_privileges: OpenProject non ha privilegi sufficienti per aggiungere %{user} a %{group}. Controlla le impostazioni del gruppo in Nextcloud.
@@ -132,7 +133,7 @@ it:
               conflict: '%{folder_name} esiste già su %{parent_location}.'
               not_found: "Impossibile trovare %{parent_location}."
             hide_inactive_folders:
-              permission_not_set: non è riuscito a impostare i permessi su %{path}.
+              permission_not_set: impossibile impostare i permessi su %{path}.
             remote_folders:
               request_error: OpenProject non ha potuto accedere all'unità %{drive_id}. Verifica se la sua configurazione dell'archiviazione è corretta.
             rename_project_folder:
@@ -140,7 +141,7 @@ it:
               forbidden: OpenProject non ha accesso a %{current_path} per rinominarlo.
               not_found: "Impossibile trovare %{current_path}."
             set_folders_permissions:
-              permission_not_set: non è riuscito a impostare i permessi su %{path}.
+              permission_not_set: impossibile impostare i permessi su %{path}.
           error: Si è verificato un errore imprevisto. Assicurati che la tua istanza Nextcloud sia raggiungibile e controlla i log dei worker di OpenProject per ulteriori informazioni
           not_allowed: OpenProject non è stato autorizzato ad accedere al tuo drive OneDrive. Verifica le autorizzazioni impostate sull'applicazione Azure.
           unauthorized: OpenProject non è riuscito a sincronizzarsi con OneDrive. Verifica la configurazione dell'archiviazione e dell'applicazione Azure.

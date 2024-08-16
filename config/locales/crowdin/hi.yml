@@ -388,6 +388,9 @@ hi:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Please provide an API token name"
         token_name_in_use: "This API token name is already in use, please select a different one"
@@ -1156,6 +1159,9 @@ hi:
         one: "भूमिका"
         other: "भूमिका"
       status: "कार्य पैकेज स्थिति"
+      token/api:
+        one: Access token
+        other: Access tokens
       type: "प्रकार"
       user: "उपयोगकर्ता"
       version: "संस्करण"
@@ -2163,6 +2169,8 @@ hi:
   label_next_week: "अगले सप्ताह"
   label_no_change_option: "(कोई परिवर्तन नहीं)"
   label_no_data: "प्रदर्शित करने के लिए कोई डेटा नहीं"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "कोई पैरेंट पृष्ठ नहीं"
   label_nothing_display: "Nothing to display"
   label_nobody: "कोई नहीं"

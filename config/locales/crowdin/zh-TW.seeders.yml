@@ -66,7 +66,7 @@ zh-TW:
           name: 專案管理員
       global_roles:
         item_0:
-          name: 職員和專案管理員
+          name: 成員和專案管理員
     standard:
       priorities:
         item_0:
@@ -99,7 +99,7 @@ zh-TW:
             item_2:
               name: 任務
             item_3:
-              name: 團隊規劃
+              name: 小組工作企劃
           boards:
             kanban:
               name: Kanban看板
@@ -265,7 +265,7 @@ zh-TW:
             item_0: 類別 1 ( 將於專案設定變更 )
           queries:
             item_0:
-              name: 計畫方案
+              name: 專案計畫
             item_1:
               name: 產品待辦事項
             item_2:
@@ -314,7 +314,7 @@ zh-TW:
                   name: 工作項目
               item_6:
                 options:
-                  name: 計畫方案
+                  name: 專案計畫
           work_packages:
             item_0:
               subject: 新的登入介面

@@ -45,8 +45,8 @@ module Storages
             def update? = permission_ids.any? && user_ids.any?
           end
 
-          def self.call(storage:, path:, permissions:, auth_strategy:)
-            new(storage).call(path:, permissions:, auth_strategy:)
+          def self.call(storage:, auth_strategy:, path:, permissions:)
+            new(storage).call(auth_strategy:, path:, permissions:)
           end
 
           def initialize(storage)

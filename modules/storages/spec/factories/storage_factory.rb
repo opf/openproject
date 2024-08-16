@@ -90,10 +90,10 @@ FactoryBot.define do
           parent: :storage,
           class: "::Storages::NextcloudStorage" do
     provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
-    sequence(:host) { |n| "https://host#{n}.example.com" }
+    sequence(:host) { |n| "https://host#{n}.example.com/" }
 
     trait :as_automatically_managed do
-      automatically_managed { true }
+      automatic_management_enabled { true }
       username { "OpenProject" }
       password { "Password123" }
     end
@@ -115,7 +115,7 @@ FactoryBot.define do
     end
 
     name { "Nextcloud Local" }
-    host { "https://nextcloud.local" }
+    host { "https://nextcloud.local/" }
 
     initialize_with do
       Storages::NextcloudStorage.create_or_find_by(attributes.except(:oauth_client, :oauth_application))
@@ -144,8 +144,10 @@ FactoryBot.define do
                                       "MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_REFRESH_TOKEN"),
              token_type: "bearer")
 
-      create(:remote_identity, oauth_client: storage.oauth_client, user: evaluator.oauth_client_token_user,
-                               origin_user_id: evaluator.origin_user_id)
+      create(:remote_identity,
+             oauth_client: storage.oauth_client,
+             user: evaluator.oauth_client_token_user,
+             origin_user_id: evaluator.origin_user_id)
     end
   end
 
@@ -199,8 +201,9 @@ FactoryBot.define do
                                      "MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN"),
              refresh_token: ENV.fetch("ONE_DRIVE_TEST_OAUTH_CLIENT_REFRESH_TOKEN",
                                       "MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_REFRESH_TOKEN"),
-             token_type: "bearer",
-             origin_user_id: "33db2c84-275d-46af-afb0-c26eb786b194")
+             token_type: "bearer")
+      create(:remote_identity, oauth_client: storage.oauth_client, user: evaluator.oauth_client_token_user,
+                               origin_user_id: "33db2c84-275d-46af-afb0-c26eb786b194")
     end
   end
 end
