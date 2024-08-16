@@ -32,6 +32,8 @@ module OpTurbo
     class MissingComponentWrapper < StandardError; end
     # rubocop:enable OpenProject/AddPreviewForViewComponent
 
+    INLINE_ACTIONS = %i[dialog flash].freeze
+
     extend ActiveSupport::Concern
 
     class_methods do
@@ -56,7 +58,7 @@ module OpTurbo
           raise ArgumentError, "Unsupported action #{action}"
         end
 
-        if inline_actions.exclude?(action) && !wrapped?
+        if INLINE_ACTIONS.exclude?(action) && !wrapped?
           raise MissingComponentWrapper,
                 "Wrap your component in a `component_wrapper` block in order to use turbo-stream methods"
         end
@@ -98,10 +100,6 @@ module OpTurbo
         else
           method ? send(method, wrapper_arguments, &block) : content_tag(tag, wrapper_arguments, &block)
         end
-      end
-
-      def inline_actions
-        %i[dialog flash]
       end
 
       def wrapped?
