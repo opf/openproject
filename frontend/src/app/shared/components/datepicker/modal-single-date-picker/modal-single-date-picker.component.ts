@@ -28,7 +28,6 @@
 
 import {
   AfterContentInit,
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -55,11 +54,11 @@ import {
 } from 'core-app/spot/components/drop-modal/drop-modal-teleportation.service';
 import { delay } from 'rxjs';
 
+// eslint-disable-next-line change-detection-strategy/on-push
 @Component({
   selector: 'op-modal-single-date-picker',
   templateUrl: './modal-single-date-picker.component.html',
   styleUrls: ['../styles/datepicker.modal.sass', './modal-single-date-picker.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
     {

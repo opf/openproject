@@ -70,11 +70,16 @@ export default class TableHighlightingController extends ApplicationController {
     const th = target.closest('th') as HTMLElement;
     const index = this.parentIndex(th);
 
-    if (index !== null) {
-      return this.colgroup.children.item(index) as HTMLElement|null;
+    if (index === null) {
+      return null;
+    }
+    const col = this.colgroup.children.item(index) as HTMLElement|null;
+
+    if (!col || col.dataset.highlight === 'false') {
+      return null;
     }
 
-    return null;
+    return col;
   }
 
   private parentIndex(element:HTMLElement):number|null {

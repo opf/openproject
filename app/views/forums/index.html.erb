@@ -54,7 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
           <col>
           <% if User.current.allowed_in_project?(:manage_forums, @project) %>
             <col>
-            <col>
+            <col data-highlight="false">
           <% end %>
         </colgroup>
         <thead>

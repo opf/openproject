@@ -17,5 +17,24 @@ module Components
         raise "Expected date to equal #{date}, but got #{input.value}" unless input.value == date.iso8601
       end
     end
+
+    ##
+    # Select day from datepicker
+    def select_day(value)
+      unless (1..31).cover?(value.to_i)
+        raise ArgumentError, "Invalid value #{value} for day, expected 1-31"
+      end
+
+      expect(flatpickr_container).to have_text(value)
+
+      retry_block do
+        flatpickr_container
+          .first(".flatpickr-days .flatpickr-day:not(.nextMonthDay):not(.prevMonthDay)",
+                 text: value)
+          .click
+
+        raise "Expected #{value} to be selected" unless flatpickr_container.has_css?(".flatpickr-day.selected", text: value)
+      end
+    end
   end
 end
