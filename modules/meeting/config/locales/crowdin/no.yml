@@ -122,7 +122,7 @@
       agenda_text: "Kopier sakslisten fra det forrige møtet"
     email:
       send_emails: "Send e-post"
-      send_invitation_emails: "Send out invitation emails for all participants."
+      send_invitation_emails: "Send ut invitasjons-e-post for alle deltakere."
       open_meeting_link: "Åpent møte"
       invited:
         summary: "%{actor} har sendt deg en invitasjon til møtet %{title}"

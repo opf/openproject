@@ -1,4 +1,6 @@
-import { WorkPackageAction } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
+import {
+  WorkPackageAction,
+} from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 
 export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
   {
@@ -16,7 +18,8 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
     link: 'move',
   },
   {
-    key: 'copy',
+    key: 'duplicate',
+    icon: 'icon-copy',
     link: 'copy',
   },
   {

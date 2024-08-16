@@ -39,20 +39,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= styled_form_tag(admin_settings_projects_path, method: :patch) do %>
   <fieldset class="form--fieldset">
-    <% unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
-      <div class="form--field">
-        <%=
-        angular_component_tag 'op-enterprise-banner',
-                              inputs: {
-                                textMessage: t('text_project_custom_field_html'),
-                                collapsible: true,
-                                moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_projects][:href],
-                              }
-        %>
-      </div>
-    <% end %>
-
-
     <div class="form--field -full-width">
       <div class="form--text-field-container -xwide">
         <%= angular_component_tag 'opce-draggable-autocompleter',

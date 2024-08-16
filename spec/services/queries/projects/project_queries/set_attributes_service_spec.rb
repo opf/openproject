@@ -167,8 +167,16 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
         .to eql [[:active, "=", %w[t]]]
     end
 
-    it "assigns default selects including those for admin and ee if allowed",
-       with_ee: %i[custom_fields_in_projects_list],
+    # rubocop:disable Naming/VariableNumber
+    it "assigns default selects for non admin",
+       with_settings: { enabled_projects_columns: %w[name created_at cf_1] } do
+      subject
+
+      expect(model_instance.selects.map(&:attribute))
+        .to eql %i[favored name cf_1]
+    end
+
+    it "assigns default selects for admin",
        with_settings: { enabled_projects_columns: %w[name created_at cf_1] } do
       allow(User.current)
         .to receive(:admin?)
@@ -177,16 +185,9 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
       subject
 
       expect(model_instance.selects.map(&:attribute))
-        .to eql %i[favored] + Setting.enabled_projects_columns.map(&:to_sym)
+        .to eql %i[favored name created_at cf_1]
     end
-
-    it "assigns default selects excluding those for admin and ee if not allowed",
-       with_settings: { enabled_projects_columns: %w[name created_at cf_1] } do
-      subject
-
-      expect(model_instance.selects.map(&:attribute))
-        .to eql %i[favored name]
-    end
+    # rubocop:enable Naming/VariableNumber
   end
 
   context "with the query already having order and with order params" do

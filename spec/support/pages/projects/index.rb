@@ -121,6 +121,12 @@ module Pages
         end
       end
 
+      def expect_page_link(text)
+        within ".op-pagination--pages" do
+          expect(page).to have_css("a.op-pagination--item-link", text:)
+        end
+      end
+
       def expect_filters_container_toggled
         expect(page).to have_css(".op-filters-form")
       end
@@ -396,8 +402,22 @@ module Pages
         find(".generic-table--sort-header a", text: column_name.upcase).click
       end
 
+      def expect_sort_order_via_table_header(column_name, direction:)
+        raise ArgumentError, "direction should be :asc or :desc" unless %i[asc desc].include?(direction)
+
+        find(".generic-table--sort-header .#{direction} a", text: column_name.upcase)
+      end
+
       def set_page_size(size)
-        find(".op-pagination--options .op-pagination--item", text: size).click
+        within ".op-pagination--options" do
+          find(".op-pagination--item", text: size).click
+        end
+      end
+
+      def expect_page_size(size)
+        within ".op-pagination--options" do
+          expect(page).to have_css(".op-pagination--item_current", text: size)
+        end
       end
 
       def go_to_page(page_number)

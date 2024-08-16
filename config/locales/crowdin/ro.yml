@@ -214,8 +214,8 @@ ro:
       is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
       is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Mark the custom field as available in all existing and new projects."
-      searchable: "Include the field values when using the global search functionality."
-      searchable_for_project: "Check to make this attribute available as a filter in project lists."
+      searchable: "Include valorile câmpului atunci când utilizezi funcționalitatea globală de căutare."
+      searchable_for_project: "Bifează pentru a face acest atribut disponibil sub formă de filtru în listele de proiecte."
       editable: "Allow the field to be editable by users themselves."
       admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
@@ -226,7 +226,7 @@ ro:
   concatenation:
     single: "sau"
   global_search:
-    placeholder: "Search in %{app_title}"
+    placeholder: "Caută în %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Forum"
@@ -251,7 +251,7 @@ ro:
       work_package_attachments: "Pachete de lucru: anexe"
       work_package_categories: "Pachete de lucru: categorii"
       work_package_file_links: "Pachete de lucru: legături de fișiere"
-      work_package_shares: "Work packages: shares"
+      work_package_shares: "Pachete de lucru: partajări"
     delete:
       scheduled: "Ștergerea a fost programată și se efectuează în fundal. Veți fi notificat cu privire la rezultat."
       schedule_failed: "Proiectul nu poate fi șters: %{errors}"
@@ -265,16 +265,16 @@ ro:
       no_results_title_text: În acest moment nu există proiecte
       no_results_content_text: Creare proiect nou
     lists:
-      active: "Active projects"
+      active: "Proiecte active"
       my: "Proiectele mele"
-      favored: "Favorite projects"
-      archived: "Archived projects"
-      shared: "Shared project lists"
-      my_lists: "My project lists"
+      favored: "Proiecte favorite"
+      archived: "Proiecte arhivate"
+      shared: "Listă proiecte partajate"
+      my_lists: "Listele mele de proiecte"
       new:
-        placeholder: "New project list"
+        placeholder: "Listă nouă proiecte"
       delete_modal:
-        title: "Delete project list"
+        title: "Șterge listă proiecte"
         text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Schimbă identificatorul
@@ -293,7 +293,7 @@ ro:
           title: "Atributele proiectului"
           description: 'These project attributes will be displayed in your <a href=%{overview_url} target="_blank">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target="_blank">administration settings</a> by the administrator of the instance. '
         filter:
-          label: "Search project attribute"
+          label: "Caută atribut proiect"
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
@@ -334,15 +334,15 @@ ro:
     invite_by_mail: "Trimiteți invitația la %{mail}"
     send_invite_to: "Send invite to"
     columns:
-      shared: "Shared"
+      shared: "Partajate"
     filters:
-      all_shares: "All shares"
+      all_shares: "Toate partajările"
     menu:
       all: "Toate"
-      invited: "Invited"
+      invited: "Invitat"
       locked: "Închis"
-      project_roles: "Project roles"
-      wp_shares: "Work package shares"
+      project_roles: "Roluri proiect"
+      wp_shares: "Partajări pachete de lucru"
       groups: "Grupuri"
     delete_member_dialog:
       title: "Remove member"
@@ -671,7 +671,7 @@ ro:
       project:
         active_value:
           true: "nearhivat"
-          false: "arhivată"
+          false: "arhivat"
         identifier: "Identificator"
         latest_activity_at: "Ultima activitate la"
         parent: "Subproiect în"
@@ -682,14 +682,14 @@ ro:
         queries: "Interogări"
         status_code: "Stare proiect"
         description: "Descriere"
-        status_explanation: "Project status description"
+        status_explanation: "Descriere stadiu proiect"
         status_codes:
           not_started: "Neînceput"
           on_track: "În lucru"
           at_risk: "În pericol"
-          off_track: "În afara pistei"
+          off_track: "Deraiat"
           finished: "Finalizat"
-          discontinued: "Întrerupere"
+          discontinued: "Anulat"
         templated: "Proiect șablon"
         templated_value:
           true: "marcat ca șablon"
@@ -699,7 +699,7 @@ ro:
         work_packages: "Pachete de lucru"
       project_custom_field:
         is_required: "Required for all projects"
-        custom_field_section: Section
+        custom_field_section: Sectiune
       query:
         column_names: "Coloane"
         relations_to_type_column: "Relații cu %{type}"
@@ -719,7 +719,7 @@ ro:
         is_closed: "Pachet de lucru închis"
         is_readonly: "Pachet de lucru numai pentru citire"
         excluded_from_totals: "Exclude from calculation of totals in hierarchy"
-        default_done_ratio: "% Complete"
+        default_done_ratio: "% Finalizat"
       time_entry:
         activity: "Activitate"
         hours: "Ore"
@@ -785,9 +785,9 @@ ro:
         priority: "Prioritate"
         progress: "% Complete"
         readonly: "Doar citire"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
-        shared_with_users: "Shared with"
+        remaining_hours: "Muncă rămasă"
+        remaining_time: "Muncă rămasă"
+        shared_with_users: "Partajate cu"
         schedule_manually: "Programarea manuală"
         spent_hours: "Timp consumat"
         spent_time: "Timp consumat"
@@ -945,7 +945,7 @@ ro:
         project_custom_field_project_mapping:
           attributes:
             project_ids:
-              blank: "Please select a project."
+              blank: "Selectează un proiect."
         query:
           attributes:
             project:
@@ -1011,7 +1011,7 @@ ro:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "trebuie să fie între 0 și 100."
           readonly_default_exlusive: "nu poate fi activată pentru statusurile care sunt marcate ca fiind implicite."
         time_entry:
           attributes:
@@ -1050,7 +1050,7 @@ ro:
               must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
               inclusion: "must be between 0 and 100."
             due_date:
-              not_start_date: "nu este în data de început, deși acest lucru este necesar pentru repere de etapă."
+              not_start_date: "nu este în data de început, deși acest lucru este necesar pentru etape."
               cannot_be_null: "nu poate fi setat la null, deoarece data de începere și durata sunt cunoscute."
             duration:
               larger_than_dates: "este mai mare decât intervalul dintre data de început și data de sfârșit."
@@ -1058,7 +1058,7 @@ ro:
               not_available_for_milestones: "nu este disponibil pentru pachetele de lucru tipizate pe etape."
               cannot_be_null: "nu poate fi setat la null, deoarece data de început și data de sfârșit sunt cunoscute."
             parent:
-              cannot_be_milestone: "nu poate fi un reper de etapă."
+              cannot_be_milestone: "nu poate fi o etapă."
               cannot_be_self_assigned: "nu poate fi atribuit singur."
               cannot_be_in_another_project: "nu poate fi într-un alt proiect."
               not_a_valid_parent: "este invalid."
@@ -1354,7 +1354,7 @@ ro:
   button_edit: "Editare"
   button_edit_associated_wikipage: "Editare pagină wiki asociată: %{page_title}"
   button_expand_all: "Extindere totală"
-  button_favorite: "Add to favorites"
+  button_favorite: "Adaugă la favorite"
   button_filter: "Filtrare"
   button_generate: "Generare"
   button_list: "Listă"
@@ -1382,7 +1382,7 @@ ro:
   button_unarchive: "Dezarhivare"
   button_uncheck_all: "Deselecteaza tot"
   button_unlock: "Deblocare"
-  button_unfavorite: "Remove from favorites"
+  button_unfavorite: "Elimină din favorite"
   button_unwatch: "Stop monitorizare"
   button_update: "Actualizare"
   button_upgrade: "Actualizare"
@@ -1393,16 +1393,16 @@ ro:
   button_add_menu_entry: "Adăugare meniu"
   button_configure_menu_entry: "Configurare meniu"
   button_delete_menu_entry: "Ștergere meniu"
-  button_view_shared_work_packages: "View shared work packages"
-  button_manage_roles: "Manage roles"
-  button_remove_member: "Remove member"
-  button_remove_member_and_shares: "Remove member and shares"
+  button_view_shared_work_packages: "Vezi pachetele de lucru partajate"
+  button_manage_roles: "Gestionează rolurile"
+  button_remove_member: "Elimină membru"
+  button_remove_member_and_shares: "Elimină membrul și partajările"
   button_revoke_work_package_shares: "Revoke work package shares"
-  button_revoke_access: "Revoke access"
-  button_revoke_all: "Revoke all"
-  button_revoke_only: "Revoke only %{shared_role_name}"
-  button_publish: "Make public"
-  button_unpublish: "Make private"
+  button_revoke_access: "Revocă acces"
+  button_revoke_all: "Revocă tot"
+  button_revoke_only: "Revocare doar %{shared_role_name}"
+  button_publish: "Fă public"
+  button_unpublish: "Fă privat"
   consent:
     checkbox_label: Am luat la cunoștință și consimt la cele de mai sus.
     failure_message: Consimţământul a eșuat, nu putem continua.
@@ -1529,9 +1529,9 @@ ro:
         few: "%{count} minute"
         other: "%{count} minute"
       x_minutes_abbreviated:
-        one: "1 min"
+        one: "1 minut"
         few: "%{count} mins"
-        other: "%{count} mins"
+        other: "%{count} minute"
       x_hours:
         one: "1 oră"
         few: "%{count} ore"
@@ -1539,11 +1539,11 @@ ro:
       x_hours_abbreviated:
         one: "1 hr"
         few: "%{count} hrs"
-        other: "%{count} hrs"
+        other: "%{count} ore"
       x_weeks:
         one: "1 week"
         few: "%{count} weeks"
-        other: "%{count} weeks"
+        other: "%{count} săptămâni"
       x_months:
         one: "o lună"
         few: "%{count} luni"
@@ -1551,7 +1551,7 @@ ro:
       x_years:
         one: "1 an"
         few: "%{count} years"
-        other: "%{count} years"
+        other: "%{count} ani"
       x_seconds:
         one: "o secundă"
         few: "%{count} secunde"
@@ -1559,7 +1559,7 @@ ro:
       x_seconds_abbreviated:
         one: "1 s"
         few: "%{count} s"
-        other: "%{count} s"
+        other: "%{count} secunde"
     units:
       hour:
         one: "oră"
@@ -1611,8 +1611,8 @@ ro:
   error_can_not_archive_project: "Acest proiect nu poate fi arhivat: %{errors}"
   error_can_not_delete_entry: "Nu se poate șterge intrarea"
   error_can_not_delete_custom_field: "Câmpul personalizat nu poate fi șters"
-  error_can_not_delete_in_use_archived_undisclosed: "There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected."
-  error_can_not_delete_in_use_archived_work_packages: "There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}"
+  error_can_not_delete_in_use_archived_undisclosed: "Există, de asemenea, pachete de lucru în proiecte arhivate. Trebuie să cereți unui administrator să efectueze ștergerea pentru a vedea ce proiecte sunt afectate."
+  error_can_not_delete_in_use_archived_work_packages: "Există, de asemenea, pachete de lucru în proiecte arhivate. Trebuie să reactivați mai întâi următoarele proiecte, înainte de a putea schimba tipul pachetelor de lucru respective: %{archived_projects_urls}"
   error_can_not_delete_type:
     explanation: 'Acest tip conține pachete de lucru și nu poate fi șters. Puteți vedea toate pachetele de lucru afectate în <a target="_blank" href="%{url}">această vizualizare</a>.'
   error_can_not_delete_standard_type: "Tipurile standard nu pot fi șterse."
@@ -1637,7 +1637,7 @@ ro:
   error_pdf_failed_to_export: "Exportul pdf nu poate fi salvat: %{error}"
   error_token_authenticity: "Nu se poate verifica tokenul Cross-Site Request Forgery. Ați încercat să trimiteți datele pe mai multe browsere sau tab-uri? Vă rugăm să închideți toate filele și să încercați din nou."
   error_work_package_not_found_in_project: "Pachetul de lucru nu a fost găsit sau nu aparține acestui proiect"
-  error_work_package_id_not_found: "The work package was not found."
+  error_work_package_id_not_found: "Pachetul de lucru nu a fost găsit."
   error_must_be_project_member: "trebuie să fie membru al proiectului"
   error_migrations_are_pending: "Instalarea OpenProject are migrări de baze de date în așteptare. Probabil că nu ați reușit să executați migrările la ultima actualizare. Vă rugăm să consultați ghidul de actualizare pentru a vă actualiza corect instalarea."
   error_migrations_visit_upgrade_guides: "Vă rugăm să vizitați documentația ghidului nostru de actualizare"
@@ -1752,7 +1752,7 @@ ro:
       default_attribute_written: "Read-only attributes written"
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
-      system_update: "OpenProject system update:"
+      system_update: "Actualizare sistem OpenProiect:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1840,7 +1840,7 @@ ro:
       dateAlert: "Alertă de dată"
       mentioned: "Menţionat"
       responsible: "Responsabil"
-      shared: "Shared"
+      shared: "Partajat"
       watched: "Observator"
     facets:
       unread: "necitită"
@@ -1850,7 +1850,7 @@ ro:
     menu:
       by_project: "Necitit după proiect"
       by_reason: "Descriere"
-      inbox: "Cutie poștală"
+      inbox: "Inbox"
     send_notifications: "Trimite notificări pentru această acțiune"
     work_packages:
       subject:
@@ -1870,7 +1870,7 @@ ro:
   label_add_another_file: "Adăugare alt fișier"
   label_add_columns: "Adăugați coloanele selectate"
   label_add_note: "Adăugare notă"
-  label_add_projects: "Add projects"
+  label_add_projects: "Adaugă proiecte"
   label_add_related_work_packages: "Adăugare pachet de lucru asociat"
   label_add_subtask: "Adăugare sub-activitate"
   label_added: "adăugat"
@@ -1911,15 +1911,15 @@ ro:
   label_ldap_auth_source_plural: "LDAP connections"
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autentificare"
-  label_authentication_settings: "Authentication settings"
-  label_available_global_roles: "Available global roles"
-  label_available_project_attributes: "Available project attributes"
+  label_authentication_settings: "Setări autentificare"
+  label_available_global_roles: "Roluri globale disponibile"
+  label_available_project_attributes: "Atribute proiect disponibile"
   label_available_project_forums: "Forumuri disponibile"
   label_available_project_repositories: "Arhive disponibile"
   label_available_project_versions: "Versiuni disponibile"
   label_available_project_work_package_categories: "Categorii de pachete de lucru disponibile"
   label_available_project_work_package_types: "Tipuri de pachete de lucru disponibile"
-  label_available_projects: "Available projects"
+  label_available_projects: "Proiecte disponibile"
   label_api_doc: "Documentație API"
   label_backup: "Backup"
   label_backup_code: "Cod de rezervă"
@@ -1938,7 +1938,7 @@ ro:
   label_bulk_edit_selected_work_packages: "Editare în masă a pachetelor de lucru selectate"
   label_bundled: "(la pachet)"
   label_calendar: "Calendar"
-  label_calendars_and_dates: "Calendars and dates"
+  label_calendars_and_dates: "Calendare și dăți"
   label_calendar_show: "Afișare calendar"
   label_category: "Categorie"
   label_consent_settings: "Consimţământul utilizatorului"
@@ -2016,7 +2016,7 @@ ro:
   label_diff_side_by_side: "în paralel"
   label_digital_accessibility: "Accesibilitate digitală (DE)"
   label_disabled: "dezactivat"
-  label_disabled_uppercase: "Disabled"
+  label_disabled_uppercase: "Dezactivat"
   label_display: "Afișare"
   label_display_per_page: "Pe pagină: %{value}"
   label_display_used_statuses_only: "Afişează doar stările folosite de acest tip"
@@ -2109,7 +2109,7 @@ ro:
   label_introduction_video: "Video de introducere"
   label_invite_user: "Invitare utilizator"
   label_share: "Distribuiți"
-  label_share_project_list: "Share project list"
+  label_share_project_list: "Distribuie lista de proiecte"
   label_share_work_package: "Share work package"
   label_show_hide: "Afișare/ascundere"
   label_show_hide_n_items: "Show/hide %{count} items"
@@ -2185,7 +2185,7 @@ ro:
   label_more_than_ago: "acum mai mult de zile"
   label_move_work_package: "Mutare pachet de lucru"
   label_my_account: "Contul meu"
-  label_my_activity: "My activity"
+  label_my_activity: "Activitatea mea"
   label_my_account_data: "Datele din contul meu"
   label_my_avatar: "My avatar"
   label_my_queries: "Interogările mele"
@@ -2221,7 +2221,7 @@ ro:
   label_operator_none: "este gol"
   label_operator_equals_or: "este (SAU)"
   label_operator_equals_all: "este (ȘI)"
-  label_operator_shared_with_user_any: "Oricare"
+  label_operator_shared_with_user_any: "oricare"
   label_open_menu: "Deschidere meniu"
   label_open_work_packages: "deschise"
   label_open_work_packages_plural: "deschise"
@@ -2275,7 +2275,7 @@ ro:
   label_project_mappings: "Enabled in projects"
   label_project_new: "Proiect nou"
   label_project_plural: "Proiecte"
-  label_project_list_plural: "Project lists"
+  label_project_list_plural: "Listă proiecte"
   label_project_attributes_plural: "Atributele proiectului"
   label_project_custom_field_plural: "Atributele proiectului"
   label_project_settings: "Setările proiectului"
@@ -2302,7 +2302,7 @@ ro:
   label_relation_delete: "Ștergere relație"
   label_relation_new: "Relație nouă"
   label_release_notes: "Note privind lansarea noii versiuni"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "Muncă rămasă"
   label_remove_columns: "Eliminare coloane selectate"
   label_renamed: "redenumit"
   label_reply_plural: "Răspunsuri"
@@ -2333,7 +2333,7 @@ ro:
   label_role_search: "Atribuirea rolului noilor membri"
   label_scm: "SCM"
   label_search: "Căutare"
-  label_search_by_name: "Search by name"
+  label_search_by_name: "Caută după nume"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Trimite e-mail de test"
   label_session: "Sesiune"
@@ -2437,7 +2437,7 @@ ro:
   label_wiki_show_new_page_link: "Afișare submeniu 'Creare pagină copil'"
   label_wiki_show_submenu_item: "Afișare ca submeniu pentru "
   label_wiki_start: "Pagină de start"
-  label_work: "Work"
+  label_work: "Muncă"
   label_work_package: "Pachet de lucru"
   label_work_package_attachments: "Anexe la pachetul de lucru"
   label_work_package_category_new: "Categorie nouă"
@@ -2454,7 +2454,7 @@ ro:
   label_work_package_tracking: "Urmărire pachete de lucru"
   label_work_package_view_all: "Toate pachetele de lucru"
   label_workflow: "Flux de lucru"
-  label_workflow_copy: "Copy workflow"
+  label_workflow_copy: "Copiază fluxul de lucru"
   label_workflow_plural: "Fluxuri de lucru"
   label_workflow_summary: "Descriere"
   label_working_days_and_hours: "Working days and hours"
@@ -2541,7 +2541,7 @@ ro:
         assigned: "Alocat"
         responsible: "Responsabil"
         mentioned: "Menţionat"
-        shared: "Shared"
+        shared: "Partajat"
         subscribed: "toate"
         prefix: "Primită din cauza setării de notificare: %{reason}"
         date_alert_start_date: "Alertă de dată"
@@ -2759,9 +2759,9 @@ ro:
   permission_add_project: "Create projects"
   permission_add_work_package_attachments: "Adaugă fișiere"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
-  permission_archive_project: "Proiect de arhivă"
+  permission_archive_project: "Proiect arhivat"
   permission_create_user: "Create users"
-  permission_manage_user: "Edit users"
+  permission_manage_user: "Editează utilizatori"
   permission_manage_placeholder_user: "Creați, editați și ștergeți utilizatori de tip placeholder"
   permission_add_subprojects: "Creare subproiecte"
   permission_add_work_package_watchers: "Adăugare observatori"
@@ -2817,20 +2817,20 @@ ro:
   permission_protect_wiki_pages: "Protejare pagini wiki"
   permission_rename_wiki_pages: "Redenumire pagini wiki"
   permission_save_queries: "Salvați vizualizările"
-  permission_search_project: "Search project"
+  permission_search_project: "Caută proiect"
   permission_select_custom_fields: "Selectați câmpurile personalizate"
   permission_select_project_custom_fields: "Select project attributes"
   permission_select_project_modules: "Selectare module proiect"
   permission_share_work_packages: "Share work packages"
   permission_manage_types: "Selectare tipuri"
-  permission_view_project: "View projects"
+  permission_view_project: "Vezi proiecte"
   permission_view_changesets: "Vizualizare revizii repo în OpenProject"
   permission_view_commit_author_statistics: "Vizualizare statistici autor înregistrări"
-  permission_view_dashboards: "View dashboards"
+  permission_view_dashboards: "Vezi panouri"
   permission_view_work_package_watchers: "Vizualizare listă observatori"
   permission_view_work_packages: "Vizualizare pachete de lucru"
   permission_view_messages: "Vizualizare mesaje"
-  permission_view_news: "View news"
+  permission_view_news: "Vezi noutăți"
   permission_view_members: "Vezi membrii"
   permission_view_reportings: "Vizualizare raportări"
   permission_view_shared_work_packages: "View work package shares"
@@ -2840,12 +2840,12 @@ ro:
   permission_view_wiki_pages: "Vizualizare wiki"
   permission_work_package_assigned: "Deveniți cesionar/responsabil"
   permission_work_package_assigned_explanation: "Pachetele de lucru pot fi atribuite utilizatorilor și grupurilor care dețin acest rol în proiectul respectiv"
-  permission_view_project_activity: "View project activity"
+  permission_view_project_activity: "Vezi activitate proiect"
   permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
-  permission_manage_public_project_queries: "Manage public project lists"
+  permission_manage_public_project_queries: "Gestionează listă proiecte publice"
   permission_view_project_query: "View project query"
   permission_edit_project_query: "Edit project query"
   placeholders:
@@ -2894,8 +2894,8 @@ ro:
     member_of_group: "Grupul executantului"
     name_or_identifier: "Nume sau identificator"
     only_subproject_id: "Numai subproiect"
-    shared_with_user: "Shared with users"
-    shared_with_me: "Shared with me"
+    shared_with_user: "Partajate cu utilizatorii"
+    shared_with_me: "Partajate cu mine"
     subproject_id: "Inclusiv subproiectul"
   repositories:
     at_identifier: "la %{identifier}"
@@ -3214,7 +3214,7 @@ ro:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Setări pentru proiecte noi"
-      section_project_overview: "Settings for project lists"
+      section_project_overview: "Setări pentru listă proiecte"
     session: "Sesiune"
     user:
       default_preferences: "Preferințe implicite"
@@ -3274,7 +3274,7 @@ ro:
   text_database_allows_tsv: "Baza de date permite TSVector (opțional)"
   text_default_administrator_account_changed: "Contul de administrator implicit a fost schimbat"
   text_default_encoding: "Implicit: UTF-8"
-  text_destroy: "Ștergere"
+  text_destroy: "Șterge"
   text_destroy_with_associated: "Există obiecte suplimentare asociate cu pachetul(ele) de lucru care urmează să fie șters(e). Aceste obiecte sunt de următoarele tipuri:"
   text_destroy_what_to_do: "Ce vrei să faci?"
   text_diff_truncated: "... Acest diff a fost trunchiat deoarece depășește dimensiunea maximă care poate fi afișată."
@@ -3499,15 +3499,15 @@ ro:
       role: "Rol"
       type: "Tip"
     denied: "You don't have permissions to share %{entities}."
-    label_search: "Search for users to invite"
-    label_search_placeholder: "Search by user or email address"
+    label_search: "Caută utilizatori pentru a invita"
+    label_search_placeholder: "Caută după utilizator sau adresă de e-mail"
     label_toggle_all: "Toggle all shares"
     remove: "Eliminare"
     share: "Distribuiți"
-    text_empty_search_description: "There are no users with the current filter criteria."
-    text_empty_search_header: "We couldn't find any matching results."
+    text_empty_search_description: "Nu sunt utilizatori cu criteriile curente de filtrare."
+    text_empty_search_header: "Nu am putut găsi niciun rezultat potrivit."
     text_empty_state_description: "The %{entity} has not been shared with anyone yet."
-    text_empty_state_header: "Nu este publică"
+    text_empty_state_header: "Nepartajat"
     text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
     text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
     warning_user_limit_reached: >
@@ -3518,12 +3518,12 @@ ro:
     warning_locked_user: "The user %{user} is locked and cannot be shared with"
     user_details:
       locked: "Locked user"
-      invited: "Invite sent. "
+      invited: "Invitație trimisă. "
       resend_invite: "Resend."
       invite_resent: "Invite has been resent"
       not_project_member: "Not a project member"
       project_group: "Group members might have additional privileges (as project members)"
-      not_project_group: "Group (shared with all members)"
+      not_project_group: "Grup (partajat cu toți membrii)"
       additional_privileges_project: "Might have additional privileges (as project member)"
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
@@ -3539,10 +3539,10 @@ ro:
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."
       blank_state:
         public:
-          header: "Shared with everyone"
+          header: "Partajat cu toți"
           description: "Everyone can view this project list. You can also add individual users with extra permissions."
         private:
-          header: "Not shared: Private"
+          header: "Nepartajat: Privat"
           description: "This project list has not been shared with anyone yet. Only you can access this list."
       permissions:
         view: "Vizualizare"

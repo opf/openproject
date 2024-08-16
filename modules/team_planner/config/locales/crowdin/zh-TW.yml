@@ -1,17 +1,17 @@
 #English strings go here
 zh-TW:
   plugin_openproject_team_planner:
-    name: "OpenProject團隊計畫"
-    description: "提供團隊規劃器視圖。"
-  permission_view_team_planner: "查看團隊計劃"
-  permission_manage_team_planner: "管理團隊規劃"
-  project_module_team_planner_view: "團隊規劃"
+    name: "OpenProject小組工作企劃"
+    description: "提供小組工作企劃視圖。"
+  permission_view_team_planner: "檢視小組工作企劃"
+  permission_manage_team_planner: "管理「小組工作企劃」"
+  project_module_team_planner_view: "小組工作企劃"
   team_planner:
-    label_team_planner: "團隊規劃"
-    label_new_team_planner: "新團隊計劃"
-    label_create_new_team_planner: "建立新的團隊計畫"
-    label_team_planner_plural: "團隊規劃"
+    label_team_planner: "小組工作企劃"
+    label_new_team_planner: "新小組工作企劃"
+    label_create_new_team_planner: "建立新的小組工作企劃"
+    label_team_planner_plural: "小組工作企劃"
     label_assignees: "執行者"
     upsale:
-      title: "團隊規劃"
-      description: "使用 Team Planner 全面了解您的團隊規劃。 拉伸、縮短和拖放工作包以修改日期、移動日期或更改受讓人。"
+      title: "小組工作企劃"
+      description: "使用「小組工作企劃」全面閱覽了解您的小組工作內容。 縮放、拖曳工作項目以便調整日期、移動日期或更改執行者。"
