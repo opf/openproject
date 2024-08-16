@@ -34,9 +34,7 @@ require_module_spec_helper
 # We decrease the notification polling interval because some portions of the JS code rely on something triggering
 # the Angular change detection. This is usually done by the notification polling, but we don't want to wait
 RSpec.describe "Admin lists project mappings for a storage",
-               :js,
-               :webmock,
-               :with_cuprite,
+               :js, :storage_server_helpers, :webmock, :with_cuprite,
                with_flag: { enable_storage_for_multiple_projects: true },
                with_settings: { notifications_polling_interval: 1_000 } do
   shared_let(:admin) { create(:admin, preferences: { time_zone: "Etc/UTC" }) }
@@ -377,36 +375,6 @@ RSpec.describe "Admin lists project mappings for a storage",
         expect(page).to have_text("Successful deletion.")
         expect(page).to have_no_text(project.name)
       end
-    end
-
-    def stub_outbound_storage_files_request_for(storage:, remote_identity:)
-      root_xml_response = build(:webdav_data)
-      folder1_xml_response = build(:webdav_data_folder)
-      folder1_fileinfo_response = {
-        ocs: {
-          data: {
-            status: "OK",
-            statuscode: 200,
-            id: 11,
-            name: "Folder1",
-            path: "files/Folder1",
-            mtime: 1682509719,
-            ctime: 0
-          }
-        }
-      }
-
-      stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{remote_identity.origin_user_id}")
-        .to_return(status: 207, body: root_xml_response, headers: {})
-      stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{remote_identity.origin_user_id}/Folder1")
-        .to_return(status: 207, body: folder1_xml_response, headers: {})
-      stub_request(:get, "#{storage.host}/ocs/v1.php/apps/integration_openproject/fileinfo/11")
-        .to_return(status: 200, body: folder1_fileinfo_response.to_json, headers: {})
-      stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
-      stub_request(
-        :delete,
-        "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project%20name%20without%20sequence%20(#{project.id})"
-      ).to_return(status: 200, body: "", headers: {})
     end
   end
 end
