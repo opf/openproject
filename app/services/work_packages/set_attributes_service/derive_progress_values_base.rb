@@ -30,8 +30,6 @@ class WorkPackages::SetAttributesService
   class DeriveProgressValuesBase
     attr_reader :work_package
 
-    PROGRESS_ATTRIBUTES = %i[work remaining_work percent_complete].freeze
-
     def initialize(work_package)
       @work_package = work_package
     end

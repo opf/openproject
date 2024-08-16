@@ -207,6 +207,14 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
                        description: "is an error state (to be detected by contract), and % Complete is kept"
     end
 
+    context "when work and remaining work are both changed so that work is lower than remaining work" do
+      let(:set_attributes) { { estimated_hours: 2, remaining_hours: 9 } }
+      let(:expected_kept_attributes) { %w[done_ratio] }
+
+      include_examples "update progress values",
+                       description: "is an error state (to be detected by contract), and % Complete is kept"
+    end
+
     context "when work and remaining work are both changed to values with more than 2 decimals" do
       let(:set_attributes) { { estimated_hours: 10.123456, remaining_hours: 5.6789 } }
       let(:expected_derived_attributes) { { estimated_hours: 10.12, remaining_hours: 5.68, done_ratio: 44 } }

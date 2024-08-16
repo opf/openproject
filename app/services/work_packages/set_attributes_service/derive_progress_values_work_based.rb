@@ -119,11 +119,9 @@ class WorkPackages::SetAttributesService
     end
 
     def remaining_work_set_greater_than_work?
-      attributes_from_user == %i[remaining_work] && work && remaining_work && remaining_work > work
-    end
-
-    def attributes_from_user
-      @attributes_from_user ||= PROGRESS_ATTRIBUTES.filter { |attr| public_send(:"#{attr}_came_from_user?") }
+      remaining_work_came_from_user? \
+        && !percent_complete_came_from_user? \
+        && work && remaining_work && remaining_work > work
     end
 
     def work_set_and_no_user_inputs_provided_for_both_remaining_work_and_percent_complete?
