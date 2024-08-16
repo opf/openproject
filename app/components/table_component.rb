@@ -74,7 +74,7 @@ class TableComponent < ApplicationComponent
     end
 
     def row_class
-      mod = name.split("::")[0..-2].join("::").presence || "Table"
+      mod = name.deconstantize
 
       "#{mod}::RowComponent".constantize
     rescue NameError

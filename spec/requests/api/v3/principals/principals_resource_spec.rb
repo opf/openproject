@@ -322,7 +322,6 @@ RSpec.describe "API v3 Principals resource" do
       end
 
       it "contains each user element only once" do
-        pending "This is just a fix to note that we have the bug, the fix will be done in the frontend at first, then we can come back here"
         expect(last_response.body).to be_json_eql(expected.to_json)
       end
     end

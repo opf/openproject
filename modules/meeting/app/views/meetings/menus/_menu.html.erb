@@ -1,5 +1,5 @@
   <%= turbo_frame_tag "meeting_sidemenu",
-                      src: @project.present? ? menu_project_meetings_path(@project, **params.permit(:filters, :sort)) : meetings_menu_path(**params.permit(:filters, :sort)),
+                      src: @project.present? ? menu_project_meetings_path(@project, **params.permit(:filters, :sort, :query_id)) : meetings_menu_path(**params.permit(:filters, :sort, :query_id)),
                       target: '_top',
                       data: { turbo: false },
                       loading: :lazy %>

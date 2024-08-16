@@ -29,114 +29,31 @@
 #++
 
 module Projects
-  class TableComponent < ::TableComponent
-    options :params # We read collapsed state from params
-    options :current_user # adds this option to those of the base class
-    options :query
-
-    def initialize(**)
-      super(rows: [], **)
-    end
-
-    def before_render
-      @model = projects(query)
-      super
-    end
-
-    def initial_sort
-      %i[lft asc]
-    end
-
-    def table_id
-      "project-table"
-    end
-
-    def container_class
-      "generic-table--container_visible-overflow generic-table--container_height-100"
-    end
-
-    ##
-    # The project sort by is handled differently
-    def build_sort_header(column, options)
-      helpers.projects_sort_header_tag(column, **options, param: :json)
-    end
-
-    # We don't return the project row
-    # but the [project, level] array from the helper
-    def rows
-      @rows ||= begin
-        projects_enumerator = ->(model) { to_enum(:projects_with_levels_order_sensitive, model).to_a }
-        instance_exec(model, &projects_enumerator)
-      end
-    end
-
-    def initialize_sorted_model
-      helpers.sort_clear
-
-      orders = query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }
-      helpers.sort_init orders
-      helpers.sort_update orders.map(&:first)
-    end
-
-    def paginated?
-      true
-    end
-
-    def pagination_options
-      default_pagination_options.merge(optional_pagination_options)
-    end
-
-    def default_pagination_options
-      { allowed_params: %i[query_id filters columns sortBy] }
-    end
-
-    def optional_pagination_options
-      {}
-    end
-
-    def deactivate_class_on_lft_sort
-      if sorted_by_lft?
-        "spot-link_inactive"
-      end
-    end
-
-    def href_only_when_not_sort_lft
-      unless sorted_by_lft?
-        projects_path(
-          sortBy: JSON.dump([%w[lft asc]]),
-          **helpers.projects_query_params.slice(*helpers.projects_query_param_names_for_sort)
-        )
-      end
-    end
-
-    def order_options(select)
-      {
-        caption: select.caption
-      }
-    end
-
-    def sortable_column?(select)
-      sortable? && query.known_order?(select.attribute)
-    end
+  class TableComponent < Tables::QueryComponent
+    self.eager_load = :enabled_modules
 
     def columns
       @columns ||= begin
-        columns = query.selects.reject { |select| select.is_a?(::Queries::Selects::NotExistingSelect) }
+        columns = super
 
         index = columns.index { |column| column.attribute == :name }
-        columns.insert(index, ::Queries::Projects::Selects::Default.new(:hierarchy)) if index
+        columns.insert(index, ::Queries::Projects::Selects::Default.new(:lft)) if index
 
         columns
       end
     end
 
-    def projects(query)
-      query
-        .results
-        .with_required_storage
-        .with_latest_activity
-        .includes(:custom_values, :enabled_modules)
-        .paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
+    def highlight_column?(column)
+      return false if column.attribute == :lft
+
+      super
+    end
+
+    # We don't return the project row
+    # but the [project, level] array from the helper
+    def render_rows
+      render(Projects::RowComponent.with_collection(to_enum(:projects_with_levels_order_sensitive, rows).to_a,
+                                                    table: self))
     end
 
     def projects_with_levels_order_sensitive(projects, &)

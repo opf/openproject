@@ -37,14 +37,6 @@ RSpec.describe Queries::TimeEntries::TimeEntryQuery do
     login_as(user)
   end
 
-  context "without a filter" do
-    describe "#results" do
-      it "is the same as getting all the time entries" do
-        expect(instance.results.to_sql).to eql base_scope.to_sql
-      end
-    end
-  end
-
   context "with a user filter" do
     let(:values) { ["1"] }
 
@@ -58,26 +50,6 @@ RSpec.describe Queries::TimeEntries::TimeEntryQuery do
     subject do
       instance.where("user_id", "=", values)
       instance
-    end
-
-    describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = base_scope
-                   .where(["time_entries.user_id IN (?)", values])
-
-        expect(subject.results.to_sql).to eql expected.to_sql
-      end
-
-      context "with a me value" do
-        let(:values) { ["me"] }
-
-        it "replaces the value to produce the query" do
-          expected = base_scope
-                     .where(["time_entries.user_id IN (?)", [user.id.to_s]])
-
-          expect(subject.results.to_sql).to eql expected.to_sql
-        end
-      end
     end
 
     describe "#valid?" do
@@ -112,15 +84,6 @@ RSpec.describe Queries::TimeEntries::TimeEntryQuery do
       instance.where("project_id", "=", ["1"])
     end
 
-    describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = base_scope
-                   .where(["time_entries.project_id IN (?)", ["1"]])
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
-    end
-
     describe "#valid?" do
       it "is true" do
         expect(instance).to be_valid
@@ -142,15 +105,6 @@ RSpec.describe Queries::TimeEntries::TimeEntryQuery do
       instance.where("work_package_id", "=", ["1"])
     end
 
-    describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = base_scope
-                   .where(["time_entries.work_package_id IN (?)", ["1"]])
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
-    end
-
     describe "#valid?" do
       it "is true" do
         expect(instance).to be_valid
@@ -159,15 +113,6 @@ RSpec.describe Queries::TimeEntries::TimeEntryQuery do
       it "is invalid if the filter is invalid" do
         instance.where("work_package_id", "=", [""])
         expect(instance).to be_invalid
-      end
-    end
-  end
-
-  context "with an order by id asc" do
-    describe "#results" do
-      it "returns all visible time entries ordered by id asc" do
-        expect(instance.order(id: :asc).results.to_sql)
-          .to eql base_scope.except(:order).order(id: :asc).to_sql
       end
     end
   end

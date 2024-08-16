@@ -64,13 +64,13 @@ module Projects::Storage
     def with_required_storage
       Project
         .from("#{Project.table_name} projects")
-        .joins("LEFT JOIN (#{wiki_storage_sql}) wiki ON projects.id = wiki.project_id")
-        .joins("LEFT JOIN (#{work_package_storage_sql}) wp ON projects.id = wp.project_id")
-        .joins("LEFT JOIN #{Repository.table_name} repos ON repos.project_id = projects.id")
+        .joins("LEFT JOIN (#{wiki_storage_sql}) wiki_size ON projects.id = wiki_size.project_id")
+        .joins("LEFT JOIN (#{work_package_storage_sql}) work_package_size ON projects.id = work_package_size.project_id")
+        .joins("LEFT JOIN #{Repository.table_name} repository_size ON projects.id = repository_size.project_id")
         .select("projects.*")
-        .select("wiki.filesize AS wiki_required_space")
-        .select("wp.filesize AS work_package_required_space")
-        .select("repos.required_storage_bytes AS repositories_required_space")
+        .select("wiki_size.filesize AS wiki_required_space")
+        .select("work_package_size.filesize AS work_package_required_space")
+        .select("repository_size.required_storage_bytes AS repositories_required_space")
         .select("#{required_disk_space_sum} AS required_disk_space")
     end
 
@@ -83,7 +83,11 @@ module Projects::Storage
     end
 
     def required_disk_space_sum
-      "(COALESCE(wiki.filesize, 0) + COALESCE(wp.filesize, 0) + COALESCE(repos.required_storage_bytes, 0))"
+      <<~SQL.squish
+        (COALESCE(wiki_size.filesize, 0) +
+        COALESCE(work_package_size.filesize, 0) +
+        COALESCE(repository_size.required_storage_bytes, 0))
+      SQL
     end
 
     def wiki_storage_sql

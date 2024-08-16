@@ -38,11 +38,8 @@ class ProjectsController < ApplicationController
 
   no_authorization_required! :index
 
-  include SortHelper
-  include PaginationHelper
-  include QueriesHelper
   include ProjectsHelper
-  include Projects::QueryLoading
+  include Queries::Loading
 
   helper_method :has_managed_project_folders?
 

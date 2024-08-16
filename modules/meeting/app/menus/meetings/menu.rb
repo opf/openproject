@@ -44,50 +44,42 @@ module Meetings
     end
 
     def top_level_menu_items
-      upcoming_filter = [{ time: { operator: "=", values: ["future"] } }].to_json
-      past_filter = [{ time: { operator: "=", values: ["past"] } }].to_json
-
       [
         menu_item(title: I18n.t(:label_upcoming_meetings),
-                  query_params: { filters: upcoming_filter, sort: "start_time" }),
+                  query_params: { query_id: MeetingQueries::Static::UPCOMING }),
         menu_item(title: I18n.t(:label_past_meetings),
-                  query_params: { filters: past_filter, sort: "start_time:desc" })
+                  query_params: { query_id: MeetingQueries::Static::PAST })
       ]
     end
 
     def involvement_sidebar_menu_items
       [
-        menu_item(title: I18n.t(:label_upcoming_invitations)),
+        menu_item(title: I18n.t(:label_upcoming_invitations),
+                  query_params: { query_id: MeetingQueries::Static::UPCOMING_INVITATIONS }),
         menu_item(title: I18n.t(:label_past_invitations),
-                  query_params: { filters: past_filter, sort: "start_time:desc" }),
+                  query_params: { query_id: MeetingQueries::Static::PAST_INVITATIONS }),
         menu_item(title: I18n.t(:label_attendee),
-                  query_params: { filters: attendee_filter }),
+                  query_params: { query_id: MeetingQueries::Static::ATTENDEE }),
         menu_item(title: I18n.t(:label_author),
-                  query_params: { filters: author_filter })
+                  query_params: { query_id: MeetingQueries::Static::CREATOR })
       ]
     end
 
     def query_path(query_params)
-      if project.present?
-        project_meetings_path(project, params.permit(query_params.keys).merge!(query_params))
+      polymorphic_path([@project, :meetings], query_params)
+    end
+
+    def selected?(query_params)
+      case params[:query_id]
+      when nil
+        query_params[:query_id].to_s == MeetingQueries::Static::UPCOMING_INVITATIONS
       else
-        meetings_path(params.permit(query_params.keys).merge!(query_params))
+        query_params[:query_id].to_s == params[:query_id] unless modification_params?
       end
     end
 
-    def past_filter
-      [
-        { time: { operator: "=", values: ["past"] } },
-        { invited_user_id: { operator: "=", values: [User.current.id.to_s] } }
-      ].to_json
-    end
-
-    def attendee_filter
-      [{ attended_user_id: { operator: "=", values: [User.current.id.to_s] } }].to_json
-    end
-
-    def author_filter
-      [{ author_id: { operator: "=", values: [User.current.id.to_s] } }].to_json
+    def modification_params?
+      params.values_at(:filters, :columns, :sortBy).any?
     end
   end
 end

@@ -29,6 +29,8 @@
 module Queries::BaseQuery
   extend ActiveSupport::Concern
 
+  PARAM_NAMES = %i[query_id filters columns sortBy per_page page].freeze
+
   included do
     include Queries::Filters::AvailableFilters
     include Queries::Selects::AvailableSelects
@@ -63,7 +65,15 @@ module Queries::BaseQuery
 
   def results
     if valid?
-      apply_orders(apply_filters(default_scope))
+      scope = if selects.any?
+                apply_selects(apply_orders(filtered_results_scope.select("#{model.table_name}.*")))
+              else
+                apply_orders(filtered_results_scope)
+              end
+
+      merge_with_values(scope)
+
+      scope
     else
       empty_scope
     end
@@ -145,6 +155,16 @@ module Queries::BaseQuery
 
   protected
 
+  def filtered_results_scope
+    model
+      .with(filtered: apply_filters(default_scope).reselect(:id))
+      .where(model.select(1).from("filtered").where("#{model.table_name}.id = filtered.id").arel.exists)
+  end
+
+  def model
+    self.class.model
+  end
+
   def filters_valid
     filters.each do |filter|
       next if filter.valid?
@@ -211,6 +231,16 @@ module Queries::BaseQuery
       .order(group_by.name)
   end
 
+  def apply_selects(query_scope)
+    selects.select { _1.respond_to?(:apply_to) }.inject(query_scope) do |scope, select|
+      # TODO: have all selects implement apply_to and use that to
+      # formulate the select clause
+      # * In case the select is on a column that is part of the model, the apply_to
+      # just returns the scope
+      select.apply_to(scope)
+    end
+  end
+
   def build_orders
     return orders if !respond_to?(:group_by) || group_by.nil? || has_group_by_order?
 
@@ -242,6 +272,13 @@ module Queries::BaseQuery
       order.respond_to?(:value) && order.value.respond_to?(:relation) &&
         order.value.relation.name == self.class.model.table_name &&
         order.value.name == "id"
+    end
+  end
+
+  def merge_with_values(scope)
+    if scope.with_values.any?
+      merged_with = scope.with_values.each_with_object({}) { |v, hash| hash.merge!(v) }
+      scope.with_values = [merged_with]
     end
   end
 end

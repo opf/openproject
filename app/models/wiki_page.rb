@@ -78,8 +78,7 @@ class WikiPage < ApplicationRecord
   }
 
   scope :visible, ->(user = User.current) {
-    includes(:project)
-      .references(:project)
+    left_joins(:project)
       .merge(Project.allowed_to(user, :view_wiki_pages))
   }
 

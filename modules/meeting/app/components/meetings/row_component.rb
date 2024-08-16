@@ -30,7 +30,7 @@
 
 module Meetings
   class RowComponent < ::RowComponent
-    def project_name
+    def project
       helpers.link_to_project model.project, {}, {}, false
     end
 

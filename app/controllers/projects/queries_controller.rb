@@ -27,7 +27,7 @@
 # ++
 
 class Projects::QueriesController < ApplicationController
-  include Projects::QueryLoading
+  include Queries::Loading
   include OpTurbo::ComponentStream
 
   # No need for a more specific authorization check. That is carried out in the contracts.
@@ -57,7 +57,7 @@ class Projects::QueriesController < ApplicationController
   end
 
   def create
-    call = Queries::Projects::ProjectQueries::CreateService
+    call = ProjectQueries::CreateService
              .new(from: @query, user: current_user)
              .call(permitted_query_params)
 
@@ -65,7 +65,7 @@ class Projects::QueriesController < ApplicationController
   end
 
   def update
-    call = Queries::Projects::ProjectQueries::UpdateService
+    call = ProjectQueries::UpdateService
              .new(user: current_user, model: @query)
              .call(permitted_query_params)
 
@@ -76,7 +76,7 @@ class Projects::QueriesController < ApplicationController
     to_be_public = ActiveRecord::Type::Boolean.new.cast(params["value"])
     i18n_key = to_be_public ? "lists.publish" : "lists.unpublish"
 
-    call = Queries::Projects::ProjectQueries::PublishService
+    call = ProjectQueries::PublishService
              .new(user: current_user, model: @query)
              .call(public: to_be_public)
 
@@ -95,8 +95,8 @@ class Projects::QueriesController < ApplicationController
   end
 
   def destroy
-    Queries::Projects::ProjectQueries::DeleteService.new(user: current_user, model: @query)
-                                                    .call
+    ProjectQueries::DeleteService.new(user: current_user, model: @query)
+                                 .call
 
     redirect_to projects_path
   end

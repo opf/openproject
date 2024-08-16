@@ -64,9 +64,9 @@ class ParamsToQueryService
   end
 
   def apply_order(query, params)
-    return query unless params[:sortBy]
+    return query unless params[:sortBy] || params[:sort]
 
-    sort = parse_sorting_from_json(params[:sortBy])
+    sort = params[:sortBy] ? parse_sorting_from_json(params[:sortBy]) : parse_sort_helper_params(params[:sort])
 
     hash_sort = sort.each_with_object({}) do |(attribute, direction), hash|
       hash[attribute.to_sym] = direction.downcase.to_sym
@@ -105,6 +105,14 @@ class ParamsToQueryService
     JSON.parse(json).map do |(attribute, order)|
       [convert_attribute(attribute), order]
     end
+  end
+
+  def parse_sort_helper_params(sort_params)
+    sort_params
+      .to_s
+      .split(",")
+      .map { |s| s.split(":")[0..1] }
+      .map { |attribute, direction| [attribute, direction || "asc"] }
   end
 
   def convert_attribute(attribute, append_id: false)

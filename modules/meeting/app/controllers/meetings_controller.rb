@@ -29,6 +29,7 @@
 class MeetingsController < ApplicationController
   around_action :set_time_zone
   before_action :load_and_authorize_in_optional_project, only: %i[index new show create history]
+  before_action :load_query_or_deny_access, only: %i[index]
   before_action :verify_activities_module_activated, only: %i[history]
   before_action :determine_date_range, only: %i[history]
   before_action :determine_author, only: %i[history]
@@ -47,6 +48,7 @@ class MeetingsController < ApplicationController
   include WatchersHelper
   include PaginationHelper
   include SortHelper
+  include Queries::Loading
 
   include OpTurbo::ComponentStream
   include ApplicationComponentStreams
@@ -56,8 +58,6 @@ class MeetingsController < ApplicationController
   menu_item :new_meeting, only: %i[new create]
 
   def index
-    @query = load_query
-    @meetings = load_meetings(@query)
     render "index", locals: { menu_name: project_or_global_menu }
   end
 
@@ -252,32 +252,20 @@ class MeetingsController < ApplicationController
 
   private
 
-  def load_query
-    query = ParamsToQueryService.new(
-      Meeting,
-      current_user
-    ).call(params)
+  def load_query(duplicate:)
+    super.tap do |query|
+      # We want the project column in here in case the request is not executed inside a project.
+      # At the same time, we want the project filter if the request is executed inside a project.
+      # Both is currently not possible to be handled inside the factory loading the query.
+      if @project
+        query.where("project_id", "=", @project.id)
+      end
 
-    query = apply_default_filter_if_none_given(query)
-
-    if @project
-      query.where("project_id", "=", @project.id)
+      query.selects.clear
+      query.select(:title)
+      query.select(:project) unless @project
+      query.select(:type, :start_time, :duration, :location)
     end
-
-    query
-  end
-
-  def apply_default_filter_if_none_given(query)
-    return query if query.filters.any?
-
-    query.where("time", "=", Queries::Meetings::Filters::TimeFilter::FUTURE_VALUE)
-    query.where("invited_user_id", "=", [User.current.id.to_s])
-  end
-
-  def load_meetings(query)
-    query
-      .results
-      .paginate(page: page_param, per_page: per_page_param)
   end
 
   def set_time_zone(&)
