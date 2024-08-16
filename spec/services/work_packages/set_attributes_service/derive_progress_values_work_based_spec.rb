@@ -307,6 +307,23 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
                        description: "is an error state (to be detected by contract), and work and remaining work are kept"
     end
 
+    context "when % complete is a string not representing a valid percentage" do
+      let(:set_attributes) { { done_ratio: "invalid percentage" } }
+      let(:expected_derived_attributes) { { done_ratio: 0 } } # coerced to integer by activerecord
+      let(:expected_kept_attributes) { %w[estimated_hours remaining_hours] }
+
+      it "keeps the original string value in the _before_type_cast method " \
+         "so that validation can detect it is invalid" do
+        work_package.attributes = set_attributes
+        instance.call
+
+        expect(work_package.done_ratio_before_type_cast).to eq("invalid percentage")
+      end
+
+      include_examples "update progress values",
+                       description: "is an error state (to be detected by contract), and work and remaining work are kept"
+    end
+
     context "when work, remaining work, and % complete are all changed to consistent values" do
       let(:set_attributes) { { estimated_hours: 20, remaining_hours: 12.0, done_ratio: 40 } }
       let(:expected_kept_attributes) { %w[estimated_hours remaining_hours done_ratio] }

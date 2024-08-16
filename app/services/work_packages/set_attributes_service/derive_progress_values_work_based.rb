@@ -46,6 +46,7 @@ class WorkPackages::SetAttributesService
       work&.negative? \
         || remaining_work&.negative? \
         || percent_complete_out_of_range? \
+        || percent_complete_unparsable? \
         || remaining_work_set_greater_than_work?
     end
 
@@ -111,6 +112,10 @@ class WorkPackages::SetAttributesService
 
       remaining_percent_complete = 1.0 - ((percent_complete || 0) / 100.0)
       remaining_work / remaining_percent_complete
+    end
+
+    def percent_complete_unparsable?
+      !PercentageConverter.valid?(work_package.done_ratio_before_type_cast)
     end
 
     def remaining_work_set_greater_than_work?

@@ -474,6 +474,14 @@ RSpec.describe WorkPackages::BaseContract,
         it_behaves_like "contract is invalid", done_ratio: :inclusion
       end
 
+      context "when not a number" do
+        let(:estimated_hours) { nil }
+        let(:remaining_hours) { nil }
+        let(:done_ratio) { "abc" }
+
+        it_behaves_like "contract is invalid", done_ratio: :not_a_number
+      end
+
       context "when only one being set" do
         let(:estimated_hours) { nil }
         let(:remaining_hours) { nil }
