@@ -8,3 +8,7 @@
 
   border-top-left-radius: var(--borderRadius-medium)
   border-top-right-radius: var(--borderRadius-medium)
+
+  @media screen and (max-width: $breakpoint-sm)
+    // Unfortunately, we have to enforce this style via !important as the resizer writes the width directly on the element as inline style
+    width: unset !important

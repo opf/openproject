@@ -246,8 +246,9 @@ $scrollbar-size: 10px
       margin-right: 15px
 
 @mixin space-between-content-and-split-screen
-  #content-bodyRight > *
-    margin-left: 12px
+  @media screen and (min-width: $breakpoint-sm)
+    #content-bodyRight > *
+      margin-left: 12px
 
 @mixin modifying--placeholder
   border: 1px dashed var(--accent-color)

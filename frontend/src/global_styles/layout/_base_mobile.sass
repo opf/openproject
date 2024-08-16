@@ -61,13 +61,25 @@
     min-height: calc(100vh - var(--header-height))
   // ------------------- END CHANGED SCROLL BEHAVIOR
 
-  #content-body,
-  #content-header
-    padding-left: 15px
-    padding-right: 15px
+  #content
+    grid-template-columns: 1fr
+
+    // Show split view full width if it is opened
+    &.content--split
+      #content-body
+        display: none
+      #content-bodyRight
+        display: initial
+        width: 100vw
 
   #content-bodyRight
     display: none
+
+  #content-body,
+  #content-bodyRight,
+  #content-header
+    padding-left: 15px
+    padding-right: 15px
 
   #main
     grid-template-columns: auto

@@ -30,6 +30,9 @@ module WorkPackages
   module WithSplitView
     extend ActiveSupport::Concern
 
+    SPLIT_CONTENT_CLASS = "content--split".freeze
+    CONTENT_SELECTOR = "#content".freeze
+
     included do
       helper_method :split_view_base_route
     end
@@ -44,7 +47,8 @@ module WorkPackages
           render turbo_stream: [
             turbo_stream.remove("work-package-details-#{split_view_work_package_id}"),
             turbo_stream.push_state(url: split_view_base_route),
-            turbo_stream.set_title(title: helpers.page_title(I18n.t("js.notifications.title")))
+            turbo_stream.set_title(title: helpers.page_title(I18n.t("js.notifications.title"))),
+            turbo_stream.remove_css_class(CONTENT_SELECTOR, SPLIT_CONTENT_CLASS)
           ]
         end
         format.html do
@@ -58,7 +62,8 @@ module WorkPackages
         format.turbo_stream do
           render turbo_stream: [
             turbo_stream.update("content-bodyRight", helpers.split_view_instance.render_in(view_context)),
-            turbo_stream.push_state(url: request.fullpath)
+            turbo_stream.push_state(url: request.fullpath),
+            turbo_stream.add_css_class(CONTENT_SELECTOR, SPLIT_CONTENT_CLASS)
           ]
         end
 
