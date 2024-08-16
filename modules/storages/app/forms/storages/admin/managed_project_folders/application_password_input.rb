@@ -31,7 +31,7 @@ module Storages::Admin::ManagedProjectFolders
     form do |application_password_form|
       application_password_form.text_field(
         name: :password,
-        label: I18n.t(:'storages.label_managed_project_folders.application_password'),
+        label: I18n.t(:"storages.label_managed_project_folders.application_password"),
         required: true,
         caption: application_password_caption,
         value: nil, # IMPORTANT: We don't want to show the password in the form
@@ -48,16 +48,15 @@ module Storages::Admin::ManagedProjectFolders
     private
 
     def application_password_caption
-      I18n.t(:'storages.instructions.managed_project_folders_application_password_caption',
+      I18n.t(:"storages.instructions.managed_project_folders_application_password_caption",
              provider_type_link:).html_safe
     end
 
     def provider_type_link
       render(
         Primer::Beta::Link.new(
-          href: Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(@storage.host,
-                                                                                         'settings/admin/openproject'),
-          target: '_blank'
+          href: Storages::UrlBuilder.url(@storage.uri, "settings/admin/openproject"),
+          target: "_blank"
         )
       ) { I18n.t("storages.instructions.#{@storage.short_provider_type}.integration") }
     end

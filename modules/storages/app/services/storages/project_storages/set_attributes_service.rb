@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Used by: CreateService when setting attributes
 module Storages::ProjectStorages
   class SetAttributesService < ::BaseServices::SetAttributes
-    def set_default_attributes(_params)
+    def set_default_attributes(params)
       project_storage = model
       storage = project_storage.storage
 
       project_storage.creator ||= user
-
       project_storage.project_folder_mode ||=
-        if storage.present? && storage.automatic_management_enabled?
+        if params[:project_folder_mode].present?
+          params[:project_folder_mode]
+        elsif storage.present? && storage.automatic_management_enabled?
           "automatic"
         else
           "inactive"

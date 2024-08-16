@@ -38,7 +38,6 @@ module Storages
     :size,
     :owner_name,
     :owner_id,
-    :trashed,
     :last_modified_by_name,
     :last_modified_by_id,
     :permissions,
@@ -55,53 +54,26 @@ module Storages
       size: nil,
       owner_name: nil,
       owner_id: nil,
-      trashed: nil,
       last_modified_by_name: nil,
       last_modified_by_id: nil,
       permissions: nil,
       location: nil
     )
-      super(
-        status:,
-        status_code:,
-        id:,
-        name:,
-        last_modified_at:,
-        created_at:,
-        mime_type:,
-        size:,
-        owner_name:,
-        owner_id:,
-        trashed:,
-        last_modified_by_name:,
-        last_modified_by_id:,
-        permissions:,
-        location:
-      )
+      super
+    end
+
+    def clean_location
+      return if location.nil?
+
+      if location.starts_with? "/"
+        CGI.unescape(location)
+      else
+        CGI.unescape("/#{location}")
+      end
+    end
+
+    def self.from_id(file_id)
+      new(id: file_id, status: "OK", status_code: 200)
     end
   end
 end
-
-# class Storages::StorageFileInfo
-#   attr_reader :status, :status_code, :id, :name, :last_modified_at, :created_at, :mime_type, :size, :owner_name,
-#               :owner_id, :trashed, :last_modified_by_name, :last_modified_by_id, :permissions, :location
-#
-#   def initialize(status, status_code, id, name, last_modified_at, created_at, mime_type, size, owner_name, owner_id,
-#                  trashed, last_modified_by_name, last_modified_by_id, permissions, location)
-#     @status = status
-#     @status_code = status_code
-#     @id = id
-#     @name = name
-#     @last_modified_at = last_modified_at
-#     @created_at = created_at
-#     @mime_type = mime_type
-#     @size = size
-#     @owner_name = owner_name
-#     @owner_id = owner_id
-#     @trashed = trashed
-#     @last_modified_by_name = last_modified_by_name
-#     @last_modified_by_id = last_modified_by_id
-#     @permissions = permissions
-#     @location = location
-#   end
-# end

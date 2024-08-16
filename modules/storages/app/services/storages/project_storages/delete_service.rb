@@ -45,12 +45,13 @@ module Storages::ProjectStorages
     # by ::BaseServices::Delete
     def persist(service_result)
       # Perform the @object.destroy etc. in the super-class
-      super(service_result).tap do |deletion_result|
+      super.tap do |deletion_result|
         if deletion_result.success?
           delete_associated_file_links
           OpenProject::Notifications.send(
             OpenProject::Events::PROJECT_STORAGE_DESTROYED,
-            project_folder_mode: deletion_result.result.project_folder_mode.to_sym
+            project_folder_mode: deletion_result.result.project_folder_mode.to_sym,
+            storage: deletion_result.result.storage
           )
         end
       end
@@ -58,9 +59,16 @@ module Storages::ProjectStorages
 
     private
 
+    def auth_strategy
+      ::Storages::Peripherals::Registry
+        .resolve("#{model.storage.short_provider_type}.authentication.userless")
+        .call
+    end
+
     def delete_project_folder
-      Storages::Peripherals::Registry.resolve("commands.#{model.storage.short_provider_type}.delete_folder")
-        .call(storage: model.storage, location: model.project_folder_path)
+      ::Storages::Peripherals::Registry
+        .resolve("#{model.storage.short_provider_type}.commands.delete_folder")
+        .call(storage: model.storage, auth_strategy:, location: model.project_folder_location)
     end
 
     # Delete FileLinks with the same Storage as the ProjectStorage.

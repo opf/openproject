@@ -31,7 +31,7 @@ module Storages::Admin
     form do |storage_form|
       storage_form.hidden(
         name: :provider_type,
-        label: I18n.t('activerecord.attributes.storages/storage.provider_type'),
+        label: I18n.t("activerecord.attributes.storages/storage.provider_type"),
         required: true,
         value: @storage.provider_type
       )

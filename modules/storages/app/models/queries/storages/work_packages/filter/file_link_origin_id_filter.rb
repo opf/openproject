@@ -35,7 +35,7 @@ module Queries::Storages::WorkPackages::Filter
     end
 
     def filter_column
-      'origin_id'
+      "origin_id"
     end
 
     def permission

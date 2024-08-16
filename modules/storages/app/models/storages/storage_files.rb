@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,12 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::StorageFiles
-  attr_reader :files, :parent, :ancestors
-
-  def initialize(files, parent, ancestors)
-    @files = files
-    @parent = parent
-    @ancestors = ancestors
-  end
+module Storages
+  StorageFiles = Data.define(:files, :parent, :ancestors)
 end

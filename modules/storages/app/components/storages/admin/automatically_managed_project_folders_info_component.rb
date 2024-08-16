@@ -31,9 +31,12 @@
 module Storages::Admin
   class AutomaticallyManagedProjectFoldersInfoComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
     include StorageViewInformation
 
     alias_method :storage, :model
+
+    def self.wrapper_key = :automatically_managed_project_folders_section
 
     def edit_button_path
       if storage.automatic_management_unspecified?

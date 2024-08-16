@@ -41,8 +41,8 @@
 module Storages
   class Storage < ApplicationRecord
     PROVIDER_TYPES = [
-      PROVIDER_TYPE_NEXTCLOUD = 'Storages::NextcloudStorage',
-      PROVIDER_TYPE_ONE_DRIVE = 'Storages::OneDriveStorage'
+      PROVIDER_TYPE_NEXTCLOUD = "Storages::NextcloudStorage",
+      PROVIDER_TYPE_ONE_DRIVE = "Storages::OneDriveStorage"
     ].freeze
 
     PROVIDER_TYPE_SHORT_NAMES = {
@@ -53,19 +53,20 @@ module Storages
     self.inheritance_column = :provider_type
 
     store_attribute :provider_fields, :automatically_managed, :boolean
+    store_attribute :provider_fields, :health_notifications_enabled, :boolean, default: true
 
-    has_many :file_links, class_name: 'Storages::FileLink'
-    belongs_to :creator, class_name: 'User'
-    has_many :project_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
+    has_many :file_links, class_name: "Storages::FileLink"
+    belongs_to :creator, class_name: "User"
+    has_many :project_storages, dependent: :destroy, class_name: "Storages::ProjectStorage"
     has_many :projects, through: :project_storages
     has_one :oauth_client, as: :integration, dependent: :destroy
-    has_one :oauth_application, class_name: '::Doorkeeper::Application', as: :integration, dependent: :destroy
+    has_one :oauth_application, class_name: "::Doorkeeper::Application", as: :integration, dependent: :destroy
 
     validates_uniqueness_of :host, allow_nil: true
     validates_uniqueness_of :name
 
     scope :visible, ->(user = User.current) do
-      if user.allowed_in_any_project?(:manage_storages_in_project)
+      if user.allowed_in_any_project?(:manage_files_in_project)
         all
       else
         where(
@@ -82,10 +83,12 @@ module Storages
 
     scope :automatic_management_enabled, -> { where("provider_fields->>'automatically_managed' = 'true'") }
 
+    scope :in_project, ->(project_id) { joins(project_storages: :project).where(project_storages: { project_id: }) }
+
     enum health_status: {
-      pending: 'pending',
-      healthy: 'healthy',
-      unhealthy: 'unhealthy'
+      pending: "pending",
+      healthy: "healthy",
+      unhealthy: "unhealthy"
     }.freeze, _prefix: :health
 
     def self.shorten_provider_type(provider_type)
@@ -102,38 +105,21 @@ module Storages
     def self.extract_part_from_piped_string(text, index)
       return if text.nil?
 
-      split_reason = text.split('|')
+      split_reason = text.split("|")
       if split_reason.length > index
         split_reason[index].strip
       end
     end
 
-    def mark_as_unhealthy(reason: nil)
-      if health_status == 'unhealthy' && reason_is_same(reason)
-        touch(:health_checked_at)
-      else
-        update(health_status: 'unhealthy',
-               health_changed_at: Time.now.utc,
-               health_checked_at: Time.now.utc,
-               health_reason: reason)
-      end
-    end
-
-    def mark_as_healthy
-      if health_status == 'healthy'
-        touch(:health_checked_at)
-      else
-        update(health_status: 'healthy',
-               health_changed_at: Time.now.utc,
-               health_checked_at: Time.now.utc,
-               health_reason: nil)
-      end
+    def health_notifications_should_be_sent?
+      # it is a fallback for already created storages without health_notifications_enabled configured.
+      (health_notifications_enabled.nil? && automatic_management_enabled?) || health_notifications_enabled?
     end
 
     def automatically_managed?
       ActiveSupport::Deprecation.warn(
-        '`#automatically_managed?` is deprecated. Use `#automatic_management_enabled?` instead. ' \
-        'NOTE: The new method name better reflects the actual behavior of the storage. ' \
+        "`#automatically_managed?` is deprecated. Use `#automatic_management_enabled?` instead. " \
+        "NOTE: The new method name better reflects the actual behavior of the storage. " \
         "It's not the storage that is automatically managed, rather the Project (Storage) Folder is. " \
         "A storage only has this feature enabled or disabled."
       )
@@ -154,6 +140,10 @@ module Storages
 
     alias automatic_management_enabled automatically_managed
 
+    def available_project_folder_modes
+      raise Errors::SubclassResponsibility
+    end
+
     def configured?
       configuration_checks.values.all?
     end
@@ -165,7 +155,11 @@ module Storages
     def uri
       return unless host
 
-      @uri ||= URI(host).normalize
+      @uri ||= if host.end_with?("/")
+                 URI(host).normalize
+               else
+                 URI("#{host}/").normalize
+               end
     end
 
     def connect_src
@@ -174,6 +168,10 @@ module Storages
     end
 
     def oauth_configuration
+      raise Errors::SubclassResponsibility
+    end
+
+    def automatic_management_new_record?
       raise Errors::SubclassResponsibility
     end
 
@@ -199,12 +197,6 @@ module Storages
 
     def health_reason_description
       @health_reason_description ||= self.class.extract_part_from_piped_string(health_reason, 1)
-    end
-
-    private
-
-    def reason_is_same(new_health_reason)
-      health_reason_identifier == self.class.extract_part_from_piped_string(new_health_reason, 0)
     end
   end
 end

@@ -53,18 +53,11 @@ module Storages
       location: nil,
       permissions: nil
     )
-      super(
-        id:,
-        name:,
-        size:,
-        mime_type:,
-        created_at:,
-        last_modified_at:,
-        created_by_name:,
-        last_modified_by_name:,
-        location:,
-        permissions:
-      )
+      super
+    end
+
+    def folder?
+      mime_type.present? && mime_type == "application/x-op-directory"
     end
   end
 end

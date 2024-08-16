@@ -31,13 +31,13 @@ module Storages::Admin
     form do |storage_form|
       storage_form.text_field(
         name: :host,
-        label: I18n.t('activerecord.attributes.storages/storage.host'),
+        label: I18n.t("activerecord.attributes.storages/storage.host"),
         visually_hide_label: false,
         required: true,
         type: :url,
         pattern: ".{1,255}",
         placeholder: "https://my-file-storage.com",
-        caption: I18n.t('storages.instructions.host'),
+        caption: I18n.t("storages.instructions.host"),
         input_width: :large
       )
     end

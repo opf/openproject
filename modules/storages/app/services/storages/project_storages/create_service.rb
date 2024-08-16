@@ -32,14 +32,15 @@ module Storages::ProjectStorages
     protected
 
     def after_perform(service_call)
-      super(service_call)
+      super
 
       project_storage = service_call.result
       project_folder_mode = project_storage.project_folder_mode.to_sym
       add_historical_data(service_call) if project_folder_mode != :inactive
       OpenProject::Notifications.send(
         OpenProject::Events::PROJECT_STORAGE_CREATED,
-        project_folder_mode:
+        project_folder_mode:,
+        storage: project_storage.storage
       )
 
       service_call

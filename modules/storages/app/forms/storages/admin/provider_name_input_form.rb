@@ -31,9 +31,9 @@ module Storages::Admin
     form do |storage_form|
       storage_form.text_field(
         name: :name,
-        label: I18n.t('activerecord.attributes.storages/storage.name'),
+        label: I18n.t("activerecord.attributes.storages/storage.name"),
         required: true,
-        caption: I18n.t('storages.instructions.name'),
+        caption: I18n.t("storages.instructions.name"),
         placeholder: I18n.t("storages.label_file_storage"),
         input_width: :large
       )

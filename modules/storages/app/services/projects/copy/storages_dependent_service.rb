@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -45,10 +47,10 @@ module Projects::Copy
       state.copied_project_storages = source.project_storages.each_with_object([]) do |source_project_storage, array|
         project_storage_copy =
           ::Storages::ProjectStorages::CreateService
-            .new(user: User.current)
+            .new(user: User.current, contract_class: ::Storages::ProjectStorages::CopyContract)
             .call(storage_id: source_project_storage.storage_id,
                   project_id: target.id,
-                  project_folder_mode: 'inactive')
+                  project_folder_mode: "inactive")
             .on_failure { |r| add_error!(source_project_storage.class.to_s, r.to_active_model_errors) }
             .result
 

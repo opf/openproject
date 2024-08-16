@@ -27,10 +27,10 @@
 class Storages::OpenProjectStorageModalComponent < ViewComponent::Base
   def initialize(project_storage_open_url:, redirect_url:, state:, **options)
     super
-    controller = 'storages--open-project-storage-modal'
+    controller = "storages--open-project-storage-modal"
     @data = {
       controller:,
-      'application-target': 'dynamic',
+      "application-target": "dynamic",
       "#{controller}-project-storage-open-url-value": project_storage_open_url,
       "#{controller}-redirect-url-value": redirect_url
     }
@@ -38,10 +38,10 @@ class Storages::OpenProjectStorageModalComponent < ViewComponent::Base
   end
 
   def self.dialog_id
-    'open-project-storage-modal-component'
+    "open-project-storage-modal-component"
   end
 
   def self.dialog_body_id
-    'open-project-storage-modal-body-component'
+    "open-project-storage-modal-body-component"
   end
 end

@@ -30,10 +30,10 @@
 
 module Storages
   module Admin
-    LABEL_OAUTH_CLIENT_ID = 'OAuth Client ID'
-    LABEL_OAUTH_CLIENT_SECRET = 'OAuth Client Secret'
-    LABEL_OAUTH_REDIRECT_URI = 'OAuth Redirect URI'
-    LABEL_TENANT_ID = 'Tenant ID'
-    LABEL_DRIVE_ID = 'Drive ID'
+    LABEL_OAUTH_CLIENT_ID = "OAuth Client ID"
+    LABEL_OAUTH_CLIENT_SECRET = "OAuth Client Secret"
+    LABEL_OAUTH_REDIRECT_URI = "OAuth Redirect URI"
+    LABEL_TENANT_ID = "Tenant ID"
+    LABEL_DRIVE_ID = "Drive ID"
   end
 end

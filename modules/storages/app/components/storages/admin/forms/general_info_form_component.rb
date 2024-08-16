@@ -31,10 +31,14 @@
 module Storages::Admin::Forms
   class GeneralInfoFormComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
+
     alias_method :storage, :model
 
     options form_method: :post,
             submit_button_disabled: false
+
+    def self.wrapper_key = :storage_general_info_section
 
     def form_url
       options[:form_url] || default_form_url
@@ -49,7 +53,7 @@ module Storages::Admin::Forms
         data: { turbo_stream: true } }.tap do |options_hash|
         if storage.new_record?
           options_hash[:data][:turbo_stream] = false
-          options_hash[:target] = '_top' # Break out of Turbo Frame, follow full page redirect
+          options_hash[:target] = "_top" # Break out of Turbo Frame, follow full page redirect
         end
       end
     end
@@ -89,18 +93,8 @@ module Storages::Admin::Forms
       ).html_safe
     end
 
-    def information_for_one_drive_automatic_management
-      href = ::OpenProject::Static::Links[:storage_docs][:one_drive_drive_id_guide][:href]
-      I18n.t(
-        'storages.page_titles.managed_project_folders.one_drive_information',
-        drive_id_link_text: render(Primer::Beta::Link.new(href:, target: '_blank')) do
-          I18n.t('storages.instructions.one_drive.documentation_link_text')
-        end
-      ).html_safe
-    end
-
     def application_link_text_for(href, link_text)
-      render(Primer::Beta::Link.new(href:, target: '_blank')) { link_text }
+      render(Primer::Beta::Link.new(href:, target: "_blank")) { link_text }
     end
   end
 end

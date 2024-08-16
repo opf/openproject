@@ -28,6 +28,6 @@
 
 module Storages::LastProjectFolders
   class DeleteContract < ::DeleteContract
-    delete_permission(:manage_storages_in_project)
+    delete_permission(:manage_files_in_project)
   end
 end

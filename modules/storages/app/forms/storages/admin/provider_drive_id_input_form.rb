@@ -31,7 +31,7 @@ module Storages::Admin
     form do |storage_form|
       storage_form.text_field(
         name: :drive_id,
-        label: Storages::Admin::LABEL_DRIVE_ID,
+        label: ::Storages::Admin::LABEL_DRIVE_ID,
         visually_hide_label: false,
         required: true,
         caption: caption.html_safe, # rubocop:disable Rails/OutputSafety
@@ -43,9 +43,9 @@ module Storages::Admin
 
     def caption
       href = ::OpenProject::Static::Links[:storage_docs][:one_drive_drive_id_guide][:href]
-      I18n.t('storages.instructions.one_drive.drive_id',
-             drive_id_link_text: render(Primer::Beta::Link.new(href:, target: '_blank')) do
-               I18n.t('storages.instructions.one_drive.documentation_link_text')
+      I18n.t("storages.instructions.one_drive.drive_id",
+             drive_id_link_text: render(Primer::Beta::Link.new(href:, target: "_blank")) do
+               I18n.t("storages.instructions.one_drive.documentation_link_text")
              end)
     end
   end

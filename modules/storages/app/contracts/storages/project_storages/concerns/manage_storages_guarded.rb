@@ -42,7 +42,7 @@ module Storages::ProjectStorages
         # Check that the current has the permission on the project.
         # model variable is available because the concern is executed inside a contract.
         def validate_user_allowed_to_manage
-          unless user.allowed_in_project?(:manage_storages_in_project, model.project)
+          unless user.allowed_in_project?(:manage_files_in_project, model.project)
             errors.add :base, :error_unauthorized
           end
         end

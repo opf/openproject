@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -57,12 +59,12 @@ module Storages::ProjectStorages::Members
           oauth_client_id: storage.oauth_client.client_id,
           storage_id: storage.id
         )
-        helpers.op_icon('icon-warning -warning') +
+        helpers.op_icon("icon-warning -warning") +
           content_tag(
             :span,
             I18n.t("storages.member_connection_status.not_connected",
                    link: link_to(I18n.t("link"), ensure_connection_url),
-                   class: 'pl-2').html_safe
+                   class: "pl-2").html_safe
           )
       else
         I18n.t("storages.member_connection_status.#{connection_result}")
@@ -104,7 +106,7 @@ module Storages::ProjectStorages::Members
 
     def oauth_client_connected?
       storage.oauth_client.present? &&
-        member.oauth_client_tokens.any? { |token| token.oauth_client_id == storage.oauth_client.id }
+        member.principal.remote_identities.exists?(oauth_client: storage.oauth_client)
     end
 
     def can_read_files?

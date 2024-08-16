@@ -37,7 +37,7 @@ module Storages::Storages
     protected
 
     def after_perform(service_call)
-      super(service_call)
+      super
 
       storage = service_call.result
       # Automatically create an OAuthApplication object for the Nextcloud storage

@@ -32,7 +32,7 @@ module Storages
   class NextcloudStorage < Storage
     PROVIDER_FIELDS_DEFAULTS = {
       automatic_management_enabled: true,
-      username: 'OpenProject'
+      username: "OpenProject"
     }.freeze
 
     store_attribute :provider_fields, :automatically_managed, :boolean
@@ -48,9 +48,17 @@ module Storages
     def automatic_management_new_record?
       if provider_fields_changed?
         previous_configuration = provider_fields_change.first
-        previous_configuration.values_at('automatically_managed', 'password').compact.empty?
+        previous_configuration.values_at("automatically_managed", "password").compact.empty?
       else
         automatic_management_unspecified?
+      end
+    end
+
+    def available_project_folder_modes
+      if automatic_management_enabled?
+        ProjectStorage.project_folder_modes.keys
+      else
+        ["inactive", "manual"]
       end
     end
 

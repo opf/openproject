@@ -1,16 +1,16 @@
 <%= render(Primer::OpenProject::FlexLayout.new(align_items: :center, p: 4)) do |flex| %>
   <% case @state %>
   <% when :waiting %>
-    <% flex.with_row do %>
-      <div class="op-loading-indicator">
+    <% flex.with_row(id: 'waiting_logo') do %>
+      <div class='op-loading-indicator'>
         <div></div><div></div>
       </div>
     <% end %>
     <% flex.with_row do %>
-      <%= render(Primer::Beta::Heading.new(tag: :h2, text_align: :center)) { I18n.t('storages.open_project_storage_modal.waiting.title') } %>
+      <%= render(Primer::Beta::Heading.new(tag: :h2, text_align: :center, id: 'waiting_title')) { waiting_title } %>
     <% end %>
     <% flex.with_row do %>
-      <%= render(Primer::Beta::Text.new(text_align: :center, color: :muted)) { I18n.t('storages.open_project_storage_modal.waiting.subtitle') } %>
+      <%= render(Primer::Beta::Text.new(text_align: :center, color: :muted, id: 'waiting_subtitle')) { waiting_subtitle } %>
     <% end %>
   <% when :success %>
     <% flex.with_row do %>
