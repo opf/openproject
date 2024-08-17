@@ -47,7 +47,7 @@ ro:
   label_is_project_with_subprojects: "este (incluzând subproiecte)"
   label_work_package_attributes: "Atribute pachet de lucru"
   label_less: "<"
-  label_logged_by_reporting: "Logged by"
+  label_logged_by_reporting: "Logat ca"
   label_money: "Valoare monetară"
   label_month_reporting: "Lună (consumată)"
   label_new_report: "Raport de cost nou"

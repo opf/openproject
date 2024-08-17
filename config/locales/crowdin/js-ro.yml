@@ -900,7 +900,7 @@ ro:
       share: "Distribuiți"
       selected_count: "%{count} selected"
       selection:
-        mixed: "Mixed"
+        mixed: "Amestecat"
     work_packages:
       bulk_actions:
         move: "Modificare identificator proiect"

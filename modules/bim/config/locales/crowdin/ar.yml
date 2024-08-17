@@ -22,7 +22,7 @@ ar:
       other: '%{count} BCF issues'
     bcf_xml:
       xml_file: 'BCF XML File'
-      import_title: 'Import'
+      import_title: 'استيراد'
       export: 'تصدير'
       import_update_comment: '(Updated in BCF import)'
       import_failed: 'Cannot import BCF file: %{error}'
@@ -81,7 +81,7 @@ ar:
     attributes:
       bim/ifc_models/ifc_model:
         ifc_attachment: "IFC file"
-        is_default: "Default model"
+        is_default: "النموذج الافتراضي"
         attachments: "IFC file"
     errors:
       models:
@@ -118,9 +118,9 @@ ar:
     no_results: "No IFC models have been uploaded in this project."
     conversion_status:
       label: 'Processing?'
-      pending: 'Pending'
+      pending: 'قيد الانتظار'
       processing: 'Processing'
-      completed: 'Completed'
+      completed: 'اكتمل'
       error: 'خطأ'
     processing_notice:
       processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'

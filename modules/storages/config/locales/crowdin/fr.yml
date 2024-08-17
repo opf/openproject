@@ -111,7 +111,7 @@ fr:
             set_folders_permissions:
               permission_not_set: n'a pas pu définir les autorisations sur %{path}.
           error: Une erreur inattendue s'est produite. Veuillez vous assurer que votre instance Nextcloud est joignable et vérifiez les journaux des processus OpenProject pour obtenir plus d'informations.
-          group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
+          group_does_not_exist: "%{group} n'existe pas. Vérifiez la configuration de votre instance Nextcloud."
           insufficient_privileges: OpenProject n'a pas assez de privilèges pour ajouter %{user} au groupe %{group}. Vérifiez les paramètres de votre groupe dans Nextcloud.
           not_allowed: Nextcloud bloque la demande.
           unauthorized: OpenProject n'a pas pu se synchroniser avec Nextcloud. Veuillez vérifier votre espace de stockage et la configuration de Nextcloud.
@@ -140,7 +140,7 @@ fr:
       complete_without_setup: Compléter sans
       done_complete_setup: Configuration terminée.
       done_continue: Terminé, continuer
-      open_storage: Open file storage
+      open_storage: Ouvrir le stockage de fichiers
       replace_oauth_application: Remplacer OAuth OpenProject
       replace_oauth_client: Remplacer OAuth %{provider_type}
       save_and_continue: Sauvegarder et poursuivre
