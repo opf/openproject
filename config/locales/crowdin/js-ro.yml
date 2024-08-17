@@ -66,7 +66,7 @@ ro:
     button_back_to_list_view: "Înapoi la listă"
     button_cancel: "Anulare"
     button_close: "Închide"
-    button_change_project: "Proiect de schimbare"
+    button_change_project: "Move to another project"
     button_check_all: "Selectează tot"
     button_configure-form: "Configurați formularul"
     button_confirm: "Confirmă"
@@ -74,7 +74,7 @@ ro:
     button_copy: "Copiază"
     button_copy_to_clipboard: "Copiză în clipboard"
     button_copy_link_to_clipboard: "Copiază link-ul în clipboard"
-    button_copy_to_other_project: "Copiază în alt proiect"
+    button_copy_to_other_project: "Duplicate to other project"
     button_custom-fields: "Câmpuri personalizate"
     button_delete: "Șterge"
     button_delete_watcher: "Şterge observator"
@@ -896,7 +896,7 @@ ro:
       share: "Distribuiți"
       selected_count: "%{count} selected"
       selection:
-        mixed: "Mixed"
+        mixed: "Amestecat"
     work_packages:
       bulk_actions:
         move: "Modificare identificator proiect"

@@ -22,7 +22,7 @@ fr:
         storages/project_storage:
           attributes:
             project_folder_id:
-              blank: Please select a folder.
+              blank: Veuillez sélectionner un dossier.
             project_folder_mode:
               mode_unavailable: n'est pas disponible pour cet espace de stockage.
             project_ids:
@@ -60,13 +60,13 @@ fr:
   project_module_storages: Fichiers
   project_storages:
     edit_project_folder:
-      label: Edit project folder
+      label: Modifier le dossier du projet
     project_folder_mode:
       automatic: Géré automatiquement
       inactive: Aucun dossier spécifique
       manual: Dossier existant géré manuellement
     remove_project:
-      deletion_failure_flash: Failed to remove the project from the storage. %{error}
+      deletion_failure_flash: Impossible de supprimer le projet du stockage. %{error}
       dialog:
         automatically_managed_appendix: En outre, dans ce cas, cet espace de stockage comporte un dossier de projet géré automatiquement qui sera supprimé définitivement, ainsi que ses fichiers.
         confirmation_text: Veuillez confirmer que vous avez compris et que vous souhaitez supprimer cet espace de stockage de fichiers de ce projet.
@@ -92,11 +92,11 @@ fr:
     errors:
       models:
         copy_project_folders_service:
-          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
-          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
-          not_found: The source template location %{source_path} wasn't found.
-          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
+          conflict: Le dossier %{destination_path} existe déjà. Interruption du processus pour éviter les écrasements.
+          error: Une erreur inattendue s'est produite. Veuillez vérifier les logs OpenProject pour plus d'informations ou contacter un administrateur
+          forbidden: OpenProject n'a pas pu accéder au dossier source. Veuillez vérifier la configuration de vos permissions sur le fournisseur de stockage
+          not_found: L'emplacement du modèle source %{source_path} n'a pas été trouvé.
+          unauthorized: OpenProject n'a pas pu s'authentifier avec le fournisseur de stockage. Veuillez vérifier votre configuration de stockage
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -122,7 +122,7 @@ fr:
             set_folders_permissions:
               permission_not_set: n'a pas pu définir les autorisations sur %{path}.
           error: Une erreur inattendue s'est produite. Veuillez vous assurer que votre instance Nextcloud est joignable et vérifiez les journaux des processus OpenProject pour obtenir plus d'informations.
-          group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
+          group_does_not_exist: "%{group} n'existe pas. Vérifiez la configuration de votre instance Nextcloud."
           insufficient_privileges: OpenProject n'a pas assez de privilèges pour ajouter %{user} au groupe %{group}. Vérifiez les paramètres de votre groupe dans Nextcloud.
           not_allowed: Nextcloud bloque la demande.
           unauthorized: OpenProject n'a pas pu se synchroniser avec Nextcloud. Veuillez vérifier votre espace de stockage et la configuration de Nextcloud.
@@ -151,7 +151,7 @@ fr:
       complete_without_setup: Compléter sans
       done_complete_setup: Configuration terminée.
       done_continue: Terminé, continuer
-      open_storage: Open file storage
+      open_storage: Ouvrir le stockage de fichiers
       replace_oauth_application: Remplacer OAuth OpenProject
       replace_oauth_client: Remplacer OAuth %{provider_type}
       save_and_continue: Sauvegarder et poursuivre
