@@ -30,11 +30,11 @@ module BasicData
   module Documents
     class EnumerationSeeder < ModelSeeder
       self.model_class = DocumentCategory
-      self.seed_data_model_key = 'document_categories'
+      self.seed_data_model_key = "document_categories"
 
       def model_attributes(category_data)
         {
-          name: category_data['name']
+          name: category_data["name"]
         }
       end
     end

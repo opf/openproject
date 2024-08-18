@@ -59,7 +59,7 @@ module API
                             end
 
         def _type
-          'Document'
+          "Document"
         end
       end
     end
