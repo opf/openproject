@@ -40,9 +40,9 @@ module API
           end
 
           params do
-            requires :id, type: String, desc: 'The capability identifier'
+            requires :id, type: String, desc: "The capability identifier"
           end
-          namespace '*id' do
+          namespace "*id" do
             get &API::V3::Utilities::Endpoints::SqlShow
                    .new(model: Capability)
                    .mount

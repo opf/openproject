@@ -45,8 +45,8 @@ module Redmine
                               title: :title,
                               description: :description,
                               author: :author,
-                              url: { controller: '/welcome' },
-                              name: Proc.new { ::I18n.t(name.underscore, scope: 'events') },
+                              url: { controller: "/welcome" },
+                              name: Proc.new { ::I18n.t(name.underscore, scope: "events") },
                               type: name.underscore.dasherize }
 
           cattr_accessor :event_options
@@ -56,10 +56,6 @@ module Redmine
       end
 
       module InstanceMethods
-        def self.included(base)
-          base.extend ClassMethods
-        end
-
         %w(datetime title description author name type).each do |attr|
           src = <<-END_SRC
             def event_#{attr}
@@ -95,9 +91,6 @@ module Redmine
           else
             option
           end
-        end
-
-        module ClassMethods
         end
       end
     end

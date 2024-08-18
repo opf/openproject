@@ -81,7 +81,7 @@ module API
              },
              join: { table: :projects,
                      condition: "contexts.id = capabilities.context_id",
-                     select: ['contexts.name context_name'] }
+                     select: ["contexts.name context_name"] }
 
         associated_user_link :principal
       end

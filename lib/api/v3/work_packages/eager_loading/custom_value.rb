@@ -54,11 +54,11 @@ module API
               next unless cv.custom_field && cv.value.present?
 
               loaded_value = case cv.custom_field.field_format
-                             when 'user'
+                             when "user"
                                user_values(cv.value)
-                             when 'version'
+                             when "version"
                                version_values(cv.value)
-                             when 'list'
+                             when "list"
                                list_values(cv.value)
                              end
 
@@ -69,7 +69,7 @@ module API
           def grouped_custom_values
             @grouped_custom_values ||= begin
               custom_values = ::CustomValue
-                              .where(customized_type: 'WorkPackage', customized_id: work_packages.map(&:id))
+                              .where(customized_type: "WorkPackage", customized_id: work_packages.map(&:id))
                               .group_by(&:customized_id)
 
               custom_values.each_value do |values|
@@ -87,19 +87,19 @@ module API
           end
 
           def user_values(id)
-            @user_values ||= eager_load_values 'user', User.includes(:preference)
+            @user_values ||= eager_load_values "user", User.includes(:preference)
 
             @user_values[id.to_i]
           end
 
           def version_values(id)
-            @version_values ||= eager_load_values 'version', Version
+            @version_values ||= eager_load_values "version", Version
 
             @version_values[id.to_i]
           end
 
           def list_values(id)
-            @list_values ||= eager_load_values 'list', CustomOption
+            @list_values ||= eager_load_values "list", CustomOption
 
             @list_values[id.to_i]
           end

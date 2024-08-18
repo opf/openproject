@@ -31,7 +31,7 @@ module API
     module CustomOptions
       class CustomOptionsAPI < ::API::OpenProjectAPI
         resources :custom_options do
-          namespace ':id' do
+          namespace ":id" do
             params do
               requires :id, type: Integer
             end

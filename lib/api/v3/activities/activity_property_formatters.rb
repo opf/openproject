@@ -43,7 +43,7 @@ module API
 
           details
             .zip(html_details)
-            .map { |d| { format: 'custom', raw: d[0], html: d[1] } }
+            .map { |d| { format: "custom", raw: d[0], html: d[1] } }
         end
 
         private
@@ -56,7 +56,7 @@ module API
 
         def journal_note(journal)
           if journal.noop?
-            "_#{I18n.t(:'journals.changes_retracted')}_"
+            "_#{I18n.t(:"journals.changes_retracted")}_"
           else
             journal.notes
           end

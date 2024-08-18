@@ -43,7 +43,7 @@ module API
         end
 
         def _type
-          'Backup'
+          "Backup"
         end
       end
     end

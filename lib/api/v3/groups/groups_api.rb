@@ -42,7 +42,7 @@ module API
                   .new(model: Group)
                   .mount
 
-          route_param :id, type: Integer, desc: 'Group ID' do
+          route_param :id, type: Integer, desc: "Group ID" do
             after_validation do
               @group = Group.visible(current_user).find(params[:id])
             end

@@ -80,8 +80,8 @@ module OpenProject
   class ContentTypeDetector
     # application/binary is more secure than application/octet-stream
     # see: http://security.stackexchange.com/q/12896
-    SENSIBLE_DEFAULT = 'application/binary'
-    EMPTY_TYPE = 'inode/x-empty'
+    SENSIBLE_DEFAULT = "application/binary"
+    EMPTY_TYPE = "inode/x-empty"
 
     def initialize(filename)
       @filename = filename

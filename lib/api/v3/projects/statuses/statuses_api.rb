@@ -33,7 +33,7 @@ module API
         class StatusesAPI < ::API::OpenProjectAPI
           resources :project_statuses do
             params do
-              requires :id, desc: 'Project status identifier'
+              requires :id, desc: "Project status identifier"
             end
             route_param :id do
               helpers do

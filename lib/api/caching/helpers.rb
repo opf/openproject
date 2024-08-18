@@ -3,9 +3,9 @@ module API
     module Helpers
       def with_etag!(key)
         etag = %(W/"#{::Digest::SHA1.hexdigest(key.to_s)}")
-        error!('Not Modified'.freeze, 304) if headers['If-None-Match'.freeze] == etag
+        error!("Not Modified".freeze, 304) if headers["If-None-Match".freeze] == etag
 
-        header 'ETag'.freeze, etag
+        header "ETag".freeze, etag
       end
 
       ##

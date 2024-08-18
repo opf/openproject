@@ -28,26 +28,28 @@
 module API
   class Root < ::API::RootAPI
     include ::API::AppsignalAPI
-    content_type 'hal+json', 'application/hal+json; charset=utf-8'
-    format 'hal+json'
-    formatter 'hal+json', API::Formatter.new
-    default_format 'hal+json'
+    content_type "hal+json", "application/hal+json; charset=utf-8"
+    format "hal+json"
+    formatter "hal+json", API::Formatter.new
+    parser "hal+json", Grape::Parser::Json
+    default_format "hal+json"
 
     parser :json, API::V3::Parser.new
 
-    error_representer ::API::V3::Errors::ErrorRepresenter, 'hal+json'
+    error_representer ::API::V3::Errors::ErrorRepresenter, "application/hal+json; charset=utf-8"
     authentication_scope OpenProject::Authentication::Scope::API_V3
 
-    OpenProject::Authentication.handle_failure(scope: API_V3) do |warden, _opts|
-      e = grape_error_for warden.env, self
-      error_message = I18n.t('api_v3.errors.code_401_wrong_credentials')
-      api_error = ::API::Errors::Unauthenticated.new error_message
-      representer = ::API::V3::Errors::ErrorRepresenter.new api_error
+    OpenProject::Authentication.handle_failure(scope: API_V3) do |warden, opts|
+      e = grape_error_for(warden.env, self)
+      error_message = I18n.t("api_v3.errors.code_401_wrong_credentials")
+      api_error = ::API::Errors::Unauthenticated.new(error_message)
+      representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
+      status = opts[:message] == "insufficient_scope" ? 403 : 401
 
-      e.error_response status: 401, message: representer.to_json, headers: warden.headers, log: false
+      e.error!(representer.to_json, status, warden.headers)
     end
 
-    version 'v3', using: :path do
+    version "v3", using: :path do
       mount API::V3::Root
     end
   end

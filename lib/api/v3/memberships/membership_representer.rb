@@ -69,7 +69,7 @@ module API
                             setter: ::API::V3::Principals::PrincipalRepresenterFactory
                                       .create_setter_lambda(:user),
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
-                                    .create_link_lambda(:principal, getter: 'user_id')
+                                    .create_link_lambda(:principal, getter: "user_id")
 
         associated_resources :roles,
                              getter: ->(*) do
@@ -97,7 +97,7 @@ module API
                               { member_roles: :role }]
 
         def _type
-          'Membership'
+          "Membership"
         end
 
         def unmarked_roles

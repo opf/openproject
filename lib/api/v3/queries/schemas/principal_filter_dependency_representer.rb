@@ -47,7 +47,7 @@ module API
           private
 
           def filter_query
-            raise NotImplementedError, 'Subclasses need to implement #filter_query'
+            raise NotImplementedError, "Subclasses need to implement #filter_query"
           end
         end
       end

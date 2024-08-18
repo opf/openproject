@@ -20,6 +20,6 @@ module OpenProject
   end
 end
 
-require 'mail'
+require "mail"
 
 Mail::SMTP.prepend OpenProject::Patches::MailSmtpStartTlsAutoHotfix

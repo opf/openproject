@@ -36,10 +36,10 @@ module API
           end
 
           property :id,
-                   getter: ->(*) { 'global' }
+                   getter: ->(*) { "global" }
 
           def _type
-            'CapabilityContext'
+            "CapabilityContext"
           end
 
           def model_required?

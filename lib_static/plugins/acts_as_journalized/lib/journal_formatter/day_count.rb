@@ -29,7 +29,7 @@
 module JournalFormatter
   class DayCount < Attribute
     def format_values(values)
-      values.map { |v| I18n.t('datetime.distance_in_words.x_days', count: v.to_i) unless v.nil? }
+      values.map { |v| I18n.t("datetime.distance_in_words.x_days", count: v.to_i) unless v.nil? }
     end
   end
 end

@@ -33,7 +33,7 @@ module Redmine
 
     # Initialize with a Diff file and the type of Diff View
     # The type view must be inline or sbs (side_by_side)
-    def initialize(type = 'inline')
+    def initialize(type = "inline")
       @parsing = false
       @added = 0
       @removed = 0
@@ -75,7 +75,7 @@ module Redmine
     end
 
     def inspect
-      puts '### DIFF TABLE ###'
+      puts "### DIFF TABLE ###"
       puts "file : #{file_name}"
       each(&:inspect)
     end
@@ -88,7 +88,7 @@ module Redmine
     end
 
     def diff_for_added_line
-      if @type == 'sbs' && @removed > 0 && @added < @removed
+      if @type == "sbs" && @removed > 0 && @added < @removed
         self[-(@removed - @added)]
       else
         diff = Diff.new
@@ -97,20 +97,20 @@ module Redmine
       end
     end
 
-    def parse_line(line, _type = 'inline')
-      if line[0, 1] == '+'
+    def parse_line(line, _type = "inline")
+      if line[0, 1] == "+"
         diff = diff_for_added_line
         diff.line_right = line[1..-1]
         diff.nb_line_right = @line_num_r
-        diff.type_diff_right = 'diff_in'
+        diff.type_diff_right = "diff_in"
         @line_num_r += 1
         @added += 1
         true
-      elsif line[0, 1] == '-'
+      elsif line[0, 1] == "-"
         diff = Diff.new
         diff.line_left = line[1..-1]
         diff.nb_line_left = @line_num_l
-        diff.type_diff_left = 'diff_out'
+        diff.type_diff_left = "diff_out"
         self << diff
         @line_num_l += 1
         @removed += 1
@@ -127,7 +127,7 @@ module Redmine
           @line_num_l += 1
           @line_num_r += 1
           true
-        elsif line[0, 1] = '\\'
+        elsif line[0, 1] = "\\"
           true
         else
           false
@@ -139,7 +139,7 @@ module Redmine
       if @added > 0 && @added == @removed
         @added.times do |i|
           line = self[-(1 + i)]
-          removed = @type == 'sbs' ? line : self[-(1 + @added + i)]
+          removed = @type == "sbs" ? line : self[-(1 + @added + i)]
           offsets = offsets(removed.line_left, line.line_right)
           removed.offsets = line.offsets = offsets
         end

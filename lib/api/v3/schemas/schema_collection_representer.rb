@@ -56,7 +56,7 @@ module API
         attr_accessor :form_embedded
 
         def model_self_link(_model)
-          raise NotImplementedError, 'Subclass has to implement this'
+          raise NotImplementedError, "Subclass has to implement this"
         end
       end
     end

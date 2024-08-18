@@ -61,7 +61,7 @@ module API
                                                             path: :project,
                                                             property_name: :project,
                                                             getter: :project_id,
-                                                            setter: :'project_id=')
+                                                            setter: :"project_id=")
 
                    link.from_hash(fragment)
                  }

@@ -37,7 +37,7 @@ module API
 
           get &::API::V3::Utilities::Endpoints::Index.new(model: Role).mount
 
-          route_param :id, type: Integer, desc: 'Role ID' do
+          route_param :id, type: Integer, desc: "Role ID" do
             after_validation do
               @role = Role.find(declared_params[:id])
             end

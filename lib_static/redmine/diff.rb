@@ -34,20 +34,20 @@ module Redmine
     attr_accessor :nb_line_left, :line_left, :nb_line_right, :line_right, :type_diff_right, :type_diff_left, :offsets
 
     def initialize
-      self.nb_line_left = ''
-      self.nb_line_right = ''
-      self.line_left = ''
-      self.line_right = ''
-      self.type_diff_right = ''
-      self.type_diff_left = ''
+      self.nb_line_left = ""
+      self.nb_line_right = ""
+      self.line_left = ""
+      self.line_right = ""
+      self.type_diff_right = ""
+      self.type_diff_left = ""
     end
 
     def type_diff
-      type_diff_right == 'diff_in' ? type_diff_right : type_diff_left
+      type_diff_right == "diff_in" ? type_diff_right : type_diff_left
     end
 
     def line
-      type_diff_right == 'diff_in' ? line_right : line_left
+      type_diff_right == "diff_in" ? line_right : line_left
     end
 
     def html_line_left
@@ -63,7 +63,7 @@ module Redmine
     end
 
     def inspect
-      puts '### Start Line Diff ###'
+      puts "### Start Line Diff ###"
       puts nb_line_left
       puts line_left
       puts nb_line_right
@@ -74,7 +74,7 @@ module Redmine
 
     def line_to_html(line, offsets)
       line_to_html_raw(line, offsets).tap do |html_str|
-        html_str.force_encoding('UTF-8')
+        html_str.force_encoding("UTF-8")
       end
     end
 

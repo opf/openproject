@@ -86,7 +86,7 @@ module API
           end
 
           def includes_for(journable_type)
-            journable_type == 'Project' ? [] : [:project]
+            journable_type == "Project" ? [:project_custom_field_project_mappings] : [:project]
           end
 
           def data_by_type_and_id(journals)

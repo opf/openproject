@@ -26,5 +26,5 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.dirname(__FILE__) + '/lib/acts_as_attachable'
+require File.dirname(__FILE__) + "/lib/acts_as_attachable"
 ActiveRecord::Base.include Redmine::Acts::Attachable

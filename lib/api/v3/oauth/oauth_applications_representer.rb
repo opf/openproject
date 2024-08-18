@@ -67,7 +67,7 @@ module API::V3::OAuth
              when Storages::Storage
                api_v3_paths.storage(represented.integration.id)
              else
-               raise ArgumentError, 'Invalid integration type.'
+               raise ArgumentError, "Invalid integration type."
              end
 
       {
@@ -76,14 +76,12 @@ module API::V3::OAuth
       }
     end
 
-    link :redirectUri do
-      {
-        href: represented.redirect_uri
-      }
+    links :redirectUri do
+      represented.redirect_uri.split(/[\r\n]+/).map { |href| { href: } }
     end
 
     def _type
-      'OAuthApplication'
+      "OAuthApplication"
     end
   end
 end

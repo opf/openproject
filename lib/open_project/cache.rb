@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'cache/cache_key'
+require_relative "cache/cache_key"
 
 module OpenProject
   module Cache

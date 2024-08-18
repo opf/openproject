@@ -39,10 +39,12 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
               :partial,
               :engine
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/PerceivedComplexity
   def initialize(name, url, options)
     raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
     raise ArgumentError, "Invalid option :html for menu item '#{name}'" if options[:html] && !options[:html].is_a?(Hash)
-    raise ArgumentError, 'Cannot set the :parent to be the same as this item' if options[:parent] == name.to_sym
+    raise ArgumentError, "Cannot set the :parent to be the same as this item" if options[:parent] == name.to_sym
 
     if options[:children] && !options[:children].respond_to?(:call)
       raise ArgumentError,
@@ -61,7 +63,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     # Adds a unique class to each menu item based on its name
     @html_options[:class] = [
       @html_options[:class], "#{@name.to_s.dasherize}-menu-item"
-    ].compact.join(' ')
+    ].compact.join(" ")
     @parent = options[:parent]
     @child_menus = options[:children]
     @last = options[:last] || false
@@ -70,8 +72,12 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @engine = options[:engine]
     @allow_deeplink = options[:allow_deeplink]
     @skip_permissions_check = !!options[:skip_permissions_check]
+    @is_heading = options[:is_heading]
     super(@name.to_sym)
   end
+
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/PerceivedComplexity
 
   def caption(project = nil)
     if @caption.is_a?(Proc)
@@ -79,7 +85,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
       c = @name.to_s.humanize if c.blank?
       c
     elsif @caption.nil?
-      l_or_humanize(name, prefix: 'label_')
+      l_or_humanize(name, prefix: "label_")
     else
       @caption.is_a?(Symbol) ? I18n.t(@caption) : @caption
     end
@@ -143,7 +149,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
   def html_options(options = {})
     if options[:selected]
       o = @html_options.dup
-      o[:class] += ' selected'
+      o[:class] += " selected"
       o
     else
       @html_options
@@ -151,7 +157,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
   end
 
   def add_condition(new_condition)
-    raise ArgumentError, 'Condition needs to be callable' unless new_condition.respond_to?(:call)
+    raise ArgumentError, "Condition needs to be callable" unless new_condition.respond_to?(:call)
 
     old_condition = @condition
     @condition = if old_condition.respond_to?(:call)
@@ -159,5 +165,9 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
                  else
                    ->(project) { new_condition.call(project) }
                  end
+  end
+
+  def heading?
+    @is_heading || false
   end
 end

@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'optparse'
+require "optparse"
 
 begin
-  Bundler.gem('parallel_tests')
+  Bundler.gem("parallel_tests")
 rescue Gem::LoadError
   # In case parallel_tests is not provided, the whole of the parallel task group will not work.
   return
 end
 
-require 'parallel_tests/tasks'
+require "parallel_tests/tasks"
 # Remove task added by parallel_tests as it conflicts with our own.
 # Having both will lead to both being executed.
 Rake::Task["parallel:features"].clear if Rake::Task.task_defined?("parallel:features")
@@ -54,11 +54,11 @@ namespace :parallel do
       if parseable_args
         OptionParser.new do |opts|
           opts.banner = "Usage: rails #{args[0]} -- [options]"
-          opts.on("-n ARG", "--group-number ARG", Integer) { |num_cpus| options[:num_cpus] = num_cpus || ENV.fetch('GROUP', nil) }
+          opts.on("-n ARG", "--group-number ARG", Integer) { |num_cpus| options[:num_cpus] = num_cpus || ENV.fetch("GROUP", nil) }
           opts.on("-o ARG", "--only-group ARG", Integer) do |group_number|
-            options[:group] = group_number || ENV.fetch('GROUP_SIZE', nil)
+            options[:group] = group_number || ENV.fetch("GROUP_SIZE", nil)
           end
-          opts.on("-s ARG", "--seed ARG", Integer) { |seed| options[:seed] = seed || ENV.fetch('CI_SEED', nil) } if allow_seed
+          opts.on("-s ARG", "--seed ARG", Integer) { |seed| options[:seed] = seed || ENV.fetch("CI_SEED", nil) } if allow_seed
         end.parse!(parseable_args)
       end
 
@@ -67,7 +67,7 @@ namespace :parallel do
   end
 
   def group_option_string(parsed_options)
-    group_options  = parsed_options ? "-n #{parsed_options[:num_cpus]}" : ''
+    group_options  = parsed_options ? "-n #{parsed_options[:num_cpus]}" : ""
     group_options += " --only-group #{parsed_options[:group]}" if parsed_options[:group]
 
     group_options
@@ -77,18 +77,18 @@ namespace :parallel do
   # Returns all spec folder paths
   # of the core, modules and plugins
   def all_spec_paths
-    spec_folders = ['spec'] + Plugins::LoadPathHelper.spec_load_paths
-    spec_folders.join(' ')
+    spec_folders = ["spec"] + Plugins::LoadPathHelper.spec_load_paths
+    spec_folders.join(" ")
   end
 
   ##
   # Returns all spec folder paths
   # of the core, modules and plugins
   def plugin_spec_paths
-    Plugins::LoadPathHelper.spec_load_paths.join(' ')
+    Plugins::LoadPathHelper.spec_load_paths.join(" ")
   end
 
-  def run_specs(parsed_options, folders, pattern = '', additional_options: nil, runtime_filename: nil)
+  def run_specs(parsed_options, folders, pattern = "", additional_options: nil, runtime_filename: nil)
     check_for_pending_migrations
 
     group_options = group_option_string(parsed_options)
@@ -109,17 +109,17 @@ namespace :parallel do
     sh cmd
   end
 
-  desc 'Run all suites in parallel (one after another)'
-  task all: ['parallel:plugins:specs',
-             'parallel:plugins:features',
+  desc "Run all suites in parallel (one after another)"
+  task all: ["parallel:plugins:specs",
+             "parallel:plugins:features",
              :rspec]
 
   namespace :plugins do
-    desc 'Run all plugin tests in parallel'
-    task all: ['parallel:plugins:specs',
-               'parallel:plugins:features']
+    desc "Run all plugin tests in parallel"
+    task all: ["parallel:plugins:specs",
+               "parallel:plugins:features"]
 
-    desc 'Run plugin specs in parallel'
+    desc "Run plugin specs in parallel"
     task specs: [:environment] do
       ParallelParser.with_args(ARGV) do |options|
         ARGV.each { |a| task(a.to_sym) {} }
@@ -128,7 +128,7 @@ namespace :parallel do
       end
     end
 
-    desc 'Run plugin unit specs in parallel'
+    desc "Run plugin unit specs in parallel"
     task units: [:environment] do
       pattern = "--pattern 'spec/(?!features/)'"
 
@@ -139,7 +139,7 @@ namespace :parallel do
       end
     end
 
-    desc 'Run plugin feature specs in parallel'
+    desc "Run plugin feature specs in parallel"
     task features: [:environment] do
       pattern = "--pattern 'spec/features'"
 
@@ -151,7 +151,7 @@ namespace :parallel do
     end
   end
 
-  desc 'Run spec in parallel (custom task)'
+  desc "Run spec in parallel (custom task)"
   task :specs do
     ParallelParser.with_args(ARGV) do |options|
       ARGV.each { |a| task(a.to_sym) {} }
@@ -160,7 +160,7 @@ namespace :parallel do
     end
   end
 
-  desc 'Run feature specs in parallel'
+  desc "Run feature specs in parallel"
   task features: [:environment] do
     pattern = "--pattern 'spec/features/'"
 
@@ -171,7 +171,7 @@ namespace :parallel do
     end
   end
 
-  desc 'Run unit specs in parallel'
+  desc "Run unit specs in parallel"
   task units: [:environment] do
     pattern = "--pattern 'spec/(?!features/)'"
 

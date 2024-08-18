@@ -32,7 +32,7 @@ module API
       module Columns
         class QueryRelationOfTypeColumnRepresenter < QueryColumnRepresenter
           def _type
-            'QueryColumn::RelationOfType'
+            "QueryColumn::RelationOfType"
           end
 
           property :relation_type

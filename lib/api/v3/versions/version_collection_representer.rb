@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json'
-require 'roar/json/collection'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json"
+require "roar/json/collection"
+require "roar/json/hal"
 
 module API
   module V3

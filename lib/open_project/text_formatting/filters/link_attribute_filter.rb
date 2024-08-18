@@ -31,14 +31,16 @@ module OpenProject::TextFormatting
     class LinkAttributeFilter < HTML::Pipeline::Filter
       def call
         links.each do |node|
-          node['target'] = context.fetch(:target, '_top')
+          next if node["target"] || node["href"]&.start_with?("#")
+
+          node["target"] = context.fetch(:target, "_top")
         end
 
         doc
       end
 
       def links
-        doc.xpath(".//a[contains(@href,'/')]")
+        doc.css("a")
       end
     end
   end

@@ -43,7 +43,7 @@ module API
               authorize_in_any_work_package(:view_work_packages)
             end
 
-            route_param :id, type: String, regexp: /\A\w+\z/, desc: 'Filter ID' do
+            route_param :id, type: String, regexp: /\A\w+\z/, desc: "Filter ID" do
               get do
                 ar_id = convert_to_ar(params[:id])
                 filter_class = Query.find_registered_filter(ar_id)

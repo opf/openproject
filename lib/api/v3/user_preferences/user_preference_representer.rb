@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -67,13 +67,13 @@ module API
         property :daily_reminders,
                  getter: ->(*) do
                    reminders = daily_reminders.dup
-                   reminders['times'].map! { |time| time.gsub(/\A(\d{2}:\d{2}).*\z/, '\1') } if reminders
+                   reminders["times"].map! { |time| time.gsub(/\A(\d{2}:\d{2}).*\z/, '\1') } if reminders
                    reminders
                  end,
                  setter: ->(fragment:, **) do
                    self.daily_reminders = fragment
 
-                   daily_reminders['times'].map! { |time| time.gsub(/\A(\d{2}:\d{2})\z/, '\1:00+00:00') }
+                   daily_reminders["times"].map! { |time| time.gsub(/\A(\d{2}:\d{2})\z/, '\1:00+00:00') }
                  end
 
         property :immediate_reminders
@@ -85,8 +85,8 @@ module API
                  setter: ->(fragment:, **) do
                    self.pause_reminders = fragment.transform_keys(&:underscore)
 
-                   if pause_reminders['last_day'].blank? && pause_reminders['first_day']
-                     pause_reminders['last_day'] = pause_reminders['first_day']
+                   if pause_reminders["last_day"].blank? && pause_reminders["first_day"]
+                     pause_reminders["last_day"] = pause_reminders["first_day"]
                    end
                  end
 
@@ -110,7 +110,7 @@ module API
                  end
 
         def _type
-          'UserPreferences'
+          "UserPreferences"
         end
       end
     end

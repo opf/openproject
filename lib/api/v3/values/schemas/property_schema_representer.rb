@@ -29,8 +29,8 @@
 module API::V3::Values::Schemas
   class PropertySchemaRepresenter < ::API::Decorators::SchemaRepresenter
     schema :property,
-           type: 'String',
-           name_source: ->(*) { I18n.t(:'api_v3.attributes.property') }
+           type: "String",
+           name_source: ->(*) { I18n.t(:"api_v3.attributes.property") }
 
     schema :value,
            type: ->(*) { represented.type },

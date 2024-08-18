@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'representable'
-require 'open_project/patches'
+require "representable"
+require "open_project/patches"
 
 module OpenProject::Patches::Representable
   module DecoratorPatch
     def self.included(base)
       base.class_eval do
         def self.as_strategy=(strategy)
-          raise 'The :as_strategy option should respond to #call?' unless strategy.respond_to?(:call)
+          raise "The :as_strategy option should respond to #call?" unless strategy.respond_to?(:call)
 
           @as_strategy = strategy
         end
@@ -72,7 +72,7 @@ module OpenProject::Patches::Representable
   end
 end
 
-OpenProject::Patches.patch_gem_version 'representable', '3.2.0' do
+OpenProject::Patches.patch_gem_version "representable", "3.2.0" do
   unless Representable::Decorator.included_modules.include?(OpenProject::Patches::Representable::DecoratorPatch)
     Representable::Decorator.include OpenProject::Patches::Representable::DecoratorPatch
   end

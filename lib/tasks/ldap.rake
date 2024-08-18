@@ -38,34 +38,34 @@ namespace :ldap do
     args
   end
 
-  desc 'Synchronize existing users from the LDAP auth source' \
+  desc "Synchronize existing users from the LDAP auth source" \
        'rake ldap:sync name="<LdapAuthSource Name>" users=<login1,login2,...>'
   task sync: :environment do
     args = parse_args
     ldap = LdapAuthSource.find_by!(name: args.fetch(:name))
 
-    logins = args.fetch(:logins, '').split(/\s*,\s*/)
+    logins = args.fetch(:logins, "").split(/\s*,\s*/)
     Ldap::SynchronizeUsersService
       .new(ldap, logins)
       .call
   end
 
-  desc 'Synchronize users from the LDAP auth source with an optional filter.' \
-       'Note: If you omit the filter, ALL users are imported.' \
+  desc "Synchronize users from the LDAP auth source with an optional filter." \
+       "Note: If you omit the filter, ALL users are imported." \
        'rake ldap:import_from_filter name="<LdapAuthSource Name>" filter=<Optional RFC2254 filter string>'
   task import_from_filter: :environment do
     args = parse_args
     ldap = LdapAuthSource.find_by!(name: args.fetch(:name))
 
     # Parse filter string if available
-    filter = Net::LDAP::Filter.from_rfc2254 args.fetch(:filter, 'objectClass = *')
+    filter = Net::LDAP::Filter.from_rfc2254 args.fetch(:filter, "objectClass = *")
 
     Ldap::ImportUsersFromFilterService
       .new(ldap, filter)
       .call
   end
 
-  desc 'Synchronize a list of user logins with the LDAP auth source' \
+  desc "Synchronize a list of user logins with the LDAP auth source" \
        'rake ldap:import_from_user_list name=<LdapAuthSource Name>" users=<Path to file with newline separated logins>'
   task import_from_user_list: :environment do
     args = parse_args
@@ -80,7 +80,7 @@ namespace :ldap do
       .call
   end
 
-  desc 'Register a LDAP auth source for the given LDAP URL and attribute mapping: ' \
+  desc "Register a LDAP auth source for the given LDAP URL and attribute mapping: " \
        'rake ldap:register["url=<URL> name=<Name> onthefly=<true,false>map_{login,firstname,lastname,mail,admin}=attribute,filter_string"]'
   task register: :environment do
     args = parse_args
@@ -99,7 +99,7 @@ namespace :ldap do
     source.attributes = {
       host: url.host,
       port: url.port,
-      tls_mode: url.scheme == 'ldaps' ? 'start_tls' : 'plain_ldap',
+      tls_mode: url.scheme == "ldaps" ? "start_tls" : "plain_ldap",
       account: url.user,
       account_password: url.password,
       base_dn: url.dn,

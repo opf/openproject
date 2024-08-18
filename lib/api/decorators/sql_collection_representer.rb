@@ -56,7 +56,7 @@ module API
           query_params = walker_results.url_query.merge(overrides)
 
           if (select_params = query_params.delete(:select))
-            query_params[:select] = select_href_params(select_params).flatten.join(',')
+            query_params[:select] = select_href_params(select_params).flatten.join(",")
           end
 
           # Embedding is not supported yet but parts of the functionality is already in place.
@@ -83,7 +83,7 @@ module API
         end
 
         def _type
-          'Collection'
+          "Collection"
         end
       end
 
@@ -128,7 +128,7 @@ module API
 
       embedded :elements,
                representation: ->(walker_result) do
-                 replacement = walker_result.replace_map['elements']
+                 replacement = walker_result.replace_map["elements"]
 
                  replacement ? "COALESCE(json_agg(#{replacement}), '[]')" : nil
                end

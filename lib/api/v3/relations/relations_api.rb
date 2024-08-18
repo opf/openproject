@@ -39,7 +39,7 @@ module API
                                                           render_representer: RelationPaginatedCollectionRepresenter)
                                                      .mount
 
-          route_param :id, type: Integer, desc: 'Relation ID' do
+          route_param :id, type: Integer, desc: "Relation ID" do
             after_validation do
               @relation = Relation.visible.find(params[:id])
             end

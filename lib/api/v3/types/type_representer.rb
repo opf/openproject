@@ -48,7 +48,7 @@ module API
         date_time_property :updated_at
 
         def _type
-          'Type'
+          "Type"
         end
       end
     end

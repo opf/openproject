@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'task_list/filter'
+require "task_list/filter"
 
 module OpenProject::TextFormatting
   module Filters
@@ -60,7 +60,7 @@ module OpenProject::TextFormatting
         list_items(doc).reverse_each do |li|
           next if list_items(li.parent).empty?
 
-          add_css_class(li.parent, 'op-uc-list_task-list')
+          add_css_class(li.parent, "op-uc-list_task-list")
 
           outer, inner =
             if p = li.xpath(ItemParaSelector)[0]

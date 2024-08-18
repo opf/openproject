@@ -53,14 +53,14 @@ module Acts::Journalized
 
     module ClassMethods
       # Shortcut to register a formatter for a number of fields
-      def register_journal_formatted_fields(formatter_key, *field_names)
+      def register_journal_formatted_fields(*field_names, formatter_key:)
         journal_data_type = journal_class.name
         field_names.each do |field|
           JournalFormatter.register_formatted_field(journal_data_type, field, formatter_key)
         end
       end
 
-      def register_journal_formatter(formatter_key, formatter_class)
+      def register_journal_formatter(formatter_class, formatter_key: formatter_class.name.demodulize.underscore)
         JournalFormatter.register formatter_key.to_sym => formatter_class
       end
     end

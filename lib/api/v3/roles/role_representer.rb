@@ -37,7 +37,7 @@ module API
         property :name
 
         def _type
-          'Role'
+          "Role"
         end
       end
     end

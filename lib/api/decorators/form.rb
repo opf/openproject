@@ -50,7 +50,7 @@ module API
       property :validation_errors, embedded: true, exec_context: :decorator
 
       def _type
-        'Form'
+        "Form"
       end
 
       def validation_errors

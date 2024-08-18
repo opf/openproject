@@ -49,16 +49,18 @@
 # It provides the hooks to apply different formatting to the details
 # of a specific journal.
 
-require_relative 'journal_formatter_cache'
-require_relative 'journal_formatter/base'
-require_relative 'journal_formatter/attribute'
-require_relative 'journal_formatter/datetime'
-require_relative 'journal_formatter/day_count'
-require_relative 'journal_formatter/decimal'
-require_relative 'journal_formatter/fraction'
-require_relative 'journal_formatter/id'
-require_relative 'journal_formatter/named_association'
-require_relative 'journal_formatter/plaintext'
+require_relative "journal_formatter_cache"
+require_relative "journal_formatter/base"
+require_relative "journal_formatter/attribute"
+require_relative "journal_formatter/chronic_duration"
+require_relative "journal_formatter/datetime"
+require_relative "journal_formatter/day_count"
+require_relative "journal_formatter/decimal"
+require_relative "journal_formatter/fraction"
+require_relative "journal_formatter/id"
+require_relative "journal_formatter/named_association"
+require_relative "journal_formatter/percentage"
+require_relative "journal_formatter/plaintext"
 
 module JournalFormatter
   mattr_accessor :formatters, :registered_fields
@@ -74,13 +76,17 @@ module JournalFormatter
   end
 
   def self.default_formatters
-    { datetime: JournalFormatter::Datetime,
+    {
+      chronic_duration: JournalFormatter::ChronicDuration,
+      datetime: JournalFormatter::Datetime,
       day_count: JournalFormatter::DayCount,
       decimal: JournalFormatter::Decimal,
       fraction: JournalFormatter::Fraction,
       id: JournalFormatter::Id,
       named_association: JournalFormatter::NamedAssociation,
-      plaintext: JournalFormatter::Plaintext }
+      percentage: JournalFormatter::Percentage,
+      plaintext: JournalFormatter::Plaintext
+    }
   end
 
   self.formatters = default_formatters
@@ -103,7 +109,9 @@ module JournalFormatter
 
     return if formatter.nil?
 
-    formatter.render(field, values, options).html_safe # rubocop:disable Rails/OutputSafety
+    formatter
+      .render(field, values, options)
+      &.html_safe # rubocop:disable Rails/OutputSafety
   end
 
   def formatter_instance(field)

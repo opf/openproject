@@ -33,7 +33,7 @@ module API
         extend Grape::API::Helpers
 
         def notify_according_to_params
-          params[:notify] != 'false'
+          params[:notify] != "false"
         end
       end
     end

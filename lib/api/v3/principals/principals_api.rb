@@ -32,9 +32,23 @@ module API
       class PrincipalsAPI < ::API::OpenProjectAPI
         resource :principals do
           get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex
-                 .new(model: Principal,
-                      scope: -> { Principal.includes(:preference) })
-                 .mount
+            .new(model: Principal,
+                 scope: -> { Principal.includes(:preference) })
+            .mount
+
+          params do
+            requires :id, desc: "Principal ID"
+          end
+          route_param :id, type: Integer, desc: "Principal ID" do
+            after_validation do
+              @principal = Principal.visible.find(params[:id])
+            end
+
+            get &::API::V3::Utilities::Endpoints::Show
+              .new(model: Principal,
+                   render_representer: PrincipalRepresenterFactory)
+              .mount
+          end
         end
       end
     end

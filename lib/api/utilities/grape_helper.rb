@@ -38,12 +38,16 @@ module API
           @env = env
           @options = {}
         end
+
+        def error!(message, status = nil, headers = nil, backtrace = nil, original_exception = nil)
+          super
+        end
       end
 
       def grape_error_for(env, api)
         GrapeError.new(env).tap do |e|
           e.options[:content_types] = api.content_types
-          e.options[:format] = 'hal+json'
+          e.options[:format] = "hal+json"
         end
       end
 
@@ -67,7 +71,7 @@ module API
           original_exception = $!
           representer = error_representer.new e
           resp_headers = instance_exec &headers
-          env['api.format'] = error_content_type
+          resp_headers["Content-Type"] = error_content_type
 
           if log == true
             OpenProject.logger.error original_exception, reference: :APIv3
@@ -75,7 +79,7 @@ module API
             log.call(original_exception)
           end
 
-          error_response status: e.code, message: representer.to_json, headers: resp_headers
+          error!(representer.to_json, e.code, resp_headers)
         }
       end
     end

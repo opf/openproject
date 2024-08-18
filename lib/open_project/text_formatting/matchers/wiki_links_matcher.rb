@@ -138,8 +138,8 @@ module OpenProject::TextFormatting
               else
                 wiki_page_id = wiki_page.nil? ? WikiPage.slug(page) : wiki_page.slug
                 url_for(only_path: context[:only_path],
-                        controller: '/wiki',
-                        action: 'show',
+                        controller: "/wiki",
+                        action: "show",
                         project_id: project.identifier,
                         title: wiki_page.nil? ? wiki_title.strip : nil,
                         id: wiki_page_id,
@@ -148,7 +148,7 @@ module OpenProject::TextFormatting
 
         link_to h(wiki_title),
                 url,
-                class: ('wiki-page' + (wiki_page ? '' : ' new'))
+                class: ("wiki-page" + (wiki_page ? "" : " new"))
       end
     end
   end

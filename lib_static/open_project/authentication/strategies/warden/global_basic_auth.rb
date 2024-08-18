@@ -1,4 +1,4 @@
-require 'warden/basic_auth'
+require "warden/basic_auth"
 
 module OpenProject
   module Authentication
@@ -40,7 +40,7 @@ module OpenProject
             end
 
             if config[:password].blank?
-              raise ArgumentError, 'password must not be empty'
+              raise ArgumentError, "password must not be empty"
             end
 
             @configuration = config

@@ -7,15 +7,16 @@ module Primer
         class RichTextAreaInput < Primer::Forms::Dsl::Input
           attr_reader :name, :label
 
-          def initialize(name:, label:, **system_arguments)
+          def initialize(name:, label:, rich_text_options:, **system_arguments)
             @name = name
             @label = label
+            @rich_text_options = rich_text_options
 
             super(**system_arguments)
           end
 
           def to_component
-            RichTextArea.new(input: self)
+            RichTextArea.new(input: self, rich_text_options: @rich_text_options)
           end
 
           def type

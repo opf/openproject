@@ -76,11 +76,11 @@ module API
           end
 
           def default_self_link(path, params)
-            [paths.send(path), params.to_query].reject(&:empty?).join('?')
+            [paths.send(path), params.to_query].reject(&:empty?).join("?")
           end
 
           def append_params_to_link(path, params)
-            [path, params.to_query].reject(&:empty?).join('?')
+            [path, params.to_query].reject(&:empty?).join("?")
           end
 
           def model_class(scope)

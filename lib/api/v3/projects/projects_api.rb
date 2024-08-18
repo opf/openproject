@@ -47,7 +47,7 @@ module API
           mount API::V3::Projects::AvailableParentsAPI
 
           params do
-            requires :id, desc: 'Project id'
+            requires :id, desc: "Project id"
           end
           route_param :id do
             after_validation do
@@ -67,7 +67,6 @@ module API
             mount ::API::V3::Projects::UpdateFormAPI
 
             mount API::V3::Projects::AvailableAssigneesAPI
-            mount API::V3::Projects::AvailableResponsiblesAPI
             mount API::V3::Projects::Copy::CopyAPI
             mount API::V3::WorkPackages::WorkPackagesByProjectAPI
             mount API::V3::Categories::CategoriesByProjectAPI

@@ -38,7 +38,7 @@ module OpenProject::TextFormatting::Matchers
       # Condition: Separator is '#'
       # Condition: Prefix is present, checked to be one of the allowed values
       def applicable?
-        matcher.sep == '#' && valid_prefix? && oid.present?
+        matcher.sep == "#" && valid_prefix? && oid.present?
       end
 
       # Examples:
@@ -60,8 +60,8 @@ module OpenProject::TextFormatting::Matchers
         version = Version.find_by(id: oid)
         if version
           link_to h(version.name),
-                  { only_path: context[:only_path], controller: '/versions', action: 'show', id: version },
-                  class: 'version'
+                  { only_path: context[:only_path], controller: "/versions", action: "show", id: version },
+                  class: "version"
         end
       end
 
@@ -69,10 +69,10 @@ module OpenProject::TextFormatting::Matchers
         if document = Document.visible.find_by_id(oid)
           link_to document.title,
                   { only_path: context[:only_path],
-                    controller: '/documents',
-                    action: 'show',
+                    controller: "/documents",
+                    action: "show",
                     id: document },
-                  class: 'document'
+                  class: "document"
         end
       end
 
@@ -81,24 +81,24 @@ module OpenProject::TextFormatting::Matchers
         if meeting&.visible?(User.current)
           link_to meeting.title,
                   { only_path: context[:only_path],
-                    controller: '/meetings',
-                    action: 'show',
+                    controller: "/meetings",
+                    action: "show",
                     id: oid },
-                  class: 'meeting'
+                  class: "meeting"
         end
       end
 
       def render_message
         message = Message.includes(:parent).find_by(id: oid)
         if message
-          link_to_message(message, { only_path: context[:only_path] }, class: 'message')
+          link_to_message(message, { only_path: context[:only_path] }, class: "message")
         end
       end
 
       def render_project
         p = Project.find_by(id: oid)
         if p
-          link_to_project(p, { only_path: context[:only_path] }, class: 'project')
+          link_to_project(p, { only_path: context[:only_path] }, class: "project")
         end
       end
 
@@ -107,7 +107,7 @@ module OpenProject::TextFormatting::Matchers
         if user
           link_to_user(user,
                        only_path: context[:only_path],
-                       class: 'user-mention')
+                       class: "user-mention")
         end
       end
 
@@ -117,7 +117,7 @@ module OpenProject::TextFormatting::Matchers
         if group
           link_to_group(group,
                         only_path: context[:only_path],
-                        class: 'user-mention')
+                        class: "user-mention")
         end
       end
 
@@ -129,7 +129,7 @@ module OpenProject::TextFormatting::Matchers
         if query
           link_to_query(query,
                         { only_path: context[:only_path] },
-                        class: 'query')
+                        class: "query")
         end
       end
     end

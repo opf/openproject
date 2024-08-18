@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/v3/types/type_collection_representer'
+require "api/v3/types/type_collection_representer"
 
 module API
   module V3

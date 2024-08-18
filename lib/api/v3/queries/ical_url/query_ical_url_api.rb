@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/v3/queries/ical_url/query_ical_url_representer'
+require "api/v3/queries/ical_url/query_ical_url_representer"
 
 module API
   module V3
@@ -40,7 +40,7 @@ module API
             end
 
             params do
-              requires :token_name, type: String, desc: 'The name which should be used for the ical token'
+              requires :token_name, type: String, desc: "The name which should be used for the ical token"
             end
 
             post do

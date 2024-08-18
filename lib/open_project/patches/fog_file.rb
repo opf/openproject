@@ -1,4 +1,4 @@
-require 'open_project/patches'
+require "open_project/patches"
 
 module OpenProject::Patches::CarrierwaveSanitizedFile
   extend ActiveSupport::Concern
@@ -14,6 +14,6 @@ module OpenProject::Patches::CarrierwaveSanitizedFile
   end
 end
 
-OpenProject::Patches.patch_gem_version 'carrierwave', '1.3.2' do
+OpenProject::Patches.patch_gem_version "carrierwave", "1.3.4" do
   CarrierWave::SanitizedFile.include OpenProject::Patches::CarrierwaveSanitizedFile
 end

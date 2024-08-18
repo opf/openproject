@@ -33,7 +33,7 @@ module API
         include API::Decorators::LinkedResource
 
         def _type
-          'Group'
+          "Group"
         end
 
         link :delete,

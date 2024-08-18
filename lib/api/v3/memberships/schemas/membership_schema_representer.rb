@@ -32,23 +32,20 @@ module API
       module Schemas
         class MembershipSchemaRepresenter < ::API::Decorators::SchemaRepresenter
           def initialize(represented, self_link: nil, current_user: nil, form_embedded: false)
-            super(represented,
-                  self_link:,
-                  current_user:,
-                  form_embedded:)
+            super
           end
 
           schema :id,
-                 type: 'Integer'
+                 type: "Integer"
 
           schema :created_at,
-                 type: 'DateTime'
+                 type: "DateTime"
 
           schema :updated_at,
-                 type: 'DateTime'
+                 type: "DateTime"
 
           schema :notification_message,
-                 type: 'Formattable',
+                 type: "Formattable",
                  name_source: ->(*) { I18n.t(:label_message) },
                  writable: true,
                  required: false,
@@ -69,7 +66,7 @@ module API
                                    }
 
           schema_with_allowed_link :roles,
-                                   type: '[]Role',
+                                   type: "[]Role",
                                    name_source: :role,
                                    has_default: false,
                                    required: true,
@@ -89,7 +86,7 @@ module API
 
           def allowed_projects_filters
             if represented.principal
-              [{ principal: { operator: '!', values: [represented.principal.id.to_s] } }]
+              [{ principal: { operator: "!", values: [represented.principal.id.to_s] } }]
             end
           end
 
@@ -101,12 +98,12 @@ module API
 
           def allowed_principals_filters
             statuses = [Principal.statuses[:locked].to_s]
-            status_filter = { status: { operator: '!', values: statuses } }
+            status_filter = { status: { operator: "!", values: statuses } }
 
             filters = [status_filter]
 
             if represented.project
-              member_filter = { member: { operator: '!', values: [represented.project.id.to_s] } }
+              member_filter = { member: { operator: "!", values: [represented.project.id.to_s] } }
 
               filters << member_filter
             end
@@ -121,9 +118,9 @@ module API
           end
 
           def allowed_roles_filters
-            value = represented.project ? 'project' : 'system'
+            value = represented.project ? "project" : "system"
 
-            [{ unit: { operator: '=', values: [value] } }]
+            [{ unit: { operator: "=", values: [value] } }]
           end
         end
       end

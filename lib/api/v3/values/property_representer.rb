@@ -40,7 +40,7 @@ module API::V3::Values
     end
 
     property :_type,
-             getter: ->(*) { 'Values::Property' }
+             getter: ->(*) { "Values::Property" }
 
     property :property,
              getter: ->(*) { property.to_s.camelcase(:lower) }

@@ -74,7 +74,7 @@ module API::V3::Notifications
       reason = notification.reason
       case reason
       when *DATE_ALERT_REASONS
-        'dateAlert'
+        "dateAlert"
       else
         reason
       end
@@ -84,7 +84,7 @@ module API::V3::Notifications
       property_name = notification.reason
 
       if notification.reason.in?(DATE_ALERT_REASONS) && notification.resource&.is_milestone?
-        property_name = 'date_alert_date'
+        property_name = "date_alert_date"
       end
 
       @concrete_factory_for ||= Hash.new do |h, property_key|

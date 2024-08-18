@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require Rails.root.join('config/constants/open_project/activity')
+require Rails.root.join("config/constants/open_project/activity")
 
 module Redmine # :nodoc:
   class PluginError < StandardError
@@ -79,7 +79,7 @@ module Redmine # :nodoc:
     @deferred_plugins   = {}
 
     cattr_accessor :public_directory
-    self.public_directory = Rails.public_path.join('plugin_assets')
+    self.public_directory = Rails.public_path.join("plugin_assets")
 
     class << self
       attr_reader :registered_plugins, :deferred_plugins
@@ -96,6 +96,7 @@ module Redmine # :nodoc:
       end
     end
     def_field :gem_name, :url, :author, :author_url, :version, :settings, :bundled
+    alias :bundled? :bundled
     attr_reader :id
 
     # Plugin constructor
@@ -163,6 +164,12 @@ module Redmine # :nodoc:
     # Returns an array of all registered plugins
     def self.all
       registered_plugins.values
+    end
+
+    def self.not_bundled
+      registered_plugins
+        .values
+        .reject(&:bundled)
     end
 
     # Finds a plugin by its id
@@ -233,11 +240,11 @@ module Redmine # :nodoc:
       arg.assert_valid_keys(:version, :version_or_higher)
 
       plugin = Plugin.find(plugin_name)
-      current = plugin.version.split('.').map(&:to_i)
+      current = plugin.version.split(".").map(&:to_i)
 
       arg.each do |k, v|
         v = [] << v unless v.is_a?(Array)
-        versions = v.map { |s| s.split('.').map(&:to_i) }
+        versions = v.map { |s| s.split(".").map(&:to_i) }
         case k
         when :version_or_higher
           raise ArgumentError.new("wrong number of versions (#{versions.size} for 1)") unless versions.size == 1
@@ -369,7 +376,7 @@ module Redmine # :nodoc:
     #
     # Note that :view_scrums permission is required to view these events in the activity view.
     def activity_provider(*)
-      ActiveSupport::Deprecation.warn('Use ActsAsOpEngine#activity_provider instead.')
+      ActiveSupport::Deprecation.warn("Use ActsAsOpEngine#activity_provider instead.")
       OpenProject::Activity.register(*)
     end
 
@@ -398,14 +405,14 @@ module Redmine # :nodoc:
       source_files -= source_dirs
 
       unless source_files.empty?
-        base_target_dir = File.join(destination, File.dirname(source_files.first).gsub(source, ''))
+        base_target_dir = File.join(destination, File.dirname(source_files.first).gsub(source, ""))
         FileUtils.mkdir_p(base_target_dir)
       end
 
       source_dirs.each do |dir|
         # strip down these paths so we have simple, relative paths we can
         # add to the destination
-        target_dir = File.join(destination, dir.gsub(source, ''))
+        target_dir = File.join(destination, dir.gsub(source, ""))
         begin
           FileUtils.mkdir_p(target_dir)
         rescue StandardError => e
@@ -414,7 +421,7 @@ module Redmine # :nodoc:
       end
 
       source_files.each do |file|
-        target = File.join(destination, file.gsub(source, ''))
+        target = File.join(destination, file.gsub(source, ""))
         unless File.exist?(target) && FileUtils.identical?(file, target)
           FileUtils.cp(file, target)
         end

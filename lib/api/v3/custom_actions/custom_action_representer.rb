@@ -33,8 +33,8 @@ module API
         link :executeImmediately do
           {
             href: api_v3_paths.custom_action_execute(represented.id),
-            title: I18n.t('custom_actions.execute', name: represented.name),
-            method: 'post'
+            title: I18n.t("custom_actions.execute", name: represented.name),
+            method: "post"
           }
         end
 
@@ -45,7 +45,7 @@ module API
                  render_nil: true
 
         def _type
-          'CustomAction'
+          "CustomAction"
         end
       end
     end

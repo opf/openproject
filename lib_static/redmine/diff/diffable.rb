@@ -85,7 +85,7 @@ module Redmine::Diff::Diffable
   def patch(diff)
     newary = nil
     newary = if diff.difftype == String
-               diff.difftype.new('')
+               diff.difftype.new("")
              else
                diff.difftype.new
              end
@@ -94,14 +94,14 @@ module Redmine::Diff::Diffable
     diff.diffs.each do |d|
       d.each do |mod|
         case mod[0]
-        when '-'
+        when "-"
           while ai < mod[1]
             newary << self[ai]
             ai += 1
             bi += 1
           end
           ai += 1
-        when '+'
+        when "+"
           while bi < mod[1]
             newary << self[ai]
             ai += 1
@@ -110,7 +110,7 @@ module Redmine::Diff::Diffable
           newary << mod[2]
           bi += 1
         else
-          raise 'Unknown diff action'
+          raise "Unknown diff action"
         end
       end
     end

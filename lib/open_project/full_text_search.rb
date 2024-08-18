@@ -53,7 +53,7 @@ module OpenProject
       case concatenation
       when :and
         # all terms need to hit
-        terms.join ' & '
+        terms.join " & "
       when :and_not
         # all terms must not hit.
         "! #{terms.join(' & ! ')}"
@@ -70,20 +70,20 @@ module OpenProject
     end
 
     def self.normalize_text(text)
-      I18n.with_locale(:en) { I18n.transliterate(text.to_s.downcase, replacement: '') }
+      I18n.with_locale(:en) { I18n.transliterate(text.to_s.downcase, replacement: "") }
     end
 
     def self.normalize_filename(filename)
       name_in_words = to_words filename.to_s.downcase
-      I18n.with_locale(:en) { I18n.transliterate(name_in_words, replacement: '') }
+      I18n.with_locale(:en) { I18n.transliterate(name_in_words, replacement: "") }
     end
 
     def self.to_words(text)
-      text.gsub /[^[:alnum:]]/, ' '
+      text.gsub /[^[:alnum:]]/, " "
     end
 
     def self.clean_terms(terms)
-      terms.gsub(DISALLOWED_CHARACTERS, ' ')
+      terms.gsub(DISALLOWED_CHARACTERS, " ")
     end
   end
 end

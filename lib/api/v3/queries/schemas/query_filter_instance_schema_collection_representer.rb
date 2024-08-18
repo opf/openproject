@@ -34,7 +34,7 @@ module API
           def initialize(filters, ...)
             filters = filters.reject { ::Queries::Register.excluded_filters.include?(_1.class) }
 
-            super(filters, ...)
+            super
           end
 
           def model_self_link(model)

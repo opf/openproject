@@ -138,15 +138,15 @@ namespace :redmine do
 
     task receive_imap: :environment do
       imap_options = {
-        host: ENV.fetch('host', nil),
-        port: ENV.fetch('port', nil),
-        ssl: ActiveRecord::Type::Boolean.new.cast(ENV.fetch('ssl', true)),
-        ssl_verification: ActiveRecord::Type::Boolean.new.cast(ENV.fetch('ssl_verification', true)),
-        username: ENV.fetch('username', nil),
-        password: ENV.fetch('password', nil),
-        folder: ENV.fetch('folder', nil),
-        move_on_success: ENV.fetch('move_on_success', nil),
-        move_on_failure: ENV.fetch('move_on_failure', nil)
+        host: ENV.fetch("host", nil),
+        port: ENV.fetch("port", nil),
+        ssl: ActiveRecord::Type::Boolean.new.cast(ENV.fetch("ssl", true)),
+        ssl_verification: ActiveRecord::Type::Boolean.new.cast(ENV.fetch("ssl_verification", true)),
+        username: ENV.fetch("username", nil),
+        password: ENV.fetch("password", nil),
+        folder: ENV.fetch("folder", nil),
+        move_on_success: ENV.fetch("move_on_success", nil),
+        move_on_failure: ENV.fetch("move_on_failure", nil)
       }
 
       Redmine::IMAP.check(imap_options, options_from_env)
@@ -169,12 +169,12 @@ namespace :redmine do
     END_DESC
 
     task receive_pop3: :environment do
-      pop_options = { host: ENV.fetch('host', nil),
-                      port: ENV.fetch('port', nil),
-                      apop: ENV.fetch('apop', nil),
-                      username: ENV.fetch('username', nil),
-                      password: ENV.fetch('password', nil),
-                      delete_unprocessed: ENV.fetch('delete_unprocessed', nil) }
+      pop_options = { host: ENV.fetch("host", nil),
+                      port: ENV.fetch("port", nil),
+                      apop: ENV.fetch("apop", nil),
+                      username: ENV.fetch("username", nil),
+                      password: ENV.fetch("password", nil),
+                      delete_unprocessed: ENV.fetch("delete_unprocessed", nil) }
 
       Redmine::POP3.check(pop_options, options_from_env)
     end
@@ -194,22 +194,22 @@ namespace :redmine do
 
     task receive_gmail: :environment do
       gmail_options = {
-        credentials: ENV.fetch('credentials', nil),
-        user_id: ENV.fetch('user_id', nil),
-        query: ENV.fetch('query', nil),
-        read_on_failure: ActiveRecord::Type::Boolean.new.cast(ENV.fetch('read_on_failure', 1)),
-        max_emails: ENV.fetch('max_emails', 1000)
+        credentials: ENV.fetch("credentials", nil),
+        user_id: ENV.fetch("user_id", nil),
+        query: ENV.fetch("query", nil),
+        read_on_failure: ActiveRecord::Type::Boolean.new.cast(ENV.fetch("read_on_failure", 1)),
+        max_emails: ENV.fetch("max_emails", 1000)
       }
 
       Redmine::Gmail.check(gmail_options, options_from_env)
     end
 
-    desc 'Send a test email to the user with the provided login name'
+    desc "Send a test email to the user with the provided login name"
     task :test, [:login] => :environment do |_task, args|
       login = args[:login]
       if login.blank?
         abort I18n.t(:notice_email_error,
-                     default: 'Please include the user login to test with. Example: redmine:email:test[example-login]')
+                     default: "Please include the user login to test with. Example: redmine:email:test[example-login]")
       end
 
       user = User.find_by_login(login)
@@ -231,13 +231,13 @@ namespace :redmine do
 
     def options_from_env
       { issue: {} }.tap do |options|
-        default_fields = ENV.fetch('default_fields', '').split
+        default_fields = ENV.fetch("default_fields", "").split
         default_fields |= %w[project status type category priority assigned_to version]
-        default_fields.each { |field| options[:issue][field.to_sym] = ENV[field] if ENV[field] }
+        default_fields.each { |field| options[:issue][field.to_sym] = ENV[field] if ENV[field].present? }
 
-        options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
-        options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
-        options[:no_permission_check] = ENV['no_permission_check'] if ENV['no_permission_check']
+        options[:allow_override] = ENV["allow_override"] if ENV["allow_override"]
+        options[:unknown_user] = ENV["unknown_user"] if ENV["unknown_user"]
+        options[:no_permission_check] = ENV["no_permission_check"] if ENV["no_permission_check"]
       end
     end
   end

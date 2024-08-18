@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/v3/work_packages/work_package_representer'
+require "api/v3/work_packages/work_package_representer"
 
 module API
   module V3
@@ -61,7 +61,7 @@ module API
                                                             })
                                                        .mount
 
-          route_param :id, type: Integer, desc: 'Work package ID' do
+          route_param :id, type: Integer, desc: "Work package ID" do
             helpers WorkPackagesSharedHelpers
 
             helpers do

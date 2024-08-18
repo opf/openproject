@@ -69,7 +69,7 @@ module OpenProject
         def with_trailing_slash(url)
           url = url.to_s
 
-          url << '/' unless url.end_with?('/')
+          url << "/" unless url.end_with?("/")
           url
         end
       end

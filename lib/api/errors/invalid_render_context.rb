@@ -29,7 +29,7 @@
 module API
   module Errors
     class InvalidRenderContext < ErrorBase
-      identifier 'InvalidRenderContext'
+      identifier "InvalidRenderContext"
       code 400
     end
   end

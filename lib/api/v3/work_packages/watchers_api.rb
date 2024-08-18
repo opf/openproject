@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'hashie'
+require "hashie"
 
 module API
   module V3
@@ -64,7 +64,7 @@ module API
 
           post do
             unless request_body
-              fail ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.missing_request_body'))
+              fail ::API::Errors::InvalidRequestBody.new(I18n.t("api_v3.errors.missing_request_body"))
             end
 
             representer = ::API::V3::Watchers::WatcherRepresenter.create(API::ParserStruct.new, current_user:)
@@ -89,9 +89,9 @@ module API
             ::API::V3::Users::UserRepresenter.create(user, current_user:)
           end
 
-          namespace ':user_id' do
+          namespace ":user_id" do
             params do
-              requires :user_id, desc: 'The watcher\'s user id', type: Integer
+              requires :user_id, desc: "The watcher's user id", type: Integer
             end
 
             delete do

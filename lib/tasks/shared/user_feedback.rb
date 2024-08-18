@@ -40,7 +40,7 @@ module Tasks
         puts question
         puts "\nDo you want to continue? [y/N]"
 
-        STDIN.gets.chomp == 'y'
+        STDIN.gets.chomp == "y"
       end
     end
   end

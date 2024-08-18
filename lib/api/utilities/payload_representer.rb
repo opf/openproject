@@ -42,21 +42,24 @@ module API
         base.extend(ClassMethods)
 
         base.representable_attrs.each do |property|
-          next if property.name == 'meta'
+          next if property.name == "meta"
 
-          if property.name == 'links'
+          if property.name == "links"
             add_filter(property, LinkRenderBlock)
             next
           end
 
           # Note: `:writeable` is not a typo, it's used by declarative gem
           writable = property[:writeable]
+
+          # If writable is a lambda, rely on it to determine if the property should be output
+          # else if writable is explicitly false, do not output the property
+          # else rely on #writable_attributes (through UnwritablePropertyFilter) to know if the property should be output
+          next if writable.respond_to?(:call)
+
           if writable == false
             property.merge!(readable: false)
-          end
-
-          # Only filter unwritable if not a lambda
-          unless writable.respond_to?(:call)
+          else
             add_filter(property, UnwritablePropertyFilter)
           end
         end
@@ -95,13 +98,13 @@ module API
         property.merge!(render_filter: filter)
       end
 
-      def from_hash(hash, *args)
+      def from_hash(hash, *)
         # Prevent entries in _embedded from overriding anything in the _links section
         copied_hash = hash.deep_dup
 
-        copied_hash.delete('_embedded')
+        copied_hash.delete("_embedded")
 
-        super(copied_hash, *args)
+        super(copied_hash, *)
       end
 
       def contract?(represented)
@@ -126,8 +129,8 @@ module API
       end
 
       module ClassMethods
-        def create_class(*args)
-          new_class = super(*args)
+        def create_class(*)
+          new_class = super
 
           new_class.send(:include, ::API::Utilities::PayloadRepresenter)
 

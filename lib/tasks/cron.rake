@@ -26,16 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-namespace 'openproject:cron' do
-  desc 'An hourly cron job hook for plugin functionality'
-  task :hourly do
-    # Does nothing by default
-  end
-
-  # This task will be automatically called when running jobs:work or jobs:workoff
-  # making sure cron jobs are scheduled. See lib/tasks/delayed_job.rake.
-  desc 'Ensure the cron-like background jobs are actively scheduled'
+namespace "openproject:cron" do
+  desc "Ensure the cron-like background jobs are properly unscheduled if needed"
   task schedule: [:environment] do
-    Cron::CronJob.schedule_registered_jobs!
+    Storages::ManageStorageIntegrationsJob.disable_cron_job_if_needed
   end
 end

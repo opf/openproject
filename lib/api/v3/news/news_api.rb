@@ -36,7 +36,11 @@ module API
                       self_path: :newses)
                  .mount
 
-          route_param :id, type: Integer, desc: 'News ID' do
+          post &::API::V3::Utilities::Endpoints::Create
+            .new(model: News)
+            .mount
+
+          route_param :id, type: Integer, desc: "News ID" do
             after_validation do
               @news = ::News
                       .visible
@@ -46,6 +50,8 @@ module API
             get &::API::V3::Utilities::Endpoints::Show
                    .new(model: ::News)
                    .mount
+            patch &::API::V3::Utilities::Endpoints::Update.new(model: ::News).mount
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::News, success_status: 204).mount
           end
         end
       end

@@ -54,7 +54,7 @@ module API
 
           def calculate_resulting_params(query, provided_params)
             super.tap do |params|
-              params[:select] = nested_from_csv(provided_params['select']) || { '*' => {}, 'elements' => { '*' => {} } }
+              params[:select] = nested_from_csv(provided_params["select"]) || { "*" => {}, "elements" => { "*" => {} } }
             end
           end
         end

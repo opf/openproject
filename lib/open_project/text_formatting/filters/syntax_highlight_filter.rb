@@ -29,8 +29,8 @@
 module OpenProject::TextFormatting
   module Filters
     class SyntaxHighlightFilter < HTML::Pipeline::SyntaxHighlightFilter
-      def initialize(*args)
-        super(*args)
+      def initialize(*)
+        super
 
         @formatter = highlighter_class
       end

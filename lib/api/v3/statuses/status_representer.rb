@@ -42,11 +42,12 @@ module API
                  render_nil: true
         property :is_default, render_nil: true
         property :is_readonly, render_nil: true
+        property :excluded_from_totals, render_nil: true
         property :default_done_ratio, render_nil: true
         property :position, render_nil: true
 
         def _type
-          'Status'
+          "Status"
         end
       end
     end

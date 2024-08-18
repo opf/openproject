@@ -37,7 +37,7 @@ module API
           private
 
           def type
-            '[1]Integer'
+            "[1]Integer"
           end
         end
       end

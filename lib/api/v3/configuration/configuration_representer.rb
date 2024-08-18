@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/decorators/single'
+require "api/decorators/single"
 
 module API
   module V3
@@ -63,6 +63,9 @@ module API
                  exec_context: :decorator,
                  render_nil: true
 
+        property :duration_format,
+                 render_nil: true
+
         property :time_format,
                  exec_context: :decorator,
                  render_nil: true
@@ -74,6 +77,12 @@ module API
                  getter: ->(*) {
                    Setting.start_of_week.to_i if Setting.start_of_week.present?
                  },
+                 render_nil: true
+
+        property :hours_per_day,
+                 render_nil: true
+
+        property :days_per_month,
                  render_nil: true
 
         property :host_name,
@@ -97,7 +106,7 @@ module API
                  }
 
         def _type
-          'Configuration'
+          "Configuration"
         end
 
         def user_preferences
@@ -108,22 +117,22 @@ module API
         def date_format
           reformated(Setting.date_format) do |directive|
             case directive
-            when '%Y'
-              'YYYY'
-            when '%y'
-              'YY'
-            when '%m'
-              'MM'
-            when '%B'
-              'MMMM'
-            when '%b', '%h'
-              'MMM'
-            when '%d'
-              'DD'
-            when '%e'
-              'D'
-            when '%j'
-              'DDDD'
+            when "%Y"
+              "YYYY"
+            when "%y"
+              "YY"
+            when "%m"
+              "MM"
+            when "%B"
+              "MMMM"
+            when "%b", "%h"
+              "MMM"
+            when "%d"
+              "DD"
+            when "%e"
+              "D"
+            when "%j"
+              "DDDD"
             end
           end
         end
@@ -131,20 +140,20 @@ module API
         def time_format
           reformated(Setting.time_format) do |directive|
             case directive
-            when '%H'
-              'HH'
-            when '%k'
-              'H'
-            when '%I'
-              'hh'
-            when '%l'
-              'h'
-            when '%P'
-              'A'
-            when '%p'
-              'a'
-            when '%M'
-              'mm'
+            when "%H"
+              "HH"
+            when "%k"
+              "H"
+            when "%I"
+              "hh"
+            when "%l"
+              "h"
+            when "%P"
+              "A"
+            when "%p"
+              "a"
+            when "%M"
+              "mm"
             end
           end
         end

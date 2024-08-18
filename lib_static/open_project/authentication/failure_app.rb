@@ -33,22 +33,22 @@ module OpenProject
       end
 
       def unauthorized(env)
-        [401, unauthorized_header(env), ['unauthorized']]
+        [401, unauthorized_header(env), ["unauthorized"]]
       end
 
       def warden(env)
-        env['warden']
+        env["warden"]
       end
 
       def warden_options(env)
-        Hash(env['warden.options'])
+        Hash(env["warden.options"])
       end
 
       def unauthorized_header(env)
         header = OpenProject::Authentication::WWWAuthenticate
           .response_header(scope: scope(env), request_headers: env)
 
-        { 'WWW-Authenticate' => header }
+        { "WWW-Authenticate" => header }
       end
 
       def scope(env)

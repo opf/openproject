@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/version'
-desc 'Displays the current version of OpenProject'
+require "open_project/version"
+desc "Displays the current version of OpenProject"
 task :version do
   puts OpenProject::VERSION.to_semver
 end

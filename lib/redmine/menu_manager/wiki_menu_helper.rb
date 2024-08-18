@@ -28,7 +28,7 @@
 
 module Redmine::MenuManager::WikiMenuHelper
   def build_wiki_menus(project)
-    return unless project.enabled_module_names.include? 'wiki'
+    return unless project.enabled_module_names.include? "wiki"
 
     project_wiki = project.wiki
     return if project_wiki.nil?
@@ -46,11 +46,11 @@ module Redmine::MenuManager::WikiMenuHelper
 
   def push_wiki_main_menu(menu, main_item, project)
     menu.push main_item.menu_identifier,
-              { controller: '/wiki', action: 'show', id: main_item.slug },
+              { controller: "/wiki", action: "show", id: main_item.slug },
               caption: main_item.title,
               after: :meetings,
-              icon: 'wiki',
-              html: { class: 'wiki-menu--main-item' }
+              icon: "book",
+              html: { class: "wiki-menu--main-item" }
 
     if project.wiki.pages.any?
       push_wiki_menu_partial(main_item, menu)
@@ -62,9 +62,9 @@ module Redmine::MenuManager::WikiMenuHelper
 
   def push_wiki_menu_subitem(menu, main_item, child)
     menu.push child.menu_identifier,
-              { controller: '/wiki', action: 'show', id: child.slug },
+              { controller: "/wiki", action: "show", id: child.slug },
               caption: child.title,
-              html: { class: 'wiki-menu--sub-item' },
+              html: { class: "wiki-menu--sub-item" },
               parent: main_item.menu_identifier
   rescue ArgumentError => e
     Rails.logger.error "Failed to add wiki item #{child.slug} to wiki menu: #{e}. Deleting it."
@@ -93,9 +93,9 @@ module Redmine::MenuManager::WikiMenuHelper
 
   def push_wiki_menu_partial(main_item, menu)
     menu.push :wiki_menu_partial,
-              { controller: '/wiki', action: 'show' },
+              { controller: "/wiki", action: "show" },
               parent: main_item.menu_identifier,
-              partial: 'wiki/menu_pages_tree',
+              partial: "wiki/menu_pages_tree",
               last: true
   end
 end

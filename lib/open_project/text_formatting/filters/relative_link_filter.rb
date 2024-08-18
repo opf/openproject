@@ -37,7 +37,7 @@ module OpenProject::TextFormatting
 
         rewriter = ::OpenProject::TextFormatting::Helpers::LinkRewriter.new context
         doc.css('a[href^="/"]').each do |node|
-          node['href'] = rewriter.replace node['href']
+          node["href"] = rewriter.replace node["href"]
         end
 
         doc

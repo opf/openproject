@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'uri'
+require "uri"
 
 module OpenProject
   module SCM
@@ -35,11 +35,11 @@ module OpenProject
         include LocalClient
 
         def client_command
-          @client_command ||= self.class.config[:client_command] || 'svn'
+          @client_command ||= self.class.config[:client_command] || "svn"
         end
 
         def svnadmin_command
-          @svnadmin_command ||= self.class.config[:svnadmin_command] || 'svnadmin'
+          @svnadmin_command ||= self.class.config[:svnadmin_command] || "svnadmin"
         end
 
         def client_version
@@ -55,21 +55,21 @@ module OpenProject
         end
 
         def scm_version_from_command_line
-          capture_out('--version')
+          capture_out("--version")
         end
 
         ##
         # Subversion may be local or remote,
         # for now determine it by the URL type.
         def local?
-          url.start_with?('file://')
+          url.start_with?("file://")
         end
 
         ##
         # Returns the local repository path
         # (if applicable).
         def local_repository_path
-          root_url.sub('file://', '')
+          root_url.sub("file://", "")
         end
 
         def initialize(url, root_url = nil, login = nil, password = nil, _path_encoding = nil, identifier = nil)
@@ -81,7 +81,7 @@ module OpenProject
         end
 
         def checkout_command
-          'svn checkout'
+          "svn checkout"
         end
 
         def subtree_checkout?
@@ -95,16 +95,16 @@ module OpenProject
         # @raise [SCMUnavailable] raised when repository is unavailable.
         def check_availability!
           # Check whether we can access svn repository uuid
-          popen3(['info', '--xml', target]) do |stdout, stderr|
+          popen3(["info", "--xml", target]) do |stdout, stderr|
             doc = Nokogiri::XML(stdout.read)
 
             raise Exceptions::SCMEmpty if doc.at_xpath('/info/entry/commit[@revision="0"]')
 
-            return if doc.at_xpath('/info/entry/repository/uuid')
+            return if doc.at_xpath("/info/entry/repository/uuid")
 
             stderr.each_line do |l|
               Rails.logger.error("SVN access error: #{l}") if /E\d+:/.match?(l)
-              raise Exceptions::SCMUnauthorized.new if l.include?('E215004: Authentication failed')
+              raise Exceptions::SCMUnauthorized.new if l.include?("E215004: Authentication failed")
             end
           end
 
@@ -115,7 +115,7 @@ module OpenProject
         # Creates an empty repository using svnadmin
         #
         def create_empty_svn
-          _, err, code = Open3.capture3(svnadmin_command, 'create', root_url)
+          _, err, code = Open3.capture3(svnadmin_command, "create", root_url)
           if code != 0
             msg = "Failed to create empty subversion repository with `#{svnadmin_command} create`"
             logger.error(msg)
@@ -126,22 +126,22 @@ module OpenProject
 
         # Get info about the svn repository
         def info
-          cmd = build_svn_cmd(['info', '--xml', target])
+          cmd = build_svn_cmd(["info", "--xml", target])
           xml_capture(cmd, force_encoding: true) do |doc|
             Info.new(
-              root_url: doc.xpath('/info/entry/repository/root').text,
-              lastrev: extract_revision(doc.at_xpath('/info/entry/commit'))
+              root_url: doc.xpath("/info/entry/repository/root").text,
+              lastrev: extract_revision(doc.at_xpath("/info/entry/commit"))
             )
           end
         end
 
         def entries(path = nil, identifier = nil)
-          path ||= ''
-          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : 'HEAD'
+          path ||= ""
+          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
           entries = Entries.new
-          cmd = ['list', '--xml', "#{target(path)}@#{identifier}"]
+          cmd = ["list", "--xml", "#{target(path)}@#{identifier}"]
           xml_capture(cmd, force_encoding: true) do |doc|
-            doc.xpath('/lists/list/entry').each { |list| entries << extract_entry(list, path) }
+            doc.xpath("/lists/list/entry").each { |list| entries << extract_entry(list, path) }
           end
           entries.sort_by_name
         end
@@ -150,12 +150,12 @@ module OpenProject
           # proplist xml output supported in svn 1.5.0 and higher
           return nil unless client_version_above?([1, 5, 0])
 
-          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : 'HEAD'
-          cmd = ['proplist', '--verbose', '--xml', "#{target(path)}@#{identifier}"]
+          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
+          cmd = ["proplist", "--verbose", "--xml", "#{target(path)}@#{identifier}"]
           properties = {}
           xml_capture(cmd, force_encoding: true) do |doc|
-            doc.xpath('/properties/target/property').each do |prop|
-              properties[prop['name']] = prop.text
+            doc.xpath("/properties/target/property").each do |prop|
+              properties[prop["name"]] = prop.text
             end
           end
 
@@ -165,7 +165,7 @@ module OpenProject
         def revisions(path = nil, identifier_from = nil, identifier_to = nil, options = {})
           revisions = Revisions.new
           fetch_revision_entries(identifier_from, identifier_to, options, path) do |logentry|
-            paths = logentry.xpath('paths/path').map { |entry| build_path(entry) }
+            paths = logentry.xpath("paths/path").map { |entry| build_path(entry) }
             paths.sort_by! { |a| a[:path] }
 
             r = extract_revision(logentry)
@@ -185,7 +185,7 @@ module OpenProject
         # To fix this we find out the earliest available revision here
         # and start from there.
         def start_revision
-          cmd = %w(log -r1:HEAD --limit 1 --stop-on-copy) + [target('')]
+          cmd = %w(log -r1:HEAD --limit 1 --stop-on-copy) + [target("")]
 
           rev = capture_svn(cmd).lines.map(&:strip)
             .select { |line| line =~ /\Ar\d+ \|/ }
@@ -195,18 +195,18 @@ module OpenProject
           rev ? rev.to_i : 0
         end
 
-        def diff(path, identifier_from, identifier_to = nil, _type = 'inline')
-          path ||= ''
+        def diff(path, identifier_from, identifier_to = nil, _type = "inline")
+          path ||= ""
 
           identifier_from = numeric_identifier(identifier_from)
           identifier_to = numeric_identifier(identifier_to, identifier_from - 1)
 
-          cmd = ['diff', '-r', "#{identifier_to}:#{identifier_from}",
+          cmd = ["diff", "-r", "#{identifier_to}:#{identifier_from}",
                  "#{target(path)}@#{identifier_from}"]
           capture_svn(cmd).lines
         end
 
-        def numeric_identifier(identifier, default = '')
+        def numeric_identifier(identifier, default = "")
           if identifier && identifier.to_i > 0
             identifier.to_i
           else
@@ -215,14 +215,14 @@ module OpenProject
         end
 
         def cat(path, identifier = nil)
-          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : 'HEAD'
-          cmd = ['cat', "#{target(path)}@#{identifier}"]
+          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
+          cmd = ["cat", "#{target(path)}@#{identifier}"]
           capture_svn(cmd)
         end
 
         def annotate(path, identifier = nil)
-          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : 'HEAD'
-          cmd = ['blame', "#{target(path)}@#{identifier}"]
+          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
+          cmd = ["blame", "#{target(path)}@#{identifier}"]
           blame = Annotate.new
           popen3(cmd) do |io, _|
             io.each_line do |line|
@@ -244,15 +244,15 @@ module OpenProject
         # --non-interactive         avoid prompts
         def build_svn_cmd(args)
           if @login.present?
-            args.push('--username', @login)
-            args.push('--password', @password) if @password.present?
+            args.push("--username", @login)
+            args.push("--password", @password) if @password.present?
           end
 
           if self.class.config[:trustedssl]
-            args.push('--trust-server-cert')
+            args.push("--trust-server-cert")
           end
 
-          args.push('--no-auth-cache', '--non-interactive')
+          args.push("--no-auth-cache", "--non-interactive")
         end
 
         def xml_capture(cmd, opts = {})
@@ -264,16 +264,16 @@ module OpenProject
         end
 
         def extract_entry(entry, path)
-          revision = extract_revision(entry.at_xpath('commit'))
+          revision = extract_revision(entry.at_xpath("commit"))
           kind, size, name = parse_entry(entry)
 
           # Skip directory if there is no commit date (usually that
           # means that we don't have read access to it)
-          return if kind == 'dir' && revision.time.nil?
+          return if kind == "dir" && revision.time.nil?
 
           Entry.new(
             name: CGI.unescape(name),
-            path: ((path.empty? ? '' : "#{path}/") + name),
+            path: ((path.empty? ? "" : "#{path}/") + name),
             kind:,
             size: size.empty? ? nil : size.to_i,
             lastrev: revision
@@ -281,19 +281,19 @@ module OpenProject
         end
 
         def parse_entry(entry)
-          kind = entry['kind']
-          size = entry.xpath('size').text
-          name = entry.xpath('name').text
+          kind = entry["kind"]
+          size = entry.xpath("size").text
+          name = entry.xpath("name").text
 
           [kind, size, name]
         end
 
         def build_path(entry)
           {
-            action: entry['action'],
+            action: entry["action"],
             path: entry.text,
-            from_path: entry['copyfrom-path'],
-            from_revision: entry['copyfrom-rev']
+            from_path: entry["copyfrom-path"],
+            from_revision: entry["copyfrom-rev"]
           }
         end
 
@@ -301,29 +301,29 @@ module OpenProject
           # We may be unauthorized to read the commit date
           date =
             begin
-              Time.parse(commit_node.xpath('date').text).localtime
+              Time.parse(commit_node.xpath("date").text).localtime
             rescue ArgumentError
               nil
             end
 
           Revision.new(
-            identifier: commit_node['revision'],
+            identifier: commit_node["revision"],
             time: date,
-            message: commit_node.xpath('msg').text,
-            author: commit_node.xpath('author').text
+            message: commit_node.xpath("msg").text,
+            author: commit_node.xpath("author").text
           )
         end
 
         def fetch_revision_entries(identifier_from, identifier_to, options, path, &)
-          path ||= ''
-          identifier_from = numeric_identifier(identifier_from, 'HEAD')
+          path ||= ""
+          identifier_from = numeric_identifier(identifier_from, "HEAD")
           identifier_to = numeric_identifier(identifier_to, 1)
-          cmd = ['log', '--xml', '-r', "#{identifier_from}:#{identifier_to}"]
-          cmd << '--verbose' if options[:with_paths]
-          cmd << '--limit' << options[:limit].to_s if options[:limit]
+          cmd = ["log", "--xml", "-r", "#{identifier_from}:#{identifier_to}"]
+          cmd << "--verbose" if options[:with_paths]
+          cmd << "--limit" << options[:limit].to_s if options[:limit]
           cmd << target(path, peg: identifier_from)
           xml_capture(cmd, force_encoding: true) do |doc|
-            doc.xpath('/log/logentry').each(&)
+            doc.xpath("/log/logentry").each(&)
           end
         end
 
@@ -335,7 +335,7 @@ module OpenProject
           output = capture_out(cmd)
 
           if opt[:force_encoding] && output.respond_to?(:force_encoding)
-            output.force_encoding('UTF-8')
+            output.force_encoding("UTF-8")
           end
 
           output
@@ -344,7 +344,7 @@ module OpenProject
         ##
         # Target path with optional peg revision
         # http://svnbook.red-bean.com/en/1.7/svn.advanced.pegrevs.html
-        def target(path = '', peg: nil)
+        def target(path = "", peg: nil)
           path = super(path)
 
           if peg

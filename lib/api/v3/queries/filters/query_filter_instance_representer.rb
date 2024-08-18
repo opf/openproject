@@ -68,9 +68,9 @@ module API
 
                           represented.operator = ::API::Utilities::ResourceLinkParser
                                                  .parse_id fragment["href"],
-                                                           property: 'operator',
-                                                           expected_version: '3',
-                                                           expected_namespace: 'queries/operators'
+                                                           property: "operator",
+                                                           expected_version: "3",
+                                                           expected_namespace: "queries/operators"
                         }
 
           resources :values,

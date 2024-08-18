@@ -42,16 +42,16 @@ module API
                         .of_any_entity
                         .includes(ShareRepresenter.to_eager_load)
                       end,
-                      api_name: 'Share')
+                      api_name: "Share")
                  .mount
 
-          route_param :id, type: Integer, desc: 'Share ID' do
+          route_param :id, type: Integer, desc: "Share ID" do
             after_validation do
               @member = Member.where.not(entity: nil).visible(User.current).find(params[:id])
             end
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: Member,
-                                                           api_name: 'Share').mount
+                                                           api_name: "Share").mount
           end
         end
       end

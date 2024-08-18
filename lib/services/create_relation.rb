@@ -31,7 +31,7 @@ class Services::CreateRelation
     @relation = from_work_package.new_relation.tap do |r|
       r.to = to_work_package
       r.relation_type = attrs[:relation_type]
-      r.delay = attrs[:delay]
+      r.lag = attrs[:lag]
     end
   end
 

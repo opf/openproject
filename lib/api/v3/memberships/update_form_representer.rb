@@ -33,7 +33,7 @@ module API
         include API::Decorators::UpdateForm
 
         def downcase_model_name
-          'membership'
+          "membership"
         end
       end
     end

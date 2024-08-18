@@ -35,9 +35,11 @@ module API
 
         NotificationSetting.all_settings.each do |setting|
           if setting.in?(NotificationSetting.date_alert_settings)
-            duration_property setting
+            duration_property setting,
+                              render_nil: true
           else
-            property setting
+            property setting,
+                     render_nil: true
           end
         end
 

@@ -35,65 +35,65 @@ module API
           custom_field_injector type: :schema_representer
 
           schema :id,
-                 type: 'Integer'
+                 type: "Integer"
 
           schema :login,
-                 type: 'String',
+                 type: "String",
                  min_length: 1,
                  max_length: 255
 
           schema :admin,
-                 type: 'Boolean',
+                 type: "Boolean",
                  required: false
 
           schema :email,
-                 type: 'String',
+                 type: "String",
                  min_length: 1,
                  max_length: 255
 
           schema :name,
-                 type: 'String',
+                 type: "String",
                  required: false,
                  writable: false
 
           schema :firstname,
                  as: :firstName,
-                 type: 'String',
+                 type: "String",
                  min_length: 1,
                  max_length: 255
 
           schema :lastname,
                  as: :lastName,
-                 type: 'String',
+                 type: "String",
                  min_length: 1,
                  max_length: 255
 
           schema :avatar,
-                 type: 'String',
+                 type: "String",
                  writable: false,
                  required: false
 
           schema :status,
-                 type: 'String',
+                 type: "String",
                  required: false
 
           schema :identity_url,
-                 type: 'String',
+                 type: "String",
                  required: false
 
           schema :language,
-                 type: 'String',
+                 type: "String",
                  required: false
 
           schema :password,
-                 type: 'Password',
+                 type: "Password",
                  required: false
 
           schema :created_at,
-                 type: 'DateTime'
+                 type: "DateTime"
 
           schema :updated_at,
-                 type: 'DateTime'
+                 type: "DateTime"
 
           def self.represented_class
             ::User

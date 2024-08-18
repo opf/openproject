@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -50,32 +50,32 @@ module API
           end
 
           schema :estimated_time,
-                 type: 'Duration',
+                 type: "Duration",
                  required: false,
                  writable: false
 
           schema :story_points,
-                 type: 'Integer',
+                 type: "Integer",
                  required: false
 
           schema :remaining_time,
-                 type: 'Duration',
+                 type: "Duration",
                  name_source: :remaining_hours,
                  required: false,
                  writable: false
 
           schema :overall_costs,
-                 type: 'String',
+                 type: "String",
                  required: false,
                  writable: false
 
           schema :labor_costs,
-                 type: 'String',
+                 type: "String",
                  required: false,
                  writable: false
 
           schema :material_costs,
-                 type: 'String',
+                 type: "String",
                  required: false,
                  writable: false
         end

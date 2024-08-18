@@ -35,7 +35,7 @@ module API
         # TODO: add link to custom field once api for custom fields exists
 
         def _type
-          'CustomOption'
+          "CustomOption"
         end
 
         property :id

@@ -37,7 +37,7 @@ module API
           private
 
           def type
-            '[1]String'
+            "[1]String"
           end
         end
       end

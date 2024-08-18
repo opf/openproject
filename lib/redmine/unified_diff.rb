@@ -34,7 +34,7 @@ module Redmine
     def initialize(diff, options = {})
       options.assert_valid_keys(:type, :max_lines)
       diff = diff.split("\n") if diff.is_a?(String)
-      @diff_type = options[:type] || 'inline'
+      @diff_type = options[:type] || "inline"
       lines = 0
       @truncated = false
       diff_table = DiffTable.new(@diff_type)
@@ -45,7 +45,7 @@ module Redmine
           # TODO: UTF-16 and Japanese CP932 which is incompatible with ASCII
           #       In Japan, difference between file path encoding
           #       and file contents encoding is popular.
-          line.force_encoding('ASCII-8BIT')
+          line.force_encoding("ASCII-8BIT")
         end
         unless diff_table.add_line line
           line.force_encoding(line_encoding) if line_encoding

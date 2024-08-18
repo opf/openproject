@@ -37,16 +37,16 @@ module OpenProject
         argument :service_name,
                  type: :string,
                  required: true,
-                 desc: 'Constant of the service the spec is being generated for'
+                 desc: "Constant of the service the spec is being generated for"
 
         class_option :module_name,
                      aliases: %i[m],
                      type: :string,
                      optional: true,
-                     desc: 'Module to generate the service spec file for'
+                     desc: "Module to generate the service spec file for"
 
         def generate_service_spec
-          template 'service_spec.rb', file_path
+          template "service_spec.rb", file_path
         end
 
         private

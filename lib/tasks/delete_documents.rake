@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'shared/user_feedback'
+require_relative "shared/user_feedback"
 
 namespace :migrations do
   namespace :documents do
@@ -35,28 +35,28 @@ namespace :migrations do
     # rubocop:disable Rails/ApplicationRecord
     class TemporaryDocument < ActiveRecord::Base
       belongs_to :project
-      belongs_to :category, class_name: 'DocumentCategory'
+      belongs_to :category, class_name: "DocumentCategory"
     end
     # rubocop:enable Rails/ApplicationRecord
 
-    desc 'Removes all documents'
+    desc "Removes all documents"
     task delete: :environment do |_task|
       try_delete_documents
     end
 
     def try_delete_documents
       if !$stdout.isatty || user_agrees_to_delete_all_documents
-        puts 'Delete all attachments attached to projects or versions...'
+        puts "Delete all attachments attached to projects or versions..."
 
         TemporaryDocument.destroy_all
-        Attachment.where(container_type: ['Document']).destroy_all
+        Attachment.where(container_type: ["Document"]).destroy_all
       end
     rescue StandardError
-      raise 'Cannot delete documents! There may be migrations missing...?'
+      raise "Cannot delete documents! There may be migrations missing...?"
     end
 
     def user_agrees_to_delete_all_documents
-      questions = ['CAUTION: This rake task will delete ALL documents!',
+      questions = ["CAUTION: This rake task will delete ALL documents!",
                    "DISCLAIMER: This is the final warning: You're going to lose information!"]
 
       ask_for_confirmation(questions)

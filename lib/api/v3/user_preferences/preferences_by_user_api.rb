@@ -32,7 +32,7 @@ module API
       class PreferencesByUserAPI < ::API::OpenProjectAPI
         resource :preferences do
           # The empty namespaces are added so that anonymous users can receive a 401 response
-          namespace '' do
+          namespace "" do
             after_validation do
               authorize_by_with_raise(current_user.allowed_globally?(:manage_user) || @user == current_user)
             end
@@ -42,7 +42,7 @@ module API
                                                       .mount
           end
 
-          namespace '' do
+          namespace "" do
             after_validation do
               authorize_by_with_raise(current_user.allowed_globally?(:manage_user) ||
                                         (current_user.logged? && @user == current_user)) do

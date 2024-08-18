@@ -79,11 +79,11 @@ module OpenProject
         end
 
         def file?
-          'file' == kind
+          "file" == kind
         end
 
         def dir?
-          'dir' == kind
+          "dir" == kind
         end
       end
 
@@ -109,7 +109,7 @@ module OpenProject
           end
 
           self.name = attributes[:name].presence || identifier
-          self.message = attributes[:message].presence || ''
+          self.message = attributes[:message].presence || ""
         end
 
         # Returns the identifier of this revision; see also Changeset model

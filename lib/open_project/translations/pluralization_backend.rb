@@ -17,7 +17,7 @@
 # the l10n files of some eastern european languages
 # (e.g. Russian, Hungarian, Polish)
 
-require 'i18n/backend/pluralization'
+require "i18n/backend/pluralization"
 
 module OpenProject
   module Translations
