@@ -98,6 +98,11 @@ post:
     Please note that while there is a fixed set of attributes, custom fields can extend
     a time entries' attributes and are accepted by the endpoint.
   operationId: create_time_entry
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/time_entry_model.yml'
   responses:
     '201':
       description: Created

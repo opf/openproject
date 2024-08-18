@@ -32,7 +32,6 @@ LDAP group synchronization augments the memberships defined by  administrators i
 - Group synchronization have to be enabled by an administrator by creating a *synchronized LDAP group* that ties the OpenProject group to an LDAP entry.
 - Only synchronized memberships will be removed from the OpenProject group. If you want to add a user outside your LDAP authentication to an  OpenProject group, you can safely do so without the membership being  removed.
 
-
 ## Configure LDAP group synchronization filters
 
 Instead of manually synchronizing groups from a given DN, you can also create filter objects that will query the LDAP not only for group members, but the groups themselves.
@@ -56,8 +55,6 @@ Click on *Create* to finish the creation of the synchronized  filter. This filte
 
 **Note:** If you manually create a synchronized group that is also found by a filter, its properties (such as the *Sync users* setting) is being overridden by the filter setting.
 
-
-
 ## Configure synchronized LDAP groups
 
 In order to get to the LDAP group sync administration pane, expand the LDAP authentication menu item in your administration.
@@ -77,8 +74,6 @@ To create a new synchronized group, use the button on the top right  of the page
 - **Sync users:** Check this option if you want members of this group to be automatically created in OpenProject. When unchecked, only members of the group that also are existing users in OpenProject can be synchronized.
 - **Group:** Select an OpenProject group you want the members of the LDAP group to synchronize to.
 
-
-
 Click on *Create* to finish the creation of the synchronized  group. The LDAP memberships of each user will be synchronized hourly  through a background job on your packaged installation. Changes and output will be logged to */var/log/openproject/cron-hourly.log*.
 
 If you want to trigger the synchronization *manually* you can do so by running the respective rake task directly.
@@ -88,12 +83,9 @@ In the packaged installation, for instance, this would work like this:
 sudo openproject run bundle exec rake ldap_groups:synchronize
 ```
 
-
-
 This method of creating synchronized groups is well-suited for a small number of groups, or a very individual set of groups that you need to synchronize. It is very flexible by allowing individual groups to synchronize users into OpenProject.
 
 If you need to synchronize a large number of groups that follow a common pattern, consider using the following filter functionality.
-
 
 ## FAQ
 
@@ -104,17 +96,11 @@ However, there is a feature ticket for this in the wish list: https://community.
 
 If you'd like to voice your interest in this feature, please comment it with your use-case to provide visibility.
 
-
-
 ## Troubleshooting
-
-
 
 ### LDAP groups are not being synchronized
 
 Please double check the DN of the groups and the LDAP connection. The base DN of the LDAP connection and the DN must share a common hierarchy. Otherwise, the group DN will not be found by the connection, as the base DN is used for all subsequent queries for the lifetime of the connection.
-
-
 
 ### Users are not being synchronized
 

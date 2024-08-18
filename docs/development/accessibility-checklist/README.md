@@ -9,6 +9,7 @@ To help development teams prioritize accessibility implementation and remediatio
 ## 1. Perceivable - Using senses for web content (sight, hearing and/or touch)
 
 ### 1.1. Graphics
+
 * All images, form image buttons, and image map hot spots have appropriate, equivalent alternative text.
   * Every image must have an alt attribute.
 * Images that do not convey content, are decorative, or contain content that is already conveyed in text are given null alt text (alt="") or implemented as CSS backgrounds. All linked images have descriptive alternative text.
@@ -19,6 +20,7 @@ To help development teams prioritize accessibility implementation and remediatio
 * When video information is used, an audio description / alternative text is supplied
 
 ### 1.2. Relations / Context
+
 * The reading and navigation order (determined by code order) is logical and intuitive.
 * Instructions do not rely upon shape, size, or visual location (e.g., "Click the square icon to continue" or "Instructions are in the right-hand column").
 * Color is not used as the sole method of conveying content or distinguishing visual elements.
@@ -31,17 +33,20 @@ To help development teams prioritize accessibility implementation and remediatio
 ## 2. Operable - Interface forms, controls, and navigation are operable
 
 ### 2.1. Keyboard usability
+
 * All page functionality is available using the keyboard, unless the functionality cannot be accomplished in any known way using a keyboard (e.g., free hand drawing).
 * Page-specified shortcut keys and access keys (access key should typically be avoided) do not conflict with existing browser and screen reader shortcuts.
 * Keyboard focus is never locked or trapped at one particular page element. The user can navigate to and from all navigable page elements using only a keyboard.
 * All page functionality is available using the keyboard.
 
 ### 2.2. Enough time
+
 * If a page or application has a time limit, the user is given options to turn off, adjust, or extend that time limit.
 * The content and functionality has no time limits or constraints.
 * If an authentication session expires, the user can re-authenticate and continue the activity without losing any data from the current page.
 
 ### 2.3. Navigation
+
 * The web page has a descriptive and informative page title.
 * The navigation order of links, form elements, etc. is logical and intuitive.
 * Page headings and labels for form and interactive controls are informative.
@@ -54,17 +59,21 @@ To help development teams prioritize accessibility implementation and remediatio
 ## 3. Understandable - Content and interface are understandable
 
 ### 3.1. Texts
+
 * The language of the page is identified using the HTML lang attribute (`<html lang="en">`, for example).
 * Words that may be ambiguous, unknown, or used in a very specific way are defined through adjacent text, a definition list, a glossary, or other suitable method.
 
 ### 3.2. Predictable
+
 * When a page element receives focus, it does not result in a substantial change to the page, the spawning of a pop-up window, an additional change of keyboard focus, or any other change that could confuse or disorient the user.
 * Navigation links that are repeated on web pages do not change order when navigating through the site.
 
 ### 3.3. Errors and help
+
 * Required form elements or form elements that require a specific format, value, or length provide this information within the element's label.
 * Required fields are clearly marked.
 * Help and documents are available.
 
 ## 4. Robust - Content can be used reliably by a wide variety of user agents, including assistive technologies
+
 * Markup is used in a way that facilitates accessibility. This includes following the HTML/XHTML specifications and using forms, form labels, frame titles, etc. appropriately.

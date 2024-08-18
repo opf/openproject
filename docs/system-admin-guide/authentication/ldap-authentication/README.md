@@ -22,17 +22,11 @@ You will then be able to specify the LDAP configuration. This can be  any direct
 
 The following screenshots contain an exemplary configuration for a  new LDAP authentication mode. In the following, we will go through all  available options.
 
-
-
-#### LDAP connection details and security
+### LDAP connection details and security
 
 ![Adding a new LDAP authentication server](ldap-host-and-security.png)
 
-
-
 In the upper section, you have to specify the connection details of your LDAP server as well as the connection encryption to use.
-
-
 
 - **Name:** Arbitrary identifier used to show which authentication source a user is coming from (e.g., in the [Administration > Users view](../../users-permissions/users/))
 - **Host:** Full hostname to the LDAP server
@@ -41,7 +35,7 @@ In the upper section, you have to specify the connection details of your LDAP se
   - **Recommended option**: `STARTTLS` will issue an TLS connection upgrade to encrypt the connection after connecting to the LDAP server on the unencrypted PORT (`389` by default).
   - For LDAPS connections (LDAP over SSL), use `LDAPS` , this is an SSL encryption pattern that uses SSL certificates and connects to a separate port on the LDAP server. Some older LDAP servers only support this option, but this option is deprecated in most ldap servers favoring the STARTTLS method of operation.
   - For unencrypted connections, select `none`  . No TLS/SSL connection will be established, your connection will be insecure and no verification will be made.
-  -  [Click here to read more details into what these options mean for connection security.](https://www.rubydoc.info/gems/ruby-net-ldap/Net/LDAP)
+  - [Click here to read more details into what these options mean for connection security.](https://www.rubydoc.info/gems/ruby-net-ldap/Net/LDAP)
 
 - **SSL encryption options**: Provides additional options for LDAPS and STARTTLS connections. Be aware that these options do not apply for the connection encryption `none` option.
 
@@ -49,41 +43,32 @@ In the upper section, you have to specify the connection details of your LDAP se
 
   - **LDAP server SSL certificate**: If the LDAP server's certificate is not trusted on the system that the OpenProject server runs on, you have the option to specify one or multiple PEM-encoded X509 certificates. This certificate might be the LDAP server's own certificate, or an intermediate or root CA that you trust for the sake of this connection.
 
-
-#### LDAP system user credentials
+### LDAP system user credentials
 
 ![Defining the system user of the connection](ldap-system-user.png)
 
-
-
 Next, you will need to enter a system user that has READ access to the users for identification and synchronization purposes. Note that most operations to the LDAP during authentication will not be using these credentials, but the user-provided credentials in the login form in order to perform a regular user bind to the LDAP.
-
-
 
 - **Account:** The full DN of a system users used for  looking up user details in the LDAP. It must have read permissions under the Base DN. This will not be used for the user bind upon  authentication.
 - **Password:** The bind password of the system user’s DN above.
 
-
-
-#### LDAP details
+### LDAP details
 
 ![Defining the details of the connection](ldap-details.png)
 
 Next you can define what sections OpenProject will look for in the LDAP and also if users should be created automatically in OpenProject when they are accessing it. Let's look at the available options:
 
-
-
 - **Base DN**: Enter the Base DN to search within for users and groups in the LDAP tree
 - **Filter string**: Enter an optional [LDAP RFC4515 filter string](https://datatracker.ietf.org/doc/html/rfc4515) to further reduce the returned set of users. This allows you to restrict access to OpenProject with a very flexible filter. For group synchronization, only users matching this filter will be added as well.
 - **Automatic user creation:** Check to automatically  create users in OpenProject when they first login in OpenProject. It  will use the LDAP attribute mapping below to fill out required  attributes. The user will be forwarded to a registration screen to  complete required attributes if they are missing in the LDAP.
 
-##### Filter Examples
+#### Filter Examples
 
-```
+```text
 (memberof=CN=OpenProject,OU=Rollen,OU=Gruppen,DC=intern)
 ```
 
-#### Attribute mapping
+### Attribute mapping
 
 ![Defining the attribute map for users](ldap-attribute-mapping.png)
 
@@ -95,24 +80,17 @@ The attribute mapping is used to identify attributes of OpenProject with attribu
 - **Email:** The attribute name in the LDAP that maps to the user’s mail address. This will usually be *mail.* If left empty, user will be prompted to enter upon registration if **automatic user creation** is true.
 - **Admin:** Specify an attribute that if it has a truthy value, results in the user in OpenProject becoming an admin account.  Leave empty to never set admin status from LDAP attributes.
 
- 
-
 Lastly, click on *Create* to save the LDAP authentication  mode. You will be redirected to the index page with the created  authentication mode. Click the *test*  button to create a test connection using the system user’s bind credentials.
 
 ![LDAP authentication mode created](ldap-index-page.png)
 
-
-
 With the [OpenProject Enterprise edition](https://www.openproject.org/enterprise-edition/) it is possible to [synchronize LDAP and OpenProject groups](./ldap-group-synchronization).
-
 
 ## Multiple LDAP connections
 
 OpenProject supports multiple LDAP connections to source users from. The user's authentication source is remembered the first time it is created (but can be switched in the administration backend). This ensures that the correct connection / LDAP source will be used for the user.
 
 Duplicates in the unique attributes (login, email) are not allowed and a second user with the same attributes will not be able to login. Please ensure that amongst all LDAP connections, a unique attribute is used that does not result in conflicting logins.
-
-
 
 ## LDAP connections through seeding / Environment variables
 
@@ -122,7 +100,7 @@ Please see the [advanced configuration guide](../../../installation-and-operatio
 
 ## LDAP user synchronization
 
-By default, OpenProject will synchronize user account details (name, e-mail, login) and their account status from the LDAP through a background worker job every 24 hours. 
+By default, OpenProject will synchronize user account details (name, e-mail, login) and their account status from the LDAP through a background worker job every 24 hours.
 
 ### **Enable status synchronization**
 
@@ -137,5 +115,5 @@ The user will be ensured to be active if it can be found in LDAP. Likewise, if t
 
 If for any reason, you do not wish to perform the synchronization at all, you can also remove the synchronization job from being run at all with the following variable:
 
-- `ldap_users_disable_sync_job: true` 
-- (or the ENV variable `OPENPROJECT_LDAP__USERS__DISABLE__SYNC__JOB=true`) 
+- `ldap_users_disable_sync_job: true`
+- (or the ENV variable `OPENPROJECT_LDAP__USERS__DISABLE__SYNC__JOB=true`)

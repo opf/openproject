@@ -13,8 +13,7 @@ Release date: 2022-10-24
 We released [OpenProject 12.3.1](https://community.openproject.org/versions/1605).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Frontend including editor and time logging unusable when there are many activities \[[#40373](https://community.openproject.org/wp/40373)\]
 - Fixed: Attachments are not going to be copied, when using "Copy to other project" function \[[#43005](https://community.openproject.org/wp/43005)\]
@@ -38,7 +37,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: "missing translation" pop-up message on a newly created cloud instance \[[#44583](https://community.openproject.org/wp/44583)\]
 - Fixed: OpenProject upgrade fails with "column roles.assignable does not exist" error during AddStoragesPermissionsToRoles migration \[[#44616](https://community.openproject.org/wp/44616)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

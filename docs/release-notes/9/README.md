@@ -5,7 +5,7 @@ release_date: 2019-06-06
 title: OpenProject Version 9 Release Notes
 ---
 
-# OpenProject Version 9 Release Notes 
+# OpenProject Version 9 Release Notes
 
 | Version                     | Release date |
 |-----------------------------|--------------|

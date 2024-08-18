@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 5.0.13
-  sidebar_navigation:
-      title: 5.0.13
-  release_version: 5.0.13
-  release_date: 2016-02-01
+title: OpenProject 5.0.13
+sidebar_navigation:
+  title: 5.0.13
+release_version: 5.0.13
+release_date: 2016-02-01
 ---
 
 
@@ -14,7 +14,3 @@ installation.
 
 For further information, please take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.12).
-
- 
-
-

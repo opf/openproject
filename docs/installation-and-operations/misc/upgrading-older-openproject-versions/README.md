@@ -10,8 +10,6 @@ All the script needs is docker to be installed. It will start containers as requ
 
 ## Usage
 
-
-
 ### Create a backup
 
 First, you will need to create a backup to get the MySQL database dump. Please see our separate guide on [Backing up](../../operation/backing-up/). In a packaged installation, the following command will output a full backup to `/var/db/openproject/backup`:
@@ -20,17 +18,12 @@ First, you will need to create a backup to get the MySQL database dump. Please s
 openproject run backup
 ```
 
-
-
 This will output a MySQL dump at `/var/db/openproject/backup/mysql-dump-<timestamp>.sql.gz`. You will need to gunzip this:
-
 
 ```shell
 cp /var/db/openproject/backup/mysql-dump-<timestamp>.sql.gz /tmp/openproject-mysql.dump.gz
 gunzip /tmp/openproject/openproject-mysql.dump.gz
 ```
-
-
 
 ### Run the docker migration script
 
@@ -44,14 +37,11 @@ You will need to find the docker host IP to connect to the temporary MySQL datab
 
 The script will output a `<database name>-migrated.dump` pg_dump file which has been migrated and upgraded to the current stable version. You can also pass `sql` as a parameter after the input dump file to have the script output a `.sql` file instead of a `.dump` file.
 
-
 ## Restoring the migrated database
 
 You now have an old packaged installation with an old database, and a separate database dump of the current version migrated to PostgreSQL.
 
 To upgrade OpenProject and use this dump, you have two options:
-
-
 
 ### Upgrading your existing installation
 
@@ -64,14 +54,12 @@ You can simply upgrade your package first and then switch to a PostgreSQL databa
 3. After this is completed, stop the servers to restore the database separately
 
    `service openproject stop`
-   
+
 The following command will restore the database. **WARNING:** This will remove the database returned by `openproject config:get DATABASE_URL`, so please double check this is what you want to do:
 
    `pg_restore --clean --if-exists --dbname $(openproject config:get DATABASE_URL) /path/to/migrated/postgresql.dump`  
 
 4. Execute configure script to ensure the migrations are complete and to restart the server
-
-
 
 ### Re-Installing OpenProject
 
@@ -105,15 +93,11 @@ The steps for this option is as follows:
 
    `openproject configure`
 
-
-
 ## Problems with the migration?
-
 
 Please let us know if you have any questions regarding this upgrade path. Reach out to us [through our contact data or form on our website](https://www.openproject.org/contact/) with feedback and issues you experienced.
 
 We're very interested in providing a smooth upgrade at all times, and would like to document issues you experience during the upgrade.
-
 
 ### Known problems
 

@@ -39,9 +39,9 @@ Within your project menu, navigate to the **Gantt charts** module.
 
 ![Select the Gantt charts module in OpenProject](openproject-user-guide-select-gantt-charts-module.png)
 
-The Gantt chart then displays all work package types, e.g. phases and milestones, tasks or bugs, in a timeline view. It shows dependencies between different work packages as well as additional information, e.g. subject, start or finish dates. 
+The Gantt chart then displays all work package types, e.g. phases and milestones, tasks or bugs, in a timeline view. It shows dependencies between different work packages as well as additional information, e.g. subject, start or finish dates.
 
-You can also select the cross-project Gantt charts view through the [global modules](../../user-guide/home/global-modules/) menu, which will include the information, which project the work packages are part of. 
+You can also select the cross-project Gantt charts view through the [global modules](../../user-guide/home/global-modules/) menu, which will include the information, which project the work packages are part of.
 
 ## Create a project plan
 
@@ -49,7 +49,7 @@ To create a project plan in OpenProject, select the [**Gantt charts** module](..
 
 You can create new work packages directly in the table by clicking on the **create new work package** link at the bottom of the table. You can change the work package type or other attributes directly in the table view.
 
-Click in the at the level of the line of the work package you want to map in the Gantt chart to add an element in the project plan. 
+Click in the at the level of the line of the work package you want to map in the Gantt chart to add an element in the project plan.
 
 You can change the duration or move the element in the project plan via drag and drop.
 
@@ -63,4 +63,3 @@ To change the start and end date or the duration of a work package, click direct
 All changes will also be tracked in the work packages [Activity](../../user-guide/activity).
 
 ![edit the project plan](openproject-user-guide-edit-project-plan.gif)
-

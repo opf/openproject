@@ -10,9 +10,9 @@ keywords: custom field FAQ, project custom field, create own attribute
 
 ## Is there a limit to how many values can be added to a work package custom field of the type list?
 
-A hard limit does not exist. Nevertheless, there are factors that can represent a restriction in usability: 
+A hard limit does not exist. Nevertheless, there are factors that can represent a restriction in usability:
 
-- Performance: So far, the allowed field values are all entered into the work package form retrieved before processing a work package. It is only a guess, but  no problems should arise when rendering in the frontend (displaying in the select field), as an autocompleter is already used here. The performance on the administration page of the user-defined field, where the possible values are maintained, could also be a factor. 
+- Performance: So far, the allowed field values are all entered into the work package form retrieved before processing a work package. It is only a guess, but  no problems should arise when rendering in the frontend (displaying in the select field), as an autocompleter is already used here. The performance on the administration page of the user-defined field, where the possible values are maintained, could also be a factor.
 - On the same administration page, editing could be difficult from a UI point of view. Especially if the user wants to sort. For example, there is currently no way to sort the values automatically. If 4000 values have to be entered and sorted, it could be a lengthy process.
 
 ## Is it possible to set a custom field as "required" when it's already in use? What will happen to the existing work packages for which the custom field is activated?

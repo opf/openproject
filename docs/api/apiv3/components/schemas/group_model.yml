@@ -1,107 +1,57 @@
 # Schema: GroupModel
 ---
-type: object
-required:
-  - _type
-  - id
-  - _links
-properties:
-  id:
-    type: integer
-    description: The group id
-    minimum: 1
-  name:
-    type: string
-    description: |-
-      Group's full name, formatting depends on instance settings
-
-      # Conditions
-      - admin
-  createdAt:
-    type: string
-    format: date-time
-    description: |-
-      Time of creation
-
-      # Conditions
-      - admin
-  updatedAt:
-    type: string
-    format: date-time
-    description: Time of the most recent change to the user
-  _links:
-    type: object
+allOf:
+  - $ref: './principal_model.yml'
+  - type: object
     required:
-      - self
+      - _type
+      - _embedded
     properties:
-      self:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              This group resource
+      _type:
+        type: string
+        enum:
+          - Group
+      _embedded:
+        type: object
+        properties:
+          members:
+            type: array
+            description: Embedded list of members.
+            items:
+              - $ref: './user_model.yml'
+      _links:
+        type: object
+        properties:
+          members:
+            type: array
+            items:
+              allOf:
+                - $ref: './link.yml'
+                - description: |-
+                    A member of the group
 
-              **Resource**: Group
-      delete:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              Deletes the group.
+                    # Conditions:
 
-              # Conditions
-              **Permission**: Administrator
-      updateImmediately:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              Updates the group's attributes.
+                    - user has permission `manage_members` in any project
 
-              # Conditions
-              **Permission**: Administrator
-      memberships:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              Link to collection of all the group's memberships. The list will only include the memberships in projects
-              in which the requesting user has the necessary permissions.
+                    **Resource**: User
+          delete:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  An href to delete the group.
 
-              **Resource**: MemberCollection
+                  # Conditions:
 
-              # Conditions
-              **Permission**: `view members` or `manage members` in any project
-      members:
-        type: array
-        items:
-          allOf:
-            - $ref: './link.yml'
-            - description: |-
-                One of the members of the group.
+                  - `admin`
+          updateImmediately:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  An href to update the group.
 
-                **Resource**: User
+                  # Conditions:
 
-                # Conditions
-                **Permission**: `manage members` in any project to read & admin to write
+                  - `admin`
 
-example:
-  _type: Group
-  id: 9
-  name: Stormtroopers
-  createdAt: '2022-09-23T11:06:36.024Z'
-  updatedAt: '2022-09-23T11:06:36.024Z'
-  _links:
-    self:
-      href: '/api/v3/groups/9'
-      title: Stormtroopers
-    delete:
-      href: '/api/v3/group/9'
-      method: delete
-    memberships:
-      href: '/api/v3/memberships?filters=[{"principal":{"operator":"=","values":["9"]}}]'
-      title: Memberships
-    updateImmediately:
-      href: '/api/v3/group/9'
-      method: patch
-    members:
-      - href: '/api/v3/users/363'
-        title: ST-097E
-      - href: '/api/v3/users/60'
-        title: ST-C-334
+                  **Resource**: Group

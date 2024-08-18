@@ -4,7 +4,10 @@ description: |-
 
   ## Actions
 
-  None yet
+  | Link                | Description                                                              | Condition                              |
+  |:-------------------:|--------------------------------------------------------------------------| ---------------------------------------|
+  | delete              | Delete the new                                                           | **Permission**: manage news            |
+  | updateImmediately   | Directly perform edits on the news                                       | **Permission**: manage news            |
 
   ## Linked Properties
 

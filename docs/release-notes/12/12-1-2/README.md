@@ -13,8 +13,7 @@ Release date: 2022-05-11
 We released [OpenProject 12.1.2](https://community.openproject.org/versions/1549).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Audio of OpenProject video is played when opening the export project modal \[[#41924](https://community.openproject.org/wp/41924)\]
 - Fixed: Wrong row break in Include Project modal for German \[[#42224](https://community.openproject.org/wp/42224)\]
@@ -26,7 +25,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: SMTP setting issues in packager installation \[[#42299](https://community.openproject.org/wp/42299)\]
 - Fixed: LDAP User Synchronization doesn't work \[[#42312](https://community.openproject.org/wp/42312)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

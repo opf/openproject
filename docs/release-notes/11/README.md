@@ -5,7 +5,7 @@ release_date: 2020-10-07
 title: OpenProject Version 11 Release Notes
 ---
 
-# OpenProject Version 11 Release Notes 
+# OpenProject Version 11 Release Notes
 
 | Version                        | Release date |
 |--------------------------------|--------------|

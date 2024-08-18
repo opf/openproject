@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 5.0.20
-  sidebar_navigation:
-      title: 5.0.20
-  release_version: 5.0.20
-  release_date: 2016-08-16
+title: OpenProject 5.0.20
+sidebar_navigation:
+  title: 5.0.20
+release_version: 5.0.20
+release_date: 2016-08-16
 ---
 
 # OpenProject 5.0.20
@@ -19,5 +19,3 @@ We strongly recommend the update to the current version.
 
 For further information on the release, please take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.20).
-
-

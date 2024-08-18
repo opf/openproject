@@ -12,9 +12,6 @@ Starting with version 8.0.0, OpenProject features a quasi-WYSIWYG editor, powere
 > **Please note:**  In some resources such as work packages or comments, the editor does not exhibit all functionality such as macros or image upload.
 > In the work package split screen view (details view) you may have to use the three vertical dots to access additional features of the editor.
 
-
-
-
 | Topic                                                        | Content                                                  |
 | ------------------------------------------------------------ | -------------------------------------------------------- |
 | [Basic formatting](#basic-formatting)                        | Basic formatting elements in the WYSIWYG editor          |
@@ -43,7 +40,6 @@ CKEditor uses widgets to display block elements such as images, tables, and othe
 
 When you have a widget selected, you can remove or cut it. You can create a newline below it by selecting the widget and pressing `ENTER` or `↓ (ARROW DOWN)`, or a newline above it by pressing `SHIFT+enter` or `↑ (ARROW UP)`. This is especially needed when the widget is the first or last element on the page to insert a line below or above it.
 
-
 ### Code Blocks
 
 As CKEditor5 currently does not provide support for code blocks, OpenProject can display, but not edit code blocks within the CKEditor instance. A code block can be edited through a modal window within a `CodeMirror` editor instance. This has the advantage of providing syntax highlighting and code sensing ([for supported languages](https://codemirror.net/mode/)).
@@ -58,9 +54,8 @@ CKEditor5 allows certain CommonMark-like [autoformatting keyboard strokes](https
 
 - Create bold or italic styles by typing `**will become bold**`, `_will become italic_`,
 - Create heading of different indentation with `#`, `##`, `###`,  …
-- Create a bulleted list by starting the line with `* ` or `-` and a space  
+- Create a bulleted list by starting the line with `*` or `-` and a space  
 - Create a numbered list by starting the line with `1.` or `1)`  and a space
-
 
 ## Image handling
 
@@ -74,9 +69,7 @@ The image will be automatically uploaded and stored as an attachment. You can ad
 
 ![Resize Image](resize-imagesshort.gif)
 
-
-
-## Keyboard shortcuts 
+## Keyboard shortcuts
 
 CKEditor has a wide variety of keyboard shortcuts you can use. You can find a list of documented shortcuts here: [https://ckeditor.com/docs/ckeditor5/latest/features/keyboard-support.html](https://ckeditor.com/docs/ckeditor5/latest/features/keyboard-support.html).
 
@@ -91,61 +84,48 @@ On top of that, OpenProject adds the following shortcut:
 OpenProject has supported macros on textile formatted pages and continues to do so with the WYSIWYG editor. Note that macros are not expanded while editing the page, instead a placeholder is shown.
 
 You can find the macros here in the text editor:
-![Macros text editor](image-20201109183018255.png) 
-
-
+![Macros text editor](image-20201109183018255.png)
 
 ### Table of contents
 
-Where applicable, the table of contents (TOC) macro will output a listing of all headings on the current page. 
-
-
+Where applicable, the table of contents (TOC) macro will output a listing of all headings on the current page.
 
 ### Work package button
 
 Configure a button or link to target the work package creation screen in the current project. You can preselect a work package type that should be selected, making it easy to guide the users to the work package creation form.
 
-
-
 ### Include wiki page
 
 Include the content of a given wiki page in the current, or another visible project.
-
-
 
 ### Embed work package table and Gantt chart
 
 This is the most flexible macro that provides extensive functionality regarding the inclusion of dynamic work package tables with all the potential of the regular work package table.
 
-By adding an embedded work package table through the toolbar, you can configure the table view (such as columns, grouping, filters, and further properties) in a popup window. 
+By adding an embedded work package table through the toolbar, you can configure the table view (such as columns, grouping, filters, and further properties) in a popup window.
 
 The rendered page will then fetch the work package table results dynamically, respecting the visibility for each user.
 
 Use it to embed views in other pages, create reporting of multiple results, or to embed a Gantt chart view.
 
-
-
-
 ## Links to OpenProject resources
 
 As with the textile formatting syntax, you can link to other resources within OpenProject using the same shortcuts as before. Create links to a:
 
-
-
-- **wiki page**: `[[Wiki page]]` 
-- **wiki page with separate link name**: `[[Wiki page|The text of the link]]` 
-- **wiki page in the Sandbox project**: `[[Sandbox:Wiki page]]` 
+- **wiki page**: `[[Wiki page]]`
+- **wiki page with separate link name**: `[[Wiki page|The text of the link]]`
+- **wiki page in the Sandbox project**: `[[Sandbox:Wiki page]]`
 - **work package with ID12**:  `#12`
-- **work package with ID 12 with subject and type**: `##12` 
-- **work package with ID 12 with subject, type, status, and dates**: `###12` 
+- **work package with ID 12 with subject and type**: `##12`
+- **work package with ID 12 with subject, type, status, and dates**: `###12`
 - **version by ID or name**: `version#3`,  `version:"Release 1.0.0"`
 - **project by ID/name**:  `project#12` , `project:"My project name"`
 - **attachment by filename**: `attachment:filename.zip`
 - **meeting by ID/name**:  `meeting#12` , `meeting:"My meeting name"`
 - **document by ID/name**:  `document#12` , `document:"My document name"`
-- **user by id or login**: `user#4` , `user:"johndoe"` 
+- **user by id or login**: `user#4` , `user:"johndoe"`
 - **a forum message by ID**: `message#1218`
-- **repository revision 43**: `r43` 
+- **repository revision 43**: `r43`
 - **commit by hash:** `commit:f30e13e4`
 - **To a source file in the repository**: `source:"some/file"`
 
@@ -153,13 +133,9 @@ To avoid processing these items, preceding them with a bang `!` character such a
 
 > **Please note**: All these macros need to be written as a new word (i.e., with at least one space before it or at the beginning of a paragraph/sentence. Macros contained within a word such as `somethingmeeting#4` will not be parsed.
 
-
-
 ### Autocompletion for work packages and users
 
 For work packages and users, typing `#` or `@` will open an autocompleter for visible work packages and users, respectively.
-
-
 
 ## Embedding of work package attributes and project attributes
 
@@ -172,16 +148,11 @@ Examples:
 
 > **Please note**: Referencing a work package by subject results in only looking for work packages with that given subject in the current project (if any). If you need to cross-reference work packages, use their ID to pinpoint the work package you want to reference.
 
-
-
-
 ### Embedding attribute help texts
+
 You can also embed attribute values and [their help texts](../../system-admin-guide/attribute-help-texts/) by using `workPackageLabel` instead of: `workPackageLabel:1234:status` which would output the translated label for "Status" and (if exists), the corresponding help text for it.
 
-
-
-> **Please note**: These macros will only be expanded in the frontend. For each individual user, the correct permissions will be checked and the macro will result in an error if the user is not allowed to view the respective resource.    
-
+> **Please note**: These macros will only be expanded in the frontend. For each individual user, the correct permissions will be checked and the macro will result in an error if the user is not allowed to view the respective resource.
 
 ## Attributes
 
@@ -231,4 +202,3 @@ The following list contains all supported attribute names for the `projectValue`
 | Status description        | `projectValue:statusExplanation`                  |
 | Parent project            | `projectValue:parent`                             |
 | Project public? (boolean) | `projectValue:public`                             |
-

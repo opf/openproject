@@ -40,7 +40,7 @@ See our user guide to learn more about this Enterprise add-on and how to [use th
 
 ## Share work packages with external users and groups (Enterprise add-on)
 
-With OpenProject 13.1 it is possible to share work packages with users and/or groups outside of your installation. This  sharing feature is available as an Enterprise add-on. Work packages can now be shared with users or groups that have no  permissions to see a particular project in its entirety, only allowing access to relevant work packages. This way, stakeholders can get easy access to relevant  project information without having to see all of a project’s work  packages. 
+With OpenProject 13.1 it is possible to share work packages with users and/or groups outside of your installation. This  sharing feature is available as an Enterprise add-on. Work packages can now be shared with users or groups that have no  permissions to see a particular project in its entirety, only allowing access to relevant work packages. This way, stakeholders can get easy access to relevant  project information without having to see all of a project’s work  packages.
 
 ![Share work packages with external users in OpenProject](openproject-13-1-share-work-packages.png)
 
@@ -54,25 +54,21 @@ With OpenProject 13.1, we released [Attribute help texts](../../system-admin-gui
 
 ## Accessibility improvements and high contrast mode
 
-We continued to work on improving accessibility of OpenProject according to the WCAG 2.1 AA. You can now select to use a high contrast mode in your [profile settings](../../getting-started/my-account/#select-the-high-contrast-color-mode), which will override the current OpenProject theme and be especially valuable for OpenProject users with visual impairments. 
+We continued to work on improving accessibility of OpenProject according to the WCAG 2.1 AA. You can now select to use a high contrast mode in your [profile settings](../../getting-started/my-account/#select-the-high-contrast-color-mode), which will override the current OpenProject theme and be especially valuable for OpenProject users with visual impairments.
 
 ![High contrast mode in OpenProject](openproject_my_account_high_contrast_mode.png)
 
 ## Continued integration of Primer design system
 
-With OpenProject 13.1 we have continued to integration the [Primer Design system](https://primer.style/). This will especially be noticeable in the new features, such as the new Meetings module. 
-
-
+With OpenProject 13.1 we have continued to integration the [Primer Design system](https://primer.style/). This will especially be noticeable in the new features, such as the new Meetings module.
 
 ## Discontinued support for Centos7 and SLES12
 
-Support for packaged installations on Centos7 and SUSE Enterprise Linux 12 have been removed in 13.1.0 Both are nearing or have exceeded their EOL and packaged builds were failing prior to the release already. We will not provide additional support for these systems. 
+Support for packaged installations on Centos7 and SUSE Enterprise Linux 12 have been removed in 13.1.0 Both are nearing or have exceeded their EOL and packaged builds were failing prior to the release already. We will not provide additional support for these systems.
 
 Users still required to run on these systems should consider upgrading to a supported version, or use our docker-based installation methods.
 
 For more information, please see [#51333](https://community.openproject.org/projects/openproject/work_packages/51533/activity) and our [installation guides](../../installation-and-operations/installation/).
-
-
 
 ## List of all bug fixes and changes
 
@@ -143,7 +139,8 @@ For more information, please see [#51333](https://community.openproject.org/proj
 - Fixed: Search not working on some meetings (possibly because of agenda items containing macros) \[[#51426](https://community.openproject.org/wp/51426)\]
 - Fixed: Overview page suggests some information (e.g. custom fields, status, description) not set when they are hidden \[[#51431](https://community.openproject.org/wp/51431)\]
 
-### Contributions
+## Contributions
+
 A very special thank you goes to our sponsors for features and improvements of this release:
 
 - **Deutsche Bahn** – for the OneDrive/SharePoint integration

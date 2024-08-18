@@ -16,11 +16,9 @@ on different platforms which use either the docker container or the package:
 * [Synology](../synology)
 * [Manual (not recommended)](../manual)
 
-
-# Community provided installation variants
+## Community provided installation variants
 
 There are additional methods on installing OpenProject, which we will link below for reference. Please note that we do not officially support these methods, and cannot guarantee their stability or correctness.
 
-* [Installing OpenProject with Univention App Center](../univention)
 * [Custom package for OpenSuse by Matthew Trescott](https://en.opensuse.org/User:Matthewtrescott/OpenProject)
 * [Instructions for installing OpenProject on Raspian Buster using a Raspberry Pi 4 by Wolfgang Schmied](https://github.com/madewhatnow/OpenProjectRaspberryPi)

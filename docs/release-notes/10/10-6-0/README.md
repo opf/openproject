@@ -6,18 +6,18 @@ release_version: 10.6.0
 release_date: 2020-06-02
 ---
 
-# Release notes OpenProject 10.6.0
+# OpenProject 10.6.0
+
+## Release notes OpenProject 10.6.0
 
 | Release notes                                                | Description                                                  |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [OpenProject 10.6.0](#openproject-1060)                      | What is new for OpenProject 10.6.0?                          |
 | [OpenProject 10.6.0 BIM edition for construction project management](#openproject-1060-bim-edition) | What is new for the construction project management for the building industry in OpenProject 10.5.0? |
 
-# OpenProject 10.6.0
-
 The new release of the open source project management software brings improved table formatting, quicker time logging, the Slovenian translation, better overview over activities and  much more usability improvements and bug fixes.
 
-### Better styling of tables with improved table formatting options
+## Better styling of tables with improved table formatting options
 
 With the new release of OpenProject you can now customize your tables in the text editor even more. When integrating a table in a work  package description, a meeting, the wiki or news, format it the way you  want to. The new additional options are:
 
@@ -29,46 +29,44 @@ With the new release of OpenProject you can now customize your tables in the tex
 
 ![table-format](table-format.png)
 
-### Quicker time logging on work packages
+## Quicker time logging on work packages
 
 From now on, time logging is even  quicker. You won’t have to leave your current work environment to log  time. For example, directly in the work package you will find an icon to log time. When you click on it, you can log your time in a pop-up window.
 
 ![time-logging](time-logging.png)
 
-
-
 Also, you can log time to a work package directly from your work  package table view if you include the SPENT TIME as a table column. Clicking on the Log time will also open a pop-up window to book your  spent time.
 
 ![time-log-work-package](time-log-work-package-1103367.png)
 
-### Support of Slovenian language
+## Support of Slovenian language
 
 We are very happy that OpenProject is now 100% translated into Slovenian.  Zabavaj se!
 
 ![flag-slovenia](flag-slovenia-300x200.jpg)
 
-### Attribution of cards to a project
+## Attribution of cards to a project
 
 OpenProject 10.6 will upgrade the card view of work packages. To make clear what card belongs to what project, the project name will be shown on the card.
 
 ![card-view-subproject](card-view-subproject.png)
 
-### Improved assignee board if there are no members in a project
+## Improved assignee board if there are no members in a project
 
 If you are creating an agile boards by assignees, you will get  notified if there are no members in your project. You will also get  notified if you are trying to add another assignee list to your board  even though there is no more member left.
 
 ![Assignee board notification](asssignee-board-notification.png)
 
-### Various usability improvements and bug fixes
+## Various usability improvements and bug fixes
 
 Furthermore, the **styling of the news widget** on the project overview page as well as the start page has been improved. Going forward, the **Activity module is only showing one activity per minute** per user per work package and type of change. That means the changes per minute are aggregated.
 
-#### All bug fixes and changes
+## All bug fixes and changes
 
 - Epic: Aggregate activity entries \[[#23744](https://community.openproject.org/wp/23744)\]
 - Fixed: Date picker allows selection a year for only the next 10 years. Needs to increase. \[[#29413](https://community.openproject.org/wp/29413)\]
 - Fixed: Weird date format at meetings page \[[#32986](https://community.openproject.org/wp/32986)\]
-- Fixed: [Work packages] Custom fields for long text \[[#33143](https://community.openproject.org/wp/33143)\]
+- Fixed: \[Work packages\] Custom fields for long text \[[#33143](https://community.openproject.org/wp/33143)\]
 - Fixed: .xls exports of cost reports use incorrect decimal precision \[[#33149](https://community.openproject.org/wp/33149)\]
 - Fixed: Button to log time is shown even if I do not have the permissions \[[#33152](https://community.openproject.org/wp/33152)\]
 - Fixed: Main menu element is not correctly highlighted when creating a new category \[[#33154](https://community.openproject.org/wp/33154)\]
@@ -100,9 +98,6 @@ Furthermore, the **styling of the news widget** on the project overview page as 
 - Changed: Enable Projects for outgoing Webhooks \[[#33355](https://community.openproject.org/wp/33355)\]
 - Changed: New Features teaser for 10.6 \[[#33470](https://community.openproject.org/wp/33470)\]
 
-
-
-
 ## OpenProject 10.6.0 BIM edition
 
 OpenProject BIM 10.6 released with improved BCF Management. We released OpenProject BIM 10.6. The new release contains improvements  for BIM project management for the building industry, especially with  improved features for BCF Management.
@@ -133,7 +128,7 @@ Please note that the OpenProject BIM edition is under continuous  development. T
 
 Test OpenProject BIM 10.6 immediately, [create a free test instance](https://start.openproject.com/trial/bim) for the OpenProject BIM edition.
 
-### Credits and contributions
+## Credits and contributions
 
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 

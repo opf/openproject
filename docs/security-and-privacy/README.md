@@ -19,4 +19,3 @@ The purpose of this document is to equip users of OpenProject with the  necessar
 
 * Security documentation: BSI Grundschutzchecks (coming Q1 2024)
 * Statement on data security: [Statement on data security](./statement-on-security)
-

@@ -26,7 +26,7 @@ Click the Start Free Trial button.
 
 You will then be asked to [create an OpenProject account](../../../getting-started/sign-in-registration/#create-a-new-account).
 
-1. Enter your first and last **name**. 
+1. Enter your first and last **name**.
 2. Enter your **e-mail address**.
 3. Choose a **password** and confirm the password. The password must at least be 10 characters long and needs to contain at least two of the following classes, uppercase letters, lowercase letters, special characters, numbers.
 4. Please confirm the OpenProject [privacy policy](https://www.openproject.org/legal/privacy/) and the [terms of service](https://www.openproject.org/legal/terms-of-service/).

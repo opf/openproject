@@ -12,7 +12,7 @@ We released [OpenProject 11.1.2](https://community.openproject.org/versions/1466
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Add table option not displayed properly when at bottom of page \[[#31502](https://community.openproject.org/wp/31502)\]
 - Fixed: .png images keep disappearing from description and from attachments \[[#35180](https://community.openproject.org/wp/35180)\]
@@ -26,7 +26,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Incoming email: Priority is not overridable by default \[[#35949](https://community.openproject.org/wp/35949)\]
 - Fixed: Conflicting modifications error when uploading images in WP description \[[#35957](https://community.openproject.org/wp/35957)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 3.0.3
-  sidebar_navigation:
-      title: 3.0.3
-  release_version: 3.0.3
-  release_date: 2014-05-07
+title: OpenProject 3.0.3
+sidebar_navigation:
+  title: 3.0.3
+release_version: 3.0.3
+release_date: 2014-05-07
 ---
 
 # OpenProject 3.0.3
@@ -23,17 +23,17 @@ involved tricking OpenProject with a faked MIME type when uploading
 attachments.
 
 In conclusion it is strongly recommended to upgrade your 3.0 based
-deployments to version 3.0.3 as soon as possible. The 
+deployments to version 3.0.3 as soon as possible. The
 [OpenProject 3.0.3 tag](https://github.com/opf/openproject/tree/v3.0.3) and
 the [`dev`](https://github.com/opf/openproject/tree/dev) branches both
 include the security fixes.
 
-## Bug Fixes:
+## Bug Fixes
 
 There was a regression in MRI Ruby 2.1.1 that changed some return values
 of Ruby’s internal class `Hash` and led to several failing tests. This
 change is intended for Ruby 2.2 but due to their semantic versioning
-scheme shouldn’t have been incorporated in 2.1.1. Check out 
+scheme shouldn’t have been incorporated in 2.1.1. Check out
 [this blog post](https://www.ruby-lang.org/en/news/2014/03/10/regression-of-hash-reject-in-ruby-2-1-1/)
 if you want to know more about it.
 
@@ -53,5 +53,3 @@ if you want to know how to do that exactly.
 
 And here is the full changelog
 [3.0.3](https://community.openproject.org/versions/313)
-
-

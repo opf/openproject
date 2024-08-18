@@ -53,7 +53,6 @@ sudo tar xzf /var/db/openproject/backup/conf-20191119210038.tar.gz -C /etc/openp
 If you want to change anything in the configuration, you can also inspect the `/etc/openproject` folder afterwards and change them accordingly.
 To go through all configured wizards steps, use the `openproject reconfigure` option. [See the configuration guide](../reconfiguring) for more information.
 
-
 Untar the repositories to their destination:
 
 ```shell
@@ -167,7 +166,7 @@ mkdir -p /var/lib/openproject/{pgdata,assets}
 Next we need to initialize the database.
 
 ```shell
-docker run --rm -v /var/lib/openproject/pgdata:/var/openproject/pgdata -it openproject/community:13
+docker run --rm -v /var/lib/openproject/pgdata:/var/openproject/pgdata -it openproject/openproject:14
 ```
 
 As soon as you see `Database setup finished.` in the container's output you can kill it by pressing Ctrl + C.

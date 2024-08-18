@@ -12,7 +12,7 @@ We released [OpenProject 10.6.1](https://community.openproject.org/versions/1437
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Second page is cut off when exporting to PDF \[[#33203](https://community.openproject.org/wp/33203)\]
 - Fixed: Cannot focus "Log time" by keyboard (accessibility) \[[#33380](https://community.openproject.org/wp/33380)\]

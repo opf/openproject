@@ -6,7 +6,6 @@ While we cannot endorse or vet the libraries listed below we encourage their cre
 
 If you need help developing a client library you can [contact us](mailto:support@openproject.com). If you want to have a client library listed in the list below you can again [contact us](mailto:support@openproject.com) or simply issue a PR with [changes to the source file](https://github.com/opf/openproject/blob/dev/docs/api/apiv3/client-libraries/README.md).
 
-
 ## JavaScript / TypeScript
 
 * [op-client](https://www.npmjs.com/package/op-client): Client library for OpenProject server. Works both on Node.js and browser.

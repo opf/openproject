@@ -36,7 +36,7 @@ get:
             $ref: '../components/schemas/error_response.yml'
           example:
             _type: Error
-            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
             message: The requested resource could not be found.
 
 patch:

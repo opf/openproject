@@ -60,6 +60,7 @@ The way a developer can check for permissions obviously depends on whether the b
 ### Desired layer
 
 While not the case throughout the application, permissions:
+
  * should be checked in the Contracts whenever wanting to change a record. This also includes the values that are assignable (e.g. which users are available to become assignee of a work package)
  * should be applied to scopes whenever fetching a set of records. Even when only fetching an individual record it is best to apply a scope checking the visibility before the `find` instead of fetching the record first and then check for the visibility.
  * needs unfortunately to be checked in the view/representers whenever an attribute is visible for one group of users but not for another.

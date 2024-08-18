@@ -14,7 +14,7 @@ description: |-
                         | type         |
                         | reverseType  |
                         | description  |
-                        | delay        |
+                        | lag        |
                         +--------------+
   ```
 
@@ -44,7 +44,7 @@ description: |-
   | type             | Which kind of relation (blocks, precedes, etc.)               | String  | in: relates, duplicates, duplicated, blocks, blocked, precedes, follows, includes, partof, requires, required | READ / WRITE         |
   | reverseType      | The kind of relation from the other WP's perspective          | String  | in: relates, duplicates, duplicated, blocks, blocked, precedes, follows, includes, partof, requires, required | READ                 |
   | description      | Short text further describing the relation                    | String  |                                                                                                               | READ / WRITE         |
-  | delay*           | The delay in days between closing of `from` and start of `to` | Integer | x >= 0                                                                                                        | READ / WRITE         |
+  | lag*             | The number of days between closing of `from` and start of `to`| Integer | x >= 0                                                                                                        | READ / WRITE         |
 
   \* Only applicable for some relation types such as "follows". You can check using the relation by schema
   endpoint at `/api/v3/relations/schema/{type}`.

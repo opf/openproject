@@ -1,227 +1,167 @@
 # /api/v3/relations/{id}
 ---
-delete:
+get:
+  summary: Get Relation
+  operationId: get_relation
+  tags:
+    - Relations
+  description: Get a single relation specified by its unique identifier.
   parameters:
-  - description: Relation ID
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Relation id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
-    '204':
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          examples:
+            response:
+              $ref: '../components/examples/relation_response.yml'
+          schema:
+            $ref: '../components/schemas/relation_model.yml'
+    '404':
       description: |-
-        Returned if the relation was deleted successfully.
-        The response body is empty.
-      headers: {}
-    '403':
+        Returned if the relation does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work packages for the involved work packages
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified relation does not exist.
+
+delete:
+  summary: Delete Relation
+  operationId: delete_relation
+  tags:
+    - Relations
+  description: Deletes the relation.
+  parameters:
+    - description: The unique identifier of the relation resource
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: Returned if the relation was deleted successfully. The response body is empty.
+    '403':
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** manage work package relations
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
           examples:
             response:
               value:
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
                 message: You are not allowed to delete this relation.
-      description: |-
-        Returned if the client does not have sufficient permissions.
-
-        **Required permission:** manage work package relations
-      headers: {}
     '404':
+      description: |-
+        Returned if the relation does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work packages
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
+            $ref: '../components/schemas/error_response.yml'
           examples:
             response:
               value:
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
                 message: The specified relation does not exist.
-      description: |-
-        Returned if the relation does not exist or the client does not have sufficient permissions to see it.
-
-        **Required permission:** manage work package relations
-      headers: {}
     '406':
-      $ref: "../components/responses/missing_content_type.yml"
+      $ref: '../components/responses/missing_content_type.yml'
     '415':
-      $ref: "../components/responses/unsupported_media_type.yml"
-  tags:
-  - Relations
-  description: Deletes the relation.
-  operationId: Delete_Relation
-  summary: Delete Relation
-get:
-  parameters:
-  - description: Relation id
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
-  responses:
-    '200':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _links:
-                  delete:
-                    href: "/api/v3/relations/1"
-                    method: DELETE
-                  from:
-                    href: "/api/v3/work_packages/42"
-                    title: Steel Delivery
-                  self:
-                    href: "/api/v3/relations/1"
-                  to:
-                    href: "/api/v3/work_packages/84"
-                    title: Bending the steel
-                  update:
-                    href: "/api/v3/relations/1/form"
-                    method: POST
-                  updateImmediately:
-                    href: "/api/v3/relations/1"
-                    method: PATCH
-                _type: Relation
-                delay: 0
-                description: We can't bend the steel before it's been delivered!
-                id: 1
-                name: precedes
-                reverseType: follows
-                type: precedes
-          schema:
-            "$ref": "../components/schemas/relation_model.yml"
-      description: OK
-      headers: {}
-    '404':
-      content:
-        application/hal+json:
-          schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The specified relation does not exist.
-      description: |-
-        Returned if the relation does not exist or the client does not have sufficient permissions to see it.
+      $ref: '../components/responses/unsupported_media_type.yml'
 
-        **Required permission:** view work packages for the involved work packages
-      headers: {}
-  tags:
-  - Relations
-  description: ''
-  operationId: View_Relation
-  summary: View Relation
 patch:
+  summary: Update Relation
+  operationId: update_relation
+  tags:
+    - Relations
+  description: |-
+    When calling this endpoint the client provides a single object, containing the properties and links that it wants
+    to change, in the body. It is only allowed to provide properties or links supporting the **write** operation.
+
+    Note that changing the `type` of a relation invariably also changes the respective `reverseType` as well as the
+    "name" of it. The returned Relation object will reflect that change. For instance if you change a Relation's
+    `type` to "follows" then the `reverseType` will be changed to `precedes`.
   parameters:
-  - description: Relation ID
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Relation ID
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
+      description: OK
       content:
         application/hal+json:
+          schema:
+            $ref: '../components/schemas/relation_model.yml'
           examples:
             response:
-              value:
-                _links:
-                  delete:
-                    href: "/api/v3/relations/1"
-                    method: DELETE
-                  from:
-                    href: "/api/v3/work_packages/42"
-                    title: Steel Delivery
-                  self:
-                    href: "/api/v3/relations/1"
-                  to:
-                    href: "/api/v3/work_packages/84"
-                    title: Bending the steel
-                  update:
-                    href: "/api/v3/relations/1/form"
-                    method: POST
-                  updateImmediately:
-                    href: "/api/v3/relations/1"
-                    method: PATCH
-                _type: Relation
-                delay: 0
-                description: We can't bend the steel before it's been delivered!
-                id: 1
-                name: precedes
-                reverseType: follows
-                type: precedes
-          schema:
-            "$ref": "../components/schemas/relation_model.yml"
-      description: OK
-      headers: {}
+              $ref: '../components/examples/relation_response.yml'
     '400':
-      $ref: "../components/responses/invalid_request_body.yml"
+      $ref: '../components/responses/invalid_request_body.yml'
     '404':
+      description: |-
+        Returned if the relation does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work packages
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
+            $ref: '../components/schemas/error_response.yml'
           examples:
             response:
               value:
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
                 message: The specified relation does not exist.
-      description: |-
-        Returned if the relation does not exist or the client does not have sufficient permissions to see it.
-
-        **Required permission:** manage work package relations
-      headers: {}
     '406':
-      $ref: "../components/responses/missing_content_type.yml"
+      $ref: '../components/responses/missing_content_type.yml'
     '415':
-      $ref: "../components/responses/unsupported_media_type.yml"
+      $ref: '../components/responses/unsupported_media_type.yml'
     '422':
+      description: |-
+        Returned if:
+
+        - the client tries to modify a read-only property (`PropertyIsReadOnly`)
+        - a constraint for a property was violated (`PropertyConstraintViolation`)
+        - the client provides a link to an invalid resource (`ResourceTypeMismatch`) or a
+          work package that does not exist or for which the client does not have sufficient permissions
+          to see it (**required permissions**: `view work packages` for the involved work packages).
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
+            $ref: '../components/schemas/error_response.yml'
           examples:
             response:
               value:
                 _embedded:
                   details:
-                    attribute: delay
+                    attribute: lag
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
-                message: Delay must be a number greater than or equal to 0
-      description: |-
-        Returned if:
-
-        * the client tries to modify a read-only property (`PropertyIsReadOnly`)
-
-        * a constraint for a property was violated (`PropertyConstraintViolation`)
-
-        * the client provides a link to an invalid resource (`ResourceTypeMismatch`) or a
-          work package that does not exist or for which the client does not have sufficient permissions
-          to see it (**required permissions**: `view work packages` for the involved work packages).
-      headers: {}
-  tags:
-  - Relations
-  description: |-
-    When calling this endpoint the client provides a single object, containing the properties and links that it wants to change, in the body.
-    It is only allowed to provide properties or links supporting the **write** operation.
-
-    Note that changing the `type` of a relation invariably also changes the respective `reverseType` as well as the "name" of it.
-    The returned Relation object will reflect that change. For instance if you change a Relation's
-    `type` to "follows" then the `reverseType` will be changed to `precedes`.
-  operationId: Edit_Relation
-  summary: Edit Relation
+                message: Lag must be a number greater than or equal to 0

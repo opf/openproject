@@ -17,7 +17,7 @@ delete:
   responses:
     '202':
       description: |-
-        Returned if the group was successfully deleted
+        Returned if the group was marked for deletion.
 
         Note that the response body is empty as of now. In future versions of the API a body
         *might* be returned, indicating the progress of deletion.
@@ -79,6 +79,9 @@ get:
         application/hal+json:
           schema:
             $ref: '../components/schemas/group_model.yml'
+          examples:
+            'group response':
+              $ref: '../components/examples/group-response.yml'
     '404':
       description: |-
         Returned if the group does not exist or if the API user does not have permission to view them.

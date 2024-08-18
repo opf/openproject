@@ -14,7 +14,7 @@ We released [OpenProject 11.2.4](https://community.openproject.org/versions/1476
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Pagination in search results \[[#35045](https://community.openproject.org/wp/35045)\]
 - Fixed: Images in Dashboard are stretched in Safari  \[[#36547](https://community.openproject.org/wp/36547)\]
@@ -25,7 +25,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Setting sync users in synchronized group does not work without on-the-fly LDAP \[[#37036](https://community.openproject.org/wp/37036)\]
 - Fixed: BIM seeder overrides custom design \[[#37037](https://community.openproject.org/wp/37037)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

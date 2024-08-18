@@ -9,13 +9,13 @@ keywords: two-factor authentication
 
 ## Basic 2FA using TOTP
 
-To activate and **configure two-factor authentication** for OpenProject, navigate to -> *Administration* -> *Authentication* and choose -> *two-factor authentication*.
+To activate and **configure two-factor authentication** for OpenProject, navigate to *Administration* -> *Authentication* and choose -> *two-factor authentication*.
 
 From the GUI you are able to configure the following options:
 
 1. **Enforce 2FA** (two-factor authentication) for every user. All users will be forced to [register a 2FA device](../../../getting-started/my-account/#two-factor-authentication) on their next login.
 2. **Remember 2FA login** for a given number of days, e.g. 30 days.
-3. Press the blue **Apply** button to save your changes.
+3. Press the **Apply** button to save your changes.
 
 ![Sys-admin-authentication-two-factor-authentication](Sys-admin-authentication-two-factor-authentication.png)
 
@@ -36,8 +36,14 @@ By default, the allowed clock skew (difference in seconds between client and ser
 If you are trying to register a new device and keep getting failures even though the code appears correct,
 time drift between the device and the server is most likely the reason for it.
 
+## Basic 2FA using WebAuthn
+
+[WebAuthn](https://www.w3.org/TR/2019/REC-webauthn-1-20190304/) is a W3C standard for authentication on the web. It uses private-public key cryptography to verify the users identity. The private key is either secured on a hardware token or within the browser or a password manager.
+
+WebAuthn is supported by most modern browsers and is therefore enabled by default in OpenProject when 2FA is enabled.
+
 ## Advanced 2FA using MessageBird, Amazon SNS
 
-At the moment the advanced settings for improved security are only reachable on the by defining [configuration variables](../../../installation-and-operations/configuration/).
+At the moment the advanced settings for improved security are only reachable by defining [configuration variables](../../../installation-and-operations/configuration/).
 
-The how to is explained in the  configuration is explained in the [Two-factor authentication](../../../installation-and-operations/configuration/#two-factor-authentication) paragraph.
+Those methods are explained in the [Two-factor authentication](../../../installation-and-operations/configuration/#two-factor-authentication) paragraph.

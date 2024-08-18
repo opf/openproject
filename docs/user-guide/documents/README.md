@@ -29,7 +29,7 @@ The uploaded documents are visible to all project members who have the necessary
 
 You can edit or delete documents anytime. To do that, navigate to the Documents overview and select the document you want to edit. By  selecting *Edit* or *Delete* respectively you can either  adjust the document file and related information or remove the file  permanently. You can add the file again at a later point.
 
-![edit or delete document](image-20200130111121885.png)      
+![edit or delete document](image-20200130111121885.png)
 
 ## Frequently asked questions (FAQ)
 

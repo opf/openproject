@@ -13,8 +13,7 @@ Release date: 2023-04-24
 We released [OpenProject 12.5.3](https://community.openproject.org/versions/1694).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Titles of related work packages are unnecessarily truncated. Full titles are not accessible. \[[#44828](https://community.openproject.org/wp/44828)\]
 - Fixed: Date picker: selected dates in mini calendar don't have a hover (primary dark) \[[#46436](https://community.openproject.org/wp/46436)\]
@@ -28,7 +27,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Anyone can sign up using Google even if user registration is disabled \[[#47622](https://community.openproject.org/wp/47622)\]
 - Fixed: inbound emails uses "move_on_success" and "move_on_failure" error \[[#47633](https://community.openproject.org/wp/47633)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

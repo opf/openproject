@@ -25,12 +25,14 @@ Is the HTML input data once loaded into the editor. ckEditor has a Model "DOM" w
 ### Views
 
 CkEditor has two types of views:
+
 * **Data View:** the editor's input/output, the data imported to the editor and exported from the editor (HTML).
 * **Editing View:** the UI, the elements that the user interacts with in the editor's UI.
 
 ### Controller
 
 Layer in charge of transforming the elements from the two Views to the Model and the other way around. This means to transform:
+
 * The Data View (input HTML elements) into Model elements and the other way around.
 * The Editing View (UI elements) into Model elements and the other way around.
 
@@ -88,7 +90,6 @@ CkEditor comes with a debugger inspector that will make the development process 
 
 In order to activate it, just import it (```import CKEditorInspector from '@ckeditor/ckeditor5-inspector';```) at the beginning of the ```op-config-customizer.js``` file and then attach it inside the editorClass.create method:
 
-
 ```javascript
 return editorClass.create(wrapper, configuration).then(editor => {
   CKEditorInspector.attach(editor);
@@ -103,13 +104,13 @@ As an example, let's take a look at our mention feature that allows mentioning c
 
 In order to get it working, we did the following steps:
 
-#### 1 - Markdown to HTML
+### 1 - Markdown to HTML
 
 Define how the markdown elements are going to be translated to HTML elements. In this case, the backend is going to send the mention elements as tags (&lt;mention ...>...&lt;/mention>) right inside the markdown data, so we don't need to make any conversion in order to turn it into the valid HTML that the CkEditor needs. \
 \
 In case it would be needed, it would be defined in the CommonMarkDataProcessor class (```commonmarkdataprocessor.js```), in its "toView" method.
 
-#### 2 - Upcast
+### 2 - Upcast
 
 Define how the mention elements of the HTML input data are going to be represented in the ckEditor's Model:
 
@@ -145,11 +146,9 @@ Here we basically say that when the ckEditor finds a 'mention' element with the 
 
 This is defined in the CkEditor plugin (```mentions-caster.js```).
 
-
-#### 3 - Editing downcast
+### 3 - Editing downcast
 
 Define how the mention attribute is going to be represented in the ckEditor's UI (Editing View):
-
 
 ```javascript
 editor.conversion
@@ -182,7 +181,7 @@ Here we say that we want to place the mention attributes of the ckEditor's model
 \
 This is defined in the CkEditor plugin (```mentions-caster.js```).
 
-#### 4 - Data downcast
+### 4 - Data downcast
 
 Define how the mention attribute is going to be represented in the ckEditor's output (Data View):
 
@@ -219,7 +218,7 @@ This is defined in the CkEditor plugin (```mentions-caster.js```).
 
 The model update of the mentions when the user adds or removes a mention is handled by the editor features/plugins (a third party mention plugin in this case).
 
-#### 5 - HTML to Markdown
+### 5 - HTML to Markdown
 
 Define how the HTML mention tags are going to be represented in the markdown. They should be placed as strings, so we need to turn any mention element into its string representation:
 

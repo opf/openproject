@@ -66,7 +66,6 @@ First the dump has to be extracted (unzipped) and then restored. The command use
 pg_restore -h <dbhost> -u <dbuser> -W --dbname <dbname> --clean postgresql-dump-20180408095521.pgdump
 ```
 
-
 ### Attachments
 
 Your storage path on the old installation can be shown using the following command:
@@ -87,8 +86,6 @@ openproject config:get ATTACHMENTS_STORAGE_PATH
 Simply extract your attachments dump into that folder with `tar -xvzf <dump>.tar.gz`,
 creating it beforehand if needed. Ensure that this is writable by the `openproject` user.
 
-
-
 ### Repositories
 
 For repositories, the same approach applies as for the attachments:
@@ -106,8 +103,6 @@ openproject config:get GIT_REPOSITORIES
 ```
 
 Simply extract your respective repository dumps into ech folder, creating it beforehand if needed. The dumps will only be created if you use that feature in your old installation.
-
-
 
 ## Running openproject configure
 

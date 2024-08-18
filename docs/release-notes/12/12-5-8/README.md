@@ -14,7 +14,7 @@ We released [OpenProject 12.5.8](https://community.openproject.org/versions/1829
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: After calling "Create project copy" API endpoint, the Job Status API should return the new projects id, not only its identifier  \[[#37783](https://community.openproject.org/wp/37783)\]
 - Fixed: Entries in summary emails not clickable in Outlook (links not working) \[[#40157](https://community.openproject.org/wp/40157)\]
@@ -29,7 +29,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Internal error occurs when invalid project is set to template \[[#49116](https://community.openproject.org/wp/49116)\]
 - Changed: Allow internal login even if omniauth direct provider selected \[[#47930](https://community.openproject.org/wp/47930)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

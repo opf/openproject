@@ -1,6 +1,11 @@
-> #### **NOTE:** This documentation is most likely outdated and needs to be used carefully
+---
+sidebar_navigation:
+  title: Repository Integration
+---
 
 # Repository Integration in OpenProject
+
+> **NOTE:** This documentation is most likely outdated and needs to be used carefully
 
 OpenProject can (by default) browse Subversion and Git repositories, but it does not serve them to git/svn clients.
 
@@ -21,47 +26,47 @@ Managed repositories need to be enabled manually for each SCM vendor individuall
 
 It contains a YAML configuration section for repository management residing under the namespace `scm`.
 The following is an excerpt of the configuration and contains all required information to set up your data.
-	
 
-	# Configuration of Source control vendors
-	# client_command:
-	#   Use this command to the default SCM vendor command (taken from path).
-	#   Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
-	#   On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
-	# manages:
-	#   You may either specify a local path on the filesystem or an absolute URL to call when
-	#   repositories are to be created or deleted.
-	#   This allows OpenProject to take control over the given path to create and delete repositories
-	#   directly when created in the frontend.
-	#
-	#   When entering a URL, OpenProject will POST to this resource when repositories are created
-	#   using the following JSON-encoded payload:
-	#     - action: The action to perform (create, delete)
-	#     - identifier: The repository identifier name
-	#     - vendor: The SCM vendor of the repository to create
-	#     - project: identifier, name and ID of the associated project
-	#     - old_identifier: The identifier to the old repository (used only during relocate)
-	#
-	#   NOTE: Disabling :managed repositories using disabled_types takes precedence over this setting.
-	#
-	# disabled_types:
-	#   Disable specific repository types for this particular vendor. This allows
-	#   to restrict the available choices a project administrator has for creating repositories
-	#   See the example below for available types
-	#
-	#   Available types for git:
-	#     - :local (Local repositories, registered using a local path)
-	#     - :managed (Managed repositories, available IF :manages path is set below)
-	#   Available types for subversion:
-	#     - :existing (Existing subversion repositories by URL - local using file:/// or remote
-	#                 using one of the supported URL schemes (e.g., https://, svn+ssh:// )
-	#     - :managed (Managed repositories, available IF :manages path is set below)
-	#
-	# Exemplary configuration (Enables managed Git repositories at the given path)
-	scm:
-	  git:
-	    manages: /srv/repositories/git
-
+```yaml
+# Configuration of Source control vendors
+# client_command:
+#   Use this command to the default SCM vendor command (taken from path).
+#   Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
+#   On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
+# manages:
+#   You may either specify a local path on the filesystem or an absolute URL to call when
+#   repositories are to be created or deleted.
+#   This allows OpenProject to take control over the given path to create and delete repositories
+#   directly when created in the frontend.
+#
+#   When entering a URL, OpenProject will POST to this resource when repositories are created
+#   using the following JSON-encoded payload:
+#     - action: The action to perform (create, delete)
+#     - identifier: The repository identifier name
+#     - vendor: The SCM vendor of the repository to create
+#     - project: identifier, name and ID of the associated project
+#     - old_identifier: The identifier to the old repository (used only during relocate)
+#
+#   NOTE: Disabling :managed repositories using disabled_types takes precedence over this setting.
+#
+# disabled_types:
+#   Disable specific repository types for this particular vendor. This allows
+#   to restrict the available choices a project administrator has for creating repositories
+#   See the example below for available types
+#
+#   Available types for git:
+#     - :local (Local repositories, registered using a local path)
+#     - :managed (Managed repositories, available IF :manages path is set below)
+#   Available types for subversion:
+#     - :existing (Existing subversion repositories by URL - local using file:/// or remote
+#                 using one of the supported URL schemes (e.g., https://, svn+ssh:// )
+#     - :managed (Managed repositories, available IF :manages path is set below)
+#
+# Exemplary configuration (Enables managed Git repositories at the given path)
+scm:
+  git:
+    manages: /srv/repositories/git
+```
 
 With this configuration, you can create managed repositories by selecting the `managed` Git repository in the Project repository settings tab.
 
@@ -71,32 +76,36 @@ Part of the managed repositories functionality was previously provided with repo
 Reposman periodically checked for new projects and automatically created a repository of a given type.
 It never deleted repositories on the filesystem when their associated project was removed in OpenProject.
 
-This script has been integrated into OpenProject and extended. For further guidance on how to migrate to managed repositories, please see the [upgrade guide to 5.0](../../operation/upgrading) 
+This script has been integrated into OpenProject and extended. For further guidance on how to migrate to managed repositories, please see the [upgrade guide to 5.0](../../operation/upgrading)
 
 ### Managing Repositories Remotely
 
 OpenProject comes with a simple webhook to call other services rather than management repositories itself.
 To enable remote managed repositories, pass an absolute URL to the `manages` key of a vendor in the `configuration.yml`. The following excerpt shows that configuration for Subversion, assuming your callback is `https://example.org/repos`.
 
-	scm:
-	  subversion:
-	    manages: https://example.org/repos
-	    accesstoken: <Fixed access token passed to the endpoint>
+```yaml
+scm:
+  subversion:
+    manages: https://example.org/repos
+    accesstoken: <Fixed access token passed to the endpoint>
+```
 
 Upon creating and deleting repositories in the frontend, OpenProject will POST to this endpoint a JSON object containing information on the repository.
 
-	{
-		"identifier": "seeded_project.git",
-		"vendor": "git",
-		"scm_type": "managed",
-		"project": {
-			"id": 1,
-			"name": "Seeded Project",
-			"identifier": "seeded_project"
-		},
-		"action": "create",
-		"token": <Fixed access token passed to the endpoint>
-	}
+```json
+{
+  "identifier": "seeded_project.git",
+  "vendor": "git",
+  "scm_type": "managed",
+  "project": {
+    "id": 1,
+    "name": "Seeded Project",
+    "identifier": "seeded_project"
+  }, 
+  "action": "create", 
+  "token": "<Fixed access token passed to the endpoint>"
+}
+```
 
 The endpoint is expected to return a JSON with at least a `message` property when the response is not successful (2xx).
 When the response is successful, it must at least return a `url` property that contains an accessible URL and optionally a `path` property to access the repository locally.
@@ -110,26 +119,26 @@ It supports notifications for creating repositories (action `create`), moving re
 
 If you're interested in setting up the integration manually outside the context of packager, the following excerpt will help you:
 
+```apache
+PerlSwitches -I/srv/www/perl-lib -T
+PerlLoadModule Apache::OpenProjectRepoman
 
-	PerlSwitches -I/srv/www/perl-lib -T
-	PerlLoadModule Apache::OpenProjectRepoman
-	
-	<Location /repos>
-	        SetHandler perl-script
-	
-	        # Sets the access token secret to check against
-	        AccessSecret "<Fixed access token passed to the endpoint>"
-	
-	        # Configure pairs of (vendor, path) to the wrapper
-	        PerlAddVar ScmVendorPaths "git"
-	        PerlAddVar ScmVendorPaths "/srv/repositories/git"
-	
-	        PerlAddVar ScmVendorPaths "subversion"
-	        PerlAddVar ScmVendorPaths "/srv/repositories/subversion"
-	
-	        PerlResponseHandler Apache::OpenProjectRepoman
-	</Location>
-
+<Location /repos>
+  SetHandler perl-script
+ 
+  # Sets the access token secret to check against
+  AccessSecret "<Fixed access token passed to the endpoint>"
+ 
+  # Configure pairs of (vendor, path) to the wrapper
+  PerlAddVar ScmVendorPaths "git"
+ PerlAddVar ScmVendorPaths "/srv/repositories/git"
+ 
+ PerlAddVar ScmVendorPaths "subversion"
+ PerlAddVar ScmVendorPaths "/srv/repositories/subversion"
+ 
+ PerlResponseHandler Apache::OpenProjectRepoman
+</Location>
+```
 
 ## Other Features
 
@@ -144,9 +153,8 @@ This functionality is very basic and we hope to make it more robust over the nex
 * Checkout URLs are constructed from a base URL and the project identifier
 * On the repository page, the user is provided with a button to show/expand checkout instructions on demand.
 * This checkout instruction contains the checkout URL for the given repository and some further information on how the       checkout works for this particular vendor (e.g., Subversion → svn checkout, Git → git clone).
- * The instructions contain information regarding the capabilities a user has (read, read-write)
- * The instructions are defined by the SCM vendor implementations themselves, so that the checkout instructions could be extended by some 3rd party SCM vendor plugin
-
+* The instructions contain information regarding the capabilities a user has (read, read-write)
+* The instructions are defined by the SCM vendor implementations themselves, so that the checkout instructions could be extended by some 3rd party SCM vendor plugin
 
 ### Required Disk Storage Information
 
@@ -158,11 +166,11 @@ It could also externally be refreshed by using a cron job using the Sys API. Exe
 
 For a future release, we are hoping to provide a webhook to update changesets and storage immediately after a change has been committed to the repository.
 
-# Accessing repositories through Apache
+## Accessing repositories through Apache
 
 With managed repositories, OpenProject takes care of the lifetime of repositories and their association with projects, however we still need to serve the repositories to the client.
 
-## Preliminary Setup
+### Preliminary Setup
 
 In the remainder of this document, we assume that you run OpenProject using a separate process, which listens for requests on `http://localhost:3000` that you serve over Apache using a proxy.
 
@@ -172,7 +180,7 @@ authenticate against the OpenProject user database.
 Therefore, we use an authentication perl script located in `extra/svn/OpenProjectAuthentication.pm`.
 This script needs to be in your Apache perl path (for example it might be sym-linked into /etc/apache2/Apache).
 
-To work with the authentication, you need to generate a secret repository API key, generated in your 
+To work with the authentication, you need to generate a secret repository API key, generated in your
 OpenProject instance at `Modules → Administration → Settings → Repositories`.
 On that page, enable  *"Enable repository management web service"* and generate an API key (do not
 forget to save the settings). We need that API key later in our Apache configuration.
@@ -180,18 +188,18 @@ forget to save the settings). We need that API key later in our Apache configura
 You also need a distinct filesystem path for Subversion and Git repositories.
 In this guide, we assume that you put your svn repositories in /srv/openproject/svn and your git repositories in /srv/openproject/git .
 
-## Subversion Integration
+### Subversion Integration
 
 Apache provides the module `mod_dav_svn` to serve Subversion repositories through HTTP(s).
 
 This method requires some apache modules to be enabled and installed. The following commands are required for Debian / Ubuntu, please adjust accordingly for other distributions:
 
 ```shell
-  apt-get install subversion libapache2-mod-perl2 libapache2-svn
-  a2enmod proxy proxy_http dav dav_svn
+apt-get install subversion libapache2-mod-perl2 libapache2-svn
+a2enmod proxy proxy_http dav dav_svn
 ```
 
-### Permissions
+#### Permissions
 
 **Important:** If Apache and OpenProject run under separate users, you need to ensure OpenProject remains the owner of the repository in order to browse and delete it, when requested through the user interface.
 
@@ -207,11 +215,11 @@ Without correcting the permissions, the following situation will occur:
 
 The following workarounds exist:
 
-#### Apache running `mod_dav_svn` and OpenProject must be run with the same user
+##### Apache running `mod_dav_svn` and OpenProject must be run with the same user
 
 This is a simple solution, but theoretically less secure when the server provides more than just SVN and OpenProject.
 
-#### Use Filesystem ACLs
+##### Use Filesystem ACLs
 
 You can define ACLs on the managed repository root (requires compatible FS).
 You'll need the the `acl` package and define the ACL.
@@ -224,59 +232,57 @@ Assuming the following situation:
 
 * Repository path for SCM vendor X: `/srv/repositories/X`
 
+```shell
+# Set existing ACL
 
-  # Set existing ACL
+# Results in this ACL setting
+# user::rwx
+# user:www-data:rwx
+# user:deploy:rwx
+# group::r-x
+# group:www-data:rwx
+# mask::rwx
 
-  	# Results in this ACL setting
-  	# user::rwx
-  	# user:www-data:rwx
-  	# user:deploy:rwx
-  	# group::r-x
-  	# group:www-data:rwx
-  	# mask::rwx
-  	
-  	setfacl -R -m u:www-data:rwx -m u: openproject:rwx -m d:m:rwx /srv/repositories/X
-  	
-  	# Promote to default ACL
-  	# Results in
-  	# default:user::rwx
-  	# default:user:www-data:rwx
-  	# default:user:deploy:rwx
-  	# default:group::r-x
-  	# default:group:www-data:rwx
-  	# default:mask::rwx
-  	# default:other::---
-  	
-  	setfacl -dR -m u:www-data:rwx -m u:openproject:rwx -m m:rwx /srv/repositories/X
+setfacl -R -m u:www-data:rwx -m u: openproject:rwx -m d:m:rwx /srv/repositories/X
 
+# Promote to default ACL
+# Results in
+# default:user::rwx
+# default:user:www-data:rwx
+# default:user:deploy:rwx
+# default:group::r-x
+# default:group:www-data:rwx
+# default:mask::rwx
+# default:other::---
 
-  	
+setfacl -dR -m u:www-data:rwx -m u:openproject:rwx -m m:rwx /srv/repositories/X
+```
 
 On many file systems, ACLS are enabled by default. On others, you might need to remount affected filesystems with the `acl` option set.
 
 Note that this issue applies to mod_dav_svn only.
 
-### Use the Apache wrapper script
+#### Use the Apache wrapper script
 
 Similar to the integration we use ourselves for the packager-based installation, you can set up Apache to manage repositories using the remote hook in OpenProject.
 
 For more information, see the section 'Managing Repositories Remotely'.
 
-### Exemplary Apache Configuration
+#### Exemplary Apache Configuration
 
 We provide an example apache configuration. Some details are explained inline as comments.
 
-​    
+​
 
-## Git Integration
+### Git Integration
 
 We can exploit git-http-backend to serve Git repositories through HTTP(s) with Apache.
 
 This method additionally requires the `cgi` Apache module to be installed. The following commands are required for Debian / Ubuntu, please adjust accordingly for other distributions:
 
 ```shell
-  apt-get install git libapache2-mod-perl2
-  a2enmod proxy proxy_http cgi
+apt-get install git libapache2-mod-perl2
+a2enmod proxy proxy_http cgi
 ```
 
 You need to locate the location of the `git-http-backend` CGI wrapper shipping with the Git installation.
@@ -284,12 +290,12 @@ Depending on your installation, it may reside in `/usr/libexec/git-core/git-http
 
 [More information on git-http-backend.](https://git-scm.com/docs/git-http-backend)
 
-### Permissions
+#### Permissions
 
 We create bare Git repositories in OpenProject with the [`--shared`](https://www.kernel.org/pub/software/scm/git/docs/git-init.html) option of `git-init` set to group-writable.
 Thus, if you use a separate user for Apache and OpenProject, they need to reside in a common group that is used for repository management. That group must be set in the `configuration.yml` (see above).
 
-### Exemplary Apache Configuration
+#### Exemplary Apache Configuration
 
 We provide an example apache configuration. Some details are explained inline as comments.
 

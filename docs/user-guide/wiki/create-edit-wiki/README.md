@@ -77,4 +77,3 @@ If you want to keep updated about any changes to a wiki page, you can make use o
 ![watch-wiki](watch-wiki.png)
 
 With this function being activated, you will receive an e-mail notification (according to your email preferences) after every page update, including a link to the respective changes.
-

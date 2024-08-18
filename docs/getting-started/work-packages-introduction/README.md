@@ -51,7 +51,7 @@ Another option to create a work package is to do it from the header menu. The [w
 
 ![create-work-package-header](create-work-package-header.png)
 
-Once you click on the work package type that you want to create, the work package detail view opens and you have to **select the project** that you want to create the work package for. 
+Once you click on the work package type that you want to create, the work package detail view opens and you have to **select the project** that you want to create the work package for.
 
 ![create and name work package](create-work-package.png)
 
@@ -75,7 +75,7 @@ To **update the status**, click on the highlighted displayed status on top of th
 
 ## Activity of work packages
 
-To keep informed about all changes to a work package, open the **ACTIVITY** tab in the details view. 
+To keep informed about all changes to a work package, open the **ACTIVITY** tab in the details view.
 
 Here you will see all changes which have been made to this work package.
 
@@ -86,4 +86,3 @@ You can also insert a comment at the end of the Activity list.
 To notify other people about changes in your work packages activities, you can comment and type an @" in front of the username you want to inform and when you publish your message the person you have tagged will get a notification in OpenProject. The aggregation of changes in the Activity list can be configured in the [system administration](../../system-admin-guide/calendars-and-dates/#date-format).
 
 To find out more about the work package functionalities, please visit our detailed [user guide for work packages](../../user-guide/work-packages).
-

@@ -11,7 +11,7 @@ release_date: 2021-06-03
 Release date: 2021-06-03
 
 We released [OpenProject 11.3.0](https://community.openproject.org/versions/1468).
-This new release will bring many new features and bug fixes that will improve classical as well as agile project management. 
+This new release will bring many new features and bug fixes that will improve classical as well as agile project management.
 
 <!--more-->
 
@@ -33,6 +33,7 @@ Add a personal invitation message, e.g. an explanation for the invitation or a b
 The invite process can be started directly from the new "+" create button in the header navigation.
 
 ### Invite new users from work packages drop-down
+
 The **new invite modal for users, groups, and placeholder users** can now be opened directly from the user type drop-down menu in a work package, e.g. to assign a user to a work package who is not yet a member of the project. This way, there is no need anymore to leave the work package to assign a user who is not yet a member of the project. The creation of users and adding them to a project is now much more intuitive.
 
 ![invite-user-type-drop-down](invite-user-type-drop-down.png)
@@ -60,6 +61,7 @@ We have made **extensions to our API v3** to create, read, update and delete gro
 - List users of a group
 
 ### API V3 endpoints for placeholder users
+
 We have added endpoints to our API v3 for fetching placeholder users so that placeholder users can be managed or read by a machine.
 
 ### Copy project via API v3
@@ -81,8 +83,6 @@ For work packages, fields can already be configured as multiple selections for a
 ## Create backup from web interface
 
 Users now have the option to **create backups of their OpenProject installation** directly via the web interface. the backup can be triggered via Administration -> Backup. They will receive an email notification with the link to download the backup files with an additional authentication (username/password + 2FA).
-
-
 
 ## All new features, bug fixes and changes
 

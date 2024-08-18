@@ -6,6 +6,7 @@ delete:
   description: Permanently deletes the specified user account.
   tags:
     - Users
+    - Principals
   parameters:
     - description: User id
       example: '1'
@@ -51,6 +52,7 @@ get:
   description: ''
   tags:
     - Users
+    - Principals
   parameters:
     - description: User id. Use `me` to reference current user, if any.
       example: '1'
@@ -65,6 +67,9 @@ get:
         application/hal+json:
           schema:
             $ref: '../components/schemas/user_model.yml'
+          examples:
+            'user response':
+              $ref: '../components/examples/user-response.yml'
       description: OK
     '404':
       content:
@@ -85,6 +90,7 @@ patch:
   operationId: update_user
   tags:
     - Users
+    - Principals
   description: |-
     Updates the user's writable attributes.
     When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.

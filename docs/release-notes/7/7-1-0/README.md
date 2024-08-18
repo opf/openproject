@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 7.1.0
-  sidebar_navigation:
-      title: 7.1.0
-  release_version: 7.1.0
-  release_date: 2017-07-04
+title: OpenProject 7.1.0
+sidebar_navigation:
+  title: 7.1.0
+release_version: 7.1.0
+release_date: 2017-07-04
 ---
 
 
@@ -20,7 +20,7 @@ bug fixes included.
   - The timeline zoom factor is now saved in queries: When you open a
     saved timeline query the same zoom level as before is shown
     ([#25318](https://community.openproject.org/wp/25318)).
-  - As a user of the [Enterprise cloud edition](https://www.openproject.org/hosting/) or 
+  - As a user of the [Enterprise cloud edition](https://www.openproject.org/enterprise-edition/#hosting-options) or
     [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/), you can
     now upload a custom favicon which is shown in the browser. You can
     also set a touch icon which is shown on smartphones (e.g. when
@@ -91,8 +91,6 @@ Thanks a lot to the community, in particular to Peter F, Jochen Gehlbach
 and Ole Odendahl for reporting bugs!
 
 For further information on the release, please refer to the [Changelog
-v7.1.0](https://community.openproject.org/versions/836) 
+v7.1.0](https://community.openproject.org/versions/836)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v7.1.0).
-
-

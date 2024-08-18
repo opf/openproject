@@ -2,7 +2,7 @@
 
 **Note:** this guide only applies if you've installed OpenProject using our DEB/RPM packages.
 
-This guide will migrate your packaged MySQL installation to a PostgreSQL installation using [pgloader](https://github.com/dimitri/pgloader). 
+This guide will migrate your packaged MySQL installation to a PostgreSQL installation using [pgloader](https://github.com/dimitri/pgloader).
 
 ## Backing up
 
@@ -14,7 +14,6 @@ This guide should leave you with a set of archives that you can use to restore, 
 - **Attachments**: attachments-&lt;timestamp&gt;.tar.gz
 - **Custom env configuration**: conf-&lt;timestamp&gt;.tar.gz
 - **Repositories**: svn- and git-&lt;timestamp&gt;.tar.gz
-
 
 ## Installation of pgloader
 
@@ -68,7 +67,7 @@ sudo zypper install pgloader-ccl
 
 ## Optional: Install and create PostgreSQL database
 
-If you have not yet installed and set up a PostgreSQL installation database, please set up a PostgreSQL database now. 
+If you have not yet installed and set up a PostgreSQL installation database, please set up a PostgreSQL database now.
 
 OpenProject requires at least PostgreSQL 9.5 installed. Please check [www.postgresql.org/download](https://www.postgresql.org/download/) if your distributed package is too old.
 
@@ -123,7 +122,6 @@ Form the `DATABASE_URL` string to match your selected password and add it to the
 openproject config:set DATABASE_URL="postgresql://openproject:<PASSWORD>@localhost/openproject"
 ```
 
-
 **Please note:**  Replace  `<PASSWORD>`  with the password you provided above. If you used any special characters, [check whether they need to be percent-encoded](https://developer.mozilla.org/en-US/docs/Glossary/percent-encoding) for the database URL.
 
 You can use this command to escape any characters in the password:
@@ -131,7 +129,6 @@ You can use this command to escape any characters in the password:
 ```shell
 openproject run ruby -r cgi -e "puts CGI.escape('your-password-here');"
 ```
-
 
 ## Migrating the database
 
@@ -145,19 +142,18 @@ This might take a while depending on current installation size.
 
 ## Optional: Uninstall MySQL
 
-If the packaged installation auto-installed MySQL before and you no longer need it (i.e. only OpenProject used a MySQL database on your server), you can remove the MySQL packages. 
+If the packaged installation auto-installed MySQL before and you no longer need it (i.e. only OpenProject used a MySQL database on your server), you can remove the MySQL packages.
 
 You can check the output of `dpkg -l | grep mysql` to check for packages to be removed. Only keep `libmysqlclient-dev`  for Ruby dependencies on the mysql adapter.
 
-The following is an exemplary removal of an installed version MySQL 5.7. 
+The following is an exemplary removal of an installed version MySQL 5.7.
 
-```
+```shell
 [root@host] apt-get remove mysql-server
 [root@host] openproject config:unset MYSQL_DATABASE_URL
 ```
 
 **Note:** OpenProject still depends on `mysql-common` and other dev libraries of MySQL to build the `mysql2` gem for talking to MySQL databases. Depending on what packages you try to uninstall, `openproject` will be listed as a dependent package to be uninstalled if trying to uninstall `mysql-common`. Be careful here with the confirmation of removal, because it might just remove openproject itself due to the apt dependency management.
-
 
 ## Running openproject reconfigure
 
@@ -167,9 +163,7 @@ After you migrated your data, all you need to do is run through the configuratio
 openproject reconfigure
 ```
 
-
 In the database installation screen, make sure to select `skip`.
 Keep all other values the same by simply confirming them by pressing `enter` .
-
 
 After the configuration process has run through, your OpenProject installation will be running on PostgreSQL!
