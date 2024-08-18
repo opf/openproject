@@ -39,26 +39,26 @@ module API
           end
 
           schema :id,
-                 type: 'Integer'
+                 type: "Integer"
 
           schema :created_at,
-                 type: 'DateTime'
+                 type: "DateTime"
 
           schema :updated_at,
-                 type: 'DateTime'
+                 type: "DateTime"
 
           schema :spent_on,
-                 type: 'Date'
+                 type: "Date"
 
           schema :hours,
-                 type: 'Duration'
+                 type: "Duration"
 
           schema :comment,
-                 type: 'Formattable',
+                 type: "Formattable",
                  required: false
 
           schema :ongoing,
-                 type: 'Boolean',
+                 type: "Boolean",
                  required: false
 
           schema_with_allowed_link :user,
@@ -83,7 +83,7 @@ module API
                                    }
 
           schema_with_allowed_collection :activity,
-                                         type: 'TimeEntriesActivity',
+                                         type: "TimeEntriesActivity",
                                          value_representer: TimeEntriesActivityRepresenter,
                                          has_default: true,
                                          required: false,
@@ -109,9 +109,9 @@ module API
           def allowed_user_href
             api_v3_paths.path_for :principals,
                                   filters: [
-                                    { status: { operator: '!', values: [Principal.statuses[:locked].to_s] } },
-                                    { type: { operator: '=', values: ['User'] } },
-                                    { member: { operator: '=', values: [represented.project_id] } }
+                                    { status: { operator: "!", values: [Principal.statuses[:locked].to_s] } },
+                                    { type: { operator: "=", values: ["User"] } },
+                                    { member: { operator: "=", values: [represented.project_id] } }
                                   ]
           end
         end

@@ -25,7 +25,7 @@ zh-TW:
       property_groups:
         costs: "費用"
       properties:
-        overallCosts: "總計"
+        overallCosts: "總費用"
         spentUnits: "支出單位"
     button_log_costs: "紀錄支出單位"
     label_hour: "小時"

@@ -29,8 +29,8 @@
 class TimeEntryActivity < Enumeration
   include ::Scopes::Scoped
 
-  has_many :time_entries, foreign_key: 'activity_id'
-  has_many :time_entry_activities_projects, foreign_key: 'activity_id', dependent: :delete_all
+  has_many :time_entries, foreign_key: "activity_id"
+  has_many :time_entry_activities_projects, foreign_key: "activity_id", dependent: :delete_all
 
   validates :parent, absence: true
 

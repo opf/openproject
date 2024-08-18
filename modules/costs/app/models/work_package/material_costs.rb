@@ -9,11 +9,11 @@ class WorkPackage
     end
 
     def costs_sum_alias
-      'cost_entries_sum'
+      "cost_entries_sum"
     end
 
     def subselect_alias
-      'cost_entries'
+      "cost_entries"
     end
   end
 end

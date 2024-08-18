@@ -60,7 +60,7 @@ module API
         end
 
         def _type
-          'Collection'
+          "Collection"
         end
       end
     end

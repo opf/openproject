@@ -21,7 +21,7 @@
 #++
 ka:
   plugin_costs:
-    name: "Time and costs"
+    name: "დრო და ღირებულებები"
     description: "This module adds features for planning and tracking costs of projects."
   activerecord:
     attributes:

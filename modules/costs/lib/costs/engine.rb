@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/plugins'
+require "open_project/plugins"
 
 module Costs
   class Engine < ::Rails::Engine
@@ -34,12 +34,12 @@ module Costs
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'costs',
-             author_url: 'https://www.openproject.org',
+    register "costs",
+             author_url: "https://www.openproject.org",
              bundled: true,
              settings: {
-               default: { 'costs_currency' => 'EUR', 'costs_currency_format' => '%n %u' },
-               partial: 'settings/costs',
+               default: { "costs_currency" => "EUR", "costs_currency_format" => "%n %u" },
+               partial: "settings/costs",
                menu_item: :costs_setting
              } do
       project_module :costs do
@@ -73,7 +73,7 @@ module Costs
                    require: :member
 
         permission :manage_project_activities,
-                   { 'projects/settings/time_entry_activities': %i[show update] },
+                   { "projects/settings/time_entry_activities": %i[show update] },
                    permissible_on: :project,
                    require: :member
 
@@ -122,21 +122,21 @@ module Costs
       # Menu extensions
       menu :admin_menu,
            :cost_types,
-           { controller: '/cost_types', action: 'index' },
+           { controller: "/cost_types", action: "index" },
            if: ->(*) { User.current.admin? },
            parent: :admin_costs,
            caption: :label_cost_type_plural
     end
 
-    activity_provider :time_entries, class_name: 'Activities::TimeEntryActivityProvider', default: false
+    activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
 
     patches %i[Project User PermittedParams]
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :ActiveSupport, :NumberHelper, :NumberToCurrencyConverter
 
     add_tab_entry :user,
-                  name: 'rates',
-                  partial: 'users/rates',
+                  name: "rates",
+                  partial: "users/rates",
                   path: ->(params) { edit_user_path(params[:user], tab: :rates) },
                   only_if: ->(*) { User.current.admin? },
                   label: :caption_rate_history
@@ -157,13 +157,13 @@ module Costs
       "#{root}/cost_types/#{id}"
     end
 
-    add_api_endpoint 'API::V3::Root' do
+    add_api_endpoint "API::V3::Root" do
       mount ::API::V3::CostEntries::CostEntriesAPI
       mount ::API::V3::CostTypes::CostTypesAPI
       mount ::API::V3::TimeEntries::TimeEntriesAPI
     end
 
-    add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
+    add_api_endpoint "API::V3::WorkPackages::WorkPackagesAPI", :id do
       mount ::API::V3::CostEntries::CostEntriesByWorkPackageAPI
     end
 
@@ -181,7 +181,7 @@ module Costs
 
         {
           href: new_work_packages_cost_entry_path(represented),
-          type: 'text/html',
+          type: "text/html",
           title: "Log costs on #{represented.subject}"
         }
       end
@@ -195,11 +195,11 @@ module Costs
 
         {
           href: cost_reports_path(represented.project_id,
-                                  'fields[]': 'WorkPackageId',
-                                  'operators[WorkPackageId]': '=',
-                                  'values[WorkPackageId]': represented.id,
+                                  "fields[]": "WorkPackageId",
+                                  "operators[WorkPackageId]": "=",
+                                  "values[WorkPackageId]": represented.id,
                                   set_filter: 1),
-          type: 'text/html',
+          type: "text/html",
           title: "Show cost entries"
         }
       end
@@ -256,25 +256,25 @@ module Costs
       # N.B. in the long term we should have a type like "Currency", but that requires a proper
       # format and not a string like "10 EUR"
       schema :overall_costs,
-             type: 'String',
+             type: "String",
              required: false,
              writable: false,
              show_if: ->(*) { represented.project && represented.project.costs_enabled? }
 
       schema :labor_costs,
-             type: 'String',
+             type: "String",
              required: false,
              writable: false,
              show_if: ->(*) { represented.project && represented.project.costs_enabled? }
 
       schema :material_costs,
-             type: 'String',
+             type: "String",
              required: false,
              writable: false,
              show_if: ->(*) { represented.project && represented.project.costs_enabled? }
 
       schema :costs_by_type,
-             type: 'Collection',
+             type: "Collection",
              name_source: :spent_units,
              required: false,
              show_if: ->(*) { represented.project && represented.project.costs_enabled? },
@@ -282,7 +282,7 @@ module Costs
     end
 
     config.to_prepare do
-      OpenProject::ProjectLatestActivity.register on: 'TimeEntry'
+      OpenProject::ProjectLatestActivity.register on: "TimeEntry"
 
       Costs::Patches::MembersPatch.mixin!
 
@@ -301,7 +301,7 @@ module Costs
       end
 
       ::Queries::Register.register(::Query) do
-        column Costs::QueryCurrencyColumn
+        select Costs::QueryCurrencySelect
       end
     end
   end

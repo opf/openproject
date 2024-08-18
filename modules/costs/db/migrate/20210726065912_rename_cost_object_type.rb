@@ -54,8 +54,8 @@ class RenameCostObjectType < ActiveRecord::Migration[6.1]
     add_index :journals, %i[journable_type journable_id version], unique: true
 
     Journal
-      .where(journable_type: 'CostObject')
-      .update_all(journable_type: 'Budget')
+      .where(journable_type: "CostObject")
+      .update_all(journable_type: "Budget")
   end
 
   def down
