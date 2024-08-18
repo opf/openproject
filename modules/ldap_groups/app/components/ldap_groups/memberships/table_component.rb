@@ -42,13 +42,13 @@ module LdapGroups
       end
 
       def empty_row_message
-        I18n.t 'ldap_groups.synchronized_groups.no_members'
+        I18n.t "ldap_groups.synchronized_groups.no_members"
       end
 
       def headers
         [
-          ['user', { caption: ::LdapGroups::Membership.human_attribute_name('user') }],
-          ['added', { caption: ::LdapGroups::Membership.human_attribute_name('created_at') }]
+          ["user", { caption: ::LdapGroups::Membership.human_attribute_name("user") }],
+          ["added", { caption: ::LdapGroups::Membership.human_attribute_name("created_at") }]
         ]
       end
     end

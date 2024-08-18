@@ -1,13 +1,13 @@
-require 'net/ldap'
-require 'net/ldap/dn'
+require "net/ldap"
+require "net/ldap/dn"
 
 module LdapGroups
   class SynchronizedFilter < ApplicationRecord
     belongs_to :ldap_auth_source
 
     has_many :groups,
-             class_name: '::LdapGroups::SynchronizedGroup',
-             foreign_key: 'filter_id',
+             class_name: "::LdapGroups::SynchronizedGroup",
+             foreign_key: "filter_id",
              dependent: :destroy
 
     validates_presence_of :name
@@ -28,7 +28,7 @@ module LdapGroups
       return false if ldap_auth_source.nil?
 
       ldap_auth_source&.seeded_from_env? &&
-        Setting.seed_ldap.dig(ldap_auth_source.name, 'groupfilter', name)
+        Setting.seed_ldap.dig(ldap_auth_source.name, "groupfilter", name)
     end
 
     private

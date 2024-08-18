@@ -27,10 +27,7 @@
 #++
 
 module LdapGroups
-  class SynchronizationJob < ::Cron::CronJob
-    # Run every 30 minutes
-    self.cron_expression = '*/30 * * * *'
-
+  class SynchronizationJob < ApplicationJob
     def perform
       return if skipped?
 

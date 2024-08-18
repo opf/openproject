@@ -1,26 +1,9 @@
 <% html_title(t(:label_administration), t('ldap_groups.synchronized_filters.plural'), h(@filter.name)) -%>
 
+<%= render LdapGroups::SynchronizedFilters::ShowPageHeaderComponent.new(filter: @filter) %>
+
 <%= error_messages_for @filter %>
 <% blocked = @filter.seeded_from_env? %>
-
-<%= breadcrumb_toolbar(h(@filter.name)) do %>
-  <% unless blocked %>
-    <li class="toolbar-item">
-      <%= link_to({ action: :edit },
-                  class: 'button') do %>
-        <%= op_icon('button--icon icon-edit') %>
-        <span class="button--text"><%= t(:button_edit) %></span>
-      <% end %>
-    </li>
-    <li class="toolbar-item">
-      <%= link_to({ action: :destroy_info },
-                  class: 'button -danger') do %>
-        <%= op_icon('button--icon icon-delete') %>
-        <span class="button--text"><%= t(:button_delete) %></span>
-      <% end %>
-    </li>
-  <% end %>
-<% end %>
 
 <% if blocked %>
   <div class="op-toast -warning">
@@ -63,4 +46,3 @@
   <% end %>
   <%= render ::LdapGroups::SynchronizedGroups::TableComponent.new(rows: @filter.groups, show_inline_create: false, deletable: false) %>
 </section>
-

@@ -50,7 +50,7 @@ cs:
       add_new: 'Přidat synchronizovanou LDAP skupinu'
       destroy:
         title: 'Odstranit synchronizovanou skupinu %{name}'
-        confirmation: "Pokud budete pokračovat, synchronizovaný filtr %{name} a všechny skupiny %{groups_count} vytvořené prostřednictvím tohoto filtru budou odstraněny."
+        confirmation: "Pokud budete pokračovat, synchronizovaná skupina %{name} a všichni uživatelé %{users_count} synchronizovaní přes ni budou odstraněni."
         info: "Poznámka: Samotná OpenProject skupina a členové přidaní mimo tuto LDAP synchronizaci nebudou odstraněni."
         verification: "Zadejte název skupiny %{name} pro ověření odstranění."
       help_text_html: |

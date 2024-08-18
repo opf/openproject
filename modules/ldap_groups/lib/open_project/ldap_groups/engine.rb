@@ -4,21 +4,28 @@ module OpenProject::LdapGroups
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'openproject-ldap_groups',
-             author_url: 'https://github.com/opf/openproject-ldap_groups',
+    register "openproject-ldap_groups",
+             author_url: "https://github.com/opf/openproject-ldap_groups",
              bundled: true,
              settings: {
                default: {}
              } do
       menu :admin_menu,
            :plugin_ldap_groups,
-           { controller: '/ldap_groups/synchronized_groups', action: :index },
+           { controller: "/ldap_groups/synchronized_groups", action: :index },
            parent: :authentication,
            last: true,
-           caption: ->(*) { I18n.t('ldap_groups.label_menu_item') }
+           caption: ->(*) { I18n.t("ldap_groups.label_menu_item") }
     end
 
-    add_cron_jobs { LdapGroups::SynchronizationJob }
+    add_cron_jobs do
+      {
+        "LdapGroups::SynchronizationJob": {
+          cron: "*/30 * * * *", # Run every 30 minutes
+          class: LdapGroups::SynchronizationJob.name
+        }
+      }
+    end
 
     patches %i[LdapAuthSource Group User]
   end
