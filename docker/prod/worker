@@ -5,4 +5,4 @@ if [ "$1" = "--seed" ]; then
 	$APP_PATH/docker/prod/seeder "$@"
 fi
 
-QUIET=true bundle exec rake jobs:work
+QUIET=true bundle exec good_job start

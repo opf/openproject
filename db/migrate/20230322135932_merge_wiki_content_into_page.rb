@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'migration_utils/utils'
+require_relative "migration_utils/utils"
 
 class MergeWikiContentIntoPage < ActiveRecord::Migration[7.0]
   include ::Migration::Utils
@@ -75,8 +75,8 @@ class MergeWikiContentIntoPage < ActiveRecord::Migration[7.0]
       t.datetime :updated_at, null: false
       t.integer :lock_version, null: false
 
-      t.index :author_id, name: 'index_wiki_contents_on_author_id'
-      t.index :page_id, name: 'wiki_contents_page_id'
+      t.index :author_id, name: "index_wiki_contents_on_author_id"
+      t.index :page_id, name: "wiki_contents_page_id"
       t.index %i[page_id updated_at]
     end
   end

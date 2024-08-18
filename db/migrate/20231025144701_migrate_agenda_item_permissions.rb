@@ -28,10 +28,10 @@
 
 class MigrateAgendaItemPermissions < ActiveRecord::Migration[7.0]
   def up
-    RolePermission.where(permission: 'create_meeting_agendas').update_all(permission: 'manage_agendas')
+    RolePermission.where(permission: "create_meeting_agendas").update_all(permission: "manage_agendas")
   end
 
   def down
-    RolePermission.where(permission: 'manage_agendas').update_all(permission: 'create_meeting_agendas')
+    RolePermission.where(permission: "manage_agendas").update_all(permission: "create_meeting_agendas")
   end
 end

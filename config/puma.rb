@@ -28,12 +28,12 @@ workers OpenProject::Configuration.web_workers
 # before forking the application. This takes advantage of Copy On Write
 # process behavior so workers use less memory.
 #
-preload_app! if ENV["RAILS_ENV"] == 'production'
+preload_app! if ENV["RAILS_ENV"] == "production"
 
 # Allow puma to be restarted by `rails restart` command.
-plugin :tmp_restart unless ENV["RAILS_ENV"] == 'production'
+plugin :tmp_restart unless ENV["RAILS_ENV"] == "production"
 
-plugin :appsignal if ENV['APPSIGNAL_ENABLED'] == 'true'
+plugin :appsignal if ENV["APPSIGNAL_ENABLED"] == "true"
 
 # activate statsd plugin only if a host is configured explicitly
 if OpenProject::Configuration.statsd_host.present?

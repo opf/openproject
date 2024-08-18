@@ -26,28 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
+ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../Gemfile", __dir__)
 
 # Load any local boot extras that is kept out of source control
 # (e.g., silencing of deprecations)
-if File.exist?(File.join(File.dirname(__FILE__), 'additional_boot.rb'))
-  instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_boot.rb'))
+if File.exist?(File.join(File.dirname(__FILE__), "additional_boot.rb"))
+  instance_eval File.read(File.join(File.dirname(__FILE__), "additional_boot.rb"))
 end
 
-require 'bundler/setup' # Set up gems listed in the Gemfile.
+require "bundler/setup" # Set up gems listed in the Gemfile.
 
-env = ENV.fetch('RAILS_ENV', nil)
+env = ENV.fetch("RAILS_ENV", nil)
 # Disable deprecation warnings early on (before loading gems), which behaves as RUBYOPT="-w0"
 # to disable the Ruby warnings in production.
 # Set OPENPROJECT_PROD_DEPRECATIONS=true if you want to see them for debugging purposes
-if env == 'production' && ENV['OPENPROJECT_PROD_DEPRECATIONS'] != 'true'
-  require 'structured_warnings'
+if env == "production" && ENV["OPENPROJECT_PROD_DEPRECATIONS"] != "true"
+  require "structured_warnings"
   Warning[:deprecated] = false
   StructuredWarnings::BuiltInWarning.disable
   StructuredWarnings::DeprecationWarning.disable
 end
 
-if env == 'development'
+if env == "development"
   warn "Starting with bootsnap."
-  require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
+  require "bootsnap/setup" # Speed up boot time by caching expensive operations.
 end

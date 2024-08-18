@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
+require_relative "base"
 
 class Tables::DelayedJobs < Tables::Base
   def self.table(migration)
@@ -42,7 +42,7 @@ class Tables::DelayedJobs < Tables::Base
       t.timestamps null: true
       t.string :queue
 
-      t.index %i[priority run_at], name: 'delayed_jobs_priority'
+      t.index %i[priority run_at], name: "delayed_jobs_priority"
     end
   end
 end

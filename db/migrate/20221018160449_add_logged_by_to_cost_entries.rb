@@ -36,7 +36,7 @@ class AddLoggedByToCostEntries < ActiveRecord::Migration[7.0]
           .where.not(user_id: User.select(:id))
           .update_all(user_id: DeletedUser.first.id)
 
-        CostEntry.update_all('logged_by_id = user_id')
+        CostEntry.update_all("logged_by_id = user_id")
       end
     end
   end

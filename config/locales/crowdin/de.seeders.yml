@@ -41,6 +41,11 @@ de:
           name: Spezifikation
         item_2:
           name: Andere
+      project_query_roles:
+        item_0:
+          name: Projektabfrage-Viewer
+        item_1:
+          name: Projektabfrage-Editor
       work_package_roles:
         item_0:
           name: Arbeitspaket-Bearbeiter
@@ -72,81 +77,6 @@ de:
           name: Hoch
         item_3:
           name: Sofort
-      statuses:
-        item_0:
-          name: Neu
-        item_1:
-          name: In Spezifikation
-        item_2:
-          name: Spezifiziert
-        item_3:
-          name: Bestätigt
-        item_4:
-          name: Zu planen
-        item_5:
-          name: Geplant
-        item_6:
-          name: In Bearbeitung
-        item_7:
-          name: Entwickelt
-        item_8:
-          name: In Test
-        item_9:
-          name: Getestet
-        item_10:
-          name: Test fehlgeschlagen
-        item_11:
-          name: Erledigt
-        item_12:
-          name: Gestoppt
-        item_13:
-          name: Zurückgewiesen
-      time_entry_activities:
-        item_0:
-          name: Management
-        item_1:
-          name: Spezifikation
-        item_2:
-          name: Entwicklung
-        item_3:
-          name: Testen
-        item_4:
-          name: Unterstützung
-        item_5:
-          name: Andere
-      types:
-        item_0:
-          name: Aufgabe
-        item_1:
-          name: Meilenstein
-        item_2:
-          name: Phase
-        item_3:
-          name: Feature
-        item_4:
-          name: Epic
-        item_5:
-          name: User Story
-        item_6:
-          name: Bug
-      welcome:
-        title: Willkommen bei OpenProject!
-        text: |
-          OpenProject ist die führende Software für Open Source Projektmanagement. Es unterstützt das klassische und agile sowie das hybride Projektmanagement und gibt Ihnen die volle Kontrolle über Ihre Daten.
-
-          Kernfunktionen und Anwendungsfälle:
-
-          * [Projektportfolio Management](https://www.openproject.org/de/projektmanagement-funktionen/projektportfolio-management/)
-          * [Projektplanung](https://www.openproject.org/de/projektmanagement-funktionen/projektplanung/)
-          * [Aufgaben-Management und Problemverfolgung](https://www.openproject.org/de/projektmanagement-funktionen/aufgabenverwaltung/)
-          * [Agile Boards (Scrum und Kanban)](https://www.openproject.org/de/projektmanagement-funktionen/agiles-projektmanagement/)
-          * [Anforderungs-Management und Release-Planung](https://www.openproject.org/de/projektmanagement-funktionen/produktentwicklung/)
-          * [Zeit- und Kostenerfassung, Budgets](https://www.openproject.org/de/projektmanagement-funktionen/zeiterfassung/)
-          * [Team-Zusammenarbeit und Dokumentation](https://www.openproject.org/de/projektmanagement-funktionen/team-kollaboration/)
-
-          Willkommen in der Zukunft des Projektmanagements.
-
-          Für Administratoren: Sie können diesen Willkommenstext [hier]({{opSetting:base_url}}/admin/settings/general) ändern.
       projects:
         demo-project:
           name: Demo-Projekt
@@ -251,6 +181,21 @@ de:
                     * [ ] Noch mehr Bier
             item_4:
               subject: Projektende
+          wiki: |
+            _In diesem Wiki können Sie gemeinsam Seiten und Unterseiten erstellen und bearbeiten um ein Projekt-Wiki zu erstellen.
+
+            **Sie können:**
+
+            * Text und Bilder einfügen, auch durch Kopieren und Einfügen aus anderen Dokumenten
+            * Eine Seitenhierarchie mit übergeordneten Seiten erstellen
+            * Wiki-Seiten in das Projektmenü einbinden
+            * Makros verwenden, um z. B. Inhaltsverzeichnisse, Arbeitspaketlisten oder Gliederungspläne einzubindenz.B. Inhaltsverzeichnisse, Arbeitspaketlisten oder Gantt-Diagramme
+            * Wiki-Seiten in andere Textfelder einbinden, z.B. Projektübersichtsseite
+            * Links zu anderen Dokumenten einbinden
+            * Änderungshistorie anzeigen
+            * Als Markdown anzeigen
+
+            Weitere Informationen: [https://www.openproject.org/de/docs/nutzungshandbuch/wiki/](https://www.openproject.org/de/docs/nutzungshandbuch/wiki/)
         scrum-project:
           name: Scrum-Projekt
           status_explanation: Alle Aufgaben sind im Zeitplan. Die Beteiligten kennen ihre Aufgaben. Das System ist komplett eingerichtet.
@@ -469,3 +414,78 @@ de:
             * Zeitrahmen (3 h).
             * Erfolgt nach dem Sprint Review und wird vom Scrum Master moderiert.
             * Das Team diskutiert den Sprint: Was gut gelaufen ist sowie was verbessert werden muss, um für den nächsten Sprint produktiver zu sein oder sogar noch mehr Spaß zu haben.
+      statuses:
+        item_0:
+          name: Neu
+        item_1:
+          name: In Spezifikation
+        item_2:
+          name: Spezifiziert
+        item_3:
+          name: Bestätigt
+        item_4:
+          name: Zu planen
+        item_5:
+          name: Geplant
+        item_6:
+          name: In Bearbeitung
+        item_7:
+          name: Entwickelt
+        item_8:
+          name: In Test
+        item_9:
+          name: Getestet
+        item_10:
+          name: Test fehlgeschlagen
+        item_11:
+          name: Erledigt
+        item_12:
+          name: Gestoppt
+        item_13:
+          name: Zurückgewiesen
+      time_entry_activities:
+        item_0:
+          name: Management
+        item_1:
+          name: Spezifikation
+        item_2:
+          name: Entwicklung
+        item_3:
+          name: Testen
+        item_4:
+          name: Unterstützung
+        item_5:
+          name: Andere
+      types:
+        item_0:
+          name: Aufgabe
+        item_1:
+          name: Meilenstein
+        item_2:
+          name: Phase
+        item_3:
+          name: Feature
+        item_4:
+          name: Epic
+        item_5:
+          name: User Story
+        item_6:
+          name: Bug
+      welcome:
+        title: Willkommen bei OpenProject!
+        text: |
+          OpenProject ist die führende Software für Open Source Projektmanagement. Es unterstützt das klassische und agile sowie das hybride Projektmanagement und gibt Ihnen die volle Kontrolle über Ihre Daten.
+
+          Kernfunktionen und Anwendungsfälle:
+
+          * [Projektportfolio Management](https://www.openproject.org/de/projektmanagement-funktionen/projektportfolio-management/)
+          * [Projektplanung](https://www.openproject.org/de/projektmanagement-funktionen/projektplanung/)
+          * [Aufgaben-Management und Problemverfolgung](https://www.openproject.org/de/projektmanagement-funktionen/aufgabenverwaltung/)
+          * [Agile Boards (Scrum und Kanban)](https://www.openproject.org/de/projektmanagement-funktionen/agiles-projektmanagement/)
+          * [Anforderungs-Management und Release-Planung](https://www.openproject.org/de/projektmanagement-funktionen/produktentwicklung/)
+          * [Zeit- und Kostenerfassung, Budgets](https://www.openproject.org/de/projektmanagement-funktionen/zeiterfassung/)
+          * [Team-Zusammenarbeit und Dokumentation](https://www.openproject.org/de/projektmanagement-funktionen/team-kollaboration/)
+
+          Willkommen in der Zukunft des Projektmanagements.
+
+          Für Administratoren: Sie können diesen Willkommenstext [hier]({{opSetting:base_url}}/admin/settings/general) ändern.

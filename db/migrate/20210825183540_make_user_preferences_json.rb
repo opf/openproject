@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'migration_utils/utils'
+require_relative "migration_utils/utils"
 
 class MakeUserPreferencesJson < ActiveRecord::Migration[6.1]
   include ::Migration::Utils
 
   class UserPreferenceWithOthers < ::UserPreference
-    self.table_name = 'user_preferences'
+    self.table_name = "user_preferences"
     serialize :others, type: Hash
     serialize :settings, coder: ::Serializers::IndifferentHashSerializer
   end

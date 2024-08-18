@@ -1,10 +1,10 @@
 class RoleToProjectRole < ActiveRecord::Migration[7.0]
   def up
-    rename_role('Role', 'ProjectRole')
+    rename_role("Role", "ProjectRole")
   end
 
   def down
-    rename_role('ProjectRole', 'Role')
+    rename_role("ProjectRole", "Role")
   end
 
   private

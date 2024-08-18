@@ -247,7 +247,7 @@ class AddParentIdToWp < ActiveRecord::Migration[6.1]
   end
 
   def build_typed_dag
-    require_relative '20180105130053_rebuild_dag'
+    require_relative "20180105130053_rebuild_dag"
 
     ::RebuildDag.new.up
   end
@@ -265,7 +265,7 @@ class AddParentIdToWp < ActiveRecord::Migration[6.1]
 
   # rubocop:disable Rails/ApplicationRecord
   class ClosureTreeWorkPackage < ActiveRecord::Base
-    self.table_name = 'work_packages'
+    self.table_name = "work_packages"
 
     has_closure_tree
   end

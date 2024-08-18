@@ -26,36 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../constants/open_project/project_latest_activity'
+require_relative "../constants/open_project/project_latest_activity"
 
 Rails.application.reloader.to_prepare do
   OpenProject::Activity.map do |activity|
-    activity.register :work_packages, class_name: '::Activities::WorkPackageActivityProvider'
-    activity.register :project_attributes, class_name: 'Activities::ProjectActivityProvider',
+    activity.register :work_packages, class_name: "::Activities::WorkPackageActivityProvider"
+    activity.register :project_attributes, class_name: "Activities::ProjectActivityProvider",
                                            default: false
-    activity.register :changesets, class_name: 'Activities::ChangesetActivityProvider'
-    activity.register :news, class_name: 'Activities::NewsActivityProvider',
+    activity.register :changesets, class_name: "Activities::ChangesetActivityProvider"
+    activity.register :news, class_name: "Activities::NewsActivityProvider",
                              default: false
-    activity.register :wiki_edits, class_name: 'Activities::WikiPageActivityProvider',
+    activity.register :wiki_edits, class_name: "Activities::WikiPageActivityProvider",
                                    default: false
-    activity.register :messages, class_name: 'Activities::MessageActivityProvider',
+    activity.register :messages, class_name: "Activities::MessageActivityProvider",
                                  default: false
   end
 
-  OpenProject::ProjectLatestActivity.register on: 'WorkPackage'
+  OpenProject::ProjectLatestActivity.register on: "WorkPackage"
 
-  OpenProject::ProjectLatestActivity.register on: 'Project',
+  OpenProject::ProjectLatestActivity.register on: "Project",
                                               project_id_attribute: :id
 
-  OpenProject::ProjectLatestActivity.register on: 'Changeset',
-                                              chain: 'Repository',
+  OpenProject::ProjectLatestActivity.register on: "Changeset",
+                                              chain: "Repository",
                                               attribute: :committed_on
 
-  OpenProject::ProjectLatestActivity.register on: 'News'
+  OpenProject::ProjectLatestActivity.register on: "News"
 
-  OpenProject::ProjectLatestActivity.register on: 'WikiPage',
+  OpenProject::ProjectLatestActivity.register on: "WikiPage",
                                               chain: %w(Wiki)
 
-  OpenProject::ProjectLatestActivity.register on: 'Message',
-                                              chain: 'Forum'
+  OpenProject::ProjectLatestActivity.register on: "Message",
+                                              chain: "Forum"
 end

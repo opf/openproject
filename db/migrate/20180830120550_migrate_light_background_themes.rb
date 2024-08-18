@@ -42,29 +42,29 @@ class MigrateLightBackgroundThemes < ActiveRecord::Migration[5.1]
     return unless apply?
 
     # Main menu was set to white
-    if DesignColor.find_by(variable: 'main-menu-bg-color')&.hexcode == '#FFFFFF'
+    if DesignColor.find_by(variable: "main-menu-bg-color")&.hexcode == "#FFFFFF"
       set_old_default_menu_colors
     end
 
     # Header is white and main menu was default light grey
-    if DesignColor.find_by(variable: 'header-bg-color')&.hexcode == '#FFFFFF' &&
-       DesignColor.find_by(variable: 'main-menu-bg-color').nil?
-      set_variable('main-menu-bg-color', '#F8F8F8')
+    if DesignColor.find_by(variable: "header-bg-color")&.hexcode == "#FFFFFF" &&
+       DesignColor.find_by(variable: "main-menu-bg-color").nil?
+      set_variable("main-menu-bg-color", "#F8F8F8")
       set_old_default_menu_colors
     end
   end
 
   def set_old_default_menu_colors
-    content_link_color = DesignColor.find_by(variable: 'content-link-color')&.hexcode ||
-                         DesignColor.find_by(variable: 'primary-color-dark')&.hexcode ||
+    content_link_color = DesignColor.find_by(variable: "content-link-color")&.hexcode ||
+                         DesignColor.find_by(variable: "primary-color-dark")&.hexcode ||
                          "#175A8E"
 
-    set_variable('main-menu-font-color',             '#333333')
-    set_variable('main-menu-bg-selected-background', '#E9E9E9')
-    set_variable('main-menu-selected-font-color',    content_link_color)
-    set_variable('main-menu-bg-hover-background',    '#F0F0F0')
-    set_variable('main-menu-hover-font-color',       '#333333')
-    set_variable('main-menu-border-color',           '#E7E7E7')
+    set_variable("main-menu-font-color",             "#333333")
+    set_variable("main-menu-bg-selected-background", "#E9E9E9")
+    set_variable("main-menu-selected-font-color",    content_link_color)
+    set_variable("main-menu-bg-hover-background",    "#F0F0F0")
+    set_variable("main-menu-hover-font-color",       "#333333")
+    set_variable("main-menu-border-color",           "#E7E7E7")
   end
 
   def set_variable(variable_name, hexcode)

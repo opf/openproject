@@ -36,7 +36,7 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[5.1]
       t.integer :owner_id
       t.integer :client_credentials_user_id
       t.text    :redirect_uri, null: false
-      t.string  :scopes,       null: false, default: ''
+      t.string  :scopes,       null: false, default: ""
       t.boolean :confidential, null: false, default: true
       t.timestamps             null: false
     end

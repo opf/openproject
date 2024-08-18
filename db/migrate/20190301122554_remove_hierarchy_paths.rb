@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '20180116065518_add_hierarchy_paths'
+require_relative "20180116065518_add_hierarchy_paths"
 
 class RemoveHierarchyPaths < ActiveRecord::Migration[5.2]
   def up
@@ -60,7 +60,7 @@ class RemoveHierarchyPaths < ActiveRecord::Migration[5.2]
   ##
   # Map parent sort_criteria to id asc.
   def map_parent_to_id(criteria)
-    if criteria.first.to_s == 'parent'
+    if criteria.first.to_s == "parent"
       %w[id asc]
     else
       criteria

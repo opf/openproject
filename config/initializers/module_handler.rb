@@ -31,7 +31,7 @@ Rails.application.config.to_prepare do
   to_disable = if Rails.env.test?
                  OpenProject::Configuration.disabled_modules
                else
-                 ['dashboards'] + OpenProject::Configuration.disabled_modules
+                 ["dashboards"] + OpenProject::Configuration.disabled_modules
                end
 
   if to_disable.any?

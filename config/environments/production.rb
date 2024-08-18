@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'active_support/core_ext/integer/time'
+require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -53,7 +53,7 @@ Rails.application.configure do
 
   # Enable Rails's static asset server when requested
   # Disable serving static files from `public/`, relying on NGINX/Apache to do so instead.
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
   # Compress JavaScripts and CSS using a preprocessor.
   config.assets.js_compressor = nil
@@ -69,7 +69,7 @@ Rails.application.configure do
   config.assets.digest = true
 
   # Version of your assets, change this if you want to expire all your assets.
-  config.assets.version = '1.0'
+  config.assets.version = "1.0"
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
@@ -99,7 +99,7 @@ Rails.application.configure do
         return true unless OpenProject::Configuration.hsts_enabled?
 
         # Respect the relative URL
-        relative_url = Regexp.escape(OpenProject::Configuration['rails_relative_url_root'])
+        relative_url = Regexp.escape(OpenProject::Configuration["rails_relative_url_root"])
 
         # When we match SYS controller API, allow non-https access
         return true if /#{relative_url}\/sys\//.match?(request.path)
@@ -119,7 +119,7 @@ Rails.application.configure do
   # config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
 
   # Set to :debug to see everything in the log.
-  config.log_level = OpenProject::Configuration['log_level'].to_sym
+  config.log_level = OpenProject::Configuration["log_level"].to_sym
 
   config.assets.quiet = true unless config.log_level == :debug
 
@@ -152,8 +152,8 @@ Rails.application.configure do
   config.i18n.fallbacks = true
 
   # Don't log any deprecations.
-  config.active_support.report_deprecations = ENV.fetch('OPENPROJECT_SHOW_DEPRECATIONS', nil)
-  deprecators.silenced = !ENV.fetch('OPENPROJECT_SHOW_DEPRECATIONS', nil)
+  config.active_support.report_deprecations = ENV.fetch("OPENPROJECT_SHOW_DEPRECATIONS", nil)
+  deprecators.silenced = !ENV.fetch("OPENPROJECT_SHOW_DEPRECATIONS", nil)
 
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
@@ -172,18 +172,25 @@ Rails.application.configure do
   if OpenProject::Configuration.enable_internal_assets_server?
     config.public_file_server.enabled = true
     config.public_file_server.headers = {
-      'Access-Control-Allow-Origin' => '*',
-      'Access-Control-Allow-Methods' => 'GET, OPTIONS, HEAD',
-      'Cache-Control' => 'public, s-maxage=31536000, max-age=15552000',
-      'Expires' => 1.year.from_now.to_fs(:rfc822).to_s
+      "Access-Control-Allow-Origin" => "*",
+      "Access-Control-Allow-Methods" => "GET, OPTIONS, HEAD",
+      "Cache-Control" => "public, s-maxage=31536000, max-age=15552000",
+      "Expires" => 1.year.from_now.to_fs(:rfc822).to_s
     }
   end
 
-  # Enable DNS rebinding protection and other `Host` header attacks.
-  # config.hosts = [
-  #   "example.com",     # Allow requests from example.com
-  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
-  # ]
-  # Skip DNS rebinding protection for the default health check endpoint.
-  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  if OpenProject::Configuration.host_name.present?
+    # Enable DNS rebinding protection and other `Host` header attacks.
+    config.hosts = [OpenProject::Configuration.host_name] + OpenProject::Configuration.additional_host_names
+    # Skip DNS rebinding protection for the default health check endpoint.
+    config.host_authorization = {
+      exclude: ->(request) do
+        base = OpenProject::Configuration["rails_relative_url_root"]
+        request.path.start_with?("#{base}/health_check", "#{base}/sys")
+      end,
+      response_app: ->(_env) do
+        [400, { "Content-Type" => "text/plain" }, ["Invalid host_name configuration"]]
+      end
+    }
+  end
 end

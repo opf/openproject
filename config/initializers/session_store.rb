@@ -29,10 +29,10 @@
 # Be sure to restart your server when you modify this file.
 config = OpenProject::Configuration
 
-relative_url_root = config['rails_relative_url_root'].presence
+relative_url_root = config["rails_relative_url_root"].presence
 
 session_options = {
-  key: config['session_cookie_name'],
+  key: config["session_cookie_name"],
   httponly: true,
   secure: config.https?,
   path: relative_url_root

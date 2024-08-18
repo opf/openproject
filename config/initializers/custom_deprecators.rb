@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../../lib/open_project/deprecation'
+require_relative "../../lib/open_project/deprecation"
 
 Rails.application.configure do
   # Register our custom deprecator to automatically take logging options

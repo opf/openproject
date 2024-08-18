@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
-require_relative 'boards'
+require_relative "base"
+require_relative "boards"
 
 class Tables::Forums < Tables::Boards
 end

@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '20200924085508_cleanup_orphaned_journal_data'
-require_relative 'migration_utils/utils'
+require_relative "20200924085508_cleanup_orphaned_journal_data"
+require_relative "migration_utils/utils"
 
 class AggregateJournals < ActiveRecord::Migration[6.1]
   include ::Migration::Utils
@@ -368,11 +368,11 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
 
   def raw_journals_subselect(journable, sql, until_version)
     if sql
-      raise 'until_version used together with sql' if until_version
+      raise "until_version used together with sql" if until_version
 
       "(#{sql})"
     elsif journable
-      limit = until_version ? "AND journals.version <= #{until_version}" : ''
+      limit = until_version ? "AND journals.version <= #{until_version}" : ""
 
       <<~SQL.squish
         (
@@ -383,7 +383,7 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
         )
       SQL
     else
-      where = until_version ? "WHERE journals.version <= #{until_version}" : ''
+      where = until_version ? "WHERE journals.version <= #{until_version}" : ""
 
       <<~SQL.squish
         (SELECT * from journals #{where})
@@ -399,7 +399,7 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
     if aggregation_time_seconds == 0
       # if aggregation is disabled, we consider everything to be beyond aggregation time
       # even if creation dates are exactly equal
-      return '(true = true)'
+      return "(true = true)"
     end
 
     difference = "(successor.created_at - predecessor.created_at)"

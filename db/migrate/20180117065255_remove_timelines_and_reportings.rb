@@ -73,7 +73,7 @@ class RemoveTimelinesAndReportings < ActiveRecord::Migration[5.0]
   def create_available_project_statuses
     create_table(:available_project_statuses, id: :integer) do |t|
       t.belongs_to :project_type
-      t.belongs_to :reported_project_status, index: { name: 'index_avail_project_statuses_on_rep_project_status_id' }
+      t.belongs_to :reported_project_status, index: { name: "index_avail_project_statuses_on_rep_project_status_id" }
 
       t.timestamps
     end

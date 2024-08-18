@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '20190724093332_add_journal_versions_table'
+require_relative "20190724093332_add_journal_versions_table"
 
 # db/migrate/20200522140244_remove_journal_versions_table.rb
 # incorrectly removes journal_versions

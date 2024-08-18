@@ -27,7 +27,7 @@
 #++
 
 ActionController::Renderers.add :csv do |obj, options|
-  filename = options[:filename] || 'data'
+  filename = options[:filename] || "data"
   str = obj.respond_to?(:to_csv) ? obj.to_csv : obj.to_s
   charset = "charset=#{I18n.t(:general_csv_encoding).downcase}"
 
@@ -38,7 +38,7 @@ ActionController::Renderers.add :csv do |obj, options|
   # For some reasons, the content-type header
   # does only contain the charset if the response
   # is manipulated like this.
-  response.content_type += ''
+  response.content_type += ""
 
   data
 end

@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-env = ENV['RAILS_ENV'] || 'production'
+env = ENV["RAILS_ENV"] || "production"
 
 if (db_config = ActiveRecord::Base.configurations.configs_for(env_name: env)[0]) &&
-   db_config.configuration_hash['adapter']&.start_with?('mysql')
+   db_config.configuration_hash["adapter"]&.start_with?("mysql")
   warn <<~ERROR
     ======= INCOMPATIBLE DATABASE DETECTED =======
     Your database is set up for use with a MySQL or MySQL-compatible variant.

@@ -37,7 +37,7 @@ class EnsureIntegerForRelationsForeignKeys < ActiveRecord::Migration[6.0]
     Relation.reset_column_information
 
     # Nothing to do for us if the column already has the expected type
-    return if Relation.column_for_attribute('from_id').sql_type == 'integer'
+    return if Relation.column_for_attribute("from_id").sql_type == "integer"
 
     change_table :relations do |t|
       t.change :from_id, :integer, null: false

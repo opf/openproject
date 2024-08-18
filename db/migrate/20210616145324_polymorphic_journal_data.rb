@@ -29,7 +29,7 @@
 class PolymorphicJournalData < ActiveRecord::Migration[6.1]
   # The wiki content table got renamed after writing the migration initially.
   class WikiContentJournal < ApplicationRecord
-    self.table_name = 'wiki_content_journals'
+    self.table_name = "wiki_content_journals"
   end
 
   def up

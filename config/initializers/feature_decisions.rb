@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require_relative '../../lib_static/open_project/feature_decisions'
+require_relative "../../lib_static/open_project/feature_decisions"
 
 # Add feature flags here via e.g.
 #

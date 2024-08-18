@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'fog/aws'
-require 'carrierwave'
-require 'carrierwave/storage/fog'
+require "fog/aws"
+require "carrierwave"
+require "carrierwave/storage/fog"
 
 module CarrierWave
   module Configuration
@@ -37,13 +37,13 @@ module CarrierWave
                             public: false)
 
       # Ensure that the provider AWS is uppercased
-      provider = credentials[:provider] || 'AWS'
-      if [:aws, 'aws'].include? provider
-        credentials[:provider] = 'AWS'
+      provider = credentials[:provider] || "AWS"
+      if [:aws, "aws"].include? provider
+        credentials[:provider] = "AWS"
       end
 
       CarrierWave.configure do |config|
-        config.fog_provider    = 'fog/aws'
+        config.fog_provider    = "fog/aws"
         config.fog_credentials = credentials
         config.fog_directory   = directory
         config.fog_public      = public

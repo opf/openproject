@@ -44,7 +44,7 @@ class GenerateWpClosure < ActiveRecord::Migration[5.0]
   def down
     recreate_nested_set_columns
 
-    invert_from_to_on_follows('follows = 1')
+    invert_from_to_on_follows("follows = 1")
 
     set_parent_id
 
@@ -94,7 +94,7 @@ class GenerateWpClosure < ActiveRecord::Migration[5.0]
   end
 
   def invert_from_to_on_follows(condition)
-    if ActiveRecord::Base.connection.adapter_name == 'Mysql2'
+    if ActiveRecord::Base.connection.adapter_name == "Mysql2"
       ActiveRecord::Base.connection.execute <<-SQL
         UPDATE
          relations r1,
@@ -223,9 +223,9 @@ class GenerateWpClosure < ActiveRecord::Migration[5.0]
   end
 
   class NestedSetWorkPackage < ActiveRecord::Base
-    self.table_name = 'work_packages'
+    self.table_name = "work_packages"
 
-    acts_as_nested_set scope: 'root_id', dependent: :destroy
+    acts_as_nested_set scope: "root_id", dependent: :destroy
 
     include OpenProject::NestedSet::RebuildPatch
   end

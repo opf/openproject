@@ -27,4 +27,4 @@
 #++
 
 Seeder.log_to_stdout!
-RootSeeder.new.seed!
+RootSeeder.new(raise_on_unknown_language: true).seed!

@@ -28,13 +28,13 @@
 
 class RedistributeEditProjectPermission < ActiveRecord::Migration[6.1]
   def up
-    add_permission('select_custom_fields')
-    add_permission('select_done_status')
+    add_permission("select_custom_fields")
+    add_permission("select_done_status")
   end
 
   def down
-    remove_permission('select_custom_fields')
-    remove_permission('select_done_status')
+    remove_permission("select_custom_fields")
+    remove_permission("select_done_status")
   end
 
   private

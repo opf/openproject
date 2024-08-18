@@ -13,7 +13,7 @@ FAIL_COUNT_FILE=/tmp/.liveness-check-fail-count.op
 #
 # This checks across all workers and can't tell if it's only this worker in particular
 # that doesn't seem to be doing anything.
-UNPROCESSED_COUNT=`psql -d ${DATABASE_URL%%\?*} -c "select count(*) from delayed_jobs where locked_by is null and run_at < (now() - interval '15 minutes');" | tail -n +3 | head -n1 | tr -d ' '`
+UNPROCESSED_COUNT=`psql -d ${DATABASE_URL%%\?*} -c "select count(*) from good_jobs where finished_at is null and scheduled_at < (now() - interval '15 minutes');" | tail -n +3 | head -n1 | tr -d ' '`
 
 echo "unprocessed: $UNPROCESSED_COUNT"
 
@@ -25,7 +25,7 @@ if [ "$UNPROCESSED_COUNT" = "0" ]; then
 
   exit 0
 else
-  MIN_RUN_AT=`psql -d ${DATABASE_URL%%\?*} -c "select run_at from delayed_jobs where locked_by is null and cron is null and run_at is not null and run_at < (now() - interval '1 minutes') order by run_at asc limit 1;" | tail -n +3 | head -n1`
+  MIN_RUN_AT=`psql -d ${DATABASE_URL%%\?*} -c "select scheduled_at from good_jobs where finished_at is null and cron_key is null and scheduled_at is not null and scheduled_at < (now() - interval '1 minutes') order by scheduled_at asc limit 1;" | tail -n +3 | head -n1`
   LAST_MIN_RUN_AT=`cat $MIN_RUN_AT_FILE 2>/dev/null || echo 0`
   NUM_FAILS=`cat $FAIL_COUNT_FILE 2>/dev/null || echo 0`
 
