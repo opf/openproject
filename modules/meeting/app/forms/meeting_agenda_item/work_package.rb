@@ -28,17 +28,15 @@
 
 class MeetingAgendaItem::WorkPackage < ApplicationForm
   form do |agenda_item_form|
-    agenda_item_form.autocompleter(
+    agenda_item_form.work_package_autocompleter(
       name: :work_package_id,
       label: WorkPackage.model_name.human,
       visually_hide_label: true,
       autocomplete_options: {
         id: "op-agenda-items-wp-autocomplete",
         data: {
-          'test-selector': 'op-agenda-items-wp-autocomplete'
+          "test-selector": "op-agenda-items-wp-autocomplete"
         },
-        resource: 'work_packages',
-        searchKey: 'subjectOrId',
         focusDirectly: true,
         disabled: @disabled
       }

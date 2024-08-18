@@ -31,10 +31,11 @@ module Meetings
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:)
+    def initialize(meeting:, project:)
       super
 
       @meeting = meeting
+      @project = project
     end
   end
 end

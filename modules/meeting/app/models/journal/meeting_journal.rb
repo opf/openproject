@@ -27,7 +27,7 @@
 #++
 
 class Journal::MeetingJournal < Journal::BaseJournal
-  self.table_name = 'meeting_journals'
+  self.table_name = "meeting_journals"
 
-  belongs_to :author, class_name: 'User'
+  belongs_to :author, class_name: "User"
 end

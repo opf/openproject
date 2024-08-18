@@ -9,21 +9,21 @@ vi:
         demo-project:
           meetings:
             item_0:
-              title: Weekly
+              title: Hàng tuần
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: Tin tốt
             item_1:
-              title: Updates from development team
+              title: Cập nhật từ nhóm phát triển
             item_2:
-              title: Updates from product team
+              title: Cập nhật từ nhóm sản phẩm
             item_3:
-              title: Updates from marketing team
-            item_4:
-              title: Updates from sales team
+              title: Cập nhật từ nhóm marketing
             item_5:
-              title: Review of quarterly goals
+              title: Cập nhật từ nhóm bán hàng
             item_6:
-              title: Core values feedback
+              title: Xem xét các mục tiêu hàng quý
             item_7:
-              title: General topics
+              title: Phản hồi về giá trị cốt lõi
+            item_8:
+              title: Các chủ đề chung

@@ -31,7 +31,7 @@ class BannerMessageComponent < ApplicationComponent # rubocop:disable OpenProjec
                  full: true,
                  full_when_narrow: false,
                  dismiss_scheme: :hide,
-                 dismiss_label: I18n.t('button_close'),
+                 dismiss_label: I18n.t("button_close"),
                  icon: false,
                  scheme: :default,
                  test_selector: "primer-banner-message-component")

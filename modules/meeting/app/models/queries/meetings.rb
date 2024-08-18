@@ -33,5 +33,6 @@ module Queries::Meetings
     filter Filters::AttendedUserFilter
     filter Filters::InvitedUserFilter
     filter Filters::AuthorFilter
+    filter Filters::DatesIntervalFilter
   end
 end

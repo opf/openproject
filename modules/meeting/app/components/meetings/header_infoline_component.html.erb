@@ -1,7 +1,8 @@
-<%= render(Primer::BaseComponent.new(tag: :div, color: :subtle, font_size: :small)) do %>
+<%= render(Primer::BaseComponent.new(tag: :div)) do %>
   <%= t("label_meeting_created_by") %>
-  <%= render(Primer::Beta::Link.new(href: user_path(@meeting.author), underline: false,
+  <%= render(Primer::Beta::Link.new(href: user_path(@meeting.author),
+                                    underline: false,
                                     target: "_blank")) { @meeting.author.name } %>.
   <%= t("label_meeting_last_updated") %>
-  <%= render(OpPrimer::RelativeTimeComponent.new(font_size: :small, datetime: last_updated_at, prefix: I18n.t(:label_on))) %>.
+  <%= render(OpPrimer::RelativeTimeComponent.new(datetime: last_updated_at, prefix: I18n.t(:label_on))) %>.
 <% end %>

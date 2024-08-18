@@ -1,12 +1,12 @@
 <%=
-  render(Primer::Beta::BorderBox.new(padding: :condensed,
+  render(border_box_container(padding: :condensed,
                                      test_selector: "op-meeting-container-#{@meeting.id}")) do |border_box|
     border_box.with_header do
       flex_layout do |flex|
         flex.with_column(mr: 1) do
           render(Primer::Beta::Link.new(href: meeting_path(@meeting), target: "_blank", font_size: :normal,
                                         font_weight: :bold, scheme: :primary, underline: false)) do
-            @meeting.title
+            "#{@meeting.project.name}: #{@meeting.title}"
           end
         end
         flex.with_column do

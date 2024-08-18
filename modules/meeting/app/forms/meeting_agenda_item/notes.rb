@@ -27,15 +27,28 @@
 #++
 
 class MeetingAgendaItem::Notes < ApplicationForm
+  delegate :object, to: :@builder
+
   form do |agenda_item_form|
     agenda_item_form.rich_text_area(
       name: :notes,
       label: MeetingAgendaItem.human_attribute_name(:notes),
-      disabled: @disabled
+      disabled: @disabled,
+      rich_text_options: {
+        resource:,
+        showAttachments: false
+      }
     )
   end
 
   def initialize(disabled: false)
     @disabled = disabled
+  end
+
+  def resource
+    return unless object&.meeting
+
+    API::V3::Meetings::MeetingRepresenter
+      .new(object.meeting, current_user: User.current, embed_links: false)
   end
 end

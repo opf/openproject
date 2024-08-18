@@ -44,9 +44,15 @@ module MeetingAgendaItems
 
     def wrapper_data_attributes
       {
-        controller: 'meeting-agenda-item-drag-and-drop',
-        'application-target': 'dynamic',
-        'target-tag': 'ul'
+        controller: "generic-drag-and-drop",
+        "application-target": "dynamic"
+      }
+    end
+
+    def drop_target_config
+      {
+        "is-drag-and-drop-target": true,
+        "target-allowed-drag-type": "section" # the type of dragged items which are allowed to be dropped in this target
       }
     end
 
@@ -55,7 +61,7 @@ module MeetingAgendaItems
     end
 
     def insert_target_modifier_id
-      'meeting-agenda-items-new-item'
+      "meeting-section-new-item"
     end
   end
 end

@@ -27,5 +27,5 @@
 #++
 
 Rails.application.routes.draw do
-  get '/my/page', to: 'angular#empty_layout'
+  get "/my/page", to: "angular#empty_layout"
 end

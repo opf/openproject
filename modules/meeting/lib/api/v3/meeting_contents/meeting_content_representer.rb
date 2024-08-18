@@ -49,7 +49,7 @@ module API
                             end
 
         def _type
-          'MeetingContent'
+          "MeetingContent"
         end
       end
     end

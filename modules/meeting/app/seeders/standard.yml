@@ -31,50 +31,60 @@ projects:
     meetings:
       - reference: :weekly_meeting
         t_title: Weekly
-        duration: 80
+        duration: 60
         author: :openproject_admin
     meeting_agenda_items:
       - t_title: Good news
         notes: "What went well this week?"
         meeting: :weekly_meeting
         author: :openproject_admin
+        presenter: :openproject_admin
         duration: 5
       - t_title: Updates from development team
         notes: "News and focused topics for the upcoming week."
         meeting: :weekly_meeting
         author: :openproject_admin
+        presenter: :openproject_admin
         duration: 5
       - t_title: Updates from product team
         notes: "News and focused topics for the upcoming week."
         meeting: :weekly_meeting
         author: :openproject_admin
+        presenter: :openproject_admin
         duration: 5
       - t_title: Updates from marketing team
         notes: "News and focused topics for the upcoming week."
         meeting: :weekly_meeting
         author: :openproject_admin
+        presenter: :openproject_admin
+        duration: 5
+      - work_package: :organize_open_source_conference
+        notes: "**Today's topic**: Organizing the open-source conference."
+        meeting: :weekly_meeting
+        author: :openproject_admin
+        presenter: :openproject_admin
         duration: 5
       - t_title: Updates from sales team
         notes: "News and focused topics for the upcoming week."
         meeting: :weekly_meeting
         author: :openproject_admin
+        presenter: :openproject_admin
         duration: 5
       - t_title: Review of quarterly goals
         notes: "Assessing the status and progress of the defined quarterly goals."
         meeting: :weekly_meeting
         author: :openproject_admin
-        duration: 12
+        presenter: :openproject_admin
+        duration: 5
       - t_title: Core values feedback
         notes: "Highlight employees who have lived the core values this week."
         meeting: :weekly_meeting
         author: :openproject_admin
-        duration: 10
+        presenter: :openproject_admin
+        duration: 5
       - t_title: General topics
-        notes: |
-          Solving or discussing one topic together.
-          
-          **Today's topic**: Organizing the open-source conference
+        notes: "Solving or discussing topics together."
         meeting: :weekly_meeting
-        work_package: :organize_open_source_conference
         author: :openproject_admin
-        duration: 30
+        presenter: :openproject_admin
+        duration: 20

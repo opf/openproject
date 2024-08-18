@@ -19,11 +19,11 @@ ca:
               title: Actualitzacions de l'equip de producte
             item_3:
               title: Actualitzacions de l'equip de màrqueting
-            item_4:
-              title: Actualitzacions de l'equip de vendes
             item_5:
-              title: Revisió dels objectius quadrimestrals
+              title: Actualitzacions de l'equip de vendes
             item_6:
-              title: Opinions dels valors principals
+              title: Revisió dels objectius quadrimestrals
             item_7:
+              title: Opinions dels valors principals
+            item_8:
               title: Temes generals
