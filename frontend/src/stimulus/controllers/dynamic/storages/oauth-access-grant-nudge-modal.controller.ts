@@ -30,7 +30,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-export default class OAuthAccessGrantNudgeModalController extends Controller {
+export default class OAuthAccessGrantNudgeModalController extends Controller<HTMLDialogElement> {
   static targets = [
     'requestAccessForm',
     'requestAccessButton',
@@ -57,6 +57,8 @@ export default class OAuthAccessGrantNudgeModalController extends Controller {
   declare readonly loadingScreenReaderMessageValue:string;
 
   connect() {
+    this.element.showModal();
+
     if (this.hasRequestAccessButtonTarget) {
       // Focus on the request access button
       this.requestAccessButtonTarget.focus();
