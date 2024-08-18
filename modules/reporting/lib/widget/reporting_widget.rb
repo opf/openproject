@@ -31,6 +31,7 @@ class Widget::ReportingWidget < ActionView::Base
   include ActionView::Helpers::AssetTagHelper
   include ActionView::Helpers::FormTagHelper
   include ActionView::Helpers::JavaScriptHelper
+  include ActionView::Helpers::OutputSafetyHelper
   include Rails.application.routes.url_helpers
   include ApplicationHelper
   include ReportingHelper
@@ -39,7 +40,7 @@ class Widget::ReportingWidget < ActionView::Base
   attr_accessor :output_buffer, :controller, :config, :_content_for, :_routes, :subject
 
   def self.new(subject)
-    super(subject).tap do |o|
+    super.tap do |o|
       o.subject = subject
     end
   end

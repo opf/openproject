@@ -1,8 +1,10 @@
-class SessionController < ActionController::Base
+class SessionController < ApplicationController
+  no_authorization_required! :logout_warning
+
   def logout_warning
     url = signin_url back_url: params[:back_url]
 
-    render 'logout_warning', locals: { message: link_i18n(:logout_warning, url) }
+    render "logout_warning", locals: { message: link_i18n(:logout_warning, url) }
   end
 
   private

@@ -32,13 +32,13 @@ module CostQuery::CustomFieldMixin
   attr_reader :custom_field
 
   SQL_TYPES = {
-    'string' => 'varchar',
-    'list' => 'varchar',
-    'text' => 'text',
-    'bool' => 'boolean',
-    'date' => 'date',
-    'int' => 'decimal(60,3)',
-    'float' => 'decimal(60,3)'
+    "string" => "varchar",
+    "list" => "varchar",
+    "text" => "text",
+    "bool" => "boolean",
+    "date" => "date",
+    "int" => "decimal(60,3)",
+    "float" => "decimal(60,3)"
   }.freeze
 
   def self.extended(base)

@@ -27,7 +27,7 @@
 #++
 
 class Report::Filter::NoFilter < Report::Filter::Base
-  table_name 'entries'
+  table_name "entries"
   dont_display!
   singleton
 

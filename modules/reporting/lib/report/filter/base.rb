@@ -39,12 +39,12 @@ class Report::Filter
     accepts_property :values, :value, :operator
 
     mattr_accessor :skip_inherited_operators
-    self.skip_inherited_operators = [:time_operators, 'y', 'n']
+    self.skip_inherited_operators = [:time_operators, "y", "n"]
 
     attr_accessor :values
 
     def cache_key
-      self.class.cache_key + operator.to_s + Array(values).join(',')
+      self.class.cache_key + operator.to_s + Array(values).join(",")
     end
 
     ##

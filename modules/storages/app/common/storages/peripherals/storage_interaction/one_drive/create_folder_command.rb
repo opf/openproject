@@ -33,68 +33,68 @@ module Storages
     module StorageInteraction
       module OneDrive
         class CreateFolderCommand
-          def self.call(storage:, folder_path:)
-            new(storage).call(folder_path:)
+          include TaggedLogging
+          using ServiceResultRefinements
+
+          def self.call(storage:, auth_strategy:, folder_name:, parent_location:)
+            new(storage).call(auth_strategy:, folder_name:, parent_location:)
           end
 
           def initialize(storage)
             @storage = storage
-            @uri = storage.uri
           end
 
-          # NOTE: This is currently creating a folder only on the root folder
-          def call(folder_path:)
-            Util.using_admin_token(@storage) do |http|
-              response = http.post("/v1.0/drives/#{@storage.drive_id}/root/children", body: payload(folder_path))
-
-              handle_response(response)
+          def call(auth_strategy:, folder_name:, parent_location:)
+            with_tagged_logger do
+              info "Creating folder #{folder_name} under #{parent_location} using #{auth_strategy.key}"
+              Authentication[auth_strategy].call(storage: @storage, http_options:) do |http|
+                handle_response http.post(url_for(parent_location), body: payload(folder_name))
+              end
             end
           end
 
           private
 
-          def handle_response(response)
-            data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
+          def http_options
+            Util.json_content_type
+          end
 
-            case response
-            in { status: 200..299 }
-              ServiceResult.success(result: file_info_for(MultiJson.load(response.body, symbolize_keys: true)),
-                                    message: 'Folder was successfully created.')
-            in { status: 404 }
-              ServiceResult.failure(result: :not_found,
-                                    errors: ::Storages::StorageError.new(code: :not_found, data:))
-            in { status: 401 }
-              ServiceResult.failure(result: :unauthorized,
-                                    errors: ::Storages::StorageError.new(code: :unauthorized, data:))
-            in { status: 409 }
-              ServiceResult.failure(result: :already_exists,
-                                    errors: ::Storages::StorageError.new(code: :conflict, data:))
+          def url_for(parent_location)
+            if parent_location.root?
+              UrlBuilder.url(Util.drive_base_uri(@storage), "/root/children")
             else
-              ServiceResult.failure(result: :error,
-                                    errors: ::Storages::StorageError.new(code: :error, data:))
+              UrlBuilder.url(Util.drive_base_uri(@storage), "/items", parent_location.path, "/children")
             end
           end
 
-          def file_info_for(json_file)
-            StorageFile.new(
-              id: json_file[:id],
-              name: json_file[:name],
-              size: json_file[:size],
-              mime_type: Util.mime_type(json_file),
-              created_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :createdDateTime)),
-              last_modified_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :lastModifiedDateTime)),
-              created_by_name: json_file.dig(:createdBy, :user, :displayName),
-              last_modified_by_name: json_file.dig(:lastModifiedBy, :user, :displayName),
-              location: Util.extract_location(json_file[:parentReference], json_file[:name]),
-              permissions: %i[readable writeable]
-            )
+          def handle_response(response)
+            source = self.class
+
+            case response
+            in { status: 200..299 }
+              info "Folder successfully created."
+              ServiceResult.success(result:
+                                      Util.storage_file_from_json(MultiJson.load(response.body, symbolize_keys: true)))
+            in { status: 404 }
+              ServiceResult.failure(result: :not_found,
+                                    errors: Util.storage_error(code: :not_found, response:, source:))
+            in { status: 401 }
+              ServiceResult.failure(result: :unauthorized,
+                                    errors: Util.storage_error(code: :unauthorized, response:, source:))
+            in { status: 409 }
+              ServiceResult.failure(result: :already_exists,
+                                    errors: Util.storage_error(code: :conflict, response:, source:))
+            else
+              ServiceResult.failure(result: :error,
+                                    errors: Util.storage_error(code: :error, response:, source:))
+            end
           end
 
-          def payload(folder_path)
+          def payload(folder_name)
             {
-              name: folder_path,
+              name: folder_name,
               folder: {},
-              '@microsoft.graph.conflictBehavior' => "fail"
+              "@microsoft.graph.conflictBehavior" => "fail"
             }.to_json
           end
         end

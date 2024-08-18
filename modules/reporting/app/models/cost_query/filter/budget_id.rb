@@ -38,7 +38,7 @@ class CostQuery::Filter::BudgetId < Report::Filter::Base
     Budget
       .visible(User.current)
       .includes(:project)
-      .pluck(:'projects.name', :subject, :id)
+      .pluck(:"projects.name", :subject, :id)
       .map { |a| ["#{a[0]} - #{a[1]} ", a[2]] }
       .sort_by { |a| a.first.downcase }
   end

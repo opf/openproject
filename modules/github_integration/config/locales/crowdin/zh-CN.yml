@@ -20,8 +20,21 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 zh-CN:
+  button_add_deploy_target: 添加部署目标
+  label_deploy_target: 部署目标
+  label_deploy_target_new: 新的部署目标
+  label_deploy_target_plural: 部署目标
+  label_github_integration: GitHub 集成
+  notice_deploy_target_created: 部署目标已创建
+  notice_deploy_target_destroyed: 部署目标已删除
   plugin_openproject_github_integration:
     name: "OpenProject GitHub 集成"
     description: "将 OpenProject 和 GitHub 进行集成，以实现更好的工作流程。"
   project_module_github: "GitHub"
   permission_show_github_content: "显示 GitHub 内容"
+  permission_introspection: 读取运行 OpenProject 核心版本并编译SHA
+  text_deploy_target_type_info: >
+    到目前为止，我们只支持 OpenProject 本身。
+  text_deploy_target_api_key_info: >
+    拥有全局内省权限的用户的 OpenProject [API 密钥](docs_url)。
+  text_pull_request_deployed_to: "%{pr_link} 部署到 %{deploy_target_link}"

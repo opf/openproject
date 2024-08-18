@@ -20,8 +20,21 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 vi:
+  button_add_deploy_target: Thêm mục triển khai
+  label_deploy_target: Mục triển khai
+  label_deploy_target_new: Mục triển khai mới
+  label_deploy_target_plural: Các mục triển khai
+  label_github_integration: Tích hợp GitHub
+  notice_deploy_target_created: Mục triển khai đã được tạo
+  notice_deploy_target_destroyed: Mục triển khai đã bị xóa
   plugin_openproject_github_integration:
-    name: "OpenProject GitHub Integration"
-    description: "Integrates OpenProject and GitHub for a better workflow"
+    name: "Tích hợp GitHub OpenProject"
+    description: "Tích hợp OpenProject và GitHub để có quy trình làm việc tốt hơn"
   project_module_github: "GitHub"
   permission_show_github_content: "Hiển thị nội dung GitHub"
+  permission_introspection: Đọc phiên bản OpenProject đang chạy và SHA build
+  text_deploy_target_type_info: >
+    Hiện tại chúng tôi chỉ hỗ trợ OpenProject.
+  text_deploy_target_api_key_info: >
+    Một [API key](docs_url) của OpenProject thuộc về người dùng có quyền introspection toàn cầu.
+  text_pull_request_deployed_to: "%{pr_link} đã được triển khai tới %{deploy_target_link}"

@@ -32,30 +32,32 @@ module Storages
   module Peripherals
     module OAuthConfigurations
       class NextcloudConfiguration < ConfigurationInterface
+        Util = StorageInteraction::Nextcloud::Util
+
         attr_reader :oauth_client
 
+        # rubocop:disable Lint/MissingSuper
         def initialize(storage)
-          @uri = storage.uri
+          @storage = storage
+
+          raise(ArgumentError, "Storage must have configured OAuth client credentials") if storage.oauth_client.blank?
+
           @oauth_client = storage.oauth_client.freeze
         end
 
-        def authorization_state_check(token)
-          util = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
-
-          authorization_check_wrapper do
-            OpenProject.httpx.get(
-              util.join_uri_path(@uri, '/ocs/v1.php/cloud/user'),
-              headers: {
-                'Authorization' => "Bearer #{token}",
-                'OCS-APIRequest' => 'true',
-                'Accept' => 'application/json'
-              }
-            )
-          end
-        end
+        # rubocop:enable Lint/MissingSuper
 
         def extract_origin_user_id(rack_access_token)
           rack_access_token.raw_attributes[:user_id]
+        end
+
+        def to_httpx_oauth_config
+          StorageInteraction::AuthenticationStrategies::OAuthConfiguration.new(
+            client_id: @oauth_client.client_id,
+            client_secret: @oauth_client.client_secret,
+            issuer: URI(UrlBuilder.url(@storage.uri, "/index.php/apps/oauth2/api/v1")).normalize,
+            scope: []
+          )
         end
 
         def scope
@@ -63,15 +65,17 @@ module Storages
         end
 
         def basic_rack_oauth_client
+          uri = @storage.uri
+
           Rack::OAuth2::Client.new(
             identifier: @oauth_client.client_id,
             secret: @oauth_client.client_secret,
             redirect_uri: @oauth_client.redirect_uri,
-            scheme: @uri.scheme,
-            host: @uri.host,
-            port: @uri.port,
-            authorization_endpoint: File.join(@uri.path, "/index.php/apps/oauth2/authorize"),
-            token_endpoint: File.join(@uri.path, "/index.php/apps/oauth2/api/v1/token")
+            scheme: uri.scheme,
+            host: uri.host,
+            port: uri.port,
+            authorization_endpoint: UrlBuilder.path(uri.path, "/index.php/apps/oauth2/authorize"),
+            token_endpoint: UrlBuilder.path(uri.path, "/index.php/apps/oauth2/api/v1/token")
           )
         end
       end

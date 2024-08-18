@@ -32,23 +32,30 @@
 # option-tags from the content array instead of the filters available values.
 class Widget::Filters::Option < Widget::Filters::Base
   def render
+    options = content(@options[:content] || filter_class.available_values)
+    write safe_join(options)
+  end
+
+  # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+  def content(values)
     first = true
-    write((@options[:content] || filter_class.available_values).map do |name, id, *args|
+    values.map do |name, id, *args|
       options = args.first || {} # optional configuration for values
       level = options[:level] # nesting_level is optional for values
       name = I18n.t(name) if name.is_a? Symbol
       name = I18n.t(:label_none) if name.empty?
-      name_prefix = (level && level > 0 ? ((' ' * 2 * level) + '> ') : '')
+      name_prefix = (level && level > 0 ? "#{' ' * 2 * level}> " : "")
       if options[:optgroup]
         tag :optgroup, label: I18n.t(:label_sector)
       else
         opts = { value: id }
         if (Array(filter.values).map(&:to_s).include? id.to_s) || (first && Array(filter.values).empty?)
-          opts[:selected] = 'selected'
+          opts[:selected] = "selected"
         end
         first = false
         content_tag(:option, opts) { name_prefix + name }
       end
-    end.join.html_safe)
+    end
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
 end

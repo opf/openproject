@@ -40,7 +40,7 @@ module Report::Validation
     begin
       val_module = Report::Validation.const_get const_name
       singleton_class.send(:include, val_module)
-      val_method = 'validate_' + val_method.to_s.pluralize
+      val_method = "validate_" + val_method.to_s.pluralize
       if method(val_method)
         validations << val_method
       else

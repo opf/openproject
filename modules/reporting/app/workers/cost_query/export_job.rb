@@ -1,10 +1,10 @@
-require 'active_storage/filename'
+require "active_storage/filename"
 
 class CostQuery::ExportJob < Exports::ExportJob
   self.model = ::CostQuery
 
   def title
-    I18n.t('export.cost_reports.title')
+    I18n.t("export.cost_reports.title")
   end
 
   def project
@@ -18,6 +18,7 @@ class CostQuery::ExportJob < Exports::ExportJob
   private
 
   def prepare!
+    CostQuery::Cache.check
     self.query = build_query(query)
   end
 
@@ -30,12 +31,12 @@ class CostQuery::ExportJob < Exports::ExportJob
   def xls_report_result
     params = { query:, project:, cost_types: }
     content = ::OpenProject::Reporting::CostEntryXlsTable.generate(params).xls
-    time = Time.current.strftime('%Y-%m-%d-T-%H-%M-%S')
+    time = Time.current.strftime("%Y-%m-%d-T-%H-%M-%S")
     export_title = "cost-report-#{time}.xls"
 
     ::Exports::Result.new(format: :xls,
                           title: export_title,
-                          mime_type: 'application/vnd.ms-excel',
+                          mime_type: "application/vnd.ms-excel",
                           content:)
   end
 
@@ -44,8 +45,8 @@ class CostQuery::ExportJob < Exports::ExportJob
     query = CostQuery.new(project:)
     query.tap do |q|
       filters[:operators].each do |filter, operator|
-        unless filters[:values][filter] == ['<<inactive>>']
-          values = Array(filters[:values][filter]).map { |v| v == '<<null>>' ? nil : v }
+        unless filters[:values][filter] == ["<<inactive>>"]
+          values = Array(filters[:values][filter]).map { |v| v == "<<null>>" ? nil : v }
           q.filter(filter.to_sym,
                    operator:,
                    values:)

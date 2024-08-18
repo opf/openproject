@@ -33,87 +33,83 @@ module Storages
     module StorageInteraction
       module OneDrive
         class FilesQuery
+          include TaggedLogging
+
           FIELDS = "?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference"
 
-          using ServiceResultRefinements
-
-          def self.call(storage:, user:, folder:)
-            new(storage).call(user:, folder:)
+          def self.call(storage:, auth_strategy:, folder:)
+            new(storage).call(auth_strategy:, folder:)
           end
 
           def initialize(storage)
             @storage = storage
-            @uri = storage.uri
           end
 
-          def call(user:, folder:)
-            result = Util.using_user_token(@storage, user) do |token|
-              response = OpenProject.httpx.get(
-                Util.join_uri_path(@uri, children_uri_path_for(folder) + FIELDS),
-                headers: { 'Authorization' => "Bearer #{token.access_token}" }
-              )
+          def call(auth_strategy:, folder:)
+            with_tagged_logger do
+              info "Getting data on all files under folder '#{folder}' using #{auth_strategy.key}"
+              validate_input_data(folder).on_failure { return _1 }
 
-              handle_response(response, :value)
-            end
+              Authentication[auth_strategy].call(storage: @storage) do |http|
+                response = handle_response(http.get(children_url_for(folder) + FIELDS), :value)
 
-            if result.result.empty?
-              empty_response(user, folder)
-            else
-              result.map { |json_files| storage_files(json_files) }
+                if response.result.empty?
+                  empty_response(http, folder)
+                else
+                  response.map { |json_files| storage_files(json_files) }
+                end
+              end
             end
           end
 
           private
 
+          def validate_input_data(folder)
+            if folder.is_a?(ParentFolder)
+              ServiceResult.success
+            else
+              data = StorageErrorData.new(source: self.class)
+              log_message = "Folder input is not a ParentFolder object."
+              ServiceResult.failure(result: :error, errors: StorageError.new(code: :error, log_message:, data:))
+            end
+          end
+
+          # rubocop:disable Metrics/AbcSize
           def handle_response(response, map_value)
             case response
             in { status: 200..299 }
               ServiceResult.success(result: response.json(symbolize_keys: true).fetch(map_value))
+            in { status: 400 }
+              ServiceResult.failure(result: :request_error,
+                                    errors: Util.storage_error(response:, code: :request_error, source: self.class))
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
-                                    errors: Util.storage_error(response:, code: :not_found, source: self))
+                                    errors: Util.storage_error(response:, code: :not_found, source: self.class))
+            in { status: 403 }
+              ServiceResult.failure(result: :forbidden,
+                                    errors: Util.storage_error(response:, code: :forbidden, source: self.class))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
-                                    errors: Util.storage_error(response:, code: :unauthorized, source: self))
+                                    errors: Util.storage_error(response:, code: :unauthorized, source: self.class))
             else
-              data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
-              ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
+              data = StorageErrorData.new(source: self.class, payload: response)
+              ServiceResult.failure(result: :error, errors: StorageError.new(code: :error, data:))
             end
           end
 
+          # rubocop:enable Metrics/AbcSize
+
           def storage_files(json_files)
-            files = json_files.map { |json| storage_file(json) }
+            files = json_files.map { |json| Util.storage_file_from_json(json) }
 
             parent_reference = json_files.first[:parentReference]
             StorageFiles.new(files, parent(parent_reference), forge_ancestors(parent_reference))
           end
 
-          def storage_file(json_file)
-            StorageFile.new(
-              id: json_file[:id],
-              name: json_file[:name],
-              size: json_file[:size],
-              mime_type: Util.mime_type(json_file),
-              created_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :createdDateTime)),
-              last_modified_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :lastModifiedDateTime)),
-              created_by_name: json_file.dig(:createdBy, :user, :displayName),
-              last_modified_by_name: json_file.dig(:lastModifiedBy, :user, :displayName),
-              location: Util.extract_location(json_file[:parentReference], json_file[:name]),
-              permissions: %i[readable writeable]
-            )
-          end
-
-          def empty_response(user, folder)
-            result = Util.using_user_token(@storage, user) do |token|
-              response = OpenProject.httpx.get(
-                Util.join_uri_path(@uri, location_uri_path_for(folder) + FIELDS),
-                headers: { 'Authorization' => "Bearer #{token.access_token}" }
-              )
-
-              handle_response(response, :id)
+          def empty_response(http, folder)
+            handle_response(http.get(location_url_for(folder) + FIELDS), :id).map do |parent_location_id|
+              empty_storage_files(folder.path, parent_location_id)
             end
-
-            result.map { |parent_location_id| empty_storage_files(folder.path, parent_location_id) }
           end
 
           def empty_storage_files(path, parent_id)
@@ -121,8 +117,8 @@ module Storages
               [],
               StorageFile.new(
                 id: parent_id,
-                name: path.split('/').last,
-                location: path,
+                name: path.split("/").last,
+                location: UrlBuilder.path(path),
                 permissions: %i[readable writeable]
               ),
               forge_ancestors(path:)
@@ -130,7 +126,7 @@ module Storages
           end
 
           def parent(parent_reference)
-            _, _, name = parent_reference[:path].gsub(/.*root:/, '').rpartition '/'
+            _, _, name = parent_reference[:path].gsub(/.*root:/, "").rpartition "/"
 
             if name.empty?
               root(parent_reference[:id])
@@ -138,22 +134,22 @@ module Storages
               StorageFile.new(
                 id: parent_reference[:id],
                 name:,
-                location: Util.extract_location(parent_reference),
+                location: UrlBuilder.path(Util.extract_location(parent_reference)),
                 permissions: %i[readable writeable]
               )
             end
           end
 
           def forge_ancestors(parent_reference)
-            path_elements = parent_reference[:path].gsub(/.+root:/, '').split('/')
+            path_elements = parent_reference[:path].gsub(/.+root:/, "").split("/")
 
             path_elements[0..-2].map do |component|
-              next root(Digest::SHA256.hexdigest('i_am_root')) if component.blank?
+              next root(Digest::SHA256.hexdigest("i_am_root")) if component.blank?
 
               StorageFile.new(
                 id: Digest::SHA256.hexdigest(component),
                 name: component,
-                location: "/#{component}"
+                location: UrlBuilder.path(component)
               )
             end
           end
@@ -165,20 +161,18 @@ module Storages
                             permissions: %i[readable writeable])
           end
 
-          def children_uri_path_for(folder)
-            return "/v1.0/drives/#{@storage.drive_id}/root/children" if folder.root?
+          def children_url_for(folder)
+            base_uri = Util.drive_base_uri(@storage)
+            return UrlBuilder.url(base_uri, "/root/children") if folder.root?
 
-            "/v1.0/drives/#{@storage.drive_id}/root:#{encode_path(folder.path)}:/children"
+            "#{UrlBuilder.url(base_uri, '/root')}:#{UrlBuilder.path(folder.path)}:/children"
           end
 
-          def location_uri_path_for(folder)
-            return "/v1.0/drives/#{@storage.drive_id}/root" if folder.root?
+          def location_url_for(folder)
+            base_uri = UrlBuilder.url(Util.drive_base_uri(@storage), "/root")
+            return base_uri if folder.root?
 
-            "/v1.0/drives/#{@storage.drive_id}/root:#{encode_path(folder.path)}"
-          end
-
-          def encode_path(path)
-            path.split('/').map { |fragment| URI.encode_uri_component(fragment) }.join('/')
+            "#{base_uri}:#{UrlBuilder.path(folder.path)}"
           end
         end
       end

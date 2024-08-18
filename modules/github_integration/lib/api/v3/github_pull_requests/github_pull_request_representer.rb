@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -115,7 +115,7 @@ module API
         date_time_property :updated_at
 
         def _type
-          'GithubPullRequest'
+          "GithubPullRequest"
         end
 
         self.to_eager_load = %i[github_user merged_by]

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'date'
+require "date"
 
 module OpenProject::Reporting::Patches::ToDatePatch
   module StringAndNil

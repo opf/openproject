@@ -37,14 +37,14 @@ class CostQuery::SqlStatement < Report::SqlStatement
   attr_accessor :entry_union
 
   def initialize(table, desc = "")
-    super(table, desc)
+    super
     @entry_union = false
   end
 
   # this is a hack to ensure that additional joins added by filters do not result
   # in additional columns being selected.
   def to_s
-    select(['entries.*']) if select == ['*'] && group_by.empty? && entry_union
+    select(["entries.*"]) if select == ["*"] && group_by.empty? && entry_union
     super
   end
 

@@ -45,7 +45,7 @@ ru:
         referenced_message: "Запрос на извлечение #%{pr_number} %{pr_link} для %{repository_link} автором %{github_user_link} ссылается на этот пакет работ."
         states:
           opened: 'открыт'
-          closed: 'закрыт'
+          closed: 'закрыто'
           draft: 'составлен'
           merged: 'объединен'
           ready_for_review: 'отмечен как готовый к просмотру'

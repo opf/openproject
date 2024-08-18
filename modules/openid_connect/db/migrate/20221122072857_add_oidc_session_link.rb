@@ -34,7 +34,7 @@ class AddOidcSessionLink < ActiveRecord::Migration[7.0]
       ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.create_unlogged_tables = true
       create_table :oidc_user_session_links do |t|
         t.string :oidc_session, null: false, index: true
-        t.references :session, index: true, foreign_key: { to_table: 'sessions', on_delete: :cascade }
+        t.references :session, index: true, foreign_key: { to_table: "sessions", on_delete: :cascade }
 
         t.timestamps
       end

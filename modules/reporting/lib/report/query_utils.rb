@@ -30,7 +30,7 @@ module Report::QueryUtils
   Infinity = 1.0 / 0
   include Engine
 
-  delegate :quoted_false, :quoted_true, to: 'engine.reporting_connection'
+  delegate :quoted_false, :quoted_true, to: "engine.reporting_connection"
   attr_writer :engine
 
   include Costs::NumberHelper
@@ -57,7 +57,7 @@ module Report::QueryUtils
   # @param [#flatten] *values Ruby collection
   # @return [String] SQL collection
   def collection(*values)
-    return '' if values.empty?
+    return "" if values.empty?
 
     v = if values.is_a?(Array)
           values.flatten.each_with_object([]) do |str, l|
@@ -74,7 +74,7 @@ module Report::QueryUtils
     # From ruby doc:
     # When the input str is empty an empty Array is returned as the string is
     # considered to have no fields to split.
-    str.to_s.empty? ? '' : str.to_s.split(',')
+    str.to_s.empty? ? "" : str.to_s.split(",")
   end
 
   ##
@@ -129,7 +129,7 @@ module Report::QueryUtils
   # @param [Object, optional] default_table Table name to use if no table name is given.
   # @return [String] Field name.
   def field_name_for(arg)
-    return 'NULL' unless arg
+    return "NULL" unless arg
     return field_name_for(arg.keys.first) if arg.is_a? Hash
     return "#{table_name_for(arg.first)}.#{arg.last}" if arg.is_a? Array and arg.size == 2
 
@@ -179,7 +179,7 @@ module Report::QueryUtils
 
   def map_field(key, value)
     case key.to_s
-    when 'tweek', 'tmonth', 'tweek' then value.to_i
+    when "tweek", "tmonth", "tweek" then value.to_i
     else convert_unless_nil(value, &:to_s)
     end
   end

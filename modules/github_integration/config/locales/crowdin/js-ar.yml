@@ -40,12 +40,12 @@ ar:
         empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
       github_actions: Actions
       pull_requests:
-        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
-        merged_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
-        referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
+        message: "طلب السحب #%{pr_number} %{pr_link} لمستودع %{repository_link} الذي أنشأه %{github_user_link} تم %{pr_state}."
+        merged_message: "طلب السحب #%{pr_number} %{pr_link} لمستودع %{repository_link} تم %{pr_state} من قبل %{github_user_link}."
+        referenced_message: "طلب السحب #%{pr_number} %{pr_link} لمستودع %{repository_link} الذي أنشأه %{github_user_link} أشار إلى حزمة العمل هذه."
         states:
-          opened: 'opened'
+          opened: 'مفتوح'
           closed: 'مغلق'
-          draft: 'drafted'
-          merged: 'merged'
-          ready_for_review: 'marked ready for review'
+          draft: 'تمت صياغته'
+          merged: 'مدمج'
+          ready_for_review: 'تم وضع علامة جاهز للمراجعة'

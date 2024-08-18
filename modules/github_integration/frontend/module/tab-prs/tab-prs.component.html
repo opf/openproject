@@ -1,5 +1,8 @@
 <ng-container *ngIf="(pullRequests$ | async)?.length === 0">
-  <p [innerHTML]="emptyText"></p>
+  <p
+    class="op-tab-content--text-box"
+    [innerHTML]="emptyText"
+  ></p>
 </ng-container>
 
 <op-github-pull-request

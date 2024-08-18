@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  namespace 'recaptcha' do
-    get :settings, to: 'admin#show'
-    post :settings, to: 'admin#update'
+  namespace "recaptcha" do
+    get :settings, to: "admin#show"
+    post :settings, to: "admin#update"
 
-    get :request, to: 'request#perform', as: 'request'
-    post :verify, to: 'request#verify', as: 'verify'
+    get :request, to: "request#perform", as: "request"
+    post :verify, to: "request#verify", as: "verify"
   end
 end

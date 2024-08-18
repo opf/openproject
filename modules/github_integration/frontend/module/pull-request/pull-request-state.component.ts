@@ -35,7 +35,7 @@ import {
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
-export type PullRequestState = 'opened'|'closed'|'referenced'|'ready_for_review'|'merged'|'draft';
+export type PullRequestState = 'opened'|'closed'|'referenced'|'ready_for_review'|'merged'|'draft'|'deployed';
 
 @Component({
   selector: 'op-github-pull-request-state',

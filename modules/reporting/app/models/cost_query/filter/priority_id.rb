@@ -35,6 +35,6 @@ class CostQuery::Filter::PriorityId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    IssuePriority.order(Arel.sql('position DESC')).pluck(:name, :id)
+    IssuePriority.order(Arel.sql("position DESC")).pluck(:name, :id)
   end
 end

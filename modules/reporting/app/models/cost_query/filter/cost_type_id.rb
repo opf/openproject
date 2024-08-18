@@ -60,6 +60,6 @@ class CostQuery::Filter::CostTypeId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    [[::I18n.t(:caption_labor), -1]] + CostType.order(Arel.sql('name')).pluck(:name, :id)
+    [[::I18n.t(:caption_labor), -1]] + CostType.order(Arel.sql("name")).pluck(:name, :id)
   end
 end
