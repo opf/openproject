@@ -8,6 +8,7 @@ fr:
         text: "Certains composants, comme le composant de graphique des lots de travaux, ne sont disponibles que dans l'édition Entreprise."
         link: 'Version Entreprise'
       widgets:
+        missing_permission: "Vous n'avez pas les autorisations nécessaires pour voir ce widget."
         custom_text:
           title: 'Texte personnalisé'
         documents:
@@ -41,6 +42,9 @@ fr:
         subprojects:
           title: 'Sous-projets'
           no_results: 'Aucun sous-projet.'
+        project_favorites:
+          title: 'Projets favoris'
+          no_results: 'Vous n''avez actuellement aucun projet favori. Cliquez sur l''icône en forme d''étoile dans le tableau de bord du projet pour en ajouter un à vos favoris.'
         time_entries_current_user:
           title: 'Mon temps passé'
           displayed_days: 'Jours affichés dans le widget :'

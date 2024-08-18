@@ -8,6 +8,7 @@ uk:
         text: "Деякі віджети, наприклад віджет графіку пакет робіт, доступні тільки у версії Enterprise."
         link: 'Версія Enterprise.'
       widgets:
+        missing_permission: "У вас немає дозволів для перегляду цього віджета."
         custom_text:
           title: 'Текстовий блок'
         documents:
@@ -41,6 +42,9 @@ uk:
         subprojects:
           title: 'Підпроекти'
           no_results: 'Немає підпроектів.'
+        project_favorites:
+          title: 'Обрані проєкти'
+          no_results: 'Зараз у вас немає обраних проєктів. Натисніть значок зірочки на панелі керування проєктом, щоб додати його в обране.'
         time_entries_current_user:
           title: 'Мій витрачений час'
           displayed_days: 'Днів, доступних у віджеті:'

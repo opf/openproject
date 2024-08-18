@@ -8,6 +8,7 @@ cs:
         text: "Některé widgety, jako například widget s grafem pracovního balíčku, jsou dostupné pouze v Enterprise Edici."
         link: 'Enterprise Edice'
       widgets:
+        missing_permission: "Nemáte potřebná oprávnění k zobrazení tohoto widgetu."
         custom_text:
           title: 'Vlastní text'
         documents:
@@ -41,6 +42,9 @@ cs:
         subprojects:
           title: 'Podprojekty'
           no_results: 'Žádné podprojekty.'
+        project_favorites:
+          title: 'Oblíbené projekty'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Můj strávený čas'
           displayed_days: 'Dny zobrazené ve widgetu:'

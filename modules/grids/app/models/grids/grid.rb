@@ -33,7 +33,7 @@ module Grids
     serialize :options, type: Hash
 
     has_many :widgets,
-             class_name: 'Widget',
+             class_name: "Widget",
              dependent: :destroy,
              autosave: true
 

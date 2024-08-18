@@ -8,6 +8,7 @@ ko:
         text: "작업 패키지 그래프 위젯 같은 일부 위젯은 다음에서만 사용 가능합니다:"
         link: 'Enterprise edition'
       widgets:
+        missing_permission: "이 위젯을 보는 데 필요한 권한이 없습니다."
         custom_text:
           title: '사용자 지정 텍스트'
         documents:
@@ -41,6 +42,9 @@ ko:
         subprojects:
           title: '하위 프로젝트'
           no_results: '하위 프로젝트가 없습니다.'
+        project_favorites:
+          title: '즐겨 찾는 프로젝트'
+          no_results: '즐겨 찾는 프로젝트가 현재 없습니다. 프로젝트 대시보드에서 별 아이콘을 클릭하여 즐겨찾기에 추가하세요.'
         time_entries_current_user:
           title: '내 소요 시간'
           displayed_days: '위젯에 표시되는 일수:'

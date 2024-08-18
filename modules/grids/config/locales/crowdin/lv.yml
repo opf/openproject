@@ -1,16 +1,16 @@
 lv:
   grids:
-    label_widget_in_grid: "Widget contained in Grid %{grid_name}"
+    label_widget_in_grid: "Rīknē iekļautais logrīks %{grid_name}"
   activerecord:
     attributes:
       grids/grid:
-        page: "Page"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
+        page: "Lapa"
+        row_count: "Rindu skaits"
+        column_count: "Kolonnu skaits"
+        widgets: "Logrīki"
     errors:
       models:
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
+          overlaps: 'pārklājas.'
+          outside: 'atrodas ārpus režģa.'
           end_before_start: 'end value needs to be larger than the start value.'

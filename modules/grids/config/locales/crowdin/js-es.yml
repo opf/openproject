@@ -8,6 +8,7 @@ es:
         text: "Algunos widgets, como el widget de gráfico de paquetes de trabajo, solo están disponibles con Enterprise."
         link: 'Enterprise.'
       widgets:
+        missing_permission: "No tiene los permisos necesarios para ver este widget."
         custom_text:
           title: 'Texto personalizado'
         documents:
@@ -41,6 +42,9 @@ es:
         subprojects:
           title: 'Subproyectos'
           no_results: 'No hay subproyectos.'
+        project_favorites:
+          title: 'Proyectos favoritos'
+          no_results: 'Actualmente no tiene ningún proyecto favorito. Haga clic en el icono de estrella en el panel de control del proyecto para añadirlo a sus favoritos.'
         time_entries_current_user:
           title: 'Mi tiempo invertido'
           displayed_days: 'Días mostrados en el widget:'

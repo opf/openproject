@@ -33,7 +33,7 @@ module API
         class TimeEntryCalendarOptionsRepresenter < DefaultOptionsRepresenter
           property :days,
                    getter: ->(represented:, **) {
-                     represented['days'] || {}
+                     represented["days"] || {}
                    }
         end
       end

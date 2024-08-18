@@ -8,6 +8,7 @@ zh-CN:
         text: "某些组件，如工作包图组件，只在企业版提供。"
         link: '企业版。'
       widgets:
+        missing_permission: "您没有查看此微件所需的权限。"
         custom_text:
           title: '自定义文本'
         documents:
@@ -41,6 +42,9 @@ zh-CN:
         subprojects:
           title: '子项目'
           no_results: '无子项目。'
+        project_favorites:
+          title: '收藏的项目'
+          no_results: '您目前没有收藏项目，单击项目仪表板中的星形图标将项目添加到收藏夹。'
         time_entries_current_user:
           title: '我花费的时间'
           displayed_days: '微件中显示的天数：'

@@ -1,5 +1,5 @@
 require "grids/engine"
-require 'grids/configuration'
+require "grids/configuration"
 
 module Grids
 end

@@ -8,6 +8,7 @@ hu:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
         link: 'Enterprise edition.'
       widgets:
+        missing_permission: "Nincs meg a szükséges jogosultsága a widget megtekintéséhez."
         custom_text:
           title: 'Egyéni szöveg'
         documents:
@@ -41,6 +42,9 @@ hu:
         subprojects:
           title: 'Alprojektek'
           no_results: "Nincsenek alprojektek\n"
+        project_favorites:
+          title: 'Favorite projects'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Eltöltött idő rögzítése'
           displayed_days: 'Napok megjelenítése a főoldalon.'
