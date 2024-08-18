@@ -46,7 +46,14 @@ import {
   TableHandlerRegistry,
 } from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { combineLatest } from 'rxjs';
+import { 
+  combineLatest,
+  fromEvent,
+} from 'rxjs';
+import {
+  filter,
+  throttleTime,
+} from 'rxjs/operators';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import { trackByHref } from 'core-app/shared/helpers/angular/tracking-functions';
@@ -86,6 +93,10 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
   @Input() projectIdentifier:string;
 
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
+
+  @Input() manualSortForcedPageSize:number;
+
+  @Output() manualSortForcedPageSizeChange = new EventEmitter<number>();
 
   @Output() selectionChanged = new EventEmitter<string[]>();
 
@@ -208,6 +219,11 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
       this.baselineEnabled = this.wpTableBaseline.isActive();
       this.limitedResults = this.manualSortEnabled && results.total > results.count;
 
+      if(this.manualSortEnabled && results.offset == 1) {
+        this.manualSortForcedPageSize = results.pageSize;
+        this.manualSortForcedPageSizeChange.emit(this.manualSortForcedPageSize);
+      }
+
       // Total columns = all available columns + id + context menu
       this.numTableColumns = this.columns.length + 2;
 
@@ -231,6 +247,31 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
     });
 
     this.cdRef.detectChanges();
+
+    // Load more items when scrolled to end
+    fromEvent(document.getElementsByClassName('work-packages-tabletimeline--table-side work-package-table--container __hidden_overflow_container')[0], 'scroll')
+      .pipe(
+        this.untilDestroyed(),
+        filter((event: any) => {
+          if (this.querySpace.query.value){
+            const scrollContainer = event.target;
+            const reachedEnd = scrollContainer.offsetHeight + scrollContainer.scrollTop >= scrollContainer.scrollHeight - 1;
+            const workPackages = this.querySpace.query.value.results;
+
+            return this.manualSortEnabled && (
+              (workPackages.offset == 1 && workPackages.total > this.manualSortForcedPageSize) || 
+              ((workPackages.offset - 1) * workPackages.pageSize + this.manualSortForcedPageSize <= workPackages.total)
+            ) && reachedEnd;
+          }
+          
+          return false;
+        }),
+        throttleTime(1000),
+      ).subscribe(() => {
+        const loadMoreButton: HTMLElement = document.getElementsByClassName('op-pagination--item-link_next')[0] as HTMLElement;
+        
+        loadMoreButton.click();
+      });
   }
 
   public ngOnDestroy():void {

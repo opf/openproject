@@ -500,6 +500,10 @@ module Settings
         description: "Forced page size for manually sorted work package views",
         default: 250
       },
+      forced_load_more_size: {
+        description: "Forced load more size for manually sorted work package views",
+        default: 50
+      },
       good_job_queues: {
         description: "",
         format: :string,

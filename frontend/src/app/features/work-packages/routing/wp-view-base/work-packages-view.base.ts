@@ -220,6 +220,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
         const newQuery = queryState.value!;
         const triggerUpdate = service.applyToQuery(newQuery);
         this.querySpace.query.putValue(newQuery);
+        this.assignFirstPageIfManualSort();
 
         // Update the current checksum
         this.wpListChecksumService
@@ -249,6 +250,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
         filter((events:HalEvent[]) => this.filterRefreshEvents(events)),
       )
       .subscribe((events:HalEvent[]) => {
+        this.assignFirstPageIfManualSort();
         this.refresh(false, false);
       });
 
@@ -313,5 +315,11 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
         this.queryLoaded = true;
         this.cdRef.detectChanges();
       });
+  }
+
+  private assignFirstPageIfManualSort() {
+    if (this.wpTableSortBy.isManualSortingMode) {
+      this.wpTablePagination.current.page = 1;
+    }
   }
 }

@@ -39,6 +39,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { PaginationInstance } from 'core-app/shared/components/table-pagination/pagination-instance';
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
+import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 
 @Component({
   selector: '[tablePagination]',
@@ -55,6 +56,8 @@ export class TablePaginationComponent extends UntilDestroyedMixin implements OnI
   @Input() showPageSelections = true;
 
   @Input() infoText?:string;
+
+  @Input() manualSortForcedPageSize:number;
 
   @Output() updateResults = new EventEmitter<PaginationInstance>();
 
@@ -81,6 +84,8 @@ export class TablePaginationComponent extends UntilDestroyedMixin implements OnI
     protected paginationService:PaginationService,
     protected cdRef:ChangeDetectorRef,
     protected I18n:I18nService,
+    readonly wpTableSortBy:WorkPackageViewSortByService,
+
   ) {
     super();
   }
@@ -129,8 +134,15 @@ export class TablePaginationComponent extends UntilDestroyedMixin implements OnI
   public updateCurrentRangeLabel() {
     if (this.pagination.total) {
       const totalItems = this.pagination.total;
-      const lowerBound = this.pagination.getLowerPageBound();
-      const upperBound = this.pagination.getUpperPageBound(this.pagination.total);
+      let lowerBound, upperBound;
+      // Adjust cuurent range when loading more items in manual sorting mode. 
+      if(this.wpTableSortBy.isManualSortingMode && this.pagination.page != 1) {
+        lowerBound = 1;
+        upperBound = this.pagination.getUpperPageBoundForManualSort(totalItems, this.manualSortForcedPageSize);
+      } else {
+        lowerBound = this.pagination.getLowerPageBound();
+        upperBound = this.pagination.getUpperPageBound(totalItems);
+      }
 
       this.currentRange = `(${lowerBound} - ${upperBound}/${totalItems})`;
     } else {

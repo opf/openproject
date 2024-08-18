@@ -88,6 +88,8 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   /** Whether we should render a blocked view */
   showResultOverlay$ = this.wpViewFilters.incomplete$;
 
+  manualSortForcedPageSize:number = 0;
+
   public baselineEnabled:boolean;
 
   /** */
@@ -205,6 +207,10 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     } else {
       this.handleWorkPackageClicked(event);
     }
+  }
+
+  setManualSortForcedPageSize(newPageSize:number):void {
+    this.manualSortForcedPageSize = newPageSize;
   }
 
   private openInFullView(workPackageId:string) {
