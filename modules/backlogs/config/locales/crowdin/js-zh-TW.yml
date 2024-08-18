@@ -23,4 +23,4 @@ zh-TW:
   js:
     work_packages:
       properties:
-        storyPoints: "需求重要性"
+        storyPoints: "故事點數"

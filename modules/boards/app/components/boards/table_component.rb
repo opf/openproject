@@ -38,9 +38,9 @@ module Boards
     end
 
     def sortable_columns_correlation
-      super.merge(name: 'grids.name',
-                  project_name: 'projects.name',
-                  created_at: 'grids.created_at')
+      super.merge(name: "grids.name",
+                  project_name: "projects.name",
+                  created_at: "grids.created_at")
     end
 
     def paginated?
@@ -50,7 +50,7 @@ module Boards
     def headers
       @headers ||= [
         [:name, { caption: Boards::Grid.human_attribute_name(:name) }],
-        current_project.blank? ? [:project_name, { caption: I18n.t('attributes.project') }] : nil,
+        current_project.blank? ? [:project_name, { caption: I18n.t("attributes.project") }] : nil,
         [:type, { caption: Boards::Grid.human_attribute_name(:type) }],
         [:created_at, { caption: Boards::Grid.human_attribute_name(:created_at) }]
       ].compact

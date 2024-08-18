@@ -35,7 +35,7 @@ module API
 
           resources :projects do
             route_param :id do
-              namespace 'bcf_xml' do
+              namespace "bcf_xml" do
                 helpers do
                   # Global helper to set allowed content_types
                   # This may be overridden when multipart is allowed (file uploads)
@@ -48,7 +48,7 @@ module API
                   end
 
                   def post_request?
-                    request.env['REQUEST_METHOD'] == 'POST'
+                    request.env["REQUEST_METHOD"] == "POST"
                   end
 
                   def import_options
@@ -71,8 +71,8 @@ module API
                   updated_query = ::API::V3::UpdateQueryFromV3ParamsService.new(query, User.current).call(params)
 
                   exporter = ::OpenProject::Bim::BcfXml::Exporter.new(updated_query.result)
-                  header['Content-Disposition'] = "attachment; filename=\"#{exporter.bcf_filename}\""
-                  env['api.format'] = :binary
+                  header["Content-Disposition"] = "attachment; filename=\"#{exporter.bcf_filename}\""
+                  env["api.format"] = :binary
                   exporter.export!.content.read
                 end
 
@@ -90,7 +90,7 @@ module API
                                                                         current_user: User.current)
 
                     unless importer.bcf_version_valid?
-                      error_message = I18n.t('bcf.bcf_xml.import_failed_unsupported_bcf_version',
+                      error_message = I18n.t("bcf.bcf_xml.import_failed_unsupported_bcf_version",
                                              minimal_version: OpenProject::Bim::BcfXml::Importer::MINIMUM_BCF_VERSION)
 
                       raise API::Errors::UnsupportedMediaType.new(error_message)

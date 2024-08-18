@@ -67,7 +67,7 @@ tr:
         item_5:
           name: MEP Engineers
         item_6:
-          name: Planners
+          name: Planlayıcı
         item_7:
           name: Structural Engineers
       welcome:
@@ -103,7 +103,7 @@ tr:
             item_0:
               name: Proje planı
             item_1:
-              name: Milestones
+              name: Aşamalar
             item_2:
               name: Görevler
             item_3:
@@ -147,7 +147,7 @@ tr:
                   name: İş paketleri
               item_6:
                 options:
-                  name: Milestones
+                  name: Aşamalar
         demo-planning-constructing-project:
           name: "(Demo) Planning & constructing"
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
@@ -165,7 +165,7 @@ tr:
             item_0:
               name: Proje planı
             item_1:
-              name: Milestones
+              name: Aşamalar
             item_2:
               name: Görevler
             item_3:
@@ -202,7 +202,7 @@ tr:
                   name: İş paketleri
               item_6:
                 options:
-                  name: Milestones
+                  name: Aşamalar
           work_packages:
             item_0:
               subject: Project kick off construction project
@@ -211,7 +211,7 @@ tr:
 
                 The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Basic evaluation
+              subject: Temel Değerleme
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
@@ -419,7 +419,7 @@ tr:
             item_0:
               name: Proje planı
             item_1:
-              name: Milestones
+              name: Aşamalar
             item_2:
               name: Görevler
             item_3:
@@ -459,7 +459,7 @@ tr:
                   name: İş paketleri
               item_6:
                 options:
-                  name: Milestones
+                  name: Aşamalar
           work_packages:
             item_0:
               subject: Project kick off creating BIM model
@@ -692,7 +692,7 @@ tr:
             item_4:
               name: Proje planı
             item_5:
-              name: Milestones
+              name: Aşamalar
             item_6:
               name: Görevler
             item_7:

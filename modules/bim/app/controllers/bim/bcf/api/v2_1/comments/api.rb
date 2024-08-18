@@ -76,7 +76,7 @@ module Bim::Bcf::API::V2_1
                 .mount
 
         params do
-          requires :comment_guid, type: String, desc: 'The comment\'s UUID'
+          requires :comment_guid, type: String, desc: "The comment's UUID"
         end
 
         route_param :comment_guid, regexp: /\A[a-f0-9-]+\z/ do

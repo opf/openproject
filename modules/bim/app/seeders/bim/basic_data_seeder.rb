@@ -33,6 +33,7 @@ module Bim
         ::BasicData::ProjectRoleSeeder,
         ::BasicData::WorkPackageRoleSeeder,
         ::BasicData::GlobalRoleSeeder,
+        ::BasicData::ProjectQueryRoleSeeder,
         ::BasicData::TimeEntryActivitySeeder,
         ::BasicData::ColorSeeder,
         ::BasicData::ColorSchemeSeeder,

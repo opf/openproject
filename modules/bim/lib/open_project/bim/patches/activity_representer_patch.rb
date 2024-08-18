@@ -34,7 +34,7 @@ module OpenProject::Bim::Patches::ActivityRepresenterPatch
   module InstanceMethods
     def _type
       if represented.bcf_comment.present?
-        'Activity::BcfComment'
+        "Activity::BcfComment"
       else
         super
       end

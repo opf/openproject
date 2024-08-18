@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'icalendar'
+require "icalendar"
 
 module Calendar
   class CreateICalService < ::BaseServices::BaseCallable
@@ -45,7 +45,7 @@ module Calendar
       calendar = Icalendar::Calendar.new
 
       calendar.prodid = "-//OpenProject GmbH//OpenProject Core Project//EN"
-      calendar.refresh_interval = 'PT1H'
+      calendar.refresh_interval = "PT1H"
       calendar.x_wr_calname = calendar_name
 
       work_packages.each do |work_package|
@@ -84,7 +84,7 @@ module Calendar
 
     def dtstamp_value(work_package)
       # https://datatracker.ietf.org/doc/html/rfc5545#section-3.8.7.2
-      Icalendar::Values::DateTime.new(work_package.updated_at, 'tzid' => 'UTC')
+      Icalendar::Values::DateTime.new(work_package.updated_at, "tzid" => "UTC")
     end
 
     def dtstart_value(work_package)

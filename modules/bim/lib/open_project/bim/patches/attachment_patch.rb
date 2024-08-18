@@ -53,7 +53,7 @@ module OpenProject::Bim::Patches::AttachmentPatch
     end
 
     def ifc_file_name
-      title = container.title.sub /\.ifc\Z/, ''
+      title = container.title.sub /\.ifc\Z/, ""
 
       title.to_localized_slug(locale: :en) + ".ifc"
     end

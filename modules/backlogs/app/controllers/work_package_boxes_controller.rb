@@ -44,7 +44,7 @@ class WorkPackageBoxesController < WorkPackagesController
     @time_entry = TimeEntry.new
 
     respond_to do |format|
-      format.js   { render partial: 'show' }
+      format.js   { render partial: "show" }
     end
   end
 
@@ -56,7 +56,7 @@ class WorkPackageBoxesController < WorkPackagesController
     @journal = @work_package.last_journal
 
     respond_to do |format|
-      format.js   { render partial: 'edit' }
+      format.js   { render partial: "edit" }
     end
   end
 
@@ -67,12 +67,12 @@ class WorkPackageBoxesController < WorkPackagesController
       @work_package.reload
       load_journals
       respond_to do |format|
-        format.js   { render partial: 'show' }
+        format.js   { render partial: "show" }
       end
     else
       @journal = @work_package.last_journal
       respond_to do |format|
-        format.js { render partial: 'edit' }
+        format.js { render partial: "edit" }
       end
     end
   end

@@ -9,10 +9,10 @@ module OpenProject::Bim::Patches::WorkPackageBoardSeederPatch
 
       return unless OpenProject::Configuration.bim?
 
-      if board_data = project_data.lookup('boards.bcf')
-        print_status '    ↳ Creating demo BCF board' do
+      if board_data = project_data.lookup("boards.bcf")
+        print_status "    ↳ Creating demo BCF board" do
           seed_bcf_board(board_data)
-          Setting.boards_demo_data_available = 'true'
+          Setting.boards_demo_data_available = "true"
         end
       end
     end
@@ -22,8 +22,8 @@ module OpenProject::Bim::Patches::WorkPackageBoardSeederPatch
       board =
         ::Boards::Grid.new(
           project:,
-          name: board_data.lookup('name'),
-          options: { 'type' => 'action', 'attribute' => 'status', 'highlightingMode' => 'type' },
+          name: board_data.lookup("name"),
+          options: { "type" => "action", "attribute" => "status", "highlightingMode" => "type" },
           widgets:,
           column_count: widgets.count,
           row_count: 1
@@ -36,8 +36,8 @@ module OpenProject::Bim::Patches::WorkPackageBoardSeederPatch
         Grids::Widget.new start_row: 1, end_row: 2,
                           start_column: i + 1, end_column: i + 2,
                           options: { query_id: query.id,
-                                     filters: [{ status: { operator: '=', values: query.filters[0].values } }] },
-                          identifier: 'work_package_query'
+                                     filters: [{ status: { operator: "=", values: query.filters[0].values } }] },
+                          identifier: "work_package_query"
       end
     end
 
@@ -54,10 +54,10 @@ module OpenProject::Bim::Patches::WorkPackageBoardSeederPatch
 
           query.name = status.name
           # Set filter by this status
-          query.add_filter('status_id', '=', [status.id])
+          query.add_filter("status_id", "=", [status.id])
 
           # Set manual sort filter
-          query.sort_criteria = [[:manual_sorting, 'asc']]
+          query.sort_criteria = [[:manual_sorting, "asc"]]
 
           query.save!
         end

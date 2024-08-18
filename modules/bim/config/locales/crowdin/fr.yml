@@ -13,7 +13,7 @@ fr:
     recommended: 'recommandé'
     not_recommended: 'déconseillé'
     no_viewpoints: 'Aucun point de vue'
-    new_badge: "nouveau"
+    new_badge: "Nouveau"
     exceptions:
       file_invalid: "Fichier BCF invalide"
     x_bcf_issues:

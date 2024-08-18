@@ -19,7 +19,7 @@ tr:
       status: Durum
       version: Sürüm
       subproject: Alt proje
-      subtasks: Ana-Yavru
+      subtasks: Üst-Alt
       basic: Temel
     board_type_descriptions:
       basic: >

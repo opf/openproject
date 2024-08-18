@@ -59,8 +59,8 @@ module OpenProject::Backlogs::Patches::UpdateServicePatch
       work_package
         .descendants
         .includes(project: :enabled_modules)
-        .order_by_ancestors('asc')
-        .select('work_packages.*')
+        .order_by_ancestors("asc")
+        .select("work_packages.*")
     end
 
     def descendant_tasks_of(descendants)

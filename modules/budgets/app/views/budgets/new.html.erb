@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
                               :as => :budget,
                               :html => {:multipart => true, :id => 'budget_form'} do |f| %>
     <%= render :partial => 'form', :locals => {:f => f} %>
-    <%= styled_button_tag t(:button_create), class: '-with-icon icon-checkmark' %>
+    <%= styled_button_tag t(:button_create), class: '-with-icon icon-checkmark', 'data-test-selector': 'budgets-create-button' %>
     <%= styled_button_tag t(:button_create_and_continue), :name => 'continue',
-          class: 'button -highlight'%>
+          class: 'button -primary'%>
 <% end %>

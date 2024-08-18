@@ -76,7 +76,7 @@ module Bim::Bcf
                                        space_boundaries_visible
                                        openings_visible).freeze
 
-      COLOR_REGEXP = /#([0-9a-f]{2})?[0-9a-f]{6}/
+      COLOR_REGEXP = /([0-9a-f]{2})?[0-9a-f]{6}/
 
       WHITELISTED_DIMENSIONS = %w(x y z).freeze
 
@@ -114,40 +114,40 @@ module Bim::Bcf
       end
 
       def validate_snapshot
-        return unless (sjson = viewpoint['snapshot'])
+        return unless (sjson = viewpoint["snapshot"])
 
-        errors.add(:json_viewpoint, :snapshot_type_unsupported) unless %w(jpg png).include? sjson['snapshot_type']
-        errors.add(:json_viewpoint, :snapshot_data_blank) if sjson['snapshot_data'].blank?
+        errors.add(:json_viewpoint, :snapshot_type_unsupported) unless %w(jpg png).include? sjson["snapshot_type"]
+        errors.add(:json_viewpoint, :snapshot_data_blank) if sjson["snapshot_data"].blank?
       end
 
       def validate_index
-        return unless (ijson = viewpoint['index'])
+        return unless (ijson = viewpoint["index"])
 
         errors.add(:json_viewpoint, :index_not_integer) unless ijson.is_a? Integer
       end
 
       def validate_orthogonal_camera
-        return unless (ocjson = viewpoint['orthogonal_camera'])
+        return unless (ocjson = viewpoint["orthogonal_camera"])
 
         if ocjson.keys != ORTHOGONAL_CAMERA_PROPERTIES ||
-           ocjson.except('view_to_world_scale').any? { |_, direction| invalid_direction?(direction) } ||
-           !ocjson['view_to_world_scale'].is_a?(Numeric)
+           ocjson.except("view_to_world_scale").any? { |_, direction| invalid_direction?(direction) } ||
+           !ocjson["view_to_world_scale"].is_a?(Numeric)
           errors.add(:json_viewpoint, :invalid_orthogonal_camera)
         end
       end
 
       def validate_perspective_camera
-        return unless (pcjson = viewpoint['perspective_camera'])
+        return unless (pcjson = viewpoint["perspective_camera"])
 
         if pcjson.keys != PERSPECTIVE_CAMERA_PROPERTIES ||
-           pcjson.except('field_of_view').any? { |_, direction| invalid_direction?(direction) } ||
-           !pcjson['field_of_view'].is_a?(Numeric)
+           pcjson.except("field_of_view").any? { |_, direction| invalid_direction?(direction) } ||
+           !pcjson["field_of_view"].is_a?(Numeric)
           errors.add(:json_viewpoint, :invalid_perspective_camera)
         end
       end
 
       def validate_lines
-        return unless (ljson = viewpoint['lines'])
+        return unless (ljson = viewpoint["lines"])
 
         if !ljson.is_a?(Array) ||
            ljson.any? { |line| invalid_line?(line) }
@@ -156,7 +156,7 @@ module Bim::Bcf
       end
 
       def validate_clipping_planes
-        return unless (cpjson = viewpoint['clipping_planes'])
+        return unless (cpjson = viewpoint["clipping_planes"])
 
         if !cpjson.is_a?(Array) ||
            cpjson.any? { |cp| invalid_clipping_plane?(cp) }
@@ -165,11 +165,11 @@ module Bim::Bcf
       end
 
       def validate_bitmaps
-        errors.add(:json_viewpoint, :bitmaps_not_writable) if viewpoint['bitmaps']
+        errors.add(:json_viewpoint, :bitmaps_not_writable) if viewpoint["bitmaps"]
       end
 
       def validate_components
-        return unless (cjson = viewpoint['components'])
+        return unless (cjson = viewpoint["components"])
 
         if !cjson.is_a?(Hash) ||
            invalid_components_properties?(cjson)
@@ -178,16 +178,16 @@ module Bim::Bcf
       end
 
       def validate_guid
-        return unless (json_guid = viewpoint['guid'])
+        return unless (json_guid = viewpoint["guid"])
 
         errors.add(:json_viewpoint, :mismatching_guid) if json_guid != model.uuid
       end
 
       def invalid_components_properties?(json)
         (json.keys - COMPONENTS_PROPERTIES).any? ||
-          invalid_visibility?(json['visibility']) ||
-          invalid_components?(json['selection']) ||
-          invalid_colorings?(json['coloring'])
+          invalid_visibility?(json["visibility"]) ||
+          invalid_components?(json["selection"]) ||
+          invalid_colorings?(json["coloring"])
       end
 
       def invalid_line?(line)
@@ -208,9 +208,9 @@ module Bim::Bcf
         visibility.nil? ||
           !visibility.is_a?(Hash) ||
           (visibility.keys - VISIBILITY_PROPERTIES).any? ||
-          invalid_default_visibility?(visibility['default_visibility']) ||
-          invalid_components?(visibility['exceptions']) ||
-          invalid_view_setup_hints?(visibility['view_setup_hints'])
+          invalid_default_visibility?(visibility["default_visibility"]) ||
+          invalid_components?(visibility["exceptions"]) ||
+          invalid_view_setup_hints?(visibility["view_setup_hints"])
       end
 
       def invalid_components?(components)
@@ -235,8 +235,8 @@ module Bim::Bcf
       def invalid_coloring?(coloring)
         !coloring.is_a?(Hash) ||
           coloring.keys != COLORING_PROPERTIES ||
-          invalid_color?(coloring['color']) ||
-          invalid_components?(coloring['components'])
+          invalid_color?(coloring["color"]) ||
+          invalid_components?(coloring["components"])
       end
 
       def invalid_color?(color)

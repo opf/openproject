@@ -1,1 +1,1 @@
-require 'open_project/bim'
+require "open_project/bim"

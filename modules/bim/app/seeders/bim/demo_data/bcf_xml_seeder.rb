@@ -37,18 +37,18 @@ module Bim
       end
 
       def seed_data!
-        filename = project_data.lookup('bcf_xml_file')
+        filename = project_data.lookup("bcf_xml_file")
         return if filename.blank?
 
-        print_status '    ↳ Import BCF XML file'
+        print_status "    ↳ Import BCF XML file"
 
         import_options = {
-          invalid_people_action: 'anonymize',
-          unknown_mails_action: 'anonymize',
-          non_members_action: 'anonymize'
+          invalid_people_action: "anonymize",
+          unknown_mails_action: "anonymize",
+          non_members_action: "anonymize"
         }
 
-        bcf_xml_file = Rails.root.join('modules/bim/files', filename).to_s
+        bcf_xml_file = Rails.root.join("modules/bim/files", filename).to_s
         importer = ::OpenProject::Bim::BcfXml::Importer.new(bcf_xml_file, project, current_user: admin_user)
         importer.import!(import_options).flatten
       end

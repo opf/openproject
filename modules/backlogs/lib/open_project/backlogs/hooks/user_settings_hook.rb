@@ -40,11 +40,11 @@ class OpenProject::Backlogs::Hooks::UserSettingsHook < OpenProject::Hook::ViewLi
     backlogs_params = params.delete(:backlogs)
     return unless backlogs_params
 
-    versions_default_fold_state = backlogs_params[:versions_default_fold_state] || 'open'
+    versions_default_fold_state = backlogs_params[:versions_default_fold_state] || "open"
     user.backlogs_preference(:versions_default_fold_state, versions_default_fold_state)
 
-    color = backlogs_params[:task_color] || ''
-    if color == '' || color.match(/^#[A-Fa-f0-9]{6}$/)
+    color = backlogs_params[:task_color] || ""
+    if color == "" || color.match(/^#[A-Fa-f0-9]{6}$/)
       user.backlogs_preference(:task_color, color)
     end
   end

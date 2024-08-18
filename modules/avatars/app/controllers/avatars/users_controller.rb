@@ -3,7 +3,7 @@ module ::Avatars
     before_action :require_admin
     before_action :find_user
 
-    layout 'admin', except: :show
+    layout "admin", except: :show
 
     def show
       redirect_to redirect_path
@@ -12,7 +12,7 @@ module ::Avatars
     private
 
     def redirect_path
-      edit_user_path(@user, tab: 'avatar')
+      edit_user_path(@user, tab: "avatar")
     end
 
     def find_user

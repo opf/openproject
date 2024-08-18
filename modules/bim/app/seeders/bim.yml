@@ -47,17 +47,21 @@ modules_permissions:
     - :view_linked_issues
 
 priorities:
-  - t_name: Low
+  - reference: :default_priority_low
+    t_name: Low
     color_name: cyan-1
     is_default: true
     position: 1
-  - t_name: Normal
+  - reference: :default_priority_normal
+    t_name: Normal
     color_name: blue-3
     position: 2
-  - t_name: High
+  - reference: :default_priority_high
+    t_name: High
     color_name: yellow-7
     position: 3
-  - t_name: Critical
+  - reference: :default_priority_critical
+    t_name: Critical
     color_name: grape-5
     position: 4
 
@@ -66,19 +70,23 @@ statuses:
     t_name: New
     color_name: blue-6
     is_default: true
+    default_done_ratio: 0
     position: 1
   - reference: :default_status_in_progress
     t_name: In progress
     color_name: orange-6
+    default_done_ratio: 40
     position: 2
   - reference: :default_status_resolved
     t_name: Resolved
     color_name: green-3
+    default_done_ratio: 80
     position: 3
   - reference: :default_status_closed
     t_name: Closed
     color_name: gray-3
     is_closed: true
+    default_done_ratio: 100
     position: 4
 
 time_entry_activities:
@@ -253,6 +261,7 @@ projects:
       - Category 1 (to be changed in Project settings)
     queries:
       - t_name: Project plan
+        module: gantt
         status: open
         timeline: true
         sort_by: start_date
@@ -400,6 +409,7 @@ projects:
       - Category 1 (to be changed in Project settings)
     queries:
       - t_name: Project plan
+        module: gantt
         status: open
         timeline: true
         sort_by: start_date
@@ -867,6 +877,7 @@ projects:
       - Category 1 (to be changed in Project settings)
     queries:
       - t_name: Project plan
+        module: gantt
         status: open
         timeline: true
         sort_by: start_date
@@ -1473,6 +1484,7 @@ projects:
         type: :default_type_remark
         display_representation: card
       - t_name: Project plan
+        module: gantt
         status: open
         timeline: true
         sort_by: start_date

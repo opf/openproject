@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/plugins/auth_plugin'
+require "open_project/plugins/auth_plugin"
 
 module OmniAuth
   module FlexibleStrategy
@@ -91,7 +91,7 @@ module OmniAuth
 
   module FlexibleStrategyClass
     def new(app, *args, &)
-      super(app, *args, &).tap do |strategy|
+      super.tap do |strategy|
         strategy.extend FlexibleStrategy
       end
     end

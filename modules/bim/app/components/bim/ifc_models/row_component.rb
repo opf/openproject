@@ -14,7 +14,7 @@ module Bim
 
       def default?
         if model.is_default?
-          helpers.op_icon 'icon icon-checkmark'
+          helpers.op_icon "icon icon-checkmark"
         end
       end
 
@@ -34,7 +34,7 @@ module Bim
                                 class: "ifc-models--conversion-status")
 
           if model.conversion_error_message
-            content << ': '.html_safe
+            content << ": ".html_safe
             content << content_tag(:span,
                                    model.conversion_error_message,
                                    class: "ifc-models--conversion-status-error",
@@ -65,26 +65,26 @@ module Bim
       end
 
       def delete_link
-        link_to '',
+        link_to "",
                 bcf_project_ifc_model_path(model.project, model),
-                class: 'icon icon-delete',
+                class: "icon icon-delete",
                 data: { confirm: I18n.t(:text_are_you_sure) },
                 title: I18n.t(:button_delete),
                 method: :delete
       end
 
       def download_link
-        link_to '',
+        link_to "",
                 API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(model.ifc_attachment&.id),
-                class: 'icon icon-download',
+                class: "icon icon-download",
                 title: I18n.t(:button_download),
                 download: true
       end
 
       def edit_link
-        link_to '',
+        link_to "",
                 edit_bcf_project_ifc_model_path(model.project, model),
-                class: 'icon icon-edit',
+                class: "icon icon-edit",
                 accesskey: helpers.accesskey(:edit),
                 title: I18n.t(:button_edit)
       end

@@ -9,7 +9,7 @@ module Boards
     end
 
     def query_filters
-      [{ status_id: { operator: '=', values: [default_status.id.to_s] } }]
+      [{ status_id: { operator: "=", values: [default_status.id.to_s] } }]
     end
 
     def default_status

@@ -32,79 +32,90 @@ See COPYRIGHT and LICENSE files for more details.
   i.budget = @budget
 end -%>
 
-<costs-budget-subform item-count="<%= @budget.labor_budget_items.length %>"
-                      update-url="<%= url_for(action: :update_labor_budget_item, project_id: @project.id) %>">
-  <fieldset id="labor_budget_items_fieldset" class="form--fieldset -collapsible">
-    <legend class="form--fieldset-legend"><%= Budget.human_attribute_name(:labor_budget) %></legend>
-    <div class="generic-table--container">
-      <div class="generic-table--results-container">
-        <table class="generic-table" id="labor_budget_items">
-          <colgroup>
+<fieldset id="labor_budget_items_fieldset"
+          class="form--fieldset -collapsible"
+          data-controller="costs--budget-subform"
+          data-application-target="dynamic"
+          data-costs--budget-subform-item-count-value="<%= @budget.labor_budget_items.length %>"
+          data-costs--budget-subform-update-url-value="<%= url_for(action: :update_labor_budget_item, project_id: @project.id) %>">
+  <legend class="form--fieldset-legend"><%= Budget.human_attribute_name(:labor_budget) %></legend>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="labor_budget_items">
+        <colgroup>
+          <col opHighlightCol>
+          <col opHighlightCol>
+          <col opHighlightCol>
+          <% if User.current.allowed_in_project?(:view_cost_rates, @project)%>
             <col opHighlightCol>
-            <col opHighlightCol>
-            <col opHighlightCol>
+          <%end%>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="cost_units">
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= LaborBudgetItem.human_attribute_name(:hours) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= LaborBudgetItem.human_attribute_name(:user) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= LaborBudgetItem.human_attribute_name(:comment) %>
+                  </span>
+                </div>
+              </div>
+            </th>
             <% if User.current.allowed_in_project?(:view_cost_rates, @project)%>
-              <col opHighlightCol>
+              <th class="currency" id="labor_budget_items_price">
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= LaborBudgetItem.human_attribute_name(:budget) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
             <%end%>
-            <col>
-          </colgroup>
-          <thead>
-            <tr>
-              <th class="cost_units">
-                <div class="generic-table--sort-header-outer">
-                  <div class="generic-table--sort-header">
-                    <span>
-                      <%= LaborBudgetItem.human_attribute_name(:hours) %>
-                    </span>
-                  </div>
-                </div>
-              </th>
-              <th>
-                <div class="generic-table--sort-header-outer">
-                  <div class="generic-table--sort-header">
-                    <span>
-                      <%= LaborBudgetItem.human_attribute_name(:user) %>
-                    </span>
-                  </div>
-                </div>
-              </th>
-              <th>
-                <div class="generic-table--sort-header-outer">
-                  <div class="generic-table--sort-header">
-                    <span>
-                      <%= LaborBudgetItem.human_attribute_name(:comment) %>
-                    </span>
-                  </div>
-                </div>
-              </th>
-              <% if User.current.allowed_in_project?(:view_cost_rates, @project)%>
-                <th class="currency" id="labor_budget_items_price">
-                  <div class="generic-table--sort-header-outer">
-                    <div class="generic-table--sort-header">
-                      <span>
-                        <%= LaborBudgetItem.human_attribute_name(:budget) %>
-                      </span>
-                    </div>
-                  </div>
-                </th>
-              <%end%>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="labor_budget_items_body" class="budget-item-container">
-            <%= render partial: "budgets/items/labor_budget_item", object: template_object, locals: { templated: true } %>
-            <%- @budget.labor_budget_items.each_with_index do |labor_budget_item, index| -%>
-              <%= render partial: 'budgets/items/labor_budget_item', object: labor_budget_item, locals: {index: index} %>
-            <%- end -%>
-          </tbody>
-        </table>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="labor_budget_items_body"
+               class="budget-item-container"
+               data-costs--budget-subform-target="table">
+          <%- @budget.labor_budget_items.each_with_index do |labor_budget_item, index| -%>
+            <%= render partial: 'budgets/items/labor_budget_item', object: labor_budget_item, locals: {index: index} %>
+          <%- end -%>
+        </tbody>
+      </table>
 
-      </div>
     </div>
-    <div class="wp-inline-create-button">
-      <a href="#" class="budget-add-row wp-inline-create--add-link" role="link" title="<%= t(:button_add_budget_item) %>">
-        <%= op_icon('icon icon-add') %>
-      </a>
-    </div>
-  </fieldset>
-</costs-budget-subform>
+  </div>
+  <div class="wp-inline-create-button">
+    <a href="#"
+       class="budget-add-row wp-inline-create--add-link"
+       role="link"
+       title="<%= t(:button_add_budget_item) %>"
+       data-action="costs--budget-subform#addRow">
+      <%= op_icon('icon icon-add') %>
+    </a>
+  </div>
+  <table style="display:none"
+         data-costs--budget-subform-target="template">
+    <%= render partial: "budgets/items/labor_budget_item", object: template_object, locals: { templated: true } %>
+  </table>
+</fieldset>

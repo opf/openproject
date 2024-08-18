@@ -33,7 +33,7 @@ class Tasks::CreateService
     self.user = user
   end
 
-  def call(attributes: {}, prev: '')
+  def call(attributes: {}, prev: "")
     attributes[:type_id] = Task.type
 
     create_call = WorkPackages::CreateService

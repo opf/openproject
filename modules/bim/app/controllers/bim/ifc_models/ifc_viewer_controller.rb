@@ -56,7 +56,7 @@ module Bim
         @ifc_models = @project
           .ifc_models
           .includes(:attachments)
-          .order('created_at ASC')
+          .order("created_at ASC")
       end
 
       def set_default_models

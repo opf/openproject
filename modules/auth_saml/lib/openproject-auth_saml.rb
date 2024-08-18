@@ -1,1 +1,1 @@
-require 'open_project/auth_saml'
+require "open_project/auth_saml"

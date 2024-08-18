@@ -48,11 +48,11 @@ class Projects::Settings::BacklogsController < Projects::SettingsController
 
   def rebuild_positions
     @project.rebuild_positions
-    flash[:notice] = I18n.t('backlogs.positions_rebuilt_successfully')
+    flash[:notice] = I18n.t("backlogs.positions_rebuilt_successfully")
 
     redirect_to_backlogs_settings
   rescue ActiveRecord::ActiveRecordError
-    flash[:error] = I18n.t('backlogs.positions_could_not_be_rebuilt')
+    flash[:error] = I18n.t("backlogs.positions_could_not_be_rebuilt")
 
     log_rebuild_position_error
 

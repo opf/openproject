@@ -34,6 +34,7 @@ modules_permissions:
   - role: :default_role_member
     add:
     - :show_board_views
+    - :manage_public_queries
     - :manage_board_views
   - role: :default_role_reader
     add:

@@ -34,7 +34,7 @@ class Tasks::UpdateService
     self.task = task
   end
 
-  def call(attributes: {}, prev: '')
+  def call(attributes: {}, prev: "")
     create_call = WorkPackages::UpdateService
                   .new(user:,
                        model: task)

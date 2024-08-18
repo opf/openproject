@@ -37,7 +37,7 @@ module API
           set_cache_headers
         end
 
-        get '/avatar' do
+        get "/avatar" do
           cache_seconds = @user == current_user ? nil : avatar_link_expires_in
 
           if (local_avatar = local_avatar?(@user))

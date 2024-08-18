@@ -14,7 +14,7 @@ module Boards
     end
 
     def before_perform(params, _service_result)
-      return super(params, _service_result) if no_widgets_initially?
+      return super if no_widgets_initially?
 
       create_query_result = create_query(params)
 
@@ -61,23 +61,23 @@ module Boards
     end
 
     def query_name
-      raise 'Define the query name'
+      raise "Define the query name"
     end
 
     def query_filters
-      raise 'Define the query filters'
+      raise "Define the query filters"
     end
 
     def query_sort_criteria
-      [[:manual_sorting, 'asc'], [:id, 'asc']]
+      [[:manual_sorting, "asc"], [:id, "asc"]]
     end
 
     def options_for_grid(params)
       {}.tap do |options|
-        if params[:attribute] == 'basic'
-          options[:type] = 'free'
+        if params[:attribute] == "basic"
+          options[:type] = "free"
         else
-          options[:type] = 'action'
+          options[:type] = "action"
           options[:attribute] = params[:attribute]
         end
       end
@@ -86,7 +86,7 @@ module Boards
     def options_for_widgets(_params)
       return [] if no_widgets_initially?
 
-      raise 'Define the options for the grid widgets'
+      raise "Define the options for the grid widgets"
     end
 
     def row_count_for_board

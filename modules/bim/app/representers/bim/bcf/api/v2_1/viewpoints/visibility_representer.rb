@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base_representer'
+require_relative "base_representer"
 
 module Bim::Bcf::API::V2_1::Viewpoints
   class VisibilityRepresenter < BaseRepresenter

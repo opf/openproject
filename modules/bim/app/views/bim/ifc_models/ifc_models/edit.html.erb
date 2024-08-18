@@ -32,5 +32,5 @@ See COPYRIGHT and LICENSE files for more details.
 <%= labelled_tabular_form_for @ifc_model, url: bcf_project_ifc_model_path(@project, @ifc_model), method: 'PATCH' do |f| -%>
   <%= error_messages_for @ifc_model %>
   <%= render partial: 'form', locals: { f: f } %>
-  <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
+  <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
 <% end %>

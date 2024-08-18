@@ -22,7 +22,7 @@ bg:
       other: '%{count} проблеми с BCF'
     bcf_xml:
       xml_file: 'BCF XML File'
-      import_title: 'Import'
+      import_title: 'Импортиране'
       export: 'Експортиране'
       import_update_comment: '(Updated in BCF import)'
       import_failed: 'Cannot import BCF file: %{error}'

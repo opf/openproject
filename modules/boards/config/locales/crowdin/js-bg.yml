@@ -2,13 +2,13 @@
 bg:
   js:
     boards:
-      create_new: 'Create new board'
+      create_new: 'Създайте ново табло'
       label_unnamed_board: 'Unnamed board'
       label_unnamed_list: 'Unnamed list'
-      label_board_type: 'Board type'
+      label_board_type: 'Тип на таблото'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-        upgrade: 'Upgrade now'
+        teaser_text: 'Искате ли да автоматизирате работните си процеси с помощта на Табла? Усъвършенстваните табла са добавка само за Enterprise. Моля, преминете към платен план.'
+        upgrade: 'Актуализирайте сега'
       lists:
         delete: 'Delete list'
       version:
@@ -32,13 +32,13 @@ bg:
       text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
       click_to_remove_list: "Click to remove this list"
       board_type:
-        text: 'Board type'
+        text: 'Тип на таблото'
         free: 'основен'
         select_board_type: 'Моля, изберете вида на дъската, от който се нуждаете.'
         free_text: >
           Започнете от нулата с празна дъска. Ръчно добавете карти и колони към тази дъска.
         action: 'Action board'
-        action_by_attribute: 'Action board (%{attribute})'
+        action_by_attribute: 'Табло за действие (%{attribute})'
         action_text: >
           Табло с филтрирани списъци с атрибут %{attribute}. Преместването на работни пакети в други списъци ще актуализира техния атрибут.
         action_text_subprojects: >
@@ -62,7 +62,7 @@ bg:
           status: Състояние
           version: Версия
           subproject: Подпроект
-          subtasks: Parent-child
+          subtasks: Родител-дете
           basic: Основен
         select_attribute: "Action attribute"
       add_list_modal:

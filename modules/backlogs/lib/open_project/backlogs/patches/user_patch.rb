@@ -66,9 +66,9 @@ module OpenProject::Backlogs::Patches::UserPatch
     def compute_backlogs_preference(attr)
       case attr
       when :task_color
-        ('#%0.6x' % rand(0xFFFFFF)).upcase
+        ("#%0.6x" % rand(0xFFFFFF)).upcase
       when :versions_default_fold_state
-        'open'
+        "open"
       else
         raise "Unsupported attribute '#{attr}'"
       end

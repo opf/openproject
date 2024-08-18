@@ -68,13 +68,13 @@ module Bim::Bcf::API::V2_1
 
       get &::Bim::Bcf::API::V2_1::Endpoints::Index
              .new(model: Bim::Bcf::Issue,
-                  api_name: 'Topics',
+                  api_name: "Topics",
                   scope: -> { topics })
              .mount
 
       post &::Bim::Bcf::API::V2_1::Endpoints::Create
              .new(model: Bim::Bcf::Issue,
-                  api_name: 'Topics',
+                  api_name: "Topics",
                   params_modifier: ->(attributes) {
                     transform_attributes(attributes)
                       .merge(project: @project)
@@ -88,12 +88,12 @@ module Bim::Bcf::API::V2_1
 
         get &::Bim::Bcf::API::V2_1::Endpoints::Show
               .new(model: Bim::Bcf::Issue,
-                   api_name: 'Topics')
+                   api_name: "Topics")
               .mount
 
         put &::Bim::Bcf::API::V2_1::Endpoints::Update
                .new(model: Bim::Bcf::Issue,
-                    api_name: 'Topics',
+                    api_name: "Topics",
                     params_modifier: ->(attributes) {
                       transform_attributes(attributes)
                         .reverse_merge(default_put_params)
@@ -102,7 +102,7 @@ module Bim::Bcf::API::V2_1
 
         delete &::Bim::Bcf::API::V2_1::Endpoints::Delete
                   .new(model: Bim::Bcf::Issue,
-                       api_name: 'Topics')
+                       api_name: "Topics")
                   .mount
 
         mount ::Bim::Bcf::API::V2_1::Viewpoints::API

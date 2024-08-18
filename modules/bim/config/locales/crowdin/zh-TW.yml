@@ -1,13 +1,13 @@
 #English strings go here for Rails i18n
 zh-TW:
   plugin_openproject_bim:
-    name: "OpenProject BIM and BCF functionality"
-    description: "This OpenProject plugin introduces BIM and BCF functionality."
+    name: "OpenProject BIM 和 BCF 功能"
+    description: "該 OpenProject 外掛引入了 BIM 和 BCF 功能。"
   bim:
     label_bim: 'BIM'
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: '匯入 BIM Collaboration Format (BCF) 主題失敗'
+    label_imported_failed: '無法匯入 BCF 主題'
     label_imported_successfully: ' '
     issues: "問題集"
     recommended: '推薦'
@@ -56,10 +56,10 @@ zh-TW:
         no_status_provided: '未提供狀態'
         no_priority_provided: '未提供優先權'
         perform_description: "您想要匯入或更新列在上面的問題集嗎？"
-        replace_with_system_user: '以 "系統" 使用者取代他們'
-        import_as_system_user: '以 "系統" 使用者匯入他們。'
+        replace_with_system_user: '以 "系統" 使用者取代'
+        import_as_system_user: '以 "系統" 使用者取代'
         what_to_do: "您想要做什麼？"
-        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
+        work_package_has_newer_changes: "過時了！主題未更新，因為伺服器上的最新變更比匯入主題的「ModifiedDate」更新。但是，導入了對該主題的評論。"
         bcf_file_not_found: "指定 BCF 檔案的位置失敗。請再次開始上傳程序。"
   export:
     format:
@@ -91,20 +91,20 @@ zh-TW:
               ifc_attachment_missing: "未附加 ifc 檔案。"
               invalid_ifc_file: "提供的檔案不是一個有效的 IFC 檔案。"
         bim/bcf/viewpoint:
-          bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
+          bitmaps_not_writable: "點陣圖不可寫，因為它尚未實作。"
           index_not_integer: "索引不是整數"
           invalid_clipping_planes: "剪裁平面是無效的"
           invalid_components: "元件是無效的"
           invalid_lines: "線是無效的"
-          invalid_orthogonal_camera: "orthogonal_camera is invalid."
-          invalid_perspective_camera: "perspective_camera is invalid."
-          mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
-          no_json: "Is not a well structured json."
-          snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."
-          snapshot_data_blank: "snapshot_data needs to be provided."
-          unsupported_key: "An unsupported json property is included."
+          invalid_orthogonal_camera: "正射投影（平行投影）相機無效。"
+          invalid_perspective_camera: "透視相機無效。"
+          mismatching_guid: "json_viewpoint 中的 guid 與模型的 guid 不符。"
+          no_json: "不是一個良好建構的 json。"
+          snapshot_type_unsupported: "快照（截圖）格式必須是「png」或「jpg」。"
+          snapshot_data_blank: "需要提供快照（截圖）資料"
+          unsupported_key: "包含不受支援的 json 屬性。"
         bim/bcf/issue:
-          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
+          uuid_already_taken: "無法匯入此 BCF 問題，因為已經有另一個具有相同 GUID 的問題。難道這個BCF問題已經被導入到另一個專案了嗎？"
   ifc_models:
     label_ifc_models: 'IFC 模型'
     label_new_ifc_model: '新 IFC 模型'
@@ -123,14 +123,14 @@ zh-TW:
       completed: '已完成'
       error: '錯誤'
     processing_notice:
-      processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'
+      processing_default: '以下預設 IFC 模型仍在處理中，因此尚不可用：'
     flash_messages:
-      upload_successful: 'Upload succeeded. It will now get processed and will be ready to use in a couple of minutes.'
+      upload_successful: '上傳成功。現在將對其進行處理，幾分鐘後即可使用。'
     conversion:
-      missing_commands: "The following IFC converter commands are missing on this system: %{names}"
+      missing_commands: "此系統上缺少以下 IFC 轉換器指令：%{names}"
   project_module_ifc_models: "IFC 模型"
-  permission_view_ifc_models: "View IFC models"
-  permission_manage_ifc_models: "Import and manage IFC models"
+  permission_view_ifc_models: "檢視 IFC 模型"
+  permission_manage_ifc_models: "匯入及管理 IFC 模型"
   extraction:
     available:
-      ifc_convert: "IFC conversion pipeline available"
+      ifc_convert: "IFC 轉換管道可用"
