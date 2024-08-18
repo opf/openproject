@@ -1,4 +1,5 @@
 lt:
+  label_job_status_plural: "Job statuses"
   plugin_openproject_job_status:
     name: "OpenProject darbo būsena"
     description: "Foninių darbų sąrašas ir būsena."
