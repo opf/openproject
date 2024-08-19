@@ -212,10 +212,12 @@ ko:
     reorder_confirmation: "경고: 사용 가능한 값의 현재 순서가 손실됩니다. 계속하시겠습니까?"
     instructions:
       is_required: "사용자 지정 필드를 필수로 표시합니다. 이렇게 하면 새 리소스를 생성하거나 기존 리소스를 업데이트할 때 이 필드를 반드시 입력해야 합니다."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "모든 기존 프로젝트와 새 프로젝트에서 사용자 지정 필드를 사용 가능으로 표시합니다."
       searchable: "글로벌 검색 기능을 사용할 때 필드 값을 포함합니다."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "사용자가 필드를 편집할 수 있도록 허용합니다."
-      visible: "프로젝트 개요의 모든 사용자(비관리자)에 대해 필드가 표시되고 프로젝트 개요의 프로젝트 세부 정보 위젯에 표시되게 합니다."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         작업 패키지 보기의 필터에서 사용자 지정 필드를 사용할 수 있도록 허용합니다. '모든 프로젝트용'을 선택한 경우에만 사용자 지정 필드가 글로벌 보기에 표시됩니다.
     tab:
@@ -268,7 +270,7 @@ ko:
       favored: "즐겨 찾는 프로젝트"
       archived: "보관된 프로젝트"
       shared: "공유된 프로젝트 목록"
-      my_lists: "My project lists"
+      my_lists: "내 프로젝트 목록"
       new:
         placeholder: "새 프로젝트 목록"
       delete_modal:
@@ -380,6 +382,9 @@ ko:
       will_revoke_access_to_all: "이 작업을 수행하면 모두에 대한 액세스 권한이 취소됩니다."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "API 토큰 이름을 입력하세요"
         token_name_in_use: "이 API 토큰 이름은 이미 사용 중입니다. 다른 이름을 선택하세요."
@@ -469,7 +474,7 @@ ko:
         is_readonly: "읽기 전용"
         excluded_from_totals: "합계에서 제외됨"
   themes:
-    dark: "Dark (Beta)"
+    dark: "다크(베타)"
     light: "라이트"
     light_high_contrast: "라이트 하이 콘트라스트"
   types:
@@ -517,9 +522,9 @@ ko:
       no_common_statuses_exists: "선택한 모든 작업 패키지에 사용 가능한 상태가 없습니다. 해당 상태를 변경할 수 없습니다."
       unsupported_for_multiple_projects: "여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다."
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
+        현재 작업 패키지 유형이 대상 프로젝트에서 활성화되어 있지 않습니다. 유형을 변경하지 않으려면 대상 프로젝트에서 해당 유형을 활성화하세요. 그렇지 않으면 목록에서 대상 프로젝트의 사용 가능한 유형을 선택하세요.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+        현재 작업 패키지 유형이 대상 프로젝트에서 활성화되어 있지 않습니다. 유형을 변경하지 않으려면 대상 프로젝트에서 해당 유형을 활성화하세요. 그렇지 않으면 목록에서 대상 프로젝트의 사용 가능한 유형을 선택하세요.
     sharing:
       missing_workflow_warning:
         title: "작업 패키지 공유에 대한 워크플로 누락"
@@ -608,7 +613,7 @@ ko:
         possible_values: "가능한 값"
         regexp: "정규 표현식"
         searchable: "검색가능한"
-        visible: "표시"
+        admin_only: "Admin-only"
       custom_value:
         value: "값"
       doorkeeper/application:
@@ -678,6 +683,7 @@ ko:
         versions: "버전"
         work_packages: "작업 패키지"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: 섹션
       query:
         column_names: "컬럼"
@@ -698,7 +704,7 @@ ko:
         is_closed: "종료된 작업 패키지"
         is_readonly: "읽기 전용 작업 패키지"
         excluded_from_totals: "계층의 합계 계산에서 제외"
-        default_done_ratio: "% Complete"
+        default_done_ratio: "완료 %"
       time_entry:
         activity: "활동"
         hours: "시간"
@@ -990,7 +996,7 @@ ko:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "- 0에서 100 사이여야 합니다."
           readonly_default_exlusive: "- 기본값으로 표시된 상태에 대해 활성화할 수 없습니다."
         time_entry:
           attributes:
@@ -1023,11 +1029,11 @@ ko:
             assigned_to:
               format: "%{message}"
             done_ratio:
-              does_not_match_work_and_remaining_work: "does not match work and remaining work"
-              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
-              inclusion: "must be between 0 and 100."
+              does_not_match_work_and_remaining_work: "- 작업과 남은 작업이 일치하지 않습니다"
+              cannot_be_set_when_work_is_zero: "- 작업이 0인 경우 설정할 수 없습니다"
+              must_be_set_when_remaining_work_is_set: "'남은 작업'이 설정된 경우 필수입니다."
+              must_be_set_when_work_and_remaining_work_are_set: "'작업' 및 '남은 작업'이 설정된 경우 필수입니다."
+              inclusion: "- 0에서 100 사이여야 합니다."
             due_date:
               not_start_date: "마일스톤에서 요구하지만, 시작 날짜가 없음"
               cannot_be_null: "시작 날짜와 기간을 알고 있으므로 null로 설정할 수 없습니다."
@@ -1057,13 +1063,13 @@ ko:
             estimated_hours:
               not_a_number: "- 유효한 기간이 아닙니다."
               cant_be_inferior_to_remaining_work: "남은 작업보다 낮을 수 없습니다."
-              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "'남은 작업' 및 '완료 %'가 설정된 경우 필수입니다."
               format: "%{message}"
             remaining_hours:
               not_a_number: "- 유효한 기간이 아닙니다."
               cant_exceed_work: "작업보다 높을 수 없습니다."
               must_be_set_when_work_is_set: "작업이 설정된 경우 필수입니다."
-              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
+              must_be_set_when_work_and_percent_complete_are_set: "'작업' 및 '완료 %'가 설정된 경우 필수입니다."
               format: "%{message}"
           readonly_status: "작업 패키지가 읽기 전용 상태이므로 해당 속성을 변경할 수 없습니다."
         type:
@@ -1142,6 +1148,8 @@ ko:
       role:
         other: "역할"
       status: "작업 패키지 상태"
+      token/api:
+        other: Access tokens
       type: "타입"
       user: "사용자"
       version: "버전"
@@ -1558,7 +1566,7 @@ ko:
   error_pdf_failed_to_export: "PDF 내보내기를 저장할 수 없습니다: %{error}"
   error_token_authenticity: "교차 사이트 요청 위조 토큰을 확인할 수 없습니다. 여러 브라우저나 탭에서 데이터 제출을 시도하셨습니까? 모든 탭을 닫고 다시 시도하세요."
   error_work_package_not_found_in_project: "작업 패키지가 없거나 이 프로젝트에 속하지 않습니다."
-  error_work_package_id_not_found: "The work package was not found."
+  error_work_package_id_not_found: "작업 패키지를 찾을 수 없습니다."
   error_must_be_project_member: "은(는) 프로젝트 멤버여야 합니다."
   error_migrations_are_pending: "OpenProject 설치에 보류 중인 데이터베이스 마이그레이션이 있습니다. 지난 업그레이드에서 마이그레이션을 실행하지 않았을 가능성이 있습니다. 업그레이드 가이드를 확인하여 제대로 설치를 업그레이드하세요."
   error_migrations_visit_upgrade_guides: "업그레이드 가이드 문서를 참조하십시오."
@@ -1764,10 +1772,10 @@ ko:
       shared: "공유됨"
       watched: "주시자"
     facets:
-      unread: "Unread"
-      unread_title: "Show unread"
-      all: "All"
-      all_title: "Show all"
+      unread: "읽지 않음"
+      unread_title: "읽지 않은 항목 표시"
+      all: "모두"
+      all_title: "모두 표시"
     menu:
       by_project: "프로젝트 기준 읽지 않음"
       by_reason: "이유"
@@ -1832,7 +1840,7 @@ ko:
   label_ldap_auth_source_plural: "LDAP 연결"
   label_attribute_expand_text: "'%{attribute}'의 전체 텍스트"
   label_authentication: "인증"
-  label_authentication_settings: "Authentication settings"
+  label_authentication_settings: "인증 설정"
   label_available_global_roles: "사용 가능한 글로벌 역할"
   label_available_project_attributes: "사용 가능한 프로젝트 특성"
   label_available_project_forums: "사용 가능한 포럼"
@@ -2019,7 +2027,7 @@ ko:
   label_inactive: "비활성화"
   label_incoming_emails: "들어오는 이메일"
   label_includes: "포함"
-  label_include_sub_projects: Include sub-projects
+  label_include_sub_projects: 하위 프로젝트 포함
   label_index_by_date: "날짜별 색인"
   label_index_by_title: "제목별 색인"
   label_information: "정보"
@@ -2127,6 +2135,8 @@ ko:
   label_next_week: "다음 주"
   label_no_change_option: "(변경 없음)"
   label_no_data: "표시할 데이터가 없습니다."
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "부모 페이지 없음"
   label_nothing_display: "표시할 것이 없음"
   label_nobody: "아무도 없음"
@@ -2252,7 +2262,7 @@ ko:
   label_role_search: "새 멤버에게 역할 할당"
   label_scm: "SCM"
   label_search: "검색"
-  label_search_by_name: "Search by name"
+  label_search_by_name: "이름별 검색"
   label_send_information: "사용자에게 새 자격 증명 보내기"
   label_send_test_email: "테스트 이메일 보내기"
   label_session: "세션"
@@ -2365,7 +2375,7 @@ ko:
   label_work_package_new: "새 작업 패키지"
   label_work_package_edit: "작업 패키지 %{name} 편집"
   label_work_package_plural: "작업 패키지"
-  label_work_packages_settings: "Work packages settings"
+  label_work_packages_settings: "작업 패키지 설정"
   label_work_package_status: "작업 패키지 상태"
   label_work_package_status_new: "새 상태"
   label_work_package_status_plural: "작업 패키지 상태"
@@ -2373,7 +2383,7 @@ ko:
   label_work_package_tracking: "작업 패키지 추적"
   label_work_package_view_all: "모든 작업 패키지 보기"
   label_workflow: "워크플로"
-  label_workflow_copy: "Copy workflow"
+  label_workflow_copy: "워크플로 복사"
   label_workflow_plural: "워크플로"
   label_workflow_summary: "요약"
   label_working_days_and_hours: "근무일 및 시간"
@@ -2705,7 +2715,7 @@ ko:
   permission_edit_own_messages: "내 메시지 편집"
   permission_edit_own_time_entries: "내 시간 로그 편집"
   permission_edit_project: "프로젝트 편집"
-  permission_edit_project_attributes: "Edit project attributes"
+  permission_edit_project_attributes: "프로젝트 특성 편집"
   permission_edit_reportings: "보고 편집"
   permission_edit_time_entries: "다른 사용자의 시간 로그 편집"
   permission_edit_timelines: "타임라인 편집"
@@ -2756,7 +2766,7 @@ ko:
   permission_work_package_assigned: "담당자/책임자 되기"
   permission_work_package_assigned_explanation: "작업 패키지는 각각의 프로젝트에서 이 역할을 가진 사용자와 그룹에 할당될 수 있습니다."
   permission_view_project_activity: "프로젝트 활동 보기"
-  permission_view_project_attributes: "View project attributes"
+  permission_view_project_attributes: "프로젝트 특성 보기"
   permission_save_bcf_queries: "BCF 쿼리 저장"
   permission_manage_public_bcf_queries: "공용 BCF 쿼리 관리"
   permission_edit_attribute_help_texts: "특성 도움말 텍스트 편집"

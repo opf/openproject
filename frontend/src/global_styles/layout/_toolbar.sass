@@ -165,15 +165,15 @@ $nm-color-success-background: #d8fdd1
   input[type=number],
   select
     @include toolbar-element-sizing
-    border: 1px solid var(--toolbar-item--border-color)
+    border: 1px solid var(--button-default-borderColor-rest)
 
   .button,
   .toolbar-input--affix
-    background: var(--toolbar-item--bg-color)
+    background: var(--button-default-bgColor-rest)
 
     &.-pressed,
     &:active
-      background: var(--toolbar-item--bg-color-pressed)
+      background: var(--button-default-bgColor-active)
       box-shadow: inset 0 2px 3px rgba(0, 0, 0, .125)
 
   select
@@ -226,7 +226,7 @@ $nm-color-success-background: #d8fdd1
   div.inline-edit h2
     margin: 10px 0
     padding: 0px 5px
-    color: var(--toolbar-title-color)
+    color: var(--fgColor-muted)
     line-height: 34px
     height: 34px
     @media screen and (max-width: $breakpoint-md)
@@ -246,7 +246,7 @@ $nm-color-success-background: #d8fdd1
     padding: 0px 5px
     -moz-margin: 10px 0
     margin: 9px 0
-    color: var(--toolbar-title-color)
+    color: var(--fgColor-muted)
     font-size: 1.5rem
     @include toolbar-input-styles
     width: calc(100% + 2px)
@@ -286,8 +286,8 @@ $nm-color-success-background: #d8fdd1
     flex-grow: 1
 
   .toolbar-input-group--affix
-    background: var(--toolbar-item--bg-color)
-    border: 1px solid var(--toolbar-item--border-color)
+    background: var(--button-default-bgColor-rest)
+    border: 1px solid var(--button-default-borderColor-rest)
     color: var(--body-font-color)
     border-radius: 2px
     white-space: nowrap

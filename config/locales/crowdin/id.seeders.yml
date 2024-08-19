@@ -80,7 +80,7 @@ id:
       projects:
         demo-project:
           name: Demo project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: Seluruh tugas berjalan sesuai jadwal. Orang-orang yang terlibat memahami tugas mereka. Sistem sudah diatur sepenuhnya.
           description: This is a short summary of the goals of this demo project.
           news:
             item_0:
@@ -97,7 +97,7 @@ id:
             item_1:
               name: Tahapan pencapaian
             item_2:
-              name: Tasks
+              name: Tugas
             item_3:
               name: Rencana tim
           boards:
@@ -120,7 +120,7 @@ id:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Selamat datang
               item_1:
                 options:
                   name: Getting started
@@ -198,7 +198,7 @@ id:
             More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Scrum project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: Seluruh tugas berjalan sesuai jadwal. Orang-orang yang terlibat memahami tugas mereka. Sistem sudah diatur sepenuhnya.
           description: This is a short summary of the goals of this demo Scrum project.
           news:
             item_0:
@@ -273,7 +273,7 @@ id:
             item_2:
               name: Sprint 1
             item_3:
-              name: Tasks
+              name: Tugas
           boards:
             kanban:
               name: Kanban board
@@ -292,7 +292,7 @@ id:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Selamat datang
               item_1:
                 options:
                   name: Getting started

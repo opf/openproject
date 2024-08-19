@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -37,44 +39,46 @@ module OpenProject
   # @note Does not include all events but it should!
   # @see OpenProject::Notifications
   module Events
-    AGGREGATED_WORK_PACKAGE_JOURNAL_READY = "aggregated_work_package_journal_ready".freeze
-    AGGREGATED_WIKI_JOURNAL_READY = "aggregated_wiki_journal_ready".freeze
-    AGGREGATED_NEWS_JOURNAL_READY = "aggregated_news_journal_ready".freeze
-    AGGREGATED_MESSAGE_JOURNAL_READY = "aggregated_message_journal_ready".freeze
+    AGGREGATED_WORK_PACKAGE_JOURNAL_READY = "aggregated_work_package_journal_ready"
+    AGGREGATED_WIKI_JOURNAL_READY = "aggregated_wiki_journal_ready"
+    AGGREGATED_NEWS_JOURNAL_READY = "aggregated_news_journal_ready"
+    AGGREGATED_MESSAGE_JOURNAL_READY = "aggregated_message_journal_ready"
 
-    ATTACHMENT_CREATED = "attachment_created".freeze
+    ATTACHMENT_CREATED = "attachment_created"
 
-    JOURNAL_CREATED = "journal_created".freeze
+    JOURNAL_CREATED = "journal_created"
 
-    MEMBER_CREATED = "member_created".freeze
-    MEMBER_UPDATED = "member_updated".freeze
-    MEMBER_DESTROYED = "member_destroyed".freeze
+    MEMBER_CREATED = "member_created"
+    MEMBER_UPDATED = "member_updated"
+    MEMBER_DESTROYED = "member_destroyed"
 
-    OAUTH_CLIENT_TOKEN_CREATED = "oauth_client_token_created".freeze
+    OAUTH_CLIENT_TOKEN_CREATED = "oauth_client_token_created"
 
-    TIME_ENTRY_CREATED = "time_entry_created".freeze
+    TIME_ENTRY_CREATED = "time_entry_created"
 
-    NEWS_COMMENT_CREATED = "news_comment_created".freeze
+    NEWS_COMMENT_CREATED = "news_comment_created"
 
-    PROJECT_CREATED = "project_created".freeze
-    PROJECT_UPDATED = "project_updated".freeze
-    PROJECT_RENAMED = "project_renamed".freeze
-    PROJECT_ARCHIVED = "project_archived".freeze
-    PROJECT_UNARCHIVED = "project_unarchived".freeze
+    PROJECT_CREATED = "project_created"
+    PROJECT_UPDATED = "project_updated"
+    PROJECT_RENAMED = "project_renamed"
+    PROJECT_ARCHIVED = "project_archived"
+    PROJECT_UNARCHIVED = "project_unarchived"
 
-    PROJECT_STORAGE_CREATED = "project_storage_created".freeze
-    PROJECT_STORAGE_UPDATED = "project_storage_updated".freeze
-    PROJECT_STORAGE_DESTROYED = "project_storage_destroyed".freeze
+    PROJECT_STORAGE_CREATED = "project_storage_created"
+    PROJECT_STORAGE_UPDATED = "project_storage_updated"
+    PROJECT_STORAGE_DESTROYED = "project_storage_destroyed"
 
-    STORAGE_TURNED_UNHEALTHY = "storage_turned_unhealthy".freeze
-    STORAGE_TURNED_HEALTHY = "storage_turned_healthy".freeze
+    STORAGE_TURNED_UNHEALTHY = "storage_turned_unhealthy"
+    STORAGE_TURNED_HEALTHY = "storage_turned_healthy"
 
-    ROLE_UPDATED = "role_updated".freeze
-    ROLE_DESTROYED = "role_destroyed".freeze
+    REMOTE_IDENTITY_CREATED = "remote_identity_created"
 
-    WATCHER_ADDED = "watcher_added".freeze
-    WATCHER_DESTROYED = "watcher_destroyed".freeze
+    ROLE_UPDATED = "role_updated"
+    ROLE_DESTROYED = "role_destroyed"
 
-    WORK_PACKAGE_SHARED = "work_package_shared".freeze
+    WATCHER_ADDED = "watcher_added"
+    WATCHER_DESTROYED = "watcher_destroyed"
+
+    WORK_PACKAGE_SHARED = "work_package_shared"
   end
 end

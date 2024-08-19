@@ -11,7 +11,6 @@ hu:
   message_avatar_uploaded: "A profilkép sikeresen megváltoztatva."
   error_image_upload: "Hiba a kép mentésekor."
   error_image_size: "A kép túl nagy."
-  button_change_avatar: "Profilkép megváltoztatása"
   are_you_sure_delete_avatar: "Biztosan törölni szeretné a profilképét?"
   avatar_deleted: "A profilkép sikeresen törölve."
   unable_to_delete_avatar: "A profilképet nem sikerült törölni."

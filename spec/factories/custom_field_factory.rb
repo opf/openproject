@@ -49,7 +49,7 @@ FactoryBot.define do
     max_length { false }
     editable { true }
     possible_values { "" }
-    visible { true }
+    admin_only { false }
     field_format { "bool" }
 
     after(:create) do

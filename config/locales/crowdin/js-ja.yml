@@ -67,7 +67,7 @@ ja:
     button_back_to_list_view: "リスト表示に戻る"
     button_cancel: "キャンセル"
     button_close: "閉じる"
-    button_change_project: "プロジェクトの変更"
+    button_change_project: "Move to another project"
     button_check_all: "全てを選択"
     button_configure-form: "フォームを設定"
     button_confirm: "確認"
@@ -75,7 +75,7 @@ ja:
     button_copy: "コピー"
     button_copy_to_clipboard: "クリップボードにコピー"
     button_copy_link_to_clipboard: "クリップボードにリンクをコピー"
-    button_copy_to_other_project: "他のプロジェクトにコピー"
+    button_copy_to_other_project: "Duplicate to other project"
     button_custom-fields: "カスタムフィールド"
     button_delete: "削除"
     button_delete_watcher: "ウォッチャーを削除"
@@ -339,7 +339,7 @@ ja:
           オートズームが使用できない場合に表示される初期ズームレベルを選択します。
       export:
         title: "Gantt chart PDF options"
-        button_export: "Export"
+        button_export: "外部出力"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"
@@ -367,10 +367,10 @@ ja:
           learn_about: "新機能の詳細はこちら"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share project lists and turn them public (Enterprise add-on)</li> <li>Mark project lists as favorites</li> <li>Connection validation for OneDrive/SharePoint storages (Enterprise add-on)</li> <li>New look with Primer for the user profile page</li> <li>Gantt chart PDF export: Additional date zoom based on calendar weeks</li> <li>Searchbar to submenu component (project lists and Gantt and Boards modules)</li> <li>Choose between progress reporting displayed in hours only or days and hours</li> <li>Unselect projects from the project selector</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -618,12 +618,12 @@ ja:
       no_unread: "No unread notifications"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
-        accountable: "Accountable"
-        created: "Created"
-        scheduled: "Scheduled"
-        commented: "Commented"
+        watched: "ウォッチャー"
+        assigned: "担当者"
+        accountable: "責任者"
+        created: "作成日時"
+        scheduled: "スケジュール済"
+        commented: "コメントしました。"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
@@ -893,7 +893,7 @@ ja:
       wiki_link: "Wikiページにリンクする"
       image: "画像"
     sharing:
-      share: "Share"
+      share: "共有"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"

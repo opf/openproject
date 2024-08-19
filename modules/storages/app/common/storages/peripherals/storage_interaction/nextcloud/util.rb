@@ -65,10 +65,10 @@ module Storages
             def token(user:, configuration:, &)
               connection_manager = OAuthClients::ConnectionManager.new(user:, configuration:)
               connection_manager.get_access_token.match(
-                on_success: ->(token) do
+                on_success: lambda do |token|
                   connection_manager.request_with_token_refresh(token) { yield token }
                 end,
-                on_failure: ->(_) do
+                on_failure: lambda do |_|
                   error(:unauthorized,
                         "Query could not be created! No access token found!",
                         StorageErrorData.new(source: connection_manager))
@@ -85,8 +85,8 @@ module Storages
               when :basic_auth
                 ServiceResult.success(result: storage.username)
               when :oauth_user_token
-                origin_user_id = OAuthClientToken.where(user_id: auth_strategy.user, oauth_client: storage.oauth_client)
-                                                 .pick(:origin_user_id)
+                origin_user_id = RemoteIdentity.where(user_id: auth_strategy.user, oauth_client: storage.oauth_client)
+                                               .pick(:origin_user_id)
                 if origin_user_id.present?
                   ServiceResult.success(result: origin_user_id)
                 else
@@ -104,15 +104,18 @@ module Storages
             end
 
             def error_data_from_response(caller:, response:)
-              payload =
-                case response.content_type.mime_type
-                when "application/json"
-                  response.json
-                when "text/xml", "application/xml"
-                  response.xml
-                else
-                  response.body.to_s
-                end
+              payload = if response.respond_to?(:content_type)
+                          case response.content_type.mime_type
+                          when "application/json"
+                            response.json
+                          when "text/xml", "application/xml"
+                            response.xml
+                          else
+                            response.body.to_s
+                          end
+                        else
+                          response.to_s
+                        end
 
               StorageErrorData.new(source: caller, payload:)
             end

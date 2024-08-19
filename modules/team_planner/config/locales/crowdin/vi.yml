@@ -1,17 +1,17 @@
 #English strings go here
 vi:
   plugin_openproject_team_planner:
-    name: "OpenProject Team Planner"
-    description: "Provides team planner views."
-  permission_view_team_planner: "Xem team planner"
-  permission_manage_team_planner: "Quản lý team planner"
-  project_module_team_planner_view: "Team planners"
+    name: "Lập kế hoạch nhóm OpenProject"
+    description: "Cung cấp các chế độ xem lập kế hoạch nhóm."
+  permission_view_team_planner: "Xem kế hoạch nhóm"
+  permission_manage_team_planner: "Quản lý kế hoạch nhóm"
+  project_module_team_planner_view: "Kế hoạch nhóm"
   team_planner:
-    label_team_planner: "Team planner"
-    label_new_team_planner: "Team planner mới"
-    label_create_new_team_planner: "Tạo team planner mới"
-    label_team_planner_plural: "Team planners"
-    label_assignees: "Những người được giao"
+    label_team_planner: "Kế hoạch nhóm"
+    label_new_team_planner: "Kế hoạch nhóm mới"
+    label_create_new_team_planner: "Tạo kế hoạch nhóm mới"
+    label_team_planner_plural: "Các kế hoạch nhóm"
+    label_assignees: "Người được phân công"
     upsale:
-      title: "Team planner"
-      description: "Có được cái nhìn tổng quan đầy đủ về việc lập kế hoạch của nhóm bạn với Team Planner. Kéo dài, rút ​​ngắn và kéo thả các công việc để sửa đổi ngày tháng, di chuyển chúng hoặc thay đổi người được giao."
+      title: "Kế hoạch nhóm"
+      description: "Nhận cái nhìn tổng quan về kế hoạch của nhóm bạn với Kế hoạch Nhóm. Kéo dài, rút ngắn và kéo-thả các gói công việc để thay đổi ngày, di chuyển chúng hoặc thay đổi người được phân công."

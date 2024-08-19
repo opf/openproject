@@ -41,6 +41,7 @@ RSpec.describe "Managing file links in work package", :js, :webmock do
   let(:storage) { create(:nextcloud_storage, name: "My Storage", oauth_application:) }
   let(:oauth_client) { create(:oauth_client, integration: storage) }
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }
+  let(:remote_identity) { create(:remote_identity, oauth_client:, user: current_user, origin_user_id: "admin") }
   let(:project_storage) { create(:project_storage, project:, storage:, project_folder_id: nil, project_folder_mode: "inactive") }
   let(:file_link) { create(:file_link, container: work_package, storage:, origin_id: "22", origin_name: "jingle.ogg") }
 
@@ -66,11 +67,12 @@ RSpec.describe "Managing file links in work package", :js, :webmock do
       ->(_) { ServiceResult.success }
     )
 
-    stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}")
+    stub_request(:propfind, "#{storage.host}remote.php/dav/files/#{remote_identity.origin_user_id}")
       .to_return(status: 207, body: root_xml_response, headers: {})
-    stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/Folder1")
+    stub_request(:propfind, "#{storage.host}remote.php/dav/files/#{remote_identity.origin_user_id}/Folder1")
       .to_return(status: 207, body: folder1_xml_response, headers: {})
 
+    oauth_client_token
     project_storage
     file_link
 

@@ -43,7 +43,7 @@ bg:
         managed_project_folder_no_access: >
           You have no access yet to the managed project folder. Please wait a bit and try again.
         upload_keep_both: "Keep both"
-        upload_replace: "Replace"
+        upload_replace: "Замени"
       file_links:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.

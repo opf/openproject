@@ -37,16 +37,22 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
                 :state,
                 :params
 
-  STATE_OPTIONS = %i[show edit rename].freeze
+  STATE_DEFAULT = :show
+  STATE_EDIT = :edit
 
   delegate :projects_query_params, to: :helpers
 
-  def initialize(current_user:, query:, params:, state: :show)
+  def initialize(current_user:, query:, params:, state: STATE_DEFAULT)
     super
 
     self.current_user = current_user
     self.query = query
-    self.state = fetch_or_fallback(STATE_OPTIONS, state)
+    self.state = case state
+                 when :edit, :rename
+                   STATE_EDIT
+                 else
+                   STATE_DEFAULT
+                 end
     self.params = params
   end
 
@@ -59,9 +65,8 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     @gantt_portfolio_project_ids ||= @query
                                      .results
                                      .where(active: true)
-                                     .select(:id)
-                                     .uniq
                                      .pluck(:id)
+                                     .uniq
   end
 
   def page_title

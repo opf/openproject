@@ -11,7 +11,6 @@ ar:
   message_avatar_uploaded: "لقد تم تحميل الصورة الرمزية بنجاح ."
   error_image_upload: "خطأ في حفظ الصورة."
   error_image_size: "الملف كبير جداً"
-  button_change_avatar: "تغيير صورة الحساب"
   are_you_sure_delete_avatar: "هل أنت متأكد من أنك تريد حذف صورتك الرمزية؟"
   avatar_deleted: "الصورة الرمزية حذفت بنجاح."
   unable_to_delete_avatar: "لايمكن حذف الصورة الرمزية"

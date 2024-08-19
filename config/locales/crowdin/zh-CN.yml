@@ -209,10 +209,12 @@ zh-CN:
     reorder_confirmation: "警告：可用值的当前顺序将丢失。是否继续？"
     instructions:
       is_required: "将自定义字段标记为必填项。这将使在创建新资源或更新现有资源时，填写该字段成为强制要求。"
+      is_required_for_project: "选中可启用此属性，并使其成为所有项目的必选项。单个项目不能停用该属性。"
       is_for_all: "将自定义字段标记为在所有现有项目和新项目中可用。"
       searchable: "使用全局搜索功能时包含字段值。"
+      searchable_for_project: "选中可将此属性作为项目列表中的过滤器。"
       editable: "允许用户自行编辑该字段。"
-      visible: "在项目概览中显示所有用户(非管理员)的字段，并显示在项目概览中的项目细节微件中。"
+      admin_only: "选中使此属性仅对管理员可见。没有管理员权限的用户将无法查看或编辑该属性。"
       is_filter: >
         允许在工作包视图中使用自定义字段。 请注意，只有选择了“所有项目”时，自定义字段才会显示在全局视图中。
     tab:
@@ -377,6 +379,9 @@ zh-CN:
       will_revoke_access_to_all: "此操作将撤销他们对所有这些系统的访问权限。"
   my:
     access_token:
+      create_dialog:
+        header: '%{type} 令牌已生成'
+        warning: '注意: 这将是您看到这个令牌的唯一机会, 请务必立即复制它。'
       errors:
         token_name_blank: "请提供一个 API 令牌名称"
         token_name_in_use: "此 API 令牌名称已经在使用，请选择一个不同的名称"
@@ -605,7 +610,7 @@ zh-CN:
         possible_values: "可能的值"
         regexp: "正则表达式"
         searchable: "可搜索"
-        visible: "可见"
+        admin_only: "仅管理员"
       custom_value:
         value: "值"
       doorkeeper/application:
@@ -675,6 +680,7 @@ zh-CN:
         versions: "版本"
         work_packages: "工作包"
       project_custom_field:
+        is_required: "在所有项目中应用"
         custom_field_section: 单元
       query:
         column_names: "列"
@@ -1139,6 +1145,8 @@ zh-CN:
       role:
         other: "角色"
       status: "工作包状态"
+      token/api:
+        other: 访问令牌
       type: "类型"
       user: "用户"
       version: "版本"
@@ -2124,6 +2132,8 @@ zh-CN:
   label_next_week: "下周"
   label_no_change_option: "（不变）"
   label_no_data: "没有要显示的数据"
+  label_no_due_date: "没有完成日期"
+  label_no_start_date: "没有开始日期"
   label_no_parent_page: "无父级页面"
   label_nothing_display: "不显示"
   label_nobody: "没人"

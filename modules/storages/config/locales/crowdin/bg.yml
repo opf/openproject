@@ -4,7 +4,7 @@ bg:
       storages/file_link:
         origin_id: Origin Id
       storages/storage:
-        creator: Creator
+        creator: Създател
         drive: Drive ID
         host: Хост
         name: Име
@@ -12,7 +12,7 @@ bg:
         tenant: Directory (tenant) ID
     errors:
       messages:
-        invalid_host_url: is not a valid URL.
+        invalid_host_url: невалиден URL адрес.
         not_linked_to_project: is not linked to project.
       models:
         storages/file_link:
@@ -21,6 +21,8 @@ bg:
               only_numeric_or_uuid: can only be numeric or uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: is not available for this storage.
             project_ids:
@@ -55,13 +57,16 @@ bg:
   permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: View file links
   permission_write_files: 'Automatically managed project folders: Write files'
-  project_module_storages: Files
+  project_module_storages: Файлове
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Automatically managed
       inactive: No specific folder
       manual: Existing folder manually managed
     remove_project:
+      deletion_failure_flash: Failed to remove the project from the storage. %{error}
       dialog:
         automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
         confirmation_text: Please, confirm you understand and want to remove this file storage from this project
@@ -86,6 +91,12 @@ bg:
         rename_project_folder: 'Rename managed project Folder:'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
+          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
+          not_found: The source template location %{source_path} wasn't found.
+          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -111,7 +122,7 @@ bg:
             set_folders_permissions:
               permission_not_set: could not set permissions on %{path}.
           error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
-          group_does_not_exist: "%{group} does not exit. Check your Nextcloud instance configuration."
+          group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
           insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
           not_allowed: Nextcloud block the request.
           unauthorized: OpenProject could not sync with Nextcloud. Please check you storage and Nextcloud configuration.
@@ -140,6 +151,7 @@ bg:
       complete_without_setup: Complete without it
       done_complete_setup: Done, complete setup
       done_continue: Done, continue
+      open_storage: Open file storage
       replace_oauth_application: Replace OpenProject OAuth
       replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Save and continue
@@ -187,7 +199,7 @@ bg:
       one_drive_oauth: Azure OAuth
       openproject_oauth: OpenProject OAuth
       project_folders: Project folders
-      redirect_uri: Redirect URI
+      redirect_uri: Пренасочване на URI
       storage_provider: Storage provider
     health:
       checked: Last checked %{datetime}
@@ -209,7 +221,7 @@ bg:
       label_error: Грешка
       label_healthy: Healthy
       label_pending: Pending
-      label_warning: Warning
+      label_warning: Предупреждение
       project_folders:
         subtitle: Automatically managed project folders
       since: since %{datetime}
@@ -267,7 +279,7 @@ bg:
     label_automatic_folder: New folder with automatically managed permissions
     label_completed: Completed
     label_creation_time: Creation time
-    label_creator: Creator
+    label_creator: Създател
     label_delete_storage: Delete storage
     label_edit_storage: Edit storage
     label_edit_storage_access_management: Edit storage access management
@@ -276,7 +288,7 @@ bg:
     label_existing_manual_folder: Existing folder with manually managed permissions
     label_file_storage: File storage
     label_host: Host URL
-    label_inactive: Inactive
+    label_inactive: Неактивен
     label_incomplete: Incomplete
     label_managed_project_folders:
       application_password: Application password
@@ -291,7 +303,7 @@ bg:
     label_openproject_oauth_application_secret: OpenProject OAuth Client Secret
     label_project_folder: Project folder
     label_provider: Provider
-    label_redirect_uri: Redirect URI
+    label_redirect_uri: Пренасочване на URI
     label_show_storage_redirect_uri: Show redirect URI
     label_status: Състояние
     label_storage: Storage

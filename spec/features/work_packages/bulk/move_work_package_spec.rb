@@ -78,7 +78,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
         expect(child_wp.project_id).to eq(project.id)
 
         context_menu.open_for work_package
-        context_menu.choose "Change project"
+        context_menu.choose "Move to another project"
 
         # On work packages move page
         expect(page).to have_css("#new_project_id")
@@ -179,7 +179,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
 
       it "does not allow to move" do
         context_menu.open_for work_package
-        context_menu.expect_no_options "Change project"
+        context_menu.expect_no_options "Move to another project"
       end
     end
   end

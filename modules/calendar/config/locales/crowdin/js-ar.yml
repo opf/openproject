@@ -2,7 +2,7 @@
 ar:
   js:
     calendar:
-      create_new: 'Create new calendar'
+      create_new: 'إنشاء تقويم جديد'
       title: 'التقويم'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
-      unsaved_title: 'Unnamed calendar'
+      too_many: 'هناك %{count} عمل إجمالاً، ولكن يمكن عرض %{max} فقط.'
+      unsaved_title: 'تقويم غير مسمى'

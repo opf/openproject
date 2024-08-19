@@ -1,13 +1,13 @@
 #English strings go here for Rails i18n
 vi:
   plugin_openproject_two_factor_authentication:
-    name: "OpenProject Two-factor authentication"
+    name: "Xác thực hai yếu tố OpenProject"
     description: >-
-      This OpenProject plugin authenticates your users using two-factor authentication by means of one-time password through the TOTP standard (Google Authenticator) or sent to the user's cell phone via SMS or voice call.
+      Plugin OpenProject này xác thực người dùng của bạn bằng cách sử dụng xác thực hai yếu tố thông qua mật khẩu một lần theo tiêu chuẩn TOTP (Google Authenticator) hoặc gửi đến điện thoại di động của người dùng qua SMS hoặc cuộc gọi thoại.
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: "Định danh"
+        identifier: "Nhận diện"
         default: "Giữ nguyên mặc định"
       two_factor_authentication/device/sms:
         phone_number: "Số điện thoại"
@@ -64,123 +64,122 @@ vi:
         Hãy đặt số ngày ghi nhớ mã F2Alớn hơn 0 để cho phép người sử dụng nhớ mã 2FA của họ.
         Sẽ không yêu cầu nhập mã trong thời giannày. Chỉ có thể đặt nếu không bị thiết lập bắt buộc trong cấu hình.
       error_invalid_settings: "Phương án mã 2FA bạn lựa chon không hợp lệ"
-      failed_to_save_settings: "Failed to update 2FA settings: %{message}"
+      failed_to_save_settings: "Cập nhật cài đặt 2FA thất bại: %{message}"
     admin:
-      self_edit_path: "To add or modify your own 2FA devices, please go to %{self_edit_link}"
-      self_edit_link_name: "Two-factor authentication on your account page"
-      self_edit_forbidden: "You may not edit your own 2FA devices on this path. Go to My Account > Two factor authentication instead."
-      no_devices_for_user: "No 2FA device has been registered for this user."
-      all_devices_deleted: "All 2FA devices of this user have been deleted"
-      delete_all_are_you_sure: "Are you sure you want to delete all 2FA devices for this user?"
-      button_delete_all_devices: "Delete registered 2FA devices"
-      button_register_mobile_phone_for_user: "Register mobile phone"
-      text_2fa_enabled: "Upon every login, this user will be requested to enter a OTP token from their default 2FA device."
-      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
-      only_sms_allowed: "Only SMS delivery can be set up for other users."
+      self_edit_path: "Để thêm hoặc chỉnh sửa các thiết bị 2FA của riêng bạn, vui lòng truy cập %{self_edit_link}"
+      self_edit_link_name: "Xác thực hai yếu tố trên trang tài khoản của bạn"
+      self_edit_forbidden: "Bạn không thể chỉnh sửa các thiết bị 2FA của riêng bạn trên đường dẫn này. Thay vào đó, hãy truy cập My Account > Xác thực hai yếu tố."
+      no_devices_for_user: "Không có thiết bị 2FA nào đã được đăng ký cho người dùng này."
+      all_devices_deleted: "Tất cả các thiết bị 2FA của người dùng này đã bị xóa"
+      delete_all_are_you_sure: "Bạn có chắc chắn muốn xóa tất cả các thiết bị 2FA cho người dùng này không?"
+      button_delete_all_devices: "Xóa tất cả các thiết bị 2FA đã đăng ký"
+      button_register_mobile_phone_for_user: "Đăng ký điện thoại di động"
+      text_2fa_enabled: "Mỗi lần đăng nhập, người dùng này sẽ được yêu cầu nhập mã OTP từ thiết bị 2FA mặc định của họ."
+      text_2fa_disabled: "Người dùng chưa thiết lập thiết bị 2FA thông qua 'Trang tài khoản của họ'"
+      only_sms_allowed: "Chỉ có chuyển tin SMS có thể được thiết lập cho các người dùng khác."
     upsale:
-      title: "Two-factor authentication"
-      description: "Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members."
+      title: "Xác thực hai yếu tố"
+      description: "Tăng cường bảo mật cho phiên bản OpenProject của bạn bằng cách cung cấp (hoặc áp dụng) xác thực hai yếu tố cho tất cả các thành viên dự án."
     backup_codes:
-      none_found: No backup codes exist for this account.
-      singular: Backup code
-      plural: Backup codes
-      your_codes: for your %{app_name} account %{login}
+      none_found: Không có mã dự phòng nào cho tài khoản này.
+      singular: Mã dự phòng
+      plural: Các mã dự phòng
+      your_codes: cho tài khoản %{app_name} của bạn %{login}
       overview_description: |
-        If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
-        Use the following button to generate a new set of backup codes.
+        Nếu bạn không thể truy cập các thiết bị hai yếu tố của mình, bạn có thể sử dụng mã dự phòng để khôi phục quyền truy cập vào tài khoản của bạn.
+        Sử dụng nút dưới đây để tạo một bộ mã dự phòng mới.
       generate:
-        title: Generate backup codes
-        keep_safe_as_password: "Important! Treat these codes as passwords."
-        keep_safe_warning: "Either save them in your password manager, or print this page and put in a safe place."
-        regenerate_warning: "Warning: If you have created backup codes before, they will be invalidated and will no longer work."
+        title: Tạo mã dự phòng
+        keep_safe_as_password: "Quan trọng! Đối xử với các mã này như mật khẩu."
+        keep_safe_warning: "Hãy lưu chúng trong trình quản lý mật khẩu của bạn hoặc in trang này và để ở nơi an toàn."
+        regenerate_warning: "Cảnh báo: Nếu bạn đã tạo mã dự phòng trước đó, chúng sẽ bị vô hiệu hóa và không còn hoạt động."
     devices:
-      add_new: "Add new 2FA device"
-      register: "Register device"
-      confirm_default: "Confirm changing default device"
-      confirm_device: "Confirm device"
-      confirm_now: "Not confirmed, click here to activate"
-      cannot_delete_default: "Cannot delete default device"
-      make_default_are_you_sure: "Are you sure you want to make this 2FA device your default?"
-      make_default_failed: "Failed to update the default 2FA device."
-      deletion_are_you_sure: "Are you sure you want to delete this 2FA device?"
-      registration_complete: "2FA device registration complete!"
-      registration_failed_token_invalid: "2FA device registration failed, the token was invalid."
-      registration_failed_update: "2FA device registration failed, the token was valid but the device could not be updated."
-      confirm_send_failed: "Confirmation of your 2FA device failed."
-      button_complete_registration: "Complete 2FA registration"
-      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
-      text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
-      text_identifier: "You can give the device a custom identifier using this field."
-      failed_to_delete: "Failed to delete 2FA device."
-      is_default_cannot_delete: "The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting."
-      not_existing: "No 2FA device has been registered for your account."
-      2fa_from_input: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
-      2fa_from_webauthn: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
+      add_new: "Thêm thiết bị 2FA mới"
+      register: "Đăng ký thiết bị"
+      confirm_default: "Xác nhận thay đổi thiết bị mặc định"
+      confirm_device: "Xác nhận thiết bị"
+      confirm_now: "Chưa được xác nhận, nhấp vào đây để kích hoạt"
+      cannot_delete_default: "Không thể xóa thiết bị mặc định"
+      make_default_are_you_sure: "Bạn có chắc chắn muốn đặt thiết bị 2FA này làm mặc định không?"
+      make_default_failed: "Cập nhật thiết bị 2FA mặc định thất bại."
+      deletion_are_you_sure: "Bạn có chắc chắn muốn xóa thiết bị 2FA này không?"
+      registration_complete: "Hoàn tất đăng ký thiết bị 2FA!"
+      registration_failed_token_invalid: "Đăng ký thiết bị 2FA thất bại, mã xác thực không hợp lệ."
+      registration_failed_update: "Đăng ký thiết bị 2FA thất bại, mã xác thực hợp lệ nhưng thiết bị không thể được cập nhật."
+      confirm_send_failed: "Xác nhận thiết bị 2FA của bạn thất bại."
+      button_complete_registration: "Hoàn tất đăng ký 2FA"
+      text_confirm_to_complete_html: "Vui lòng hoàn tất việc đăng ký thiết bị của bạn <strong>%{identifier}</strong> bằng cách nhập mật khẩu một lần từ thiết bị mặc định của bạn."
+      text_confirm_to_change_default_html: "Vui lòng xác nhận việc thay đổi thiết bị mặc định của bạn thành <strong>%{new_identifier}</strong> bằng cách nhập mật khẩu một lần từ thiết bị mặc định hiện tại của bạn."
+      text_identifier: "Bạn có thể đặt tên tùy chỉnh cho thiết bị này bằng cách sử dụng trường này."
+      failed_to_delete: "Xóa thiết bị 2FA thất bại."
+      is_default_cannot_delete: "Thiết bị này được đánh dấu là mặc định và không thể bị xóa do chính sách bảo mật đang hoạt động. Đặt thiết bị khác làm mặc định trước khi xóa."
+      not_existing: "Chưa có thiết bị 2FA nào được đăng ký cho tài khoản của bạn."
+      2fa_from_input: Vui lòng nhập mã từ <strong>%{device_name}</strong> của bạn để xác minh danh tính của bạn.
+      2fa_from_webauthn: Vui lòng cung cấp thiết bị WebAuthn <strong>%{device_name}</strong>. Nếu thiết bị dựa trên USB, hãy đảm bảo cắm vào và chạm vào nó. Sau đó nhấp vào nút đăng nhập.
       webauthn:
         title: "WebAuthn"
-        description: Use Web Authentication to register a FIDO2 device (like a YubiKey) or the secure enclave of your mobile device as a second factor.
-        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
+        description: Đăng ký một thiết bị FIDO2 (như YubiKey) hoặc vùng bảo mật trong thiết bị di động của bạn.
+        further_steps: Sau khi bạn chọn tên, bạn có thể nhấp vào nút Tiếp tục. Trình duyệt của bạn sẽ yêu cầu bạn xuất trình thiết bị WebAuthn của bạn. Khi bạn đã làm như vậy, bạn đã hoàn tất việc đăng ký thiết bị.
       totp:
-        title: "Use your app-based authenticator"
-        provisioning_uri: "Provisioning URI"
-        secret_key: "Secret key"
-        time_based: "Time based"
-        account: "Account name / Issuer"
+        title: "Xác thực dựa trên ứng dụng"
+        provisioning_uri: "URI cấp phát"
+        secret_key: "Khóa bí mật"
+        time_based: "Dựa trên thời gian"
+        account: "Tên tài khoản / Nhà phát hành"
         setup: |
-          For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
-          After opening the app, you can scan the following QR code to register the device.
+          Để thiết lập xác thực hai yếu tố với Google Authenticator, hãy tải ứng dụng từ Apple App store hoặc Google Play Store.
+          Sau khi mở ứng dụng, bạn có thể quét mã QR dưới đây để đăng ký thiết bị.
         question_cannot_scan: |
-          Unable to scan the code using your application?
+          Không thể quét mã bằng ứng dụng của bạn?
         text_cannot_scan: |
-          If you can't scan the code, you can enter the entry manually using the following details:
+          Nếu bạn không thể quét mã, bạn có thể nhập thông tin theo cách thủ công bằng các chi tiết sau:
         description: |
-          Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
-          Common examples are Google Authenticator or Authy.
+          Sử dụng mã một lần được tạo bởi trình xác thực như Authy hoặc Google Authenticator.
       sms:
-        title: "Use your mobile phone"
-        redacted_identifier: "Mobile device (%{redacted_number})"
-        request_2fa_identifier: "%{redacted_identifier}, we sent you an authentication code via %{delivery_channel}"
+        title: "Thiết bị di động"
+        redacted_identifier: "Thiết bị di động (%{redacted_number})"
+        request_2fa_identifier: "%{redacted_identifier}, chúng tôi đã gửi cho bạn một mã xác thực qua %{delivery_channel}"
         description: |
-          Register your mobile phone number for delivery of OpenProject one-time passwords.
+          Nhận mã 2FA qua tin nhắn văn bản trên điện thoại mỗi khi bạn đăng nhập.
     sns:
-      delivery_failed: "SNS delivery failed:"
+      delivery_failed: "Chuyển tin SNS thất bại:"
     message_bird:
-      sms_delivery_failed: "MessageBird SMS delivery failed."
-      voice_delivery_failed: "MessageBird voice call failed."
+      sms_delivery_failed: "Chuyển tin SMS MessageBird thất bại."
+      voice_delivery_failed: "Cuộc gọi thoại MessageBird thất bại."
     strategies:
       totp: "Ứng dụng xác thực"
       sns: "Amazon SNS"
-      resdt: "SMS Rest API"
+      resdt: "API SMS Rest"
       webauthn: "WebAuthn"
-    mobile_transmit_notification: "A one-time password has been sent to your cell phone."
-    label_two_factor_authentication: "Two-factor authentication"
+    mobile_transmit_notification: "Một mật khẩu một lần đã được gửi đến điện thoại di động của bạn."
+    label_two_factor_authentication: "Xác thực hai yếu tố"
     forced_registration:
-      required_to_add_device: "An active security policy requires you to enable two-factor authentication. Please use the following form to register a device."
+      required_to_add_device: "Một chính sách bảo mật đang hoạt động yêu cầu bạn phải kích hoạt xác thực hai yếu tố. Vui lòng sử dụng mẫu dưới đây để đăng ký một thiết bị."
     remember:
       active_session_notice: >
-        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
-      other_active_session_notice: Your account has an active remember cookie on another session.
-      label: "Remember"
-      clear_cookie: "Click here to remove all remembered 2FA sessions."
-      cookie_removed: "All remembered 2FA sessions have been removed."
-      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
-  field_phone: "Cell phone"
-  field_otp: "Mật khẩu sử dụng một lần"
-  notice_account_otp_invalid: "Invalid one-time password."
-  notice_account_otp_expired: "The one-time password you entered expired."
-  notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"
-  notice_account_otp_send_failed: "Your one-time password could not be sent."
-  notice_account_has_no_phone: "No cell phone number is associated with your account."
-  label_expiration_hint: "%{date} or on logout"
+        Tài khoản của bạn có một cookie nhớ hoạt động đến %{expires_on}. Cookie này cho phép bạn đăng nhập mà không cần yếu tố thứ hai cho đến thời điểm đó.
+      other_active_session_notice: Tài khoản của bạn có một cookie nhớ đang hoạt động trên một phiên khác.
+      label: "Nhớ"
+      clear_cookie: "Nhấp vào đây để xóa tất cả các phiên 2FA đã nhớ."
+      cookie_removed: "Tất cả các phiên 2FA đã nhớ đã bị xóa."
+      dont_ask_again: "Tạo cookie để nhớ xác thực 2FA trên máy khách này trong %{days} ngày."
+  field_phone: "Điện thoại di động"
+  field_otp: "Mật khẩu một lần"
+  notice_account_otp_invalid: "Mật khẩu một lần không hợp lệ."
+  notice_account_otp_expired: "Mật khẩu một lần bạn nhập đã hết hạn."
+  notice_developer_strategy_otp: "Chiến lược phát triển đã tạo mã mật khẩu một lần sau: %{token} (Kênh: %{channel})"
+  notice_account_otp_send_failed: "Mật khẩu một lần của bạn không thể được gửi."
+  notice_account_has_no_phone: "Không có số điện thoại di động nào liên kết với tài khoản của bạn."
+  label_expiration_hint: "%{date} hoặc khi đăng xuất"
   label_actions: "Hành động"
   label_confirmed: "Đã xác nhận"
   button_continue: "Tiếp tục"
-  button_make_default: "Mark as default"
-  label_unverified_phone: "Cell phone not yet verified"
-  notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
-  text_otp_not_receive: "Other verification methods"
-  text_send_otp_again: "Resend one-time password by:"
-  button_resend_otp_form: "Resend"
-  button_otp_by_voice: "Voice call"
+  button_make_default: "Đánh dấu là mặc định"
+  label_unverified_phone: "Điện thoại di động chưa được xác nhận"
+  notice_phone_number_format: "Vui lòng nhập số theo định dạng sau: +XX XXXXXXXX."
+  text_otp_not_receive: "Các phương pháp xác minh khác"
+  text_send_otp_again: "Gửi lại mật khẩu một lần bằng:"
+  button_resend_otp_form: "Gửi lại"
+  button_otp_by_voice: "Cuộc gọi thoại"
   button_otp_by_sms: "SMS"
-  label_otp_channel: "Delivery channel"
+  label_otp_channel: "Kênh chuyển tin"

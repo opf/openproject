@@ -32,162 +32,171 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, :webmock do
-  using Storages::Peripherals::ServiceResultRefinements
-
   let(:user) { create(:user) }
   let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
-  let(:folder) { Storages::Peripherals::ParentFolder.new("/") }
   let(:auth_strategy) do
     Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
   end
 
-  describe "#call" do
-    it "responds with correct parameters" do
-      expect(described_class).to respond_to(:call)
+  it_behaves_like "files_query: basic query setup"
 
-      method = described_class.method(:call)
-      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq auth_strategy], %i[keyreq folder])
+  it_behaves_like "files_query: validating input data"
+
+  context "with parent folder being root", vcr: "one_drive/files_query_root" do
+    let(:folder) { Storages::Peripherals::ParentFolder.new("/") }
+    let(:files_result) do
+      Storages::StorageFiles.new(
+        [
+          Storages::StorageFile.new(id: "01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR",
+                                    name: "Folder",
+                                    size: 260500,
+                                    mime_type: "application/x-op-directory",
+                                    created_at: Time.zone.parse("2023-09-26T14:38:50Z"),
+                                    last_modified_at: Time.zone.parse("2023-09-26T14:38:50Z"),
+                                    created_by_name: "Eric Schubert",
+                                    last_modified_by_name: "Eric Schubert",
+                                    location: "/Folder",
+                                    permissions: %i[readable writeable]),
+          Storages::StorageFile.new(id: "01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU",
+                                    name: "Folder with spaces",
+                                    size: 35141,
+                                    mime_type: "application/x-op-directory",
+                                    created_at: Time.zone.parse("2023-09-26T14:38:57Z"),
+                                    last_modified_at: Time.zone.parse("2023-09-26T14:38:57Z"),
+                                    created_by_name: "Eric Schubert",
+                                    last_modified_by_name: "Eric Schubert",
+                                    location: "/Folder%20with%20spaces",
+                                    permissions: %i[readable writeable]),
+          Storages::StorageFile.new(id: "01AZJL5PN3LVLHH2RSZZDJ6ZFAD3OWSGYB",
+                                    name: "Permissions Folder",
+                                    size: 0,
+                                    mime_type: "application/x-op-directory",
+                                    created_at: Time.zone.parse("2024-01-12T09:05:10Z"),
+                                    last_modified_at: Time.zone.parse("2024-01-12T09:05:24Z"),
+                                    created_by_name: "Marcello Rocha",
+                                    last_modified_by_name: "Marcello Rocha",
+                                    location: "/Permissions%20Folder",
+                                    permissions: %i[readable writeable])
+        ],
+        Storages::StorageFile.new(id: "01AZJL5PN6Y2GOVW7725BZO354PWSELRRZ",
+                                  name: "Root",
+                                  location: "/",
+                                  permissions: %i[readable writeable]),
+        []
+      )
     end
 
-    context "with outbound requests successful" do
-      context "with parent folder being root", vcr: "one_drive/files_query_root" do
-        it "returns a StorageFiles object for root" do
-          storage_files = described_class.call(storage:, auth_strategy:, folder:).result
+    it_behaves_like "files_query: successful files response"
+  end
 
-          expect(storage_files).to be_a(Storages::StorageFiles)
-          expect(storage_files.ancestors).to be_empty
-          expect(storage_files.parent.name).to eq("Root")
-          expect(storage_files.files.count).to eq(3)
-          expect(storage_files.files.map(&:to_h).first)
-            .to eq({ id: "01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR",
-                     name: "Folder",
-                     size: 260500,
-                     created_at: Time.zone.parse("2023-09-26T14:38:50Z"),
-                     created_by_name: "Eric Schubert",
-                     last_modified_at: Time.zone.parse("2023-09-26T14:38:50Z"),
-                     last_modified_by_name: "Eric Schubert",
-                     location: "/Folder",
-                     mime_type: "application/x-op-directory",
-                     permissions: %i[readable writeable] })
-        end
-      end
-
-      context "with a given parent folder", vcr: "one_drive/files_query_parent_folder" do
-        let(:folder) { Storages::Peripherals::ParentFolder.new("/Folder/Subfolder") }
-
-        subject do
-          described_class.call(storage:, auth_strategy:, folder:).result
-        end
-
-        # rubocop:disable RSpec/ExampleLength
-        it "returns the files content" do
-          expect(subject.files.map(&:to_h))
-            .to eq([
-                     {
-                       id: "01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA",
-                       name: "NextcloudHub.md",
-                       size: 1095,
-                       created_at: "2023-09-26T14:45:25Z",
-                       created_by_name: "Eric Schubert",
-                       last_modified_at: "2023-09-26T14:46:13Z",
-                       last_modified_by_name: "Eric Schubert",
-                       location: "/Folder/Subfolder/NextcloudHub.md",
-                       mime_type: "application/octet-stream",
-                       permissions: %i[readable writeable]
-                     }, {
-                       id: "01AZJL5PLOL2KZTJNVFBCJWFXYGYVBQVMZ",
-                       name: "test.txt",
-                       size: 28,
-                       created_at: "2023-09-26T14:45:23Z",
-                       created_by_name: "Eric Schubert",
-                       last_modified_at: "2023-09-26T14:45:45Z",
-                       last_modified_by_name: "Eric Schubert",
-                       location: "/Folder/Subfolder/test.txt",
-                       mime_type: "text/plain",
-                       permissions: %i[readable writeable]
-                     }
-                   ])
-        end
-        # rubocop:enable RSpec/ExampleLength
-
-        it "returns ancestors with a forged id" do
-          expect(subject.ancestors.map { |a| { id: a.id, name: a.name, location: a.location } })
-            .to eq([
-                     {
-                       id: "a1d45ff742d2175c095f0a7173f93fc3fc23664a953ceae6778fe15398818c2d",
-                       name: "Root",
-                       location: "/"
-                     }, {
-                       id: "74ccd43303847f2655300641a934959cdb11689ce171aa0f00faa92917fbd340",
-                       name: "Folder",
-                       location: "/Folder"
-                     }
-                   ])
-        end
-
-        it "returns the parent itself" do
-          expect(subject.parent.id).to eq("01AZJL5PPWP5UOATNRJJBYJG5TACDHEUAG")
-          expect(subject.parent.name).to eq("Subfolder")
-          expect(subject.parent.location).to eq("/Folder/Subfolder")
-        end
-      end
-
-      context "with parent folder being empty", vcr: "one_drive/files_query_empty_folder" do
-        let(:folder) { Storages::Peripherals::ParentFolder.new("/Folder with spaces/very empty folder") }
-
-        it "returns an empty StorageFiles object with parent and ancestors" do
-          storage_files = described_class.call(storage:, auth_strategy:, folder:).result
-
-          expect(storage_files).to be_a(Storages::StorageFiles)
-          expect(storage_files.files).to be_empty
-
-          # in an empty folder the parent id cannot be retrieved, hence the parent id will get forged
-          expect(storage_files.parent.id).to eq("01AZJL5PMGEIRPHZPHRRH2NM3D734VIR7H")
-        end
-      end
-
-      context "with a path full of umlauts", vcr: "one_drive/files_query_umlauts" do
-        let(:folder) { Storages::Peripherals::ParentFolder.new("/Folder/Ümlæûts") }
-
-        it "returns the correct StorageFiles object" do
-          storage_files = described_class.call(storage:, auth_strategy:, folder:).result
-
-          expect(storage_files).to be_a(Storages::StorageFiles)
-          expect(storage_files.parent.id).to eq("01AZJL5PNQYF5NM3KWYNA3RJHJIB2XMMMB")
-          expect(storage_files.parent.name).to eq("Ümlæûts")
-          expect(storage_files.parent.location).to eq("/Folder/Ümlæûts")
-          expect(storage_files.files.map(&:to_h))
-            .to eq([
-                     {
-                       id: "01AZJL5PNDURPQGKUSGFCJQJMNNWXKTHSE",
-                       name: "Anrüchiges deutsches Dokument.docx",
-                       size: 18007,
-                       created_at: "2023-10-09T15:26:45Z",
-                       created_by_name: "Eric Schubert",
-                       last_modified_at: "2023-10-09T15:27:25Z",
-                       last_modified_by_name: "Eric Schubert",
-                       location: "/Folder/%C3%9Cml%C3%A6%C3%BBts/Anr%C3%BCchiges%20deutsches%20Dokument.docx",
-                       mime_type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                       permissions: %i[readable writeable]
-                     }
-                   ])
-        end
-      end
+  context "with a given parent folder", vcr: "one_drive/files_query_parent_folder" do
+    let(:folder) { Storages::Peripherals::ParentFolder.new("/Folder/Subfolder") }
+    let(:files_result) do
+      Storages::StorageFiles.new(
+        [
+          Storages::StorageFile.new(id: "01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA",
+                                    name: "NextcloudHub.md",
+                                    size: 1095,
+                                    mime_type: "application/octet-stream",
+                                    created_at: Time.zone.parse("2023-09-26T14:45:25Z"),
+                                    last_modified_at: Time.zone.parse("2023-09-26T14:46:13Z"),
+                                    created_by_name: "Eric Schubert",
+                                    last_modified_by_name: "Eric Schubert",
+                                    location: "/Folder/Subfolder/NextcloudHub.md",
+                                    permissions: %i[readable writeable]),
+          Storages::StorageFile.new(id: "01AZJL5PLOL2KZTJNVFBCJWFXYGYVBQVMZ",
+                                    name: "test.txt",
+                                    size: 28,
+                                    mime_type: "text/plain",
+                                    created_at: Time.zone.parse("2023-09-26T14:45:23Z"),
+                                    last_modified_at: Time.zone.parse("2023-09-26T14:45:45Z"),
+                                    created_by_name: "Eric Schubert",
+                                    last_modified_by_name: "Eric Schubert",
+                                    location: "/Folder/Subfolder/test.txt",
+                                    permissions: %i[readable writeable])
+        ],
+        Storages::StorageFile.new(id: "01AZJL5PPWP5UOATNRJJBYJG5TACDHEUAG",
+                                  name: "Subfolder",
+                                  location: "/Folder/Subfolder",
+                                  permissions: %i[readable writeable]),
+        [
+          Storages::StorageFile.new(id: "a1d45ff742d2175c095f0a7173f93fc3fc23664a953ceae6778fe15398818c2d",
+                                    name: "Root",
+                                    location: "/",
+                                    permissions: %i[readable writeable]),
+          Storages::StorageFile.new(id: "74ccd43303847f2655300641a934959cdb11689ce171aa0f00faa92917fbd340",
+                                    name: "Folder",
+                                    location: "/Folder")
+        ]
+      )
     end
 
-    context "with not existent parent folder", vcr: "one_drive/files_query_invalid_parent" do
-      let(:folder) { Storages::Peripherals::ParentFolder.new("/I/just/made/that/up") }
+    it_behaves_like "files_query: successful files response"
+  end
 
-      it "must return not found" do
-        result = described_class.call(storage:, auth_strategy:, folder:)
-        expect(result).to be_failure
-        expect(result.error_source).to eq(described_class)
-
-        result.match(
-          on_failure: ->(error) { expect(error.code).to eq(:not_found) },
-          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-        )
-      end
+  context "with parent folder being empty", vcr: "one_drive/files_query_empty_folder" do
+    let(:folder) { Storages::Peripherals::ParentFolder.new("/Folder with spaces/very empty folder") }
+    let(:files_result) do
+      Storages::StorageFiles.new(
+        [],
+        Storages::StorageFile.new(id: "01AZJL5PMGEIRPHZPHRRH2NM3D734VIR7H",
+                                  name: "very empty folder",
+                                  location: "/Folder%20with%20spaces/very%20empty%20folder",
+                                  permissions: %i[readable writeable]),
+        [
+          Storages::StorageFile.new(id: "a1d45ff742d2175c095f0a7173f93fc3fc23664a953ceae6778fe15398818c2d",
+                                    name: "Root",
+                                    location: "/",
+                                    permissions: %i[readable writeable]),
+          Storages::StorageFile.new(id: "58bde0c7931c8f95bb1bf525471146090630cb72827cb1e63dcaab3a9adce763",
+                                    name: "Folder with spaces",
+                                    location: "/Folder%20with%20spaces")
+        ]
+      )
     end
+
+    it_behaves_like "files_query: successful files response"
+  end
+
+  context "with a path full of umlauts", vcr: "one_drive/files_query_umlauts" do
+    let(:folder) { Storages::Peripherals::ParentFolder.new("/Folder/Ümlæûts") }
+    let(:files_result) do
+      Storages::StorageFiles.new(
+        [
+          Storages::StorageFile.new(id: "01AZJL5PNDURPQGKUSGFCJQJMNNWXKTHSE",
+                                    name: "Anrüchiges deutsches Dokument.docx",
+                                    size: 18007,
+                                    mime_type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                    created_at: Time.zone.parse("2023-10-09T15:26:45Z"),
+                                    last_modified_at: Time.zone.parse("2023-10-09T15:27:25Z"),
+                                    created_by_name: "Eric Schubert",
+                                    last_modified_by_name: "Eric Schubert",
+                                    location: "/Folder/%C3%9Cml%C3%A6%C3%BBts/Anr%C3%BCchiges%20deutsches%20Dokument.docx",
+                                    permissions: %i[readable writeable])
+        ],
+        Storages::StorageFile.new(id: "01AZJL5PNQYF5NM3KWYNA3RJHJIB2XMMMB",
+                                  name: "Ümlæûts",
+                                  location: "/Folder/%C3%9Cml%C3%A6%C3%BBts",
+                                  permissions: %i[readable writeable]),
+        [
+          Storages::StorageFile.new(id: "a1d45ff742d2175c095f0a7173f93fc3fc23664a953ceae6778fe15398818c2d",
+                                    name: "Root",
+                                    location: "/",
+                                    permissions: %i[readable writeable]),
+          Storages::StorageFile.new(id: "74ccd43303847f2655300641a934959cdb11689ce171aa0f00faa92917fbd340",
+                                    name: "Folder",
+                                    location: "/Folder")
+        ]
+      )
+    end
+
+    it_behaves_like "files_query: successful files response"
+  end
+
+  context "with not existent parent folder", vcr: "one_drive/files_query_invalid_parent" do
+    let(:folder) { Storages::Peripherals::ParentFolder.new("/I/just/made/that/up") }
+    let(:error_source) { described_class }
+
+    it_behaves_like "files_query: not found"
   end
 end

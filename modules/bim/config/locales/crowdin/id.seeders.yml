@@ -105,7 +105,7 @@ id:
             item_1:
               name: Tahapan pencapaian
             item_2:
-              name: Tasks
+              name: Tugas
             item_3:
               name: Rencana tim
           boards:
@@ -115,7 +115,7 @@ id:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Selamat datang
               item_1:
                 options:
                   name: Getting started
@@ -167,14 +167,14 @@ id:
             item_1:
               name: Tahapan pencapaian
             item_2:
-              name: Tasks
+              name: Tugas
             item_3:
               name: Rencana tim
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Selamat datang
               item_1:
                 options:
                   name: Getting started
@@ -421,14 +421,14 @@ id:
             item_1:
               name: Tahapan pencapaian
             item_2:
-              name: Tasks
+              name: Tugas
             item_3:
               name: Rencana tim
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Selamat datang
               item_1:
                 options:
                   name: Getting started
@@ -669,7 +669,7 @@ id:
               description: Enjoy your building :)
         demo-bcf-management-project:
           name: "(Demo) BCF management"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: Seluruh tugas berjalan sesuai jadwal. Orang-orang yang terlibat memahami tugas mereka. Sistem sudah diatur sepenuhnya.
           description: This is a short summary of the goals of this demo BCF management project.
           ifc_models:
             item_0:

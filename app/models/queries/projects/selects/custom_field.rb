@@ -33,10 +33,6 @@ class Queries::Projects::Selects::CustomField < Queries::Selects::Base
     /cf_(\d+)/
   end
 
-  def self.available?
-    EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
-  end
-
   def self.all_available
     return [] unless available?
 

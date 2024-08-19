@@ -25,24 +25,35 @@ OpenProject offers close integration with Nextcloud to allow users to:
 - View all work packages linked to a file
 - View OpenProject notifications via the Nextcloud dashboard
 
-> Note: This guide only covers the integration setup. Please go to our [Nextcloud integration user guide](../../../user-guide/file-management/nextcloud-integration/) to learn more about how to work with the Nextcloud integration.
+> [!NOTE]
+> This guide only covers the integration setup. Please go to
+> our [Nextcloud integration user guide](../../../user-guide/file-management/nextcloud-integration/) to learn more about
+> how to work with the Nextcloud integration.
 
 ## Required system versions
 
-OpenProject makes significant efforts to ensure that the integration works with all the latest stable versions.  We strongly recommend continuously updating all systems to the current stable version. This ensures access to the latest features and prompt fixes for any potential bugs.
+OpenProject makes significant efforts to ensure that the integration works with all the latest stable versions. We
+strongly recommend continuously updating all systems to the current stable version. This ensures access to the latest
+features and prompt fixes for any potential bugs.
 
 - OpenProject [latest release](../../../release-notes/).
-- The latest version of the [OpenProject Integration Nextcloud app](https://apps.nextcloud.com/apps/integration_openproject)  from the Nextcloud App Store.
+- The officially minimal version of
+  the [OpenProject Integration Nextcloud app](https://apps.nextcloud.com/apps/integration_openproject) is `2.6.3`.
 - Nextcloud version in the latest `stable` version.
-  - If you run Nextcloud in the community edition be careful to not
-    blindly follow the update hints in the administration area of a Nextcloud instance, as they nudge you to use the
-    `latest` version, which might not be the latest `stable` version. We recommend to check the [tags of Nextcloud's official
-    Docker image](https://hub.docker.com/_/nextcloud). There you can see which version is currently the stable one.
-  - If you installed Nextcloud via Docker then we advise you to pin it to a `stable` tag.
+  - If you run Nextcloud in the community edition be careful to not blindly follow the update hints in the
+    administration area of a Nextcloud instance, as they nudge you to use the `latest` version, which might not be the
+    latest `stable` version.
+  - If you installed Nextcloud via the [community](https://hub.docker.com/_/nextcloud) docker image, we advise you to
+    pin it to the `stable` tag.
+  - Nextcloud company advises the use of there [all-in-one](https://hub.docker.com/r/nextcloud/all-in-one) docker image.
+- If you want to use the feature of [automatically managed project folders](#5-automatically-managed-project-folders)
+  you need to install the officially minimal supported version `14.0.9` of
+  the [Group folders](https://apps.nextcloud.com/apps/groupfolders) app in Nextcloud.
 
 ## Set up the integration
 
-> **Important**: You need to have administrator privileges in both your Nextcloud and OpenProject instances to set up this integration.
+> [!IMPORTANT]
+> You need to have administrator privileges in both your Nextcloud and OpenProject instances to set up this integration.
 
 Watch this video to find out how to set up the Nextcloud integration as an Administrator and as a user.
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Nextcloud-Integration-Setup.mp4" type="video/mp4" controls="" style="width:100%"></video>
@@ -69,7 +80,8 @@ In the configuration page that appears, you'll see a blank text field titled **O
 
 Click on the **Save** button.
 
-> **Note:** If the OpenProject host cannot be added, you may check the [Troubleshooting](#troubleshooting) section at the bottom of this page.
+> [!TIP]
+> If the OpenProject host cannot be added, you may check the [Troubleshooting](#troubleshooting) section at the bottom of this page.
 
 Please note, when you use the **Terms of Service** app on the Nextcloud side, all terms also need to be accepted for the OpenProject user that gets created during the setup. This is set to happen automatically during the initial set-up. If you see an error message indicating otherwise or the integration does not behave as expected, please refer to the [Troubleshooting](#troubleshooting) section at the bottom of this page.
 
@@ -77,7 +89,7 @@ The next part of the setup will require you to enter OpenProject OAuth values he
 
 ### 2. Create a Nextcloud file storage in your OpenProject instance
 
-Navigate to your administration settings page by clicking on *your avatar in the top right corner → Administration*. From the side menu on the left, click on **File storages**.
+Navigate to your administration settings page by clicking on *your avatar in the top right corner → Administration*. From the side menu on the left, click on **Files -> External file storages**.
 
 Click on **+ Storage** to add a new file storage.
 
@@ -101,7 +113,8 @@ At this point, you will see a page titled **OpenProject OAuth application detail
 
 Note that OpenProject has automatically generated an OAuth **client ID** and a **client secret**. These values are needed to permit Nextcloud to connect to OpenProject.
 
-> **Important**: These generated values are not accessible again after you close the window. Please do not navigate away from this page before copying them over to Nextcloud, as instructed below. Treat these values with care, as you would an important password. Please do not reveal them to anyone else.
+> [!IMPORTANT]
+> These generated values are not accessible again after you close the window. Please do not navigate away from this page before copying them over to Nextcloud, as instructed below. Treat these values with care, as you would an important password. Please do not reveal them to anyone else.
 
 ![OpenProject generates OAuth values to copy over to Nextcloud](OP-OAuth-values.png)
 
@@ -129,7 +142,7 @@ Navigate back to your OpenProject tab and click on the **Done. Continue setup** 
 
 Once you have entered the client ID and client secrets on this page, click on **Save and continue setup**.
 
-### 5. Automatically managed folders
+### 5. Automatically managed project folders
 
 As a last step, you will be asked if you want to use automatically managed folders. If you choose this option, OpenProject will automatically create project folders in Nextcloud and manage permissions such that all project members always have the necessary access privileges. Unless you already have a particular folder structure in place, we recommend choosing this option.
 
@@ -141,7 +154,8 @@ In case you want to use this functionality you will be requested to enter a pass
 
 ![Nextcloud Automatically managed folders](nc-project_folders-application_password.png)
 
-> **Important**: You will need to install the [Group folder](https://apps.nextcloud.com/apps/groupfolders) app in Nextcloud in order to have OpenProject automatically managed your Nextcloud folders. Each storage can only have one group folder with the same name.
+> [!IMPORTANT]
+> You will need to install the [Group folder](https://apps.nextcloud.com/apps/groupfolders) app in Nextcloud in order to have OpenProject automatically managed your Nextcloud folders. Each storage can only have one group folder with the same name.
 
 At this point, you can click on **Done, complete setup** in both applications and your instance configuration will be completed.
 
@@ -164,15 +178,17 @@ Additional settings on this page also allow you, as an administrator, to define 
 
 Now that the integration is set up, the next step is to make the Nextcloud file storage you just created available to individual projects.
 
-To do so, navigate to any existing project in your OpenProject instance and click on **Project settings** **→ Modules** and follow the instructions in the [Project settings user guide](../../../user-guide/projects/project-settings/files/).
+To do so, navigate to any existing project in your OpenProject instance and click on **Project settings** -> **Files** and follow the instructions in the [Project settings user guide](../../../user-guide/projects/project-settings/files/).
 
-> **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../user-guide/file-management/nextcloud-integration/).
+> [!NOTE]
+> For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../user-guide/file-management/nextcloud-integration/).
 
 ## Reset OAuth values
 
 If you wish to reset OAuth values for any reason, you can do so on either side by clicking on the **Reset OAuth values** button (in Nextcloud settings) or the **Replace OAuth values** button (in OpenProject admin settings).
 
-> **Important**: When you reset/replace these values, you will need to update the configuration with the new OAuth credentials from the side you are resetting. This will also require all users to re-authorize OpenProject to access their Nextcloud account by logging in again.
+> [!IMPORTANT]
+> When you reset/replace these values, you will need to update the configuration with the new OAuth credentials from the side you are resetting. This will also require all users to re-authorize OpenProject to access their Nextcloud account by logging in again.
 
 ![A dialogue asking the user to confirm they want to replace OpenProject OAuth values](3_2_06-NC_OP_OAuth_Replace.png)
 
@@ -190,7 +206,8 @@ Deleting a file storage at an instance level deletes the Nextcloud integration c
 
 ![Click on the delete icon next to the file storage in administration settings to delete it from this instance](file-storage-list-admin.png)
 
-> **Important:** Deleting a file storage as an instance administrator will also delete all settings and links between work packages and Nextcloud files/folders. This means that should you want to reconnect your Nextcloud instance with OpenProject, will need complete the entire setup process once again.
+> [!IMPORTANT]
+> Deleting a file storage as an instance administrator will also delete all settings and links between work packages and Nextcloud files/folders. This means that should you want to reconnect your Nextcloud instance with OpenProject, will need complete the entire setup process once again.
 
 ## Using the integration
 
@@ -268,19 +285,23 @@ If you do care about the `OpenProject` user/group/folder data then the condition
 - Group `OpenProject` doesn't have all the permissions for group folder `OpenProject`. Inside the _Group folders_ App (*Administration settings → Administration → Group folders*) check if the group `OpenProject` has all the permissions for group folder `OpenProject`, if not give group `OpenProject` all the permissions i.e. Write, Share, Delete.
 - User `OpenProject` doesn't have advanced permissions for group folder `OpenProject`.  Inside the _Group folders_ App (*Administration settings → Administration → Group folders*) check if the user `OpenProject` has advanced permissions for group folder `OpenProject`, if not add user `OpenProject` to advanced permissions list.
 
-> Note: The name `OpenProject` is case-sensitive, so should be in exactly that format.
+> [!NOTE]
+> The name `OpenProject` is case-sensitive, so should be in exactly that format.
 
 #### While trying to delete or disable user/group "OpenProject"
 
 If you face an error while trying to delete or disable user/group "OpenProject" then that's because user/group is protected by the _OpenProject Integration_ App. If you really need to delete the user or group follow these steps:
 
 1. Disable the _OpenProject Integration_ App
-   **Note**: Disabling and enabling the app is safe. No app data will be deleted.
+  > [!NOTE]
+  > Disabling and enabling the app is safe. No app data will be deleted.
 2. Remove user `OpenProject`
 3. Remove group `OpenProject`
 4. Inside the _Group folders_ App (*Administration settings → Administration → Group folders*), remove group folder `OpenProject`.
 
-   **Caution: this step will delete all files in that folder. Make sure to make a copy if you want to keep these files!**
+  [!WARNING]
+  This step will delete all files in that folder. Make sure to make a copy if you want to keep these files!**
+
 5. Enable the _OpenProject Integration_ App
 
 ### Setting up Nextcloud in OpenProject
@@ -337,7 +358,7 @@ sudo systemctl restart apache2
 ```
 
 If that also not work please check the [instructions for setting up pretty URLs in Nextcloud](https://docs.nextcloud.com/server/22/admin_manual/installation/source_installation.html#pretty-urls). This usually also resolves the issue of stripped `Authorization` headers.
-  
+
 #### Project folders are not created or you do not have access
 
 You have setup the *Project folder* in both environments (Nextcloud and OpenProject), but you cannot see any folder named `OpenProject` in the root directory of **Files** app in Nextcloud.

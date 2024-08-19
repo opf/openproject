@@ -113,16 +113,16 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
       end
 
       it "returns a valid ClientToken object and issues an appropriate event" do
-        expect(OpenProject::Notifications)
-          .to(receive(:send))
-          .with(OpenProject::Events::OAUTH_CLIENT_TOKEN_CREATED, integration_type: "Storages::Storage")
+        allow(OpenProject::Notifications)
+          .to receive(:send).with(OpenProject::Events::REMOTE_IDENTITY_CREATED, integration: storage).once
+
         expect(subject.success).to be_truthy
         expect(subject.result).to be_a OAuthClientToken
       end
 
       it "fills in the origin_user_id" do
-        expect { subject }.to change(OAuthClientToken, :count).by(1)
-        last_token = OAuthClientToken.where(access_token: "yjTDZ...RYvRH").last
+        expect { subject }.to change(OAuthClientToken, :count).by(1).and(change(RemoteIdentity, :count).by(1))
+        last_token = RemoteIdentity.find_by!(user:, oauth_client:)
 
         expect(last_token.origin_user_id).to eq("admin")
       end

@@ -50,7 +50,7 @@ lv:
         description: "Piezīmes"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "Virsraksts"
     errors:
       messages:
         invalid_time_format: "nav derīgs laiks. Vajadzīgais formāts: HH:MM"

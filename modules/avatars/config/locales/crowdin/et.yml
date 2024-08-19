@@ -1,7 +1,7 @@
 #English strings go here
 et:
   plugin_openproject_avatars:
-    name: "Avatars"
+    name: "Profiilipildid"
     description: >-
       This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
   label_avatar: "Profiilipilt"
@@ -11,7 +11,6 @@ et:
   message_avatar_uploaded: "Profiilipilt vahetatud."
   error_image_upload: "Viga pildi salvestamisel."
   error_image_size: "Pilt on liiga suur."
-  button_change_avatar: "Muuda profiilipilt"
   are_you_sure_delete_avatar: "Olete kindel, et soovite oma profiilipilti kustutada?"
   avatar_deleted: "Profiilipilt kustutatud."
   unable_to_delete_avatar: "Profiilipilti ei saanud kustutada."

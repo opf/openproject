@@ -67,7 +67,7 @@ fr:
         text: "Voulez-vous vraiment supprimer le jeton actuellement utilisé pour l'édition Entreprise ?"
         title: "Supprimer le jeton"
       replace_token: "Remplacer votre licence actuelle"
-      order: "Commander l'édition Entreprise autohebergée"
+      order: "Commander l'édition Entreprise auto-hébergée"
       paste: "Coller votre jeton de support pour la version Entreprise"
       required_for_feature: "Cet add-on n'est disponible qu'avec un jeton de support actif pour la version Entreprise."
       enterprise_link: "Pour plus d'informations, cliquez ici."
@@ -212,10 +212,12 @@ fr:
     reorder_confirmation: "Attention : l'ordre actuel des valeurs disponibles sera perdu. Continuer ?"
     instructions:
       is_required: "Marquer le champ personnalisé comme requis. Cela rendra obligatoire de remplir le champ lors de la création ou de la mise à jour des ressources existantes."
+      is_required_for_project: "Cocher pour activer cet attribut et le rendre nécessaire dans tous les projets. Il ne peut pas être désactivé pour certains projets."
       is_for_all: "Marquer le champ personnalisé comme disponible dans tous les projets existants et nouveaux."
       searchable: "Inclure les valeurs des champs lors de l'utilisation de la fonctionnalité de recherche globale."
+      searchable_for_project: "Cocher pour rendre cet attribut disponible en tant que filtre dans les listes de projets."
       editable: "Autoriser les utilisateurs à modifier eux-mêmes le champ"
-      visible: "Rendre le champ visible pour tous les utilisateurs (non-administrateurs) et l'afficher dans le widget des détails du projet dans la vue d'ensemble du projet."
+      admin_only: "Cocher pour rendre cet attribut visible uniquement par les administrateurs. Les utilisateurs sans droits d'administration ne seront pas en mesure de le voir ou de l'éditer."
       is_filter: >
         Permet au champ personnalisé d'être utilisé dans un filtre dans les vues des lots de travaux. Notez que le champ personnalisé n'apparaîtra dans les vues globales que si l'option "Pour tous les projets" est sélectionnée.
     tab:
@@ -386,6 +388,9 @@ fr:
       will_revoke_access_to_all: "Cette action aura pour effet de révoquer l'accès de ces personnes à l'ensemble de ces éléments."
   my:
     access_token:
+      create_dialog:
+        header: Le jeton %{type} a été généré
+        warning: Notez que c'est la seule fois que vous verrez ce jeton, assurez-vous de le copier maintenant.
       errors:
         token_name_blank: "Veuillez fournir un nom de jeton d'API"
         token_name_in_use: "Ce nom de jeton d'API est déjà utilisé, veuillez en choisir un autre"
@@ -475,7 +480,7 @@ fr:
         is_readonly: "Lecture seule"
         excluded_from_totals: "Exclus des totaux"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Sombre (bêta)"
     light: "Clair"
     light_high_contrast: "Clair avec contraste élevé"
   types:
@@ -524,9 +529,9 @@ fr:
       no_common_statuses_exists: "Il n’y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé."
       unsupported_for_multiple_projects: "Déplacer/copier en masse n'est pas supporté pour des lots de travaux provenant de plusieurs projets"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Le type actuel du lot de travaux n'est pas activé dans le projet cible. Veuillez activer le type dans le projet cible si vous souhaitez qu'il reste inchangé. Sinon, sélectionnez un type disponible dans le projet cible dans la liste.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Les types actuels des lots de travaux ne sont pas activés dans le projet cible. Veuillez activer les types dans le projet cible si vous souhaitez qu'ils restent inchangés. Sinon, sélectionnez un type disponible dans le projet cible dans la liste.
     sharing:
       missing_workflow_warning:
         title: "Flux de travail manquant pour le partage de lots de travaux"
@@ -615,7 +620,7 @@ fr:
         possible_values: "Valeurs possibles"
         regexp: "Expression régulière"
         searchable: "Recherchable"
-        visible: "Visible"
+        admin_only: "Administrateurs uniquement"
       custom_value:
         value: "Valeur"
       doorkeeper/application:
@@ -685,6 +690,7 @@ fr:
         versions: "Versions"
         work_packages: "Lots de Travaux"
       project_custom_field:
+        is_required: "Requis pour tous les projets"
         custom_field_section: Section
       query:
         column_names: "Colonnes"
@@ -1030,11 +1036,11 @@ fr:
             assigned_to:
               format: "%{message}"
             done_ratio:
-              does_not_match_work_and_remaining_work: "does not match work and remaining work"
-              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
-              inclusion: "must be between 0 and 100."
+              does_not_match_work_and_remaining_work: "ne correspond pas au travail et au travail restant"
+              cannot_be_set_when_work_is_zero: "ne peut pas être défini lorsque le travail est nul"
+              must_be_set_when_remaining_work_is_set: "Requis lorsque le travail restant est défini."
+              must_be_set_when_work_and_remaining_work_are_set: "Requis lorsque le travail et les travaux restants sont définis."
+              inclusion: "doit être compris entre 0 et 100."
             due_date:
               not_start_date: "n'est pas identique à la date de début, bien que cela soit requis pour les jalons."
               cannot_be_null: "ne peut pas être défini à NULL car la date de début et la durée sont connues."
@@ -1064,13 +1070,13 @@ fr:
             estimated_hours:
               not_a_number: "n'est pas une durée valide."
               cant_be_inferior_to_remaining_work: "Ne peut être inférieur au Travail restant."
-              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Requis lorsque le travail restant et le % d'achèvement sont définis."
               format: "%{message}"
             remaining_hours:
               not_a_number: "n'est pas une durée valide."
               cant_exceed_work: "Ne peut être supérieur au Travail."
               must_be_set_when_work_is_set: "Requis lorsque le Travail est défini."
-              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
+              must_be_set_when_work_and_percent_complete_are_set: "Requis lorsque le travail et le % d'achèvement sont définis."
               format: "%{message}"
           readonly_status: "Le lot de travaux est en lecture seule, ses attributs ne peuvent donc pas être changés."
         type:
@@ -1154,6 +1160,9 @@ fr:
         one: "Rôle"
         other: "Rôles"
       status: "Statut du lot de travaux"
+      token/api:
+        one: Jeton d'accès
+        other: Jetons d’accès
       type: "Type"
       user: "Utilisateur"
       version: "Version"
@@ -1592,7 +1601,7 @@ fr:
   error_pdf_failed_to_export: "L'export PDF n'a pas pu être enregistré: %{error}"
   error_token_authenticity: "Impossible de vérifier le jeton de Cross-Site Request Forgery. Avez-vous essayé d'envoyer des données sur plusieurs navigateurs ou onglets ? Veuillez fermer tous les onglets et réessayer."
   error_work_package_not_found_in_project: "Le Lot de Travaux n'a pas été trouvé ou n'appartient pas à ce projet"
-  error_work_package_id_not_found: "The work package was not found."
+  error_work_package_id_not_found: "Le lot de travaux n'a pas été trouvé."
   error_must_be_project_member: "doit être membre du projet"
   error_migrations_are_pending: "Votre installation OpenProject a des migrations de base de données en attente. Vous n'avez probablement pas exécuté les migrations lors de votre dernière mise à jour. Veuillez consulter le guide de mise à jour afin de mettre votre installation correctement à jour."
   error_migrations_visit_upgrade_guides: "Veuillez consulter notre documentation du guide de mise à jour"
@@ -1798,10 +1807,10 @@ fr:
       shared: "Partagé"
       watched: "Observateur"
     facets:
-      unread: "Unread"
-      unread_title: "Show unread"
-      all: "All"
-      all_title: "Show all"
+      unread: "Non lu"
+      unread_title: "Afficher les messages non lus"
+      all: "Tout"
+      all_title: "Afficher tout"
     menu:
       by_project: "Non lu par le projet"
       by_reason: "Raison"
@@ -1866,7 +1875,7 @@ fr:
   label_ldap_auth_source_plural: "Connexions LDAP"
   label_attribute_expand_text: "Le texte complet pour « %{attribute} »."
   label_authentication: "Authentification"
-  label_authentication_settings: "Authentication settings"
+  label_authentication_settings: "Paramètres d'authentification"
   label_available_global_roles: "Rôles globaux disponibles"
   label_available_project_attributes: "Attributs de projet disponibles"
   label_available_project_forums: "Forums disponibles"
@@ -2161,6 +2170,8 @@ fr:
   label_next_week: "Semaine suivante"
   label_no_change_option: "(Aucun changement)"
   label_no_data: "Aucune donnée à afficher"
+  label_no_due_date: "pas de date de fin"
+  label_no_start_date: "pas de date de début"
   label_no_parent_page: "Aucune page parente"
   label_nothing_display: "Rien à afficher"
   label_nobody: "personne"
@@ -2286,7 +2297,7 @@ fr:
   label_role_search: "Assigner un rôle aux nouveaux membres"
   label_scm: "SCM"
   label_search: "Recherche"
-  label_search_by_name: "Search by name"
+  label_search_by_name: "Rechercher par nom"
   label_send_information: "Envoyer de nouveaux identifiants à l'utilisateur"
   label_send_test_email: "Envoyer un courriel de test"
   label_session: "Session"
@@ -2399,7 +2410,7 @@ fr:
   label_work_package_new: "Nouveau Lot de Travaux"
   label_work_package_edit: "Éditer le lot de travaux %{name}"
   label_work_package_plural: "Lots de Travaux"
-  label_work_packages_settings: "Work packages settings"
+  label_work_packages_settings: "Paramètres des lots de travaux"
   label_work_package_status: "Statut du lot de travaux"
   label_work_package_status_new: "Nouveau statut"
   label_work_package_status_plural: "Statuts du lot de travaux"
@@ -2407,7 +2418,7 @@ fr:
   label_work_package_tracking: "Suivi des lots de travaux"
   label_work_package_view_all: "Afficher tous les lots de travaux"
   label_workflow: "Flux de travail"
-  label_workflow_copy: "Copy workflow"
+  label_workflow_copy: "Copier le processus d'entreprise"
   label_workflow_plural: "Flux de travail"
   label_workflow_summary: "Résumé"
   label_working_days_and_hours: "Jours et heures travaillés"
@@ -2742,7 +2753,7 @@ fr:
   permission_edit_own_messages: "Éditer ses propres messages"
   permission_edit_own_time_entries: "Éditer mes propres enregistrements de temps"
   permission_edit_project: "Éditer le projet"
-  permission_edit_project_attributes: "Edit project attributes"
+  permission_edit_project_attributes: "Modifier les attributs du projet"
   permission_edit_reportings: "Éditer rapports"
   permission_edit_time_entries: "Modifier les journaux de temps pour les autres utilisateurs"
   permission_edit_timelines: "Éditer les lignes du temps"
@@ -2793,7 +2804,7 @@ fr:
   permission_work_package_assigned: "Devenir assigné/responsable"
   permission_work_package_assigned_explanation: "Des lots de travaux peuvent être assignés à des utilisateurs et des groupes possédant ce rôle dans le projet respectif"
   permission_view_project_activity: "Visualisation de l'activité du projet"
-  permission_view_project_attributes: "View project attributes"
+  permission_view_project_attributes: "Voir les attributs du projet"
   permission_save_bcf_queries: "Enregistrer les requêtes BCF"
   permission_manage_public_bcf_queries: "Gérer les requêtes publiques BCF"
   permission_edit_attribute_help_texts: "Modifier les textes d'aide des attributs"

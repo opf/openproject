@@ -212,10 +212,12 @@ be:
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     instructions:
       is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Mark the custom field as available in all existing and new projects."
       searchable: "Include the field values when using the global search functionality."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Allow the field to be editable by users themselves."
-      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
@@ -398,13 +400,16 @@ be:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Please provide an API token name"
         token_name_in_use: "This API token name is already in use, please select a different one"
       new_access_token_dialog_title: "Create new API token"
       new_access_token_dialog_show_button_text: "API token"
       new_access_token_dialog_text_field_placeholder_text: "My API token"
-      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_text_field_label: "Імя"
       new_access_token_dialog_submit_button_text: "Create"
       new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
       new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
@@ -630,7 +635,7 @@ be:
         possible_values: "Possible values"
         regexp: "Regular expression"
         searchable: "Searchable"
-        visible: "Visible"
+        admin_only: "Admin-only"
       custom_value:
         value: "Value"
       doorkeeper/application:
@@ -700,7 +705,8 @@ be:
         versions: "Versions"
         work_packages: "Work Packages"
       project_custom_field:
-        custom_field_section: Section
+        is_required: "Required for all projects"
+        custom_field_section: Раздзел
       query:
         column_names: "Columns"
         relations_to_type_column: "Relations to %{type}"
@@ -1179,6 +1185,11 @@ be:
         many: "Roles"
         other: "Roles"
       status: "Work package status"
+      token/api:
+        one: Access token
+        few: Access tokens
+        many: Access tokens
+        other: Access tokens
       type: "Type"
       user: "User"
       version: "Version"
@@ -1860,7 +1871,7 @@ be:
         unknown_storage: "Unknown storage"
   notifications:
     reasons:
-      assigned: "Assignee"
+      assigned: "Прызначаная асоба"
       dateAlert: "Date alert"
       mentioned: "Mentioned"
       responsible: "Accountable"
@@ -2230,6 +2241,8 @@ be:
   label_next_week: "Next week"
   label_no_change_option: "(No change)"
   label_no_data: "No data to display"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "No parent page"
   label_nothing_display: "Nothing to display"
   label_nobody: "nobody"
@@ -3225,7 +3238,7 @@ be:
     project_attributes:
       heading: "Project attributes"
       label_new_attribute: "Project attribute"
-      label_new_section: "Section"
+      label_new_section: "Раздзел"
       label_edit_section: "Edit title"
       label_section_actions: "Section actions"
       heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
@@ -3506,7 +3519,7 @@ be:
     permissions:
       comment: "Comment"
       comment_description: "Can view and comment this work package."
-      edit: "Edit"
+      edit: "Рэдагаваць"
       edit_description: "Can view, comment and edit this work package."
       view: "View"
       view_description: "Can view this work package."
@@ -3573,7 +3586,7 @@ be:
       permissions:
         view: "View"
         view_description: "Can view this project list."
-        edit: "Edit"
+        edit: "Рэдагаваць"
         edit_description: "Can view, share and edit this project list."
       upsale:
         message: "Sharing project lists with individual users is an enterprise add-on."

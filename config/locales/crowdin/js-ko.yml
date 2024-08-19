@@ -66,7 +66,7 @@ ko:
     button_back_to_list_view: "목록으로 돌아가기"
     button_cancel: "취소"
     button_close: "닫기"
-    button_change_project: "프로젝트 변경"
+    button_change_project: "Move to another project"
     button_check_all: "모두 선택"
     button_configure-form: "구성 양식"
     button_confirm: "확인"
@@ -74,7 +74,7 @@ ko:
     button_copy: "복사"
     button_copy_to_clipboard: "클립보드 복사"
     button_copy_link_to_clipboard: "클립보드에 링크 복사"
-    button_copy_to_other_project: "다른 프로젝트에 복사"
+    button_copy_to_other_project: "Duplicate to other project"
     button_custom-fields: "사용자 정의 필드"
     button_delete: "삭제"
     button_delete_watcher: "주시자 삭제"
@@ -366,10 +366,10 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>프로젝트 목록 공유 및 공개로 전환(Enterprise 추가 기능)</li> <li>프로젝트 목록을 즐겨찾기로 표시</li> <li>OneDrive/SharePoint 저장소에 대한 연결 유효성 검사(Enterprise 추가 기능)</li> <li>사용자 프로필 페이지에서 Primer로 선보이는 새로운 디자인</li> <li>Gantt 차트 PDF 내보내기: 달력 주에 기반한 추가적인 날짜 확대/축소</li> <li>하위 메뉴 구성 요소에 대한 검색 표시줄(프로젝트 목록과 Gantt 및 보드 모듈)</li> <li>시간만 또는 일 및 시간으로 표시되는 진행률 보고 중에서 선택</li> <li>프로젝트 선택기에서 프로젝트 선택 해제</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."
@@ -619,7 +619,7 @@ ko:
         mentioned: "멘션됨"
         watched: "주시자"
         assigned: "담당자"
-        accountable: "Accountable"
+        accountable: "담당자"
         created: "생성됨"
         scheduled: "예약됨"
         commented: "코멘트 작성됨"
@@ -653,7 +653,7 @@ ko:
           no_notification: "모두 확인하신 것 같습니다."
           no_notification_with_current_project_filter: "선택한 프로젝트에 대한 모든 알림을 본 것 같습니다."
           no_notification_with_current_filter: "%{filter} 필터에 대한 모든 알림을 본 것 같습니다."
-          no_notification_for_filter: "Looks like you are all caught up for this filter."
+          no_notification_for_filter: "이 필터에 대한 모든 알림을 본 것 같습니다."
           no_selection: "모든 활동 세부 정보를 보려면 알림을 클릭하세요."
         new_notifications:
           message: "새 알림이 있습니다."

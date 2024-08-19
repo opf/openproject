@@ -10,7 +10,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
-import { UrlParamsService } from 'core-app/core/url-params/url-params.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Component({
   selector: 'op-in-app-notification-entry',

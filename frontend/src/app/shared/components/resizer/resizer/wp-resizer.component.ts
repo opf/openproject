@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) the OpenProject GmbH
 //
@@ -73,10 +73,12 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
 
   public resizerClass = 'work-packages--resizer icon-resizer-vertical-lines';
 
-  constructor(readonly toggleService:MainMenuToggleService,
+  constructor(
+    readonly toggleService:MainMenuToggleService,
     private elementRef:ElementRef,
     readonly $transitions:TransitionService,
-    readonly browserDetector:BrowserDetector) {
+    readonly browserDetector:BrowserDetector,
+  ) {
     super();
   }
 
@@ -86,7 +88,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
     // to still work in case an element is duplicated by Angular.
     const elements = document.getElementsByClassName(this.elementClass);
     this.resizingElement = <HTMLElement>elements[elements.length - 1];
-
+    
     if (!this.resizingElement) {
       return;
     }

@@ -66,7 +66,7 @@ de:
     button_back_to_list_view: "Zurück zur Listenansicht"
     button_cancel: "Abbrechen"
     button_close: "Schließen"
-    button_change_project: "In anderes Projekt verschieben"
+    button_change_project: "Move to another project"
     button_check_all: "Alle auswählen"
     button_configure-form: "Formular konfigurieren"
     button_confirm: "Bestätigen"
@@ -74,7 +74,7 @@ de:
     button_copy: "Kopieren"
     button_copy_to_clipboard: "In Zwischenablage kopieren"
     button_copy_link_to_clipboard: "Link in Zwischenablage kopieren"
-    button_copy_to_other_project: "In anderes Projekt kopieren"
+    button_copy_to_other_project: "Duplicate to other project"
     button_custom-fields: "Benutzerdefinierte Felder"
     button_delete: "Löschen"
     button_delete_watcher: "Beobachter löschen"
@@ -365,10 +365,10 @@ de:
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Projektlisten teilen (Enterprise Add-on)</li> <li>Projektlisten als Favoriten markieren</li> <li>Verbindungsprüfung für OneDrive/SharePoint-Speicher (Enterprise Add-on)</li> <li>Neuer Look mit Primer für die Benutzerprofilseite</li> <li>Gantt-Diagramm PDF-Export: Zusätzlicher Datums-Zoom auf Basis von Kalenderwochen</li> <li>Suchleiste in Untermenüs (Projektlisten und Gantt- und Boards-Module)</li> <li>Fortschrittsberichte können nun in Stunden oder in Tagen und Stunden angezeigt werden</li> <li>Abwählen von Projekten aus der Projektauswahl</li> </ul>
+                Diese Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Dark Mode wählbar in den persönlichen Einstellungen</li> <li>Getrennte Berechtigungen für die Anzeige und Bearbeitung von Projektattributen</li> <li>Verbesserungen für Fortschrittsberichte auf Basis des Status</li> <li>Verbindungsüberprüfung für Nextcloud-Speicher</li> <li>Mehr Filteroptionen für Projektlisten</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
@@ -618,7 +618,7 @@ de:
         mentioned: "Erwähnt"
         watched: "Beobachter"
         assigned: "Beauftragter"
-        accountable: "Accountable"
+        accountable: "Verantwortlich"
         created: "Erstellt"
         scheduled: "Geplant"
         commented: "Kommentiert"
@@ -653,7 +653,7 @@ de:
           no_notification: "Alle Benachrichtungen abgearbeitet"
           no_notification_with_current_project_filter: "Sieht so aus, als ob Sie in dem ausgewählten Projekt mit allem auf dem Laufenden sind.\n"
           no_notification_with_current_filter: "Sieht so aus, als ob Sie bei %{filter} mit allem auf dem Laufenden sind."
-          no_notification_for_filter: "Looks like you are all caught up for this filter."
+          no_notification_for_filter: "Keine Benachrichtigungen für diesen Filter vorhanden."
           no_selection: "Auf eine Benachrichtigung klicken, um alle Aktivitätsdetails anzuzeigen."
         new_notifications:
           message: "Es gibt neue Benachrichtigungen."

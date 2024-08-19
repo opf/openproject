@@ -80,7 +80,7 @@ In order to edit the title of the meeting select the dropdown menu behind the th
 
 After creating a meeting, you can set up a **meeting agenda**.
 
-You do this by adding sections, agenda items or existing work packages by selecting the desired option under the green **Add** button. You can then add notes to each agenda item.
+You do this by adding sections, agenda items or existing work packages by selecting the desired option under the green **+ Add** button. You can then add notes to each agenda item.
 
 ![The add button with three choices: section, agenda item or work package](openproject_dynamic_meetings_add_agenda_item.png)
 
@@ -88,7 +88,7 @@ You do this by adding sections, agenda items or existing work packages by select
 
 Sections allow you to group agenda items into blocks for better organization.
 
-To add a section, click on the *+ Add* button at the bottom of the agenda items and select the **Section** option. This will add a new empty section to the very end of the meeting and prompt you to give it a name. 
+To add a section, click on the **+ Add** button at the bottom of the agenda items and select the **Section** option. 
 
 ![Add a new section to a meeting agenda in OpenProject](openproject_dynamic_meetings_add_section.png)
 
@@ -152,6 +152,10 @@ There are two ways to add a work package to a meeting agenda.
 You can add a work package to both upcoming or past meetings as long as the work package is marked **open**.
 
 ![OpenProject work packages in meetings agenda](openproject_dynamic_meetings_wp_agenda.png)
+
+>  [!TIP]
+> The upcoming meetings are displayed in chronological order, from the nearest meeting to the most distant. 
+> The past meetings are displayed in reverse chronological order, from the most recent meeting to the oldest.
 
 ## Meeting participants
 
