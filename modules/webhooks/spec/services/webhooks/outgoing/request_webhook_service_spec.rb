@@ -26,56 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class RepresentedWebhookJob < WebhookJob
-  attr_reader :resource
+require "spec_helper"
 
-  def perform(webhook_id, resource, event_name)
-    @resource = resource
-    super(webhook_id, event_name)
+RSpec.describe Webhooks::Outgoing::RequestWebhookService, type: :model do
+  let(:user) { build_stubbed(:user) }
+  let(:instance) { described_class.new(webhook, event_name: :created, current_user: user) }
 
-    return unless accepted_in_project?
+  shared_let(:webhook) { create(:webhook, all_projects: true, url: "https://example.net/test/42", secret: nil) }
 
-    body = request_body
-    headers = request_headers
+  subject { instance.call!(body: "body", headers: {}) }
 
-    if (signature = request_signature(body))
-      headers["X-OP-Signature"] = signature
+  describe "#call!" do
+    context "when request_url fails with SSL errors" do
+      it "still logs the exception" do
+        allow(Faraday)
+          .to receive(:post)
+          .with(webhook.url, *any_args)
+          .and_raise(Faraday::SSLError, "SSL error")
+
+        expect { subject }
+          .to change(Webhooks::Log, :count).by(1)
+      end
     end
-
-    ::Webhooks::Outgoing::RequestWebhookService
-      .new(webhook, event_name:, current_user: User.system)
-      .call!(body:, headers:)
-  end
-
-  def accepted_in_project?
-    webhook.enabled_for_project?(resource.project_id)
-  end
-
-  def request_signature(request_body)
-    if (secret = webhook.secret.presence)
-      "sha1=#{OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), secret, request_body)}"
-    end
-  end
-
-  def request_headers
-    {
-      content_type: "application/json",
-      accept: "application/json"
-    }
-  end
-
-  def payload_key
-    raise NotImplementedError
-  end
-
-  def payload_representer
-    raise NotImplementedError
-  end
-
-  def request_body
-    {
-      :action => event_name,
-      payload_key => payload_representer
-    }.to_json
   end
 end
