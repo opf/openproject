@@ -55,6 +55,7 @@ class MeetingSectionsController < ApplicationController
       # update the section header of the previously last section in order to ensure the action menu move options are updated
       update_section_header_via_turbo_stream(meeting_section: @meeting.sections.last(2).first) if @meeting.sections.count > 1
       update_new_button_via_turbo_stream(disabled: true)
+      update_header_component_via_turbo_stream
     else
       render_base_error_in_flash_message_via_turbo_stream(call.errors)
     end
@@ -118,6 +119,7 @@ class MeetingSectionsController < ApplicationController
       update_new_button_via_turbo_stream(disabled: false)
       # update all section headers in order to ensure the action menu move options are updated
       update_section_headers_via_turbo_stream
+      update_header_component_via_turbo_stream
     else
       generic_call_failure_response(call)
     end
@@ -138,6 +140,7 @@ class MeetingSectionsController < ApplicationController
       update_section_headers_via_turbo_stream
       # update all time slots as a section position change affects potentially all time slots
       update_show_items_via_turbo_stream
+      update_header_component_via_turbo_stream
     else
       generic_call_failure_response(call)
     end
