@@ -81,7 +81,7 @@ module UserPreferences
         if time_zones.length == 1
           time_zones.first
         else
-          time_zones.detect { |tz| tz.tzinfo.name.include?(tz.name.tr(' ', '_')) }
+          time_zones.detect { |tz| tz.tzinfo.name.include?(tz.name.tr(" ", "_")) }
         end
       end
     end
@@ -109,7 +109,7 @@ module UserPreferences
     end
 
     def full_hour_reminder_time
-      unless model.daily_reminders[:times].all? { |time| time.end_with?('00:00+00:00') }
+      unless model.daily_reminders[:times].all? { |time| time.end_with?("00:00+00:00") }
         errors.add :daily_reminders, :full_hour
       end
     end

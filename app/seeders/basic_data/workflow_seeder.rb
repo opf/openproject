@@ -36,7 +36,7 @@ module BasicData
 
     def seed_data!
       if any_types_or_statuses_or_workflows_already_configured?
-        print_status '   *** Skipping types, statuses and workflows as there are already some configured'
+        print_status "   *** Skipping types, statuses and workflows as there are already some configured"
       else
         seed_statuses
         seed_types
@@ -51,12 +51,12 @@ module BasicData
     end
 
     def seed_statuses
-      print_status '   ↳ Statuses'
+      print_status "   ↳ Statuses"
       BasicData::StatusSeeder.new(seed_data).seed!
     end
 
     def seed_types
-      print_status '   ↳ Types'
+      print_status "   ↳ Types"
       BasicData::TypeSeeder.new(seed_data).seed!
     end
 
@@ -82,8 +82,8 @@ module BasicData
 
     def workflows
       seed_data.lookup(:workflows).map do |workflow_data|
-        type = seed_data.find_reference(workflow_data['type'])
-        statuses = seed_data.find_references(workflow_data['statuses'])
+        type = seed_data.find_reference(workflow_data["type"])
+        statuses = seed_data.find_references(workflow_data["statuses"])
         [type, statuses]
       end
     end

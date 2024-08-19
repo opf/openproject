@@ -28,14 +28,14 @@
 module BasicData
   class ColorSchemeSeeder < ModelSeeder
     self.model_class = Color
-    self.seed_data_model_key = 'open_color_palette'
+    self.seed_data_model_key = "open_color_palette"
 
     def applicable?
       Color.where(name: %w(grape-0 grape-1)).none?
     end
 
     def model_attributes(color_scheme_data)
-      color_scheme_data['hexcodes'].map.with_index do |hexcode, i|
+      color_scheme_data["hexcodes"].map.with_index do |hexcode, i|
         {
           name: "#{color_scheme_data['color']}-#{i}",
           hexcode:

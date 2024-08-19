@@ -103,7 +103,7 @@ module AuthSourceSSO
   def extract_from_header(value)
     if header_secret.present?
       valid_secret = value.end_with?(":#{header_secret}")
-      login = value.gsub(/:#{Regexp.escape(header_secret)}\z/, '')
+      login = value.gsub(/:#{Regexp.escape(header_secret)}\z/, "")
 
       [login, valid_secret]
     else
@@ -185,7 +185,7 @@ module AuthSourceSSO
 
   def perform_post_logout(prev_session, previous_user)
     if prev_session[:user_from_auth_header] && header_slo_url.present?
-      redirect_to header_slo_url
+      redirect_to(header_slo_url, allow_other_host: true)
     else
       super
     end

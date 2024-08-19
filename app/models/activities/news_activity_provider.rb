@@ -27,24 +27,24 @@
 #++
 
 class Activities::NewsActivityProvider < Activities::BaseActivityProvider
-  activity_provider_for type: 'news',
+  activity_provider_for type: "news",
                         permission: :view_news
 
   def event_query_projection
     [
-      activity_journal_projection_statement(:title, 'title'),
-      activity_journal_projection_statement(:project_id, 'project_id')
+      activity_journal_projection_statement(:title, "title"),
+      activity_journal_projection_statement(:project_id, "project_id")
     ]
   end
 
   protected
 
   def event_title(event)
-    event['title']
+    event["title"]
   end
 
   def event_type(_event)
-    'news'
+    "news"
   end
 
   def event_path(event)
@@ -58,6 +58,6 @@ class Activities::NewsActivityProvider < Activities::BaseActivityProvider
   private
 
   def url_helper_parameter(event)
-    event['journable_id']
+    event["journable_id"]
   end
 end

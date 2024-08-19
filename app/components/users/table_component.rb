@@ -46,7 +46,7 @@ module Users
     def header_options(name)
       options = { caption: User.human_attribute_name(name) }
 
-      options[:default_order] = 'desc' if desc_by_default.include? name
+      options[:default_order] = "desc" if desc_by_default.include? name
 
       options
     end

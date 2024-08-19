@@ -29,11 +29,15 @@
 module Projects::Copy
   class MembersDependentService < Dependency
     def self.human_name
-      I18n.t(:'projects.copy.members')
+      I18n.t(:"projects.copy.members")
+    end
+
+    def source_memberships
+      source.memberships.of_any_project
     end
 
     def source_count
-      source.members.count
+      source_memberships.count
     end
 
     protected
@@ -41,7 +45,7 @@ module Projects::Copy
     def copy_dependency(*)
       # Copy users and placeholder users first,
       # then groups to handle members with inherited and given roles
-      source.memberships.sort_by { |m| m.principal.is_a?(Group) ? 1 : 0 }.each do |member|
+      source_memberships.sort_by { |m| m.principal.is_a?(Group) ? 1 : 0 }.each do |member|
         create_membership(member)
       end
     end
@@ -54,7 +58,7 @@ module Projects::Copy
       return if role_ids.empty?
 
       attributes = member
-                     .attributes.dup.except('id', 'project_id', 'created_at', 'updated_at')
+                     .attributes.dup.except("id", "project_id", "created_at", "updated_at")
                      .merge(role_ids:,
                             project: target,
                             # This is magic for now. The settings has been set before in the Projects::CopyService

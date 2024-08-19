@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<div class="grid-block -visible-overflow">
+<div class="grid-block grid-block_visible-overflow">
 
   <div class="grid-content medium-6">
     <% if @group.users.any? %>
@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   </div>
 
-  <div class="grid-content medium-6 -visible-overflow">
+  <div class="grid-content medium-6">
     <% if User.user
               .not_in_group(@group)
               .where(status: [User.statuses[:active], User.statuses[:invited]])
@@ -62,7 +62,7 @@ See COPYRIGHT and LICENSE files for more details.
           </div>
           <div>
             <%= styled_button_tag t(:button_add),
-                                  class: '-highlight -with-icon icon-checkmark' %>
+                                  class: '-primary -with-icon icon-checkmark' %>
           </div>
         </fieldset>
       <% end %>

@@ -49,9 +49,9 @@ module Authentication
     end
 
     def validate_auth_hash_not_expired
-      return unless auth_hash['timestamp']
+      return unless auth_hash["timestamp"]
 
-      if auth_hash['timestamp'] < Time.now - 30.minutes
+      if auth_hash["timestamp"] < Time.now - 30.minutes
         errors.add(:base, I18n.t(:error_omniauth_registration_timed_out))
       end
     end

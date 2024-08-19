@@ -61,7 +61,7 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
     if condition
       "AND #{condition}"
     else
-      ''
+      ""
     end
   end
 

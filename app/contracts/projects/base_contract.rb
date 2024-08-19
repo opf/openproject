@@ -35,6 +35,7 @@ module Projects
     attribute :identifier
     attribute :description
     attribute :public
+    attribute :settings
     attribute :active do
       validate_active_present
       validate_changing_active
@@ -49,6 +50,10 @@ module Projects
     attribute :templated do
       validate_templated_set_by_admin
     end
+
+    attribute :_limit_custom_fields_validation_to_section_id
+    # `_limit_custom_fields_validation_to_section_id` used in Projects::ActsAsCustomizablePatches in order to
+    # only validate custom fields of the touched section
 
     validate :validate_user_allowed_to_manage
 
@@ -70,6 +75,20 @@ module Projects
 
     def assignable_status_codes
       Project.status_codes.keys
+    end
+
+    protected
+
+    def collect_available_custom_field_attributes
+      # required because project custom fields are now activated on a per-project basis
+      #
+      # if we wouldn't query available_custom field on a global level here,
+      # implicitly enabling project custom fields through this contract would fail
+      # as the disabled custom fields would be treated as not-writable
+      #
+      # relevant especially for the project API
+
+      model.all_available_custom_fields.map(&:attribute_name)
     end
 
     private

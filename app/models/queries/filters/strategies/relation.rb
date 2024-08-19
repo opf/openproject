@@ -32,7 +32,7 @@ module Queries::Filters::Strategies
              to: :filter
 
     # 'children' used to be supported by the API although 'child' would be more fitting.
-    self.supported_operators = ::Relation::TYPES.keys + [::Relation::TYPE_PARENT, ::Relation::TYPE_CHILD, 'children']
+    self.supported_operators = ::Relation::TYPES.keys + [::Relation::TYPE_PARENT, ::Relation::TYPE_CHILD, "children"]
     self.default_operator = ::Relation::TYPE_RELATES
 
     def validate

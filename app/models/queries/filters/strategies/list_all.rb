@@ -32,7 +32,7 @@ module Queries::Filters::Strategies
 
     def operator_map
       super_value = super.dup
-      super_value['&='] = ::Queries::Operators::EqualsAll
+      super_value["&="] = ::Queries::Operators::EqualsAll
 
       super_value
     end

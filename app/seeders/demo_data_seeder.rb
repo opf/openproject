@@ -35,6 +35,6 @@ class DemoDataSeeder < CompositeSeeder
   end
 
   def namespace
-    'DemoData'
+    "DemoData"
   end
 end

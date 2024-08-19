@@ -34,6 +34,6 @@ class Queries::Capabilities::Filters::CapabilityFilter < Queries::Filters::Base
   end
 
   def where
-    operator_strategy.sql_for_field(values, 'capabilities', self.class.key)
+    operator_strategy.sql_for_field(values, "capabilities", self.class.key)
   end
 end

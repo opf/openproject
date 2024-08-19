@@ -1,26 +1,15 @@
 module Colors
   module HexColor
     ##
-    # Returns the best contrasting color, either white or black
-    # depending on the overall brightness.
-    def contrasting_color(light_color: '#FFFFFF', dark_color: '#333333')
-      if bright?
-        dark_color
-      else
-        light_color
-      end
-    end
-
-    ##
     # Get the fill style for this color.
     # If the color is light, use a dark font.
     # Otherwise, use a white font.
-    def color_styles(light_color: '#FFFFFF', dark_color: '#333333')
-      if bright?
-        { color: dark_color, 'background-color': hexcode }
-      else
-        { color: light_color, 'background-color': hexcode }
-      end
+    def color_styles(light_color: "#FFFFFF", dark_color: "#333333")
+      { color: contrasting_font_color(light: light_color, dark: dark_color), "background-color": hexcode }
+    end
+
+    def contrasting_font_color(light: "#FFFFFF", dark: "#333333")
+      bright? ? dark : light
     end
 
     ##
@@ -28,10 +17,6 @@ module Colors
     # YIQ lightness.
     def bright?
       brightness_yiq >= 150
-    end
-
-    def dark?
-      brightness_yiq < 150
     end
 
     ##
@@ -53,7 +38,7 @@ module Colors
     # Splits the hexcode into rbg color array
     def rgb_colors
       hexcode
-        .delete('#') # Remove trailing #
+        .delete("#") # Remove trailing #
         .scan(/../) # Pair hex chars
         .map(&:hex) # to int
     end
@@ -82,7 +67,7 @@ module Colors
     # and the given opacity
     def blend(mix_value, opacity)
       r, g, b = rgb_modify { |channel| (channel * opacity) + (mix_value * (1 - opacity)) }
-      '#%<r>02x%<g>02x%<b>02x' % { r:, g:, b: }
+      "#%<r>02x%<g>02x%<b>02x" % { r:, g:, b: }
     end
 
     # rubocop:disable Metrics/AbcSize
@@ -91,7 +76,7 @@ module Colors
 
       self.hexcode = hexcode.strip.upcase
 
-      unless hexcode.starts_with? '#'
+      unless hexcode.starts_with? "#"
         self.hexcode = "##{hexcode}"
       end
 

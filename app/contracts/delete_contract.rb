@@ -59,8 +59,10 @@ class DeleteContract < ModelContract
       user.admin? && user.active?
     when Proc
       instance_exec(&permission)
+    when Symbol
+      model.project && user.allowed_in_project?(permission, model.project)
     else
-      !model.project || user.allowed_in_project?(permission, model.project)
+      raise ArgumentError, "#{self.class} used without delete_permission. Set a  Proc, or project-based permission symbol"
     end
   end
 end

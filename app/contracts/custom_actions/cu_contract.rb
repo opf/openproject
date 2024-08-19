@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'model_contract'
+require "model_contract"
 
 # Contract for create (c) and update (u)
 module CustomActions
@@ -36,7 +36,7 @@ module CustomActions
     end
 
     def initialize(model, user = nil)
-      super(model, user)
+      super
     end
 
     attribute :name

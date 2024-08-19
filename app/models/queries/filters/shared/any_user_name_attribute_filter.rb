@@ -46,18 +46,18 @@ module Queries::Filters::Shared::AnyUserNameAttributeFilter
     private
 
     def sql_concat_name
-      <<-SQL
-    LOWER(
-      CONCAT(
-        users.firstname, ' ', users.lastname,
-        ' ',
-        users.lastname, ' ', users.firstname,
-        ' ',
-        users.login,
-        ' ',
-        users.mail
-      )
-    )
+      <<-SQL.squish
+        LOWER(
+          CONCAT(
+            users.firstname, ' ', users.lastname,
+            ' ',
+            users.lastname, ' ', users.firstname,
+            ' ',
+            users.login,
+            ' ',
+            users.mail
+          )
+        )
       SQL
     end
   end

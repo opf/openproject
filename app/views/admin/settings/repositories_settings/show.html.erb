@@ -26,7 +26,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= toolbar title: t(:label_repository_plural) %>
+
+<% html_title t(:label_administration), t(:label_repository_plural) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_repository_plural) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_general_path, text: t(:label_system_settings) },
+                             t(:label_repository_plural)])
+  end
+%>
 
 <%= styled_form_tag(admin_settings_update_repositories_path, method: :patch) do %>
   <section class="form--section">
@@ -118,12 +128,6 @@ See COPYRIGHT and LICENSE files for more details.
             <%= setting_select :commit_fix_status_id, [["--- #{t(:actionview_instancetag_blank_option)} ---", '0', { disabled: true }]] + Status.all.collect{ |status| [status.name, status.id.to_s] }, label: false %>
           </div>
         </div>
-        <div class="form--field -vertical">
-          <%= styled_label_tag :settings_commit_fix_done_ratio, WorkPackage.human_attribute_name(:done_ratio) %>
-          <div class="form--field-container">
-            <%= setting_select :commit_fix_done_ratio, (0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] }, blank: :label_no_change_option, label: false %>
-          </div>
-        </div>
       </div>
     </div>
     <div class="form--field">
@@ -136,5 +140,5 @@ See COPYRIGHT and LICENSE files for more details.
          disabled: !Setting.commit_logtime_enabled?,
          container_class: '-middle' %></div>
   </fieldset>
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
 <% end %>

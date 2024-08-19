@@ -38,7 +38,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= content_tag :body,
                 class: 'viewcomponent-preview',
-                data: { controller: "application" },
+                data: {
+                  controller: "application",
+                  "color-mode": "auto",
+                  "light-theme": "light",
+                },
                 style: styles.join(";") do %>
   <section class="viewcomponent-preview--content">
     <%= yield %>

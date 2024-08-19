@@ -43,7 +43,7 @@ module Projects
                                  "#{service_call.message}")
       end
     rescue StandardError => e
-      OpenProject.logger.error('Encountered an error when trying to delete project ' \
+      OpenProject.logger.error("Encountered an error when trying to delete project " \
                                "'#{project}' : #{e.message} #{e.backtrace.join("\n")}")
     end
   end

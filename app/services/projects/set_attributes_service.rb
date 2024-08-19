@@ -41,10 +41,10 @@ module Projects
     def set_default_attributes(attributes)
       attribute_keys = attributes.keys.map(&:to_s)
 
-      set_default_public(attribute_keys.include?('public'))
-      set_default_module_names(attribute_keys.include?('enabled_module_names'))
-      set_default_types(attribute_keys.include?('types') || attribute_keys.include?('type_ids'))
-      set_default_active_work_package_custom_fields(attribute_keys.include?('work_package_custom_fields'))
+      set_default_public(attribute_keys.include?("public"))
+      set_default_module_names(attribute_keys.include?("enabled_module_names"))
+      set_default_types(attribute_keys.include?("types") || attribute_keys.include?("type_ids"))
+      set_default_active_work_package_custom_fields(attribute_keys.include?("work_package_custom_fields"))
     end
 
     def set_default_public(provided)
@@ -77,7 +77,7 @@ module Projects
         # set an arbitrary status code first to get rails internal into correct state
         model.status_code = first_not_set_code
         # hack into rails internals to set faulty code
-        code_attributes = model.instance_variable_get(:@attributes)['status_code']
+        code_attributes = model.instance_variable_get(:@attributes)["status_code"]
         code_attributes.instance_variable_set(:@value_before_type_cast, status_code)
         code_attributes.instance_variable_set(:@value, status_code)
       else

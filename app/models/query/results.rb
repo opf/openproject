@@ -87,7 +87,7 @@ class ::Query::Results
   end
 
   def order_option
-    order_option = [group_by_sort].compact_blank.join(', ')
+    order_option = [group_by_sort].compact_blank.join(", ")
 
     if order_option.blank?
       nil
@@ -263,8 +263,7 @@ class ::Query::Results
 
   def filter_merges
     query.filters.inject(::WorkPackage.unscoped) do |scope, filter|
-      scope = scope.merge(filter.scope)
-      scope
+      filter.apply_to(scope)
     end
   end
 

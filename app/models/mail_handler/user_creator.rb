@@ -41,7 +41,7 @@ class MailHandler::UserCreator
           nil
         end
       else
-        logger.error 'failed to create User: no FROM address found'
+        logger.error "failed to create User: no FROM address found"
         nil
       end
     end
@@ -64,10 +64,10 @@ class MailHandler::UserCreator
     end
 
     def user_initialization_attributes(email_address, fullname = nil)
-      names = fullname.blank? ? email_address.gsub(/@.*\z/, '').split('.') : fullname.split
+      names = fullname.blank? ? email_address.gsub(/@.*\z/, "").split(".") : fullname.split
       firstname = names.shift
-      lastname = names.join(' ')
-      lastname = '-' if lastname.blank?
+      lastname = names.join(" ")
+      lastname = "-" if lastname.blank?
 
       {
         mail: email_address,
@@ -80,13 +80,13 @@ class MailHandler::UserCreator
     def assign_fallback_attributes(user, errors)
       if errors.any?
         user.login = "user#{SecureRandom.hex(6)}" if errors[:login].present?
-        user.firstname = '-' if errors[:firstname].present?
-        user.lastname = '-' if errors[:lastname].present?
+        user.firstname = "-" if errors[:firstname].present?
+        user.lastname = "-" if errors[:lastname].present?
       end
     end
 
     def extract_addr_and_name_from_email(email)
-      from = email.header['from'].to_s
+      from = email.header["from"].to_s
       addr = from
       name = nil
       if m = from.match(/\A"?(.+?)"?\s+<(.+@.+)>\z/)

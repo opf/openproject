@@ -27,5 +27,5 @@
 #++
 
 class Queries::Notifications::Filters::ProjectFilter < Queries::Notifications::Filters::NotificationFilter
-  include Queries::Filters::Shared::ProjectFilter
+  include Queries::Filters::Shared::ProjectFilter::Optional
 end

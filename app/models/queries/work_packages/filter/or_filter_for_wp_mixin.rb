@@ -44,7 +44,7 @@ module Queries::WorkPackages::Filter::OrFilterForWpMixin
   end
 
   def where
-    filters.map(&:where).join(' OR ')
+    filters.map(&:where).join(" OR ")
   end
 
   def filter_configurations

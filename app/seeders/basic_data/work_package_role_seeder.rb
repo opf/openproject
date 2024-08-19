@@ -28,7 +28,7 @@
 module BasicData
   class WorkPackageRoleSeeder < BaseRoleSeeder
     self.model_class = WorkPackageRole
-    self.seed_data_model_key = 'work_package_roles'
+    self.seed_data_model_key = "work_package_roles"
     self.attribute_names_for_lookups = %i[builtin]
   end
 end

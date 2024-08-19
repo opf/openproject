@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,9 @@ class Queries::Serialization::Orders
   end
 
   def dump(orders)
-    orders.map { |o| { attribute: o.attribute, direction: o.direction } }
+    orders.map do |o|
+      { "attribute" => o.attribute.to_s, "direction" => o.direction.to_s }
+    end
   end
 
   def orders_register

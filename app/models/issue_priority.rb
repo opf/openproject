@@ -27,7 +27,7 @@
 #++
 
 class IssuePriority < Enumeration
-  has_many :work_packages, foreign_key: 'priority_id'
+  has_many :work_packages, foreign_key: "priority_id"
   belongs_to :color
 
   OptionName = :enumeration_work_package_priorities
@@ -37,7 +37,7 @@ class IssuePriority < Enumeration
   end
 
   def color_label
-    I18n.t('prioritiies.edit.priority_color_text')
+    I18n.t("prioritiies.edit.priority_color_text")
   end
 
   def option_name

@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ module Queries::Operators
   module WorkPackages
     module SharedWithUser
       class Any < ::Queries::Operators::All
-        label 'operator_shared_with_user_any'
+        label "operator_shared_with_user_any"
       end
     end
   end

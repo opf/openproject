@@ -29,5 +29,5 @@ See COPYRIGHT and LICENSE files for more details.
 <%= toolbar title: Category.model_name.human %>
 <%= labelled_tabular_form_for @category, as: :category do |f| %>
   <%= render partial: 'categories/form', locals: { f: f } %>
-  <%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
+  <%= f.button t(:button_save), class: 'button -primary -with-icon icon-checkmark' %>
 <% end %>

@@ -31,7 +31,7 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
     @allowed_values ||= begin
       project_values = []
       Project.project_tree(visible_projects) do |p, level|
-        prefix = (level > 0 ? (('--' * level) + ' ') : '')
+        prefix = (level > 0 ? (("--" * level) + " ") : "")
         project_values << ["#{prefix}#{p.name}", p.id.to_s]
       end
 

@@ -28,7 +28,7 @@
 
 class PlaceholderUsers::MembershipsController < ApplicationController
   include IndividualPrincipals::MembershipControllerMethods
-  layout 'admin'
+  layout "admin"
 
   before_action :authorize_global
   before_action :find_individual_principal
@@ -40,6 +40,6 @@ class PlaceholderUsers::MembershipsController < ApplicationController
   end
 
   def redirected_to_tab(_membership)
-    'memberships'
+    "memberships"
   end
 end

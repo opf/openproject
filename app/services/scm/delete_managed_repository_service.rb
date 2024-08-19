@@ -65,7 +65,7 @@ class SCM::DeleteManagedRepositoryService < SCM::BaseRepositoryService
 
     true
   rescue SystemCallError => e
-    @rejected = I18n.t('repositories.errors.managed_delete_local',
+    @rejected = I18n.t("repositories.errors.managed_delete_local",
                        path: repository.root_url,
                        error_message: e.message)
     false
@@ -74,6 +74,6 @@ class SCM::DeleteManagedRepositoryService < SCM::BaseRepositoryService
   ##
   # Returns the error symbol
   def localized_rejected_reason
-    @rejected ||= I18n.t('repositories.errors.managed_delete')
+    @rejected ||= I18n.t("repositories.errors.managed_delete")
   end
 end

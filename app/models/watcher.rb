@@ -138,7 +138,7 @@ class Watcher < ApplicationRecord
                     .joins(:watchers)
                     .joins(:project)
                     .where(projects: { id: projects.map(&:id) })
-                    .select('watchers.id')
+                    .select("watchers.id")
 
       id_subquery = id_subquery.where(watchers: { user_id: user_ids }) unless user_ids.empty?
 

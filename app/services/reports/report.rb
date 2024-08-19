@@ -32,7 +32,7 @@ class Reports::Report
   end
 
   def self.report_type
-    'default'
+    "default"
   end
 
   def report_type

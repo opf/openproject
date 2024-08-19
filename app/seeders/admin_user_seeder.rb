@@ -31,7 +31,7 @@ class AdminUserSeeder < Seeder
     if user.save!(validate: false)
       seed_data.store_reference(:openproject_admin, user)
     else
-      print_error 'Seeding admin failed:'
+      print_error "Seeding admin failed:"
       user.errors.full_messages.each do |msg|
         print_error "  #{msg}"
       end
@@ -47,22 +47,32 @@ class AdminUserSeeder < Seeder
   end
 
   def not_applicable_message
-    'No need to seed an admin as there already is one.'
+    "No need to seed an admin as there already is one."
   end
 
-  def new_admin
+  def new_admin # rubocop:disable Metrics/AbcSize
     User.new.tap do |user|
       user.admin = true
-      user.login = 'admin'
+      user.login = "admin"
       user.password = Setting.seed_admin_user_password
-      first, last = Setting.seed_admin_user_name.split(' ', 2)
-      user.firstname = first
-      user.lastname = last
+      firstname, lastname = user_name_parts(Setting.seed_admin_user_name)
+      user.firstname = firstname
+      user.lastname = lastname
       user.mail = Setting.seed_admin_user_mail
       user.language = I18n.locale.to_s
       user.status = User.statuses[:active]
       user.force_password_change = force_password_change?
       user.notification_settings.build(assignee: true, responsible: true, mentioned: true, watched: true)
+    end
+  end
+
+  def user_name_parts(name)
+    return %w[OpenProject Admin] if name.blank?
+
+    if name.include?(" ")
+      name.split(" ", 2)
+    else
+      [name, "Admin"]
     end
   end
 

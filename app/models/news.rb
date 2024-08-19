@@ -28,23 +28,29 @@
 
 class News < ApplicationRecord
   belongs_to :project
-  belongs_to :author, class_name: 'User'
+  belongs_to :author, class_name: "User"
   has_many :comments, -> {
     order(:created_at)
   }, as: :commented, dependent: :delete_all
 
+  validates :project, presence: true
   validates :title, presence: true
   validates :title, length: { maximum: 256 }
   validates :summary, length: { maximum: 255 }
 
   acts_as_journalized
 
-  acts_as_event url: Proc.new { |o| { controller: '/news', action: 'show', id: o.id } }
+  acts_as_event url: Proc.new { |o| { controller: "/news", action: "show", id: o.id } }
 
   acts_as_searchable columns: %W[#{table_name}.title #{table_name}.summary #{table_name}.description],
                      include: :project,
                      references: :projects,
                      date_column: "#{table_name}.created_at"
+
+  acts_as_attachable view_permission: :view_news,
+                     add_on_new_permission: :manage_news,
+                     add_on_persisted_permission: :manage_news,
+                     delete_permission: :manage_news
 
   acts_as_watchable
 
@@ -61,7 +67,7 @@ class News < ApplicationRecord
   end
 
   def description=(val)
-    super(val.presence || '')
+    super(val.presence || "")
   end
 
   # returns latest news for projects visible by user

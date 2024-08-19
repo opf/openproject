@@ -36,7 +36,7 @@
                    placeholder: t(:text_what_did_you_change_click_to_add_comment) %>
 </div>
 
-<%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
+<%= f.button t(:button_save), class: 'button -primary -with-icon icon-checkmark' %>
 
 <%= link_to t(:button_cancel),
             { controller: '/wiki', action: 'show', project_id: @project, id: (@page.new_record? ? nil : @page) },

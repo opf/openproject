@@ -81,7 +81,7 @@ module WorkPackages::Scopes::LeftJoinSelfAndDescendants
     end
 
     def wp_descendants_table
-      @wp_descendants_table ||= wp_table.alias('descendants')
+      @wp_descendants_table ||= wp_table.alias("descendants")
     end
   end
 end

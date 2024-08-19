@@ -29,8 +29,8 @@
 module Queries::Filters::Strategies
   module Numeric
     def self.included(base)
-      base.supported_operators = ['=', '!', '>=', '<=', '!*', '*']
-      base.default_operator = '='
+      base.supported_operators = ["=", "!", ">=", "<=", "!*", "*"]
+      base.default_operator = "="
     end
 
     def validate

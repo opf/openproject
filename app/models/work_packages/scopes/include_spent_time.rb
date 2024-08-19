@@ -36,7 +36,7 @@ module WorkPackages::Scopes::IncludeSpentTime
       scope = left_join_self_and_descendants(user, work_package)
               .joins(query.join_sources)
               .group(:id)
-              .select('SUM(time_entries.hours) AS hours')
+              .select("SUM(time_entries.hours) AS hours")
 
       if work_package
         scope.where(id: work_package.id)
@@ -68,7 +68,7 @@ module WorkPackages::Scopes::IncludeSpentTime
     def wp_descendants
       # Relies on a table called descendants to exist in the scope
       # which is provided by left_join_self_and_descendants
-      @wp_descendants ||= wp_table.alias('descendants')
+      @wp_descendants ||= wp_table.alias("descendants")
     end
 
     def time_entries_table

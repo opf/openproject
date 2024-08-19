@@ -27,7 +27,7 @@
 #++
 
 class UsersController < ApplicationController
-  layout 'admin'
+  layout "admin"
 
   before_action :authorize_global, except: %i[show deletion_info destroy]
 
@@ -44,7 +44,8 @@ class UsersController < ApplicationController
   before_action :authorize_for_user, only: [:destroy]
   before_action :check_if_deletion_allowed, only: %i[deletion_info
                                                      destroy]
-  before_action :set_current_activity_page, only: [:show]
+  no_authorization_required! :show
+  authorization_checked! :destroy, :deletion_info
 
   # Password confirmation helpers and actions
   include PasswordConfirmation
@@ -62,18 +63,8 @@ class UsersController < ApplicationController
   end
 
   def show
-    # show projects based on current user visibility.
-    # But don't simply concatenate the .visible scope to the memberships
-    # as .memberships has an include and an order which for whatever reason
-    # also gets applied to the Project.allowed_to parts concatenated by a UNION
-    # and an order inside a UNION is not allowed in postgres.
-    @memberships = @user.memberships
-                        .where.not(project_id: nil)
-                        .where(id: Member.visible(current_user))
-
     if can_show_user?
-      @events = events
-      render layout: (can_manage_or_create_users? ? 'admin' : 'no_menu')
+      render layout: (can_manage_or_create_users? ? "admin" : "no_menu")
     else
       render_404
     end
@@ -99,7 +90,7 @@ class UsersController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to(params[:continue] ? new_user_path : helpers.allowed_management_user_profile_path(@user))
     else
-      render action: 'new'
+      render action: "new"
     end
   end
 
@@ -126,7 +117,7 @@ class UsersController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = I18n.t(:notice_successful_update)
-          redirect_back(fallback_location: edit_user_path(@user))
+          render action: :edit
         end
       end
     else
@@ -152,12 +143,12 @@ class UsersController < ApplicationController
   def change_status
     if @user.id == current_user.id
       # user is not allowed to change own status
-      redirect_back_or_default(action: 'edit', id: @user)
+      redirect_back_or_default(action: "edit", id: @user)
       return
     end
 
     if (params[:unlock] || params[:activate])
-      return redirect_back_or_default(action: 'edit', id: @user)
+      return redirect_back_or_default(action: "edit", id: @user)
     end
 
     if params[:unlock]
@@ -172,7 +163,7 @@ class UsersController < ApplicationController
     was_activated = (@user.status_change == %w[registered active])
 
     if params[:activate] && @user.missing_authentication_method?
-      flash[:error] = I18n.t('user.error_status_change_failed',
+      flash[:error] = I18n.t("user.error_status_change_failed",
                              errors: I18n.t(:notice_user_missing_authentication_method))
     elsif @user.save
       flash[:notice] = I18n.t(:notice_successful_update)
@@ -180,10 +171,10 @@ class UsersController < ApplicationController
         UserMailer.account_activated(@user).deliver_later
       end
     else
-      flash[:error] = I18n.t('user.error_status_change_failed',
-                             errors: @user.errors.full_messages.join(', '))
+      flash[:error] = I18n.t("user.error_status_change_failed",
+                             errors: @user.errors.full_messages.join(", "))
     end
-    redirect_back_or_default(action: 'edit', id: @user)
+    redirect_back_or_default(action: "edit", id: @user)
   end
 
   def resend_invitation
@@ -208,7 +199,7 @@ class UsersController < ApplicationController
 
     Users::DeleteService.new(model: @user, user: User.current).call
 
-    flash[:notice] = I18n.t('account.deletion_pending')
+    flash[:notice] = I18n.t("account.deletion_pending")
 
     respond_to do |format|
       format.html do
@@ -218,7 +209,7 @@ class UsersController < ApplicationController
   end
 
   def deletion_info
-    render action: 'deletion_info', layout: my_or_admin_layout
+    render action: "deletion_info", layout: my_or_admin_layout
   end
 
   private
@@ -227,16 +218,11 @@ class UsersController < ApplicationController
     return true if can_manage_or_create_users?
     return true if @user == User.current
 
-    (@user.active? || @user.registered?) \
-    && (@memberships.present? || events.present?)
+    @user.active? || @user.registered?
   end
 
   def can_manage_or_create_users?
     current_user.allowed_globally?(:manage_user) || current_user.allowed_globally?(:create_user)
-  end
-
-  def events
-    @events ||= Activities::Fetcher.new(User.current, author: @user).events(limit: 10)
   end
 
   def find_user
@@ -257,9 +243,9 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html { render_403 }
-        format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
-        format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
-        format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.xml  { head :unauthorized, "WWW-Authenticate" => 'Basic realm="OpenProject API"' }
+        format.js   { head :unauthorized, "WWW-Authenticate" => 'Basic realm="OpenProject API"' }
+        format.json { head :unauthorized, "WWW-Authenticate" => 'Basic realm="OpenProject API"' }
       end
 
       false
@@ -270,17 +256,13 @@ class UsersController < ApplicationController
     render_404 unless Users::DeleteContract.deletion_allowed? @user, User.current
   end
 
-  def set_current_activity_page
-    @activity_page = "users/#{@user.id}"
-  end
-
   def my_or_admin_layout
     # TODO: how can this be done better:
     # check if the route used to call the action is in the 'my' namespace
     if url_for(:delete_my_account_info) == request.url
-      'my'
+      "my"
     else
-      'admin'
+      "admin"
     end
   end
 
@@ -290,16 +272,8 @@ class UsersController < ApplicationController
 
   protected
 
-  def default_breadcrumb
-    if action_name == 'index'
-      t('label_user_plural')
-    else
-      ActionController::Base.helpers.link_to(t('label_user_plural'), users_path)
-    end
-  end
-
   def show_local_breadcrumb
-    can_manage_or_create_users?
+    false
   end
 
   def build_user_update_params

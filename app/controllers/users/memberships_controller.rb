@@ -28,7 +28,7 @@
 
 class Users::MembershipsController < ApplicationController
   include IndividualPrincipals::MembershipControllerMethods
-  layout 'admin'
+  layout "admin"
 
   before_action :authorize_global
   before_action :find_individual_principal
@@ -41,9 +41,9 @@ class Users::MembershipsController < ApplicationController
 
   def redirected_to_tab(membership)
     if membership.project
-      'memberships'
+      "memberships"
     else
-      'global_roles'
+      "global_roles"
     end
   end
 end

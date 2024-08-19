@@ -65,13 +65,13 @@ class Timestamp
     class << self
       def substitute_special_shortcut_values(string)
         # map now to PT0S
-        return 'PT0S' if string == 'now'
+        return "PT0S" if string == "now"
 
         # map 1y to P1Y, 1m to P1M, 1w to P1W, 1d to P1D
         # map -1y to P-1Y, -1m to P-1M, -1w to P-1W, -1d to P-1D
         # map -1y1d to P-1Y-1D
-        units = ['y', 'm', 'w', 'd']
-        sign = '-' if string.start_with?('-')
+        units = ["y", "m", "w", "d"]
+        sign = "-" if string.start_with?("-")
         substitutions = units.filter_map { |unit| string.scan(/\d+#{unit}/).first&.upcase }
 
         return string if substitutions.empty?
@@ -135,7 +135,7 @@ class Timestamp
   end
 
   def one_day_ago?
-    to_s.start_with? 'oneDayAgo'
+    to_s.start_with? "oneDayAgo"
   end
 
   def to_s
@@ -177,13 +177,13 @@ class Timestamp
       raise ArgumentError, "This timestamp does not contain a relative date keyword and cannot be represented as Time."
     end
 
-    relative_date_keyword, time_part = @timestamp_string.split('@')
+    relative_date_keyword, time_part = @timestamp_string.split("@")
 
     date = case relative_date_keyword
-           when 'oneDayAgo'      then 1.day.ago
-           when 'lastWorkingDay' then Day.last_working.date || 1.day.ago
-           when 'oneWeekAgo'     then 1.week.ago
-           when 'oneMonthAgo'    then 1.month.ago
+           when "oneDayAgo"      then 1.day.ago
+           when "lastWorkingDay" then Day.last_working.date || 1.day.ago
+           when "oneWeekAgo"     then 1.week.ago
+           when "oneMonthAgo"    then 1.month.ago
            end
 
     Time.zone.parse(time_part, date)

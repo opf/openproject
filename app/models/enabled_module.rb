@@ -40,12 +40,12 @@ class EnabledModule < ApplicationRecord
   # after_create callback used to do things when a module is enabled
   def module_enabled
     case name
-    when 'wiki'
+    when "wiki"
       # Create a wiki with a default start page
       if project && project.wiki.nil?
-        Wiki.create(project:, start_page: 'Wiki')
+        Wiki.create(project:, start_page: "Wiki")
       end
-    when 'repository'
+    when "repository"
       if project &&
          project.repository.nil? &&
          Setting.repositories_automatic_managed_vendor.present?

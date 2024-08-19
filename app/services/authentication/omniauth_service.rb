@@ -265,7 +265,7 @@ module Authentication
 
       # Remove any nil values to avoid
       # overriding existing attributes
-      attribute_map.reject! { |_, value| value.nil? || value == '' }
+      attribute_map.reject! { |_, value| value.nil? || value == "" }
 
       Rails.logger.debug { "Mapped auth_hash user attributes #{attribute_map.inspect}" }
       attribute_map
@@ -285,7 +285,7 @@ module Authentication
     # Try to provide some context of the auth_hash in case of errors
     def auth_uid
       hash = auth_hash || {}
-      hash.dig(:info, :uid) || hash.dig(:uid) || 'unknown'
+      hash.dig(:info, :uid) || hash.dig(:uid) || "unknown"
     end
   end
 end

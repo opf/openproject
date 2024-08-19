@@ -32,10 +32,10 @@ module Queries::Filters::Strategies
 
     def operator_map
       super_value = super.dup
-      super_value['!*'] = Queries::Operators::NoneOrBlank
-      super_value['*'] = Queries::Operators::AllAndNonBlank
-      super_value['>='] = Queries::Operators::CastedGreaterOrEqual
-      super_value['<='] = Queries::Operators::CastedLessOrEqual
+      super_value["!*"] = Queries::Operators::NoneOrBlank
+      super_value["*"] = Queries::Operators::AllAndNonBlank
+      super_value[">="] = Queries::Operators::CastedGreaterOrEqual
+      super_value["<="] = Queries::Operators::CastedLessOrEqual
 
       super_value
     end

@@ -55,6 +55,6 @@ class Views::GlobalCreateService < BaseServices::Create
   end
 
   def view_type
-    raise 'Implement me'
+    raise "Implement me"
   end
 end

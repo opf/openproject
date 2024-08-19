@@ -28,8 +28,8 @@
 
 module Queries::Operators
   class Ago < Base
-    label 'ago'
-    set_symbol 't-'
+    label "ago"
+    set_symbol "t-"
 
     extend DateRangeClauses
 

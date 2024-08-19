@@ -28,7 +28,7 @@
 
 # Using the associated queries' project relation to filter
 class Queries::Views::Filters::ProjectFilter < Queries::Views::Filters::ViewFilter
-  include Queries::Filters::Shared::ProjectFilter
+  include Queries::Filters::Shared::ProjectFilter::Optional
 
   def left_outer_joins
     [:query]

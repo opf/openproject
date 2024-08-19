@@ -29,7 +29,7 @@
 module Projects::Copy
   class OverviewDependentService < Dependency
     def self.human_name
-      I18n.t(:'projects.copy.overviews')
+      I18n.t(:"projects.copy.overviews")
     end
 
     protected

@@ -33,7 +33,7 @@ class Queries::Projects::Orders::TypeaheadOrder < Queries::Projects::Orders::Def
     :typeahead
   end
 
-  def order
-    model.order(lft: :asc)
+  def order(scope)
+    scope.order(lft: :asc)
   end
 end

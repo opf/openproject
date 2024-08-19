@@ -34,10 +34,22 @@ class Setting
     # Restore the previous Setting.protocol now replaced by https?
     def protocol
       if OpenProject::Configuration.https?
-        'https'
+        "https"
       else
-        'http'
+        "http"
       end
+    end
+
+    ##
+    # Host name without protocol
+    def host_without_protocol
+      Setting.host_name&.split(":")&.first
+    end
+
+    ##
+    # Port from host_name if set
+    def optional_port_from_host_name
+      Setting.host_name&.split(":")&.[](1)
     end
   end
 end

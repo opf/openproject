@@ -77,22 +77,11 @@ module API
       end
 
       def calculate_resulting_params(provided_params)
-        calculate_default_params
-          .merge(provided_params.slice('offset', 'pageSize').symbolize_keys)
-          .tap do |params|
-          if query.manually_sorted?
-            params[:query_id] = query.id
-            params[:offset] = 1
-            # Force the setting value in all cases except when 0 is requested explicitly. Fetching with pageSize = 0
-            # is done for performance reasons to simply get the query without the results.
-            params[:pageSize] = pageSizeParam(params) == 0 ? pageSizeParam(params) : Setting.forced_single_page_size
-          else
-            params[:offset] = to_i_or_nil(params[:offset])
-            params[:pageSize] = pageSizeParam(params)
-          end
-
-          params[:select] = nested_from_csv(provided_params['select']) if provided_params['select']
-        end
+        params = calculate_default_params
+                 .merge(provided_params.symbolize_keys.slice(:offset, :pageSize))
+        handle_offset_paging_params(params)
+        handle_select_params(params, provided_params)
+        params
       end
 
       def calculate_default_params
@@ -172,6 +161,23 @@ module API
             query:
           )
         end
+      end
+
+      def handle_offset_paging_params(params)
+        if query.manually_sorted?
+          params[:query_id] = query.id
+          params[:offset] = 1
+          # Force the setting value in all cases except when 0 is requested explicitly. Fetching with pageSize = 0
+          # is done for performance reasons to simply get the query without the results.
+          params[:pageSize] = pageSizeParam(params) == 0 ? pageSizeParam(params) : Setting.forced_single_page_size
+        else
+          params[:offset] = to_i_or_nil(params[:offset])
+          params[:pageSize] = pageSizeParam(params)
+        end
+      end
+
+      def handle_select_params(params, provided_params)
+        params[:select] = nested_from_csv(provided_params["select"]) if provided_params["select"]
       end
 
       def to_i_or_nil(value)

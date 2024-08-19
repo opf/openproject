@@ -76,12 +76,12 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   def pluck(*column_names)
     column_names.map! do |column_name|
       case column_name
-      when :id, 'id'
-        'journals.journable_id'
-      when :created_at, 'created_at'
-        'journables.created_at'
-      when :updated_at, 'updated_at'
-        'journals.updated_at'
+      when :id, "id"
+        "journals.journable_id"
+      when :created_at, "created_at"
+        "journables.created_at"
+      when :updated_at, "updated_at"
+        "journals.updated_at"
       else
         if model.column_names_missing_in_journal.include?(column_name.to_s)
           Rails.logger.warn "Cannot pluck column `#{column_name}` because this attribute is not journalized," \
@@ -258,7 +258,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   # The `created_at` column is not present in the `work_package_journals` table.
   #
   def add_join_on_journables_table_with_created_at_column(relation)
-    relation \
+    relation
         .joins("INNER JOIN (SELECT id, created_at " \
                "FROM \"#{model.table_name}\") AS journables " \
                "ON \"journables\".\"id\" = \"journals\".\"journable_id\"")
@@ -319,7 +319,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
       "journals.updated_at as updated_at",
       "CASE #{timestamp_case_when_statements} END as timestamp",
       "journals.id as journal_id"
-    ] + \
+    ] +
     model.column_names_missing_in_journal.collect do |missing_column_name|
       "null as #{missing_column_name}"
     end

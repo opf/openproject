@@ -28,6 +28,8 @@
 
 module Projects
   class UpdateService < ::BaseServices::Update
+    prepend Projects::Concerns::UpdateDemoData
+
     private
 
     attr_accessor :memoized_changes
@@ -43,13 +45,15 @@ module Projects
     end
 
     def after_perform(service_call)
+      ret = super
+      reset_section_scoped_validation
       touch_on_custom_values_update
       notify_on_identifier_renamed
       send_update_notification
       update_wp_versions_on_parent_change
       handle_archiving
 
-      service_call
+      ret
     end
 
     def touch_on_custom_values_update
@@ -57,7 +61,7 @@ module Projects
     end
 
     def notify_on_identifier_renamed
-      return unless memoized_changes['identifier']
+      return unless memoized_changes["identifier"]
 
       OpenProject::Notifications.send(OpenProject::Events::PROJECT_RENAMED, project: model)
     end
@@ -71,7 +75,7 @@ module Projects
     end
 
     def update_wp_versions_on_parent_change
-      return unless memoized_changes['parent_id']
+      return unless memoized_changes["parent_id"]
 
       WorkPackage.update_versions_from_hierarchy_change(model)
     end
@@ -92,6 +96,12 @@ module Projects
       # already been checked in Projects::UpdateContract
       service = service_class.new(user:, model:, contract_class: EmptyContract)
       service.call
+    end
+
+    def reset_section_scoped_validation
+      # Reset the section scope after saving in order to not silently
+      # carry this setting in this instance.
+      model._limit_custom_fields_validation_to_section_id = nil
     end
   end
 end

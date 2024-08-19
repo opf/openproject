@@ -29,7 +29,7 @@
 #++
 
 class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
-  activity_provider_for type: 'work_packages',
+  activity_provider_for type: "work_packages",
                         permission: :view_work_packages
 
   def extend_event_query(query)
@@ -39,10 +39,10 @@ class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
 
   def event_query_projection
     [
-      activity_journal_projection_statement(:subject, 'subject'),
-      activity_journal_projection_statement(:project_id, 'project_id'),
-      projection_statement(statuses_table, :is_closed, 'status_closed'),
-      projection_statement(types_table, :name, 'type_name')
+      activity_journal_projection_statement(:subject, "subject"),
+      activity_journal_projection_statement(:project_id, "project_id"),
+      projection_statement(statuses_table, :is_closed, "status_closed"),
+      projection_statement(types_table, :name, "type_name")
     ]
   end
 
@@ -53,30 +53,30 @@ class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
   protected
 
   def event_title(event)
-    self.class.work_package_title(event['journable_id'],
-                                  event['subject'],
-                                  event['type_name'])
+    self.class.work_package_title(event["journable_id"],
+                                  event["subject"],
+                                  event["type_name"])
   end
 
   def event_type(event)
-    event['status_closed'] ? 'work_package-closed' : 'work_package-edit'
+    event["status_closed"] ? "work_package-closed" : "work_package-edit"
   end
 
   def event_path(event)
-    url_helpers.work_package_path(event['journable_id'])
+    url_helpers.work_package_path(event["journable_id"])
   end
 
   def event_url(event)
-    url_helpers.work_package_url(event['journable_id'],
+    url_helpers.work_package_url(event["journable_id"],
                                  anchor: notes_anchor(event))
   end
 
   private
 
   def notes_anchor(event)
-    version = event['version'].to_i
+    version = event["version"].to_i
 
-    version > 1 ? "note-#{version - 1}" : ''
+    version > 1 ? "note-#{version - 1}" : ""
   end
 
   def types_table

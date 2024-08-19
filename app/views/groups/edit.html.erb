@@ -29,25 +29,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), "#{t(:label_edit)} #{Group.model_name.human} #{h @group.name}" %>
 
-<% local_assigns[:additional_breadcrumb] = @group.name %>
+<% tabs = group_settings_tabs(@group) %>
 
-<%= breadcrumb_toolbar @group.name do %>
-  <li class="toolbar-item">
-    <%= link_to show_group_path(@group), class: 'button' do %>
-      <%= op_icon('button--icon icon-user') %>
-      <span class="button--text"><%= t(:label_profile) %></span>
-    <% end %>
-  </li>
-  <% if current_user.admin? %>
-    <li class="toolbar-item">
-      <%= link_to group_path(@group),
-                  data: { confirm: t(:text_are_you_sure) },
-                  class: 'button -danger',
-                  method: :delete do %>
-        <%= op_icon('button--icon icon-delete') %>
-        <span class="button--text"><%= t(:button_delete) %></span>
-      <% end %>
-    </li>
-  <% end %>
-<% end  %>
-<%= render_tabs group_settings_tabs(@group) %>
+<%= render Groups::EditPageHeaderComponent.new(group: @group, current_user:, tabs: tabs) %>
+
+<%= render_tabs tabs, with_tab_nav: false %>

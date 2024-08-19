@@ -26,9 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'rack/utils'
+require "rack/utils"
 
 class WorkPackages::AutoCompletesController < ApplicationController
+  # Authorization is checked by the query.
+  no_authorization_required! :index
+
   def index
     @work_packages = work_packages_matching_query_prop
 
@@ -41,7 +44,7 @@ class WorkPackages::AutoCompletesController < ApplicationController
 
   def work_packages_matching_query_prop
     Query.new.tap do |query|
-      query.add_filter(:typeahead, '**', params[:q])
+      query.add_filter(:typeahead, "**", params[:q])
       query.sort_criteria = [%i[updated_at desc]]
       query.include_subprojects = true
     end
@@ -52,7 +55,7 @@ class WorkPackages::AutoCompletesController < ApplicationController
 
   def wp_hashes_with_string(work_packages)
     work_packages.map do |work_package|
-      work_package.attributes.merge('to_s' => work_package.to_s)
+      work_package.attributes.merge("to_s" => work_package.to_s)
     end
   end
 end

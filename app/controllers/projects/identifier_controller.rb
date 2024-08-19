@@ -42,7 +42,7 @@ class Projects::IdentifierController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to project_settings_general_path(@project)
     else
-      render action: 'show'
+      render action: "show"
     end
   end
 end

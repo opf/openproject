@@ -28,33 +28,69 @@
 
 class Projects::QueriesController < ApplicationController
   include Projects::QueryLoading
+  include OpTurbo::ComponentStream
 
   # No need for a more specific authorization check. That is carried out in the contracts.
+  no_authorization_required! :show, :new, :create, :rename, :update, :toggle_public, :destroy
   before_action :require_login
-  before_action :find_query, only: :destroy
-  before_action :load_query_or_deny_access, only: %i[new]
+  before_action :find_query, only: %i[show rename update destroy toggle_public]
+  before_action :build_query_or_deny_access, only: %i[new create]
 
-  current_menu_item [:new, :create] do
+  current_menu_item [:new, :rename, :create, :update] do
     :projects
   end
 
+  def show
+    redirect_to projects_path(query_id: @query.id)
+  end
+
   def new
-    render template: '/projects/index',
-           layout: 'global',
+    render template: "/projects/index",
+           layout: "global",
            locals: { query: @query, state: :edit }
+  end
+
+  def rename
+    render template: "/projects/index",
+           layout: "global",
+           locals: { query: @query, state: :rename }
   end
 
   def create
     call = Queries::Projects::ProjectQueries::CreateService
-             .new(user: current_user)
+             .new(from: @query, user: current_user)
              .call(permitted_query_params)
 
-    if call.success?
-      redirect_to projects_path(query_id: call.result.id)
-    else
-      render template: '/projects/index',
-             layout: 'global',
-             locals: { query: call.result, state: :edit }
+    render_result(call, success_i18n_key: "lists.create.success", error_i18n_key: "lists.create.failure")
+  end
+
+  def update
+    call = Queries::Projects::ProjectQueries::UpdateService
+             .new(user: current_user, model: @query)
+             .call(permitted_query_params)
+
+    render_result(call, success_i18n_key: "lists.update.success", error_i18n_key: "lists.update.failure")
+  end
+
+  def toggle_public # rubocop:disable Metrics/AbcSize
+    to_be_public = ActiveRecord::Type::Boolean.new.cast(params["value"])
+    i18n_key = to_be_public ? "lists.publish" : "lists.unpublish"
+
+    call = Queries::Projects::ProjectQueries::PublishService
+             .new(user: current_user, model: @query)
+             .call(public: to_be_public)
+
+    respond_to do |format|
+      format.turbo_stream do
+        # Load shares and replace the modal
+        strategy = SharingStrategies::ProjectQueryStrategy.new(@query, user: current_user, query_params: {})
+        replace_via_turbo_stream(component: Shares::ModalBodyComponent.new(strategy:, errors: []))
+        render turbo_stream: turbo_streams
+      end
+
+      format.html do
+        render_result(call, success_i18n_key: "#{i18n_key}.success", error_i18n_key: "#{i18n_key}.failure")
+      end
     end
   end
 
@@ -67,7 +103,23 @@ class Projects::QueriesController < ApplicationController
 
   private
 
+  def render_result(service_call, success_i18n_key:, error_i18n_key:) # rubocop:disable Metrics/AbcSize
+    modified_query = service_call.result
+
+    if service_call.success?
+      flash[:notice] = I18n.t(success_i18n_key)
+
+      redirect_to modified_query.visible? ? projects_path(query_id: modified_query.id) : projects_path
+    else
+      flash[:error] = I18n.t(error_i18n_key, errors: service_call.errors.full_messages.join("\n"))
+
+      render template: "/projects/index",
+             layout: "global",
+             locals: { query: modified_query, state: :edit }
+    end
+  end
+
   def find_query
-    @query = Queries::Projects::ProjectQuery.find(params[:id])
+    @query = ProjectQuery.visible(current_user).find(params[:id])
   end
 end

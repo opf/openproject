@@ -48,7 +48,7 @@ class WorkPackages::BulkController < ApplicationController
 
     if @call.success?
       flash[:notice] = t(:notice_successful_update)
-      redirect_back_or_default(controller: '/work_packages', action: :index, project_id: @project)
+      redirect_back_or_default(controller: "/work_packages", action: :index, project_id: @project)
     else
       flash[:error] = bulk_error_message(@work_packages, @call)
       setup_edit
@@ -75,7 +75,7 @@ class WorkPackages::BulkController < ApplicationController
                            associated: WorkPackage.associated_classes_to_address_before_destruction_of(@work_packages) }
         end
         format.json do
-          render json: { error_message: 'Clean up of associated objects required' }, status: 420
+          render json: { error_message: "Clean up of associated objects required" }, status: 420
         end
       end
     end
@@ -109,12 +109,9 @@ class WorkPackages::BulkController < ApplicationController
   def attributes_for_update
     return {} unless params.has_key? :work_package
 
-    permitted_params
-      .update_work_package
-      .tap { |attributes| attributes[:custom_field_values]&.reject! { |_k, v| v.blank? } }
-      .compact_blank
-      .transform_values { |v| v == 'none' ? '' : v }
-      .to_h
+    attributes = permitted_params.update_work_package
+    attributes[:custom_field_values] = transform_attributes(attributes[:custom_field_values])
+    transform_attributes(attributes)
   end
 
   def user
@@ -123,5 +120,11 @@ class WorkPackages::BulkController < ApplicationController
 
   def default_breadcrumb
     I18n.t(:label_work_package_plural)
+  end
+
+  def transform_attributes(attributes)
+    Hash(attributes)
+      .compact_blank
+      .transform_values { |v| Array(v).include?("none") ? "" : v }
   end
 end

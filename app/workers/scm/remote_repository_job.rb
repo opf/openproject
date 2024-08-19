@@ -34,7 +34,7 @@
 # creation and deletion of repositories BOTH on the database and filesystem.
 # Until then, a synchronous process is more failsafe.
 
-require 'net/http'
+require "net/http"
 
 class SCM::RemoteRepositoryJob < ApplicationJob
   attr_reader :repository
@@ -49,11 +49,11 @@ class SCM::RemoteRepositoryJob < ApplicationJob
   # Submits the request to the configured managed remote as JSON.
   def send_request(request)
     uri = repository.class.managed_remote
-    req = ::Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+    req = ::Net::HTTP::Post.new(uri, "Content-Type" => "application/json")
     req.body = request.to_json
 
     http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = uri.scheme == 'https'
+    http.use_ssl = uri.scheme == "https"
     http.verify_mode = configured_verification
     response = http.request(req)
 
@@ -61,9 +61,9 @@ class SCM::RemoteRepositoryJob < ApplicationJob
 
     unless response.is_a? ::Net::HTTPSuccess
       raise OpenProject::SCM::Exceptions::SCMError.new(
-        I18n.t('repositories.errors.remote_call_failed',
+        I18n.t("repositories.errors.remote_call_failed",
                code: response.code,
-               message: info['message'])
+               message: info["message"])
       )
     end
 
@@ -74,7 +74,7 @@ class SCM::RemoteRepositoryJob < ApplicationJob
     JSON.parse(body)
   rescue JSON::JSONError => e
     raise OpenProject::SCM::Exceptions::SCMError.new(
-      I18n.t('repositories.errors.remote_invalid_response')
+      I18n.t("repositories.errors.remote_invalid_response")
     )
   end
 

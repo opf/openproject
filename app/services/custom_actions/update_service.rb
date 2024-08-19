@@ -35,7 +35,7 @@ class CustomActions::UpdateService < CustomActions::BaseService
     self.user = user
   end
 
-  def call(attributes:, &block)
-    super(attributes:, action:, &block)
+  def call(attributes:, &)
+    super(attributes:, action:, &)
   end
 end

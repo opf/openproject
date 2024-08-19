@@ -27,7 +27,7 @@
 #++
 
 class Type::QueryGroup < Type::FormGroup
-  MEMBER_PREFIX = 'query_'.freeze
+  MEMBER_PREFIX = "query_".freeze
 
   def self.query_attribute?(name)
     name.to_s.match?(/#{Type::QueryGroup::MEMBER_PREFIX}(\d+)/o)

@@ -8,7 +8,7 @@ class CustomStyle < ApplicationRecord
   class << self
     def current
       RequestStore.fetch(:current_custom_style) do
-        custom_style = CustomStyle.order(Arel.sql('created_at DESC')).first
+        custom_style = CustomStyle.order(Arel.sql("created_at DESC")).first
         if custom_style.nil?
           return nil
         else
@@ -35,7 +35,7 @@ class CustomStyle < ApplicationRecord
       image = send(name)
       image&.remove!
 
-      update_column name, nil
+      update_columns(name => nil, updated_at: Time.zone.now)
     end
   end
 end

@@ -26,16 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'md_to_pdf/core'
+require "md_to_pdf/core"
 
 module WorkPackage::PDFExport::Markdown
   class MD2PDF
     include MarkdownToPDF::Core
     include MarkdownToPDF::Parser
 
-    def initialize(styling_yml)
+    def initialize(styling_yml, pdf)
       @styles = MarkdownToPDF::Styles.new(styling_yml)
       init_options({ auto_generate_header_ids: false })
+      pdf_init_md2pdf_fonts(pdf)
       # @hyphens = Hyphen.new('en', false)
     end
 
@@ -64,7 +65,7 @@ module WorkPackage::PDFExport::Markdown
       if tag.text.blank?
         # <mention class="mention" data-id="46012" data-type="work_package" data-text="#46012"></mention>
         # <mention class="mention" data-id="3" data-type="user" data-text="@Some User">
-        text = tag.attr('data-text')
+        text = tag.attr("data-text")
         if text.present? && !node.next.respond_to?(:string_content) && node.next.string_content != text
           return [text_hash(text, opts)]
         end
@@ -74,7 +75,7 @@ module WorkPackage::PDFExport::Markdown
     end
 
     def handle_unknown_inline_html_tag(tag, node, opts)
-      result = if tag.name == 'mention'
+      result = if tag.name == "mention"
                  handle_mention_html_tag(tag, node, opts)
                else
                  # unknown/unsupported html tags eg. <foo>hi</foo> are ignored
@@ -96,7 +97,7 @@ module WorkPackage::PDFExport::Markdown
   end
 
   def write_markdown!(work_package, markdown)
-    md2pdf = MD2PDF.new(styles.wp_markdown_styling_yml)
+    md2pdf = MD2PDF.new(styles.wp_markdown_styling_yml, pdf)
     md2pdf.draw_markdown(markdown, pdf, ->(src) {
       with_images? ? attachment_image_filepath(work_package, src) : nil
     })

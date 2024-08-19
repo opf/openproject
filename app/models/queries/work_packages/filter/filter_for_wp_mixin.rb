@@ -32,7 +32,7 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
   end
 
   def allowed_values
-    raise NotImplementedError, 'There would be too many candidates'
+    raise NotImplementedError, "There would be too many candidates"
   end
 
   def value_objects
@@ -46,11 +46,11 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
   end
 
   def allowed_objects
-    raise NotImplementedError, 'There would be too many candidates'
+    raise NotImplementedError, "There would be too many candidates"
   end
 
   def available?
-    key = 'Queries::WorkPackages::Filter::FilterForWpMixin/available'
+    key = "Queries::WorkPackages::Filter::FilterForWpMixin/available"
 
     RequestStore.fetch(key) do
       visible_scope.exists?

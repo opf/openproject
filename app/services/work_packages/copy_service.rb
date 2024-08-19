@@ -35,21 +35,21 @@ class WorkPackages::CopyService
                 :work_package,
                 :contract_class
 
-  def initialize(user:, work_package:, contract_class: WorkPackages::CreateContract)
+  def initialize(user:, work_package:, contract_class: WorkPackages::CopyContract)
     self.user = user
     self.work_package = work_package
     self.contract_class = contract_class
   end
 
-  def call(send_notifications: nil, copy_attachments: true, **attributes)
+  def call(send_notifications: nil, copy_attachments: true, copy_share_members: true, **attributes)
     in_context(work_package, send_notifications:) do
-      copy(attributes, copy_attachments, send_notifications)
+      copy(attributes, copy_attachments, copy_share_members, send_notifications)
     end
   end
 
   protected
 
-  def copy(attribute_override, copy_attachments, send_notifications)
+  def copy(attribute_override, copy_attachments, copy_share_members, send_notifications)
     copied = create(work_package,
                     attribute_override,
                     send_notifications)
@@ -57,6 +57,7 @@ class WorkPackages::CopyService
         remove_author_watcher(copy_call.result)
         copy_watchers(copy_call.result)
         copy_work_package_attachments(copy_call.result) if copy_attachments
+        copy_share_members(copy_call.result, send_notifications) if copy_share_members
       end
 
     copied.state.copied_from_work_package_id = work_package&.id
@@ -77,14 +78,13 @@ class WorkPackages::CopyService
     attributes = work_package
                    .attributes
                    .slice(*writable_work_package_attributes(work_package))
-                   .merge('parent_id' => work_package.parent_id,
-                          'custom_field_values' => work_package.custom_value_attributes)
+                   .merge("custom_field_values" => work_package.custom_value_attributes)
                    .merge(overwritten_attributes)
 
-    if overwritten_attributes.has_key?('start_date') &&
-      overwritten_attributes.has_key?('due_date') &&
-      !overwritten_attributes.has_key?('duration')
-      attributes.delete('duration')
+    if overwritten_attributes.has_key?("start_date") &&
+      overwritten_attributes.has_key?("due_date") &&
+      !overwritten_attributes.has_key?("duration")
+      attributes.delete("duration")
     end
 
     attributes
@@ -105,6 +105,36 @@ class WorkPackages::CopyService
   end
 
   def copy_work_package_attachments(copy)
-    copy_attachments('WorkPackage', from_id: work_package.id, to_id: copy.id)
+    copy_attachments(
+      "WorkPackage",
+      from: work_package,
+      to: copy,
+      references: %i[description]
+    )
+  end
+
+  def copy_share_members(copy, send_notifications)
+    work_package.members.each do |member|
+      create_share_membership(member, copy, send_notifications)
+    end
+  end
+
+  private
+
+  def create_share_membership(member, target, send_notifications)
+    role_ids = member.member_roles.map(&:role_id)
+
+    return if role_ids.empty?
+
+    attributes = member
+                   .attributes.dup.except("id", "project_id", "entity_id", "created_at", "updated_at")
+                   .merge(role_ids:,
+                          project: target.project,
+                          entity: target,
+                          send_notifications:)
+
+    Shares::CreateService
+      .new(user: User.current, contract_class: EmptyContract)
+      .call(attributes)
   end
 end

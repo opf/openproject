@@ -32,9 +32,9 @@ module AssignableCustomFieldValues
   included do
     def assignable_custom_field_values(custom_field)
       case custom_field.field_format
-      when 'list'
+      when "list"
         custom_field.possible_values
-      when 'version'
+      when "version"
         assignable_versions(only_open: !custom_field.allow_non_open_versions?)
       end
     end

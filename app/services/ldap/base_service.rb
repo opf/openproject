@@ -61,6 +61,8 @@ module Ldap
       if call.success?
         Rails.logger.info { "[LDAP user sync] User '#{call.result.login}' created." }
       else
+        # Ensure contract errors are merged into the user
+        call.result.errors.merge! call.errors
         Rails.logger.error { "[LDAP user sync] User '#{attrs[:login]}' could not be created: #{call.message}" }
       end
 

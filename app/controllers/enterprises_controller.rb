@@ -27,7 +27,7 @@
 #++
 class EnterprisesController < ApplicationController
 
-  layout 'admin'
+  layout "admin"
   menu_item :enterprise
 
   before_action :chargebee_content_security_policy

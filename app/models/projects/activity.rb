@@ -44,8 +44,8 @@ module Projects::Activity
 
     def with_latest_activity
       Project
-        .select('projects.*')
-        .select('activity.latest_activity_at')
+        .select("projects.*")
+        .select("activity.latest_activity_at")
         .joins("LEFT JOIN (#{latest_activity_sql}) activity ON projects.id = activity.project_id")
     end
 
@@ -58,7 +58,7 @@ module Projects::Activity
     end
 
     def all_activity_provider_union_sql
-      latest_project_activity.join(' UNION ALL ')
+      latest_project_activity.join(" UNION ALL ")
     end
 
     def build_latest_project_activity_for(on:, chain:, attribute:, project_id_attribute:)

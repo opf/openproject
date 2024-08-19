@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'uri'
+require "uri"
 
 ##
 # Intended to be used by the AccountController to handle omniauth logins
@@ -38,19 +38,22 @@ module Accounts::OmniauthLogin
     # the other filters are not applicable either since OmniAuth is doing authentication
     # itself
     %i[
-      verify_authenticity_token user_setup
-      check_if_login_required check_session_lifetime
+      verify_authenticity_token
+      user_setup
+      check_if_login_required
+      check_session_lifetime
     ]
       .each { |key| skip_before_action key, only: [:omniauth_login] }
+    no_authorization_required! :omniauth_login, :omniauth_failure
 
     helper :omniauth
   end
 
   def omniauth_login
-    params[:back_url] = request.env['omniauth.origin'] if remember_back_url?
+    params[:back_url] = omniauth_back_url if remember_back_url?
 
     # Extract auth info and perform check / login or activate user
-    auth_hash = request.env['omniauth.auth']
+    auth_hash = request.env["omniauth.auth"]
     handle_omniauth_authentication(auth_hash)
   end
 
@@ -75,16 +78,21 @@ module Accounts::OmniauthLogin
 
   # Avoid remembering the back_url if we're coming from the login page
   def remember_back_url?
-    provided_back_url = request.env['omniauth.origin']
-    return if provided_back_url.blank?
+    return if omniauth_back_url.blank?
 
     account_routes = /\/(login|account)/
-    omniauth_direct_login? || !provided_back_url.match?(account_routes)
+    omniauth_direct_login? || !omniauth_back_url.match?(account_routes)
+  end
+
+  # In case of SAML post bindings, we lose our session information
+  # so we need to store it in the RelayState parameter
+  def omniauth_back_url
+    request.env["omniauth.origin"].presence || params[:RelayState]
   end
 
   def show_error(error)
     flash[:error] = error
-    redirect_to action: 'login'
+    redirect_to action: "login"
   end
 
   def register_via_omniauth(session, user_attributes)
@@ -93,7 +101,7 @@ module Accounts::OmniauthLogin
 
   def handle_omniauth_authentication(auth_hash, user_params: nil)
     call = ::Authentication::OmniauthService
-      .new(strategy: request.env['omniauth.strategy'], auth_hash:, controller: self)
+      .new(strategy: request.env["omniauth.strategy"], auth_hash:, controller: self)
       .call(user_params)
 
     if call.success?

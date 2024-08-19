@@ -45,7 +45,7 @@ module ConfirmationDialogHelper
     passed_data: nil
   )
     {
-      'augmented-confirm-dialog': {
+      "augmented-confirm-dialog": {
         text: {
           title:,
           text:,

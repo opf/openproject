@@ -46,9 +46,9 @@ class UserPreference < ApplicationRecord
     action = key[-1]
 
     case action
-    when '?'
+    when "?"
       to_boolean send(key[..-2])
-    when '='
+    when "="
       settings[key[..-2]] = args.first
     else
       settings[key]
@@ -83,11 +83,11 @@ class UserPreference < ApplicationRecord
   end
 
   def comments_in_reverse_order?
-    comments_sorting == 'desc'
+    comments_sorting == "desc"
   end
 
   def diff_type
-    settings.fetch(:diff_type, 'inline')
+    settings.fetch(:diff_type, "inline")
   end
 
   def hide_mail
@@ -120,11 +120,15 @@ class UserPreference < ApplicationRecord
   alias :auto_hide_popups :auto_hide_popups?
 
   def comments_in_reverse_order=(value)
-    settings[:comments_sorting] = to_boolean(value) ? 'desc' : 'asc'
+    settings[:comments_sorting] = to_boolean(value) ? "desc" : "asc"
   end
 
   def theme
     super.presence || Setting.user_default_theme
+  end
+
+  def high_contrast_theme?
+    theme.end_with?("high_contrast")
   end
 
   def time_zone
@@ -148,7 +152,7 @@ class UserPreference < ApplicationRecord
   end
 
   def supported_settings_method?(method_name)
-    UserPreferences::Schema.properties.include?(method_name.to_s.gsub(/\?|=\z/, ''))
+    UserPreferences::Schema.properties.include?(method_name.to_s.gsub(/\?|=\z/, ""))
   end
 
   private

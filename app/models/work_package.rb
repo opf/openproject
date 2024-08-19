@@ -40,24 +40,25 @@ class WorkPackage < ApplicationRecord
   include WorkPackages::Costs
   include WorkPackages::Relations
   include ::Scopes::Scoped
+  include HasMembers
 
   include OpenProject::Journal::AttachmentHelper
 
-  DONE_RATIO_OPTIONS = %w(field status disabled).freeze
+  DONE_RATIO_OPTIONS = %w[field status].freeze
 
   belongs_to :project
   belongs_to :type
-  belongs_to :status, class_name: 'Status'
-  belongs_to :author, class_name: 'User'
-  belongs_to :assigned_to, class_name: 'Principal', optional: true
-  belongs_to :responsible, class_name: 'Principal', optional: true
+  belongs_to :status, class_name: "Status"
+  belongs_to :author, class_name: "User"
+  belongs_to :assigned_to, class_name: "Principal", optional: true
+  belongs_to :responsible, class_name: "Principal", optional: true
   belongs_to :version, optional: true
-  belongs_to :priority, class_name: 'IssuePriority'
-  belongs_to :category, class_name: 'Category', optional: true
+  belongs_to :priority, class_name: "IssuePriority"
+  belongs_to :category, class_name: "Category", optional: true
 
   has_many :time_entries, dependent: :delete_all
 
-  has_many :file_links, dependent: :delete_all, class_name: 'Storages::FileLink', as: :container
+  has_many :file_links, dependent: :delete_all, class_name: "Storages::FileLink", as: :container
 
   has_many :storages, through: :project
 
@@ -66,9 +67,6 @@ class WorkPackage < ApplicationRecord
   }
 
   has_and_belongs_to_many :github_pull_requests # rubocop:disable Rails/HasAndBelongsToMany
-
-  has_many :members, as: :entity, dependent: :destroy
-  has_many :member_principals, through: :members, class_name: 'Principal', source: :principal
 
   has_many :meeting_agenda_items, dependent: :nullify
   # The MeetingAgendaItem has a default order, but the ordered field is not part of the select
@@ -82,8 +80,8 @@ class WorkPackage < ApplicationRecord
   scope :visible, ->(user = User.current) { allowed_to(user, :view_work_packages) }
 
   scope :in_status, ->(*args) do
-                      where(status_id: (args.first.respond_to?(:id) ? args.first.id : args.first))
-                    end
+    where(status_id: (args.first.respond_to?(:id) ? args.first.id : args.first))
+  end
 
   scope :for_projects, ->(projects) {
     where(project_id: projects)
@@ -148,7 +146,7 @@ class WorkPackage < ApplicationRecord
 
   acts_as_customizable
 
-  acts_as_searchable columns: ['subject',
+  acts_as_searchable columns: ["subject",
                                "#{table_name}.description",
                                {
                                  name: "#{Journal.table_name}.notes",
@@ -157,13 +155,13 @@ class WorkPackage < ApplicationRecord
                      tsv_columns: [
                        {
                          table_name: Attachment.table_name,
-                         column_name: 'fulltext',
+                         column_name: "fulltext",
                          normalization_type: :text,
                          scope: -> { Attachment.where(container_type: name).where("container_id = #{table_name}.id") }
                        },
                        {
                          table_name: Attachment.table_name,
-                         column_name: 'file',
+                         column_name: "file",
                          normalization_type: :filename,
                          scope: -> { Attachment.where(container_type: name).where("container_id = #{table_name}.id") }
                        }
@@ -206,16 +204,12 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::Journalized
   prepend Journable::Timestamps
 
-  def self.done_ratio_disabled?
-    Setting.work_package_done_ratio == 'disabled'
-  end
-
   def self.use_status_for_done_ratio?
-    Setting.work_package_done_ratio == 'status'
+    Setting.work_package_done_ratio == "status"
   end
 
   def self.use_field_for_done_ratio?
-    Setting.work_package_done_ratio == 'field'
+    Setting.work_package_done_ratio == "field"
   end
 
   # Returns true if usr or current user is allowed to view the work_package
@@ -295,7 +289,12 @@ class WorkPackage < ApplicationRecord
   def milestone?
     type&.is_milestone?
   end
+
   alias_method :is_milestone?, :milestone?
+
+  def included_in_totals_calculation?
+    !status.excluded_from_totals
+  end
 
   def done_ratio
     if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
@@ -305,9 +304,20 @@ class WorkPackage < ApplicationRecord
     end
   end
 
+  def hide_attachments?
+    if project&.deactivate_work_package_attachments.nil?
+      !Setting.show_work_package_attachments
+    else
+      project&.deactivate_work_package_attachments?
+    end
+  end
+
   def estimated_hours=(hours)
-    converted_hours = (hours.is_a?(String) ? hours.to_hours : hours)
-    write_attribute :estimated_hours, !!converted_hours ? converted_hours : hours
+    write_attribute :estimated_hours, convert_duration_to_hours(hours)
+  end
+
+  def remaining_hours=(hours)
+    write_attribute :remaining_hours, convert_duration_to_hours(hours)
   end
 
   def duration_in_hours
@@ -339,7 +349,7 @@ class WorkPackage < ApplicationRecord
   def attributes=(new_attributes)
     return if new_attributes.nil?
 
-    new_type_id = new_attributes['type_id'] || new_attributes[:type_id]
+    new_type_id = new_attributes["type_id"] || new_attributes[:type_id]
     if new_type_id
       self.type_id = new_type_id
     end
@@ -395,43 +405,43 @@ class WorkPackage < ApplicationRecord
   # Extracted from the ReportsController.
   def self.by_type(project)
     count_and_group_by project:,
-                       field: 'type_id',
+                       field: "type_id",
                        joins: ::Type.table_name
   end
 
   def self.by_version(project)
     count_and_group_by project:,
-                       field: 'version_id',
+                       field: "version_id",
                        joins: Version.table_name
   end
 
   def self.by_priority(project)
     count_and_group_by project:,
-                       field: 'priority_id',
+                       field: "priority_id",
                        joins: IssuePriority.table_name
   end
 
   def self.by_category(project)
     count_and_group_by project:,
-                       field: 'category_id',
+                       field: "category_id",
                        joins: Category.table_name
   end
 
   def self.by_assigned_to(project)
     count_and_group_by project:,
-                       field: 'assigned_to_id',
+                       field: "assigned_to_id",
                        joins: User.table_name
   end
 
   def self.by_responsible(project)
     count_and_group_by project:,
-                       field: 'responsible_id',
+                       field: "responsible_id",
                        joins: User.table_name
   end
 
   def self.by_author(project)
     count_and_group_by project:,
-                       field: 'author_id',
+                       field: "author_id",
                        joins: User.table_name
   end
 
@@ -476,10 +486,10 @@ class WorkPackage < ApplicationRecord
 
   def self.preload_available_custom_fields(work_packages)
     custom_fields = available_custom_fields_from_db(work_packages)
-                    .select('array_agg(projects.id) available_project_ids',
-                            'array_agg(types.id) available_type_ids',
-                            'custom_fields.*')
-                    .group('custom_fields.id')
+                    .select("array_agg(projects.id) available_project_ids",
+                            "array_agg(types.id) available_type_ids",
+                            "custom_fields.*")
+                    .group("custom_fields.id")
 
     work_packages.each do |work_package|
       RequestStore.store[available_custom_field_key(work_package)] = custom_fields
@@ -502,11 +512,13 @@ class WorkPackage < ApplicationRecord
             .where(types: { id: work_packages.map(&:type_id).uniq }))
       .distinct
   end
+
   private_class_method :available_custom_fields_from_db
 
   def self.available_custom_field_key(work_package)
     :"#work_package_custom_fields_#{work_package.project_id}_#{work_package.type_id}"
   end
+
   private_class_method :available_custom_field_key
 
   def custom_field_cache_key
@@ -530,6 +542,17 @@ class WorkPackage < ApplicationRecord
     time_entries.build(attributes)
   end
 
+  def convert_duration_to_hours(value)
+    if value.is_a?(String)
+      begin
+        value = value.blank? ? nil : DurationConverter.parse(value)
+      rescue ChronicDuration::DurationParseError
+        # keep invalid value, error shall be caught by numericality validator
+      end
+    end
+    value
+  end
+
   ##
   # Checks if the time entry defined by the given attributes is blank.
   # A time entry counts as blank despite a selected activity if that activity
@@ -537,10 +560,10 @@ class WorkPackage < ApplicationRecord
   def time_entry_blank?(attributes)
     return true if attributes.nil?
 
-    key = 'activity_id'
+    key = "activity_id"
     id = attributes[key]
-    default_id = if id&.present?
-                   Enumeration.exists? id:, is_default: true, type: 'TimeEntryActivity'
+    default_id = if id.present?
+                   Enumeration.exists? id:, is_default: true, type: "TimeEntryActivity"
                  else
                    true
                  end
@@ -555,6 +578,7 @@ class WorkPackage < ApplicationRecord
       " AND #{Version.table_name}.sharing <> 'system'"
     )
   end
+
   private_class_method :having_version_from_other_project
 
   # Update issues so their versions are not pointing to a
@@ -574,6 +598,7 @@ class WorkPackage < ApplicationRecord
       end
     end
   end
+
   private_class_method :update_versions
 
   # Default assignment based on category
@@ -639,6 +664,7 @@ class WorkPackage < ApplicationRecord
       group by s.id, s.is_closed, j.id"
     ).to_a
   end
+
   private_class_method :count_and_group_by
 
   def set_attachments_error_details

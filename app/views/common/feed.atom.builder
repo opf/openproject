@@ -32,22 +32,23 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
   first_item_event = !first_item.nil? && first_item.respond_to?(:data) ? first_item.data : first_item
   updated_time = first_item_event.nil? ? Time.now : first_item_event.event_datetime
 
-  xml.title   truncate_single_line(@title, length: 100)
-  xml.link    "rel" => "self", "href" => url_for(only_path: false)
-  xml.link    "rel" => "alternate", "href" => url_for(only_path: false, format: nil, key: nil)
-  xml.id      url_for(controller: '/homescreen', action: :index, only_path: false)
+  xml.title truncate_single_line(@title, length: 100)
+  xml.link "rel" => "self", "href" => url_for(only_path: false)
+  xml.link "rel" => "alternate", "href" => url_for(only_path: false, format: nil, key: nil)
+  xml.id url_for(controller: "/homescreen", action: :index, only_path: false)
   xml.updated(updated_time.xmlschema)
   xml.author { xml.name Setting.app_title }
   xml.generator(uri: OpenProject::Info.url) { xml.text! OpenProject::Info.app_name }
   @items.each do |item|
-    item_event = !first_item.nil? && first_item.respond_to?(:data) ? item.data : item
+    item_event = item.try(:data) || item
 
     xml.entry do
-      url = if item_event.is_a? Activities::Event
-              item_event.event_url
-            else
-              url_for(item_event.event_url(only_path: false))
-            end
+      url =
+        if item_event.is_a? Activities::Event
+          item_event.event_url
+        else
+          url_for(item_event.event_url(only_path: false))
+        end
       if @project
         xml.title truncate_single_line(item_event.event_title, length: 100)
       else

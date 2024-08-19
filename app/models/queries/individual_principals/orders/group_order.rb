@@ -35,12 +35,12 @@ class Queries::IndividualPrincipals::Orders::GroupOrder < Queries::Orders::Base
 
   private
 
-  def order
+  def order(scope)
     order_string = "groups_users.lastname"
 
     order_string += " DESC" if direction == :desc
 
-    model.order(order_string)
+    scope.order(order_string)
   end
 
   def joins

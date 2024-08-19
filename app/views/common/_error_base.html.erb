@@ -27,23 +27,27 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<div id="errorExplanation"
-     data-members-form-target="errorExplanation"
-     class="op-toast errorExplanation -error <%= local_assigns[:classes] || '' %>"
-     tabindex="0"
-     role="alert">
-  <div class="op-toast--content">
-    <% if content_for?(:error_details) %>
-      <p>
-        <strong><%= error_message %></strong>
-      </p>
-      <%= content_for :error_details %>
-    <% else %>
-      <%= error_message %>
-    <% end %>
-  </div>
+<div class="op-toast--wrapper">
+  <div class="op-toast--casing">
+    <div id="errorExplanation"
+         data-members-form-target="errorExplanation"
+         class="op-toast errorExplanation -error <%= local_assigns[:classes] || '' %>"
+         tabindex="0"
+         role="alert">
+      <div class="op-toast--content">
+        <% if content_for?(:error_details) %>
+          <p>
+            <strong><%= error_message %></strong>
+          </p>
+          <%= content_for :error_details %>
+        <% else %>
+          <%= error_message %>
+        <% end %>
+      </div>
 
-  <span class="close-handler" role="button" tabindex="0" aria-label="{{ ::I18n.t('js.close_popup_title') }}">
-    <%= op_icon('icon-close') %>
-  </span>
+      <span class="close-handler" role="button" tabindex="0" aria-label="{{ ::I18n.t('js.close_popup_title') }}">
+        <%= op_icon('icon-close') %>
+      </span>
+    </div>
+  </div>
 </div>

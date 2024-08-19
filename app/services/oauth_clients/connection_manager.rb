@@ -33,7 +33,6 @@ require "uri/http"
 
 module OAuthClients
   class ConnectionManager
-    # Nextcloud API endpoint to check if Bearer token is valid
     TOKEN_IS_FRESH_DURATION = 10.seconds.freeze
 
     def initialize(user:, configuration:)
@@ -46,7 +45,6 @@ module OAuthClients
     # that wants to access OAuth2 protected resources.
     # Returns an OAuthClientToken object or a String in case a renew is required.
     # @param state (OAuth2 RFC) encapsulates the state of the calling page (URL + params) to return
-    # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud only has one global scope.
     # @return ServiceResult with ServiceResult.result being either an OAuthClientToken or a redirection URL
     def get_access_token(state: nil)
       # Check for an already existing token from last call
@@ -55,18 +53,17 @@ module OAuthClients
 
       # Return the Nextcloud OAuth authorization URI that a user needs to open to grant access and eventually obtain
       # a token.
-      @redirect_url = get_authorization_uri(state:)
+      @redirect_url = @config.authorization_uri(state:)
 
       ServiceResult.failure(result: @redirect_url)
     end
 
     # rubocop:disable Metrics/AbcSize
-
     # The bearer/access token has expired or is due for renew for other reasons.
     # Talk to OAuth2 Authorization Server to exchange the renew_token for a new bearer token.
     def refresh_token
       OAuthClientToken.transaction do
-        oauth_client_token = OAuthClientToken.lock('FOR UPDATE').find_by(user_id: @user, oauth_client_id: @oauth_client.id)
+        oauth_client_token = OAuthClientToken.lock("FOR UPDATE").find_by(user_id: @user, oauth_client_id: @oauth_client.id)
 
         if oauth_client_token.present?
           if (Time.current - oauth_client_token.updated_at) > TOKEN_IS_FRESH_DURATION
@@ -83,25 +80,12 @@ module OAuthClients
         else
           storage_error = ::Storages::StorageError.new(
             code: :error,
-            log_message: I18n.t('oauth_client.errors.refresh_token_called_without_existing_token')
+            log_message: I18n.t("oauth_client.errors.refresh_token_called_without_existing_token")
           )
           ServiceResult.failure(result: :error, errors: storage_error)
         end
       end
     end
-
-    # rubocop:enable Metrics/AbcSize
-
-    # Returns the URI of the "authorize" endpoint of the OAuth2 Authorization Server.
-    # @param state (OAuth2 RFC) is a nonce referencing a cookie containing the calling page (URL + params) to which to
-    # return to at the end of the whole flow.
-    # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud has only one global scope.
-    def get_authorization_uri(state: nil)
-      client = rack_oauth_client # Configure and start the rack-oauth2 client
-      client.authorization_uri(scope: @config.scope, state:)
-    end
-
-    # rubocop:disable Metrics/AbcSize
 
     # Called by callback_page with a cryptographic "code" that indicates
     # that the user has successfully authorized the OAuth2 Authorization Server.
@@ -118,63 +102,19 @@ module OAuthClients
         update_oauth_client_token(oauth_client_token, service_result.result)
       else
         rack_access_token = service_result.result
-        oauth_client_token =
-          OAuthClientToken.create(
-            user: @user,
-            oauth_client: @oauth_client,
-            origin_user_id: @config.extract_origin_user_id(rack_access_token), # ID of user at OAuth2 Authorization Server
-            access_token: rack_access_token.access_token,
-            token_type: rack_access_token.token_type, # :bearer
-            refresh_token: rack_access_token.refresh_token,
-            expires_in: rack_access_token.raw_attributes[:expires_in],
-            scope: rack_access_token.scope
-          )
-        OpenProject::Notifications.send(
-          OpenProject::Events::OAUTH_CLIENT_TOKEN_CREATED,
-          integration_type: @oauth_client.integration_type
-        )
-      end
+        OAuthClientToken.transaction do
+          oauth_client_token = create_client_token(rack_access_token)
 
-      ServiceResult.success(result: oauth_client_token)
-    end
-
-    # rubocop:enable Metrics/AbcSize
-
-    # Called by StorageRepresenter to inquire about the status of the OAuth2
-    # authentication server.
-    # Returns :connected/:authorization_failed or :error for a general error.
-    # We have decided to distinguish between only these 3 cases, because the
-    # front-end (and a normal user) probably wouldn't know how to deal with
-    # other options.
-    def authorization_state
-      oauth_client_token = get_existing_token
-      return :failed_authorization unless oauth_client_token
-
-      state = @config.authorization_state_check(oauth_client_token.access_token)
-      case state
-      when :success
-        :connected
-      when :refresh_needed
-        service_result = refresh_token
-        if service_result.success?
-          :connected
-        elsif service_result.errors.data.payload[:error] == 'invalid_request'
-          :failed_authorization
-        else
-          :error
+          oauth_client_token.save!
+          RemoteIdentities::CreateService.call(user: @user, oauth_config: @config, oauth_token: rack_access_token)
+                                         .on_failure { raise ActiveRecord::Rollback }
         end
-      else
-        state
-      end
-    rescue StandardError
-      :error
-    end
 
-    %i[connected failed_authorization error].each do |authorization_result|
-      define_method(:"authorization_state_#{authorization_result}?") do
-        authorization_state == authorization_result
+        ServiceResult.new(success: oauth_client_token.errors.empty?, result: oauth_client_token,
+                          errors: oauth_client_token.errors)
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     # @returns ServiceResult with result to be :error or any type of object with data
     def request_with_token_refresh(oauth_client_token)
@@ -196,6 +136,20 @@ module OAuthClients
 
     private
 
+    # @param rack_access_token [Rack::OAuth2::Token] - rack token to be used as a base
+    # @return [OAuthClientToken]
+    def create_client_token(rack_access_token)
+      OAuthClientToken.new(
+        user: @user,
+        oauth_client: @oauth_client,
+        access_token: rack_access_token.access_token,
+        token_type: rack_access_token.token_type, # :bearer
+        refresh_token: rack_access_token.refresh_token,
+        expires_in: rack_access_token.raw_attributes[:expires_in],
+        scope: rack_access_token.scope
+      )
+    end
+
     # Check if a OAuthClientToken already exists and return nil otherwise.
     # Don't handle the case of an expired token.
     def get_existing_token
@@ -203,12 +157,19 @@ module OAuthClients
       OAuthClientToken.find_by(user_id: @user, oauth_client_id: @oauth_client.id)
     end
 
+    # rubocop:disable Metrics/AbcSize
     def request_new_token(options = {})
       rack_access_token = rack_oauth_client(options).access_token!(:body)
 
       ServiceResult.success(result: rack_access_token)
     rescue Rack::OAuth2::Client::Error => e
-      service_result_with_error(:bad_request, e.response, i18n_rack_oauth2_error_message(e))
+      if e.status == 429
+        service_result_with_error(:too_many_requests,
+                                  e.response,
+                                  "#{I18n.t('oauth_client.errors.oauth_reported')}: too many requests")
+      else
+        service_result_with_error(:bad_request, e.response, i18n_rack_oauth2_error_message(e))
+      end
     rescue Faraday::TimeoutError, Faraday::ConnectionFailed, Faraday::ParsingError, Faraday::SSLError => e
       service_result_with_error(
         :internal_server_error,
@@ -222,6 +183,8 @@ module OAuthClients
         "#{I18n.t('oauth_client.errors.oauth_returned_standard_error')}: #{e.class}: #{e.message.to_html}"
       )
     end
+
+    # rubocop:enable Metrics/AbcSize
 
     def i18n_rack_oauth2_error_message(rack_oauth2_client_exception)
       i18n_key = "oauth_client.errors.rack_oauth2.#{rack_oauth2_client_exception.message}"
@@ -257,7 +220,7 @@ module OAuthClients
         ServiceResult.success(result: oauth_client_token)
       else
         result = ServiceResult.failure
-        result.errors.add(:base, I18n.t('oauth_client.errors.refresh_token_updated_failed'))
+        result.errors.add(:base, I18n.t("oauth_client.errors.refresh_token_updated_failed"))
         result.add_dependent!(ServiceResult.failure(errors: oauth_client_token.errors))
         result
       end

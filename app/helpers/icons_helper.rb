@@ -43,7 +43,7 @@ module IconsHelper
       inline ? "spot-icon_inline" : nil,
       "spot-icon_#{icon_name}",
       classnames
-    ].compact.join(' ')
+    ].compact.join(" ")
 
     content_tag(:span, title, class: classes)
   end
@@ -52,7 +52,7 @@ module IconsHelper
   # Icon wrapper with an invisible label
   def icon_wrapper(icon_class, label)
     content = op_icon(icon_class)
-    content << content_tag(:span, label, class: 'hidden-for-sighted')
+    content << content_tag(:span, label, class: "hidden-for-sighted")
     content
   end
 end

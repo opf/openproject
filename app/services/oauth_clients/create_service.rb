@@ -38,7 +38,7 @@ module OAuthClients
 
     def after_validate(params, contract_call)
       OAuthClient.where(integration: params[:integration]).delete_all
-      super(params, contract_call)
+      super
     end
   end
 end

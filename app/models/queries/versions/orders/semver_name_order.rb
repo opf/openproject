@@ -35,8 +35,8 @@ class Queries::Versions::Orders::SemverNameOrder < Queries::Orders::Base
 
   private
 
-  def order
-    ordered = Version.order_by_semver_name
+  def order(scope)
+    ordered = scope.order_by_semver_name
 
     if direction == :desc
       ordered = ordered.reverse_order

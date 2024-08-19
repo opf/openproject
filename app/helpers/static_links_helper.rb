@@ -34,8 +34,8 @@ module StaticLinksHelper
 
     link_to label || t(item[:label]),
             item[:href],
-            class: 'openproject--static-link',
-            target: '_blank', rel: 'noopener'
+            class: "openproject--static-link",
+            target: "_blank", rel: "noopener"
   end
 
   ##

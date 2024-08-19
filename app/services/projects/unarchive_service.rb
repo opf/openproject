@@ -29,7 +29,7 @@
 module Projects
   class UnarchiveService < ::BaseServices::BaseContracted
     include Contracted
-    include Projects::Concerns::UpdateDemoData
+    prepend Projects::Concerns::UpdateDemoData
 
     def initialize(user:, model:, contract_class: Projects::UnarchiveContract)
       super(user:, contract_class:)

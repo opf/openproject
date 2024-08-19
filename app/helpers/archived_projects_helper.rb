@@ -31,19 +31,19 @@ module ArchivedProjectsHelper
     urls = projects.map do |project|
       link_to project.name,
               projects_path(filters: archived_project_filters_for(project)),
-              target: '_blank',
-              rel: 'noopener'
+              target: "_blank",
+              rel: "noopener"
     end
 
-    safe_join(urls, ', ')
+    safe_join(urls, ", ")
   end
 
   private
 
   def archived_project_filters_for(project)
     [
-      { active: { operator: '=', values: ['f'] } },
-      { name_and_identifier: { operator: '=', values: [html_escape(project.name)] } }
+      { active: { operator: "=", values: ["f"] } },
+      { name_and_identifier: { operator: "=", values: [html_escape(project.name)] } }
     ].to_json
   end
 end

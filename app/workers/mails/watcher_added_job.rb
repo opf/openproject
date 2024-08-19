@@ -30,6 +30,6 @@ class Mails::WatcherAddedJob < Mails::WatcherJob
   private
 
   def action
-    'added'
+    "added"
   end
 end

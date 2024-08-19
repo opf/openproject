@@ -39,7 +39,7 @@ module WorkPackages
     end
 
     def failure_message
-      I18n.t('work_packages.bulk.move_failed')
+      I18n.t("work_packages.bulk.move_failed")
     end
   end
 end

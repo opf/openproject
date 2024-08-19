@@ -27,16 +27,20 @@
 #++
 
 class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
+  include JobConcurrency
   queue_with_priority :above_normal
-  include ::ScheduledJob
+
+  good_job_control_concurrency_with(
+    total_limit: 1
+  )
 
   def perform(user_id:, previous_working_days:, previous_non_working_days:)
     user = User.find(user_id)
 
     User.execute_as user do
-      wd_update = Journal::WorkingDayUpdate.new(
+      wd_update = Journal::CausedByWorkingDayChanges.new(
         working_days: changed_days(previous_working_days),
-        non_working_days: changed_non_working_dates(previous_non_working_days).transform_keys(&:iso8601)
+        non_working_days: changed_non_working_dates(previous_non_working_days)
       )
 
       updated_work_package_ids = collect_id_for_each(applicable_work_package(previous_working_days,
@@ -52,14 +56,9 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
 
   private
 
-  def apply_change_to_work_package(user, work_package, changed_working_days)
-    cause = {
-      "type" => "working_days_changed",
-      "changed_days" => changed_working_days.to_h
-    }
-
+  def apply_change_to_work_package(user, work_package, cause)
     WorkPackages::UpdateService
-      .new(user:, model: work_package, contract_class: EmptyContract, cause_of_update: changed_working_days)
+      .new(user:, model: work_package, contract_class: EmptyContract, cause_of_rescheduling: cause)
       .call(duration: work_package.duration, journal_cause: cause) # trigger a recomputation of start and due date
       .all_results
   end
@@ -107,7 +106,7 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
 
   def applicable_predecessor(excluded)
     WorkPackage
-      .where(id: Relation.follows_with_delay.select(:to_id))
+      .where(id: Relation.follows_with_lag.select(:to_id))
       .where.not(id: excluded)
   end
 

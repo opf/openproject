@@ -33,7 +33,7 @@ module WorkPackage::Exports
       end
 
       def format_value(value, _options)
-        value.nil? || value.zero? ? '' : number_to_currency(value)
+        value.nil? || value.zero? ? "" : number_to_currency(value)
       end
     end
   end

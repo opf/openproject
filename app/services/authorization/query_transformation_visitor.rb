@@ -91,7 +91,7 @@ class Authorization::QueryTransformationVisitor < Arel::Visitors::Visitor
   end
 
   def method_missing(name, *args, &)
-    super unless name.to_s.start_with?('visit_')
+    super unless name.to_s.start_with?("visit_")
   end
 
   def replace_if_equals(ast, key = nil)

@@ -35,9 +35,9 @@ class Queries::Projects::Orders::ProjectStatusOrder < Queries::Orders::Base
 
   private
 
-  def order
+  def order(scope)
     with_raise_on_invalid do
-      model.order(Arel.sql("status_code").send(direction))
+      scope.order(Arel.sql("status_code").send(direction))
     end
   end
 end

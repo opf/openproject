@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ module Members::Concerns::RoleAssignment
   end
 
   def assign_roles(params)
-    raise ArgumentError, 'Cannot handle changing `roles`. Use role_ids instead.' if model.persisted? && params.key?(:roles)
+    raise ArgumentError, "Cannot handle changing `roles`. Use role_ids instead." if model.persisted? && params.key?(:roles)
 
     return unless params[:role_ids]
 

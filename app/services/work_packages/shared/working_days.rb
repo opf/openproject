@@ -61,13 +61,13 @@ module WorkPackages
         due_date
       end
 
-      def soonest_working_day(date, delay: nil)
+      def soonest_working_day(date, lag: nil)
         return unless date
 
-        delay ||= 0
+        lag ||= 0
 
-        while delay > 0
-          delay -= 1 if working?(date)
+        while lag > 0
+          lag -= 1 if working?(date)
           date += 1
         end
 
@@ -89,7 +89,7 @@ module WorkPackages
       private
 
       def assert_strictly_positive_duration(duration)
-        raise ArgumentError, 'duration must be strictly positive' if duration.is_a?(Integer) && duration <= 0
+        raise ArgumentError, "duration must be strictly positive" if duration.is_a?(Integer) && duration <= 0
       end
 
       def latest_working_day(date)
@@ -114,7 +114,7 @@ module WorkPackages
         return if @working_week_days_exist
 
         if working_week_days.all? { |working| working == false }
-          raise 'cannot have all week days as non-working days'
+          raise "cannot have all week days as non-working days"
         end
 
         @working_week_days_exist = true

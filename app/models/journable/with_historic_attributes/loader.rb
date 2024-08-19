@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,9 +59,9 @@ class Journable::WithHistoricAttributes
         journalized.map(&:journal_id)
       rescue NoMethodError
         raise ArgumentError,
-              'The provided journalized items do not have a journal_id included. ' \
-              'Please load them via any of the Journable::Timestamps#at_timestamp method. ' \
-              'ie: WorkPackage.at_timestamp(1.day.ago) or WorkPackage.find(1).at_timestamp(1.day.ago)'
+              "The provided journalized items do not have a journal_id included. " \
+              "Please load them via any of the Journable::Timestamps#at_timestamp method. " \
+              "ie: WorkPackage.at_timestamp(1.day.ago) or WorkPackage.find(1).at_timestamp(1.day.ago)"
       end
 
       customizable_journals_by_journal_id = load_customizable_journals_by_journal_id(journal_ids)

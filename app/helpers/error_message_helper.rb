@@ -38,12 +38,12 @@ module ErrorMessageHelper
   end
 
   def render_error_messages_partial(errors, object)
-    return '' if errors.empty?
+    return "" if errors.empty?
 
     base_error_messages = errors.full_messages_for(:base)
     fields_error_messages = errors.full_messages - base_error_messages
 
-    render partial: 'common/validation_error',
+    render partial: "common/validation_error",
            locals: { base_error_messages:,
                      fields_error_messages:,
                      object_name: object.class.model_name.human }
@@ -52,7 +52,7 @@ module ErrorMessageHelper
   def text_header_invalid_fields(base_error_messages, fields_error_messages)
     return if fields_error_messages.blank?
 
-    i18n_key = base_error_messages.present? ? 'errors.header_additional_invalid_fields' : 'errors.header_invalid_fields'
+    i18n_key = base_error_messages.present? ? "errors.header_additional_invalid_fields" : "errors.header_invalid_fields"
     t(i18n_key, count: fields_error_messages.count)
   end
 

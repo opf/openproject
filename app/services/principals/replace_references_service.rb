@@ -53,7 +53,7 @@ module Principals
 
     def rewrite_custom_value(from, to)
       CustomValue
-        .where(custom_field_id: CustomField.where(field_format: 'user'))
+        .where(custom_field_id: CustomField.where(field_format: "user"))
         .where(value: from.id.to_s)
         .update_all(value: to.id.to_s)
     end
@@ -71,7 +71,7 @@ module Principals
     def rewrite_customizable_journals(from, to)
       Journal::CustomizableJournal
         .joins(:custom_field)
-        .where(custom_fields: { field_format: 'user' })
+        .where(custom_fields: { field_format: "user" })
         .where(value: from.id.to_s)
         .update_all(value: to.id.to_s)
     end
@@ -93,6 +93,7 @@ module Principals
 
     def rewrite_user(from, to)
       [TimeEntry,
+       CostEntry,
        ::Query,
        Changeset,
        CostQuery,
@@ -126,7 +127,10 @@ module Principals
     end
 
     def rewrite_logged_by(from, to)
-      [TimeEntry].each do |klass|
+      [
+        TimeEntry,
+        CostEntry
+      ].each do |klass|
         rewrite(klass, :logged_by_id, from, to)
       end
     end

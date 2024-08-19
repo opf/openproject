@@ -49,7 +49,7 @@ module Versions
     end
 
     def wiki_page_header_options
-      ['wiki_page_title', { caption: WikiPage.model_name.human }]
+      ["wiki_page_title", { caption: WikiPage.model_name.human }]
     end
   end
 end

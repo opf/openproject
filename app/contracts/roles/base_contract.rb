@@ -33,10 +33,13 @@ module Roles
     validate :check_permission_prerequisites
 
     def assignable_permissions(keep_public: false)
-      if model.is_a?(GlobalRole)
+      case model
+      when GlobalRole
         assignable_global_permissions
-      elsif model.is_a?(WorkPackageRole)
+      when WorkPackageRole
         assignable_work_package_permissions
+      when ProjectQueryRole
+        assignable_project_query_permissions
       else
         assignable_member_permissions
       end.reject do |permission|
@@ -52,6 +55,10 @@ module Roles
 
     def assignable_work_package_permissions
       OpenProject::AccessControl.work_package_permissions
+    end
+
+    def assignable_project_query_permissions
+      OpenProject::AccessControl.project_query_permissions
     end
 
     def assignable_member_permissions

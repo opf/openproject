@@ -50,7 +50,7 @@ class Reports::ReportsService
   add_report Reports::VersionReport
 
   def initialize(project)
-    raise 'You must provide a project to report upon' unless project&.is_a?(Project)
+    raise "You must provide a project to report upon" unless project&.is_a?(Project)
 
     @project = project
   end

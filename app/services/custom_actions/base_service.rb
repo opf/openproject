@@ -33,7 +33,7 @@ class CustomActions::BaseService
 
   def call(attributes:,
            action:,
-           &block)
+           &)
     set_attributes(action, attributes)
 
     contract = CustomActions::CuContract.new(action)
@@ -41,7 +41,7 @@ class CustomActions::BaseService
                                result: action,
                                errors: contract.errors)
 
-    block_with_result(result, &block)
+    block_with_result(result, &)
   end
 
   private

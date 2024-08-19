@@ -37,7 +37,7 @@ module Principals::Scopes
       # @desc [Boolean] Whether the sortation should be reversed
       # @return [ActiveRecord::Relation] A scope of sorted principals
       def ordered_by_name(desc: false)
-        direction = desc ? 'DESC' : 'ASC'
+        direction = desc ? "DESC" : "ASC"
 
         order_case = Arel.sql <<~SQL
           CASE
@@ -56,7 +56,7 @@ module Principals::Scopes
         when :firstname_lastname
           "concat_ws(' ', users.firstname, users.lastname)"
         when :firstname
-          'users.firstname'
+          "users.firstname"
         when :lastname_firstname, :lastname_coma_firstname, :lastname_n_firstname
           "concat_ws(' ', users.lastname, users.firstname)"
         when :username

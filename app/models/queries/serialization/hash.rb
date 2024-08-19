@@ -32,11 +32,12 @@ module Queries
       extend ActiveSupport::Concern
 
       class_methods do
-        def from_hash(hash)
+        def from_hash(hash) # rubocop:disable Metrics/AbcSize
           new(user: hash[:user]).tap do |query|
             query.add_filters hash[:filters] if hash[:filters].present?
-            query.order hash[:orders] if hash[:orders].present?
+            query.add_orders hash[:orders] if hash[:orders].present?
             query.group hash[:group_by] if hash[:group_by].present?
+            query.select(*hash[:selects]) if hash[:selects].present?
           end
         end
       end
@@ -44,8 +45,9 @@ module Queries
       def to_hash
         {
           filters: filters.map { |f| { name: f.name, operator: f.operator, values: f.values } },
-          orders: orders.to_h { |o| [o.attribute, o.direction] },
+          orders: orders.map { |o| [o.attribute, o.direction] },
           group_by: respond_to?(:group_by) ? group_by : nil,
+          selects: selects.map(&:attribute),
           user:
         }
       end
@@ -53,6 +55,16 @@ module Queries
       def add_filters(filters)
         filters.each do |f|
           where(f[:name], f[:operator], f[:values])
+        end
+      end
+
+      def add_orders(orders)
+        if orders.is_a?(::Hash)
+          order(orders)
+        elsif orders.is_a?(::Array)
+          orders.each { |o| order([o].to_h) }
+        else
+          raise ArgumentError, "Cannot add orders from #{orders.class}"
         end
       end
     end

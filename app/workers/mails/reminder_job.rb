@@ -28,6 +28,12 @@
 
 class Mails::ReminderJob < Mails::DeliverJob
   include ::Notifications::WithMarkedNotifications
+  include GoodJob::ActiveJobExtensions::Concurrency
+
+  good_job_control_concurrency_with(
+    total_limit: 1,
+    key: -> { "#{self.class.name}-#{arguments.last}" }
+  )
 
   private
 

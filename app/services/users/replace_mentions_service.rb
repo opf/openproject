@@ -204,7 +204,7 @@ module Users
       regexp_replace(
         source,
         search,
-        'user#%i ',
+        "user#%i ",
         values
       )
     end

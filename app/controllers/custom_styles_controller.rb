@@ -27,21 +27,27 @@
 #++
 
 class CustomStylesController < ApplicationController
-  layout 'admin'
+  layout "admin"
   menu_item :custom_style
 
+  UNGUARDED_ACTIONS = %i[logo_download
+                         export_logo_download
+                         export_cover_download
+                         favicon_download
+                         touch_icon_download].freeze
+
   before_action :require_admin,
-                except: %i[logo_download export_logo_download export_cover_download favicon_download touch_icon_download]
+                except: UNGUARDED_ACTIONS
+
   skip_before_action :check_if_login_required,
-                     only: %i[logo_download export_logo_download export_cover_download favicon_download touch_icon_download]
+                     only: UNGUARDED_ACTIONS
+  no_authorization_required! *UNGUARDED_ACTIONS
 
   def show
     @custom_style = CustomStyle.current || CustomStyle.new
     @current_theme = @custom_style.theme
     @theme_options = options_for_theme_select
   end
-
-  def upsale; end
 
   def create
     @custom_style = CustomStyle.create(custom_style_params)
@@ -152,7 +158,7 @@ class CustomStylesController < ApplicationController
   def options_for_theme_select
     options = OpenProject::CustomStyles::ColorThemes.themes.pluck(:theme)
     unless @current_theme.present?
-      options << [t('admin.custom_styles.color_theme_custom'), '',
+      options << [t("admin.custom_styles.color_theme_custom"), "",
                   { selected: true, disabled: true }]
     end
 
@@ -189,7 +195,6 @@ class CustomStylesController < ApplicationController
     end
 
     @custom_style.send(remove_method)
-    @custom_style.save
     redirect_to custom_style_path
   end
 end

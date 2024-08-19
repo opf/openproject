@@ -28,12 +28,12 @@
 module BasicData
   class ColorSeeder < ModelSeeder
     self.model_class = Color
-    self.seed_data_model_key = 'colors'
+    self.seed_data_model_key = "colors"
 
     def model_attributes(color_data)
       {
-        name: color_data['name'],
-        hexcode: color_data['hexcode']
+        name: color_data["name"],
+        hexcode: color_data["hexcode"]
       }
     end
   end

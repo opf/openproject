@@ -28,8 +28,8 @@
 
 module Queries::Operators
   class BetweenDate < Base
-    label 'between'
-    set_symbol '<>d'
+    label "between"
+    set_symbol "<>d"
 
     extend DateRangeClauses
 

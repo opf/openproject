@@ -47,20 +47,20 @@ module OAuth
 
       def confidential
         if application.confidential?
-          helpers.op_icon 'icon icon-checkmark'
+          helpers.op_icon "icon icon-checkmark"
         end
       end
 
       def redirect_uri
         urls = application.redirect_uri.split("\n")
-        safe_join urls, '<br/>'.html_safe
+        safe_join urls, "<br/>".html_safe
       end
 
       def client_credentials
         if user_id = application.client_credentials_user_id
           helpers.link_to_user User.find(user_id)
         else
-          '-'
+          "-"
         end
       end
 

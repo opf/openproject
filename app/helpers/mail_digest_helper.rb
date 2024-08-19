@@ -28,8 +28,8 @@
 
 module MailDigestHelper
   def digest_summary_text(notification_count, mentioned_count)
-    mentioned = mentioned_count > 1 ? 'plural' : 'singular'
-    notifications = notification_count > 1 ? 'plural' : 'singular'
+    mentioned = mentioned_count > 1 ? "plural" : "singular"
+    notifications = notification_count > 1 ? "plural" : "singular"
 
     summary = I18n.t(:"mail.digests.unread_notification_#{notifications}",
                      number_unread: notification_count).to_s
@@ -63,7 +63,7 @@ module MailDigestHelper
     number_of_additional_authors = number_of_authors(notifications) - 1
 
     if notifications.length > 1 && number_of_additional_authors > 0
-      amount = number_of_additional_authors === 1 ? 'one' : 'other'
+      amount = number_of_additional_authors === 1 ? "one" : "other"
       I18n.t(:"js.notifications.center.and_more_users.#{amount}", count: number_of_additional_authors)
     end
   end
@@ -76,7 +76,7 @@ module MailDigestHelper
       I18n.t(:"mail.work_packages.#{value}_at",
              user:,
              timestamp: journal.created_at.strftime(
-               "#{I18n.t(:'date.formats.default')}, #{I18n.t(:'time.formats.time')}"
+               "#{I18n.t(:"date.formats.default")}, #{I18n.t(:"time.formats.time")}"
              ))
     )
   end
@@ -100,27 +100,27 @@ module MailDigestHelper
   end
 
   def build_property_text(notification, is_overdue, days_diff)
-    return I18n.t('js.notifications.date_alerts.overdue') if is_overdue && days_diff > 0
-    return I18n.t('js.notifications.date_alerts.milestone_date') if notification.resource.milestone?
-    return I18n.t('js.work_packages.properties.startDate') if notification.reason == "date_alert_start_date"
+    return I18n.t("js.notifications.date_alerts.overdue") if is_overdue && days_diff > 0
+    return I18n.t("js.notifications.date_alerts.milestone_date") if notification.resource.milestone?
+    return I18n.t("js.work_packages.properties.startDate") if notification.reason == "date_alert_start_date"
 
-    I18n.t('js.work_packages.properties.dueDate')
+    I18n.t("js.work_packages.properties.dueDate")
   end
 
   def build_alert_text(date_value, is_past, is_overdue, days_diff)
-    return I18n.t('js.notifications.date_alerts.property_is_deleted') unless date_value
-    return I18n.t('js.notifications.date_alerts.property_today') if days_diff == 0
+    return I18n.t("js.notifications.date_alerts.property_is_deleted") unless date_value
+    return I18n.t("js.notifications.date_alerts.property_today") if days_diff == 0
 
-    days_text = I18n.t('js.units.day', count: days_diff)
-    return I18n.t('js.notifications.date_alerts.overdue_since', difference_in_days: days_text) if is_overdue
-    return I18n.t('js.notifications.date_alerts.property_was', difference_in_days: days_text) if is_past
+    days_text = I18n.t("js.units.day", count: days_diff)
+    return I18n.t("js.notifications.date_alerts.overdue_since", difference_in_days: days_text) if is_overdue
+    return I18n.t("js.notifications.date_alerts.property_was", difference_in_days: days_text) if is_past
 
-    I18n.t('js.notifications.date_alerts.property_is', difference_in_days: days_text)
+    I18n.t("js.notifications.date_alerts.property_is", difference_in_days: days_text)
   end
 
   def highlight_overdue(text, is_overdue, html)
     return text unless html && is_overdue
 
-    content_tag :span, text, style: 'color: #C92A2A'
+    content_tag :span, text, style: "color: #C92A2A"
   end
 end

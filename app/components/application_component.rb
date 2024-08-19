@@ -37,7 +37,9 @@ class ApplicationComponent < ViewComponent::Base
     @options = options
   end
 
-  delegate :url_helpers, to: 'Rails.application.routes'
+  def url_helpers
+    @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
+  end
 
   class << self
     ##

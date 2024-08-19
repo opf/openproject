@@ -82,11 +82,11 @@ module Queries::Filters::Shared::CustomFieldFilter
     # Get the subfilter class name for the given custom field
     def subfilter_module(custom_field)
       case custom_field.field_format
-      when 'user'
+      when "user"
         :User
-      when 'list', 'version'
+      when "list", "version"
         :ListOptional
-      when 'bool'
+      when "bool"
         :Bool
       else
         :Base
@@ -94,11 +94,11 @@ module Queries::Filters::Shared::CustomFieldFilter
     end
 
     def all_custom_fields
-      key = ['Queries::Filters::Shared::CustomFieldFilter',
+      key = ["Queries::Filters::Shared::CustomFieldFilter",
              custom_field_context.custom_field_class,
-             'all_custom_fields']
+             "all_custom_fields"]
 
-      RequestStore.fetch(key.join('/')) do
+      RequestStore.fetch(key.join("/")) do
         custom_field_context.custom_field_class.all.to_a
       end
     end

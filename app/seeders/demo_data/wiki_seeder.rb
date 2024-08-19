@@ -35,7 +35,7 @@ module DemoData
     end
 
     def seed_data!
-      text = project_data.lookup('wiki')
+      text = project_data.lookup("wiki")
 
       return if text.blank?
 
@@ -43,7 +43,7 @@ module DemoData
         text = [{ title: "Wiki", content: text }]
       end
 
-      print_status '    ↳ Creating wikis'
+      print_status "    ↳ Creating wikis"
 
       Array(text).each do |data|
         create_wiki_page!(
@@ -62,7 +62,7 @@ module DemoData
         text: data[:content]
       )
 
-      print_status '.'
+      print_status "."
 
       if data[:children]
         Array(data[:children]).each do |child_data|

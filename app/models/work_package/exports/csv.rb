@@ -49,7 +49,7 @@ module WorkPackage::Exports
           row << if work_package.description
                    work_package.description.squish
                  else
-                   ''
+                   ""
                  end
         end
       end

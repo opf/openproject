@@ -75,12 +75,12 @@ See COPYRIGHT and LICENSE files for more details.
             <% end -%>
           </tbody>
         </table>
-        
+
       </div>
     </div>
     <hr class="form--separator" />
     <p>
-      <%= submit_tag t(:button_update), class: 'button -highlight' %>
+      <%= submit_tag t(:button_update), class: 'button -primary' %>
       <%= link_to project_settings_repository_path(@project.id), class: 'button' do %>
         <span class="button--text"><%= t(:button_cancel) %></span>
       <% end %>

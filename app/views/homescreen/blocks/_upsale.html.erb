@@ -30,7 +30,7 @@
   <% end %>
 
   <%= link_to(OpenProject::Static::Links.links[:pricing][:href],
-              class: 'button -highlight',
+              class: 'button -primary',
               target: '_blank',
               rel: 'noopener') do %>
     <%= spot_icon('enterprise-addons') %>
@@ -38,6 +38,6 @@
   <% end %>
 
   <% if current_user.admin? %>
-    <%= link_to t('js.admin.enterprise.upsale.button_start_trial'), enterprise_path, class: 'button -alt-highlight' %>
+    <%= link_to t('js.admin.enterprise.upsale.button_start_trial'), enterprise_path, class: 'button -primary' %>
   <% end %>
 </div>

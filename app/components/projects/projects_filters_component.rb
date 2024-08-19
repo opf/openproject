@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Projects::ProjectsFiltersComponent < FiltersComponent
-
+# rubocop:disable OpenProject/AddPreviewForViewComponent
+class Projects::ProjectsFiltersComponent < Filter::FilterComponent
+  # rubocop:enable OpenProject/AddPreviewForViewComponent
   def allowed_filters
     super
       .select { |f| allowed_filter?(f) }
@@ -48,7 +49,9 @@ class Projects::ProjectsFiltersComponent < FiltersComponent
       Queries::Projects::Filters::CreatedAtFilter,
       Queries::Projects::Filters::LatestActivityAtFilter,
       Queries::Projects::Filters::NameAndIdentifierFilter,
-      Queries::Projects::Filters::TypeFilter
+      Queries::Projects::Filters::TypeFilter,
+      Queries::Projects::Filters::FavoredFilter,
+      Queries::Projects::Filters::IdFilter
     ]
     allowlist << Queries::Filters::Shared::CustomFields::Base
 

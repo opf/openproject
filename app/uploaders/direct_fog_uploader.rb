@@ -1,4 +1,4 @@
-require_relative 'fog_file_uploader'
+require_relative "fog_file_uploader"
 
 class DirectFogUploader < FogFileUploader
   include CarrierWaveDirect::Uploader
@@ -56,14 +56,14 @@ class DirectFogUploader < FogFileUploader
       return {} unless include_content_type?(uploader)
 
       {
-        'Content-Type': uploader.fog_attributes[:'Content-Type']
+        "Content-Type": uploader.fog_attributes[:"Content-Type"]
       }
     end
 
     private
 
     def include_content_type?(uploader)
-      uploader.will_include_content_type && uploader.fog_attributes.include?(:'Content-Type')
+      uploader.will_include_content_type && uploader.fog_attributes.include?(:"Content-Type")
     end
 
     def direct_fog_hash_uploader(attachment, success_action_redirect, success_action_status)

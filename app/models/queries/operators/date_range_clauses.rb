@@ -50,7 +50,7 @@ module Queries::Operators
       if to
         s << ("#{table}.#{field} <= '%s'" % [quoted_date_from_utc(to)])
       end
-      s.join(' AND ')
+      s.join(" AND ")
     end
 
     def quoted_date_from_utc(value)

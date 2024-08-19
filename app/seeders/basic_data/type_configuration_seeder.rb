@@ -34,8 +34,8 @@ module BasicData
     ]
 
     def seed!
-      seed_data.each('type_configuration') do |type_configuration_data|
-        type = seed_data.find_reference(type_configuration_data['type'])
+      seed_data.each("type_configuration") do |type_configuration_data|
+        type = seed_data.find_reference(type_configuration_data["type"])
         query_groups = query_groups(type_configuration_data)
         type.update(
           attribute_groups: query_groups + type.default_attribute_groups
@@ -46,10 +46,10 @@ module BasicData
     private
 
     def query_groups(type_configuration_data)
-      type_configuration_data['form_configuration'].map do |form_config_attr|
-        query = seed_data.find_reference(form_config_attr['query'])
+      type_configuration_data["form_configuration"].map do |form_config_attr|
+        query = seed_data.find_reference(form_config_attr["query"])
         query_association = "query_#{query.id}"
-        [form_config_attr['group_name'], [query_association.to_sym]]
+        [form_config_attr["group_name"], [query_association.to_sym]]
       end
     end
   end

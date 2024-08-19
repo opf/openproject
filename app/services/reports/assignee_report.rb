@@ -28,11 +28,11 @@
 
 class Reports::AssigneeReport < Reports::Report
   def self.report_type
-    'assigned_to'
+    "assigned_to"
   end
 
   def field
-    @field ||= 'assigned_to_id'
+    @field ||= "assigned_to_id"
   end
 
   def rows

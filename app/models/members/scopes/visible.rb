@@ -45,10 +45,10 @@ module Members::Scopes
       def visible_for_non_admins(user)
         view_members = Project.allowed_to(user, :view_members)
         manage_members = Project.allowed_to(user, :manage_members)
+        view_work_packages = Project.allowed_to(user, :view_shared_work_packages)
 
-        project_scope = view_members.or(manage_members)
-
-        where(project_id: project_scope.select(:id))
+        where(project_id: view_members.or(manage_members).select(:id), entity_type: nil)
+          .or(where(project_id: view_work_packages.select(:id), entity_type: WorkPackage.name))
       end
 
       def visible_for_admins

@@ -46,17 +46,17 @@ module LdapAuthSources
 
     def inline_create_link
       link_to(new_ldap_auth_source_path,
-              class: 'budget-add-row wp-inline-create--add-link',
+              class: "budget-add-row wp-inline-create--add-link",
               title: I18n.t(:label_ldap_auth_source_new)) do
-        helpers.op_icon('icon icon-add')
+        helpers.op_icon("icon icon-add")
       end
     end
 
     def headers
       [
-        ['name', { caption: LdapAuthSource.human_attribute_name('name') }],
-        ['host', { caption: LdapAuthSource.human_attribute_name('host') }],
-        ['users', { caption: I18n.t(:label_user_plural) }]
+        ["name", { caption: LdapAuthSource.human_attribute_name("name") }],
+        ["host", { caption: LdapAuthSource.human_attribute_name("host") }],
+        ["users", { caption: I18n.t(:label_user_plural) }]
       ]
     end
   end

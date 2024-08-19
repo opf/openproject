@@ -29,8 +29,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), "#{t(:label_edit)} #{Role.model_name.human} #{@role.name}" %>
 
-<% local_assigns[:additional_breadcrumb] = @role.name %>
-<%= breadcrumb_toolbar @role.name %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { @role.name }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_users_path, text: t(:label_user_and_permission) },
+                             { href: roles_path, text: t(:label_role_and_permissions) },
+                             @role.name])
+  end
+%>
 
 <%= labelled_tabular_form_for @role, :url => { :action => 'update' }, :html => {:id => 'role_form'}, :as => :role do |f| %>
   <%= hidden_field_tag :id, @role.id %>

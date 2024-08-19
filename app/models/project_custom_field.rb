@@ -27,15 +27,57 @@
 #++
 
 class ProjectCustomField < CustomField
+  belongs_to :project_custom_field_section, class_name: "ProjectCustomFieldSection", foreign_key: :custom_field_section_id,
+                                            inverse_of: :custom_fields
+  has_many :project_custom_field_project_mappings, class_name: "ProjectCustomFieldProjectMapping", foreign_key: :custom_field_id,
+                                                   dependent: :destroy, inverse_of: :project_custom_field
+
+  acts_as_list column: :position_in_custom_field_section, scope: [:custom_field_section_id]
+
+  after_save :activate_required_field_in_all_projects
+
+  validates :custom_field_section_id, presence: true
+
+  class << self
+    def visible(user = User.current, project: nil)
+      if user.admin?
+        all
+      elsif user.allowed_in_any_project?(:select_project_custom_fields) || user.allowed_globally?(:add_project)
+        where(visible: true)
+      else
+        where(visible: true).where(mappings_with_view_project_attributes_permission(user, project).exists)
+      end
+    end
+
+    private
+
+    def mappings_with_view_project_attributes_permission(user, project) # rubocop:disable Metrics/AbcSize
+      allowed_projects = Project.allowed_to(user, :view_project_attributes)
+      mapping_table = ProjectCustomFieldProjectMapping.arel_table
+
+      mapping_condition = mapping_table[:custom_field_id].eq(arel_table[:id])
+                          .and(mapping_table[:project_id].in(allowed_projects.select(:id).arel))
+
+      if project&.persisted?
+        mapping_condition = mapping_condition.and(mapping_table[:project_id].eq(project.id))
+      end
+
+      mapping_table.project(Arel.star).where(mapping_condition)
+    end
+  end
+
   def type_name
     :label_project_plural
   end
 
-  def self.visible(user = User.current)
-    if user.admin?
-      all
-    else
-      where(visible: true)
+  def activate_required_field_in_all_projects
+    return unless required?
+
+    already_activated_in_project_ids = ProjectCustomFieldProjectMapping.where(custom_field_id: id).pluck(:project_id)
+
+    mappings = Project.where.not(id: already_activated_in_project_ids).map do |project|
+      { project_id: project.id, custom_field_id: id }
     end
+    ProjectCustomFieldProjectMapping.create!(mappings)
   end
 end

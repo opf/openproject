@@ -61,7 +61,7 @@ See COPYRIGHT and LICENSE files for more details.
 </fieldset>
 <p>
   <%= styled_button_tag t(:button_save), method: :post,
-  class: '-highlight -with-icon icon-checkmark' %>
+  class: '-primary -with-icon icon-checkmark' %>
   <%= link_to t(:button_cancel),
   {controller: '/wiki', action: 'show', project_id: @project, id: @page_title},
   class: 'button -with-icon icon-cancel'%>

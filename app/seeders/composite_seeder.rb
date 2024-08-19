@@ -48,7 +48,7 @@ class CompositeSeeder < Seeder
   end
 
   def data_seeder_classes
-    raise NotImplementedError, 'has to be implemented by subclasses'
+    raise NotImplementedError, "has to be implemented by subclasses"
   end
 
   def discovered_seeders
@@ -69,7 +69,7 @@ class CompositeSeeder < Seeder
   end
 
   def namespace
-    raise NotImplementedError, 'has to be implemented by subclasses'
+    raise NotImplementedError, "has to be implemented by subclasses"
   end
 
   ##
@@ -79,7 +79,7 @@ class CompositeSeeder < Seeder
   end
 
   def seeder_name(seeder)
-    seeder.class.name.split('::').without(namespace).join('::')
+    seeder.class.name.split("::").without(namespace).join("::")
   end
 
   def instantiate(seeder_classes)

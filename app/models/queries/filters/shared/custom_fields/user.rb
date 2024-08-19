@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'list_optional'
+require_relative "list_optional"
 
 module Queries::Filters::Shared
   module CustomFields

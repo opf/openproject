@@ -34,9 +34,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 
   <%= form_tag(account_confirm_consent_path, method: :post, class: "form -wide-labels") do %>
-    <%= render partial: 'user_consent_check', locals: { consenting_user: consenting_user } %>
+    <%= render partial: 'user_consent_check' %>
     <section class="form--section">
-      <button type="submit" class="button -highlight">
+      <button type="submit" class="button -primary">
       <span class="button--text"><%= t(:button_continue) %></span>
       </button>
       <%= link_to t(:button_decline), account_decline_consent_path, class: 'button' %>

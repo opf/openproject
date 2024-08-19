@@ -26,8 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class
-  CustomValue::FormattableStrategy < CustomValue::FormatStrategy
+class CustomValue::FormattableStrategy < CustomValue::FormatStrategy
   def formatted_value
     OpenProject::TextFormatting::Renderer.format_text value
   end

@@ -29,8 +29,9 @@
 module OAuth
   class GrantsController < ::ApplicationController
     before_action :require_login
+    authorization_checked! :index, :revoke_application
 
-    layout 'my'
+    layout "my"
     menu_item :access_token
 
     def index
@@ -49,14 +50,15 @@ module OAuth
         current_user
       )
 
-      flash[:notice] = I18n.t('oauth.grants.successful_application_revocation', application_name: application.name)
-      redirect_to controller: '/my', action: :access_token
+      flash[:notice] = I18n.t("oauth.grants.successful_application_revocation", application_name: application.name)
+      redirect_to controller: "/my", action: :access_token
     end
 
     private
 
     def find_application
       ::Doorkeeper::Application
+        .authorized_for(current_user)
         .where(id: params[:application_id])
         .select(:name, :id)
         .take

@@ -31,11 +31,11 @@ module Projects::Copy
     include ::Projects::Copy::NoCopier
 
     def self.human_name
-      I18n.t(:'projects.copy.wiki_page_attachments')
+      I18n.t(:"projects.copy.wiki_page_attachments")
     end
 
     def source_count
-      source.wiki && source.wiki.pages.joins(:attachments).count('attachments.id')
+      source.wiki && source.wiki.pages.joins(:attachments).count("attachments.id")
     end
   end
 end

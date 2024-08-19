@@ -106,7 +106,7 @@ See COPYRIGHT and LICENSE files for more details.
           </td>
         </tr>
       </table>
-      <%= call_hook(:view_layouts_mailer_html_before_content, self.assigns) %>
+      <%= call_hook(:view_layouts_mailer_html_before_content, assigns) %>
       <table class="body">
         <tr>
           <td>
@@ -114,7 +114,7 @@ See COPYRIGHT and LICENSE files for more details.
           </td>
         </tr>
       </table>
-      <%= call_hook(:view_layouts_mailer_html_after_content, self.assigns) %>
+      <%= call_hook(:view_layouts_mailer_html_after_content, assigns) %>
       <table class="footer">
         <tr>
           <td>

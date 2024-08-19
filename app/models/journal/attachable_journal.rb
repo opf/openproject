@@ -27,7 +27,7 @@
 #++
 
 class Journal::AttachableJournal < Journal::AssociatedJournal
-  self.table_name = 'attachable_journals'
+  self.table_name = "attachable_journals"
 
   belongs_to :attachment
 end

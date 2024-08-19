@@ -50,7 +50,7 @@ class BaseContract < Disposable::Twin
     end
 
     def writable_conditions
-      @writable_conditions ||= []
+      @writable_conditions ||= {}
     end
 
     def attribute_permissions
@@ -101,17 +101,14 @@ class BaseContract < Disposable::Twin
     private
 
     def add_writable(attribute, writable)
-      attribute_name = attribute.to_s.delete_suffix('_id')
+      attribute_name = attribute.to_s.delete_suffix("_id")
+      writable_conditions[attribute_name] = writable
 
-      unless writable == false
-        writable_attributes << attribute_name
-        # allow the _id variant as well
-        writable_attributes << "#{attribute_name}_id"
-      end
+      return if writable == false
 
-      if writable.respond_to?(:call)
-        writable_conditions << [attribute_name, writable]
-      end
+      writable_attributes << attribute_name
+      # allow the _id variant as well
+      writable_attributes << "#{attribute_name}_id"
     end
   end
 
@@ -222,10 +219,14 @@ class BaseContract < Disposable::Twin
     end
 
     if model.respond_to?(:available_custom_fields)
-      writable += model.available_custom_fields.map(&:attribute_name)
+      writable += collect_available_custom_field_attributes
     end
 
     writable
+  end
+
+  def collect_available_custom_field_attributes
+    model.available_custom_fields.map(&:attribute_name)
   end
 
   def reduce_writable_attributes(attributes)
@@ -235,7 +236,8 @@ class BaseContract < Disposable::Twin
 
   def reduce_by_writable_conditions(attributes)
     collect_ancestor_attributes(:writable_conditions).each do |attribute, condition|
-      attributes -= [attribute, "#{attribute}_id"] unless instance_exec(&condition)
+      condition = !!instance_exec(&condition) if condition.respond_to?(:call)
+      attributes -= [attribute, "#{attribute}_id"] if condition == false
     end
 
     attributes
@@ -245,7 +247,7 @@ class BaseContract < Disposable::Twin
     attribute_permissions = collect_ancestor_attributes(:attribute_permissions)
 
     attributes.reject do |attribute|
-      canonical_attribute = attribute.delete_suffix('_id')
+      canonical_attribute = attribute.delete_suffix("_id")
 
       permissions = attribute_permissions[canonical_attribute] ||
         attribute_permissions["#{canonical_attribute}_id"] ||

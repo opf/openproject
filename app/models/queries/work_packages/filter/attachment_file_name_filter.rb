@@ -36,11 +36,11 @@ class Queries::WorkPackages::Filter::AttachmentFileNameFilter < Queries::WorkPac
   end
 
   def human_name
-    Attachment.human_attribute_name('attachment_file_name')
+    Attachment.human_attribute_name("attachment_file_name")
   end
 
   def search_column
-    'file'
+    "file"
   end
 
   def normalization_type

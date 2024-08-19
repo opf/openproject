@@ -1,7 +1,10 @@
-class ErrorsController < ActionController::Base
+class ErrorsController < ApplicationController
   include ErrorsHelper
   include OpenProjectErrorHelper
   include Accounts::CurrentUser
+
+  no_authorization_required! :not_found, :unacceptable, :internal_error
+  skip_before_action :check_if_login_required
 
   def not_found
     render_404
@@ -26,6 +29,6 @@ class ErrorsController < ActionController::Base
   end
 
   def use_layout
-    'only_logo'
+    "only_logo"
   end
 end

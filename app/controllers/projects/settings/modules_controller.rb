@@ -39,7 +39,7 @@ class Projects::Settings::ModulesController < Projects::SettingsController
 
       redirect_to project_settings_modules_path(@project)
     else
-      render 'show'
+      render "show"
     end
   end
 end

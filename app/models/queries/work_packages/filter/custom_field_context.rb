@@ -52,8 +52,8 @@ module Queries::WorkPackages::Filter::CustomFieldContext
     end
 
     def where_subselect_joins(custom_field)
-      cf_types_db_table = 'custom_fields_types'
-      cf_projects_db_table = 'custom_fields_projects'
+      cf_types_db_table = "custom_fields_types"
+      cf_projects_db_table = "custom_fields_projects"
       cv_db_table = CustomValue.table_name
       work_package_db_table = WorkPackage.table_name
 
@@ -72,6 +72,10 @@ module Queries::WorkPackages::Filter::CustomFieldContext
       end
 
       joins
+    end
+
+    def where_subselect_conditions(_custom_field, _context)
+      nil
     end
   end
 end

@@ -32,13 +32,15 @@ module Standard
         ::BasicData::BuiltinUsersSeeder,
         ::BasicData::ProjectRoleSeeder,
         ::BasicData::WorkPackageRoleSeeder,
+        ::BasicData::ProjectQueryRoleSeeder,
         ::BasicData::GlobalRoleSeeder,
         ::BasicData::TimeEntryActivitySeeder,
         ::BasicData::ColorSeeder,
         ::BasicData::ColorSchemeSeeder,
         ::BasicData::WorkflowSeeder,
         ::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
+        ::BasicData::SettingSeeder,
+        ::BasicData::ProjectCustomFieldSectionSeeder
       ]
     end
   end

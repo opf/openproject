@@ -27,7 +27,7 @@
 #++
 
 class ApplicationMailer < ActionMailer::Base
-  layout 'mailer'
+  layout "mailer"
 
   helper :application, # for format_text
          :work_packages, # for css classes
@@ -56,7 +56,7 @@ class ApplicationMailer < ActionMailer::Base
       if OpenProject::Configuration.rails_relative_url_root.blank?
         Setting.host_name
       else
-        Setting.host_name.to_s.gsub(%r{/.*\z}, '')
+        Setting.host_name.to_s.gsub(%r{/.*\z}, "")
       end
     end
 
@@ -74,11 +74,6 @@ class ApplicationMailer < ActionMailer::Base
     end
   end
 
-  def mail(headers = {}, &block)
-    block ||= method(:default_formats_for_setting)
-    super(headers, &block)
-  end
-
   # Sets a Message-ID header.
   #
   # While the value is set in here, email gateways such as postmark, unless instructed explicitly will assign
@@ -87,7 +82,7 @@ class ApplicationMailer < ActionMailer::Base
   # Because of this, the message id and the value affected by it (In-Reply-To) is not relied upon when an email response
   # is handled by OpenProject.
   def message_id(object, user)
-    headers['Message-ID'] = "<#{message_id_value(object, user)}>"
+    headers["Message-ID"] = "<#{message_id_value(object, user)}>"
   end
 
   # Sets a References header.
@@ -105,7 +100,7 @@ class ApplicationMailer < ActionMailer::Base
       end
     end
 
-    headers['References'] = refs.join(' ')
+    headers["References"] = refs.join(" ")
   end
 
   # Prepends given fields with 'X-OpenProject-' to save some duplication
@@ -120,9 +115,30 @@ class ApplicationMailer < ActionMailer::Base
     format.text
   end
 
-  def send_mail(user, subject)
+  ##
+  # Overwrite mailer method to prevent sending mails to locked users.
+  # Usually this would accept a string for the `to:` argument, but
+  # we always require an actual user object since fed95796.
+  def mail(headers = {}, &block)
+    block ||= method(:default_formats_for_setting)
+    to = headers[:to]
+
+    if to
+      raise ArgumentError, "Recipient needs to be instance of User" unless to.is_a?(User)
+
+      if to.locked?
+        Rails.logger.info "Not sending #{action_name} mail to locked user #{to.id} (#{to.login})"
+        return
+      end
+    end
+
+    super(headers.merge(to: to.mail), &block)
+  end
+
+  def send_localized_mail(user)
     with_locale_for(user) do
-      mail to: user.mail, subject:
+      subject = yield
+      mail to: user, subject:
     end
   end
 
@@ -141,12 +157,12 @@ class ApplicationMailer < ActionMailer::Base
                        else
                          "#{object.class.name.demodulize.underscore}-#{object.id}"
                        end
-    hash = 'op' \
-           '.' \
+    hash = "op" \
+           "." \
            "#{object_reference}" \
-           '.' \
+           "." \
            "#{Time.current.strftime('%Y%m%d%H%M%S')}" \
-           '.' \
+           "." \
            "#{recipient.id}"
 
     "#{hash}@#{header_host_value}"
@@ -161,15 +177,15 @@ class ApplicationMailer < ActionMailer::Base
   # It in fact is aimed not not so that similar messages (i.e. those belonging to the same
   # work package and journal) end up being grouped together.
   def references_value(object)
-    hash = 'op' \
-           '.' \
+    hash = "op" \
+           "." \
            "#{object.class.name.demodulize.underscore}-#{object.id}"
 
     "#{hash}@#{header_host_value}"
   end
 
   def header_host_value
-    host = Setting.mail_from.to_s.gsub(%r{\A.*@}, '')
+    host = Setting.mail_from.to_s.gsub(%r{\A.*@}, "")
     host = "#{::Socket.gethostname}.openproject" if host.empty?
     host
   end

@@ -28,7 +28,7 @@
 
 module Projects
   class DeleteService < ::BaseServices::Delete
-    include Projects::Concerns::UpdateDemoData
+    prepend Projects::Concerns::UpdateDemoData
 
     ##
     # Reference to the dependent projects that we're deleting

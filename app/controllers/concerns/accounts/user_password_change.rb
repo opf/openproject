@@ -70,7 +70,7 @@ module Accounts::UserPasswordChange
       return
     end
 
-    flash_error_message(log_reason: 'invalid credentials', flash_now:) do
+    flash_error_message(log_reason: "invalid credentials", flash_now:) do
       if Setting.brute_force_block_after_failed_logins.to_i > 0
         :notice_account_invalid_credentials_or_blocked
       else
@@ -83,7 +83,7 @@ module Accounts::UserPasswordChange
     flash[:error] = message unless message.nil?
     @user = user
     @username = user.login
-    render 'my/password', locals: { show_user_name: }
+    render "my/password", locals: { show_user_name: }
   end
 
   ##
@@ -91,15 +91,15 @@ module Accounts::UserPasswordChange
   def redirect_if_password_change_not_allowed(user)
     if user and not user.change_password_allowed?
       logger.warn "Password change for user '#{user}' forced, but user is not allowed " +
-                  'to change password'
+                  "to change password"
       flash[:error] = I18n.t(:notice_can_t_change_password)
-      redirect_to action: 'login'
+      redirect_to action: "login"
       return true
     end
     false
   end
 
-  def flash_error_message(log_reason: '', flash_now: true)
+  def flash_error_message(log_reason: "", flash_now: true)
     flash_hash = flash_now ? flash.now : flash
 
     logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip} " \

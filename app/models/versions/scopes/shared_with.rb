@@ -59,7 +59,7 @@ module Versions::Scopes
         includes(:project)
           .merge(Project.active)
           .where(projects: { id: root.self_and_descendants.select(:id) })
-          .where(sharing: 'tree')
+          .where(sharing: "tree")
       end
 
       def shared_versions_by_hierarchy_or_descendants(project)
@@ -71,13 +71,13 @@ module Versions::Scopes
 
       def shared_versions_by_hierarchy(project)
         rolled_up(project)
-          .where(sharing: 'hierarchy')
+          .where(sharing: "hierarchy")
       end
 
       def shared_versions_by_system
         includes(:project)
           .merge(Project.active)
-          .where(sharing: 'system')
+          .where(sharing: "system")
       end
     end
   end

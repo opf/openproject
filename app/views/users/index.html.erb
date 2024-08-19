@@ -27,19 +27,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <% html_title t(:label_administration), t(:label_user_plural) -%>
-<%= toolbar title: t(:label_user_plural), title_class: 'no-padding-bottom' do %>
-  <li class="toolbar-item">
-    <%= link_to new_user_path,
-        { class: 'button -alt-highlight',
-          aria: { label: t(:label_user_new) },
-          title: t(:label_user_new) } do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= t('activerecord.models.user') %></span>
-    <% end %>
-  </li>
-  <%= call_hook(:user_admin_action_menu) %>
-<% end %>
 
-<%= render Users::UserFilterComponent.new(params, groups: @groups, status: @status) %>
-&nbsp;
+<%= render Users::IndexPageHeaderComponent.new %>
+
+<%= render Users::IndexSubHeaderComponent.new(groups: @groups, status: @status, params: params) %>
+
 <%= render Users::TableComponent.new(rows: @users, current_user: ) %>

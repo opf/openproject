@@ -60,7 +60,7 @@ class WorkPackages::MovesController < ApplicationController
   # rubocop:disable Metrics/AbcSize
   def perform_in_frontend
     call = job_class
-      .perform_now(**job_args)
+             .perform_now(**job_args)
 
     if call.success? && @work_packages.any?
       flash[:notice] = call.message
@@ -70,6 +70,7 @@ class WorkPackages::MovesController < ApplicationController
       redirect_back_or_default(project_work_packages_path(@project))
     end
   end
+
   # rubocop:enable Metrics/AbcSize
 
   def perform_in_background
@@ -104,7 +105,7 @@ class WorkPackages::MovesController < ApplicationController
   def check_project_uniqueness
     unless @project
       # TODO: let users bulk move/copy work packages from different projects
-      render_error message: :'work_packages.move.unsupported_for_multiple_projects', status: 400
+      render_error message: :"work_packages.move.unsupported_for_multiple_projects", status: 400
       false
     end
   end
@@ -114,11 +115,29 @@ class WorkPackages::MovesController < ApplicationController
     @allowed_projects = WorkPackage.allowed_target_projects_on_move(current_user)
     @target_project = @allowed_projects.detect { |p| p.id.to_s == params[:new_project_id].to_s } if params[:new_project_id]
     @target_project ||= @project
-    @types = @target_project.types
+    @types = @target_project.types.order(:position)
     @target_type = @types.find { |t| t.id.to_s == params[:new_type_id].to_s }
+    @unavailable_type_in_target_project = set_unavailable_type_in_target_project
     @available_versions = @target_project.assignable_versions
     @available_statuses = Workflow.available_statuses(@project)
-    @notes = params[:notes] || ''
+    @notes = params[:notes] || ""
+  end
+
+  def set_unavailable_type_in_target_project
+    if @target_project == @project
+      false
+    elsif @target_type.nil?
+      hierarchies = WorkPackageHierarchy
+                      .includes(:ancestor)
+                      .where(ancestor_id: @work_packages.select(:id))
+      Type.where(id: hierarchies.map { _1.ancestor.type_id })
+          .select("distinct id")
+          .pluck(:id)
+          .difference(@types.pluck(:id))
+          .any?
+    else
+      @types.exclude?(@target_type)
+    end
   end
 
   def attributes_for_create
@@ -126,7 +145,7 @@ class WorkPackages::MovesController < ApplicationController
       .move_work_package
       .compact_blank
       # 'none' is used in the frontend as a value to unset the property, e.g. the assignee.
-      .transform_values { |v| v == 'none' ? nil : v }
+      .transform_values { |v| v == "none" ? nil : v }
       .to_h
   end
 end

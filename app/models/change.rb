@@ -49,6 +49,6 @@ class Change < ApplicationRecord
   end
 
   def init_path
-    self.path ||= ''
+    self.path ||= ""
   end
 end

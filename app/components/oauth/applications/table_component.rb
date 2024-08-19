@@ -51,10 +51,10 @@ module OAuth
 
       def inline_create_link
         link_to new_oauth_application_path,
-                aria: { label: t('oauth.application.new') },
-                class: 'wp-inline-create--add-link',
-                title: t('oauth.application.new') do
-          helpers.op_icon('icon icon-add')
+                aria: { label: t("oauth.application.new") },
+                class: "wp-inline-create--add-link",
+                title: t("oauth.application.new") do
+          helpers.op_icon("icon icon-add")
         end
       end
 
@@ -64,11 +64,11 @@ module OAuth
 
       def headers
         [
-          ['name', { caption: ::Doorkeeper::Application.human_attribute_name(:name) }],
-          ['owner', { caption: ::Doorkeeper::Application.human_attribute_name(:owner) }],
-          ['client_credentials', { caption: I18n.t('oauth.client_credentials') }],
-          ['redirect_uri', { caption: ::Doorkeeper::Application.human_attribute_name(:redirect_uri) }],
-          ['confidential', { caption: ::Doorkeeper::Application.human_attribute_name(:confidential) }]
+          ["name", { caption: ::Doorkeeper::Application.human_attribute_name(:name) }],
+          ["owner", { caption: ::Doorkeeper::Application.human_attribute_name(:owner) }],
+          ["client_credentials", { caption: I18n.t("oauth.client_credentials") }],
+          ["redirect_uri", { caption: ::Doorkeeper::Application.human_attribute_name(:redirect_uri) }],
+          ["confidential", { caption: ::Doorkeeper::Application.human_attribute_name(:confidential) }]
         ]
       end
     end

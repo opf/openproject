@@ -27,15 +27,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% content_controller 'admin--custom-fields',
-                      dynamic: true,
-                      'admin--custom-fields-format-value': @custom_field.field_format
-%>
-
 <% html_title t(:label_administration), "#{t(:label_edit)} #{CustomField.model_name.human} #{h @custom_field.name}" %>
-
-<% local_assigns[:additional_breadcrumb] =  link_to(I18n.t(@custom_field.type_name), custom_fields_path(tab: @custom_field.type)),
-                       @custom_field.name %>
+<% local_assigns[:additional_breadcrumb] = [
+  link_to(I18n.t(@custom_field.type_name), custom_fields_path(tab: @custom_field.type)),
+  @custom_field.name
+] %>
 <%= breadcrumb_toolbar @custom_field.name %>
 
 <%= error_messages_for 'custom_field' %>
@@ -44,5 +40,5 @@ See COPYRIGHT and LICENSE files for more details.
                               url: custom_field_path(@custom_field),
                               html: {method: :put, id: 'custom_field_form'} do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
 <% end %>

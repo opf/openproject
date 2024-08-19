@@ -28,7 +28,7 @@
 
 module Queries::Operators
   class Child < Base
-    label 'child'
-    set_symbol 'child'
+    label "child"
+    set_symbol "child"
   end
 end

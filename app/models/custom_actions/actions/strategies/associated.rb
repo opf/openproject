@@ -38,7 +38,7 @@ module CustomActions::Actions::Strategies::Associated
       if required?
         options
       else
-        options.unshift(value: nil, label: I18n.t('placeholders.default'))
+        options.unshift(value: nil, label: I18n.t("placeholders.default"))
       end
     end
   end
@@ -52,7 +52,7 @@ module CustomActions::Actions::Strategies::Associated
   end
 
   def associated
-    raise 'Not implemented error'
+    raise "Not implemented error"
   end
 
   def validate(errors)

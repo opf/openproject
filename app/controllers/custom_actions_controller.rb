@@ -33,7 +33,7 @@ class CustomActionsController < ApplicationController
   before_action :find_model_object, only: %i(edit update destroy)
   before_action :pad_params, only: %i(create update)
 
-  layout 'admin'
+  layout "admin"
 
   def index
     @custom_actions = CustomAction.order_by_position
@@ -91,15 +91,9 @@ class CustomActionsController < ApplicationController
     params[:custom_action][:actions] ||= {}
   end
 
-  def default_breadcrumb
-    if action_name == 'index'
-      t('custom_actions.plural')
-    else
-      ActionController::Base.helpers.link_to(t('custom_actions.plural'), custom_actions_path)
-    end
+  def show_local_breadcrumb
+    false
   end
 
-  def show_local_breadcrumb
-    true
-  end
+  def default_breadcrumb; end
 end

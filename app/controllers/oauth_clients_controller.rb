@@ -38,6 +38,8 @@ class OAuthClientsController < ApplicationController
   before_action :set_code, only: [:callback]
   before_action :set_connection_manager, only: [:callback]
 
+  no_authorization_required! :callback, :ensure_connection
+
   after_action :clear_oauth_state_cookie, only: [:callback]
 
   # Provide the OAuth2 "callback" endpoint.
@@ -70,6 +72,7 @@ class OAuthClientsController < ApplicationController
     end
   end
 
+  # rubocop:disable Metrics/AbcSize
   def ensure_connection
     client_id = params.fetch(:oauth_client_id)
     storage_id = params.fetch(:storage_id)
@@ -77,31 +80,42 @@ class OAuthClientsController < ApplicationController
 
     handle_absent_oauth_client unless oauth_client
 
-    connection_manager = OAuthClients::ConnectionManager.new(
-      user: User.current,
-      configuration: oauth_client.integration.oauth_configuration
-    )
-
+    storage = oauth_client.integration
     # check if the origin is the same
-    destination_url = if params.fetch(:destination_url, '').start_with?(root_url)
-                        params[:destination_url]
-                      else
-                        root_url
-                      end
-    if connection_manager.authorization_state_connected?
+    destination_url = destination_url(params.fetch(:destination_url, ""))
+    auth_state = ::Storages::Peripherals::StorageInteraction::Authentication
+                   .authorization_state(storage:, user: User.current)
+
+    if auth_state == :connected
       redirect_to(destination_url)
     else
       nonce = SecureRandom.uuid
       cookies["oauth_state_#{nonce}"] = { value: { href: destination_url, storageId: storage_id }.to_json, expires: 1.hour }
-      redirect_to(connection_manager.get_authorization_uri(state: nonce))
+      redirect_to(storage.oauth_configuration.authorization_uri(state: nonce), allow_other_host: true)
     end
   end
 
+  # rubocop:enable Metrics/AbcSize
+
   private
 
+  def relative_url?(url)
+    url.starts_with?("/")
+  end
+
+  def destination_url(url)
+    if ::API::V3::Utilities::PathHelper::ApiV3Path.same_origin?(url)
+      url
+    elsif relative_url?(url)
+      root_url.chomp("/") + url
+    else
+      root_url
+    end
+  end
+
   def handle_absent_oauth_client
-    flash[:error] = [I18n.t('oauth_client.errors.oauth_client_not_found'),
-                     I18n.t('oauth_client.errors.oauth_client_not_found_explanation')]
+    flash[:error] = [I18n.t("oauth_client.errors.oauth_client_not_found"),
+                     I18n.t("oauth_client.errors.oauth_client_not_found_explanation")]
 
     if User.current.admin?
       redirect_to admin_settings_storages_path
@@ -123,9 +137,9 @@ class OAuthClientsController < ApplicationController
       service_result.errors = service_result.errors.to_active_model_errors
     end
 
-    flash[:error] = ["#{t(:'oauth_client.errors.oauth_authorization_code_grant_had_errors')}:"]
+    flash[:error] = ["#{t(:"oauth_client.errors.oauth_authorization_code_grant_had_errors")}:"]
     service_result.errors.each do |error|
-      flash[:error] << "#{t(:'oauth_client.errors.oauth_reported')}: #{error.full_message}"
+      flash[:error] << "#{t(:"oauth_client.errors.oauth_reported")}: #{error.full_message}"
     end
   end
 
@@ -136,8 +150,8 @@ class OAuthClientsController < ApplicationController
     @code = params[:code]
 
     if @code.blank?
-      flash[:error] = [I18n.t('oauth_client.errors.oauth_code_not_present'),
-                       I18n.t('oauth_client.errors.oauth_code_not_present_explanation')]
+      flash[:error] = [I18n.t("oauth_client.errors.oauth_code_not_present"),
+                       I18n.t("oauth_client.errors.oauth_code_not_present_explanation")]
 
       redirect_user_or_admin(get_redirect_uri) do
         # If the current user is an admin, we send her directly to the
@@ -159,8 +173,8 @@ class OAuthClientsController < ApplicationController
     else
       # To protect against CSRF we cancel this request. There was either no
       # state parameter given, or there was no corresponding cookie present.
-      flash[:error] = [I18n.t('oauth_client.errors.oauth_state_not_present'),
-                       I18n.t('oauth_client.errors.oauth_state_not_present_explanation')]
+      flash[:error] = [I18n.t("oauth_client.errors.oauth_state_not_present"),
+                       I18n.t("oauth_client.errors.oauth_state_not_present_explanation")]
 
       redirect_user_or_admin(nil) do
         # Guide the user to the settings that she needs to edit/fix.
@@ -195,8 +209,8 @@ class OAuthClientsController < ApplicationController
       # This happens during admin setup if the user forgot to update the return_uri
       # on the Authorization Server (i.e. Nextcloud) after updating the OpenProject
       # side with a new client_id and client_secret.
-      flash[:error] = [I18n.t('oauth_client.errors.oauth_client_not_found'),
-                       I18n.t('oauth_client.errors.oauth_client_not_found_explanation')]
+      flash[:error] = [I18n.t("oauth_client.errors.oauth_client_not_found"),
+                       I18n.t("oauth_client.errors.oauth_client_not_found_explanation")]
 
       redirect_user_or_admin(get_redirect_uri) do
         # Something must be wrong in the storage's setup
@@ -212,7 +226,7 @@ class OAuthClientsController < ApplicationController
     if User.current.admin && redirect_uri && (nextcloud? || one_drive?)
       yield
     elsif redirect_uri
-      flash[:error] = [t(:'oauth_client.errors.oauth_issue_contact_admin')]
+      flash[:error] = [t(:"oauth_client.errors.oauth_issue_contact_admin")]
       redirect_to redirect_uri
     else
       redirect_to root_url

@@ -33,6 +33,10 @@ module Queries
         (find_registered_order(key) || ::Queries::Orders::NotExistingOrder).new(key)
       end
 
+      def known_order?(key)
+        find_registered_order(key).present?
+      end
+
       private
 
       def find_registered_order(key)

@@ -36,6 +36,6 @@ class Queries::Principals::Filters::TypeaheadFilter < Queries::Principals::Filte
   end
 
   def human_name
-    I18n.t('label_search')
+    I18n.t("label_search")
   end
 end

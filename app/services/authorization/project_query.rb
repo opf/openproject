@@ -95,11 +95,11 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
   end
 
   def self.permission_roles_table
-    Role.arel_table.alias('permission_roles')
+    Role.arel_table.alias("permission_roles")
   end
 
   def self.assigned_roles_table
-    Role.arel_table.alias('assigned_roles')
+    Role.arel_table.alias("assigned_roles")
   end
 
   def self.role_has_permission_and_is_assigned(user, action)

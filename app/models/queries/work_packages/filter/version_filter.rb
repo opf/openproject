@@ -38,7 +38,7 @@ class Queries::WorkPackages::Filter::VersionFilter <
   end
 
   def human_name
-    WorkPackage.human_attribute_name('version')
+    WorkPackage.human_attribute_name("version")
   end
 
   def self.key

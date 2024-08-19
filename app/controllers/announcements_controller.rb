@@ -1,5 +1,5 @@
 class AnnouncementsController < ApplicationController
-  layout 'admin'
+  layout "admin"
 
   before_action :require_admin
 
@@ -15,20 +15,16 @@ class AnnouncementsController < ApplicationController
       flash[:notice] = t(:notice_successful_update)
     end
 
-    redirect_to action: 'edit'
+    redirect_to action: "edit"
   end
 
   private
 
-  def default_breadcrumb
-    t(:label_announcement)
-  end
-
   def show_local_breadcrumb
-    true
+    false
   end
 
   def announcement_params
-    params.require(:announcement).permit('text', 'show_until', 'active')
+    params.require(:announcement).permit("text", "show_until", "active")
   end
 end

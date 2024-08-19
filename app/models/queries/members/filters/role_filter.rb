@@ -44,6 +44,6 @@ class Queries::Members::Filters::RoleFilter < Queries::Members::Filters::MemberF
   end
 
   def where
-    operator_strategy.sql_for_field(values, 'member_roles', 'role_id')
+    operator_strategy.sql_for_field(values, "member_roles", "role_id")
   end
 end

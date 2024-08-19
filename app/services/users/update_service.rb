@@ -41,7 +41,7 @@ module Users
     end
 
     def persist(service_result)
-      service_result = super(service_result)
+      service_result = super(service_result) # rubocop:disable Style/SuperArguments
 
       if service_result.success?
         service_result.success = model.pref.save

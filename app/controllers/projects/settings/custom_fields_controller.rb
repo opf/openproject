@@ -30,7 +30,7 @@ class Projects::Settings::CustomFieldsController < Projects::SettingsController
   menu_item :settings_custom_fields
 
   def show
-    @wp_custom_fields = WorkPackageCustomField.order('lower(name)')
+    @wp_custom_fields = WorkPackageCustomField.order("lower(name)")
   end
 
   def update
@@ -39,7 +39,7 @@ class Projects::Settings::CustomFieldsController < Projects::SettingsController
         flash[:notice] = t(:notice_successful_update)
       else
         flash[:error] = t(:notice_project_cannot_update_custom_fields,
-                          errors: @project.errors.full_messages.join(', '))
+                          errors: @project.errors.full_messages.join(", "))
         raise ActiveRecord::Rollback
       end
     end

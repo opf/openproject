@@ -28,7 +28,7 @@
 
 module Queries::Operators
   class Follows < Base
-    label 'follows'
+    label "follows"
     set_symbol ::Relation::TYPE_FOLLOWS
   end
 end

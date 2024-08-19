@@ -134,8 +134,8 @@ module API
 
       def filter_from_params(filter)
         attribute = filter.keys.first # there should only be one attribute per filter
-        operator =  filter[attribute]['operator']
-        values = Array(filter[attribute]['values'])
+        operator =  filter[attribute]["operator"]
+        values = Array(filter[attribute]["values"])
         ar_attribute = convert_filter_attribute attribute, append_id: true
 
         { field: ar_attribute,
@@ -159,16 +159,16 @@ module API
         return if highlighted_attributes.blank?
 
         highlighted_attributes.map do |href|
-          attr = href.split('/').last
+          attr = href.split("/").last
           convert_attribute(attr)
         end
       end
 
       def boolearize(value)
         case value
-        when 'true'
+        when "true"
           true
-        when 'false'
+        when "false"
           false
         end
       end
@@ -201,7 +201,7 @@ module API
                                  when Array
                                    [order.first, order.last]
                                  when String
-                                   order.split(':')
+                                   order.split(":")
                                  end
 
           [convert_attribute(attribute), direction]

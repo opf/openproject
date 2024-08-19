@@ -30,33 +30,35 @@ See COPYRIGHT and LICENSE files for more details.
 <%= error_messages_for :status %>
 
 <section class="form--section">
-  <div class="form--field -required"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
-  <% if WorkPackage.use_status_for_done_ratio? %>
-    <div class="form--field"><%= f.select :default_done_ratio,
-                    ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }),
-                    include_blank: true,
-                    label: WorkPackage.human_attribute_name(:done_ratio) %></div>
-  <% end %>
-  <div class="form--field"><%= f.check_box 'is_closed' %></div>
+  <div class="form--field -required"><%= f.text_field "name", required: true, container_class: "-middle" %></div>
+  <div class="form--field"><%= f.number_field "default_done_ratio", min: 0, max: 100, container_class: "-xslim" %></div>
+  <div class="form--field"><%= f.check_box "is_closed" %></div>
   <% unless @status.is_default? %>
-    <div class="form--field"><%= f.check_box 'is_default' %></div>
+    <div class="form--field"><%= f.check_box "is_default" %></div>
   <% end %>
 
   <div class="form--field">
     <%= f.check_box :is_readonly %>
       <div class="form--field-instructions">
-        <p><%= t('statuses.edit.status_readonly_html') %></p>
+        <p><%= t("statuses.edit.status_readonly_html") %></p>
       </div>
 
   </div>
 
-  <%= render partial: '/colors/color_autocomplete_field',
+  <div class="form--field">
+    <%= f.check_box "excluded_from_totals" %>
+    <div class="form--field-instructions">
+      <p><%= t("statuses.edit.status_excluded_from_totals_text") %></p>
+    </div>
+  </div>
+
+  <%= render partial: "/colors/color_autocomplete_field",
              locals: {
                form: f,
                object: @status,
-               type: 'status',
-               label: t('statuses.edit.status_color_text')
-            } %>
+               type: "status",
+               label: t("statuses.edit.status_color_text")
+             } %>
 
   <%= call_hook(:view_statuses_form, status: @status) %>
 </section>

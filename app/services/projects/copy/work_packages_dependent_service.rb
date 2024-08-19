@@ -29,8 +29,10 @@
 module Projects::Copy
   class WorkPackagesDependentService < Dependency
     include AttachmentCopier
+    include ShareCopier
 
     attachment_dependent_service ::Projects::Copy::WorkPackageAttachmentsDependentService
+    share_dependent_service ::Projects::Copy::WorkPackageSharesDependentService
 
     def self.human_name
       I18n.t(:label_work_package_plural)
@@ -60,12 +62,12 @@ module Projects::Copy
       source
         .work_packages
         .includes(:custom_values, :version, :assigned_to, :responsible)
-        .order_by_ancestors('asc')
-        .order('id ASC')
+        .order_by_ancestors("asc")
+        .order("id ASC")
     end
 
     def copy_work_packages(to_copy)
-      user_cf_ids = WorkPackageCustomField.where(field_format: 'user').pluck(:id)
+      user_cf_ids = WorkPackageCustomField.where(field_format: "user").pluck(:id)
 
       to_copy.inject({}) do |work_packages_map, wp|
         parent_id = work_packages_map[wp.parent_id] || wp.parent_id
@@ -85,7 +87,11 @@ module Projects::Copy
         .new(user:,
              work_package: source_work_package,
              contract_class: WorkPackages::CopyProjectContract)
-        .call(copy_attachments: copy_attachments?, **overrides)
+        .call(
+          copy_attachments: copy_attachments?,
+          copy_share_members: copy_shares?,
+          **overrides
+        )
 
       if service_call.success?
         service_call.result
@@ -115,32 +121,24 @@ module Projects::Copy
 
         Relation.create(source_relation
                           .attributes
-                          .except('id', 'from_id', 'to_id')
+                          .except("id", "from_id", "to_id")
                           .merge(to_id:, from_id:))
       end
     end
 
     def copy_work_package_attribute_overrides(source_work_package, parent_id, user_cf_ids)
-      custom_value_attributes = source_work_package.custom_value_attributes.map do |id, value|
-        if user_cf_ids.include?(id) && !target.users.detect { |u| u.id.to_s == value }
-          [id, nil]
-        else
-          [id, value]
-        end
-      end.to_h
-
       {
         project: target,
         parent_id:,
         version_id: work_package_version_id(source_work_package),
         assigned_to_id: work_package_assigned_to_id(source_work_package),
         responsible_id: work_package_responsible_id(source_work_package),
-        custom_field_values: custom_value_attributes,
+        custom_field_values: custom_value_attributes(source_work_package, user_cf_ids),
         # We don't support copying budgets right now
         budget_id: nil,
 
         # We persist the setting in the job which will trigger a delayed job for potentially sending the journal notifications.
-        send_notifications: params[:send_notifications]
+        send_notifications: params.dig(:params, :send_notifications)
       }
     end
 
@@ -158,6 +156,16 @@ module Projects::Copy
     def work_package_responsible_id(source_work_package)
       possible_principal_id(source_work_package.responsible_id,
                             source_work_package.project)
+    end
+
+    def custom_value_attributes(source_work_package, user_cf_ids)
+      source_work_package.custom_value_attributes.to_h do |id, value|
+        if user_cf_ids.include?(id) && !target.users.detect { |u| u.id.to_s == value }
+          [id, nil]
+        else
+          [id, value]
+        end
+      end
     end
 
     def possible_principal_id(principal_id, project)

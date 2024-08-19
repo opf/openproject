@@ -55,9 +55,9 @@ class Relations::BaseService < BaseServices::BaseCallable
 
   def set_defaults(model)
     if Relation::TYPE_FOLLOWS == model.relation_type
-      model.delay ||= 0
+      model.lag ||= 0
     else
-      model.delay = nil
+      model.lag = nil
     end
   end
 

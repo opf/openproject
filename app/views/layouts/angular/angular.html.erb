@@ -34,7 +34,11 @@ See COPYRIGHT and LICENSE files for more details.
 <% end -%>
 
 <%= content_for :content_body do %>
-  <openproject-base></openproject-base>
+  <% if local_assigns[:component] %>
+    <%= angular_component_tag local_assigns[:component] %>
+  <% else %>
+    <openproject-base></openproject-base>
+  <% end %>
 
   <%# Allow projection pages to show rails rendered content after initialization %>
   <div id="projected-content" hidden>

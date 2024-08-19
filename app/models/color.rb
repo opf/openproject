@@ -29,10 +29,10 @@
 class Color < ApplicationRecord
   include ::Colors::HexColor
 
-  self.table_name = 'colors'
+  self.table_name = "colors"
 
   has_many :planning_element_types,
-           class_name: 'Type',
+           class_name: "Type",
            dependent: :nullify
 
   before_validation :normalize_hexcode

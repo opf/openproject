@@ -42,8 +42,8 @@ module Members::Scopes
 
       def assignable_permission_exists
         RolePermission
-          .where('role_permissions.role_id = roles.id')
-          .where(permission: 'work_package_assigned')
+          .where("role_permissions.role_id = roles.id")
+          .where(permission: "work_package_assigned")
           .arel
           .exists
       end

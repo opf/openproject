@@ -75,8 +75,8 @@ class ::Query::SortCriteria < SortHelper::SortCriteria
   end
 
   def criteria_with_default_order
-    if @criteria.none? { |attribute, _| attribute == 'id' }
-      @criteria + [['id', false]]
+    if @criteria.none? { |attribute, _| attribute == "id" }
+      @criteria + [["id", false]]
     else
       @criteria
     end

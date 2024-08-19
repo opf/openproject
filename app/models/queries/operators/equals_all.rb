@@ -28,7 +28,7 @@
 
 module Queries::Operators
   class EqualsAll < Base
-    label 'operator_equals_all'
-    set_symbol '&='
+    label "operator_equals_all"
+    set_symbol "&="
   end
 end

@@ -33,9 +33,9 @@ module Queries::Filters::Shared::ParsedFilter
 
   def where
     case operator
-    when '='
-      value_conditions.join(' OR ')
-    when '!'
+    when "="
+      value_conditions.join(" OR ")
+    when "!"
       "NOT #{value_conditions.join(' AND NOT ')}"
     end
   end

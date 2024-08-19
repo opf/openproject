@@ -28,11 +28,14 @@
 
 class HomescreenController < ApplicationController
   skip_before_action :check_if_login_required, only: [:robots]
+  no_authorization_required! :index, :robots
+  before_action :jump_to_module
 
-  layout 'global'
+  layout "global"
 
   def index
     @newest_projects = Project.visible.newest.take(3)
+    @favorite_projects = Project.visible.active.favored_by(User.current)
     @newest_users = User.active.newest.take(3)
     @news = News.latest(count: 3)
     @announcement = Announcement.active_and_current
@@ -46,9 +49,16 @@ class HomescreenController < ApplicationController
 
   def robots
     if Setting.login_required?
-      render template: 'homescreen/robots-login-required', format: :text
+      render template: "homescreen/robots-login-required", format: :text
     else
       @projects = Project.active.public_projects
+    end
+  end
+
+  def jump_to_module
+    if params[:jump]
+      # try to redirect to the requested menu item
+      redirect_to_global_menu_item(params[:jump]) && return
     end
   end
 end

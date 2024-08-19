@@ -29,13 +29,13 @@ See COPYRIGHT and LICENSE files for more details.
 <% permissions.each do |mod, mod_permissions| %>
   <% global_prefix = show_global_role ? 'fieldset--global--' : 'fieldset--' %>
   <% module_name = mod.blank? ? 'fieldset--global--' + Project.model_name.human.downcase.gsub(' ', '_') : global_prefix + l_or_humanize(mod, prefix: 'project_module_').downcase.gsub(' ', '_') %>
-  <% module_id = module_name.parameterize  %>
+  <% module_id = module_name.parameterize %>
   <fieldset class="form--fieldset -collapsible" id="<%= module_id %>">
     <legend class="form--fieldset-legend">
-      <% if mod.blank? %>
-        <%= show_global_role ? t(:label_global) : Project.model_name.human %>
+      <% if show_global_role && mod.blank? %>
+        <%= t(:label_global) %>
       <% else %>
-        <%= I18n.t("permission_header_for_project_module_#{mod}", default: l_or_humanize(mod, prefix: 'project_module_')) %>
+        <%= permission_header_for_project_module(mod) %>
       <% end %>
     </legend>
     <div class="form--toolbar">
@@ -43,6 +43,13 @@ See COPYRIGHT and LICENSE files for more details.
         (<%= check_all_links module_id %>)
       </span>
     </div>
+    <% unless I18n.t("#{mod}.permission_header_explanation", default: '').empty? %>
+    <div class="-italic">
+      <p>
+        <%= I18n.t("#{mod}.permission_header_explanation").html_safe %>
+      </p>
+    </div>
+    <% end %>
     <div class="-columns-2">
       <% Array(mod_permissions).each do |permission| %>
         <% next if permission.global? && !show_global_role %>

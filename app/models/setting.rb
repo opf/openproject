@@ -133,7 +133,7 @@ class Setting < ApplicationRecord
     private
 
     def accessor_base_name(name)
-      name.to_s.sub(/(_writable\?)|(\?)|=\z/, '')
+      name.to_s.sub(/(_writable\?)|(\?)|=\z/, "")
     end
   end
 
@@ -336,13 +336,17 @@ class Setting < ApplicationRecord
     definition = Settings::Definition[name]
 
     if definition.serialized? && value.is_a?(String)
-      YAML::safe_load(value, permitted_classes: [Symbol, ActiveSupport::HashWithIndifferentAccess, Date, Time, URI::Generic])
-        .tap { |maybe_hash| normalize_hash!(maybe_hash) if maybe_hash.is_a?(Hash) }
-    elsif value != ''.freeze && !value.nil?
+      deserialize_hash(value)
+    elsif value != "".freeze && !value.nil?
       read_formatted_setting(value, definition.format)
     else
       definition.format == :string ? value : nil
     end
+  end
+
+  def self.deserialize_hash(value)
+    YAML::safe_load(value, permitted_classes: [Symbol, ActiveSupport::HashWithIndifferentAccess, Date, Time, URI::Generic])
+      .tap { |maybe_hash| normalize_hash!(maybe_hash) if maybe_hash.is_a?(Hash) }
   end
 
   def self.normalize_hash!(hash)

@@ -79,6 +79,11 @@ class WikiPages::CopyService
   end
 
   def copy_wiki_page_attachments(copy)
-    copy_attachments('WikiPage', from_id: model.id, to_id: copy.id)
+    copy_attachments(
+      "WikiPage",
+      from: model,
+      to: copy,
+      references: %i[text]
+    )
   end
 end

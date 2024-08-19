@@ -3,7 +3,7 @@ class DeletedUser < User
 
   # There should be only one DeletedUser in the database
   def validate_unique_deleted_user
-    errors.add :base, 'A DeletedUser already exists.' if DeletedUser.any?
+    errors.add :base, "A DeletedUser already exists." if DeletedUser.any?
   end
 
   def self.first
@@ -17,7 +17,7 @@ class DeletedUser < User
 
   def admin; false end
 
-  def name(*_args); I18n.t('user.deleted') end
+  def name(*_args); I18n.t("user.deleted") end
 
   def mail; nil end
 

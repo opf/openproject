@@ -27,7 +27,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <% html_title t(:label_administration), t(:label_workflow_plural) -%>
-<%= render partial: 'toolbar', locals: {title: Workflow.model_name.human } %>
+
+<%= render Workflows::PageHeaderComponent.new(state: :edit) %>
 
 <%= styled_form_tag({}, method: 'get') do %>
   <fieldset class="simple-filters--container">
@@ -56,7 +57,7 @@ See COPYRIGHT and LICENSE files for more details.
         </li>
       </ul>
       <li class="simple-filters--controls">
-        <%= submit_tag t(:button_edit), name: nil, accesskey: accesskey(:edit), class: 'button -small -highlight' %>
+        <%= submit_tag t(:button_edit), name: nil, accesskey: accesskey(:edit), class: 'button -small -primary' %>
       </li>
     </ul>
   </fieldset>
@@ -79,7 +80,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%= render partial: 'form', locals: { name: 'assignee', workflows: @workflows['assignee'] } %>
     <% end %>
 
-    <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+    <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
   <% end %>
 <% end %>
 

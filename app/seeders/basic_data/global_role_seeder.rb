@@ -28,6 +28,6 @@
 module BasicData
   class GlobalRoleSeeder < BaseRoleSeeder
     self.model_class = GlobalRole
-    self.seed_data_model_key = 'global_roles'
+    self.seed_data_model_key = "global_roles"
   end
 end

@@ -69,7 +69,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% if @version.estimated_hours > 0 || User.current.allowed_in_project?(:view_time_entries, @project) %>
     <div class="widget-box -thin">
       <fieldset class="form--fieldset">
-        <legend class="form--fieldset-legend"><%= t(:label_estimates_and_time) %></legend>
+        <legend class="form--fieldset-legend"><%= t(:label_estimates_and_progress) %></legend>
         <table>
           <tr>
             <td width="130px" align="right"><%= Version.human_attribute_name(:estimated_hours) %></td>
@@ -110,7 +110,8 @@ See COPYRIGHT and LICENSE files for more details.
   <% if @version.work_packages.count > 0 %>
     <div class="widget-box -thin -wider">
       <wp-overview-graph
-        additional-filter='{ "version": { "operator": "=", "values": [<%= @version.id %>] }}'>
+        global-scope='<%= @version.systemwide? %>'
+        initial-filters='<%= version_wp_overview_graph_initial_filters(@version) %>'>
       </wp-overview-graph>
     </div>
   <% end %>

@@ -35,15 +35,15 @@ module Notifications::CreateFromModelService::WikiPageStrategy
     :view_wiki_pages
   end
 
-  def self.supports_ian?
+  def self.supports_ian?(_reason)
     false
   end
 
-  def self.supports_mail_digest?
+  def self.supports_mail_digest?(_reason)
     false
   end
 
-  def self.supports_mail?
+  def self.supports_mail?(_reason)
     true
   end
 

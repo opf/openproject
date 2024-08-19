@@ -32,7 +32,7 @@ class Enumeration < ApplicationRecord
   belongs_to :project, optional: true
 
   acts_as_list scope: 'type = \'#{type}\''
-  acts_as_tree order: 'position ASC'
+  acts_as_tree order: "position ASC"
 
   before_save :unmark_old_default_value, if: :became_default_value?
   before_destroy :check_integrity
@@ -66,7 +66,7 @@ class Enumeration < ApplicationRecord
     # it's type.  STI subclasses will automatically add their own
     # types to the finder.
     if descends_from_active_record?
-      where(is_default: true, type: 'Enumeration').first
+      where(is_default: true, type: "Enumeration").first
     else
       # STI classes are
       where(is_default: true).first
@@ -129,7 +129,7 @@ class Enumeration < ApplicationRecord
 
   # Does the +new+ Hash override the previous Enumeration?
   def self.overriding_change?(new, previous)
-    if same_active_state?(new['active'], previous.active) && same_custom_values?(new, previous)
+    if same_active_state?(new["active"], previous.active) && same_custom_values?(new, previous)
       false
     else
       true
@@ -140,8 +140,8 @@ class Enumeration < ApplicationRecord
   def self.same_custom_values?(new, previous)
     previous.custom_field_values.each do |custom_value|
       if new &&
-         new['custom_field_values'] &&
-         custom_value.value != new['custom_field_values'][custom_value.custom_field_id.to_s]
+         new["custom_field_values"] &&
+         custom_value.value != new["custom_field_values"][custom_value.custom_field_id.to_s]
         return false
       end
     end
@@ -151,7 +151,7 @@ class Enumeration < ApplicationRecord
 
   # Are the new and previous fields equal?
   def self.same_active_state?(new, previous)
-    new = new == '1'
+    new = new == "1"
     new == previous
   end
 

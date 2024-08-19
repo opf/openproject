@@ -28,6 +28,7 @@
 
 module WorkPackage::PDFExport::MarkdownField
   include WorkPackage::PDFExport::Markdown
+  PREFORMATTED_BLOCKS = %w(pre code).freeze
 
   def write_markdown_field!(work_package, markdown, label)
     return if markdown.blank?
@@ -37,7 +38,52 @@ module WorkPackage::PDFExport::MarkdownField
       pdf.formatted_text([styles.wp_markdown_label.merge({ text: label })])
     end
     with_margin(styles.wp_markdown_margins) do
-      write_markdown! work_package, markdown
+      write_markdown! work_package, apply_markdown_field_macros(markdown, work_package)
+    end
+  end
+
+  private
+
+  def apply_markdown_field_macros(markdown, work_package)
+    apply_macros(markdown, work_package, WorkPackage::Exports::Macros::Attributes)
+  end
+
+  def apply_macros(markdown, work_package, formatter)
+    return markdown unless formatter.applicable?(markdown)
+
+    document = Markly.parse(markdown)
+    document.walk do |node|
+      if node.type == :html
+        node.string_content = apply_macro_html(node.string_content, work_package, formatter) || node.string_content
+      elsif node.type == :text
+        node.string_content = apply_macro_text(node.string_content, work_package, formatter) || node.string_content
+      end
+    end
+    document.to_markdown
+  end
+
+  def apply_macro_text(text, work_package, formatter)
+    return text unless formatter.applicable?(text)
+
+    text.gsub!(formatter.regexp) do |matched_string|
+      matchdata = Regexp.last_match
+      formatter.process_match(matchdata, matched_string, { user: User.current, work_package: })
+    end
+  end
+
+  def apply_macro_html(html, work_package, formatter)
+    return html unless formatter.applicable?(html)
+
+    doc = Nokogiri::HTML.fragment(html)
+    apply_macro_html_node(doc, work_package, formatter)
+    doc.to_html
+  end
+
+  def apply_macro_html_node(node, work_package, formatter)
+    if node.text?
+      node.content = apply_macro_text(node.content, work_package, formatter)
+    elsif PREFORMATTED_BLOCKS.exclude?(node.name)
+      node.children.each { |child| apply_macro_html_node(child, work_package, formatter) }
     end
   end
 end

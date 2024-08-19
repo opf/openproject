@@ -76,6 +76,8 @@ class Setting
 
       ActionMailer::Base.smtp_settings[:enable_starttls_auto] = Setting.smtp_enable_starttls_auto?
       ActionMailer::Base.smtp_settings[:ssl] = Setting.smtp_ssl?
+      ActionMailer::Base.smtp_settings[:open_timeout] = Setting.smtp_timeout
+      ActionMailer::Base.smtp_settings[:read_timeout] = Setting.smtp_timeout
 
       Setting.smtp_openssl_verify_mode.tap do |mode|
         ActionMailer::Base.smtp_settings[:openssl_verify_mode] = mode unless mode.nil?
