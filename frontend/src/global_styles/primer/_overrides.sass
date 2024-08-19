@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -45,14 +45,25 @@ action-menu
     ul
       margin-left: 0
 
-ul.tabnav-tabs
-  margin-left: 0
+.UnderlineNav
+  @include styled-scroll-bar
+  margin-bottom: 12px
+
+  &-body
+    margin-left: 12px
+
+  &.op-primer-adjustment--UnderlineNav_spaciousLeft
+    padding-left: 12px
 
 /* Remove margin-left: 2rem from Breadcrumbs */
 #breadcrumb,
-page-header
-  ol
+page-header,
+sub-header,
+.op-work-package-details-tab-component
+  ol, ul
     margin-left: 0
+
+#breadcrumb
   .breadcrumb-item.breadcrumb-item-selected
     a
       pointer-events: none
@@ -73,3 +84,11 @@ page-header
     .FormControl-horizontalGroup
       flex-direction: column
       row-gap: 1rem
+
+.Button.op-app-header--primer-button,
+.Button.op-app-header--primer-button .Button-visual
+  color: var(--header-item-font-color)
+
+  &:hover
+    background: var(--header-item-bg-hover-color)
+    color: var(--header-item-font-hover-color)

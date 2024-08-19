@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,24 @@
 # ++
 
 class WorkPackages::ProgressForm < ApplicationForm
-  attr_reader :work_package
+  ##
+  # Primer::Forms::BaseComponent or ApplicationForm will always autofocus the
+  # first input field with an error present on it. Despite this behavior being
+  # a11y-friendly, it breaks the modal's UX when an invalid input field
+  # is rendered.
+  #
+  # The reason for this is since we're implementing a "format on blur", when
+  # we make a request to the server that will set an input field in an invalid
+  # state and it is returned as such, any time we blur this autofocused field,
+  # we'll perform another request that will still have the input in an invalid
+  # state causing it to autofocus again and preventing us from leaving this
+  # "limbo state".
+  ##
+  def before_render
+    # no-op
+  end
+
+  attr_reader :work_package, :mode
 
   def initialize(work_package:,
                  mode: :work_based,
@@ -44,11 +61,14 @@ class WorkPackages::ProgressForm < ApplicationForm
 
   form do |query_form|
     query_form.group(layout: :horizontal) do |group|
-      if @mode == :status_based
-        select_field_options = { name: :status_id, label: I18n.t(:label_percent_complete) }.tap do |options|
-          options.reverse_merge!(default_field_options(:status_id))
-          options.merge!(disabled: @work_package.new_record?)
-        end
+      if mode == :status_based
+        select_field_options =
+          default_field_options(:status_id)
+            .merge(
+              name: :status_id,
+              label: I18n.t(:label_percent_complete),
+              disabled: @work_package.new_record?
+            )
 
         group.select_list(**select_field_options) do |select_list|
           WorkPackages::UpdateContract.new(@work_package, User.current)
@@ -77,9 +97,8 @@ class WorkPackages::ProgressForm < ApplicationForm
                              "referrer-field": "work_package[estimated_hours]" })
       else
         render_text_field(group, name: :estimated_hours, label: I18n.t(:label_work))
-        render_text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work),
-                                 disabled: disabled_remaining_work_field?)
-        render_readonly_text_field(group, name: :done_ratio, label: I18n.t(:label_percent_complete))
+        render_text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work))
+        render_text_field(group, name: :done_ratio, label: I18n.t(:label_percent_complete))
 
         group.hidden(name: :estimated_hours_touched,
                      value: @touched_field_map["estimated_hours_touched"] || false,
@@ -89,6 +108,13 @@ class WorkPackages::ProgressForm < ApplicationForm
                      value: @touched_field_map["remaining_hours_touched"] || false,
                      data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
                              "referrer-field": "work_package[remaining_hours]" })
+        group.hidden(name: :done_ratio_touched,
+                     value: @touched_field_map["done_ratio_touched"] || false,
+                     data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
+                             "referrer-field": "work_package[done_ratio]" })
+      end
+      group.fields_for(:initial) do |builder|
+        InitialValuesForm.new(builder, work_package:, mode:)
       end
     end
   end
@@ -97,7 +123,7 @@ class WorkPackages::ProgressForm < ApplicationForm
 
   def ensure_only_one_error_for_remaining_work_exceeding_work
     if work_package.errors.added?(:remaining_hours, :cant_exceed_work) &&
-       work_package.errors.added?(:estimated_hours, :cant_be_inferior_to_remaining_work)
+      work_package.errors.added?(:estimated_hours, :cant_be_inferior_to_remaining_work)
       error_to_delete =
         if @focused_field == :estimated_hours
           :remaining_hours
@@ -109,24 +135,16 @@ class WorkPackages::ProgressForm < ApplicationForm
   end
 
   def focused_field_by_selection(field)
-    if field == :remaining_hours && @work_package.estimated_hours.nil?
-      :estimated_hours
-    else
-      field
-    end
+    field
   end
 
   def render_text_field(group,
                         name:,
-                        label:,
-                        disabled: false,
-                        placeholder: nil)
+                        label:)
     text_field_options = {
       name:,
       value: field_value(name),
-      label:,
-      disabled:,
-      placeholder:
+      label:
     }
     text_field_options.reverse_merge!(default_field_options(name))
 
@@ -136,14 +154,12 @@ class WorkPackages::ProgressForm < ApplicationForm
   def render_readonly_text_field(group,
                                  name:,
                                  label:,
-                                 disabled: false,
                                  placeholder: true)
     text_field_options = {
       name:,
       value: field_value(name),
       label:,
       readonly: true,
-      disabled:,
       classes: "input--readonly",
       placeholder: ("-" if placeholder)
     }
@@ -154,17 +170,17 @@ class WorkPackages::ProgressForm < ApplicationForm
 
   def field_value(name)
     errors = @work_package.errors.where(name)
-    if user_value = errors.map { |error| error.options[:value] }.find { !_1.nil? }
+    if (user_value = errors.map { |error| error.options[:value] }.find { !_1.nil? })
       user_value
+    elsif name == :done_ratio
+      as_percent(@work_package.public_send(name))
     else
-      format_to_smallest_fractional_part(@work_package.public_send(name))
+      DurationConverter.output(@work_package.public_send(name))
     end
   end
 
-  def format_to_smallest_fractional_part(number)
-    return number if number.nil?
-
-    number % 1 == 0 ? number.to_i : number
+  def as_percent(value)
+    value ? "#{value}%" : nil
   end
 
   def default_field_options(name)
@@ -176,11 +192,5 @@ class WorkPackages::ProgressForm < ApplicationForm
       data[:"work-packages--progress--focus-field-target"] = "fieldToFocus"
     end
     { data: }
-  end
-
-  # Remaining work field is enabled when work is set, or when there are errors
-  # on fields so that they can be corrected.
-  def disabled_remaining_work_field?
-    @work_package.estimated_hours.nil? && @work_package.errors.empty?
   end
 end

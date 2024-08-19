@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -50,7 +50,6 @@ display-field
       padding-left: 0.25rem
       padding-right: 0.25rem
       text-align: center
-
 
 // READ value of edit fields
 .inline-edit--display-field
@@ -159,7 +158,7 @@ display-field
 
   &:hover,
   &:focus
-    border-color: var(--inplace-edit--border-color)
+    border-color: var(--borderColor-default)
 
     &.-multiline
       white-space: inherit
@@ -171,8 +170,8 @@ display-field
   cursor: not-allowed
 
   &:focus, &:hover
-    color: var(--inplace-edit--color--disabled)
-    background: var(--inplace-edit--bg-color--disabled)
+    color: var(--fgColor-disabled)
+    background: var(--bgColor-disabled)
 
 op-editable-attribute-field
   width: 100%

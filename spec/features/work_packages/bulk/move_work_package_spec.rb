@@ -78,7 +78,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
         expect(child_wp.project_id).to eq(project.id)
 
         context_menu.open_for work_package
-        context_menu.choose "Change project"
+        context_menu.choose "Move to another project"
 
         # On work packages move page
         expect(page).to have_css("#new_project_id")
@@ -126,19 +126,22 @@ RSpec.describe "Moving a work package through Rails view", :js do
       context "when the target project does not have the type" do
         let!(:project2) { create(:project, name: "Target", types: [type2]) }
 
-        it "does moves the work package and changes the type", :with_cuprite do
+        it "does not move the work package", :with_cuprite do
           click_on "Move and follow"
           wait_for_reload
-          page.find(".inline-edit--container.subject", text: work_package.subject)
-          page.find_by_id("projects-menu", text: "Target")
+
+          expect(page)
+            .to have_css(".op-toast.-error",
+                         text: I18n.t(:"work_packages.bulk.none_could_be_saved",
+                                      total: 1))
 
           # Should NOT have moved
           child_wp.reload
           work_package.reload
-          expect(work_package.project_id).to eq(project2.id)
-          expect(work_package.type_id).to eq(type2.id)
-          expect(child_wp.project_id).to eq(project2.id)
-          expect(child_wp.type_id).to eq(type2.id)
+          expect(work_package.project_id).to eq(project.id)
+          expect(work_package.type_id).to eq(type.id)
+          expect(child_wp.project_id).to eq(project.id)
+          expect(child_wp.type_id).to eq(type.id)
         end
       end
 
@@ -168,26 +171,6 @@ RSpec.describe "Moving a work package through Rails view", :js do
           expect(child_wp.project_id).to eq(project.id)
           expect(child_wp.type_id).to eq(type.id)
         end
-
-        it "does moves the work package when the required field is set" do
-          select "Risk", from: "Type"
-          fill_in required_cf.name, with: "1"
-
-          # Clicking move and follow might be broken due to the location.href
-          # in the refresh-on-form-changes component
-          retry_block do
-            click_on "Move and follow"
-          end
-
-          expect(page).to have_css(".op-toast.-success")
-
-          child_wp.reload
-          work_package.reload
-          expect(work_package.project_id).to eq(project2.id)
-          expect(work_package.type_id).to eq(type2.id)
-          expect(child_wp.project_id).to eq(project2.id)
-          expect(child_wp.type_id).to eq(type2.id)
-        end
       end
     end
 
@@ -196,7 +179,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
 
       it "does not allow to move" do
         context_menu.open_for work_package
-        context_menu.expect_no_options "Change project"
+        context_menu.expect_no_options "Move to another project"
       end
     end
   end

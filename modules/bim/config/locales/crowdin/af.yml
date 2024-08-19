@@ -6,89 +6,89 @@ af:
   bim:
     label_bim: 'BIM'
   bcf:
-    label_bcf: 'BCF'
-    label_imported_failed: 'Failed imports of BCF topics'
-    label_imported_successfully: 'Successfully imported BCF topics'
-    issues: "Issues"
-    recommended: 'recommended'
-    not_recommended: 'not recommended'
-    no_viewpoints: 'No viewpoints'
+    label_bcf: 'BSF'
+    label_imported_failed: 'Mislukte invoer van BSF-onderwerpe'
+    label_imported_successfully: 'BSF-onderwerpe is suksesvol ingevoer'
+    issues: "Kwessies"
+    recommended: 'aanbeveelde'
+    not_recommended: 'nie aanbeveel nie'
+    no_viewpoints: 'Geen standpunte nie'
     new_badge: "Nuut"
     exceptions:
-      file_invalid: "BCF file invalid"
+      file_invalid: "BSF-lêer ongeldig"
     x_bcf_issues:
-      zero: 'No BCF issues'
-      one: 'One BCF issue'
-      other: '%{count} BCF issues'
+      zero: 'Geen BSF-kwessies'
+      one: 'Een BSF-kwessie'
+      other: '%{count} BSF kwessies'
     bcf_xml:
-      xml_file: 'BCF XML File'
-      import_title: 'Import'
-      export: 'Export'
-      import_update_comment: '(Updated in BCF import)'
-      import_failed: 'Cannot import BCF file: %{error}'
-      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
-      import_successful: 'Imported %{count} BCF issues'
-      import_canceled: 'BCF-XML import canceled.'
-      type_not_active: "The issue type is not activated for this project."
+      xml_file: 'BSF XML-lêer '
+      import_title: 'Invoer'
+      export: 'Uitvoer'
+      import_update_comment: '(Opgedateer in BSF-invoer)'
+      import_failed: 'Kan nie BSF-lêer invoer nie: %{error}'
+      import_failed_unsupported_bcf_version: 'Kon nie die BSF-lêer lees nie: Die BSF-weergawe is nie geondersteun nie. Maak asseblief seker dat die weergawe ten minste %{minimal_version} of hoër is.'
+      import_successful: 'Het %{count} BSF-kwessies ingevoer'
+      import_canceled: 'BSF-XML-invoer was gekanselleer.'
+      type_not_active: "Die kwessietipe is nie vir hierdie projek geaktiveer nie."
       import:
-        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
-        button_prepare: 'Prepare import'
-        button_perform_import: 'Confirm import'
-        button_proceed: 'Proceed with import'
-        button_back_to_list: 'Back to list'
-        no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
-        contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
-        continue_anyways: 'Do you want to proceed and finish the import anyways?'
-        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
-        invalid_types_found: 'Invalid topic type names found'
-        invalid_statuses_found: 'Invalid status names found'
-        invalid_priorities_found: 'Invalid priority names found'
-        invalid_emails_found: 'Invalid email addresses found'
-        unknown_emails_found: 'Unknown email addresses found'
+        num_issues_found: '%{x_bcf_issues} is bevat in die BCF-XML-lêer, hul besonderhede word hieronder gelys.'
+        button_prepare: 'Berei invoer voor'
+        button_perform_import: 'Bevestig invoer'
+        button_proceed: 'Gaan voort met invoer'
+        button_back_to_list: 'Terug na lys'
+        no_permission_to_add_members: 'Jy het nie voldoende toestemmings om hulle as lede by die projek te voeg nie.'
+        contact_project_admin: 'Kontak jou projekadministrateur om hulle as lede by te voeg en hierdie invoer weer te begin.'
+        continue_anyways: 'Wil jy in elk geval voortgaan en die invoer voltooi?'
+        description: "Verskaf 'n BSF-XML v2.1-lêer om in hierdie projek in te voer. U kan die inhoud daarvan ondersoek voordat u die invoer voltooi."
+        invalid_types_found: 'Ongeldige onderwerptipe name gevind'
+        invalid_statuses_found: 'Ongeldige statusname gevind'
+        invalid_priorities_found: 'Ongeldige prioriteitsname gevind'
+        invalid_emails_found: 'Ongeldige e-posadresse gevind'
+        unknown_emails_found: 'Onbekende e-posadresse gevind'
         unknown_property: 'Unknown property'
-        non_members_found: 'Non project members found'
-        import_types_as: 'Set all these types to'
-        import_statuses_as: 'Set all these statuses to'
-        import_priorities_as: 'Set all these priorities to'
-        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
-        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
-        no_type_provided: 'No type provided'
-        no_status_provided: 'No status provided'
-        no_priority_provided: 'No priority provided'
-        perform_description: "Do you want to import or update the issues listed above?"
-        replace_with_system_user: 'Replace them with "System" user'
-        import_as_system_user: 'Import them as "System" user.'
-        what_to_do: "What do you want to do?"
-        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
-        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
+        non_members_found: 'Lede gevind wat nie part van die projek is nie'
+        import_types_as: 'Stel al hierdie tipes na'
+        import_statuses_as: 'Stel al hierdie statusse na'
+        import_priorities_as: 'Stel al hierdie prioriteite na'
+        invite_as_members_with_role: 'Nooi hulle as lede na die projek "%{project}" met rol'
+        add_as_members_with_role: 'Voeg hulle as lede na die projek "%{project}" met rol'
+        no_type_provided: 'Geen tipe verskaf nie'
+        no_status_provided: 'Geen status verskaf nie'
+        no_priority_provided: 'Geen prioriteit verskaf nie'
+        perform_description: "Wil jy die kwessies wat hierbo gelys is invoer of opdateer?"
+        replace_with_system_user: 'Vervang hulle met "Sisteem" gebruiker'
+        import_as_system_user: 'Voer hulle in as "Sisteem" gebruiker'
+        what_to_do: "Wat wil jy doen?"
+        work_package_has_newer_changes: "Verouderd! Hierdie onderwerp is nie opgedateer nie aangesien die jongste veranderinge op die bediener nuwer was as die \"ModifiedDate\" van die ingevoerde onderwerp. Opmerkings oor die onderwerp is egter ingevoer."
+        bcf_file_not_found: "Kon nie BSF-lêer opspoor nie. Begin asseblief die oplaaiproses weer."
   export:
     format:
-      bcf: "BCF-XML"
+      bcf: "BSF-XML"
   attributes:
-    bcf_thumbnail: "BCF snapshot"
-  project_module_bcf: "BCF"
-  project_module_bim: "BCF"
-  permission_view_linked_issues: "View BCF issues"
-  permission_manage_bcf: "Import and manage BCF issues"
-  permission_delete_bcf: "Delete BCF issues"
+    bcf_thumbnail: "BSF momentopname"
+  project_module_bcf: "BSF"
+  project_module_bim: "BSF"
+  permission_view_linked_issues: "Kyk na BSF-kwessies"
+  permission_manage_bcf: "Voer en bestuur BSF-kwessies"
+  permission_delete_bcf: "Vee BSF-kwessies uit"
   oauth:
     scopes:
-      bcf_v2_1: "Full access to the BCF v2.1 API"
-      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+      bcf_v2_1: "Volle toegang tot die BSF v2.1 TPK"
+      bcf_v2_1_text: "Aansoek sal volle lees- en skryftoegang tot die OpenProject BSF TPK v2.1 ontvang om aksies namens jou uit te voer."
   activerecord:
     models:
-      bim/ifc_models/ifc_model: "IFC model"
+      bim/ifc_models/ifc_model: "IGK model"
     attributes:
       bim/ifc_models/ifc_model:
-        ifc_attachment: "IFC file"
-        is_default: "Default model"
-        attachments: "IFC file"
+        ifc_attachment: "IGK lêer"
+        is_default: "Verstek model"
+        attachments: "IGK lêer"
     errors:
       models:
         bim/ifc_models/ifc_model:
           attributes:
             base:
-              ifc_attachment_missing: "No ifc file attached."
+              ifc_attachment_missing: "Geen igk-lêer aangeheg nie."
               invalid_ifc_file: "The provided file is not a valid IFC file."
         bim/bcf/viewpoint:
           bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."

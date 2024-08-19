@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,13 +27,11 @@
 #++
 module Members
   class MenusController < ApplicationController
-    include Menus::MembersHelper
-
     before_action :find_project_by_project_id,
                   :authorize
 
     def show
-      @sidebar_menu_items = first_level_menu_items
+      @sidebar_menu_items = Members::Menu.new(project: @project, params:).menu_items
       render layout: nil
     end
   end

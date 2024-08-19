@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,8 @@
 
   #wrapper,
   #content-wrapper,
-  #content
+  #content-body,
+  #content-bodyRight
     overflow: hidden
 
   #main
@@ -60,8 +61,13 @@
     min-height: calc(100vh - var(--header-height))
   // ------------------- END CHANGED SCROLL BEHAVIOR
 
-  #content
-    padding: 10px 15px
+  #content-body,
+  #content-header
+    padding-left: 15px
+    padding-right: 15px
+
+  #content-bodyRight
+    display: none
 
   #main
     grid-template-columns: auto

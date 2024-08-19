@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,8 +39,16 @@ RSpec.describe Queries::Projects::Orders::RequiredDiskSpaceOrder do
   describe "#scope" do
     context "with a valid direction" do
       it "orders by the disk space" do
+        sql = <<~SQL.squish
+          (
+            COALESCE(wiki_for_sort.filesize, 0) +
+            COALESCE(wp_for_sort.filesize, 0) +
+            COALESCE(repos_for_sort.required_storage_bytes, 0)
+          )
+        SQL
+
         expect(instance.apply_to(Project).to_sql)
-          .to eql(Project.order(Arel.sql(Project.required_disk_space_sum).asc).to_sql)
+          .to include(Arel.sql(sql).asc.to_sql)
       end
     end
 

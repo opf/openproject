@@ -63,6 +63,9 @@ module OpenProject
             # Remember saml session values when logging in user
             h[:retain_from_session] = %w[saml_uid saml_session_index saml_transaction_id]
 
+            # remember the origin in RelayState
+            h[:idp_sso_target_url_runtime_params] = { origin: :RelayState }
+
             h[:single_sign_out_callback] = Proc.new do |prev_session, _prev_user|
               next unless h[:idp_slo_target_url]
               next unless prev_session[:saml_uid] && prev_session[:saml_session_index]

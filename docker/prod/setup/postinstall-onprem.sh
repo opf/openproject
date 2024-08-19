@@ -1,6 +1,7 @@
 #!/bin/bash
 set -eox pipefail
 
+apt-get update -qq
 
 # postfix.postinst tries to generate a hostname based on /etc/resolv.conf, which
 # gets copied in to the docker environment from the host system. On systems
@@ -14,7 +15,6 @@ if [ -f /run/.containerenv -o -f /.dockerenv ]; then
 	mv /bin/x-hostname /bin/hostname
 fi
 
-apt-get update -qq
 # embed all-in-one additional software
 apt-get install -y  \
 	postgresql-$CURRENT_PGVERSION \

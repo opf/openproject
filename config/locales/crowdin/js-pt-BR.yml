@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ pt-BR:
     button_back_to_list_view: "Voltar à lista"
     button_cancel: "Cancelar"
     button_close: "Fechar"
-    button_change_project: "Alterar projeto"
+    button_change_project: "Move to another project"
     button_check_all: "Marcar todos"
     button_configure-form: "Configurar formulário"
     button_confirm: "Confirmar"
@@ -74,7 +74,7 @@ pt-BR:
     button_copy: "Copiar"
     button_copy_to_clipboard: "Copiar para a área de transferência"
     button_copy_link_to_clipboard: "Copiar link para área de transferência"
-    button_copy_to_other_project: "Copiar para outro projeto"
+    button_copy_to_other_project: "Duplicate to other project"
     button_custom-fields: "Campos personalizados"
     button_delete: "Excluir"
     button_delete_watcher: "Excluir observador"
@@ -150,6 +150,7 @@ pt-BR:
         attribute_reference:
           macro_help_tooltip: "Esse segmento de texto está sendo dinamicamente renderizado por uma macro."
           not_found: "Não foi possível encontrar o recurso solicitado"
+          nested_macro: "Esta macro está fazendo referência recursiva a %{model} %{id}."
           invalid_attribute: "O atributo selecionado '%{name}' não existe."
         child_pages:
           button: "Vínculos para páginas filhas"
@@ -273,6 +274,11 @@ pt-BR:
         warning: >
           As alterações podem demorar algum tempo para entrar em vigor. Receberá uma notificação quando todos os pacotes de trabalho relevantes forem atualizados.
           Tem a certeza de que deseja continuar?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Alterar o modo de cálculo do progresso de "baseado em status" para "baseado em trabalho" tornará o campo <i>% de conclusão</i> não editável, com seu valor derivado de <i>Trabalho</i> e <i>Trabalho Restante</i>. Os valores existentes de <i>% de conclusão</i> serão preservados. Se os valores de <i>Trabalho</i> e <i>Trabalho Restante</i> não estiverem presentes, eles serão necessários para modificar a <i>% de conclusão</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Alterar o modo de cálculo do progresso de "baseado em trabalho" para "baseado em status" resultará na perda de todos os valores existentes de <i>% de conclusão</i>, que serão substituídos pelos valores associados a cada status. Os valores existentes de <i>Trabalho restante</i> também podem ser recalculados para refletir essa mudança. Essa ação é irreversível.
     custom_actions:
       date:
         specific: "ligado"
@@ -359,10 +365,10 @@ pt-BR:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_4":
             standard:
               new_features_html: >
-                A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Exportação de PDF da visualização de Gantt, por exemplo, para impressão (complemento Enterprise)</li> <li>Projetos favoritos</li> <li>Seções em Reuniões</li> <li>Exibição de reuniões na página Meu trabalho e nas páginas de visão geral do projeto</li> <li>Possibilidade de ocultar anexos na guia Arquivos</li> <li>Campos personalizados do tipo Link (URL)</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."
@@ -609,17 +615,17 @@ pt-BR:
       title: "Notificações"
       no_unread: "Nenhuma notificação não lida"
       reasons:
-        mentioned: "mencionado"
-        watched: "observador"
-        assigned: " cessionário"
-        responsible: "responsável"
-        created: "criado"
-        scheduled: "planejado"
-        commented: "comentado"
-        processed: "processado"
-        prioritized: "priorizado"
+        mentioned: "Mencionado"
+        watched: "Observador"
+        assigned: "Cessionário"
+        accountable: "Responsável"
+        created: "Criado"
+        scheduled: "Planejado"
+        commented: "Comentado"
+        processed: "Processado"
+        prioritized: "Priorizado"
         dateAlert: "Alerta de data"
-        shared: "compartilhado"
+        shared: "Compartilhado"
       date_alerts:
         milestone_date: "Data de marco"
         overdue: "Atrasado"
@@ -631,11 +637,6 @@ pt-BR:
         upsale:
           title: "Alertas de data"
           description: "Com os alertas de data, você receberá uma notificação das futuras datas de início e conclusão, assim você nunca perderá ou esquecerá prazos importante. "
-      facets:
-        unread: "Não lido"
-        unread_title: "Mostrar não lidas"
-        all: "Todos"
-        all_title: "Mostrar todas"
       center:
         label_actor_and: "e"
         and_more_users:
@@ -652,19 +653,11 @@ pt-BR:
           no_notification: "Parece que você já está com tudo em dia."
           no_notification_with_current_project_filter: "Parece que você já está com tudo me dia para o projeto selecionado."
           no_notification_with_current_filter: "Parece que você já está com tudo em dia para o filtro %{filter}."
+          no_notification_for_filter: "Parece que você já está com tudo em dia para este filtro."
           no_selection: "Clique em uma notificação para visualizar todos os detalhes da atividade."
         new_notifications:
           message: "Há novas notificações."
           link_text: "Clique aqui para carregá-las."
-      menu:
-        accountable: "Responsável"
-        by_project: "Não lido por projeto"
-        by_reason: "Motivo"
-        inbox: "Caixa de entrada"
-        mentioned: "Mencionado"
-        watched: "Observador"
-        date_alert: "Alerta de data"
-        shared: "Compartilhado"
       settings:
         change_notification_settings: 'Você pode modificar suas <a target="_blank" href="%{url}">configurações de notificação</a> para se certificar de nunca perder nenhuma atualização importante.'
         title: "Configurações de notificação"
@@ -898,6 +891,11 @@ pt-BR:
       preformatted_text: "Texto pré-formatado"
       wiki_link: "Link para uma página Wiki"
       image: "Imagem"
+    sharing:
+      share: "Compartilhar"
+      selected_count: "%{count} selecionado"
+      selection:
+        mixed: "Misturado"
     work_packages:
       bulk_actions:
         move: "Mudança em massa de projeto"
@@ -1008,11 +1006,13 @@ pt-BR:
         workAlternative: "Tempo estimado"
         remainingTime: "Trabalho restante"
       default_queries:
+        manually_sorted: "Nova consulta classificada manualmente"
         latest_activity: "Última atividade"
         created_by_me: "Criado por mim"
         assigned_to_me: "Atribuído a mim"
         recently_created: "Criado recentemente"
         all_open: "Todos abertos"
+        overdue: "Atrasado"
         summary: "Sumário"
         shared_with_users: "Compartilhado com usuários"
         shared_with_me: "Compartilhados comigo"
@@ -1053,12 +1053,8 @@ pt-BR:
         is_parent: "As datas deste pacote de trabalho são deduzidas automaticamente de seus filhos. Ative o 'Planejamento manual' para definir as datas."
         is_switched_from_manual_to_automatic: "As datas deste pacote de trabalho podem precisar ser recalculadas após a alteração de planejamento manual para automático devido a relações com outros pacotes de trabalho."
       sharing:
-        share: "Compartilhar"
         title: "Compartilhar pacote de trabalho"
         show_all_users: "Exibir todos os usuários com quem o pacote de trabalho foi compartilhado"
-        selected_count: "%{count} selecionado"
-        selection:
-          mixed: "Misturado"
         upsale:
           description: "Compartilhe pacotes de trabalho com usuários que não são membros do projeto."
       table:
@@ -1281,6 +1277,11 @@ pt-BR:
           placeholder: "O espaço reservado agora pode ser usado em %{project}. Enquanto isso, você já pode planejar com este usuário e atribuir pacotes de trabalho por exemplo."
           group: "O grupo agora faz parte de %{project}. Enquanto isso, você já pode planejar com este grupo e atribuir pacotes de trabalho por exemplo."
         next_button: "Continuar"
+    exclusion_info:
+      modal:
+        title: "Status excluído dos totais da hierarquia"
+        content: >-
+          O status '%{status_name}' foi configurado para ser excluído dos totais hierárquicos de Trabalho, Trabalho Restante e % de conclusão. Os totais não levam esse valor em conta.
     favorite_projects:
       no_results: "Você não possui projetos favoritos"
       no_results_subtext: "Adicione um ou vários projetos como favoritos por meio de sua visão geral ou na lista de projetos."
@@ -1341,7 +1342,7 @@ pt-BR:
         remove: "Remover"
       drop_modal:
         focus_grab: "Esta é uma âncora de foco para modais. Pressione Shift+tab para voltar ao elemento trigger modal."
-        Close: "Fechar"
+        close: "Fechar o modal"
     open_project_storage_modal:
       waiting_title:
         timeout: "Tempo de espera"
@@ -1349,4 +1350,4 @@ pt-BR:
         network_off: "Ocorreu um problema de rede"
         network_on: "A rede voltou. Estamos tentando."
         timeout: >
-          O OpenProject não pôde fornecer acesso à pasta do projeto dentro do período de tempo esperado. Por favor, tente novamente.<br><br> Se o problema persistir, entre em contato com o administrador do OpenProject para verificar o <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">status de integridade da configuração do armazenamento de arquivos</a>.
+          Não foi possível acessar a pasta do projeto no OpenProject dentro do prazo esperado. Tente novamente.<br><br> Se o problema persistir, entre em contato com seu administrador OpenProject para verificar o <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">status de integridade da configuração de armazenamento de arquivos</a>.

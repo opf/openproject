@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -144,7 +144,6 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
     it "adds user to the group" do
       result = registry.resolve("nextcloud.commands.add_user_to_group").call(storage:, user: origin_user_id)
       expect(result).to be_success
-      expect(result.message).to eq("User has been added successfully")
     end
   end
 
@@ -186,7 +185,6 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
     it "removes user from the group" do
       result = registry.resolve("nextcloud.commands.remove_user_from_group").call(storage:, user: origin_user_id)
       expect(result).to be_success
-      expect(result.message).to eq("User has been removed from group")
     end
 
     context "when Nextcloud reponds with 105 code in the response body" do
@@ -210,178 +208,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
         result = registry.resolve("nextcloud.commands.remove_user_from_group").call(storage:, user: origin_user_id)
         expect(result).to be_failure
         expect(result.errors.log_message)
-          .to eq("Failed to remove user #{origin_user_id} from group OpenProject: " \
-                 "Not viable to remove user from the last group you are SubAdmin of")
-      end
-    end
-  end
-
-  describe "#set_permissions_command" do
-    let(:path) { "OpenProject/JediProject" }
-    let(:permissions) do
-      {
-        users: {
-          OpenProject: 31,
-          "Obi-Wan": 31,
-          "Qui-Gon": 31
-        },
-        groups: {
-          OpenProject: 0
-        }
-      }
-    end
-
-    let(:expected_request_body) do
-      <<~XML
-        <?xml version="1.0"?>
-        <d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
-          <d:set>
-            <d:prop>
-              <nc:acl-list>
-                <nc:acl>
-                  <nc:acl-mapping-type>group</nc:acl-mapping-type>
-                  <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
-                  <nc:acl-mask>31</nc:acl-mask>
-                  <nc:acl-permissions>0</nc:acl-permissions>
-                </nc:acl>
-                <nc:acl>
-                  <nc:acl-mapping-type>user</nc:acl-mapping-type>
-                  <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
-                  <nc:acl-mask>31</nc:acl-mask>
-                  <nc:acl-permissions>31</nc:acl-permissions>
-                </nc:acl>
-                <nc:acl>
-                  <nc:acl-mapping-type>user</nc:acl-mapping-type>
-                  <nc:acl-mapping-id>Obi-Wan</nc:acl-mapping-id>
-                  <nc:acl-mask>31</nc:acl-mask>
-                  <nc:acl-permissions>31</nc:acl-permissions>
-                </nc:acl>
-                <nc:acl>
-                  <nc:acl-mapping-type>user</nc:acl-mapping-type>
-                  <nc:acl-mapping-id>Qui-Gon</nc:acl-mapping-id>
-                  <nc:acl-mask>31</nc:acl-mask>
-                  <nc:acl-permissions>31</nc:acl-permissions>
-                </nc:acl>
-              </nc:acl-list>
-            </d:prop>
-          </d:set>
-        </d:propertyupdate>
-      XML
-    end
-
-    context "with Nextcloud storage type selected" do
-      context "with outbound request" do
-        before do
-          stub_request(:proppatch, "#{url}/remote.php/dav/files/OpenProject/OpenProject/JediProject")
-            .with(
-              body: expected_request_body,
-              headers: {
-                "Authorization" => "Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA=="
-              }
-            )
-            .to_return(expected_response)
-        end
-
-        context "when permissions can be set" do
-          let(:expected_response_body) do
-            <<~XML
-              <?xml version="1.0"?>
-              <d:multistatus
-                xmlns:d="DAV:"
-                xmlns:s="http://sabredav.org/ns"
-                xmlns:oc="http://owncloud.org/ns"
-                xmlns:nc="http://nextcloud.org/ns">
-                <d:response>
-                  <d:href>/remote.php/dav/files/OpenProject/OpenProject/Project%231</d:href>
-                  <d:propstat>
-                    <d:prop>
-                      <nc:acl-list/>
-                    </d:prop>
-                    <d:status>HTTP/1.1 200 OK</d:status>
-                  </d:propstat>
-                </d:response>
-              </d:multistatus>
-            XML
-          end
-          let(:expected_response) do
-            {
-              status: 207,
-              body: expected_response_body,
-              headers: {}
-            }
-          end
-
-          it "returns success when permissions can be set" do
-            result = registry.resolve("nextcloud.commands.set_permissions").call(storage:, path:, permissions:)
-            expect(result).to be_success
-          end
-        end
-
-        context "when the password is wrong" do
-          let(:expected_response_body) do
-            <<~XML
-              <?xml version="1.0" encoding="utf-8"?>
-              <d:error
-                xmlns:d="DAV:"
-                xmlns:s="http://sabredav.org/ns">
-                <s:exception>Sabre\DAV\Exception\NotAuthenticated</s:exception>
-                <s:message>No public access to this resource., No 'Authorization: Basic' header found. Either the client didn't send one, or the server is misconfigured, No 'Authorization: Bearer' header found. Either the client didn't send one, or the server is mis-configured, No 'Authorization: Basic' header found. Either the client didn't send one, or the server is misconfigured</s:message>
-              </d:error>
-            XML
-          end
-          let(:expected_response) do
-            {
-              status: 401,
-              body: expected_response_body,
-              headers: {}
-            }
-          end
-
-          it "returns failure" do
-            result = registry.resolve("nextcloud.commands.set_permissions").call(storage:, path:, permissions:)
-            expect(result).to be_failure
-          end
-        end
-
-        context "when the NC control user cannot read(see) the project folder" do
-          let(:expected_response_body) do
-            <<~XML
-              <?xml version="1.0" encoding="utf-8"?>
-              <d:error
-                xmlns:d="DAV:"
-                xmlns:s="http://sabredav.org/ns">
-                <s:exception>Sabre\DAV\Exception\NotFound</s:exception>
-                <s:message>File with name /OpenProject/JediProject could not be located</s:message>
-              </d:error>
-            XML
-          end
-          let(:expected_response) do
-            {
-              status: 404,
-              body: expected_response_body,
-              headers: {}
-            }
-          end
-
-          it "returns failure" do
-            result = registry.resolve("nextcloud.commands.set_permissions").call(storage:, path:, permissions:)
-            expect(result).to be_failure
-          end
-        end
-      end
-
-      context "when forbidden values are given as folder" do
-        it "raises an ArgumentError on nil" do
-          expect do
-            registry.resolve("nextcloud.commands.set_permissions").call(storage:, path: nil, permissions:)
-          end.to raise_error(ArgumentError)
-        end
-
-        it "raises an ArgumentError on empty string" do
-          expect do
-            registry.resolve("nextcloud.commands.set_permissions").call(path: "", permissions:)
-          end.to raise_error(ArgumentError)
-        end
+          .to eq("Not viable to remove user from the last group you are SubAdmin of")
       end
     end
   end
@@ -489,13 +316,13 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
         result = registry.resolve("nextcloud.queries.file_ids")
                          .call(storage:, path: "OpenProject")
                          .result
-        expect(result).to eq({ "OpenProject/" => { "fileid" => "349" },
-                               "OpenProject/Project #2/" => { "fileid" => "381" },
-                               "OpenProject/Project#1/" => { "fileid" => "773" },
-                               "OpenProject/Project#2/" => { "fileid" => "398" },
-                               "OpenProject/asd/" => { "fileid" => "783" },
-                               "OpenProject/qwe/" => { "fileid" => "767" },
-                               "OpenProject/qweekk/" => { "fileid" => "802" } })
+        expect(result).to eq({ "/OpenProject/" => { "fileid" => "349" },
+                               "/OpenProject/Project #2/" => { "fileid" => "381" },
+                               "/OpenProject/Project#1/" => { "fileid" => "773" },
+                               "/OpenProject/Project#2/" => { "fileid" => "398" },
+                               "/OpenProject/asd/" => { "fileid" => "783" },
+                               "/OpenProject/qwe/" => { "fileid" => "767" },
+                               "/OpenProject/qweekk/" => { "fileid" => "802" } })
       end
     end
 
@@ -505,26 +332,6 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
       let(:nexcloud_subpath) { "/subpath" }
 
       it_behaves_like "a file_ids_query response"
-    end
-  end
-
-  describe "#rename_file_command" do
-    before do
-      stub_request(:move, "https://example.com/remote.php/dav/files/OpenProject/OpenProject/asd")
-        .with(
-          headers: {
-            "Authorization" => "Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA==",
-            "Destination" => "/remote.php/dav/files/OpenProject/OpenProject/qwe"
-          }
-        ).to_return(status: 201, body: "", headers: {})
-    end
-
-    describe "with Nextcloud storage type selected" do
-      it "moves the file" do
-        result = registry.resolve("nextcloud.commands.rename_file").call(storage:, source: "OpenProject/asd",
-                                                                         target: "OpenProject/qwe")
-        expect(result).to be_success
-      end
     end
   end
 

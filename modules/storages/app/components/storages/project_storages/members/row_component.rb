@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -104,7 +106,7 @@ module Storages::ProjectStorages::Members
 
     def oauth_client_connected?
       storage.oauth_client.present? &&
-        member.oauth_client_tokens.any? { |token| token.oauth_client_id == storage.oauth_client.id }
+        member.principal.remote_identities.exists?(oauth_client: storage.oauth_client)
     end
 
     def can_read_files?

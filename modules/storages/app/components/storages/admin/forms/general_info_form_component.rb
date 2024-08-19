@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,10 +31,14 @@
 module Storages::Admin::Forms
   class GeneralInfoFormComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
+
     alias_method :storage, :model
 
     options form_method: :post,
             submit_button_disabled: false
+
+    def self.wrapper_key = :storage_general_info_section
 
     def form_url
       options[:form_url] || default_form_url

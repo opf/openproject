@@ -1,6 +1,5 @@
 hi:
   js:
-    queries:
-      all_open: 'सभी खुले'
-      timeline: 'Timeline'
-      milestones: 'Milestones'
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'

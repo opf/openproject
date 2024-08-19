@@ -1,0 +1,10 @@
+<%=
+  render(Primer::Alpha::Dialog.new(
+    id: "edit-meeting-details-dialog", title: t("label_meeting_details"),
+    size: :medium_portrait
+  )) do |dialog|
+    dialog.with_header(variant: :large)
+    dialog.with_show_button(icon: :pencil, 'aria-label': t("label_meeting_details_edit"), scheme: :invisible)
+    render(Meetings::SidePanel::DetailsFormComponent.new(meeting: @meeting))
+  end
+%>

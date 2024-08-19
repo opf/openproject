@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,12 +34,20 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
   let!(:second_version) { create(:version, name: "Version 2", project:) }
   let!(:third_version) { create(:version, name: "Version 3", project:) }
 
-  shared_let(:reader_role) do
+  shared_let(:reader_role_without_project_attributes) do
     create(:project_role, permissions: %i[view_work_packages])
   end
 
-  shared_let(:edit_role) do
-    create(:project_role, permissions: %i[view_work_packages edit_project])
+  shared_let(:reader_role) do
+    create(:project_role, permissions: %i[view_work_packages view_project_attributes])
+  end
+
+  shared_let(:edit_project_role) do
+    create(:project_role, permissions: %i[view_work_packages view_project_attributes edit_project])
+  end
+
+  shared_let(:edit_attributes_role) do
+    create(:project_role, permissions: %i[view_work_packages view_project_attributes edit_project_attributes])
   end
 
   let!(:admin) do
@@ -67,14 +75,28 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
            member_with_roles: { project => reader_role })
   end
 
-  let!(:member_with_project_edit_permissions) do
+  let(:member_without_view_project_attributes_permission) do
+    create(:user,
+           firstname: "Member 4",
+           lastname: "In Project",
+           member_with_roles: { project => reader_role_without_project_attributes })
+  end
+
+  let(:member_with_project_attributes_edit_permissions) do
+    create(:user,
+           firstname: "Member",
+           lastname: "With Project Attributes Edit Permissions",
+           member_with_roles: { project => edit_attributes_role })
+  end
+
+  let(:member_with_project_edit_permissions) do
     create(:user,
            firstname: "Member",
            lastname: "With Project Edit Permissions",
-           member_with_roles: { project => edit_role })
+           member_with_roles: { project => edit_project_role })
   end
 
-  let!(:member_without_project_edit_permissions) do
+  let!(:member_without_project_attributes_edit_permissions) do
     member_in_project
   end
 

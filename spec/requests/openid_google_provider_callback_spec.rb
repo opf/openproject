@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -96,7 +96,7 @@ RSpec.describe "OpenID Google provider callback", with_ee: %i[openid_providers] 
     }
   } do
     response = get uri.to_s
-    expect(response.status).to eq(302)
-    expect(response.location).to eq("http://example.org/two_factor_authentication/request")
+    expect(response).to have_http_status(:found)
+    expect(response.location).to eq("http://#{Setting.host_name}/two_factor_authentication/request")
   end
 end

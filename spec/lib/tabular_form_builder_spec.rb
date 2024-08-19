@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -265,6 +265,23 @@ JJ Abrams</textarea>
       expect(output).to have_css "select.custom-class.form--select > option", count: 3
       expect(output).to have_css 'option:first[value="56"]'
       expect(output).to have_text "Jonas"
+    end
+  end
+
+  describe "#date_picker" do
+    let(:options) { { title: "Last logged in", name: "user[custom_field_values][12]" } }
+
+    subject(:output) do
+      builder.date_picker :last_login_on, options
+    end
+
+    it_behaves_like "labelled by default"
+    it_behaves_like "wrapped in field-container by default"
+
+    it "outputs element" do
+      expect(output).to have_css "op-basic-single-date-picker"
+      # Regression test, allow for the name to be passed through
+      expect(output).to have_css "op-basic-single-date-picker[data-name='\"#{options[:name]}\"']"
     end
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -110,7 +110,7 @@ RSpec.describe WikiController do
       it "renders 404 if used with an unknown page title" do
         get "new_child", params: { project_id: project, id: "foobar" }
 
-        expect(response.status).to eq(404) # not found
+        expect(response).to have_http_status(:not_found)
       end
     end
 
@@ -733,12 +733,15 @@ RSpec.describe WikiController do
 
       let(:permissions) { %i[view_wiki_pages view_wiki_edits] }
 
+      let(:version_from) { journal_from.version.to_s }
+      let(:version_to) { journal_to.version.to_s }
+
       let(:params) do
         {
           project_id: project,
           id: existing_page.title,
-          version: journal_to.version,
-          version_from: journal_from.version
+          version_to:,
+          version_from:
         }
       end
 
@@ -769,6 +772,12 @@ RSpec.describe WikiController do
 
         expect(assigns[:html_diff])
           .to be_a(String)
+      end
+
+      it "passes the params to the diff renderer" do
+        expect_any_instance_of(WikiPage).to receive(:diff).with(version_to, version_from)
+
+        subject
       end
     end
 

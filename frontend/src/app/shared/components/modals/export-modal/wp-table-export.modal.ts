@@ -54,6 +54,7 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
       value: 'day',
       options: [
         { label: this.I18n.t('js.gantt_chart.zoom.days'), value: 'day' },
+        { label: this.I18n.t('js.gantt_chart.zoom.weeks'), value: 'week' },
         { label: this.I18n.t('js.gantt_chart.zoom.months'), value: 'month' },
         { label: this.I18n.t('js.gantt_chart.zoom.quarters'), value: 'quarter' },
       ],

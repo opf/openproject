@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,8 @@ Rails.application.routes.draw do
     mount Bim::Bcf::API::Root => "/api/bcf"
 
     scope "projects/:project_id", as: "project" do
+      get "bcf/menu" => "bim/menus#show"
+
       resources :issues, controller: "bim/bcf/issues" do
         get :upload, action: :upload, on: :collection
         post :prepare_import, action: :prepare_import, on: :collection

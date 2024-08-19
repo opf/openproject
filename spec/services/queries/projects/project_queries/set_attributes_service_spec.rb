@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,7 +45,7 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
                         contract_class:,
                         contract_options: {})
   end
-  let(:model_instance) { Queries::Projects::ProjectQuery.new }
+  let(:model_instance) { ProjectQuery.new }
   let(:contract_class) do
     allow(Queries::Projects::ProjectQueries::CreateContract)
       .to receive(:new)
@@ -125,7 +125,7 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
       subject
 
       expect(model_instance.filters)
-        .to(be_all { |f| f.is_a?(Queries::Projects::Filters::ProjectFilter) })
+        .to(be_all { |f| f.is_a?(Queries::Projects::Filters::Base) })
 
       expect(model_instance.filters.map { |f| [f.name, f.operator, f.values] })
         .to eql [[:id, "=", %w[1 2 3]], [:active, "!", ["t"]]]
@@ -161,14 +161,22 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
       subject
 
       expect(model_instance.filters)
-        .to(be_all { |f| f.is_a?(Queries::Projects::Filters::ProjectFilter) })
+        .to(be_all { |f| f.is_a?(Queries::Projects::Filters::Base) })
 
       expect(model_instance.filters.map { |f| [f.name, f.operator, f.values] })
         .to eql [[:active, "=", %w[t]]]
     end
 
-    it "assigns default selects including those for admin and ee if allowed",
-       with_ee: %i[custom_fields_in_projects_list],
+    # rubocop:disable Naming/VariableNumber
+    it "assigns default selects for non admin",
+       with_settings: { enabled_projects_columns: %w[name created_at cf_1] } do
+      subject
+
+      expect(model_instance.selects.map(&:attribute))
+        .to eql %i[favored name cf_1]
+    end
+
+    it "assigns default selects for admin",
        with_settings: { enabled_projects_columns: %w[name created_at cf_1] } do
       allow(User.current)
         .to receive(:admin?)
@@ -177,21 +185,14 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
       subject
 
       expect(model_instance.selects.map(&:attribute))
-        .to eql %i[favored] + Setting.enabled_projects_columns.map(&:to_sym)
+        .to eql %i[favored name created_at cf_1]
     end
-
-    it "assigns default selects excluding those for admin and ee if not allowed",
-       with_settings: { enabled_projects_columns: %w[name created_at cf_1] } do
-      subject
-
-      expect(model_instance.selects.map(&:attribute))
-        .to eql %i[favored name]
-    end
+    # rubocop:enable Naming/VariableNumber
   end
 
   context "with the query already having order and with order params" do
     let(:model_instance) do
-      Queries::Projects::ProjectQuery.new.tap do |query|
+      ProjectQuery.new.tap do |query|
         query.order(lft: :asc)
       end
     end
@@ -224,7 +225,7 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
 
   context "with the query already having filters and with filter params" do
     let(:model_instance) do
-      Queries::Projects::ProjectQuery.new.tap do |query|
+      ProjectQuery.new.tap do |query|
         query.where("active", "=", ["t"])
       end
     end
@@ -245,7 +246,7 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
       subject
 
       expect(model_instance.filters)
-        .to(be_all { |f| f.is_a?(Queries::Projects::Filters::ProjectFilter) })
+        .to(be_all { |f| f.is_a?(Queries::Projects::Filters::Base) })
 
       expect(model_instance.filters.map { |f| [f.name, f.operator, f.values] })
         .to eql [[:id, "=", %w[1 2 3]]]
@@ -254,7 +255,7 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
 
   context "with the query already having selects and with selects params" do
     let(:model_instance) do
-      Queries::Projects::ProjectQuery.new.tap do |query|
+      ProjectQuery.new.tap do |query|
         query.select(:id, :name)
       end
     end

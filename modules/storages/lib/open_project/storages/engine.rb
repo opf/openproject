@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,6 +48,7 @@ module OpenProject::Storages
 
     initializer "openproject_storages.feature_decisions" do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
+      OpenProject::FeatureDecisions.add :enable_storage_for_multiple_projects
     end
 
     initializer "openproject_storages.event_subscriptions" do
@@ -55,14 +56,23 @@ module OpenProject::Storages
         [
           OpenProject::Events::MEMBER_CREATED,
           OpenProject::Events::MEMBER_UPDATED,
-          OpenProject::Events::MEMBER_DESTROYED,
-          OpenProject::Events::PROJECT_UPDATED,
-          OpenProject::Events::PROJECT_RENAMED,
-          OpenProject::Events::PROJECT_ARCHIVED,
-          OpenProject::Events::PROJECT_UNARCHIVED
+          OpenProject::Events::MEMBER_DESTROYED
         ].each do |event|
-          OpenProject::Notifications.subscribe(event) do |_payload|
-            ::Storages::ManageStorageIntegrationsJob.debounce
+          OpenProject::Notifications.subscribe(event) do |payload|
+            ::Storages::Storage.in_project(payload[:member].project_id).find_each do |storage|
+              ::Storages::AutomaticallyManagedStorageSyncJob.debounce(storage)
+            end
+          end
+        end
+
+        [OpenProject::Events::PROJECT_UPDATED,
+         OpenProject::Events::PROJECT_RENAMED,
+         OpenProject::Events::PROJECT_ARCHIVED,
+         OpenProject::Events::PROJECT_UNARCHIVED].each do |event|
+          OpenProject::Notifications.subscribe(event) do |payload|
+            ::Storages::Storage.in_project(payload[:project].id).find_each do |storage|
+              ::Storages::AutomaticallyManagedStorageSyncJob.debounce(storage)
+            end
           end
         end
 
@@ -90,14 +100,22 @@ module OpenProject::Storages
           end
         end
 
+        OpenProject::Notifications.subscribe(
+          OpenProject::Events::REMOTE_IDENTITY_CREATED
+        ) do |payload|
+          if payload[:integration].is_a? Storages::Storage
+            ::Storages::AutomaticallyManagedStorageSyncJob.debounce(payload[:integration])
+          end
+        end
+
         [
           OpenProject::Events::PROJECT_STORAGE_CREATED,
           OpenProject::Events::PROJECT_STORAGE_UPDATED,
           OpenProject::Events::PROJECT_STORAGE_DESTROYED
         ].each do |event|
           OpenProject::Notifications.subscribe(event) do |payload|
-            if payload[:project_folder_mode] == :automatic
-              ::Storages::ManageStorageIntegrationsJob.debounce
+            if payload[:project_folder_mode]&.to_sym == :automatic
+              ::Storages::AutomaticallyManagedStorageSyncJob.debounce(payload[:storage])
               ::Storages::ManageStorageIntegrationsJob.disable_cron_job_if_needed
             end
           end
@@ -106,13 +124,13 @@ module OpenProject::Storages
         OpenProject::Notifications.subscribe(
           ::OpenProject::Events::STORAGE_TURNED_UNHEALTHY
         ) do |payload|
-          Storages::HealthService.new(storage: payload[:storage]).unhealthy(reason: payload[:reason])
+          ::Storages::HealthService.new(storage: payload[:storage]).unhealthy(reason: payload[:reason])
         end
 
         OpenProject::Notifications.subscribe(
           ::OpenProject::Events::STORAGE_TURNED_HEALTHY
         ) do |payload|
-          Storages::HealthService.new(storage: payload[:storage]).healthy
+          ::Storages::HealthService.new(storage: payload[:storage]).healthy
         end
       end
     end
@@ -128,7 +146,7 @@ module OpenProject::Storages
       # Permissions documentation: https://www.openproject.org/docs/development/concepts/permissions/#definition-of-permissions
       # Independent of storages module (Disabling storages module does not revoke enabled permissions).
       project_module nil, order: 100 do
-        permission :manage_storages_in_project,
+        permission :manage_files_in_project,
                    { "storages/admin/project_storages": %i[external_file_storages
                                                            attachments
                                                            members
@@ -141,6 +159,7 @@ module OpenProject::Storages
                                                            destroy
                                                            destroy_info
                                                            set_permissions],
+                     projects: %i[deactivate_work_package_attachments],
                      "storages/project_settings/project_storage_members": %i[index] },
                    permissible_on: :project,
                    dependencies: %i[]
@@ -168,7 +187,7 @@ module OpenProject::Storages
            { controller: "/storages/admin/storages", action: :index },
            if: Proc.new { User.current.admin? },
            caption: :project_module_storages,
-           icon: "hosting"
+           icon: "file-directory"
 
       menu :admin_menu,
            :external_file_storages,
@@ -187,7 +206,7 @@ module OpenProject::Storages
       menu :project_menu,
            :settings_project_storages,
            { controller: "/storages/admin/project_storages", action: "external_file_storages" },
-           if: lambda { |project| User.current.allowed_in_project?(:manage_storages_in_project, project) },
+           if: ->(project) { User.current.allowed_in_project?(:manage_files_in_project, project) },
            caption: :project_module_storages,
            parent: :settings
 
@@ -203,14 +222,14 @@ module OpenProject::Storages
                              (prj_storage.project_folder_automatic? && !u.allowed_in_project?(:read_files, prj))
             next if hide_from_menu
 
-            icon = storage.provider_type_nextcloud? ? "nextcloud-circle" : "hosting"
+            icon = storage.provider_type_nextcloud? ? "op-mark-nextcloud" : "file-directory"
             menu.push(
               :"storage_#{storage.id}",
               prj_storage.open_with_connection_ensured,
               caption: storage.name,
               before: :members,
               icon:,
-              icon_after: "external-link",
+              icon_after: "link-external",
               skip_permissions_check: true
             )
           end
@@ -238,9 +257,10 @@ module OpenProject::Storages
           exclude filter
         end
 
-        ::Queries::Register.register(::Queries::Projects::ProjectQuery) do
+        ::Queries::Register.register(::ProjectQuery) do
           filter ::Queries::Storages::Projects::Filter::StorageIdFilter
           filter ::Queries::Storages::Projects::Filter::StorageUrlFilter
+          filter ::Queries::Storages::Projects::Filter::StoragesFilter
         end
 
         ::Queries::Register.register(::Queries::Storages::FileLinks::FileLinkQuery) do

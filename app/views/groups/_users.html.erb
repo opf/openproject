@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<div class="grid-block -visible-overflow">
+<div class="grid-block grid-block_visible-overflow">
 
   <div class="grid-content medium-6">
     <% if @group.users.any? %>
@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   </div>
 
-  <div class="grid-content medium-6 -visible-overflow">
+  <div class="grid-content medium-6">
     <% if User.user
               .not_in_group(@group)
               .where(status: [User.statuses[:active], User.statuses[:invited]])

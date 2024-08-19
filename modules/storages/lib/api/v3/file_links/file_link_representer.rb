@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -120,7 +120,8 @@ module API::V3::FileLinks
                         setter: ->(fragment:, **) {
                           break if fragment["href"].blank?
 
-                          canonical_url = fragment["href"].gsub(/\/+$/, "")
+                          # remove all trailing slashes except the last one
+                          canonical_url = "#{fragment['href'].gsub(/\/+$/, '')}/"
                           represented.storage = ::Storages::Storage.find_by(host: canonical_url)
                           represented.storage ||= ::Storages::Storage::InexistentStorage.new(host: canonical_url)
                         }

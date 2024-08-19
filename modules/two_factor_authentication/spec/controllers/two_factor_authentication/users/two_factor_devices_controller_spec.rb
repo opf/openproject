@@ -35,7 +35,7 @@ RSpec.describe TwoFactorAuthentication::Users::TwoFactorDevicesController do
       let(:logged_in_user) { other_user }
 
       it "does not give access" do
-        expect(response.status).to eq 403
+        expect(response).to have_http_status :forbidden
       end
     end
 
@@ -43,7 +43,7 @@ RSpec.describe TwoFactorAuthentication::Users::TwoFactorDevicesController do
       let(:logged_in_user) { user }
 
       it "does not give access" do
-        expect(response.status).to eq 403
+        expect(response).to have_http_status :forbidden
       end
     end
 
@@ -59,7 +59,7 @@ RSpec.describe TwoFactorAuthentication::Users::TwoFactorDevicesController do
         let(:active_strategies) { [] }
 
         it "renders a 404 because no strategies enabled" do
-          expect(response.status).to eq 404
+          expect(response).to have_http_status :not_found
         end
       end
     end
@@ -182,7 +182,7 @@ RSpec.describe TwoFactorAuthentication::Users::TwoFactorDevicesController do
     describe "#destroy" do
       it "croaks on missing id" do
         delete :destroy, params: { id: user.id, device_id: "1234" }
-        expect(response.status).to eq 404
+        expect(response).to have_http_status :not_found
       end
 
       context "with existing non-default device" do

@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation } from '@angular/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, ReplaySubject } from 'rxjs';
 import { debounceTime, defaultIfEmpty, filter, map, mergeMap, shareReplay, take } from 'rxjs/operators';
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { insertInList } from 'core-app/shared/components/project-include/insert-in-list';
@@ -164,6 +164,8 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
 
   private scrollToCurrent = false;
 
+  private subscriptionComplete$ = new ReplaySubject<void>(1);
+
   constructor(
     readonly pathHelper:PathHelperService,
     readonly configuration:ConfigurationService,
@@ -185,14 +187,25 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
         }
 
         this.scrollToCurrent = false;
+        this.subscriptionComplete$.next(); // Signal that subscription logic is complete
       });
   }
 
   toggleDropModal():void {
-    this.dropModalOpen = !this.dropModalOpen;
-    if (this.dropModalOpen) {
-      this.scrollToCurrent = true;
-      this.searchableProjectListService.loadAllProjects();
+    this.subscriptionComplete$.pipe(take(1)).subscribe(() => {
+      this.dropModalOpen = !this.dropModalOpen;
+      if (this.dropModalOpen) {
+        this.scrollToCurrent = true;
+        this.searchableProjectListService.loadAllProjects();
+      }
+    });
+  }
+
+  displayModeChange(mode:'all'|'favored'):void {
+    this.displayMode = mode;
+
+    if (this.currentProject?.id) {
+      this.searchableProjectListService.selectedItemID$.next(parseInt(this.currentProject.id, 10));
     }
   }
 

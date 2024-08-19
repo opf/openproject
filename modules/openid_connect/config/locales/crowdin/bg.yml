@@ -1,32 +1,32 @@
 bg:
   plugin_openproject_openid_connect:
     name: "OpenProject OpenID Connect"
-    description: "Adds OmniAuth OpenID Connect strategy providers to OpenProject."
+    description: "Добавя OmniAuth OpenID. Свържете доставчици на стратегии към OpenProject."
   logout_warning: >
-    You have been logged out. The contents of any form you submit may be lost. Please [log in].
+    Излезли сте от системата. Съдържанието на всеки изпратен от вас формуляр, може да бъде изгубено. Моля, [влезте отново]!
   activemodel:
     attributes:
       openid_connect/provider:
         name: Име
-        display_name: Display name
+        display_name: Показвано име
         identifier: Идентификатор
-        secret: Secret
-        scope: Scope
+        secret: Тайна
+        scope: Обхват
         limit_self_registration: Limit self registration
   openid_connect:
-    menu_title: OpenID providers
+    menu_title: OpenID доставчици
     providers:
-      label_add_new: Add a new OpenID provider
-      label_edit: Edit OpenID provider %{name}
-      no_results_table: No providers have been defined yet.
-      plural: OpenID providers
-      singular: OpenID provider
+      label_add_new: Добавяне на нов OpenID доставчик
+      label_edit: Редактиране на OpenID доставчика  %{name}
+      no_results_table: Все още не са дефинирани доставчици.
+      plural: OpenID доставчици
+      singular: OpenID доставчик
     setting_instructions:
       azure_deprecation_warning: >
-        The configured Azure app points to a deprecated API from Azure. Please create a new Azure app to ensure the functionality in future.
+        Конфигурираното приложение на Azure сочи към изчерпан API от Azure. Моля, създайте ново Azure приложение, за да осигурите функционалността в бъдеще.
       azure_graph_api: >
-        Use the graph.microsoft.com userinfo endpoint to request userdata. This should be the default unless you have an older azure application.
+        Използвайте крайната точка graph.microsoft.com userinfo, за да заявите потребителски данни. Това трябва да е настройката по подразбиране, освен ако нямате по-старо приложение на Azure.
       azure_tenant_html: >
-        Set the tenant of your Azure endpoint. This will control who gets access to the OpenProject instance. For more information, please see <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">our user guide on Azure OpenID connect</a>.
+        Задайте наемателя на крайната точка на Azure. Това ще контролира кой ще получи достъп до инстанцията на OpenProject. За повече информация, моля, вижте <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">нашето ръководство за потребителя за Azure OpenID connect</a>.
       limit_self_registration: >
         If enabled users can only register using this provider if the self registration setting allows for it.

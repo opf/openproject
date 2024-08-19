@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
     create(:text_project_custom_field)
   end
   let(:invisible_custom_field) do
-    create(:text_project_custom_field, visible: false)
+    create(:text_project_custom_field, admin_only: true)
   end
   let(:custom_value) do
     CustomValue.create(custom_field:,
@@ -63,7 +63,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
   end
 
   it "responds with 201 CREATED" do
-    expect(last_response.status).to eq(201)
+    expect(last_response).to have_http_status(:created)
   end
 
   it "creates a project" do
@@ -182,7 +182,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
     let(:permissions) { [] }
 
     it "responds with 403" do
-      expect(last_response.status).to eq(403)
+      expect(last_response).to have_http_status(:forbidden)
     end
 
     it "creates no project" do
@@ -199,7 +199,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
     end
 
     it "responds with 422" do
-      expect(last_response.status).to eq(422)
+      expect(last_response).to have_http_status(:unprocessable_entity)
     end
 
     it "creates no project" do
@@ -233,7 +233,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
     end
 
     it "responds with 422" do
-      expect(last_response.status).to eq(422)
+      expect(last_response).to have_http_status(:unprocessable_entity)
     end
 
     it "creates no project" do

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,8 @@
 module Admin
   class AttachmentsSettingsHeaderComponent < ApplicationComponent
     def initialize(title:, selected:)
-      raise 'selected must 1, 2 or 3' if [1, 2, 3].exclude?(selected)
+      raise "selected must 1, 2 or 3" if [1, 2, 3].exclude?(selected)
+
       @title = title
       @selected = selected
     end

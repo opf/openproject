@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,6 +40,7 @@ class WorkPackage < ApplicationRecord
   include WorkPackages::Costs
   include WorkPackages::Relations
   include ::Scopes::Scoped
+  include HasMembers
 
   include OpenProject::Journal::AttachmentHelper
 
@@ -66,9 +67,6 @@ class WorkPackage < ApplicationRecord
   }
 
   has_and_belongs_to_many :github_pull_requests # rubocop:disable Rails/HasAndBelongsToMany
-
-  has_many :members, as: :entity, dependent: :destroy
-  has_many :member_principals, through: :members, class_name: "Principal", source: :principal
 
   has_many :meeting_agenda_items, dependent: :nullify
   # The MeetingAgendaItem has a default order, but the ordered field is not part of the select
@@ -206,6 +204,14 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::Journalized
   prepend Journable::Timestamps
 
+  def self.status_based_mode?
+    Setting.work_package_done_ratio == "status"
+  end
+
+  def self.work_based_mode?
+    Setting.work_package_done_ratio == "field"
+  end
+
   def self.use_status_for_done_ratio?
     Setting.work_package_done_ratio == "status"
   end
@@ -294,6 +300,10 @@ class WorkPackage < ApplicationRecord
 
   alias_method :is_milestone?, :milestone?
 
+  def included_in_totals_calculation?
+    !status.excluded_from_totals
+  end
+
   def done_ratio
     if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
       status.default_done_ratio
@@ -311,13 +321,11 @@ class WorkPackage < ApplicationRecord
   end
 
   def estimated_hours=(hours)
-    converted_hours = (hours.is_a?(String) ? hours.to_hours : hours)
-    write_attribute :estimated_hours, !!converted_hours ? converted_hours : hours
+    write_attribute :estimated_hours, convert_duration_to_hours(hours)
   end
 
   def remaining_hours=(hours)
-    converted_hours = (hours.is_a?(String) ? hours.to_hours : hours)
-    write_attribute :remaining_hours, !!converted_hours ? converted_hours : hours
+    write_attribute :remaining_hours, convert_duration_to_hours(hours)
   end
 
   def duration_in_hours
@@ -540,6 +548,17 @@ class WorkPackage < ApplicationRecord
                               spent_on: Time.zone.today)
 
     time_entries.build(attributes)
+  end
+
+  def convert_duration_to_hours(value)
+    if value.is_a?(String)
+      begin
+        value = value.blank? ? nil : DurationConverter.parse(value)
+      rescue ChronicDuration::DurationParseError
+        # keep invalid value, error shall be caught by numericality validator
+      end
+    end
+    value
   end
 
   ##

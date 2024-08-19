@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -49,7 +49,7 @@ el:
         description: "Παρατηρήσεις"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "Τίτλος"
     errors:
       messages:
         invalid_time_format: "δεν είναι έγκυρη ώρα. Απαιτούμενη μορφοποίηση: ΩΩ:ΛΛ"
@@ -58,9 +58,23 @@ el:
       meeting_agenda_item: "Agenda item"
       meeting_agenda: "Ατζέντα"
       meeting_minutes: "Πρακτικά"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Συναντήσεις"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value}"
+          added_html: "set to <i>%{value}</i>"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+        position:
+          updated: "reordered"
+        work_package:
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
   description_attended: "παρευρέθηκε"
   description_invite: "προσκεκλημένος"
   events:
@@ -108,7 +122,7 @@ el:
       agenda_text: "Copy the agenda of the old meeting"
     email:
       send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_invitation_emails: "Send out invitation emails for all participants."
       open_meeting_link: "Open meeting"
       invited:
         summary: "%{actor} has sent you an invitation for the meeting %{title}"

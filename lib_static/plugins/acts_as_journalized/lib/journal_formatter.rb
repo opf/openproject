@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,6 +52,7 @@
 require_relative "journal_formatter_cache"
 require_relative "journal_formatter/base"
 require_relative "journal_formatter/attribute"
+require_relative "journal_formatter/chronic_duration"
 require_relative "journal_formatter/datetime"
 require_relative "journal_formatter/day_count"
 require_relative "journal_formatter/decimal"
@@ -76,6 +77,7 @@ module JournalFormatter
 
   def self.default_formatters
     {
+      chronic_duration: JournalFormatter::ChronicDuration,
       datetime: JournalFormatter::Datetime,
       day_count: JournalFormatter::DayCount,
       decimal: JournalFormatter::Decimal,

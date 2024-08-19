@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 class MeetingsController < ApplicationController
   around_action :set_time_zone
-  before_action :find_optional_project, only: %i[index new show create history]
+  before_action :load_and_authorize_in_optional_project, only: %i[index new show create history]
   before_action :verify_activities_module_activated, only: %i[history]
   before_action :determine_date_range, only: %i[history]
   before_action :determine_author, only: %i[history]
@@ -151,16 +151,20 @@ class MeetingsController < ApplicationController
   end
 
   def update
-    @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
-    @converted_params.delete(:send_notifications)
-    @meeting.attributes = @converted_params
-    if @meeting.save
+    call = ::Meetings::UpdateService
+      .new(user: current_user, model: @meeting)
+      .call(@converted_params)
+
+    if call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: "show", id: @meeting
     else
+      @meeting = call.result
       render action: "edit"
     end
   end
+
+  def details_dialog; end
 
   def participants_dialog; end
 
@@ -206,7 +210,7 @@ class MeetingsController < ApplicationController
   end
 
   def change_state
-    case structured_meeting_params[:state]
+    case params[:state]
     when "open"
       @meeting.open!
     when "closed"
@@ -398,7 +402,8 @@ class MeetingsController < ApplicationController
   def copy_attributes
     {
       copy_agenda: params[:copy_agenda] == "1",
-      copy_attachments: params[:copy_attachments] == "1"
+      copy_attachments: params[:copy_attachments] == "1",
+      send_notifications: params[:send_notifications] == "1"
     }
   end
 end

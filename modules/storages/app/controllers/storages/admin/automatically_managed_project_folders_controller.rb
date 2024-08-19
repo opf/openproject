@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,8 @@
 # This is recommended as it ensures that every team member always has the correct access permissions.
 #
 class Storages::Admin::AutomaticallyManagedProjectFoldersController < ApplicationController
+  include OpTurbo::ComponentStream
+
   # See https://guides.rubyonrails.org/layouts_and_rendering.html for reference on layout
   layout "admin"
 
@@ -64,10 +66,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
                 .call
                 .result
 
-    respond_to do |format|
-      format.html { render "/storages/admin/storages/automatically_managed_project_folders/edit" }
-      format.turbo_stream { render :edit }
-    end
+    respond_with_ampf_form_turbo_stream_or_edit_html
   end
 
   def create
@@ -78,12 +77,9 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
         message: I18n.t(:"storages.notice_successful_storage_connection"),
         scheme: :success
       }
-      redirect_to admin_settings_storages_path
+      redirect_to edit_admin_settings_storage_path(@storage)
     else
-      respond_to do |format|
-        format.html { render "/storages/admin/storages/automatically_managed_project_folders/edit" }
-        format.turbo_stream
-      end
+      respond_with_ampf_form_turbo_stream_or_edit_html
     end
   end
 
@@ -91,10 +87,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
   # Used by: The StoragesController#edit, when user wants to update application credentials.
   # Called by: Global app/config/routes.rb to serve Web page
   def edit
-    respond_to do |format|
-      format.html { render "/storages/admin/storages/automatically_managed_project_folders/edit" }
-      format.turbo_stream
-    end
+    respond_with_ampf_form_turbo_stream_or_edit_html
   end
 
   # Update is similar to create above
@@ -106,7 +99,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     if service_result.success?
       redirect_to edit_admin_settings_storage_path(@storage)
     else
-      render "/storages/admin/storages/automatically_managed_project_folders/edit"
+      render :edit
     end
   end
 
@@ -124,6 +117,16 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
   end
 
   private
+
+  def respond_with_ampf_form_turbo_stream_or_edit_html
+    update_via_turbo_stream(
+      component: Storages::Admin::Forms::AutomaticallyManagedProjectFoldersFormComponent.new(@storage)
+    )
+
+    respond_with_turbo_streams do |format|
+      format.html { render :edit }
+    end
+  end
 
   # Override default url param `:id` to `:storage` controller is a nested storage resource
   # GET    /admin/settings/storages/:storage_id/automatically_managed_project_folders/new

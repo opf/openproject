@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -36,6 +36,10 @@ import { makeSplitViewRoutes } from 'core-app/features/work-packages/routing/spl
 export const menuItemClass = 'gantt-menu-item';
 
 export const sidemenuId = 'gantt_menu';
+export const sideMenuOptions = {
+  sidemenuId,
+  hardReloadOnBaseRoute: true,
+};
 
 export const WORK_PACKAGES_GANTT_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -49,8 +53,7 @@ export const WORK_PACKAGES_GANTT_ROUTES:Ng2StateDeclaration[] = [
     data: {
       bodyClasses: 'router--work-packages-base',
       menuItem: menuItemClass,
-      sidemenuId,
-      hardReloadOnBaseRoute: true,
+      sideMenuOptions,
     },
     params: {
       query_id: { type: 'query', dynamic: true },
@@ -68,8 +71,7 @@ export const WORK_PACKAGES_GANTT_ROUTES:Ng2StateDeclaration[] = [
     data: {
       // This has to be empty to avoid inheriting the parent bodyClasses
       bodyClasses: '',
-      sidemenuId,
-      hardReloadOnBaseRoute: true,
+      sideMenuOptions,
     },
   },
   {
@@ -83,8 +85,7 @@ export const WORK_PACKAGES_GANTT_ROUTES:Ng2StateDeclaration[] = [
       bodyClasses: 'router--work-packages-partitioned-split-view',
       menuItem: menuItemClass,
       partition: '-left-only',
-      sidemenuId,
-      hardReloadOnBaseRoute: true,
+      sideMenuOptions,
     },
   },
   ...makeSplitViewRoutes(

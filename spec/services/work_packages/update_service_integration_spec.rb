@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -337,12 +337,9 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       context "with only non default types" do
         let(:target_types) { [other_type] }
 
-        it "uses the first type" do
+        it "is unsuccessful" do
           expect(subject)
-            .to be_success
-
-          expect(subject.result.type)
-            .to eql other_type
+            .to be_failure
         end
       end
 

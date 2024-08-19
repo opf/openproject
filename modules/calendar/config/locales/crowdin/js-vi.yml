@@ -2,7 +2,7 @@
 vi:
   js:
     calendar:
-      create_new: 'Create new calendar'
+      create_new: 'Tạo lịch mới'
       title: 'Lịch'
-      too_many: 'Tổng cộng có %{count} công việc, nhưng chỉ %{max} có thể được hiển thị.'
-      unsaved_title: 'Unnamed calendar'
+      too_many: 'Có tổng cộng %{count} công việc, nhưng chỉ có thể hiển thị %{max} công việc.'
+      unsaved_title: 'Lịch không tên'

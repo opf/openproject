@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,7 +52,7 @@ module Storages::ProjectStorages
       end
     end
 
-    validate :project_folder_automatic_mode, unless: -> { errors.include?(:project_folder_mode) }
+    validate :project_folder_mode_available_for_storage, unless: -> { errors.include?(:project_folder_mode) }
 
     private
 
@@ -60,10 +60,8 @@ module Storages::ProjectStorages
       @model.project_folder_manual?
     end
 
-    def project_folder_automatic_mode
-      return unless @model.project_folder_automatic?
-
-      unless @model.automatic_management_possible?
+    def project_folder_mode_available_for_storage
+      if storage&.available_project_folder_modes&.exclude?(@model.project_folder_mode)
         errors.add :project_folder_mode, :mode_unavailable
       end
     end

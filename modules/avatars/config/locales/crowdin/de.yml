@@ -11,7 +11,6 @@ de:
   message_avatar_uploaded: "Das Porfilbild wurde erfolgreich geändert."
   error_image_upload: "Fehler beim Speichern des Bildes."
   error_image_size: "Das Bild ist zu groß."
-  button_change_avatar: "Profilbild ändern"
   are_you_sure_delete_avatar: "Sind Sie sicher, dass Sie das Profilbild löschen möchten?"
   avatar_deleted: "Profilbild erfolgreich gelöscht."
   unable_to_delete_avatar: "Profilbild konnte nicht gelöscht werden."

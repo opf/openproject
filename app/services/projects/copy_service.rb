@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -93,14 +93,15 @@ module Projects
     end
 
     def after_perform(call)
-      copy_activated_custom_fields(call)
-
-      super
+      super.tap do |super_call|
+        copy_activated_custom_fields(super_call)
+      end
     end
 
     def copy_activated_custom_fields(call)
-       call.result.project_custom_field_ids = source.project_custom_field_ids
+      call.result.project_custom_field_ids = source.project_custom_field_ids
     end
+
     def contract_options
       { copy_source: source, validate_model: true }
     end

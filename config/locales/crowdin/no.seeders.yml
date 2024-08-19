@@ -41,6 +41,11 @@
           name: Spesifikasjon
         item_2:
           name: Øvrig
+      project_query_roles:
+        item_0:
+          name: Project query viewer
+        item_1:
+          name: Project query editor
       work_package_roles:
         item_0:
           name: Arbeidspakke-redigering
@@ -72,81 +77,6 @@
           name: Høy
         item_3:
           name: Øyeblikkelig
-      statuses:
-        item_0:
-          name: Ny
-        item_1:
-          name: Spesifisering
-        item_2:
-          name: Angitt
-        item_3:
-          name: Bekreftet
-        item_4:
-          name: Skal planlegges
-        item_5:
-          name: Planlagt
-        item_6:
-          name: Under arbeid
-        item_7:
-          name: Utviklet
-        item_8:
-          name: I testing
-        item_9:
-          name: Testet
-        item_10:
-          name: Testen mislyktes
-        item_11:
-          name: Stengt
-        item_12:
-          name: På vent
-        item_13:
-          name: Avvist
-      time_entry_activities:
-        item_0:
-          name: Administrasjon
-        item_1:
-          name: Spesifikasjon
-        item_2:
-          name: Utvikling
-        item_3:
-          name: Testing
-        item_4:
-          name: Brukerstøtte
-        item_5:
-          name: Øvrig
-      types:
-        item_0:
-          name: Oppgave
-        item_1:
-          name: Milepæl
-        item_2:
-          name: Fase
-        item_3:
-          name: Funksjon
-        item_4:
-          name: Episk
-        item_5:
-          name: Brukerens historie
-        item_6:
-          name: Avvik
-      welcome:
-        title: Velkommen til OpenProject!
-        text: |
-          OpenProject er den ledende programvaren for prosjektstyring med åpen kildekode. Det støtter klassisk, dynamisk og hybrid prosjektstyring og gir deg full kontroll over dine data.
-
-          Kjernefunksjoner og bruk kasser:
-
-          * [Prosjektportefølje Administrasjon](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Prosjektplanlegging og Tidsstyring](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Oppgavestyring og sporing av utfordringer](https://www.open.org/collaboration-software-features/task-management/)
-          * [Dynamiske tavler (Scrum og Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Håndtering av krav og Planlegging av utgivelser](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Tid og kostnadssporing, Budsjetter](https://www.openproject.org/collaboration-software-funksjoner/tidsporing/)
-          * [Samarbeid i team og  Dokumentasjon](https://www.openproject.org/samarbeidsprogramvare -funksjoner/team-samarbeid
-
-          Velkommen til fremtidig prosjektstyring.
-
-          For Admins: Du kan endre denne velkomstteksten [here]({{opSetting:base_url}}/admin/settings/generelle).
       projects:
         demo-project:
           name: Demoprosjekt
@@ -480,3 +410,78 @@
             * Avsatt tid (3 timer).
             * Etter evalueringsmøtet, etappe.  Ledes av Scrum-leder.
             * Teamet diskuterer etappen: Hva gikk bra, hva må forbedres for å bli mer produktive på neste etappe, eller kanskje ha litt mere morro.
+      statuses:
+        item_0:
+          name: Ny
+        item_1:
+          name: Spesifisering
+        item_2:
+          name: Angitt
+        item_3:
+          name: Bekreftet
+        item_4:
+          name: Skal planlegges
+        item_5:
+          name: Planlagt
+        item_6:
+          name: Under arbeid
+        item_7:
+          name: Utviklet
+        item_8:
+          name: I testing
+        item_9:
+          name: Testet
+        item_10:
+          name: Testen mislyktes
+        item_11:
+          name: Stengt
+        item_12:
+          name: På vent
+        item_13:
+          name: Avvist
+      time_entry_activities:
+        item_0:
+          name: Administrasjon
+        item_1:
+          name: Spesifikasjon
+        item_2:
+          name: Utvikling
+        item_3:
+          name: Testing
+        item_4:
+          name: Brukerstøtte
+        item_5:
+          name: Øvrig
+      types:
+        item_0:
+          name: Oppgave
+        item_1:
+          name: Milepæl
+        item_2:
+          name: Fase
+        item_3:
+          name: Funksjon
+        item_4:
+          name: Episk
+        item_5:
+          name: Brukerens historie
+        item_6:
+          name: Avvik
+      welcome:
+        title: Velkommen til OpenProject!
+        text: |
+          OpenProject er den ledende programvaren for prosjektstyring med åpen kildekode. Det støtter klassisk, dynamisk og hybrid prosjektstyring og gir deg full kontroll over dine data.
+
+          Kjernefunksjoner og bruk kasser:
+
+          * [Prosjektportefølje Administrasjon](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Prosjektplanlegging og Tidsstyring](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Oppgavestyring og sporing av utfordringer](https://www.open.org/collaboration-software-features/task-management/)
+          * [Dynamiske tavler (Scrum og Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Håndtering av krav og Planlegging av utgivelser](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Tid og kostnadssporing, Budsjetter](https://www.openproject.org/collaboration-software-funksjoner/tidsporing/)
+          * [Samarbeid i team og  Dokumentasjon](https://www.openproject.org/samarbeidsprogramvare -funksjoner/team-samarbeid
+
+          Velkommen til fremtidig prosjektstyring.
+
+          For Admins: Du kan endre denne velkomstteksten [here]({{opSetting:base_url}}/admin/settings/generelle).

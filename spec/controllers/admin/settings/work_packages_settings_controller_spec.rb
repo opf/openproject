@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,7 +54,7 @@ RSpec.describe Admin::Settings::WorkPackagesSettingsController do
               }
             }
       expect(Setting.work_package_done_ratio).to eq("status")
-      expect(WorkPackages::Progress::ApplyStatusesPCompleteJob)
+      expect(WorkPackages::Progress::ApplyStatusesChangeJob)
         .to have_been_enqueued.with(cause_type: "progress_mode_changed_to_status_based")
 
       perform_enqueued_jobs
@@ -76,7 +76,7 @@ RSpec.describe Admin::Settings::WorkPackagesSettingsController do
                 work_package_done_ratio: "status"
               }
             }
-      expect(WorkPackages::Progress::ApplyStatusesPCompleteJob)
+      expect(WorkPackages::Progress::ApplyStatusesChangeJob)
         .not_to have_been_enqueued
     end
   end
@@ -93,7 +93,7 @@ RSpec.describe Admin::Settings::WorkPackagesSettingsController do
                 work_package_done_ratio: "field"
               }
             }
-      expect(WorkPackages::Progress::ApplyStatusesPCompleteJob)
+      expect(WorkPackages::Progress::ApplyStatusesChangeJob)
         .not_to have_been_enqueued
     end
   end

@@ -9,7 +9,7 @@ ms:
     verify_account: "Sahkan akaun anda"
     error_captcha: "Akaun anda tidak dapat disahkan. Sila hubungi pentadbir."
     settings:
-      website_key: 'Kunci laman web'
+      website_key: 'Kekunci laman web'
       response_limit: 'Had tindak balas untuk HCaptcha'
       response_limit_text: 'Bilangan maksimum aksara bagi menganggap tindak balas HCaptcha sebagai sah.'
       website_key_text: 'Masukkan kekunci laman web yang anda telah ciptakan di konsol pentadbir bagi domain ini.'

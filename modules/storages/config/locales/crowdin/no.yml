@@ -12,6 +12,7 @@
         tenant: Katalog (leietaker) ID
     errors:
       messages:
+        invalid_host_url: er ikke en gyldig URL.
         not_linked_to_project: er ikke knyttet til prosjektet.
       models:
         storages/file_link:
@@ -20,8 +21,12 @@
               only_numeric_or_uuid: kan bare være numerisk eller uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: er ikke tilgjengelig for dette lagringsstedet.
+            project_ids:
+              blank: Please select a project.
         storages/storage:
           attributes:
             host:
@@ -46,18 +51,107 @@
   permission_delete_files_explanation: Denne tillatelsen er bare tilgjengelig for Nextcloud lagre
   permission_header_for_project_module_storages: Automatisk administrerte prosjektmapper
   permission_manage_file_links: Administrer fil-linker
-  permission_manage_storages_in_project: Administrer fillagring i prosjektet
+  permission_manage_files_in_project: Manage files in project
   permission_read_files: 'Automatisk administrerte prosjektmapper: Les filer'
   permission_share_files: 'Automatisk administrerte prosjektmapper: Del filer'
   permission_share_files_explanation: Denne tillatelsen er bare tilgjengelig for Nextcloud lagre
   permission_view_file_links: Vis fil-linker
   permission_write_files: 'Automatisk administrerte prosjektmapper: Skriv filer'
   project_module_storages: Filer
+  project_storages:
+    edit_project_folder:
+      label: Edit project folder
+    project_folder_mode:
+      automatic: Automatically managed
+      inactive: Ingen spesifikk mappe
+      manual: Existing folder manually managed
+    remove_project:
+      deletion_failure_flash: Failed to remove the project from the storage. %{error}
+      dialog:
+        automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
+        confirmation_text: Please, confirm you understand and want to remove this file storage from this project
+        heading: Remove project from %{storage_type}
+        text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
+      label: Remove project
+  services:
+    attributes:
+      nextcloud_sync_service:
+        add_user_to_group: 'Add User to Group:'
+        create_folder: 'Managed Project Folder Creation:'
+        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
+        hide_inactive_folders: 'Hide Inactive Folders Step:'
+        remote_folders: 'Read contents of the group folder:'
+        remove_user_from_group: 'Remove User from Group:'
+        rename_project_folder: 'Rename managed project Folder:'
+      one_drive_sync_service:
+        create_folder: 'Managed Project Folder Creation:'
+        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
+        hide_inactive_folders: 'Hide Inactive Folders Step:'
+        remote_folders: 'Read contents of the group folder:'
+        rename_project_folder: 'Rename managed project Folder:'
+    errors:
+      models:
+        copy_project_folders_service:
+          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
+          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
+          not_found: The source template location %{source_path} wasn't found.
+          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
+        nextcloud_sync_service:
+          attributes:
+            add_user_to_group:
+              conflict: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+              failed_to_add: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+            create_folder:
+              conflict: The %{folder_name} already exists on %{parent_location}.
+              not_found: "%{parent_location} wasn't found."
+            ensure_root_folder_permissions:
+              not_found: "%{group_folder} wasn't found. Please check your Nextcloud Group Folder setup."
+              permission_not_set: could not set permissions on %{group_folder}.
+            hide_inactive_folders:
+              permission_not_set: could not set permissions on %{path}.
+            remote_folders:
+              not_allowed: The %{username} doesn't have access to the %{group_folder}. Please check the folder permissions on Nextcloud.
+              not_found: "%{group_folder} wasn't found. Please check your Nextcloud setup."
+            remove_user_from_group:
+              conflict: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
+              failed_to_remove: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
+            rename_project_folder:
+              forbidden: OpenProject user does not have access to %{current_path} folder.
+              not_found: "%{current_path} wasn't found."
+            set_folders_permissions:
+              permission_not_set: could not set permissions on %{path}.
+          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
+          group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
+          insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
+          not_allowed: Nextcloud block the request.
+          unauthorized: OpenProject could not sync with Nextcloud. Please check you storage and Nextcloud configuration.
+          user_does_not_exist: "%{user} does not exist in Nextcloud."
+        one_drive_sync_service:
+          attributes:
+            create_folder:
+              conflict: The %{folder_name} already exists on %{parent_location}.
+              not_found: "%{parent_location} wasn't found."
+            hide_inactive_folders:
+              permission_not_set: could not set permissions on %{path}.
+            remote_folders:
+              request_error: OpenProject could not access your drive %{drive_id}. Please check if your storage configuration is correct.
+            rename_project_folder:
+              conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists
+              forbidden: OpenProject does not have access to %{current_path} in order to rename it.
+              not_found: "%{current_path} wasn't found."
+            set_folders_permissions:
+              permission_not_set: could not set permissions on %{path}.
+          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
+          not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
+          unauthorized: OpenProject could not sync with OneDrive. Please check you storage and Azure Application configuration.
+          user_does_not_exist: "%{user} does not exist in Nextcloud."
   storages:
     buttons:
       complete_without_setup: Fullfør uten
       done_complete_setup: Ferdig, fullfør oppsett
       done_continue: Ferdig, fortsett
+      open_storage: Open file storage
       replace_oauth_application: Erstatt OpenProject OAuth
       replace_oauth_client: Erstatt %{provider_type} OAuth
       save_and_continue: Lagre og fortsett
@@ -80,6 +174,13 @@
       storage_delete_result_1: Fjern alle lagringsoppsett for alle prosjekter som bruker denne lagringen.
       storage_delete_result_2: Fjern alle koblinger til filer og mapper fra arbeidspakker i alle prosjekter på denne lagringen.
       storage_delete_result_3: Hvis denne lagringen har automatisk administrert prosjektmapper, vil disse og deres filer slettes for alltid.
+    dependencies:
+      nextcloud:
+        group_folders_app: Group folders
+        integration_app: Integration OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: This storage has an incomplete setup. Please, complete the setup before enabling it in multiple projects.
+      setup_incomplete_header: Storage setup incomplete
     error_invalid_provider_type: Vennligst velg en gyldig lagringsleverandør.
     file_storage_view:
       access_management:
@@ -102,11 +203,28 @@
       storage_provider: Lagringsleverandør
     health:
       checked: Sist sjekket %{datetime}
+      connection_validation:
+        action: Recheck connection
+        app_version_mismatch: The Integration OpenProject app version is not supported. Please update your Nextcloud server.
+        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
+        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
+        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        group_folder_version_mismatch: The Group Folder version is not supported. Please update your Nextcloud server.
+        host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
+        missing_dependencies: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
+        not_configured: The connection could not be validated. Please finish configuration first.
+        placeholder: Check your connection against the server.
+        subtitle: Connection validation
+        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
+        unexpected_content: Unexpected content found in the drive.
+        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: Feil
       label_healthy: Sunn
       label_pending: Ventende
+      label_warning: Advarsel
+      project_folders:
+        subtitle: Automatisk administrerte prosjektmapper
       since: siden %{datetime}
-      subtitle: Automatisk administrerte prosjektmapper
       title: Helse-status
     health_email_notifications:
       description_subscribed: Alle administratorer mottar e-postmeldinger med helsestatus for denne lagringen.
@@ -117,10 +235,10 @@
       unsubscribe: Avslutt abonnement
     help_texts:
       project_folder: Prosjektmappen er standardmappen for filopplasting for dette prosjektet. Brukere kan likevel laste opp filer til andre steder.
+      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
     instructions:
       all_available_storages_already_added: Alle tilgjengelige lagringsplasser er allerede lagt til prosjektet.
       automatic_folder: Dette vil automatisk opprette en rotmappe for prosjektet og administrere tilgangsrettigheter for hvert prosjektmedlem.
-      copy_from: Kopier denne verdien fra
       empty_project_folder_validation: Valg av mappe er obligatorisk å fortsette.
       existing_manual_folder: Du kan bestemme en eksisterende mappe som rotmappe for dette prosjektet. Tillatelsene håndteres imidlertid ikke automatisk, administratoren må sørge for at relevante brukere har tilgang. Den valgte mappen kan brukes av flere prosjekter.
       host: Legg til vertsadressen til lagringsplassen din inkludert https://. Den bør ikke være lengre enn 255 tegn.

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -33,7 +33,7 @@ ru:
       color_theme_custom: "(Пользовательская)"
       colors:
         primary-button-color: "Основная кнопка"
-        accent-color: "Акцент"
+        accent-color: "Оттенок"
         header-bg-color: "Фон заголовка"
         header-item-bg-hover-color: "Фон заголовка при наведении курсора"
         header-item-font-color: "Шрифт заголовка"
@@ -211,10 +211,12 @@ ru:
     reorder_confirmation: "Внимание: Текущий порядок доступных значений будет утерян. Продолжить?"
     instructions:
       is_required: ""
+      is_required_for_project: "Установите флажок, чтобы включить этот атрибут и сделать его обязательным для всех проектов. Он не может быть отключен для отдельных проектов."
       is_for_all: ""
       searchable: "Включать значения полей при использовании функции глобального поиска."
+      searchable_for_project: "Установите флажок, чтобы сделать этот атрибут доступным в качестве фильтра в списках проектов."
       editable: "Разрешить редактирование поля самими пользователями."
-      visible: "Сделать поле видимым для всех пользователей (не администраторов) в обзоре проекта и отображать его в деталях виджета проекта Обзора."
+      admin_only: "Установите флажок, чтобы сделать этот атрибут видимым только для администраторов. Пользователи без прав администратора не смогут просматривать или редактировать его."
       is_filter: >
         Разрешить использование настраиваемого поля в фильтре в представлениях рабочих пакетов. Обратите внимание, что настраиваемое поле будет отображаться в глобальных представлениях только при выборе параметра "Для всех проектов".
     tab:
@@ -248,6 +250,7 @@ ru:
       work_package_attachments: "Пакеты работ: вложения"
       work_package_categories: "Пакеты работ: категории"
       work_package_file_links: "Пакеты работ: ссылки на файлы"
+      work_package_shares: "Пакеты работ: общие ресурсы"
     delete:
       scheduled: "Удаление было запланировано и исполнено в фоновом режиме. О результатах вы будете уведомлены."
       schedule_failed: "Проект удален быть не может: %{errors}"
@@ -265,8 +268,8 @@ ru:
       my: "Мои проекты"
       favored: "Избранные проекты"
       archived: "Архивные проекты"
-      public: "Списки общедоступных проектов"
-      my_private: "Списки моих личных проектов"
+      shared: "Общедоступные проекты"
+      my_lists: "Мои списки проектов"
       new:
         placeholder: "Список новых проектов"
       delete_modal:
@@ -287,7 +290,7 @@ ru:
       project_custom_fields:
         header:
           title: "Атрибуты проекта"
-          description: "Эти атрибуты проекта будут отображаться на Вашей <a href=%{overview_url} target=\"_blank\">странице обзора проекта</a> в соответствующих разделах. Вы можете включить или отключить отдельные атрибуты. Атрибуты проекта и разделы определяются в <a href=%{admin_settings_url} target=\"_blank\">настройках администрирования</a> администратором экземпляра."
+          description: 'Эти атрибуты проекта будут отображаться на Вашей <a href=%{overview_url} target="_blank">странице обзора проекта</a> в соответствующих разделах. Вы можете включить или отключить отдельные атрибуты. Атрибуты проекта и разделы определяются в <a href=%{admin_settings_url} target="_blank">настройках администрирования</a> администратором экземпляра.'
         filter:
           label: "Поиск атрибута проекта"
         actions:
@@ -336,7 +339,7 @@ ru:
     menu:
       all: "Все"
       invited: "Приглашённые"
-      locked: "Заблокировано"
+      locked: "Заблокированные"
       project_roles: "Роли проекта"
       wp_shares: "Пакеты работ используемые совместно"
       groups: "Группы"
@@ -354,21 +357,21 @@ ru:
         few: "However, %{shared_work_packages_link} have also been shared with this group."
         many: "However, %{shared_work_packages_link} have also been shared with this group."
         other: "Однако, %{shared_work_packages_link} также был предоставлен этой группе."
-      remove_work_packages_shared_with_user_too: "Пользователь, который был удален как участник по-прежнему может получить доступ к общим пакетам работ. Вы хотели бы также удалить эти ресурсы?"
-      remove_work_packages_shared_with_group_too: "Группа, которая была удалена как участник, все еще может получить доступ к общим пакетам работ. Вы хотели бы также удалить эти ресурсы?"
-      will_not_affect_inherited_shares: "(Это не повлияет на пакеты работ, разделенные с их группой)."
+      remove_work_packages_shared_with_user_too: "Пользователь, который был удален как участник по-прежнему может получить доступ к общим пакетам работ. Вы хотели бы также удалить эти доступы?"
+      remove_work_packages_shared_with_group_too: "Группа, которая была удалена как участник, все еще может получить доступ к общим пакетам работ. Вы хотели бы также удалить эти доступы?"
+      will_not_affect_inherited_shares: "(Это не повлияет на рабочие пакеты, которыми они делятся со своей группой)."
       can_remove_direct_but_not_shared_roles: "Вы можете удалить этого пользователя как непосредственного участника проекта, но группа, в которой он состоит, также является участником этого проекта, поэтому он будет продолжать оставаться участником через группу."
       also_work_packages_shared_with_user_html:
         one: "Также, %{shared_work_packages_link} был предоставлен этому пользователю."
         few: "Also, %{shared_work_packages_link} have been shared with this user."
         many: "Also, %{shared_work_packages_link} have been shared with this user."
         other: "Также, %{shared_work_packages_link} был предоставлен этому пользователю."
-      remove_project_membership_or_work_package_shares_too: "Вы хотите удалить только пользователя как непосредственного члена (и сохранить ресурсы) или также удалить пакет работ?"
-      will_remove_all_user_access_priveleges: "Удаление этого участника удалит все права доступа пользователя к проекту. Пользователь по-прежнему будет существовать как часть экземпляра."
-      will_remove_all_group_access_priveleges: "Удаление этого участника удалит все права доступа группы к проекту. Группа по-прежнему будет существовать как часть экземпляра."
+      remove_project_membership_or_work_package_shares_too: "Вы хотите удалить только пользователя как непосредственного участника (и сохранить общие ресурсы) или также удалить общие ресурсы рабочего пакета?"
+      will_remove_all_user_access_priveleges: "Удаление этого участника удалит все права доступа пользователя к проекту. Пользователь по-прежнему будет существовать как часть системы."
+      will_remove_all_group_access_priveleges: "Удаление этого участника удалит все права доступа группы к проекту. Группа по-прежнему будет существовать как часть системы."
       cannot_delete_inherited_membership: "Вы не можете удалить этого участника, потому что он принадлежит к группе, которая сама является участником этого проекта."
-      cannot_delete_inherited_membership_note_admin_html: "Вы можете либо удалить группу как члена проекта, либо удалить этого конкретного члена из группы на странице %{administration_settings_link}."
-      cannot_delete_inherited_membership_note_non_admin: "Вы можете либо удалить группу в качестве члена проекта, либо связаться с администратором, чтобы удалить этого конкретного участника из группы."
+      cannot_delete_inherited_membership_note_admin_html: "Вы можете либо удалить группу как участника проекта, либо удалить этого конкретного сотрудника из группы на странице %{administration_settings_link}."
+      cannot_delete_inherited_membership_note_non_admin: "Вы можете либо удалить группу в качестве участника проекта, либо связаться с администратором, чтобы удалить этого конкретного участника из группы."
     delete_work_package_shares_dialog:
       title: "Отменить общий доступ к пакету работ"
       shared_with_this_user_html:
@@ -389,18 +392,33 @@ ru:
       revoke_all_or_with_role: "Хотите ли Вы отменить доступ ко всем общим пакетам работ или только к тем, которые имеют разрешения %{shared_role_name}?"
       will_not_affect_inherited_shares: "(Это не повлияет на пакеты работ, разделенные с их группой)."
       cannot_remove_inherited: "Общие пакеты работ, к которым предоставлен общий доступ через группы, не могут быть удалены."
-      cannot_remove_inherited_with_role: "Общие пакеты работ с ролью %{shared_role_name} доступны через группы и не могут быть удалены.\n\n\n\n"
+      cannot_remove_inherited_with_role: "Рабочие пакеты, совместно используемые с ролью %{shared_role_name} , передаются через группы и не могут быть удалены."
       cannot_remove_inherited_note_admin_html: "Вы можете либо отозвать общий доступ к группе, либо удалить этого конкретного участника из группы в %{administration_settings_link}."
       cannot_remove_inherited_note_non_admin: "Вы можете либо отозвать общий доступ к группе, либо обратиться к администратору, чтобы удалить этого конкретного участника из группы."
       will_revoke_directly_granted_access: "Это действие лишит их доступа ко всем пакетам работ, кроме тех, которыми поделились с группой."
       will_revoke_access_to_all: "Это действие лишит их доступа ко всем пакетам работ."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
+      errors:
+        token_name_blank: "Пожалуйста, укажите имя токена API"
+        token_name_in_use: "Это имя токена API уже используется, пожалуйста, выберите другое"
+      new_access_token_dialog_title: "Создать новый токен API"
+      new_access_token_dialog_show_button_text: "Токен API"
+      new_access_token_dialog_text_field_placeholder_text: "Мой токен API"
+      new_access_token_dialog_text_field_label: "Имя"
+      new_access_token_dialog_submit_button_text: "Создать"
+      new_access_token_dialog_text: "Этот токен позволит сторонним приложениям взаимодействовать с вашим экземпляром. Чтобы выделить новый токен API, пожалуйста, дайте ему имя."
+      new_access_token_dialog_attention_text: "Относитесь к токенам API как к паролям. Любой, у кого есть эта ссылка, будет иметь доступ к информации из этого экземпляра, делитесь ею только с доверенными пользователями."
       failed_to_reset_token: "Не удалось сбросить маркер доступа: %{error}"
+      failed_to_create_token: "Не удалось создать токен доступа: %{error}"
+      failed_to_revoke_token: "Не удалось отозвать токен доступа: %{error}"
       notice_reset_token: "Новый маркер %{type} создан. Ваш маркер доступа:"
       token_value_warning: "Примечание: Этот маркер вам больше никогда показан не будет, убедитесь что запомнили его."
       no_results_title_text: На данный момент маркеры доступа отсутствуют.
-      notice_api_token_revoked: "API токен был удален. Чтобы создать новый токен, пожалуйста, используйте ссылку в разделе API."
+      notice_api_token_revoked: "API токен был удален. Чтобы создать новый токен, пожалуйста, используйте кнопку в разделе API."
       notice_rss_token_revoked: "Ключ RSS был удален. Чтобы создать новый токен, пожалуйста, используйте ссылку в разделе RSS."
       notice_ical_token_revoked: 'токен iCalendar "%{token_name}" для календаря "%{calendar_name}" проекта "%{project_name}" был отозван. URL-адрес iCalendar с этим токеном недействителен.'
   news:
@@ -411,8 +429,8 @@ ru:
     autologins:
       prompt: "Оставаться в системе %{num_days}"
     sessions:
-      remembered_devices: "Запомненные устройства"
-      remembered_devices_caption: "Список всех устройств, которые вошли в эту учетную запись, используя опцию «Оставаться в системе»."
+      remembered_devices: "Сохраненные устройства"
+      remembered_devices_caption: "Список всех устройств, через которые вошли в эту учетную запись, используя опцию «Оставаться в системе»."
       session_name: "%{browser_name} %{browser_version} на %{os_name}"
       browser: "Браузер"
       device: "Устройство / ОС"
@@ -459,13 +477,22 @@ ru:
         Никакие атрибуты не могут быть изменены за исключением статуса.
         <br/>
         <strong>Примечание</ strong>: Будут применены унаследованные значения (например, элементов предков или потомков).
+      status_excluded_from_totals_text: |-
+        Отметьте эту опцию, чтобы исключить пакеты работ с этим статусом из итогов Работы,
+        Оставшейся работы и % Завершения в иерархии.
       status_color_text: |
         Щелкните, чтобы задать или изменить цвет этого статуса.
         Этот цвет отображается на кнопке статуса и может использоваться для выделения пакетов работ в таблице.
     index:
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
       no_results_content_text: Добавить новый статус
+      headers:
+        is_default: "По умолчанию"
+        is_closed: "Закрыт"
+        is_readonly: "Только для чтения"
+        excluded_from_totals: "Исключен из итогов"
   themes:
+    dark: "Dark (Beta)"
     light: "Светлая"
     light_high_contrast: "Светлый высокий контраст"
   types:
@@ -487,7 +514,7 @@ ru:
         в диаграммах Ганта или таблицах пакетов работ. Поэтому рекомендуется использовать насыщенный цвет.
   versions:
     overview:
-      work_packages_in_archived_projects: "Версия предоставляется совместно с архивированными проектами, которым все еще назначены рабочие пакеты для этой версии. Они учитываются, но не отображаются в связанных представлениях."
+      work_packages_in_archived_projects: "Эта версия используется совместно с архивными проектами, в которых все еще есть рабочие пакеты, назначенные на эту версию. Они учитываются, но не отображаются в связанных представлениях."
       no_results_title_text: В настоящее время пакетов работ для этой версии нет.
   wiki:
     page_not_editable_index: Запрошенная страница (пока) не существует. Вы были перенаправлены на индекс всех вики-страниц.
@@ -515,6 +542,10 @@ ru:
     move:
       no_common_statuses_exists: "Статус не доступен для всех выбранных пакетов работ. Их статус изменен быть не может."
       unsupported_for_multiple_projects: "Массовое перемещение/копирование не поддерживается при работе с пакетами из нескольких проектов"
+      current_type_not_available_in_target_project: >
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
+      bulk_current_type_not_available_in_target_project: >
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Отсутствует рабочий процесс для совместного использования пакета работ"
@@ -582,17 +613,6 @@ ru:
       attribute_help_text:
         attribute_name: "Атрибут"
         help_text: "Текст справки"
-      ldap_auth_source:
-        account: "Аккаунт"
-        attr_firstname: "Атрибут имени"
-        attr_lastname: "Атрибут Фамилия"
-        attr_login: "Имя пользователя"
-        attr_mail: "Атрибут Email"
-        base_dn: "Базовый DN"
-        host: "Хост"
-        onthefly: "Автоматическое создание пользователя"
-        port: "Порт"
-        tls_certificate_string: "SSL-сертификат сервера LDAP"
       changeset:
         repository: "Репозиторий"
       color:
@@ -614,9 +634,17 @@ ru:
         possible_values: "Возможные значения"
         regexp: "Регулярное выражение"
         searchable: "Доступно для поиска"
-        visible: "Видимый"
+        admin_only: "Admin-only"
       custom_value:
         value: "Значение"
+      doorkeeper/application:
+        uid: "ID клиента"
+        secret: "Секрет клиента"
+        owner: "Владелец"
+        redirect_uri: "Перенаправить URI"
+        client_credentials_user_id: "ID пользователя клиента"
+        scopes: "Области"
+        confidential: "Конфиденциально"
       enterprise_token:
         starts_at: "Действует с"
         subscriber: "Подписчик"
@@ -627,19 +655,25 @@ ru:
         row_count: "Количество строк"
         column_count: "Количество столбцов"
         widgets: "Виджеты"
-      oauth_client:
-        client: "ID клиента"
-      relation:
-        lag: "Задержка"
-        from: "Пакет работ"
-        to: "Похожий пакет работ"
-      status:
-        is_closed: "Пакет работ закрыт"
-        is_readonly: "Пакет работ только для просмотра"
       journal:
         notes: "Примечания"
+      ldap_auth_source:
+        account: "Аккаунт"
+        attr_firstname: "Атрибут имени"
+        attr_lastname: "Атрибут Фамилия"
+        attr_login: "Имя пользователя"
+        attr_mail: "Атрибут Email"
+        base_dn: "Базовый DN"
+        host: "Хост"
+        onthefly: "Автоматическое создание пользователя"
+        port: "Порт"
+        tls_certificate_string: "SSL-сертификат сервера LDAP"
       member:
         roles: "Роль"
+      oauth_client:
+        client: "ID клиента"
+      planning_element_type_color:
+        hexcode: Шестнадцатеричный код
       project:
         active_value:
           true: "Разархивирован"
@@ -669,6 +703,9 @@ ru:
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
+      project_custom_field:
+        is_required: "Required for all projects"
+        custom_field_section: Раздел
       query:
         column_names: "Столбцы"
         relations_to_type_column: "Отношения к %{type}"
@@ -676,10 +713,19 @@ ru:
         group_by: "Результаты группы по"
         filters: "Фильтры"
         timeline_labels: "Временные метки"
+      relation:
+        lag: "Задержка"
+        from: "Пакет работ"
+        to: "Похожий пакет работ"
       repository:
         url: "URL"
       role:
         permissions: "Разрешения"
+      status:
+        is_closed: "Пакет работ закрыт"
+        is_readonly: "Пакет работ только для просмотра"
+        excluded_from_totals: "Исключить из расчета итогов в иерархии"
+        default_done_ratio: "% Завершено"
       time_entry:
         activity: "Деятельность"
         hours: "Часы"
@@ -713,6 +759,7 @@ ru:
         auto_hide_popups: "Автоматически скрывать успешные уведомления"
         warn_on_leaving_unsaved: "При покидании рабочего пакета предупреждать о не сохраненных изменениях"
         theme: "Режим"
+        mode_guideline: "Некоторые режимы перезаписывают пользовательские цвета темы для удобства и удобочитаемости. Для полной пользовательской темы выберите светлый режим."
       version:
         effective_date: "Дата окончания"
         sharing: "Совместное использование"
@@ -721,10 +768,6 @@ ru:
       wiki_page:
         parent_title: "Родительская страница"
         redirect_existing_links: "Перенаправление существующих ссылок"
-      planning_element_type_color:
-        hexcode: Шестнадцатеричный код
-      project_custom_field:
-        custom_field_section: Раздел
       work_package:
         begin_insertion: "Начало вставки"
         begin_deletion: "Начало удаления"
@@ -759,14 +802,6 @@ ru:
         type: "Тип"
         version: "Этапы"
         watcher: "Наблюдатель"
-      "doorkeeper/application":
-        uid: "ID клиента"
-        secret: "Секрет клиента"
-        owner: "Владелец"
-        redirect_uri: "Перенаправить URI"
-        client_credentials_user_id: "ID пользователя клиента"
-        scopes: "Области"
-        confidential: "Конфиденциально"
     errors:
       messages:
         accepted: "нужно подтвердить."
@@ -913,6 +948,10 @@ ru:
             enabled_modules:
               dependency_missing: "Модуль '%{dependency}' ' должен быть включен, так как модуль '%{module}' зависит от него."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Пожалуйста, выберите проект."
         query:
           attributes:
             project:
@@ -972,6 +1011,14 @@ ru:
             base:
               working_days_are_missing: "По крайней мере, один день недели должен быть определен как рабочий."
               previous_working_day_changes_unprocessed: "Предыдущие изменения конфигурации рабочих дней еще не были применены."
+              hours_per_day_are_missing: "Необходимо указать количество часов в день."
+              durations_are_not_positive_numbers: "Длительность должна быть положительным числом."
+              hours_per_day_is_out_of_bounds: "Количество часов в день не может быть больше 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "должно быть между 0 и 100."
+          readonly_default_exlusive: "не может быть активирован для статусов, отмеченных по умолчанию."
         time_entry:
           attributes:
             hours:
@@ -1002,6 +1049,12 @@ ru:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Требуется, если установлен параметр Оставшаяся работа."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "должно быть между 0 и 100."
             due_date:
               not_start_date: "не совпадает с датой начала, хотя это требуется для вех."
               cannot_be_null: "не может быть нулевым, поскольку известны дата начала и продолжительность."
@@ -1029,13 +1082,15 @@ ru:
               only_same_project_categories_allowed: "Категория пакета работ должна быть в рамках того же проекта, что и пакет работ."
               does_not_exist: "Указанная категория не существует."
             estimated_hours:
+              not_a_number: "не является допустимой продолжительностью."
               cant_be_inferior_to_remaining_work: "Не может быть меньше, чем Оставшаяся работа."
-              must_be_set_when_remaining_work_is_set: "Требуется, если установлен параметр Оставшаяся работа."
-              only_values_greater_or_equal_zeroes_allowed: "Должно быть >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "не является допустимой продолжительностью."
               cant_exceed_work: "Не может быть выше Работы."
               must_be_set_when_work_is_set: "Требуется, если установлен параметр «Работа»."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "Пакет работ находится в статусе доступном только для чтения, поэтому его атрибуты не могут быть изменены."
         type:
@@ -1086,8 +1141,10 @@ ru:
         version:
           undeletable_archived_projects: "Версия не может быть удалена, так как она имеет связанные с ней пакеты работ."
           undeletable_work_packages_attached: "Версия не может быть удалена, так как имеет пакеты работ, прикрепленные к ней."
-        status:
-          readonly_default_exlusive: "не может быть активирован для статусов, отмеченных по умолчанию."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Пожалуйста, проверьте следующие поля:"
         header:
@@ -1115,6 +1172,11 @@ ru:
         other: "Уведомлений"
       placeholder_user: "Пользователь-заполнитель"
       project: "Проект"
+      project_query:
+        one: "Список проектов"
+        few: "Project lists"
+        many: "Project lists"
+        other: "Списки проектов"
       query: "Настраиваемый запрос"
       role:
         one: "Роль"
@@ -1122,6 +1184,11 @@ ru:
         many: "Роль"
         other: "Роль"
       status: "Статус пакета работ"
+      token/api:
+        one: Access token
+        few: Access tokens
+        many: Access tokens
+        other: Access tokens
       type: "Тип"
       user: "Пользователь"
       version: "Этапы"
@@ -1133,13 +1200,13 @@ ru:
     header_invalid_fields:
       one: "Возникла проблема со следующим полем:"
       few: "Возникли проблемы со следующими полями:"
-      many: "Проблемы возникли со следующими полями:"
-      other: "Проблемы со следующими полями:"
+      many: "Возникли проблемы со следующими полями:"
+      other: "Возникли проблемы со следующими полями:"
     header_additional_invalid_fields:
       one: "Кроме того, возникла проблема со следующим полем:"
-      few: "Кроме того, были проблемы со следующими полями:"
-      many: "Кроме того, были проблемы со следующими полями:"
-      other: "Кроме того, были проблемы с полями:"
+      few: "Кроме того, возникли проблемы со следующими полями:"
+      many: "Кроме того, возникли проблемы со следующими полями:"
+      other: "Кроме того, возникли проблемы с полями:"
     field_erroneous_label: "Значение этого поля неверно: %{full_errors}. Пожалуйста, введите верное значение."
   activity:
     item:
@@ -1148,9 +1215,9 @@ ru:
       created_on: "создано %{datetime}"
       created_on_time_entry: "время входа в систему %{datetime}"
       updated_by_on: "обновлено %{user} %{datetime}"
-      updated_by_on_time_entry: "зарегистрированное время, обновленное %{user} в %{datetime}"
+      updated_by_on_time_entry: "зарегистрированное время, обновленно %{user} в %{datetime}"
       updated_on: "обновлено %{datetime}"
-      updated_on_time_entry: "зарегистрированное время обновлено в %{datetime}"
+      updated_on_time_entry: "зарегистрированное время обновлено %{datetime}"
       deleted_on: "удалено %{datetime}"
       deleted_by_on: "удалено %{user} %{datetime}"
       added_on: "добавлено %{datetime}"
@@ -1172,18 +1239,6 @@ ru:
           other: "<i>%{count} часов</i>"
         updated: "изменено с %{old_value} на %{value}"
         logged_for: "Зарегистрирован для"
-      meeting_agenda_item:
-        duration:
-          added: "установлено в %{value}"
-          added_html: "установлено в <i>%{value}</i>"
-          removed: "удалено"
-          updated: "изменено с %{old_value} на %{value}"
-          updated_html: "изменено с <i>%{old_value}</i> на <i>%{value}</i>"
-        position:
-          updated: "переупорядочено"
-        work_package:
-          updated: "изменено с %{old_value} на %{value}"
-          updated_html: "изменено с <i>%{old_value}</i> на <i>%{value}</i>"
     filter:
       changeset: "Наборы изменений"
       message: "Форумы"
@@ -1237,7 +1292,7 @@ ru:
     password: "Пароль"
     priority: "Приоритет"
     project: "Проект"
-    responsible: "Подотчетный"
+    responsible: "Ответственный"
     role: "Роль"
     roles: "Роли"
     start_date: "Дата начала"
@@ -1500,9 +1555,9 @@ ru:
         other: "%{count} минут"
       x_minutes_abbreviated:
         one: "1 мин"
-        few: "%{count} минут"
-        many: "%{count} минут"
-        other: "%{count} минут"
+        few: "%{count} мин"
+        many: "%{count} мин"
+        other: "%{count} мин"
       x_hours:
         one: "1 час"
         few: "%{count} часов"
@@ -1510,13 +1565,13 @@ ru:
         other: "%{count} часов"
       x_hours_abbreviated:
         one: "1 час"
-        few: "%{count} hrs"
-        many: "%{count} hrs"
+        few: "%{count} часов"
+        many: "%{count} часов"
         other: "%{count} часов"
       x_weeks:
         one: "1 неделя"
-        few: "%{count} weeks"
-        many: "%{count} weeks"
+        few: "%{count} недель"
+        many: "%{count} недель"
         other: "%{count} недель"
       x_months:
         one: "1 месяц"
@@ -1535,8 +1590,8 @@ ru:
         other: "%{count} секунды"
       x_seconds_abbreviated:
         one: "1 секунда"
-        few: "%{count} s"
-        many: "%{count} s"
+        few: "%{count} секунд"
+        many: "%{count} секунд"
         other: "%{count} секунд"
     units:
       hour:
@@ -1616,6 +1671,7 @@ ru:
   error_pdf_failed_to_export: "Не удалось сохранить экспорт в PDF: %{error}"
   error_token_authenticity: "Не удалось проверить CSRF-токен. Возможно, вы попытались отправить данные сразу из нескольких браузеров или вкладок. Закройте все вкладки и попробуйте снова."
   error_work_package_not_found_in_project: "Пакет работ не найден или не принадлежит к этому проекту"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "должен быть участник проекта"
   error_migrations_are_pending: "Ваша версия OpenProject находится в ожидании миграции базы данных. Вероятно, вы пропустили запуск миграции при во время последнего обновления. Пожалуйста, ознакомьтесь с руководством по обновлению, чтобы правильно настроить вашу новую установку."
   error_migrations_visit_upgrade_guides: "Пожалуйста, ознакомьтесь с разделом документации, содержащим наше руководство по обновлению"
@@ -1670,6 +1726,12 @@ ru:
       pdf_gantt: "Диаграмма Гантта в PDF"
     image:
       omitted: "Изображение не экспортировано."
+    macro:
+      error: "Ошибка макроса, %{message}"
+      attribute_not_found: "атрибут не найден: %{attribute}"
+      model_not_found: "неверная модель атрибута: %{model}"
+      resource_not_found: "ресурс не найден: %{resource}"
+      rich_text_unsupported: "Встраивание форматированного текста в настоящее время не поддерживается при экспорте."
     units:
       hours: ч
       days: д
@@ -1723,7 +1785,7 @@ ru:
       dates_changed: "Даты изменены"
       default_attribute_written: "Запись атрибутов со свойством \"только для чтения\""
       progress_mode_changed_to_status_based: "Расчет прогресса обновлен"
-      status_p_complete_changed: "Статус \"% завершения\" изменен"
+      status_changed: "Статус '%{status_name}'"
       system_update: "Обновление системы OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: внесением изменений в предшественника %{link}
@@ -1740,8 +1802,9 @@ ru:
           working: "%{date} сейчас рабочий"
           non_working: "%{date} теперь нерабочий"
       progress_mode_changed_to_status_based: Расчет прогресса установлен в режим "На основе статуса"
-      status_p_complete_changed: >-
-        "% завершения" для статуса '%{status_name}' изменено с %{old_value}% на %{new_value}%
+      status_excluded_from_totals_set_to_false_message: теперь включено в иерархию итогов
+      status_excluded_from_totals_set_to_true_message: теперь исключено из иерархии итогов
+      status_percent_complete_changed: "% завершения изменен с %{old_value}% на %{new_value}%"
       system_update:
         file_links_journal: >
           Теперь на вкладке Активность появится активность, связанная со ссылками файлов (файлы, хранящиеся во внешних хранилищах). Ниже описывается деятельность по уже существующим ссылкам:
@@ -1780,9 +1843,9 @@ ru:
       simple_revoke_confirmation: "Вы уверены, что хотите отменить этот токен?"
       api:
         title: "API"
-        text_hint: "Маркеры API позволяют приложениям общаться с этим экземпляром OpenProject через REST API."
+        text_hint: "Токены API позволяют приложениям общаться с этим экземпляром OpenProject через REST API."
         static_token_name: "API-токен"
-        disabled_text: "Маркеры API не включены администратором. Пожалуйста, обратитесь к администратору для использования этой функции."
+        disabled_text: "Токены API не включены администратором. Пожалуйста, обратитесь к администратору для использования этой функции."
       ical:
         title: "iCalendar"
         text_hint: 'Токены iCalendar позволяют пользователям <a href="%{path}" target="_blank"> подписываться на календари OpenProject</a> и просматривать актуальную информацию о рабочих пакетах от внешних клиентов.'
@@ -1806,6 +1869,22 @@ ru:
         failed: "Произошла ошибка, и токен не удалось удалить.  Пожалуйста, повторите попытку позже."
         unknown_storage: "Неизвестное хранилище"
   notifications:
+    reasons:
+      assigned: "Назначенный"
+      dateAlert: "Дата оповещения"
+      mentioned: "Упомянутый"
+      responsible: "Ответственный"
+      shared: "Общий доступ"
+      watched: "Наблюдатель"
+    facets:
+      unread: "Непрочтено"
+      unread_title: "Показать непрочитанные"
+      all: "Bсе"
+      all_title: "Показывать всё"
+    menu:
+      by_project: "Непрочитано по проекту"
+      by_reason: "Причина"
+      inbox: "Входящие"
     send_notifications: "Отправить уведомления для этого действия"
     work_packages:
       subject:
@@ -1825,6 +1904,7 @@ ru:
   label_add_another_file: "Добавьте еще один файл"
   label_add_columns: "Добавить выбранные столбцы"
   label_add_note: "Добавить заметку"
+  label_add_projects: "Добавить проекты"
   label_add_related_work_packages: "Добавить связанные пакеты работ"
   label_add_subtask: "Добавить подзадачу"
   label_added: "Добавлено"
@@ -1865,6 +1945,7 @@ ru:
   label_ldap_auth_source_plural: "Соединения LDAP"
   label_attribute_expand_text: "Полный текст для '%{attribute}'"
   label_authentication: "Аутентификация"
+  label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Доступные глобальные роли"
   label_available_project_attributes: "Доступные атрибуты проекта"
   label_available_project_forums: "Доступные форумы"
@@ -2051,6 +2132,7 @@ ru:
   label_inactive: "Неактивен"
   label_incoming_emails: "Входящие e-mail"
   label_includes: "включает"
+  label_include_sub_projects: Включить подпроекты
   label_index_by_date: "Индекс по дате"
   label_index_by_title: "Индекс по названию"
   label_information: "Информация"
@@ -2061,7 +2143,10 @@ ru:
   label_introduction_video: "Вводное видео"
   label_invite_user: "Пригласить пользователя"
   label_share: "Поделиться"
+  label_share_project_list: "Поделитесь списком проектов"
+  label_share_work_package: "Поделиться пакетом работ"
   label_show_hide: "Показать/скрыть"
+  label_show_hide_n_items: "Показать/скрыть %{count} элементов"
   label_show_all_registered_users: "Показать всех зарегистрированных пользователей"
   label_journal: "Журнал"
   label_journal_diff: "Описание сравнения"
@@ -2099,6 +2184,7 @@ ru:
   label_custom_touch_icon: "Пользовательский значок логотипа"
   label_logout: "Выход"
   label_main_menu: "Боковое меню"
+  label_manage: "Управление"
   label_manage_groups: "Управление группами"
   label_managed_repositories_vendor: "Управляемые %{vendor} репозиториев"
   label_max_size: "Максимальный размер"
@@ -2107,8 +2193,8 @@ ru:
   label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_plural: "Участники"
   label_membership_plural: "Членство"
-  lable_membership_added: "Участник добавлен"
-  lable_membership_updated: "Участник обновлен"
+  label_membership_added: "Участник добавлен"
+  label_membership_updated: "Участник обновлен"
   label_menu: "Меню"
   label_menu_badge:
     pre_alpha: "пред-альфа"
@@ -2154,6 +2240,8 @@ ru:
   label_next_week: "На следующей неделе"
   label_no_change_option: "(Без изменений)"
   label_no_data: "Нет данных для отображения"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Без родительской страницы"
   label_nothing_display: "Нет данных для отображения"
   label_nobody: "никто"
@@ -2209,6 +2297,7 @@ ru:
   label_product_version: "Версия продукта"
   label_profile: "Профиль"
   label_percent_complete: "% Готово"
+  label_project: "Проект"
   label_project_activity: "Деятельность"
   label_project_attribute_plural: "Атрибуты проекта"
   label_project_attribute_manage_link: "Управление атрибутами проекта"
@@ -2217,6 +2306,7 @@ ru:
   label_project_latest: "Последние проекты"
   label_project_default_type: "Разрешить пустой тип"
   label_project_hierarchy: "Иерархия проектов"
+  label_project_mappings: "Включено в проектах"
   label_project_new: "Новый проект"
   label_project_plural: "Проекты"
   label_project_list_plural: "Списки проектов"
@@ -2277,6 +2367,7 @@ ru:
   label_role_search: "Назначить роль для новых участников"
   label_scm: "SCM"
   label_search: "Поиск"
+  label_search_by_name: "Поиск по имени"
   label_send_information: "Отправить новые учетные данные пользователю"
   label_send_test_email: "Отправить тестовое сообщение"
   label_session: "Сессия"
@@ -2389,6 +2480,7 @@ ru:
   label_work_package_new: "Новый пакет работ"
   label_work_package_edit: "Редактирование пакета работ %{name}"
   label_work_package_plural: "Комплекс работ"
+  label_work_packages_settings: "Настройки пакетов работ"
   label_work_package_status: "Статус пакета работ"
   label_work_package_status_new: "Новый статус"
   label_work_package_status_plural: "Статусы пакета работ"
@@ -2396,9 +2488,10 @@ ru:
   label_work_package_tracking: "Отслеживание пакета работ"
   label_work_package_view_all: "Посмотреть все пакеты работ"
   label_workflow: "Рабочий поток"
+  label_workflow_copy: "Копировать рабочий поток"
   label_workflow_plural: "Рабочие потоки"
   label_workflow_summary: "Сводка"
-  label_working_days: "Рабочие дни"
+  label_working_days_and_hours: "Рабочие дни и часы"
   label_x_closed_work_packages_abbr:
     one: "1 закрыто"
     other: "%{count} закрыто"
@@ -2481,7 +2574,7 @@ ru:
       reason:
         watched: "Просмотрено"
         assigned: "Назначено"
-        responsible: "Подотчетный"
+        responsible: "Ответственный"
         mentioned: "Упомянутые"
         shared: "Общий доступ"
         subscribed: "все"
@@ -2505,12 +2598,12 @@ ru:
         plaintext:
           storage: "Хранилище"
           healthy:
-            summary: "Хорошие новости! Статус вашего хранилища, %{storage_name}, в настоящее время отображается как \"Здоровый\"."
+            summary: 'Хорошие новости! Статус вашего хранилища, %{storage_name}, в настоящее время отображается как "Здоровый".'
             error-solved-on: "Решено на"
             recommendation: "Мы будем продолжать следить за системой, чтобы она оставалась в хорошем состоянии. В случае каких-либо несоответствий мы сообщим Вам об этом."
             details: "Для получения более подробной информации или внесения необходимых изменений Вы можете посетить раздел конфигурации вашего хранилища"
           unhealthy:
-            summary: "Статус Вашего хранилища %{storage_name}, в настоящее время отображается как \"Ошибка\". Мы обнаружили проблему, которая может потребовать Вашего внимания."
+            summary: 'Статус Вашего хранилища %{storage_name}, в настоящее время отображается как "Ошибка". Мы обнаружили проблему, которая может потребовать Вашего внимания.'
             error-details: "Детали ошибки"
             error-message: "Сообщение об ошибке"
             error-occurred-on: "Произошло на"
@@ -2519,11 +2612,11 @@ ru:
         email_notification_settings: "Настройки уведомлений по электронной почте"
         see_storage_settings: "Настройки хранилища"
         healthy:
-          subject: "Хранилище \"%{name}\" теперь здорово!"
+          subject: 'Хранилище "%{name}" теперь здорово!'
           solved_at: "решено в"
           summary: "Проблема с интеграцией хранилища %{storage_name} решена."
         unhealthy:
-          subject: "Хранилище \"%{name}\" нездорово!"
+          subject: 'Хранилище "%{name}" нездорово!'
           since: "с"
           summary: "Проблема с интеграцией хранилища %{storage_name} "
           troubleshooting:
@@ -2648,6 +2741,7 @@ ru:
   notice_principals_found_multiple: "Найдено %{number} результатов. Нажмите <TAB> для перехода к первому."
   notice_principals_found_single: "Найден один результат. Нажмите <TAB> для перехода к нему."
   notice_project_not_deleted: "Проект удалён не был."
+  notice_project_not_found: "Проект не найден."
   notice_successful_connection: "Подключение выполнено."
   notice_successful_create: "Создание выполнено."
   notice_successful_delete: "Удаление выполнено."
@@ -2732,6 +2826,7 @@ ru:
   permission_edit_own_messages: "Редактировать свои сообщения"
   permission_edit_own_time_entries: "Редактировать собственные учетные записи о времени"
   permission_edit_project: "Редактировать проект"
+  permission_edit_project_attributes: "Редактирование атрибутов проекта"
   permission_edit_reportings: "Редактировать отчеты"
   permission_edit_time_entries: "Редактировать журналы времени для других пользователей"
   permission_edit_timelines: "Редактировать графики"
@@ -2782,10 +2877,13 @@ ru:
   permission_work_package_assigned: "Назначиться/стать отвественным"
   permission_work_package_assigned_explanation: "Пакеты работ могут быть привязаны к пользователям и группам в зависимости от этой роли в рамках соответствующего проекта"
   permission_view_project_activity: "Просмотр деятельности по проекту"
+  permission_view_project_attributes: "Просмотр атрибутов проекта"
   permission_save_bcf_queries: "Сохранить запросы BCF"
   permission_manage_public_bcf_queries: "Управление публичными BCF запросами"
   permission_edit_attribute_help_texts: "Редактировать атрибут справки"
   permission_manage_public_project_queries: "Управление списками общедоступных проектов"
+  permission_view_project_query: "Просмотр запроса проекта"
+  permission_edit_project_query: "Редактирование запроса проекта"
   placeholders:
     default: "-"
   project:
@@ -2996,7 +3094,7 @@ ru:
   setting_consent_info: "Текст соглашения"
   setting_consent_required: "Требуется согласие"
   setting_consent_decline_mail: "Контактный почтовый адрес для согласия"
-  setting_cross_project_work_package_relations: "Разрешить перектестные связи пакетов работ проекта"
+  setting_cross_project_work_package_relations: "Разрешить перекрестные связи пакетов работ проекта"
   setting_first_week_of_year: "Первая неделя в году содержит"
   setting_date_format: "Дата"
   setting_default_language: "Язык по умолчанию"
@@ -3004,6 +3102,10 @@ ru:
   setting_default_projects_public: "По умолчанию новые проекты видимы всем"
   setting_diff_max_lines_displayed: "Максимальное количество отображаемых строк diff(разницы)"
   setting_display_subprojects_work_packages: "Отображать пакеты работ подпроектов в основном проекте по-умолчанию"
+  setting_duration_format: "Формат длительности"
+  setting_duration_format_hours_only: "Только часы"
+  setting_duration_format_days_and_hours: "Дни и часы"
+  setting_duration_format_instructions: "Это определяет, как будут отображаться Работа, Оставшаяся работа и Затраченное время."
   setting_emails_footer: "содержимое  нижней части почтовых сообщений"
   setting_emails_header: "Заголовок письма"
   setting_email_login: "Использовать email как логин"
@@ -3014,6 +3116,9 @@ ru:
   setting_feeds_limit: "Предел содержимого новостной ленты"
   setting_file_max_size_displayed: "Максимальная длина  строки текстовых файлов"
   setting_host_name: "Имя компьютера в сети"
+  setting_hours_per_day: "Количество часов в день"
+  setting_hours_per_day_explanation: >-
+    Это определяет, что считается «днем» при более естественном отображении продолжительности (например, если день длится 8 часов, то 32 часа будет 4 дня).
   setting_invitation_expiration_days: "Действие письма активации истекает после"
   setting_work_package_done_ratio: "Режим расчета прогресса"
   setting_work_package_done_ratio_field: "На основе трудозатрат"
@@ -3406,54 +3511,80 @@ ru:
         work_based_help_text: "% Выполнения автоматически выводится из Работ и Оставшихся работ."
         status_based_help_text: "% Выполнения определяется статусом пакета работ."
         migration_warning_text: "В режиме расчета прогресса \"На основе трудозатрат\" процент завершения невозможно установить вручную, он привязан к трудозатратам. Существующее значение сохранено, но его нельзя изменить. Пожалуйста, сначала введите трудозатраты."
-    sharing:
-      count:
-        zero: "0 пользователей"
-        one: "1 пользователь"
-        other: "%{count} пользователей"
-      filter:
-        project_member: "Участник проекта"
-        not_project_member: "Не участник проекта"
-        project_group: "Группа проекта"
-        not_project_group: "Не группа проекта"
-        role: "Роль"
-        type: "Тип"
-      label_search: "Искать пользователей для приглашения"
-      label_search_placeholder: "Поиск по пользователю или адресу электронной почты"
-      label_toggle_all: "Переключить все общие ресурсы"
-      permissions:
-        comment: "Комментарий"
-        comment_description: "Может просматривать и комментировать этот пакет работ."
-        denied: "У вас нет прав на предоставление общего доступа к пакетам работ."
-        edit: "Правка"
-        edit_description: "Может просматривать, комментировать и редактировать этот пакет работ."
-        view: "Просмотр"
-        view_description: "Может просматривать этот пакет работ."
-      remove: "Удалить"
-      share: "Поделиться"
-      text_empty_search_description: "Пользователей с текущими критериями фильтрации нет."
-      text_empty_search_header: "Не удалось найти подходящие результаты."
-      text_empty_state_description: "Пакет работ еще не передан никому."
-      text_empty_state_header: "Без общего доступа"
-      text_user_limit_reached: "Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, свяжитесь с администратором, чтобы увеличить лимит пользователей, чтобы убедиться, что внешние пользователи имеют доступ к этому пакету работ."
-      text_user_limit_reached_admins: 'Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, <a href="%{upgrade_url}"> обновите свой тарифный план </a>, чтобы иметь возможность добавлять больше пользователей.'
-      warning_user_limit_reached: >
-        Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, свяжитесь с администратором, чтобы увеличить лимит пользователей, чтобы убедиться, что внешние пользователи имеют доступ к этому пакету работ.
-      warning_user_limit_reached_admin: >
-        Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, <a href="%{upgrade_url}"> обновите свой план </a>, чтобы обеспечить доступ внешних пользователей к этому рабочему пакету.
-      warning_no_selected_user: "Пожалуйста, выберите пользователей для отправки этого пакета работ"
-      warning_locked_user: "Пользователь %{user} заблокирован, и им нельзя поделиться с другими пользователями."
+    permissions:
+      comment: "Комментировать"
+      comment_description: "Может просматривать и комментировать этот пакет работ."
+      edit: "Редактировать"
+      edit_description: "Может просматривать, комментировать и редактировать этот пакет работ."
+      view: "Просматривать"
+      view_description: "Может просматривать этот пакет работ."
+  sharing:
+    count:
+      zero: "0 пользователей"
+      one: "1 пользователь"
+      other: "%{count} пользователей"
+    filter:
+      project_member: "Участник проекта"
+      not_project_member: "Не участник проекта"
+      project_group: "Группа проекта"
+      not_project_group: "Не группа проекта"
+      user: "Пользователь"
+      group: "Группа"
+      role: "Роль"
+      type: "Тип"
+    denied: "У вас нет прав на предоставление общего доступа к %{entities}."
+    label_search: "Искать пользователей для приглашения"
+    label_search_placeholder: "Искать по пользователю или адресу электронной почты"
+    label_toggle_all: "Переключить все общие ресурсы"
+    remove: "Удалить"
+    share: "Предоставить общий доступ"
+    text_empty_search_description: "Нет пользователей с текущими критериями фильтра."
+    text_empty_search_header: "Не удалось найти подходящие результаты."
+    text_empty_state_description: "%{entity} еще никому не был предоставлен общий доступ."
+    text_empty_state_header: "Без общего доступа"
+    text_user_limit_reached: "Добавление пользователей превысит текущий лимит. Обратитесь к администратору для увеличения лимита, чтобы внешние пользователи могли получить доступ к %{entity}."
+    text_user_limit_reached_admins: 'Добавление пользователей превысит текущий лимит. Пожалуйста, <a href="%{upgrade_url}">обновите свой план</a>, чтобы иметь возможность добавлять больше пользователей.'
+    warning_user_limit_reached: >
+      Добавление пользователей превысит текущий лимит. Обратитесь к администратору для увеличения лимита, чтобы внешние пользователи могли получить доступ к %{entity}.
+    warning_user_limit_reached_admin: >
+      Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, <a href="%{upgrade_url}"> обновите свой план </a>, чтобы гарантировать, что внешние пользователи смогут получить доступ к этому экземпляру. Обратитесь к администратору для увеличения лимита, чтобы внешние пользователи могли получить доступ к %{entity}.
+    warning_no_selected_user: "Пожалуйста, выберите пользователей, которыми предоставляется общий доступ для %{entity}."
+    warning_locked_user: "Пользователь %{user} заблокирован и ему не может быть предоставлен общий доступ к"
+    user_details:
+      locked: "Заблокированный пользователь"
+      invited: "Приглашение отправлено. "
+      resend_invite: "Отправить повторно."
+      invite_resent: "Приглашение отправлено повторно"
+      not_project_member: "Не участник проекта"
+      project_group: "Члены группы могут иметь дополнительные привилегии (как участники проекта)"
+      not_project_group: "Группа (общая для всех участников)"
+      additional_privileges_project: "Может иметь дополнительные привилегии (как участник проекта)"
+      additional_privileges_group: "Может иметь дополнительные привилегии (как участник группы)"
+      additional_privileges_project_or_group: "Может иметь дополнительные привилегии (как участник проекта или группы)"
+    project_queries:
+      publishing_denied: "У Вас нет разрешения делать списки проектов общедоступными."
+      access_warning: "Пользователи будут видеть только те проекты, к которым у них есть доступ. Совместное использование списков проектов не влияет на разрешения отдельных проектов."
       user_details:
-        locked: "Заблокированный пользователь"
-        invited: "Приглашение отправлено. "
-        resend_invite: "Переслать"
-        invite_resent: "Приглашение отправлено повторно"
-        not_project_member: "Не участник проекта"
-        project_group: "Члены группы могут иметь дополнительные привилегии (как участники проекта)"
-        not_project_group: "Группа (совместно со всеми участниками)"
-        additional_privileges_project: "Есть дополнительные привилегии (в качестве участника проекта)"
-        additional_privileges_group: "Есть дополнительные привилегии (в качестве члена группы)"
-        additional_privileges_project_or_group: "Есть дополнительные привилегии (в качестве участника проекта или группы)"
+        owner: "Владелец списка"
+        can_view_because_public: "Уже можно просматривать, потому что список открыт для всех"
+        can_manage_public_lists: "Можно редактировать благодаря глобальным разрешениям"
+      public_flag:
+        label: "Поделиться со всеми на %{instance_name}"
+        caption: "Все могут просматривать этот список проектов. Те, у кого есть глобальные права на редактирование, могут изменять его."
+      blank_state:
+        public:
+          header: "Поделиться со всеми"
+          description: "Каждый может просматривать этот список проектов. Вы также можете добавить отдельных пользователей с дополнительными правами."
+        private:
+          header: "Не общедоступно: приватный"
+          description: "Этот список проектов еще никому не доступен. Только Вы можете получить доступ к этому списку."
+      permissions:
+        view: "Просмотр"
+        view_description: "Может просматривать этот список проектов."
+        edit: "Редактировать"
+        edit_description: "Может просматривать и редактировать этот список проектов."
+      upsale:
+        message: "Совместное использование списков проектов с отдельными пользователями является корпоративным дополнением."
   working_days:
     info: >
       Невыбранные дни пропускаются при планировании пакетов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.
@@ -3461,7 +3592,7 @@ ru:
       Даты, добавленные в список ниже, считаются нерабочими и пропускаются при планировании пакетов работ.
     change_button: "Изменить рабочие дни"
     warning: >
-      Изменение того, какие дни недели считаются рабочими или нерабочими, может повлиять на дни начала и окончания всех рабочих пакетов во всех проектах в данной системе. <br/> Пожалуйста, обратите внимание, что изменения вступят в силу после того, как вы нажмете на кнопку применить.
+      Изменение дней недели, считающихся рабочими или нерабочими днями, может повлиять на начало и завершение всех пакетов работ во всех проектах.
     journal_note:
       changed: _**Рабочие дни** изменены (%{changes})._
       days:

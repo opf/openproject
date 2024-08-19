@@ -41,6 +41,11 @@ hr:
           name: Specifikacija
         item_2:
           name: Ostalo
+      project_query_roles:
+        item_0:
+          name: Project query viewer
+        item_1:
+          name: Project query editor
       work_package_roles:
         item_0:
           name: Work package editor
@@ -72,81 +77,6 @@ hr:
           name: Visoki
         item_3:
           name: Žuran
-      statuses:
-        item_0:
-          name: Novi
-        item_1:
-          name: U fazi specifikacije
-        item_2:
-          name: Specificirano
-        item_3:
-          name: Potvrđeno
-        item_4:
-          name: Treba se planirati
-        item_5:
-          name: Planirano
-        item_6:
-          name: U tijeku
-        item_7:
-          name: Razvijeno
-        item_8:
-          name: U fazi testiranju
-        item_9:
-          name: Testirano
-        item_10:
-          name: Test nije uspio
-        item_11:
-          name: Zaključeno
-        item_12:
-          name: Na čekanju
-        item_13:
-          name: Odbijeno
-      time_entry_activities:
-        item_0:
-          name: Upravljanje
-        item_1:
-          name: Specifikacija
-        item_2:
-          name: Razvoj
-        item_3:
-          name: Testiranje
-        item_4:
-          name: Podrška
-        item_5:
-          name: Ostalo
-      types:
-        item_0:
-          name: Zadatak
-        item_1:
-          name: Ključna točka
-        item_2:
-          name: Faza
-        item_3:
-          name: Značajka
-        item_4:
-          name: Epic
-        item_5:
-          name: User story
-        item_6:
-          name: Bug
-      welcome:
-        title: Welcome to OpenProject!
-        text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
-
-          Core features and use cases:
-
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-          Welcome to the future of project management.
-
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Demo project
@@ -484,3 +414,78 @@ hr:
             * Time boxed (3 h).
             * After Sprint Review, will be moderated by Scrum Master.
             * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+      statuses:
+        item_0:
+          name: Novi
+        item_1:
+          name: U fazi specifikacije
+        item_2:
+          name: Specificirano
+        item_3:
+          name: Potvrđeno
+        item_4:
+          name: Treba se planirati
+        item_5:
+          name: Planirano
+        item_6:
+          name: U tijeku
+        item_7:
+          name: Razvijeno
+        item_8:
+          name: U fazi testiranju
+        item_9:
+          name: Testirano
+        item_10:
+          name: Test nije uspio
+        item_11:
+          name: Zaključeno
+        item_12:
+          name: Na čekanju
+        item_13:
+          name: Odbijeno
+      time_entry_activities:
+        item_0:
+          name: Upravljanje
+        item_1:
+          name: Specifikacija
+        item_2:
+          name: Razvoj
+        item_3:
+          name: Testiranje
+        item_4:
+          name: Podrška
+        item_5:
+          name: Ostalo
+      types:
+        item_0:
+          name: Zadatak
+        item_1:
+          name: Ključna točka
+        item_2:
+          name: Faza
+        item_3:
+          name: Značajka
+        item_4:
+          name: Epic
+        item_5:
+          name: User story
+        item_6:
+          name: Bug
+      welcome:
+        title: Welcome to OpenProject!
+        text: |
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+
+          Core features and use cases:
+
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+
+          Welcome to the future of project management.
+
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).

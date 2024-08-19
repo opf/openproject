@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -359,7 +359,7 @@ module Projects
     end
 
     def user_can_view_project?
-      User.current.allowed_in_project?(:view_project, project)
+      User.current.allowed_in_project?(:view_project_attributes, project)
     end
 
     def custom_field_column?(column)

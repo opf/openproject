@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,13 @@ module DevelopmentData
     end
 
     def applicable?
-      Project.where(identifier: project_identifiers).count == 0
+      recent_installation? && Project.where(identifier: project_identifiers).count == 0
+    end
+
+    # returns true if no projects have been created more than 1 hour ago,
+    # meaning this is a recent installation
+    def recent_installation?
+      Project.where(created_at: ..1.hour.ago).none?
     end
 
     def project_identifiers

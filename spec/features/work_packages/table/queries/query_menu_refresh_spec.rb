@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +60,7 @@ RSpec.describe "Refreshing query menu item", :js do
     expect(url).not_to match(/query_props=.+/)
 
     # Locate query and refresh
-    query_item = page.find(".op-sidemenu--item-action", text: last_query.name)
+    query_item = page.find(".op-submenu--item-action", text: last_query.name)
     query_item.click
 
     wp_table.expect_work_package_listed work_package, other_work_package
@@ -79,7 +79,6 @@ RSpec.describe "Refreshing query menu item", :js do
       find_by_id("show-public").set false
       find(".button", text: "Save").click
 
-      wp_table.expect_and_dismiss_toaster message: "Successful update."
       expect(page).to have_current_path(project_work_packages_path(project))
     end
   end

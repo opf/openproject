@@ -7,7 +7,7 @@ module Projects
     private
 
     def prepare!
-      self.query = ::Queries::Projects::ProjectQuery.from_hash(query)
+      self.query = ::ProjectQuery.from_hash(query)
     end
   end
 end

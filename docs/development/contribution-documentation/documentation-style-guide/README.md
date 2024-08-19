@@ -381,5 +381,51 @@ At the moment it is not possible for external contributors to upload videos to t
 Use alert boxes to call attention to information. The alert boxes in the OpenProject documentation have a specific format. Please use the following to be consistent:
 
 ```markdown
-> **Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-a-new-account).
+> **Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../../enterprise-guide/enterprise-cloud-guide/create-cloud-trial/).
 ```
+
+> **Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../../enterprise-guide/enterprise-cloud-guide/create-cloud-trial/).
+
+## Alerts
+
+Alerts are a Markdown extension by Github based on the blockquote syntax that you can use to emphasize critical information.
+
+```markdown 
+> [!NOTE]
+> Useful information that users should know, even when skimming content.
+
+
+> [!TIP]
+> Helpful advice for doing things better or more easily.
+
+
+> [!IMPORTANT]
+> Key information users need to know to achieve their goal.
+
+
+> [!WARNING]
+> Urgent info that needs immediate user attention to avoid problems.
+
+
+> [!CAUTION]
+> Advises about risks or negative outcomes of certain actions.
+```
+
+> [!NOTE]
+> Useful information that users should know, even when skimming content.
+
+
+> [!TIP]
+> Helpful advice for doing things better or more easily.
+
+
+> [!IMPORTANT]
+> Key information users need to know to achieve their goal.
+
+
+> [!WARNING]
+> Urgent info that needs immediate user attention to avoid problems.
+
+
+> [!CAUTION]
+> Advises about risks or negative outcomes of certain actions.

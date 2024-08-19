@@ -85,10 +85,11 @@ jobs:
           ./docker/prod/setup/precompile-assets.sh
           # public/assets will be saved as artifact, so temporarily copying config file there as well
           cp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           path: public/
           name: public-assets-${{ github.sha }}
+          overwrite: true
     outputs:
       version: ${{ steps.extract_version.outputs.version }}
       checkout_ref: ${{ steps.extract_version.outputs.checkout_ref }}
@@ -106,22 +107,27 @@ jobs:
       matrix:
         include:
           - platform: linux/amd64
+            digest: amd64-slim
             bim_support: true
             target: slim
             runner: runner=4cpu-linux-x64
           - platform: linux/arm64/v8
+            digest: arm64-slim
             bim_support: false
             target: slim
             runner: runner=4cpu-linux-arm64
           - platform: linux/amd64
+            digest: amd64-aio
             bim_support: true
             target: all-in-one
             runner: runner=4cpu-linux-x64
           - platform: linux/arm64/v8
+            digest: arm64-aio
             bim_support: false
             target: all-in-one
             runner: runner=4cpu-linux-arm64
           - platform: linux/ppc64le
+            digest: ppc-aio
             bim_support: false
             target: all-in-one
             runner: runner=4cpu-linux-x64
@@ -134,7 +140,7 @@ jobs:
         run: |
           cp ./docker/prod/Dockerfile ./Dockerfile
       - name: Download precompiled public assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: public-assets-${{ github.sha }}
           path: public/
@@ -164,7 +170,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           context: git
           labels: |
@@ -177,7 +183,7 @@ jobs:
             ${{ env.REGISTRY_IMAGE }}
       - name: Build image
         id: build
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           context: .
           platforms: ${{ matrix.platform }}
@@ -209,7 +215,7 @@ jobs:
           wget -O- --retry-on-http-error=503,502 --retry-connrefused http://localhost:8080/api/v3
       - name: Push image
         id: push
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           context: .
           platforms: ${{ matrix.platform }}
@@ -226,9 +232,9 @@ jobs:
           digest="${{ steps.push.outputs.digest }}"
           touch "/tmp/digests/${digest#sha256:}"
       - name: Upload digest
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: digests-${{ matrix.target }}
+          name: digests-${{ matrix.target }}-${{ matrix.digest }}
           path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
@@ -241,10 +247,16 @@ jobs:
       - setup
       - build
     steps:
-      - name: Download digests
-        uses: actions/download-artifact@v3
+      - name: Merge digests
+        uses: actions/upload-artifact/merge@v4
         with:
-          name: digests-${{ matrix.target }}
+          pattern: digests-*
+          overwrite: true
+          name: "merged-digests-${{ matrix.target }}-${{ github.run_number }}-${{ github.run_attempt }}"
+      - name: Download digests
+        uses: actions/download-artifact@v4
+        with:
+          name: "merged-digests-${{ matrix.target }}-${{ github.run_number }}-${{ github.run_attempt }}"
           path: /tmp/digests
       - name: Set suffix
         id: set_suffix
@@ -256,7 +268,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY_IMAGE }}
           labels: |

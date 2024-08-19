@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -95,7 +95,6 @@ Rails.application.reloader.to_prepare do
                      {
                        "projects/settings/general": %i[show],
                        "projects/settings/storage": %i[show],
-                       projects: %i[deactivate_work_package_attachments],
                        "projects/templated": %i[create destroy],
                        "projects/identifier": %i[show update]
                      },
@@ -109,6 +108,18 @@ Rails.application.reloader.to_prepare do
                      },
                      permissible_on: :project,
                      require: :member
+
+      map.permission :view_project_attributes,
+                     {},
+                     permissible_on: :project,
+                     dependencies: :view_project
+
+      map.permission :edit_project_attributes,
+                     {},
+                     permissible_on: :project,
+                     require: :member,
+                     dependencies: :view_project_attributes,
+                     contract_actions: { projects: %i[update] }
 
       map.permission :select_project_custom_fields,
                      {
@@ -181,11 +192,21 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_public_project_queries,
                      {
-                       "projects/queries": %i[publish unpublish]
+                       "projects/queries": %i[toggle_public]
                      },
                      permissible_on: :global,
                      require: :loggedin,
                      grant_to_admin: true
+
+      map.permission :view_project_query,
+                     {},
+                     permissible_on: :project_query,
+                     require: :loggedin
+
+      map.permission :edit_project_query,
+                     {},
+                     permissible_on: :project_query,
+                     require: :loggedin
     end
 
     map.project_module :work_package_tracking, order: 90 do |wpt|
@@ -195,7 +216,8 @@ Rails.application.reloader.to_prepare do
                        journals: %i[index],
                        work_packages: %i[show index],
                        work_packages_api: [:get],
-                       "work_packages/reports": %i[report report_details]
+                       "work_packages/reports": %i[report report_details],
+                       "work_packages/menus": %i[show]
                      },
                      permissible_on: %i[work_package project],
                      contract_actions: { work_packages: %i[read] }
@@ -301,7 +323,8 @@ Rails.application.reloader.to_prepare do
                      {},
                      permissible_on: :project,
                      require: :loggedin,
-                     dependencies: :view_work_packages
+                     dependencies: :view_work_packages,
+                     contract_actions: { queries: %i[create] }
       # Watchers
       wpt.permission :view_work_package_watchers,
                      {},
@@ -320,18 +343,14 @@ Rails.application.reloader.to_prepare do
 
       map.permission :share_work_packages,
                      {
-                       members: %i[destroy_by_principal],
-                       "work_packages/shares": %i[index create destroy update resend_invite],
-                       "work_packages/shares/bulk": %i[update destroy]
+                       members: %i[destroy_by_principal]
                      },
                      permissible_on: :project,
                      dependencies: %i[edit_work_packages view_shared_work_packages],
                      require: :member
 
       map.permission :view_shared_work_packages,
-                     {
-                       "work_packages/shares": %i[index]
-                     },
+                     {},
                      permissible_on: :project,
                      require: :member,
                      contract_actions: { work_package_shares: %i[index] }

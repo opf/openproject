@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,24 +57,6 @@ RSpec.describe UserPreference do
       %w(false 0).each do |str|
         subject.send(setter, str)
         expect(subject.send(getter)).to be false
-      end
-    end
-  end
-
-  describe "#respond_to?" do
-    context "for created_at (key not in the schema)" do
-      it "is does not respond" do
-        expect(preference)
-          .not_to respond_to(:created_at)
-      end
-    end
-  end
-
-  describe "an unsupported method" do
-    context "for created_at (key not in the schema)" do
-      it "raises an error" do
-        expect { preference.created_at }
-          .to raise_error NoMethodError
       end
     end
   end

@@ -75,6 +75,13 @@
                                         container_class: '-slim',
                                         step: 'any' %>
             </div>
+          <% elsif %i(link_property).include?(action.type) %>
+            <div class="form--field-container">
+              <%= styled_url_field_tag input_name,
+                                       action.values,
+                                       container_class: '-slim',
+                                       step: 'any' %>
+            </div>
           <% elsif action.type == :float_property %>
             <div class="form--field-container">
               <%= styled_number_field_tag input_name,

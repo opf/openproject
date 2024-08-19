@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,6 +33,8 @@ RSpec.describe ApplicationController do
 
   # Fake controller to test calling an action
   controller do
+    no_authorization_required! :index
+
     def index
       # just do anything that doesn't require an extra template
       redirect_to root_path
@@ -151,6 +153,8 @@ RSpec.describe ApplicationController do
   describe "rack timeout duplicate error suppression", with_settings: { login_required: false } do
     controller do
       include OpenProjectErrorHelper
+
+      no_authorization_required! :index
 
       def index
         op_handle_error "fail"

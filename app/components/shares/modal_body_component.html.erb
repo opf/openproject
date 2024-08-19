@@ -1,0 +1,13 @@
+<%=
+  component_wrapper(tag: 'turbo-frame') do
+    flex_layout(data: { turbo: true }, classes: "op-share-dialog-modal-body--row-container") do |modal_content|
+      if strategy.custom_body_components?
+        strategy.additional_body_components.each do |component|
+          render(component.new(strategy: strategy, modal_body_container: modal_content))
+        end
+      end
+
+      render(strategy.manage_shares_component(modal_content:, errors:))
+    end
+  end
+%>

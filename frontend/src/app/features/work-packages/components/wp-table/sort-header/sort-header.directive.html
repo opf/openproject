@@ -17,7 +17,8 @@
        [ngClass]="[directionClass && 'sort', directionClass]"
        lang-attribute
        lang="{{locale}}"
-       id="{{ headerColumn.id }}">{{headerColumn.name}}</a>
+       id="{{ headerColumn.id }}"
+       rel="nofollow">{{headerColumn.name}}</a>
     <a *ngIf="!sortable">{{headerColumn.name}}</a>
 
     <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
@@ -47,7 +48,8 @@
        [ngClass]="[directionClass && 'sort', directionClass]"
        lang-attribute
        lang="{{locale}}"
-       id="{{ headerColumn.id }}">{{headerColumn.name}}</a>
+       id="{{ headerColumn.id }}"
+       rel="nofollow">{{headerColumn.name}}</a>
 
     <a *ngIf="!sortable">{{headerColumn.name}}</a>
 

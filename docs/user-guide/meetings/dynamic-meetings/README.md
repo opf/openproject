@@ -10,7 +10,8 @@ keywords: meetings, dynamic meetings, agenda, minutes
 
 Introduced in OpenProject 13.1, dynamic meetings offer easier meeting management, improved agenda creation and the ability to link work packages to meetings and vice-versa.
 
-> **Note:** The **Meetings module needs to be activated** in the [Project Settings](../../projects/project-settings/modules/) to be able to create and edit meetings.
+> [!NOTE]
+> The **Meetings module needs to be activated** in the [Project Settings](../../projects/project-settings/modules/) to be able to create and edit meetings.
 
 | Topic                                                        | Content                                                    |
 | ------------------------------------------------------------ | ---------------------------------------------------------- |
@@ -30,7 +31,7 @@ Introduced in OpenProject 13.1, dynamic meetings offer easier meeting management
 
 ## Meetings in OpenProject
 
-By selecting **Meetings** in the project menu on the left, you get an overview of all the meetings within a specific project sorted by date. By clicking on a meeting name you can view further details of the meeting.
+By selecting **Meetings** in the project menu on the left, you get an overview of all the meetings you have been invited to within a specific project sorted by date. By clicking on a meeting name you can view further details of the meeting.
 
 To get an overview of the meetings across multiple projects, you can select **Meetings** in the [global modules menu](../../../user-guide/home/global-modules/).
 
@@ -46,13 +47,15 @@ The menu on the left will allow you to filter for upcoming or past meetings. You
 
 You can either create a meeting from within a project or from the global **Meetings** module.
 
-> *Note:* Dynamic meetings were introduced in OpenProject 13.1. At the moment, the Meetings module lets you create [classic](../classic-meetings) or dynamic meetings but please keep in mind that the ability to create [classic meetings](../classic-meetings) will eventually be removed from OpenProject.
+
+> [!NOTE]
+> Dynamic meetings were introduced in OpenProject 13.1. At the moment, the Meetings module lets you create [classic](../classic-meetings) or dynamic meetings but please keep in mind that the ability to create [classic meetings](../classic-meetings) will eventually be removed from OpenProject.
 
 To create a new meeting, click the green **+ Meeting** button in the upper right corner.
 
 ![Create new meeting in OpenProject](openproject_userguide_create_new_meeting.png)
 
-Enter your meeting's title, type, location, start date and duration.
+Enter your meeting's title, type, location, start date and duration. You can also choose if you want to invite meeting participants via email after the meeting has been created (this option is activated by default). 
 
 If you are creating a meeting from a global module you will first need to select a project to which the meeting is attributed. After you have selected a project, the list of potential participants (project members) will appear for you to select who to invite. After the meeting you can note who attended the meeting.
 
@@ -78,7 +81,7 @@ In order to edit the title of the meeting select the dropdown menu behind the th
 
 After creating a meeting, you can set up a **meeting agenda**.
 
-You do this by adding sections, agenda items or existing work packages by selecting the desired option under the green **Add** button. You can then add notes to each agenda item.
+You do this by adding sections, agenda items or existing work packages by selecting the desired option under the green **+ Add** button. You can then add notes to each agenda item.
 
 ![The add button with three choices: section, agenda item or work package](openproject_dynamic_meetings_add_agenda_item.png)
 
@@ -86,15 +89,16 @@ You do this by adding sections, agenda items or existing work packages by select
 
 Sections allow you to group agenda items into blocks for better organization.
 
-To add a section, click on the *+ Add* button at the bottom of the agenda items and select the **Section** option. This will add a new empty section to the very end of the meeting and prompt you to give it a name. 
+To add a section, click on the **+ Add** button at the bottom of the agenda items and select the **Section** option. 
 
 ![Add a new section to a meeting agenda in OpenProject](openproject_dynamic_meetings_add_section.png)
 
 If, prior to creating your first section, your meeting already had existing [agenda items](#add-an-agenda-item), they will automatically be contained in a section called **Unnamed section**. You can rename this if you wish. 
 
-> Note: If you use sections, all agenda items must have sections.
+> [!NOTE]
+> If you use sections, all agenda items must have sections.
 
- ![Untitled section in OpenProject meeting](openproject_dynamic_meetings_untitled section.png)
+ ![Untitled section in OpenProject meeting](openproject_dynamic_meetings_untitled_section.png)
 
 ![Add an agenda item to a meeting section](openproject_dynamic_meetings_add_item_to_section.png)
 
@@ -107,6 +111,7 @@ You can then add agenda items to specific sections by either dragging and droppi
 
 This menu also lets you rename a section, move it or delete the entire section by selecting the respective option from the dropdown menu behind the **More** (⋯) icon on the right side. 
 
+> [!IMPORTANT]
 > Deleting a section will delete all containing agenda items. If a section contains agenda items, you will asked for confirmation before deletion.
 
 ![Edit or delete a section in an OpenProject meeting](openproject_dynamic_meetings_edit_section_options.png)
@@ -148,6 +153,10 @@ There are two ways to add a work package to a meeting agenda.
 You can add a work package to both upcoming or past meetings as long as the work package is marked **open**.
 
 ![OpenProject work packages in meetings agenda](openproject_dynamic_meetings_wp_agenda.png)
+
+>  [!TIP]
+> The upcoming meetings are displayed in chronological order, from the nearest meeting to the most distant. 
+> The past meetings are displayed in reverse chronological order, from the most recent meeting to the oldest.
 
 ## Meeting participants
 

@@ -11,7 +11,6 @@ tr:
   message_avatar_uploaded: "Avatar başarıyla değiştirildi."
   error_image_upload: "Resim kaydedilirken hata oluştu."
   error_image_size: "Resim çok büyük."
-  button_change_avatar: "Avatarı değiştir"
   are_you_sure_delete_avatar: "Avatarını silmek istediğinden emin misin?"
   avatar_deleted: "Avatar başarıyla silindi."
   unable_to_delete_avatar: "Avatar silinemedi."

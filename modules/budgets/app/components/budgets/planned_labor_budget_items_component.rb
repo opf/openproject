@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Budgets::PlannedLaborBudgetItemsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+class Budgets::PlannedLaborBudgetItemsComponent < ApplicationComponent
   options :budget, :project
 
   def item_hours(item)
@@ -36,7 +36,7 @@ class Budgets::PlannedLaborBudgetItemsComponent < ApplicationComponent # rubocop
   end
 
   def item_user(item)
-    item.user.name
+    helpers.avatar(item.principal, hide_name: false, size: :mini)
   end
 
   def item_comments(item)

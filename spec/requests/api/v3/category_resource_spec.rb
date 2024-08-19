@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -100,10 +100,7 @@ RSpec.describe "API v3 Category resource" do
       context "invalid priority id" do
         let(:get_path) { api_v3_paths.category "bogus" }
 
-        it_behaves_like "param validation error" do
-          let(:id) { "bogus" }
-          let(:type) { "Category" }
-        end
+        it_behaves_like "not found"
       end
     end
 
@@ -116,10 +113,7 @@ RSpec.describe "API v3 Category resource" do
         get get_path
       end
 
-      it_behaves_like "param validation error" do
-        let(:id) { "bogus" }
-        let(:type) { "Category" }
-      end
+      it_behaves_like "not found"
     end
   end
 end

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnInit,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { TransitionService } from '@uirouter/core';
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
@@ -40,13 +38,13 @@ import { MainMenuToggleService } from 'core-app/core/main-menu/main-menu-toggle.
 @Component({
   selector: 'wp-resizer',
   template: `
-    <resizer [customHandler]="false"
+    <op-resizer [customHandler]="false"
              [resizerClass]="resizerClass"
              cursorClass="col-resize"
-             (end)="resizeEnd()"
-             (start)="resizeStart()"
+             (resizeFinished)="resizeEnd()"
+             (resizeStarted)="resizeStart()"
              (move)="resizeMove($event)">
-    </resizer>
+    </op-resizer>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -75,10 +73,12 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
 
   public resizerClass = 'work-packages--resizer icon-resizer-vertical-lines';
 
-  constructor(readonly toggleService:MainMenuToggleService,
+  constructor(
+    readonly toggleService:MainMenuToggleService,
     private elementRef:ElementRef,
     readonly $transitions:TransitionService,
-    readonly browserDetector:BrowserDetector) {
+    readonly browserDetector:BrowserDetector,
+  ) {
     super();
   }
 
@@ -88,6 +88,10 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
     // to still work in case an element is duplicated by Angular.
     const elements = document.getElementsByClassName(this.elementClass);
     this.resizingElement = <HTMLElement>elements[elements.length - 1];
+    
+    if (!this.resizingElement) {
+      return;
+    }
 
     // Get initial width from local storage and apply
     const localStorageValue = this.parseLocalStorageValue();
@@ -137,7 +141,9 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   ngOnDestroy() {
     super.ngOnDestroy();
     // Reset the style when killing this directive, otherwise the style remains
-    this.resizingElement.style[this.resizeStyle] = '';
+    if (this.resizingElement) {
+      this.resizingElement.style[this.resizeStyle] = '';
+    }
   }
 
   resizeStart() {

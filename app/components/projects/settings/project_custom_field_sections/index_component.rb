@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,8 +46,13 @@ module Projects
         def wrapper_data_attributes
           {
             controller: "projects--settings--project-custom-fields-mapping-filter",
-            "application-target": "dynamic"
+            "application-target": "dynamic",
+            "projects--settings--project-custom-fields-mapping-filter-clear-button-id-value": clear_button_id
           }
+        end
+
+        def clear_button_id
+          "project-custom-fields-mapping-filter-clear-button"
         end
       end
     end

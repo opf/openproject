@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -151,6 +151,32 @@ import {
 import {
   AttributeHelpTextComponent,
 } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.component';
+import { OpExclusionInfoComponent } from 'core-app/shared/components/fields/display/info/op-exclusion-info.component';
+import { NewProjectComponent } from 'core-app/features/projects/components/new-project/new-project.component';
+import { CopyProjectComponent } from 'core-app/features/projects/components/copy-project/copy-project.component';
+import { ProjectsComponent } from 'core-app/features/projects/components/projects/projects.component';
+import { DisplayJobPageComponent } from 'core-app/features/job-status/display-job-page/display-job-page.component';
+import { OpenProjectJobStatusModule } from 'core-app/features/job-status/openproject-job-status.module';
+import {
+  NotificationsSettingsPageComponent,
+} from 'core-app/features/user-preferences/notifications-settings/page/notifications-settings-page.component';
+import {
+  ReminderSettingsPageComponent,
+} from 'core-app/features/user-preferences/reminder-settings/page/reminder-settings-page.component';
+import { OpenProjectMyAccountModule } from 'core-app/features/user-preferences/user-preferences.module';
+import { OpAttachmentsComponent } from 'core-app/shared/components/attachments/attachments.component';
+import {
+  InAppNotificationCenterComponent,
+} from 'core-app/features/in-app-notifications/center/in-app-notification-center.component';
+import {
+  WorkPackageSplitViewEntryComponent,
+} from 'core-app/features/work-packages/routing/wp-split-view/wp-split-view-entry.component';
+import { InAppNotificationsDateAlertsUpsaleComponent } from 'core-app/features/in-app-notifications/date-alerts-upsale/ian-date-alerts-upsale.component';
+import { ShareUpsaleComponent } from 'core-app/features/enterprise/share-upsale/share-upsale.component';
+import {
+  StorageLoginButtonComponent,
+} from 'core-app/shared/components/storages/storage-login-button/storage-login-button.component';
+import { OpCustomModalOverlayComponent } from 'core-app/shared/components/modal/custom-modal-overlay.component';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -186,6 +212,7 @@ export function initializeServices(injector:Injector) {
     OpenprojectRouterModule,
     // Hal Module
     OpenprojectHalModule,
+    OpenProjectJobStatusModule,
 
     // CKEditor
     OpenprojectEditorModule,
@@ -254,6 +281,9 @@ export function initializeServices(injector:Injector) {
 
     // Loading
     OpenprojectContentLoaderModule,
+
+    // My account
+    OpenProjectMyAccountModule,
   ],
   providers: [
     { provide: States, useValue: new States() },
@@ -334,5 +364,21 @@ export class OpenProjectModule {
     registerCustomElement('opce-ckeditor-augmented-textarea', CkeditorAugmentedTextareaComponent, { injector });
     registerCustomElement('opce-draggable-autocompleter', DraggableAutocompleteComponent, { injector });
     registerCustomElement('opce-attribute-help-text', AttributeHelpTextComponent, { injector });
+    registerCustomElement('opce-exclusion-info', OpExclusionInfoComponent, { injector });
+    registerCustomElement('opce-attachments', OpAttachmentsComponent, { injector });
+    registerCustomElement('opce-storage-login-button', StorageLoginButtonComponent, { injector });
+    registerCustomElement('opce-custom-modal-overlay', OpCustomModalOverlayComponent, { injector });
+
+    // TODO: These elements are now registered custom elements, but are actually single-use components. They should be removed when we move these pages to Rails.
+    registerCustomElement('opce-new-project', NewProjectComponent, { injector });
+    registerCustomElement('opce-project-settings', ProjectsComponent, { injector });
+    registerCustomElement('opce-copy-project', CopyProjectComponent, { injector });
+    registerCustomElement('opce-display-job-status-page', DisplayJobPageComponent, { injector });
+    registerCustomElement('opce-notification-settings', NotificationsSettingsPageComponent, { injector });
+    registerCustomElement('opce-reminder-settings', ReminderSettingsPageComponent, { injector });
+    registerCustomElement('opce-notification-center', InAppNotificationCenterComponent, { injector });
+    registerCustomElement('opce-ian-date-alerts-upsale', InAppNotificationsDateAlertsUpsaleComponent, { injector });
+    registerCustomElement('opce-share-upsale', ShareUpsaleComponent, { injector });
+    registerCustomElement('opce-wp-split-view', WorkPackageSplitViewEntryComponent, { injector });
   }
 }

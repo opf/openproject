@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -72,16 +72,19 @@ export class GitActionsMenuComponent extends OPContextMenuComponent {
     {
       id: 'branch',
       name: this.I18n.t('js.github_integration.tab_header.git_actions.branch_name'),
+      textToDisplay: () => this.gitActions.branchName(this.workPackage),
       textToCopy: () => this.gitActions.branchName(this.workPackage),
     },
     {
       id: 'message',
       name: this.I18n.t('js.github_integration.tab_header.git_actions.commit_message'),
+      textToDisplay: () => this.gitActions.commitMessageDisplayText(this.workPackage),
       textToCopy: () => this.gitActions.commitMessage(this.workPackage),
     },
     {
       id: 'command',
       name: this.I18n.t('js.github_integration.tab_header.git_actions.cmd'),
+      textToDisplay: () => this.gitActions.gitCommand(this.workPackage),
       textToCopy: () => this.gitActions.gitCommand(this.workPackage),
     },
   ];

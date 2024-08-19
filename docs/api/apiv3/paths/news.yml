@@ -148,3 +148,61 @@ get:
     also on the requesting user's permissions.
   operationId: List_News
   summary: List News
+
+post:
+  summary: Create News
+  operationId: create_news
+  tags:
+    - News
+  description: |-
+    Creates a news entry. Only administrators and users with "Manage news" permission in the given project are eligible.
+    When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/news_create_model.yml'
+  responses:
+    '201':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/news_model.yml'
+      description: Created
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to create new news.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** Administrator, Manage news permission in the project
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _embedded:
+              details:
+                attribute: title
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Title can't be blank.
+      description: |-
+        Returned if:
+        
+        * the client tries to modify a read-only property (`PropertyIsReadOnly`)
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)

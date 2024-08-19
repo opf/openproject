@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,7 @@ class Settings::UpdateService < BaseServices::BaseContracted
     new_value = derive_value(value)
     Setting[name] = new_value
     if name == :work_package_done_ratio && old_value != "status" && new_value == "status"
-      WorkPackages::Progress::ApplyStatusesPCompleteJob.perform_later(cause_type: "progress_mode_changed_to_status_based")
+      WorkPackages::Progress::ApplyStatusesChangeJob.perform_later(cause_type: "progress_mode_changed_to_status_based")
     end
   end
 

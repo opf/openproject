@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ RSpec.describe Queries::Projects::Orders::LatestActivityAtOrder do
     context "with a valid direction" do
       it "orders by the disk space" do
         expect(instance.apply_to(Project).to_sql)
-          .to eql(Project.order(Arel.sql("activity.latest_activity_at").asc).to_sql)
+          .to include(Arel.sql("activity_for_sort.latest_activity_at").asc.to_sql)
       end
     end
 

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,18 +32,18 @@
   display: inline-block
   margin: 3px 6px -2px 0
   height: 0.9em
-  border: 1px solid #BBBBBB
+  border: 1px solid var(--borderColor-emphasis)
   border-radius: 3px
-  background: #FFFFFF none repeat scroll 0%
+  background: var(--body-background) none repeat scroll 0%
 
   .inner-progress
     display: inline-block
     float: left
     height: 100%
     &.done
-      background: #DEF0DE none repeat scroll 0%
+      background: var(--display-green-bgColor-muted) none repeat scroll 0%
     &.closed
-      background: #BAE0BA none repeat scroll 0%
+      background: var(--display-green-bgColor-emphasis) none repeat scroll 0%
 
 .progress-bar-legend
   font-size: 80%

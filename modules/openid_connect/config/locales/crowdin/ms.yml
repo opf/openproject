@@ -16,7 +16,7 @@ ms:
   openid_connect:
     menu_title: Penyedia OpenID
     providers:
-      label_add_new: Tambah penyedia OpenID baru
+      label_add_new: Tambah penyedia OpenID baharu
       label_edit: Edit penyedia OpenID %{name}
       no_results_table: Belum ada penyedia yang ditetapkan lagi.
       plural: Penyedia OpenID

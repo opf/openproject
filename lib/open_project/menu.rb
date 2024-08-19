@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,10 @@
 module OpenProject
   module Menu
     MenuGroup = Data.define(:header, :children)
-    MenuItem = Data.define(:title, :href, :selected)
+    MenuItem = Data.define(:title, :href, :selected, :favored, :icon, :count, :show_enterprise_icon) do
+      def initialize(title:, href:, selected:, favored: false, icon: nil, count: nil, show_enterprise_icon: false)
+        super
+      end
+    end
   end
 end

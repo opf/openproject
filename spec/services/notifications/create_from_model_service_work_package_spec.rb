@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -991,16 +991,7 @@ RSpec.describe Notifications::CreateFromModelService,
           end
           let(:author) { recipient }
 
-          it_behaves_like "creates notification" do
-            let(:notification_channel_reasons) do
-              {
-                read_ian: false,
-                reason: :mentioned,
-                mail_alert_sent: false,
-                mail_reminder_sent: false
-              }
-            end
-          end
+          it_behaves_like "creates no notification"
         end
 
         context "when there is already a notification for the journal (because it was aggregated)" do
@@ -1082,16 +1073,7 @@ RSpec.describe Notifications::CreateFromModelService,
           end
           let(:author) { recipient }
 
-          it_behaves_like "creates notification" do
-            let(:notification_channel_reasons) do
-              {
-                read_ian: false,
-                reason: :mentioned,
-                mail_alert_sent: false,
-                mail_reminder_sent: false
-              }
-            end
-          end
+          it_behaves_like "creates no notification"
         end
       end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,6 +39,11 @@ RSpec.describe Project, "customizable" do
   let!(:list_custom_field) do
     create(:list_project_custom_field, project_custom_field_section: section)
   end
+  let(:user) { build_stubbed(:admin) }
+
+  before do
+    allow(User).to receive(:current).and_return user
+  end
 
   context "when not persisted" do
     let(:project) { build(:project) }
@@ -73,6 +78,40 @@ RSpec.describe Project, "customizable" do
 
         expect(project.available_custom_fields)
           .to contain_exactly(bool_custom_field)
+      end
+
+      context "with a custom field activated in different projects " \
+              "and the user has view_project_attributes permission in one of the project " \
+              "and with a required custom field" do
+        let(:other_project) { create(:project) }
+        let!(:project_cf) do
+          # This custom field is enabled in both project and other_project to test that there is no
+          # bleeding of enabled custom fields between 2 projects.
+          create(:project_custom_field_project_mapping, project:).project_custom_field.tap do |pcf|
+            create(:project_custom_field_project_mapping,
+                   project: other_project,
+                   project_custom_field: pcf)
+          end
+        end
+
+        let!(:required_cf) do
+          create(:string_project_custom_field, is_required: true)
+        end
+
+        let(:user) do
+          create(:user, member_with_permissions: {
+                   project => [],
+                   other_project => %i(view_project_attributes)
+                 })
+        end
+
+        it "returns available_custom_fields only for the other_project" do
+          expect(project.available_custom_fields)
+            .to be_empty
+
+          expect(other_project.available_custom_fields)
+            .to contain_exactly(project_cf, required_cf)
+        end
       end
     end
 
@@ -190,17 +229,7 @@ RSpec.describe Project, "customizable" do
         expect { project.save! }.to raise_error(ActiveRecord::RecordInvalid)
       end
 
-      it "rejects section validation scoping for project creation" do
-        project = build(:project, custom_field_values: {
-                                    text_custom_field.id => "foo",
-                                    bool_custom_field.id => true
-                                  },
-                                  _limit_custom_fields_validation_to_section_id: section.id)
-
-        expect { project.save! }.to raise_error(ArgumentError)
-      end
-
-      it "temporarly validates only custom values of a section if section scope is provided while updating" do
+      it "validates only custom values of a section if section scope is provided while updating" do
         project = create(:project, custom_field_values: {
                            text_custom_field.id => "foo",
                            bool_custom_field.id => true,
@@ -227,35 +256,9 @@ RSpec.describe Project, "customizable" do
 
         expect { project.save! }.not_to raise_error
 
-        # section scope is resetted after each update
+        # Removing the section scoped limitation should result a validation error again.
+        project._limit_custom_fields_validation_to_section_id = nil
         expect { project.save! }.to raise_error(ActiveRecord::RecordInvalid)
-      end
-    end
-
-    context "with correct handling of custom fields with default values" do
-      let!(:text_custom_field_with_default) do
-        create(:text_project_custom_field,
-               default_value: "default",
-               project_custom_field_section: section)
-      end
-
-      it "activates custom fields with default values if not explicitly set to blank" do
-        project = create(:project, custom_field_values: {
-                           text_custom_field.id => "foo",
-                           bool_custom_field.id => true
-                         })
-        expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
-          .to contain_exactly(text_custom_field.id, bool_custom_field.id, text_custom_field_with_default.id)
-      end
-
-      it "does not activate custom fields with default values if explicitly set to blank" do
-        project = create(:project, custom_field_values: {
-                           text_custom_field.id => "foo",
-                           bool_custom_field.id => true,
-                           text_custom_field_with_default.id => ""
-                         })
-        expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
-          .to contain_exactly(text_custom_field.id, bool_custom_field.id)
       end
     end
   end
@@ -427,47 +430,6 @@ RSpec.describe Project, "customizable" do
       end
 
       it_behaves_like "implicitly enabled and saved custom values"
-    end
-  end
-
-  context "with hidden custom fields" do
-    let!(:hidden_custom_field) do
-      create(:text_project_custom_field, project_custom_field_section: section, visible: false)
-    end
-    let(:project) do
-      create(:project, custom_field_values: {
-               text_custom_field.id => "foo",
-               bool_custom_field.id => true,
-               hidden_custom_field.id => "hidden"
-             })
-    end
-
-    before do
-      User.current = user # needs to be executed before project creation!
-    end
-
-    context "with admin permission" do
-      let(:user) { create(:admin) }
-
-      it "does activate hidden custom fields" do
-        # project creation happens with an admin user as let(:project) called after setting the current user to an admin
-        expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
-          .to contain_exactly(text_custom_field.id, bool_custom_field.id, hidden_custom_field.id)
-
-        expect(project.custom_value_for(hidden_custom_field).typed_value).to eq("hidden")
-      end
-    end
-
-    context "without admin permission" do
-      let(:user) { create(:user) }
-
-      it "does not activate hidden custom fields" do
-        # project creation happens with an non-admin user as let(:project) called after setting the current user to an non-admin
-        expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
-          .to contain_exactly(text_custom_field.id, bool_custom_field.id)
-
-        expect(project.custom_value_for(hidden_custom_field)).to be_nil
-      end
     end
   end
 end

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
               only: %i[index destroy],
               as: :team_planners do
       collection do
+        get "menu" => "team_planner/menus#show"
         get "/upsale", to: "team_planner/team_planner#upsale", as: :upsale
         get "/new", to: "team_planner/team_planner#show", as: :new
       end

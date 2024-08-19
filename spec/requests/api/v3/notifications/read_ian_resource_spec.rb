@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,11 +64,11 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
 
     it "can read and unread" do
       send_read
-      expect(last_response.status).to eq(204)
+      expect(last_response).to have_http_status(:no_content)
       expect(notification.reload.read_ian).to be_truthy
 
       send_unread
-      expect(last_response.status).to eq(204)
+      expect(last_response).to have_http_status(:no_content)
       expect(notification.reload.read_ian).to be_falsey
     end
   end
@@ -78,10 +78,10 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
 
     it "returns a 404 response" do
       send_read
-      expect(last_response.status).to eq(404)
+      expect(last_response).to have_http_status(:not_found)
 
       send_unread
-      expect(last_response.status).to eq(404)
+      expect(last_response).to have_http_status(:not_found)
     end
   end
 end

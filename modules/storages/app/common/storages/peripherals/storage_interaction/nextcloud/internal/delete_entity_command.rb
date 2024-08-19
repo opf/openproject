@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,15 +42,13 @@ module Storages
 
             def call(auth_strategy:, location:)
               origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
-              if origin_user_id.failure?
-                return origin_user_id
-              end
+                                   .on_failure { |error| return error }
+                                   .result
 
               Authentication[auth_strategy].call(storage: @storage) do |http|
-                handle_response http.delete(Util.join_uri_path(@storage.uri,
-                                                               "remote.php/dav/files",
-                                                               CGI.escapeURIComponent(origin_user_id.result),
-                                                               Util.escape_path(location)))
+                handle_response http.delete(
+                  UrlBuilder.url(@storage.uri, "remote.php/dav/files", origin_user_id, location)
+                )
               end
             end
 

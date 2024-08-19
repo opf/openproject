@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -142,7 +142,7 @@ RSpec.describe "my", :js, :with_cuprite do
       end
 
       context "when API access is enabled via global settings", with_settings: { rest_api_enabled: true } do
-        it "API tokens can generated and revoked" do
+        it "API tokens can be generated and revoked" do
           visit my_access_token_path
 
           expect(page).to have_no_content("API tokens are not enabled by the administrator.")
@@ -152,14 +152,24 @@ RSpec.describe "my", :js, :with_cuprite do
             find_test_selector("api-token-add").click
           end
 
-          expect(page).to have_content "A new API token has been generated. Your access token is"
+          expect(page).to have_test_selector("new-access-token-dialog")
+
+          # create API token
+          fill_in "token_api[token_name]", with: "Testing Token"
+          find_test_selector("create-api-token-button").click
+
+          within("dialog#access-token-created-dialog") do
+            expect(page).to have_content "The API token has been generated"
+            click_on "Close"
+          end
+          expect(page).to have_content("Testing Token")
 
           User.current.reload
           visit my_access_token_path
 
-          # only one API token can be created
+          # multiple API tokens can be created
           within "#api-token-section" do
-            expect(page).not_to have_test_selector("api-token-add", text: "API token")
+            expect(page).to have_test_selector("api-token-add", text: "API token")
           end
 
           # revoke API token

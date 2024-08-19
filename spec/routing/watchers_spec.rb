@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require "spec_helper"
 RSpec.describe WatchersController do
   shared_examples_for "watched model routes" do
     before do
-      expect(OpenProject::Acts::Watchable::Routes).to receive(:matches?).and_return(true)
+      allow(OpenProject::Acts::Watchable::RouteConstraint).to receive(:matches?).and_return(true)
     end
 
     it "connects POST /:object_type/:object_id/watch to watchers#watch" do

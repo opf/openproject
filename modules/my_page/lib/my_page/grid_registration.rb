@@ -23,11 +23,19 @@ module MyPage
       options_representer "::API::V3::Grids::Widgets::QueryOptionsRepresenter"
     end
 
+    # Allow users without save_queries permission to access the widgets
+    # but they are not allowed to update the underlying query
+    wp_static_table_strategy_proc = Proc.new do
+      after_destroy -> { ::Query.find_by(id: options[:queryId])&.destroy }
+
+      options_representer "::API::V3::Grids::Widgets::QueryOptionsRepresenter"
+    end
+
     widget_strategy "work_packages_table", &wp_table_strategy_proc
-    widget_strategy "work_packages_assigned", &wp_table_strategy_proc
-    widget_strategy "work_packages_accountable", &wp_table_strategy_proc
-    widget_strategy "work_packages_watched", &wp_table_strategy_proc
-    widget_strategy "work_packages_created", &wp_table_strategy_proc
+    widget_strategy "work_packages_assigned", &wp_static_table_strategy_proc
+    widget_strategy "work_packages_accountable", &wp_static_table_strategy_proc
+    widget_strategy "work_packages_watched", &wp_static_table_strategy_proc
+    widget_strategy "work_packages_created", &wp_static_table_strategy_proc
 
     widget_strategy "time_entries_current_user" do
       options_representer "::API::V3::Grids::Widgets::TimeEntryCalendarOptionsRepresenter"

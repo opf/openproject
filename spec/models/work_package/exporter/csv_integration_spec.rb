@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,6 +75,6 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
     expect(data.last).to include(work_package.description)
     expect(data.last).to include(current_user.name)
     expect(data.last).to include(work_package.updated_at.localtime.strftime("%m/%d/%Y %I:%M %p"))
-    expect(data.last).to include("· Σ 15.0 h")
+    expect(data.last).to include("· Σ 15h")
   end
 end

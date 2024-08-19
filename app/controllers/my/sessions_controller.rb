@@ -1,6 +1,10 @@
 module My
   class SessionsController < ::ApplicationController
     before_action :require_login
+    no_authorization_required! :index,
+                               :show,
+                               :destroy
+
     self._model_object = ::Sessions::UserSession
 
     before_action :find_model_object, only: %i(show destroy)

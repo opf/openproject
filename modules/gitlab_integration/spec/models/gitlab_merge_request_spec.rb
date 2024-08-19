@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -186,11 +186,37 @@ RSpec.describe GitlabMergeRequest do
     context "when multiple pipelines for the same merge request exist" do
       shared_association_default(:gitlab_merge_request) { create(:gitlab_merge_request) }
 
-      shared_let(:latest_pipelines) { create_list(:gitlab_pipeline, 2, :recent, project_id: 123) }
-      shared_let(:outdated_pipelines) { create_list(:gitlab_pipeline, 2, :outdated, project_id: 123) }
+      context "when the piplelines are for multiple projects" do
+        let!(:second_pipeline) { create(:gitlab_pipeline, project_id: 112, gitlab_id: 3) }
+        let!(:first_pipeline) { create(:gitlab_pipeline, project_id: 111, gitlab_id: 2) }
+        let!(:third_pipeline) { create(:gitlab_pipeline, project_id: 113, gitlab_id: 1) }
 
-      it "returns the latest pipeline ordered from most recent" do
-        expect(gitlab_merge_request.reload.latest_pipelines).to match_array(latest_pipelines + outdated_pipelines)
+        it "they are ordered by project_id asc" do
+          expect(gitlab_merge_request.reload.latest_pipelines.to_a)
+            .to eql([first_pipeline, second_pipeline, third_pipeline])
+        end
+      end
+
+      context "when the pipelines are for the same project" do
+        let!(:second_pipeline) { create(:gitlab_pipeline, project_id: 123, gitlab_id: 10) }
+        let!(:first_pipeline) { create(:gitlab_pipeline, project_id: 123, gitlab_id: 11) }
+        let!(:third_pipeline) { create(:gitlab_pipeline, project_id: 123, gitlab_id: 9) }
+
+        it "they are ordered by gitlab_id desc (not name, which is a string consisting of the gitlab_id and would lead to a wrong sorting)" do # rubocop:disable Layout/LineLength
+          expect(gitlab_merge_request.reload.latest_pipelines.to_a)
+            .to eql([first_pipeline, second_pipeline, third_pipeline])
+        end
+      end
+
+      context "when the pipelines are for the same project and same gitlab_id" do
+        let!(:second_pipeline) { create(:gitlab_pipeline, project_id: 123, gitlab_id: 1, started_at: 2.hours.ago) }
+        let!(:first_pipeline) { create(:gitlab_pipeline, project_id: 123, gitlab_id: 1, started_at: 3.hours.ago) }
+        let!(:third_pipeline) { create(:gitlab_pipeline, project_id: 123, gitlab_id: 1, started_at: 1.hour.ago) }
+
+        it "only returns the most recent pipeline and ignores the others" do
+          expect(gitlab_merge_request.reload.latest_pipelines.to_a)
+            .to eql([third_pipeline])
+        end
       end
     end
   end

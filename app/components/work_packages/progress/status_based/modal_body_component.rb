@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,9 @@ module WorkPackages
   module Progress
     module StatusBased
       class ModalBodyComponent < BaseModalComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-        def initialize(work_package, focused_field: nil, touched_field_map: {})
+        def initialize(work_package,
+                       focused_field: nil,
+                       touched_field_map: {})
           super
 
           @mode = :status_based

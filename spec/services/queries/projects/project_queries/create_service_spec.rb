@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,7 @@ require "services/base_services/behaves_like_create_service"
 
 RSpec.describe Queries::Projects::ProjectQueries::CreateService, type: :model do
   it_behaves_like "BaseServices create service" do
+    let(:model_class) { ProjectQuery }
     let(:factory) { :project_query }
   end
 

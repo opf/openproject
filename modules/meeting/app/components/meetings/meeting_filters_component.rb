@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,22 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 module Meetings
-  class MeetingFiltersComponent < FiltersComponent
+  # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class MeetingFiltersComponent < Filter::FilterComponent
+    # rubocop:enable OpenProject/AddPreviewForViewComponent
     options :project
 
     def allowed_filters
       super
         .select { |f| allowed_filter?(f) }
         .sort_by(&:human_name)
-    end
-
-    def filters_count
-      @filters_count ||= begin
-        count = super
-        count -= 1 if project.present?
-
-        count
-      end
     end
 
     protected
@@ -68,17 +61,17 @@ module Meetings
 
     def allowed_filter?(filter)
       allowlist = [
-        Queries::Meetings::Filters::TimeFilter,
         Queries::Meetings::Filters::AttendedUserFilter,
+        Queries::Meetings::Filters::AuthorFilter,
         Queries::Meetings::Filters::InvitedUserFilter,
-        Queries::Meetings::Filters::AuthorFilter
+        Queries::Meetings::Filters::TimeFilter
       ]
 
       if project.nil?
         allowlist << Queries::Meetings::Filters::ProjectFilter
       end
 
-      allowlist.detect { |clazz| filter.is_a? clazz }
+      allowlist.any? { |clazz| filter.is_a? clazz }
     end
   end
 end

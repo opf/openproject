@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -112,6 +112,10 @@ module OpenProject
 
       def work_package_permissions
         @work_package_permissions ||= permissions.select(&:work_package?)
+      end
+
+      def project_query_permissions
+        @project_query_permissions ||= permissions.select(&:project_query?)
       end
 
       def project_permissions

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -77,6 +77,15 @@ RSpec.describe Projects::UpdateService, type: :model do
           .with(model_instance)
 
         subject
+      end
+    end
+
+    describe "section based validation" do
+      it "is reset after the save is done" do
+        model_instance._limit_custom_fields_validation_to_section_id = 1
+        subject
+        # section scope is reset after the update
+        expect(model_instance._limit_custom_fields_validation_to_section_id).to be_nil
       end
     end
   end

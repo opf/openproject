@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,8 @@ module OpenProject::Bim
         permission :view_ifc_models,
                    {
                      "bim/ifc_models/ifc_models": %i[index show defaults],
-                     "bim/ifc_models/ifc_viewer": %i[show]
+                     "bim/ifc_models/ifc_viewer": %i[show],
+                     "bim/menus": %i[show]
                    },
                    permissible_on: :project,
                    contract_actions: { ifc_models: %i[read] }
@@ -99,13 +100,13 @@ module OpenProject::Bim
                   { controller: "/bim/ifc_models/ifc_models", action: "defaults" },
                   caption: :"bcf.label_bcf",
                   after: :work_packages,
-                  icon: "bcf",
+                  icon: "op-bcf",
                   badge: :label_new)
 
         menu.push :ifc_viewer_panels,
                   { controller: "/bim/ifc_models/ifc_models", action: "defaults" },
                   parent: :ifc_models,
-                  partial: "/bim/ifc_models/ifc_models/panels"
+                  partial: "/bim/menus/menu"
       end
     end
 

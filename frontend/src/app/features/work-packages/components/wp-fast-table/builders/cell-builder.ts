@@ -39,7 +39,7 @@ export class CellBuilder {
     }
 
     if (['estimatedTime', 'remainingTime'].includes(attribute)) {
-      td.classList.add('-min-150');
+      td.classList.add('-min-200');
     }
 
     const schema = this.schemaCache.of(workPackage);

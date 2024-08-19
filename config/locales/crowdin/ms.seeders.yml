@@ -41,6 +41,11 @@ ms:
           name: Spesifikasi
         item_2:
           name: Lain-lain
+      project_query_roles:
+        item_0:
+          name: Pemerhati pertanyaan projek
+        item_1:
+          name: Pengedit pertanyaan projek
       work_package_roles:
         item_0:
           name: Pengedit pakej kerja
@@ -72,81 +77,6 @@ ms:
           name: Tinggi
         item_3:
           name: Segera
-      statuses:
-        item_0:
-          name: Baharu
-        item_1:
-          name: Dalam spesifikasi
-        item_2:
-          name: Tertentu
-        item_3:
-          name: Disahkan
-        item_4:
-          name: Untuk dijadualkan
-        item_5:
-          name: Dijadualkan
-        item_6:
-          name: Dalam proses
-        item_7:
-          name: Dibangunkan
-        item_8:
-          name: Dalam pengujian
-        item_9:
-          name: Telah diuji
-        item_10:
-          name: Ujian gagal
-        item_11:
-          name: Ditutup
-        item_12:
-          name: Ditangguhkan
-        item_13:
-          name: Ditolak
-      time_entry_activities:
-        item_0:
-          name: Pengurusan
-        item_1:
-          name: Spesifikasi
-        item_2:
-          name: Pembangunan
-        item_3:
-          name: Menguji
-        item_4:
-          name: Sokongan
-        item_5:
-          name: Lain-lain
-      types:
-        item_0:
-          name: Tugasan
-        item_1:
-          name: Pencapaian
-        item_2:
-          name: Fasa
-        item_3:
-          name: Fitur
-        item_4:
-          name: Epik
-        item_5:
-          name: Cerita pengguna
-        item_6:
-          name: Bug
-      welcome:
-        title: Selamat datang ke OpenProject!
-        text: |
-          OpenProject adalah perisian pengurusan projek sumber terbuka terkemuka. Ia menyokong pengurusan projek klasik, agile serta hibrid dan memberi anda kawalan sepenuhnya terhadap data anda.
-
-          Fitur-fitur teras dan kes penggunaan:
-
-          * [Pengurusan Portfolio Projek](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Perancangan dan Penjadualan Projek](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Pengurusan Tugasan dan Penjejakan Isu](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Board Agile (Scrum dan Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Pengurusan Keperluan dan Perancangan Pelepasan](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Penjejakan Masa dan Kos, Anggaran](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Kolaborasi Pasukan dan Dokumentasi](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-          Selamat datang ke masa hadapan pengurusan projek.
-
-          Untuk Pentadbir: Anda boleh mengubah teks selamat datang ini [di sini]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Projek demo
@@ -484,3 +414,78 @@ ms:
             * Kotak masa (3 j).
             * Setelah Semakan Pecutan, akan dikendalikan oleh Ketua Scrum.
             * Pasukan membincangkan pecutan: apa yang berjalan lancar, apa yang perlu diperbaiki untuk menjadi lebih produktif untuk pecutan seterusnya atau lebih menyeronokkan.
+      statuses:
+        item_0:
+          name: Baharu
+        item_1:
+          name: Dalam spesifikasi
+        item_2:
+          name: Tertentu
+        item_3:
+          name: Disahkan
+        item_4:
+          name: Untuk dijadualkan
+        item_5:
+          name: Dijadualkan
+        item_6:
+          name: Dalam proses
+        item_7:
+          name: Dibangunkan
+        item_8:
+          name: Dalam pengujian
+        item_9:
+          name: Telah diuji
+        item_10:
+          name: Ujian gagal
+        item_11:
+          name: Ditutup
+        item_12:
+          name: Ditangguhkan
+        item_13:
+          name: Ditolak
+      time_entry_activities:
+        item_0:
+          name: Pengurusan
+        item_1:
+          name: Spesifikasi
+        item_2:
+          name: Pembangunan
+        item_3:
+          name: Menguji
+        item_4:
+          name: Sokongan
+        item_5:
+          name: Lain-lain
+      types:
+        item_0:
+          name: Tugasan
+        item_1:
+          name: Pencapaian
+        item_2:
+          name: Fasa
+        item_3:
+          name: Fitur
+        item_4:
+          name: Epik
+        item_5:
+          name: Cerita pengguna
+        item_6:
+          name: Bug
+      welcome:
+        title: Selamat datang ke OpenProject!
+        text: |
+          OpenProject adalah perisian pengurusan projek sumber terbuka terkemuka. Ia menyokong pengurusan projek klasik, agile serta hibrid dan memberi anda kawalan sepenuhnya terhadap data anda.
+
+          Fitur-fitur teras dan kes penggunaan:
+
+          * [Pengurusan Portfolio Projek](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Perancangan dan Penjadualan Projek](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Pengurusan Tugasan dan Penjejakan Isu](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Board Agile (Scrum dan Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Pengurusan Keperluan dan Perancangan Pelepasan](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Penjejakan Masa dan Kos, Anggaran](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Kolaborasi Pasukan dan Dokumentasi](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+
+          Selamat datang ke masa hadapan pengurusan projek.
+
+          Untuk Pentadbir: Anda boleh mengubah teks selamat datang ini [di sini]({{opSetting:base_url}}/admin/settings/general).

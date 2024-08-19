@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -219,7 +219,7 @@ class Activities::BaseActivityProvider
 
   def restrict_projects_by_selection(options, query)
     if (project = options[:project])
-      query = query.where(project.project_condition(options[:with_subprojects]))
+      query = query.where(project.with_subprojects(options[:with_subprojects]))
     end
 
     query

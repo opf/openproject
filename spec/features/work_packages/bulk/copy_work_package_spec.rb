@@ -301,7 +301,7 @@ RSpec.describe "Copy work packages through Rails view", :js, :with_cuprite do
 
     it "copies the work package" do
       context_menu.open_for work_package
-      context_menu.choose "Copy to other project"
+      context_menu.choose "Duplicate to other project"
 
       # On work packages move page
       expect_page_reload do

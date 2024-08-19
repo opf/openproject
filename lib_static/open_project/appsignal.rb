@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,10 @@ module OpenProject
 
     def enabled?
       ENV["APPSIGNAL_ENABLED"] == "true"
+    end
+
+    def logging_enabled?
+      enabled? && ENV["APPSIGNAL_SEND_APPLICATION_LOGS"] == "true"
     end
 
     def exception_handler(message, log_context = {})

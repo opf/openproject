@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,7 @@
 #
 module Storages::Admin
   class OAuthApplicationInfoCopyComponent < ApplicationComponent
+    include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
     attr_reader :storage
@@ -40,11 +41,12 @@ module Storages::Admin
       @storage = storage
     end
 
+    def self.wrapper_key = :storage_openproject_oauth_section
+
     def oauth_application_details_link
       render(
         Primer::Beta::Link.new(
-          href: Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(storage.host,
-                                                                                         "settings/admin/openproject"),
+          href: ::Storages::UrlBuilder.url(storage.uri, "settings/admin/openproject"),
           target: "_blank"
         )
       ) { I18n.t("storages.instructions.oauth_application_details_link_text") }

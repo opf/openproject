@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -178,7 +178,7 @@ RSpec.describe "API v3 storages resource", :webmock, content_type: :json do
         end
 
         it_behaves_like "constraint violation" do
-          let(:message) { "Host is not a valid URL" }
+          let(:message) { "Host is not a valid URL." }
         end
       end
     end
@@ -210,8 +210,8 @@ RSpec.describe "API v3 storages resource", :webmock, content_type: :json do
       end
     end
 
-    context "if user has :manage_storages_in_project permission in any project" do
-      let(:permissions) { %i(manage_storages_in_project) }
+    context "if user has :manage_files_in_project permission in any project" do
+      let(:permissions) { %i(manage_files_in_project) }
 
       it_behaves_like "successful storage response"
     end

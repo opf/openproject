@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -49,7 +49,7 @@ af:
         description: "Notas"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "Titel"
     errors:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"
@@ -58,9 +58,23 @@ af:
       meeting_agenda_item: "Agenda item"
       meeting_agenda: "Agenda"
       meeting_minutes: "Minutes"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Meetings"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value}"
+          added_html: "set to <i>%{value}</i>"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+        position:
+          updated: "reordered"
+        work_package:
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
   description_attended: "attended"
   description_invite: "invited"
   events:
@@ -77,8 +91,8 @@ af:
   label_meeting_edit: "Edit Meeting"
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Minutes"
-  label_meeting_close: "Close"
-  label_meeting_open: "Open"
+  label_meeting_close: "Maak toe"
+  label_meeting_open: "Oop"
   label_meeting_agenda_close: "Close the agenda to begin the Minutes"
   label_meeting_date_time: "Date/Time"
   label_meeting_diff: "Diff"
@@ -108,7 +122,7 @@ af:
       agenda_text: "Copy the agenda of the old meeting"
     email:
       send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_invitation_emails: "Send out invitation emails for all participants."
       open_meeting_link: "Open meeting"
       invited:
         summary: "%{actor} has sent you an invitation for the meeting %{title}"
@@ -183,7 +197,7 @@ af:
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
   label_meeting_state: "Meeting status"
-  label_meeting_state_open: "Open"
+  label_meeting_state_open: "Oop"
   label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Gesluit"
   label_meeting_state_closed_html: "<i>Closed</i>"

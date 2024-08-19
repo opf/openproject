@@ -1,6 +1,5 @@
 hr:
   js:
-    queries:
-      all_open: 'Svi otvoreni'
-      timeline: 'Timeline'
-      milestones: 'Milestones'
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'

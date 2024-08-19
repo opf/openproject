@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ $input-elements: input, 'input.form--text-field', select, 'select.form--select',
 
 .generic-table--container
   position:     relative
-  height:       100%
+  height:       initial
   width:        100%
   overflow:
     x: hidden
@@ -52,6 +52,9 @@ $input-elements: input, 'input.form--text-field', select, 'select.form--select',
 
   &_visible-overflow
     overflow: visible
+
+  &_height-100
+    height: 100%
 
 .generic-table--results-container
   height:       100%
@@ -82,7 +85,7 @@ table.generic-table
   col
     &:hover,
     &.hover
-      background:   #f8f8f8
+      background:   var(--bgColor-muted)
 
   thead
     height: var(--generic-table--header-height)
@@ -136,14 +139,12 @@ table.generic-table
         vertical-align: text-bottom
 
   tfoot
-    tr
-      background: #f6f7f8
     td
       font-weight: var(--base-text-weight-bold)
 
   tbody
     tr:not(.-no-highlighting)
-      border-bottom: 1px solid var(--table-border-color)
+      border-bottom: 1px solid var(--borderColor-default)
 
     @media screen
       td:not(.-no-ellipsis)
@@ -196,9 +197,9 @@ table.generic-table
           width: 100%
           max-width: 500px
 
-      &.-min-150
+      &.-min-200
         @media screen
-          min-width: 150px
+          min-width: 200px
 
       // The avatar image is not taken into the width calculation of the table cell by the browser.
       // That is why we add the space manually.
@@ -265,11 +266,11 @@ thead.-sticky th
   line-height:  var(--generic-table--header-height)
   height:  var(--generic-table--header-height)
   z-index:      1
-  border-bottom: 1px solid var(--table-border-color)
+  border-bottom: 1px solid var(--borderColor-default)
 
   &:hover,
   &.hover
-    background:   #f8f8f8
+    background:   var(--bgColor-muted)
 
   &_no-highlighting
     &:hover,
@@ -286,7 +287,7 @@ thead.-sticky th
 .generic-table--empty-header
   height:        var(--generic-table--header-height)
   line-height:   var(--generic-table--header-height)
-  border-bottom: 1px solid var(--table-border-color)
+  border-bottom: 1px solid var(--borderColor-default)
   z-index:       1
 
   // In case the table header contains invisible content for screen readers
@@ -342,8 +343,8 @@ thead.-sticky th
     visibility: visible
 
 .generic-table--no-results-container
-  background:   var(--gray-light)
-  border:       1px solid var(--borderColor-muted)
+  background: var(--bgColor-neutral-muted)
+  border: 1px solid var(--borderColor-neutral-muted)
   border-radius: 4px
   padding:      14px 14px 14px 36px
   display:      block

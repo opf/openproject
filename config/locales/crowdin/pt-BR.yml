@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -211,10 +211,12 @@ pt-BR:
     reorder_confirmation: "Aviso: A ordem atual dos valores disponíveis será perdida. Continuar?"
     instructions:
       is_required: "Marcar o campo personalizado como obrigatório. Isto tornará obrigatório o preenchimento do campo ao criar novos recursos ou ao atualizar recursos existentes."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Marcar o campo personalizado como disponível em todos os projetos existentes e novos."
       searchable: "Incluir os valores dos campos ao utilizar a funcionalidade de busca global."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Permita que o campo seja editável pelos próprios usuários."
-      visible: "Torne o campo visível para todos os usuários (não-administradores) na visão geral do projeto e exibido no widget de detalhes do projeto na Visão geral do projeto."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Permita que o campo personalizado seja utilizado num filtro nas visualizações do pacote de trabalho. Note que apenas com a opção "Para todos os projetos" selecionada, o campo personalizado irá aparecer nas visualizações globais.
     tab:
@@ -248,6 +250,7 @@ pt-BR:
       work_package_attachments: "Pacote de trabalho: anexos"
       work_package_categories: "Pacote de trabalho: categorias"
       work_package_file_links: "Pacote de trabalho: links de arquivo"
+      work_package_shares: "Pacotes de trabalho: compartilhamento"
     delete:
       scheduled: "Exclusão foi agendada e será realizada em segundo plano. Você será notificado do resultado."
       schedule_failed: "Projeto não pode ser excluído: %{errors}"
@@ -265,8 +268,8 @@ pt-BR:
       my: "Meus projetos"
       favored: "Projetos favoritos"
       archived: "Projetos arquivados"
-      public: "Listas públicas de projetos"
-      my_private: "Minhas listas de projetos privados"
+      shared: "Listas de projetos compartilhados"
+      my_lists: "Minhas listas de projetos"
       new:
         placeholder: "Nova lista de projetos"
       delete_modal:
@@ -287,18 +290,18 @@ pt-BR:
       project_custom_fields:
         header:
           title: "Atributos do projeto"
-          description: "Esses atributos do projeto serão exibidos na sua <a href=%{overview_url} target=\"_blank\">página de visão geral do projeto</a>, cada um na seção correspondente. Você pode ativar ou desativar atributos individualmente. Os atributos e seções do projeto são configurados nas <a href=%{admin_settings_url} target=\"_blank\">configurações de administração</a> pelo responsável pela administração da instância."
+          description: 'Esses atributos do projeto serão exibidos na sua <a href=%{overview_url} target="_blank">página de visão geral do projeto</a>, cada um na seção correspondente. Você pode ativar ou desativar atributos individualmente. Os atributos e seções do projeto são configurados nas <a href=%{admin_settings_url} target="_blank">configurações de administração</a> pelo responsável pela administração da instância.'
         filter:
           label: "Pesquisar atributo do projeto"
         actions:
           label_enable_single: "Ativo neste projeto, clique para desativar"
           label_disable_single: "Inativo neste projeto, clique para ativar"
-          deactivate_for_project: "Deactivate for this project"
+          deactivate_for_project: "Desativar para este projeto"
           label_enable_all: "Ativar tudo"
           label_disable_all: "Desativar tudo"
         is_required_blank_slate:
-          heading: Required in all projects
-          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: Obrigatório em todos os projetos
+          description: Este atributo do projeto está ativado em todos os projetos porque a opção "Obrigatório em todos os projetos" está selecionada. Ele não pode ser desativado em projetos individuais.
       types:
         no_results_title_text: Atualmente, não há tipos disponíveis.
         form:
@@ -384,11 +387,26 @@ pt-BR:
       will_revoke_access_to_all: "Essa ação irá revogar o acesso a todos os pacotes de trabalho."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
+      errors:
+        token_name_blank: "Forneça um nome para o token de API."
+        token_name_in_use: "Este nome de token de API já está em uso, escolha outro."
+      new_access_token_dialog_title: "Criar novo token de API"
+      new_access_token_dialog_show_button_text: "Token de API"
+      new_access_token_dialog_text_field_placeholder_text: "Meu token de API"
+      new_access_token_dialog_text_field_label: "Nome"
+      new_access_token_dialog_submit_button_text: "Criar"
+      new_access_token_dialog_text: "Este token permitirá que aplicativos de terceiros se comuniquem com sua instância. Para diferenciar o novo token de API, de um nome a ela."
+      new_access_token_dialog_attention_text: "Trate os tokens de API como senhas. Qualquer pessoa com este link terá acesso às informações desta instância, compartilhe-o apenas com usuários de confiança."
       failed_to_reset_token: "Falha ao redefinir o token de acesso: %{error}"
+      failed_to_create_token: "Falha ao criar o token de acesso: %{error}"
+      failed_to_revoke_token: "Falha ao revogar o token de acesso: %{error}"
       notice_reset_token: "Foi gerado um novo token de %{type}. Seu token de acesso é:"
       token_value_warning: "Nota: Esta é a única vez que você verá este token, certifique-se de copiá-lo agora."
       no_results_title_text: Atualmente não há tokens de acesso disponíveis.
-      notice_api_token_revoked: "O token de API foi excluído. Para criar um novo token, use o link na seção de API."
+      notice_api_token_revoked: "O token de API foi excluído. Para criar um novo token, use o botão na seção de API."
       notice_rss_token_revoked: "O token RSS foi excluído. Para criar um novo token, use o link na seção do RSS."
       notice_ical_token_revoked: 'O token iCalendar "%{token_name}" para o calendário "%{calendar_name}" do projeto "%{project_name}" foi revogado. O URL do iCalendar com este token agora é inválido.'
   news:
@@ -447,13 +465,21 @@ pt-BR:
         Nenhum atributo pode ser alterado com exceção da situação.
         <br/>
         <strong>Nota</strong>: valores herdados (por exemplo, de filhos ou relações) ainda serão aplicados.
+      status_excluded_from_totals_text: |-
+        Selecione esta opção para excluir pacotes de trabalho com este status dos totais de Trabalho, Trabalho Restante e % de conclusão em uma hierarquia.
       status_color_text: |
         Clique para atribuir ou alterar a cor desta situação.
         É exibido no botão de situação e pode ser usado para destacar pacotes de trabalho na tabela.
     index:
       no_results_title_text: Atualmente, não há nenhuma situação de pacote de trabalho.
       no_results_content_text: Adicionar uma nova situação
+      headers:
+        is_default: "Padrão"
+        is_closed: "Fechado"
+        is_readonly: "Somente leitura"
+        excluded_from_totals: "Excluído dos totais"
   themes:
+    dark: "Dark (Beta)"
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
   types:
@@ -501,6 +527,10 @@ pt-BR:
     move:
       no_common_statuses_exists: "Não há situação disponível para todos os pacotes de trabalho selecionados. Sua situação não pode ser alterada."
       unsupported_for_multiple_projects: "Movimentação/cópia em massa não é suportada para pacotes de trabalho de vários projetos"
+      current_type_not_available_in_target_project: >
+        O tipo atual do pacote de trabalho não está habilitado no projeto de destino. Se quiser que ele permaneça como está, habilite o tipo no projeto de destino. Caso contrário, escolha um tipo disponível na lista do projeto de destino.
+      bulk_current_type_not_available_in_target_project: >
+        Os tipos atuais dos pacotes de trabalho não estão habilitados no projeto de destino. Se quiser que eles permaneçam como estão, habilite os tipos no projeto de destino. Caso contrário, escolha um tipo disponível na lista do projeto de destino.
     sharing:
       missing_workflow_warning:
         title: "Fluxo de trabalho ausente para compartilhamento de pacotes de trabalho"
@@ -568,17 +598,6 @@ pt-BR:
       attribute_help_text:
         attribute_name: "Atributo"
         help_text: "Texto de ajuda"
-      ldap_auth_source:
-        account: "Conta"
-        attr_firstname: "Atributo de nome"
-        attr_lastname: "Atributo de sobrenome"
-        attr_login: "Atributo de nome de usuário"
-        attr_mail: "Atributo de e-mail"
-        base_dn: "DN base"
-        host: "Host"
-        onthefly: "Criação automática de usuário"
-        port: "Porta"
-        tls_certificate_string: "Certificado SSL do servidor LDAP"
       changeset:
         repository: "Repositório"
       color:
@@ -600,9 +619,17 @@ pt-BR:
         possible_values: "Valores possíveis"
         regexp: "Expressão regular"
         searchable: "Pesquisável"
-        visible: "Visível"
+        admin_only: "Admin-only"
       custom_value:
         value: "Valor"
+      doorkeeper/application:
+        uid: "ID do cliente"
+        secret: "Segredo do cliente"
+        owner: "Proprietário"
+        redirect_uri: "Redirecionar URI"
+        client_credentials_user_id: "ID do usuário de credenciais do cliente"
+        scopes: "Escopos"
+        confidential: "Confidencial"
       enterprise_token:
         starts_at: "Válido desde"
         subscriber: "Assinante"
@@ -613,19 +640,25 @@ pt-BR:
         row_count: "Número de linhas"
         column_count: "Número de colunas"
         widgets: "Widgets"
-      oauth_client:
-        client: "ID do cliente"
-      relation:
-        lag: "Atraso"
-        from: "Pacote de trabalho"
-        to: "Pacote de trabalho relacionado"
-      status:
-        is_closed: "Pacote de trabalho fechado"
-        is_readonly: "Pacote de trabalho somente leitura"
       journal:
         notes: "Anotações"
+      ldap_auth_source:
+        account: "Conta"
+        attr_firstname: "Atributo de nome"
+        attr_lastname: "Atributo de sobrenome"
+        attr_login: "Atributo de nome de usuário"
+        attr_mail: "Atributo de e-mail"
+        base_dn: "DN base"
+        host: "Host"
+        onthefly: "Criação automática de usuário"
+        port: "Porta"
+        tls_certificate_string: "Certificado SSL do servidor LDAP"
       member:
         roles: "Papéis"
+      oauth_client:
+        client: "ID do cliente"
+      planning_element_type_color:
+        hexcode: Código hexadecimal
       project:
         active_value:
           true: "Desarquivada"
@@ -655,6 +688,9 @@ pt-BR:
         types: "Tipos"
         versions: "Versões"
         work_packages: "Pacotes de Trabalho"
+      project_custom_field:
+        is_required: "Required for all projects"
+        custom_field_section: Seção
       query:
         column_names: "Colunas"
         relations_to_type_column: "Relações com %{type}"
@@ -662,10 +698,19 @@ pt-BR:
         group_by: "Agrupar resultados por"
         filters: "Filtros"
         timeline_labels: "Rótulos de linha do tempo"
+      relation:
+        lag: "Atraso"
+        from: "Pacote de trabalho"
+        to: "Pacote de trabalho relacionado"
       repository:
         url: "URL"
       role:
         permissions: "Permissões"
+      status:
+        is_closed: "Pacote de trabalho fechado"
+        is_readonly: "Pacote de trabalho somente leitura"
+        excluded_from_totals: "Excluir do cálculo de totais na hierarquia"
+        default_done_ratio: "% concluído"
       time_entry:
         activity: "Atividade"
         hours: "horas"
@@ -699,6 +744,7 @@ pt-BR:
         auto_hide_popups: "Auto-ocultar notificações de sucesso"
         warn_on_leaving_unsaved: "Alertar-me ao sair de um pacote de trabalho sem salvar as alterações"
         theme: "Modo"
+        mode_guideline: "Alguns modos substituirão as cores personalizadas do tema para melhorar a acessibilidade e a legibilidade. Para usar o tema totalmente personalizado, selecione o modo Claro."
       version:
         effective_date: "Data de conclusão"
         sharing: "Compartilhamento"
@@ -707,10 +753,6 @@ pt-BR:
       wiki_page:
         parent_title: "Página pai"
         redirect_existing_links: "Redireciona links existentes"
-      planning_element_type_color:
-        hexcode: Código hexadecimal
-      project_custom_field:
-        custom_field_section: Seção
       work_package:
         begin_insertion: "Início da inserção"
         begin_deletion: "Início da exclusão"
@@ -745,14 +787,6 @@ pt-BR:
         type: "Tipo"
         version: "Versão"
         watcher: "Observador"
-      "doorkeeper/application":
-        uid: "ID do cliente"
-        secret: "Segredo do cliente"
-        owner: "Proprietário"
-        redirect_uri: "Redirecionar URI"
-        client_credentials_user_id: "ID do usuário de credenciais do cliente"
-        scopes: "Escopos"
-        confidential: "Confidencial"
     errors:
       messages:
         accepted: "deve ser aceito."
@@ -762,7 +796,7 @@ pt-BR:
         before_or_equal_to: "deve ser antes ou igual a %{date}."
         blank: "não pode ficar em branco."
         blank_nested: "precisa ter a propriedade '%{property}' definida. "
-        cannot_delete_mapping: "is required. Cannot be deleted."
+        cannot_delete_mapping: "é obrigatório. Não pode ser excluído."
         cant_link_a_work_package_with_a_descendant: "Um pacote de trabalho não pode ser vinculado a uma das suas subtarefas."
         circular_dependency: "Esta relação vai criar uma dependência circular."
         confirmation: "não coincide com %{attribute}."
@@ -899,6 +933,10 @@ pt-BR:
             enabled_modules:
               dependency_missing: "O módulo '%{dependency}' precisa ser habilitado, pois o módulo '%{module}' depende dele."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Selecione um projeto."
         query:
           attributes:
             project:
@@ -958,6 +996,14 @@ pt-BR:
             base:
               working_days_are_missing: "Pelo menos um dia da semana deve ser definido como um dia útil."
               previous_working_day_changes_unprocessed: "As alterações anteriores na configuração de dias úteis ainda não foram aplicadas."
+              hours_per_day_are_missing: "O número de horas por dia deve ser definido."
+              durations_are_not_positive_numbers: "As durações devem ser números positivos."
+              hours_per_day_is_out_of_bounds: "As horas por dia não podem ultrapassar 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "deve estar entre 0 e 100."
+          readonly_default_exlusive: "Não pode ser ativado para estados marcados como padrão."
         time_entry:
           attributes:
             hours:
@@ -988,6 +1034,12 @@ pt-BR:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "não corresponde ao trabalho e ao trabalho restante"
+              cannot_be_set_when_work_is_zero: "não pode ser definido quando o trabalho é zero"
+              must_be_set_when_remaining_work_is_set: "Necessário quando o Trabalho restante for definido."
+              must_be_set_when_work_and_remaining_work_are_set: "Necessário quando o Trabalho e o Trabalho restante são definidos."
+              inclusion: "deve estar entre 0 e 100."
             due_date:
               not_start_date: "não é na data de início, embora isso seja necessário para os marcos."
               cannot_be_null: "não pode ser definido como nulo já que a data de início e a duração são conhecidas. "
@@ -1015,13 +1067,15 @@ pt-BR:
               only_same_project_categories_allowed: "A categoria de um pacote de trabalho deve estar dentro do mesmo projeto do pacote de trabalho."
               does_not_exist: "Categoria especificada não existe."
             estimated_hours:
+              not_a_number: "não é uma duração válida."
               cant_be_inferior_to_remaining_work: "Não pode ser menor do que o Trabalho restante."
-              must_be_set_when_remaining_work_is_set: "Necessário quando o Trabalho restante for definido."
-              only_values_greater_or_equal_zeroes_allowed: "Deve ser >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Necessário quando o Trabalho restante e o % concluído são definidos."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "não é uma duração válida."
               cant_exceed_work: "Não pode ser maior do que o Trabalho."
               must_be_set_when_work_is_set: "Necessário quando o Trabalho for definido."
+              must_be_set_when_work_and_percent_complete_are_set: "Necessário quando Trabalho e % concluído são definidos."
               format: "%{message}"
           readonly_status: "O pacote de trabalho está em estado somente leitura, então seus atributos não podem ser alterados."
         type:
@@ -1070,8 +1124,10 @@ pt-BR:
         version:
           undeletable_archived_projects: "A versão não pode ser excluída pois tem pacotes de trabalho anexados a ela."
           undeletable_work_packages_attached: "A versão não pode ser excluída pois tem pacotes de trabalho anexados a ela."
-        status:
-          readonly_default_exlusive: "Não pode ser ativado para estados marcados como padrão."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Por favor, verifique os seguintes campos:"
         header:
@@ -1095,11 +1151,17 @@ pt-BR:
         other: "Notificações"
       placeholder_user: "Usuário do espaço reservado"
       project: "Projeto"
+      project_query:
+        one: "Lista de projetos"
+        other: "Listas de projeto"
       query: "Consulta personalizada"
       role:
         one: "Papel"
         other: "Papéis"
       status: "Situação do pacote de trabalho"
+      token/api:
+        one: Access token
+        other: Access tokens
       type: "Tipo"
       user: "Usuário"
       version: "Versão"
@@ -1142,18 +1204,6 @@ pt-BR:
           other: "<i>%{count} horas</i>"
         updated: "alterado de %{old_value} para %{value}"
         logged_for: "Registrado por"
-      meeting_agenda_item:
-        duration:
-          added: "definido como %{value}"
-          added_html: "definido como <i>%{value}</i>"
-          removed: "removido"
-          updated: "alterado de %{old_value} para %{value}"
-          updated_html: "alterado de <i>%{old_value}</i> para <i>%{value}</i>"
-        position:
-          updated: "reorganizado"
-        work_package:
-          updated: "alterado de %{old_value} para %{value}"
-          updated_html: "alterado de <i>%{old_value}</i> para <i>%{value}</i>"
     filter:
       changeset: "Cj de alterações"
       message: "Fóruns"
@@ -1550,6 +1600,7 @@ pt-BR:
   error_pdf_failed_to_export: "Não foi possível salvar a exportação do PDF: %{error}"
   error_token_authenticity: "Não foi possível verificar o token de Falsificação de Solicitação Entre Sites. Você tentou enviar dados em vários navegadores ou abas? Por favor, feche todas as abas e tente novamente."
   error_work_package_not_found_in_project: "O pacote de trabalho não foi encontrado ou não pertence a este projeto"
+  error_work_package_id_not_found: "O pacote de trabalho não foi encontrado."
   error_must_be_project_member: "deve ser membro do projeto"
   error_migrations_are_pending: "Sua instalação do OpenProject possui migrações de banco de dados pendentes. Você provavelmente esqueceu de executar as migrações em sua última atualização. Por favor, verifique o guia de atualização para atualizar adequadamente sua instalação."
   error_migrations_visit_upgrade_guides: "Por favor, visite nossa documentação do guia de atualização"
@@ -1604,6 +1655,12 @@ pt-BR:
       pdf_gantt: "Gantt em PDF"
     image:
       omitted: "Imagem não exportada."
+    macro:
+      error: "Erro de macro, %{message}"
+      attribute_not_found: "Atributo não encontrado: %{attribute}"
+      model_not_found: "modelo de atributo inválido: %{model}"
+      resource_not_found: "Recurso não encontrado: %{resource}"
+      rich_text_unsupported: "A exportação atualmente não dá suporte à incorporação de texto enriquecido."
     units:
       hours: h
       days: d
@@ -1657,7 +1714,7 @@ pt-BR:
       dates_changed: "Data modificada"
       default_attribute_written: "Atributos de somente leitura escritos"
       progress_mode_changed_to_status_based: "Cálculo de progresso atualizado"
-      status_p_complete_changed: "Estado da % de conclusão alterado"
+      status_changed: "Status '%{status_name}'"
       system_update: "Atualização do sistema OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: por alterações ao antecessor %{link}
@@ -1674,8 +1731,9 @@ pt-BR:
           working: "%{date} agora está funcionando"
           non_working: "%{date} não está funcionando agora"
       progress_mode_changed_to_status_based: Modo de cálculo de progresso definido como com base no status
-      status_p_complete_changed: >-
-        Valor da % de conclusão para o estado '%{status_name}' alterado de %{old_value}% para %{new_value}%
+      status_excluded_from_totals_set_to_false_message: agora incluído nos totais da hierarquia
+      status_excluded_from_totals_set_to_true_message: agora excluído dos totais da hierarquia
+      status_percent_complete_changed: "% de conclusão alterada de %{old_value}% para %{new_value}%"
       system_update:
         file_links_journal: >
           A partir de agora, a atividade relacionada a links de arquivos (arquivos armazenados em armazenamentos externos) aparecerá aqui na guia Atividade. O seguinte representa a atividade relacionada aos links que já existiam:
@@ -1740,6 +1798,22 @@ pt-BR:
         failed: "Ocorreu um erro e o token não pôde ser removido. Tente novamente mais tarde."
         unknown_storage: "Armazenamento desconhecido"
   notifications:
+    reasons:
+      assigned: "Cessionário"
+      dateAlert: "Alerta de data"
+      mentioned: "Mencionado"
+      responsible: "Responsável"
+      shared: "Compartilhado"
+      watched: "Observador"
+    facets:
+      unread: "Não lido"
+      unread_title: "Exibir não lidos"
+      all: "Todos"
+      all_title: "Mostrar todos"
+    menu:
+      by_project: "Não lido por projeto"
+      by_reason: "Motivo"
+      inbox: "Caixa de entrada"
     send_notifications: "Enviar notificações para está ação "
     work_packages:
       subject:
@@ -1759,6 +1833,7 @@ pt-BR:
   label_add_another_file: "Adicionar outro arquivo"
   label_add_columns: "Adicionar colunas selecionadas"
   label_add_note: "Adicionar uma nota"
+  label_add_projects: "Adicionar projetos"
   label_add_related_work_packages: "Adicionar pacotes de trabalho relacionados"
   label_add_subtask: "Adicionar subtarefa"
   label_added: "adicionado"
@@ -1799,6 +1874,7 @@ pt-BR:
   label_ldap_auth_source_plural: "Conexões LDAP"
   label_attribute_expand_text: "O texto concluído para '%{attribute}'"
   label_authentication: "Autenticação"
+  label_authentication_settings: "Configurações de autenticação"
   label_available_global_roles: "Funções globais disponíveis"
   label_available_project_attributes: "Atributos de projeto disponíveis"
   label_available_project_forums: "Fóruns disponíveis"
@@ -1985,6 +2061,7 @@ pt-BR:
   label_inactive: "Inativo"
   label_incoming_emails: "E-mails recebidos"
   label_includes: "inclui"
+  label_include_sub_projects: Incluir subprojetos
   label_index_by_date: "Índice por data"
   label_index_by_title: "Índice por título"
   label_information: "Informação"
@@ -1995,7 +2072,10 @@ pt-BR:
   label_introduction_video: "Vídeo de introdução"
   label_invite_user: "Convidar usuário"
   label_share: "Compartilhar"
+  label_share_project_list: "Compartilhar lista de projeto"
+  label_share_work_package: "Compartilhar pacote de trabalho"
   label_show_hide: "Mostrar/ocultar"
+  label_show_hide_n_items: "Exibir/ocultar itens de %{count}"
   label_show_all_registered_users: "Mostrar todos usuários registrados"
   label_journal: "Diário"
   label_journal_diff: "Comparação de Descrição"
@@ -2033,6 +2113,7 @@ pt-BR:
   label_custom_touch_icon: "Ícone de toque personalizado"
   label_logout: "Desconectar"
   label_main_menu: "Menu lateral"
+  label_manage: "Gerenciar"
   label_manage_groups: "Gerenciar grupos"
   label_managed_repositories_vendor: "Repositórios gerenciados %{vendor}"
   label_max_size: "Tamanho máximo"
@@ -2041,8 +2122,8 @@ pt-BR:
   label_member_all_admin: "(Todos os papéis devidos ao status de administrador)"
   label_member_plural: "Membros"
   label_membership_plural: "Associações"
-  lable_membership_added: "Membro adicionado"
-  lable_membership_updated: "Membro atualizado"
+  label_membership_added: "Membro adicionado"
+  label_membership_updated: "Membro atualizado"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pré-alfa"
@@ -2088,6 +2169,8 @@ pt-BR:
   label_next_week: "Próxima semana"
   label_no_change_option: "(Sem alteração)"
   label_no_data: "Sem dados para exibir"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Nenhuma página pai"
   label_nothing_display: "Nada para exibir"
   label_nobody: "ninguém"
@@ -2143,6 +2226,7 @@ pt-BR:
   label_product_version: "Versão do produto"
   label_profile: "Perfil"
   label_percent_complete: "% de conclusão"
+  label_project: "Projeto"
   label_project_activity: "Atividade do projeto"
   label_project_attribute_plural: "Atributos do projeto"
   label_project_attribute_manage_link: "Gerenciar atributos do projeto"
@@ -2151,6 +2235,7 @@ pt-BR:
   label_project_latest: "Últimos projetos"
   label_project_default_type: "Permitir tipo vazio"
   label_project_hierarchy: "Hierarquia de projeto"
+  label_project_mappings: "Habilitado em projetos"
   label_project_new: "Novo projeto"
   label_project_plural: "Projetos"
   label_project_list_plural: "Listas de projeto"
@@ -2211,6 +2296,7 @@ pt-BR:
   label_role_search: "Atribuir papéis aos novos membros"
   label_scm: "SCM"
   label_search: "Pesquisar"
+  label_search_by_name: "Pesquisar por nome"
   label_send_information: "Enviar novas credenciais ao usuário"
   label_send_test_email: "Enviar um e-mail de teste"
   label_session: "Sessão"
@@ -2323,6 +2409,7 @@ pt-BR:
   label_work_package_new: "Novo pacote de trabalho"
   label_work_package_edit: "Editar pacote de trabalho %{name}"
   label_work_package_plural: "Pacotes de trabalho"
+  label_work_packages_settings: "Configurações dos pacotes de trabalho"
   label_work_package_status: "Situação do pacote de trabalho"
   label_work_package_status_new: "Nova situação"
   label_work_package_status_plural: "Situações do Pacote de Trabalho"
@@ -2330,9 +2417,10 @@ pt-BR:
   label_work_package_tracking: "Controle de pacote de trabalho"
   label_work_package_view_all: "Exibir todos os pacotes de trabalho"
   label_workflow: "Fluxo de Trabalho"
+  label_workflow_copy: "Copiar fluxo de trabalho"
   label_workflow_plural: "Fluxos de trabalho"
   label_workflow_summary: "Sumário"
-  label_working_days: "Dias úteis"
+  label_working_days_and_hours: "Dias e horas úteis"
   label_x_closed_work_packages_abbr:
     one: "1 fechado"
     other: "%{count} fechados"
@@ -2437,12 +2525,12 @@ pt-BR:
         plaintext:
           storage: "Armazenamento"
           healthy:
-            summary: "Ótima notícia! O status do seu armazenamento, %{storage_name}, está atualmente como \"Saudável\"."
+            summary: 'Ótima notícia! O status do seu armazenamento, %{storage_name}, está atualmente como "Saudável".'
             error-solved-on: "Resolvido em"
             recommendation: "Continuaremos monitorando o sistema para garantir que permaneça saudável. Se houver qualquer discrepância, iremos notificá-lo."
             details: "Para obter mais detalhes ou para fazer qualquer ajuste necessário, você pode acessar a configuração do seu armazenamento."
           unhealthy:
-            summary: "O status do seu armazenamento, %{storage_name}, atualmente está indicando \"Erro\". Detectamos um problema que pode precisar da sua atenção."
+            summary: 'O status do seu armazenamento, %{storage_name}, atualmente está indicando "Erro". Detectamos um problema que pode precisar da sua atenção.'
             error-details: "Detalhes do erro"
             error-message: "Mensagem de erro"
             error-occurred-on: "Ocorreu em"
@@ -2451,11 +2539,11 @@ pt-BR:
         email_notification_settings: "Configurações de notificação por e-mail do armazenamento"
         see_storage_settings: "Ver configurações de armazenamento"
         healthy:
-          subject: "O armazenamento \"%{name}\", no momento, está saudável!"
+          subject: 'O armazenamento "%{name}", no momento, está saudável!'
           solved_at: "resolvido em"
           summary: "O problema com a integração do armazenamento %{storage_name} foi resolvido."
         unhealthy:
-          subject: "O armazenamento \"%{name}\", no momento, não está saudável!"
+          subject: 'O armazenamento "%{name}", no momento, não está saudável!'
           since: "desde"
           summary: "Ocorreu um problema com a integração de seu armazenamento %{storage_name}."
           troubleshooting:
@@ -2580,6 +2668,7 @@ pt-BR:
   notice_principals_found_multiple: "Existe(m) %{number} resultado(s) encontrado(s).\nTecle tab para ir ao primeiro resultado."
   notice_principals_found_single: "Existe um resultado. Tecle tab para ir para ele."
   notice_project_not_deleted: "O projeto não foi excluído."
+  notice_project_not_found: "Projeto não encontrado."
   notice_successful_connection: "Conectado com sucesso."
   notice_successful_create: "Criado com sucesso."
   notice_successful_delete: "Exclusão bem sucedida."
@@ -2661,6 +2750,7 @@ pt-BR:
   permission_edit_own_messages: "Editar as próprias mensagens"
   permission_edit_own_time_entries: "Editar os próprios registros de tempo"
   permission_edit_project: "Editar projeto"
+  permission_edit_project_attributes: "Editar atributos do projeto"
   permission_edit_reportings: "Editar relatórios"
   permission_edit_time_entries: "Editar registro de hora para outros usuários"
   permission_edit_timelines: "Editar cronogramas"
@@ -2711,10 +2801,13 @@ pt-BR:
   permission_work_package_assigned: "Torne-se responsável"
   permission_work_package_assigned_explanation: "Pacotes de trabalho podem ser atribuídos a usuários e grupos em posse deste papel no respectivo projeto"
   permission_view_project_activity: "Visualizar a atividade do projeto"
+  permission_view_project_attributes: "Visualizar atributos do projeto"
   permission_save_bcf_queries: "Salvar consultas a BCF"
   permission_manage_public_bcf_queries: "Gerenciar consultas públicas a BCF"
   permission_edit_attribute_help_texts: "Editar textos de ajuda do atributos"
   permission_manage_public_project_queries: "Gerenciar listas de projetos públicos"
+  permission_view_project_query: "Ver consulta do projeto"
+  permission_edit_project_query: "Editar consulta do projeto"
   placeholders:
     default: "-"
   project:
@@ -2935,6 +3028,10 @@ pt-BR:
   setting_default_projects_public: "Novos projetos são públicos por padrão"
   setting_diff_max_lines_displayed: "Número máximo de linhas diferentes exibidas"
   setting_display_subprojects_work_packages: "Exibir pacotes de trabalho de subprojetos no projeto principal por padrão"
+  setting_duration_format: "formato de duração"
+  setting_duration_format_hours_only: "Apenas horas"
+  setting_duration_format_days_and_hours: "Dias e horas"
+  setting_duration_format_instructions: "Isso define como o Trabalho, Trabalho Restante e Durações  de empo gasto são exibidas."
   setting_emails_footer: "Rodapé de e-mails"
   setting_emails_header: "Cabeçalho de e-mails"
   setting_email_login: "Usar e-mail como login"
@@ -2945,6 +3042,9 @@ pt-BR:
   setting_feeds_limit: "Limite de conteúdo de feed"
   setting_file_max_size_displayed: "Tamanho máximo de arquivos de texto exibidos em linha"
   setting_host_name: "Nome do servidor"
+  setting_hours_per_day: "Horas por dia"
+  setting_hours_per_day_explanation: >-
+    Isso define o que é considerado um "dia" ao exibir a duração em dias e horas (por exemplo, se um dia tem 8 horas, 32 horas serão exibidas como 4 dias).
   setting_invitation_expiration_days: "E-mail de ativação expira após"
   setting_work_package_done_ratio: "Cálculo de progresso"
   setting_work_package_done_ratio_field: "Com base no trabalho"
@@ -3335,62 +3435,88 @@ pt-BR:
         work_based_help_text: "% de conclusão é automaticamente calculada com base no trabalho total e no trabalho restante."
         status_based_help_text: "A % de conclusão é definida pelo estado do pacote de trabalho."
         migration_warning_text: "No modo de cálculo de progresso com base no trabalho, a % conclusão não pode ser definida manualmente e está vinculada ao Trabalho. O valor existente foi mantido, mas não pode ser editado. Favor inserir o Trabalho primeiro."
-    sharing:
-      count:
-        zero: "0 usuários"
-        one: "1 usuário"
-        other: "%{count} usuários"
-      filter:
-        project_member: "Membro do projeto"
-        not_project_member: "Nenhum membro do projeto"
-        project_group: "Grupo do projeto"
-        not_project_group: "Não é um grupo do projeto"
-        role: "Papel"
-        type: "Tipo"
-      label_search: "Buscar usuários para convidar"
-      label_search_placeholder: "Buscar por usuário ou endereço de e-mail"
-      label_toggle_all: "Alternar todos os compartilhamentos"
-      permissions:
-        comment: "Comentário"
-        comment_description: "Pode visualizar e comentar neste pacote de trabalho."
-        denied: "Você não possui permissões para compartilhar pacotes de trabalho."
-        edit: "Editar"
-        edit_description: "Pode visualizar, comentar e editar este pacote de trabalho."
-        view: "Ver"
-        view_description: "Pode visualizar este pacote de trabalho."
-      remove: "Remover"
-      share: "Compartilhar"
-      text_empty_search_description: "Não há usuários com o critério de filtro atual."
-      text_empty_search_header: "Não encontramos nenhum resultado correspondente."
-      text_empty_state_description: "O pacote de trabalho ainda não foi compartilhado com ninguém."
-      text_empty_state_header: "Não compartilhado"
-      text_user_limit_reached: "A adição de usuários adicionais fará com que o limite atual seja excedido. Entre em contato com um administrador para aumentar o limite de usuários e garantir que usuários externos possam acessar este pacote de trabalho."
-      text_user_limit_reached_admins: 'A adição de usuários adicionais excederá o limite atual. <a href="%{upgrade_url}">Atualize o seu plano</a> para poder adicionar mais usuários.'
-      warning_user_limit_reached: >
-        A adição de usuários adicionais fará com que o limite atual seja excedido. Entre em contato com um administrador para aumentar o limite de usuários e garantir que usuários externos possam acessar este pacote de trabalho.
-      warning_user_limit_reached_admin: >
-        A adição de usuários adicionais excederá o limite atual. <a href="%{upgrade_url}">Atualize o seu plano</a> para poder garantir que os usuários externos possam acessar a este pacote de trabalho.
-      warning_no_selected_user: "Selecione os usuários com quem compartilhar este pacote de trabalho"
-      warning_locked_user: "O usuário %{user} está bloqueado e não pode ser compartilhado com"
+    permissions:
+      comment: "Comentário"
+      comment_description: "Pode visualizar e comentar neste pacote de trabalho."
+      edit: "Editar"
+      edit_description: "Pode visualizar, comentar e editar este pacote de trabalho."
+      view: "Ver"
+      view_description: "Pode visualizar este pacote de trabalho."
+  sharing:
+    count:
+      zero: "0 usuários"
+      one: "1 usuário"
+      other: "%{count} usuários"
+    filter:
+      project_member: "Membro do projeto"
+      not_project_member: "Nenhum membro do projeto"
+      project_group: "Grupo do projeto"
+      not_project_group: "Não é um grupo do projeto"
+      user: "Usuário"
+      group: "Grupo"
+      role: "Função"
+      type: "Tipo"
+    denied: "Você não possui permissões para compartilhar %{entities}."
+    label_search: "Buscar usuários para convidar"
+    label_search_placeholder: "Buscar por usuário ou endereço de e-mail"
+    label_toggle_all: "Alternar todos os compartilhamentos"
+    remove: "Remover"
+    share: "Compartilhar"
+    text_empty_search_description: "Não há usuários com o critério de filtro atual."
+    text_empty_search_header: "Não encontramos nenhum resultado correspondente."
+    text_empty_state_description: "O %{entity} ainda não foi compartilhado com ninguém."
+    text_empty_state_header: "Não compartilhado"
+    text_user_limit_reached: "A adição de usuários adicionais fará com que o limite atual seja excedido. Entre em contato com um administrador para aumentar o limite de usuários e garantir que usuários externos possam acessar esta %{entity}."
+    text_user_limit_reached_admins: 'A adição de usuários adicionais excederá o limite atual. <a href="%{upgrade_url}">Atualize o seu plano</a> para poder adicionar mais usuários.'
+    warning_user_limit_reached: >
+      A adição de usuários adicionais fará com que o limite atual seja excedido. Entre em contato com um administrador para aumentar o limite de usuários e garantir que usuários externos possam acessar esta %{entity}.
+    warning_user_limit_reached_admin: >
+      A adição de usuários adicionais excederá o limite atual. <a href="%{upgrade_url}">Atualize o seu plano</a> para poder garantir que os usuários externos possam acessar a esta %{entity}.
+    warning_no_selected_user: "Selecione os usuários com quem compartilhar este %{entity}"
+    warning_locked_user: "O usuário %{user} está bloqueado e não pode receber compartilhamento"
+    user_details:
+      locked: "Usuário bloqueado"
+      invited: "Convite enviado. "
+      resend_invite: "Reenviar."
+      invite_resent: "O convite foi reenviado"
+      not_project_member: "Nenhum membro do projeto"
+      project_group: "Os membros do grupo podem ter privilégios adicionais (como membros do projeto)"
+      not_project_group: "Grupo (compartilhado com todos os membros)"
+      additional_privileges_project: "Poderá ter privilégios adicionais (como membro do projeto)"
+      additional_privileges_group: "Poderá ter privilégios adicionais (como membro do grupo)"
+      additional_privileges_project_or_group: "Poderá ter privilégios adicionais (como membro do projeto ou grupo)"
+    project_queries:
+      publishing_denied: "Você não possui permissão para tornar as listas de projetos públicas."
+      access_warning: "Os usuários só verão os projetos aos quais têm acesso. O compartilhamento de listas de projetos não afeta as permissões individuais do projeto."
       user_details:
-        locked: "Usuário bloqueado"
-        invited: "Convite enviado. "
-        resend_invite: "Reenviar."
-        invite_resent: "O convite foi reenviado"
-        not_project_member: "Nenhum membro do projeto"
-        project_group: "Os membros do grupo podem ter privilégios adicionais (como membros do projeto)"
-        not_project_group: "Grupo (compartilhado com todos os membros)"
-        additional_privileges_project: "Poderá ter privilégios adicionais (como membro do projeto)"
-        additional_privileges_group: "Poderá ter privilégios adicionais (como membro do grupo)"
-        additional_privileges_project_or_group: "Poderá ter privilégios adicionais (como membro do projeto ou grupo)"
+        owner: "Proprietário da lista"
+        can_view_because_public: "Já pode ser visualizado porque a lista é compartilhada com todos"
+        can_manage_public_lists: "Pode ser editado devido a permissões globais."
+      public_flag:
+        label: "Compartilhe com todos em %{instance_name}"
+        caption: "Todos podem visualizar esta lista de projetos. Aqueles com permissões globais de edição podem modificá-la."
+      blank_state:
+        public:
+          header: "Compartilhado com todos."
+          description: "Todos podem visualizar esta lista de projetos. Você também pode adicionar usuários individuais com permissões adicionais."
+        private:
+          header: "Não compartilhado: Privado"
+          description: "Esta lista de projetos ainda não foi compartilhada com ninguém. Somente você pode acessar esta lista."
+      permissions:
+        view: "Visualizar"
+        view_description: "Pode visualizar esta lista de projetos."
+        edit: "Editar"
+        edit_description: "Pode visualizar, compartilhar e editar esta lista de projetos."
+      upsale:
+        message: "Compartilhar listas de projetos com usuários individuais é um complemento Enterprise."
   working_days:
     info: >
-      Dias que não são selecionados são pulados ao agendar pacotes de trabalho (e não são incluídos na contagem do dia). Estes podem ser substituídos a nível do pacotes de trabalho.
+      Dias não selecionados são ignorados ao agendar pacotes de trabalho (e não são incluídos na contagem de dias). Isso pode ser alterado individualmente em cada pacote de trabalho.
     instance_wide_info: >
       As datas adicionadas à lista abaixo são consideradas não úteis e ignoradas ao agendar pacotes de trabalho.
     change_button: "Alterar dias úteis"
     warning: >
-      Alterar os dias da semana considerados úteis ou não úteis pode afetar as datas de início e término de todos os pacotes de trabalho em todos os projetos desta instância. <br/> Observe que as alterações só são aplicadas após clicar no botão aplicar alterações.
+      Alterar os dias da semana considerados úteis ou não úteis pode impactar as datas de início e término de todos os pacotes de trabalho em todos os projetos desta instância.
     journal_note:
       changed: _**Dias úteis** alterado (%{changes})._
       days:

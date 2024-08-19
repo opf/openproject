@@ -41,6 +41,11 @@ cs:
           name: Specifikace
         item_2:
           name: Ostatní
+      project_query_roles:
+        item_0:
+          name: Prohlížeč dotazů na projekt
+        item_1:
+          name: Editor dotazů na projekt
       work_package_roles:
         item_0:
           name: Editor pracovních balíčků
@@ -72,81 +77,6 @@ cs:
           name: Vysoká
         item_3:
           name: Okamžitá
-      statuses:
-        item_0:
-          name: Nové
-        item_1:
-          name: Ve specifikaci
-        item_2:
-          name: Specifikováno
-        item_3:
-          name: Potvrzený
-        item_4:
-          name: Bude naplánováno
-        item_5:
-          name: Naplánováno
-        item_6:
-          name: Probíhá
-        item_7:
-          name: Vyvinutý
-        item_8:
-          name: V testování
-        item_9:
-          name: Testováno
-        item_10:
-          name: Test selhal
-        item_11:
-          name: Uzavřený
-        item_12:
-          name: Pozastaven
-        item_13:
-          name: Odmítnutý
-      time_entry_activities:
-        item_0:
-          name: Správa
-        item_1:
-          name: Specifikace
-        item_2:
-          name: Vývoj
-        item_3:
-          name: Testování
-        item_4:
-          name: Podpora
-        item_5:
-          name: Ostatní
-      types:
-        item_0:
-          name: Úkol
-        item_1:
-          name: Milník
-        item_2:
-          name: Fáze
-        item_3:
-          name: Funkce
-        item_4:
-          name: Epic
-        item_5:
-          name: Uživatelský příběh
-        item_6:
-          name: Chyba
-      welcome:
-        title: Vítejte v OpenProject!
-        text: |
-          OpenProject je hlavní open source software pro správu projektů. Podporuje klasické, agilní i hybridní řízení projektů a dává vám plnou kontrolu nad vašimi daty.
-
-          Základní funkce a použití případů:
-
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Plánování projektů a plánování](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Správa úloh a sledování problémů](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/tým-collaboration/)
-
-          Vítejte v budoucnosti řízení projektu.
-
-          Pro administrátory: Můžete změnit uvítací text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Demo projekt
@@ -424,4 +354,78 @@ cs:
               subject: Vydání v2.0
           wiki: |
 
+      statuses:
+        item_0:
+          name: Nové
+        item_1:
+          name: Ve specifikaci
+        item_2:
+          name: Specifikováno
+        item_3:
+          name: Potvrzený
+        item_4:
+          name: Bude naplánováno
+        item_5:
+          name: Naplánováno
+        item_6:
+          name: Probíhá
+        item_7:
+          name: Vyvinutý
+        item_8:
+          name: V testování
+        item_9:
+          name: Testováno
+        item_10:
+          name: Test selhal
+        item_11:
+          name: Uzavřený
+        item_12:
+          name: Pozastaven
+        item_13:
+          name: Odmítnutý
+      time_entry_activities:
+        item_0:
+          name: Správa
+        item_1:
+          name: Specifikace
+        item_2:
+          name: Vývoj
+        item_3:
+          name: Testování
+        item_4:
+          name: Podpora
+        item_5:
+          name: Ostatní
+      types:
+        item_0:
+          name: Úkol
+        item_1:
+          name: Milník
+        item_2:
+          name: Fáze
+        item_3:
+          name: Funkce
+        item_4:
+          name: Epic
+        item_5:
+          name: Uživatelský příběh
+        item_6:
+          name: Chyba
+      welcome:
+        title: Vítejte v OpenProject!
+        text: |
+          OpenProject je hlavní open source software pro správu projektů. Podporuje klasické, agilní i hybridní řízení projektů a dává vám plnou kontrolu nad vašimi daty.
 
+          Základní funkce a použití případů:
+
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Plánování projektů a plánování](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Správa úloh a sledování problémů](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/tým-collaboration/)
+
+          Vítejte v budoucnosti řízení projektu.
+
+          Pro administrátory: Můžete změnit uvítací text [here]({{opSetting:base_url}}/admin/settings/general).

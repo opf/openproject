@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,6 @@
 
 module Storages::ProjectStorages
   class DeleteContract < ::DeleteContract
-    delete_permission(:manage_storages_in_project)
+    delete_permission(:manage_files_in_project)
   end
 end

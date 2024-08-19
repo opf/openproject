@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,7 +76,7 @@ RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model 
 
   context "with records written to DB" do
     let(:user) { create(:user) }
-    let(:role) { create(:project_role, permissions: [:manage_storages_in_project]) }
+    let(:role) { create(:project_role, permissions: [:manage_files_in_project]) }
     let(:project) { create(:project, members: { user => role }) }
     let(:other_project) { create(:project) }
     let(:storage) { create(:nextcloud_storage) }

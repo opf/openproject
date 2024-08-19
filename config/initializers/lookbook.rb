@@ -24,11 +24,19 @@ Rails.application.configure do
   config.lookbook.ui_theme = "blue"
 
   SecureHeaders::Configuration.named_append(:lookbook) do
+    proxied =
+      if FrontendAssetHelper.assets_proxied?
+        ["ws://#{Setting.host_name}", "http://#{Setting.host_name}",
+         FrontendAssetHelper.cli_proxy.sub("http", "ws"), FrontendAssetHelper.cli_proxy]
+      else
+        []
+      end
+
     {
-      script_src: %w('unsafe-eval' 'unsafe-inline' 'self'), # rubocop:disable Lint/PercentStringArray
-      script_src_elem: %w('unsafe-eval' 'unsafe-inline' 'self'), # rubocop:disable Lint/PercentStringArray
-      style_src: %w('self' 'unsafe-inline'), # rubocop:disable Lint/PercentStringArray
-      style_src_attr: %w('self' 'unsafe-inline') # rubocop:disable Lint/PercentStringArray
+      script_src: proxied + %w('unsafe-eval' 'unsafe-inline' 'self'), # rubocop:disable Lint/PercentStringArray
+      script_src_elem: proxied + %w('unsafe-eval' 'unsafe-inline' 'self'), # rubocop:disable Lint/PercentStringArray
+      style_src: proxied + %w('self' 'unsafe-inline'), # rubocop:disable Lint/PercentStringArray
+      style_src_attr: proxied + %w('self' 'unsafe-inline') # rubocop:disable Lint/PercentStringArray
     }
   end
 

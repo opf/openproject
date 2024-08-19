@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,7 +63,7 @@ RSpec.describe "Team planner index", :js, :with_cuprite, with_ee: %i[team_planne
   end
 
   it "can create an action through the sidebar" do
-    find_test_selector("team-planner--create-button").click
+    find_test_selector("team_planner--create-button").click
 
     team_planner.expect_no_toaster
     team_planner.expect_title

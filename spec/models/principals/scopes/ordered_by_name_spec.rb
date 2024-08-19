@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,7 @@ require "spec_helper"
 
 RSpec.describe Principals::Scopes::OrderedByName do
   describe ".ordered_by_name" do
+    shared_let(:anonymous) { User.anonymous }
     shared_let(:alice) { create(:user, login: "alice", firstname: "Alice", lastname: "Zetop") }
     shared_let(:eve) { create(:user, login: "eve", firstname: "Eve", lastname: "Baddie") }
 
@@ -56,37 +57,37 @@ RSpec.describe Principals::Scopes::OrderedByName do
 
     context "with default user sort", with_settings: { user_format: :firstname_lastname } do
       it_behaves_like "sorted results" do
-        let(:order) { [alice.id, group.id, placeholder_user.id, eve.id] }
+        let(:order) { [alice.id, anonymous.id, group.id, placeholder_user.id, eve.id] }
       end
     end
 
     context "with lastname_firstname user sort", with_settings: { user_format: :lastname_firstname } do
       it_behaves_like "sorted results" do
-        let(:order) { [eve.id, group.id, placeholder_user.id, alice.id] }
+        let(:order) { [anonymous.id, eve.id, group.id, placeholder_user.id, alice.id] }
       end
     end
 
     context "with lastname_n_firstname user sort", with_settings: { user_format: :lastname_n_firstname } do
       it_behaves_like "sorted results" do
-        let(:order) { [eve.id, group.id, placeholder_user.id, alice.id] }
+        let(:order) { [anonymous.id, eve.id, group.id, placeholder_user.id, alice.id] }
       end
     end
 
     context "with lastname_coma_firstname user sort", with_settings: { user_format: :lastname_coma_firstname } do
       it_behaves_like "sorted results" do
-        let(:order) { [eve.id, group.id, placeholder_user.id, alice.id] }
+        let(:order) { [anonymous.id, eve.id, group.id, placeholder_user.id, alice.id] }
       end
     end
 
     context "with firstname user sort", with_settings: { user_format: :firstname } do
       it_behaves_like "sorted results" do
-        let(:order) { [alice.id, group.id, placeholder_user.id, eve.id] }
+        let(:order) { [alice.id, anonymous.id, group.id, placeholder_user.id, eve.id] }
       end
     end
 
     context "with login user sort", with_settings: { user_format: :username } do
       it_behaves_like "sorted results" do
-        let(:order) { [alice.id, group.id, placeholder_user.id, eve.id] }
+        let(:order) { [alice.id, anonymous.id, group.id, placeholder_user.id, eve.id] }
       end
     end
   end

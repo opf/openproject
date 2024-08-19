@@ -1,0 +1,22 @@
+<%= render(Primer::OpenProject::SubHeader.new) do |subheader|
+  subheader.with_filter_button(label: I18n.t(:description_filter),
+                               id: "filter-member-button",
+                               aria: { label: I18n.t(:description_filter) },
+                               class: "toggle-member-filter-link",
+                               data: filter_button_data_attributes) do
+    I18n.t(:description_filter)
+  end
+
+  subheader.with_action_button(scheme: :primary,
+                               aria: { label: I18n.t(:button_add_member) },
+                               title: I18n.t(:button_add_member),
+                               id: "add-member-button",
+                               data: add_button_data_attributes) do |button|
+    button.with_leading_visual_icon(icon: :plus)
+    t('activerecord.models.member')
+  end
+
+  subheader.with_bottom_pane_component do
+    render ::Members::UserFilterComponent.new(params, **@members_filter_options)
+  end
+end %>

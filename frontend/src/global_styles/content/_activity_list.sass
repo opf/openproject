@@ -13,10 +13,11 @@
 
     &-title
       @include spot-body-small (bold)
+      color: var(--body-font-color)
 
     &-subtitle
       @include spot-caption
-      color: $spot-color-basic-gray-2
+      color: var(--fgColor-muted)
       margin-bottom: $spot-spacing-0_5
 
     &-description
@@ -29,7 +30,7 @@
       padding: $spot-spacing-0_5
       padding-left: $spot-spacing-2
       margin: 0
-      color: $spot-color-basic-gray-2
+      color: var(--fgColor-muted)
 
     &-detail
       &:not(:last-child)

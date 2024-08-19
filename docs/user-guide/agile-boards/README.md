@@ -8,46 +8,51 @@ keywords: agile boards, Kanban, Scrum, agile project management, action boards
 
 # Boards for Agile Project Management
 
-Boards support agile project management methodologies, such as Scrum or Kanban.
+Boards support Agile project management methodologies, such as Scrum or Kanban. OpenProject Agile boards enable you to keep track tasks, bugs, features, risks and any other work package types. Boards consist of lists (columns) and cards (work packages). You can choose between a Basic board and various advanced Action boards.
 
-Our Agile boards can be for anything you would like to keep track of within your projects: Tasks to be done, Bugs to be fixed, Things to be reviewed, Features to be developed, Risks to be monitored, Ideas to be spread, anything! The boards consist of lists (columns) and cards. You can choose between a Basic board and various advanced Action boards.
+> [!NOTE]
+> The Basic board is included in the OpenProject Community edition. OpenProject Action boards are an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
 
-> **Note**: The basic board is included in the OpenProject Community edition. OpenProject Action boards are an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
-
-| Topic                                                     | Content                                                                          |
-|-----------------------------------------------------------|----------------------------------------------------------------------------------|
-| [Create new boards](#create-a-new-board)                  | How to create a new Agile board.                                                 |
-| [Choose between board types](#choose-between-board-types) | What is the difference between the available board types?                        |
-| [Give the board a title](#give-the-board-a-title)         | How to name a board.                                                             |
-| [Add lists to your board](#add-lists-to-your-board)       | How to add lists to a board.                                                     |
-| [Remove lists](#remove-lists)                             | How to remove lists from a board.                                                |
-| [Add cards to a list](#add-cards-to-a-list)               | How to add cards to a list in a board.                                           |
-| [Update cards](#update-cards)                             | How to update cards.                                                             |
-| [Remove cards](#remove-cards)                             | How to remove cards.                                                             |
-| [Manage boards](#manage-boards)                           | How to manage permissions for boards.                                            |
-| [Examples for agile boards](#agile-boards-examples)       | Best practices for using the basic board and status, assignee and version board. |
+| Topic                                                     | Content                                                      |
+| --------------------------------------------------------- | ------------------------------------------------------------ |
+| [Create new boards](#create-a-new-board)                  | How to create a new Agile board.                             |
+| [Choose between board types](#choose-between-board-types) | What is the difference between the available board types?    |
+| [Give the board a title](#give-the-board-a-title)         | How to name a board.                                         |
+| [Add lists to your board](#add-lists-to-your-board)       | How to add lists to a board.                                 |
+| [Remove lists](#remove-lists)                             | How to remove lists from a board.                            |
+| [Add cards to a list](#add-cards-to-a-list)               | How to add cards to a list in a board.                       |
+| [Update cards](#update-cards)                             | How to update cards.                                         |
+| [Remove cards](#remove-cards)                             | How to remove cards.                                         |
+| [Manage boards](#manage-boards)                           | How to manage permissions for boards.                        |
+| [Examples for Agile boards](#agile-boards-examples)       | Best practices for using the basic board and status, assignee and version board. |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Agile-Boards.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
+
 ## Agile boards in OpenProject
 
-The new Boards are tightly integrated with all other project management functionalities in OpenProject, i.e. work packages or Gantt charts. This makes it so easy and practical to include the Boards in your daily project management routines and to gain a much quicker overview of important topics in your project.
+Boards in OpenProject are closely integrated with all the other project management functionalities, such as work packages and Gantt charts. 
 
-![this is a kanban board](this-is-a-kanban-board.png)
+To get an overview of the project specific boards, navigate to your project and select **Boards** from the menu on the left. You will see an overview of all the boards that have been created in that specific project until now. You can click on the name of a specific board or use the search bar on the left.
+
+You can also view the boards on the instance level via [the global modules menu](../home/global-modules/#boards). 
+
+![Boards module in OpenProject](openproject_userguide_boards_overview.png)
 
 ## Create a new board
 
-You can create as many Agile boards in a project as you need and configure them to your needs. First, you need to create a new Boards view.
+You can create as many Agile boards in a project as you need and configure them to your needs. First, you need to create a new Board. To do that, click on the green **+Board** button.
 
-If you haven't done so yet, [activate the Boards module](../projects/project-settings/modules) within your project. Also, we recommend to verify [Roles and Permissions](../../system-admin-guide/users-permissions/roles-permissions/) within your system's Administration.
-
-Click on the green **+Board** button to create a new Board view.
+> [!NOTE]
+> To use this functionality, you need to [activate the Boards module](../projects/project-settings/modules) within your project. We also recommend to verify [Roles and Permissions](../../system-admin-guide/users-permissions/roles-permissions/) within your instance administration. 
 
 ![create a new board in the boards module](create-a-new-board-in-the-boards-module.png)
 
 ## Choose between board types
 
-Next, you need to choose which kind of Agile board you want to create.
+Choose the board type and title.
+
+![Create a new board in OpenProject](choose-board-type.png)
 
 ## Basic board (Community edition)
 
@@ -57,17 +62,18 @@ The Basic board is included in the OpenProject Community edition. You can freely
 
 ## Action boards (Enterprise add-on)
 
-In an Action board each lists represents a value of an attribute of the contained work packages (cards), e.g. there's a list for the status "New" and a list for the status "In Progress" in the Status board.
-Moving work packages (cards) between two lists will update them automatically, based on the list to which they're moved.
+In an Action board each list represents a value of an attribute of the contained work packages (cards). For example the Status board includes a list for the status "New" and a list for the status "In Progress". Moving work packages (cards) between two lists will update them automatically, based on the list to which they're moved.
 After [adding lists to your board](#add-lists-to-your-board) they will automatically be filled with the respective work packages.
 
-There are several **types of Action boards** available:
+There are several **types of Action boards** available in OpenProject:
 
 ### Status board
 
-Each list represents a status. That means that e.g. all work packages with the status "New" will be automatically displayed in the column "New".
-When creating a new Status board a list with all work packages in the default status (usually this is the status "New") will be added automatically, while additional lists need to be added manually.
-Please note: You can't move work packages from or to every status. Please find out more about the work-flow logics restricting this here: [Allowed transitions between status](../../system-admin-guide/manage-work-packages/work-package-workflows/)
+Each list represents a status. That means that all work packages with the status "New" will be automatically displayed in the column "New".
+When creating a new Status board a list of all work packages in the default status (usually this is the status "New") will be added automatically, while additional lists need to be added manually.
+
+> [!TIP]
+> You can not move work packages from or to every status. Please find out more about the [workflow rules and restrictions here](../../system-admin-guide/manage-work-packages/work-package-workflows/).
 
 ![create status board](create-status-board.png)
 

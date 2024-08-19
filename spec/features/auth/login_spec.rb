@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -80,8 +80,7 @@ RSpec.describe "Login" do
       let(:force_password_change) { true }
       let(:first_login) { true }
 
-      it 'redirects to homescreen after forced password change
-         (with validation error) and first login' do
+      it "redirects to homescreen after forced password change (with validation error) and first login" do
         # first login
         login_with(user.login, user_password)
         expect(current_path).to eql signin_path
@@ -109,7 +108,7 @@ RSpec.describe "Login" do
     end
 
     it "prevents login for a blocked user" do
-      user.lock!
+      user.locked!
 
       login_with(user.login, user.password)
 

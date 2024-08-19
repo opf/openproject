@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ RSpec.describe "form configuration", :js do
   shared_let(:admin) { create(:admin) }
   let(:type) { create(:type) }
 
-  let(:project) { create(:project, types: [type]) }
+  let!(:project) { create(:project, types: [type]) }
   let(:category) { create(:category, project:) }
   let(:work_package) do
     create(:work_package,
@@ -227,7 +227,7 @@ RSpec.describe "form configuration", :js do
 
         wp_page.expect_group("Estimates and progress") do
           wp_page.expect_attributes estimated_time: "-"
-          wp_page.expect_attributes spent_time: "0 h"
+          wp_page.expect_attributes spent_time: "0h"
         end
 
         # New work package has the same configuration

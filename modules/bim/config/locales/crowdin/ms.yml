@@ -24,7 +24,7 @@ ms:
       xml_file: 'Fail BCF XML'
       import_title: 'Import'
       export: 'Eksport'
-      import_update_comment: '(Dikemas kini di dalam import BCF)'
+      import_update_comment: '(Dikemas kini dalam import BCF)'
       import_failed: 'Tidak boleh import fail BCF: %{error}'
       import_failed_unsupported_bcf_version: 'Fail BCF gagal untuk dibaca: Versi BCF ini tidak disokong. Sila pastikan versi ini adalah sekurang-kurangnya %{minimal_version} atau lebih tinggi.'
       import_successful: 'Import %{count} isu BCF'

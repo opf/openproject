@@ -8,7 +8,7 @@
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 # Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -34,7 +34,7 @@ module OpenProject::GitlabIntegration
     class MergeRequestHook
       include OpenProject::GitlabIntegration::NotificationHandler::Helper
 
-      def process(payload_params)
+      def process(payload_params) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
         update_status_on_new_mr = false # true if you only reference one merge by work_package, else false.
         update_status_on_merged = false # true if you only reference one merge by work_package, else false.
         wp_status_id_on_new_mr = 7 # the id of the status.
@@ -48,7 +48,9 @@ module OpenProject::GitlabIntegration
         return unless (accepted_actions.include? payload.object_attributes.action) || (accepted_states.include? payload.object_attributes.state)
 
         user = User.find_by_id(payload.open_project_user_id)
-        text = payload.object_attributes.title + " - " + payload.object_attributes.description
+        text = [payload.object_attributes.title, payload.object_attributes.description]
+          .select(&:present?)
+          .join(" - ")
         work_packages = find_mentioned_work_packages(text, user)
         notes = generate_notes(payload)
 

@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -200,7 +200,7 @@ describe('Capabilities service', () => {
   });
 
   describe('When not logged in', () => {
-    beforeEach(() => compile({ id: null, name: null, mail: null }));
+    beforeEach(() => compile({ id: null, name: null, loggedIn: false }));
 
     it('Should have no capabilities', () => {
       service.loadedCapabilities$('global').subscribe((caps) => {
@@ -212,7 +212,7 @@ describe('Capabilities service', () => {
   });
 
   describe('When logged in', () => {
-    beforeEach(() => compile({ id: '1', name: 'Admin', mail: 'admin@example.com' }));
+    beforeEach(() => compile({ id: '1', name: 'Admin', loggedIn: true }));
 
     it('Should have all capabilities', () => {
       const params:ApiV3ListParameters = {

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ ko:
     button_back_to_list_view: "목록으로 돌아가기"
     button_cancel: "취소"
     button_close: "닫기"
-    button_change_project: "프로젝트 변경"
+    button_change_project: "Move to another project"
     button_check_all: "모두 선택"
     button_configure-form: "구성 양식"
     button_confirm: "확인"
@@ -74,7 +74,7 @@ ko:
     button_copy: "복사"
     button_copy_to_clipboard: "클립보드 복사"
     button_copy_link_to_clipboard: "클립보드에 링크 복사"
-    button_copy_to_other_project: "다른 프로젝트에 복사"
+    button_copy_to_other_project: "Duplicate to other project"
     button_custom-fields: "사용자 정의 필드"
     button_delete: "삭제"
     button_delete_watcher: "주시자 삭제"
@@ -150,6 +150,7 @@ ko:
         attribute_reference:
           macro_help_tooltip: "이 텍스트 세그먼트는 매크로에 의해 동적으로 렌더링되고 있습니다."
           not_found: "요청한 리소스를 찾을 수 없습니다."
+          nested_macro: "이 매크로는 %{model} %{id}을(를) 재귀적으로 참조하고 있습니다."
           invalid_attribute: "선택한 특성 '%{name}'이(가) 없습니다."
         child_pages:
           button: "자식 페이지의 링크"
@@ -274,6 +275,11 @@ ko:
         warning: >
           변경 사항이 적용되는 데 시간이 걸릴 수 있습니다. 모든 관련 작업 패키지가 업데이트되면 알림이 전송됩니다.
           계속하시겠습니까?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          진행률 계산 모드를 상태 기반에서 작업 기반으로 변경하면 <i>완료 %</i>가 편집할 수 없는 필드가 되며 해당 값은 <i>작업</i> 및 <i>남은 작업</i>에서 파생됩니다. <i>완료 %</i>의 기존 값은 유지됩니다. <i>작업</i> 및 <i>남은 작업</i>의 값이 없는 경우, <i>완료 %</i>를 변경하려면 해당 값이 필요합니다.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          진행률 계산 모드를 작업 기반에서 상태 기반으로 변경하면 기존의 모든 <i>완료 %</i> 값이 손실되고 각 상태와 관련된 값으로 대체됩니다. <i>남은 작업</i>의 기존 값도 이 변경 사항을 반영하기 위해 다시 계산될 수 있습니다. 이 작업은 되돌릴 수 없습니다.
     custom_actions:
       date:
         specific: "에"
@@ -360,10 +366,10 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_4":
             standard:
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>Gantt 보기의 PDF 내보내기(예: 인쇄용)(Enterprise 추가 기능)</li> <li>즐겨 찾는 프로젝트</li> <li>미팅의 섹션</li> <li>내 페이지 및 프로젝트 개요 페이지에 미팅 표시</li> <li>파일 탭에서 첨부 파일을 숨기는 기능</li> <li>링크(URL) 유형의 사용자 지정 필드</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."
@@ -610,10 +616,10 @@ ko:
       title: "알림"
       no_unread: "읽지 않는 알림 없음"
       reasons:
-        mentioned: "멘션 된"
+        mentioned: "멘션됨"
         watched: "주시자"
         assigned: "담당자"
-        responsible: "담당"
+        accountable: "담당자"
         created: "생성됨"
         scheduled: "예약됨"
         commented: "코멘트 작성됨"
@@ -632,11 +638,6 @@ ko:
         upsale:
           title: "날짜 경보"
           description: "날짜 경보를 사용하면, 중요 마감일을 놓치거나 잊지 않도록 향후 시작 날짜 또는 종료 날짜에 대한 알림을 받게 됩니다."
-      facets:
-        unread: "읽지 않음"
-        unread_title: "읽지 않은 항목 표시"
-        all: "모두"
-        all_title: "모두 표시"
       center:
         label_actor_and: "및"
         and_more_users:
@@ -652,19 +653,11 @@ ko:
           no_notification: "모두 확인하신 것 같습니다."
           no_notification_with_current_project_filter: "선택한 프로젝트에 대한 모든 알림을 본 것 같습니다."
           no_notification_with_current_filter: "%{filter} 필터에 대한 모든 알림을 본 것 같습니다."
+          no_notification_for_filter: "이 필터에 대한 모든 알림을 본 것 같습니다."
           no_selection: "모든 활동 세부 정보를 보려면 알림을 클릭하세요."
         new_notifications:
           message: "새 알림이 있습니다."
           link_text: "로드하려면 여기를 클릭하세요."
-      menu:
-        accountable: "담당"
-        by_project: "프로젝트 기준 읽지 않음"
-        by_reason: "이유"
-        inbox: "받은 편지함"
-        mentioned: "멘션됨"
-        watched: "주시자"
-        date_alert: "날짜 경보"
-        shared: "공유됨"
       settings:
         change_notification_settings: '중요 업데이트를 놓치지 않도록 <a target="_blank" href="%{url}">알림 설정</a>을 수정할 수 있습니다.'
         title: "알림 설정"
@@ -898,6 +891,11 @@ ko:
       preformatted_text: "서식 설정되어 있는 텍스트"
       wiki_link: "위키 페이지에 연결"
       image: "이미지"
+    sharing:
+      share: "공유"
+      selected_count: "%{count}개 선택됨"
+      selection:
+        mixed: "혼합"
     work_packages:
       bulk_actions:
         move: "프로젝트의 일괄 변경"
@@ -1008,11 +1006,13 @@ ko:
         workAlternative: "예상 시간"
         remainingTime: "남은 작업"
       default_queries:
+        manually_sorted: "새로운 수동 정렬 쿼리"
         latest_activity: "최근 활동"
         created_by_me: "내가 만듦"
         assigned_to_me: "내게 할당됨"
         recently_created: "최근에 만듦"
         all_open: "모두 열림"
+        overdue: "기한 지남"
         summary: "요약"
         shared_with_users: "사용자와 공유됨"
         shared_with_me: "나와 공유됨"
@@ -1053,12 +1053,8 @@ ko:
         is_parent: "이 작업 패키지의 날짜는 자식으로부터 자동으로 추정됩니다. '수동 스케줄링'을 활성화하여 날짜를 설정할 수 있습니다."
         is_switched_from_manual_to_automatic: "다른 작업 패키지와의 관계로 인해 수동 스케줄링에서 자동 스케줄링으로 전환한 후 이 작업 패키지의 날짜를 다시 계산해야 할 수 있습니다."
       sharing:
-        share: "공유하기"
         title: "작업 패키지 공유"
         show_all_users: "작업 패키지가 공유된 모든 사용자 표시"
-        selected_count: "%{count}개 선택됨"
-        selection:
-          mixed: "혼합"
         upsale:
           description: "프로젝트 멤버가 아닌 사용자와 작업 패키지를 공유합니다."
       table:
@@ -1279,6 +1275,11 @@ ko:
           placeholder: "이제 %{project}에서 이 플레이스홀더를 사용할 수 있게 되었습니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다."
           group: "이제 이 그룹은 %{project}의 일부입니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다."
         next_button: "계속"
+    exclusion_info:
+      modal:
+        title: "계층 합계에서 상태 제외됨"
+        content: >-
+          '%{status_name}' 상태는 작업, 남은 작업 및 완료 %의 계층 합계에서 제외되도록 구성되었습니다. 합계에서 이 값이 고려되지 않습니다.
     favorite_projects:
       no_results: "즐겨 찾는 프로젝트가 없습니다"
       no_results_subtext: "개요 또는 프로젝트 목록에서 하나 이상의 프로젝트를 즐겨찾기로 추가하세요."
@@ -1339,12 +1340,12 @@ ko:
         remove: "제거"
       drop_modal:
         focus_grab: "모달용 포커스 앵커입니다. 모달 트리거 요소로 돌아가려면 shift+tab을 누르세요."
-        Close: "닫기"
+        close: "모달 닫기"
     open_project_storage_modal:
       waiting_title:
-        timeout: "Timeout"
+        timeout: "시간 제한"
       waiting_subtitle:
         network_off: "네트워크 문제가 있습니다."
         network_on: "네트워크가 복원되었습니다. 작업 중입니다."
         timeout: >
-          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          예상 시간 내에 OpenProject에서 프로젝트 폴더에 대한 액세스를 제공하지 못했습니다. 다시 한 번 시도해 보세요.<br><br> 문제가 지속되면 OpenProject 관리자에게 문의하여 <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">파일 저장소 설정 상태</a>를 확인하세요.

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,7 @@
 module Storages::Admin
   class OAuthClientInfoComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
     include StorageViewInformation
 
     attr_reader :storage
@@ -40,6 +41,8 @@ module Storages::Admin
       super(oauth_client, **)
       @storage = storage
     end
+
+    def self.wrapper_key = :storage_oauth_client_section
 
     def edit_icon_button_options
       label = I18n.t("storages.buttons.replace_oauth_client",
@@ -62,7 +65,7 @@ module Storages::Admin
       {}.tap do |data_h|
         if oauth_client_configured?
           provider_type = I18n.t("storages.provider_types.#{storage.short_provider_type}.name")
-          data_h[:confirm] = I18n.t("storages.confirm_replace_oauth_client", provider_type:)
+          data_h[:turbo_confirm] = I18n.t("storages.confirm_replace_oauth_client", provider_type:)
         end
         data_h[:turbo_stream] = true
       end

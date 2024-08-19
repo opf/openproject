@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -152,15 +152,7 @@ class CostTypesController < ApplicationController
     render_404
   end
 
-  def default_breadcrumb
-    if action_name == "index"
-      CostType.model_name.human(count: 2)
-    else
-      ActionController::Base.helpers.link_to(CostType.model_name.human(count: 2), cost_types_path)
-    end
-  end
-
   def show_local_breadcrumb
-    true
+    false
   end
 end

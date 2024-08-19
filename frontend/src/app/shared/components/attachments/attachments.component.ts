@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,10 +31,12 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   HostBinding,
   Input,
   OnDestroy,
   OnInit,
+  Output,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -59,10 +61,8 @@ function containsFiles(dataTransfer:DataTransfer):boolean {
   return dataTransfer.types.indexOf('Files') >= 0;
 }
 
-export const attachmentsSelector = 'op-attachments';
-
 @Component({
-  selector: attachmentsSelector,
+  selector: 'op-attachments',
   templateUrl: './attachments.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -81,6 +81,10 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
   @Input() public externalUploadButton:string|null = null;
 
   @Input() public showTimestamp = true;
+
+  @Output() public attachmentRemoved = new EventEmitter<void>();
+
+  @Output() public attachmentAdded = new EventEmitter<void>();
 
   public attachments$:Observable<IAttachment[]>;
 
@@ -260,7 +264,7 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
       .attachmentsResourceService
       .attachFiles(this.resource, filesWithoutFolders)
       .subscribe({
-        next: () => {},
+        next: () => { this.attachmentAdded.emit(); },
         error: (error:HttpErrorResponse) => this.toastService.addError(error),
       });
   }
@@ -278,8 +282,8 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
       }
 
       // Files however MAY have no mime type as well
-      // so fall back to checking zero or 4096 bytes
-      if (file.size === 0 || file.size === 4096) {
+      // so fall back to checking zero
+      if (file.size === 0) {
         console.warn(`Skipping file because of file size (${file.size}) %O`, file);
         return false;
       }

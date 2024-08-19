@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,22 @@ See COPYRIGHT and LICENSE files for more details.
     custom_field: @custom_field,
     selected: :project_custom_field_project_mappings
   ))
+%>
+
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |component|
+    component.with_action_component do
+      render(Primer::Beta::Button.new(
+        scheme: :primary,
+        tag: :a,
+        href: new_link_admin_settings_project_custom_field_path(@custom_field),
+        data: { controller: "async-dialog" }
+      )) do |button|
+        button.with_leading_visual_icon(icon: 'op-include-projects')
+        I18n.t(:label_add_projects)
+      end
+    end
+  end unless @custom_field.required?
 %>
 
 <%=

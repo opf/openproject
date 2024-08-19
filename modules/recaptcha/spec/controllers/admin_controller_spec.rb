@@ -12,10 +12,10 @@ RSpec.describe Recaptcha::AdminController do
 
     it "does not allow access" do
       get :show
-      expect(response.status).to eq 403
+      expect(response).to have_http_status :forbidden
 
       post :update
-      expect(response.status).to eq 403
+      expect(response).to have_http_status :forbidden
     end
   end
 

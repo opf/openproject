@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Integrations
-  priority: 200
+  priority: 400
 description: Integration to OpenProject.
 keywords: projects, integration, Jira
 ---
@@ -49,6 +49,13 @@ OpenProject offers integration with Nextcloud for file storage and collaboration
 OpenProject offers an integration with OneDrive/Sharepoint for file storage and collaboration. You can find more information about [setting up the integration with OneDrive/SharePoint](./one-drive) and [using the integration](../../user-guide/file-management/one-drive-integration/).
 
 > **Note**: OneDrive/SharePoint integration is an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
+
+
+## SL2OP 
+
+SL2OP is an integration between SelectLine ERP and OpenProject. Please note that it was developed and is maintained by DAKO-IT, we do not provide any support for it. You can find more information [here](https://dako-it.com/captain-finn-software-fuer-selectline/schnittstelle-openproject-fuer-selectline/detail/80).
+
+> **Note**: it is currently only available in German. 
 
 ## Slack
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -286,7 +286,7 @@ module SortHelper
     allowed_params ||= %w[filters per_page expand columns]
 
     # Don't lose other params.
-    link_to_content_update(h(caption), safe_query_params(allowed_params).merge(sort_options), html_options)
+    link_to_content_update(h(caption), safe_query_params(allowed_params).merge(sort_options), html_options.merge(rel: :nofollow))
   end
 
   # Returns a table header <th> tag with a sort link for the named column

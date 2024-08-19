@@ -1,6 +1,5 @@
 nl:
   js:
-    queries:
-      all_open: 'Alles open'
-      timeline: 'Timeline'
-      milestones: 'Mijlpalen'
+    work_packages:
+      default_queries:
+        milestones: 'Mijlpalen'

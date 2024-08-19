@@ -1,0 +1,132 @@
+This component is an adaptation for OpenProject requirements of the React component `PageHeader` of Primer. This document will only state the points that differ from what **[Primer specifies](https://primer.style/components/page-header)** about this component in their documentation.
+
+## Overview
+
+<%= embed OpenProject::Common::PageHeaderPreview, :default %>
+
+## Anatomy
+
+There are minor adjustments on how the composition of this component is defined in Primer for OpenProject:
+
+**[Context bar](https://primer.style/components/page-header#context-bar):** Will be always present in all pages and will change depending on the viewport:
+
+- **Desktop:** The content of the context bar will be a [breadcrumb](https://primer.style/components/breadcrumbs).
+- **Tablet:** The content of the context bar will be a [breadcrumb](https://primer.style/components/breadcrumbs).
+- **Mobile:**
+  - The content of the breadcrumb will collapse to a single element using the parent link style.
+  - All the PageHeader actions will merge into an [ActionMenu](https://primer.style/components/action-menu) triggered by a single [Icon button](https://primer.style/components/icon-button) in the context bar.
+
+**[Title bar](https://primer.style/components/page-header#title-bar):** The default (medium) size will be always used keeping the capability as optionals of adding leading and trailing visuals and actions.
+
+**Actions:** If there are more than 5 actions, the last one will be an [Icon button](https://primer.style/components/icon-button) with a more (⋯) icon, which will display all the remaining actions in a dropdown. All actions require their own icon.
+
+**Divider**: The divider bellow the PageHeader will be always present with the exception of displaying a [Tav nav](https://primer.style/components/tab-nav) as navigation element bellow.
+
+## **Exceptional behaviours**
+
+- A special behaviour occurs when the page can be saved (or saved as) as one of the PageHeader actions will be used to display an informational text and a link to perform the action.
+- Work packages details are the only exceptional case, where the breadcrumb will be used to display the parent work package instead of the navigational hierarchy.
+
+## Best practices
+
+**Do**
+
+- Limit the actions of the PageHeader to the global actions of the page (e. for a work package list: favourite, share, full-screen, …).
+- Use the H1 tag always for the PageHeader.
+- All actions require their own icon.
+- Use Icon buttons instead of buttons for actions only when the icon is clear enough to describe the action.
+
+**Don't**
+
+- Don’t use the trailing action in the PageHeader as navigation element “back”, the breadcrumb and the browser back are covering this case.
+- Don't use create buttons as action of the PageHeader. They belong into the `Primer::OpenProject::SubHeader`, even if the SubHeader only consists of that button.
+- Don't use PageHeaders as a section header inside of the content of the page.
+
+## Used in
+
+The PageHeader is a navigational mandatory component in all pages that will always use as title the name of the page where is contained.
+
+## Examples
+
+For detailed examples have a look at the other [preview examples](../../inspect/primer/open_project/page_header/playground) of the component.
+
+This is an exemplary playground of the `Primer::OpenProject::PageHeader`.
+
+<%= embed OpenProject::Common::PageHeaderPreview, :playground, panels: %i[params source] %>
+
+## Technical notes
+
+The PageHeader actions offer a set of predefined slots, to use specific components inside the the PageHeader actions, such as:
+
+* **Primer::Alpha::Dialog** ([`with_action_dialog`](../../inspect/primer/open_project/page_header/dialog_actions))
+  * The trigger button will be part of the actions and collapse on mobile into the mobile action menu. Therefore, an additional `mobile_label`, as well as a `mobile_label` have to passed.
+* **Primer::Alpha::ActionMenu** ([`with_action_menu`](../../inspect/primer/open_project/page_header/menu_actions)):
+  * The trigger button will be part of the actions. On mobile, the options of the menu will be added to the options of the mobile action menu.
+* **Primer::OpenProject::ZenModeButton** ([`with_action_zen_mode_button`](../../inspect/primer/open_project/page_header/zen_mode_button_actions)):
+  * The button will collapse on mobile into the mobile action menu.
+* **Primer::Beta::IconButton** ([`with_action_icon_button`](../../inspect/primer/open_project/page_header/actions)):
+  * The button will collapse on mobile into the mobile action menu. Therefore, an additional `mobile_label` has to passed.
+* **Primer::Beta::Button** ([`with_action_button`](../../inspect/primer/open_project/page_header/actions)):
+  * The button will collapse on mobile into the mobile action menu. Therefore, an additional `mobile_label`, as well as a `mobile_label` have to passed.
+* **Primer::Beta::Link** ([`with_action_link`](../../inspect/primer/open_project/page_header/actions)):
+  * The button will collapse on mobile into the mobile action menu. Therefore, an additional `mobile_label`, as well as a `mobile_label` have to passed.
+* **Primer::Beta::Text** ([`with_action_text`](../../inspect/primer/open_project/page_header/actions)):
+  * The text will be hidden on mobile.
+
+
+### Code structure
+
+The PageHeader can be called directly in any `show`/`edit`/`index`/... `.html.erb` file.
+
+```html
+  <!-- app/views/module_a/index.html.erb -->
+  &lt;%=
+    render(Primer::OpenProject::PageHeader.new) do |header|
+      header.with_title { "Some title" }
+      header.with_breadcrumbs([{ href: "/foo", text: "Foo" },
+                               "Bar"])
+    end
+  %&gt;
+```
+
+As soon as the header is more complex, it is recommended to extract it into a separate component. A good rule of thumb is to extract the PageHeader as soon as there are actions involved, because it will increase the component code significantly.
+
+```rb
+class ModuleA::IndexPageHeaderComponent < ApplicationComponent
+  include OpPrimer::ComponentHelpers
+  include ApplicationHelper
+
+  def initialize
+    super
+    # ...
+  end
+
+  def breadcrumb_items
+    [{ href: "/foo", text: "Foo" },
+     "Bar"]
+  end
+
+  def additional_logic
+   # ...
+  end
+
+  # ...
+end
+```
+
+```html
+  <!-- app/components/module_a/index_page_header_component.html.erb -->
+  &lt;%=
+    render(Primer::OpenProject::PageHeader.new) do |header|
+      header.with_title { 'Some title' }
+      header.with_breadcrumbs(breadcrumb_items)
+
+      #... additional logic
+    end
+  %&gt;
+```
+
+```html
+  <!-- app/views/module_a/index.html.erb -->
+  &lt;%= render(ModuleA::IndexPageHeaderComponent.new) %&gt;
+```

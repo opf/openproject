@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ cs:
     button_back_to_list_view: "Zpět na seznam"
     button_cancel: "Zrušit"
     button_close: "Zavřít"
-    button_change_project: "Změnit projekt"
+    button_change_project: "Move to another project"
     button_check_all: "Zaškrtnout vše"
     button_configure-form: "Nastavení formuláře"
     button_confirm: "Potvrdit"
@@ -74,7 +74,7 @@ cs:
     button_copy: "Kopírovat"
     button_copy_to_clipboard: "Kopírovat do schránky"
     button_copy_link_to_clipboard: "Kopírovat odkaz do schránky"
-    button_copy_to_other_project: "Kopírovat do jiného projektu"
+    button_copy_to_other_project: "Duplicate to other project"
     button_custom-fields: "Vlastní pole"
     button_delete: "Odstranit"
     button_delete_watcher: "Smazat sledujícího uživatele"
@@ -150,6 +150,7 @@ cs:
         attribute_reference:
           macro_help_tooltip: "Tento textový segment je dynamicky rendrován makrem."
           not_found: "Požadovaný zdroj nebyl nalezen."
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Vybraný atribut '%{name}' neexistuje."
         child_pages:
           button: "Odkazy na podřízené stránky"
@@ -273,6 +274,11 @@ cs:
         change_description: "Změna, těch dnů v týdnu, které jsou považovány za pracovní dny, může ovlivnit datum zahájení a datum ukončení všech pracovních balíčků ve všech projektech \n v této instanci."
         warning: >
 
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
       date:
         specific: "zapnuto"
@@ -330,7 +336,7 @@ cs:
         description: >
           Vyberte počáteční úroveň přiblížení, která by se měla zobrazit, pokud není autozoom dostupný.
       export:
-        title: "Gantt chart PDF options"
+        title: "Možnosti Ganttova diagramu PDF"
         button_export: "Export"
         column_widths:
           narrow: "Úzké"
@@ -359,10 +365,10 @@ cs:
           learn_about: "Další informace o nových funkcích"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_4":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "Přihlásit kalendář k odběru"
       inital_setup_error_message: "Při načítání dat došlo k chybě."
@@ -609,17 +615,17 @@ cs:
       title: "Oznámení"
       no_unread: "Žádná nepřečtená oznámení"
       reasons:
-        mentioned: "zmíněn"
-        watched: "sledovatel"
+        mentioned: "Zmíněné"
+        watched: "Sledující"
         assigned: "Řešitel"
-        responsible: "Odpovědný"
+        accountable: "Odpovědný"
         created: "Vytvořeno"
         scheduled: "Naplánováno"
-        commented: "komentováno"
-        processed: "zpracováno"
-        prioritized: "upřednostněno"
+        commented: "Komentované"
+        processed: "Zpracované"
+        prioritized: "Prioritní"
         dateAlert: "Upozornění na datum"
-        shared: "sdíleno"
+        shared: "Sdíleno"
       date_alerts:
         milestone_date: "Datum milníku"
         overdue: "Po termínu"
@@ -631,11 +637,6 @@ cs:
         upsale:
           title: "Upozornění na datum"
           description: "S upozorněním na datum budete upozorněni na blížící se datum zahájení nebo ukončení, abyste nikdy nezmeškali nebo nezapomněli na důležitou lhůtu."
-      facets:
-        unread: "Nepřečtené"
-        unread_title: "Zobrazit nepřečtené"
-        all: "Vše"
-        all_title: "Zobrazit vše"
       center:
         label_actor_and: "a"
         and_more_users:
@@ -654,19 +655,11 @@ cs:
           no_notification: "Vypadá to, že jste všechno dohnali..."
           no_notification_with_current_project_filter: "Vypadá to, že nemáte žadné nové oznámení pro vybraný projekt."
           no_notification_with_current_filter: "Vypadá to, že tady nic není %{filter} filtr."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Klikněte na oznámení pro zobrazení všech podrobností o aktivitě."
         new_notifications:
           message: "Máte nová oznámení."
           link_text: "Klikněte zde pro jejich načtení."
-      menu:
-        accountable: "Odpovědný"
-        by_project: "Nepřečteno dle projektu"
-        by_reason: "Důvod"
-        inbox: "Inbox"
-        mentioned: "Zmíněné"
-        watched: "Sledující"
-        date_alert: "Upozornění na datum"
-        shared: "Sdílené"
       settings:
         change_notification_settings: 'Můžete změnit nastavení <a target="_blank" href="%{url}">oznámení</a> , abyste se ujistili, že nikdy nezmeškáte důležitou aktualizaci.'
         title: "Nastavení oznámení"
@@ -900,6 +893,11 @@ cs:
       preformatted_text: "Předformátovaný Text"
       wiki_link: "Odkaz na stránku Wiki"
       image: "Obrázek"
+    sharing:
+      share: "Sdílet"
+      selected_count: "%{count} vybráno"
+      selection:
+        mixed: "Smíšená"
     work_packages:
       bulk_actions:
         move: "Hromadná změna projektu"
@@ -940,7 +938,7 @@ cs:
       message_work_package_status_blocked: "Stav pracovního balíčku nelze zapisovat kvůli stavu zavření a přiřazování uzavřené verze."
       placeholder_filter_by_text: "Předmět, popis, komentáře, ..."
       progress:
-        title: "Work estimates and progress"
+        title: "Odhady práce a průběh "
       baseline:
         addition_label: "Přidáno k zobrazení ve srovnávacím období"
         removal_label: "Odstraněno ze zobrazení ve srovnávacím období "
@@ -1010,11 +1008,13 @@ cs:
         workAlternative: "Odhadovaný čas"
         remainingTime: "Zbývající práce"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Poslední aktivita"
         created_by_me: "Vytvořeno mnou"
         assigned_to_me: "Přiřazeno mně"
         recently_created: "Nedávno vytvořené"
         all_open: "Všechny otevřené"
+        overdue: "Po termínu"
         summary: "Souhrn"
         shared_with_users: "Sdíleno s uživateli"
         shared_with_me: "Sdíleno se mnou"
@@ -1055,12 +1055,8 @@ cs:
         is_parent: "Data tohoto pracovního balíčku jsou automaticky odvozena od jeho dětí. Aktivujte 'Manuální plánování' pro ručné nastavení dat."
         is_switched_from_manual_to_automatic: "Data tohoto pracovního balíčku budou možná muset být přepočítána po přepnutí z manuálu na automatické plánování kvůli vztahům s ostatními pracovními balíčky."
       sharing:
-        share: "Sdílet"
         title: "Sdílet pracovní balíček"
         show_all_users: "Show all users with whom the work package has been shared with"
-        selected_count: "%{count} vybráno"
-        selection:
-          mixed: "Smíšená"
         upsale:
           description: "Sdílejte pracovní balíčky s uživateli, kteří nejsou členy projektu."
       table:
@@ -1287,8 +1283,13 @@ cs:
           placeholder: "Zástupného uživatele lze nyní použít v %{project}. Mezitím již můžete plánovat s tímto uživatelem a přiřadit mu například pracovní balíčky."
           group: "Skupina je nyní součástí %{project}. Mezitím již můžete s touto skupinou plánovat a přiřadit například pracovní balíčky."
         next_button: "Pokračovat"
+    exclusion_info:
+      modal:
+        title: "Status vyloučen z součtů hierarchie"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
-      no_results: "You have no favorite projects"
+      no_results: "Nemáte žádné oblíbené projekty"
       no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Zahrnout projekty"
@@ -1347,12 +1348,12 @@ cs:
         remove: "Odstranit"
       drop_modal:
         focus_grab: "Toto je ukotvení pro modaly. Stisknutím karty shift+b se vrátíte k aktivačnímu prvku modalu."
-        Close: "Zavřít"
+        close: "Zavřít modal"
     open_project_storage_modal:
       waiting_title:
         timeout: "Vypršel časový limit"
       waiting_subtitle:
         network_off: "Je tu problém se sítí."
-        network_on: "Network is back. We are trying."
+        network_on: "Síť je zpátky . Zkoušíme to."
         timeout: >
-          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

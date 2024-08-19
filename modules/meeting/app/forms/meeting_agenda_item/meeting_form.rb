@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,8 +45,9 @@ class MeetingAgendaItem::MeetingForm < ApplicationForm
       MeetingAgendaItems::CreateContract
         .assignable_meetings(User.current)
         .where("meetings.start_time + (interval '1 hour' * meetings.duration) >= ?", Time.zone.now)
+        .reorder("meetings.start_time ASC")
         .includes(:project)
-        .find_each do |meeting|
+        .each do |meeting|
           select.option(
             label: "#{meeting.project.name}: " \
                    "#{meeting.title} " \

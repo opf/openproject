@@ -12,6 +12,7 @@ de:
         tenant: Verzeichnis (Tenant) ID
     errors:
       messages:
+        invalid_host_url: ist keine gültige URL.
         not_linked_to_project: ist nicht mit dem Projekt verknüpft.
       models:
         storages/file_link:
@@ -20,8 +21,12 @@ de:
               only_numeric_or_uuid: kann nur numerisch oder uuid sein.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Bitte wählen Sie einen Ordner.
             project_folder_mode:
               mode_unavailable: ist für diesen Speicher nicht verfügbar.
+            project_ids:
+              blank: Bitte wählen Sie ein Projekt aus.
         storages/storage:
           attributes:
             host:
@@ -46,18 +51,107 @@ de:
   permission_delete_files_explanation: Diese Berechtigung ist nur für Nextcloud-Speicher verfügbar
   permission_header_for_project_module_storages: Automatisch verwaltete Projektordner
   permission_manage_file_links: Datei-Links verwalten
-  permission_manage_storages_in_project: Dateispeicher im Projekt verwalten
+  permission_manage_files_in_project: Dateien in OpenProject verwalten.
   permission_read_files: 'Automatisch verwaltete Projektordner: Dateien lesen'
   permission_share_files: 'Automatisch verwaltete Projektordner: Dateien freigeben'
   permission_share_files_explanation: Diese Berechtigung ist nur für Nextcloud-Speicher verfügbar
   permission_view_file_links: Datei-Links anzeigen
   permission_write_files: 'Automatisch verwaltete Projektordner: Dateien schreiben'
   project_module_storages: Dateien
+  project_storages:
+    edit_project_folder:
+      label: Projektordner bearbeiten
+    project_folder_mode:
+      automatic: Automatisch verwaltet
+      inactive: Kein spezifischer Ordner
+      manual: Vorhandener Ordner manuell verwaltet
+    remove_project:
+      deletion_failure_flash: Failed to remove the project from the storage. %{error}
+      dialog:
+        automatically_managed_appendix: Falls dieser Speicher einen automatisch verwalteten Projektordner enthält, werden dieser und seine Dateien für immer gelöscht.
+        confirmation_text: Bitte bestätigen Sie die Entfernung des Dateispeichers aus diesem Projekt
+        heading: Projekt von %{storage_type} entfernen
+        text: Diese Aktion ist unumkehrbar und entfernt alle Verknüpfungen von Arbeitspaketen dieses Projekts zu Dateien und Ordnern dieses Speichers.
+      label: Projekt entfernen
+  services:
+    attributes:
+      nextcloud_sync_service:
+        add_user_to_group: 'Benutzer zur Gruppe hinzufügen:'
+        create_folder: 'Verwaltete Projekt-Ordnererstellung:'
+        ensure_root_folder_permissions: 'Basisordner-Berechtigungen festlegen:'
+        hide_inactive_folders: 'Verstecke Inaktive Ordner:'
+        remote_folders: 'Inhalt des Gruppenordners lesen:'
+        remove_user_from_group: 'Benutzer aus Gruppe entfernen:'
+        rename_project_folder: 'Verwalteten Projektordner umbenennen:'
+      one_drive_sync_service:
+        create_folder: 'Verwaltete Projekt-Ordnererstellung:'
+        ensure_root_folder_permissions: 'Basisordner-Berechtigungen festlegen:'
+        hide_inactive_folders: 'Verstecke Inaktive Ordner:'
+        remote_folders: 'Inhalt des Gruppenordners lesen:'
+        rename_project_folder: 'Verwalteten Projektordner umbenennen:'
+    errors:
+      models:
+        copy_project_folders_service:
+          conflict: Der Ordner %{destination_path} existiert bereits. Unterbrechen Sie den Prozess, um Überschreibungen zu vermeiden.
+          error: Ein unerwarteter Fehler ist aufgetreten. Bitte überprüfen Sie die OpenProject Protokolle für weitere Informationen oder kontaktieren Sie einen Administrator
+          forbidden: OpenProject konnte nicht auf den Quellordner zugreifen. Bitte überprüfen Sie Ihre Berechtigungskonfiguration auf dem Speicheranbieter
+          not_found: Der Quellvorlagen-Speicherort %{source_path} wurde nicht gefunden.
+          unauthorized: OpenProject konnte sich nicht mit dem Speicheranbieter authentifizieren. Bitte überprüfen Sie Ihre Speicherkonfiguration
+        nextcloud_sync_service:
+          attributes:
+            add_user_to_group:
+              conflict: 'Der Benutzer %{user} konnte aus folgendem Grund nicht zur %{group} Gruppe hinzugefügt werden: %{reason}'
+              failed_to_add: 'Der Benutzer %{user} konnte aus folgendem Grund nicht zur %{group} Gruppe hinzugefügt werden: %{reason}'
+            create_folder:
+              conflict: Der %{folder_name} existiert bereits auf %{parent_location}.
+              not_found: "%{parent_location} wurde nicht gefunden."
+            ensure_root_folder_permissions:
+              not_found: "%{group_folder} wurde nicht gefunden. Bitte überprüfen Sie Ihr Nextcloud Gruppenordner-Setup."
+              permission_not_set: konnte keine Berechtigungen auf %{group_folder} setzen.
+            hide_inactive_folders:
+              permission_not_set: konnte keine Berechtigungen auf %{path} setzen.
+            remote_folders:
+              not_allowed: Der %{username} hat keinen Zugriff auf die %{group_folder}. Bitte überprüfen Sie die Ordnerberechtigungen auf Nextcloud.
+              not_found: "%{group_folder} wurde nicht gefunden. Bitte überprüfen Sie Ihre Nextcloud-Konfiguration."
+            remove_user_from_group:
+              conflict: 'Der Benutzer %{user} konnte aus folgendem Grund nicht aus der %{group} Gruppe entfernt werden: %{reason}'
+              failed_to_remove: 'Der Benutzer %{user} konnte aus folgendem Grund nicht aus der %{group} Gruppe entfernt werden: %{reason}'
+            rename_project_folder:
+              forbidden: OpenProject Benutzer hat keinen Zugriff auf den Ordner %{current_path}.
+              not_found: "%{current_path} wurde nicht gefunden."
+            set_folders_permissions:
+              permission_not_set: konnte keine Berechtigungen auf %{path} setzen.
+          error: Ein unerwarteter Fehler ist aufgetreten. Bitte stellen Sie sicher, dass Ihre Nextcloud Instanz erreichbar ist und überprüfen Sie die OpenProject Worker Logs auf weitere Informationen
+          group_does_not_exist: "%{group} existiert nicht. Überprüfen Sie Ihre Nextcloud Instanz-Konfiguration."
+          insufficient_privileges: OpenProject hat nicht genügend Rechte, um %{user} zu %{group} hinzuzufügen. Überprüfen Sie Ihre Gruppeneinstellungen in Nextcloud.
+          not_allowed: Nextcloud blockiert die Anfrage.
+          unauthorized: OpenProject konnte nicht mit Nextcloud synchronisiert werden. Bitte überprüfen Sie Ihren Dateispeicher und die Nextcloud-Konfiguration.
+          user_does_not_exist: "%{user} existiert nicht in Nextcloud."
+        one_drive_sync_service:
+          attributes:
+            create_folder:
+              conflict: Der %{folder_name} existiert bereits auf %{parent_location}.
+              not_found: "%{parent_location} wurde nicht gefunden."
+            hide_inactive_folders:
+              permission_not_set: konnte die Berechtigungen für %{path} nicht setzen.
+            remote_folders:
+              request_error: OpenProject konnte nicht auf Ihr Laufwerk %{drive_id} zugreifen. Bitte überprüfen Sie, ob Ihre Speicherkonfiguration korrekt ist.
+            rename_project_folder:
+              conflict: OpenProject konnte den Ordner %{current_path} nicht in %{project_folder_name} umbenennen, da ein Ordner mit dem gleichen Namen bereits existiert
+              forbidden: OpenProject hat keinen Zugriff auf %{current_path} um es umzubenennen.
+              not_found: "%{current_path} wurde nicht gefunden."
+            set_folders_permissions:
+              permission_not_set: konnte keine Berechtigungen auf %{path} setzen.
+          error: Ein unerwarteter Fehler ist aufgetreten. Bitte stellen Sie sicher, dass Ihre Nextcloud Instanz erreichbar ist und überprüfen Sie die OpenProject Worker Logs auf weitere Informationen
+          not_allowed: OpenProject konnte nicht auf dein OneDrive-Laufwerk zugreifen. Bitte überprüfe die Berechtigungen der Azure Anwendung.
+          unauthorized: OpenProject konnte nicht mit OneDrive synchronisiert werden. Bitte überprüfen Sie den Speicher und die Konfiguration der Azure Anwendung.
+          user_does_not_exist: "%{user} existiert nicht in Nextcloud."
   storages:
     buttons:
       complete_without_setup: Ohne fortfahren
       done_complete_setup: Fertig, Einrichtung abgeschlossen
       done_continue: Fertig, Fortfahren
+      open_storage: Dateispeicher öffnen
       replace_oauth_application: OpenProject OAuth ersetzen
       replace_oauth_client: '%{provider_type} OAuth ersetzen'
       save_and_continue: Speichern und fortsetzen
@@ -80,6 +174,13 @@ de:
       storage_delete_result_1: Alle eingerichteten Projektdateispeicher, die diesen Dateispeicher verwenden, werden gelöscht.
       storage_delete_result_2: Alle Dateiverknüpfungen aus Arbeitspaketen sämtlicher Projekte zu Dateien und Ordnern auf diesem Dateispeicher werden gelöscht.
       storage_delete_result_3: Hat dieser Dateispeicher automatisch verwaltete Projektordner, so werden diese und die enthaltenen Dateien permanent gelöscht.
+    dependencies:
+      nextcloud:
+        group_folders_app: Gruppenordner
+        integration_app: OpenProject Integration
+    enabled_in_projects:
+      setup_incomplete_description: Dieser Speicher ist nicht vollständig eingerichtet. Bitte schließen Sie die Einrichtung ab, bevor Sie ihn in mehreren Projekten aktivieren.
+      setup_incomplete_header: Einrichtung des Speichers unvollständig
     error_invalid_provider_type: Bitte wählen Sie einen gültigen Dateispeicheranbieter aus.
     file_storage_view:
       access_management:
@@ -102,11 +203,28 @@ de:
       storage_provider: Speicheranbieter
     health:
       checked: Zuletzt geprüft %{datetime}
+      connection_validation:
+        action: Verbindung erneut überprüfen
+        app_version_mismatch: Die Integration OpenProject App-Version wird nicht unterstützt. Bitte aktualisieren Sie Ihren Nextcloud Server.
+        client_id_wrong: Die konfigurierte OAuth 2-Client-ID ist ungültig. Bitte überprüfen Sie die Konfiguration.
+        client_secret_wrong: Das konfigurierte OAuth 2-Client-Geheimnis ist ungültig. Bitte überprüfen Sie die Konfiguration.
+        drive_id_wrong: Die konfigurierte Laufwerks-ID konnte nicht gefunden werden. Bitte überprüfen Sie die Konfiguration.
+        group_folder_version_mismatch: Die Gruppenordner-Version wird nicht unterstützt. Bitte aktualisieren Sie Ihren Nextcloud Server.
+        host_not_found: Kein Nextcloud-Server unter der konfigurierten Host-URL gefunden. Bitte überprüfen Sie die Konfiguration.
+        missing_dependencies: 'Eine erforderliche Abhängigkeit fehlt auf dem Datei-Speicher. Bitte fügen Sie die folgende Abhängigkeit hinzu: %{dependency}.'
+        not_configured: Die Verbindung konnte nicht validiert werden. Bitte schließen Sie zuerst die Konfiguration ab.
+        placeholder: Überprüfen Sie Ihre Verbindung mit dem Server.
+        subtitle: Verbindungsvalidierung
+        tenant_id_wrong: Die konfigurierte Verzeichnis-(Mandanten-)ID ist ungültig. Bitte überprüfen Sie die Konfiguration.
+        unexpected_content: Unerwarteter Inhalt auf dem Laufwerk gefunden.
+        unknown_error: Die Verbindung konnte nicht validiert werden. Es ist ein unbekannter Fehler aufgetreten. Bitte prüfen Sie die Serverprotokolle für weitere Informationen.
       label_error: Fehler
       label_healthy: Fehlerfrei
       label_pending: Ausstehend
+      label_warning: Warnung
+      project_folders:
+        subtitle: Automatisch verwaltete Projektordner
       since: seit %{datetime}
-      subtitle: Automatisch verwaltete Projektordner
       title: Verbindungsstatus
     health_email_notifications:
       description_subscribed: Alle Administratoren erhalten E-Mail-Benachrichtigungen über den Zustand dieses Dateispeichers.
@@ -117,10 +235,10 @@ de:
       unsubscribe: Abonnement beenden
     help_texts:
       project_folder: Der Projektordner ist der Standardordner für Datei-Uploads für dieses Projekt. Benutzer können trotzdem Dateien an andere Orte hochladen.
+      project_folder_bulk: Der Projektordner ist der Standardordner für Datei-Uploads für alle ausgewählten Projekte. Sie können dies in jeder Projekteinstellung individuell ändern. Benutzer können trotzdem Dateien an andere Orte hochladen.
     instructions:
       all_available_storages_already_added: Alle verfügbaren Speicher sind dem Projekt bereits hinzugefügt.
       automatic_folder: Dies wird automatisch einen Stammordner für dieses Projekt erstellen und die Zugriffsberechtigungen für jedes Projektmitglied verwalten.
-      copy_from: Diesen Wert kopieren von
       empty_project_folder_validation: Die Auswahl eines Ordners ist zwingend erforderlich, um fortzufahren.
       existing_manual_folder: Sie können einen existierenden Ordner als Hauptordner für dieses Projekt definieren. Die Berechtigungen werden jedoch nicht automatisch verwaltet, der Administrator muss manuell sicherstellen, dass relevante Benutzer Zugriff haben. Der ausgewählte Ordner kann von mehreren Projekten verwendet werden.
       host: Bitte ergänzen Sie die Host-Adresse Ihres Speichers (einschließlich https://). Sie sollte nicht länger als 255 Zeichen sein.

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -130,6 +130,14 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           it "has a ISO duration representation (PT2H for instance)" do
             expect(subject).to be_json_eql("PT5H".to_json).at_path("remainingTime")
           end
+        end
+      end
+
+      describe "derived remaining hours" do
+        context "when set" do
+          let(:work_package) { build(:work_package, derived_remaining_hours: 5) }
+
+          it { is_expected.not_to have_json_path("derivedRemainingTime") }
         end
       end
 

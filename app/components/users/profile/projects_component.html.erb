@@ -1,0 +1,26 @@
+<%=
+  render(Primer::OpenProject::SidePanel::Section.new) do |section|
+    section.with_title { t(:label_project_plural) }
+    section.with_counter(count: @memberships.count, scheme: :primary)
+
+    if User.current.admin?
+      section.with_action_icon(
+        icon: :gear,
+        tag: :a,
+        "aria-label": t(:label_manage),
+        href: edit_user_path(@user, tab: :memberships)
+      )
+    end
+
+    render(OpPrimer::ExpandableListComponent.new) do |list|
+      @memberships.each do |membership|
+        list.with_element do
+          concat helpers.link_to_project(membership.project)
+
+          roles = membership.roles.sort.collect(&:to_s).join(', ')
+          concat render(Primer::Beta::Text.new(ml: 1, color: :subtle, font_size: :small)) { "(#{roles})" }
+        end
+      end
+    end
+  end
+%>

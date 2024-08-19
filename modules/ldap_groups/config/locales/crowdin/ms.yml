@@ -31,7 +31,7 @@ ms:
     synchronized_filters:
       add_new: 'Tambah saringan LDAP yang diselaraskan'
       singular: 'Penyaring sinkronisasi kumpulan LDAP'
-      plural: 'Penyaring sinkronisasi kumpulan LDAP'
+      plural: 'Penyaring sinkronisasi Kumpulan LDAP'
       label_n_groups_found:
         one: "1 kumpulan ditemui penyaring"
         other: "%{count} kumpulan ditemui penyaring"
@@ -39,7 +39,7 @@ ms:
       destroy:
         title: 'Buang saringan yang diselaraskan %{name}'
         confirmation: "Jika anda teruskan, saringan yang diselaraskan %{name} dan semua kumpulan %{groups_count} yang dicipta melaluinya akan dikeluarkan."
-        removed_groups: "Amaran: Ini akan mengeluarkan kumpulan berikut dari OpenProject dan mengeluarkannya dari semua projek!"
+        removed_groups: "Amaran: Ini akan mengeluarkan kumpulan berikut daripada OpenProject dan mengeluarkannya daripada semua projek!"
         verification: "Masukkan nama penyaring %{name} untuk mengesahkan pembuangan."
       form:
         group_name_attribute_text: 'Masukkan atribut kumpulan LDAP yang digunakan untuk tetapkan nama kumpulan OpenProject.'
@@ -59,7 +59,7 @@ ms:
         <br/>
         Kumpulan diselaraskan setiap jam melalui tugasan cron.
         <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Sila lihat dokumentasi kami berkenaan topik ini</a>.
-      no_results: 'Tiada kumpulan yang diseleraskan ditemui.'
+      no_results: 'Tiada kumpulan yang diselaraskan ditemui.'
       no_members: 'Kumpulan ini tidak mempunyai ahli yang diselaraskan lagi.'
       plural: 'Kumpulan-kumpulan LDAP yang diselaraskan'
       singular: 'Kumpulan LDAP yang diselaraskan'

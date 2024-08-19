@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -194,7 +194,7 @@ RSpec.describe UsersController do
       end
 
       it "returns 403 forbidden" do
-        expect(response.status).to eq 403
+        expect(response).to have_http_status :forbidden
       end
     end
 
@@ -401,7 +401,7 @@ RSpec.describe UsersController do
       let(:change_action) { :wtf }
 
       it "renders 400" do
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
         expect(response).not_to render_template "users/change_status_info"
       end
     end
@@ -890,9 +890,9 @@ RSpec.describe UsersController do
         end
 
         context "when not login_required", with_settings: { login_required: false } do
-          it "responds with 404" do
+          it "responds with 200" do
             expect(response)
-              .to have_http_status(:not_found)
+              .to have_http_status(:ok)
           end
         end
 

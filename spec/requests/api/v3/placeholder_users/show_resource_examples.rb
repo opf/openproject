@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 
 RSpec.shared_examples "represents the placeholder" do
   it do
-    expect(last_response.status).to eq(200)
+    expect(last_response).to have_http_status(:ok)
     expect(last_response.body)
       .to(be_json_eql("PlaceholderUser".to_json).at_path("_type"))
 

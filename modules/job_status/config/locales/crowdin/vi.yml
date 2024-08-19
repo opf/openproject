@@ -1,4 +1,5 @@
 vi:
+  label_job_status_plural: "Tình trạng công việc"
   plugin_openproject_job_status:
-    name: "OpenProject Job status"
-    description: "Listing and status of background jobs."
+    name: "Tình trạng công việc OpenProject"
+    description: "Danh sách và trạng thái của các công việc nền."

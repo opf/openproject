@@ -41,6 +41,11 @@ ca:
           name: Especificació
         item_2:
           name: Altres
+      project_query_roles:
+        item_0:
+          name: Project query viewer
+        item_1:
+          name: Project query editor
       work_package_roles:
         item_0:
           name: Editor de paquet de treball
@@ -72,81 +77,6 @@ ca:
           name: Alta
         item_3:
           name: Immediata
-      statuses:
-        item_0:
-          name: Nou
-        item_1:
-          name: En l'especificació
-        item_2:
-          name: Especificat
-        item_3:
-          name: Confirmat
-        item_4:
-          name: Per planificar
-        item_5:
-          name: Programat
-        item_6:
-          name: En progrés
-        item_7:
-          name: Desenvolupat
-        item_8:
-          name: En proves
-        item_9:
-          name: Provat
-        item_10:
-          name: Ha fallat la prova
-        item_11:
-          name: Tancat
-        item_12:
-          name: En espera
-        item_13:
-          name: Rebutjat
-      time_entry_activities:
-        item_0:
-          name: Administració
-        item_1:
-          name: Especificació
-        item_2:
-          name: Desenvolupament
-        item_3:
-          name: Proves
-        item_4:
-          name: Assistència
-        item_5:
-          name: Altres
-      types:
-        item_0:
-          name: Tasca
-        item_1:
-          name: Fita
-        item_2:
-          name: Fase
-        item_3:
-          name: Característica
-        item_4:
-          name: Èpica
-        item_5:
-          name: Història d'usuari
-        item_6:
-          name: Error
-      welcome:
-        title: Benvingut a OpenProject!
-        text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
-
-          Core features and use cases:
-
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-          Welcome to the future of project management.
-
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Projecte de demostració
@@ -480,3 +410,78 @@ ca:
             * Temps estimat (3 h).
             * Després de la revisió de Sprint Review i moderat per l'Scrum Master.
             * L'equip discuteix l'sprint: que ha anat bé, que s'ha de millorar per ser més productiu en el següent sprint o inclús per fer la feina més amena.
+      statuses:
+        item_0:
+          name: Nou
+        item_1:
+          name: En l'especificació
+        item_2:
+          name: Especificat
+        item_3:
+          name: Confirmat
+        item_4:
+          name: Per planificar
+        item_5:
+          name: Programat
+        item_6:
+          name: En progrés
+        item_7:
+          name: Desenvolupat
+        item_8:
+          name: En proves
+        item_9:
+          name: Provat
+        item_10:
+          name: Ha fallat la prova
+        item_11:
+          name: Tancat
+        item_12:
+          name: En espera
+        item_13:
+          name: Rebutjat
+      time_entry_activities:
+        item_0:
+          name: Administració
+        item_1:
+          name: Especificació
+        item_2:
+          name: Desenvolupament
+        item_3:
+          name: Proves
+        item_4:
+          name: Assistència
+        item_5:
+          name: Altres
+      types:
+        item_0:
+          name: Tasca
+        item_1:
+          name: Fita
+        item_2:
+          name: Fase
+        item_3:
+          name: Característica
+        item_4:
+          name: Èpica
+        item_5:
+          name: Història d'usuari
+        item_6:
+          name: Error
+      welcome:
+        title: Benvingut a OpenProject!
+        text: |
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+
+          Core features and use cases:
+
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+
+          Welcome to the future of project management.
+
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).

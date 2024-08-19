@@ -173,7 +173,7 @@ docker run -d -p 8080:80 --name openproject \
 ```
 
 Please make sure you set the correct public facing hostname in `OPENPROJECT_HOST__NAME`. If you don't have a load-balancing or proxying web server in front of your docker container,
-you will otherwise be vulnerable to [HOST header injections](https://portswigger.net/web-security/host-header), as the internal server has no way of identifying the correct host name.
+you will otherwise be vulnerable to [HOST header injections](https://portswigger.net/web-security/host-header), as the internal server has no way of identifying the correct host name. We strongly recommend you use an external load-balancing or proxying web server for termination of TLS/SSL and general security hardening.
 
 **Note**: Make sure to replace `secret` with a random string. One way to generate one is to run `head /dev/urandom | tr -dc A-Za-z0-9 | head -c 32 ; echo ''` if you are on Linux.
 
@@ -419,7 +419,7 @@ For instance:
 
 ```ruby
 group :opf_plugins do
-  gem "openproject-slack", git: "https://github.com/opf/openproject-slack.git", branch: "release/12.0"
+  gem "openproject-slack", git: "https://github.com/opf/openproject-slack.git", branch: "dev"
 end
 ```
 
@@ -439,7 +439,7 @@ COPY Gemfile.plugins /app/
 # RUN npm add npm <package-name>*
 
 RUN bundle config unset deployment && bundle install && bundle config set deployment 'true'
-RUN ./docker/prod/setup/postinstall.sh
+RUN ./docker/prod/setup/precompile-assets.sh
 ```
 
 The file is based on the normal OpenProject docker image.
@@ -463,7 +463,7 @@ COPY Gemfile.plugins /app/
 # RUN npm add npm <package-name>*
 
 RUN bundle config unset deployment && bundle install && bundle config set deployment 'true'
-RUN ./docker/prod/setup/postinstall.sh
+RUN ./docker/prod/setup/precompile-assets.sh
 
 FROM openproject/openproject:14-slim
 

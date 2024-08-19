@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,16 +43,18 @@ module OpenProject::Meeting
                    { meetings: %i[index show download_ics participants_dialog history],
                      meeting_agendas: %i[history show diff],
                      meeting_minutes: %i[history show diff],
+                     "meetings/menus": %i[show],
                      work_package_meetings_tab: %i[index count] },
                    permissible_on: :project
         permission :create_meetings,
-                   { meetings: %i[new create copy] },
+                   { meetings: %i[new create copy],
+                     "meetings/menus": %i[show] },
                    permissible_on: :project,
                    require: :member,
                    contract_actions: { meetings: %i[create] }
         permission :edit_meetings,
                    {
-                     meetings: %i[edit cancel_edit update update_title update_details update_participants],
+                     meetings: %i[edit cancel_edit update update_title details_dialog update_details update_participants],
                      work_package_meetings_tab: %i[add_work_package_to_meeting_dialog add_work_package_to_meeting]
                    },
                    permissible_on: :project,
@@ -115,12 +117,24 @@ module OpenProject::Meeting
            caption: :project_module_meetings,
            after: :wiki,
            before: :members,
-           icon: "meetings"
+           icon: "comment-discussion"
 
       menu :project_menu,
            :meetings_query_select, { controller: "/meetings", action: "index" },
            parent: :meetings,
-           partial: "meetings/menu_query_select"
+           partial: "meetings/menus/menu"
+
+      menu :work_package_split_view,
+           :meetings,
+           { tab: :meetings },
+           skip_permissions_check: true,
+           if: ->(_project) {
+             User.current.allowed_in_any_project?(:view_meetings)
+           },
+           badge: ->(work_package:, **) {
+             work_package.meetings.where(meetings: { start_time: Time.zone.today.beginning_of_day.. }).count
+           },
+           caption: :label_meeting_plural
 
       should_render_global_menu_item = Proc.new do
         (User.current.logged? || !Setting.login_required?) &&
@@ -132,20 +146,20 @@ module OpenProject::Meeting
            context: :modules,
            caption: :label_meeting_plural,
            last: true,
-           icon: "meetings",
+           icon: "comment-discussion",
            if: should_render_global_menu_item
 
       menu :global_menu,
            :meetings, { controller: "/meetings", action: "index", project_id: nil },
            caption: :label_meeting_plural,
            last: true,
-           icon: "meetings",
+           icon: "comment-discussion",
            if: should_render_global_menu_item
 
       menu :global_menu,
            :meetings_query_select, { controller: "/meetings", action: "index", project_id: nil },
            parent: :meetings,
-           partial: "meetings/menu_query_select",
+           partial: "meetings/menus/menu",
            if: should_render_global_menu_item
 
       ActiveSupport::Inflector.inflections do |inflect|

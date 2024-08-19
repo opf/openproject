@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     prepend InstanceMethods
     extend ClassMethods
 
-    register_journal_formatted_fields(:decimal, "story_points")
-    register_journal_formatted_fields(:decimal, "position")
+    register_journal_formatted_fields "story_points", "position", formatter_key: :decimal
 
     validates_numericality_of :story_points, only_integer: true,
                                              allow_nil: true,

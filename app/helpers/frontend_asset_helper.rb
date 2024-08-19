@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,14 +27,14 @@
 #++
 
 module FrontendAssetHelper
-  CLI_DEFAULT_PROXY = 'http://localhost:4200'.freeze
+  CLI_DEFAULT_PROXY = "http://localhost:4200".freeze
 
   def self.assets_proxied?
-    ENV['OPENPROJECT_DISABLE_DEV_ASSET_PROXY'].blank? && !Rails.env.production? && cli_proxy.present?
+    ENV["OPENPROJECT_DISABLE_DEV_ASSET_PROXY"].blank? && !Rails.env.production? && cli_proxy.present?
   end
 
   def self.cli_proxy
-    ENV.fetch('OPENPROJECT_CLI_PROXY', CLI_DEFAULT_PROXY)
+    ENV.fetch("OPENPROJECT_CLI_PROXY", CLI_DEFAULT_PROXY)
   end
 
   ##
@@ -46,14 +46,18 @@ module FrontendAssetHelper
         concat nonced_javascript_include_tag variable_asset_path(file), skip_pipeline: true
       end
 
-      concat stylesheet_link_tag variable_asset_path("styles.css"), media: :all, skip_pipeline: true
+      concat frontend_stylesheet_link_tag("styles.css")
     end
   end
 
   def include_spot_assets
     capture do
-      concat stylesheet_link_tag variable_asset_path("spot.css"), media: :all, skip_pipeline: true
+      concat frontend_stylesheet_link_tag("spot.css")
     end
+  end
+
+  def frontend_stylesheet_link_tag(path)
+    stylesheet_link_tag variable_asset_path(path), media: :all, skip_pipeline: true
   end
 
   def nonced_javascript_include_tag(path, **)

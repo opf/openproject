@@ -11,7 +11,6 @@ pt-BR:
   message_avatar_uploaded: "Imagem do perfil alterada com sucesso."
   error_image_upload: "Erro ao salvar a imagem."
   error_image_size: "A imagem é muito grande."
-  button_change_avatar: "Alterar Imagem do perfil"
   are_you_sure_delete_avatar: "Tem certeza que deseja excluir sua Imagem do perfil?"
   avatar_deleted: "Imagem do perfil excluída com sucesso."
   unable_to_delete_avatar: "A Imagem do perfil não pode ser excluída."

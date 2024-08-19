@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,27 +30,7 @@ module OpenProject
   module Acts
     module Watchable
       module Registry
-        def self.models
-          @models ||= Set.new
-        end
-
-        def self.exists?(model)
-          models.include?(model)
-        end
-
-        def self.instance(model_name)
-          models.detect { |cls| cls.name == model_name.singularize.camelize }
-        end
-
-        def self.add(*models)
-          models.each do |model|
-            unless model.ancestors.include?(::OpenProject::Acts::Watchable)
-              raise ArgumentError.new("Model #{model} does not include acts_as_watchable")
-            end
-
-            self.models << model
-          end
-        end
+        extend RegistryMethods
       end
     end
   end

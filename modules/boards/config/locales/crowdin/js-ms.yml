@@ -12,15 +12,15 @@ ms:
       lists:
         delete: 'Padam senarai'
       version:
-        is_locked: 'Versi ini dikunci. Tiada item yang boleh ditambah kedalam versi ini.'
-        is_closed: 'Versi ini ditutup. Tiada item yang boleh ditambah kedalam versi ini.'
+        is_locked: 'Versi ini dikunci. Tiada item yang boleh ditambah ke dalam versi ini.'
+        is_closed: 'Versi ini ditutup. Tiada item yang boleh ditambah ke dalam versi ini.'
         close_version: 'Versi tertutup'
         open_version: 'Versi terbuka'
         lock_version: 'Versi terkunci'
         unlock_version: 'Versi dibuka'
         edit_version: 'Versi edit'
         show_version: 'Papar versi'
-        locked: 'Dikunci'
+        locked: 'Terkunci'
         closed: 'Tertutup'
       new_board: 'Board baharu'
       add_list: 'Tambah senarai ke board'

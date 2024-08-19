@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -40,16 +40,16 @@ hu:
         participants_invited: "Meghívottak"
         project: "Projekt"
         start_date: "dátum"
-        start_time: "Start time"
-        start_time_hour: "Start time"
+        start_time: "Kezdés"
+        start_time_hour: "Kezdés"
       meeting_agenda_item:
         title: "Cím"
         author: "Szerző"
-        duration_in_minutes: "min"
+        duration_in_minutes: "Perc"
         description: "Jegyzet"
-        presenter: "Presenter"
+        presenter: "Bemutató"
       meeting_section:
-        title: "Title"
+        title: "Cím"
     errors:
       messages:
         invalid_time_format: "nem egy érvényes időpont. Előírt formátum: óó:pp"
@@ -58,9 +58,23 @@ hu:
       meeting_agenda_item: "Napirendi pont"
       meeting_agenda: "Napirend"
       meeting_minutes: "Jegyzőkönyv"
+      meeting_section: "Szekció "
   activity:
     filter:
       meeting: "Megbeszélések"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "Átállítás %{value}-ra/-re"
+          added_html: "Átállítás <i>%{value}</i>-ra/-re"
+          removed: "Eltávolított "
+          updated: "Átállítva %{old_value}-ról/-ről %{value}-ra/-re"
+          updated_html: "Átállítva <i>%{old_value}</i>-ról/-ről <i>%{value}</i>-ra/-re"
+        position:
+          updated: "Átrakva"
+        work_package:
+          updated: "Átállítva %{old_value}-ról/-ről %{value}-ra/-re"
+          updated_html: "Átállítva <i>%{old_value}</i>-ról/-ről <i>%{value}</i>-ra/-re"
   description_attended: "részt vett"
   description_invite: "meghívott"
   events:
@@ -108,7 +122,7 @@ hu:
       agenda_text: "A régi megbeszélés napirendjének másolása"
     email:
       send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_invitation_emails: "Send out invitation emails for all participants."
       open_meeting_link: "Nyitott megbeszélés"
       invited:
         summary: "%{actor} meghívott a következő megbeszélésre: %{title}"
@@ -165,7 +179,7 @@ hu:
   label_meeting_created_by: "Létrehozta"
   label_meeting_last_updated: "Utoljára frissítve"
   label_agenda_items: "Agenda items"
-  label_agenda_items_reordered: "reordered"
+  label_agenda_items_reordered: "Átrakva"
   label_agenda_item_remove: "Remove from agenda"
   label_agenda_item_undisclosed_wp: "Munkacsomag #%{id} nem látható"
   label_agenda_item_deleted_wp: "Törölt munkacsomag-hivatkozás"

@@ -1,4 +1,5 @@
 zh-CN:
+  label_job_status_plural: "工作状态"
   plugin_openproject_job_status:
     name: "OpenProject 作业状态"
     description: "后台作业的列表和状态。"

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -84,8 +84,7 @@ RSpec.describe OpenProject::JournalFormatter::Attachment do
       it { expect(instance.render(key, [attachment.filename.to_s, nil])).to eq(expected) }
     end
 
-    describe "WITH the first value being nil, and the second an id as a string
-              WITH specifying not to output html" do
+    describe "WITH the first value being nil, and the second an id as a string WITH specifying not to output html" do
       let(:expected) do
         I18n.t(:text_journal_attachment_added,
                label: I18n.t(:"activerecord.models.attachment"),
@@ -95,8 +94,7 @@ RSpec.describe OpenProject::JournalFormatter::Attachment do
       it { expect(instance.render(key, [nil, attachment.filename.to_s], html: false)).to eq(expected) }
     end
 
-    describe "WITH the first value being an id as string, and the second nil,
-              WITH specifying not to output html" do
+    describe "WITH the first value being an id as string, and the second nil, WITH specifying not to output html" do
       let(:expected) do
         I18n.t(:text_journal_attachment_deleted,
                label: I18n.t(:"activerecord.models.attachment"),

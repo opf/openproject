@@ -41,6 +41,11 @@ id:
           name: Spesifikasi
         item_2:
           name: Lainnya
+      project_query_roles:
+        item_0:
+          name: Project query viewer
+        item_1:
+          name: Project query editor
       work_package_roles:
         item_0:
           name: Work package editor
@@ -72,85 +77,10 @@ id:
           name: High
         item_3:
           name: Segera
-      statuses:
-        item_0:
-          name: Baru
-        item_1:
-          name: In specification
-        item_2:
-          name: Specified
-        item_3:
-          name: Confirmed
-        item_4:
-          name: To be scheduled
-        item_5:
-          name: Scheduled
-        item_6:
-          name: In Progress
-        item_7:
-          name: Developed
-        item_8:
-          name: In testing
-        item_9:
-          name: Tested
-        item_10:
-          name: Test failed
-        item_11:
-          name: Closed
-        item_12:
-          name: On hold
-        item_13:
-          name: Rejected
-      time_entry_activities:
-        item_0:
-          name: Manajemen
-        item_1:
-          name: Spesifikasi
-        item_2:
-          name: Pengembangan
-        item_3:
-          name: Pengujian
-        item_4:
-          name: Support
-        item_5:
-          name: Lainnya
-      types:
-        item_0:
-          name: Tugas
-        item_1:
-          name: Milestone
-        item_2:
-          name: Fase
-        item_3:
-          name: Fitur
-        item_4:
-          name: Epic
-        item_5:
-          name: User story
-        item_6:
-          name: Bug
-      welcome:
-        title: Welcome to OpenProject!
-        text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
-
-          Core features and use cases:
-
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-          Welcome to the future of project management.
-
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Demo project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: Seluruh tugas berjalan sesuai jadwal. Orang-orang yang terlibat memahami tugas mereka. Sistem sudah diatur sepenuhnya.
           description: This is a short summary of the goals of this demo project.
           news:
             item_0:
@@ -167,7 +97,7 @@ id:
             item_1:
               name: Tahapan pencapaian
             item_2:
-              name: Tasks
+              name: Tugas
             item_3:
               name: Rencana tim
           boards:
@@ -190,7 +120,7 @@ id:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Selamat datang
               item_1:
                 options:
                   name: Getting started
@@ -268,7 +198,7 @@ id:
             More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Scrum project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: Seluruh tugas berjalan sesuai jadwal. Orang-orang yang terlibat memahami tugas mereka. Sistem sudah diatur sepenuhnya.
           description: This is a short summary of the goals of this demo Scrum project.
           news:
             item_0:
@@ -343,7 +273,7 @@ id:
             item_2:
               name: Sprint 1
             item_3:
-              name: Tasks
+              name: Tugas
           boards:
             kanban:
               name: Kanban board
@@ -362,7 +292,7 @@ id:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Selamat datang
               item_1:
                 options:
                   name: Getting started
@@ -484,3 +414,78 @@ id:
             * Time boxed (3 h).
             * After Sprint Review, will be moderated by Scrum Master.
             * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+      statuses:
+        item_0:
+          name: Baru
+        item_1:
+          name: In specification
+        item_2:
+          name: Specified
+        item_3:
+          name: Confirmed
+        item_4:
+          name: To be scheduled
+        item_5:
+          name: Scheduled
+        item_6:
+          name: In Progress
+        item_7:
+          name: Developed
+        item_8:
+          name: In testing
+        item_9:
+          name: Tested
+        item_10:
+          name: Test failed
+        item_11:
+          name: Closed
+        item_12:
+          name: On hold
+        item_13:
+          name: Rejected
+      time_entry_activities:
+        item_0:
+          name: Manajemen
+        item_1:
+          name: Spesifikasi
+        item_2:
+          name: Pengembangan
+        item_3:
+          name: Pengujian
+        item_4:
+          name: Support
+        item_5:
+          name: Lainnya
+      types:
+        item_0:
+          name: Tugas
+        item_1:
+          name: Milestone
+        item_2:
+          name: Fase
+        item_3:
+          name: Fitur
+        item_4:
+          name: Epic
+        item_5:
+          name: User story
+        item_6:
+          name: Bug
+      welcome:
+        title: Welcome to OpenProject!
+        text: |
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+
+          Core features and use cases:
+
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+
+          Welcome to the future of project management.
+
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).

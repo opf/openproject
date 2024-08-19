@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,8 +50,8 @@ RSpec.describe "Admin Create a new file storage",
 
       expect(page).to be_axe_clean.within "#content"
 
-      within(".PageHeader-titleBar") do
-        click_on("Storage")
+      within(".SubHeader") do
+        page.find_test_selector("storages-create-new-provider-button").click
         within_test_selector("storages-select-provider-action-menu") { click_on("Nextcloud") }
       end
 
@@ -114,7 +114,7 @@ RSpec.describe "Admin Create a new file storage",
           expect(warning_section).to have_link("Nextcloud OpenProject Integration settings",
                                                href: "https://example.com/settings/admin/openproject")
 
-          storage = Storages::NextcloudStorage.find_by(host: "https://example.com")
+          storage = Storages::NextcloudStorage.find_by(host: "https://example.com/")
           expect(page).to have_css("#openproject_oauth_application_uid",
                                    value: storage.reload.oauth_application.uid)
           expect(page).to have_css("#openproject_oauth_application_secret",
@@ -179,7 +179,7 @@ RSpec.describe "Admin Create a new file storage",
           click_on("Done, complete setup")
         end
 
-        expect(page).to have_current_path(admin_settings_storages_path)
+        expect(page).to have_current_path(edit_admin_settings_storage_path(Storages::Storage.last))
         expect(page).to have_test_selector(
           "primer-banner-message-component",
           text: "Storage connected successfully! Remember to activate the module and the specific " \
@@ -193,8 +193,8 @@ RSpec.describe "Admin Create a new file storage",
     it "renders enterprise icon and redirects to upsale", :webmock do
       visit admin_settings_storages_path
 
-      within(".PageHeader-titleBar") do
-        click_on("Storage")
+      within(".SubHeader") do
+        page.find_test_selector("storages-create-new-provider-button").click
 
         within_test_selector("storages-select-provider-action-menu") do
           expect(page).to have_css(".octicon-op-enterprise-addons")
@@ -213,9 +213,8 @@ RSpec.describe "Admin Create a new file storage",
 
       expect(page).to be_axe_clean.within "#content"
 
-      within(".PageHeader-titleBar") do
-        click_on("Storage")
-
+      within(".SubHeader") do
+        page.find_test_selector("storages-create-new-provider-button").click
         within_test_selector("storages-select-provider-action-menu") { click_on("OneDrive/SharePoint") }
       end
 
@@ -261,6 +260,11 @@ RSpec.describe "Admin Create a new file storage",
           expect(page).to have_text("Drive ID can't be blank.")
 
           fill_in "Drive ID", with: "1234567890"
+          click_on "Save and continue"
+
+          expect(page).to have_text("Drive ID is too short (minimum is 17 characters).")
+
+          fill_in "Drive ID", with: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY87vnZ6fgfvQanZHX-XCAyw"
           click_on "Save and continue"
         end
 
@@ -312,7 +316,7 @@ RSpec.describe "Admin Create a new file storage",
           click_on "Done, complete setup"
         end
 
-        expect(page).to have_current_path(admin_settings_storages_path)
+        expect(page).to have_current_path(edit_admin_settings_storage_path(Storages::Storage.last))
         wait_for(page).to have_test_selector(
           "primer-banner-message-component",
           text: "Storage connected successfully! Remember to activate the module and the specific " \

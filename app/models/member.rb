@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,8 @@ class Member < ApplicationRecord
   include ::Scopes::Scoped
 
   ALLOWED_ENTITIES = [
-    "WorkPackage"
+    "WorkPackage",
+    "ProjectQuery"
   ].freeze
 
   extend DeprecatedAlias
@@ -55,6 +56,7 @@ class Member < ApplicationRecord
          :of_any_project,
          :of_work_package,
          :of_any_work_package,
+         :of_entity,
          :of_any_entity,
          :of_anything_in_project,
          :visible,
@@ -85,7 +87,7 @@ class Member < ApplicationRecord
   end
 
   def project_role?
-    entity_id.nil?
+    entity_id.nil? && project_id.present?
   end
 
   def deletable_role?(role)

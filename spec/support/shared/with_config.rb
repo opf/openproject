@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -70,6 +70,11 @@ class WithConfig
       .to receive(:[])
       .with(key.to_sym)
       .and_return(value)
+
+    # if a configuration value was set then it automatically pins
+    # the respective setting as well which is why we stub this here too
+    allow(Setting).to receive(:[]).with(key.to_s).and_return(value)
+    allow(Setting).to receive(:[]).with(key.to_sym).and_return(value)
   end
 
   def aggregate_mocked_configuration(example, config)
@@ -90,6 +95,7 @@ class WithConfig
     return if @call_original_implementation_done
 
     allow(OpenProject::Configuration).to receive(:[]).and_call_original
+    allow(Setting).to receive(:[]).and_call_original
     @call_original_implementation_done = true
   end
 end

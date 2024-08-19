@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,6 +63,9 @@ module API
                  exec_context: :decorator,
                  render_nil: true
 
+        property :duration_format,
+                 render_nil: true
+
         property :time_format,
                  exec_context: :decorator,
                  render_nil: true
@@ -74,6 +77,12 @@ module API
                  getter: ->(*) {
                    Setting.start_of_week.to_i if Setting.start_of_week.present?
                  },
+                 render_nil: true
+
+        property :hours_per_day,
+                 render_nil: true
+
+        property :days_per_month,
                  render_nil: true
 
         property :host_name,

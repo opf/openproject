@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -135,15 +135,19 @@ module WorkPackage::PDFExport::WorkPackageDetail
     end.flatten
   end
 
+  def form_key_custom_field_to_column_entries(form_key, work_package)
+    id = form_key.to_s.sub("custom_field_", "").to_i
+    cf = CustomField.find_by(id:)
+    return [] if cf.nil? || cf.formattable?
+
+    return [] unless cf.is_for_all? || work_package.project.work_package_custom_field_ids.include?(cf.id)
+
+    [{ label: cf.name || form_key, name: form_key.to_s.sub("custom_field_", "cf_") }]
+  end
+
   def form_key_to_column_entries(form_key, work_package)
     if CustomField.custom_field_attribute? form_key
-      id = form_key.to_s.sub("custom_field_", "").to_i
-      cf = CustomField.find_by(id:)
-      return [] if cf.nil? || cf.formattable?
-
-      return [] unless cf.is_for_all? || work_package.project.work_package_custom_field_ids.include?(cf.id)
-
-      return [{ label: cf.name || form_key, name: form_key }]
+      return form_key_custom_field_to_column_entries(form_key, work_package)
     end
 
     if form_key == :date

@@ -9,10 +9,6 @@ import {
   zenModeComponentSelector,
 } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import {
-  attachmentsSelector,
-  OpAttachmentsComponent,
-} from 'core-app/shared/components/attachments/attachments.component';
-import {
   GlobalSearchWorkPackagesComponent,
   globalSearchWorkPackagesSelector,
 } from 'core-app/core/global_search/global-search-work-packages.component';
@@ -20,7 +16,6 @@ import {
   CustomDateActionAdminComponent,
   customDateActionAdminSelector,
 } from 'core-app/features/work-packages/components/wp-custom-actions/date-action/custom-date-action-admin.component';
-import { BoardsMenuComponent, boardsMenuSelector } from 'core-app/features/boards/boards-sidebar/boards-menu.component';
 import {
   GlobalSearchWorkPackagesEntryComponent,
   globalSearchWorkPackagesSelectorEntry,
@@ -29,7 +24,6 @@ import {
   ToastsContainerComponent,
   toastsContainerSelector,
 } from 'core-app/shared/components/toaster/toasts-container.component';
-import { OpSidemenuComponent, sidemenuSelector } from 'core-app/shared/components/sidemenu/sidemenu.component';
 import {
   CkeditorAugmentedTextareaComponent,
   ckeditorAugmentedTextareaSelector,
@@ -75,10 +69,6 @@ import {
   wpOverviewGraphSelector,
 } from 'core-app/shared/components/work-package-graphs/overview/wp-overview-graph.component';
 import {
-  opViewSelectSelector,
-  ViewSelectComponent,
-} from 'core-app/shared/components/op-view-select/op-view-select.component';
-import {
   GlobalSearchTitleComponent,
   globalSearchTitleSelector,
 } from 'core-app/core/global_search/title/global-search-title.component';
@@ -90,10 +80,6 @@ import {
   TriggerActionsEntryComponent,
   triggerActionsEntryComponentSelector,
 } from 'core-app/shared/components/time_entries/edit/trigger-actions-entry.component';
-import {
-  BacklogsPageComponent,
-  backlogsPageComponentSelector,
-} from 'core-app/features/backlogs/backlogs-page/backlogs-page.component';
 import {
   AttributeHelpTextComponent,
   attributeHelpTextSelector,
@@ -146,15 +132,6 @@ import {
   InAppNotificationBellComponent,
   opInAppNotificationBellSelector,
 } from 'core-app/features/in-app-notifications/bell/in-app-notification-bell.component';
-import { IanMenuComponent, ianMenuSelector } from 'core-app/features/in-app-notifications/center/menu/menu.component';
-import {
-  opTeamPlannerSidemenuSelector,
-  TeamPlannerSidemenuComponent,
-} from 'core-app/features/team-planner/team-planner/sidemenu/team-planner-sidemenu.component';
-import {
-  CalendarSidemenuComponent,
-  opCalendarSidemenuSelector,
-} from 'core-app/features/calendar/sidemenu/calendar-sidemenu.component';
 import {
   OpModalOverlayComponent,
   opModalOverlaySelector,
@@ -190,15 +167,12 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: staticAttributeHelpTextSelector, cls: StaticAttributeHelpTextComponent },
   { selector: colorsAutocompleterSelector, cls: ColorsAutocompleterComponent },
   { selector: zenModeComponentSelector, cls: ZenModeButtonComponent },
-  { selector: attachmentsSelector, cls: OpAttachmentsComponent, embeddable: true },
   { selector: globalSearchTabsSelector, cls: GlobalSearchTabsComponent },
   { selector: globalSearchWorkPackagesSelector, cls: GlobalSearchWorkPackagesComponent },
   { selector: homescreenNewFeaturesBlockSelector, cls: HomescreenNewFeaturesBlockComponent },
   { selector: customDateActionAdminSelector, cls: CustomDateActionAdminComponent },
-  { selector: boardsMenuSelector, cls: BoardsMenuComponent },
   { selector: globalSearchWorkPackagesSelectorEntry, cls: GlobalSearchWorkPackagesEntryComponent },
   { selector: toastsContainerSelector, cls: ToastsContainerComponent },
-  { selector: sidemenuSelector, cls: OpSidemenuComponent },
   { selector: adminTypeFormConfigurationSelector, cls: TypeFormConfigurationComponent },
   { selector: ckeditorAugmentedTextareaSelector, cls: CkeditorAugmentedTextareaComponent, embeddable: true },
   { selector: persistentToggleSelector, cls: PersistentToggleComponent },
@@ -220,15 +194,10 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: enterpriseActiveSavedTrialSelector, cls: EEActiveSavedTrialComponent },
   { selector: headerProjectSelectSelector, cls: OpHeaderProjectSelectComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
-  { selector: opViewSelectSelector, cls: ViewSelectComponent },
-  { selector: opTeamPlannerSidemenuSelector, cls: TeamPlannerSidemenuComponent },
-  { selector: opCalendarSidemenuSelector, cls: CalendarSidemenuComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
-  { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
   { selector: backupSelector, cls: BackupComponent },
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
-  { selector: ianMenuSelector, cls: IanMenuComponent },
 
   { selector: opModalOverlaySelector, cls: OpModalOverlayComponent },
   { selector: spotDropModalPortalComponentSelector, cls: SpotDropModalPortalComponent },

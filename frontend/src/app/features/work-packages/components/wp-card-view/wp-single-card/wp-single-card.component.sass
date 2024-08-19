@@ -7,19 +7,20 @@
   user-select: none
   // Leave space for the shadow to be displayed
   width: calc(100% - 2px)
-  border: 1px solid var(--borderColor-muted)
+  border: 1px solid var(--borderColor-default)
   border-radius: 2px
   padding: 10px
   position: relative
-  box-shadow: 1px 1px 3px 0px lightgrey
+  box-shadow: 1px 1px 3px 0px var(--borderColor-default)
   background: var(--body-background)
+  color: var(--body-font-color)
   font-size: var(--body-font-size)
 
   &:hover
     .op-wp-single-card--inline-buttons
       opacity: 1
       z-index: 2
-      background-image: linear-gradient(to left, rgba($spot-color-basic-white,1), rgba($spot-color-basic-white,0))
+      box-shadow: -4px -4px 10px 4px var(--body-background)
 
   &_new
     padding-right: 25px
@@ -28,20 +29,20 @@
     opacity: 0.5
 
   &_selected
-    background-color: $spot-color-main-light
+    background-color: var(--selection-bgColor)
     .op-icon--wrapper
-      background: $spot-color-main-light
+      background: var(--selection-bgColor)
     &:hover
       .op-wp-single-card--inline-buttons
-        background-image: linear-gradient(to left, rgba($spot-color-main-light,1), rgba($spot-color-main-light,0))
+        box-shadow: none
 
   &_closed:not(&_selected)
-    background-color: $spot-color-basic-gray-6
+    background-color: var(--display-gray-bgColor-muted)
     .op-icon--wrapper
-      background: $spot-color-basic-gray-6
+      background: var(--display-gray-bgColor-muted)
     &:hover
       .op-wp-single-card--inline-buttons
-        background-image: linear-gradient(to left, rgba($spot-color-basic-gray-6,1), rgba($spot-color-basic-gray-6,0))
+        box-shadow: -4px -4px 10px 4px var(--display-gray-bgColor-muted)
 
   &_horizontal
     height: 100%
@@ -159,12 +160,8 @@
     &_closed
       color: $spot-color-basic-gray-2
 
-    .op-wp-single-card_selected &
-      background-color: $spot-color-main-light
-
   &--inline-buttons
     opacity: 0
-    padding-left: 30px
     padding-right: 4px
     white-space: nowrap
 
@@ -174,13 +171,10 @@
       padding-left: 15px
 
     .op-icon--wrapper:not(&_selected)
-      background: $spot-color-basic-white
+      background: var(--body-background)
 
     &.-show
       opacity: 1
-
-    .op-wp-single-card_selected &
-      background-color: $spot-color-main-light
 
   &--inline-cancel-button
     color: var(--warn)

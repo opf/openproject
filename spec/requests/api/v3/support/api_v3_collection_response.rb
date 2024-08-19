@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,7 +59,7 @@ RSpec.shared_examples_for "API V3 collection response" do |total, count, element
 
   it "returns a collection successfully" do
     aggregate_failures do
-      expect(last_response.status).to eq(expected_status_code)
+      expect(last_response).to have_http_status(expected_status_code)
       errors = JSON.parse(subject).dig("_embedded", "errors")&.map { _1["message"] }
       expect(errors).to eq([]) if errors # make errors visible in console if any
     end

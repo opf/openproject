@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,20 +29,20 @@
 require "spec_helper"
 
 RSpec.describe "Top menu item for boards", :js, :with_cuprite do
-  let(:user) { create(:admin) }
+  shared_let(:admin) { create(:admin) }
+  shared_let(:user) { create(:user) }
+  shared_let(:project) { create(:project) }
 
-  let(:menu) { find(".op-app-menu a[title='#{I18n.t('label_modules')}']") }
+  let(:menu) { page.find_test_selector("op-app-header--modules-menu-button") }
   let(:boards) { I18n.t("boards.label_boards") }
 
-  before do
-    allow(User).to receive(:current).and_return user
-  end
+  current_user { admin }
 
   shared_examples_for "the boards menu item" do
     it "sends the user to the boards overview when clicked" do
       menu.click
 
-      within "#more-menu" do
+      within "#op-app-header--modules-menu-list" do
         click_on boards
       end
 
@@ -52,8 +52,6 @@ RSpec.describe "Top menu item for boards", :js, :with_cuprite do
   end
 
   context "when in the project settings" do
-    let!(:project) { create(:project) }
-
     before do
       visit "/projects/#{project.identifier}/settings/general"
     end
@@ -69,10 +67,10 @@ RSpec.describe "Top menu item for boards", :js, :with_cuprite do
     it_behaves_like "the boards menu item"
 
     context "with missing permissions" do
-      let(:user) { create(:user) }
+      current_user { user }
 
       it "does not display the menu item" do
-        within "#more-menu", visible: false do
+        within "#op-app-header--modules-menu-list", visible: false do
           expect(page).to have_no_link boards
         end
       end

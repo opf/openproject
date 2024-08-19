@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -66,6 +66,15 @@ class PermissionMock
       Authorization.contextual_permissions(permission, :work_package, raise_on_unknown: true)
     end
     permitted_entities[work_package] += permissions
+  end
+
+  def allow_in_project_query(*permissions, project_query:)
+    raise ArgumentError, NIL_ERROR if project_query.nil?
+
+    permissions.each do |permission|
+      Authorization.contextual_permissions(permission, :project_query, raise_on_unknown: true)
+    end
+    permitted_entities[project_query] += permissions
   end
 
   def allow_globally(*permissions)

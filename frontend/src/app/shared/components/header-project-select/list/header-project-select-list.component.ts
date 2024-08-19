@@ -18,6 +18,7 @@ import {
 import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 @Component({
   selector: '[op-header-project-select-list]',
@@ -56,6 +57,7 @@ export class OpHeaderProjectSelectListComponent implements OnInit, OnChanges {
     readonly searchableProjectListService:SearchableProjectListService,
     readonly elementRef:ElementRef,
     readonly cdRef:ChangeDetectorRef,
+    readonly currentProjectService:CurrentProjectService,
   ) { }
 
   ngOnInit():void {
@@ -102,9 +104,9 @@ export class OpHeaderProjectSelectListComponent implements OnInit, OnChanges {
     return this.favored.includes(project.id.toString());
   }
 
-  extendedProjectUrl(projectId:string):string {
+  extendedUrl(projectId:string|null):string {
     const currentMenuItem = document.querySelector('meta[name="current_menu_item"]') as HTMLMetaElement;
-    const url = this.pathHelper.projectPath(projectId);
+    const url = projectId === null ? window.appBasePath : this.pathHelper.projectPath(projectId);
 
     if (!currentMenuItem) {
       return url;

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -86,7 +86,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
         expires: 1.hour
       }
       session[:oauth_callback_flash_modal] = oauth_access_grant_nudge_modal(authorized: true)
-      redirect_to(storage.oauth_configuration.authorization_uri(state: nonce))
+      redirect_to(storage.oauth_configuration.authorization_uri(state: nonce), allow_other_host: true)
     end
   end
 

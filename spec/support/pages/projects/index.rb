@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -71,22 +71,41 @@ module Pages
         end
       end
 
+      def expect_project_at_place(project, place)
+        within_table do
+          expect(page)
+            .to have_css(".project:nth-of-type(#{place}) td.name", text: project.name)
+        end
+      end
+
+      def expect_projects_in_order(*projects)
+        projects.each_with_index do |project, index|
+          expect_project_at_place(project, index + 1)
+        end
+      end
+
       def expect_title(name)
         expect(page).to have_css('[data-test-selector="project-query-name"]', text: name)
       end
 
-      def expect_sidebar_filter(filter_name, selected: false)
-        within "#main-menu" do
-          selected_specifier = selected ? ".selected" : ":not(.selected)"
-
-          expect(page).to have_css(".op-sidemenu--item-action#{selected_specifier}", text: filter_name)
-        end
+      def expect_sidebar_filter(filter_name, selected: false, favored: false, visible: true)
+        submenu.expect_item(filter_name, selected:, favored:, visible:)
       end
 
       def expect_no_sidebar_filter(filter_name)
-        within "#main-menu" do
-          expect(page).to have_no_css(".op-sidemenu--item-action", text: filter_name)
-        end
+        submenu.expect_no_item(filter_name)
+      end
+
+      def search_for_sidebar_filter(filter_name)
+        submenu.search_for_item(filter_name)
+      end
+
+      def expect_no_search_results_in_sidebar
+        submenu.expect_no_results_text
+      end
+
+      def set_sidebar_filter(filter_name)
+        submenu.click_item(filter_name)
       end
 
       def expect_current_page_number(number)
@@ -102,9 +121,9 @@ module Pages
         end
       end
 
-      def set_sidebar_filter(filter_name)
-        within "#main-menu" do
-          click_on text: filter_name
+      def expect_page_link(text)
+        within ".op-pagination--pages" do
+          expect(page).to have_css("a.op-pagination--item-link", text:)
         end
       end
 
@@ -212,9 +231,8 @@ module Pages
       end
 
       def apply_filters
-        within(".advanced-filters--filters") do
-          click_on "Apply"
-        end
+        find(".advanced-filters--filters").click_on "Apply"
+        wait_for_reload
       end
 
       def set_toggle_filter(values)
@@ -303,9 +321,33 @@ module Pages
         end
       end
 
+      def expect_no_config_columns(*columns)
+        open_configure_view
+
+        columns.each do |column|
+          expect_no_ng_option find(".op-draggable-autocomplete--input"),
+                              column,
+                              results_selector: ".ng-dropdown-panel-items"
+        end
+
+        within "dialog" do
+          click_on "Cancel"
+        end
+      end
+
+      def mark_query_favorite
+        page.find('[data-test-selector="project-query-favorite"]').click
+      end
+
+      def unmark_query_favorite
+        page.find('[data-test-selector="project-query-unfavorite"]').click
+      end
+
       def click_more_menu_item(item)
+        wait_for_network_idle
         page.find('[data-test-selector="project-more-dropdown-menu"]').click
         page.find(".ActionListItem", text: item, exact_text: true).click
+        wait_for_network_idle
       end
 
       def click_menu_item_of(title, project)
@@ -320,7 +362,7 @@ module Pages
           menu = find("[data-test-selector='project-list-row--action-menu']")
           menu_button = find("[data-test-selector='project-list-row--action-menu'] button")
           menu_button.click
-          wait_for_network_idle if using_cuprite?
+          wait_for_network_idle
           expect(page).to have_css("[data-test-selector='project-list-row--action-menu-item']")
           yield menu
         end
@@ -342,6 +384,10 @@ module Pages
         click_on "Save"
       end
 
+      def expect_can_only_save_as_label
+        expect(page).to have_text(I18n.t("lists.can_be_saved_as"))
+      end
+
       def fill_in_the_name(name)
         within '[data-test-selector="project-query-name"]' do
           fill_in "Name", with: name
@@ -360,8 +406,22 @@ module Pages
         find(".generic-table--sort-header a", text: column_name.upcase).click
       end
 
+      def expect_sort_order_via_table_header(column_name, direction:)
+        raise ArgumentError, "direction should be :asc or :desc" unless %i[asc desc].include?(direction)
+
+        find(".generic-table--sort-header .#{direction} a", text: column_name.upcase)
+      end
+
       def set_page_size(size)
-        find(".op-pagination--options .op-pagination--item", text: size).click
+        within ".op-pagination--options" do
+          find(".op-pagination--item", text: size).click
+        end
+      end
+
+      def expect_page_size(size)
+        within ".op-pagination--options" do
+          expect(page).to have_css(".op-pagination--item_current", text: size)
+        end
       end
 
       def go_to_page(page_number)
@@ -438,10 +498,18 @@ module Pages
         end
       end
 
+      def open_share_dialog
+        find_test_selector("toggle-share-dialog-button").click
+      end
+
       private
 
       def boolean_filter?(filter)
         %w[active member_of favored public templated].include?(filter.to_s)
+      end
+
+      def submenu
+        Components::Submenu.new
       end
     end
   end

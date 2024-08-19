@@ -200,6 +200,7 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
   }
 
   private handleError(error:HttpErrorResponse) {
+    this.loadingIndicator.indicator('modal').stop();
     if (error?.status === 404) {
       this.statusIcon = 'icon-help';
       this.message = this.I18n.t('js.job_status.generic_messages.not_found');

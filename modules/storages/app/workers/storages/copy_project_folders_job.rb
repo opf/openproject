@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,11 +30,12 @@
 
 module Storages
   class CopyProjectFoldersJob < ApplicationJob
+    include TaggedLogging
     include GoodJob::ActiveJobExtensions::Batches
 
-    retry_on Errors::PollingRequired, attempts: 50, wait: ->(executions) do
+    retry_on Errors::PollingRequired, attempts: 50, wait: lambda { |executions|
       (executions**2) + (Kernel.rand * (executions**2) * 0.15) + 2
-    end
+    }
     discard_on HTTPX::HTTPError
 
     def perform(source:, target:, work_packages_map:)
@@ -42,6 +43,7 @@ module Storages
       user = batch.properties[:user]
 
       project_folder_result = results_from_polling || initiate_copy(target)
+      project_folder_result.on_failure { |failed| return log_failure(failed) }
 
       ProjectStorages::UpdateService.new(user:, model: target)
                                     .call(project_folder_id: project_folder_result.result.id,
@@ -69,33 +71,38 @@ module Storages
       raise Errors::PollingRequired, "Storage #{@source.storage.name} requires polling"
     end
 
-    def polling?
-      polling_info[:polling_url] == :ongoing
-    end
-
     def results_from_polling
       return unless polling_info
 
       response = OpenProject.httpx.get(polling_info[:polling_url]).json(symbolize_keys: true)
 
-      if response[:status] != "completed"
-        polling_info[:polling_state] == :ongoing
+      if response[:status] == "completed"
+        polling_info[:polling_state] = :completed
         batch.save
 
+        result = Peripherals::StorageInteraction::ResultData::CopyTemplateFolder.new(response[:resourceId], nil, false)
+        ServiceResult.success(result:)
+      else
         raise(Errors::PollingRequired, "#{job_id} Polling not completed yet")
       end
-
-      polling_info[:polling_state] == :completed
-      batch.save
-
-      result = Peripherals::StorageInteraction::ResultData::CopyTemplateFolder.new(response[:resourceId], nil, false)
-      ServiceResult.success(result:)
     end
 
     def log_failure(failed)
-      return if failed.success?
+      batch_errors = case failed
+                     in { success: true }
+                       return
+                     in { failure: true, errors: StorageError }
+                       failed.errors.to_active_model_errors.full_messages
+                     in { failure: true, errors: ActiveModel::Errors }
+                       failed.errors.full_messages
+                     else
+                       failed.errors
+                     end
 
-      OpenProject.logger.warn failed.errors.inspect.to_s
+      batch.properties[:errors].push(*batch_errors)
+      batch.save
+
+      error batch_errors
     end
 
     def polling_info

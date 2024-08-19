@@ -1,12 +1,14 @@
+<% html_title t(:label_administration), t("webhooks.plural"), @webhook.name %>
 
-<% html_title(t(:label_administration), t('webhooks.outgoing.label_edit')) -%>
-<% local_assigns[:additional_breadcrumb] = [
-  link_to(t('webhooks.plural'), admin_outgoing_webhooks_path),
-  t('webhooks.outgoing.label_edit')
-  ]
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title {  @webhook.name }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_api_path, text: t("menus.admin.api_and_webhooks") },
+                             { href: admin_outgoing_webhooks_path, text: t("webhooks.plural") },
+                             @webhook.name])
+  end
 %>
-
-<%= toolbar title: t('webhooks.outgoing.label_edit') %>
 
 <%= error_messages_for @webhook %>
 

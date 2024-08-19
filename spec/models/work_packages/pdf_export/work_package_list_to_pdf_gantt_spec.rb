@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -155,7 +155,9 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     if work_package.start_date == work_package.due_date
       format_date(work_package.start_date)
     else
-      "#{format_date(work_package.start_date)} - #{format_date(work_package.due_date)}"
+      formatted_start_date = format_date(work_package.start_date) || "no start date"
+      formatted_due_date = format_date(work_package.due_date) || "no start date"
+      "#{formatted_start_date} - #{formatted_due_date}"
     end
   end
 

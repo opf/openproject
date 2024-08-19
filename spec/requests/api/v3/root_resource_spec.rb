@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,7 +59,7 @@ RSpec.describe "API v3 Root resource" do
 
       context "when not login_required", with_settings: { login_required: false } do
         it "responds with 200", :aggregate_failures do
-          expect(response.status).to eq(200)
+          expect(response).to have_http_status(:ok)
           expect(subject).to have_json_path("instanceName")
         end
       end
@@ -73,7 +73,7 @@ RSpec.describe "API v3 Root resource" do
       end
 
       it "responds with 200" do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
       end
 
       it "responds with a root representer" do
@@ -82,8 +82,19 @@ RSpec.describe "API v3 Root resource" do
 
       context "without the X-requested-with header", :skip_xhr_header do
         it "returns OK because GET requests are allowed" do
-          expect(response.status).to eq(200)
+          expect(response).to have_http_status(:ok)
           expect(subject).to have_json_path("instanceName")
+        end
+      end
+
+      context "with content-type application/hal+json" do
+        before do
+          header("Content-Type", "application/hal+json")
+        end
+
+        it "responds with 200" do
+          get get_path
+          expect(response).to have_http_status(:ok)
         end
       end
     end

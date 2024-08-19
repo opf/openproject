@@ -32,7 +32,6 @@ The package is available for the following Linux distributions:
 | [Ubuntu 20.04 Focal](#ubuntu-2004)          |
 | [Debian 12 Bookworm](#debian-12)            |
 | [Debian 11 Bullseye](#debian-11)            |
-| [Debian 10 Buster](#debian-10)              |
 | [CentOS/RHEL 9.x](#centos-9--rhel-9)        |
 | [CentOS/RHEL 8.x](#centos-8--rhel-8)        |
 | [Suse Linux Enterprise Server 15](#sles-15) |
@@ -174,37 +173,6 @@ Download the OpenProject package:
 ```shell
 apt update
 apt install openproject
-```
-
-Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
-
-### Debian 10
-
-Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
-
-```shell
-sudo apt-get update
-sudo apt-get install apt-transport-https ca-certificates wget
-```
-
-Import the PGP key used to sign our packages:
-
-```shell
-wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
-```
-
-Add the OpenProject package source:
-
-```shell
-sudo wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/14/installer/debian/10.repo
-```
-
-Download the OpenProject package:
-
-```shell
-sudo apt-get update
-sudo apt-get install openproject
 ```
 
 Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
@@ -352,7 +320,6 @@ You can find more about the BIM edition on [this page](https://www.openproject.o
 > * RHEL/CentOS 8
 > * Ubuntu 22.04
 > * Ubuntu 20.04
-> * Debian 10
 > * Debian 11
 >
 > On older distributions, this wizard step won't be displayed, and the installation will default to the default edition.

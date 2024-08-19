@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +29,7 @@
 class FavoritesController < ApplicationController
   before_action :find_favored_by_object
   before_action :require_login
+  no_authorization_required! :favorite, :unfavorite
 
   def favorite
     if @favored.visible?(User.current)

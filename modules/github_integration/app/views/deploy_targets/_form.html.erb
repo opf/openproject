@@ -1,0 +1,58 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<section class="form--section" id="deploy_target_form">
+  <div class="form--field -required" id="deploy_target_host_attributes">
+    <%= f.text_field :host, required: true, container_class: '-middle' %>
+  </div>
+
+  <div class="form--field -required">
+    <%= f.select :type,
+                 ['OpenProject'],
+                 { container_class: '-slim' },
+                 disabled: true,
+                 required: true
+    %>
+    <span class="form--field-instructions">
+      <%= t(:text_deploy_target_type_info) %>
+    </span>
+  </div>
+
+  <%# This field is specific to the only type of DeployTarget we support for now, which is OpenProject. %>
+  <div class="form--field">
+    <%= f.text_field "api_key", container_class: '-wide' %>
+    <span class="form--field-instructions">
+      <%= link_translate(
+        :text_deploy_target_api_key_info,
+        links: {
+          docs_url: "https://www.openproject.org/docs/api/introduction/#api-key-through-basic-auth"
+        }
+      ) %>
+    </span>
+  </div>
+</section>

@@ -6,7 +6,7 @@
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 #Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
 #as published by the Free Software Foundation; either version 2
@@ -63,5 +63,7 @@ zh-CN:
       **问题已重新打开**：[%{repository}](%{repository_url}) 的问题 %{issue_number} [%{issue_title}](%{issue_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 重新打开。
     push_single_commit_comment: >
       **在合并请求中推送**：[%{gitlab_user}](%{gitlab_user_url}) 在 %{commit_timestamp} 将 [%{commit_number}](%{commit_url}) 推送到 [%{repository}](%{repository_url})： %{commit_note}
+    push_single_commit_comment_with_ref: >
+      **在 %{reference} 中推送:** [%{gitlab_user}](%{gitlab_user_url}) 推送 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
     push_multiple_commits_comment: >
       **在合并请求中推送**：[%{gitlab_user}](%{gitlab_user_url}) 在 %{commit_timestamp} 将多个提交 [%{commit_number}](%{commit_url}) 推送到 [%{repository}](%{repository_url})： %{commit_note}

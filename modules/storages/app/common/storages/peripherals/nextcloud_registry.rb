@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,6 +33,7 @@ module Storages
     NextcloudRegistry = Dry::Container::Namespace.new("nextcloud") do
       namespace("queries") do
         register(:auth_check, StorageInteraction::Nextcloud::AuthCheckQuery)
+        register(:capabilities, StorageInteraction::Nextcloud::CapabilitiesQuery)
         register(:download_link, StorageInteraction::Nextcloud::DownloadLinkQuery)
         register(:file_ids, StorageInteraction::Nextcloud::FileIdsQuery)
         register(:file_info, StorageInteraction::Nextcloud::FileInfoQuery)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -86,16 +86,10 @@ module OAuth
 
     protected
 
-    def default_breadcrumb
-      if action_name == "index"
-        t("oauth.application.plural")
-      else
-        ActionController::Base.helpers.link_to(t("oauth.application.plural"), oauth_applications_path)
-      end
-    end
+    def default_breadcrumb; end
 
     def show_local_breadcrumb
-      current_user.admin?
+      false
     end
 
     private

@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,13 +27,26 @@
 //++
 
 import { Component } from '@angular/core';
-import { WpTableConfigurationModalComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
+import {
+  WpTableConfigurationModalComponent,
+} from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
 import { WidgetWpSetMenuComponent } from 'core-app/shared/components/grids/widgets/menu/wp-set-menu.component';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'widget-wp-table-menu',
   templateUrl: '../menu/widget-menu.component.html',
 })
 export class WidgetWpTableMenuComponent extends WidgetWpSetMenuComponent {
+  @InjectField() currentUser:CurrentUserService;
+
   protected configurationComponent = WpTableConfigurationModalComponent;
+
+  protected configurationAllowed():Promise<boolean> {
+    return firstValueFrom(
+      this.currentUser.hasCapabilities$('queries/create', null),
+    );
+  }
 }

@@ -4,10 +4,10 @@ fa:
   activerecord:
     attributes:
       grids/grid:
-        page: "Page"
+        page: "صفحه"
         row_count: "Number of rows"
         column_count: "Number of columns"
-        widgets: "Widgets"
+        widgets: "ویجت ﻫﺎ"
     errors:
       models:
         grids/grid:

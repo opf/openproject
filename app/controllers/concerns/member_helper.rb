@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,12 +28,6 @@
 
 module MemberHelper
   module_function
-
-  def find_role_ids(builtin_value)
-    # Role has a left join on permissions included leading to multiple ids being returned which
-    # is why we unscope.
-    WorkPackageRole.unscoped.where(builtin: builtin_value).pluck(:id)
-  end
 
   def find_or_create_users(send_notification: true)
     @send_notification = send_notification

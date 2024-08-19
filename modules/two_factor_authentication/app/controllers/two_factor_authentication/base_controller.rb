@@ -18,7 +18,6 @@ module ::TwoFactorAuthentication
       if params[:type]
         @device_type = params[:type].to_sym
         @device = new_device_type! @device_type
-
         render "two_factor_authentication/two_factor_devices/new"
       else
         @available_devices = available_devices
@@ -200,10 +199,10 @@ module ::TwoFactorAuthentication
     def logout_other_sessions
       if current_user == target_user
         Rails.logger.info { "First 2FA device registered for #{target_user}, terminating other logged in sessions." }
-        ::Sessions::DropOtherSessionsService.call(target_user, session)
+        ::Sessions::DropOtherSessionsService.call!(target_user, session)
       else
         Rails.logger.info { "First 2FA device registered for #{target_user}, terminating logged in sessions." }
-        ::Sessions::DropAllSessionsService.call(target_user)
+        ::Sessions::DropAllSessionsService.call!(target_user)
       end
     end
 

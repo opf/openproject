@@ -1,6 +1,5 @@
 sv:
   js:
-    queries:
-      all_open: 'Alla öppna'
-      timeline: 'Tidslinje'
-      milestones: 'Milestones'
+    work_packages:
+      default_queries:
+        milestones: 'Milstolpar'

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,7 +53,7 @@ module ProjectsHelper
   end
 
   def projects_columns_options
-    @projects_columns_options ||= ::Queries::Projects::ProjectQuery
+    @projects_columns_options ||= ::ProjectQuery
                                     .new
                                     .available_selects
                                     .reject { |c| c.attribute == :hierarchy }

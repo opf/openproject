@@ -10,7 +10,8 @@ keywords: project attributes, create, project settings
 
 Project attributes are custom fields that allow you to communicate key information relevant to a project in the [Project Overview](../../../user-guide/project-overview) page.
 
->**Note**: Prior to version 14.0, these were called "project custom fields" and described under the [Custom fields](../../custom-fields/custom-fields-projects/) page. Starting with 14.0, there is now a new entry in the administration section called 'Project attributes' under 'Projects'.
+> [!NOTE]
+> Prior to version 14.0, these were called "project custom fields" and described under the [Custom fields](../../custom-fields/custom-fields-projects/) page. Starting with 14.0, there is now a new entry in the administration section called 'Project attributes' under 'Projects'.
 
 This page describes how to create, order and group project attributes and is directed at instance administrators. If you want know how to enable and set the values for project attributes at a project level, please refer to the [Project Overview](../../../user-guide/project-overview) page of the user guide.
 
@@ -46,17 +47,19 @@ This will display the "New attribute" form with these options:
 
 - **Format**: You can pick from nine different types of fields: text, long text, integer, float, list, date, boolean, user and version.
 
-  > **Note**: You cannot change this once the project attribute is created.
+  > [!TIP]
+  > You cannot change this once the project attribute is created.
 
 - **Format options:** Depending on the type you choose, you might have additional options, such as minimum and maximum width, default value or regular expressions for validation.
 
-- **Required**: Checking this makes this project attribute a required field in projects where it is enabled, i.e. it cannot be left empty.
+- **Required for all projects**: Checking this makes this project attribute required for all projects. It cannot be deactivated at a project level.
 
-- **Visible**: Checking this field makes the attribute visible to non-admins.
+- **Admin-only**: If you enable this, the project attribute will only be visible to administrators. All other users will not see it, even if it is activated in a project.
 
-  > **Note**: This is enabled by default. Only disable this if you want this field to be invisible to non-admin users.
+  > [!TIP]
+  > This is enabled by default. Only disable this if you want this field to be invisible to non-admin users.
 
-- **Searchable**: Checking this makes this project attribute (and its value) available to the search engine and filters.
+- **Searchable**: Checking this makes this project attribute (and its value) available as a filter in project lists.
 
 ## Modify project attributes
 
@@ -66,11 +69,40 @@ You can edit existing attributes under **Administration settings** → **Project
 
 Click on the  More icon to the right of each project attribute to edit, re-order or delete a project attribute.
 
->**Note:** Deleting a project attribute will delete it and the corresponding values for it from all projects.
+>[!CAUTION]
+>Deleting a project attribute will delete it and the corresponding values for it from all projects.
 
 You can also use the drag handles to the left of each project attribute to drag and drop it to a new position.
 
->**Note**: Project admins can chose to enable or disable a project attribute from their project, but they cannot change the order. The order set in this page is the order in which they will appear in all projects.
+>[!NOTE]
+>
+>Project admins can chose to enable or disable a project attribute from their project, but they cannot change the order. The order set in this page is the order in which they will appear in all projects.
+
+
+
+## Enable project attributes
+
+Under **Administration settings** → **Projects** → **Project attributes** select the *More* menu and select *Edit* or simply clicking on the name of the project attribute. This will open a detailed view of the project attribute you selected. 
+
+The *Details* tab will allow you to edit the name, section and visibility. 
+
+![OpenProject project attribute details editing](open_project_system_admin_guide_project_attributes_details.png)
+
+The *Enabled in projects* tab will show a list of all the projects this project attributes was activated in. 
+
+![Project attributes enabled in projects list in OpenProject administration](open_project_system_admin_guide_project_attributes_enabled_in_projects.png)
+
+You can remove a project attribute from a specific project by selecting the **More** menu at the end of the line and clicking the *Deactivate for this project* option.
+
+![Deactivate a project attribute for a project in OpenProject administration](open_project_system_admin_guide_project_attributes_deactivate_for_project.png)
+
+To add this project attribute to a specific project click the **+Add projects** button. A modal will appear allowing you to search for projects to add this project attribute into. Please note, that the projects, in which the project attribute is already activated will be shown disabled in that selection. You can include subprojects. 
+
+![ Configure which projects are activated for a project attribute in OpenProject administration](open_project_system_admin_guide_project_attributes_add.png)
+
+> [!NOTE]
+>
+> It is not possible to add or remove a project attribute, if a project attribute is set to be required.
 
 ## Sections
 
@@ -78,10 +110,14 @@ You can group project attributes into sections to better organize them.
 
 You can click on more icon to the right of each section to rename it, delete it or change its order.
 
-> **Note**: A section can only be deleted if no project attributes were assigned to it.
+> [!TIP]
+>
+> A section can only be deleted if no project attributes were assigned to it.
 
 You can drag any existing project attribute into a section to move it there. You may also drag and drop entire sections up and down to re-order them.
 
->**Note:** If a project attribute belongs to a section, it will be displayed within that section in _all_ projects.
+>[!TIP]
+>
+>If a project attribute belongs to a section, it will be displayed within that section in _all_ projects.
 
 ![Edit project attribute sections in OpenProject administration](open_project_system_admin_guide_project_attributes_section_more_icon_menu.png)

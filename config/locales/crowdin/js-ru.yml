@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ ru:
     button_back_to_list_view: "Вернуться к просмотру списка"
     button_cancel: "Отмена"
     button_close: "Закрыть"
-    button_change_project: "Изменить проект"
+    button_change_project: "Move to another project"
     button_check_all: "Отметить все"
     button_configure-form: "Настроить форму"
     button_confirm: "Подтвердить"
@@ -74,7 +74,7 @@ ru:
     button_copy: "Копировать"
     button_copy_to_clipboard: "Копировать в буфер обмена"
     button_copy_link_to_clipboard: "Копировать ссылку в буфер обмена"
-    button_copy_to_other_project: "Копировать в другой проект"
+    button_copy_to_other_project: "Duplicate to other project"
     button_custom-fields: "Настраиваемые поля"
     button_delete: "Удалить"
     button_delete_watcher: "Удалить наблюдателя"
@@ -150,6 +150,7 @@ ru:
         attribute_reference:
           macro_help_tooltip: "Этот текстовый сегмент динамически отображается макросом."
           not_found: "Запрошенный ресурс не найден"
+          nested_macro: "Этот макрос рекурсивно ссылается на %{model} %{id}."
           invalid_attribute: "Выбранный атрибут '%{name}' не существует."
         child_pages:
           button: "Ссылки на дочерние страницы"
@@ -273,6 +274,11 @@ ru:
         warning: >
           Для вступления изменений в силу может потребоваться некоторое время. Вы будете уведомлены, когда все соответствующие пакеты работ будут обновлены.
           Хотите продолжить?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          При изменении расчета прогресса с режима на основе статуса на режим на основе трудозатрат поле <i>% Завершения</i> станет нередактируемым, его значение будет получено из значений <i>Работа</i> и <i>Оставшаяся работа</i>. Существующие значения для <i>% Завершения</i> сохраняются. Если значения для <i>Работа</i> и <i>Оставшаяся работа</i> отсутствуют, они потребуются для изменения <i>% Завершения</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          При изменении расчета прогресса с режима на основе трудозатрат на режим на основе статуса все существующие значения <i>% Завершения</i> будут потеряны и заменены значениями, связанными с каждым статусом. Существующие значения параметра <i>Оставшаяся работа</i> также могут быть пересчитаны с учетом этого изменения. Это действие необратимо.
     custom_actions:
       date:
         specific: "вкл"
@@ -302,7 +308,7 @@ ru:
           two: "Второй критерий сортировки"
           three: "Третий критерий сортировки"
     gantt_chart:
-      label: "График Гантта"
+      label: "Диаграмма Ганта"
       quarter_label: "Q%{quarter_number}"
       labels:
         title: "Конфигурация метки"
@@ -312,8 +318,8 @@ ru:
         farRight: "Далеко справа"
         description: >
           Выберите атрибуты, которые вы хотите постоянно отображать в соответствующих позициях диаграммы Ганта. Обратите внимание, что при наведении курсора мыши на элемент вместо этих атрибутов будут отображаться метки даты.
-      button_activate: "Показать график Гантта"
-      button_deactivate: "Скрыть график Гантта"
+      button_activate: "Показать диаграмму Ганта"
+      button_deactivate: "Скрыть диаграмму Ганта"
       filter:
         noneSelection: "(нет)"
       selection_mode:
@@ -359,10 +365,10 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_4":
             standard:
               new_features_html: >
-                Выпуск содержит новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Экспорт диаграммы Ганта в формате PDF, например, для печати</li> <li>Избранные проекты</li> <li>Разделы в Совещаниях</li> <li>Отображение встреч на странице "Мои страницы" и страницах обзора проектов</li> <li>Возможность скрыть вложения на вкладке "Файлы"</li> <li>Пользовательские поля типа Ссылка (URL)</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "Подписаться на календарь"
       inital_setup_error_message: "Произошла ошибка при получении данных."
@@ -375,7 +381,7 @@ ru:
       ical_generation_error_text: "Произошла ошибка при генерации URL-адреса календаря."
       success_message: 'URL-адрес "%{name}" был успешно скопирован в ваш буфер обмена. Вставьте его в свой клиент календаря, чтобы завершить подписку.'
     label_activate: "Активировать"
-    label_assignee: "Ответственный"
+    label_assignee: "Назначенный"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
     label_add_columns: "Добавить столбец"
@@ -411,7 +417,7 @@ ru:
     label_details: "Детали"
     label_display: "Отображение"
     label_cancel_comment: "Отменить комментарий"
-    label_closed_work_packages: "закрыт"
+    label_closed_work_packages: "закрыто"
     label_collapse: "свернуть"
     label_collapsed: "свернуто"
     label_collapse_all: "Свернуть все"
@@ -467,7 +473,7 @@ ru:
     label_no_color: "Без цвета"
     label_no_data: "Нет данных для отображения"
     label_no_due_date: "нет даты окончания"
-    label_no_start_date: "без даты начала"
+    label_no_start_date: "нет даты начала"
     label_no_date: "нет даты"
     label_no_value: "Нет значения"
     label_none: "Ничего"
@@ -593,12 +599,12 @@ ru:
           drag: "Перетащите карточки в заданный список, чтобы упорядочить их или переместить в другой список. <br> Вы можете щелкнуть по иконке info (i) в верхнем правом углу или дважды щелкнуть по карте, чтобы открыть ее данные."
         wp:
           toggler: "Теперь давайте посмотрим на раздел <b>рабочего пакета</b> , который дает вам более подробное представление о вашей работе."
-          list: "Этот обзор пакета <b>работ</b> содержит список всех работ вашего проекта, таких как задачи, контрольные точки, этапы и т. l. <br> Пакеты работ можно создавать и редактировать прямо в этом окне. Для получения сведений о конкретном пакете работ, просто дважды щелкните по нему. "
+          list: "Этот обзор пакета <b>работ</b> содержит список всех работ вашего проекта, таких как задачи, вехи, фазы и т. l. <br> Пакеты работ можно создавать и редактировать прямо в этом окне. Для получения сведений о конкретном рабочем пакете, просто дважды щелкните по нему. "
           full_view: "<b>Детали пакета работ</b> предоставляют всю соответствующую информацию, касающуюся данного пакета работ, таких как описание, статус, приоритет, деятельность, зависимости и комментарии."
           back_button: "Используйте стрелку возврата в верхнем левом углу для выхода и возврата к списку пакетов работ."
           create_button: "Кнопка <b>+ Создать</b> добавит новый пакет работ в ваш проект."
           gantt_menu: "Создавайте расписания проектов и графики с помощью модуля Гантт."
-          timeline: "Здесь вы можете <b>редактировать план проекта</b>, создавать новые пакеты работ, например, задачи, контрольные точки, фазы и многое другое, а также <b>добавить зависимости</b>. Все члены команды могут видеть и обновлять план в любое время."
+          timeline: "Здесь вы можете <b>редактировать план проекта</b>, создавать новые пакеты работ, например, задачи, вехи, фазы и многое другое, а также <b>добавлять зависимости</b>. Все члены команды могут видеть и обновлять план в любое время."
         team_planner:
           overview: "Планировщик команды позволяет наглядно назначать задачи членам команды и получать представление о том, кто над чем работает."
           calendar: "На доске планирования еженедельно или раз в две недели отображаются все пакеты работ членов вашей команды."
@@ -609,19 +615,19 @@ ru:
       title: "Уведомления"
       no_unread: "Нет непрочитанных уведомлений"
       reasons:
-        mentioned: "упомянутый"
-        watched: "наблюдатель"
-        assigned: "назначенный"
-        responsible: "подотчетный"
-        created: "создано"
-        scheduled: "запланировано"
-        commented: "прокомментировано"
-        processed: "обработано"
-        prioritized: "приоритизировано"
+        mentioned: "Упомянутый"
+        watched: "Наблюдатель"
+        assigned: "Назначенный"
+        accountable: "Ответственный"
+        created: "Создано"
+        scheduled: "Запланировано"
+        commented: "Прокомментировано"
+        processed: "Обрабатывается"
+        prioritized: "Приоритетный"
         dateAlert: "Дата оповещения"
-        shared: "поделился"
+        shared: "Общий доступ"
       date_alerts:
-        milestone_date: "Дата контрольной точки"
+        milestone_date: "Дата вехи"
         overdue: "Просрочено"
         overdue_since: "на %{difference_in_days}"
         property_today: "сегодня"
@@ -631,11 +637,6 @@ ru:
         upsale:
           title: "Дата оповещения"
           description: "С датой оповещения вы будете получать уведомления о предстоящих датах начала или окончания, чтобы никогда не пропустить или не забыть важный сроки."
-      facets:
-        unread: "Непрочтено"
-        unread_title: "Показать непрочитанные"
-        all: "Bсе"
-        all_title: "Показать все"
       center:
         label_actor_and: "и"
         and_more_users:
@@ -654,19 +655,11 @@ ru:
           no_notification: "Похоже, вы все сделали."
           no_notification_with_current_project_filter: "Похоже, в выбранном проекте вы все сделали."
           no_notification_with_current_filter: "Похоже, в отфильтрованном вы все сделали %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Нажмите на уведомление, чтобы просмотреть все детали."
         new_notifications:
           message: "Есть новые уведомления."
           link_text: "Нажмите здесь, чтобы загрузить их."
-      menu:
-        accountable: "Подотчетный"
-        by_project: "Непрочитано по проекту"
-        by_reason: "Причина"
-        inbox: "Входящие"
-        mentioned: "Упомянутые"
-        watched: "Наблюдатель"
-        date_alert: "Дата оповещения"
-        shared: "Общий доступ"
       settings:
         change_notification_settings: 'Измените <a target="_blank" href="%{url}">настройки уведомлений</a> , чтобы не пропустить важное обновление.'
         title: "Настройки уведомлений"
@@ -688,7 +681,7 @@ ru:
             title: "Упомянутые"
             description: "Получать уведомления каждый раз, когда кто-то упоминает меня"
           assignee: "Назначенный"
-          responsible: "Подотчетный"
+          responsible: "Ответственный"
           shared: "Общий доступ"
           watched: "Наблюдатель"
           work_package_commented: "Все новые комментарии"
@@ -705,7 +698,7 @@ ru:
             description: "Дополнительные уведомления для деятельности во всех проектах."
           date_alerts:
             title: "Дата оповещения"
-            description: "Автоматическое уведомление, когда приближаются важные даты открытия пакетов работ, в которых вы участвуете (назначение, подотчетность или наблюдатель)."
+            description: "Автоматическое уведомление, когда приближаются важные даты открытия пакетов работ, в которых вы участвуете (назначенный, ответственный или наблюдатель)."
             teaser_text: "С уведомлениями о дате вы будете уведомлены о датах начала или окончания предстоящих дат, чтобы вы никогда не пропустили или не забыли важный срок."
           overdue: Когда просрочено
         project_specific:
@@ -900,6 +893,11 @@ ru:
       preformatted_text: "Предварительно отформатированный текст"
       wiki_link: "Ссылка на wiki страницу"
       image: "Изображение"
+    sharing:
+      share: "Предоставить общий доступ"
+      selected_count: "%{count} выбрано"
+      selection:
+        mixed: "Смешанное"
     work_packages:
       bulk_actions:
         move: "Массовое изменение проекта"
@@ -1010,11 +1008,13 @@ ru:
         workAlternative: "Приблизительное время"
         remainingTime: "Оставшиеся часы"
       default_queries:
+        manually_sorted: "Новый запрос с ручной сортировкой"
         latest_activity: "Последние действия"
         created_by_me: "Создано мной"
         assigned_to_me: "Предназначено для меня"
         recently_created: "Недавно созданное"
         all_open: "Все открытые"
+        overdue: "Просрочено"
         summary: "Сводка"
         shared_with_users: "Доступно пользователям"
         shared_with_me: "В общем доступе с"
@@ -1055,12 +1055,8 @@ ru:
         is_parent: "Даты этого пакета работ выводятся автоматически из дочерних пакетов работ. Используйте «Ручной планировщик», чтобы установить даты."
         is_switched_from_manual_to_automatic: "Даты этого пакета работ могут быть пересчитаны после переключения с ручного на автоматическое планирование из-за связей с другими пакетами работ."
       sharing:
-        share: "Поделиться"
         title: "Поделиться пакетом работ"
         show_all_users: "Показать всех пользователей, которым был предоставлен общий доступ к пакету работ"
-        selected_count: "%{count} выбрано"
-        selection:
-          mixed: "Смешанное"
         upsale:
           description: "Поделитесь пакетами работ с пользователями, не являющимися участниками проекта."
       table:
@@ -1112,7 +1108,7 @@ ru:
       time_relative:
         days: "дней"
         weeks: "недели"
-        months: "months"
+        months: "месяцев"
     toolbar:
       settings:
         configure_view: "Настроить вид"
@@ -1287,6 +1283,11 @@ ru:
           placeholder: "Теперь плейсхолдер может быть использован в %{project}. Тем временем вы уже можете планировать с этим пользователем и назначать рабочие пакеты."
           group: "Теперь группа является частью %{project}. Тем временем вы уже можете спланировать работу с этой группой и назначить пакеты работ."
         next_button: "Продолжить"
+    exclusion_info:
+      modal:
+        title: "Статус исключён из иерархии итогов"
+        content: >-
+          Статус '%{status_name}' был настроен на исключение из иерархии итогов Работы, Оставшейся работы и % завершения. Итоговые показатели не учитывают это значение.
     favorite_projects:
       no_results: "У вас нет избранных проектов"
       no_results_subtext: "Добавьте один или несколько проектов в избранное через их обзор или в списке проектов."
@@ -1347,7 +1348,7 @@ ru:
         remove: "Удалить"
       drop_modal:
         focus_grab: "Это якорь фокусировки для модальностей. Нажмите shift+ tab, чтобы вернуться к элементу модального триггера."
-        Close: "Закрыть"
+        close: "Закрыть диалоговое окно"
     open_project_storage_modal:
       waiting_title:
         timeout: "Время ожидания истекло"
@@ -1355,4 +1356,4 @@ ru:
         network_off: "Проблема с сетью."
         network_on: "Проблема с сетью решена."
         timeout: >
-          OpenProject не смог предоставить Вам доступ к папке проекта в течение ожидаемого периода времени. Пожалуйста, попробуйте еще раз.<br><br> Если проблема не исчезла, пожалуйста, свяжитесь с администратором OpenProject, чтобы проверить <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">состояние файлового хранилища</a>.
+          OpenProject не смог предоставить вам доступ к папке проекта в течение ожидаемого периода времени. Пожалуйста, попробуйте еще раз.<br><br> Если проблема не исчезнет, ​​обратитесь к администратору OpenProject, чтобы проверить <a href="https://www.openproject.org/docs/system-admin-guide/files/external -file-storages/file-storage-troubleshooting/">состояние файлового хранилища</a>.

@@ -47,6 +47,12 @@ if OpenProject::Appsignal.enabled?
     handler = OpenProject::Appsignal.method(:exception_handler)
     OpenProject::Logging::LogDelegator.register(:appsignal, handler)
 
+    # Send our logs to appsignal
+    if OpenProject::Appsignal.logging_enabled?
+      appsignal_logger = Appsignal::Logger.new("rails")
+      Rails.logger.broadcast_to(appsignal_logger)
+    end
+
     Appsignal.start
   end
 end

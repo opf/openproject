@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,31 +29,16 @@
 import { NgModule } from '@angular/core';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
-import { Ng2StateDeclaration, UIRouterModule } from '@uirouter/angular';
 import { DisplayJobPageComponent } from 'core-app/features/job-status/display-job-page/display-job-page.component';
 import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
-
-export const JOB_STATUS_ROUTE:Ng2StateDeclaration[] = [
-  {
-    name: 'job-statuses',
-    url: '/job_statuses/{jobId:[a-z0-9-]+}',
-    parent: 'optional_project',
-    component: DisplayJobPageComponent,
-    data: {
-      bodyClasses: 'router--job-statuses',
-    },
-  },
-];
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [
     // Commons
+    CommonModule,
     OpSharedModule,
     OpenprojectModalModule,
-
-    // Routes for /job_statuses/:uuid
-    UIRouterModule.forChild({ states: JOB_STATUS_ROUTE }),
-
   ],
   declarations: [
     DisplayJobPageComponent,

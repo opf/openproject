@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,17 +29,11 @@ module WorkPackage::Exports
   module Formatters
     class Hours < ::Exports::Formatters::Default
       def self.apply?(name, export_format)
-        %i[remaining_hours spent_hours].include?(name.to_sym) && export_format == :pdf
+        name.to_sym == :spent_hours && export_format == :pdf
       end
 
       def format_value(value, _options)
-        formatted_hours(value)
-      end
-
-      private
-
-      def formatted_hours(value)
-        value.nil? ? "" : "#{value} #{I18n.t('export.units.hours')}"
+        DurationConverter.output(value)
       end
     end
   end

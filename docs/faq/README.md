@@ -268,6 +268,8 @@ At the moment there are these ways to migrate:
 - our [Excel sync](../system-admin-guide/integrations/excel-synchronization)
 - Using a [Markdown export app](https://marketplace.atlassian.com/apps/1221351/markdown-exporter-for-confluence) you can export pages from Confluence and paste them (via copy & paste) into OpenProject in e.g. the wiki. This should preserve at least most of the layout. Attachments would then have to be added manually.
 
+Our partners at [ALMToolbox](https://www.almtoolbox.com/)  are happy to support you with Jira or Confluence migration. 
+
 For more information please contact us.
 
 ### How can I migrate from Community edition or Enterprise on-premises to Enterprise cloud?

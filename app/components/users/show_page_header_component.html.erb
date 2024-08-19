@@ -1,0 +1,61 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { "#{avatar @user} #{h(@user.name)}".html_safe }
+    header.with_breadcrumbs(breadcrumb_items)
+
+    if @current_user.allowed_globally?(:manage_user)
+      header.with_action_button(tag: :a,
+                                mobile_icon: :pencil,
+                                mobile_label: t(:button_edit),
+                                size: :medium,
+                                href: edit_user_path(@user),
+                                aria: { label: I18n.t(:button_edit) },
+                                title: I18n.t(:button_edit)) do |button|
+        button.with_leading_visual_icon(icon: :pencil)
+        t(:button_edit)
+      end
+    end
+
+    if @current_user.allowed_globally?(:create_user) && @current_user != @user
+      header.with_action_button(tag: :a,
+                                mobile_icon: :mail,
+                                mobile_label: t(:label_send_invitation),
+                                size: :medium,
+                                href: resend_invitation_user_path(@user),
+                                data: { method: :post },
+                                aria: { label: I18n.t(:label_send_invitation) },
+                                title: I18n.t(:tooltip_resend_invitation)) do |button|
+        button.with_leading_visual_icon(icon: :mail)
+        t(:label_send_invitation)
+      end
+    end
+  end
+%>

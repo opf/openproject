@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,12 +45,8 @@ module Storages
             return upload_data_failure if invalid?(upload_data:)
 
             Authentication[auth_strategy].call(storage: @storage) do |http|
-              response = http.post(
-                Util.join_uri_path(@storage.uri, uri_path_for(upload_data.folder_id, upload_data.file_name)),
-                json: payload(upload_data.file_name)
-              )
-
-              handle_response(response)
+              handle_response http.post(url(upload_data.folder_id, upload_data.file_name),
+                                        json: payload(upload_data.file_name))
             end
           end
 
@@ -71,27 +67,34 @@ module Storages
             { item: { "@microsoft.graph.conflictBehavior" => "rename", name: filename } }
           end
 
+          # rubocop:disable Metrics/AbcSize
           def handle_response(response)
-            data = StorageErrorData.new(source: self.class, payload: response)
-
             case response
             in { status: 200..299 }
               upload_url = response.json(symbolize_keys: true)[:uploadUrl]
               ServiceResult.success(result: UploadLink.new(URI(upload_url), :put))
             in { status: 404 | 400 } # not existent parent folder in request url is responded with 400
               ServiceResult.failure(result: :not_found,
-                                    errors: StorageError.new(code: :not_found, data:))
+                                    errors: Util.storage_error(code: :not_found, response:, source: self.class))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
-                                    errors: StorageError.new(code: :unauthorized, data:))
+                                    errors: Util.storage_error(code: :unauthorized, response:, source: self.class))
+            in { status: 403 }
+              ServiceResult.failure(result: :forbidden,
+                                    errors: Util.storage_error(code: :forbidden, response:, source: self.class))
             else
               ServiceResult.failure(result: :error,
-                                    errors: StorageError.new(code: :error, data:))
+                                    errors: Util.storage_error(code: :error, response:, source: self.class))
             end
           end
 
-          def uri_path_for(folder, filename)
-            "/v1.0/drives/#{@storage.drive_id}/items/#{folder}:/#{URI.encode_uri_component(filename)}:/createUploadSession"
+          # rubocop:enable Metrics/AbcSize
+
+          def url(folder, filename)
+            base = UrlBuilder.url(Util.drive_base_uri(@storage), "/items/", folder)
+            file_path = UrlBuilder.path(filename)
+
+            "#{base}:#{file_path}:/createUploadSession"
           end
         end
       end

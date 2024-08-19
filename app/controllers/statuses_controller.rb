@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +61,7 @@ class StatusesController < ApplicationController
   def update
     @status = Status.find(params[:id])
     if @status.update(permitted_params.status)
-      apply_status_p_complete_change
+      recompute_progress_values
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: "index"
     else
@@ -85,26 +85,20 @@ class StatusesController < ApplicationController
 
   protected
 
-  def default_breadcrumb
-    if action_name == "index"
-      t(:label_work_package_status_plural)
-    else
-      ActionController::Base.helpers.link_to(t(:label_work_package_status_plural), statuses_path)
-    end
-  end
-
   def show_local_breadcrumb
-    true
+    false
   end
 
-  def apply_status_p_complete_change
-    return unless WorkPackage.use_status_for_done_ratio?
-    return unless @status.default_done_ratio_previously_changed?
+  def recompute_progress_values
+    attributes_triggering_recomputing = ["excluded_from_totals"]
+    attributes_triggering_recomputing << "default_done_ratio" if WorkPackage.use_status_for_done_ratio?
+    changes = @status.previous_changes.slice(*attributes_triggering_recomputing)
+    return if changes.empty?
 
-    WorkPackages::Progress::ApplyStatusesPCompleteJob
-      .perform_later(cause_type: "status_p_complete_changed",
+    WorkPackages::Progress::ApplyStatusesChangeJob
+      .perform_later(cause_type: "status_changed",
                      status_name: @status.name,
                      status_id: @status.id,
-                     change: @status.default_done_ratio_previous_change)
+                     changes:)
   end
 end

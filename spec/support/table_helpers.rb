@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,6 +36,7 @@ RSpec.configure do |config|
     match do |actual_work_packages|
       expected_data = TableHelpers::TableData.for(expected)
       actual_data = TableHelpers::TableData.from_work_packages(actual_work_packages, expected_data.columns)
+      actual_data.order_like!(expected_data)
 
       representer = TableHelpers::TableRepresenter.new(tables_data: [expected_data, actual_data],
                                                        columns: expected_data.columns)

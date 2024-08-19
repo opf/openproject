@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +38,7 @@ module Overviews
                   { controller: "/overviews/overviews", action: "show" },
                   caption: :"overviews.label",
                   first: true,
-                  icon: "info1")
+                  icon: "info")
       end
     end
 
@@ -47,11 +47,16 @@ module Overviews
         OpenProject::AccessControl.permission(:view_project)
           .controller_actions
           .push(
-            "overviews/overviews/show",
+            "overviews/overviews/show"
+          )
+
+        OpenProject::AccessControl.permission(:view_project_attributes)
+          .controller_actions
+          .push(
             "overviews/overviews/project_custom_fields_sidebar"
           )
 
-        OpenProject::AccessControl.permission(:edit_project)
+        OpenProject::AccessControl.permission(:edit_project_attributes)
           .controller_actions
           .push(
             "overviews/overviews/project_custom_field_section_dialog",
@@ -60,7 +65,9 @@ module Overviews
 
         OpenProject::AccessControl.permission(:view_work_packages)
           .controller_actions
-          .push("overviews/overviews/show")
+          .push(
+            "overviews/overviews/show"
+          )
 
         OpenProject::AccessControl.map do |ac_map|
           ac_map.project_module nil do |map|

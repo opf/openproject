@@ -23,9 +23,9 @@ ru:
       singular: Провайдер OpenID
     setting_instructions:
       azure_deprecation_warning: >
-
+        Настроенное приложение Azure указывает на устаревший API от Azure. Пожалуйста, создайте новое приложение Azure, чтобы обеспечить его функциональность в будущем.
       azure_graph_api: >
-        Используйте endpoint userinfo graph.microsoft.com для запроса пользовательских данных. Это должно быть по умолчанию, если у вас нет более старого azure.
+        Используйте конечную точку graph.microsoft.com userinfo для запроса пользовательских данных. Это должно быть принято по умолчанию, если только у Вас не старое приложение azure.
       azure_tenant_html: >
         Установите клиента вашей конечной точки Azure. Это будет определять, кто получает доступ к экземпляру OpenProject. Для получения дополнительной информации, пожалуйста, смотрите <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory"> наше руководство пользователя по Azure OpenID connect</a>.
       limit_self_registration: >

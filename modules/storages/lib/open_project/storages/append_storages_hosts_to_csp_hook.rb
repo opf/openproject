@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ::OpenProject::Storages::AppendStoragesHostsToCspHook < OpenProject::Hook::Listener
+class OpenProject::Storages::AppendStoragesHostsToCspHook < OpenProject::Hook::Listener
   # OpenProject's front-end needs to allow the browser to connect to external
   # file servers for direct file uploads. Therefore it needs to extend its
   # Content Security Policy (CSP) `connect-src` with the hostnames of all

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -243,6 +243,8 @@ module WorkPackage::PDFExport::Gantt
           build_header_cells_quarters(top, height, columns)
         when :months
           build_header_cells_months(top, height, columns)
+        when :weeks
+          build_header_cells_weeks(top, height, columns)
         when :days
           build_header_cells_days(top, height, columns)
         else
@@ -316,6 +318,13 @@ module WorkPackage::PDFExport::Gantt
                                ->(date) { [date.year, date.month] },
                                ->(date, month_tuple) { date.year == month_tuple[0] && date.month == month_tuple[1] },
                                ->(month_tuple) { Date.new(month_tuple[0], month_tuple[1], 1).strftime("%b") })
+    end
+
+    def build_header_cells_weeks(top, height, columns)
+      build_header_cells_parts(columns, top, height,
+                               ->(date) { [date.year, date.cweek] },
+                               ->(date, week_tuple) { date.year == week_tuple[0] && date.cweek == week_tuple[1] },
+                               ->(week_tuple) { "W#{week_tuple[1]}" })
     end
 
     # Builds the day row header cells for the given columns
@@ -734,14 +743,15 @@ module WorkPackage::PDFExport::Gantt
 
     def work_package_info_line_date(work_package)
       if work_package.start_date == work_package.due_date
-        format_pdf_date(work_package.start_date)
+        format_pdf_date(work_package, :start_date)
       else
-        "#{format_pdf_date(work_package.start_date)} - #{format_pdf_date(work_package.due_date)}"
+        "#{format_pdf_date(work_package, :start_date)} - #{format_pdf_date(work_package, :due_date)}"
       end
     end
 
-    def format_pdf_date(date)
-      date.nil? ? "" : format_date(date)
+    def format_pdf_date(work_package, date_field)
+      date = work_package.send(date_field)
+      date.nil? ? I18n.t("label_no_#{date_field}") : format_date(date)
     end
 
     # Builds the shape for the given work package

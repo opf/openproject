@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -81,6 +81,15 @@ module TableHelpers
     def create_work_packages
       work_packages_by_identifier = Factory.new(self).create
       Table.new(work_packages_by_identifier)
+    end
+
+    def order_like!(other_table)
+      ordered_identifiers = other_table.work_package_identifiers
+      extra_identifiers = work_package_identifiers - ordered_identifiers
+      @work_packages_data = work_packages_data
+        .index_by { _1[:identifier] }
+        .values_at(*(ordered_identifiers + extra_identifiers))
+        .compact
     end
 
     class Factory

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -58,9 +58,23 @@ fr:
       meeting_agenda_item: ""
       meeting_agenda: "Ordre du jour"
       meeting_minutes: "Compte-rendu"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Réunions"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "défini sur %{value}"
+          added_html: "défini sur <i>%{value}</i>"
+          removed: "supprimé"
+          updated: "modifié de %{old_value} à %{value}"
+          updated_html: "modifié de <i>%{old_value}</i> à <i>%{value}</i>"
+        position:
+          updated: "réorganisé"
+        work_package:
+          updated: "modifié de %{old_value} à %{value}"
+          updated_html: "modifié de <i>%{old_value}</i> à <i>%{value}</i>"
   description_attended: "ont participé"
   description_invite: "invité"
   events:
@@ -107,8 +121,8 @@ fr:
       agenda: "Copier l'ordre du jour"
       agenda_text: "Copier l'ordre du jour de l'ancienne réunion"
     email:
-      send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_emails: "Envoyer des e-mails"
+      send_invitation_emails: "Envoyez des e-mails d'invitation à tous les participants."
       open_meeting_link: "Ouvrir la réunion"
       invited:
         summary: "%{actor} vous a envoyé une invitation pour la réunion %{title}"

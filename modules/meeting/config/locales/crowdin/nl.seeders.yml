@@ -9,21 +9,21 @@ nl:
         demo-project:
           meetings:
             item_0:
-              title: Weekly
+              title: Wekelijks
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: Goed nieuws
             item_1:
-              title: Updates from development team
+              title: Updates van ontwikkelingsteam
             item_2:
-              title: Updates from product team
+              title: Updates van productteam
             item_3:
-              title: Updates from marketing team
+              title: Updates van het marketingteam
             item_5:
-              title: Updates from sales team
+              title: Updates van verkoopteam
             item_6:
-              title: Review of quarterly goals
+              title: Herziening van kwartaaldoelen
             item_7:
-              title: Core values feedback
+              title: Feedback over kernwaarden
             item_8:
-              title: General topics
+              title: Algemene onderwerpen

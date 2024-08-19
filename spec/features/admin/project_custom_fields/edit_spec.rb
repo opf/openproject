@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,7 +59,7 @@ RSpec.describe "Edit project custom fields", :js do
     it "shows tab navigation" do
       within_test_selector("project_attribute_detail_header") do
         expect(page).to have_link("Details")
-        expect(page).to have_link("Projects")
+        expect(page).to have_link("Enabled in projects")
       end
     end
 

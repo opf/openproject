@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,19 +29,11 @@
 require "#{File.dirname(__FILE__)}/../spec_helper"
 
 RSpec.describe MeetingsController do
-  let(:user) { create(:admin) }
-  let(:project) { create(:project) }
-  let(:other_project) { create(:project) }
+  shared_let(:user) { create(:admin) }
+  shared_let(:project) { create(:project) }
+  shared_let(:other_project) { create(:project) }
 
-  before do
-    allow(User).to receive(:current).and_return user
-
-    allow(Project).to receive(:find).and_return(project)
-
-    allow(controller).to receive(:authorize)
-    allow(controller).to receive(:authorize_global)
-    allow(controller).to receive(:check_if_login_required)
-  end
+  current_user { user }
 
   describe "GET" do
     describe "index" do
@@ -161,8 +153,6 @@ RSpec.describe MeetingsController do
       let(:meeting_params) { base_meeting_params }
 
       before do
-        allow(Project).to receive(:find).and_return(project)
-
         post :create,
              params:
       end

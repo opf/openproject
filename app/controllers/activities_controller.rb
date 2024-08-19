@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ class ActivitiesController < ApplicationController
   include Layout
 
   menu_item :activity
-  before_action :find_optional_project,
+  before_action :load_and_authorize_in_optional_project,
                 :verify_activities_module_activated,
                 :determine_subprojects,
                 :determine_author,

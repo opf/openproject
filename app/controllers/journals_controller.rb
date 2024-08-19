@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,12 @@
 #++
 
 class JournalsController < ApplicationController
-  before_action :find_optional_project, only: [:index]
-  before_action :find_journal, only: [:diff]
-  before_action :ensure_permitted, only: [:diff]
+  before_action :load_and_authorize_in_optional_project, only: [:index]
+  before_action :find_journal,
+                :ensure_permitted,
+                only: [:diff]
+  authorization_checked! :diff
+
   accept_key_auth :index
   menu_item :issues
 
@@ -105,11 +108,14 @@ class JournalsController < ApplicationController
   end
 
   def valid_field_for_diffing?
-    %w[description status_explanation].include?(field_param) || agenda_item_notes?
-  end
-
-  def agenda_item_notes?
-    field_param.match?(/\Aagenda_items_\d+_notes\z/)
+    case field_param
+    when "description",
+         "status_explanation",
+         /\Aagenda_items_\d+_notes\z/
+      true
+    when /\Acustom_fields_(?<id>\d+)\z/
+      ::CustomField.exists?(id: Regexp.last_match[:id], field_format: "text")
+    end
   end
 
   def journals_index_title

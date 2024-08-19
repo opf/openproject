@@ -11,7 +11,6 @@ fa:
   message_avatar_uploaded: "آواتار مورد نظر با موفقيت تغيير كرد"
   error_image_upload: "خطا در ذخیره عکس"
   error_image_size: "عکس بیش از اندازه بزرگ است."
-  button_change_avatar: "تغییر آواتار"
   are_you_sure_delete_avatar: "آیا مطمئن هستید که می‌خواهید آواتار خود را حذف کنید؟ "
   avatar_deleted: "چهرک با کامیابی زدوده شد."
   unable_to_delete_avatar: "حذف آواتار امکان‌پذیر نیست."

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,6 +76,68 @@ RSpec.describe OpenProject::AccessControl::Permission do
       end
 
       it { expect(permission).to be_global }
+    end
+  end
+
+  describe "#permissible_on?" do
+    context "when marked as permissible on work package roles" do
+      subject(:permission) do
+        described_class.new(:perm, { cont: [:action] }, permissible_on: :work_package)
+      end
+
+      it { expect(permission).to be_permissible_on(WorkPackage.new) }
+      it { expect(permission).not_to be_permissible_on(Project.new) }
+      it { expect(permission).not_to be_permissible_on(nil) }
+      it { expect(permission).not_to be_permissible_on(ProjectQuery.new) }
+      it { expect(permission).to be_permissible_on(:work_package) }
+      it { expect(permission).not_to be_permissible_on(:project) }
+      it { expect(permission).not_to be_permissible_on(:global) }
+      it { expect(permission).not_to be_permissible_on(:project_query) }
+    end
+
+    context "when marked as permissible on project roles" do
+      subject(:permission) do
+        described_class.new(:perm, { cont: [:action] }, permissible_on: :project)
+      end
+
+      it { expect(permission).not_to be_permissible_on(WorkPackage.new) }
+      it { expect(permission).to be_permissible_on(Project.new) }
+      it { expect(permission).not_to be_permissible_on(nil) }
+      it { expect(permission).not_to be_permissible_on(ProjectQuery.new) }
+      it { expect(permission).not_to be_permissible_on(:work_package) }
+      it { expect(permission).to be_permissible_on(:project) }
+      it { expect(permission).not_to be_permissible_on(:global) }
+      it { expect(permission).not_to be_permissible_on(:project_query) }
+    end
+
+    context "when marked as permissible on global roles" do
+      subject(:permission) do
+        described_class.new(:perm, { cont: [:action] }, permissible_on: :global)
+      end
+
+      it { expect(permission).not_to be_permissible_on(WorkPackage.new) }
+      it { expect(permission).not_to be_permissible_on(Project.new) }
+      it { expect(permission).to be_permissible_on(nil) }
+      it { expect(permission).not_to be_permissible_on(ProjectQuery.new) }
+      it { expect(permission).not_to be_permissible_on(:work_package) }
+      it { expect(permission).not_to be_permissible_on(:project) }
+      it { expect(permission).to be_permissible_on(:global) }
+      it { expect(permission).not_to be_permissible_on(:project_query) }
+    end
+
+    context "when marked as permissible on project queries" do
+      subject(:permission) do
+        described_class.new(:perm, { cont: [:action] }, permissible_on: :project_query)
+      end
+
+      it { expect(permission).not_to be_permissible_on(WorkPackage.new) }
+      it { expect(permission).not_to be_permissible_on(Project.new) }
+      it { expect(permission).not_to be_permissible_on(nil) }
+      it { expect(permission).to be_permissible_on(ProjectQuery.new) }
+      it { expect(permission).not_to be_permissible_on(:work_package) }
+      it { expect(permission).not_to be_permissible_on(:project) }
+      it { expect(permission).not_to be_permissible_on(:global) }
+      it { expect(permission).to be_permissible_on(:project_query) }
     end
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -109,15 +109,9 @@ class CustomActionsController < ApplicationController
     params[:custom_action][:actions] ||= {}
   end
 
-  def default_breadcrumb
-    if action_name == "index"
-      t("custom_actions.plural")
-    else
-      ActionController::Base.helpers.link_to(t("custom_actions.plural"), custom_actions_path)
-    end
+  def show_local_breadcrumb
+    false
   end
 
-  def show_local_breadcrumb
-    true
-  end
+  def default_breadcrumb; end
 end

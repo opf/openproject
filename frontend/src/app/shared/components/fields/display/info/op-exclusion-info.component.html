@@ -1,0 +1,35 @@
+<spot-drop-modal
+  [opened]="opened"
+  (closed)="opened = false"
+  class="op-exclusion-info"
+>
+  <svg
+    slot="trigger"
+    info-icon
+    class="button--icon op-exclusion-info--icon"
+    size="small"
+    (click)="toggleOpen($event)"
+  ></svg>
+
+  <ng-container slot="body" class="op-exclusion-info--modal">
+    <div class="op-exclusion-info--modal">
+      <div class="spot-drop-modal--header">
+        <div class="spot-drop-modal--header-title">
+          {{text.modalTitle}}
+        </div>
+      </div>
+      <div class="spot-drop-modal--content">
+        {{text.modalContent}}
+      </div>
+      <div class="spot-action-bar">
+        <div class="spot-action-bar--left">
+          <button
+            (click)="toggleOpen($event)"
+            class="button">
+            {{text.buttonClose}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</spot-drop-modal>
