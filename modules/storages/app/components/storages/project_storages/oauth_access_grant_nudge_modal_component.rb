@@ -48,9 +48,8 @@ module Storages
         )
       end
 
-      def cancel_button_text
-        I18n.t("storages.oauth_grant_nudge_modal.cancel_button_label")
-      end
+      def body_text = I18n.t("storages.oauth_grant_nudge_modal.project_settings.description", storage: storage.name)
+      def cancel_button_text = I18n.t("storages.oauth_grant_nudge_modal.cancel_button_label")
 
       def find_project_storage(project_storage_record_or_id)
         return if project_storage_record_or_id.blank?
