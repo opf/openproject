@@ -26,20 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "support/pages/admin/system_settings/page"
+module OpenProject::TextFormatting::Filters::Macros
+  module GithubPullRequest
+    CUSTOM_ELEMENT = "opce-github-pull-request".freeze
+    HTML_CLASS = "github_pull_request".freeze
 
-module Pages::Admin::SystemSettings
-  class General < Page
-    def path
-      "/admin/settings/general"
+    module_function
+
+    def identifier
+      HTML_CLASS
     end
 
-    def welcome_text_editor
-      Components::WysiwygEditor.new welcome_text_selector
+    def apply(macro, **)
+      macro.name = CUSTOM_ELEMENT
     end
 
-    def welcome_text_selector
-      'opce-ckeditor-augmented-textarea[data-textarea-selector="\"#settings_welcome_text\""]'
+    def is?(macro)
+      macro["class"].include?(HTML_CLASS)
     end
   end
 end

@@ -6,7 +6,7 @@ module Components
 
     attr_reader :context_selector, :attachments, :attachments_list
 
-    def initialize(context = "#content", attachment_list_selector = "ckeditor-augmented-textarea")
+    def initialize(context = "#content", attachment_list_selector = "opce-ckeditor-augmented-textarea")
       @context_selector = context
       @attachments = ::Components::Attachments.new
       @attachments_list = ::Components::AttachmentsList.new("#{context} #{attachment_list_selector}")

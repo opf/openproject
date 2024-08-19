@@ -50,10 +50,8 @@ import { AttachmentCollectionResource } from 'core-app/features/hal/resources/at
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { navigator } from '@hotwired/turbo';
 
-export const ckeditorAugmentedTextareaSelector = 'ckeditor-augmented-textarea';
 
 @Component({
-  selector: ckeditorAugmentedTextareaSelector,
   templateUrl: './ckeditor-augmented-textarea.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

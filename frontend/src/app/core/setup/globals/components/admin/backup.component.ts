@@ -26,14 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Injector,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, ViewChild } from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -44,10 +37,8 @@ import { OpenProjectBackupService } from 'core-app/core/backup/op-backup.service
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalError } from 'core-app/features/hal/services/hal-error';
 
-export const backupSelector = 'backup';
-
 @Component({
-  selector: backupSelector,
+  selector: 'opce-backup',
   templateUrl: './backup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -65,15 +56,13 @@ export class BackupComponent implements AfterViewInit {
     attachmentsDisabled: this.i18n.t('js.backup.attachments_disabled'),
   };
 
-  public jobStatusId:string = this.elementRef.nativeElement.dataset.jobStatusId;
+  public jobStatusId = this.elementRef.nativeElement.dataset.jobStatusId as string;
 
-  public lastBackupDate:string = this.elementRef.nativeElement.dataset.lastBackupDate;
+  public lastBackupDate = this.elementRef.nativeElement.dataset.lastBackupDate as string;
 
-  public lastBackupAttachmentId:string = this.elementRef.nativeElement.dataset.lastBackupAttachmentId;
+  public lastBackupAttachmentId = this.elementRef.nativeElement.dataset.lastBackupAttachmentId as string;
 
-  public mayIncludeAttachments:boolean = this.elementRef.nativeElement.dataset.mayIncludeAttachments != 'false';
-
-  public isInProgress = false;
+  public mayIncludeAttachments = this.elementRef.nativeElement.dataset.mayIncludeAttachments !== 'false';
 
   public includeAttachments = true;
 
@@ -81,10 +70,10 @@ export class BackupComponent implements AfterViewInit {
 
   @InjectField() opBackup:OpenProjectBackupService;
 
-  @ViewChild('backupTokenInput') backupTokenInput:ElementRef;
+  @ViewChild('backupTokenInput') backupTokenInput:ElementRef<HTMLInputElement>;
 
   constructor(
-    readonly elementRef:ElementRef,
+    readonly elementRef:ElementRef<HTMLElement>,
     public injector:Injector,
     protected i18n:I18nService,
     protected toastService:ToastService,
@@ -95,6 +84,7 @@ export class BackupComponent implements AfterViewInit {
   }
 
   ngAfterViewInit():void {
+    /* eslint-disable-next-line @typescript-eslint/no-unsafe-call */
     this.backupTokenInput.nativeElement.focus();
   }
 
@@ -105,10 +95,6 @@ export class BackupComponent implements AfterViewInit {
 
   public getDownloadUrl():string {
     return this.pathHelper.attachmentDownloadPath(this.lastBackupAttachmentId, undefined);
-  }
-
-  public includeAttachmentsDefault():boolean {
-    return this.mayIncludeAttachments;
   }
 
   public includeAttachmentsTitle():string {
@@ -129,7 +115,7 @@ export class BackupComponent implements AfterViewInit {
       .triggerBackup(backupToken, this.includeAttachments)
       .subscribe(
         (resp:HalResource) => {
-          this.jobStatusId = resp.jobStatusId;
+          this.jobStatusId = resp.jobStatusId as string;
           this.opModalService.show(JobStatusModalComponent, 'global', { jobId: resp.jobStatusId });
         },
         (error:HalError) => {

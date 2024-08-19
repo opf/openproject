@@ -156,7 +156,7 @@ See COPYRIGHT and LICENSE files for more details.
           <div class="form--field">
             <label class="form--label" for='start_date'><%= WorkPackage.human_attribute_name(:start_date) %></label>
             <div class="form--field-container -visible-overflow">
-              <%= angular_component_tag 'op-basic-single-date-picker',
+              <%= angular_component_tag 'opce-basic-single-date-picker',
                                         inputs: {
                                           id: "start_date",
                                           name: "start_date"
@@ -167,7 +167,7 @@ See COPYRIGHT and LICENSE files for more details.
           <div class="form--field">
             <label class="form--label" for='due_date'><%= WorkPackage.human_attribute_name(:due_date) %></label>
             <div class="form--field-container -visible-overflow">
-              <%= angular_component_tag 'op-basic-single-date-picker',
+              <%= angular_component_tag 'opce-basic-single-date-picker',
                                         inputs: {
                                           id: "due_date",
                                           name: "due_date"
