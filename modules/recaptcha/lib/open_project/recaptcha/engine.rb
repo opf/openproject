@@ -43,7 +43,7 @@ module OpenProject::Recaptcha
 
       SecureHeaders::Configuration.named_append(:turnstile) do
         value = %w(https://challenges.cloudflare.com)
-        keys = %i(frame_src script_src style_src connect_src)
+        keys = %i(frame_src style_src connect_src)
 
         keys.index_with value
       end
