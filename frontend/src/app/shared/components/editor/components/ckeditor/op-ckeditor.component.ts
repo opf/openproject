@@ -26,16 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -47,6 +38,7 @@ import {
 import { CKEditorSetupService } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 declare module 'codemirror';
 
@@ -55,7 +47,7 @@ declare module 'codemirror';
   templateUrl: './op-ckeditor.html',
   styleUrls: ['./op-ckeditor.sass'],
 })
-export class OpCkeditorComponent implements OnInit, OnDestroy {
+export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input() context:ICKEditorContext;
 
   @Input()
@@ -126,6 +118,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
     private readonly configurationService:ConfigurationService,
     private readonly ckEditorSetup:CKEditorSetupService,
   ) {
+    super();
   }
 
   /**
@@ -133,10 +126,22 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
    * the data cannot be loaded (MS Edge!)
    */
   public getRawData():string {
+    let content:string;
+
     if (this.manualMode) {
-      return this._content = this.codeMirrorInstance.getValue();
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+      content = this.codeMirrorInstance.getValue() as string;
+    } else {
+      content = this.ckEditorInstance.getData({ trim: false });
     }
-    return this._content = this.ckEditorInstance.getData({ trim: false });
+
+    if (content === null || content === undefined) {
+      console.error('Trying to get content from CKEditor failed, as it returned null.');
+    } else {
+      this._content = content;
+    }
+
+    return content;
   }
 
   /**
@@ -146,6 +151,10 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
   public getTransformedContent(notificationOnError = true):Promise<string> {
     if (!this.initialized) {
       throw new Error('Tried to access CKEditor instance before initialization.');
+    }
+
+    if (this.componentDestroyed) {
+      throw new Error('Component destroyed');
     }
 
     return new Promise<string>((resolve, reject) => {

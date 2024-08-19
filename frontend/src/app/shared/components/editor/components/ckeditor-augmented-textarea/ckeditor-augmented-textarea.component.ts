@@ -149,7 +149,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
       )
       .subscribe((evt:SubmitEvent) => {
         evt.preventDefault();
-        this.saveForm(evt);
+        void this.saveForm(evt);
       });
   }
 
@@ -157,9 +157,10 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     window.OpenProject.pageWasEdited = true;
   }
 
-  public saveForm(evt?:SubmitEvent):void {
-    this.syncToTextarea();
+  public async saveForm(evt?:SubmitEvent):Promise<void> {
     this.inFlight = true;
+
+    await this.syncToTextarea();
     window.OpenProject.pageIsSubmitted = true;
 
     setTimeout(() => {
@@ -191,10 +192,11 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     return editor;
   }
 
-  private syncToTextarea() {
+  private async syncToTextarea() {
     try {
-      this.wrappedTextArea.value = this.ckEditorInstance.getRawData();
+      this.wrappedTextArea.value = await this.ckEditorInstance.getTransformedContent(true);
     } catch (e) {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       const message = (e as Error)?.message || (e as object).toString();
       console.error(`Failed to save CKEditor body to textarea: ${message}.`);
       this.Notifications.addError(message || this.I18n.t('js.error.internal'));
