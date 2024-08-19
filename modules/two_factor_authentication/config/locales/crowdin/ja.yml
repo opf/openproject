@@ -26,6 +26,7 @@ ja:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "2FAの配信が無効になっています。"
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "このインスタンスに必要であるにもかかわらず、このユーザーに登録された2FAデバイスが見つかりませんでした。"
     error_no_matching_strategy: "このユーザーに対応する2FA方法はありません。管理者に連絡してください。"
     error_is_enforced_not_active: "構成エラー：2ファクター認証が実施されていますが、有効な方法はありません。"

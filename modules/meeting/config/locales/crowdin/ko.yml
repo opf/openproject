@@ -121,7 +121,8 @@ ko:
       agenda_text: "이전 미팅의 의제 복사"
     email:
       send_emails: "이메일 보내기"
-      send_invitation_emails: "모든 참가자에게 초대 이메일을 보냅니다."
+      send_invitation_emails: >
+        Send out an invitation email to the participants listed above. Note that unchecking this option does not affect the sending of emails after this form is submitted.
       open_meeting_link: "미팅 열기"
       invited:
         summary: "%{actor} 님이 %{title} 미팅 초대장을 귀하에게 보냈습니다"

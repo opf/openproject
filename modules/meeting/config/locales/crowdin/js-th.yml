@@ -22,3 +22,6 @@
 th:
   js:
     label_meetings: 'ประชุม'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

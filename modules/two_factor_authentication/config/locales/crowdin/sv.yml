@@ -26,6 +26,7 @@ sv:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "2FA leverans har inaktiverats."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "Ingen registrerad 2FA enhet hittades för den här användaren, trots att det krävs för den här instansen."
     error_no_matching_strategy: "Ingen matchande 2FA strategi tillgänglig för den här användaren. Vänligen kontakta din administratör."
     error_is_enforced_not_active: "Konfigurationsfel: tvåfaktorsautentisering har verkställts, men inga aktiva strategier finns."

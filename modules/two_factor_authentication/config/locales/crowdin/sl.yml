@@ -26,6 +26,7 @@ sl:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "Dostava 2FA je onemogočena."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "Za tega uporabnika ni bila najdena nobena registrirana 2FA naprava, čeprav je za ta primer potrebna."
     error_no_matching_strategy: "Za tega uporabnika ni na voljo ustrezne strategije 2FA. Prosimo obrnite se na svojega upravnika."
     error_is_enforced_not_active: "Napaka v konfiguraciji: dvofaktorska overitev je bila izvršena, vendar nobena aktivna strategija ne obstaja."

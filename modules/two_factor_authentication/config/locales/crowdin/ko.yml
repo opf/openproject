@@ -26,6 +26,7 @@ ko:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "2FA 배달이 비활성화되었습니다."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "이 인스턴스에 필요하지만, 이 사용자에 대해 등록된 2FA 장치를 찾지 못했습니다."
     error_no_matching_strategy: "이 사용자에 대해 사용 가능한 일치하는 2FA 전략이 없습니다. 관리자에게 문의하세요."
     error_is_enforced_not_active: "구성 오류: 2단계 인증이 적용되었지만, 존재하는 활성 전략이 없습니다."

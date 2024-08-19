@@ -650,7 +650,7 @@ lt:
           with_current_filter: "Šiuo metu šiame vaizde pranešimų nėra"
         mark_all_read: "Pažymėti visus kaip perskaitytus"
         mark_as_read: "Žymėti kaip skaitytą"
-        text_update_date: "%{date} "
+        text_update_date_by: "%{date} by"
         total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
         empty_state:
           no_notification: "Panašu, kad jūs pilnai pasivijote."

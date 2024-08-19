@@ -648,7 +648,7 @@ hu:
           with_current_filter: "Ebben a nézetben jelenleg nincsenek értesítések"
         mark_all_read: "Mindegyik megjelölése olvasottként"
         mark_as_read: "Megjelölés olvasottként"
-        text_update_date: "%{date} szerint"
+        text_update_date_by: "%{date} by"
         total_count_warning: "A %{newest_count} legfrissebb értesítések megjelenítése. %{more_count} több nem jelenik meg.\n"
         empty_state:
           no_notification: "Looks like you are all caught up."

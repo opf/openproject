@@ -22,3 +22,6 @@
 pt-BR:
   js:
     label_meetings: 'Reuniões'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

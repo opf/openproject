@@ -48,3 +48,6 @@ cs:
         empty: 'Zatím nejsou k dispozici žádné propojené problémy. Propojte existující problém pomocí kódu <code>OP#%{wp_id}</code> (nebo <code>PP#%{wp_id}</code> pro soukromé odkazy) v názvu/popisu problému nebo vytvořte nový problém.'
       gitlab_pipelines: Datové kanály
       updated_on: Aktualizováno
+    work_packages:
+      tabs:
+        gitlab: "GitLab"

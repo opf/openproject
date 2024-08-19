@@ -49,3 +49,6 @@ de:
           draft: 'entworfen'
           merged: 'zusammengeführt'
           ready_for_review: 'als bereit zur Einsicht markiert'
+    work_packages:
+      tabs:
+        github: "GitHub"

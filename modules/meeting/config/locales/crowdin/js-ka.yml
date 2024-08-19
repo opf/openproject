@@ -22,3 +22,6 @@
 ka:
   js:
     label_meetings: 'შეხვედრები'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

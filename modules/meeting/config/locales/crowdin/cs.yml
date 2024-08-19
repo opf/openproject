@@ -124,7 +124,8 @@ cs:
       agenda_text: "Zkopírujte program staré schůzky"
     email:
       send_emails: "Odeslat e-maily"
-      send_invitation_emails: "Send out invitation emails for all participants."
+      send_invitation_emails: >
+        Send out an invitation email to the participants listed above. Note that unchecking this option does not affect the sending of emails after this form is submitted.
       open_meeting_link: "Otevřít schůzku"
       invited:
         summary: "%{actor} vám poslal pozvánku na schůzku %{title}"

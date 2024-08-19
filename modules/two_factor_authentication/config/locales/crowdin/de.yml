@@ -26,6 +26,7 @@ de:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "Zwei-Faktor-Authentifizierung ist deaktiviert."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "Kein registriertes 2FA-Gerät für diesen Nutzer gefunden, obwohl Zwei-Faktor-Authentifizierung für diese Instanz erforderlich ist."
     error_no_matching_strategy: "Keine passende 2FA-Zustellungsmechanismus für diesen Nutzer. Bitte kontaktieren Sie Ihren Administrator."
     error_is_enforced_not_active: "Konfigurationsfehler: Zwei-Faktor-Authentifizierung wird erzwungen, aber keine aktive Strategie wurde konfiguriert."

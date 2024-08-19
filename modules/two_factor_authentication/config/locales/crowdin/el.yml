@@ -26,6 +26,7 @@ el:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "Η διανομή 2FA έχει απενεργοποιηθεί."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "Δεν βρέθηκαν καταχωρημένες 2FA συσκευές για αυτό τον χρήστη, παρόλο που απαιτείται για αυτό το στιγμιότυπο."
     error_no_matching_strategy: "Δεν βρέθηκε διαθέσιμη στρατηγική 2FA για αυτό τον χρήστη που να ταιριάζει. Παρακαλούμε επικοινωνήστε με τον διαχειριστή σας."
     error_is_enforced_not_active: "Σφάλμα διαμόρφωσης: Η ταυτοποίηση δύο παραγόντων έχει επιβληθεί, αλλά δεν υπάρχουν ενεργές στρατηγικές."

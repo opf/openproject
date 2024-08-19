@@ -48,3 +48,6 @@ pt-PT:
         empty: 'Ainda não existem pedidos de fusão associados. Associe um MR existente utilizando o código <code>OP#%{wp_id}</code> (ou <code>PP#%{wp_id}</code> para ligações privadas) no título/descrição do MR ou crie um novo MR.'
       gitlab_pipelines: Pipelines
       updated_on: Atualizado em
+    work_packages:
+      tabs:
+        gitlab: "GitLab"
