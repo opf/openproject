@@ -24,6 +24,8 @@ def register_chrome(language, name: :"chrome_#{language}", headless: "old", over
     # https://github.com/grosser/parallel_tests/issues/658
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-smooth-scrolling")
+    # Disable "Select your search engine screen"
+    options.add_argument("--disable-search-engine-choice-screen")
 
     options.add_preference(:download,
                            directory_upgrade: true,
