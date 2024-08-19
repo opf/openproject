@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
             <% columns.each do |column| %>
               <%= tag :col, data: { highlight: column.attribute != :hierarchy } %>
             <% end %>
-            <col>
+            <col data-highlight="false">
           </colgroup>
           <thead class="-sticky">
           <tr>
