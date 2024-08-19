@@ -1,0 +1,45 @@
+<%= turbo_frame_tag "work_package_progress_modal" do %>
+  <%= primer_form_with(
+        model: work_package,
+        url: submit_path,
+        class: "progress-form",
+        id: "progress-form",
+        html: { autocomplete: "off" },
+        data: { "application-target": "dynamic",
+                "work-packages--progress--preview-progress-target": "form",
+                controller: "work-packages--progress--focus-field " \
+                  "work-packages--progress--preview-progress " \
+                  "work-packages--progress--touched-field-marker" }
+      ) do |f| %>
+    <%= flex_layout do |modal_body| %>
+      <% modal_body.with_row(classes: "FormControl-horizontalGroup--sm-vertical") do |_fields| %>
+        <%= render(WorkPackages::ProgressForm.new(f,
+                                                  work_package:,
+                                                  mode:,
+                                                  focused_field:,
+                                                  touched_field_map:)) %>
+      <% end %>
+
+      <% if should_display_migration_warning? %>
+        <% modal_body.with_row(mt: 3) do |_migration_warning| %>
+          <%= render(Primer::Alpha::Banner.new) { t("work_package.progress.modal.migration_warning_text") } %>
+        <% end %>
+      <% end %>
+
+      <% modal_body.with_row(mt: 3) do |_tooltip| %>
+        <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { t("work_package.progress.label_note") } %>
+        <%= render(Primer::Beta::Text.new) { t("work_package.progress.modal.work_based_help_text") } %>
+        <%= render(Primer::Beta::Link.new(href: learn_more_href)) { t(:label_learn_more) } %>
+      <% end %>
+
+      <% modal_body.with_row(mt: 3) do |_actions_row| %>
+        <%= flex_layout(justify_content: :flex_end) do |action_buttons| %>
+          <%= action_buttons.with_column do %>
+            <%= render(Primer::Beta::Button.new(scheme: :primary,
+                                                type: :submit)) { t(:button_save) } %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,6 @@
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_user_plural) }
+    header.with_breadcrumbs(breadcrumb_items)
+    header.with_description %>
+<% end %>

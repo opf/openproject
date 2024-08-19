@@ -1,0 +1,14 @@
+<% unless @events.empty? %>
+  <h3>
+    <%= link_to t(:label_activity), controller: '/activities', action: 'index', id: nil, user_id: @user, from: @events.first.event_datetime %>
+  </h3>
+  <p>
+    <%= t(:label_reported_work_packages) %>: <%= @user.reported_work_package_count %>
+  </p>
+  <%= render(Activities::DaysComponent.new(events: @events, display_user: false, header_tag: 'h4', activity_page: @activity_page)) %>
+  <%= helpers.other_formats_links do |f| %>
+    <%= f.link_to 'Atom', url: { controller: '/activities', action: 'index', id: nil, user_id: @user, key: User.current.rss_key } %>
+  <% end %>
+<% end %>
+
+<%= helpers.call_hook(:view_account_right_bottom, user: @user) %>

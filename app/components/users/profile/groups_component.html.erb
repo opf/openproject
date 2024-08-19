@@ -1,0 +1,23 @@
+<%=
+  render(Primer::OpenProject::SidePanel::Section.new) do |section|
+    section.with_title { t(:label_group_plural) }
+    section.with_counter(count: @groups.count, scheme: :primary)
+
+    if User.current.admin?
+      section.with_action_icon(
+        icon: :gear,
+        tag: :a,
+        "aria-label": t(:label_manage),
+        href: edit_user_path(@user, tab: :groups)
+      )
+    end
+
+    render(OpPrimer::ExpandableListComponent.new) do |list|
+      @groups.each do |group|
+        list.with_element do
+          helpers.avatar(group, size: :mini, hide_name: false)
+        end
+      end
+    end
+  end
+%>
