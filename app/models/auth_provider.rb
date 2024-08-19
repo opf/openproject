@@ -26,45 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  class CreateService < ::BaseServices::Create
-    def self.careful_new_custom_field(type)
-      if /.+CustomField\z/.match?(type.to_s)
-        klass = type.to_s.constantize
-        klass.new if klass.ancestors.include? CustomField
-      end
-    rescue NameError => e
-      Rails.logger.error "#{e.message}:\n#{e.backtrace.join("\n")}"
-      nil
-    end
+class AuthProvider < ApplicationRecord
+  belongs_to :creator, class_name: "User"
 
-    def perform(params)
-      super
-    rescue StandardError => e
-      ServiceResult.failure(message: e.message)
-    end
+  validates :display_name, presence: true
+  validates :display_name, uniqueness: true
 
-    def instance(params)
-      cf = self.class.careful_new_custom_field(params[:type])
-      raise ArgumentError.new("Invalid CF type") unless cf
+  def self.slug_fragment
+    raise NotImplementedError
+  end
 
-      cf
-    end
+  def auth_url
+    root_url = OpenProject::StaticRouting::StaticUrlHelpers.new.root_url
+    URI.join(root_url, "auth/#{slug}/").to_s
+  end
 
-    def after_perform(call)
-      cf = call.result
-
-      if cf.is_a?(ProjectCustomField)
-        add_cf_to_visible_columns(cf)
-      end
-
-      call
-    end
-
-    private
-
-    def add_cf_to_visible_columns(custom_field)
-      Setting.enabled_projects_columns = (Setting.enabled_projects_columns + [custom_field.column_name]).uniq
-    end
+  def callback_url
+    URI.join(auth_url, "callback").to_s
   end
 end

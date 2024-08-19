@@ -125,7 +125,7 @@ class MyProjectPageToGrid < ActiveRecord::Migration[5.2]
 
   def build_custom_text_widget(grid, widget_config, position)
     build_widget_with_options(grid, "custom_text", position) do |options|
-      name = widget_config[1].presence || grid.project.name
+      name = widget_config[1].presence || "Text"
 
       options[:name] = name
       options[:text] = widget_config[2]

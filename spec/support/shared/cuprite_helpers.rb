@@ -36,13 +36,27 @@
 # being present or gone. Instead the execution is halted until
 # requested data is done being fetched.
 def wait_for_network_idle(...)
-  page.driver.wait_for_network_idle(...) if using_cuprite?
+  if using_cuprite?
+    page.driver.wait_for_network_idle(...)
+  else
+    warn_about_cuprite_helper_misuse(:wait_for_network_idle)
+  end
 end
 
 # Takes the above `wait_for_network_idle` a step further by waiting
 # for the page to be reloaded after some triggering action.
 def wait_for_reload
-  page.driver.wait_for_reload if using_cuprite?
+  if using_cuprite?
+    page.driver.wait_for_reload
+  else
+    warn_about_cuprite_helper_misuse(:wait_for_reload)
+  end
+end
+
+def warn_about_cuprite_helper_misuse(method_name)
+  stack = caller(2)
+  cause = [stack[0], stack.find { |line| line["_spec.rb:"] }].uniq.join(" … ")
+  warn "#{method_name} used in spec not using cuprite (#{cause})"
 end
 
 # Ferrum is yet support `fill_options` as a Hash

@@ -70,7 +70,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       end
     end
 
-    context "for project members", with_ee: %i[custom_fields_in_projects_list] do
+    context "for project members" do
       shared_let(:user) do
         create(:user,
                member_with_roles: { development_project => developer },
@@ -131,7 +131,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       end
     end
 
-    context "for work package members", with_ee: %i[custom_fields_in_projects_list] do
+    context "for work package members" do
       shared_let(:work_package) { create(:work_package, project: development_project) }
       shared_let(:user) do
         create(:user,
@@ -282,7 +282,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     end
   end
 
-  describe "project attributes visibility restrictions", with_ee: %i[custom_fields_in_projects_list] do
+  describe "project attributes visibility restrictions" do
     let(:user) do
       create(:user,
              member_with_roles: {
@@ -329,18 +329,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     end
   end
 
-  context "without valid Enterprise token" do
-    specify "CF columns and filters are not visible" do
-      load_and_open_filters admin
-
-      # CF's columns are not present:
-      expect(page).to have_no_text(custom_field.name.upcase)
-      # CF's filters are not present:
-      expect(page).to have_no_select("add_filter_select", with_options: [custom_field.name])
-    end
-  end
-
-  context "with valid Enterprise token", with_ee: %i[custom_fields_in_projects_list] do
+  context "with valid Enterprise token" do
     shared_let(:long_text_custom_field) { create(:text_project_custom_field) }
     specify "CF columns and filters are not visible by default" do
       load_and_open_filters admin
@@ -437,15 +426,17 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                "doesn't contain",
                                ["Plain"])
 
-      click_on "Apply"
-      wait_for_reload
+      projects_page.apply_filters
 
       projects_page.set_columns("Name")
+      wait_for_reload
       projects_page.expect_columns("Name")
+      projects_page.expect_no_columns("Status")
 
       # Sorts ASC by name
       projects_page.sort_by_via_table_header("Name")
       wait_for_reload
+      projects_page.expect_sort_order_via_table_header("Name", direction: :asc)
 
       # Results should be filtered and ordered ASC by name and only the selected columns should be present
       projects_page.expect_projects_listed(development_project)
@@ -458,9 +449,15 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       # Changing the page size to 5 and back to 1 should not change the filters (which we test later on the second page)
       projects_page.set_page_size(5)
       wait_for_reload
+      projects_page.expect_page_size(5)
+
       projects_page.set_page_size(1)
       wait_for_reload
-      click_on "2" # Go to pagination page 2
+      projects_page.expect_page_size(1)
+
+      projects_page.go_to_page(2) # Go to pagination page 2
+      wait_for_reload
+      projects_page.expect_current_page_number(2)
 
       # On page 2 you should see the second page of the filtered set ordered ASC by name and only the selected columns exist
       projects_page.expect_projects_listed(public_project)
@@ -473,6 +470,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       # Sorts DESC by name
       projects_page.sort_by_via_table_header("Name")
       wait_for_reload
+      projects_page.expect_sort_order_via_table_header("Name", direction: :desc)
 
       # Clicking on sorting resets the page to the first one
       projects_page.expect_current_page_number(1)
@@ -483,13 +481,12 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                                development_project) # Present on page 2
 
       projects_page.expect_total_pages(2) # Filters kept active, so there is no third page.
-      expect(page).to have_css(".sort.desc", text: "NAME")
       projects_page.expect_columns("Name")
       projects_page.expect_no_columns("Status")
 
       # Sending the filter form again what implies to compose the request freshly
-      click_on "Apply"
-      wait_for_reload
+      projects_page.apply_filters
+      projects_page.expect_sort_order_via_table_header("Name", direction: :desc)
 
       # We should see page 1, resetting pagination, as it is a new filter, but keeping the DESC order on the project
       # name
@@ -497,7 +494,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       projects_page.expect_projects_not_listed(development_project, # as it is on the second page
                                                project)             # as it filtered out
       projects_page.expect_total_pages(2) # as the result set is larger than 1
-      expect(page).to have_css(".sort.desc", text: "NAME")
       projects_page.expect_columns("Name")
       projects_page.expect_no_columns("Status")
     end
@@ -713,7 +709,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       end
     end
 
-    describe "other filter types", with_ee: %i[custom_fields_in_projects_list] do
+    describe "other filter types" do
       context "for admins" do
         shared_let(:list_custom_field) { create(:list_project_custom_field) }
         shared_let(:date_custom_field) { create(:date_project_custom_field) }
@@ -1100,7 +1096,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     end
   end
 
-  describe "order", with_ee: %i[custom_fields_in_projects_list] do
+  describe "order" do
     shared_let(:integer_custom_field) { create(:integer_project_custom_field) }
     # order is important here as the implementation uses lft
     # first but then reorders in ruby
@@ -1296,8 +1292,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     end
   end
 
-  describe "column selection",
-           with_ee: %i[custom_fields_in_projects_list], with_settings: { enabled_projects_columns: %w[name created_at] } do
+  describe "column selection", with_settings: { enabled_projects_columns: %w[name created_at] } do
     # Will still receive the :view_project permission
     shared_let(:user) do
       create(:user, member_with_permissions: { project => %i(view_project_attributes),
@@ -1365,7 +1360,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     end
   end
 
-  context "with a multi-value custom field", with_ee: %i[custom_fields_in_projects_list] do
+  context "with a multi-value custom field" do
     let!(:list_custom_field) do
       create(:list_project_custom_field, multi_value: true).tap do |cf|
         project.update(custom_field_values: { cf.id => [cf.value_of("A"), cf.value_of("B")] })
