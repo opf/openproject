@@ -27,9 +27,14 @@
 //++
 
 import {
-  ChangeDetectorRef, Component, ElementRef, OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
 } from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
+
 import { ResizeDelta } from 'core-app/shared/components/resizer/resizer.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { MainMenuToggleService } from 'core-app/core/main-menu/main-menu-toggle.service';
@@ -38,23 +43,25 @@ export const mainMenuResizerSelector = 'main-menu-resizer';
 
 @Component({
   selector: mainMenuResizerSelector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <resizer class="main-menu--resizer"
-             [customHandler]="true"
-             [cursorClass]="'col-resize'"
-             (end)="resizeEnd()"
-             (start)="resizeStart()"
-             (move)="resizeMove($event)">
-      <div class="resizer-toggle-container">
-        <button
-          class="spot-link main-menu--navigation-toggler"
-          [attr.title]="toggleTitle"
-          [class.open]="toggleService.showNavigation"
-          (click)="toggleService.toggleNavigation($event)">
-          <op-icon icon-classes="icon-resizer-vertical-lines"></op-icon>
-        </button>
-      </div>
-    </resizer>
+    <op-resizer class="main-menu--resizer"
+                [customHandler]="true"
+                [cursorClass]="'col-resize'"
+                (resizeFinished)="resizeEnd()"
+                (resizeStarted)="resizeStart()"
+                (move)="resizeMove($event)">
+      <button
+        class="spot-link main-menu--navigation-toggler"
+        [attr.title]="toggleTitle"
+        [class.open]="toggleService.showNavigation"
+        (click)="toggleService.toggleNavigation($event)"
+      >
+        <span class="resize-handle"><svg op-resizer-vertical-lines-icon size="small"></svg></span>
+        <span class="collapse-menu"><svg chevron-left-icon size="small"></svg></span>
+        <span class="expand-menu"><svg chevron-right-icon size="small"></svg></span>
+      </button>
+    </op-resizer>
   `,
 })
 
@@ -63,17 +70,17 @@ export class MainMenuResizerComponent extends UntilDestroyedMixin implements OnI
 
   private resizeEvent:string;
 
-  private localStorageKey:string;
-
   private elementWidth:number;
 
   private mainMenu = jQuery('#main-menu')[0];
 
   public moving = false;
 
-  constructor(readonly toggleService:MainMenuToggleService,
+  constructor(
+    readonly toggleService:MainMenuToggleService,
     readonly cdRef:ChangeDetectorRef,
-    readonly elementRef:ElementRef) {
+    readonly elementRef:ElementRef,
+  ) {
     super();
   }
 
@@ -89,7 +96,6 @@ export class MainMenuResizerComponent extends UntilDestroyedMixin implements OnI
       });
 
     this.resizeEvent = 'main-menu-resize';
-    this.localStorageKey = 'openProject-mainMenuWidth';
   }
 
   public resizeStart() {

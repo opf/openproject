@@ -1,10 +1,45 @@
+// -- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2024 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import {
-  Component, EventEmitter, HostListener, Input, OnDestroy, Output,
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  Output,
 } from '@angular/core';
+
 import { setBodyCursor } from 'core-app/shared/helpers/dom/set-window-cursor.helper';
 
 export interface ResizeDelta {
-  origin:any;
+  origin:UIEvent;
 
   // Absolute difference from start
   absolute:{
@@ -20,8 +55,9 @@ export interface ResizeDelta {
 }
 
 @Component({
-  selector: 'resizer',
+  selector: 'op-resizer',
   templateUrl: './resizer.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResizerComponent implements OnDestroy {
   private startX:number;
@@ -40,13 +76,11 @@ export class ResizerComponent implements OnDestroy {
 
   private mouseUpHandler:EventListener;
 
-  private resizing = false;
+  @Output() resizeFinished:EventEmitter<ResizeDelta> = new EventEmitter<ResizeDelta>();
 
-  @Output() end:EventEmitter<ResizeDelta> = new EventEmitter();
+  @Output() resizeStarted:EventEmitter<ResizeDelta> = new EventEmitter<ResizeDelta>();
 
-  @Output() start:EventEmitter<ResizeDelta> = new EventEmitter();
-
-  @Output() move:EventEmitter<ResizeDelta> = new EventEmitter();
+  @Output() move:EventEmitter<ResizeDelta> = new EventEmitter<ResizeDelta>();
 
   @Input() customHandler = false;
 
@@ -60,50 +94,64 @@ export class ResizerComponent implements OnDestroy {
 
   @HostListener('mousedown', ['$event'])
   @HostListener('touchstart', ['$event'])
-  public startResize(event:any) {
+  // public startResize(event:any) {
+  public startResize(event:MouseEvent|TouchEvent) {
     event.preventDefault();
     event.stopPropagation();
 
-    // Only on left mouse click the resizing is started
-    if (event.buttons === 1 || event.which === 1 || event.which === 0) {
-      // Getting starting position
-      this.oldX = this.startX = event.clientX || event.pageX || event.touches[0].clientX;
-      this.oldY = this.startY = event.clientY || event.pageY || event.touches[0].clientY;
-
-      this.newX = event.clientX || event.pageX || event.touches[0].clientX;
-      this.newY = event.clientY || event.pageY || event.touches[0].clientY;
-
-      this.resizing = true;
-
-      this.setResizeCursor();
-      this.bindEventListener(event);
-
-      this.start.emit(this.buildDelta(event));
+    if (this.isMouseEvent(event) && event.button !== 0) {
+      // Only handle primary mouse button clicks
+      return;
     }
+
+    const { x, y } = this.position(event);
+    this.oldX = x;
+    this.startX = x;
+    this.newX = x;
+    this.oldY = y;
+    this.startY = y;
+    this.newY = y;
+
+    this.setResizeCursor();
+    this.bindEventListener();
+    this.resizeStarted.emit(this.buildDelta(event));
   }
 
-  private onMouseUp(event:any) {
+  private position(event:MouseEvent|TouchEvent):{ x:number, y:number } {
+    if (this.isMouseEvent(event)) {
+      return { x: event.clientX, y: event.clientY };
+    }
+
+    return { x: event.touches[0].clientX, y: event.touches[0].clientY };
+  }
+
+  private isMouseEvent(event:MouseEvent|TouchEvent):event is MouseEvent {
+    return event instanceof MouseEvent;
+  }
+
+  private onMouseUp(event:MouseEvent|TouchEvent) {
     this.setAutoCursor();
     this.removeEventListener();
 
-    this.end.emit(this.buildDelta(event));
+    this.resizeFinished.emit(this.buildDelta(event));
   }
 
-  private onMouseMove(event:any) {
+  private onMouseMove(event:MouseEvent|TouchEvent) {
     event.preventDefault();
     event.stopPropagation();
 
     this.oldX = this.newX;
     this.oldY = this.newY;
 
-    this.newX = event.clientX || event.pageX || event.touches[0].clientX;
-    this.newY = event.clientY || event.pageY || event.touches[0].clientX;
+    const { x, y } = this.position(event);
+    this.newX = x;
+    this.newY = y;
 
     this.move.emit(this.buildDelta(event));
   }
 
   // Necessary to encapsulate this to be able to remove the event listener later
-  private bindEventListener(event:any) {
+  private bindEventListener() {
     this.mouseMoveHandler = this.onMouseMove.bind(this);
     this.mouseUpHandler = this.onMouseUp.bind(this);
 
@@ -128,7 +176,7 @@ export class ResizerComponent implements OnDestroy {
     setBodyCursor('auto');
   }
 
-  private buildDelta(event:any):ResizeDelta {
+  private buildDelta(event:MouseEvent|TouchEvent):ResizeDelta {
     return {
       origin: event,
       absolute: {
@@ -137,7 +185,7 @@ export class ResizerComponent implements OnDestroy {
       },
       relative: {
         x: this.newX - this.oldX,
-        y: this.newY - this.oldX,
+        y: this.newY - this.oldY,
       },
     };
   }

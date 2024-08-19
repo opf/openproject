@@ -1,17 +1,24 @@
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
   HostBinding,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
-import { SearchableProjectListService } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
+import {
+  SearchableProjectListService,
+} from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
 import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 @Component({
   selector: '[op-header-project-select-list]',
@@ -19,7 +26,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
   templateUrl: './header-project-select-list.component.html',
   styleUrls: ['./header-project-select-list.component.sass'],
 })
-export class OpHeaderProjectSelectListComponent implements OnInit {
+export class OpHeaderProjectSelectListComponent implements OnInit, OnChanges {
   @HostBinding('class.spot-list') classNameList = true;
 
   @HostBinding('class.op-header-project-select-list') className = true;
@@ -30,7 +37,13 @@ export class OpHeaderProjectSelectListComponent implements OnInit {
 
   @Input() projects:IProjectData[] = [];
 
+  @Input() favored:string[] = [];
+
+  @Input() displayMode:string;
+
   @Input() searchText = '';
+
+  public filteredProjects:IProjectData[];
 
   public text = {
     does_not_match_search: this.I18n.t('js.include_projects.tooltip.does_not_match_search'),
@@ -40,8 +53,11 @@ export class OpHeaderProjectSelectListComponent implements OnInit {
   constructor(
     readonly I18n:I18nService,
     readonly pathHelper:PathHelperService,
+    readonly configuration:ConfigurationService,
     readonly searchableProjectListService:SearchableProjectListService,
     readonly elementRef:ElementRef,
+    readonly cdRef:ChangeDetectorRef,
+    readonly currentProjectService:CurrentProjectService,
   ) { }
 
   ngOnInit():void {
@@ -56,11 +72,41 @@ export class OpHeaderProjectSelectListComponent implements OnInit {
         });
       });
     }
+
+    this.updateProjectFilter();
   }
 
-  extendedProjectUrl(projectId:string):string {
+  ngOnChanges(changes:SimpleChanges) {
+    if (changes.displayMode || changes.projects || changes.favored) {
+      this.updateProjectFilter();
+    }
+  }
+
+  updateProjectFilter() {
+    this.filteredProjects = this.projects.filter((project) => {
+      if (this.displayMode === 'all') {
+        return true;
+      }
+
+      return this.showWhenFavored(project);
+    });
+  }
+
+  showWhenFavored(project:IProjectData):boolean {
+    if (this.isFavored(project)) {
+      return true;
+    }
+
+    return project.children.length > 0 && project.children.some((child) => this.showWhenFavored(child));
+  }
+
+  isFavored(project:IProjectData):boolean {
+    return this.favored.includes(project.id.toString());
+  }
+
+  extendedUrl(projectId:string|null):string {
     const currentMenuItem = document.querySelector('meta[name="current_menu_item"]') as HTMLMetaElement;
-    const url = this.pathHelper.projectPath(projectId);
+    const url = projectId === null ? window.appBasePath : this.pathHelper.projectPath(projectId);
 
     if (!currentMenuItem) {
       return url;

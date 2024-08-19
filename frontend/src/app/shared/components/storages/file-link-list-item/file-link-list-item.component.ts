@@ -33,8 +33,10 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 
@@ -60,7 +62,7 @@ import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
   templateUrl: './file-link-list-item.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FileLinkListItemComponent implements OnInit, AfterViewInit {
+export class FileLinkListItemComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() public fileLink:IFileLink;
 
   @Input() public allowEditing = false;
@@ -132,8 +134,16 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
       'js.storages.file_links.download',
       { fileName: this.fileLink.originData.name },
     );
+  }
 
-    this.floatingActions = this.getFloatingActions();
+  // Before, the getFloatingActions() method was called in the ngOnInit() method.
+  // The value of the allowEditing property can be calculated after the component is already initialized (in fact it is determined
+  // asynchronously, by getting a value from the server in a separate request). Therefore, the available actions need
+  // to be calculated whenever the value is set.
+  ngOnChanges(changes:SimpleChanges):void {
+    if (changes.allowEditing) {
+      this.floatingActions = this.getFloatingActions();
+    }
   }
 
   ngAfterViewInit():void {

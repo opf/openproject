@@ -52,6 +52,10 @@
                 "input": "src/spot.scss",
                 "bundleName": "spot"
               },
+              {
+                "input": "src/backlogs.scss",
+                "bundleName": "backlogs"
+              },
               "src/styles.scss",
               "node_modules/codemirror/lib/codemirror.css",
               "node_modules/jquery-ui/themes/base/core.css",
@@ -61,8 +65,7 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/assets/sass/",
-                "src/app/spot/styles/sass/variables/"
+                "src/assets/sass/"
               ]
             },
             "scripts": [],
@@ -136,19 +139,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "OpenProject:build",
-            "proxyConfig": "cli_to_rails_proxy.js"
+            "proxyConfig": "cli_to_rails_proxy.js",
+            "buildTarget": "OpenProject:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "OpenProject:build:production"
+              "buildTarget": "OpenProject:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "OpenProject:build"
+            "buildTarget": "OpenProject:build"
           }
         },
         "test": {

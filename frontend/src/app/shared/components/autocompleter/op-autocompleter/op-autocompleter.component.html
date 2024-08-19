@@ -1,10 +1,18 @@
 <div class="inline-label">
   <input
     #syncedInput
-    *ngIf="inputName"
+    *ngIf="inputName && !(multiple && multipleAsSeparateInputs)"
     type="hidden"
     [attr.name]="inputName"
     [attr.data-action]="hiddenFieldAction">
+  <ng-container *ngIf="multiple && multipleAsSeparateInputs">
+    <input
+      *ngFor="let value of mappedInputValue"
+      type="hidden"
+      [attr.name]="inputName+'[]'"
+      [attr.data-action]="hiddenFieldAction"
+      [value]="value">
+  </ng-container>
   <ng-select
     #ngSelectInstance
     [(ngModel)]="model"
@@ -192,6 +200,7 @@
 
 <ng-template let-item let-search="search" let-clear="clear" #defaultLabel>
   <ng-container *ngIf="resource === 'work_packages'">
+    <span class="ng-value-icon left" (click)="clear(item)">×</span>
     <span
       *ngIf="item.id"
       class="ng-value-label"

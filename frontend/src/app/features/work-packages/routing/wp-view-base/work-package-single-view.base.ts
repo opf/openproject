@@ -46,7 +46,7 @@ import {
   WorkPackageNotificationService,
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import {
-  switchMap, take,
+  take,
 } from 'rxjs/operators';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -184,8 +184,9 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     this.showStaticPagePath = this.PathHelper.workPackagePath(this.workPackageId);
 
     // Fetch attachments of current work package
-    const attachments = this.workPackage.attachments as unknown&{ href:string };
-    this.attachmentsResourceService.fetchCollection(attachments.href).subscribe();
+    if (this.workPackage.$links.attachments) {
+      this.attachmentsResourceService.fetchCollection(this.workPackage.$links.attachments.href as string).subscribe();
+    }
 
     if (this.workPackage.$links.fileLinks) {
       this.fileLinkResourceService

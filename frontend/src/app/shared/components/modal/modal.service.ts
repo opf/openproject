@@ -43,6 +43,7 @@ export interface ModalData {
   modal:ComponentType<OpModalComponent>;
   injector:Injector;
   notFullscreen:boolean;
+  mobileTopPosition:boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -72,12 +73,14 @@ export class OpModalService {
    *                 Can be passed 'global' to take the default (global!) injector of this service.
    * @param locals A map to be injected via token into the component.
    * @param notFullscreen
+   * @param mobileTopPosition
    */
   public show<T extends OpModalComponent>(
     modal:ComponentType<T>,
     injector:Injector|'global',
     locals:Record<string, unknown> = {},
     notFullscreen = false,
+    mobileTopPosition = false,
   ):Observable<T> {
     this.close();
 
@@ -90,6 +93,7 @@ export class OpModalService {
       modal,
       injector: this.injectorFor(injector, locals),
       notFullscreen,
+      mobileTopPosition,
     });
 
     return this.activeModalInstance$

@@ -19,7 +19,6 @@ import { CalendarDragDropService } from 'core-app/features/team-planner/team-pla
 import { OpProjectIncludeComponent } from 'core-app/shared/components/project-include/project-include.component';
 import {
   EffectCallback,
-  EffectHandler,
   registerEffectCallbacks,
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import {

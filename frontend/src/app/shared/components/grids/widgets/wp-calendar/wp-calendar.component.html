@@ -8,4 +8,14 @@
   </widget-menu>
 </widget-header>
 
-<op-wp-calendar [static]="true"></op-wp-calendar>
+<ng-container *ngIf="{hasCapability: hasCapability$ | async} as context">
+  <div class="op-toast -error" *ngIf="context.hasCapability === false">
+    <span [textContent]="text.missing_permission"></span>
+  </div>
+
+  <op-wp-calendar
+    *ngIf="context.hasCapability === true"
+    [showMeetings]="true"
+    [static]="true"
+  ></op-wp-calendar>
+</ng-container>

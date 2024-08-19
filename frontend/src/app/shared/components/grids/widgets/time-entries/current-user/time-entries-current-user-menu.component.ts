@@ -30,9 +30,14 @@ import {
   Component, EventEmitter, Output,
 } from '@angular/core';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { WidgetAbstractMenuComponent } from 'core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component';
-import { TimeEntriesCurrentUserConfigurationModalComponent } from 'core-app/shared/components/grids/widgets/time-entries/current-user/configuration-modal/configuration.modal';
+import {
+  WidgetAbstractMenuComponent,
+} from 'core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component';
+import {
+  TimeEntriesCurrentUserConfigurationModalComponent,
+} from 'core-app/shared/components/grids/widgets/time-entries/current-user/configuration-modal/configuration.modal';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
 @Component({
   selector: 'widget-time-entries-current-user-menu',
@@ -43,10 +48,12 @@ export class WidgetTimeEntriesCurrentUserMenuComponent extends WidgetAbstractMen
 
   @Output() onConfigured:EventEmitter<any> = new EventEmitter();
 
-  protected menuItemList = [
-    this.removeItem,
-    this.configureItem,
-  ];
+  protected async buildItems():Promise<OpContextMenuItem[]> {
+    return [
+      this.removeItem,
+      this.configureItem,
+    ];
+  }
 
   protected get configureItem() {
     return {

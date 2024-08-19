@@ -117,7 +117,8 @@ export class PrincipalRendererService {
   ) {
     const userInitials = this.getInitials(principal.name);
     const colorMode = this.colors.colorMode();
-    const colorCode = this.colors.toHsl(principal.name, colorMode);
+    const text = `${principal.id}${principal.name}`;
+    const colorCode = this.colors.toHsl(text, colorMode);
 
     const fallback = document.createElement('div');
     fallback.classList.add('op-principal--avatar');
@@ -151,6 +152,7 @@ export class PrincipalRendererService {
     }
 
     const image = new Image();
+    image.classList.add('op-principal--avatar');
     image.classList.add('op-avatar');
     image.classList.add(`op-avatar_${options.size}`);
     image.src = url;
@@ -216,8 +218,12 @@ export class PrincipalRendererService {
     const characters = [...name];
     const lastSpace = name.lastIndexOf(' ');
     const first = characters[0]?.toUpperCase();
-    const last = name[lastSpace + 1]?.toUpperCase();
 
+    if (lastSpace === -1) {
+      return first;
+    }
+
+    const last = name[lastSpace + 1]?.toUpperCase();
     return [first, last].join('');
   }
 }

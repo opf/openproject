@@ -35,6 +35,12 @@ import { WorkPackageSplitViewComponent } from 'core-app/features/work-packages/r
 
 export const menuItemClass = 'boards-menu-item';
 
+export const sidemenuId = 'boards_sidemenu';
+export const sideMenuOptions = {
+  sidemenuId,
+  hardReloadOnBaseRoute: true,
+};
+
 export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'boards',
@@ -45,6 +51,7 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     data: {
       bodyClasses: 'router--boards-view-base',
       menuItem: menuItemClass,
+      sideMenuOptions,
     },
     params: {
       // Use custom encoder/decoder that ensures validity of URL string
@@ -63,6 +70,7 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
       parent: 'boards',
       bodyClasses: 'router--boards-full-view',
       menuItem: menuItemClass,
+      sideMenuOptions,
     },
     reloadOnSearch: false,
     component: BoardPartitionedPageComponent,
@@ -73,6 +81,7 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     url: '',
     data: {
       baseRoute: 'boards.partitioned.show',
+      sideMenuOptions,
     },
     views: {
       'content-left': { component: BoardListContainerComponent },

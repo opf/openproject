@@ -90,6 +90,8 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
 
   @Input() public isInlineContext = false;
 
+  @Input() public disabledProjects:{ [key:string]:string|boolean } = {};
+
   // This function allows mapping of the results before they are fed to the tree
   // structuring and destructuring algorithms used internally the this component
   // to show the tree structure. By default it does not do much, but it is
@@ -140,9 +142,12 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
     const arrayedValue = (Array.isArray(normalizedValue) ? normalizedValue : [normalizedValue]).map((p) => p.href || p.id);
     return projects.map((project) => {
       const isSelected = !!arrayedValue.find((selected) => selected === this.projectTracker(project));
+      const id = project.id.toString();
+      const disabled = isSelected || project.disabled || !!this.disabledProjects[id];
       return {
         ...project,
-        disabled: isSelected || project.disabled,
+        disabled,
+        disabledReason: (typeof this.disabledProjects[id] === 'string') ? this.disabledProjects[id] as string : '',
       };
     });
   }
@@ -176,14 +181,20 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
       },
     )
       .pipe(
-        map((projects) => projects.map((project) => ({
-          id: project.id,
-          href: project._links.self.href,
-          name: project.name,
-          disabled: false,
-          ancestors: project._links.ancestors,
-          children: [],
-        }))),
+        map((projects) => projects.map((project) => {
+          const id = project.id.toString();
+          const disabled = !!this.disabledProjects[id];
+
+          return {
+            id: project.id,
+            href: project._links.self.href,
+            name: project.name,
+            disabled,
+            disabledReason: (typeof this.disabledProjects[id] === 'string') ? this.disabledProjects[id] as string : '',
+            ancestors: project._links.ancestors,
+            children: [],
+          };
+        })),
         map(this.mapResultsFn),
         map((projects) => {
           this.dataLoaded = true;

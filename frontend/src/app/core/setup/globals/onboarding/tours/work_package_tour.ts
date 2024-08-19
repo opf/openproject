@@ -50,5 +50,11 @@ export function wpOnboardingTourSteps():OnboardingStep[] {
         jQuery('#main-menu-gantt')[0].click();
       },
     },
+    {
+      containerClass: '-dark -hidden-arrow',
+      onBeforeStart() {
+        window.location.href = `${window.location.origin}/projects/demo-project/gantt`;
+      },
+    },
   ];
 }

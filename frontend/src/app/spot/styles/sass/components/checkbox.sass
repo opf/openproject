@@ -28,7 +28,7 @@
     height: $spot-spacing-1
     width: $spot-spacing-1
     border-radius: 3px
-    border: 1px solid $spot-color-main
+    border: 1px solid var(--control-checked-color)
     cursor: pointer
 
     &::before,
@@ -39,10 +39,10 @@
   &--input:indeterminate + &--fake::before
     width: 8px
     height: 2px
-    background-color: $spot-color-main
+    background-color: var(--control-checked-color)
 
   &--input:checked + &--fake
-    background-color: $spot-color-main-light
+    background-color: var(--control-checked-color--minor1)
 
   &--input:checked + &--fake::before,
   &--input:checked + &--fake::after
@@ -52,17 +52,17 @@
   &--input:checked + &--fake::before
     width: 2px
     height: 5px
-    background-color: $spot-color-main
+    background-color: var(--control-checked-color)
     transform: translateX(-2.3px) translateY(1.4px) rotate(-40deg)
 
   &--input:checked + &--fake::after
     width: 8px
     height: 2px
-    background-color: $spot-color-main
+    background-color: var(--control-checked-color)
     transform: translateX(1px) rotate(-45deg)
 
   &--input:disabled + &--fake
-    border-color: var(--color-fg-muted)
+    border-color: var(--fgColor-muted)
     cursor: default
 
   &--input:disabled:checked + &--fake
@@ -70,4 +70,4 @@
 
   &--input:disabled + &--fake::before,
   &--input:disabled + &--fake::after
-    background-color: var(--color-fg-muted)
+    background-color: var(--fgColor-muted)

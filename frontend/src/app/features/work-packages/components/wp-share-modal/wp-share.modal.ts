@@ -24,6 +24,9 @@ import { shareModalUpdated } from 'core-app/features/work-packages/components/wp
 export class WorkPackageShareModalComponent extends OpModalComponent implements OnInit {
   @ViewChild('frameElement') frameElement:ElementRef<HTMLIFrameElement>|undefined;
 
+  // Hide close button so it's not duplicated in primer (WP#51699)
+  showCloseButton = false;
+
   private workPackage:WorkPackageResource;
   public frameSrc:string;
 

@@ -16,6 +16,8 @@
       border: none
       cursor: unset
 
+    .fc-scrollgrid-section-sticky > *
+      background: none
     // Note the greater specificity than the standard background colours
     table .fc-day-today
       background: rgb(255 255 120 / 20%)
@@ -29,8 +31,9 @@
     // The days in full calendar are anchor elements which we do not
     // want to like like actual links
     .fc-col-header-cell a,
-    a.fc-daygrid-day-number
-      color: #000000
+    a.fc-daygrid-day-number,
+    th.fc-day a
+      color: var(--body-font-color)
       cursor: default
 
       &:hover
@@ -128,7 +131,7 @@
         height: 34px
         background: var(--button--background-color)
         color: var(--button--font-color)
-        border-color: var(--button--border-color)
+        border-color: var(--button-default-borderColor-rest)
         margin-bottom: 0
 
         &:focus
@@ -169,6 +172,7 @@
 
     thead .fc-scroller
       @include no-visible-scroll-bar
+
   // ------------------------ END: Calendar toolbar ------------------------
   // -------
   // ------------------------ END: Full calendar overwrite ------------------------

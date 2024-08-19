@@ -10,21 +10,13 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
-import { GlobalI18n } from 'core-app/core/i18n/i18n.service';
-import { I18nShim } from './test/i18n-shim';
+import { I18n } from 'i18n-js'
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access no-explicit-any
 (window as any).global = window;
 
-require('expose-loader?_!lodash');
-declare global {
-  export interface Window {
-    I18n:GlobalI18n;
-  }
-}
-
 // Declare global I18n shim
-window.I18n = new I18nShim();
+window.I18n = new I18n();
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(

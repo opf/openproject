@@ -37,9 +37,7 @@ import { map } from 'rxjs/operators';
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HookService } from 'core-app/features/plugins/hook-service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ProjectStoragesResourceService } from 'core-app/core/state/project-storages/project-storages.service';
 import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
@@ -64,11 +62,11 @@ export class WorkPackageFilesTabComponent implements OnInit {
 
   allowManageFileLinks$:Observable<boolean>;
 
+  showAttachments:boolean;
+
   constructor(
     private readonly i18n:I18nService,
-    private readonly hook:HookService,
     private readonly currentUserService:CurrentUserService,
-    private readonly storagesResourceService:StoragesResourceService,
     private readonly projectStoragesResourceService:ProjectStoragesResourceService,
   ) { }
 
@@ -78,6 +76,7 @@ export class WorkPackageFilesTabComponent implements OnInit {
       return;
     }
 
+    this.showAttachments = !!this.workPackage.$links.attachments;
     const canViewFileLinks = this.currentUserService.hasCapabilities$('file_links/view', project.id);
 
     this.projectStorages = this

@@ -36,7 +36,9 @@ import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { WidgetWpCalendarComponent } from 'core-app/shared/components/grids/widgets/wp-calendar/wp-calendar.component';
-import { WidgetTimeEntriesCurrentUserComponent } from 'core-app/shared/components/grids/widgets/time-entries/current-user/time-entries-current-user.component';
+import {
+  WidgetTimeEntriesCurrentUserComponent,
+} from 'core-app/shared/components/grids/widgets/time-entries/current-user/time-entries-current-user.component';
 import { GridWidgetsService } from 'core-app/shared/components/grids/widgets/widgets.service';
 import { GridComponent } from 'core-app/shared/components/grids/grid/grid.component';
 import { AddGridWidgetModalComponent } from 'core-app/shared/components/grids/widgets/add/add.modal';
@@ -48,25 +50,47 @@ import { WidgetWpTableMenuComponent } from 'core-app/shared/components/grids/wid
 import { GridInitializationService } from 'core-app/shared/components/grids/grid/initialization.service';
 import { WidgetWpGraphComponent } from 'core-app/shared/components/grids/widgets/wp-graph/wp-graph.component';
 import { WidgetWpGraphMenuComponent } from 'core-app/shared/components/grids/widgets/wp-graph/wp-graph-menu.component';
-import { WidgetWpTableQuerySpaceComponent } from 'core-app/shared/components/grids/widgets/wp-table/wp-table-qs.component';
-import { OpenprojectWorkPackageGraphsModule } from 'core-app/shared/components/work-package-graphs/openproject-work-package-graphs.module';
+import {
+  WidgetWpTableQuerySpaceComponent,
+} from 'core-app/shared/components/grids/widgets/wp-table/wp-table-qs.component';
+import {
+  OpenprojectWorkPackageGraphsModule,
+} from 'core-app/shared/components/work-package-graphs/openproject-work-package-graphs.module';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WidgetProjectDescriptionComponent } from 'core-app/shared/components/grids/widgets/project-description/project-description.component';
+import {
+  WidgetProjectDescriptionComponent,
+} from 'core-app/shared/components/grids/widgets/project-description/project-description.component';
 import { WidgetHeaderComponent } from 'core-app/shared/components/grids/widgets/header/header.component';
 import { WidgetWpOverviewComponent } from 'core-app/shared/components/grids/widgets/wp-overview/wp-overview.component';
 import { WidgetCustomTextComponent } from 'core-app/shared/components/grids/widgets/custom-text/custom-text.component';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
-import { WidgetProjectDetailsComponent } from 'core-app/shared/components/grids/widgets/project-details/project-details.component';
-import { WidgetProjectDetailsMenuComponent } from 'core-app/shared/components/grids/widgets/project-details/project-details-menu.component';
-import { WidgetTimeEntriesProjectComponent } from 'core-app/shared/components/grids/widgets/time-entries/project/time-entries-project.component';
+import {
+  WidgetProjectDetailsComponent,
+} from 'core-app/shared/components/grids/widgets/project-details/project-details.component';
+import {
+  WidgetProjectDetailsMenuComponent,
+} from 'core-app/shared/components/grids/widgets/project-details/project-details-menu.component';
+import {
+  WidgetTimeEntriesProjectComponent,
+} from 'core-app/shared/components/grids/widgets/time-entries/project/time-entries-project.component';
 import { WidgetSubprojectsComponent } from 'core-app/shared/components/grids/widgets/subprojects/subprojects.component';
 import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
 import { WidgetMembersComponent } from 'core-app/shared/components/grids/widgets/members/members.component';
-import { WidgetProjectStatusComponent } from 'core-app/shared/components/grids/widgets/project-status/project-status.component';
+import {
+  WidgetProjectStatusComponent,
+} from 'core-app/shared/components/grids/widgets/project-status/project-status.component';
 import { OpenprojectTimeEntriesModule } from 'core-app/shared/components/time_entries/openproject-time-entries.module';
-import { WidgetTimeEntriesCurrentUserMenuComponent } from 'core-app/shared/components/grids/widgets/time-entries/current-user/time-entries-current-user-menu.component';
+import {
+  WidgetTimeEntriesCurrentUserMenuComponent,
+} from 'core-app/shared/components/grids/widgets/time-entries/current-user/time-entries-current-user-menu.component';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/time-entries/current-user/configuration-modal/configuration.modal';
+import {
+  TimeEntriesCurrentUserConfigurationModalComponent,
+} from './widgets/time-entries/current-user/configuration-modal/configuration.modal';
+import {
+  WidgetProjectFavoritesComponent,
+} from "core-app/shared/components/grids/widgets/project-favorites/widget-project-favorites.component";
+import { IconModule } from 'core-app/shared/components/icon/icon.module';
 
 @NgModule({
   imports: [
@@ -86,7 +110,7 @@ import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/tim
 
     // Support for inline editig fields
     OpenprojectFieldsModule,
-
+    IconModule,
   ],
   providers: [
     GridWidgetsService,
@@ -109,6 +133,7 @@ import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/tim
     WidgetProjectDetailsComponent,
     WidgetProjectStatusComponent,
     WidgetSubprojectsComponent,
+    WidgetProjectFavoritesComponent,
     WidgetTimeEntriesCurrentUserComponent,
     WidgetTimeEntriesProjectComponent,
 
@@ -328,6 +353,14 @@ export function registerWidgets(injector:Injector) {
         title: i18n.t('js.grid.widgets.subprojects.title'),
         properties: {
           name: i18n.t('js.grid.widgets.subprojects.title'),
+        },
+      },
+      {
+        identifier: 'project_favorites',
+        component: WidgetProjectFavoritesComponent,
+        title: i18n.t('js.grid.widgets.project_favorites.title'),
+        properties: {
+          name: i18n.t('js.grid.widgets.project_favorites.title'),
         },
       },
     ];

@@ -1,8 +1,8 @@
 @mixin onboarding-button-styles
-  color: white
+  color: var(--button--primary-font-color)
   border: 2px solid
-  border-color: var(--alternative-color)
-  background: var(--alternative-color)
+  border-color: var(--button--primary-border-color)
+  background: var(--primary-button-color)
   -webkit-box-sizing: content-box
   box-sizing: content-box
   -webkit-transition: background-color 0.3s cubic-bezier(0, 0, 0, 0), color 0.3s cubic-bezier(0, 0, 0, 0), width 0.3s cubic-bezier(0, 0, 0, 0), border-width 0.3s cubic-bezier(0, 0, 0, 0), border-color 0.3s cubic-bezier(0, 0, 0, 0)
@@ -10,11 +10,11 @@
   -o-transition: background-color 0.3s cubic-bezier(0, 0, 0, 0), color 0.3s cubic-bezier(0, 0, 0, 0), width 0.3s cubic-bezier(0, 0, 0, 0), border-width 0.3s cubic-bezier(0, 0, 0, 0), border-color 0.3s cubic-bezier(0, 0, 0, 0)
   transition: background-color 0.3s cubic-bezier(0, 0, 0, 0), color 0.3s cubic-bezier(0, 0, 0, 0), width 0.3s cubic-bezier(0, 0, 0, 0), border-width 0.3s cubic-bezier(0, 0, 0, 0), border-color 0.3s cubic-bezier(0, 0, 0, 0)
   &:hover
-    border-color: var(--button--alt-highlight-background-hover-color)
-    background: var(--button--alt-highlight-background-hover-color)
+    border-color: var(--button--primary-background-hover-color)
+    background: var(--button--primary-background-hover-color)
   &:active
-    border-color: var(--button--alt-highlight-background-hover-color)
-    background: var(--button--alt-highlight-background-hover-color)
+    border-color: var(--button--primary-background-hover-color)
+    background: var(--button--primary-background-hover-color)
     -webkit-transition: none
     -moz-transition: none
     -o-transition: none
@@ -65,7 +65,6 @@
   -webkit-border-radius: 40px
   border-radius: 40px
 
-
 .enjoyhint_skip_btn
   position: fixed
   -webkit-border-radius: 40px
@@ -95,7 +94,7 @@
     border: none
     font: 400 100%/normal Arial, Helvetica, sans-serif
     color: rgba(0, 0, 0, 1)
-    background: #fff
+    background: var(--font-color-on-primary)
     text-shadow: none
     -o-text-overflow: clip
     text-overflow: clip
@@ -109,7 +108,7 @@
     border: none
     font: 400 100%/normal Arial, Helvetica, sans-serif
     color: rgba(0, 0, 0, 1)
-    background: #fff
+    background: var(--font-color-on-primary)
     text-shadow: none
     -o-text-overflow: clip
     text-overflow: clip
@@ -137,11 +136,11 @@
 
 .enjoyhint_btn-transparent
   background: transparent
-  color: var(--alternative-color)
+  color: var(--primary-button-color)
   &:hover
-    color: white
+    color: var(--button--primary-font-color)
   &:active
-    color: white
+    color: var(--button--primary-font-color)
 
 #kinetic_container, .enjoyhint_canvas
   width: 100%
@@ -160,7 +159,7 @@
 .enjoyhint_btn
   &:hover
     color: rgba(255, 255, 255, 1)
-    background: var(--button--alt-highlight-background-hover-color)
+    background: var(--button--primary-background-hover-color)
   &:active
     border: 2px solid rgba(33, 224, 163, 1)
     background: rgba(33, 224, 163, 1)

@@ -160,6 +160,6 @@ export class ApiV3FilterBuilder {
   }
 }
 
-export function ApiV3Filter(name:string, operator:FilterOperator, values:ApiV3FilterValueType[]):ApiV3FilterBuilder {
+export function ApiV3Filter(name:string, operator:FilterOperator, values:boolean|ApiV3FilterValueType[]):ApiV3FilterBuilder {
   return new ApiV3FilterBuilder().add(name, operator, values);
 }

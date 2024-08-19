@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AssigneeBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/assignee/assignee-board-header.component';
+import {
+  AssigneeBoardHeaderComponent,
+} from 'core-app/features/boards/board/board-actions/assignee/assignee-board-header.component';
 import { CachedBoardActionService } from 'core-app/features/boards/board/board-actions/cached-board-action.service';
 import { Board } from 'core-app/features/boards/board/board';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
@@ -77,7 +79,7 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
       return Promise.resolve(this.unassignedUser);
     }
 
-    return super.getLoadedActionValue(query);
+    return Promise.resolve(filter?.values[0] as HalResource);
   }
 
   localizedName = this.I18n.t('js.work_packages.properties.assignee');

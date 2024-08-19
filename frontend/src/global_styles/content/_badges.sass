@@ -27,9 +27,9 @@
 //++
 
 $badge-diameter: 1.25rem
-$badge-background: var(--primary-color)
-$badge-secondary-background: #F1F1F1
-$badge-color: var(--font-color-on-primary)
+$badge-background: var(--buttonCounter-default-bgColor-rest)
+$badge-secondary-background: var(--buttonCounter-default-bgColor-rest)
+$badge-color: var(--fgColor-default)
 
 @mixin badge-layout($diameter: $badge-diameter)
   width: $diameter
@@ -37,18 +37,13 @@ $badge-color: var(--font-color-on-primary)
 
 @mixin badge-style($background: $badge-background, $color: $badge-color)
   background: $background
-
-  @if $color == auto
-    color: is-light($background)
-
-  @else
-    color: $color
-
+  color: $color
 
 .badge
   display: inline-flex
   align-items: center
   justify-content: center
+  border: var(--borderWidth-thin) solid var(--counter-borderColor)
   border-radius: 1000px
   @include badge-layout
   @include badge-style
@@ -58,10 +53,10 @@ $badge-color: var(--font-color-on-primary)
   padding-right: 0.3rem
 
   &.-secondary
-    @include badge-style($badge-secondary-background, auto)
+    @include badge-style($badge-secondary-background, $badge-color)
 
   &.-border-only
-    border-color: var(--button--border-color)
+    border-color: var(--button-default-borderColor-rest)
     color: var(--body-font-color)
     background: transparent
     border-width: 1px

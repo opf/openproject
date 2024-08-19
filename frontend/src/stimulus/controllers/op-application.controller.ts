@@ -17,7 +17,7 @@ export class OpApplicationController extends ApplicationController {
         void import(/* webpackChunkName: "[request]" */`./dynamic/${path}.controller`)
           .then((imported:{ default:ControllerConstructor }) => this.application.register(controller, imported.default))
           .catch((err:unknown) => {
-            console.error('Failed to load dyanmic controller chunk %O: %O', controller, err);
+            console.error('Failed to load dynamic controller chunk %O: %O', controller, err);
           });
       }
     });
@@ -26,7 +26,7 @@ export class OpApplicationController extends ApplicationController {
   /**
    * Derive dynamic path from controller name.
    *
-   * Stimlus conventions allow subdirectories to be used by double dashes.
+   * Stimulus conventions allow subdirectories to be used by double dashes.
    * We convert these to slashes for the dynamic import.
    *
    * https://stimulus.hotwired.dev/handbook/installing#controller-filenames-map-to-identifiers

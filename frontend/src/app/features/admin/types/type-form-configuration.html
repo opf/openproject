@@ -2,7 +2,7 @@
   <div class="toolbar toolbar_empty-title">
     <ul class="toolbar-items">
       <li class="toolbar-item">
-        <button type="button -alt-highlight"
+        <button type="button -primary"
                 class="form-configuration--reset button"
                 (click)="resetToDefault($event)">
           <op-icon icon-classes="button--icon icon-undo"></op-icon>
@@ -12,7 +12,7 @@
       <li
         *ngIf="!typeBanner.eeShowBanners"
         class="toolbar-item drop-down">
-        <a class="form-configuration--add-group button -alt-highlight" aria-haspopup="true">
+        <a class="form-configuration--add-group button -primary" aria-haspopup="true">
           <op-icon icon-classes="button--icon icon-add"></op-icon>
           <span class="button--text" [textContent]="text.label_group"></span>
           <op-icon icon-classes="button--dropdown-indicator"></op-icon>

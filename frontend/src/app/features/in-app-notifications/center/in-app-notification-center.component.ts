@@ -49,6 +49,9 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
+import {
+  ColorsService,
+} from 'core-app/shared/components/colors/colors.service';
 
 @Component({
   selector: 'op-in-app-notification-center',
@@ -85,7 +88,7 @@ export class InAppNotificationCenterComponent implements OnInit {
   reasonMenuItems = [
     {
       key: 'mentioned',
-      title: this.I18n.t('js.notifications.menu.mentioned'),
+      title: this.I18n.t('js.notifications.reasons.mentioned'),
     },
     {
       key: 'assigned',
@@ -93,19 +96,19 @@ export class InAppNotificationCenterComponent implements OnInit {
     },
     {
       key: 'responsible',
-      title: this.I18n.t('js.notifications.menu.accountable'),
+      title: this.I18n.t('js.notifications.reasons.accountable'),
     },
     {
       key: 'watched',
-      title: this.I18n.t('js.notifications.menu.watched'),
+      title: this.I18n.t('js.notifications.reasons.watched'),
     },
     {
       key: 'dateAlert',
-      title: this.I18n.t('js.notifications.menu.date_alert'),
+      title: this.I18n.t('js.notifications.reasons.dateAlert'),
     },
     {
       key: 'shared',
-      title: this.I18n.t('js.notifications.menu.shared'),
+      title: this.I18n.t('js.notifications.reasons.shared'),
     },
   ];
 
@@ -114,7 +117,7 @@ export class InAppNotificationCenterComponent implements OnInit {
   image = {
     no_notification: imagePath('notification-center/empty-state-no-notification.svg'),
     no_selection: imagePath('notification-center/empty-state-no-selection.svg'),
-    loading: imagePath('notification-center/notification_loading.gif'),
+    loading: imagePath(`notification-center/notification_loading_${this.colorsService.colorMode()}.gif`),
   };
 
   trackNotificationGroups = (i:number, item:INotification[]):string => item
@@ -151,6 +154,7 @@ export class InAppNotificationCenterComponent implements OnInit {
     readonly state:StateService,
     readonly apiV3:ApiV3Service,
     readonly pathService:PathHelperService,
+    readonly colorsService:ColorsService,
   ) {
   }
 

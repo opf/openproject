@@ -1,6 +1,6 @@
 <li
   class="spot-list--item"
-  *ngFor="let project of projects; index as i; first as isFirst; last as isLast"
+  *ngFor="let project of filteredProjects; index as i; first as isFirst; last as isLast"
   data-test-selector="op-header-project-select--item"
   [attr.data-list-selector]="projectListItemIdentifier"
 >
@@ -12,15 +12,36 @@
       'spot-list--item-action_disabled': project.disabled,
       'spot-list--item-action_active': (searchableProjectListService.selectedItemID$ | async) === project.id
     }"
-    [href]="extendedProjectUrl(project.id)"
+    [href]="extendedUrl(project.id)"
     [attr.data-list-selector]="projectListActionIdentifier"
     [attr.data-project-id]="project.id"
+    [attr.data-test-selector]="currentProjectService.id === project.id.toString() ? 'op-header-project-select--active-item' : null"
   >
-  <span
-    class="spot-list--item-title spot-list--item-title_ellipse-text"
-    data-test-selector="op-header-project-select--item-title"
-    [opSearchHighlight]="searchText"
-  >{{ project.name }}</span>
+    <span
+      class="spot-list--item-title spot-list--item-title_ellipse-text"
+      data-test-selector="op-header-project-select--item-title"
+    >
+      <span
+        [opSearchHighlight]="searchText"
+        [textContent]="project.name"></span>
+
+      <svg
+        *ngIf="favored?.includes(project.id.toString())"
+        star-fill-icon
+        class="op-primer--star-icon"
+        size="small"
+      ></svg>
+    </span>
+
+    <a
+      [href]="extendedUrl(null)"
+      *ngIf="currentProjectService.id === project.id.toString()"
+      data-test-selector="op-header-project-select--item-remove-icon"
+    >
+      <svg
+        x-circle-icon
+        size="small"
+      ></svg></a>
   </a>
   <span
     *ngIf="project.disabled"
@@ -39,6 +60,8 @@
     *ngIf="project.children.length"
     op-header-project-select-list
     [projects]="project.children"
+    [displayMode]="displayMode"
+    [favored]="favored"
     [selected]="selected"
     [searchText]="searchText"
   ></ul>

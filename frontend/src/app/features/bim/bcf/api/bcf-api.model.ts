@@ -26,37 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export type BcfViewpointData = BcfViewpoint&{
-  components:BcfViewpointVisibility&BcfViewpointSelection
-};
-
-export type CreateBcfViewpointData = BcfViewpointData&{
-  snapshot:{ snapshot_type:string, snapshot_data:string }
-};
-
-export interface BcfViewpoint {
-  index:number|null
-  guid:string
-  orthogonal_camera:BcfOrthogonalCamera|null
-  perspective_camera:BcfPerspectiveCamera|null
-  lines:BcfLine[]|null
-  clipping_planes:BcfClippingPlane[]|null
-  bitmaps:BcfBitmap[]|null
-  snapshot:{ snapshot_type:string }
-}
-
-export interface BcfViewpointVisibility {
-  visibility:{
-    default_visibility:boolean
-    exceptions:BcfComponent[]
-    view_setup_hints:BcfViewSetupHints|null
-  }
-}
-
-export interface BcfViewpointSelection {
-  selection:BcfComponent[]
-}
-
 export interface BcfComponent {
   ifc_guid:string|null
   originating_system:string|null
@@ -67,6 +36,27 @@ export interface BcfViewSetupHints {
   spaces_visible:boolean
   space_boundaries_visible:boolean
   openings_visible:boolean
+}
+
+export interface BcfColoring {
+  color:string,
+  components:BcfComponent[],
+}
+
+export interface BcfViewpointColoring {
+  coloring:BcfColoring[]
+}
+
+export interface BcfViewpointSelection {
+  selection:BcfComponent[]
+}
+
+export interface BcfViewpointVisibility {
+  visibility:{
+    default_visibility:boolean
+    exceptions:BcfComponent[]
+    view_setup_hints:BcfViewSetupHints|null
+  }
 }
 
 export interface BcfOrthogonalCamera {
@@ -101,3 +91,22 @@ export interface BcfLine {
   start_point:{ x:number, y:number, z:number }
   end_point:{ x:number, y:number, z:number }
 }
+
+export interface BcfViewpoint {
+  index:number|null
+  guid:string
+  orthogonal_camera:BcfOrthogonalCamera|null
+  perspective_camera:BcfPerspectiveCamera|null
+  lines:BcfLine[]|null
+  clipping_planes:BcfClippingPlane[]|null
+  bitmaps:BcfBitmap[]|null
+  snapshot:{ snapshot_type:string }
+}
+
+export type BcfViewpointData = BcfViewpoint&{
+  components:BcfViewpointVisibility&BcfViewpointSelection&BcfViewpointColoring
+};
+
+export type CreateBcfViewpointData = BcfViewpointData&{
+  snapshot:{ snapshot_type:string, snapshot_data:string }
+};

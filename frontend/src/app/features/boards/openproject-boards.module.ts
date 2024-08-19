@@ -36,7 +36,6 @@ import { BoardsRootComponent } from 'core-app/features/boards/boards-root/boards
 import { BoardInlineAddAutocompleterComponent } from 'core-app/features/boards/board/inline-add/board-inline-add-autocompleter.component';
 import { BoardsToolbarMenuDirective } from 'core-app/features/boards/board/toolbar-menu/boards-toolbar-menu.directive';
 import { BoardConfigurationModalComponent } from 'core-app/features/boards/board/configuration-modal/board-configuration.modal';
-import { BoardsMenuComponent } from 'core-app/features/boards/boards-sidebar/boards-menu.component';
 import { AddListModalComponent } from 'core-app/features/boards/board/add-list-modal/add-list-modal.component';
 import { BoardHighlightingTabComponent } from 'core-app/features/boards/board/configuration-modal/tabs/highlighting-tab.component';
 import { AddCardDropdownMenuDirective } from 'core-app/features/boards/board/add-card-dropdown/add-card-dropdown-menu.directive';
@@ -76,7 +75,6 @@ import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autoc
     BoardListComponent,
     BoardsRootComponent,
     BoardInlineAddAutocompleterComponent,
-    BoardsMenuComponent,
     BoardHighlightingTabComponent,
     BoardConfigurationModalComponent,
     BoardsToolbarMenuDirective,

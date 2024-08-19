@@ -74,6 +74,7 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
         }),
       )
       .subscribe(() => {
+        this.viewpointsService.resetBcfTopic();
         this.showIndex = this.galleryViewpoints.length - 1;
       });
   }

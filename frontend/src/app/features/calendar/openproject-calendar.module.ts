@@ -38,7 +38,6 @@ import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openp
 import { OpenprojectTimeEntriesModule } from 'core-app/shared/components/time_entries/openproject-time-entries.module';
 import { WorkPackagesCalendarPageComponent } from 'core-app/features/calendar/wp-calendar-page/wp-calendar-page.component';
 import { CALENDAR_ROUTES } from 'core-app/features/calendar/calendar.routes';
-import { CalendarSidemenuComponent } from './sidemenu/calendar-sidemenu.component';
 import { QueryGetIcalUrlModalComponent } from 'core-app/shared/components/modals/get-ical-url-modal/query-get-ical-url.modal';
 
 @NgModule({
@@ -69,7 +68,6 @@ import { QueryGetIcalUrlModalComponent } from 'core-app/shared/components/modals
     WorkPackagesCalendarPageComponent,
     WorkPackagesCalendarComponent,
     TimeEntryCalendarComponent,
-    CalendarSidemenuComponent,
     QueryGetIcalUrlModalComponent,
   ],
   exports: [

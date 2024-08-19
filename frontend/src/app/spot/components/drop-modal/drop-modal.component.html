@@ -11,6 +11,7 @@
     #anchor
     [attr.id]="id"
     [ngClass]="['spot-drop-modal--body', 'spot-container' ]"
+    [class.spot-drop-modal--body_not-full-screen]="notFullscreen"
     (click)="onBodyClick($event)"
     cdkTrapFocus
     tabindex="0"

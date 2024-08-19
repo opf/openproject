@@ -58,7 +58,6 @@ import { FreeTrialButtonComponent } from 'core-app/features/enterprise/free-tria
 import { HomescreenNewFeaturesBlockComponent } from 'core-app/features/homescreen/blocks/new-features.component';
 import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { ViewSelectComponent } from 'core-app/shared/components/op-view-select/op-view-select.component';
 import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
 import {
   highlightColSelector,
@@ -85,7 +84,6 @@ import { RemoteFieldUpdaterComponent } from './components/remote-field-updater/r
 import { ShowSectionDropdownComponent } from './components/hide-section/show-section-dropdown.component';
 import { DynamicBootstrapModule } from './components/dynamic-bootstrap/dynamic-bootstrap.module';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
-import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
 import { OpProjectIncludeComponent } from './components/project-include/project-include.component';
 import { OpProjectIncludeListComponent } from './components/project-include/list/project-include-list.component';
 import { OpLoadingProjectListComponent } from './components/searchable-project-list/loading-project-list.component';
@@ -95,6 +93,7 @@ import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-co
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { OpDatePickerModule } from 'core-app/shared/components/datepicker/datepicker.module';
+import { ShareUpsaleComponent } from 'core-app/features/enterprise/share-upsale/share-upsale.component';
 
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
@@ -201,12 +200,9 @@ export function bootstrapModule(injector:Injector):void {
     DynamicModule,
 
     OpOptionListComponent,
-    OpSidemenuComponent,
     OpProjectIncludeComponent,
     OpProjectIncludeListComponent,
     OpLoadingProjectListComponent,
-
-    ViewSelectComponent,
 
     // Old datepickers
     OpMultiDatePickerComponent,
@@ -219,8 +215,6 @@ export function bootstrapModule(injector:Injector):void {
     ViewsResourceService,
   ],
   declarations: [
-    ViewSelectComponent,
-
     ToastsContainerComponent,
     ToastComponent,
     UploadProgressComponent,
@@ -262,7 +256,6 @@ export function bootstrapModule(injector:Injector):void {
     HomescreenNewFeaturesBlockComponent,
 
     OpOptionListComponent,
-    OpSidemenuComponent,
     OpProjectIncludeComponent,
     OpProjectIncludeListComponent,
     OpLoadingProjectListComponent,
@@ -271,6 +264,8 @@ export function bootstrapModule(injector:Injector):void {
 
     // Old datepickers
     OpMultiDatePickerComponent,
+
+    ShareUpsaleComponent,
   ],
 })
 export class OpSharedModule {

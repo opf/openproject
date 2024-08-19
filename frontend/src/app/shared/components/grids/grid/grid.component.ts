@@ -1,6 +1,4 @@
-import {
-  Component, ComponentRef, HostListener, Input, OnDestroy, OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, ComponentRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GridWidgetsService } from 'core-app/shared/components/grids/widgets/widgets.service';
@@ -54,7 +52,9 @@ export class GridComponent implements OnDestroy, OnInit {
     public layout:GridAreaService,
     public add:GridAddWidgetService,
     public remove:GridRemoveWidgetService,
-    readonly browserDetector:BrowserDetector) {
+    readonly browserDetector:BrowserDetector,
+    readonly cdRef:ChangeDetectorRef,
+  ) {
   }
 
   ngOnInit() {
@@ -74,6 +74,13 @@ export class GridComponent implements OnDestroy, OnInit {
     } else if (this.resize.currentlyResizing) {
       this.resize.abort();
     }
+  }
+
+  public addWidget(area:GridWidgetArea|GridArea) {
+    void this
+      .add
+      .widget(area)
+      .then(() => this.cdRef.detectChanges());
   }
 
   public widgetComponent(area:GridWidgetArea) {

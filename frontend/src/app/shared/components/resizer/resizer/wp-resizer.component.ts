@@ -40,13 +40,13 @@ import { MainMenuToggleService } from 'core-app/core/main-menu/main-menu-toggle.
 @Component({
   selector: 'wp-resizer',
   template: `
-    <resizer [customHandler]="false"
+    <op-resizer [customHandler]="false"
              [resizerClass]="resizerClass"
              cursorClass="col-resize"
-             (end)="resizeEnd()"
-             (start)="resizeStart()"
+             (resizeFinished)="resizeEnd()"
+             (resizeStarted)="resizeStart()"
              (move)="resizeMove($event)">
-    </resizer>
+    </op-resizer>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

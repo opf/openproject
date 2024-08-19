@@ -1,6 +1,6 @@
-# OpenProject icon font
+# OpenProject icon font (Deprecated)
 
-**All icons and resulting fonts This directory is licensed under the Creative Commons Attribution 3.0 Unported License**.
+**All icons and resulting fonts. This directory is licensed under the Creative Commons Attribution 3.0 Unported License**.
 
 Copyright (C) 2013 the OpenProject Foundation (OPF)
 This work is based on the following sources
@@ -10,19 +10,16 @@ User Interface Design framework http://www.webalys.com/design-interface-applicat
 Creative Commons Attribution 3.0 Unported License
 This license can also be found at this permalink: http://creativecommons.org/licenses/by/3.0/
 
+## Deprecation warning
+
+We no longer recommend to use these icons as we decided to switch to the [Octicons](https://github.com/opf/openproject-octicons) provided by the [Primer Design System](https://primer.style/foundations/icons/).
+
 ## Structure
 
 This directory is the source for the generated icon font in the Rails
 `frontend/src/global_styles/fonts` directory.
 
-Since it seldomly changes, it is only rebuilt manually and on demand.
 
 ## Rebuilding
 
-To rebuild the font (e.g., after changing icons in the source `src/` directory
-under this README), use the npm task `icon-font:generate`.
-
-```
-$ cd frontend
-$ npm run icon-font:generate
-```
+We will no longer add icons to that font.

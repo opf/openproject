@@ -67,8 +67,9 @@ $pagination--font-size: 0.8125rem
       min-width: 25px
 
     &_current
-      background: #ffffff
-      border: 1px solid #ffffff
+      background: var(--body-background)
+      border: 1px solid var(--body-background)
+      color: var(--body-font-color)
       padding: 3px 3px
       font-style: italic
       text-align: center
@@ -79,9 +80,9 @@ $pagination--font-size: 0.8125rem
       min-width: 25px
       text-align: center
       padding: 3px 3px
-      background: #f8f8f8
+      background: var(--button--background-color)
       border-radius: 2px
-      border: 1px solid var(--button--border-color)
+      border: 1px solid var(--button-default-borderColor-rest)
       color: var(--body-font-color)
       font-weight: normal
       cursor: pointer
@@ -89,11 +90,11 @@ $pagination--font-size: 0.8125rem
       &:hover
         color: var(--body-font-color)
         text-decoration: none
-        background: #eaeaea
+        background: var(--button--background-hover-color)
 
   &--space
-    background: #ffffff
-    border: 1px solid #ffffff
+    background: var(--body-background)
+    border: 1px solid var(--body-background)
     font-style: italic
     padding: 3px 0
     margin: 0 5px 0 0

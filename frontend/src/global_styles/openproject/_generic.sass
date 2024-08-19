@@ -26,6 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+a
+  text-decoration: var(--link-text-decoration)
+
 .no-padding-bottom
   padding-bottom: 0 !important
 
@@ -45,13 +48,13 @@
 
 // Table borders
 .-table-border-top
-  border-top: 1px solid var(--table-border-color)
+  border-top: 1px solid var(--borderColor-default)
 .-table-border-bottom
-  border-bottom: 1px solid var(--table-border-color)
+  border-bottom: 1px solid var(--borderColor-default)
 .-table-border-left
-  border-left: 1px solid var(--table-border-color)
+  border-left: 1px solid var(--borderColor-default)
 .-table-border-right
-  border-right: 1px solid var(--table-border-color)
+  border-right: 1px solid var(--borderColor-default)
 
 .autoscroll
   overflow-x: auto
@@ -79,7 +82,7 @@
 
 .other-formats
   font-size: 0.9em
-  color: var(--color-fg-muted)
+  color: var(--fgColor-muted)
 
   span + span:before
     content: "| "
@@ -103,6 +106,9 @@
 
   .-placeholder &
     direction: ltr
+
+.-draggable
+  cursor: grab
 
 .drop-zone.-dragged-over
   background-color: #eaeaea60

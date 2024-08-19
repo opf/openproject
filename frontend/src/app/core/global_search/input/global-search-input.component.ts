@@ -123,15 +123,15 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     getOptionsFn: this.getAutocompleterData,
   };
 
-  /** Remember the current value */
-  public currentValue = '';
-
-  public isFocusedDirectly = (this.globalSearchService.searchTerm.length > 0);
-
   /** Remember the item that best matches the query.
    * That way, it will be highlighted (as we manually mark the selected item) and we can handle enter.
    * */
-  public selectedItem:WorkPackageResource|SearchOptionItem|undefined;
+  public selectedItem:WorkPackageResource|SearchOptionItem|undefined = undefined;
+
+  /** Remember the current value */
+  public currentValue = '';
+
+  public isFocusedDirectly = this.globalSearchService.searchTerm.length > 0 && this.selectedItem instanceof HalResource;
 
   private unregisterGlobalListener:(() => unknown)|undefined;
 
@@ -251,6 +251,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
       this.selectedItem = undefined;
       this.toggleTopMenuClass();
     }
+
+    (<HTMLInputElement>document.activeElement).blur();
   }
 
   public onClose():void {
@@ -465,11 +467,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
       }
       this.globalSearchService.submitSearch();
     }
-  }
-
-  public blur():void {
-    this.ngSelectComponent.ngSelectInstance.searchTerm = '';
-    (<HTMLInputElement>document.activeElement).blur();
   }
 
   private get currentScope():string {

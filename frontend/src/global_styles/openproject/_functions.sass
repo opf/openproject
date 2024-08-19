@@ -53,11 +53,6 @@ $rem-base: 16px !default
   @else
     @return $no
 
-@function image-triangle($color: #000)
-  $color: rgb(red($color), green($color), blue($color))
-  @return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill: #{$color}"></polygon></svg>'
-
-
 /// Get Side
 /// Determine a top/right/bottom/right value on a padding, margin, etc. property, no matter how many values were passed in. Use this function if you need to know the specific side of a value, but don't know if the value is using shorthand.
 ///
@@ -79,21 +74,6 @@ $rem-base: 16px !default
 
   @if $length == 4
     @return map-get((top: nth($val, 1), right: nth($val, 2), bottom: nth($val, 3), left: nth($val, 4)), $side)
-
-
-/// Smart Scale
-/// Scales a color to be lighter if it's light, or darker if it's dark. Use this function to "fade" a color appropriate to its lightness.
-///
-/// @param {color} $color - Color to scale.
-/// @param {percentage} $scale - Amount to scale up or down.
-/// @param {percentage} $threshold - Threshold of lightness to check against.
-///
-/// @return A scaled color.
-@function smartscale($color, $scale: 5%, $threshold: 60%)
-  @if lightness($color) > $threshold
-    $scale: -$scale
-
-  @return scale-color($color, $lightness: $scale)
 
 /// Strip Unit
 /// Removes the unit (e.g. px, em, rem) from a value, returning the number only.

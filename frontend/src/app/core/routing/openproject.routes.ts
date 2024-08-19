@@ -26,30 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  StateDeclaration,
-  StateService,
-  Transition,
-  TransitionService,
-  UIRouter,
-} from '@uirouter/core';
-import {
-  IToast,
-  ToastService,
-} from 'core-app/shared/components/toaster/toast.service';
+import { StateDeclaration, StateService, Transition, TransitionService, UIRouter } from '@uirouter/core';
+import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { Injector } from '@angular/core';
 import { FirstRouteService } from 'core-app/core/routing/first-route-service';
-import {
-  Ng2StateDeclaration,
-  StatesModule,
-} from '@uirouter/angular';
-import {
-  appBaseSelector,
-  ApplicationBaseComponent,
-} from 'core-app/core/routing/base/application-base.component';
+import { Ng2StateDeclaration, StatesModule } from '@uirouter/angular';
+import { appBaseSelector, ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
 import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
-import { MY_ACCOUNT_LAZY_ROUTES } from 'core-app/features/user-preferences/user-preferences.lazy-routes';
 import { IAN_LAZY_ROUTES } from 'core-app/features/in-app-notifications/in-app-notifications.lazy-routes';
 import { StateObject } from '@uirouter/core/lib/state/stateObject';
 import {
@@ -60,11 +44,6 @@ import { TEAM_PLANNER_LAZY_ROUTES } from 'core-app/features/team-planner/team-pl
 import { CALENDAR_LAZY_ROUTES } from 'core-app/features/calendar/calendar.lazy-routes';
 
 export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
-  {
-    name: 'new_project.**',
-    url: '/projects/new',
-    loadChildren: () => import('../../features/projects/openproject-projects.module').then((m) => m.OpenprojectProjectsModule),
-  },
   {
     name: 'root',
     abstract: true,
@@ -103,42 +82,11 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
     loadChildren: () => import('../../features/bim/ifc_models/openproject-ifc-models.module').then((m) => m.OpenprojectIFCModelsModule),
   },
   {
-    name: 'backlogs.**',
-    parent: 'optional_project',
-    url: '/backlogs',
-    loadChildren: () => import('../../features/backlogs/openproject-backlogs.module').then((m) => m.OpenprojectBacklogsModule),
-  },
-  {
-    name: 'backlogs_sprint.**',
-    parent: 'optional_project',
-    url: '/sprints',
-    loadChildren: () => import('../../features/backlogs/openproject-backlogs.module').then((m) => m.OpenprojectBacklogsModule),
-  },
-  {
     name: 'reporting.**',
     parent: 'optional_project',
     url: '/cost_reports',
     loadChildren: () => import('../../features/reporting/openproject-reporting.module').then((m) => m.OpenprojectReportingModule),
   },
-  {
-    name: 'job-statuses.**',
-    parent: 'optional_project',
-    url: '/job_statuses',
-    loadChildren: () => import('../../features/job-status/openproject-job-status.module').then((m) => m.OpenProjectJobStatusModule),
-  },
-  {
-    name: 'project_settings.**',
-    parent: 'optional_project',
-    url: '/settings/general',
-    loadChildren: () => import('../../features/projects/openproject-projects.module').then((m) => m.OpenprojectProjectsModule),
-  },
-  {
-    name: 'project_copy.**',
-    parent: 'optional_project',
-    url: '/copy',
-    loadChildren: () => import('../../features/projects/openproject-projects.module').then((m) => m.OpenprojectProjectsModule),
-  },
-  ...MY_ACCOUNT_LAZY_ROUTES,
   ...IAN_LAZY_ROUTES,
   ...TEAM_PLANNER_LAZY_ROUTES,
   ...CALENDAR_LAZY_ROUTES,
@@ -240,6 +188,29 @@ export function initializeUiRouterListeners(injector:Injector) {
   $transitions.onBefore(
     { to: (state) => (state ? mobileGuardActivated(state) : false) },
     (transition) => redirectToMobileAlternative(transition),
+  );
+
+  // Fire an event when navigating to a different module. This event then can be detected in
+  // the non-angular parts of the application. A usecase for this can be found in the
+  // overview-header.controllers.ts
+  // See https://community.openproject.org/wp/55024 for details.
+  $transitions.onBefore(
+    {},
+    (transition:Transition) => {
+      const fromState = transition.from();
+      const toState = transition.to();
+      if (
+        !!fromState.name
+        && !!toState.name
+        && fromState.name?.split('.')[0] !== toState.name?.split('.')[0]
+      ) {
+        window.dispatchEvent(new CustomEvent('angular:router:module-changed', {
+          detail: toState.name?.split('.')[0],
+        }));
+      }
+
+      return true;
+    },
   );
 
   // Apply classes from bodyClasses in each state definition

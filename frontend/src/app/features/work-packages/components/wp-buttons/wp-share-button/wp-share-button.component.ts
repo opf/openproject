@@ -54,7 +54,7 @@ export class WorkPackageShareButtonComponent extends UntilDestroyedMixin impleme
   shareCount$:Observable<number>;
 
   public text = {
-    share: this.I18n.t('js.work_packages.sharing.share'),
+    share: this.I18n.t('js.sharing.share'),
   };
 
   constructor(
@@ -80,7 +80,7 @@ export class WorkPackageShareButtonComponent extends UntilDestroyedMixin impleme
   }
 
   openModal():void {
-    this.opModalService.show(WorkPackageShareModalComponent, 'global', { workPackage: this.workPackage });
+    this.opModalService.show(WorkPackageShareModalComponent, 'global', { workPackage: this.workPackage }, false, true);
   }
 
   private countShares():Observable<number> {

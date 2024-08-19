@@ -93,7 +93,7 @@
         type="button"
         class="button spot-action-bar--action"
         data-test-selector="op-files-picker-modal--confirm"
-        [ngClass]="{ '-highlight': selectedFileCount > 0 }"
+        [ngClass]="{ '-primary': selectedFileCount > 0 }"
         [disabled]="selectedFileCount === 0"
         (click)="createSelectedFileLinks()"
       >

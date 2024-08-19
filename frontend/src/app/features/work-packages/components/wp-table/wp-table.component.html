@@ -30,7 +30,7 @@
             </div>
           </th>
           <th *ngFor="let column of columns; trackBy:trackByHref"
-              [ngClass]="{'-max': column.id === 'subject', '-min-150': ['estimatedTime', 'remainingTime'].includes(column.id) }"
+              [ngClass]="{'-max': column.id === 'subject', '-min-200': ['estimatedTime', 'remainingTime'].includes(column.id) }"
               class="wp-table--table-header">
             <sortHeader [headerColumn]="column"
                         [locale]="column.custom_field && column.custom_field.name_locale || locale"

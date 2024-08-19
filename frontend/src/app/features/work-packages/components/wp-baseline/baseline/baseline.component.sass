@@ -1,4 +1,4 @@
-@import "src/assets/sass/helpers"
+@import "helpers"
 
 .op-baseline
   &--header
@@ -8,7 +8,7 @@
     flex-direction: column
     width: 280px
     margin: $spot-spacing-1 $spot-spacing-1 0 $spot-spacing-1
-    color: $spot-color-basic-gray-2
+    color: var(--fgColor-muted)
 
     &:has(+ .op-baseline--body_ranged)
       width: auto
@@ -39,7 +39,7 @@
       width: 600px
 
   &--time
-    
+
     &-input
       width: 65%
 
@@ -47,8 +47,8 @@
       display: flex
       align-items: flex-end
       justify-content: center
-      background-color: $spot-color-basic-gray-6
-      border: 1px solid $spot-color-basic-gray-4
+      background-color: var(--bgColor-neutral-muted)
+      border: 1px solid var(--borderColor-default)
       border-left: none !important
       padding: $spot-spacing-0_5 $spot-spacing-0_25
       line-height: 1rem
@@ -58,7 +58,7 @@
       display: block
 
   &--filter
-  
+
     &-description
       font-size: $spot-spacing-0_75
       font-style: italic

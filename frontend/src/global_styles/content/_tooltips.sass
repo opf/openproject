@@ -32,7 +32,7 @@
 
 @use "sass:math"
 
-$tooltip--background-color: #e3f5ff
+$tooltip--background-color: var(--bgColor-emphasis)
 $tooltip--border: none
 $tooltip--height: 22px
 $tooltip--arrow-size: 6px
@@ -65,14 +65,14 @@ $advanced-tooltip--border: 1px solid #a7cbe1
       transform: translateY(50%)
       margin-bottom: 0
 
-@mixin tooltip--colorize($color: $tooltip--background-color, $textColor:var(--tooltip--font-color))
+@mixin tooltip--colorize($color: $tooltip--background-color, $textColor:var(--fgColor-onEmphasis))
   @each $position in top, right, bottom, left
     &.tooltip--#{$position}
       &:before
         border-#{$position}-color: $color
       &:after
         background-color: $tooltip--background-color
-        color: var(--tooltip--font-color)
+        color: $textColor
 
 %tooltip--reset-styles
   position: absolute

@@ -29,15 +29,83 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
+import * as WebAuthnJSON from '@github/webauthn-json/browser-ponyfill';
 import QrCreator from 'qr-creator';
 
 export default class TwoFactorAuthenticationController extends Controller {
-  static targets = [
-    'resendOptions',
-    'qrCodeElement',
-  ];
+  static targets = ['resendOptions', 'qrCodeElement', 'webauthnCredential', 'errorDisplay'];
 
   declare readonly resendOptionsTarget:HTMLElement;
+  declare readonly webauthnCredentialTarget:HTMLInputElement;
+  declare readonly errorDisplayTarget:HTMLElement;
+
+  async onVerifyDevice(event:SubmitEvent) {
+    const form = event.target as HTMLFormElement;
+    const data = form.dataset;
+
+    // We are not in the context of verifying a WebAuthn device, so we can just submit the form
+    if (data.deviceType !== 'webauthn') {
+      return true;
+    }
+
+    this.clearError();
+    event.preventDefault();
+
+    try {
+      const verifyOptionsRequest = await fetch(data.challengeUrl as string);
+      const verifyOptions = await verifyOptionsRequest.text();
+
+      const options = WebAuthnJSON.parseRequestOptionsFromJSON({
+        publicKey: JSON.parse(verifyOptions),
+      });
+
+      const credential = await WebAuthnJSON.get(options);
+
+      if (credential) {
+        this.webauthnCredentialTarget.value = JSON.stringify(credential);
+        form.submit();
+      }
+
+      return true;
+    } catch (error) {
+      this.displayError(error);
+      return false;
+    }
+  }
+
+  async onCreateDevice(event:SubmitEvent) {
+    const form = event.target as HTMLFormElement;
+    const data = form.dataset;
+
+    // We are not in the context of adding a WebAuthn device, so we can just submit the form
+    if (data.deviceType !== 'webauthn') {
+      return true;
+    }
+
+    this.clearError();
+    event.preventDefault();
+
+    try {
+      const createOptionsRequest = await fetch(data.challengeUrl as string);
+      const createOptions = await createOptionsRequest.text();
+
+      const options = WebAuthnJSON.parseCreationOptionsFromJSON({
+        publicKey: JSON.parse(createOptions),
+      });
+
+      const credential = await WebAuthnJSON.create(options);
+
+      if (credential) {
+        this.webauthnCredentialTarget.value = JSON.stringify(credential);
+        form.submit();
+      }
+
+      return true;
+    } catch (error) {
+      this.displayError(error);
+      return false;
+    }
+  }
 
   qrCodeElementTargetConnected(target:HTMLElement) {
     QrCreator.render(
@@ -61,5 +129,17 @@ export default class TwoFactorAuthenticationController extends Controller {
   toggleResendOptions(evt:MouseEvent) {
     evt.preventDefault();
     this.resendOptionsTarget.hidden = !this.resendOptionsTarget.hidden;
+  }
+
+  private displayError(error:DOMException) {
+    let errorMessage = `Error registering device: ${error.message}`;
+    if (error.name === 'AbortError') {
+      errorMessage = I18n.t('js.two_factor_authentication.errors.aborted');
+    }
+    this.errorDisplayTarget.innerText = errorMessage;
+  }
+
+  private clearError() {
+    this.errorDisplayTarget.innerText = '';
   }
 }

@@ -33,6 +33,7 @@ import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-or
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 
@@ -41,6 +42,7 @@ export interface QueryResourceEmbedded {
   columns:QueryColumn[];
   groupBy:QueryGroupByResource|undefined;
   project:ProjectResource;
+  user:UserResource;
   sortBy:QuerySortByResource[];
   filters:QueryFilterInstanceResource[];
 }
@@ -95,6 +97,8 @@ export class QueryResource extends HalResource {
   public public:boolean;
 
   public hidden:boolean;
+
+  public user:UserResource;
 
   public project:ProjectResource;
 

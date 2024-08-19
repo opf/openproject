@@ -37,26 +37,46 @@ import {
   PartitionedQuerySpacePageComponent,
   ToolbarButtonComponentDefinition,
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
-import { WorkPackageFilterButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component';
-import { ZenModeButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
+import {
+  WorkPackageFilterButtonComponent,
+} from 'core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component';
+import {
+  ZenModeButtonComponent,
+} from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import {
   bcfSplitViewCardsIdentifier,
   bcfViewerViewIdentifier,
   BcfViewService,
 } from 'core-app/features/bim/ifc_models/pages/viewer/bcf-view.service';
-import { BcfViewToggleButtonComponent } from 'core-app/features/bim/ifc_models/toolbar/view-toggle/bcf-view-toggle-button.component';
+import {
+  BcfViewToggleButtonComponent,
+} from 'core-app/features/bim/ifc_models/toolbar/view-toggle/bcf-view-toggle-button.component';
 import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
-import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
-import { BimManageIfcModelsButtonComponent } from 'core-app/features/bim/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component';
-import { WorkPackageCreateButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-create-button/wp-create-button.component';
+import {
+  QueryParamListenerService,
+} from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
+import {
+  BimManageIfcModelsButtonComponent,
+} from 'core-app/features/bim/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component';
+import {
+  WorkPackageCreateButtonComponent,
+} from 'core-app/features/work-packages/components/wp-buttons/wp-create-button/wp-create-button.component';
 import { of } from 'rxjs';
-import { BcfImportButtonComponent } from 'core-app/features/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component';
-import { BcfExportButtonComponent } from 'core-app/features/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component';
-import { RefreshButtonComponent } from 'core-app/features/bim/ifc_models/toolbar/import-export-bcf/refresh-button.component';
+import {
+  BcfImportButtonComponent,
+} from 'core-app/features/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component';
+import {
+  BcfExportButtonComponent,
+} from 'core-app/features/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component';
+import {
+  RefreshButtonComponent,
+} from 'core-app/features/bim/ifc_models/toolbar/import-export-bcf/refresh-button.component';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
+import {
+  WorkPackageSettingsButtonComponent,
+} from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
 
 @Component({
   templateUrl: '../../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -134,10 +154,12 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent i
     },
   ];
 
-  constructor(readonly ifcData:IfcModelsDataService,
+  constructor(
+    readonly ifcData:IfcModelsDataService,
     readonly bcfView:BcfViewService,
     readonly injector:Injector,
-    readonly viewerBridgeService:ViewerBridgeService) {
+    readonly viewerBridgeService:ViewerBridgeService,
+  ) {
     super(injector);
   }
 

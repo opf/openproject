@@ -10,7 +10,7 @@
 
 <fieldset
   class="form--fieldset"
-  *ngIf="halResource && halResource.attachments"
+  *ngIf="showAttachments && halResource?.attachments"
 >
   <legend class="form--fieldset-legend">
     {{ text.attachments }}

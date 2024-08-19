@@ -33,6 +33,13 @@ import { WorkPackagesBaseComponent } from 'core-app/features/work-packages/routi
 import { WorkPackagesCalendarComponent } from 'core-app/features/calendar/wp-calendar/wp-calendar.component';
 import { WorkPackagesCalendarPageComponent } from 'core-app/features/calendar/wp-calendar-page/wp-calendar-page.component';
 
+export const sidemenuId = 'calendar_sidemenu';
+export const sideMenuOptions = {
+  sidemenuId,
+  hardReloadOnBaseRoute: true,
+  defaultQuery: 'new',
+};
+
 export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'calendar',
@@ -56,12 +63,14 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
     redirectTo: 'calendar.page.show',
     data: {
       bodyClasses: 'router--calendar',
+      sideMenuOptions,
     },
   },
   {
     name: 'calendar.page.show',
     data: {
       baseRoute: 'calendar.page.show',
+      sideMenuOptions,
     },
     views: {
       'content-left': { component: WorkPackagesCalendarComponent },
