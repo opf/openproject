@@ -132,8 +132,10 @@
       end
 
       menu.with_item(
+        tag: :a,
         label: t(:'queries.configure_view.heading'),
-        content_arguments: { 'data-show-dialog-id': Projects::ConfigureViewModalComponent::MODAL_ID }
+        href: configure_view_modal_project_queries_path(projects_query_params),
+        content_arguments: { data: { controller: "async-dialog" }}
       ) do |item|
         item.with_leading_visual_icon(icon: :gear)
       end
@@ -152,7 +154,3 @@
     end
   end
 %>
-
-<% if show_state? %>
-  <%= render(Projects::ConfigureViewModalComponent.new(query:)) %>
-<% end %>

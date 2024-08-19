@@ -204,6 +204,10 @@ Rails.application.routes.draw do
       post :toggle_public
       get :destroy_confirmation_modal
     end
+
+    collection do
+      get :configure_view_modal
+    end
   end
 
   namespace :projects do

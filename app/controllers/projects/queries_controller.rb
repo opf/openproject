@@ -32,10 +32,11 @@ class Projects::QueriesController < ApplicationController
   include OpTurbo::DialogStreamHelper
 
   # No need for a more specific authorization check. That is carried out in the contracts.
-  no_authorization_required! :show, :new, :create, :rename, :update, :toggle_public, :destroy, :destroy_confirmation_modal
-  before_action :require_login
+  no_authorization_required! :show, :new, :create, :rename, :update, :toggle_public, :destroy, :destroy_confirmation_modal,
+                             :configure_view_modal
+  before_action :require_login, except: %i[configure_view_modal]
   before_action :find_query, only: %i[show rename update destroy toggle_public destroy_confirmation_modal]
-  before_action :build_query_or_deny_access, only: %i[new create]
+  before_action :build_query_or_deny_access, only: %i[new create configure_view_modal]
 
   current_menu_item [:new, :rename, :create, :update] do
     :projects
@@ -104,6 +105,10 @@ class Projects::QueriesController < ApplicationController
 
   def destroy_confirmation_modal
     respond_with_dialog Projects::DeleteListModalComponent.new(query: @query)
+  end
+
+  def configure_view_modal
+    respond_with_dialog Projects::ConfigureViewModalComponent.new(query: @query)
   end
 
   private
