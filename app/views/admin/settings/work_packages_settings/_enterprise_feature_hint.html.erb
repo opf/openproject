@@ -1,7 +1,7 @@
 <% unless EnterpriseToken.allows_to?(ee_feature) %>
   <span class="form--field -indented">
     <%=
-    angular_component_tag 'op-enterprise-banner',
+    angular_component_tag 'opce-enterprise-banner',
                           inputs: {
                             collapsible: true,
                             textMessage: explanation,

@@ -102,14 +102,14 @@ RSpec.describe CustomFieldFormBuilder do
       it "outputs element" do
         expect(output).to be_html_eql(
           <<~HTML
-            <op-basic-single-date-picker
+            <opce-basic-single-date-picker
               class="custom-class"
               data-value="null"
               data-id='"user_custom_field_#{custom_field.id}"'
               data-name='"user[#{custom_field.id}]"'
-            ></op-basic-single-date-picker>
+            ></opce-basic-single-date-picker>
           HTML
-        ).at_path("op-basic-single-date-picker")
+        ).at_path("opce-basic-single-date-picker")
       end
     end
 

@@ -92,7 +92,7 @@ module Redmine::MenuManager::TopMenuHelper
     return "".html_safe if Setting.notifications_hidden?
 
     content_tag("li", class: "op-app-menu--item", title: I18n.t("mail.notification.center")) do
-      angular_component_tag "op-in-app-notification-bell",
+      angular_component_tag "opce-in-app-notification-bell",
                             inputs: {
                               interval: Setting.notifications_polling_interval
                             }

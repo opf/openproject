@@ -39,17 +39,17 @@ See COPYRIGHT and LICENSE files for more details.
           </div>
         </div>
       <% end %>
-      <table class="generic-table">
+      <table class="generic-table" data-controller="table-highlighting">
         <colgroup>
-          <col opHighlightCol>
-          <col opHighlightCol>
-          <% if tab[:name] == 'WorkPackageCustomField' %>
-            <col opHighlightCol>
-            <col opHighlightCol>
-          <% end %>
-          <col opHighlightCol>
-          <col opHighlightCol>
           <col>
+          <col>
+          <% if tab[:name] == 'WorkPackageCustomField' %>
+            <col>
+            <col>
+          <% end %>
+          <col>
+          <col>
+          <col data-highlight="false">
         </colgroup>
         <thead>
           <tr>

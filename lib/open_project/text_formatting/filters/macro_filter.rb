@@ -92,5 +92,6 @@ OpenProject::TextFormatting::Filters::MacroFilter.register(
   OpenProject::TextFormatting::Filters::Macros::CreateWorkPackageLink,
   OpenProject::TextFormatting::Filters::Macros::IncludeWikiPage,
   OpenProject::TextFormatting::Filters::Macros::EmbeddedTable,
-  OpenProject::TextFormatting::Filters::Macros::ChildPages
+  OpenProject::TextFormatting::Filters::Macros::ChildPages,
+  OpenProject::TextFormatting::Filters::Macros::GithubPullRequest
 )
