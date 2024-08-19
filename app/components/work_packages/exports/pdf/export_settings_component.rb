@@ -40,6 +40,14 @@ module WorkPackages
           EnterpriseToken.allows_to?(:gantt_pdf_export)
         end
 
+        def enterprise_icon
+          render(Primer::Beta::Octicon.new(
+                   icon: "op-enterprise-addons",
+                   "aria-label": I18n.t(:label_enterprise_edition),
+                   classes: "upsale-colored", ml: 2
+                 ))
+        end
+
         def pdf_export_types
           [
             { value: "table",
@@ -51,7 +59,7 @@ module WorkPackages
               caption: I18n.t("export.dialog.pdf.export_type.options.report.caption"),
               component: WorkPackages::Exports::PDF::Report::ExportSettingsComponent },
             { value: "gantt",
-              label: I18n.t("export.dialog.pdf.export_type.options.gantt.label"),
+              label: (I18n.t("export.dialog.pdf.export_type.options.gantt.label") + enterprise_icon).html_safe,
               caption: I18n.t("export.dialog.pdf.export_type.options.gantt.caption"),
               disabled: !gantt_chart_allowed?,
               component: WorkPackages::Exports::PDF::Gantt::ExportSettingsComponent }
