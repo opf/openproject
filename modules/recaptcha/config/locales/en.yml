@@ -21,7 +21,7 @@ en:
       type_v3: 'reCAPTCHA v3'
       type_hcaptcha: 'HCaptcha'
       type_turnstile: 'Cloudflare Turnstile™'
-      recaptcha_description_html: >
+      captcha_description_html: >
         reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance.
         If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet.
         <br/>
