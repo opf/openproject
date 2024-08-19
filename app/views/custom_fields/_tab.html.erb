@@ -27,20 +27,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% if tab[:name] == 'ProjectCustomField' %>
-  <% unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
-    <%=
-    angular_component_tag 'op-enterprise-banner',
-                          inputs: {
-                            collapsible: true,
-                            textMessage: t('text_project_custom_field_html'),
-                            moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_projects][:href],
-                          }
-    %>
-  <% end %>
-<% end %>
-
-<% if (@custom_fields_by_type[tab[:name]] || []).any? %>
+<% if @custom_fields_by_type[tab[:name]].blank? %>
+  <%= no_results_box(action_url: new_custom_field_path(type: tab[:name]), display_action: true) %>
+<% else %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <% if tab[:name] == 'WorkPackageCustomField' %>
@@ -50,17 +39,17 @@ See COPYRIGHT and LICENSE files for more details.
           </div>
         </div>
       <% end %>
-      <table class="generic-table">
+      <table class="generic-table" data-controller="table-highlighting">
         <colgroup>
-          <col opHighlightCol>
-          <col opHighlightCol>
-          <% if tab[:name] == 'WorkPackageCustomField' %>
-            <col opHighlightCol>
-            <col opHighlightCol>
-          <% end %>
-          <col opHighlightCol>
-          <col opHighlightCol>
           <col>
+          <col>
+          <% if tab[:name] == 'WorkPackageCustomField' %>
+            <col>
+            <col>
+          <% end %>
+          <col>
+          <col>
+          <col data-highlight="false">
         </colgroup>
         <thead>
           <tr>
@@ -177,6 +166,4 @@ See COPYRIGHT and LICENSE files for more details.
       </table>
     </div>
   </div>
-<% else %>
-  <%= no_results_box(action_url: new_custom_field_path(type: tab[:name]), display_action: true) %>
 <% end %>

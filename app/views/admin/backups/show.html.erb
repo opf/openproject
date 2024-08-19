@@ -90,7 +90,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
 <% if @backup_token.present? %>
-<%= tag :backup, data: {
+<%= angular_component_tag "opce-backup", data: {
   'job-status-id': @job_status_id,
   'last-backup-date': @last_backup_date,
   'last-backup-attachment-id': @last_backup_attachment_id,

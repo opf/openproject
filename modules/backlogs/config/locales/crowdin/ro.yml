@@ -65,7 +65,7 @@ ro:
     rebuild: "Reconstruiți"
     rebuild_positions: "Reconstruiți"
     remaining_hours: "Muncă rămasă"
-    remaining_hours_ideal: "Remaining work (ideal)"
+    remaining_hours_ideal: "Munca rămasă (ideal)"
     show_burndown_chart: "Size Chart"
     story: "Articol"
     story_points: "Puncte"

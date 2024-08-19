@@ -31,7 +31,7 @@ class NotificationsController < ApplicationController
 
   before_action :require_login
   before_action :filtered_query, only: :mark_all_read
-  no_authorization_required! :index, :split_view, :close_split_view, :mark_all_read, :date_alerts, :share_upsale
+  no_authorization_required! :index, :split_view, :update_counter, :close_split_view, :mark_all_read, :date_alerts, :share_upsale
 
   def index
     render_notifications_layout

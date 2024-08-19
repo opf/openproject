@@ -66,7 +66,7 @@ vi:
       inactive: Không có thư mục cụ thể
       manual: Thư mục hiện có được quản lý thủ công
     remove_project:
-      deletion_failure_flash: Failed to remove the project from the storage. %{error}
+      deletion_failure_flash: Không thể xóa dự án khỏi bộ lưu trữ. %{error}
       dialog:
         automatically_managed_appendix: Ngoài ra, trong trường hợp này, bộ lưu trữ này có một thư mục dự án được quản lý tự động, thư mục này và các tệp trong đó sẽ bị xóa vĩnh viễn.
         confirmation_text: Vui lòng xác nhận bạn hiểu và muốn xóa bộ lưu trữ tệp này khỏi dự án này

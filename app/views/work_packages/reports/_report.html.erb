@@ -36,10 +36,10 @@ See COPYRIGHT and LICENSE files for more details.
   <% column_names = report.statuses.map(&:name) + [t(:label_open_work_packages), t(:label_closed_work_packages), t(:label_total)] %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
-      <table class="generic-table">
+      <table class="generic-table" data-controller="table-highlighting">
         <colgroup>
          <% column_names.each do |name| %>
-            <col opHighlightCol>
+            <col>
           <% end %>
         </colgroup>
       <thead>

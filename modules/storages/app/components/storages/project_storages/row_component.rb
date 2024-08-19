@@ -45,8 +45,7 @@ module Storages::ProjectStorages
     end
 
     def creator
-      icon = helpers.avatar project_storage.creator, size: :mini
-      icon + project_storage.creator.name
+      helpers.avatar project_storage.creator, hide_name: false, size: :mini
     end
 
     def button_links

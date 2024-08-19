@@ -35,11 +35,11 @@ See COPYRIGHT and LICENSE files for more details.
     <% if @group.memberships.any? %>
       <div class="generic-table--container">
         <div class="generic-table--results-container">
-          <table class="generic-table memberships">
+          <table class="generic-table memberships" data-controller="table-highlighting">
             <colgroup>
-              <col opHighlightCol>
-              <col opHighlightCol>
               <col>
+              <col>
+              <col data-highlight="false">
             </colgroup>
             <thead>
               <tr>

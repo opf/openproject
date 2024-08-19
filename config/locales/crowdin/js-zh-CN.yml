@@ -66,7 +66,7 @@ zh-CN:
     button_back_to_list_view: "返回列表视图"
     button_cancel: "取消"
     button_close: "关闭"
-    button_change_project: "更改项目"
+    button_change_project: "移动到另一个项目"
     button_check_all: "全选"
     button_configure-form: "配置表单"
     button_confirm: "确认"

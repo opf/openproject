@@ -3,6 +3,7 @@ module ::TwoFactorAuthentication
     include EnterpriseTrialHelper
     before_action :require_admin
     before_action :check_enabled
+    before_action :check_writable, only: :update
 
     layout "admin"
     menu_item :two_factor_authentication
@@ -32,6 +33,12 @@ module ::TwoFactorAuthentication
     end
 
     private
+
+    def check_writable
+      unless Setting.plugin_openproject_two_factor_authentication_writable?
+        render_403 message: I18n.t("two_factor_authentication.notice_not_writable")
+      end
+    end
 
     def permitted_params
       params.require(:settings).permit(:enforced, :allow_remember_for_days)

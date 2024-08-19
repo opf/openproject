@@ -35,7 +35,7 @@ The green message on top of the work package indicates a successful update.
 
 All changes of a work package are documented in the work package tab [Activity](../../../getting-started/work-packages-introduction/#activity-of-work-packages).
 
-> [! NOTE]
+> [!NOTE]
 > There is no possibility to undo changes to work packages by using Ctrl+Z combination.
 
 ### How to assign a team member to a work package

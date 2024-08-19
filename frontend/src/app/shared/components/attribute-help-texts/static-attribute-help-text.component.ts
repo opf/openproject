@@ -40,10 +40,9 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { StaticAttributeHelpTextModalComponent } from './static-attribute-help-text.modal';
 
-export const staticAttributeHelpTextSelector = 'op-static-attribute-help-text';
 
 @Component({
-  selector: staticAttributeHelpTextSelector,
+  selector: 'opce-static-attribute-help-text',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './static-attribute-help-text.component.html',
 })

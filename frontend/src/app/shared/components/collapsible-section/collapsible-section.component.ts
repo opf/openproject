@@ -26,14 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Component, ElementRef, OnInit, ViewChild,
-} from '@angular/core';
-
-export const collapsibleSectionAugmentSelector = 'collapsible-section-augment';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
-  selector: collapsibleSectionAugmentSelector,
+  selector: 'opce-opce-collapsible-section-augment',
   templateUrl: './collapsible-section.html',
 })
 export class CollapsibleSectionComponent implements OnInit {

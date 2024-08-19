@@ -28,8 +28,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Projects index page", :js, :with_cuprite,
-               with_ee: %i[custom_fields_in_projects_list], with_settings: { login_required?: false } do
+RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login_required?: false } do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:admin) { create(:admin) }

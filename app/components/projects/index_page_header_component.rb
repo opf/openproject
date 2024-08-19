@@ -65,9 +65,8 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     @gantt_portfolio_project_ids ||= @query
                                      .results
                                      .where(active: true)
-                                     .select(:id)
-                                     .uniq
                                      .pluck(:id)
+                                     .uniq
   end
 
   def page_title

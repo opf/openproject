@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Injector,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Injector, Input, OnInit } from '@angular/core';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
@@ -14,10 +7,8 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { pricingUrl } from 'core-app/core/setup/globals/constants.const';
 
-export const enterpriseBannerSelector = 'op-enterprise-banner';
-
 @Component({
-  selector: enterpriseBannerSelector,
+  selector: 'op-enterprise-banner',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./enterprise-banner.component.sass'],
   templateUrl: './enterprise-banner.component.html',

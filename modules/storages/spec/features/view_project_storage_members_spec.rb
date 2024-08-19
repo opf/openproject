@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe "Project storage members connection status view" do
+RSpec.describe "Project storage members connection status view", :js do
   let(:user) { create(:user) }
   let(:group) { create(:group, members: [group_user]) }
   let(:placeholder_user) { create(:placeholder_user) }
