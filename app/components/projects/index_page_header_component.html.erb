@@ -99,7 +99,8 @@
       menu.with_item(
         tag: :a,
         label: t(:label_overall_activity),
-        href: activities_path
+        href: activities_path,
+        content_arguments: { rel: "nofollow" }
       ) do |item|
         item.with_leading_visual_icon(icon: 'tasklist')
       end
@@ -125,7 +126,7 @@
         tag: :a,
         label: t('js.label_export'),
         href: export_list_modal_projects_path(projects_query_params),
-        content_arguments: { data: { controller: "async-dialog" } }
+        content_arguments: { data: { controller: "async-dialog" }, rel: "nofollow" }
       ) do |item|
         item.with_leading_visual_icon(icon: 'sign-out')
       end
