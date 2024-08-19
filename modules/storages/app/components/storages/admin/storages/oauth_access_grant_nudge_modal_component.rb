@@ -56,7 +56,7 @@ module Storages
         def heading_text = I18n.t("storages.oauth_grant_nudge_modal.heading", provider_type:)
         def waiting_title = I18n.t("storages.oauth_grant_nudge_modal.requesting_access_to", storage: storage.name)
         def cancel_button_text = I18n.t(:button_close)
-        def body_text = I18n.t("storages.oauth_grant_nudge_modal.description", provider_type:)
+        def body_text = I18n.t("storages.oauth_grant_nudge_modal.storage_admin.description", provider_type:)
         def provider_type = I18n.t("storages.provider_types.#{storage.short_provider_type}.name")
 
         def login_button_aria_label

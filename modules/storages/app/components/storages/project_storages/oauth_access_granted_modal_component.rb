@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,33 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-require "spec_helper"
-require_module_spec_helper
+module Storages
+  module ProjectStorages
+    class OAuthAccessGrantedModalComponent < ::Storages::Admin::Storages::OAuthAccessGrantedModalComponent
+      private
 
-RSpec.describe Storages::ProjectStorages::OAuthAccessGrantNudgeModalComponent, type: :component do # rubocop:disable RSpec/SpecFilePathFormat
-  let(:storage) { build_stubbed(:nextcloud_storage) }
-  let(:project_storage) { build_stubbed(:project_storage, storage:) }
+      def title
+        I18n.t("storages.oauth_access_granted_modal.project_settings.access_granted_screen_reader",
+               storage: storage.name)
+      end
 
-  it "renders the nudge modal" do
-    render_inline(described_class.new(project_storage:))
-
-    expect(page).to have_css('[role="alert"]', text: "Login to Nextcloud required", aria: { live: :assertive })
-    expect(page).to have_css('h2[aria-hidden="true"]', text: "Login to Nextcloud required")
-
-    expect(page).to have_test_selector(
-      "oauth-access-grant-nudge-modal-body",
-      text: "To get access to the project folder you need to login to #{storage.name}."
-    )
-
-    expect(page).to have_button("I will do it later")
-    expect(page).to have_button("Nextcloud log in", aria: { label: "Login to #{storage.name}" })
-  end
-
-  context "with no project storage" do
-    it "does not render" do
-      render_inline(described_class.new(project_storage: nil))
-
-      expect(page.text).to be_empty
+      def success_subtitle
+        I18n.t("storages.oauth_access_granted_modal.project_settings.storage_ready", storage: storage.name)
+      end
     end
   end
 end

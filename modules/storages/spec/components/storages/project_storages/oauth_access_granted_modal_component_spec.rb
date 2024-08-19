@@ -29,30 +29,30 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::ProjectStorages::OAuthAccessGrantNudgeModalComponent, type: :component do # rubocop:disable RSpec/SpecFilePathFormat
-  let(:storage) { build_stubbed(:nextcloud_storage) }
-  let(:project_storage) { build_stubbed(:project_storage, storage:) }
+RSpec.describe Storages::ProjectStorages::OAuthAccessGrantedModalComponent, type: :component do # rubocop:disable RSpec/SpecFilePathFormat
+  let(:oauth_client) { build_stubbed(:oauth_client) }
+  let(:storage) { build_stubbed(:nextcloud_storage, oauth_client:) }
 
-  it "renders the nudge modal" do
-    render_inline(described_class.new(project_storage:))
-
-    expect(page).to have_css('[role="alert"]', text: "Login to Nextcloud required", aria: { live: :assertive })
-    expect(page).to have_css('h2[aria-hidden="true"]', text: "Login to Nextcloud required")
-
-    expect(page).to have_test_selector(
-      "oauth-access-grant-nudge-modal-body",
-      text: "To get access to the project folder you need to login to #{storage.name}."
-    )
-
-    expect(page).to have_button("I will do it later")
-    expect(page).to have_button("Nextcloud log in", aria: { label: "Login to #{storage.name}" })
+  before do
+    allow(OAuthClientToken).to receive(:exists?).and_return(true)
   end
 
-  context "with no project storage" do
-    it "does not render" do
-      render_inline(described_class.new(project_storage: nil))
+  it "renders a success modal" do
+    render_inline(described_class.new(storage:))
 
-      expect(page.text).to be_empty
+    expect(page).to have_css(
+      "h1.sr-only",
+      text: "Access granted. You are now ready to use #{storage.name}"
+    )
+
+    expect(page).to have_content("Access granted")
+    expect(page).to have_content("You are now ready to use #{storage.name}")
+
+    expect(page).to have_button("Close")
+
+    aggregate_failures "checks that the current user has an oauth token" do
+      expect(OAuthClientToken).to have_received(:exists?)
+        .with(user: User.current, oauth_client: storage.oauth_client)
     end
   end
 end

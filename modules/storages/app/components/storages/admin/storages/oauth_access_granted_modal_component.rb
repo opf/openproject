@@ -49,13 +49,20 @@ module Storages
 
         def dialog_id = "#{wrapper_key}-dialog-id"
         def dialog_body_id = "#{wrapper_key}-dialog-body-id"
-        def title = I18n.t("storages.oauth_access_granted_modal.access_granted_screen_reader", storage: storage.name)
         def cancel_button_text = I18n.t("button_close")
+
+        def title
+          I18n.t("storages.oauth_access_granted_modal.storage_admin.access_granted_screen_reader",
+                 storage: storage.name)
+        end
 
         def body_text
           success_title = I18n.t("storages.oauth_access_granted_modal.access_granted")
-          success_subtitle = I18n.t("storages.oauth_access_granted_modal.storage_ready", storage: storage.name)
           concat(render(::Storages::OpenProjectStorageModalComponent::Body.new(:success, success_subtitle:, success_title:)))
+        end
+
+        def success_subtitle
+          I18n.t("storages.oauth_access_granted_modal.storage_admin.storage_ready", storage: storage.name)
         end
 
         def find_storage(storage_record_or_id)

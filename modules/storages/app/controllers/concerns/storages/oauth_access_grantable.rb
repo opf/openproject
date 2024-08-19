@@ -52,6 +52,13 @@ module Storages
       }
     end
 
+    def project_storage_oauth_access_granted_modal(storage:)
+      {
+        type: ::Storages::ProjectStorages::OAuthAccessGrantedModalComponent.name,
+        parameters: { storage: storage.id }
+      }
+    end
+
     def storage_oauth_access_granted_modal(storage:)
       {
         type: ::Storages::Admin::Storages::OAuthAccessGrantedModalComponent.name,
