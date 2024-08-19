@@ -248,6 +248,10 @@ Rails.application.routes.draw do
       post :deactivate_work_package_attachments
     end
 
+    collection do
+      get :export_list_modal
+    end
+
     resources :versions, only: %i[new create] do
       collection do
         put :close_completed
