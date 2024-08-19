@@ -39,7 +39,7 @@
         end
 
         component.with_attribute(key: t('two_factor_authentication.settings.label_enforced'),
-                                 value: !!configuration['enforced'])
+                                 value: !!configuration['enforced'] ? t(:general_text_Yes) : t(:general_text_No))
 
         component.with_attribute(key: t('two_factor_authentication.settings.label_remember'),
                                  value: if configuration['allow_remember_for_days'].to_i == 0
