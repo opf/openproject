@@ -9,7 +9,7 @@ module Webhooks
     serialize :response_headers, type: Hash
     serialize :request_headers, type: Hash
 
-    validates :request_headers, presence: true
+    validates :request_headers, presence: true, allow_blank: true
     validates :request_body, presence: true
 
     def self.newest(limit: 10)
