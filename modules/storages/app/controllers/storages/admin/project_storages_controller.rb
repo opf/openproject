@@ -83,7 +83,8 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
     else
       open_redirect_to_storage_authorization_with(
         callback_url: external_file_storages_project_settings_project_storages_url(project_id: @project_storage.project_id),
-        storage: @project_storage.storage
+        storage: @project_storage.storage,
+        callback_modal_for: :project_storage
       )
     end
   end

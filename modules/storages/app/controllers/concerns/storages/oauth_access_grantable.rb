@@ -30,14 +30,21 @@ module Storages
   module OAuthAccessGrantable
     extend ActiveSupport::Concern
 
-    def open_redirect_to_storage_authorization_with(callback_url:, storage:)
+    def open_redirect_to_storage_authorization_with(callback_url:, storage:, callback_modal_for: :storage)
       nonce = SecureRandom.uuid
       cookies["oauth_state_#{nonce}"] = {
         value: { href: callback_url,
                  storageId: storage.id }.to_json,
         expires: 1.hour
       }
-      session[:oauth_callback_flash_modal] = storage_oauth_access_granted_modal(storage:)
+
+      session[:oauth_callback_flash_modal] = case callback_modal_for
+                                             when :storage
+                                               storage_oauth_access_granted_modal(storage:)
+                                             when :project_storage
+                                               project_storage_oauth_access_granted_modal(storage:)
+                                             end
+
       redirect_to(storage.oauth_configuration.authorization_uri(state: nonce), allow_other_host: true)
     end
 
