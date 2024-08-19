@@ -168,7 +168,7 @@ RSpec.describe "Notification center date alerts", :js, :with_cuprite,
   let(:center) { Pages::Notifications::Center.new }
   let(:side_menu) { Components::Submenu.new }
   let(:toaster) { PageObjects::Notifications.new(page) }
-  let(:activity_tab) { Components::WorkPackages::Activities.new(notification_wp_due_today) }
+  let(:tabs) { Components::WorkPackages::PrimerizedTabs.new }
 
   # Converts "hh:mm" into { hour: h, min: m }
   def time_hash(time)
@@ -254,7 +254,7 @@ RSpec.describe "Notification center date alerts", :js, :with_cuprite,
       wait_for_network_idle
 
       # We expect no badge count
-      split_screen.expect_no_notification_badge
+      tabs.expect_no_counter "activity"
 
       # The same is true for the mention item that is opened in date alerts filter
       center.click_item notification_wp_double_date_alert
@@ -263,7 +263,7 @@ RSpec.describe "Notification center date alerts", :js, :with_cuprite,
       wait_for_network_idle
 
       # We expect one badge
-      split_screen.expect_notification_count 1
+      tabs.expect_counter "activity", 1
 
       # When a work package is updated to a different date
       wp_double_notification.update_column(:due_date, time_zone.now + 5.days)

@@ -26,9 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-en:
-  js:
-    label_meetings: 'Meetings'
-    work_packages:
-      tabs:
-        meetings: 'Meetings'
+require "rack/utils"
+
+class WorkPackages::SplitViewController < ApplicationController
+  # Authorization is checked in the find_work_package action
+  no_authorization_required! :update_counter
+  before_action :find_work_package, only: %i[update_counter]
+
+  def update_counter
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          WorkPackages::Details::UpdateCounterComponent
+            .new(work_package: @work_package, menu_name: params[:counter])
+            .render_as_turbo_stream(action: :replace, view_context:)
+        ]
+      end
+    end
+  end
+
+  private
+
+  def find_work_package
+    @work_package = WorkPackage.visible.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render_404 message: I18n.t(:error_work_package_id_not_found)
+  end
+end

@@ -63,6 +63,12 @@ module Meetings
           )
         )
       end
+
+      def replace_tab_counter_via_turbo_stream(work_package: @work_package)
+        replace_via_turbo_stream(
+          component: WorkPackages::Details::UpdateCounterComponent.new(work_package:, menu_name: "meetings")
+        )
+      end
     end
   end
 end

@@ -561,12 +561,15 @@ Rails.application.routes.draw do
                as: :work_package_progress
     end
 
+    get "/split_view/update_counter" => "work_packages/split_view#update_counter",
+        on: :member
+
     # states managed by client-side (angular) routing on work_package#show
     get "/" => "work_packages#index", on: :collection, as: "index"
     get "/create_new" => "work_packages#index", on: :collection, as: "new_split"
     get "/new" => "work_packages#index", on: :collection, as: "new", state: "new"
     # We do not want to match the work package export routes
-    get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!shares).+/ }
+    get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!(shares|split_view)).+/ }
     get "/share_upsale" => "work_packages#index", on: :collection, as: "share_upsale"
     get "/edit" => "work_packages#show", on: :member, as: "edit"
   end
@@ -701,21 +704,19 @@ Rails.application.routes.draw do
 
   concern :with_split_view do |options|
     get "details/:work_package_id(/:tab)",
-        on: :collection,
         action: options.fetch(:action, :split_view),
         defaults: { tab: :overview },
         as: :details,
         work_package_split_view: true
 
     get "/:work_package_id/close",
-        on: :collection,
         action: :close_split_view
   end
 
   resources :notifications, only: :index do
-    concerns :with_split_view, base_route: :notifications_path
-
     collection do
+      concerns :with_split_view, base_route: :notifications_path
+
       post :mark_all_read
       resource :menu, module: :notifications, only: %i[show], as: :notifications_menu
     end
