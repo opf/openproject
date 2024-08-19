@@ -25,59 +25,62 @@
                     target: '_blank' %>
       </p>
       <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
-        component.with_attribute(key: t('two_factor_authentication.settings.label_active_strategies'),
-                                 value: if configuration['active_strategies'].empty?
-                                          t(:label_none)
-                                        else
-                                          strategies = configuration['active_strategies'].map do |key|
-                                            content_tag(:span) do
-                                              t("two_factor_authentication.strategies.#{key}")
-                                            end
-                                          end
-                                          safe_join(strategies, tag(:br))
-                                        end)
+        if configuration['active_strategies'].empty?
+          component.with_attribute(key: t('two_factor_authentication.settings.label_active_strategies'),
+                                   value: t(:label_none))
+        else
+          strategies = configuration['active_strategies'].map do |key|
+            content_tag(:span) do
+              t("two_factor_authentication.strategies.#{key}")
+            end
+          end
+          component.with_attribute(key: t('two_factor_authentication.settings.label_active_strategies'),
+                                   value: safe_join(strategies, tag(:br)))
+        end
 
         component.with_attribute(key: t('two_factor_authentication.settings.label_enforced'),
-                                 value: !!configuration['enforced'])
+                                 value: !!configuration['enforced'] ? t(:general_text_Yes) : t(:general_text_No))
 
         component.with_attribute(key: t('two_factor_authentication.settings.label_remember'),
                                  value: if configuration['allow_remember_for_days'].to_i == 0
-                                          t(:label_disabled)
-                                        else
-                                          "#{configuration['allow_remember_for_days']} (#{t(:label_day_plural)})"
-                                        end)
+                                   t(:label_disabled)
+                                 else
+                                   "#{configuration['allow_remember_for_days']} (#{t(:label_day_plural)})"
+                                 end)
       end %>
     </fieldset>
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= t(:label_setting_plural) %></legend>
-      <div class="form--field">
-        <label class="form--label" for='settings[enforced]'><%= t('two_factor_authentication.settings.label_enforced') %></label>
-        <div class="form--field-container ">
-          <%= styled_check_box_tag 'settings[enforced]',
-                                   '1',
-                                   !!configuration['enforced'],
-                                   disabled: strategy_manager.enforced_by_configuration? || configuration['active_strategies'].empty?,
-                                   container_class: '-middle' %>
+    <% if Setting.plugin_openproject_two_factor_authentication_writable? %>
+      <fieldset class="form--fieldset">
+        <legend class="form--fieldset-legend"><%= t(:label_setting_plural) %></legend>
+        <div class="form--field">
+          <label class="form--label" for='settings[enforced]'><%= t('two_factor_authentication.settings.label_enforced') %></label>
+          <div class="form--field-container ">
+            <%= styled_check_box_tag 'settings[enforced]',
+                                     '1',
+                                     !!configuration['enforced'],
+                                     disabled: strategy_manager.enforced_by_configuration? || configuration['active_strategies'].empty?,
+                                     container_class: '-middle' %>
+          </div>
+          <div class="form--field-instructions">
+            <%= I18n.t('two_factor_authentication.settings.text_enforced') %>
+          </div>
         </div>
-        <div class="form--field-instructions">
-          <%= I18n.t('two_factor_authentication.settings.text_enforced') %>
+        <div class="form--field">
+          <label class="form--label" for='settings[allow_remember_for_days]'><%= t('two_factor_authentication.settings.label_remember') %></label>
+          <div class="form--field-container">
+            <%= styled_number_field_tag 'settings[allow_remember_for_days]',
+                                        configuration['allow_remember_for_days'],
+                                        min: '0',
+                                        max: '365',
+                                        step: '1',
+                                        container_class: '-middle' %>
+          </div>
+          <div class="form--field-instructions">
+            <%= I18n.t('two_factor_authentication.settings.text_remember') %>
+          </div>
         </div>
-      </div>
-      <div class="form--field">
-        <label class="form--label" for='settings[allow_remember_for_days]'><%= t('two_factor_authentication.settings.label_remember') %></label>
-        <div class="form--field-container">
-          <%= styled_number_field_tag 'settings[allow_remember_for_days]',
-                                      configuration['allow_remember_for_days'],
-                                      min: '0',
-                                      max: '365',
-                                      step: '1',
-                                      container_class: '-middle' %>
-        </div>
-        <div class="form--field-instructions">
-          <%= I18n.t('two_factor_authentication.settings.text_remember') %>
-        </div>
-      </div>
-    </fieldset>
-    <%= styled_submit_tag t(:button_apply), class: '-primary' %>
+      </fieldset>
+      <%= styled_submit_tag t(:button_apply), class: '-primary' %>
+    <% end %>
+    </section>
   <% end %>
-</section>
