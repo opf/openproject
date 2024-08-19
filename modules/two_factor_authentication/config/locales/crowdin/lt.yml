@@ -26,6 +26,7 @@ lt:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "2FA pristatymas buvo išjungtas."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "Šiam naudotojui nerastas joks 2FA įrenginys, nors tai ir reikalaujama."
     error_no_matching_strategy: "Nėra atitinkančios 2FA strategijos šiam naudotojui. Prašome susisiekti su administratoriumi."
     error_is_enforced_not_active: "Konfigūracijos klaida: dviejų veiksnių autentifikacija buvo įjungta, bet nėra aktyvių strategijų."

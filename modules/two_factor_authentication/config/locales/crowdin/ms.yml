@@ -26,6 +26,7 @@ ms:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "Penghantaran 2FA telah dimatikan."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "Tiada peranti 2FA berdaftar yang ditemui bagi pengguna ini, walaupun diperlukan untuk contoh ini."
     error_no_matching_strategy: "Tiada strategi 2FA yang sepadan tersedia bagi pengguna ini. Sila hubungi pentadbir anda."
     error_is_enforced_not_active: "Ralat konfigurasi: Pengesahan Dua Faktor telah dikuatkuasakan, tetapi masih belum ada strategi sedia ada yang aktif."

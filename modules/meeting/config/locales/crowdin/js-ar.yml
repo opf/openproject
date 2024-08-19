@@ -22,3 +22,6 @@
 ar:
   js:
     label_meetings: 'الاجتماعات'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

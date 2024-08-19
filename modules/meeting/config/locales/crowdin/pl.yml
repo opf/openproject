@@ -124,7 +124,8 @@ pl:
       agenda_text: "Skopiuj agendę starego spotkania"
     email:
       send_emails: "Wyślij wiadomości e-mail"
-      send_invitation_emails: "Wyślij wiadomości e-mail z zaproszeniem do wszystkich uczestników."
+      send_invitation_emails: >
+        Send out an invitation email to the participants listed above. Note that unchecking this option does not affect the sending of emails after this form is submitted.
       open_meeting_link: "Spotkania otwarte"
       invited:
         summary: "Użytkownik %{actor} wysłał Ci zaproszenie na spotkanie %{title}"

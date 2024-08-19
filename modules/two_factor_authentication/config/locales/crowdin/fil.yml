@@ -26,6 +26,7 @@ fil:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "Ang 2FA ay inihatid ay hindi gumagana."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "Walang nakarehistro na 2FA sa natagpuan na aparato para sa gumagamit na ito, kahit na kinakailangan para sa pagkakataon na ito."
     error_no_matching_strategy: "Hindi nagtugma ang 2FA na diskarte sa magamait para sa gumagamit na ito. Pakiusap na kontakin ang iyong administrador."
     error_is_enforced_not_active: "Ang Kumpigurasyon ay mali: Ang Dalawang-Dahilan ay pinatupad, ngunit walang aktibo na mga diskarte ang umiiral."

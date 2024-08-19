@@ -9,7 +9,7 @@ bg:
     verify_account: "Потвърждаване на профила ви"
     error_captcha: "Вашият акаунт не може да бъде проверен. Моля, свържете се с администратор."
     settings:
-      website_key: 'Ключ на страница'
+      website_key: 'Website key (May also be called "Site key")'
       response_limit: 'Ограничение на отговора за HCaptcha'
       response_limit_text: 'Максималният брой символи, с които отговорът на HCaptcha се счита за валиден.'
       website_key_text: 'Въведете ключа за уебсайта, който сте създали в конзолата за администриране на reCAPTCHA за този домейн.'
@@ -20,5 +20,6 @@ bg:
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       type_hcaptcha: 'HCaptcha'
-      recaptcha_description_html: >
-        reCAPTCHA е безплатна услуга на Google, която може да бъде активирана за вашата инстанция на OpenProject. Ако е активирана, при влизане в системата ще се визуализира форма с captcha за всички потребители, които все още не са потвърдили captcha. <br/> Моля, вижте следния линк за повече подробности относно reCAPTCHA и техните версии, както и как да създадете уебсайта и тайните ключове: %{recaptcha_link} <br/> HCaptcha е безплатна алтернатива на Google, която можете да използвате, ако не искате да използвате reCAPTCHA. Вижте тази връзка за повече информация: %{hcaptcha_link}
+      type_turnstile: 'Cloudflare Turnstile™'
+      captcha_description_html: >
+        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link} <br/> Cloudflare Turnstile™ is another alternative that is more convenient for users while still providing the same level of security. See this link for more information: %{turnstile_link}

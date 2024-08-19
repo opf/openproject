@@ -48,3 +48,6 @@ fr:
         empty: 'Aucune demande de fusion (MR) n''a encore été associée. Associez une MR existante en utilisant le code <code>OP#%{wp_id}</code> (ou <code>PP#%{wp_id}</code> pour les liens privés) dans le titre/la description de la M ou créez une nouvelle MR.'
       gitlab_pipelines: Pipelines
       updated_on: Mis à jour le
+    work_packages:
+      tabs:
+        gitlab: "GitLab"

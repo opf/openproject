@@ -26,6 +26,7 @@ ca:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "L'entrega de 2FA ha estat desactivada."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "No s'ha trobat cap dispositiu 2FA registrat per a aquest usuari tot i ser necessari per a aquesta instància."
     error_no_matching_strategy: "No hi ha cap estratègia 2FA coincident disponible per aquest usuari. Si us plau, contacta el teu administrador."
     error_is_enforced_not_active: "Error de configuració: S'ha forçat l'autentificació en dos passos, però no existeix cap estratègia activa."

@@ -49,3 +49,6 @@
           draft: 'utkast'
           merged: 'slått sammen'
           ready_for_review: 'klar til gjennomsyn'
+    work_packages:
+      tabs:
+        github: "GitHub"

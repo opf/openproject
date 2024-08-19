@@ -22,3 +22,6 @@
 he:
   js:
     label_meetings: 'פגישות'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

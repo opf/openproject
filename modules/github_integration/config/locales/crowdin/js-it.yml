@@ -49,3 +49,6 @@ it:
           draft: 'è stata abbozzata'
           merged: 'è stata unita'
           ready_for_review: 'è stata contrassegnata pronta alla revisione'
+    work_packages:
+      tabs:
+        github: "GitHub"

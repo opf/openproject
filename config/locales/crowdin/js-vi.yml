@@ -647,7 +647,7 @@ vi:
           with_current_filter: "Hiện không có thông báo trong chế độ xem này"
         mark_all_read: "Đánh dấu tất cả là đã đọc"
         mark_as_read: "Đánh dấu là đã đọc"
-        text_update_date: "%{date} bởi"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Hiển thị %{newest_count} thông báo gần đây nhất. %{more_count} thông báo khác chưa được hiển thị."
         empty_state:
           no_notification: "Có vẻ như bạn đã đọc hết các thông báo."

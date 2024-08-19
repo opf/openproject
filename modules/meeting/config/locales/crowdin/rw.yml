@@ -122,7 +122,8 @@ rw:
       agenda_text: "Copy the agenda of the old meeting"
     email:
       send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails for all participants."
+      send_invitation_emails: >
+        Send out an invitation email to the participants listed above. Note that unchecking this option does not affect the sending of emails after this form is submitted.
       open_meeting_link: "Open meeting"
       invited:
         summary: "%{actor} has sent you an invitation for the meeting %{title}"

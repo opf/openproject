@@ -648,7 +648,7 @@ ca:
           with_current_filter: "En aquest moment no hi han notificacions en aquesta vista"
         mark_all_read: "Marca tot com a llegit"
         mark_as_read: "Marca com a llegit"
-        text_update_date: "%{date} per"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Mostrant el %{newest_count} de notificacions recents. %{more_count} no s'estan mostrant."
         empty_state:
           no_notification: "Sembla que ja estàs al dia."

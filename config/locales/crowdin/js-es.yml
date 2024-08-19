@@ -648,7 +648,7 @@ es:
           with_current_filter: "No hay notificaciones en esta vista actualmente"
         mark_all_read: "Marcar todas como leídas"
         mark_as_read: "Marcar como leída"
-        text_update_date: "%{date} por"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Mostrando las %{newest_count} notificaciones más recientes. %{more_count} más no se muestran."
         empty_state:
           no_notification: "Parece que ya estás al día."

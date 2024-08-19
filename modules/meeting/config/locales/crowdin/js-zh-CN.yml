@@ -22,3 +22,6 @@
 zh-CN:
   js:
     label_meetings: '会议'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

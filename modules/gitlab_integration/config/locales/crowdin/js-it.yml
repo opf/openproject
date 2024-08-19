@@ -48,3 +48,6 @@ it:
         empty: 'Non ci sono ancora richieste di merge collegate. Collega una MR esistente utilizzando il codice <code>OP#%{wp_id}</code> (o <code>PP#%{wp_id}</code> per collegamenti privati) nel titolo/descrizione della MR o crea una nuova MR.'
       gitlab_pipelines: Pipeline
       updated_on: 'Aggiornamento:'
+    work_packages:
+      tabs:
+        gitlab: "GitLab"

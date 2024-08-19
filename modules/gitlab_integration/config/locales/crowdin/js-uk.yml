@@ -48,3 +48,6 @@ uk:
         empty: 'Зараз немає жодного зв’язаного запиту на злиття. Зв’яжіть наявний запит MR, використовуючи код <code>OP#%{wp_id}</code> (або <code>PP#%{wp_id}</code> для приватних посилань) у назві / описі MR, або створіть новий запит MR.'
       gitlab_pipelines: Конвеєри
       updated_on: Оновлено
+    work_packages:
+      tabs:
+        gitlab: "GitLab"
