@@ -202,6 +202,7 @@ Rails.application.routes.draw do
     member do
       get :rename
       post :toggle_public
+      get :destroy_confirmation_modal
     end
   end
 
