@@ -4,10 +4,7 @@
       Primer::Alpha::Dialog.new(
         id: dialog_id,
         title:,
-        data: {
-          "application-target": "dynamic",
-          controller: "auto-show-dialog",
-        },
+        open: true,
         test_selector: "oauth-access-granted-modal"
       )
     ) do |dialog|
