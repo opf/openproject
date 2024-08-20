@@ -251,45 +251,42 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
         wp_page.wait_for_activity_tab
       end
 
-      it "filters the activities based on type and shows an empty state", :aggregate_failures do
-        expect(true).to be_truthy
-        # sleep 60
-        # # add a non-comment journal entry by changing the work package attributes
-        # wp_page.update_attributes(subject: "A new subject")
-        # wp_page.expect_and_dismiss_toaster(message: "Successful update.")
+      it "filters the activities based on type and shows an empty state" do
+        # expect no empty state due to the initial journal entry
+        activity_tab.expect_no_empty_state
+        # expect the initial journal entry to be shown
+        activity_tab.expect_journal_details_header(text: "created")
 
-        # # expect all journal entries
-        # activity_tab.expect_journal_changed_attribute(text: "Subject")
+        activity_tab.filter_journals(:only_comments)
 
-        # activity_tab.filter_journals(:only_comments)
+        # expect empty state
+        activity_tab.expect_empty_state
+        activity_tab.expect_no_journal_details_header(text: "created")
 
-        # # expect empty state
-        # activity_tab.expect_empty_state
-        # activity_tab.expect_no_journal_changed_attribute
+        activity_tab.filter_journals(:only_changes)
 
-        # activity_tab.filter_journals(:only_changes)
+        # expect only the changes
+        activity_tab.expect_no_empty_state
+        activity_tab.expect_journal_details_header(text: "created")
 
-        # # expect only the changes
-        # activity_tab.expect_no_empty_state
-        # activity_tab.expect_journal_changed_attribute(text: "Subject")
+        activity_tab.filter_journals(:all)
 
-        # activity_tab.filter_journals(:all)
+        # expect all journal entries
+        activity_tab.expect_no_empty_state
+        activity_tab.expect_journal_details_header(text: "created")
 
-        # # expect all journal entries
-        # activity_tab.expect_no_empty_state
-        # activity_tab.expect_journal_changed_attribute(text: "Subject")
+        # filter for comments again
+        activity_tab.filter_journals(:only_comments)
 
-        # # filter for comments again
-        # activity_tab.filter_journals(:only_comments)
+        # expect empty state again
+        activity_tab.expect_empty_state
+        activity_tab.expect_no_journal_details_header(text: "created")
 
-        # # expect empty state again
-        # activity_tab.expect_empty_state
+        # add a comment
+        activity_tab.add_comment(text: "First comment by admin")
 
-        # # add a comment
-        # activity_tab.add_comment(text: "First comment by admin")
-
-        # # the empty state should be removed
-        # activity_tab.expect_no_empty_state
+        # the empty state should be removed
+        activity_tab.expect_no_empty_state
       end
     end
 
