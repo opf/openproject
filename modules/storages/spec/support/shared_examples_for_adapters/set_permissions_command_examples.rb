@@ -28,40 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  module TaggedLogging
-    delegate :info, :error, to: :logger
+RSpec.shared_examples_for "set_permissions_command: basic command setup" do
+  it "is registered as commands.set_permissions" do
+    expect(Storages::Peripherals::Registry
+             .resolve("#{storage.short_provider_type}.commands.set_permissions")).to eq(described_class)
+  end
 
-    # @param tag [Class, String, Array<Class, String>] the tag or list of tags to annotate the logs with
-    # @yield [Logger]
-    def with_tagged_logger(tag = self.class, &)
-      logger.tagged(*tag, &)
-    end
+  it "responds to #call with correct parameters" do
+    expect(described_class).to respond_to(:call)
 
-    # @param storage_error [Storages::StorageError] an instance of Storages::StorageError
-    # @param context [Hash{Symbol => Object}] extra metadata that will be appended to the logs
-    def log_storage_error(storage_error, context = {})
-      payload = storage_error.data&.payload
-      data =
-        case payload
-        in { status: Integer }
-          { status: payload&.status, body: payload&.body.to_s }
-        else
-          payload.to_s
-        end
+    method = described_class.method(:call)
+    expect(method.parameters).to contain_exactly(%i[keyreq storage],
+                                                 %i[keyreq auth_strategy],
+                                                 %i[keyreq input_data])
+  end
+end
 
-      error_message = context.merge({ error_code: storage_error.code, message: storage_error.log_message, data: })
-      error error_message
-    end
+RSpec.shared_examples_for "set_permissions_command: error" do
+  it "returns a failure" do
+    result = described_class.call(storage:, auth_strategy:, input_data:)
 
-    def log_validation_error(validation_result, context = {})
-      # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
-      error context.merge({ validation_message: validation_result.errors.to_h })
-      # rubocop:enable Rails/DeprecatedActiveModelErrorsMethods
-    end
+    expect(result).to be_failure
 
-    def logger
-      Rails.logger
-    end
+    error = result.errors
+    expect(error.code).to eq(:error)
+    expect(error.data.source).to eq(error_source)
   end
 end
