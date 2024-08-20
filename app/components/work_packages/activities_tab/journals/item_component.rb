@@ -145,7 +145,7 @@ module WorkPackages
             class=\"comments-number--bubble op-bubble op-bubble_mini\"
             data-test-selector=\"user-activity-bubble\"
           ></span>
-          ".html_safe
+          ".html_safe # rubocop:disable Rails/OutputSafety
         end
       end
     end

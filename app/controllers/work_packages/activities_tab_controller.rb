@@ -97,26 +97,14 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def create
-    ### taken from ActivitiesByWorkPackageAPI
-    call = AddWorkPackageNoteService
-      .new(user: User.current,
-           work_package: @work_package)
-      .call(journal_params[:notes],
-            send_notifications: !(params.has_key?(:notify) && params[:notify] == "false"))
-    ###
+    call = create_notification_service_call
 
     if call.success? && call.result
       if call.result.initial?
         # we need to update the whole item component for an initial journal entry
         # and not just the show part as happens in the time based update
         # as this part is not rendered for initial journal
-        update_via_turbo_stream(
-          component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
-            journal: call.result,
-            state: :show,
-            filter: params[:filter]&.to_sym || :all
-          )
-        )
+        update_item_component(call.result, state: :show, filter: params[:filter]&.to_sym || :all)
       end
       generate_time_based_update_streams(params[:last_update_timestamp], params[:filter])
     end
@@ -130,13 +118,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     )
 
     if call.success? && call.result
-      update_via_turbo_stream(
-        component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
-          journal: call.result,
-          state: :show,
-          filter: params[:filter]&.to_sym || :all
-        )
-      )
+      update_item_component(call.result, state: :show, filter: params[:filter]&.to_sym || :all)
     end
     # TODO: handle errors
 
@@ -184,6 +166,26 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
   def journal_params
     params.require(:journal).permit(:notes)
+  end
+
+  def create_notification_service_call
+    ### taken from ActivitiesByWorkPackageAPI
+    call = AddWorkPackageNoteService
+      .new(user: User.current,
+           work_package: @work_package)
+      .call(journal_params[:notes],
+            send_notifications: !(params.has_key?(:notify) && params[:notify] == "false"))
+    ###
+  end
+
+  def update_item_component(journal, state: :show, filter: :all)
+    update_via_turbo_stream(
+      component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
+        journal:,
+        state:,
+        filter:
+      )
+    )
   end
 
   def generate_time_based_update_streams(last_update_timestamp, filter)

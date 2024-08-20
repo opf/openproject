@@ -51,7 +51,9 @@ module WorkPackages
           test_selector: "op-wp-activity-tab",
           controller: "work-packages--activities-tab--index",
           "application-target": "dynamic",
-          "work-packages--activities-tab--index-update-streams-url-value": update_streams_work_package_activities_url(work_package),
+          "work-packages--activities-tab--index-update-streams-url-value": update_streams_work_package_activities_url(
+            work_package
+          ),
           "work-packages--activities-tab--index-sorting-value": journal_sorting,
           "work-packages--activities-tab--index-filter-value": filter,
           "work-packages--activities-tab--index-user-id-value": User.current.id,

@@ -35,10 +35,6 @@ module WorkPackages
         include ApplicationHelper
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
-
-        def initialize
-          super
-        end
       end
     end
   end
