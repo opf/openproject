@@ -28,7 +28,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package activity", :js, :with_cuprite do
+RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primerized_work_package_activities: true } do
   let(:project) { create(:project) }
   let(:admin) { create(:admin) }
   let(:member_role) do
