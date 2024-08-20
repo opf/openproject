@@ -240,10 +240,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite do
     current_user { admin }
     let(:work_package) { create(:work_package, project:, author: admin) }
 
-    it "is true" do
-      expect(true).to be_truthy
-    end
-
     context "when the work package has no comments" do
       before do
         # for some reason the journal is set to the "Anonymous"
