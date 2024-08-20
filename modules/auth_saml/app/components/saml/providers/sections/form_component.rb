@@ -32,7 +32,9 @@ module Saml::Providers::Sections
   class FormComponent < SectionComponent
     attr_reader :edit_state, :next_edit_state, :edit_mode
 
-    def initialize(provider, edit_state:, form_class:, heading:, next_edit_state: nil, edit_mode: nil)
+    def initialize(provider, edit_state:, form_class:,
+                   heading:, banner: nil, banner_scheme: :info,
+                   next_edit_state: nil, edit_mode: nil)
       super(provider)
 
       @edit_state = edit_state
@@ -40,6 +42,8 @@ module Saml::Providers::Sections
       @edit_mode = edit_mode
       @form_class = form_class
       @heading = heading
+      @banner = banner
+      @banner_scheme = banner_scheme
     end
 
     def url

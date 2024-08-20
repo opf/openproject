@@ -162,7 +162,7 @@ module Saml
         .call
 
       if call.success?
-        apply_metadata(call.result)
+        apply_metadata(call.result.compact_blank)
       else
         @edit_state = :metadata
 
@@ -171,11 +171,12 @@ module Saml
       end
     end
 
-    def apply_metadata(params)
-      new_options = @provider.options.merge(params.compact_blank)
+    def apply_metadata(params) # rubocop:disable Metrics/AbcSize
+      new_options = @provider.options.merge(params)
+      last_metadata_update = params.blank? ? nil : Time.current
       call = Saml::Providers::UpdateService
         .new(model: @provider, user: User.current)
-        .call({ options: new_options })
+        .call({ options: new_options, last_metadata_update: })
 
       if call.success?
         flash[:notice] = I18n.t("saml.metadata_parser.success")

@@ -8,6 +8,7 @@ module Saml
     store_attribute :options, :name_identifier_format, :string
     store_attribute :options, :metadata_url, :string
     store_attribute :options, :metadata_xml, :string
+    store_attribute :options, :last_metadata_update, :datetime
 
     store_attribute :options, :idp_sso_service_url, :string
     store_attribute :options, :idp_slo_service_url, :string

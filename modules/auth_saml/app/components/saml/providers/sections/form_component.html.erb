@@ -14,6 +14,15 @@
         end
       end
 
+      if @banner
+        flex.with_row do
+          icon = @banner_scheme == :warning ? :alert : :info
+          render(Primer::Alpha::Banner.new(scheme: @banner_scheme, icon:)) do
+            @banner
+          end
+        end
+      end
+
       flex.with_row do
         render(@form_class.new(form, provider:))
       end
