@@ -20,6 +20,7 @@
               WorkPackages::ActivitiesTab::Journals::IndexComponent.new(work_package:, filter:)
             )
           end
+          journals_wrapper_container.with_row(id: "stem-connection")
           journals_wrapper_container.with_row(
             id: "input-container",
             classes: "sort-#{journal_sorting}", # css order attribute will take care of correct position

@@ -118,7 +118,7 @@ module WorkPackages
           menu.with_item(label: t("js.label_edit_comment"),
                          href: edit_work_package_activity_path(journal.journable, journal, filter:),
                          content_arguments: {
-                           data: { "turbo-stream": true }
+                           data: { "turbo-stream": true, test_selector: "op-wp-journal-#{journal.id}-edit" }
                          }) do |item|
             item.with_leading_visual_icon(icon: :pencil)
           end
@@ -131,7 +131,8 @@ module WorkPackages
                            data: {
                              action: "click->work-packages--activities-tab--index#quote",
                              "content-param": journal.notes,
-                             "user-name-param": I18n.t(:text_user_wrote, value: ERB::Util.html_escape(journal.user))
+                             "user-name-param": I18n.t(:text_user_wrote, value: ERB::Util.html_escape(journal.user)),
+                             test_selector: "op-wp-journal-#{journal.id}-quote"
                            }
                          }) do |item|
             item.with_leading_visual_icon(icon: :quote)

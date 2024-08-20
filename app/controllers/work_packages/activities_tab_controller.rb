@@ -197,52 +197,32 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
     journals.where("updated_at > ?", last_update_timestamp).find_each do |journal|
       update_via_turbo_stream(
-        # only use the show component in order not to loose an edit state
-        component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Show.new(
+        # we need to update the whole component as the show part is not rendered for journals which originally have no notes
+        component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
           journal:,
           filter:
         )
       )
-      update_via_turbo_stream(
-        # only use the show component in order not to loose an edit state
-        component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Details.new(
-          journal:,
-          filter:
-        )
-      )
+      # TODO: is it possible to loose an edit state this way?
     end
 
-    latest_journal_visible_for_user = journals.where(created_at: ..last_update_timestamp).last
-
     journals.where("created_at > ?", last_update_timestamp).find_each do |journal|
-      append_or_prepend_latest_journal_via_turbo_stream(journal, latest_journal_visible_for_user, filter)
+      append_or_prepend_latest_journal_via_turbo_stream(journal, filter)
+    end
+
+    if journals.any?
+      remove_potential_empty_state
     end
   end
 
-  def append_or_prepend_latest_journal_via_turbo_stream(journal, latest_journal, filter)
-    if latest_journal.created_at.to_date == journal.created_at.to_date
-      target_component = WorkPackages::ActivitiesTab::Journals::DayComponent.new(
-        work_package: @work_package,
-        day_as_date: journal.created_at.to_date,
-        journals: [journal], # we don't need to pass all actual journals of this day as we do not really render this component
-        filter:
-      )
-      component = WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
-        journal:,
-        filter:
-      )
-    else
-      target_component = WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
-        work_package: @work_package,
-        filter:
-      )
-      component = WorkPackages::ActivitiesTab::Journals::DayComponent.new(
-        work_package: @work_package,
-        day_as_date: journal.created_at.to_date,
-        journals: [journal],
-        filter:
-      )
-    end
+  def append_or_prepend_latest_journal_via_turbo_stream(journal, filter)
+    target_component = WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
+      work_package: @work_package,
+      filter:
+    )
+
+    component = WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:, filter:)
+
     stream_config = {
       target_component:,
       component:
@@ -254,5 +234,12 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     else
       prepend_via_turbo_stream(**stream_config)
     end
+  end
+
+  def remove_potential_empty_state
+    # remove the empty state if it is present
+    remove_via_turbo_stream(
+      component: WorkPackages::ActivitiesTab::Journals::EmptyComponent.new
+    )
   end
 end

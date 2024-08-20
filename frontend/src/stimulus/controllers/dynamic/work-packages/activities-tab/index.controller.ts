@@ -34,10 +34,13 @@ export default class IndexController extends Controller {
   declare workPackageIdValue:number;
   declare localStorageKey:string;
 
+  private handleWorkPackageUpdateBound:EventListener;
+  private handleVisibilityChangeBound:EventListener;
+  private rescueEditorContentBound:EventListener;
+
   connect() {
     this.setLocalStorageKey();
     this.setLastUpdateTimestamp();
-    this.hideLastPartOfTimeLineStem();
     this.setupEventListeners();
     this.handleInitialScroll();
     this.startPolling();
@@ -57,21 +60,19 @@ export default class IndexController extends Controller {
   }
 
   private setupEventListeners() {
-    this.handleWorkPackageUpdate = this.handleWorkPackageUpdate.bind(this);
-    this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
-    this.rescueEditorContent = this.rescueEditorContent.bind(this);
-    document.addEventListener('work-package-updated', this.handleWorkPackageUpdate);
-    document.addEventListener('visibilitychange', this.handleVisibilityChange);
-    document.addEventListener('beforeunload', this.rescueEditorContent);
+    this.handleWorkPackageUpdateBound = this.handleWorkPackageUpdate.bind(this);
+    this.handleVisibilityChangeBound = this.handleVisibilityChange.bind(this);
+    this.rescueEditorContentBound = this.rescueEditorContent.bind(this);
+
+    document.addEventListener('work-package-updated', this.handleWorkPackageUpdateBound);
+    document.addEventListener('visibilitychange', this.handleVisibilityChangeBound);
+    document.addEventListener('beforeunload', this.rescueEditorContentBound);
   }
 
   private removeEventListeners() {
-    this.handleWorkPackageUpdate = this.handleWorkPackageUpdate.bind(this);
-    this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
-    this.rescueEditorContent = this.rescueEditorContent.bind(this);
-    document.removeEventListener('work-package-updated', this.handleWorkPackageUpdate);
-    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
-    document.removeEventListener('beforeunload', this.rescueEditorContent);
+    document.removeEventListener('work-package-updated', this.handleWorkPackageUpdateBound);
+    document.removeEventListener('visibilitychange', this.handleVisibilityChangeBound);
+    document.removeEventListener('beforeunload', this.rescueEditorContentBound);
   }
 
   private handleVisibilityChange() {
@@ -112,7 +113,6 @@ export default class IndexController extends Controller {
       const text = await response.text();
       Turbo.renderStreamMessage(text);
       this.setLastUpdateTimestamp();
-      this.hideLastPartOfTimeLineStem();
       setTimeout(() => {
         if (this.sortingValue === 'asc' && journalsContainerAtBottom) {
           // scroll to (new) bottom if sorting is ascending and journals container was already at bottom before a new activity was added
@@ -395,7 +395,6 @@ export default class IndexController extends Controller {
             this.journalsContainerTarget,
             this.sortingValue === 'asc',
           );
-          this.hideLastPartOfTimeLineStem();
           if (this.isMobile()) {
             this.scrollInputContainerIntoView(300);
           }
@@ -418,25 +417,5 @@ export default class IndexController extends Controller {
 
   setLastUpdateTimestamp() {
     this.lastUpdateTimestamp = new Date().toISOString();
-  }
-
-  hideLastPartOfTimeLineStem() {
-    // TODO: I wasn't able to find a pure CSS solution
-    // Didn't want to identify on server-side which element is last in the list in order to avoid n+1 queries
-    // happy to get rid of this hacky JS solution!
-    //
-    // Note: below works but not if filter is changed, skipping for now
-    //
-    // this.element.querySelectorAll('.details-container--empty--last--asc').forEach((container) => container.classList.remove('details-container--empty--last--asc'));
-
-    // const containers = this.element.querySelectorAll('.details-container--empty--asc');
-    // if (containers.length > 0) {
-    //   const lastContainer = containers[containers.length - 1] as HTMLElement;
-    //   // only apply for stem part after comment box
-    //   if (lastContainer?.parentElement?.parentElement?.previousElementSibling?.classList.contains('comment-border-box')) {
-    //     lastContainer.classList.add('details-container--empty--last--asc');
-    //   }
-    //   // lastContainer.classList.add('details-container--empty--last--asc');
-    // }
   }
 }

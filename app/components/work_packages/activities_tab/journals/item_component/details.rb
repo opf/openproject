@@ -55,7 +55,9 @@ module WorkPackages
 
         def render_details_header(details_container)
           details_container.with_row(flex_layout: true,
-                                     justify_content: :space_between, classes: "journal-details-header-container") do |header_container|
+                                     justify_content: :space_between,
+                                     classes: "journal-details-header-container",
+                                     id: "activity-#{journal.version}") do |header_container|
             header_container.with_column(flex_layout: true,
                                          classes: "journal-details-header") do |header_start_container|
               header_start_container.with_column(mr: 2, classes: "timeline-icon") do

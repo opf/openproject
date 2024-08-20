@@ -107,7 +107,43 @@ module Components
         expect(page).to have_css(".journal-notes-body", text:)
       end
 
-      def add_comment(text: nil)
+      def expect_notification_bubble
+        expect(page).to have_test_selector("user-activity-bubble")
+      end
+
+      def expect_no_notification_bubble
+        expect(page).not_to have_test_selector("user-activity-bubble")
+      end
+
+      def expect_journal_container_at_bottom
+        scroll_position = page.evaluate_script('document.querySelector(".tabcontent").scrollTop')
+        scroll_height = page.evaluate_script('document.querySelector(".tabcontent").scrollHeight')
+        client_height = page.evaluate_script('document.querySelector(".tabcontent").clientHeight')
+
+        expect(scroll_position).to be_within(10).of(scroll_height - client_height)
+      end
+
+      def expect_journal_container_at_top
+        scroll_position = page.evaluate_script('document.querySelector(".tabcontent").scrollTop')
+
+        expect(scroll_position).to eq(0)
+      end
+
+      def expect_journal_container_at_position(position)
+        scroll_position = page.evaluate_script('document.querySelector(".tabcontent").scrollTop')
+
+        expect(scroll_position).to be_within(50).of(scroll_position - position)
+      end
+
+      def expect_empty_state
+        expect(page).to have_test_selector("op-wp-journals-container-empty")
+      end
+
+      def expect_no_empty_state
+        expect(page).not_to have_test_selector("op-wp-journals-container-empty")
+      end
+
+      def add_comment(text: nil, save: true)
         # TODO: get rid of static sleep
         sleep 1 # otherwise the stimulus component is not mounted yet and the click does not work
 
@@ -119,11 +155,43 @@ module Components
 
         within("#work-package-journal-form") do
           FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form").set_value(text)
-          page.find_test_selector("op-submit-work-package-journal-form").click
+          page.find_test_selector("op-submit-work-package-journal-form").click if save
         end
 
-        page.within_test_selector("op-wp-journals-container") do
+        if save
+          page.within_test_selector("op-wp-journals-container") do
+            expect(page).to have_text(text)
+          end
+        end
+      end
+
+      def edit_comment(journal, text: nil)
+        within_journal_entry(journal) do
+          page.find_test_selector("op-wp-journal-#{journal.id}-action-menu").click
+          page.find_test_selector("op-wp-journal-#{journal.id}-edit").click
+
+          within("#work-package-journal-form") do
+            FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form").set_value(text)
+            page.find_test_selector("op-submit-work-package-journal-form").click
+          end
+
           expect(page).to have_text(text)
+        end
+      end
+
+      def quote_comment(journal)
+        # TODO: get rid of static sleep
+        sleep 1 # otherwise the stimulus component is not mounted yet and the click does not work
+
+        within_journal_entry(journal) do
+          page.find_test_selector("op-wp-journal-#{journal.id}-action-menu").click
+          page.find_test_selector("op-wp-journal-#{journal.id}-quote").click
+        end
+
+        expect(page).to have_css("#work-package-journal-form")
+
+        within("#work-package-journal-form") do
+          page.find_test_selector("op-submit-work-package-journal-form").click
         end
       end
 

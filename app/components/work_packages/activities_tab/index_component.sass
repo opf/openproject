@@ -1,5 +1,6 @@
 #work-packages-activities-tab-index-component
     #journals-container
+        z-index: 10
         padding-top: 3px
         overflow-y: auto
         &.with-initial-input-compensation
@@ -10,7 +11,18 @@
             margin-bottom: 180px
             @media screen and (max-width: $breakpoint-xl)
                 margin-bottom: -16px
+    #stem-connection
+        @media screen and (min-width: $breakpoint-xl)
+            position: absolute
+            z-index: 9
+            border-left: var(--borderWidth-thin, 1px) solid var(--borderColor-default)
+            margin-left: 19px
+            margin-top: 20px
+            height: 100vh
+        @media screen and (max-width: $breakpoint-xl)
+            display: none
     #input-container
+        z-index: 10
         @media screen and (min-width: $breakpoint-xl)
             position: absolute
             min-height: 60px

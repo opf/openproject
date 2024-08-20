@@ -43,7 +43,7 @@
                     end
                   end
                   header_end_container.with_column(ml: 1) do
-                    render(Primer::Alpha::ActionMenu.new) do |menu|
+                    render(Primer::Alpha::ActionMenu.new(data: { "test_selector": "op-wp-journal-#{journal.id}-action-menu" })) do |menu|
                       menu.with_show_button(icon: "kebab-horizontal",
                                             'aria-label': I18n.t(:button_actions),
                                             scheme: :invisible)

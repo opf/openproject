@@ -31,30 +31,13 @@
 module WorkPackages
   module ActivitiesTab
     module Journals
-      class DayComponent < ApplicationComponent
+      class EmptyComponent < ApplicationComponent
         include ApplicationHelper
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(day_as_date:, journals:, work_package:, filter:)
+        def initialize
           super
-
-          @work_package = work_package
-          @day_as_date = day_as_date
-          @journals = journals
-          @filter = filter
-        end
-
-        private
-
-        attr_reader :work_package, :day_as_date, :journals, :filter
-
-        def insert_target_modified?
-          true
-        end
-
-        def insert_target_modifier_id
-          "work-package-journals-day-#{day_as_date}"
         end
       end
     end
