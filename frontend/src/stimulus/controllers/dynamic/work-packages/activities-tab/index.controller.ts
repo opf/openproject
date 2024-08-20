@@ -4,8 +4,6 @@ import {
   ICKEditorInstance,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
-import { workPackageFilesCount } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-files-count.function';
-import { set } from 'lodash';
 
 export default class IndexController extends Controller {
   static values = {
@@ -79,7 +77,7 @@ export default class IndexController extends Controller {
     if (document.hidden) {
       this.stopPolling();
     } else {
-      this.updateActivitiesList();
+      void this.updateActivitiesList();
       this.startPolling();
     }
   }
@@ -97,7 +95,7 @@ export default class IndexController extends Controller {
     return window.setInterval(() => this.updateActivitiesList(), this.pollingIntervalInMsValue);
   }
 
-  async handleWorkPackageUpdate(event:Event) {
+  handleWorkPackageUpdate(_event:Event):void {
     setTimeout(() => this.updateActivitiesList(), 2000);
   }
 
@@ -209,8 +207,10 @@ export default class IndexController extends Controller {
       editor.editing.view.document,
       'keydown',
       (event, data) => {
+        // taken from op-ck-editor.component.ts
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
         if ((data.ctrlKey || data.metaKey) && data.keyCode === KeyCodes.ENTER) {
-          this.onSubmit();
+          void this.onSubmit();
           event.stop();
         }
       },
@@ -239,6 +239,7 @@ export default class IndexController extends Controller {
         // current limitation:
         // clicking on empty toolbar space and the somewhere else on the page does not trigger the blur anymore
         setTimeout(() => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (!editor.ui.focusTracker.isFocused) {
             this.hideEditorIfEmpty();
             if (this.isMobile()) { this.scrollInputContainerIntoView(300); }

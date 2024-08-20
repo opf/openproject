@@ -55,7 +55,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import {
   filter,
   take,
-  timeout,
 } from 'rxjs/operators';
 
 @Component({
@@ -102,7 +101,8 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     protected toastService:ToastService,
     protected cdRef:ChangeDetectorRef,
     protected I18n:I18nService,
-    readonly PathHelper:PathHelperService) {
+    readonly PathHelper:PathHelperService,
+  ) {
     super(elementRef, injector);
   }
 
