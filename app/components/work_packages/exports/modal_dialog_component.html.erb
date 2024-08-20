@@ -36,6 +36,7 @@
                   "application-target": "dynamic",
                   action: "submit->work-packages--export--form#submitForm",
                   controller: "work-packages--export--form",
+                  "work-packages--export--form-job-status-dialog-url-value": job_status_dialog_path('_job_uuid_')
                 }
               ) do |form| %>
             <input type="hidden" name="query" value="<%= query_params %>">

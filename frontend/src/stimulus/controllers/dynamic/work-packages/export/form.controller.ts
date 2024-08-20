@@ -1,21 +1,52 @@
 import { Controller } from '@hotwired/stimulus';
+import * as Turbo from '@hotwired/turbo';
 
 export default class FormController extends Controller<HTMLFormElement> {
+  static values = {
+    jobStatusDialogUrl: String,
+  };
+
+  declare jobStatusDialogUrlValue:string;
+
+  jobModalUrl(job_id:string):string {
+    return this.jobStatusDialogUrlValue.replace('_job_uuid_', job_id)
+  }
+
+  async showJobModal(job_id:string) {
+    const response = await fetch(this.jobModalUrl(job_id), {
+      method: 'GET',
+      headers: { Accept: 'text/vnd.turbo-stream.html' },
+    });
+    if (response.ok) {
+      Turbo.renderStreamMessage(await response.text());
+    } else {
+      throw new Error('Invalid response from server');
+    }
+  }
+
+  async requestExport(exportURL:string):Promise<string> {
+    const response = await fetch(exportURL, {
+      method: 'GET',
+      headers: { Accept: 'application/json' },
+      credentials: 'same-origin',
+    });
+    if (response.ok) {
+      const result = await response.json() as { job_id:string };
+      if (!result.job_id) {
+        throw new Error('Invalid response from server');
+      }
+      return result.job_id;
+    }
+    throw new Error(response.statusText);
+  }
+
   submitForm(evt:CustomEvent) {
     evt.preventDefault(); // Don't submit
     const formatURL = this.element.getAttribute('action');
     const searchParams = this.getExportParams();
     const exportURL = `${formatURL}?${searchParams.toString()}`;
-    fetch(exportURL, {
-      method: 'GET',
-      headers: { Accept: 'application/json' },
-      credentials: 'same-origin',
-    })
-      .then((r) => r.json())
-      .then((result:{ job_id:string }) => {
-        // TODO: implement with turbo and open job modal
-        window.location.href = `/job_statuses/${result.job_id}`;
-      })
+    this.requestExport(exportURL)
+      .then((job_id) => this.showJobModal(job_id))
       .catch((error) => {
         // TODO: error handling
         console.error(error);

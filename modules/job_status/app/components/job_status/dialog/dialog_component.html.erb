@@ -1,0 +1,16 @@
+<%= render(Primer::Alpha::Dialog.new(
+  title: I18n.t('js.job_status.title'),
+  visually_hide_title: true,
+  id: MODAL_ID
+)) do |dialog| %>
+  <% dialog.with_body do %>
+    <%= turbo_frame_tag("job_status_modal",
+                        src: job_status_dialog_body_path(job_uuid: job_uuid),
+                        data: {
+                          "application-target": "dynamic",
+                          controller: 'job-status-polling',
+                        }
+        ) do %>
+    <% end %>
+  <% end %>
+<% end %>

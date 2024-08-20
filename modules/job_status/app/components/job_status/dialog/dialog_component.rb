@@ -1,4 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -24,31 +26,24 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class JobStatusesController < ApplicationController
-  include OpTurbo::ComponentStream
-  include OpTurbo::DialogStreamHelper
+module JobStatus
+  module Dialog
+    class DialogComponent < ApplicationComponent
+      MODAL_ID = "job-status-modal-dialog"
 
-  no_authorization_required! :show, :dialog, :dialog_body
-  before_action :validate_job, only: [:dialog_body]
+      include Turbo::FramesHelper
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
 
-  def show
-    render layout: "angular/angular"
-  end
+      attr_reader :job_uuid
 
-  def dialog
-    respond_with_dialog ::JobStatus::Dialog::DialogComponent.new(job_uuid: params[:job_uuid])
-  end
+      def initialize(job_uuid:)
+        super
 
-  def dialog_body
-    render ::JobStatus::Dialog::BodyComponent.new(job: @job), layout: false
-  end
-
-  private
-
-  def validate_job
-    @job = ::JobStatus::Status
-             .find_by(job_id: params[:job_uuid], user_id: current_user.id)
+        @job_uuid = job_uuid
+      end
+    end
   end
 end

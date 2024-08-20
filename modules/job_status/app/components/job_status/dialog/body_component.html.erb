@@ -1,0 +1,42 @@
+<%= turbo_frame_tag "job_status_modal" do %>
+  <% if pending? %>
+    <%= component_wrapper do %>
+      <div class="op-loading-indicator"><div></div><div></div></div>
+    <% end %>
+  <% else %>
+    <%= content_tag :div, "", data: { "job-status-polling-target": "finished" } %>
+  <% end %>
+  <%= render Primer::Beta::Blankslate.new do |component|
+    component.with_visual_icon(icon: icon, size: :medium) unless icon.nil?
+    component.with_heading(tag: :h2).with_content(title)
+    component.with_description { message }
+  end %>
+  <% if redirect_url? %>
+    <%= render(Primer::Beta::Link.new(
+      href: redirect_url,
+      target: "_blank",
+      data: {
+        "job-status-polling-target": "redirect"
+      }
+    )) { I18n.t('js.job_status.redirect_link') } %>
+  <% end %>
+  <% if download_url? %>
+    <%= flex_layout do |flex|
+      flex.with_row(text_align: :center) { render(Primer::Beta::Text.new) { I18n.t('js.job_status.download_starts') } }
+      flex.with_row(text_align: :center) {
+        render(Primer::Beta::Link.new(
+          href: download_url,
+          target: "_blank",
+          data: {
+            "job-status-polling-target": "download"
+          }
+        )) { I18n.t('js.job_status.click_to_download') }
+      }
+    end %>
+  <% end %>
+  <% if job_html? %>
+    <%= flex_layout do |flex|
+      flex.with_row(text_align: :center) { job_html.html_safe }
+    end %>
+  <% end %>
+<% end %>
