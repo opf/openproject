@@ -28,7 +28,6 @@ RSpec.describe "Notification center sidemenu",
   let(:notification_watched) do
     create(:notification,
            recipient:,
-           project:,
            resource: work_package,
            reason: :watched)
   end
@@ -36,7 +35,6 @@ RSpec.describe "Notification center sidemenu",
   let(:notification_assigned) do
     create(:notification,
            recipient:,
-           project: project2,
            resource: work_package2,
            reason: :assigned)
   end
@@ -44,7 +42,6 @@ RSpec.describe "Notification center sidemenu",
   let(:notification_responsible) do
     create(:notification,
            recipient:,
-           project: project3,
            resource: work_package3,
            reason: :responsible)
   end
@@ -52,7 +49,6 @@ RSpec.describe "Notification center sidemenu",
   let(:notification_mentioned) do
     create(:notification,
            recipient:,
-           project: project3,
            resource: work_package4,
            reason: :mentioned)
   end
@@ -60,7 +56,6 @@ RSpec.describe "Notification center sidemenu",
   let(:notification_date) do
     create(:notification,
            recipient:,
-           project: project3,
            resource: work_package5,
            reason: :date_alert_start_date)
   end
@@ -68,7 +63,6 @@ RSpec.describe "Notification center sidemenu",
   let(:notification_shared) do
     create(:notification,
            recipient:,
-           project: project3,
            resource: work_package6,
            reason: :shared)
   end

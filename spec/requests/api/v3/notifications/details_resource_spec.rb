@@ -51,8 +51,8 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
            member_with_permissions: { project => %i[view_work_packages] })
   end
 
-  let(:notification) { create(:notification, recipient:, resource:, project:, reason:) }
-  let(:milestone_notification) { create(:notification, recipient:, resource: milestone_resource, project:, reason:) }
+  let(:notification) { create(:notification, recipient:, resource:, reason:) }
+  let(:milestone_notification) { create(:notification, recipient:, resource: milestone_resource, reason:) }
   let(:reason) { :date_alert_start_date }
 
   # We have 1 detail item at maximum, and the id is coming

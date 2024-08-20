@@ -30,7 +30,6 @@ require "spec_helper"
 
 RSpec.describe Notifications::CreateService, "integration", type: :model do
   let(:work_package) { create(:work_package) }
-  let(:project) { work_package.project }
   let(:journal) { work_package.journals.first }
   let(:instance) { described_class.new(user: actor) }
   let(:attributes) { {} }
@@ -47,7 +46,6 @@ RSpec.describe Notifications::CreateService, "integration", type: :model do
     let(:attributes) do
       {
         recipient:,
-        project:,
         resource: work_package,
         journal:,
         actor:,
