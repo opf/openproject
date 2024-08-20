@@ -22,7 +22,7 @@
               })
           end
         end %>
-        <hr class="mt-4 mb-4" />
+        <%= render Primer::BaseComponent.new(tag: :hr, mt: 4, mb: 4) %>
       <% end %>
       <% export_formats_settings.each do |format| %>
         <% modal_body.with_row(
