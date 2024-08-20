@@ -73,7 +73,7 @@ class WorkPackages::ProgressForm < ApplicationForm
         group.select_list(**select_field_options) do |select_list|
           WorkPackages::UpdateContract.new(@work_package, User.current)
                                       .assignable_statuses
-                                      .find_each do |status|
+                                      .each do |status| # avoid find_each to keep ordering by position
             select_list.option(
               label: "#{status.name} (#{status.default_done_ratio}%)",
               value: status.id
