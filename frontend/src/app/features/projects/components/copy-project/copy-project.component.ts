@@ -58,7 +58,7 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
   }
 
   onSubmitted(response:HalSource) {
-    this.jobStatusModalService.show(response.jobId);
+    this.jobStatusModalService.show(response.jobId as string);
   }
 
   private isHiddenField(key:string|undefined):boolean {

@@ -107,7 +107,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
 
   onSubmitted(response:HalSource) {
     if (response._type === 'JobStatus') {
-      this.jobStatusModalService.show(response.jobId);
+      this.jobStatusModalService.show(response.jobId as string);
     } else {
       window.location.href = this.pathHelperService.projectPath(response.identifier as string);
     }

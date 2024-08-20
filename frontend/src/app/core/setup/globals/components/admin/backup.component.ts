@@ -115,7 +115,7 @@ export class BackupComponent implements AfterViewInit {
       .subscribe(
         (resp:HalResource) => {
           this.jobStatusId = resp.jobStatusId as string;
-          this.jobStatusModalService.show(resp.jobStatusId);
+          this.jobStatusModalService.show(resp.jobStatusId as string);
         },
         (error:HalError) => {
           this.toastService.addError(error.message);
