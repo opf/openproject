@@ -33,6 +33,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   include OpTurbo::DialogStreamHelper
   include FlashMessagesOutputSafetyHelper
   include ApplicationComponentStreams
+  include Storages::OAuthAccessGrantable
 
   layout "admin"
 
@@ -52,8 +53,21 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   def index; end
 
   def new
-    respond_with_dialog Storages::Admin::Storages::ProjectsStorageModalComponent.new(
-      project_storage: @project_storage, last_project_folders: {}
+    respond_with_dialog(
+      if storage_oauth_access_granted?(storage: @storage)
+        ::Storages::Admin::Storages::ProjectsStorageModalComponent.new(
+          project_storage: @project_storage, last_project_folders: {}
+        )
+      else
+        ::Storages::Admin::Storages::OAuthAccessGrantNudgeModalComponent.new(storage: @storage)
+      end
+    )
+  end
+
+  def oauth_access_grant
+    open_redirect_to_storage_authorization_with(
+      callback_url: admin_settings_storage_project_storages_url(@storage),
+      storage: @storage
     )
   end
 

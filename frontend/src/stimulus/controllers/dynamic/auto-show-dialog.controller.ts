@@ -1,7 +1,7 @@
 /*
  * -- copyright
  * OpenProject is an open source project management software.
- * Copyright (C) 2023 the OpenProject GmbH
+ * Copyright (C) the OpenProject GmbH
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 3.
@@ -28,16 +28,10 @@
  * ++
  */
 
-import { PortalOutletTarget } from 'core-app/shared/components/modal/portal-outlet-target.enum';
-import ProjectStorageFormController from '../project-storage-form.controller';
+import { Controller } from '@hotwired/stimulus';
 
-export default class ProjectFolderModeFormController extends ProjectStorageFormController {
-  connect():void {
-    this.toggleFolderDisplay(this.folderModeValue);
-    this.setProjectFolderModeQueryParam(this.folderModeValue);
-  }
-
-  protected get OutletTarget():PortalOutletTarget {
-    return PortalOutletTarget.Custom;
+export default class AutoShowDialogController extends Controller<HTMLDialogElement> {
+  connect() {
+    this.element.showModal();
   }
 }
