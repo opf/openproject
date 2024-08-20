@@ -60,8 +60,7 @@ RSpec.describe DigestMailer do
     [build_stubbed(:notification,
                    resource: work_package,
                    reason: :commented,
-                   journal:,
-                   project: project1)].tap do |notifications|
+                   journal:)].tap do |notifications|
       allow(Notification)
         .to receive(:where)
               .and_return(notifications)
@@ -144,8 +143,7 @@ RSpec.describe DigestMailer do
           create(:notification,
                  reason: :date_alert_start_date,
                  recipient:,
-                 resource: work_package,
-                 project: project1)
+                 resource: work_package)
         end
 
         it "matches generated text" do
@@ -161,8 +159,7 @@ RSpec.describe DigestMailer do
           create(:notification,
                  reason: :date_alert_start_date,
                  recipient:,
-                 resource: work_package,
-                 project: project1)
+                 resource: work_package)
         end
 
         it "matches generated text" do
@@ -178,8 +175,7 @@ RSpec.describe DigestMailer do
           create(:notification,
                  reason: :date_alert_due_date,
                  recipient:,
-                 resource: work_package,
-                 project: project1)
+                 resource: work_package)
         end
 
         it "matches generated text" do
@@ -195,8 +191,7 @@ RSpec.describe DigestMailer do
           create(:notification,
                  reason: :date_alert_due_date,
                  recipient:,
-                 resource: work_package,
-                 project: project1)
+                 resource: work_package)
         end
 
         it "matches generated text" do
@@ -213,8 +208,7 @@ RSpec.describe DigestMailer do
           create(:notification,
                  reason: :date_alert_due_date,
                  recipient:,
-                 resource: work_package,
-                 project: project1)
+                 resource: work_package)
         end
 
         it "matches generated text" do
@@ -231,8 +225,7 @@ RSpec.describe DigestMailer do
           create(:notification,
                  reason: :date_alert_due_date,
                  recipient:,
-                 resource: work_package,
-                 project: project1)
+                 resource: work_package)
         end
 
         it "matches generated text" do
@@ -246,8 +239,7 @@ RSpec.describe DigestMailer do
           create(:notification,
                  reason: :date_alert_due_date,
                  recipient:,
-                 resource: work_package,
-                 project: project1)
+                 resource: work_package)
         end
 
         it "matches generated text" do
@@ -263,8 +255,7 @@ RSpec.describe DigestMailer do
           create(:notification,
                  reason: :date_alert_due_date,
                  recipient:,
-                 resource: work_package,
-                 project: project1)
+                 resource: work_package)
         end
 
         it "matches generated text" do
@@ -280,8 +271,7 @@ RSpec.describe DigestMailer do
           create(:notification,
                  reason: :date_alert_due_date,
                  recipient:,
-                 resource: work_package,
-                 project: project1)
+                 resource: work_package)
         end
 
         it "matches generated text" do
@@ -296,7 +286,6 @@ RSpec.describe DigestMailer do
                  reason: :mentioned,
                  recipient:,
                  resource: work_package,
-                 project: project1,
                  journal: nil)
         end
 

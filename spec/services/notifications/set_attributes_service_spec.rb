@@ -69,8 +69,7 @@ RSpec.describe Notifications::SetAttributesService, type: :model do
         reason:,
         resource: journable,
         journal:,
-        subject: event_subject,
-        project:
+        subject: event_subject
       }
     end
 
@@ -86,12 +85,11 @@ RSpec.describe Notifications::SetAttributesService, type: :model do
         .to be_success
       end
 
-      it "sets the attributes add adds default values" do
+      it "sets the attributes" do
         subject
 
         expect(event.attributes.compact.symbolize_keys)
           .to eql({
-                    project_id: project.id,
                     reason: "mentioned",
                     journal_id: journal.id,
                     recipient_id: 1,
@@ -126,7 +124,6 @@ RSpec.describe Notifications::SetAttributesService, type: :model do
 
           expect(event.attributes.compact.symbolize_keys)
             .to eql({
-                      project_id: project.id,
                       reason: "mentioned",
                       resource_id: journable.id,
                       resource_type: "WorkPackage",

@@ -39,7 +39,6 @@ RSpec.describe Notifications::Scopes::Visible do
 
     let(:notification) do
       create(:notification,
-             project:,
              resource: work_package,
              recipient: notification_recipient)
     end

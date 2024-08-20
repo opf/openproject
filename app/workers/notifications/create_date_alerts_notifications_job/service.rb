@@ -70,7 +70,6 @@ class Notifications::CreateDateAlertsNotificationsJob::Service
     create_service = Notifications::CreateService.new(user:)
     create_service.call(
       recipient_id: user.id,
-      project_id: work_package.project_id,
       resource: work_package,
       reason:
     )

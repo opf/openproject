@@ -43,7 +43,6 @@ RSpec.describe API::V3::Notifications::NotificationRepresenter, "rendering" do
   let(:notification) do
     build_stubbed(:notification,
                   recipient:,
-                  project:,
                   resource:,
                   journal:,
                   actor:,

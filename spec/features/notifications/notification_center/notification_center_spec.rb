@@ -99,9 +99,10 @@ RSpec.describe "Notification center", :js, :with_cuprite,
       center.expect_bell_count 0
     end
 
-    context "with more the 100 notifications" do
+    context "with more than 100 notifications" do
       let(:notifications) do
-        attributes = { recipient:, project: project1, resource: work_package }
+        attributes = { recipient:, resource: work_package }
+
         create_list(:notification, 100, attributes.merge(reason: :mentioned)) +
         create_list(:notification, 105, attributes.merge(reason: :watched))
       end
@@ -192,7 +193,6 @@ RSpec.describe "Notification center", :js, :with_cuprite,
                reason: :commented,
                recipient:,
                resource: work_package3,
-               project: project1,
                actor: other_user,
                journal: work_package3.journals.reload.last,
                read_ian: true)
@@ -259,7 +259,6 @@ RSpec.describe "Notification center", :js, :with_cuprite,
                reason: :date_alert_start_date,
                recipient:,
                resource: starting_soon_work_package,
-               project: project1,
                read_ian: false)
       end
       let(:due_date_notification) do
@@ -267,7 +266,6 @@ RSpec.describe "Notification center", :js, :with_cuprite,
                reason: :date_alert_due_date,
                recipient:,
                resource: ending_soon_work_package,
-               project: project1,
                read_ian: false)
       end
       let(:overdue_date_notification) do
@@ -275,7 +273,6 @@ RSpec.describe "Notification center", :js, :with_cuprite,
                reason: :date_alert_due_date,
                recipient:,
                resource: overdue_milestone_work_package,
-               project: project1,
                read_ian: false)
       end
 
@@ -312,8 +309,7 @@ RSpec.describe "Notification center", :js, :with_cuprite,
         create(:notification,
                reason: :mentioned,
                recipient:,
-               resource: overdue_milestone_work_package,
-               project: project1)
+               resource: overdue_milestone_work_package)
 
         # We need to wait for the bell to poll for updates
         sleep 15

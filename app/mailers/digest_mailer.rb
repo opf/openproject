@@ -82,10 +82,9 @@ class DigestMailer < ApplicationMailer
   def load_notifications(notification_ids)
     Notification
       .where(id: notification_ids)
-      .includes(:project, :resource)
+      .includes(:resource)
       .reject do |notification|
         notification.resource.nil? ||
-        notification.project.nil? ||
         (notification.journal.nil? && !notification.date_alert?)
       end
   end

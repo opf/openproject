@@ -34,15 +34,23 @@ class Queries::Notifications::Orders::ProjectOrder < Queries::Orders::Base
   end
 
   def joins
-    :project
+    <<~SQL.squish
+      JOIN #{WorkPackage.table_name} work_packages_order
+      ON work_packages_order.id = #{Notification.table_name}.resource_id
+      AND #{Notification.table_name}.resource_type = 'WorkPackage'
+      JOIN #{Project.table_name}
+      ON #{Project.table_name}.id = work_packages_order.project_id
+    SQL
   end
 
   protected
 
   def order(scope)
-    order_string = "projects.name"
-    order_string += " DESC" if direction == :desc
+    with_raise_on_invalid do
+      order_string = "#{Project.table_name}.name"
+      order_string += " DESC" if direction == :desc
 
-    scope.order(order_string)
+      scope.order(order_string)
+    end
   end
 end
