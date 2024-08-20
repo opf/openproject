@@ -313,4 +313,8 @@ export class PathHelperService {
   public textFormattingHelp() {
     return `${this.staticBase}/help/text_formatting`;
   }
+
+  public jobStatusModalPath(jobId:string) {
+    return `${this.staticBase}/job_statuses/dialog/${jobId}`;
+  }
 }

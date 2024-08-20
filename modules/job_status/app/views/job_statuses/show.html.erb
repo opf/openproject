@@ -27,5 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <% html_title t("js.job_status.title") -%>
-
-<%= angular_component_tag "opce-display-job-status-page", inputs: { jobId: params[:job_uuid] } %>
+<%= turbo_stream.dialog do %>
+<%= render ::JobStatus::Dialog::DialogComponent.new(job_uuid: params[:job_uuid], back_on_close: true) %>
+<% end %>
