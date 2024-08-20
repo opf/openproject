@@ -170,7 +170,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
   def create_notification_service_call
     ### taken from ActivitiesByWorkPackageAPI
-    call = AddWorkPackageNoteService
+    AddWorkPackageNoteService
       .new(user: User.current,
            work_package: @work_package)
       .call(journal_params[:notes],

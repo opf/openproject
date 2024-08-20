@@ -97,7 +97,11 @@ module WorkPackages
 
         def render_created_or_changed_on_text(container)
           container.with_column(mr: 1, classes: "hidden-for-mobile") do
-            text_key = journal.initial? ? "activities.work_packages.activity_tab.created_on" : "activities.work_packages.activity_tab.changed_on"
+            text_key = if journal.initial?
+                         "activities.work_packages.activity_tab.created_on"
+                       else
+                         "activities.work_packages.activity_tab.changed_on"
+                       end
             render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) { t(text_key) }
           end
         end
