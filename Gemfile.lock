@@ -740,7 +740,7 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.4)
-    markly (0.10.0)
+    markly (0.12.1)
     matrix (0.4.2)
     messagebird-rest (1.4.2)
     meta-tags (2.22.0)
