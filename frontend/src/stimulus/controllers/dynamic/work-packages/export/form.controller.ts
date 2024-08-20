@@ -9,7 +9,7 @@ export default class FormController extends Controller<HTMLFormElement> {
   declare jobStatusDialogUrlValue:string;
 
   jobModalUrl(job_id:string):string {
-    return this.jobStatusDialogUrlValue.replace('_job_uuid_', job_id)
+    return this.jobStatusDialogUrlValue.replace('_job_uuid_', job_id);
   }
 
   async showJobModal(job_id:string) {
