@@ -1,6 +1,7 @@
 <%= render(Primer::Alpha::Dialog.new(
   title: I18n.t('js.job_status.title'),
   visually_hide_title: true,
+  size: :large,
   id: MODAL_ID
 )) do |dialog| %>
   <% dialog.with_body do %>
@@ -9,6 +10,7 @@
                         data: {
                           "application-target": "dynamic",
                           controller: 'job-status-polling',
+                          "job-status-polling-back-on-close-value": back_on_close,
                         }
         ) do %>
     <% end %>

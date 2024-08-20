@@ -37,11 +37,12 @@ module JobStatus
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      attr_reader :job_uuid
+      attr_reader :job_uuid, :back_on_close
 
-      def initialize(job_uuid:)
+      def initialize(job_uuid:, back_on_close: false)
         super
 
+        @back_on_close = back_on_close
         @job_uuid = job_uuid
       end
     end

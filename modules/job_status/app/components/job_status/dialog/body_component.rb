@@ -75,6 +75,16 @@ module JobStatus
         job.payload["download"]
       end
 
+      def job_errors
+        job.payload["errors"]
+      end
+
+      def job_errors?
+        return false if job.nil?
+
+        job.payload["errors"].present?
+      end
+
       def job_html?
         return false if job.nil?
 
@@ -88,28 +98,34 @@ module JobStatus
       end
 
       def pending?
-        return false if job.nil?
+        return false if job.nil? || has_error?
 
         pending_statuses.include?(job.status)
+      end
+
+      def has_error?
+        error_statuses.include?(job.status) || job_errors?
       end
 
       def title
         return I18n.t("js.job_status.generic_messages.not_found") if job.nil?
 
-        return I18n.t("js.job_status.errors") if error_statuses.include?(job.status)
+        return I18n.t("js.job_status.errors") if has_error?
 
         job.payload["title"] || I18n.t("js.job_status.title")
       end
 
       def icon
         return :alert if job.nil?
-        return :"x-circle" if error_statuses.include?(job.status)
+        return :"x-circle" if has_error?
 
         :"issue-closed" if success_statuses.include?(job.status)
       end
 
       def message
         return "" if job.nil?
+
+        return job_errors.join(" ") if job_errors?
 
         job.message || I18n.t("js.job_status.generic_messages.#{job.status}")
       end

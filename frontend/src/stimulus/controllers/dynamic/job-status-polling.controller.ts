@@ -2,7 +2,10 @@ import { Controller } from "@hotwired/stimulus";
 import { FrameElement } from '@hotwired/turbo';
 
 export default class JobStatusPollingController extends Controller<FrameElement> {
-  static targets = ["finished", "download", "redirect"];
+  static targets = ['finished', 'download', 'redirect'];
+  static values = { backOnClose: { type: Boolean, default: false } };
+
+  declare readonly backOnCloseValue:boolean;
 
   interval:ReturnType<typeof setInterval>;
 
@@ -15,6 +18,9 @@ export default class JobStatusPollingController extends Controller<FrameElement>
 
   disconnect() {
     this.finishedTargetConnected();
+    if (this.backOnCloseValue) {
+      window.history.back();
+    }
   }
 
   finishedTargetConnected() {

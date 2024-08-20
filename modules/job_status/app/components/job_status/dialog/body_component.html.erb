@@ -1,7 +1,10 @@
 <%= turbo_frame_tag "job_status_modal" do %>
   <% if pending? %>
     <%= component_wrapper do %>
-      <div class="op-loading-indicator"><div></div><div></div></div>
+      <div class="op-loading-indicator">
+        <div></div>
+        <div></div>
+      </div>
     <% end %>
   <% else %>
     <%= content_tag :div, "", data: { "job-status-polling-target": "finished" } %>
@@ -16,7 +19,7 @@
       href: redirect_url,
       target: "_blank",
       data: {
-        "job-status-polling-target": "redirect"
+        "job-status-polling-target": job_errors? ? nil : "redirect"
       }
     )) { I18n.t('js.job_status.redirect_link') } %>
   <% end %>
@@ -27,6 +30,7 @@
         render(Primer::Beta::Link.new(
           href: download_url,
           target: "_blank",
+          download: "download",
           data: {
             "job-status-polling-target": "download"
           }
