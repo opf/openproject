@@ -35,7 +35,6 @@ require_module_spec_helper
 # the Angular change detection. This is usually done by the notification polling, but we don't want to wait
 RSpec.describe "Admin lists project mappings for a storage",
                :js, :storage_server_helpers, :webmock, :with_cuprite,
-               with_flag: { enable_storage_for_multiple_projects: true },
                with_settings: { notifications_polling_interval: 1_000 } do
   shared_let(:admin) { create(:admin, preferences: { time_zone: "Etc/UTC" }) }
   shared_let(:non_admin) { create(:user) }
