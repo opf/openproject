@@ -1123,7 +1123,8 @@ GEM
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
-    vcr (6.2.0)
+    vcr (6.3.0)
+      base64
     view_component (3.13.0)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
