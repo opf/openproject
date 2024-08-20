@@ -1,5 +1,8 @@
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
@@ -29,21 +32,12 @@ export class WorkPackageRelationsCreateComponent {
     addNewRelation: this.I18n.t('js.relation_buttons.add_new_relation'),
   };
 
-  constructor(readonly I18n:I18nService,
+  constructor(
+    readonly I18n:I18nService,
     protected wpRelations:WorkPackageRelationsService,
     protected notificationService:WorkPackageNotificationService,
-    protected halEvents:HalEventsService) {
-  }
-
-  public createRelation() {
-    if (!this.selectedRelationType || !this.selectedWpId) {
-      return;
-    }
-
-    this.isDisabled = true;
-    this.createCommonRelation()
-      .catch(() => this.isDisabled = false)
-      .then(() => this.isDisabled = false);
+    protected halEvents:HalEventsService,
+  ) {
   }
 
   public onSelected(workPackage?:WorkPackageResource) {
@@ -64,6 +58,7 @@ export class WorkPackageRelationsCreateComponent {
           relationType: this.selectedRelationType,
         });
         this.notificationService.showSave(this.workPackage);
+        this.wpRelations.updateCounter(this.workPackage);
         this.toggleRelationsCreateForm();
       })
       .catch((err) => {

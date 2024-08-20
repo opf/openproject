@@ -1,4 +1,4 @@
-<enterprise-active-saved-trial
+<opce-enterprise-active-saved-trial
   data-subscriber="<%= @current_token.subscriber %>"
   data-email="<%= @current_token.mail %>"
   data-company="<%= @current_token.try(:company) %>"
@@ -9,7 +9,7 @@
   data-is-expired="<%= @current_token.expired?(reprieve: false) %>"
   data-reprieve-days-left="<%= @current_token.reprieve_days_left %>"
 >
-</enterprise-active-saved-trial>
+</opce-enterprise-active-saved-trial>
 
 <%= form_tag(enterprise_path,
              method: :delete,

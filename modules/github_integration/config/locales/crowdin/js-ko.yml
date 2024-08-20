@@ -49,3 +49,6 @@ ko:
           draft: '드래프트'
           merged: '합병됨'
           ready_for_review: '검토 준비 표시됨'
+    work_packages:
+      tabs:
+        github: "GitHub"

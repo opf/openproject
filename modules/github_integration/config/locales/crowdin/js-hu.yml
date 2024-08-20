@@ -49,3 +49,6 @@ hu:
           draft: 'piszkozat'
           merged: 'egyesített'
           ready_for_review: 'véleményezésre megjelölve'
+    work_packages:
+      tabs:
+        github: "GitHub"

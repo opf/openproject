@@ -48,3 +48,6 @@ lt:
         empty: 'Dar nėra susietų suliejimo prašymų. Susiekite esamą MR naudodami kodą <code>OP#%{wp_id}</code> (arba <code>PP#%{wp_id}</code> privačioms nuorodoms) MR antraštėje/aprašyme arba sukurkite naują MR.'
       gitlab_pipelines: Sąsajos
       updated_on: Atnaujinta
+    work_packages:
+      tabs:
+        gitlab: "GitLab"

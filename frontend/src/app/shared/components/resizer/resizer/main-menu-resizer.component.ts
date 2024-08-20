@@ -26,23 +26,16 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 import { ResizeDelta } from 'core-app/shared/components/resizer/resizer.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { MainMenuToggleService } from 'core-app/core/main-menu/main-menu-toggle.service';
 
-export const mainMenuResizerSelector = 'main-menu-resizer';
 
 @Component({
-  selector: mainMenuResizerSelector,
+  selector: 'opce-main-menu-resizer',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <op-resizer class="main-menu--resizer"

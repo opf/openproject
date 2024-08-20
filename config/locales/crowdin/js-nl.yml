@@ -648,7 +648,7 @@ nl:
           with_current_filter: "Er zijn geen meldingen in deze weergave op dit moment"
         mark_all_read: "Alles als gelezen markeren"
         mark_as_read: "Als gelezen markeren"
-        text_update_date: "%{date} door"
+        text_update_date_by: "%{date} by"
         total_count_warning: "De %{newest_count} meest recente meldingen weergeven. %{more_count} meer worden niet weergegeven."
         empty_state:
           no_notification: "Het lijkt erop dat u helemaal bij bent."

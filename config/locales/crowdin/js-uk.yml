@@ -650,7 +650,7 @@ uk:
           with_current_filter: "Зараз у цьому поданні немає сповіщень"
         mark_all_read: "Позначити все як прочитане"
         mark_as_read: "Позначити як прочитане"
-        text_update_date: "%{date} –"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Показано стільки останніх сповіщень: %{newest_count}. Ще %{more_count} не показано."
         empty_state:
           no_notification: "Схоже, ви все переглянули."

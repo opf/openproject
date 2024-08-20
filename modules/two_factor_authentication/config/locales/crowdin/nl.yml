@@ -26,6 +26,7 @@ nl:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "2FA-bezorging is uitgeschakeld."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "Geen geregistreerd 2FA-apparaat gevonden voor deze gebruiker, ondanks dat dit vereist is voor dit voorbeeld."
     error_no_matching_strategy: "Er is geen overeenkomende 2FA-strategie beschikbaar voor deze gebruiker. Neem contact op met uw beheerder."
     error_is_enforced_not_active: "Configuratiefout: tweefactorauthenticatie is afgedwongen, maar er zijn geen actieve strategieën."

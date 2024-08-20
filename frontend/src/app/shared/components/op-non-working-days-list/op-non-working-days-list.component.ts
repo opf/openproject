@@ -30,7 +30,6 @@ import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import * as moment from 'moment-timezone';
 import allLocales from '@fullcalendar/core/locales-all';
 
-export const nonWorkingDaysListSelector = 'op-non-working-days-list';
 
 export interface INonWorkingDay {
   id:string|null;
@@ -40,7 +39,7 @@ export interface INonWorkingDay {
 }
 
 @Component({
-  selector: nonWorkingDaysListSelector,
+  selector: 'opce-non-working-days-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./op-non-working-days-list.component.sass'],
@@ -172,6 +171,7 @@ export class OpNonWorkingDaysListComponent implements OnInit, AfterViewInit {
       .forEach((el) => {
         this.nonWorkingDays.push({ ...el });
       });
+    this.cdRef.detectChanges();
   }
 
   ngAfterViewInit():void {

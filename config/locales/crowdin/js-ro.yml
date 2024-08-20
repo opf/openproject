@@ -648,7 +648,7 @@ ro:
           with_current_filter: "Nu există notificări în această vizualizare în acest moment"
         mark_all_read: "Marchează Tot ca Citit"
         mark_as_read: "Marchează ca Citit"
-        text_update_date: "%{date} de"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Se afișează %{newest_count} cele mai recente notificări. %{more_count} în plus nu sunt afișate."
         empty_state:
           no_notification: "Se pare că v-ați pus la punct."

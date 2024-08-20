@@ -1,0 +1,99 @@
+<%=
+  component_wrapper do
+    render(
+      Primer::Alpha::Dialog.new(
+        id: dialog_id,
+        title: heading_text,
+        data: {
+          'application-target': 'dynamic',
+          controller: 'storages--oauth-access-grant-nudge-modal',
+          'storages--oauth-access-grant-nudge-modal-close-button-label-value': I18n.t('button_close'),
+          'storages--oauth-access-grant-nudge-modal-loading-screen-reader-message-value': waiting_title,
+        },
+        test_selector: 'oauth-access-grant-nudge-modal',
+        size: :large
+      )
+    ) do |dialog|
+      dialog.with_header(
+        show_divider: false,
+        role: :alert,
+        aria: { live: :assertive },
+        data: {
+          'storages--oauth-access-grant-nudge-modal-target': 'header'
+        },
+        visually_hide_title: true
+      )
+
+      dialog.with_body(
+        id: dialog_body_id,
+        test_selector: 'oauth-access-grant-nudge-modal-body'
+      ) do
+        concat(
+          render(
+            Primer::Beta::Text.new(
+              display: :none,
+              data: {
+                'storages--oauth-access-grant-nudge-modal-target': 'loadingIndicator'
+              }
+            )
+          ) { render(Storages::OpenProjectStorageModalComponent::Body.new(:waiting, waiting_title:)) }
+        )
+        concat(
+          render(Primer::Beta::Blankslate.new(
+                  border: false,
+                  data: { "storages--oauth-access-grant-nudge-modal-target": "requestAccessBody" }
+                )) do |component|
+            component.with_visual_icon(icon: :"sign-in", size: :medium)
+
+            component.with_heading(tag: :h2, aria: { hidden: true })
+                    .with_content(heading_text)
+
+            component.with_description(color: :subtle) { body_text }
+          end
+        )
+      end
+
+      dialog.with_footer(show_divider: false) do
+        concat(
+          render(
+            Primer::Beta::Button.new(
+              scheme: :default,
+              size: :medium,
+              data: {
+                'close-dialog-id': dialog_id,
+                'storages--oauth-access-grant-nudge-modal-target': 'closeButton'
+              }
+            )
+          ) { cancel_button_text }
+        )
+
+        concat(
+          primer_form_with(
+            model:,
+            url: confirm_button_url,
+            method: :get,
+            data: {
+              'storages--oauth-access-grant-nudge-modal-target': 'requestAccessForm'
+            }
+          ) do |_form|
+            render(
+              Primer::Beta::Button.new(
+                scheme: :primary,
+                size: :medium,
+                type: :submit,
+                aria: { label: login_button_aria_label },
+                data: {
+                  'storages--oauth-access-grant-nudge-modal-target': 'requestAccessButton',
+                  action: 'storages--oauth-access-grant-nudge-modal#requestAccess'
+                }
+              )
+            ) do |button|
+              button.with_trailing_action_icon(icon: :"link-external")
+              login_button_label
+            end
+          end
+        )
+      end
+    end
+  end
+%>

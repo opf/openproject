@@ -26,6 +26,7 @@ hu:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "2FA szolgáltatás le van tiltva."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "Nem található regisztrált 2FA eszköz ehhez a felhasználóhoz, annak ellenére, hogy szükség van erre a kérelemre.\n"
     error_no_matching_strategy: "Ehhez a felhasználóhoz nem áll rendelkezésre megfelelő 2FA stratégia. Kérjük, lépjen kapcsolatba adminisztrátorával.\n"
     error_is_enforced_not_active: "Konfigurációs hiba: Kétfaktoros hitelesítést hajtottak végre, de nem léteznek aktív stratégiák.\n"

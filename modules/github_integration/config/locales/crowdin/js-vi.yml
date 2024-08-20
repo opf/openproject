@@ -49,3 +49,6 @@ vi:
           draft: 'dự thảo'
           merged: 'gộp'
           ready_for_review: 'đánh dấu sẵn sàng để xem xét'
+    work_packages:
+      tabs:
+        github: "GitHub"

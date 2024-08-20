@@ -124,7 +124,8 @@ uk:
       agenda_text: "Копіювати порядок денний старої наради"
     email:
       send_emails: "Надсилати листи"
-      send_invitation_emails: "Надішліть електронні листи із запрошеннями всім учасникам."
+      send_invitation_emails: >
+        Send out an invitation email to the participants listed above. Note that unchecking this option does not affect the sending of emails after this form is submitted.
       open_meeting_link: "Відкрити зустріч"
       invited:
         summary: "%{actor} надіслав запрошення на зустріч %{title}"

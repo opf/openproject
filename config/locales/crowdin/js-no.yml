@@ -648,7 +648,7 @@
           with_current_filter: "Det er ingen varsler i denne visningen for øyeblikket"
         mark_all_read: "Merk alle som lest"
         mark_as_read: "Merk som lest"
-        text_update_date: "%{date} av"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Viser de %{newest_count} nyeste varsler. %{more_count} flere er ikke vist."
         empty_state:
           no_notification: "Ser ut som du er helt oppdatert."

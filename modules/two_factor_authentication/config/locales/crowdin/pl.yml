@@ -26,6 +26,7 @@ pl:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "Doręczanie 2FA została wyłączona (zablokowana)."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "Nie znaleziono zarejestrowanego urządzenia 2FA dla tego użytkownika, mimo że jest ono wymagane dla tego wystąpienia."
     error_no_matching_strategy: "Dla tego użytkownika nie jest dostępna żadna zgodna strategia 2FA. Skontaktuj się z administratorem."
     error_is_enforced_not_active: "Błąd konfiguracji: Wymuszono uwierzytelnianie dwuskładnikowe, ale nie istnieją żadne aktywne strategie."

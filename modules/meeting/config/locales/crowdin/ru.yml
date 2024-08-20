@@ -124,7 +124,8 @@ ru:
       agenda_text: "Копировать повестку старой встречи"
     email:
       send_emails: "Отправить по электронной почте"
-      send_invitation_emails: "Разошлите всем участникам приглашения по электронной почте."
+      send_invitation_emails: >
+        Send out an invitation email to the participants listed above. Note that unchecking this option does not affect the sending of emails after this form is submitted.
       open_meeting_link: "Открыть совещание"
       invited:
         summary: "%{actor} отправил вам приглашение на совещание %{title}"

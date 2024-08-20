@@ -22,3 +22,6 @@
 nl:
   js:
     label_meetings: 'Vergaderingen'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

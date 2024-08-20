@@ -650,7 +650,7 @@ pl:
           with_current_filter: "Obecnie brak powiadomień w tym widoku"
         mark_all_read: "Oznacz wszystko jako przeczytane"
         mark_as_read: "Oznacz jako przeczytane"
-        text_update_date: "%{date} dodał"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Wyświetlono najnowsze powiadomienia: %{newest_count}. Nie wyświetlono %{more_count}."
         empty_state:
           no_notification: "Wygląda na to, że jesteś już na bieżąco."

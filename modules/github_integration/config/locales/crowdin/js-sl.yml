@@ -49,3 +49,6 @@ sl:
           draft: 'pozvan'
           merged: 'združeno'
           ready_for_review: 'označeno kot pripravljeno za pregled'
+    work_packages:
+      tabs:
+        github: "GitHub"

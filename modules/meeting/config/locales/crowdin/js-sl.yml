@@ -22,3 +22,6 @@
 sl:
   js:
     label_meetings: 'Sestanki'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

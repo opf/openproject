@@ -9,7 +9,7 @@ nl:
     verify_account: "Verifieer je account"
     error_captcha: "Uw account kon niet worden geverifieerd. Neem contact op met een beheerder."
     settings:
-      website_key: 'Website sleutel'
+      website_key: 'Website key (May also be called "Site key")'
       response_limit: 'Antwoordlimiet voor HCaptcha'
       response_limit_text: 'Het maximum aantal tekens om het HCaptcha antwoord als geldig te behandelen.'
       website_key_text: 'Vul de website sleutel in die je hebt gemaakt op de reCAPTCHA admin console voor dit domein.'
@@ -20,5 +20,6 @@ nl:
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       type_hcaptcha: 'HCaptcha'
-      recaptcha_description_html: >
-        reCAPTCHA is een gratis dienst van Google die kan worden ingeschakeld voor uw OpenProject instantie. Indien ingeschakeld, zal een captcha formulier worden weergegeven bij het inloggen voor alle gebruikers die nog niet hebben geverifieerd. <br/> Zie de volgende link voor meer informatie over reCAPTCHA en de bijbehorende versies, en hoe de website en geheime sleutels te maken: %{recaptcha_link} <br/> HCaptcha is een alternatief dat u kunt gebruiken als u reCAPTCHA niet wilt gebruiken. Zie deze link voor meer informatie: %{hcaptcha_link}
+      type_turnstile: 'Cloudflare Turnstile™'
+      captcha_description_html: >
+        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link} <br/> Cloudflare Turnstile™ is another alternative that is more convenient for users while still providing the same level of security. See this link for more information: %{turnstile_link}

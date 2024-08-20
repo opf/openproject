@@ -26,6 +26,7 @@ fr:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "La sortie A2F a été désactivée."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "Aucun appareil 2FA enregistré trouvé pour cet utilisateur, bien qu'étant requis pour cette instance."
     error_no_matching_strategy: "Aucune stratégie 2FA correspondante disponible pour cet utilisateur. Veuillez contacter votre administrateur."
     error_is_enforced_not_active: "Erreur de configuration : l'authentification à deux facteurs à été imposée, mais aucune stratégie active n'existe."

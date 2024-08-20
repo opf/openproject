@@ -49,3 +49,6 @@ ms:
           draft: 'dirangka'
           merged: 'digabungkan'
           ready_for_review: 'sedia untuk disemak'
+    work_packages:
+      tabs:
+        github: "GitHub"

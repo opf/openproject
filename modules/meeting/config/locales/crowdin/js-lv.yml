@@ -22,3 +22,6 @@
 lv:
   js:
     label_meetings: 'Sanāksmes'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

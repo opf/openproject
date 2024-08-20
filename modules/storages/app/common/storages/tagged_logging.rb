@@ -42,15 +42,22 @@ module Storages
     # @param context [Hash{Symbol => Object}] extra metadata that will be appended to the logs
     def log_storage_error(storage_error, context = {})
       payload = storage_error.data&.payload
-      data = case payload
-             in { status: Integer }
-               { status: payload&.status, body: payload&.body.to_s }
-             else
-               payload.to_s
-             end
+      data =
+        case payload
+        in { status: Integer }
+          { status: payload&.status, body: payload&.body.to_s }
+        else
+          payload.to_s
+        end
 
       error_message = context.merge({ error_code: storage_error.code, message: storage_error.log_message, data: })
       error error_message
+    end
+
+    def log_validation_error(validation_result, context = {})
+      # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
+      error context.merge({ validation_message: validation_result.errors.to_h })
+      # rubocop:enable Rails/DeprecatedActiveModelErrorsMethods
     end
 
     def logger

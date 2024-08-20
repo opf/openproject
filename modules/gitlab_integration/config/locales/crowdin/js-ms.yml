@@ -48,3 +48,6 @@ ms:
         empty: 'Tiada penggabungan permintaan yang dipautkan lagi. Pautkan PP sedia ada dengan menggunakan kod <code>OP#%{wp_id}</code> (atau <code>PP#%{wp_id}</code> untuk pautan peribadi) dalam tajuk/deskripsi PP atau cipta PP yang baru.'
       gitlab_pipelines: Saluran
       updated_on: Dikemas kini pada
+    work_packages:
+      tabs:
+        gitlab: "GitLab"

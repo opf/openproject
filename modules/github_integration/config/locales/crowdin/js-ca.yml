@@ -49,3 +49,6 @@ ca:
           draft: 'esborrany'
           merged: 'fusionat'
           ready_for_review: 'marcat com a preparat per a revisar'
+    work_packages:
+      tabs:
+        github: "GitHub"

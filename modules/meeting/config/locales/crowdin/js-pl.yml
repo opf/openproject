@@ -22,3 +22,6 @@
 pl:
   js:
     label_meetings: 'Spotkania'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

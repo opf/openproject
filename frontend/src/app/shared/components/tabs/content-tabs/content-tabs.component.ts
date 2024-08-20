@@ -26,20 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Injector,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector } from '@angular/core';
 import { GonService } from 'core-app/core/gon/gon.service';
 import { StateService } from '@uirouter/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ScrollableTabsComponent } from 'core-app/shared/components/tabs/scrollable-tabs/scrollable-tabs.component';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 
-export const contentTabsSelector = 'content-tabs';
 
 interface GonTab extends TabDefinition {
   partial:string;
@@ -47,7 +40,7 @@ interface GonTab extends TabDefinition {
 }
 
 @Component({
-  selector: 'op-content-tabs',
+  selector: 'opce-content-tabs',
   templateUrl: '../scrollable-tabs/scrollable-tabs.component.html',
   styleUrls: ['./content-tabs.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,

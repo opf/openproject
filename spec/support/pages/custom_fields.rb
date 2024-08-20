@@ -36,7 +36,7 @@ module Pages
 
     def visit_tab(name)
       visit!
-      within("content-tabs") do
+      within("opce-content-tabs") do
         click_link name.to_s
       end
     end
