@@ -1,4 +1,4 @@
-import { Controller } from "@hotwired/stimulus";
+import { Controller } from '@hotwired/stimulus';
 import { FrameElement } from '@hotwired/turbo';
 
 export default class JobStatusPollingController extends Controller<FrameElement> {
@@ -10,10 +10,7 @@ export default class JobStatusPollingController extends Controller<FrameElement>
   interval:ReturnType<typeof setInterval>;
 
   connect() {
-    this.interval = setInterval(() => {
-        void this.element.reload();
-      },
-      2000)
+    this.interval = setInterval(() => this.element.reload(), 2000);
   }
 
   disconnect() {
