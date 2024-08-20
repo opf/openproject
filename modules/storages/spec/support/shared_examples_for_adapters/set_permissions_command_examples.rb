@@ -44,6 +44,60 @@ RSpec.shared_examples_for "set_permissions_command: basic command setup" do
   end
 end
 
+RSpec.shared_examples_for "set_permissions_command: replaces already set permissions" do
+  it "replaces fully the previously set permissions" do
+    file_id = test_folder.id
+
+    input_data = Storages::Peripherals::StorageInteraction::Inputs::SetPermissions
+                   .build(file_id:, user_permissions: previous_permissions)
+                   .value!
+    result = described_class.call(storage:, auth_strategy:, input_data:)
+
+    expect(result).to be_success
+    expect(current_remote_permissions).to eq(previous_permissions)
+
+    input_data = Storages::Peripherals::StorageInteraction::Inputs::SetPermissions
+                   .build(file_id:, user_permissions: replacing_permissions)
+                   .value!
+    result = described_class.call(storage:, auth_strategy:, input_data:)
+
+    expect(result).to be_success
+    expect(current_remote_permissions).to eq(replacing_permissions)
+  ensure
+    clean_up file_id
+  end
+end
+
+RSpec.shared_examples_for "set_permissions_command: creates new permissions" do
+  it "creates the new permissions" do
+    file_id = test_folder.id
+
+    expect(current_remote_permissions).to eq([])
+
+    input_data = Storages::Peripherals::StorageInteraction::Inputs::SetPermissions
+                   .build(file_id:, user_permissions:)
+                   .value!
+    result = described_class.call(storage:, auth_strategy:, input_data:)
+
+    expect(result).to be_success
+    expect(current_remote_permissions).to eq(user_permissions)
+  ensure
+    clean_up file_id
+  end
+end
+
+RSpec.shared_examples_for "set_permissions_command: not found" do
+  it "returns a failure" do
+    result = described_class.call(storage:, auth_strategy:, input_data:)
+
+    expect(result).to be_failure
+
+    error = result.errors
+    expect(error.code).to eq(:not_found)
+    expect(error.data.source).to eq(error_source)
+  end
+end
+
 RSpec.shared_examples_for "set_permissions_command: error" do
   it "returns a failure" do
     result = described_class.call(storage:, auth_strategy:, input_data:)
