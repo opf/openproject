@@ -647,7 +647,7 @@ ms:
           with_current_filter: "Tiada pemberitahuan dalam paparan ini buat masa ini"
         mark_all_read: "Tanda semua sudah dibaca"
         mark_as_read: "Tanda sudah dibaca"
-        text_update_date: "%{date} oleh"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Sedang memaparkan %{newest_count} pemberitahuan yang terbaru. %{more_count} lagi tidak dipaparkan."
         empty_state:
           no_notification: "Nampaknya anda telah selesaikan semuanya."

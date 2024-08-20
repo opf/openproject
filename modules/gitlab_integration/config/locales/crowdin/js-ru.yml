@@ -48,3 +48,6 @@ ru:
         empty: 'Запросы на слияние пока не связаны. Свяжите существующий MR, используя код <code>OP#%{wp_id}</code> (или <code>PP#%{wp_id}</code> для частных ссылок) в названии/описании MR, или создайте новый MR.'
       gitlab_pipelines: Пайплайны
       updated_on: Обновлено на
+    work_packages:
+      tabs:
+        gitlab: "GitLab"

@@ -22,6 +22,9 @@ browserslist
 !/docs/api/apiv3/tags
 !/docs/api/apiv3/components
 
+# Allow factories in case we use lookbook
+!/spec/factories
+
 extra
 features
 help

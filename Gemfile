@@ -212,6 +212,7 @@ gem "validate_url"
 gem "dry-auto_inject"
 gem "dry-container"
 gem "dry-monads"
+gem "dry-validation"
 
 # ActiveRecord extension which adds typecasting to store accessors
 gem "store_attribute", "~> 1.0"

@@ -1,22 +1,18 @@
 import {
-  OnInit,
   AfterViewChecked,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostBinding,
-  ChangeDetectorRef,
+  OnInit,
 } from '@angular/core';
-import {
-  SpotDropModalTeleportationService,
-  TeleportInstance,
-} from './drop-modal-teleportation.service';
+import { SpotDropModalTeleportationService, TeleportInstance } from './drop-modal-teleportation.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
-export const spotDropModalPortalComponentSelector = 'spot-drop-modal-portal';
 
 @Component({
-  selector: spotDropModalPortalComponentSelector,
+  selector: 'opce-spot-drop-modal-portal',
   template: '<ng-container *ngTemplateOutlet="template"></ng-container>',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

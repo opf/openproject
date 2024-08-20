@@ -22,3 +22,6 @@
 "no":
   js:
     label_meetings: 'Møter'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

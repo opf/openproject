@@ -37,7 +37,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
            drive_id: "b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy")
   end
 
-  let(:auth_strategy) { Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.new }
+  let(:auth_strategy) do
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.new(false)
+  end
 
   let(:permissions_command) { described_class.new(storage) }
 
@@ -53,17 +55,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
 
   let(:path) { folder.id }
 
-  it "is registered at commands.one_drive.set_permissions" do
-    expect(Storages::Peripherals::Registry.resolve("one_drive.commands.set_permissions")).to eq(described_class)
-  end
-
-  it "responds to .call with storage, path and permissions keyword args" do
-    expect(described_class).to respond_to(:call)
-
-    method = described_class.method(:call)
-    expect(method.parameters).to contain_exactly(%i[keyreq auth_strategy], %i[keyreq storage],
-                                                 %i[keyreq path], %i[keyreq permissions])
-  end
+  it_behaves_like "set_permissions_command: basic command setup"
 
   describe "#call" do
     after do
@@ -74,8 +66,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
 
     context "when trying to access a non-existing driveItem" do
       it "returns a failure", vcr: "one_drive/set_permissions_not_found_folder" do
-        result = permissions_command.call(auth_strategy:, path: "THIS_IS_NOT_THE_FOLDER_YOURE_LOOKING_FOR",
-                                          permissions: { write: [] })
+        input_data = input_data(file_id: "THIS_IS_NOT_THE_FOLDER_YOURE_LOOKING_FOR", user_permissions: [])
+        result = permissions_command.call(auth_strategy:, input_data:)
 
         expect(result).to be_failure
         expect(result.result).to eq(:not_found)
@@ -85,19 +77,27 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
     context "when a permission set already exists" do
       it "replaces the write permission grant with the provided list",
          vcr: "one_drive/set_permissions_replace_permissions_write" do
-        permissions_command.call(auth_strategy:, path:, permissions: { write: ["84acc1d5-61be-470b-9d79-0d1f105c2c5f"] })
+        user_permissions = [{ user_id: "84acc1d5-61be-470b-9d79-0d1f105c2c5f", permissions: [:write_files] }]
+        input_data = input_data(file_id: folder.id, user_permissions:)
+        permissions_command.call(auth_strategy:, input_data:)
         expect(user_list("write")).to match_array("84acc1d5-61be-470b-9d79-0d1f105c2c5f")
 
-        permissions_command.call(auth_strategy:, path:, permissions: { write: ["d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce"] })
+        user_permissions = [{ user_id: "d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [:write_files] }]
+        input_data = input_data(file_id: folder.id, user_permissions:)
+        permissions_command.call(auth_strategy:, input_data:)
         expect(user_list("write")).to match_array("d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce")
       end
 
       it "replaces the read permission grant with the provided list",
          vcr: "one_drive/set_permissions_replace_permissions_read" do
-        permissions_command.call(auth_strategy:, path:, permissions: { read: ["84acc1d5-61be-470b-9d79-0d1f105c2c5f"] })
+        user_permissions = [{ user_id: "84acc1d5-61be-470b-9d79-0d1f105c2c5f", permissions: [:read_files] }]
+        input_data = input_data(file_id: folder.id, user_permissions:)
+        permissions_command.call(auth_strategy:, input_data:)
         expect(user_list("read")).to match_array("84acc1d5-61be-470b-9d79-0d1f105c2c5f")
 
-        permissions_command.call(auth_strategy:, path:, permissions: { read: ["d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce"] })
+        user_permissions = [{ user_id: "d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [:read_files] }]
+        input_data = input_data(file_id: folder.id, user_permissions:)
+        permissions_command.call(auth_strategy:, input_data:)
         expect(user_list("read")).to match_array("d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce")
       end
     end
@@ -107,7 +107,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
         current_roles = remote_permissions.map { |permission| permission[:roles].first }
         expect(current_roles).not_to include("write")
 
-        permissions_command.call(auth_strategy:, path:, permissions: { write: ["d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce"] })
+        user_permissions = [{ user_id: "d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [:write_files] }]
+        input_data = input_data(file_id: folder.id, user_permissions:)
+        permissions_command.call(auth_strategy:, input_data:)
 
         current_roles = remote_permissions.map { |permission| permission[:roles].first }
         expect(current_roles).to include("write")
@@ -117,7 +119,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
         current_roles = remote_permissions.map { |permission| permission[:roles].first }
         expect(current_roles).not_to include("read")
 
-        permissions_command.call(auth_strategy:, path:, permissions: { read: ["d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce"] })
+        user_permissions = [{ user_id: "d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [:read_files] }]
+        input_data = input_data(file_id: folder.id, user_permissions:)
+        permissions_command.call(auth_strategy:, input_data:)
 
         current_roles = remote_permissions.map { |permission| permission[:roles].first }
         expect(current_roles).to include("read")
@@ -126,22 +130,28 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
 
     context "when there are no user to set permissions" do
       it "deletes the write permission", vcr: "one_drive/set_permissions_delete_permission_write" do
-        permissions_command.call(auth_strategy:, path:, permissions: { write: ["d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce"] })
+        user_permissions = [{ user_id: "d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [:write_files] }]
+        input_data = input_data(file_id: folder.id, user_permissions:)
+        permissions_command.call(auth_strategy:, input_data:)
+
         current_roles = remote_permissions.map { |permission| permission[:roles].first }
         expect(current_roles).to include("write")
 
-        permissions_command.call(auth_strategy:, path:, permissions: { write: [] })
+        permissions_command.call(auth_strategy:, input_data: input_data(file_id: folder.id, user_permissions: []))
 
         current_roles = remote_permissions.map { |permission| permission[:roles].first }
         expect(current_roles).not_to include("write")
       end
 
       it "deletes the read permission", vcr: "one_drive/set_permissions_delete_permission_read" do
-        permissions_command.call(auth_strategy:, path:, permissions: { read: ["d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce"] })
+        user_permissions = [{ user_id: "d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [:read_files] }]
+        input_data = input_data(file_id: folder.id, user_permissions:)
+        permissions_command.call(auth_strategy:, input_data:)
+
         current_roles = remote_permissions.map { |permission| permission[:roles].first }
         expect(current_roles).to include("read")
 
-        permissions_command.call(auth_strategy:, path:, permissions: { read: [] })
+        permissions_command.call(auth_strategy:, input_data: input_data(file_id: folder.id, user_permissions: []))
 
         current_roles = remote_permissions.map { |permission| permission[:roles].first }
         expect(current_roles).not_to include("read")
@@ -153,7 +163,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
         stub_request_with_timeout(:post, /invite$/)
         allow(Rails.logger).to receive(:error)
 
-        permissions_command.call(auth_strategy:, path:, permissions: { read: ["d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce"] })
+        user_permissions = [{ user_id: "d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [:read_files] }]
+        input_data = input_data(file_id: folder.id, user_permissions:)
+        permissions_command.call(auth_strategy:, input_data:)
 
         # rubocop:disable Layout/LineLength
         expect(Rails.logger)
@@ -169,6 +181,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
   end
 
   private
+
+  def input_data(file_id:, user_permissions:)
+    Storages::Peripherals::StorageInteraction::Inputs::SetPermissions.build(file_id:, user_permissions:).value!
+  end
 
   def user_list(role)
     remote_permissions

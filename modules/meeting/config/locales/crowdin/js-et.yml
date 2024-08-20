@@ -22,3 +22,6 @@
 et:
   js:
     label_meetings: 'Koosolekud'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

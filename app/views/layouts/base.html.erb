@@ -62,9 +62,9 @@ See COPYRIGHT and LICENSE files for more details.
     </p>
   </div>
 </noscript>
-<op-toasts-container></op-toasts-container>
-<op-modal-overlay></op-modal-overlay>
-<spot-drop-modal-portal></spot-drop-modal-portal>
+<opce-toasts-container></opce-toasts-container>
+<opce-modal-overlay></opce-modal-overlay>
+<opce-spot-drop-modal-portal></opce-spot-drop-modal-portal>
 <% main_menu = render_main_menu(local_assigns.fetch(:menu_name, nil), @project) %>
 <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
 <% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
@@ -75,7 +75,7 @@ See COPYRIGHT and LICENSE files for more details.
         <h1 class="hidden-for-sighted">
           <%= t(:label_top_menu) %>
         </h1>
-        <main-menu-toggle></main-menu-toggle>
+        <opce-main-menu-toggle></opce-main-menu-toggle>
         <a href="" class="hidden-for-sighted skip-navigation-link"
            id="skip-navigation--content"
            aria-label="<%= I18n.t('js.work_packages.jump_marks.label_content') %>">
@@ -102,7 +102,7 @@ See COPYRIGHT and LICENSE files for more details.
         data-application-target="dynamic"
       >
         <h1 class="hidden-for-sighted"><%= t(:label_main_menu) %></h1>
-        <main-menu-resizer></main-menu-resizer>
+        <opce-main-menu-resizer></opce-main-menu-resizer>
         <div id="menu-sidebar">
           <%= main_menu %>
           <%= content_for :main_menu %>

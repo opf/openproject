@@ -41,6 +41,27 @@
           document.getElementById('submit_captcha').submit();
         }
       <% end %>
+    <% elsif recaptcha_settings['recaptcha_type'] == ::OpenProject::Recaptcha::TYPE_TURNSTILE %>
+      <% input_name = "turnstile-response" %>
+      <input type="hidden" name="<%= input_name %>" />
+      <%= nonced_javascript_include_tag "https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" %>
+
+      <div id="turnstile-container"></div>
+      <%= nonced_javascript_tag do %>
+        function submitTurnstileForm(token) {
+          var input = document.getElementsByName('<%= input_name %>')[0];
+
+          input.value = token;
+          document.getElementById('submit_captcha').submit();
+        }
+
+        window.onloadTurnstileCallback = function () {
+          turnstile.render('#turnstile-container', {
+            sitekey: '<%= recaptcha_settings['website_key'] %>',
+            callback: submitTurnstileForm,
+          });
+        };
+      <% end %>
     <% end %>
   <% end %>
 </div>

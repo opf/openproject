@@ -22,3 +22,6 @@
 da:
   js:
     label_meetings: 'Møder'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

@@ -49,3 +49,6 @@ tr:
           draft: 'drafted'
           merged: 'birleştirildi'
           ready_for_review: 'incelemeye hazır olarak işaretlendi'
+    work_packages:
+      tabs:
+        github: "GitHub"

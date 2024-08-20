@@ -22,3 +22,6 @@
 bg:
   js:
     label_meetings: 'Срещи'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

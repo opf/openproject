@@ -1,0 +1,13 @@
+# Schema: CollectionLinks
+---
+type: object
+required:
+  - self
+properties:
+  self:
+    allOf:
+      - $ref: './link.yml'
+      - description: |-
+          This collection resource.
+          
+          **Resource**: Collection

@@ -17,14 +17,7 @@ import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-he
 import { SpotDropModalTeleportationService } from './drop-modal-teleportation.service';
 import { filter, take } from 'rxjs/operators';
 import { debounce } from 'lodash';
-import {
-  autoUpdate,
-  computePosition,
-  flip,
-  limitShift,
-  Placement,
-  shift,
-} from '@floating-ui/dom';
+import { autoUpdate, computePosition, flip, limitShift, Placement, shift } from '@floating-ui/dom';
 
 @Component({
   selector: 'spot-drop-modal',
@@ -180,6 +173,8 @@ export class SpotDropModalComponent implements OnDestroy {
             // Index 1 because the element at index 0 is the trigger button to open the modal
             (findAllFocusableElementsWithin(document.querySelector('.spot-drop-modal-portal')!)[1])?.focus();
           }
+
+          this.cdRef.detectChanges();
         });
       });
   }

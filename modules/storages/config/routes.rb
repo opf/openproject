@@ -49,6 +49,7 @@ Rails.application.routes.draw do
                     controller: "/storages/admin/storages/project_storages",
                     only: %i[index new create edit update destroy] do
             get :destroy_confirmation_dialog, on: :member
+            get :oauth_access_grant, on: :collection
           end
         end
 

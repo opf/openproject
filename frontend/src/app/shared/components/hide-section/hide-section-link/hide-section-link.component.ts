@@ -30,10 +30,9 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { HideSectionService } from 'core-app/shared/components/hide-section/hide-section.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
-export const hideSectionLinkSelector = 'hide-section-link';
 
 @Component({
-  selector: hideSectionLinkSelector,
+  selector: 'opce-hide-section-link',
   templateUrl: './hide-section-link.component.html',
 })
 export class HideSectionLinkComponent implements OnInit {

@@ -1,0 +1,33 @@
+# Schema: OffsetPaginatedCollectionLinks
+---
+allOf:
+  - $ref: './collection_links.yml'
+  - type: object
+    required:
+      - jumpTo
+      - changeSize
+    properties:
+      jumpTo:
+        allOf:
+          - $ref: './link.yml'
+          - description: A templated link to jump to a given offset.
+      changeSize:
+        allOf:
+          - $ref: './link.yml'
+          - description: A templated link to change the current page size.
+      previousByOffset:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              A link to the previous page of the collection.
+              
+              # Conditions
+              - The collection is not on the first page.
+      nextByOffset:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              A link to the next page of the collection.
+              
+              # Conditions
+              - The collection is not on the last page.

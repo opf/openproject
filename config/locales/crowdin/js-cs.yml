@@ -649,7 +649,7 @@ cs:
           with_current_filter: "V současné době nejsou v tomto zobrazení žádná oznámení"
         mark_all_read: "Označit vše jako přečtené"
         mark_as_read: "Označit jako přečtené"
-        text_update_date: "%{date} od"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Zobrazení posledních oznámení %{newest_count} . Nezobrazuje se ještě %{more_count}"
         empty_state:
           no_notification: "Vypadá to, že jste všechno dohnali..."

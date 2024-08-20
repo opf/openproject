@@ -22,3 +22,6 @@
 hr:
   js:
     label_meetings: 'Sastanci'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

@@ -124,6 +124,18 @@ module OpenProject::Meeting
            parent: :meetings,
            partial: "meetings/menus/menu"
 
+      menu :work_package_split_view,
+           :meetings,
+           { tab: :meetings },
+           skip_permissions_check: true,
+           if: ->(_project) {
+             User.current.allowed_in_any_project?(:view_meetings)
+           },
+           badge: ->(work_package:, **) {
+             work_package.meetings.where(meetings: { start_time: Time.zone.today.beginning_of_day.. }).count
+           },
+           caption: :label_meeting_plural
+
       should_render_global_menu_item = Proc.new do
         (User.current.logged? || !Setting.login_required?) &&
           User.current.allowed_in_any_project?(:view_meetings)

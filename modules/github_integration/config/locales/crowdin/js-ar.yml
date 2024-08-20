@@ -49,3 +49,6 @@ ar:
           draft: 'تمت صياغته'
           merged: 'مدمج'
           ready_for_review: 'تم وضع علامة جاهز للمراجعة'
+    work_packages:
+      tabs:
+        github: "GitHub"

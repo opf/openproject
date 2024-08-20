@@ -49,3 +49,6 @@ pl:
           draft: 'wersja robocza'
           merged: 'połączony'
           ready_for_review: 'oznaczony jako gotowy do przeglądu'
+    work_packages:
+      tabs:
+        github: "GitHub"

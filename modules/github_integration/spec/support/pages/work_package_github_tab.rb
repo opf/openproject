@@ -55,10 +55,6 @@ module Pages
       page.send_keys(meta_key, "v")
     end
 
-    def expect_tab_not_present
-      expect(page).to have_no_css(".op-tab-row--link", text: "GITHUB")
-    end
-
     private
 
     def osx?

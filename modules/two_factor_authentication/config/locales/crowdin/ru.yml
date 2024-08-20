@@ -26,6 +26,7 @@ ru:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "Доставка 2ФА отключена."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "Для пользователя не найдено зарегистрированного устройства 2ФА, что требуется для этого экземпляра."
     error_no_matching_strategy: "Для этого пользователя нет подходящей стратегии 2ФА. Обратитесь к администратору."
     error_is_enforced_not_active: "Ошибка конфигурации: применена двухфакторная аутентификация, однако активных стратегий нет."

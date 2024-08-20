@@ -22,3 +22,6 @@
 ca:
   js:
     label_meetings: 'Reunions'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

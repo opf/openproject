@@ -49,3 +49,6 @@ zh-TW:
           draft: '草稿'
           merged: '已合併'
           ready_for_review: '標記為已準備審核'
+    work_packages:
+      tabs:
+        github: "GitHub"
