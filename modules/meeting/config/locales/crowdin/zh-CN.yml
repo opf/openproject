@@ -122,7 +122,7 @@ zh-CN:
     email:
       send_emails: "发送电子邮件"
       send_invitation_emails: >
-        Send out an invitation email to the participants listed above. Note that unchecking this option does not affect the sending of emails after this form is submitted.
+        向上面列出的参与者发送邀请邮件。 请注意，在提交此表单后取消此选项不会影响已发送的电子邮件。
       open_meeting_link: "打开会议"
       invited:
         summary: "%{actor} 已经向您发送了一个 %{title} 会议邀请"

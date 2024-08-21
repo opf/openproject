@@ -107,7 +107,7 @@ ro:
               name: Tablă de bază
               lists:
                 item_0:
-                  name: Listă dorinţe
+                  name: Listă dorințe
                 item_1:
                   name: Listă scurtă
                 item_2:
@@ -123,7 +123,7 @@ ro:
                   name: Welcome
               item_1:
                 options:
-                  name: Noţiuni de bază
+                  name: Începe
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 

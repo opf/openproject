@@ -316,16 +316,24 @@ es:
     no_results: Aún no se han configurado almacenes de archivos.
     notice_successful_storage_connection: |-
       ¡Almacenamiento conectado con éxito! Recuerda activar el módulo y el almacenamiento específico en la configuración del proyecto de cada proyecto deseado para usarlo.
+    oauth_access_granted_modal:
+      access_granted: Access granted
+      project_settings:
+        access_granted_screen_reader: Access granted. You are now ready to use %{storage}
+        storage_ready: You are now ready to use %{storage}
+      storage_admin:
+        access_granted_screen_reader: Access granted. You are now ready to add projects to %{storage}
+        storage_ready: You are now ready to add projects to %{storage}
     oauth_grant_nudge_modal:
-      access_granted: Acceso permitido
-      access_granted_screen_reader: Acceso concedido. Ya puede utilizar %{storage}.
-      body: Para obtener acceso a la carpeta del proyecto necesitas iniciar sesión en %{storage}.
       cancel_button_label: Lo haré más tarde
-      confirm_button_aria_label: Iniciar sesión en %{storage}
-      confirm_button_label: Iniciar sesión
+      heading: Login to %{provider_type} required
+      login_button_aria_label: Login to %{storage}
+      login_button_label: "%{provider_type} log in"
+      project_settings:
+        description: To get access to the project folder you need to login to %{storage}.
       requesting_access_to: Solicitando acceso a %{storage}
-      storage_ready: Ahora estás listo para usar %{storage}
-      title: Queda un paso más...
+      storage_admin:
+        description: In order to add projects to this storage you need to be logged into %{provider_type}. Please, log in and try again.
     open_project_storage_modal:
       success:
         subtitle: Se te está redirigiendo
