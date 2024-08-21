@@ -202,6 +202,11 @@ Rails.application.routes.draw do
     member do
       get :rename
       post :toggle_public
+      get :destroy_confirmation_modal
+    end
+
+    collection do
+      get :configure_view_modal
     end
   end
 
@@ -246,6 +251,10 @@ Rails.application.routes.draw do
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, as: "confirm_destroy"
       post :deactivate_work_package_attachments
+    end
+
+    collection do
+      get :export_list_modal
     end
 
     resources :versions, only: %i[new create] do

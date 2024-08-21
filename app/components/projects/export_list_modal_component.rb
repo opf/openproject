@@ -28,7 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Projects::ExportListModalComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+class Projects::ExportListModalComponent < ApplicationComponent
+  include OpTurbo::Streamable
   MODAL_ID = "op-project-list-export-dialog"
 
   options :query
