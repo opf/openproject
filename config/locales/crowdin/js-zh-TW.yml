@@ -849,7 +849,7 @@ zh-TW:
       abort: "捨棄"
     relations_autocomplete:
       placeholder: "搜尋"
-      parent_placeholder: "選擇新父級，或按 Escape 鍵來取消。"
+      parent_placeholder: "選擇新上層工作項目，或按 Escape 鍵來取消。"
     autocompleter:
       placeholder: "搜尋"
       notFoundText: "找不到任何項目"
@@ -1001,7 +1001,7 @@ zh-TW:
         subproject: "子專案"
         title: "標題"
         type: "類型"
-        updatedAt: "更新於"
+        updatedAt: "最後更新"
         versionName: "版本"
         version: "版本"
         work: "工時"
@@ -1017,7 +1017,7 @@ zh-TW:
         overdue: "逾期"
         summary: "總覽"
         shared_with_users: "分配給成員"
-        shared_with_me: "共享給我的"
+        shared_with_me: "我共用之工作項目"
       jump_marks:
         pagination: "跳轉至表格分頁"
         label_pagination: "點擊此處跳過工作項目表並轉到分頁"

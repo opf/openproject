@@ -5,7 +5,7 @@ zh-TW:
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
-        dn: '獨特名'
+        dn: '識別名稱（DN）'
         ldap_auth_source: 'LDAP 連線'
         sync_users: '同步使用者'
       ldap_groups/synchronized_filter:
@@ -15,7 +15,7 @@ zh-TW:
         sync_users: '同步使用者'
         base_dn: "搜尋基礎 DN"
     models:
-      ldap_groups/synchronized_group: '同步的 LDAP 群組'
+      ldap_groups/synchronized_group: 'LDAP 同步群組'
       ldap_groups/synchronized_filter: 'LDAP群組同步篩選'
     errors:
       models:
@@ -47,27 +47,27 @@ zh-TW:
         base_dn_text: >
           輸入用於此篩選器的搜尋基礎 DN，它必須在所選的 LDAP 連接的基礎 DN 之下。將此選項留空以使用連接的基礎 DN
     synchronized_groups:
-      add_new: '新增同步的 LDAP 群組'
+      add_new: '新增 LDAP 同步群組'
       destroy:
-        title: '移除同步的群組 %{name}'
+        title: '移除同步群組 %{name}'
         confirmation: "如繼續，將移除同步的群組 %{name} 和所有透過該群組同步的全部 %{users_count} 個用戶。"
         info: "注意：OpenProject 群組本身以及在 LDAP 同步之外添加的成員將不會被移除。"
         verification: "輸入專案的名稱 %{name} 來確認刪除"
       help_text_html: |
-        此模塊允許您在 LDAP 與 OpenProject 群組之間設置同步。
+        此模組允許您在 LDAP 與 OpenProject 群組之間設置同步。
         它要求 LDAP 群組使用 <em>groupOfNames / memberOf</em> 屬性集才能與 OpenProject 一起使用。
         <br/>
         群組通過 Cron 作業每小時同步。
         <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">請參閱我們關於此主題的文檔</a>。
       no_results: '找不到同步的群組。'
       no_members: '這個群組還沒有同步的成員。'
-      plural: '同步的 LDAP 群組'
-      singular: '同步的 LDAP 群組'
+      plural: 'LDAP 同步群組'
+      singular: 'LDAP 同步群組'
       form:
         auth_source_text: '選擇應使用的 LDAP 連接。'
         sync_users_text: >
           如果啓用此選項，找到的使用者會自動新增到OpenProject系統。如果不啓用，只有 OpenProject 現有帳戶會加到群組中。
-        dn_text: '輸入 LDAP 中群組的完成 DN'
-        group_text: '選擇 LDAP 群組的成員應與其同步的現有 OpenProject 群組'
+        dn_text: '輸入 LDAP 群組完整DN'
+        group_text: '選擇 LDAP 群組同步至現有 OpenProject 群組'
       upsale:
-        description: '利用同步的 LDAP 群組來管理用戶、更改其權限並促進跨群組的用戶管理。'
+        description: '利用 LDAP 同步群組來管理用戶、更改其權限並促進跨群組的用戶管理。'

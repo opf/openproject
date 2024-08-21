@@ -13,7 +13,7 @@ ro:
       response_limit: 'Response limit for HCaptcha'
       response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
       website_key_text: 'Introduceți cheia site-ului web pe care ați creat-o în consola de administrare reCAPTCHA pentru acest domeniu.'
-      secret_key: 'Testați cheia secretă'
+      secret_key: 'Cheie secretă'
       secret_key_text: 'Introduceți cheia secretă pe care ați creat-o în consola de administrare reCAPTCHA.'
       type: 'Utilizați reCAPTCHA'
       type_disabled: 'Dezactivați reCAPTCHA'
