@@ -25,7 +25,6 @@
         if redirect_url.present?
           flex.with_row { render(Primer::Beta::Link.new(
             href: redirect_url,
-            target: "_blank",
             data: {
               "job-status-polling-target": job_errors.present? ? nil : "redirect"
             }
