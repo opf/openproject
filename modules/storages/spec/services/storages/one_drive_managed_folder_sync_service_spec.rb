@@ -350,8 +350,13 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
   def permissions_for(project_storage)
     return if project_folder_info(project_storage).failure?
 
-    Storages::Peripherals::StorageInteraction::OneDrive::Util.using_admin_token(storage) do |http|
-      response = http.get("/v1.0/drives/#{storage.drive_id}/items/#{project_storage.project_folder_id}/permissions")
+    Storages::Peripherals::StorageInteraction::Authentication[auth_strategy].call(storage:) do |http|
+      response = http.get(Storages::UrlBuilder.url(storage.uri,
+                                                   "/v1.0/drives",
+                                                   storage.drive_id,
+                                                   "/items",
+                                                   project_storage.project_folder_id,
+                                                   "/permissions"))
       response.json(symbolize_keys: true).fetch(:value, []).each_with_object({}) do |grant, hash|
         next if grant[:roles].member?("owner")
 
