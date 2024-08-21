@@ -6,7 +6,7 @@
         <div></div>
       </div>
     <% end %>
-  <% else %>
+  <% elsif job.present? %>
     <%= content_tag :div, "", data: { "job-status-polling-target": "finished" } %>
   <% end %>
   <%= render Primer::Beta::Blankslate.new do |component|
