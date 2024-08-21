@@ -27,6 +27,8 @@ spec/**
 # Allow factories in case we use lookbook
 !spec/factories
 !spec/factories/**
+!spec/support
+!spec/support/**
 
 extra
 features
