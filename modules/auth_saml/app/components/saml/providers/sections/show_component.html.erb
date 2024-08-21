@@ -17,6 +17,12 @@
     if show_edit?
       grid.with_area(:action) do
         flex_layout(justify_content: :flex_end) do |icons_container|
+          if @action
+            icons_container.with_column do
+              render(@action)
+            end
+          end
+
           icons_container.with_column do
             render(
               Primer::Beta::IconButton.new(

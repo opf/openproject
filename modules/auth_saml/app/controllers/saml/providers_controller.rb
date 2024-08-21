@@ -1,13 +1,14 @@
 module Saml
   class ProvidersController < ::ApplicationController
     include OpTurbo::ComponentStream
+    include OpTurbo::DialogStreamHelper
 
     layout "admin"
     menu_item :plugin_saml
 
     before_action :require_admin
     before_action :check_ee
-    before_action :find_provider, only: %i[show edit import_metadata update destroy]
+    before_action :find_provider, only: %i[show edit show_metadata import_metadata update destroy]
     before_action :check_provider_writable, only: %i[update import_metadata]
     before_action :set_edit_state, only: %i[create edit update import_metadata]
 
@@ -65,6 +66,12 @@ module Saml
         flash[:error] = call.message
         render action: :edit
       end
+    end
+
+    def show_metadata
+      respond_with_dialog(
+        Saml::Providers::MetadataDialogComponent.new(@provider)
+      )
     end
 
     def create

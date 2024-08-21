@@ -60,6 +60,10 @@ module Saml
       metadata_xml_changed? || metadata_url_changed?
     end
 
+    def metadata_endpoint
+      URI.join(auth_url, "metadata").to_s
+    end
+
     def configured?
       sp_entity_id.present? &&
         idp_sso_service_url.present? &&

@@ -45,6 +45,7 @@ en:
       label_empty_description: "Add a provider to see them here."
       label_automatic_configuration: Automatic configuration
       label_metadata: Metadata
+      label_show_metadata: Show OpenProject metadata
       label_metadata_endpoint: Metadata endpoint
       label_configuration_details: "Identity provider endpoints and certificates"
       label_configuration_encryption: "Signatures and Encryption"
@@ -62,6 +63,8 @@ en:
       attribute_mapping_text: >
         The following fields control which attributes provided by the SAML identity provider 
         are used to provide user attributes in OpenProject
+      metadata:
+        dialog: "This is the URL where the OpenProject SAML metadata is available. Optionally use it to configure your identity provider:"
       upsale:
         description: Connect OpenProject to a SAML identity provider
       request_attributes:

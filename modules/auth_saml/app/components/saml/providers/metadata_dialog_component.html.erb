@@ -1,0 +1,40 @@
+<%=
+  render(Primer::Alpha::Dialog.new(
+    id:,
+    title: t("saml.providers.label_metadata_endpoint"),
+    size: :large
+  )) do |d|
+    d.with_header
+    d.with_body do
+      flex_layout do |flex|
+        flex.with_row(mb: 4) do
+          t("saml.providers.metadata.dialog")
+        end
+
+        flex.with_row do
+          render(Primer::OpenProject::InputGroup.new) do |input_group|
+            input_group.with_text_input(name: :metadata_endpoint,
+                                        label: t("saml.providers.label_metadata_endpoint"),
+                                        visually_hide_label: true,
+                                        value: provider.metadata_endpoint)
+            input_group.with_trailing_action_clipboard_copy_button(
+              value: provider.metadata_endpoint,
+              aria: {
+                label: I18n.t('button_copy_to_clipboard')
+              })
+          end
+        end
+
+        flex.with_row(justify_items: :flex_end) do
+
+        end
+      end
+    end
+
+    d.with_footer do
+      render(Primer::ButtonComponent.new(data: { 'close-dialog-id': id })) do
+        I18n.t("button_close")
+      end
+    end
+  end
+%>
