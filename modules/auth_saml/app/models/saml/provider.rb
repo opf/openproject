@@ -4,7 +4,6 @@ module Saml
 
     store_attribute :options, :icon, :string
     store_attribute :options, :sp_entity_id, :string
-    store_attribute :options, :seeded_from_env, :boolean
     store_attribute :options, :name_identifier_format, :string
     store_attribute :options, :metadata_url, :string
     store_attribute :options, :metadata_xml, :string
@@ -49,7 +48,7 @@ module Saml
     def self.slug_fragment = "saml"
 
     def seeded_from_env?
-      seeded_from_env == true
+      (Setting.seed_saml_provider || {}).key?(slug)
     end
 
     def has_metadata?
