@@ -52,20 +52,18 @@ See COPYRIGHT and LICENSE files for more details.
         I18n.t("button_delete")
       end
 
-      if OpenProject::FeatureDecisions.enable_storage_for_multiple_projects_active?
-        header.with_tab_nav(label: nil, test_selector: :storage_detail_header) do |tab_nav|
-          tab_nav.with_tab(
-            selected: tab_selected?(:edit),
-            href: edit_admin_settings_storage_path(@storage)
-          ) do |tab|
-            tab.with_text { t(:label_details) }
-          end
-          tab_nav.with_tab(
-            selected: tab_selected?(:project_storages),
-            href: admin_settings_storage_project_storages_path(@storage)
-          ) do |tab|
-            tab.with_text { t(:label_project_mappings) }
-          end
+      header.with_tab_nav(label: nil, test_selector: :storage_detail_header) do |tab_nav|
+        tab_nav.with_tab(
+          selected: tab_selected?(:edit),
+          href: edit_admin_settings_storage_path(@storage)
+        ) do |tab|
+          tab.with_text { t(:label_details) }
+        end
+        tab_nav.with_tab(
+          selected: tab_selected?(:project_storages),
+          href: admin_settings_storage_project_storages_path(@storage)
+        ) do |tab|
+          tab.with_text { t(:label_project_mappings) }
         end
       end
     end
