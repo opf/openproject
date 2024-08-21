@@ -61,7 +61,7 @@ module EnvData
         if deprecated_settings.exist?
           Rails.logger.info do
             <<~WARNING
-              Loading SAML configuration from deprecated location #{deprecated_path}.
+              Loading SAML configuration from deprecated location #{deprecated_settings}.
               Please use ENV variables or UI configuration instead.
 
               For more information, see our guide on how to configure SAML.

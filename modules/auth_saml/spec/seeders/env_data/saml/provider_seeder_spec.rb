@@ -69,9 +69,9 @@ RSpec.describe EnvData::Saml::ProviderSeeder, :settings_reset do
       expect { seeder.seed! }.to change(Saml::Provider, :count).by(1)
 
       provider = Saml::Provider.last
+      expect(provider.seeded_from_env?).to be true
       expect(provider.slug).to eq "saml"
       expect(provider.display_name).to eq "Test SAML"
-      expect(provider.seeded_from_env).to be true
 
       expect(provider.sp_entity_id).to eq "http://localhost:3000"
       expect(provider.assertion_consumer_service_url).to eq "http://localhost:3000/auth/saml/callback"
@@ -86,14 +86,12 @@ RSpec.describe EnvData::Saml::ProviderSeeder, :settings_reset do
     context "when provider already exists with that name" do
       it "updates the provider" do
         provider = Saml::Provider.create!(display_name: "Something", slug: "saml", mapping_mail: "old", creator: User.system)
-        expect(provider.seeded_from_env).to be_nil
-
         expect { seeder.seed! }.not_to change(Saml::Provider, :count)
 
         provider.reload
 
         expect(provider.display_name).to eq "Test SAML"
-        expect(provider.seeded_from_env).to be true
+        expect(provider.seeded_from_env?).to be true
         expect(provider.mapping_mail).to eq "mail\nurn:oid:2.5.4.42\nhttp://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
       end
     end

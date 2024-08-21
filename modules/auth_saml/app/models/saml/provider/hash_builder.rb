@@ -52,9 +52,9 @@ module Saml
         check_idp_cert_expiration: false, # done in contract
         check_sp_cert_expiration: false, # done in contract
         metadata_signed: certificate.present? && private_key.present?,
-        authn_requests_signed:,
-        want_assertions_signed:,
-        want_assertions_encrypted:,
+        authn_requests_signed: !!authn_requests_signed,
+        want_assertions_signed: !!want_assertions_signed,
+        want_assertions_encrypted: !!want_assertions_encrypted,
         digest_method:,
         signature_method:
       }.compact

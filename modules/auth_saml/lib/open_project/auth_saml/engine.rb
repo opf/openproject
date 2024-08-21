@@ -6,7 +6,7 @@ module OpenProject
 
       OpenProject::Cache.fetch(providers.cache_key) do
         providers.each_with_object({}) do |provider, hash|
-          hash[provider.slug] = provider.to_h
+          hash[provider.slug.to_sym] = provider.to_h
         end
       end
     end

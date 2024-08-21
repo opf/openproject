@@ -26,8 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require_relative "../support/certificate_helper"
+
 FactoryBot.define do
   factory(:saml_provider, class: "Saml::Provider") do
     sequence(:display_name) { |n| "Saml Provider #{n}" }
+    creator factory: :user
+    available { true }
+    idp_cert { CertificateHelper.valid_certificate.to_pem }
+
+    idp_sso_service_url { "https://example.com/sso" }
+    idp_slo_service_url { "https://example.com/slo" }
+
+    mapping_login { Saml::Defaults::MAIL_MAPPING }
+    mapping_mail { Saml::Defaults::MAIL_MAPPING }
+    mapping_firstname { Saml::Defaults::FIRSTNAME_MAPPING }
+    mapping_lastname { Saml::Defaults::LASTNAME_MAPPING }
   end
 end

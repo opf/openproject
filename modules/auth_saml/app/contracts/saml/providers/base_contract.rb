@@ -34,6 +34,9 @@ module Saml
         Saml::Provider
       end
 
+      attribute :type
+      validate :type_is_saml_provider
+
       attribute :display_name
       attribute :slug
       attribute :options
@@ -59,16 +62,22 @@ module Saml
                if: -> { model.idp_cert_changed? && model.idp_cert.present? }
 
       attribute :authn_requests_signed
-      validate :authn_requests_signed_requires_cert
+      validate :valid_certificate_key_pair
 
       %i[mapping_mail mapping_login mapping_firstname mapping_lastname].each do |attr|
         attribute attr
         validates_presence_of attr, if: -> { model.public_send(:"#{attr}_changed?") }
       end
 
+      def type_is_saml_provider
+        unless model.type == Saml::Provider.name
+          errors.add(:type, :inclusion)
+        end
+      end
+
       def idp_cert_not_expired
         unless model.idp_certificate_expired?
-          errors.add :certificate, :certificate_expired
+          errors.add :idp_cert, :certificate_expired
         end
       rescue OpenSSL::X509::CertificateError => e
         errors.add :idp_cert, :invalid_certificate, additional_message: e.message
@@ -94,7 +103,7 @@ module Saml
         errors.add :private_key, :invalid_private_key, additional_message: e.message
       end
 
-      def authn_requests_signed_requires_cert
+      def valid_certificate_key_pair
         return unless should_test_certificate?
         return if certificate_invalid?
 
@@ -114,10 +123,9 @@ module Saml
       end
 
       def should_test_certificate?
-        return false unless model.authn_requests_signed
-        return false unless model.authn_requests_signed_changed? || model.certificate_changed? || model.private_key_changed?
+        return false unless model.certificate_changed? || model.private_key_changed?
 
-        model.certificate.present? && model.private_key.present?
+        model.certificate.present? || model.private_key.present?
       end
     end
   end

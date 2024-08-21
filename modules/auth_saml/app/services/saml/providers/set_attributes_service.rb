@@ -45,7 +45,7 @@ module Saml
         end
       end
 
-      def update_options(options)
+      def update_options(options) # rubocop:disable Metrics/AbcSize
         update_idp_cert(options.delete(:idp_cert)) if options.key?(:idp_cert)
         update_certificate(options.delete(:certificate)) if options.key?(:certificate)
         update_private_key(options.delete(:private_key)) if options.key?(:private_key)
@@ -67,11 +67,18 @@ module Saml
           set_issuer
           set_name_identifier_format
           set_default_digest
+          set_default_encryption
         end
       end
 
+      def set_default_encryption
+        model.authn_requests_signed = false if model.authn_requests_signed.nil?
+        model.want_assertions_signed = false if model.want_assertions_signed.nil?
+        model.want_assertions_encrypted = false if model.want_assertions_encrypted.nil?
+      end
+
       def set_slug
-        model.slug ||= "#{model.class.slug_fragment}-#{model.display_name.to_url}"
+        model.slug ||= "#{model.class.slug_fragment}-#{model.display_name.to_url}" if model.display_name
       end
 
       def set_default_digest
@@ -107,14 +114,14 @@ module Saml
       ##
       # Clean up provided mapping, reducing whitespace
       def update_mapping(params)
-        %i[mapping_mail mapping_login mapping_firstname mapping_lastname].each do |attr|
+        %i[mapping_mail mapping_login mapping_firstname mapping_lastname mapping_uid].each do |attr|
           next unless params.key?(attr)
 
-          mapping = params.delete(attr)
-          mapping.gsub!("\r\n", "\n")
-          mapping.gsub!(/^\s*(.+?)\s*$/, '\1')
+          parsed = params.delete(attr)
+            .gsub("\r\n", "\n")
+            .gsub!(/^\s*(.+?)\s*$/, '\1')
 
-          model.public_send(:"#{attr}=", mapping)
+          model.public_send(:"#{attr}=", parsed)
         end
       end
 
