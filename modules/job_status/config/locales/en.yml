@@ -5,12 +5,13 @@ en:
     description: "Listing and status of background jobs."
   job_status_dialog:
     download_starts: 'The download should start automatically.'
-    click_to_download: 'Or click here to download.'
+    link_to_download: 'Or, %{link} to download.'
+    click_here: 'click here'
     title: 'Background job status'
     redirect: 'You are being redirected.'
     redirect_link: 'Please click here to continue.'
     redirect_errors: 'Due to these errors, you will not be redirected automatically.'
-    errors: 'Some errors have occurred'
+    errors: 'Something went wrong'
     generic_messages:
       not_found: 'This job could not be found.'
       in_queue: 'The job has been queued and will be processed shortly.'

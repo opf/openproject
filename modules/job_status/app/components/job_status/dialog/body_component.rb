@@ -85,14 +85,6 @@ module JobStatus
         error_statuses.include?(job.status) || job_errors?
       end
 
-      def title
-        return I18n.t("job_status_dialog.generic_messages.not_found") if job.nil?
-
-        return I18n.t("job_status_dialog.errors") if has_error?
-
-        job.payload&.dig("title") || I18n.t("job_status_dialog.title")
-      end
-
       def icon
         return { icon: :alert, classes: "color-fg-danger" } if job.nil?
         return { icon: :"x-circle", classes: "color-fg-danger" } if has_error?
@@ -100,10 +92,18 @@ module JobStatus
         { icon: :"issue-closed", classes: "color-fg-success" } if success_statuses.include?(job.status)
       end
 
-      def message
-        return "" if job.nil? || job_errors?
+      def title
+        return I18n.t("job_status_dialog.generic_messages.not_found") if job.nil?
 
-        job.message || I18n.t("job_status_dialog.generic_messages.#{job.status}")
+        return I18n.t("job_status_dialog.errors") if has_error?
+
+        job.message || job.payload&.dig("title") || I18n.t("job_status_dialog.title")
+      end
+
+      def message
+        return "" if job.nil? || !pending?
+
+        I18n.t("job_status_dialog.generic_messages.#{job.status}")
       end
     end
   end

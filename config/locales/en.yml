@@ -1809,9 +1809,9 @@ en:
         include_descriptions:
           label: "Include descriptions"
           caption: "This option will add a description column in raw format."
-    your_work_packages_export: "Your work packages export"
-    succeeded: "The export has completed successfully."
-    failed: "The export has failed: %{message}"
+    your_work_packages_export: "Work packages are being exported"
+    succeeded: "Export completed"
+    failed: "An error has occurred while trying to export the work packages: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
