@@ -248,7 +248,7 @@ RSpec.describe SortHelper do
     describe "passing data params" do
       let(:options) { { data: { "turbo-stream": true } } }
 
-      it "includes the passed data parm in the link" do
+      it "includes the passed data param in the link" do
         expect(output).to be_html_eql(<<~HTML)
           <th title="Sort by &quot;Id&quot;">
             <div class="generic-table--sort-header-outer">
