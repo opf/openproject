@@ -32,7 +32,6 @@ module Saml
       private
 
       def set_attributes(params)
-        update_mapping(params)
         update_options(params.delete(:options)) if params.key?(:options)
 
         super
@@ -50,6 +49,7 @@ module Saml
         update_idp_cert(options.delete(:idp_cert)) if options.key?(:idp_cert)
         update_certificate(options.delete(:certificate)) if options.key?(:certificate)
         update_private_key(options.delete(:private_key)) if options.key?(:private_key)
+        update_mapping(options)
 
         options
           .select { |key, _| Saml::Provider.stored_attributes[:options].include?(key.to_s) }

@@ -92,7 +92,7 @@ module Saml
     def update
       call = Saml::Providers::UpdateService
         .new(model: @provider, user: User.current)
-        .call(update_params)
+        .call(options: update_params)
 
       if call.success?
         flash[:notice] = I18n.t(:notice_successful_update) unless @edit_mode
