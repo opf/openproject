@@ -82,6 +82,8 @@ module JobStatus
       end
 
       def has_error?
+        return false if job.nil?
+
         error_statuses.include?(job.status) || job_errors?
       end
 
