@@ -85,7 +85,7 @@ RSpec.describe "bcf export", :js,
     expect(page).to have_text("completed successfully")
 
     # Close the modal
-    page.find(".spot-modal-overlay").click
+    page.find(".Overlay-closeButton").click
 
     @download_list.refresh_from(page)
 
