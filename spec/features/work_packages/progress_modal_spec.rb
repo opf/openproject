@@ -99,59 +99,32 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
   end
 
   describe "work based mode" do
-    shared_examples_for "opens the modal with its work field in focus" do
-      it "opens the modal with its work field in focus" do
+    shared_examples_for "opens the modal with the clicked field in focus" do
+      it "when clicking on a field opens the modal and focuses on the related modal input field", :aggregate_failures do
         visit_progress_query_displaying_work_package
 
-        progress_popover.open_by_clicking_on_field(:work)
-        progress_popover.expect_focused(:work)
+        %i[work remaining_work percent_complete].each do |field_name|
+          progress_popover.open_by_clicking_on_field(field_name)
+          progress_popover.expect_focused(field_name)
+          progress_popover.close
+        end
       end
     end
 
-    describe "clicking on the work field on the work package table " \
-             "with no fields set" do
+    context "with no fields set" do
       before do
-        update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil)
+        update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil, done_ratio: nil)
       end
 
-      include_examples "opens the modal with its work field in focus"
+      include_examples "opens the modal with the clicked field in focus"
     end
 
-    describe "clicking on the work field on the work package table " \
-             "with all fields set" do
+    context "with all fields set" do
       before do
         update_work_package_with(work_package, estimated_hours: 25.0, remaining_hours: 15.0)
       end
 
-      include_examples "opens the modal with its work field in focus"
-    end
-
-    describe "clicking on the remaining work field on the work package table " \
-             "with no fields set" do
-      before do
-        update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil)
-      end
-
-      it "opens the modal with remaining work in focus" do
-        visit_progress_query_displaying_work_package
-
-        progress_popover.open_by_clicking_on_field(:remaining_work)
-        progress_popover.expect_focused(:remaining_work)
-      end
-    end
-
-    describe "clicking on the remaining work field on the work package table " \
-             "with all fields set" do
-      before do
-        update_work_package_with(work_package, estimated_hours: 20.0, remaining_hours: 15.0)
-      end
-
-      it "opens the modal with remaining work in focus" do
-        visit_progress_query_displaying_work_package
-
-        progress_popover.open_by_clicking_on_field(:remaining_work)
-        progress_popover.expect_focused(:remaining_work)
-      end
+      include_examples "opens the modal with the clicked field in focus"
     end
   end
 
