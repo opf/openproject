@@ -85,6 +85,14 @@ module JobStatus
         error_statuses.include?(job.status) || job_errors?
       end
 
+      def mime_type
+        job&.payload&.dig("mime_type")
+      end
+
+      def mime_type_pdf?
+        mime_type == "application/pdf"
+      end
+
       def icon
         return { icon: :alert, classes: "color-fg-danger" } if job.nil?
         return { icon: :"x-circle", classes: "color-fg-danger" } if has_error?
@@ -97,13 +105,15 @@ module JobStatus
 
         return I18n.t("job_status_dialog.errors") if has_error?
 
-        job.message || job.payload&.dig("title") || I18n.t("job_status_dialog.title")
+        job.payload&.dig("title") || job.message || I18n.t("job_status_dialog.title")
       end
 
       def message
-        return "" if job.nil? || !pending?
+        return I18n.t("job_status_dialog.generic_messages.#{job.status}") if pending?
 
-        I18n.t("job_status_dialog.generic_messages.#{job.status}")
+        return job.message if has_error?
+
+        ""
       end
     end
   end

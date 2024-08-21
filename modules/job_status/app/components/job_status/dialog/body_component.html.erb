@@ -9,6 +9,7 @@
   <% else %>
     <%= content_tag :div, "", data: { "job-status-polling-target": "finished" } %>
   <% end %>
+  <code><%= job.inspect %></code>
   <%= render Primer::Beta::Blankslate.new do |component|
     component.with_visual_icon(icon: icon[:icon], classes: icon[:classes], size: :medium) unless icon.nil?
     component.with_heading(tag: :h2).with_content(title)
@@ -38,7 +39,10 @@
                    link: (render(Primer::Beta::Link.new(
                      href: download_url,
                      target: "_blank",
-                     download: "download",
+                     type: mime_type,
+                     # omit download attribute for PDF,
+                     # so they open in a tab - if supported and activated in the browser
+                     download: mime_type_pdf? ? nil : "download",
                      data: {
                        "job-status-polling-target": "download"
                      }
@@ -47,7 +51,7 @@
           } }
         end
         if job_html.present?
-          flex.with_row { job_html.html_safe }
+          flex.with_row(text_align: :left) { job_html.html_safe }
         end
       end
     end
