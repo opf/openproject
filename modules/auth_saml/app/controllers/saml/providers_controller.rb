@@ -47,18 +47,23 @@ module Saml
     end
 
     def import_metadata
-      if params[:saml_provider][:metadata] != "none"
-        update_provider_metadata
-        return if performed?
-      end
+      call = update_provider_metadata_call
+      @provider = call.result
 
-      if @edit_mode
-        redirect_to edit_saml_provider_path(@provider,
-                                            anchor: "saml-providers-edit-form",
-                                            edit_mode: @edit_mode,
-                                            edit_state: :configuration)
+      if call.success?
+        if @edit_mode || @provider.last_metadata_update.present?
+          redirect_to edit_saml_provider_path(@provider,
+                                              anchor: "saml-providers-edit-form",
+                                              edit_mode: @edit_mode,
+                                              edit_state: :configuration)
+        else
+          redirect_to saml_provider_path(@provider)
+        end
       else
-        redirect_to saml_provider_path(@provider)
+        @edit_state = :metadata
+
+        flash[:error] = call.message
+        render action: :edit
       end
     end
 
@@ -140,59 +145,22 @@ module Saml
       end
     end
 
-    def update_provider_metadata
-      call = Saml::Providers::UpdateService
+    def update_provider_metadata_call
+      Saml::Providers::UpdateService
         .new(model: @provider, user: User.current)
         .call(import_params)
-
-      if call.success?
-        load_and_apply_metadata
-      else
-        @provider = call.result
-        @edit_state = :metadata
-
-        flash[:error] = call.message
-        render action: :edit
-      end
-    end
-
-    def load_and_apply_metadata
-      call = Saml::UpdateMetadataService
-        .new(provider: @provider, user: User.current)
-        .call
-
-      if call.success?
-        apply_metadata(call.result.compact_blank)
-      else
-        @edit_state = :metadata
-
-        flash[:error] = call.message
-        render action: :edit
-      end
-    end
-
-    def apply_metadata(params) # rubocop:disable Metrics/AbcSize
-      new_options = @provider.options.merge(params)
-      last_metadata_update = params.blank? ? nil : Time.current
-      call = Saml::Providers::UpdateService
-        .new(model: @provider, user: User.current)
-        .call({ options: new_options, last_metadata_update: })
-
-      if call.success?
-        flash[:notice] = I18n.t("saml.metadata_parser.success")
-      else
-        @provider = call.result
-        @edit_state = :configuration
-
-        flash[:error] = call.message
-        render action: :edit
-      end
     end
 
     def import_params
-      params
+      options = params
         .require(:saml_provider)
-        .permit(:metadata_url, :metadata_xml)
+        .permit(:metadata_url, :metadata_xml, :metadata)
+
+      if options[:metadata] == "none"
+        { metadata_url: nil, metadata_xml: nil }
+      else
+        options.slice(:metadata_url, :metadata_xml)
+      end
     end
 
     def create_params

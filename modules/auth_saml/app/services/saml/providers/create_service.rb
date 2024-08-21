@@ -29,6 +29,7 @@
 module Saml
   module Providers
     class CreateService < BaseServices::Create
+      include UpdateMetadata
     end
   end
 end

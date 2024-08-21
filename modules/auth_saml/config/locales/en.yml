@@ -37,7 +37,7 @@ en:
       description: >
         Use these parameters to configure your identity provider connection to OpenProject.
     metadata_parser:
-      success: "Successfully updated the configuration using the identity provider metadata. Please review and save the configuration."
+      success: "Successfully updated the configuration using the identity provider metadata."
       invalid_url: "Provided metadata URL is invalid. Provide a HTTP(s) URL."
       error: "Failed to retrieve the identity provider metadata: %{error}"
     providers:
@@ -76,7 +76,9 @@ en:
         display_name: "Configure the display name of the SAML provider."
         metadata: "Pre-fill configuration using a metadata URL or by pasting metadata XML"
         metadata_form: "If your identity provider has a metadata endpoint or XML download, add it below to pre-fill configuration."
+        metadata_form_banner: "Editing the metadata may override existing values in other sections. "
         configuration: "Configure the endpoint URLs for the identity provider, certificates, and further SAML options."
+        configuration_metadata: "This information has been pre-filled using the supplied metadata. In most cases, they do not require editing."
         encryption: "Configure assertion signatures and encryption for SAML requests and responses."
         encryption_form: "You may optionally want to encrypt the assertion response, or have requests from OpenProject signed."
         mapping: "Manually adjust the mapping between the SAML response and user attributes in OpenProject."

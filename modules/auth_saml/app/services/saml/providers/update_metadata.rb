@@ -27,53 +27,21 @@
 #++
 
 module Saml
-  class UpdateMetadataService
-    attr_reader :user, :provider
+  module Providers
+    module UpdateMetadata
+      def after_validate(_params, call)
+        return call unless model.metadata_updated?
 
-    def initialize(user:, provider:)
-      @user = user
-      @provider = provider
-    end
-
-    def call
-      apply_metadata(fetch_metadata)
-    rescue StandardError => e
-      OpenProject.logger.error(e)
-      ServiceResult.failure(result: provider,
-                            message: I18n.t("saml.metadata_parser.error", error: e.class.name))
-    end
-
-    private
-
-    def apply_metadata(metadata)
-      new_options = provider.options.merge(metadata)
-      last_metadata_update = metadata.blank? ? nil : Time.current
-
-      Saml::Providers::SetAttributesService
-        .new(model: @provider, user: User.current, contract_class: Saml::Providers::UpdateContract)
-        .call({ options: new_options, last_metadata_update: })
-    end
-
-    def fetch_metadata
-      if provider.metadata_url.present?
-        parse_url
-      elsif provider.metadata_xml.present?
-        parse_xml
-      else
-        {}
+        metadata_update_call(call.result)
       end
-    end
 
-    def parse_xml
-      parser_instance.parse_to_hash(provider.metadata_xml)
-    end
+      private
 
-    def parse_url
-      parser_instance.parse_remote_to_hash(provider.metadata_url)
-    end
-
-    def parser_instance
-      OneLogin::RubySaml::IdpMetadataParser.new
+      def metadata_update_call(provider)
+        Saml::UpdateMetadataService
+          .new(provider:, user:)
+          .call
+      end
     end
   end
 end

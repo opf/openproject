@@ -33,7 +33,7 @@ module Saml::Providers::Sections
     attr_reader :edit_state, :next_edit_state, :edit_mode
 
     def initialize(provider, edit_state:, form_class:,
-                   heading:, banner: nil, banner_scheme: :info,
+                   heading:, banner: nil, banner_scheme: :default,
                    next_edit_state: nil, edit_mode: nil)
       super(provider)
 

@@ -68,7 +68,9 @@
         edit_state:,
         next_edit_state: :encryption,
         edit_mode:,
-        heading: t("saml.providers.section_texts.configuration_form")
+        banner: provider.last_metadata_update ? t("saml.providers.section_texts.configuration_metadata") : nil,
+        banner_scheme: :default,
+        heading: nil
       ))
     else
       render(Saml::Providers::Sections::ShowComponent.new(

@@ -40,7 +40,7 @@ module Saml
 
         f.group(layout: :horizontal) do |button_group|
           button_group.submit(**@submit_button_options) unless @provider.seeded_from_env?
-          button_group.button(**@cancel_button_options)
+          button_group.button(**@cancel_button_options) unless @cancel_button_options[:hidden]
         end
       end
 

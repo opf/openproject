@@ -56,6 +56,10 @@ module Saml
       metadata_xml.present? || metadata_url.present?
     end
 
+    def metadata_updated?
+      metadata_xml_changed? || metadata_url_changed?
+    end
+
     def configured?
       sp_entity_id.present? &&
         idp_sso_service_url.present? &&
