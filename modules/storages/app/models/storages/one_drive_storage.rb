@@ -59,7 +59,7 @@ module Storages
 
     def available_project_folder_modes
       if automatic_management_enabled?
-        ["inactive", "automatic"]
+        ["automatic"]
       else
         ["inactive", "manual"]
       end
