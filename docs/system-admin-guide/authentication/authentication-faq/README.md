@@ -41,7 +41,7 @@ Yes, for Enterprise on-premises and Community edition there is a [configuration 
 
 We support all authentication providers that support the SAML and  OpenID Connect (OIDC) standards, such as Microsoft Entra  ID, ADFS, CAS  (with the OpenID connect overlay), Azure, Keycloak, Okta. 
 
-> [Note]
+> [!NOTE]
 > Please note  that single sign-on is an Enterprise add-on and can only be activated  for Enterprise cloud and Enterprise on-premises.
 
 ## Is it possible to use a custom SSO provider (e.g. Keycloak) with the Enterprise cloud edition?

@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Kerberos
-  priority: 800
+  priority: 200
 description: How to set up integration of Kerberos for authentication with OpenProject.
 keywords: Kerberos, authentication
 
@@ -10,8 +10,9 @@ keywords: Kerberos, authentication
 
 # Kerberos integration
 
-> **Note**: This documentation is valid for the OpenProject Enterprise edition only.
-[Kerberos](https://web.mit.edu/kerberos/) allows you to authenticate user requests to a service within a computer network. You can integrate it with OpenProject with the use of [GSSAPI Apache module](https://github.com/gssapi/mod_auth_gssapi/) (`mod_auth_gssapi`) plugging into the OpenProject packaged installation using Apache web server.
+> [!NOTE]
+> This documentation is valid for the OpenProject Enterprise edition only. 
+> [Kerberos](https://web.mit.edu/kerberos/) allows you to authenticate user requests to a service within a computer network. You can integrate it with OpenProject with the use of [GSSAPI Apache module](https://github.com/gssapi/mod_auth_gssapi/) (`mod_auth_gssapi`) plugging into the OpenProject packaged installation using Apache web server.
 
 This guide will also apply for Docker-based installation, if you have an outer proxying server such as Apache2 that you can configure to use Kerberos. This guide however focuses on the packaged installation of OpenProject.
 
@@ -49,7 +50,8 @@ You will then need to add the generated keytab to be used for the OpenProject in
 
 We are going to create a new file `/etc/openproject/addons/apache2/custom/vhost/kerberos.conf` with the following contents.
 
-> **Please note**: The following kerberos configuration is only an example. We cannot provide any support or help with regards to the Kerberos side of configuration. OpenProject will simply handle the incoming header containing the logged in user.
+> [!NOTE]
+> The following kerberos configuration is only an example. We cannot provide any support or help with regards to the Kerberos side of configuration. OpenProject will simply handle the incoming header containing the logged in user.
 
 ```apache
 <Location />
@@ -127,7 +129,8 @@ For non-existing users, if you have an LDAP configured with automatic user regis
 
 As Kerberos provides its own Basic Auth challenges if configured as shown above, it will prevent you from using the OpenProject API using an Authorization header such as API key authentication or OAuth2.
 
-**Note:** A precondition to use this workaround is to run OpenProject under its own path (server prefix) such as `https://YOUR DOMAIN/openproject/`. If you are not using this, you need to first reconfigure the wizard with `openproject reconfigure` to use such a path prefix. Alternatively, you might have success by using a separate domain or subdomain, but this is untested.
+> [!NOTE]
+> A precondition to use this workaround is to run OpenProject under its own path (server prefix) such as `https://YOUR DOMAIN/openproject/`. If you are not using this, you need to first reconfigure the wizard with `openproject reconfigure` to use such a path prefix. Alternatively, you might have success by using a separate domain or subdomain, but this is untested.
 
 To work around this, you will have to configure a separate route to access the API, bypassing the Kerberos configuration. You can do that by modifying the `/etc/openproject/addons/apache2/custom/vhost/kerberos.conf`as follows:
 
