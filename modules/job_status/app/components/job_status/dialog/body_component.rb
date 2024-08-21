@@ -101,9 +101,7 @@ module JobStatus
       end
 
       def message
-        return "" if job.nil?
-
-        return job_errors.join(" ") if job_errors?
+        return "" if job.nil? || job_errors?
 
         job.message || I18n.t("js.job_status.generic_messages.#{job.status}")
       end
