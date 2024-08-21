@@ -319,6 +319,7 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
   describe "#apply_to" do
     describe "permissions" do
       let(:user) { build_stubbed(:user) }
+      current_user { user }
 
       it "includes the check for view_project_attributes permission" do
         projects_query = Project.allowed_to(user, :view_project_attributes)
