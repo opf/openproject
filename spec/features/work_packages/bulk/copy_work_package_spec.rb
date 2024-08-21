@@ -109,7 +109,7 @@ RSpec.describe "Copy work packages through Rails view", :js, :with_cuprite do
           notes.set_markdown "A note on copy"
           click_on "Copy and follow"
 
-          expect(page).to have_text "The job has been queued and will be processed shortly."
+          expect(page).to have_text("The job has been queued and will be processed shortly.", wait: 10)
 
           perform_enqueued_jobs
 

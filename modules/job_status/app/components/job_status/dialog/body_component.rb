@@ -55,46 +55,24 @@ module JobStatus
         ::JobStatus::Status.statuses.slice(:success).values
       end
 
-      def redirect_url?
-        return false if job.nil?
-
-        job.payload["redirect"].present?
-      end
-
       def redirect_url
-        job.payload["redirect"]
-      end
-
-      def download_url?
-        return false if job.nil?
-
-        job.payload["download"].present?
+        job&.payload&.dig("redirect")
       end
 
       def download_url
-        job.payload["download"]
+        job&.payload&.dig("download")
       end
 
       def job_errors
-        job.payload["errors"]
-      end
-
-      def job_errors?
-        return false if job.nil?
-
-        job.payload["errors"].present?
-      end
-
-      def job_html?
-        return false if job.nil?
-
-        job.payload["html"].present?
+        job&.payload&.dig("errors")
       end
 
       def job_html
-        return false if job.nil?
+        job&.payload&.dig("html")
+      end
 
-        job.payload["html"].present?
+      def job_errors?
+        job_errors.present?
       end
 
       def pending?
@@ -112,7 +90,7 @@ module JobStatus
 
         return I18n.t("js.job_status.errors") if has_error?
 
-        job.payload["title"] || I18n.t("js.job_status.title")
+        job.payload&.dig("title") || I18n.t("js.job_status.title")
       end
 
       def icon
