@@ -373,9 +373,6 @@ RSpec.describe "Persisted lists on projects index page",
 
       projects_page.click_more_menu_item("Rename")
       projects_page.fill_in_the_name("My renamed query")
-      # Can't open filter changing interface
-      # TODO: Filter section is currently not dynamically updated, so it does not get disabled
-      # expect(projects_page.filters_toggle).to be_disabled
       projects_page.click_on "Save"
 
       wait_for_network_idle
