@@ -40,24 +40,26 @@ module Storages::ProjectStorages::Projects
     def more_menu_items
       return [] unless can_view_more_menu_items?
 
-      @more_menu_items ||= [more_menu_edit_project_storage, more_menu_detach_project]
+      @more_menu_items ||= [more_menu_edit_project_storage, more_menu_detach_project].compact
     end
 
     private
 
     def more_menu_edit_project_storage
-      {
-        scheme: :default,
-        icon: :pencil,
-        label: I18n.t("project_storages.edit_project_folder.label"),
-        href: edit_admin_settings_storage_project_storage_path(
-          storage_id: project_storage.storage.id,
-          id: project_storage.id
-        ),
-        data: {
-          controller: "async-dialog"
+      if can_edit?
+        {
+          scheme: :default,
+          icon: :pencil,
+          label: I18n.t("project_storages.edit_project_folder.label"),
+          href: edit_admin_settings_storage_project_storage_path(
+            storage_id: project_storage.storage.id,
+            id: project_storage.id
+          ),
+          data: {
+            controller: "async-dialog"
+          }
         }
-      }
+      end
     end
 
     def more_menu_detach_project
@@ -76,6 +78,14 @@ module Storages::ProjectStorages::Projects
 
     def can_view_more_menu_items?
       User.current.admin && project.active?
+    end
+
+    def can_edit?
+      !one_drive_storage_ampf_enabled?
+    end
+
+    def one_drive_storage_ampf_enabled?
+      project_storage.storage.provider_type_one_drive? && project_storage.storage.automatic_management_enabled?
     end
 
     def project_storage
