@@ -107,7 +107,7 @@ module JobStatus
 
         return I18n.t("job_status_dialog.errors") if has_error?
 
-        job.payload&.dig("title") || job.message || I18n.t("job_status_dialog.title")
+        job.message || job.payload&.dig("title") || I18n.t("job_status_dialog.title")
       end
 
       def message
