@@ -71,7 +71,7 @@ RSpec.describe "project export", :js, :with_cuprite do
     end
 
     if expect_success
-      expect(page).to have_text("The export has completed successfully")
+      expect(page).to have_text(I18n.t("export.succeeded"))
     end
   end
 

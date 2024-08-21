@@ -82,7 +82,7 @@ RSpec.describe "bcf export", :js,
                                  wait: 10)
 
     perform_enqueued_jobs
-    expect(page).to have_text("completed successfully")
+    expect(page).to have_text(I18n.t("export.succeeded"))
 
     # Close the modal
     page.find(".Overlay-closeButton").click

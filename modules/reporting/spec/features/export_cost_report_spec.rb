@@ -60,7 +60,7 @@ RSpec.describe "Cost reports XLS export", :js do
                                  wait: 10
     perform_enqueued_jobs
 
-    expect(page).to have_text("The export has completed successfully")
+    expect(page).to have_text(I18n.t("export.succeeded"))
 
     title, _, entry, = subject.rows
     expect(title.first).to include("Cost reports (#{Time.zone.today.strftime('%m/%d/%Y')})")

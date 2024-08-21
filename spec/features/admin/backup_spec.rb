@@ -64,7 +64,7 @@ RSpec.describe "backup", :js do
       # nothing
     end
 
-    expect(page).to have_text "The export has completed successfully"
+    expect(page).to have_text I18n.t("export.succeeded"), wait: 10
     expect(subject).to end_with ".zip"
   end
 
