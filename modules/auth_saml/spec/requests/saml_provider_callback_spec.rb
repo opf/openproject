@@ -31,7 +31,7 @@ require "rack/test"
 
 RSpec.describe "SAML provider callback",
                type: :rails_request,
-               with_ee: %i[openid_providers] do
+               with_ee: %i[sso_auth_providers] do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

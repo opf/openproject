@@ -139,7 +139,7 @@ module Saml
     end
 
     def check_ee
-      unless EnterpriseToken.allows_to?(:openid_providers)
+      unless EnterpriseToken.allows_to?(:sso_auth_providers)
         render template: "/saml/providers/upsale"
         false
       end
