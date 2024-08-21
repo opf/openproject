@@ -30,7 +30,8 @@ module Saml
   module Providers
     module UpdateMetadata
       def after_validate(_params, call)
-        return call unless model.metadata_updated?
+        model = call.result
+        return call unless model&.metadata_updated?
 
         metadata_update_call(call.result)
       end

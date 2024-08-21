@@ -29,7 +29,7 @@ module EnvData
   module Saml
     class ProviderSeeder < Seeder
       def seed_data!
-        Setting.seed_saml_provider.each do |name, options|
+        provider_configuration.each do |name, options|
           print_status "    ↳ Creating or Updating SAML provider #{name}" do
             provider = ::Saml::Provider.find_by(slug: name)
             params = ::Saml::ConfigurationMapper.new(options).call!
@@ -47,10 +47,40 @@ module EnvData
       end
 
       def applicable?
-        Setting.seed_saml_provider.present?
+        provider_configuration.present?
+      end
+
+      def provider_configuration
+        config = Setting.seed_saml_provider
+        deprecated_config = load_deprecated_configuration.presence || {}
+
+        config.reverse_merge(deprecated_config)
       end
 
       private
+
+      def load_deprecated_configuration
+        deprecated_settings = Rails.root.join("config/plugins/auth_saml/settings.yml")
+
+        if deprecated_settings.exist?
+          Rails.logger.info do
+            <<~WARNING
+              Loading SAML configuration from deprecated location #{deprecated_path}.
+              Please use ENV variables or UI configuration instead.
+
+              For more information, see our guide on how to configure SAML.
+              https://www.openproject.org/docs/system-admin-guide/authentication/saml/
+            WARNING
+          end
+
+          begin
+            YAML::load(File.open(deprecated_settings))&.symbolize_keys
+          rescue StandardError
+            Rails.logger.error "Failed to load deprecated SAML configuration from #{deprecated_settings}. Ignoring that file."
+            nil
+          end
+        end
+      end
 
       def create(name, params)
         ::Saml::Providers::CreateService
