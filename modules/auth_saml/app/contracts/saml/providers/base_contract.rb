@@ -55,7 +55,7 @@ module Saml
       attribute :idp_cert
       validates_presence_of :idp_cert,
                             if: -> { model.idp_cert_changed? }
-      validate :idp_cert_is_valid,
+      validate :idp_cert_not_expired,
                if: -> { model.idp_cert_changed? && model.idp_cert.present? }
 
       attribute :authn_requests_signed
@@ -66,12 +66,9 @@ module Saml
         validates_presence_of attr, if: -> { model.public_send(:"#{attr}_changed?") }
       end
 
-      def idp_cert_is_valid
-        model.loaded_idp_certificates.each do |cert|
-          if OneLogin::RubySaml::Utils.is_cert_expired(cert)
-            errors.add :certificate, :certificate_expired
-            break
-          end
+      def idp_cert_not_expired
+        unless model.idp_certificate_expired?
+          errors.add :certificate, :certificate_expired
         end
       rescue OpenSSL::X509::CertificateError => e
         errors.add :idp_cert, :invalid_certificate, additional_message: e.message

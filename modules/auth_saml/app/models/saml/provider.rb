@@ -67,7 +67,7 @@ module Saml
     def configured?
       sp_entity_id.present? &&
         idp_sso_service_url.present? &&
-        certificate_configured?
+        idp_certificate_configured?
     end
 
     def mapping_configured?
@@ -95,8 +95,12 @@ module Saml
       @loaded_idp_certificates ||= OpenSSL::X509::Certificate.load(idp_cert)
     end
 
-    def certificate_configured?
+    def idp_certificate_configured?
       idp_cert.present?
+    end
+
+    def idp_certificate_expired?
+      !loaded_idp_certificates.all? { |cert| OneLogin::RubySaml::Utils.is_cert_expired(cert) }
     end
 
     def idp_cert=(cert)
