@@ -35,6 +35,7 @@ class ServiceResult
   attr_accessor :success,
                 :result,
                 :errors,
+                :message,
                 :dependent_results
 
   attr_writer :state

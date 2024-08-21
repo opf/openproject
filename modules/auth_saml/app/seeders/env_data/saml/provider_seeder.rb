@@ -31,16 +31,12 @@ module EnvData
       def seed_data!
         provider_configuration.each do |name, options|
           print_status "    ↳ Creating or Updating SAML provider #{name}" do
-            provider = ::Saml::Provider.find_by(slug: name)
-            params = ::Saml::ConfigurationMapper.new(options).call!
-            params["options"]["seeded_from_env"] = true
+            call = ::Saml::SyncService.new(name, options).call
 
-            if provider
-              print_status "   - Updating existing SAML provider '#{name}' from ENV"
-              update(name, provider, params)
+            if call.success
+              print_status "   - #{call.message}"
             else
-              print_status "   - Creating new SAML provider '#{name}' from ENV"
-              create(name, params)
+              raise call.message
             end
           end
         end
@@ -80,22 +76,6 @@ module EnvData
             nil
           end
         end
-      end
-
-      def create(name, params)
-        ::Saml::Providers::CreateService
-          .new(user: User.system)
-          .call(params)
-          .on_success { print_status "   - Successfully saved SAML provider #{name}." }
-          .on_failure { |call| raise "Failed to create SAML provider: #{call.message}" }
-      end
-
-      def update(name, provider, params)
-        ::Saml::Providers::UpdateService
-          .new(model: provider, user: User.system)
-          .call(params)
-          .on_success { print_status "   - Successfully updated SAML provider #{name}." }
-          .on_failure { |call| raise "Failed to update SAML provider: #{call.message}" }
       end
     end
   end

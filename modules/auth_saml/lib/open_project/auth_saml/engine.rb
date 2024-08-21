@@ -2,24 +2,13 @@ require "omniauth-saml"
 module OpenProject
   module AuthSaml
     def self.configuration
-      RequestStore.fetch(:openproject_omniauth_saml_provider) do
-        settings_from_db
-          .deep_merge(settings_from_providers)
+      providers = Saml::Provider.where(available: true)
+
+      OpenProject::Cache.fetch(providers.cache_key) do
+        providers.each_with_object({}) do |provider, hash|
+          hash[provider.slug] = provider.to_h
+        end
       end
-    end
-
-    def self.settings_from_providers
-      Saml::Provider
-        .where(available: true)
-        .each_with_object({}) do |provider, hash|
-        hash[provider.slug] = provider.to_h
-      end
-    end
-
-    def self.settings_from_db
-      value = Hash(Setting.plugin_openproject_auth_saml).with_indifferent_access[:providers]
-
-      value.is_a?(Hash) ? value : {}
     end
 
     class Engine < ::Rails::Engine
