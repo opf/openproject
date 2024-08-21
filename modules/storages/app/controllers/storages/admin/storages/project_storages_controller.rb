@@ -123,22 +123,27 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   end
 
   def destroy
-    result = Storages::ProjectStorages::DeleteService
+    delete_service = Storages::ProjectStorages::DeleteService
       .new(user: current_user, model: @project_storage)
       .call
 
-    # rubocop:disable Rails/ActionControllerFlashBeforeRender
-    result.on_success do
-      flash[:primer_banner] = { message: I18n.t(:notice_successful_delete) }
+    delete_service.on_success do
+      update_flash_message_via_turbo_stream(
+        message: I18n.t(:notice_successful_delete),
+        full: true, dismiss_scheme: :hide, scheme: :default
+      )
+      update_project_list_via_turbo_stream(url_for_action: :index)
     end
 
-    result.on_failure do |failure|
+    delete_service.on_failure do |failure|
       error = failure.errors.map(&:message).to_sentence
-      flash[:primer_banner] = { message: t("project_storages.remove_project.deletion_failure_flash", error:), scheme: :danger }
+      render_error_flash_message_via_turbo_stream(
+        message: I18n.t("project_storages.remove_project.deletion_failure_flash", error:),
+        full: true, dismiss_scheme: :hide
+      )
     end
-    # rubocop:enable Rails/ActionControllerFlashBeforeRender
 
-    redirect_to admin_settings_storage_project_storages_path(@storage)
+    respond_to_with_turbo_streams(status: delete_service.success? ? :ok : :unprocessable_entity)
   end
 
   private

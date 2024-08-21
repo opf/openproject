@@ -371,6 +371,7 @@ RSpec.describe "Admin lists project mappings for a storage",
           end
         end
 
+        expect(page).to have_no_selector("dialog")
         expect(page).to have_text("Successful deletion.")
         expect(page).to have_no_text(project.name)
       end

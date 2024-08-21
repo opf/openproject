@@ -29,7 +29,7 @@
 module Settings
   module ProjectCustomFields
     module ProjectCustomFieldMapping
-      class RowComponent < Projects::RowComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+      class RowComponent < Projects::RowComponent
         include OpTurbo::Streamable
 
         def wrapper_uniq_by
