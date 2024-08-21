@@ -44,6 +44,10 @@ module OpenProject
       def project
         render_with_template
       end
+
+      def project_with_search_icon
+        render_with_template
+      end
     end
   end
 end

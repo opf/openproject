@@ -26,6 +26,7 @@ id:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "Pengiriman 2FA telah dinonaktifkan."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "Tidak ada perangkat 2FA terdaftar yang ditemukan untuk pengguna ini, meskipun yang diperlukan untuk contoh ini."
     error_no_matching_strategy: "Tidak ada 2FA strategi yang cocok tersedia untuk pengguna ini. Silahkan hubungi administratior Anda."
     error_is_enforced_not_active: "Kesalahan konfigurasi: dua faktor otentikasi yang telah diberlakukan, tapi ada tidak ada strategi yang aktif."

@@ -9,7 +9,7 @@ zh-TW:
     verify_account: "驗證您的帳戶"
     error_captcha: "您的帳號無法驗證，請洽管理員。"
     settings:
-      website_key: '網站金鑰'
+      website_key: '網站啟用金鑰(站台金鑰)'
       response_limit: 'HCaptcha回應限制'
       response_limit_text: '將 HCAPTCHA 回應視為有效的最大字元數。'
       website_key_text: '輸入您在 reCAPTCHA 管理控制台上為此網域建立的網站金鑰。'
@@ -20,7 +20,8 @@ zh-TW:
       type_v2: 'reCAPTCHA 第2版'
       type_v3: 'reCAPTCHA 第3版'
       type_hcaptcha: 'HCaptcha'
-      recaptcha_description_html: >
-        reCAPTCHA 是一項由 Google 提供的免費服務，可用於您的 OpenProject 系統。啟用後，所有尚未驗證驗證碼的使用者在登入時都會看到一個驗證碼。
+      type_turnstile: 'Cloudflare Turnstile™'
+      captcha_description_html: >
+        reCAPTCHA 是一項由 Google 提供的免費服務，可用於您的 OpenProject 系統。啟用後，所有尚未驗證驗證碼的使用者在登入時都會看到一個驗證碼。<br/>
         有關 reCAPTCHA 及其版本以及如何建立網站金鑰和密鑰的更多詳細資訊，請參閱以下連結：%{recaptcha_link} <br/>
-        如果您不想使用 reCAPTCHA，可以選擇使用 HCaptcha，它是個不依賴 Google 的替代方案。有關更多資訊，請參閱此連結：%{hcaptcha_link}
+        您也可以選擇使用 HCaptcha，它是個不依賴 Google 的替代方案。有關更多資訊，請參閱此連結：%{hcaptcha_link}<br/>Cloudflare Turnstile™ 是另一種替代方案，它對使用者來說更方便，同時仍提供相同等級的安全性。請參閱此連結以了解更多資訊 : %{turnstile_link}

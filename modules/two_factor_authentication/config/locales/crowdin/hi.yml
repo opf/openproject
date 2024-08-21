@@ -26,6 +26,7 @@ hi:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "2FA वितरण अक्षम कर दिया गया है ।"
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "इस उदाहरण के लिए आवश्यक होने के बावजूद, इस उपयोगकर्ता के लिए कोई पंजीकृत 2FA डिवाइस नहीं मिला ।"
     error_no_matching_strategy: "इस उपयोगकर्ता के लिए कोई मेल खाती 2FA रणनीति उपलब्ध नहीं है । कृपया अपने administratior से संपर्क करें ।"
     error_is_enforced_not_active: "कॉंफ़िगरेशन त्रुटि: दो-चरणीय प्रमाणीकरण लागू किया गया है, लेकिन कोई सक्रिय रणनीतियाँ मौजूद नहीं हैं ।"

@@ -26,7 +26,7 @@ ro:
   activerecord:
     attributes:
       work_package:
-        position: "Poziţie"
+        position: "Poziție"
         story_points: "Puncte"
         backlogs_work_package_type: "Tipul de restante"
     errors:
@@ -61,11 +61,11 @@ ro:
     points: "Puncte"
     positions_could_not_be_rebuilt: "Pozițiile nu au putut fi reconstruite."
     positions_rebuilt_successfully: "Toate elementele au fost șterse cu succes"
-    properties: "Proprietăţi"
+    properties: "Proprietăți"
     rebuild: "Reconstruiți"
     rebuild_positions: "Reconstruiți"
     remaining_hours: "Muncă rămasă"
-    remaining_hours_ideal: "Remaining work (ideal)"
+    remaining_hours_ideal: "Munca rămasă (ideal)"
     show_burndown_chart: "Size Chart"
     story: "Articol"
     story_points: "Puncte"

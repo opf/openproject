@@ -26,6 +26,7 @@ sk:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "Doručenie 2FA bolo vypnuté."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "Pre tohto používateľa nebolo nájdené žiadne zaregistrované zariadenie 2FA, napriek tomu, že je to potrebné pre túto inštanciu."
     error_no_matching_strategy: "Pre daného používateľa nie je k dispozícii žiadna zodpovedajúca stratégia 2FA. Kontaktujte svojho správcu."
     error_is_enforced_not_active: "Chyba konfigurácie: Bola vynútená dvojfaktorová autentifikácia, ale neexistujú žiadne aktívne stratégie."

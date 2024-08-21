@@ -122,7 +122,8 @@ nl:
       agenda_text: "Kopieer de agenda van de oude vergadering"
     email:
       send_emails: "E-mails versturen"
-      send_invitation_emails: "Send out invitation emails for all participants."
+      send_invitation_emails: >
+        Send out an invitation email to the participants listed above. Note that unchecking this option does not affect the sending of emails after this form is submitted.
       open_meeting_link: "Open vergadering"
       invited:
         summary: "%{actor} heeft je een uitnodiging gestuurd voor de meeting %{title}"

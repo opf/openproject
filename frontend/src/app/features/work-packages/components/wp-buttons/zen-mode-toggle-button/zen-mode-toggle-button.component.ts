@@ -34,12 +34,11 @@ import { Screenfull } from 'screenfull';
 import { AbstractWorkPackageButtonComponent } from '../wp-buttons.module';
 
 const screenfull:Screenfull = sfimport as any;
-export const zenModeComponentSelector = 'zen-mode-toggle-button';
 
 @Component({
   templateUrl: '../wp-button.template.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: zenModeComponentSelector,
+  selector: 'opce-zen-mode-toggle-button',
 })
 export class ZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
   public buttonId = 'work-packages-zen-mode-toggle-button';

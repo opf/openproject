@@ -8,7 +8,7 @@ ro:
         text: "Unele widgeturi, cum ar fi widgetul grafic al pachetului de lucru, sunt disponibile numai în ediția Enterprise."
         link: 'Ediția Enterprise.'
       widgets:
-        missing_permission: "You don't have the necessary permissions to view this widget."
+        missing_permission: "Nu ai drepturile necesare pentru a vizualiza acest widget."
         custom_text:
           title: 'Text customizat'
         documents:
@@ -66,5 +66,5 @@ ro:
         work_packages_calendar:
           title: 'Calendar'
         work_packages_overview:
-          title: 'Prezentare generală a pachetelor de lucru'
+          title: 'Prezentare generală pachete de lucru'
           placeholder: 'Dă clic pentru a edita acest meniu.'

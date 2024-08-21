@@ -46,10 +46,9 @@ import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builde
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
-export const headerProjectSelectSelector = 'op-header-project-select';
 
 @Component({
-  selector: headerProjectSelectSelector,
+  selector: 'opce-header-project-select',
   templateUrl: './header-project-select.component.html',
   styleUrls: ['./header-project-select.component.sass'],
   encapsulation: ViewEncapsulation.None,

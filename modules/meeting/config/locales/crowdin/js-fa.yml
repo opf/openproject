@@ -22,3 +22,6 @@
 fa:
   js:
     label_meetings: 'جلسات'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

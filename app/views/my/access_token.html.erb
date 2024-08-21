@@ -52,9 +52,8 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 <div class="generic-table--container">
   <div class="generic-table--results-container">
-    <table class="generic-table">
+    <table class="generic-table" data-controller="table-highlighting">
       <%= call_hook(:view_access_tokens_table, user: @user) %>
     </table>
   </div>
 </div>
-

@@ -80,6 +80,12 @@ Keep in mind that this component uses the live projects API, so results will dep
 
 <%= embed OpenProject::Common::AutocompletePreview, :project, panels: %i[source] %>
 
+#### Project autocompletion with search icon
+
+There is also an flag for a search icon within the select:
+
+<%= embed OpenProject::Common::AutocompletePreview, :project_with_search_icon, panels: %i[source] %>
+
 ### Outside primer
 
 If you're not in a primer form, you can render the autocomplete directly like so:

@@ -1,0 +1,22 @@
+# Schema: OffsetPaginatedCollectionModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - pageSize
+      - offset
+      - _links
+    properties:
+      pageSize:
+        type: integer
+        description: |-
+          The amount of elements per page. If not set by the request this value defaults to the server's system
+          settings.
+        minimum: 0
+      offset:
+        type: integer
+        description: The page offset indicating on which page the element collection starts.
+        minimum: 0
+      _links:
+        $ref: './offset_paginated_collection_links.yml'

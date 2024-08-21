@@ -38,6 +38,7 @@ module Projects::CustomFields
           visually_hide_label: true,
           validation_message: project_ids_error_message,
           autocomplete_options: {
+            with_search_icon: true,
             openDirectly: false,
             focusDirectly: false,
             multiple: true,

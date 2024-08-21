@@ -38,10 +38,7 @@ import { map } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PullRequestState } from './pull-request-state.component';
 
-export const githubPullRequestMacroSelector = 'macro.github_pull_request';
-
 @Component({
-  selector: githubPullRequestMacroSelector,
   templateUrl: './pull-request-macro.component.html',
   styleUrls: ['./pull-request-macro.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,

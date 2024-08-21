@@ -48,3 +48,6 @@ zh-CN:
         empty: '尚未链接任何合并请求。请在合并请求标题/描述中使用代码 <code>OP#%{wp_id}</code>（对于不公开链接，使用代码 <code>PP#%{wp_id}</code>）链接现有合并请求，或者创建新的合并请求。'
       gitlab_pipelines: 管道
       updated_on: 更新时间
+    work_packages:
+      tabs:
+        gitlab: "GitLab"

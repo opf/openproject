@@ -13,16 +13,17 @@ import {
 } from 'core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ChartOptions } from 'chart.js';
-import { WpGraphConfigurationService } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service';
+import {
+  WpGraphConfigurationService,
+} from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service';
 import {
   WpGraphConfiguration,
   WpGraphQueryParams,
 } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration';
 
-export const wpOverviewGraphSelector = 'wp-overview-graph';
 
 @Component({
-  selector: wpOverviewGraphSelector,
+  selector: 'opce-wp-overview-graph',
   templateUrl: './wp-overview-graph.template.html',
   styleUrls: ['./wp-overview-graph.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% helpers.html_title t(:label_administration), @title %>
 
-<%= render(Primer::OpenProject::PageHeader.new(border_bottom: 0)) do |header|
+<%= render(Primer::OpenProject::PageHeader.new) do |header|
   header.with_title { t(:"attributes.attachments") }
   header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
                            { href: admin_settings_storages_path, text: t("project_module_storages") },

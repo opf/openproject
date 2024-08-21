@@ -49,3 +49,6 @@ es:
           draft: 'redactado'
           merged: 'combinado'
           ready_for_review: 'marcado listo para revisión'
+    work_packages:
+      tabs:
+        github: "GitHub"

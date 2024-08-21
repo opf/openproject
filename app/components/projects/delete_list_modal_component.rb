@@ -28,7 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Projects::DeleteListModalComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+class Projects::DeleteListModalComponent < ApplicationComponent
+  include OpTurbo::Streamable
+
   MODAL_ID = "op-project-list-delete-dialog"
 
   options :query

@@ -122,7 +122,8 @@ es:
       agenda_text: "Copiar la agenda de la reunión anterior"
     email:
       send_emails: "Enviar correos electrónicos"
-      send_invitation_emails: "Enviar correos electrónicos de invitación a todos los participantes."
+      send_invitation_emails: >
+        Send out an invitation email to the participants listed above. Note that unchecking this option does not affect the sending of emails after this form is submitted.
       open_meeting_link: "Abrir reunión"
       invited:
         summary: "%{actor} te ha enviado una invitación para la reunión %{title}"

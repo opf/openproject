@@ -22,3 +22,6 @@
 fi:
   js:
     label_meetings: 'Kokoukset'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

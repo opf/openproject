@@ -11,6 +11,7 @@ import {
 } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
+import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 
 export type RelationsStateValue = { [relationId:string]:RelationResource };
 
@@ -27,9 +28,12 @@ export class RelationStateGroup extends StatesGroup {
 
 @Injectable()
 export class WorkPackageRelationsService extends StateCacheService<RelationsStateValue> {
-  constructor(private PathHelper:PathHelperService,
+  constructor(
+    private PathHelper:PathHelperService,
     private apiV3Service:ApiV3Service,
-    private halResource:HalResourceService) {
+    private halResource:HalResourceService,
+    readonly turboRequests:TurboRequestsService,
+  ) {
     super(new RelationStateGroup().relations);
   }
 
@@ -170,6 +174,13 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
         this.insertIntoStates(relation);
         return relation;
       });
+  }
+
+  public updateCounter(workPackage:WorkPackageResource) {
+    if (workPackage.id) {
+      const url = this.PathHelper.workPackageUpdateCounterPath(workPackage.id, 'relations');
+      void this.turboRequests.request(url);
+    }
   }
 
   /**

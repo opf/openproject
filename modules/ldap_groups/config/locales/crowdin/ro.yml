@@ -12,7 +12,7 @@ ro:
         filter_string: 'Filtru LDAP'
         ldap_auth_source: 'Conexiune LDAP'
         group_name_attribute: "Atributul nume de grup"
-        sync_users: 'Sincronizați utilizatorii'
+        sync_users: 'Sincronizează utilizatorii'
         base_dn: "Baza de căutare DN"
     models:
       ldap_groups/synchronized_group: 'Grup LDAP sincronizat'

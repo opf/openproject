@@ -41,6 +41,13 @@ module OpenProject::Recaptcha
         keys.index_with value
       end
 
+      SecureHeaders::Configuration.named_append(:turnstile) do
+        value = %w(https://challenges.cloudflare.com)
+        keys = %i(frame_src style_src connect_src)
+
+        keys.index_with value
+      end
+
       OpenProject::Authentication::Stage.register(
         :recaptcha,
         nil,

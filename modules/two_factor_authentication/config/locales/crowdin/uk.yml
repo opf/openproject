@@ -26,6 +26,7 @@ uk:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "Показ 2FA вимкнено."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "Для цього користувача не знайдено зареєстрованого пристрою 2FA, незважаючи на те, що для цього екземпляра потрібно."
     error_no_matching_strategy: "Для цього користувача не доступна відповідна стратегія 2FA. Зверніться до свого адміністратора."
     error_is_enforced_not_active: "Помилка конфігурації: Двофакторна аутентифікація була застосована, але активних стратегій не існує."

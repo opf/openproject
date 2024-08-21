@@ -26,6 +26,7 @@ fi:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "2FA-toimitus on poistettu käytöstä."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "Tälle käyttäjälle ei ole rekisteröity tunnistuslaitetta, vaikka se vaaditaan."
     error_no_matching_strategy: "Tälle käyttäjälle ei ole käytettävissä vastaavaa 2FA-strategiaa. Ota yhteyttä hallintoasihteisiisi."
     error_is_enforced_not_active: "Konfigurointivirhe: Kaksivaiheinen tunnistautuminen on pakotettu, mutta aktiivisia strategioita ei ole."

@@ -22,3 +22,6 @@
 id:
   js:
     label_meetings: 'Rapat'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

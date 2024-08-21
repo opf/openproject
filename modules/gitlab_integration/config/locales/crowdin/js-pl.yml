@@ -48,3 +48,6 @@ pl:
         empty: 'Nie ma jeszcze żadnych powiązanych żądań scalenia. Powiąż istniejące MR, używając kodu <code>OP#%{wp_id}</code> (lub <code>PP#%{wp_id}</code> w przypadku linków prywatnych) w tytule/opisie MR lub utwórz nowe MR.'
       gitlab_pipelines: Lejki
       updated_on: Zaktualizowano
+    work_packages:
+      tabs:
+        gitlab: "GitLab"

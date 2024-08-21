@@ -34,10 +34,7 @@ require_module_spec_helper
 # We decrease the notification polling interval because some portions of the JS code rely on something triggering
 # the Angular change detection. This is usually done by the notification polling, but we don't want to wait
 RSpec.describe "Admin lists project mappings for a storage",
-               :js,
-               :webmock,
-               :with_cuprite,
-               with_flag: { enable_storage_for_multiple_projects: true },
+               :js, :storage_server_helpers, :webmock, :with_cuprite,
                with_settings: { notifications_polling_interval: 1_000 } do
   shared_let(:admin) { create(:admin, preferences: { time_zone: "Etc/UTC" }) }
   shared_let(:non_admin) { create(:user) }
@@ -46,6 +43,11 @@ RSpec.describe "Admin lists project mappings for a storage",
   shared_let(:archived_project) { create(:project, active: false, name: "My archived Project") }
   shared_let(:storage) { create(:nextcloud_storage_with_complete_configuration, name: "My Nextcloud Storage") }
   shared_let(:project_storage) { create(:project_storage, project:, storage:, project_folder_mode: "automatic") }
+  shared_let(:oauth_client_token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user: admin) }
+
+  shared_let(:remote_identity) do
+    create(:remote_identity, oauth_client: storage.oauth_client, user: admin, origin_user_id: "admin")
+  end
 
   shared_let(:archived_project_project_storage) do
     create(:project_storage, project: archived_project, storage:, project_folder_mode: "inactive")
@@ -54,7 +56,6 @@ RSpec.describe "Admin lists project mappings for a storage",
   let(:project_storages_index_page) { Pages::Admin::Storages::ProjectStorages::Index.new }
 
   current_user { admin }
-
 
   context "with insufficient permissions" do
     it "is not accessible" do
@@ -86,7 +87,7 @@ RSpec.describe "Admin lists project mappings for a storage",
     end
   end
 
-  context "with sufficient permissions and an completely configured storage" do
+  context "with sufficient permissions and a completely configured storage" do
     before do
       login_as(admin)
       storage.update!(host: "https://example.com")
@@ -187,45 +188,10 @@ RSpec.describe "Admin lists project mappings for a storage",
 
     describe "Linking a project to a storage with a manually managed folder" do
       context "when the user has granted OAuth access" do
-        let(:oauth_client_token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user: admin) }
-        let(:remote_identity) do
-          create(:remote_identity, oauth_client: storage.oauth_client, user: admin, origin_user_id: "admin")
-        end
         let(:location_picker) { Components::FilePickerDialog.new }
 
-        let(:root_xml_response) { build(:webdav_data) }
-        let(:folder1_xml_response) { build(:webdav_data_folder) }
-        let(:folder1_fileinfo_response) do
-          {
-            ocs: {
-              data: {
-                status: "OK",
-                statuscode: 200,
-                id: 11,
-                name: "Folder1",
-                path: "files/Folder1",
-                mtime: 1682509719,
-                ctime: 0
-              }
-            }
-          }
-        end
-
         before do
-          oauth_client_token
-          remote_identity
-
-          stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{remote_identity.origin_user_id}")
-            .to_return(status: 207, body: root_xml_response, headers: {})
-          stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{remote_identity.origin_user_id}/Folder1")
-            .to_return(status: 207, body: folder1_xml_response, headers: {})
-          stub_request(:get, "#{storage.host}/ocs/v1.php/apps/integration_openproject/fileinfo/11")
-            .to_return(status: 200, body: folder1_fileinfo_response.to_json, headers: {})
-          stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
-          stub_request(
-            :delete,
-            "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/Project%20name%20without%20sequence%20(#{project.id})"
-          ).to_return(status: 200, body: "", headers: {})
+          stub_outbound_storage_files_request_for(storage:, remote_identity:)
         end
 
         it "allows linking a project to a storage" do
@@ -262,19 +228,6 @@ RSpec.describe "Admin lists project mappings for a storage",
 
           expect(page).to have_text(project.name)
           expect(page).to have_text(subproject.name)
-
-          aggregate_failures "can edit the project folder" do
-            project_storages_index_page.click_menu_item_of("Edit project folder", project)
-
-            within("dialog") do
-              choose "No specific folder"
-              click_on "Save"
-            end
-
-            project_storages_index_page.within_the_table_row_containing(project.name) do
-              expect(page).to have_text("No specific folder")
-            end
-          end
         end
 
         context "when the user does not select a folder" do
@@ -303,12 +256,58 @@ RSpec.describe "Admin lists project mappings for a storage",
       end
 
       context "when the user has not granted oauth access" do
-        before do
+        it "show a storage login button" do
           OAuthClientToken.where(user: admin, oauth_client: storage.oauth_client).destroy_all
+
+          click_on "Add projects"
+
+          within("dialog") do
+            wait_for(page).to have_button("Nextcloud log in")
+
+            expect(page).to have_text("Login to Nextcloud required")
+            click_on("Nextcloud log in")
+
+            wait_for(page).to have_current_path(
+              %r{/index.php/apps/oauth2/authorize\?client_id=.*&redirect_uri=.*&response_type=code&state=.*}
+            )
+          end
+        end
+      end
+    end
+
+    describe "Editing of a project storage" do
+      let(:project_storage) { create(:project_storage, storage:) }
+
+      before do
+        project_storage
+
+        login_as(admin)
+        visit admin_settings_storage_project_storages_path(storage)
+      end
+
+      it "allows changing the project folder mode" do
+        project = project_storage.project
+        project_storages_index_page.click_menu_item_of("Edit project folder", project)
+
+        page.within("dialog") do
+          choose "No specific folder"
+          click_on "Save"
         end
 
-        it "show a storage login button" do
-          click_on "Add projects"
+        project_storages_index_page.within_the_table_row_containing(project.name) do
+          expect(page).to have_text("No specific folder")
+        end
+      end
+
+      context "when oauth access has not been granted and manual selection" do
+        before do
+          stub_outbound_storage_files_request_for(storage:, remote_identity:)
+        end
+
+        it "presents a storage login button to the user" do
+          OAuthClientToken.where(user: admin, oauth_client: storage.oauth_client).destroy_all
+
+          project_storages_index_page.click_menu_item_of("Edit project folder", project_storage.project)
 
           within("dialog") do
             choose "Existing folder with manually managed permissions"
@@ -372,6 +371,7 @@ RSpec.describe "Admin lists project mappings for a storage",
           end
         end
 
+        expect(page).to have_no_selector("dialog")
         expect(page).to have_text("Successful deletion.")
         expect(page).to have_no_text(project.name)
       end

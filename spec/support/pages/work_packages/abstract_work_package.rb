@@ -53,6 +53,10 @@ module Pages
       expect(page).to have_css(".op-tab-row--link_selected", text: tab.to_s.upcase)
     end
 
+    def expect_no_tab(tab)
+      expect(page).to have_no_css(".op-tab-row--link", text: tab.to_s.upcase)
+    end
+
     def within_active_tab(&)
       within(".work-packages-full-view--split-right .work-packages--panel-inner", &)
     end

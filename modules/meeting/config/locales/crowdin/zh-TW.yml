@@ -121,7 +121,8 @@ zh-TW:
       agenda_text: "複製舊會議之議程"
     email:
       send_emails: "發送電子郵件"
-      send_invitation_emails: "為所有參與者寄出邀請電子郵件。"
+      send_invitation_emails: >
+        向以上列出的參與者發送邀請電子郵件。請注意，不勾選不會影響提交此表單後發送電子郵件。
       open_meeting_link: "打開會議連結"
       invited:
         summary: "%{actor} 已經向您發送了一個 %{title} 會議邀請"

@@ -30,10 +30,9 @@ import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { EEActiveTrialBase } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-trial.base';
 
-export const enterpriseActiveSavedTrialSelector = 'enterprise-active-saved-trial';
 
 @Component({
-  selector: enterpriseActiveSavedTrialSelector,
+  selector: 'opce-enterprise-active-saved-trial',
   templateUrl: './ee-active-trial.component.html',
   styleUrls: ['./ee-active-trial.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
