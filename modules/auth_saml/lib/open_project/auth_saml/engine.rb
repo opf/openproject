@@ -3,21 +3,9 @@ module OpenProject
   module AuthSaml
     def self.configuration
       RequestStore.fetch(:openproject_omniauth_saml_provider) do
-        global_configuration
-          .deep_merge(settings_from_db)
+        settings_from_db
           .deep_merge(settings_from_providers)
       end
-    end
-
-    def self.reload_configuration!
-      @global_configuration = nil
-      RequestStore.delete :openproject_omniauth_saml_provider
-    end
-
-    ##
-    # Loads the settings once to avoid accessing the file in each request
-    def self.global_configuration
-      @global_configuration ||= Hash(settings_from_config || settings_from_yaml).with_indifferent_access
     end
 
     def self.settings_from_providers
@@ -32,22 +20,6 @@ module OpenProject
       value = Hash(Setting.plugin_openproject_auth_saml).with_indifferent_access[:providers]
 
       value.is_a?(Hash) ? value : {}
-    end
-
-    def self.settings_from_config
-      if OpenProject::Configuration["saml"].present?
-        Rails.logger.info("[auth_saml] Registering saml integration from configuration.yml")
-
-        OpenProject::Configuration["saml"]
-      end
-    end
-
-    def self.settings_from_yaml
-      if (settings = Rails.root.join("config/plugins/auth_saml/settings.yml")).exist?
-        Rails.logger.info("[auth_saml] Registering saml integration from settings file")
-
-        YAML::load(File.open(settings)).symbolize_keys
-      end
     end
 
     class Engine < ::Rails::Engine
