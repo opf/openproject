@@ -31,7 +31,8 @@
         render(Saml::Providers::SubmitOrCancelForm.new(
           form,
           provider:,
-          submit_button_options: { label: button_label }
+          submit_button_options: { label: button_label },
+          cancel_button_options: { hidden: edit_mode }
         ))
       end
     end

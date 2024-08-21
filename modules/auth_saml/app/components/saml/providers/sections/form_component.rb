@@ -66,7 +66,7 @@ module Saml::Providers::Sections
       if edit_mode
         I18n.t(:button_continue)
       else
-        I18n.t(:button_save)
+        I18n.t(:button_update)
       end
     end
   end
