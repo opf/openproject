@@ -10,7 +10,7 @@
     <%= content_tag :div, "", data: { "job-status-polling-target": "finished" } %>
   <% end %>
   <%= render Primer::Beta::Blankslate.new do |component|
-    component.with_visual_icon(icon: icon, size: :medium) unless icon.nil?
+    component.with_visual_icon(icon: icon[:icon], classes: icon[:classes], size: :medium) unless icon.nil?
     component.with_heading(tag: :h2).with_content(title)
     component.with_description do
       flex_layout do |flex|
@@ -29,10 +29,10 @@
             data: {
               "job-status-polling-target": job_errors.present? ? nil : "redirect"
             }
-          )) { I18n.t('js.job_status.redirect_link') } }
+          )) { I18n.t('job_status_dialog.redirect_link') } }
         end
         if download_url.present?
-          flex.with_row { render(Primer::Beta::Text.new) { I18n.t('js.job_status.download_starts') } }
+          flex.with_row { render(Primer::Beta::Text.new) { I18n.t('job_status_dialog.download_starts') } }
           flex.with_row {
             render(Primer::Beta::Link.new(
               href: download_url,
@@ -41,7 +41,7 @@
               data: {
                 "job-status-polling-target": "download"
               }
-            )) { I18n.t('js.job_status.click_to_download') }
+            )) { I18n.t('job_status_dialog.click_to_download') }
           }
         end
         if job_html.present?

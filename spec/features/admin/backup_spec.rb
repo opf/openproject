@@ -56,7 +56,7 @@ RSpec.describe "backup", :js do
     fill_in "backupToken", with: backup_token.plain_value
     click_on "Request backup"
 
-    expect(page).to have_content I18n.t("js.job_status.generic_messages.in_queue"), wait: 10
+    expect(page).to have_content I18n.t("job_status_dialog.generic_messages.in_queue"), wait: 10
 
     begin
       perform_enqueued_jobs

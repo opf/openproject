@@ -61,7 +61,7 @@ RSpec.describe "project export", :js, :with_cuprite do
     click_on export_type
 
     # Expect to get a response regarding queuing
-    expect(page).to have_content I18n.t("js.job_status.generic_messages.in_queue"),
+    expect(page).to have_content I18n.t("job_status_dialog.generic_messages.in_queue"),
                                  wait: 10
 
     begin

@@ -39,7 +39,7 @@ RSpec.describe "Job status", :js do
     visit "/job_statuses/something-that-does-not-exist"
 
     expect(page).to have_css(".octicon-alert", wait: 10)
-    expect(page).to have_content I18n.t("js.job_status.generic_messages.not_found")
+    expect(page).to have_content I18n.t("job_status_dialog.generic_messages.not_found")
   end
 
   describe "with a status that has an additional errors payload" do
@@ -53,7 +53,7 @@ RSpec.describe "Job status", :js do
       visit "/job_statuses/#{status.job_id}"
 
       expect(page).to have_css(".octicon-x-circle", wait: 10)
-      expect(page).to have_content I18n.t("js.job_status.errors")
+      expect(page).to have_content I18n.t("job_status_dialog.errors")
       expect(page).to have_content "Some error"
       expect(page).to have_content "Another error"
     end
@@ -84,7 +84,7 @@ RSpec.describe "Job status", :js do
       visit "/job_statuses/#{status.job_id}"
 
       expect(page).to have_css(".octicon-x-circle", wait: 10)
-      expect(page).to have_content I18n.t("js.job_status.errors")
+      expect(page).to have_content I18n.t("job_status_dialog.errors")
       expect(page).to have_content "Some error"
       expect(page).to have_css("a[href='#{home_url}']", text: "Please click here to continue")
     end
