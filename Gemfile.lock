@@ -644,7 +644,7 @@ GEM
     http-2 (1.0.1)
     http_parser.rb (0.6.0)
     httpclient (2.8.3)
-    httpx (1.3.0)
+    httpx (1.3.1)
       http-2 (>= 1.0.0)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
