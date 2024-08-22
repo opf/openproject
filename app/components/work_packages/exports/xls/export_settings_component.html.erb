@@ -7,7 +7,7 @@
     ) %>
   <% end %>
   <%= container.with_row do |_xls_include_relations| %>
-    <%= render Primer::BaseComponent.new(tag: :hr, mt: 2, mb: 4) %>
+    <%= render OpenProject::Common::DividerComponent.new(mt: 2) %>
     <%= render(Primer::Alpha::CheckBox.new(name: "show_relations",
                                            value: "true",
                                            unchecked_value: "false",
@@ -16,7 +16,7 @@
                                            visually_hide_label: false)) %>
   <% end %>
   <%= container.with_row do |_xls_include_description| %>
-    <%= render Primer::BaseComponent.new(tag: :hr, mt: 4, mb: 4) %>
+    <%= render OpenProject::Common::DividerComponent.new %>
     <%= render(Primer::Alpha::CheckBox.new(name: "show_descriptions",
                                            value: "true",
                                            unchecked_value: "false",

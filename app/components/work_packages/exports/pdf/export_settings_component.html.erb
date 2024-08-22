@@ -20,7 +20,7 @@
                                caption: entry[:caption])
       end
     end %>
-    <%= render Primer::BaseComponent.new(tag: :hr, mt: 4, mb: 4) %>
+    <%= render OpenProject::Common::DividerComponent.new %>
   <% end %>
   <% pdf_export_types.reject { |entry| entry[:disabled] }.each do |entry| %>
     <%= container.with_row(

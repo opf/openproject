@@ -22,7 +22,7 @@
               })
           end
         end %>
-        <%= render Primer::BaseComponent.new(tag: :hr, mt: 4, mb: 4) %>
+        <%= render OpenProject::Common::DividerComponent.new %>
       <% end %>
       <% export_formats_settings.each do |format| %>
         <% modal_body.with_row(

@@ -7,7 +7,7 @@
     ) %>
   <% end %>
   <% container.with_row do |_columns| %>
-    <%= render Primer::BaseComponent.new(tag: :hr, mt: 2, mb: 4) %>
+    <%= render OpenProject::Common::DividerComponent.new(mt: 2) %>
     <%= helpers.angular_component_tag "opce-draggable-autocompleter",
                                       inputs: {
                                         id: "ltf-select-export-pdf-report",
@@ -26,7 +26,7 @@
     %>
   <% end %>
   <%= container.with_row do |_pdf_report_images| %>
-    <%= render Primer::BaseComponent.new(tag: :hr, mt: 2, mb: 4) %>
+    <%= render OpenProject::Common::DividerComponent.new(mt: 2) %>
     <%= render(Primer::Alpha::CheckBox.new(name: 'show_images',
                                            checked: true,
                                            value: "true",
