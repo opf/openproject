@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 import * as Turbo from '@hotwired/turbo';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export default class FormController extends Controller<HTMLFormElement> {
   static values = {
@@ -20,7 +21,7 @@ export default class FormController extends Controller<HTMLFormElement> {
     if (response.ok) {
       Turbo.renderStreamMessage(await response.text());
     } else {
-      throw new Error('Invalid response from server');
+      throw new Error(response.statusText || 'Invalid response from server');
     }
   }
 
@@ -30,14 +31,14 @@ export default class FormController extends Controller<HTMLFormElement> {
       headers: { Accept: 'application/json' },
       credentials: 'same-origin',
     });
-    if (response.ok) {
-      const result = await response.json() as { job_id:string };
-      if (!result.job_id) {
-        throw new Error('Invalid response from server');
-      }
-      return result.job_id;
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
-    throw new Error(response.statusText);
+    const result = await response.json() as { job_id:string };
+    if (!result.job_id) {
+      throw new Error('Invalid response from server');
+    }
+    return result.job_id;
   }
 
   submitForm(evt:CustomEvent) {
@@ -47,10 +48,13 @@ export default class FormController extends Controller<HTMLFormElement> {
     const exportURL = `${formatURL}?${searchParams.toString()}`;
     this.requestExport(exportURL)
       .then((job_id) => this.showJobModal(job_id))
-      .catch((error) => {
-        // TODO: error handling
-        console.error(error);
-      });
+      .catch((error) => this.handleError(error));
+  }
+
+  private handleError(error:HttpErrorResponse) {
+    void window.OpenProject.getPluginContext().then((pluginContext) => {
+      pluginContext.services.notifications.addError(error);
+    });
   }
 
   private getExportParams() {
