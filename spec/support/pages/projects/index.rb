@@ -222,6 +222,7 @@ module Pages
 
       def set_simple_filter(_name, values)
         return unless values.any?
+
         set_name_and_identifier_filter(values) # This is the only one simple filter at the moment.
       end
 
