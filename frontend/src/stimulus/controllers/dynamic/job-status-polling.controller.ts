@@ -14,14 +14,26 @@ export default class JobStatusPollingController extends Controller<FrameElement>
   }
 
   disconnect() {
-    this.finishedTargetConnected();
+    this.stopPolling();
     if (this.backOnCloseValue) {
       window.history.back();
     }
   }
 
   finishedTargetConnected() {
+    this.stopPolling();
+    this.hideProgressIndicator();
+  }
+
+  stopPolling() {
     clearInterval(this.interval);
+  }
+
+  hideProgressIndicator() {
+    const node = document.querySelector('#job-status-modal-dialog .op-loading-indicator');
+    if (node) {
+      node.remove();
+    }
   }
 
   downloadTargetConnected(element:HTMLLinkElement) {
