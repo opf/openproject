@@ -213,16 +213,26 @@ module Pages
       end
 
       def set_filter(name, human_name, human_operator = nil, values = [])
+        if name == "name_and_identifier"
+          set_simple_filter(name, values)
+        else
+          set_advanced_filter(name, human_name, human_operator, values)
+        end
+      end
+
+      def set_simple_filter(_name, values)
         return unless values.any?
+        set_name_and_identifier_filter(values) # This is the only one simple filter at the moment.
+      end
 
-        return set_name_and_identifier_filter(values) if name == "name_and_identifier"
-
+      def set_advanced_filter(name, human_name, human_operator = nil, values = [])
         select human_name, from: "add_filter_select"
         selected_filter = page.find("li[data-filter-name='#{name}']")
-
         select(human_operator, from: "operator") unless boolean_filter?(name)
 
         within(selected_filter) do
+          return unless values.any?
+
           if boolean_filter?(name)
             set_toggle_filter(values)
           elsif name == "created_at"

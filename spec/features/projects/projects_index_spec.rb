@@ -532,7 +532,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
         load_and_open_filters admin
 
         # value selection defaults to "active"'
-        expect(page).to have_css('li[filter-name="active"]')
+        expect(page).to have_css('li[data-filter-name="active"]')
 
         projects_page.expect_projects_listed(parent_project,
                                              child_project,
@@ -748,7 +748,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                    "Created on",
                                    "today")
           wait_for_reload
-
           expect(page).to have_no_text(project_created_on_this_week.name)
           expect(page).to have_text(project_created_on_today.name)
           expect(page).to have_no_text(project_created_on_fixed_date.name)
@@ -838,7 +837,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           expect(page).to have_text(project_created_on_today.name)
 
           # switching to multiselect keeps the current selection
-          cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
+          cf_filter = page.find("li[data-filter-name='#{list_custom_field.column_name}']")
           within(cf_filter) do
             # Initial filter is a 'single select'
             expect(cf_filter.find(:select, "value")).not_to be_multiple
@@ -851,7 +850,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           end
           wait_for_reload
 
-          cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
+          cf_filter = page.find("li[data-filter-name='#{list_custom_field.column_name}']")
           within(cf_filter) do
             # Query has two values for that filter, so it should show a 'multi select'.
             expect(cf_filter.find(:select, "value")).to be_multiple
@@ -871,7 +870,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           end
           wait_for_reload
 
-          cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
+          cf_filter = page.find("li[data-filter-name='#{list_custom_field.column_name}']")
           within(cf_filter) do
             # Query has one value for that filter, so it should show a 'single select'.
             expect(cf_filter.find(:select, "value")).not_to be_multiple
@@ -937,7 +936,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
             projects_page.expect_projects_listed(development_project)
             projects_page.expect_projects_not_listed(project)
             # Filter form is visible and the filter is still set.
-            expect(page).to have_css("li[filter-name=\"#{list_custom_field.column_name}\"]")
+            expect(page).to have_css("li[data-filter-name=\"#{list_custom_field.column_name}\"]")
           end
         end
       end
