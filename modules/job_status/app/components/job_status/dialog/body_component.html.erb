@@ -54,4 +54,13 @@
       end
     end
   end %>
+  <% unless pending? %>
+    <%= flex_layout(justify_content: :flex_end) do |flex| %>
+      <% flex.with_column do %>
+        <%= render(Primer::Beta::Button.new(data: {
+          "close-dialog-id": JobStatus::Dialog::DialogComponent::MODAL_ID
+        })) { I18n.t(:button_close) } %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% end %>
