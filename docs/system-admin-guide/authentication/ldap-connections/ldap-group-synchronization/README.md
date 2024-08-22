@@ -13,7 +13,7 @@ Note: This feature is available for the Enterprise on-premises only, for OpenPro
 In OpenProject Enterprise on-premises, you can synchronize LDAP group memberships defined through the [groupOfNames](https://tools.ietf.org/html/rfc4519#section-3.5) LDAP object class. This guide assumes that you:
 
 - have at least one group defined in OpenProject (See the “[Managing groups](../../../users-permissions/groups/)” guide for more information on how to create and edit groups),
-- have set up your LDAP authentication source (See the “[Manage LDAP authentication](../../ldap-authentication/)” guide)
+- have set up your LDAP authentication source (See the “[Manage LDAP authentication](../../ldap-connections/)” guide)
 - have at least one LDAP entry with a *groupOfNames* object class and members of that group to contain the *`memberOf: <DN of the group>`* attribute to determine the members of a group entry. Right now we do not support LDAP instances that only have *member* attributes, but not the inverse *memberOf* property.
 
 > [!NOTE]

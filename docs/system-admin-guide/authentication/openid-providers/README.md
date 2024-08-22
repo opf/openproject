@@ -35,7 +35,7 @@ You can configure the following options.
 5. Optionally, if you want to honor the system-wide self-registration setting, enable "Limit self registration".
   When checked, users will be created according to the [self-registration setting](../authentication-settings).
 
-6. Set the **tenant** of your Azure endpoint. This will control who gets access to the OpenProject instance. For more information, please see [our user guide on Azure OpenID connect](/#azure-active-directory)
+6. Set the **tenant** of your Azure endpoint. This will control who gets access to the OpenProject instance. For more information, please see [our user guide on Azure OpenID connect](#azure-active-directory)
 
 7. Press the **create** button.
 
