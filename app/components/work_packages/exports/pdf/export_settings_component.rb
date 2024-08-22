@@ -48,6 +48,11 @@ module WorkPackages
                  ))
         end
 
+        def gantt_chart_label
+          label = I18n.t("export.dialog.pdf.export_type.options.gantt.label")
+          gantt_chart_allowed? ? label : (label + enterprise_icon).html_safe # rubocop:disable Rails/OutputSafety
+        end
+
         def pdf_export_types
           [
             { value: "table",
@@ -59,7 +64,7 @@ module WorkPackages
               caption: I18n.t("export.dialog.pdf.export_type.options.report.caption"),
               component: WorkPackages::Exports::PDF::Report::ExportSettingsComponent },
             { value: "gantt",
-              label: (I18n.t("export.dialog.pdf.export_type.options.gantt.label") + enterprise_icon).html_safe,
+              label: gantt_chart_label,
               caption: I18n.t("export.dialog.pdf.export_type.options.gantt.caption"),
               disabled: !gantt_chart_allowed?,
               component: WorkPackages::Exports::PDF::Gantt::ExportSettingsComponent }
