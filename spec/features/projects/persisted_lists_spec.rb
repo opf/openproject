@@ -31,6 +31,7 @@ require "spec_helper"
 RSpec.describe "Persisted lists on projects index page",
                :js,
                :with_cuprite do
+  shared_let(:non_member) { create(:non_member, permissions: %i(view_project_attributes)) }
   shared_let(:admin) { create(:admin) }
   shared_let(:user) { create(:user) }
 
@@ -50,7 +51,10 @@ RSpec.describe "Persisted lists on projects index page",
                      name: "Public project",
                      identifier: "public-project",
                      public: true)
-    project.custom_field_values = { invisible_custom_field.id => "Secret CF" }
+    project.custom_field_values = {
+      invisible_custom_field.id => "Secret CF",
+      custom_field.id => "Visible CF"
+    }
     project.save
     project
   end
@@ -216,6 +220,7 @@ RSpec.describe "Persisted lists on projects index page",
     let!(:persisted_query) do
       build(:project_query, user:, name: "Persisted query")
         .where("active", "=", "t")
+        .where("cf_#{custom_field.id}", "~", ["Visible"])
         .select("name")
         .save!
     end
@@ -397,6 +402,14 @@ RSpec.describe "Persisted lists on projects index page",
 
       projects_page.unmark_query_favorite
       projects_page.expect_sidebar_filter("Persisted query", selected: true, favored: false)
+    end
+
+    it "loads the query with a custom field filter (Regression#57298)",
+       with_ee: %i[custom_fields_in_projects_list] do
+      projects_page.set_sidebar_filter("Persisted query")
+
+      projects_page.expect_filters_container_hidden
+      projects_page.expect_filter_set "cf_#{custom_field.id}"
     end
   end
 
