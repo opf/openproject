@@ -115,6 +115,6 @@ class EnumerationsController < ApplicationController
   ##
   # Find an enumeration class with the given name
   def enumeration_class(type)
-    Enumeration.subclasses.detect { |cls| cls.name == type }
+    Enumeration.registered_subclasses.detect { |cls| cls.name == type }
   end
 end
