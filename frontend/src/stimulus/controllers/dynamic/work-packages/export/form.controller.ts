@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 import * as Turbo from '@hotwired/turbo';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export default class FormController extends Controller<HTMLFormElement> {
   static values = {
@@ -47,12 +48,12 @@ export default class FormController extends Controller<HTMLFormElement> {
     const exportURL = `${formatURL}?${searchParams.toString()}`;
     this.requestExport(exportURL)
       .then((job_id) => this.showJobModal(job_id))
-      .catch((error) => this.handleError(error as string));
+      .catch((error:HttpErrorResponse) => this.handleError(error));
   }
 
-  private handleError(error:any) {
+  private handleError(error:HttpErrorResponse) {
     void window.OpenProject.getPluginContext().then((pluginContext) => {
-      pluginContext.services.notifications.addError(error as string);
+      pluginContext.services.notifications.addError(error);
     });
   }
 
