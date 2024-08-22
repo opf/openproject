@@ -74,7 +74,7 @@ module Queries::WorkPackages::Filter::CustomFieldContext
       joins
     end
 
-    def where_subselect_conditions(_custom_field, _context)
+    def where_subselect_conditions
       nil
     end
   end

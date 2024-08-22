@@ -16,7 +16,7 @@ The authentication via Google is already activated in the Enterprise cloud. User
 
 ## How can I disable the Google authentication?
 
-Disabling the Google based authentication is currently not possible for cloud based installations.
+Disabling the Google based authentication currently requires you to reach to [support[at]openproject.com](mailto:support@openproject.com). We will disable the Google login option for you.
 
 For on premises installations the functionality can be deactivated the same way it was activated.
 
