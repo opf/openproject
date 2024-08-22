@@ -104,7 +104,7 @@ module Saml
 
     def idp_cert=(cert)
       formatted =
-        if cert.include?("BEGIN CERTIFICATE")
+        if cert.nil? || cert.include?("BEGIN CERTIFICATE")
           cert
         else
           OneLogin::RubySaml::Utils.format_cert(cert)

@@ -33,7 +33,11 @@ FactoryBot.define do
     sequence(:display_name) { |n| "Saml Provider #{n}" }
     creator factory: :user
     available { true }
+
     idp_cert { CertificateHelper.valid_certificate.to_pem }
+    idp_cert_fingerprint { nil }
+
+    sp_entity_id { "http://#{Setting.host_name}" }
 
     idp_sso_service_url { "https://example.com/sso" }
     idp_slo_service_url { "https://example.com/slo" }
