@@ -132,7 +132,7 @@ class WorkPackageMeetingsTabController < ApplicationController
         .includes(:meeting)
         .where(meeting_id: Meeting.visible(current_user))
         .where(work_package_id: @work_package.id)
-        .reorder(sort_clause(direction))
+        .order(sort_clause(direction))
 
     comparison = direction == :past ? "<" : ">="
     agenda_items.where("meetings.start_time + (interval '1 hour' * meetings.duration) #{comparison} ?", Time.zone.now)

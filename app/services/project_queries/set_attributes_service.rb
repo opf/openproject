@@ -27,71 +27,23 @@
 # ++
 
 class ProjectQueries::SetAttributesService < BaseServices::SetAttributes
+  include Queries::AttributeSetting
+
   private
 
-  def set_attributes(params)
-    set_filters(params.delete(:filters))
-    set_order(params.delete(:orders))
-    set_select(params.delete(:selects))
-
-    super
-  end
-
-  def set_default_attributes(_params)
-    set_default_user
-    set_default_filter
-    set_default_order
-    set_default_selects
-  end
-
-  def set_default_user
-    model.change_by_system do
-      model.user = user
-    end
-  end
-
   def set_default_order
-    return if model.orders.any?
-
     model.order(lft: :asc)
   end
 
   def set_default_filter
-    return if model.filters.any?
-
     model.where("active", "=", OpenProject::Database::DB_VALUE_TRUE)
   end
 
   def set_default_selects
-    return if model.selects.any?
-
     model.select(*default_columns, add_not_existing: false)
   end
 
-  def set_filters(filters)
-    return unless filters
-
-    model.filters.clear
-    filters.each do |filter|
-      model.where(filter[:attribute], filter[:operator], filter[:values])
-    end
-  end
-
-  def set_order(orders)
-    return unless orders
-
-    model.orders.clear
-    model.order(orders.to_h { |o| [o[:attribute], o[:direction]] })
-  end
-
-  def set_select(selects)
-    return unless selects
-
-    model.selects.clear
-    model.select(*selects)
-  end
-
   def default_columns
-    (["favored", "name"] + Setting.enabled_projects_columns).uniq
+    (%w[favored name] + Setting.enabled_projects_columns).uniq
   end
 end

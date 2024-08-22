@@ -29,18 +29,12 @@
 require "spec_helper"
 require "services/work_packages/shared/shared_examples_days"
 
-RSpec.describe Queries::NonWorkingDays::NonWorkingDayQuery do
+RSpec.describe Queries::NonWorkingDays::NonWorkingDayQuery, "integration" do
   shared_let(:first_of_may) { create(:non_working_day, date: Date.new(Date.current.year, 5, 1)) }
   shared_let(:christmas) { create(:non_working_day, date: Date.new(Date.current.year, 12, 25)) }
   shared_let(:new_year_day) { create(:non_working_day, date: Date.new(Date.current.year + 1, 1, 1)) }
 
   let(:instance) { described_class.new }
-  let(:base_scope) do
-    NonWorkingDay
-      .where(date: Date.current.all_year)
-      .reorder(date: :asc)
-  end
-
   let(:current_user) { build_stubbed(:admin) }
 
   before do
@@ -48,10 +42,6 @@ RSpec.describe Queries::NonWorkingDays::NonWorkingDayQuery do
   end
 
   shared_examples "returns this year's non working days" do
-    it "generates query for this year's non working days" do
-      expect(instance.results.to_sql).to eql base_scope.to_sql
-    end
-
     it "returns this year's non working days" do
       expect(instance.results).to eq [first_of_may, christmas]
     end

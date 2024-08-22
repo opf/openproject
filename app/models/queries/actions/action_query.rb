@@ -40,8 +40,6 @@ class Queries::Actions::ActionQuery
   end
 
   def default_scope
-    Action
-      .default
-      .distinct
+    Action.default
   end
 end

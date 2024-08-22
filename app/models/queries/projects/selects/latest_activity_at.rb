@@ -27,11 +27,24 @@
 # ++
 
 class Queries::Projects::Selects::LatestActivityAt < Queries::Selects::Base
+  TABLE_NAME = "latest_activity".freeze
+
   def self.key
     :latest_activity_at
   end
 
+  def self.column_sql
+    "#{TABLE_NAME}.#{key}"
+  end
+
   def self.available?
     User.current.admin?
+  end
+
+  def apply_to(scope)
+    scope
+      .with(TABLE_NAME => Arel::Nodes::SqlLiteral.new(Project.latest_activity_sql))
+      .select(self.class.column_sql)
+      .joins("LEFT JOIN #{TABLE_NAME} ON projects.id = #{TABLE_NAME}.project_id")
   end
 end

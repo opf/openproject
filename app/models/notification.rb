@@ -62,4 +62,13 @@ class Notification < ApplicationRecord
   def date_alert?
     reason.in?(["date_alert_start_date", "date_alert_due_date"])
   end
+
+  def self.update_all_of_query(query, updates)
+    # The simpler notification_query.results.update_all(...) does not work as
+    # rails does not yet retain CTEs in the update_all method.
+    # https://github.com/rails/rails/pull/47193
+    Notification
+      .where(id: query.results.select(:id))
+      .update_all(updates)
+  end
 end

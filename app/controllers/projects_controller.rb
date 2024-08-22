@@ -38,9 +38,6 @@ class ProjectsController < ApplicationController
 
   no_authorization_required! :index, :export_list_modal
 
-  include SortHelper
-  include PaginationHelper
-  include QueriesHelper
   include ProjectsHelper
   include Queries::Loading
   include OpTurbo::DialogStreamHelper

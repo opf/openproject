@@ -47,7 +47,7 @@ class NotificationsController < ApplicationController
 
   def mark_all_read
     if filtered_query.valid?
-      filtered_query.results.update_all(read_ian: true, updated_at: Time.zone.now)
+      Notification.update_all_of_query(filtered_query, read_ian: true, updated_at: Time.zone.now)
     else
       flash[:error] = filtered_query.errors.full_messages.join(", ")
     end

@@ -166,7 +166,6 @@ RSpec.describe ProjectQuery do
                           ])
       end
     end
-    # rubocop:enable Naming/VariableNumber
   end
 
   describe "#valid_subset!" do

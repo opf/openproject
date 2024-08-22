@@ -24,24 +24,25 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Queries::Meetings
-  class MeetingQuery
-    include ::Queries::BaseQuery
-    include ::Queries::UnpersistedQuery
+class MeetingQuery
+  include ::Queries::BaseQuery
+  include ::Queries::UnpersistedQuery
 
-    def self.model
-      Meeting
-    end
+  def self.model
+    Meeting
+  end
 
-    def results
-      super
-      .includes(:project, :author)
-    end
+  def results
+    super
+    .includes(:project, :author)
+  end
 
-    def default_scope
-      Meeting.visible(user)
-    end
+  def default_scope
+    Meeting.visible(user)
   end
 end
+
+# This is necessary to have the filters, orders and selects loaded in dev environment
+require "queries/meetings"
