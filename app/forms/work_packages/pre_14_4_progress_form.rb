@@ -134,7 +134,11 @@ class WorkPackages::Pre144ProgressForm < ApplicationForm
   end
 
   def focused_field_by_selection(field)
-    field
+    if field == :remaining_hours && disabled_remaining_work_field?
+      :estimated_hours
+    else
+      field
+    end
   end
 
   def render_text_field(group,
