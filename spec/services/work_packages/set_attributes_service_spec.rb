@@ -211,9 +211,9 @@ RSpec.describe WorkPackages::SetAttributesService,
 
         context "when remaining work is unset" do
           let(:call_attributes) { { remaining_hours: nil } }
-          let(:expected_attributes) { { estimated_hours: 10.0, done_ratio: nil } }
+          let(:expected_attributes) { { estimated_hours: nil, done_ratio: 70 } }
 
-          it_behaves_like "service call", description: "keeps work, and unsets % complete"
+          it_behaves_like "service call", description: "keeps % complete, and unsets work"
         end
 
         context "when work is increased" do

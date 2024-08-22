@@ -67,11 +67,16 @@ class WorkPackages::SetAttributesService
     end
 
     def update_work
-      return if work_set_and_no_user_inputs_provided_for_both_remaining_work_and_percent_complete?
       return if remaining_work_unset? && percent_complete_unset?
       return if percent_complete == 100 # would be Infinity if computed when % complete is 100%
+      return unless work_can_be_derived?
 
-      self.work = work_from_percent_complete_and_remaining_work
+      self.work =
+        if remaining_work_unset?
+          nil
+        else
+          work_from_percent_complete_and_remaining_work
+        end
     end
 
     # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
@@ -108,8 +113,6 @@ class WorkPackages::SetAttributesService
     end
 
     def work_from_percent_complete_and_remaining_work
-      return if remaining_work_unset?
-
       remaining_percent_complete = 1.0 - ((percent_complete || 0) / 100.0)
       remaining_work / remaining_percent_complete
     end
@@ -119,13 +122,15 @@ class WorkPackages::SetAttributesService
     end
 
     def remaining_work_set_greater_than_work?
-      remaining_work_came_from_user? \
+      (work_was_unset? || remaining_work_came_from_user?) \
         && !percent_complete_came_from_user? \
         && work && remaining_work && remaining_work > work
     end
 
-    def work_set_and_no_user_inputs_provided_for_both_remaining_work_and_percent_complete?
-      work_set? && (remaining_work_not_provided_by_user? || percent_complete_not_provided_by_user?)
+    def work_can_be_derived?
+      work_unset? \
+        || (remaining_work_came_from_user? && percent_complete_came_from_user?) \
+        || (remaining_work_unset? && remaining_work_came_from_user?)
     end
   end
 end
