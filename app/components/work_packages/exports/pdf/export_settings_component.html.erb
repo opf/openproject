@@ -5,7 +5,6 @@
   }) do |container| %>
   <%= container.with_row do %>
     <%= render(Primer::Alpha::RadioButtonGroup.new(
-      mb: 3,
       full_width: true,
       name: "pdf_export_type",
       label: I18n.t("export.dialog.pdf.export_type.label"))) do |component|
