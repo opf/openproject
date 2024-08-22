@@ -404,8 +404,7 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.expect_sidebar_filter("Persisted query", selected: true, favored: false)
     end
 
-    it "loads the query with a custom field filter (Regression#57298)",
-       with_ee: %i[custom_fields_in_projects_list] do
+    it "loads the query with a custom field filter (Regression#57298)" do
       projects_page.set_sidebar_filter("Persisted query")
 
       projects_page.expect_filters_container_hidden
