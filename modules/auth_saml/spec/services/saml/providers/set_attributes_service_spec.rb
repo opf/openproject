@@ -29,7 +29,6 @@
 #++
 
 require "spec_helper"
-require_relative "../../../support/certificate_helper"
 require_module_spec_helper
 
 RSpec.describe Saml::Providers::SetAttributesService, type: :model do

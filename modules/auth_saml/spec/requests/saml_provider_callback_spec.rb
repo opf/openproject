@@ -28,7 +28,6 @@
 
 require "spec_helper"
 require "rack/test"
-require_relative "../support/certificate_helper"
 
 RSpec.describe "SAML provider callback",
                type: :rails_request,

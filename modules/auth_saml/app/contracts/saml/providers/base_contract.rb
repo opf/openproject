@@ -76,7 +76,7 @@ module Saml
       end
 
       def idp_cert_not_expired
-        unless model.idp_certificate_expired?
+        unless model.idp_certificate_valid?
           errors.add :idp_cert, :certificate_expired
         end
       rescue OpenSSL::X509::CertificateError => e

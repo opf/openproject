@@ -43,8 +43,6 @@ module Saml
     store_attribute :options, :requested_lastname_format, :string
     store_attribute :options, :requested_uid_format, :string
 
-    attr_accessor :readonly
-
     def self.slug_fragment = "saml"
 
     def seeded_from_env?
@@ -98,7 +96,9 @@ module Saml
       idp_cert.present?
     end
 
-    def idp_certificate_expired?
+    def idp_certificate_valid?
+      return false if idp_cert.blank?
+
       !loaded_idp_certificates.all? { |cert| OneLogin::RubySaml::Utils.is_cert_expired(cert) }
     end
 
