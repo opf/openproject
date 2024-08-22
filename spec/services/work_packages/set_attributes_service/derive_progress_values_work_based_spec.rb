@@ -110,6 +110,13 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       include_examples "update progress values", description: "keeps % complete"
     end
 
+    context "when work is changed and percent complete is set to the same value as before" do
+      let(:set_attributes) { { estimated_hours: 20.0, done_ratio: 70 } }
+      let(:expected_derived_attributes) { { remaining_hours: 6.0 } }
+
+      include_examples "update progress values", description: "derives remaining work from work and % complete"
+    end
+
     context "when both work and percent complete are unset" do
       let(:set_attributes) { { estimated_hours: nil, done_ratio: nil } }
       let(:expected_kept_attributes) { %w[remaining_hours] }

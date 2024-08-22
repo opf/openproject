@@ -86,7 +86,7 @@ class WorkPackages::SetAttributesService
 
       if work_set? && remaining_work_unset? && percent_complete_unset?
         self.remaining_work = work
-      elsif work_changed? && work_set? && remaining_work_set? && !percent_complete_changed?
+      elsif work_changed? && work_set? && remaining_work_set? && percent_complete_not_provided_by_user?
         delta = work - work_was
         self.remaining_work = (remaining_work + delta).clamp(0.0, work)
       elsif work_unset? || percent_complete_unset?
@@ -123,7 +123,7 @@ class WorkPackages::SetAttributesService
 
     def remaining_work_set_greater_than_work?
       (work_was_unset? || remaining_work_came_from_user?) \
-        && !percent_complete_came_from_user? \
+        && percent_complete_not_provided_by_user? \
         && work && remaining_work && remaining_work > work
     end
 
