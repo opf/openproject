@@ -425,9 +425,7 @@ Rails.application.routes.draw do
 
     resource :custom_style, only: %i[update show create], path: "design"
 
-    resources :attribute_help_texts, only: %i(index new create edit update destroy) do
-      get :upsale, to: "attribute_help_texts#upsale", on: :collection, as: :upsale
-    end
+    resources :attribute_help_texts, only: %i(index new create edit update destroy)
 
     resources :groups, except: %i[show] do
       member do

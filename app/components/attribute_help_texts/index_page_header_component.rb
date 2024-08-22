@@ -1,4 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -24,41 +26,25 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-require "support/pages/page"
+class AttributeHelpTexts::IndexPageHeaderComponent < ApplicationComponent
+  include OpPrimer::ComponentHelpers
+  include ApplicationHelper
+  include TabsHelper
 
-module Pages
-  class CustomFields < Page
-    def path
-      "/custom_fields"
-    end
+  def initialize(tabs: nil)
+    super
+    @tabs = tabs
+  end
 
-    def visit_tab(name)
-      visit!
-      within_test_selector("custom-fields--tab-nav") do
-        click_link name.to_s
-      end
-    end
+  def breadcrumb_items
+    [{ href: admin_index_path, text: t("label_administration") },
+     I18n.t("menus.breadcrumb.nested_element", section_header: t(:"attribute_help_texts.label_plural"),
+                                               title: I18n.t(currently_selected_tab[:label].to_s)).html_safe]
+  end
 
-    def select_format(label)
-      select label, from: "custom_field_field_format"
-    end
-
-    def set_name(name)
-      find_by_id("custom_field_name").set name
-    end
-
-    def set_default_value(value)
-      fill_in "custom_field[default_value]", with: value
-    end
-
-    def set_all_projects(value)
-      find_by_id("custom_field_is_for_all").set value
-    end
-
-    def has_form_element?(name)
-      page.has_css? "label.form--label", text: name
-    end
+  def currently_selected_tab
+    @currently_selected_tab ||= selected_tab(@tabs)
   end
 end
