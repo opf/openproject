@@ -646,7 +646,7 @@ zh-CN:
           with_current_filter: "目前此视图中没有通知"
         mark_all_read: "全部标记为已读"
         mark_as_read: "标记为已读"
-        text_update_date_by: "%{date} by"
+        text_update_date_by: "%{date}，"
         total_count_warning: "正在显示 %{newest_count} 条最新通知。还有 %{more_count} 条未显示。"
         empty_state:
           no_notification: "看起来您已查看所有通知。"

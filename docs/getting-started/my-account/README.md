@@ -81,7 +81,7 @@ This mode is recommended for users with visuals impairment.
 In the dropdown menu **Mode** you can pick the color mode. The default setting is the **Light mode**. You can also select the **Dark mode**, which will change the color theme of the OpenProject instance for you. 
 
 > [!NOTE]
-> The dark mode ignores parts of the configured design. Top header and  side menu colors are entirely overriden for this  mode. Only the accent color and the primary button color are kept, but are calculated to brighter variants.
+> The dark mode ignores parts of the configured design. Top header and side menu colors are entirely overridden for this  mode. Only the accent color and the primary button color are kept, but are calculated to brighter variants.
 
 ![Dark mode in OpenProject](openproject_my_account_dark_mode.png)
 

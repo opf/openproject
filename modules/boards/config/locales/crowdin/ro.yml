@@ -7,13 +7,13 @@ ro:
   permission_manage_board_views: "Gestionați plăcile"
   project_module_board_view: "Panouri"
   boards:
-    label_board: "Tablă"
+    label_board: "Panou"
     label_boards: "Panouri"
-    label_create_new_board: "Creează un nou panou"
-    label_board_type: "Tipul de placă"
+    label_create_new_board: "Creează panou nou"
+    label_board_type: "Tip panou"
     board_types:
       free: De bază
-      action: "Tablă de acțiune (%{attribute})"
+      action: "Panou acțiune (%{attribute})"
     board_type_attributes:
       assignee: Executant
       status: Stare

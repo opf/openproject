@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,26 +24,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-class Projects::ConfigureViewModalComponent < ApplicationComponent
-  include OpTurbo::Streamable
-
-  MODAL_ID = "op-project-list-configure-dialog"
-  QUERY_FORM_ID = "op-project-list-configure-query-form"
-  COLUMN_HTML_NAME = "columns"
-
-  options :query
-
-  def selectable_columns
-    @selectable_columns ||= [
-      { id: :lft, name: I18n.t(:label_project_hierarchy) }
-    ] + helpers.projects_columns_options
-  end
-
-  def selected_columns
-    @selected_columns ||= query
-                            .selects
-                            .map { |c| { id: c.attribute, name: c.caption } }
-  end
+Rails.application.config.to_prepare do
+  Enumeration.register_subclass(IssuePriority)
 end

@@ -26,7 +26,7 @@ ro:
     attributes:
       budget:
         author: "Autor"
-        available: "Disponibile"
+        available: "Disponibil"
         budget: "Planificat"
         budget_ratio: "Cheltuit (raport)"
         description: "Descriere"
@@ -47,7 +47,7 @@ ro:
   attributes:
     budget: "Buget"
   button_add_budget_item: "Adăugați costurile planificate"
-  button_add_budget: "Adăugați bugetul"
+  button_add_budget: "Adaugă bugetul"
   button_add_cost_type: "Adaugați acest câmp la un pachet de lucru"
   button_cancel_edit_budget: "Anularea bugetului de editare"
   button_cancel_edit_costs: "Anularea costurilor de editare"
@@ -70,7 +70,7 @@ ro:
   label_yes: "Da"
   notice_budget_conflict: "Pachetele de lucru trebuie să fie din același proiect."
   notice_no_budgets_available: "Nu există bugete disponibile."
-  permission_edit_budgets: "Editarea bugetelor"
+  permission_edit_budgets: "Editare bugete"
   permission_view_budgets: "Vezi bugete"
   project_module_budgets: "Bugetele"
   text_budget_reassign_to: "Reatribuiți-le acestui buget:"

@@ -342,7 +342,7 @@ GEM
       activerecord (>= 4.0.0, < 7.2)
     awrence (1.2.1)
     aws-eventstream (1.3.0)
-    aws-partitions (1.964.0)
+    aws-partitions (1.966.0)
     aws-sdk-core (3.201.5)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
@@ -351,7 +351,7 @@ GEM
     aws-sdk-kms (1.88.0)
       aws-sdk-core (~> 3, >= 3.201.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.158.0)
+    aws-sdk-s3 (1.159.0)
       aws-sdk-core (~> 3, >= 3.201.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -360,11 +360,11 @@ GEM
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.9.1)
       aws-eventstream (~> 1, >= 1.0.2)
-    axe-core-api (4.9.1)
+    axe-core-api (4.10.0)
       dumb_delegator
       virtus
-    axe-core-rspec (4.9.1)
-      axe-core-api (= 4.9.1)
+    axe-core-rspec (4.10.0)
+      axe-core-api (= 4.10.0)
       dumb_delegator
       virtus
     axiom-types (0.1.1)
@@ -644,7 +644,7 @@ GEM
     http-2 (1.0.1)
     http_parser.rb (0.6.0)
     httpclient (2.8.3)
-    httpx (1.3.0)
+    httpx (1.3.1)
       http-2 (>= 1.0.0)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
@@ -1141,7 +1141,7 @@ GEM
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
-    vcr (6.3.0)
+    vcr (6.3.1)
       base64
     view_component (3.13.0)
       activesupport (>= 5.2.0, < 8.0)

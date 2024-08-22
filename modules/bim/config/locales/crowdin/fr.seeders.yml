@@ -16,7 +16,7 @@ fr:
           name: Critique
       statuses:
         item_0:
-          name: nouveau
+          name: Nouveau
         item_1:
           name: En cours
         item_2:
@@ -682,7 +682,7 @@ fr:
             item_0: Catégorie 1 (à modifier dans les paramètres du projet)
           queries:
             item_0:
-              name: Problèmes
+              name: Tickets
             item_1:
               name: Conflits
             item_2:

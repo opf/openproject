@@ -74,9 +74,9 @@ fr:
         item_1:
           name: Normal
         item_2:
-          name: Haut
+          name: Haute
         item_3:
-          name: Immédiat
+          name: Immédiate
       projects:
         demo-project:
           name: Projet de démonstration
@@ -142,7 +142,7 @@ fr:
                     Si vous avez des questions ou si avez besoin d'aide, n'hésitez pas à nous contacter : [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Lots de Travaux
+                  name: Lots de travaux
               item_6:
                 options:
                   name: Étapes
@@ -312,7 +312,7 @@ fr:
                     N'hésitez pas à nous contacter si vous avez des questions ou si vous avez besoin d'aide. N'hésitez pas à nous contacter : [support[at]openproject.com(mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Lots de Travaux
+                  name: Lots de travaux
               item_6:
                 options:
                   name: Plan de projet
@@ -414,7 +414,7 @@ fr:
             * L'équipe discute du sprint : ce qui s'est bien passé, ce qui doit être amélioré pour améliorer la productivité pour le prochain sprint ou même avoir plus de plaisir.
       statuses:
         item_0:
-          name: nouveau
+          name: Nouveau
         item_1:
           name: En cous de spécification
         item_2:
@@ -440,7 +440,7 @@ fr:
         item_12:
           name: En attente
         item_13:
-          name: rejeté
+          name: Rejeté
       time_entry_activities:
         item_0:
           name: Gestion
@@ -449,7 +449,7 @@ fr:
         item_2:
           name: Développement
         item_3:
-          name: Test
+          name: En test
         item_4:
           name: Support
         item_5:
@@ -466,7 +466,7 @@ fr:
         item_4:
           name: Epic
         item_5:
-          name: Récit utilisateur
+          name: User story
         item_6:
           name: Bug
       welcome:

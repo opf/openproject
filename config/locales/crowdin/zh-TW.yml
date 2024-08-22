@@ -371,7 +371,7 @@ zh-TW:
         other: "%{all_shared_work_packages_link} 已與該組共享。"
       shared_with_permission_html:
         other: "只有 %{shared_work_packages_link} 共享了 %{shared_role_name} 權限。"
-      revoke_all_or_with_role: "您想撤銷對所有共享工作包的訪問權限，還是只撤銷對具有 %{shared_role_name} 權限的工作包的訪問權限？"
+      revoke_all_or_with_role: "您想撤銷對所有共用工作項目的存取權限，還是只撤銷 %{shared_role_name} 的相關權限？"
       will_not_affect_inherited_shares: "(這不會影響與其群組共用的工作包)。"
       cannot_remove_inherited: "無法刪除通過群組共享的工作包共享。"
       cannot_remove_inherited_with_role: "與角色 %{shared_role_name} 共享的工作包是通過群組共享的，不能刪除。"
@@ -495,7 +495,7 @@ zh-TW:
         所選顏色區分甘特圖或工作項目中的不同類型。因此建議使用濃烈的顏色。
   versions:
     overview:
-      work_packages_in_archived_projects: "該版本與歸檔項目共享，這些項目仍然有分配給此版本的工作包。雖然這些工作包被計算在內，但不會顯示在鏈接視圖中。"
+      work_packages_in_archived_projects: "該版本與歸檔項目共用，這些專案仍然有分配給此版本的工作項目。雖然這些工作項目被計算在內，但不會顯示在視圖中。"
       no_results_title_text: 目前沒有分配給此版本的工作項目。
   wiki:
     page_not_editable_index: 本頁不存在,重新導至wiki目錄頁。
@@ -764,14 +764,14 @@ zh-TW:
           true: "包含非工作日"
         notify: "通知" #used in custom actions
         parent: "上層目錄："
-        parent_issue: "上層目錄："
-        parent_work_package: "上層目錄："
+        parent_issue: "上層工作項目："
+        parent_work_package: "上層工作項目："
         priority: "優先等級"
         progress: "完成度(%)"
         readonly: "唯讀"
         remaining_hours: "剩餘工作"
         remaining_time: "剩餘工作"
-        shared_with_users: "共用對象"
+        shared_with_users: "參與成員"
         schedule_manually: "手動排程"
         spent_hours: "耗時"
         spent_time: "耗時"
@@ -1042,7 +1042,7 @@ zh-TW:
               not_available_for_milestones: "不適用於里程碑類型的工作項目。"
               cannot_be_null: "無法設置為 null，因為開始日期和結束日期已知。"
             parent:
-              cannot_be_milestone: "不可以成為一個里程碑"
+              cannot_be_milestone: "不能是里程碑"
               cannot_be_self_assigned: "不能指派給自己"
               cannot_be_in_another_project: "不能在另一個專案中"
               not_a_valid_parent: "不正確。"
@@ -1539,8 +1539,8 @@ zh-TW:
   error_can_not_archive_project: "這個專案無法封存：%{errors}"
   error_can_not_delete_entry: "無法刪除項目"
   error_can_not_delete_custom_field: "無法刪除客製欄位"
-  error_can_not_delete_in_use_archived_undisclosed: "歸檔專案中也有工作套件。您需要請管理員執行刪除，才能看到哪些專案會受到影響。"
-  error_can_not_delete_in_use_archived_work_packages: "已歸檔的專案中也有工作套件。您需要先重新啟動下列專案，才能變更各工作套件的屬性： %{archived_projects_urls}"
+  error_can_not_delete_in_use_archived_undisclosed: "歸檔專案中也有工作項目。您需要請管理員執行刪除，才能看到哪些專案會受到影響。"
+  error_can_not_delete_in_use_archived_work_packages: "已歸檔的專案中也有工作項目。您需要先重新啟動下列專案，才能變更各工作項目屬性： %{archived_projects_urls}"
   error_can_not_delete_type:
     explanation: '此類型包含工作套件，且無法刪除。您可以在<a target="_blank" href="%{url}">此檢視</a>中看到所有受影響的工作套件。'
   error_can_not_delete_standard_type: "標準類型無法刪除"
@@ -2792,7 +2792,7 @@ zh-TW:
       make_template: "設為範本"
       remove_from_templates: "從範本中移除"
     archive:
-      are_you_sure: "是否確定要 archive 專案 '%{name}'？"
+      are_you_sure: "是否確定要封存專案 '%{name}'？"
       archived: "封存"
     count:
       zero: "0 個專案"
@@ -3030,7 +3030,7 @@ zh-TW:
   setting_password_days_valid: "在經過多少天後強制執行密碼變更"
   setting_password_min_length: "最小長度"
   setting_password_min_adhered_rules: "必要類別的最小數目"
-  setting_per_page_options: "每頁顯示項目個數的設置"
+  setting_per_page_options: "設置每頁顯示個數"
   setting_plain_text_mail: "純文字郵件（不含 HTML）"
   setting_protocol: "Protocol"
   setting_project_gantt_query: "專案含甘特圖檢視"
@@ -3064,7 +3064,7 @@ zh-TW:
   setting_welcome_title: "歡迎區塊標題"
   setting_welcome_on_homescreen: "在主頁面上顯示歡迎區塊"
   setting_work_package_list_default_highlighting_mode: "預設顯示模式"
-  setting_work_package_list_default_highlighted_attributes: "預設強調的屬性"
+  setting_work_package_list_default_highlighted_attributes: "預設顯眼屬性"
   setting_working_days: "工作日"
   settings:
     attachments:

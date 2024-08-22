@@ -66,5 +66,5 @@ ro:
         work_packages_calendar:
           title: 'Calendar'
         work_packages_overview:
-          title: 'Prezentare generală a pachetelor de lucru'
+          title: 'Prezentare generală pachete de lucru'
           placeholder: 'Dă clic pentru a edita acest meniu.'

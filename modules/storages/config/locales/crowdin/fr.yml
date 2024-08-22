@@ -170,7 +170,7 @@ fr:
       project_storage: 'Voulez-vous vraiment supprimer %{file_storage} de ce projet ? Pour confirmer cette action, veuillez introduire le nom de l''espace de stockage dans le champ ci-dessous, cela permettra de :'
       project_storage_delete_result_1: Supprimer tous les liens des lots de travaux de ce projet vers les fichiers et dossiers de cet espace de stockage.
       project_storage_delete_result_2: Si cet espace de stockage a un dossier de projet géré automatiquement, lui et ses fichiers seront définitivement supprimés.
-      storage: 'Voulez-vous vraiment supprimer %{file_storage} de ce projet ? Pour confirmer cette action, veuillez saisir le nom de l''espace de stockage dans le champ ci-dessous. Cela va :'
+      storage: 'Êtes-vous sûr de vouloir supprimer %{file_storage} ? Pour confirmer cette action, veuillez introduire le nom du stockage dans le champ ci-dessous :'
       storage_delete_result_1: Supprimer toutes les configurations de stockage pour tous les projets utilisant ce stockage.
       storage_delete_result_2: Supprimer tous les liens des lots de travaux de ce projet vers les fichiers et dossiers dans cet espace de stockage.
       storage_delete_result_3: Si ce stockage contient des dossiers de projet gérés automatiquement, ceux-ci et les fichiers qu'ils contiennent seront supprimés définitivement.
@@ -198,7 +198,7 @@ fr:
       oauth_applications: Applications OAuth
       one_drive_oauth: OAuth Azure
       openproject_oauth: OAuth OpenProject
-      project_folders: Dossier du projet
+      project_folders: Dossiers du projet
       redirect_uri: URI de redirection
       storage_provider: Fournisseur de stockage
     health:
@@ -283,7 +283,7 @@ fr:
     label_delete_storage: Supprimer le stockage
     label_edit_storage: Modifier le stockage
     label_edit_storage_access_management: Modifier la gestion de l'accès à l'espace de stockage
-    label_edit_storage_automatically_managed_folders: Editer les dossiers automatiquement gérés
+    label_edit_storage_automatically_managed_folders: Modifier les dossiers automatiquement gérés
     label_edit_storage_host: Modifier l'hôte de stockage
     label_existing_manual_folder: Répertoire existant avec permissions gérées manuellement
     label_file_storage: Stockage de fichiers
@@ -316,16 +316,24 @@ fr:
     no_results: Aucun espace de stockage n'est configuré pour le moment.
     notice_successful_storage_connection: |-
       Stockage connecté avec succès ! N'oubliez pas d'activer le module et le stockage spécifique dans les paramètres de chaque projet où vous souhaitez l'utiliser.
-    oauth_grant_nudge_modal:
+    oauth_access_granted_modal:
       access_granted: Accès accordé
-      access_granted_screen_reader: Accès accordé. Vous êtes maintenant prêt à utiliser %{storage}.
-      body: Pour accéder au dossier du projet, vous devez vous connecter à %{storage}.
+      project_settings:
+        access_granted_screen_reader: Accès accordé. Vous êtes maintenant prêt à utiliser %{storage}
+        storage_ready: Vous êtes maintenant prêt à utiliser %{storage}
+      storage_admin:
+        access_granted_screen_reader: Accès accordé. Vous êtes maintenant prêt à ajouter des projets à %{storage}
+        storage_ready: Vous êtes maintenant prêt à ajouter des projets à %{storage}
+    oauth_grant_nudge_modal:
       cancel_button_label: Je le ferai plus tard
-      confirm_button_aria_label: Connexion à %{storage}
-      confirm_button_label: Connexion
+      heading: Connexion à %{provider_type} requise
+      login_button_aria_label: Connexion à %{storage}
+      login_button_label: "Connexion à %{provider_type}"
+      project_settings:
+        description: Pour accéder au dossier du projet, vous devez vous connecter à %{storage}.
       requesting_access_to: Demande d'accès à %{storage}
-      storage_ready: Vous êtes maintenant prêt à utiliser %{storage}
-      title: Encore une étape...
+      storage_admin:
+        description: Pour ajouter des projets à ce stockage, vous devez être connecté à %{provider_type}. Veuillez vous connecter et réessayer.
     open_project_storage_modal:
       success:
         subtitle: Vous allez être redirigé

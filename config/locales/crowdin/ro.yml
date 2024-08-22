@@ -184,7 +184,7 @@ ro:
       label_new_color: "Culoare nouă"
       label_edit_color: "Editare culoare"
     label_no_color: "Nicio culoare"
-    label_properties: "Proprietăţi"
+    label_properties: "Proprietăți"
     label_really_delete_color: >
       Sunteţi sigur că doriţi să ştergeţi următoarea culoare? Tipurile care folosesc această culoare nu vor fi şterse.
   custom_actions:
@@ -244,8 +244,8 @@ ro:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: "Membri ai proiectului"
-      overviews: "Prezentare generală a proiectului"
+      members: "Membrii proiectului"
+      overviews: "Prezentare generală proiect"
       queries: "Pachete de lucru: vizualizări salvate"
       wiki_page_attachments: "Pagini wiki: atașamente"
       work_package_attachments: "Pachete de lucru: anexe"
@@ -610,7 +610,7 @@ ro:
       changeset:
         repository: "Repo"
       color:
-        hexcode: "Cod hexa"
+        hexcode: "Cod hex"
       comment:
         commented: "Cu comentarii" #an object that this comment belongs to
       custom_action:
@@ -670,7 +670,7 @@ ro:
         hexcode: Cod hexa
       project:
         active_value:
-          true: "nearhivat"
+          true: "dezarhivat"
           false: "arhivat"
         identifier: "Identificator"
         latest_activity_at: "Ultima activitate la"
@@ -693,13 +693,13 @@ ro:
         templated: "Proiect șablon"
         templated_value:
           true: "marcat ca șablon"
-          false: "nemarcat ca șablon"
+          false: "demarcat ca șablon"
         types: "Tipuri"
         versions: "Versiuni"
         work_packages: "Pachete de lucru"
       project_custom_field:
         is_required: "Required for all projects"
-        custom_field_section: Sectiune
+        custom_field_section: Secțiune
       query:
         column_names: "Coloane"
         relations_to_type_column: "Relații cu %{type}"
@@ -1119,9 +1119,9 @@ ro:
             status:
               invalid_on_create: "nu este un statut valabil pentru utilizatorii noi."
             ldap_auth_source:
-              error_not_found: "%s nu a fost găsit"
+              error_not_found: "nu a fost găsit"
             auth_source:
-              error_not_found: "%s nu a fost găsit"
+              error_not_found: "nu a fost găsit"
         member:
           principal_blank: "Trebuie să alegeţi cel puţin un utilizator sau grup."
           role_blank: "trebuie să fie atribuite."
@@ -1227,10 +1227,10 @@ ro:
       changeset: "Seturi de modificări"
       message: "Forumuri"
       news: "Noutăţi"
-      project_attribute: "Atributele proiectului"
+      project_attribute: "Atribute proiect"
       subproject: "Include subproiecte"
-      time_entry: "Timp alocat"
-      wiki_edit: "Spaţiu"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
       work_package: "Pachete de lucru"
   #common attributes of all models
   attributes:
@@ -1249,14 +1249,14 @@ ro:
     created_at: "Creat pe"
     custom_options: "Valori posibile"
     custom_values: "Câmpuri personalizate"
-    date: "Dată"
+    date: "Data"
     default_columns: "Coloane implicite"
     description: "Descriere"
     derived_due_date: "Data finală derivată"
     derived_estimated_hours: "Total work"
     derived_start_date: "fără dată început"
     display_sums: "Afişare totaluri"
-    due_date: "Data de finalizare"
+    due_date: "Data finalizare"
     estimated_hours: "Work"
     estimated_time: "Work"
     expires_at: "Expiră la"
@@ -1327,7 +1327,7 @@ ro:
   button_add_watcher: "Adăugare observator"
   button_annotate: "Adnotare"
   button_apply: "Salvare"
-  button_archive: "Arhivare"
+  button_archive: "Arhivează"
   button_back: "Înapoi"
   button_cancel: "Anulare"
   button_change: "Modificare"
@@ -1346,7 +1346,7 @@ ro:
   button_copy_and_follow: "Copiere și continuare"
   button_create: "Creare"
   button_create_and_continue: "Creare și continuare"
-  button_delete: "Ștergere"
+  button_delete: "Șterge"
   button_decline: "Refuză"
   button_delete_watcher: "Ștergere observator %{name}"
   button_download: "Descărcare"
@@ -1392,11 +1392,11 @@ ro:
   button_manage_menu_entry: "Configurare meniu"
   button_add_menu_entry: "Adăugare meniu"
   button_configure_menu_entry: "Configurare meniu"
-  button_delete_menu_entry: "Ștergere meniu"
+  button_delete_menu_entry: "Șterge element meniu"
   button_view_shared_work_packages: "Vezi pachetele de lucru partajate"
   button_manage_roles: "Gestionează rolurile"
   button_remove_member: "Elimină membru"
-  button_remove_member_and_shares: "Elimină membrul și partajările"
+  button_remove_member_and_shares: "Elimină membru și partajări"
   button_revoke_work_package_shares: "Revoke work package shares"
   button_revoke_access: "Revocă acces"
   button_revoke_all: "Revocă tot"
@@ -1492,17 +1492,17 @@ ro:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: "cam o oră"
-        few: "cam %{count} ore"
-        other: "cam %{count} ore"
+        one: "aproximativ o oră"
+        few: "aproximativ %{count} ore"
+        other: "aproximativ %{count} ore"
       about_x_months:
-        one: "cam o lună"
-        few: "cam %{count} luni"
-        other: "cam %{count} luni"
+        one: "aproximativ o lună"
+        few: "aproximativ %{count} luni"
+        other: "aproximativ %{count} luni"
       about_x_years:
-        one: "cam un an"
-        few: "cam %{count} ani"
-        other: "cam %{count} ani"
+        one: "aproximativ un an"
+        few: "aproximativ %{count} ani"
+        other: "aproximativ %{count} ani"
       almost_x_years:
         one: "aproape un an"
         few: "aproape %{count} ani"
@@ -1529,20 +1529,20 @@ ro:
         few: "%{count} minute"
         other: "%{count} minute"
       x_minutes_abbreviated:
-        one: "1 minut"
-        few: "%{count} mins"
-        other: "%{count} minute"
+        one: "1 min"
+        few: "%{count} min"
+        other: "%{count} min"
       x_hours:
         one: "1 oră"
         few: "%{count} ore"
         other: "%{count} ore"
       x_hours_abbreviated:
-        one: "1 hr"
-        few: "%{count} hrs"
-        other: "%{count} ore"
+        one: "1 h"
+        few: "%{count} h"
+        other: "%{count} h"
       x_weeks:
-        one: "1 week"
-        few: "%{count} weeks"
+        one: "1 săptămână"
+        few: "%{count} săptămâni"
         other: "%{count} săptămâni"
       x_months:
         one: "o lună"
@@ -1550,7 +1550,7 @@ ro:
         other: "%{count} luni"
       x_years:
         one: "1 an"
-        few: "%{count} years"
+        few: "%{count} ani"
         other: "%{count} ani"
       x_seconds:
         one: "o secundă"
@@ -1559,7 +1559,7 @@ ro:
       x_seconds_abbreviated:
         one: "1 s"
         few: "%{count} s"
-        other: "%{count} secunde"
+        other: "%{count} s"
     units:
       hour:
         one: "oră"
@@ -1846,7 +1846,7 @@ ro:
       unread: "necitită"
       unread_title: "Afișare necitite"
       all: "Toate"
-      all_title: "Afișare completă"
+      all_title: "Afișare toate"
     menu:
       by_project: "Necitit după proiect"
       by_reason: "Descriere"
@@ -2283,7 +2283,7 @@ ro:
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
-  label_project_view_all: "Vizualizare toate proiectele"
+  label_project_view_all: "Vizualizează toate proiectele"
   label_project_show_details: "Arată detaliile proietului"
   label_project_hide_details: "Ascunde detaliile proiectului"
   label_public_projects: "Proiecte publice"
@@ -2410,7 +2410,7 @@ ro:
   label_version_plural: "Versiuni"
   label_version_sharing_descendants: "Cu subproiecte"
   label_version_sharing_hierarchy: "Cu ierarhia de proiect"
-  label_version_sharing_none: "Nu este publică"
+  label_version_sharing_none: "Nepartajat"
   label_version_sharing_system: "Cu toate proiectele"
   label_version_sharing_tree: "Cu arborele proiectelor"
   label_videos: "Videoclipuri"
@@ -2717,7 +2717,7 @@ ro:
   notice_successful_update_custom_fields_added_to_type: |
     Actualizare reușită. Câmpurile personalizate active sunt activate automat pentru
     proiectele asociate de acest tip.
-  notice_to_many_principals_to_display: "Există prea multe rezultate. Restrângeți căutarea prin tastarea numelui noului membru (sau grup)."
+  notice_to_many_principals_to_display: "Există prea multe rezultate. Restrânge căutarea prin tastarea numelui noului membru (sau grup)."
   notice_user_missing_authentication_method: Utilizatorul nu a ales încă o parolă sau un alt mod de autentificare.
   notice_user_invitation_resent: A fost trimisă o invitație către %{email}.
   present_access_key_value: "%{key_name} tău/ta este: %{value}"
@@ -2749,7 +2749,7 @@ ro:
           mb: "MB"
           tb: "TB"
   onboarding:
-    heading_getting_started: "Obțineți o prezentare generală"
+    heading_getting_started: "Urmărește prezentarea generală"
     text_getting_started_description: "Obțineți o imagine de ansamblu rapidă a gestionării proiectelor și a colaborării în echipă cu OpenProject. Puteți reporni acest videoclip din meniul de ajutor."
     welcome: "Bun venit la %{app_title}"
     select_language: "Vă rugăm să selectați limba dvs"
@@ -2867,7 +2867,7 @@ ro:
       copying: >
         Proiectul dumneavoastră este creat din proiectul șablon selectat. Veți fi notificat prin e-mail imediat ce proiectul va fi disponibil.
       use_template: "Utilizează șablon"
-      make_template: "Setați ca șablon"
+      make_template: "Setează ca șablon"
       remove_from_templates: "Eliminați din șabloane"
     archive:
       are_you_sure: "Sunteţi sigur că doriţi să arhivaţi proiectul '%{name}'?"

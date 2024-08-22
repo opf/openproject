@@ -26,7 +26,7 @@ fr:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "La sortie A2F a été désactivée."
-    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
+    notice_not_writable: "Les paramètres 2FA ont été fournis par le biais de variables d'environnement et ne peuvent pas être écrasés."
     error_no_device: "Aucun appareil 2FA enregistré trouvé pour cet utilisateur, bien qu'étant requis pour cette instance."
     error_no_matching_strategy: "Aucune stratégie 2FA correspondante disponible pour cet utilisateur. Veuillez contacter votre administrateur."
     error_is_enforced_not_active: "Erreur de configuration : l'authentification à deux facteurs à été imposée, mais aucune stratégie active n'existe."
@@ -120,7 +120,7 @@ fr:
         description: Enregistrez un appareil FIDO2 (comme YubiKey) ou l'enclave sécurisée de votre appareil mobile.
         further_steps: Après avoir choisi un nom, cliquez sur le bouton Continuer. Votre navigateur vous invitera à présenter votre appareil WebAuthn. Une fois cette action effectuée, l'enregistrement de l'appareil est terminé.
       totp:
-        title: "Authentificateur basé sur l'application"
+        title: "Authentification basée sur une application"
         provisioning_uri: "Provisionnement URI"
         secret_key: "Clé secrète"
         time_based: "Basé sur le temps"

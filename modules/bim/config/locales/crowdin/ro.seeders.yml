@@ -118,7 +118,7 @@ ro:
                   name: Welcome
               item_1:
                 options:
-                  name: Noţiuni de bază
+                  name: Începe
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 

@@ -99,7 +99,8 @@
       menu.with_item(
         tag: :a,
         label: t(:label_overall_activity),
-        href: activities_path
+        href: activities_path,
+        content_arguments: { rel: "nofollow" }
       ) do |item|
         item.with_leading_visual_icon(icon: 'tasklist')
       end
@@ -122,24 +123,30 @@
       end
 
       menu.with_item(
+        tag: :a,
         label: t('js.label_export'),
-        content_arguments: { 'data-show-dialog-id': Projects::ExportListModalComponent::MODAL_ID }
+        href: export_list_modal_projects_path(projects_query_params),
+        content_arguments: { data: { controller: "async-dialog" }, rel: "nofollow" }
       ) do |item|
         item.with_leading_visual_icon(icon: 'sign-out')
       end
 
       menu.with_item(
+        tag: :a,
         label: t(:'queries.configure_view.heading'),
-        content_arguments: { 'data-show-dialog-id': Projects::ConfigureViewModalComponent::MODAL_ID }
+        href: configure_view_modal_project_queries_path(projects_query_params),
+        content_arguments: { data: { controller: "async-dialog" }}
       ) do |item|
         item.with_leading_visual_icon(icon: :gear)
       end
 
       if query.persisted?
         menu.with_item(
+          tag: :a,
           label: t(:button_delete),
           scheme: :danger,
-          content_arguments: { 'data-show-dialog-id': Projects::DeleteListModalComponent::MODAL_ID }
+          href: destroy_confirmation_modal_project_query_path(query.id),
+          content_arguments: { data: { controller: "async-dialog" }}
         ) do |item|
           item.with_leading_visual_icon(icon: 'trash')
         end
@@ -147,9 +154,3 @@
     end
   end
 %>
-
-<% if show_state? %>
-  <%= render(Projects::ConfigureViewModalComponent.new(query:)) %>
-  <%= render(Projects::DeleteListModalComponent.new(query:)) if query.persisted? %>
-  <%= render(Projects::ExportListModalComponent.new(query:)) %>
-<% end %>
