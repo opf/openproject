@@ -15,8 +15,8 @@ You can integrate your active directory or other SAML compliant identity provide
 ## Enterprise cloud
 
 For the moment in the Enterprise cloud OpenProject DevOps team has to apply the configuration for you. The configuration has to be provided in a support ticket, e.g. as an ENV environment file.
-Experience shows that configuring this can be tricky, though. So it may take a bit until the correct configuration is finished with your SAML provider.
-If you have the chance to test the SAML configuration on an Enterprise on-premises installation this might speed things up. But we can make it work either way.
+Experience shows that configuring this can be tricky. So it may require some time until the correct configuration is finished with your SAML provider.
+If you have the chance to test the SAML configuration on an Enterprise on-premises installation this might speed up the process. But we can make it work either way.
 
 ## Enterprise on-premises
 
