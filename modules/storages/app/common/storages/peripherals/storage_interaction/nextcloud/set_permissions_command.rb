@@ -32,16 +32,22 @@ module Storages
   module Peripherals
     module StorageInteraction
       module Nextcloud
-        # TODO: refactor to be consistent with OneDrive::SetPermissionsCommand interface
-        # And streamline test cases.
         class SetPermissionsCommand
           include TaggedLogging
           using ServiceResultRefinements
 
+          PERMISSIONS_MAP = { read_files: 1, write_files: 2, create_files: 4, delete_files: 8, share_files: 16 }.freeze
+          PERMISSIONS_KEYS = OpenProject::Storages::Engine.external_file_permissions
           SUCCESS_XPATH = "/d:multistatus/d:response/d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/nc:acl-list"
 
-          def self.call(storage:, auth_strategy:, path:, permissions:)
-            new(storage).call(auth_strategy:, path:, permissions:)
+          # Instantiates the command and executes it.
+          #
+          # @param storage [Storage] The storage to interact with.
+          # @param auth_strategy [AuthenticationStrategy] The authentication strategy to use.
+          # @param input_data [Inputs::SetPermissions] The data needed for setting permissions, containing the file id
+          # and the permissions for an array of users.
+          def self.call(storage:, auth_strategy:, input_data:)
+            new(storage).call(auth_strategy:, input_data:)
           end
 
           def initialize(storage)
@@ -49,25 +55,30 @@ module Storages
           end
 
           # rubocop:disable Metrics/AbcSize
-          def call(auth_strategy:, path:, permissions:)
-            validate_input_data(path).on_failure { return _1 }
-
+          def call(auth_strategy:, input_data:)
             username = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
                            .on_failure { return _1 }
                            .result
 
+            permissions = parse_permission_mask(input_data.user_permissions)
+
             Authentication[auth_strategy].call(storage: @storage) do |http|
               with_tagged_logger do
-                info "Setting permissions #{permissions.inspect} on #{path}"
+                info "Getting the folder information"
+                folder_info = FileInfoQuery.call(storage: @storage, auth_strategy:, file_id: input_data.file_id)
+                                           .on_failure { return _1 }
+                                           .result
+
+                info "Setting permissions #{permissions.inspect} on #{folder_info.location}"
 
                 body = request_xml_body(permissions[:groups], permissions[:users])
                 # This can raise KeyErrors, we probably should just default to empty Arrays.
-                response = http
-                             .request(
-                               "PROPPATCH",
-                               UrlBuilder.url(@storage.uri, "remote.php/dav/files", username, path),
-                               xml: body
-                             )
+                response = http.request("PROPPATCH",
+                                        UrlBuilder.url(@storage.uri,
+                                                       "remote.php/dav/files",
+                                                       username,
+                                                       CGI.unescape(folder_info.location)),
+                                        xml: body)
 
                 handle_response(response)
               end
@@ -78,11 +89,15 @@ module Storages
 
           private
 
-          def validate_input_data(path)
-            if path.blank?
-              ServiceResult.failure(errors: StorageError.new(code: :invalid_path))
-            else
-              ServiceResult.success
+          def parse_permission_mask(user_permissions)
+            user_permissions.each_with_object({ groups: {}, users: {} }) do |entry, aggregate|
+              if entry.key?(:user_id)
+                aggregate[:users][entry[:user_id]] =
+                  PERMISSIONS_MAP.values_at(*(PERMISSIONS_KEYS & entry[:permissions])).sum
+              else
+                aggregate[:groups][entry[:group_id]] =
+                  PERMISSIONS_MAP.values_at(*(PERMISSIONS_KEYS & entry[:permissions])).sum
+              end
             end
           end
 
