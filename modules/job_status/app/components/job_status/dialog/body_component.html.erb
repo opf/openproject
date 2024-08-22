@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "job_status_modal" do %>
-  <% if !pending? && job.present? %>
+  <% unless pending? %>
     <%= content_tag :div, "", data: { "job-status-polling-target": "finished" } %>
   <% end %>
   <%= render Primer::Beta::Blankslate.new do |component|
