@@ -13,7 +13,7 @@ module OpenProject
 
       # @param mt number
       # @param mb number
-      def with_dynamic__margins(mt: 2, mb: 2)
+      def with_dynamic__margins(mt: 2, mb: 2) # rubocop:disable Naming/MethodParameterName
         render OpenProject::Common::DividerComponent.new(mt:, mb:)
       end
     end
