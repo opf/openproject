@@ -102,14 +102,14 @@ module JobStatus
       end
 
       def title
-        return I18n.t("job_status_dialog.generic_messages.not_found") if job.nil?
-
-        return I18n.t("job_status_dialog.errors") if has_error?
+        return I18n.t("job_status_dialog.errors") if job.nil? || has_error?
 
         job.message || job.payload&.dig("title") || I18n.t("job_status_dialog.title")
       end
 
       def message
+        return I18n.t("job_status_dialog.generic_messages.not_found") if job.nil?
+
         return I18n.t("job_status_dialog.generic_messages.#{job.status}") if pending?
 
         return job.message if has_error?
