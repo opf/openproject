@@ -132,6 +132,10 @@ class ProgressEditField < EditField
   # If they are the same, it means the modal field is in focus.
   # @return [Boolean] true if the modal field is in focus, false otherwise.
   def expect_modal_field_in_focus
+    expect(focused?).to be(true)
+  end
+
+  def focused?
     input_element == page.evaluate_script("document.activeElement")
   end
 
@@ -140,6 +144,10 @@ class ProgressEditField < EditField
   # If they are the same, it means the cursor is at the end of the input.
   # @return [Boolean] true if the cursor is at the end of the input, false otherwise.
   def expect_cursor_at_end_of_input
+    expect(cursor_at_end_of_input?).to be(true)
+  end
+
+  def cursor_at_end_of_input?
     input_element.evaluate_script("this.selectionStart == this.value.length;")
   end
 
