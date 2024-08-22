@@ -96,10 +96,9 @@ module JobStatus
       end
 
       def icon
-        return { icon: :alert, classes: "color-fg-danger" } if job.nil?
-        return { icon: :"x-circle", classes: "color-fg-danger" } if has_error?
+        return { icon: :"x-circle", color: :danger } if job.nil? || has_error?
 
-        { icon: :"issue-closed", classes: "color-fg-success" } if success_statuses.include?(job.status)
+        { icon: :"issue-closed", color: :success } if success_statuses.include?(job.status)
       end
 
       def title

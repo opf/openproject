@@ -10,7 +10,7 @@
     <%= content_tag :div, "", data: { "job-status-polling-target": "finished" } %>
   <% end %>
   <%= render Primer::Beta::Blankslate.new do |component|
-    component.with_visual_icon(icon: icon[:icon], classes: icon[:classes], size: :medium) unless icon.nil?
+    component.with_visual_icon(icon: icon[:icon], color: icon[:color], size: :medium) unless icon.nil?
     component.with_heading(tag: :h2).with_content(title)
     component.with_description do
       flex_layout do |flex|
