@@ -120,7 +120,7 @@ fr:
         description: Enregistrez un appareil FIDO2 (comme YubiKey) ou l'enclave sécurisée de votre appareil mobile.
         further_steps: Après avoir choisi un nom, cliquez sur le bouton Continuer. Votre navigateur vous invitera à présenter votre appareil WebAuthn. Une fois cette action effectuée, l'enregistrement de l'appareil est terminé.
       totp:
-        title: "Authentificateur basé sur l'application"
+        title: "Authentification basée sur une application"
         provisioning_uri: "Provisionnement URI"
         secret_key: "Clé secrète"
         time_based: "Basé sur le temps"

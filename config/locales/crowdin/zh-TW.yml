@@ -3030,7 +3030,7 @@ zh-TW:
   setting_password_days_valid: "在經過多少天後強制執行密碼變更"
   setting_password_min_length: "最小長度"
   setting_password_min_adhered_rules: "必要類別的最小數目"
-  setting_per_page_options: "每頁顯示項目個數的設置"
+  setting_per_page_options: "設置每頁顯示個數"
   setting_plain_text_mail: "純文字郵件（不含 HTML）"
   setting_protocol: "Protocol"
   setting_project_gantt_query: "專案含甘特圖檢視"
