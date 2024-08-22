@@ -12,8 +12,8 @@ module CertificateHelper
       cert.version = 2
       cert.serial = 1234
 
-      cert.not_before = Time.now
-      cert.not_after = Time.now + 606024364.251
+      cert.not_before = Time.current
+      cert.not_after = Time.current + 606024364.251
       cert.public_key = private_key.public_key
       cert.subject = name
       cert.issuer = name
@@ -28,8 +28,8 @@ module CertificateHelper
       cert.version = 2
       cert.serial = 1234
 
-      cert.not_before = Time.now - 2.years
-      cert.not_after = Time.now - 30.days
+      cert.not_before = 2.years.ago
+      cert.not_after = 30.days.ago
       cert.public_key = private_key.public_key
       cert.subject = name
       cert.issuer = name
@@ -45,8 +45,8 @@ module CertificateHelper
       cert.serial = 1234
 
       key = OpenSSL::PKey::RSA.new(1024)
-      cert.not_before = Time.now
-      cert.not_after = Time.now + 606024364.251
+      cert.not_before = Time.current
+      cert.not_after = Time.current + 606024364.251
       cert.public_key = key.public_key
       cert.subject = name
       cert.issuer = name

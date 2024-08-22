@@ -95,12 +95,7 @@ module Saml
       end
 
       def update_idp_cert(cert)
-        model.idp_cert =
-          if cert.include?("BEGIN CERTIFICATE")
-            cert
-          else
-            OneLogin::RubySaml::Utils.format_cert(cert)
-          end
+        model.idp_cert = cert
       end
 
       def update_certificate(cert)

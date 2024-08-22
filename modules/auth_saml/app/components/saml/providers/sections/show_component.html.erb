@@ -1,5 +1,8 @@
 <%=
-  grid_layout('op-saml-view-row', tag: :div, align_items: :center) do |grid|
+  grid_layout('op-saml-view-row',
+              tag: :div,
+              test_selector: "saml_provider_#{@target_state}",
+              align_items: :center) do |grid|
     grid.with_area(:title, mr: 3) do
       concat render(Primer::Beta::Text.new(font_weight: :bold)) { @heading }
       if @label

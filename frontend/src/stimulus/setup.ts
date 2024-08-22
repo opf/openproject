@@ -8,8 +8,8 @@ import RefreshOnFormChangesController from './controllers/refresh-on-form-change
 import AsyncDialogController from './controllers/async-dialog.controller';
 import PollForChangesController from './controllers/poll-for-changes.controller';
 import TableHighlightingController from './controllers/table-highlighting.controller';
-import OpShowWhenCheckedController from "./controllers/show-when-checked.controller";
-import OpShowWhenValueSelectedController from "./controllers/show-when-value-selected.controller";
+import OpShowWhenCheckedController from './controllers/show-when-checked.controller';
+import OpShowWhenValueSelectedController from './controllers/show-when-value-selected.controller';
 
 declare global {
   interface Window {

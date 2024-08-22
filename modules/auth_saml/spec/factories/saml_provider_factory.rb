@@ -31,6 +31,7 @@ require_relative "../support/certificate_helper"
 FactoryBot.define do
   factory(:saml_provider, class: "Saml::Provider") do
     sequence(:display_name) { |n| "Saml Provider #{n}" }
+    sequence(:slug) { |n| "saml-#{n}" }
     creator factory: :user
     available { true }
 
