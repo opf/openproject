@@ -75,9 +75,33 @@ class ProgressEditField < EditField
     page.has_selector?(MODAL_SELECTOR, wait: 1)
   end
 
+  def clear
+    super(with_backspace: true)
+  end
+
   def set_value(value)
-    page.fill_in field_name, with: value
-    sleep 1
+    if value == ""
+      clear
+    else
+      page.fill_in field_name, with: value
+    end
+    wait_for_preview_to_complete
+  end
+
+  def focus
+    return if focused?
+
+    input_element.click
+    wait_for_preview_to_complete
+  end
+
+  # Wait for the popover preview to be refreshed.
+  # Preview occurs on field blur or change.
+  def wait_for_preview_to_complete
+    sleep 0.110 # the preview on popover has a debounce of 100ms
+    if using_cuprite?
+      wait_for_network_idle # Wait for preview to finish
+    end
   end
 
   def input_element

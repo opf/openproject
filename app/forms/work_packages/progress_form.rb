@@ -160,9 +160,13 @@ class WorkPackages::ProgressForm < ApplicationForm
 
   def hidden_touched_field(group, name:)
     group.hidden(name: :"#{name}_touched",
-                 value: @touched_field_map["#{name}_touched"] || false,
+                 value: touched(name),
                  data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
                          "referrer-field": "work_package[#{name}]" })
+  end
+
+  def touched(name)
+    @touched_field_map["#{name}_touched"] || false
   end
 
   def field_value(name)

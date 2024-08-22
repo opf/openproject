@@ -465,6 +465,39 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         progress_popover.set_values(work: "12")
         progress_popover.expect_values(remaining_work: "6h")
       end
+
+      specify "Case 4: when remaining work or % complete are set, work never " \
+              "changes, instead remaining work and % complete are derived" do
+        visit_progress_query_displaying_work_package
+
+        progress_popover.open
+        progress_popover.set_values(remaining_work: "2h")
+        progress_popover.expect_values(work: "10h", percent_complete: "80%")
+
+        progress_popover.set_values(percent_complete: "50%")
+        progress_popover.expect_values(work: "10h", remaining_work: "5h")
+
+        progress_popover.set_values(remaining_work: "9h")
+        progress_popover.expect_values(work: "10h", percent_complete: "10%")
+      end
+    end
+
+    context "given work, remaining work, and % complete are all empty" do
+      before do
+        update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil, done_ratio: nil)
+      end
+
+      specify "Case 1: when remaining work and % complete are both set, work " \
+              "is derived because it's empty" do
+        visit_progress_query_displaying_work_package
+
+        progress_popover.open
+        progress_popover.set_values(remaining_work: "2h", percent_complete: "50%")
+        progress_popover.expect_values(work: "4h")
+
+        progress_popover.set_values(remaining_work: "10h")
+        progress_popover.expect_values(work: "20h")
+      end
     end
   end
 end

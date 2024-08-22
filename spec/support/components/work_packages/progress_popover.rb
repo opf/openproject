@@ -73,16 +73,13 @@ module Components
         field(:work).submit_by_clicking_save
       end
 
-      def clear(field_name)
-        clear_input_field_contents(field(field_name).input_element)
+      def focus(field_name)
+        field(field_name).focus
       end
 
       def set_value(field_name, value)
-        if value == ""
-          clear(field_name)
-        else
-          field(field_name).set_value(value)
-        end
+        focus(field_name)
+        field(field_name).set_value(value)
       end
 
       def set_values(**field_value_pairs)
