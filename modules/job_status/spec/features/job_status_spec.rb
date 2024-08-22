@@ -38,7 +38,7 @@ RSpec.describe "Job status", :js do
   it "renders a descriptive error in case of 404" do
     visit "/job_statuses/something-that-does-not-exist"
 
-    expect(page).to have_css(".octicon-alert", wait: 10)
+    expect(page).to have_css(".octicon-x-circle", wait: 10)
     expect(page).to have_content I18n.t("job_status_dialog.generic_messages.not_found")
   end
 
