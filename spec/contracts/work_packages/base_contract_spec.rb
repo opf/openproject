@@ -578,6 +578,18 @@ RSpec.describe WorkPackages::BaseContract,
       end
     end
 
+    context "when remaining work exceeds work and done_ratio is unset" do
+      let(:estimated_hours) { 5.0 }
+      let(:remaining_hours) { 6.0 }
+      let(:done_ratio) { nil }
+
+      # no errors should be reported for % complete in this case to not overload
+      # the progress modal with error messages.
+      include_examples "contract is invalid", estimated_hours: :cant_be_inferior_to_remaining_work,
+                                              remaining_hours: :cant_exceed_work,
+                                              done_ratio: nil
+    end
+
     context "when all three unset" do
       let(:estimated_hours) { nil }
       let(:remaining_hours) { nil }

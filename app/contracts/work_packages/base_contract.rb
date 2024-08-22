@@ -387,6 +387,8 @@ module WorkPackages
     end
 
     def validate_percent_complete_is_set_when_work_and_remaining_work_are_set
+      return if remaining_work_exceeds_work? # avoid too many error messages at the same time
+
       if work_set_and_valid? && remaining_work_set_and_valid? && work != 0 && percent_complete_unset?
         errors.add(:done_ratio, :must_be_set_when_work_and_remaining_work_are_set)
       end
