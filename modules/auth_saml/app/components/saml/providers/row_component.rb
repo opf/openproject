@@ -19,10 +19,17 @@ module Saml
                         href: url_for(action: :show, id: provider.id)
                       )) { provider.display_name || provider.name }
 
+        render_availability_label
+        render_idp_sso_service_url
+      end
+
+      def render_availability_label
         unless provider.available?
           concat render(Primer::Beta::Label.new(ml: 2, scheme: :attention, size: :medium)) { t(:label_incomplete) }
         end
+      end
 
+      def render_idp_sso_service_url
         if provider.idp_sso_service_url
           concat render(Primer::Beta::Text.new(
                           tag: :p,

@@ -35,6 +35,7 @@ module Saml::Providers::Sections
     attr_reader :provider
 
     def initialize(provider)
+      super()
       @provider = provider
     end
   end

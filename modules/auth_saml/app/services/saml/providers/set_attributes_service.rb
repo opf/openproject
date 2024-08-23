@@ -127,16 +127,20 @@ module Saml
         model.mapping_lastname ||= Saml::Defaults::LASTNAME_MAPPING
       end
 
-      def set_default_requested_attributes
-        model.requested_login_attribute ||= Saml::Defaults::MAIL_MAPPING.split("\n").first
-        model.requested_mail_attribute ||= Saml::Defaults::MAIL_MAPPING.split("\n").first
-        model.requested_firstname_attribute ||= Saml::Defaults::FIRSTNAME_MAPPING.split("\n").first
-        model.requested_lastname_attribute ||= Saml::Defaults::LASTNAME_MAPPING.split("\n").first
+      def set_default_requested_attributes # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
+        model.requested_login_attribute ||= first_mapping(Saml::Defaults::MAIL_MAPPING)
+        model.requested_mail_attribute ||= first_mapping(Saml::Defaults::MAIL_MAPPING)
+        model.requested_firstname_attribute ||= first_mapping(Saml::Defaults::FIRSTNAME_MAPPING)
+        model.requested_lastname_attribute ||= first_mapping(Saml::Defaults::LASTNAME_MAPPING)
 
         model.requested_login_format ||= Saml::Defaults::ATTRIBUTE_FORMATS.first
         model.requested_mail_format ||= Saml::Defaults::ATTRIBUTE_FORMATS.first
         model.requested_firstname_format ||= Saml::Defaults::ATTRIBUTE_FORMATS.first
         model.requested_lastname_format ||= Saml::Defaults::ATTRIBUTE_FORMATS.first
+      end
+
+      def first_mapping(mapping)
+        mapping.split("\n").first
       end
 
       def set_issuer

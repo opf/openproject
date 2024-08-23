@@ -5,6 +5,14 @@ module CertificateHelper
     @private_key ||= OpenSSL::PKey::RSA.new(1024)
   end
 
+  def non_padded_string(certificate_name)
+    public_send(certificate_name)
+      .to_pem
+      .gsub("-----BEGIN CERTIFICATE-----", "")
+      .gsub("-----END CERTIFICATE-----", "")
+      .strip
+  end
+
   def valid_certificate
     @valid_certificate ||= begin
       name = OpenSSL::X509::Name.parse "/CN=valid-testing"
