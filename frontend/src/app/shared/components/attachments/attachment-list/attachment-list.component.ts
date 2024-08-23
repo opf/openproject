@@ -31,7 +31,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
@@ -43,7 +42,7 @@ import { AttachmentsResourceService } from 'core-app/core/state/attachments/atta
   templateUrl: './attachment-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpAttachmentListComponent extends UntilDestroyedMixin implements OnInit {
+export class OpAttachmentListComponent extends UntilDestroyedMixin {
   @Input() public attachments:IAttachment[] = [];
 
   @Input() public collectionKey:string;
@@ -58,11 +57,9 @@ export class OpAttachmentListComponent extends UntilDestroyedMixin implements On
     super();
   }
 
-  ngOnInit():void {
-  }
-
   public removeAttachment(attachment:IAttachment):void {
-    this.attachmentsResourceService.removeAttachment(this.collectionKey, attachment).subscribe();
-    this.attachmentRemoved.emit();
+    this.attachmentsResourceService.removeAttachment(this.collectionKey, attachment).subscribe(() => {
+      this.attachmentRemoved.emit();
+    });
   }
 }
