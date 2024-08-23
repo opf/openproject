@@ -74,10 +74,9 @@ class ProjectQuery < ApplicationRecord
     if User.current.admin?
       super
     else
-      # Directly appending the .visible scope adds a
-      # distinct which then requires every column used e.g. for ordering
-      # to be in select.
-      super.where(id: Project.visible)
+      super
+        .with(visible: Project.visible)
+        .joins("JOIN visible ON projects.id = visible.id")
     end
   end
 end

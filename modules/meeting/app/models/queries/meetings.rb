@@ -27,12 +27,18 @@
 #++
 
 module Queries::Meetings
-  ::Queries::Register.register(MeetingQuery) do
+  ::Queries::Register.register(::MeetingQuery) do
     filter Filters::ProjectFilter
     filter Filters::TimeFilter
     filter Filters::AttendedUserFilter
     filter Filters::InvitedUserFilter
     filter Filters::AuthorFilter
     filter Filters::DatesIntervalFilter
+
+    order Orders::Default
+    order Orders::Project
+
+    select Selects::Default
+    select Selects::Project
   end
 end

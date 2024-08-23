@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,26 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Queries::UnpersistedQuery
-  extend ActiveSupport::Concern
+class MeetingQueries::SetAttributesService < BaseServices::SetAttributes
+  include Queries::AttributeSetting
 
-  included do
-    attr_accessor :filters,
-                  :orders,
-                  :selects
-    attr_reader :group_by
+  private
 
-    def initialize(*args)
-      @filters = []
-      @orders = []
-      @selects = []
-      @group_by = nil
-      @user = args.first[:user] if args&.first
-    end
+  def set_default_order
+    query.order(start_time: :asc)
+  end
 
-    protected
+  def set_default_filter
+    model.where("time", "=", Queries::Meetings::Filters::TimeFilter::FUTURE_VALUE)
+    model.where("invited_user_id", "=", [user.id.to_s])
+  end
 
-    attr_accessor :user
-    attr_writer :group_by
+  def set_default_selects
+    model.select(:title, :type, :start_time, :duration, :location)
   end
 end

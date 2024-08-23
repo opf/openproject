@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,26 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Queries::UnpersistedQuery
-  extend ActiveSupport::Concern
+require "spec_helper"
 
-  included do
-    attr_accessor :filters,
-                  :orders,
-                  :selects
-    attr_reader :group_by
+RSpec.describe Queries::Documents::DocumentQuery do
+  shared_let(:project) { create(:project) }
+  shared_let(:other_project) { create(:project) }
+  shared_let(:user) do
+    create(:user, member_with_permissions: {
+             project => %i[view_documents],
+             other_project => %i[view_documents]
+           })
+  end
+  shared_let(:document) { create(:document, project:) }
+  shared_let(:other_project_document) { create(:document, project: other_project) }
+  shared_let(:invisible_document) { create(:document) }
 
-    def initialize(*args)
-      @filters = []
-      @orders = []
-      @selects = []
-      @group_by = nil
-      @user = args.first[:user] if args&.first
+  let(:instance) { described_class.new }
+
+  current_user { user }
+
+  describe "#results" do
+    subject { instance.results }
+
+    context "without a filter" do
+      it "is the same as getting all the visible documents (ordered by id asc)" do
+        expect(subject).to eq [other_project_document, document]
+      end
     end
 
-    protected
+    context "with a project filter" do
+      before do
+        instance.where("project_id", "=", [project.id])
+      end
 
-    attr_accessor :user
-    attr_writer :group_by
+      it "returns the documents in the filtered for project" do
+        expect(subject).to eq [document]
+      end
+    end
   end
 end

@@ -30,7 +30,6 @@ require "spec_helper"
 
 RSpec.describe Queries::Days::DayQuery do
   let(:instance) { described_class.new }
-  let(:base_scope) { Day.reorder(date: :asc) }
   let(:current_user) { build_stubbed(:admin) }
 
   before do
@@ -38,17 +37,22 @@ RSpec.describe Queries::Days::DayQuery do
   end
 
   context "without a filter" do
+    let(:from) { Date.current.at_beginning_of_month }
+    let(:to) { from.next_month.at_end_of_month }
+
+    let(:expected_size) { (to - from).to_i + 1 }
+
     context "as an admin" do
-      it "is the same as getting all days" do
-        expect(instance.results.to_sql).to eql base_scope.to_sql
+      it "is the same as getting all days in the month" do
+        expect(instance.results.size).to be expected_size
       end
     end
 
     context "as a non admin" do
       let(:current_user) { build_stubbed(:user) }
 
-      it "is the same as getting all days" do
-        expect(instance.results.to_sql).to eql base_scope.to_sql
+      it "is the same as getting all days in the month" do
+        expect(instance.results.size).to be expected_size
       end
     end
   end
@@ -61,20 +65,21 @@ RSpec.describe Queries::Days::DayQuery do
     end
 
     shared_examples_for "dates within the default range" do |working: nil|
-      let(:from) { Time.zone.today }
-      let(:to) { 5.days.from_now.to_date }
-      let(:base_scope) { Day.from_range(from:, to:).reorder(date: :asc) }
-      it "is the same as handwriting the query" do
-        # Expectation has to be weirdly specific to the logic of Queries::Operators::DateRangeClauses
-        expected_scope = base_scope.where("days.date > ? AND days.date <= ?",
-                                          (from - 1.day).end_of_day,
-                                          to.end_of_day)
+      let(:from) { Date.current }
+      let(:to) { Date.current + 6.days }
 
-        unless working.nil?
-          expected_scope = expected_scope.where("days.working IN ('#{working}')")
-        end
+      let(:expected_size) do
+        value = (to - from).to_i + 1
+        value -= 2 if working
+        value
+      end
 
-        expect(instance.results.to_sql).to eql expected_scope.to_sql
+      before do
+        Setting.working_days = "12345" if working
+      end
+
+      it "returns all the dates between the two dates#{working ? ' (only working)' : ''}" do
+        expect(instance.results.size).to eql expected_size
       end
     end
 
@@ -105,16 +110,16 @@ RSpec.describe Queries::Days::DayQuery do
       end
     end
 
-    include_examples "dates within the default range"
-    include_examples "dates out of the default range"
+    it_behaves_like "dates within the default range"
+    it_behaves_like "dates out of the default range"
 
     context "when having a working filter too" do
       before do
         instance.where("working", "=", "t")
       end
 
-      include_examples "dates within the default range", working: "t"
-      include_examples "dates out of the default range"
+      it_behaves_like "dates within the default range", working: true
+      it_behaves_like "dates out of the default range"
     end
   end
 end

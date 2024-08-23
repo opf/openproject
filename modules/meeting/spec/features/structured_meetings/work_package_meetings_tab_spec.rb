@@ -206,8 +206,8 @@ RSpec.describe "Open the Meetings tab", :js do
     end
 
     context "when the work_package is already referenced in upcoming meetings" do
-      let!(:first_meeting) { create(:structured_meeting, project:) }
-      let!(:second_meeting) { create(:structured_meeting, project:) }
+      let!(:first_meeting) { create(:structured_meeting, project:, start_time: Date.tomorrow + 5.hours) }
+      let!(:second_meeting) { create(:structured_meeting, project:, start_time: Date.tomorrow + 10.hours) }
 
       let!(:first_meeting_agenda_item_of_first_meeting) do
         create(:meeting_agenda_item, meeting: first_meeting, work_package:, notes: "A very important note in first meeting!")

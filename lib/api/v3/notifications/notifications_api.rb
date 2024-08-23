@@ -52,7 +52,8 @@ module API
 
             def bulk_update_status(attributes)
               if notification_query.valid?
-                notification_query.results.update_all({ updated_at: Time.zone.now }.merge(attributes))
+                Notification
+                  .update_all_of_query(notification_query, { updated_at: Time.zone.now }.merge(attributes))
                 status 204
               else
                 raise_query_errors(notification_query)

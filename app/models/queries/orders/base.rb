@@ -44,7 +44,7 @@ module Queries
                     :attribute
 
       def initialize(attribute)
-        self.attribute = attribute
+        self.attribute = attribute.to_sym
       end
 
       def self.key
@@ -58,6 +58,14 @@ module Queries
         query_scope
       end
 
+      def asc?
+        direction == :asc
+      end
+
+      def desc?
+        direction == :desc
+      end
+
       def name
         attribute
       end
@@ -69,7 +77,9 @@ module Queries
       private
 
       def order(scope)
-        scope.order(name => direction)
+        with_raise_on_invalid do
+          scope.order(name => direction)
+        end
       end
 
       def joins

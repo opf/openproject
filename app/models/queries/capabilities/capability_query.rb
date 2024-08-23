@@ -49,6 +49,11 @@ class Queries::Capabilities::CapabilityQuery
 
   private
 
+  def filtered_results_scope
+    # Due to the lack of an id, using CTEs would be hard to implement.
+    apply_filters(default_scope)
+  end
+
   def minimum_filters_set
     any_required = filters.any? do |filter|
       [Queries::Capabilities::Filters::PrincipalIdFilter,

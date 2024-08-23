@@ -40,6 +40,7 @@ module Projects::Exports
     end
 
     def projects
+      # TODO: adapt and ideally remove with_required_storage and with_latest_activity
       @projects ||= query
         .results
         .with_required_storage
