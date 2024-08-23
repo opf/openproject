@@ -97,6 +97,27 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob, "pre 14.4 without
       end
     end
 
+    context "when some work packages have work set to 0h and a % complete value being set" do
+      it "clears the % complete valuedoes not change any of their progress values" do
+        expect_performing_job_changes(
+          from: <<~TABLE,
+            hierarchy    | status      | work | remaining work | % complete
+            wp 10h 40%   | To do (0%)  |  10h |             6h |        40%
+            wp 0h 0%     | To do (0%)  |   0h |             0h |         0%
+            wp 0h 40%    | Doing (40%) |   0h |             0h |        40%
+            wp 0h 100%   | Done (100%) |   0h |             0h |       100%
+          TABLE
+          to: <<~TABLE
+            subject      | status      | work | remaining work | % complete
+            wp 10h 40%   | To do (0%)  |  10h |             6h |        40%
+            wp 0h 0%     | To do (0%)  |   0h |             0h |
+            wp 0h 40%    | Doing (40%) |   0h |             0h |
+            wp 0h 100%   | Done (100%) |   0h |             0h |
+          TABLE
+        )
+      end
+    end
+
     context "when a status is being excluded from progress calculation" do
       it "computes totals of the parent having work when all children are excluded" do
         expect_performing_job_changes(
