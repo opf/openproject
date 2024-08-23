@@ -60,6 +60,10 @@ class WorkPackages::Progress::ApplyStatusesChangeJob < WorkPackages::Progress::J
     with_temporary_progress_table do
       if WorkPackage.use_status_for_done_ratio?
         set_p_complete_from_status
+        if OpenProject::FeatureDecisions.percent_complete_edition_active?
+          fix_remaining_work_set_with_100p_complete
+          derive_unset_work_from_remaining_work_and_p_complete
+        end
         derive_remaining_work_from_work_and_p_complete
       end
       update_totals

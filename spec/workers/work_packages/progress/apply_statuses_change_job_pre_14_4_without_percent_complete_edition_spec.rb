@@ -28,7 +28,10 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
+# This file can be safely deleted once the feature flag :percent_complete_edition
+# is removed, which should happen for OpenProject 15.0 release.
+RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob, "pre 14.4 without percent complete edition",
+               with_flag: { percent_complete_edition: false } do
   shared_let(:author) { create(:user) }
   shared_let(:priority) { create(:priority, name: "Normal") }
   shared_let(:project) { create(:project, name: "Main project") }
@@ -217,31 +220,6 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
             wp 0%       | To do (0%)  |  10h |            10h |         0%
             wp 40%      | Doing (40%) |  10h |             6h |        40%
             wp 100%     | Done (100%) |  10h |             0h |       100%
-          TABLE
-        )
-      end
-    end
-
-    context "when work packages have empty work and non-empty remaining work values" do
-      it "updates the work packages work along with the % complete value from the status" do
-        expect_performing_job_changes(
-          from: <<~TABLE,
-            subject     | status      | work | remaining work | % complete
-            wp          | Doing (40%) |      |            12h |
-            wp 0%       | To do (0%)  |      |            12h |        50%
-            wp 40%      | Doing (40%) |      |            12h |        50%
-            wp 40% 0h   | Doing (40%) |      |             0h |        50%
-            wp 100%     | Done (100%) |      |            12h |        50%
-            wp 100% 0h  | Done (100%) |      |             0h |        50%
-          TABLE
-          to: <<~TABLE
-            subject     | status      | work | remaining work | % complete
-            wp          | Doing (40%) |  20h |            12h |        40%
-            wp 0%       | To do (0%)  |  12h |            12h |         0%
-            wp 40%      | Doing (40%) |  20h |            12h |        40%
-            wp 40% 0h   | Doing (40%) |   0h |             0h |        40%
-            wp 100%     | Done (100%) |  12h |             0h |       100%
-            wp 100% 0h  | Done (100%) |   0h |             0h |       100%
           TABLE
         )
       end
