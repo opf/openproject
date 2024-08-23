@@ -78,12 +78,16 @@ export default class TouchedFieldMarkerController extends Controller {
       } else {
         this.markUntouched('remaining_hours');
       }
+    } else if (this.isTouchedAndEmpty('remaining_hours') && this.isValueSet('done_ratio')) {
+      // force remaining work derivation
+      this.markUntouched('remaining_hours');
+      this.markTouched('done_ratio');
     }
   }
 
   private untouchFieldsWhenRemainingWorkIsEdited() {
-    if (this.isValueEmpty('estimated_hours') && this.isTouched('estimated_hours') && this.isValueSet('done_ratio')) {
-      // force work recalculation
+    if (this.isTouchedAndEmpty('estimated_hours') && this.isValueSet('done_ratio')) {
+      // force work derivation
       this.markUntouched('estimated_hours');
       this.markTouched('done_ratio');
     } else if (this.isValueSet('estimated_hours')) {
@@ -129,6 +133,10 @@ export default class TouchedFieldMarkerController extends Controller {
   private findValueInput(fieldName:string):HTMLInputElement|undefined {
     return this.progressInputTargets.find((input) =>
       (input.name === fieldName) || (input.name === `work_package[${fieldName}]`));
+  }
+
+  private isTouchedAndEmpty(fieldName:string) {
+    return this.isTouched(fieldName) && this.isValueEmpty(fieldName);
   }
 
   private isTouched(fieldName:string) {
