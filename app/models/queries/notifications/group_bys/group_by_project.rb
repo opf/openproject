@@ -33,6 +33,16 @@ class Queries::Notifications::GroupBys::GroupByProject < Queries::GroupBys::Base
     :project
   end
 
+  def joins
+    # Only Notifications for work_packages are currently supported via the query.
+    # E.g. the visible statement used in the query is WorkPackage specific.
+    <<~SQL.squish
+      JOIN work_packages
+      ON notifications.resource_id = work_packages.id
+      AND notifications.resource_type = 'WorkPackage'
+    SQL
+  end
+
   def name
     :project_id
   end

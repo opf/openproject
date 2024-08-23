@@ -44,7 +44,10 @@ module API
           # because it is a polymorphic association. That being as it is, currently only
           # work packages are assigned.
           def set_resource(notifications)
-            work_packages_by_id = WorkPackage.where(id: notifications.pluck(:resource_id).uniq).index_by(&:id)
+            work_packages_by_id = WorkPackage
+                                    .includes(:project)
+                                    .where(id: notifications.pluck(:resource_id).uniq)
+                                    .index_by(&:id)
 
             notifications.each do |notification|
               notification.resource = work_packages_by_id[notification.resource_id]

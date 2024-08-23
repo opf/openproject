@@ -92,7 +92,6 @@ RSpec.shared_context "with CreateFromJournalJob context" do
       expect(notifications_service)
         .to have_received(:call)
               .with({ recipient_id: recipient.id,
-                      project:,
                       actor: sender,
                       journal:,
                       resource: }.merge(notification_channel_reasons))
