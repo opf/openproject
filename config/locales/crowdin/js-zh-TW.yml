@@ -905,7 +905,7 @@ zh-TW:
         copy: "整批複製"
         delete: "整批刪除"
       button_clear: "清除"
-      comment_added: "成功發表意見。"
+      comment_added: "留言成功"
       comment_send_failed: "發生錯誤。無法留言。"
       comment_updated: "留言已成功更新。"
       confirm_edit_cancel: "是否確定取消編輯中的工作項目"

@@ -436,7 +436,7 @@ tr:
     label_expand_project_menu: "Proje menüsünü genişlet"
     label_export: "Dışarı aktar"
     label_export_preparing: "İhracat hazırlanıyor ve kısa süre içinde indirilecek."
-    label_favorites: "Favorites"
+    label_favorites: "Favoriler"
     label_filename: "Dosya"
     label_filesize: "Boyutu"
     label_general: "Genel"
@@ -546,7 +546,7 @@ tr:
     label_unwatch_work_package: "İş pakaketini izlemeyi bırak"
     label_uploaded_by: "Yükleyen"
     label_default_queries: "Varsayılan"
-    label_starred_queries: "Sık Kullanılan"
+    label_starred_queries: "Favorilere Ekle"
     label_global_queries: "Genel"
     label_custom_queries: "Özel"
     label_columns: "Sütunlar"
@@ -1287,7 +1287,7 @@ tr:
         content: >-
           The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
-      no_results: "You have no favorite projects"
+      no_results: "Favori projeniz yok"
       no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Projeleri dahil et"

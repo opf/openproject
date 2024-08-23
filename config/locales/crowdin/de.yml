@@ -1148,7 +1148,7 @@ de:
       status: "Arbeitspaket-Status"
       token/api:
         one: Zugangs-Token
-        other: Access tokens
+        other: Zugangs-Token
       type: "Typ"
       user: "Benutzer"
       version: "Version"
