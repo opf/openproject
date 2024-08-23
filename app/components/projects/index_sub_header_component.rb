@@ -50,14 +50,26 @@ module Projects
       @query.find_active_filter(:name_and_identifier)&.values&.first
     end
 
+    def sub_header_data_attributes
+      {
+        controller: "filter--filters-form",
+        "application-target": "dynamic",
+        "filter--filters-form-perform-turbo-requests-value": true,
+        "filter--filters-form-clear-button-id-value": clear_button_id
+      }
+    end
+
     def filter_input_data_attributes
       {
         "filter-name": "name_and_identifier",
         "filter-type": "string",
         "filter-operator": "~",
-        "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue",
-        action: "input->filter--filters-form#sendForm:prevent"
+        "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue"
       }
+    end
+
+    def clear_button_id
+      "project-filters-form-clear-button"
     end
   end
 end

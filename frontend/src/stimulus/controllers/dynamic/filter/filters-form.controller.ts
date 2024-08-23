@@ -33,6 +33,10 @@ import { Controller } from '@hotwired/stimulus';
 import { renderStreamMessage } from '@hotwired/turbo';
 import { debounce } from 'lodash';
 
+interface PrimerTextFieldElement extends HTMLElement {
+  inputElement:HTMLInputElement;
+}
+
 interface InternalFilterValue {
   name:string;
   operator:string;
@@ -74,11 +78,13 @@ export default class FiltersFormController extends Controller {
     displayFilters: { type: Boolean, default: false },
     outputFormat: { type: String, default: 'params' },
     performTurboRequests: { type: Boolean, default: false },
+    clearButtonId: String,
   };
 
   declare displayFiltersValue:boolean;
   declare outputFormatValue:string;
   declare performTurboRequestsValue:boolean;
+  declare readonly clearButtonIdValue:string;
 
   initialize() {
     // Initialize runs anytime an element with a controller connected to the DOM for the first time
@@ -89,11 +95,14 @@ export default class FiltersFormController extends Controller {
     const urlParams = new URLSearchParams(window.location.search);
     this.displayFiltersValue = urlParams.has('filters');
 
+    const clearButton = document.getElementById(this.clearButtonIdValue);
+    clearButton?.addEventListener('click', (event:MouseEvent) => this.clearInputWithButton(event));
+
     // Auto-register change event listeners for all fields
     // to keep DOM cleaner.
     if (this.performTurboRequestsValue) {
       this.simpleValueTargets.forEach((simpleValue) => {
-        simpleValue.addEventListener('change', this.sendForm.bind(this));
+        simpleValue.addEventListener('input', this.sendForm.bind(this));
       });
 
       this.operatorTargets.forEach((operator) => {
@@ -119,6 +128,9 @@ export default class FiltersFormController extends Controller {
   }
 
   disconnect() {
+    const clearButton = document.getElementById(this.clearButtonIdValue);
+    clearButton?.removeEventListener('click', (event:MouseEvent) => this.clearInputWithButton(event));
+
     // Auto-deregister change event listeners for all fields
     // to keep DOM cleaner.
     if (this.performTurboRequestsValue) {
@@ -232,6 +244,21 @@ export default class FiltersFormController extends Controller {
     }
   }
 
+  clearInputWithButton(event:MouseEvent) {
+    // Primer does not trigger an input event when clearing the value of the input field unless
+    // it is focused. This handler will find the sibling input of the clear button inside the
+    // PrimerTextField and triggers the input in order to notify the auto-reloading filter mechanism.
+    const element = event.currentTarget as HTMLElement;
+    const primerTextField = element.closest('primer-text-field') as PrimerTextFieldElement;
+    const inputElement = primerTextField.inputElement;
+
+    const inputEvent = new Event('input', {
+      bubbles: true,
+      cancelable: true,
+    });
+    inputElement.dispatchEvent(inputEvent);
+  }
+
   private setSpacerVisibility() {
     if (this.anyFiltersStillVisible()) {
       this.spacerTarget.classList.remove('hidden');
@@ -328,7 +355,6 @@ export default class FiltersFormController extends Controller {
   private parseSimpleFilters():InternalFilterValue[] {
     const simpleFilters = this.simpleFilterTargets;
     const filters:InternalFilterValue[] = [];
-    // debugger;
 
     simpleFilters.forEach((filter) => {
       const name = filter.getAttribute('data-filter-name');
