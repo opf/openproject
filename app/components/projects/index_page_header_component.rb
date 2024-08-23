@@ -31,6 +31,7 @@
 class Projects::IndexPageHeaderComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
   include Primer::FetchOrFallbackHelper
+  include OpTurbo::Streamable
 
   attr_accessor :current_user,
                 :query,
@@ -54,6 +55,10 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
                    STATE_DEFAULT
                  end
     self.params = params
+  end
+
+  def self.wrapper_key
+    "projects-index-page-header"
   end
 
   def gantt_portfolio_query_link
@@ -137,7 +142,8 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
       mobile_icon: nil, # Do not show on mobile as it is already part of the menu
       mobile_label: nil,
       href:,
-      data: { method: }
+      data: { "turbo-stream": true, method: },
+      target: ""
     ) do
       render(
         Primer::Beta::Octicon.new(
@@ -155,7 +161,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
       label:,
       href:,
       content_arguments: {
-        data: { method: }
+        data: { "turbo-stream": true, method: }
       }
     ) do |item|
       item.with_leading_visual_icon(icon: :"op-save")

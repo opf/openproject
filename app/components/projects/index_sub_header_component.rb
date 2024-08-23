@@ -33,12 +33,17 @@ module Projects
   class IndexSubHeaderComponent < ApplicationComponent
     # rubocop:enable OpenProject/AddPreviewForViewComponent
     include ApplicationHelper
+    include OpTurbo::Streamable
 
     def initialize(query:, current_user:, disable_buttons: nil)
       super
       @query = query
       @current_user = current_user
       @disable_buttons = disable_buttons
+    end
+
+    def self.wrapper_key
+      "projects-index-sub-header"
     end
   end
 end

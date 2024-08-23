@@ -1,8 +1,10 @@
-<%= render(Primer::Beta::Button.new(scheme: :secondary,
+<%= component_wrapper tag: "turbo-frame" do %>
+  <%= render(Primer::Beta::Button.new(scheme: :secondary,
                                     disabled:,
                                     data: { "filter--filters-form-target": "filterFormToggle",
                                             action: "filter--filters-form#toggleDisplayFilters" },
                                     test_selector: "filter-component-toggle")) do |button| %>
-  <% button.with_trailing_visual_counter(count: filters_count, test_selector: "filters-button-counter") %>
-  <%= t(:label_filter) %>
+    <% button.with_trailing_visual_counter(count: filters_count, test_selector: "filters-button-counter") %>
+    <%= t(:label_filter) %>
+  <% end %>
 <% end %>
