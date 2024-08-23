@@ -82,6 +82,10 @@ export default class TouchedFieldMarkerController extends Controller {
       // force remaining work derivation
       this.markUntouched('remaining_hours');
       this.markTouched('done_ratio');
+    } else if (this.isTouchedAndEmpty('done_ratio') && this.isValueSet('remaining_hours')) {
+      // force % complete derivation
+      this.markUntouched('done_ratio');
+      this.markTouched('remaining_hours');
     }
   }
 

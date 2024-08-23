@@ -466,7 +466,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         progress_popover.expect_values(remaining_work: "6h")
       end
 
-      specify "Case 4: when remaining work or % complete are set, work never " \
+      specify "Case 23-7: when remaining work or % complete are set, work never " \
               "changes, instead remaining work and % complete are derived" do
         visit_progress_query_displaying_work_package
 
@@ -482,7 +482,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
       end
 
       # scenario from https://community.openproject.org/wp/57370
-      specify "Case 5: when work is cleared, and remaining work is set, " \
+      specify "Case 23-11: when work is cleared, and remaining work is set, " \
               "then work is derived again" do
         visit_progress_query_displaying_work_package
 
@@ -498,7 +498,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
       end
 
       # scenario from https://community.openproject.org/wp/57370
-      specify "Case 6: when remaining work is cleared, and work is set, " \
+      specify "Case 23-14: when remaining work is cleared, and work is set, " \
               "then remaining work is derived again" do
         visit_progress_query_displaying_work_package
 
@@ -509,8 +509,24 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
 
         # set remaining work
         progress_popover.set_values(work: "20h")
-        # work is derived
+        # => work is derived
         progress_popover.expect_values(work: "20h", remaining_work: "8h", percent_complete: "60%")
+      end
+
+      # scenario from https://community.openproject.org/wp/57370
+      specify "Case 33-14: when work and % complete are cleared, and then work " \
+              "is set again then % complete is derived again" do
+        visit_progress_query_displaying_work_package
+
+        progress_popover.open
+        # clear work and % complete
+        progress_popover.set_values(work: "", percent_complete: "")
+        progress_popover.expect_values(work: "", remaining_work: "4h", percent_complete: "")
+
+        # set work
+        progress_popover.set_values(work: "20h")
+        # => % complete is derived
+        progress_popover.expect_values(work: "20h", remaining_work: "4h", percent_complete: "80%")
       end
     end
 
@@ -519,8 +535,9 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil, done_ratio: nil)
       end
 
-      specify "Case 1: when remaining work and % complete are both set, work " \
-              "is derived because it's empty" do
+      # scenario from https://community.openproject.org/wp/57370
+      specify "Case 20-4: when remaining work and % complete are both set, work " \
+              "is derived because it's initially empty" do
         visit_progress_query_displaying_work_package
 
         progress_popover.open
@@ -529,6 +546,22 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
 
         progress_popover.set_values(remaining_work: "10h")
         progress_popover.expect_values(work: "20h")
+      end
+
+      # scenario from https://community.openproject.org/wp/57370
+      specify "Case 30-1: when % complete is set, remaining work is set, and " \
+              "% complete is changed, then work is always derived" do
+        visit_progress_query_displaying_work_package
+
+        progress_popover.open
+        progress_popover.set_values(percent_complete: "40%")
+        progress_popover.expect_values(work: "", remaining_work: "", percent_complete: "40%")
+
+        progress_popover.set_values(remaining_work: "60h")
+        progress_popover.expect_values(work: "100h", remaining_work: "60h", percent_complete: "40%")
+
+        progress_popover.set_values(percent_complete: "80%")
+        progress_popover.expect_values(work: "300h", remaining_work: "60h", percent_complete: "80%")
       end
     end
   end
