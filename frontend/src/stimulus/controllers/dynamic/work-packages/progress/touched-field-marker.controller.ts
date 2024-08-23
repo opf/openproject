@@ -45,12 +45,15 @@ export default class TouchedFieldMarkerController extends Controller {
 
   private markFieldAsTouched(event:{ target:HTMLInputElement }) {
     this.targetFieldName = event.target.name.replace(/^work_package\[([^\]]+)\]$/, '$1');
-    const touchedInput = this.findTouchedInput(this.targetFieldName);
+    this.markTouched(this.targetFieldName);
 
-    if (touchedInput) {
-      touchedInput.value = 'true';
+    if (this.isWorkBasedMode()) {
       this.keepWorkValue();
     }
+  }
+
+  private isWorkBasedMode() {
+    return this.findValueInput('done_ratio') !== undefined;
   }
 
   private keepWorkValue() {
@@ -79,7 +82,11 @@ export default class TouchedFieldMarkerController extends Controller {
   }
 
   private untouchFieldsWhenRemainingWorkIsEdited() {
-    if (this.isValueSet('estimated_hours')) {
+    if (this.isValueEmpty('estimated_hours') && this.isTouched('estimated_hours') && this.isValueSet('done_ratio')) {
+      // force work recalculation
+      this.markUntouched('estimated_hours');
+      this.markTouched('done_ratio');
+    } else if (this.isValueSet('estimated_hours')) {
       this.markUntouched('done_ratio');
     }
   }
@@ -142,6 +149,13 @@ export default class TouchedFieldMarkerController extends Controller {
   private isValueSet(fieldName:string) {
     const valueInput = this.findValueInput(fieldName);
     return valueInput !== undefined && valueInput.value !== '';
+  }
+
+  private markTouched(fieldName:string) {
+    const touchedInput = this.findTouchedInput(fieldName);
+    if (touchedInput) {
+      touchedInput.value = 'true';
+    }
   }
 
   private markUntouched(fieldName:string) {

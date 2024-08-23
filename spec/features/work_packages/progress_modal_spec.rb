@@ -480,6 +480,22 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         progress_popover.set_values(remaining_work: "9h")
         progress_popover.expect_values(work: "10h", percent_complete: "10%")
       end
+
+      # scenario from https://community.openproject.org/wp/57370
+      specify "Case 5: when work is cleared, and remaining work is set, " \
+              "then work is derived again" do
+        visit_progress_query_displaying_work_package
+
+        progress_popover.open
+        # clear work
+        progress_popover.set_values(work: "")
+        progress_popover.expect_values(work: "", remaining_work: "", percent_complete: "60%")
+
+        # set remaining work
+        progress_popover.set_values(remaining_work: "8h")
+        # work is derived
+        progress_popover.expect_values(work: "20h", remaining_work: "8h", percent_complete: "60%")
+      end
     end
 
     context "given work, remaining work, and % complete are all empty" do
