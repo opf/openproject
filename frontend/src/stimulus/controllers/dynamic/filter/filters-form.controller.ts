@@ -309,14 +309,20 @@ export default class FiltersFormController extends Controller {
   }
 
   sendForm() {
-    const ajaxIndicator = document.querySelector('#ajax-indicator') as HTMLElement;
-    ajaxIndicator.style.display = '';
-
     const params = new URLSearchParams();
-
     params.append('filters', this.buildFiltersParam(this.parseFilters()));
 
     const currentParams = new URLSearchParams(window.location.search);
+
+    if (params.get('filters') === currentParams.get('filters')) {
+      // Some fields may be triggered via the input event and the change event too.
+      // This early return will prevent firing request when the filter params are not changed.
+      return;
+    }
+
+    const ajaxIndicator = document.querySelector('#ajax-indicator') as HTMLElement;
+    ajaxIndicator.style.display = '';
+
     FiltersFormController.paramsToCopy.forEach((name) => {
       if (currentParams.has(name)) {
         params.append(name, currentParams.get(name) as string);
