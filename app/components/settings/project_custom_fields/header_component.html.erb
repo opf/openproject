@@ -1,0 +1,36 @@
+<%= component_wrapper do %>
+  <%=
+    render Primer::OpenProject::PageHeader.new do |header|
+      header.with_title(variant: :default) { t("settings.project_attributes.heading") }
+      header.with_description { t("settings.project_attributes.heading_description") }
+      header.with_breadcrumbs(breadcrumbs_items)
+    end
+  %>
+
+  <%=
+    render Primer::OpenProject::SubHeader.new do |subheader|
+      subheader.with_action_component do
+        render(Primer::Alpha::Dialog.new(id: "project-custom-field-section-dialog", title: t('settings.project_attributes.label_new_section'), size: :medium_portrait)) do |dialog|
+          dialog.with_show_button('aria-label': t('settings.project_attributes.label_new_section')) do |button|
+            button.with_leading_visual_icon(icon: :plus)
+            t('settings.project_attributes.label_new_section')
+          end
+          dialog.with_body do
+            render(Settings::ProjectCustomFieldSections::DialogBodyFormComponent.new)
+          end
+        end
+      end
+
+      subheader.with_action_button(tag: :a,
+                                   href: new_admin_settings_project_custom_field_path(type: "ProjectCustomField"),
+                                   scheme: :primary,
+                                   data: { turbo: "false", test_selector: "new-project-custom-field-button" },
+                                   mobile_icon: :plus,
+                                   mobile_label: t("settings.project_attributes.label_new_attribute")) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        t("settings.project_attributes.label_new_attribute")
+      end
+
+    end
+  %>
+<% end %>

@@ -1,0 +1,50 @@
+<%=
+  component_wrapper do
+    flex_layout(align_items: :center, justify_content: :space_between, classes: 'op-project-custom-field', data: {
+      test_selector: "project-custom-field-#{@project_custom_field.id}"
+    }) do |custom_field_container|
+      custom_field_container.with_column(flex_layout: true) do |title_container|
+        title_container.with_column(pt: 1, mr: 2) do
+          render(Primer::Beta::Text.new) do
+            @project_custom_field.name
+          end
+        end
+        title_container.with_column(pt: 1, mr: 2, data: { test_selector: "custom-field-type" } ) do
+          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+            @project_custom_field.field_format.capitalize
+          end
+        end
+        if @project_custom_field.required?
+          title_container.with_column(pt: 1) do
+            render(Primer::Beta::Label.new(scheme: :attention, size: :medium)) do
+              t("label_required")
+            end
+          end
+        end
+      end
+      # py: 1 quick fix: prevents the row from bouncing as the toggle switch currently changes height while toggling
+      custom_field_container.with_column(py: 1, mr: 2) do
+        # buggy currently:
+        # small variant +  status_label_position: :start leads to a small bounce while toggling
+        # behavior can be seen on primer's viewbook as well -> https://view-components-storybook.eastus.cloudapp.azure.com/view-components/lookbook/inspect/primer/alpha/toggle_switch/small
+        # quick fix: don't display loading indicator which is causing the bounce
+        render(Primer::Alpha::ToggleSwitch.new(
+                  src: toggle_project_settings_project_custom_fields_path(
+                    project_custom_field_project_mapping: {
+                      project_id: @project.id,
+                      custom_field_id: @project_custom_field.id
+                    }
+                  ),
+                  csrf_token: form_authenticity_token,
+                  data: { 'turbo-method': :put, 'turbo-stream': true,
+                          test_selector: "toggle-project-custom-field-mapping-#{@project_custom_field.id}" },
+                  checked: active_in_project?,
+                  enabled: !@project_custom_field.required?, # required fields cannot be disabled
+                  size: :small,
+                  status_label_position: :start,
+                  classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator",
+                ))
+      end
+    end
+  end
+%>

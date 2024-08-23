@@ -1,0 +1,48 @@
+<%=
+  component_wrapper(class: "op-project-custom-field-container", data: { test_selector: "project-custom-field-container-#{@project_custom_field.id}" }) do
+    flex_layout(justify_content: :space_between, align_items: :center) do |main_container|
+      main_container.with_column(flex_layout: true, align_items: :center) do |content_container|
+        content_container.with_column(mr: 2) do
+          render(Primer::OpenProject::DragHandle.new(classes: 'handle'))
+        end
+        content_container.with_column(mr: 2) do
+          render(Primer::Beta::Link.new(
+            href: edit_admin_settings_project_custom_field_path(@project_custom_field),
+            scheme: :primary,
+            underline: false,
+            font_weight: :bold,
+            data: { turbo: "false" }
+          )) do
+            @project_custom_field.name
+          end
+        end
+        content_container.with_column(mr: 2) do
+          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+            @project_custom_field.field_format.capitalize
+          end
+        end
+        content_container.with_column(mr: 2) do
+          render(Primer::Beta::Text.new(font_size: :small)) do
+            t("project.count",
+              count: @project_custom_field.project_custom_field_project_mappings.size)
+          end
+        end
+        if @project_custom_field.required?
+          content_container.with_column do
+            render(Primer::Beta::Label.new(scheme: :attention, size: :medium)) do
+              t("label_required")
+            end
+          end
+        end
+      end
+      main_container.with_column do
+        render(Primer::Alpha::ActionMenu.new(data: { test_selector: "project-custom-field-action-menu" })) do |menu|
+          menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("settings.project_attributes.label_project_custom_field_actions"), scheme: :invisible)
+          edit_action_item(menu)
+          move_actions(menu)
+          delete_action_item(menu)
+        end
+      end
+    end
+  end
+%>

@@ -1,0 +1,38 @@
+<%= component_wrapper do
+  flex_layout do |flex|
+    flex.with_row do
+      render(
+        Primer::Beta::Link.new(
+          font_weight: :semibold,
+          href: principal_show_path,
+        )
+      ) { user.name }
+    end
+
+    flex.with_row(classes: "ellipsis") do
+      if strategy.manageable?
+        if user_in_non_active_status?
+          if user.locked?
+            concat(render(Primer::Beta::Octicon.new(icon: :lock, color: :muted, mr: 1)))
+            concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("sharing.user_details.locked") })
+          elsif user.invited?
+            if invite_resent?
+              concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("sharing.user_details.invite_resent") })
+            else
+
+              concat(render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("sharing.user_details.invited") })
+              concat(
+                form_with(url: resend_invite_path, method: :post) do
+                  render(Primer::Beta::Button.new(type: :submit, px: 0, scheme: :link)) { I18n.t("sharing.user_details.resend_invite") }
+                end)
+            end
+          end
+        else
+          concat(render(Primer::Beta::Text.new(color: :subtle)) { strategy.share_description(share) })
+        end
+      else
+        concat(render(Primer::Beta::Text.new(color: :subtle)) { strategy.share_description(share) })
+      end
+    end
+  end
+end %>

@@ -1,0 +1,12 @@
+<%= render(Primer::Beta::Heading.new(tag: :h5)) { I18n.t('queries.configure_view.sort_by.automatic.heading') } %>
+<%= render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { I18n.t('queries.configure_view.sort_by.automatic.description', plural: queried_model_name.plural) } %>
+<div data-controller="sort-by-config" data-application-target="dynamic">
+  <%= hidden_field_tag :sortBy, current_orders, data: { "sort-by-config-target" => "sortByField" } %>
+  <%= render(Primer::OpenProject::FlexLayout.new(data: { "sort-by-config-target" => "inputRowContainer" })) do |layout| %>
+    <% order_limit.times do |i| %>
+      <% layout.with_row(mt: 3, data: { "sort-by-config-target" => "inputRow" }) do %>
+        <%= render(Queries::SortByFieldComponent.new(order: query.orders[i], available_orders:, index: i)) %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

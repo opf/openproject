@@ -1,0 +1,42 @@
+<%=
+  component_wrapper(:border_box_row, data: { 'test-selector': "op-share-dialog-active-user-#{principal.id}" }) do
+    grid_layout(grid_css_classes, tag: :div, align_items: :center, classes: 'ellipsis') do |user_row_grid|
+      user_row_grid.with_area(:selection, tag: :div) do
+        if share_editable?
+          render(Primer::Alpha::CheckBox.new(name: "share_ids", value: (share.id || VIRTUAL_SHARE_ID), label: principal.name,
+                                                    visually_hide_label: true, scheme: :array,
+                                                    data: {
+                                                      'shares--bulk-selection-target': 'shareCheckbox',
+                                                      action: 'shares--bulk-selection#refresh'
+                                                    }))
+        end
+      end
+
+      user_row_grid.with_area(:avatar, tag: :div) do
+        render(Users::AvatarComponent.new(user: principal, show_name: false, size: :medium))
+      end
+
+      user_row_grid.with_area(:user_details, tag: :div, classes: 'ellipsis') do
+        render(Shares::UserDetailsComponent.new(share:, strategy:))
+      end
+
+      user_row_grid.with_area(:button, tag: :div, color: :subtle) do
+        render(Shares::PermissionButtonComponent.new(share:,
+                                                     strategy: strategy,
+                                                     data: { 'test-selector': 'op-share-dialog-update-role' }))
+      end
+
+      if share_editable?
+        user_row_grid.with_area(:remove, tag: :div) do
+          form_with url: url_for([entity, share]), method: :delete do
+            render(Primer::Beta::IconButton.new(icon: "trash",
+                                                type: :submit,
+                                                scheme: :danger,
+                                                "aria-label": I18n.t('sharing.remove'),
+                                                test_selector: 'op-share-dialog--remove'))
+          end
+        end
+      end
+    end
+  end
+%>
