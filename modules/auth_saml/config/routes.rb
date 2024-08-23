@@ -4,7 +4,6 @@ Rails.application.routes.draw do
       resources :providers do
         member do
           post :import_metadata
-          get :show_metadata
         end
       end
     end

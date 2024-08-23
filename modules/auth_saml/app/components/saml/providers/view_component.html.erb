@@ -44,26 +44,13 @@
           edit_mode:,
         ))
       else
-        dialog_button =
-          if provider.persisted?
-            Primer::Beta::Button.new(
-              tag: :a,
-              href: show_metadata_saml_provider_path(provider),
-              scheme: :invisible,
-              color: :subtle,
-              'aria-label': t('saml.providers.label_show_metadata'),
-              data: { turbo: true, 'turbo-stream': true }
-            ).with_content(t('saml.providers.label_show_metadata'))
-          end
-
         render(Saml::Providers::Sections::ShowComponent.new(
           provider,
           target_state: :metadata,
           view_mode:,
-          action: dialog_button,
           heading: t("saml.providers.label_metadata"),
           description: t("saml.providers.section_texts.metadata"),
-          label: provider.has_metadata? ? t(:label_completed) : t(:label_not_configured),
+          label: !provider.has_metadata? ? t(:label_completed) : t(:label_not_configured),
           label_scheme: provider.has_metadata? ? :success : :secondary
         ))
       end
@@ -139,7 +126,7 @@
           view_mode:,
           heading: t("saml.providers.label_mapping"),
           description: t("saml.providers.section_texts.mapping"),
-          label: provider.mapping_configured? ? t(:label_completed) : t(:label_incomplete),
+          label: provider.mapping_configured? ? nil : t(:label_incomplete),
           label_scheme: provider.mapping_configured? ? :success : :attention
         ))
       end

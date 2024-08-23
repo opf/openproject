@@ -28,16 +28,12 @@
 
 module Saml::Providers
   module SidePanel
-    class MetadataComponent < ApplicationComponent
+    class InformationComponent < ApplicationComponent
       include ApplicationHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
       alias_method :provider, :model
-
-      def metadata_endpoint
-        URI.join(helpers.root_url, "/auth/#{provider.slug}/metadata").to_s
-      end
     end
   end
 end

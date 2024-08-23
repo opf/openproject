@@ -6,6 +6,7 @@ en:
         identifier: Identifier
         secret: Secret
         scope: Scope
+        assertion_consumer_service_url: Assertion consumer service URL
         limit_self_registration: Limit self registration
         sp_entity_id: Service entity ID
         metadata_url: Identity provider metadata URL
@@ -45,8 +46,8 @@ en:
       label_empty_description: "Add a provider to see them here."
       label_automatic_configuration: Automatic configuration
       label_metadata: Metadata
-      label_show_metadata: Show OpenProject metadata
-      label_metadata_endpoint: Metadata endpoint
+      label_metadata_endpoint: OpenProject metadata endpoint
+      label_openproject_information: OpenProject information
       label_configuration_details: "Identity provider endpoints and certificates"
       label_configuration_encryption: "Signatures and Encryption"
       label_add_new: New SAML identity provider
@@ -156,3 +157,5 @@ en:
         Select the digest algorithm to use for the SAML request signature performed by OpenProject (Default: %{default_option}).
       icon: >
         Optionally provide a public URL to an icon graphic that will be displayed next to the provider name.
+      metadata_for_idp: >
+        This information might be requested by your SAML identity provider.

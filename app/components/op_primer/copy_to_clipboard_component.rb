@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Saml::Providers
-  module SidePanel
-    class MetadataComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpTurbo::Streamable
-      include OpPrimer::ComponentHelpers
+module OpPrimer
+  class CopyToClipboardComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
 
-      alias_method :provider, :model
+    alias_method :value, :model
 
-      def metadata_endpoint
-        URI.join(helpers.root_url, "/auth/#{provider.slug}/metadata").to_s
-      end
+    def initialize(value = nil, scheme: :value, **system_arguments)
+      super(value)
+
+      @scheme = scheme
+      @system_arguments = system_arguments
+      @id = SecureRandom.hex(8)
     end
   end
 end
