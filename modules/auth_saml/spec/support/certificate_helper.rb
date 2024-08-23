@@ -10,6 +10,7 @@ module CertificateHelper
       .to_pem
       .gsub("-----BEGIN CERTIFICATE-----", "")
       .gsub("-----END CERTIFICATE-----", "")
+      .delete("\n")
       .strip
   end
 

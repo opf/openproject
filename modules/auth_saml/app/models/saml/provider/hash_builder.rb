@@ -18,10 +18,10 @@ module Saml
 
     def formatted_request_attributes
       [
-        { name: requested_login_attribute, format: requested_login_format, friendly_name: "Login" },
-        { name: requested_mail_attribute, format: requested_mail_format, friendly_name: "Email" },
-        { name: requested_firstname_attribute, format: requested_firstname_format, friendly_name: "First Name" },
-        { name: requested_lastname_attribute, format: requested_lastname_format, friendly_name: "Last Name" }
+        { name: requested_login_attribute, name_format: requested_login_format, friendly_name: "Login" },
+        { name: requested_mail_attribute, name_format: requested_mail_format, friendly_name: "Email" },
+        { name: requested_firstname_attribute, name_format: requested_firstname_format, friendly_name: "First Name" },
+        { name: requested_lastname_attribute, name_format: requested_lastname_format, friendly_name: "Last Name" }
       ]
     end
 
