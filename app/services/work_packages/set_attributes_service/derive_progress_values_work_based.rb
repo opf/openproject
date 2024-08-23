@@ -67,12 +67,12 @@ class WorkPackages::SetAttributesService
     end
 
     def update_work
-      return if remaining_work_unset? && percent_complete_unset?
+      return if remaining_work_empty? && percent_complete_empty?
       return if percent_complete == 100 # would be Infinity if computed when % complete is 100%
       return unless work_can_be_derived?
 
       self.work =
-        if remaining_work_unset?
+        if remaining_work_empty?
           nil
         else
           work_from_percent_complete_and_remaining_work
@@ -81,15 +81,15 @@ class WorkPackages::SetAttributesService
 
     # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
     def update_remaining_work
-      return if work_unset? && percent_complete_unset?
-      return if work_was_unset? && remaining_work_set? # remaining work is kept and % complete will be set
+      return if work_empty? && percent_complete_empty?
+      return if work_was_empty? && remaining_work_set? # remaining work is kept and % complete will be set
 
-      if work_set? && remaining_work_unset? && percent_complete_unset?
+      if work_set? && remaining_work_empty? && percent_complete_empty?
         self.remaining_work = work
       elsif work_changed? && work_set? && remaining_work_set? && percent_complete_not_provided_by_user?
         delta = work - work_was
         self.remaining_work = (remaining_work + delta).clamp(0.0, work)
-      elsif work_unset? || percent_complete_unset?
+      elsif work_empty? || percent_complete_empty?
         self.remaining_work = nil
       else
         self.remaining_work = remaining_work_from_percent_complete_and_work
@@ -98,13 +98,13 @@ class WorkPackages::SetAttributesService
     # rubocop:enable Metrics/AbcSize,Metrics/PerceivedComplexity
 
     def update_percent_complete
-      return if work_unset?
+      return if work_empty?
 
       self.percent_complete = percent_complete_from_work_and_remaining_work
     end
 
     def percent_complete_from_work_and_remaining_work
-      return nil if work.zero? || remaining_work_unset?
+      return nil if work.zero? || remaining_work_empty?
 
       completed_work = work - remaining_work
       completion_ratio = completed_work.to_f / work
@@ -122,15 +122,15 @@ class WorkPackages::SetAttributesService
     end
 
     def remaining_work_set_greater_than_work?
-      (work_was_unset? || remaining_work_came_from_user?) \
+      (work_was_empty? || remaining_work_came_from_user?) \
         && percent_complete_not_provided_by_user? \
         && work && remaining_work && remaining_work > work
     end
 
     def work_can_be_derived?
-      work_unset? \
+      work_empty? \
         || (remaining_work_came_from_user? && percent_complete_came_from_user?) \
-        || (remaining_work_unset? && remaining_work_came_from_user?)
+        || (remaining_work_empty? && remaining_work_came_from_user?)
     end
   end
 end

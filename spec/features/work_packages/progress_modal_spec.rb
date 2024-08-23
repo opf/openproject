@@ -369,7 +369,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         end
       end
 
-      context "with unset values" do
+      context "with empty values" do
         before do
           update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil, done_ratio: nil)
         end
@@ -430,7 +430,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
     context "given work = 10h, remaining work = 4h, % complete = 60%" do
       before { update_work_package_with(work_package, estimated_hours: 10.0, remaining_hours: 4.0) }
 
-      specify "Case 1: When I unset work it unsets remaining work" do
+      specify "Case 1: When I clear work it clears remaining work" do
         visit_progress_query_displaying_work_package
 
         progress_popover.open

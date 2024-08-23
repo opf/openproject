@@ -306,7 +306,7 @@ RSpec.describe WorkPackages::BaseContract,
       include_examples "contract is valid"
     end
 
-    context "when unset while remaining work and % complete are set" do
+    context "when empty while remaining work and % complete are set" do
       let(:estimated_hours) { nil }
       let(:remaining_hours) { 2.0 }
       let(:done_ratio) { 50 }
@@ -314,7 +314,7 @@ RSpec.describe WorkPackages::BaseContract,
       include_examples "contract is invalid", estimated_hours: :must_be_set_when_remaining_work_and_percent_complete_are_set
     end
 
-    context "when unset while remaining work is set and % complete is set to an invalid value" do
+    context "when empty while remaining work is set and % complete is set to an invalid value" do
       let(:estimated_hours) { nil }
       let(:remaining_hours) { 2.0 }
       let(:done_ratio) { 200 }
@@ -324,7 +324,7 @@ RSpec.describe WorkPackages::BaseContract,
                                               done_ratio: :inclusion
     end
 
-    context "when unset while % complete is set and remaining work is set to an invalid value" do
+    context "when empty while % complete is set and remaining work is set to an invalid value" do
       let(:estimated_hours) { nil }
       let(:remaining_hours) { -2.0 }
       let(:done_ratio) { 50 }
@@ -415,7 +415,7 @@ RSpec.describe WorkPackages::BaseContract,
       include_examples "contract is valid"
     end
 
-    context "when unset while work and % complete are set" do
+    context "when empty while work and % complete are set" do
       let(:estimated_hours) { 3 }
       let(:remaining_hours) { nil }
       let(:done_ratio) { 50 }
@@ -423,7 +423,7 @@ RSpec.describe WorkPackages::BaseContract,
       include_examples "contract is invalid", remaining_hours: :must_be_set_when_work_and_percent_complete_are_set
     end
 
-    context "when unset while work is set and % complete is set to an invalid value" do
+    context "when empty while work is set and % complete is set to an invalid value" do
       let(:estimated_hours) { 3 }
       let(:remaining_hours) { nil }
       let(:done_ratio) { -1 }
@@ -433,7 +433,7 @@ RSpec.describe WorkPackages::BaseContract,
                                               done_ratio: :inclusion
     end
 
-    context "when unset while % complete is set and work is set to a negative value" do
+    context "when empty while % complete is set and work is set to a negative value" do
       let(:estimated_hours) { -3 }
       let(:remaining_hours) { nil }
       let(:done_ratio) { 50 }
@@ -490,7 +490,7 @@ RSpec.describe WorkPackages::BaseContract,
         it_behaves_like "contract is valid"
       end
 
-      context "when unset while work and remaining work are set" do
+      context "when empty while work and remaining work are set" do
         let(:estimated_hours) { 4 }
         let(:remaining_hours) { 3 }
         let(:done_ratio) { nil }
@@ -498,7 +498,7 @@ RSpec.describe WorkPackages::BaseContract,
         it_behaves_like "contract is invalid", done_ratio: :must_be_set_when_work_and_remaining_work_are_set
       end
 
-      context "when unset while work is set and remaining work is set to a negative value" do
+      context "when empty while work is set and remaining work is set to a negative value" do
         let(:estimated_hours) { 4 }
         let(:remaining_hours) { -3 }
         let(:done_ratio) { nil }
@@ -518,7 +518,7 @@ RSpec.describe WorkPackages::BaseContract,
                                                 done_ratio: nil
       end
 
-      context "when unset while remaining work is set and work is set to a negative value" do
+      context "when empty while remaining work is set and work is set to a negative value" do
         let(:estimated_hours) { -4 }
         let(:remaining_hours) { 3 }
         let(:done_ratio) { nil }
@@ -578,7 +578,7 @@ RSpec.describe WorkPackages::BaseContract,
       end
     end
 
-    context "when remaining work exceeds work and done_ratio is unset" do
+    context "when remaining work exceeds work and done_ratio is empty" do
       let(:estimated_hours) { 5.0 }
       let(:remaining_hours) { 6.0 }
       let(:done_ratio) { nil }
@@ -590,7 +590,7 @@ RSpec.describe WorkPackages::BaseContract,
                                               done_ratio: nil
     end
 
-    context "when all three unset" do
+    context "when all three empty" do
       let(:estimated_hours) { nil }
       let(:remaining_hours) { nil }
       let(:done_ratio) { nil }
@@ -630,7 +630,7 @@ RSpec.describe WorkPackages::BaseContract,
         include_examples "contract is invalid", done_ratio: :cannot_be_set_when_work_is_zero
       end
 
-      context "when % complete is unset" do
+      context "when % complete is empty" do
         let(:done_ratio) { nil }
 
         include_examples "contract is valid"
@@ -653,7 +653,7 @@ RSpec.describe WorkPackages::BaseContract,
       context "and work is set" do
         let(:estimated_hours) { 10 }
 
-        context "and remaining work is unset" do
+        context "and remaining work is empty" do
           let(:remaining_hours) { nil }
 
           include_examples "contract is invalid",
@@ -678,10 +678,10 @@ RSpec.describe WorkPackages::BaseContract,
         end
       end
 
-      context "and work is unset" do
+      context "and work is empty" do
         let(:estimated_hours) { nil }
 
-        context "and remaining work is unset" do
+        context "and remaining work is empty" do
           let(:remaining_hours) { nil }
 
           include_examples "contract is valid"
@@ -691,7 +691,7 @@ RSpec.describe WorkPackages::BaseContract,
           let(:remaining_hours) { 0 }
 
           include_examples "contract is invalid", estimated_hours: nil,
-                                                  remaining_hours: :must_be_unset_when_work_is_unset_and_percent_complete_is_100p,
+                                                  remaining_hours: :must_be_empty_when_work_is_empty_and_percent_complete_is_100p,
                                                   done_ratio: nil
         end
 
@@ -699,13 +699,13 @@ RSpec.describe WorkPackages::BaseContract,
           let(:remaining_hours) { 5 }
 
           include_examples "contract is invalid", estimated_hours: nil,
-                                                  remaining_hours: :must_be_unset_when_work_is_unset_and_percent_complete_is_100p,
+                                                  remaining_hours: :must_be_empty_when_work_is_empty_and_percent_complete_is_100p,
                                                   done_ratio: nil
         end
       end
     end
 
-    context "when work and remaining work are both unset" do
+    context "when work and remaining work are both empty" do
       let(:estimated_hours) { nil }
       let(:remaining_hours) { nil }
 
@@ -715,7 +715,7 @@ RSpec.describe WorkPackages::BaseContract,
         include_examples "contract is valid"
       end
 
-      context "when % complete is unset" do
+      context "when % complete is empty" do
         let(:done_ratio) { nil }
 
         include_examples "contract is valid"

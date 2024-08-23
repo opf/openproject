@@ -59,7 +59,7 @@ module WorkPackages
                         } do
       if OpenProject::FeatureDecisions.percent_complete_edition_active?
         validate_percent_complete_matches_work_and_remaining_work
-        validate_percent_complete_is_unset_when_work_is_zero
+        validate_percent_complete_is_empty_when_work_is_zero
         validate_percent_complete_is_set_when_work_and_remaining_work_are_set
       end
     end
@@ -80,7 +80,7 @@ module WorkPackages
     attribute :remaining_hours do
       validate_remaining_work_is_lower_than_work
       if OpenProject::FeatureDecisions.percent_complete_edition_active?
-        validate_remaining_work_is_zero_or_unset_when_percent_complete_is_100p
+        validate_remaining_work_is_zero_or_empty_when_percent_complete_is_100p
         validate_remaining_work_is_set_when_work_and_percent_complete_are_set
       else
         # to be removed in 15.0 with :percent_complete_edition feature flag removal
@@ -363,25 +363,25 @@ module WorkPackages
     end
 
     def validate_work_is_set_when_remaining_work_and_percent_complete_are_set
-      if remaining_work_set_and_valid? && percent_complete_set_and_valid? && work_unset? && percent_complete != 100
+      if remaining_work_set_and_valid? && percent_complete_set_and_valid? && work_empty? && percent_complete != 100
         errors.add(:estimated_hours, :must_be_set_when_remaining_work_and_percent_complete_are_set)
       end
     end
 
-    def validate_remaining_work_is_zero_or_unset_when_percent_complete_is_100p
+    def validate_remaining_work_is_zero_or_empty_when_percent_complete_is_100p
       return unless percent_complete == 100
 
       if work_set_and_valid? && remaining_work != 0
         errors.add(:remaining_hours, :must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p)
-      elsif work_unset? && remaining_work_set?
-        errors.add(:remaining_hours, :must_be_unset_when_work_is_unset_and_percent_complete_is_100p)
+      elsif work_empty? && remaining_work_set?
+        errors.add(:remaining_hours, :must_be_empty_when_work_is_empty_and_percent_complete_is_100p)
       end
     end
 
     def validate_remaining_work_is_set_when_work_and_percent_complete_are_set
       return if percent_complete == 100
 
-      if work_set_and_valid? && percent_complete_set_and_valid? && remaining_work_unset?
+      if work_set_and_valid? && percent_complete_set_and_valid? && remaining_work_empty?
         errors.add(:remaining_hours, :must_be_set_when_work_and_percent_complete_are_set)
       end
     end
@@ -389,7 +389,7 @@ module WorkPackages
     def validate_percent_complete_is_set_when_work_and_remaining_work_are_set
       return if remaining_work_exceeds_work? # avoid too many error messages at the same time
 
-      if work_set_and_valid? && remaining_work_set_and_valid? && work != 0 && percent_complete_unset?
+      if work_set_and_valid? && remaining_work_set_and_valid? && work != 0 && percent_complete_empty?
         errors.add(:done_ratio, :must_be_set_when_work_and_remaining_work_are_set)
       end
     end
@@ -402,7 +402,7 @@ module WorkPackages
       end
     end
 
-    def validate_percent_complete_is_unset_when_work_is_zero
+    def validate_percent_complete_is_empty_when_work_is_zero
       return if WorkPackage.status_based_mode?
 
       if work == 0 && percent_complete_set?
@@ -422,7 +422,7 @@ module WorkPackages
       work_set? && work >= 0
     end
 
-    def work_unset?
+    def work_empty?
       work.nil?
     end
 
@@ -438,7 +438,7 @@ module WorkPackages
       remaining_work_set? && remaining_work >= 0
     end
 
-    def remaining_work_unset?
+    def remaining_work_empty?
       remaining_work.nil?
     end
 
@@ -449,7 +449,7 @@ module WorkPackages
     end
 
     def remaining_work_exceeds_work?
-      # if % complete is 100%, then remaining work should be 0h or unset, so no
+      # if % complete is 100%, then remaining work should be 0h or empty, so no
       # need to display an error for remaining work exceeding work
       return false if percent_complete == 100
 
@@ -468,13 +468,13 @@ module WorkPackages
       percent_complete_set? && percent_complete.between?(0, 100)
     end
 
-    def percent_complete_unset?
+    def percent_complete_empty?
       percent_complete.nil?
     end
 
     def percent_complete_derivation_unapplicable?
       WorkPackage.status_based_mode? || # only applicable in work-based mode
-        work_unset? || remaining_work_unset? || percent_complete_unset? || # only applicable if all 3 values are set
+        work_empty? || remaining_work_empty? || percent_complete_empty? || # only applicable if all 3 values are set
         work == 0 || percent_complete == 100 || # only applicable if not in special cases leading to divisions by zero
         invalid_work_or_remaining_work_values? # only applicable if work and remaining work values are valid
     end

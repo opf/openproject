@@ -55,11 +55,11 @@ class WorkPackages::SetAttributesService
       work.present?
     end
 
-    def work_unset?
+    def work_empty?
       work.nil?
     end
 
-    def work_was_unset?
+    def work_was_empty?
       work_package.estimated_hours_was.nil?
     end
 
@@ -87,11 +87,11 @@ class WorkPackages::SetAttributesService
       remaining_work.present?
     end
 
-    def remaining_work_unset?
+    def remaining_work_empty?
       remaining_work.nil?
     end
 
-    def remaining_work_was_unset?
+    def remaining_work_was_empty?
       work_package.remaining_hours_was.nil?
     end
 
@@ -119,11 +119,11 @@ class WorkPackages::SetAttributesService
       percent_complete.present?
     end
 
-    def percent_complete_unset?
+    def percent_complete_empty?
       percent_complete.nil?
     end
 
-    def percent_complete_was_unset?
+    def percent_complete_was_empty?
       work_package.done_ratio_was.nil?
     end
 
@@ -157,7 +157,7 @@ class WorkPackages::SetAttributesService
     end
 
     def remaining_work_from_percent_complete_and_work
-      return nil if work_unset? || percent_complete_unset?
+      return nil if work_empty? || percent_complete_empty?
 
       completed_work = work * percent_complete / 100.0
       remaining_work = (work - completed_work).round(2)

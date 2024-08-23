@@ -1155,7 +1155,7 @@ en:
               must_be_set_when_work_and_percent_complete_are_set: "required when Work and % Complete are set."
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
                 must be 0h when Work is set and % Complete is 100%.
-              must_be_unset_when_work_is_unset_and_percent_complete_is_100p: >-
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
                 must be empty when Work is empty and % Complete is 100%.
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
