@@ -43,8 +43,8 @@ tr:
           title: 'Alt Projeler'
           no_results: 'Alt proje yok.'
         project_favorites:
-          title: 'Favorite projects'
-          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
+          title: 'Favori projeler'
+          no_results: 'Şu anda favori projeniz yok. Favorilerinize bir proje eklemek için proje kontrol panelindeki yıldız simgesine tıklayın.'
         time_entries_current_user:
           title: 'Geçirdiğim zaman'
           displayed_days: 'Widget''te görüntülenen günler:'

@@ -71,7 +71,7 @@ tr:
           updated: "changed from %{old_value} to %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
         position:
-          updated: "reordered"
+          updated: "yeniden sıralandı"
         work_package:
           updated: "changed from %{old_value} to %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
