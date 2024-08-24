@@ -1,0 +1,9 @@
+  <%= turbo_frame_tag "bim_sidemenu",
+                      src: bcf_project_bcf_menu_path(@project, **params.permit(:query_props, :query_id, :name)),
+                      target: '_top',
+                      data: { turbo: false },
+                      loading: :lazy %>
+
+  <hr>
+
+  <div class="op-ifc-viewer--tree-panel active" data-test-selector="op-ifc-viewer--tree-panel"></div>
