@@ -26,7 +26,7 @@ vi:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "Phương thức 2FA đã bị vô hiệu."
-    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
+    notice_not_writable: "Cài đặt 2FA được cung cấp thông qua các biến môi trường và không thể ghi đè."
     error_no_device: "Không có thiết bị 2FA đăng ký cho người dùng này, mặc dù được yêu cầu cho trường hợp này được tìm thấy."
     error_no_matching_strategy: "Không có chiến lược 2FA sẵn có nào phù hợp với người dùng này. Xin vui lòng liên hệ với administratior của bạn."
     error_is_enforced_not_active: "Lỗi cấu hình: xác thực 2 yếu tố đã được thi hành, nhưng không có chiến lược nào đang được sử dụng."
