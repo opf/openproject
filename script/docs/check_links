@@ -1,0 +1,246 @@
+#!/usr/bin/env ruby
+
+require "pathname"
+require "yaml"
+require "markly"
+require "uri"
+require "active_support/inflector"
+
+def parse_markdown(content)
+  id_gen = IdGenerator.new
+  document = Markly.parse(content)
+  anchors = []
+  links = []
+  document.walk do |node|
+    if node.type == :link || node.type == :image
+      links.push({ url: node.url, pos: node.source_position, type: node.type })
+    elsif node.type == :header
+      text = node.to_plaintext.delete("\n").tr(" ", " ")
+      id = id_gen.generate_id(text)
+      anchors.push(id)
+    end
+  end
+  [anchors, links, id_gen]
+end
+
+class IdGenerator
+  def generate_markdown_header_id(text)
+    id = text.downcase
+    id.gsub!(/[^\p{Word}\- ]/u, "") # remove punctuation
+    id.tr!(" ", "-") # replace spaces with dash
+    id = "section" if id.empty?
+    id
+  end
+
+  def generate_id(str)
+    gen_id = generate_markdown_header_id(str)
+    @used_ids ||= {}
+    if @used_ids.key?(gen_id)
+      gen_id += "-#{@used_ids[gen_id] += 1}"
+    else
+      @used_ids[gen_id] = 0
+    end
+    gen_id
+  end
+end
+
+class APIChecker
+  # these tag pages are not place into api/endpoint/*, but api/*
+  PULLED_UP_TAG_PAGES = %w[baseline-comparisons basic-objects forms filters collections].freeze
+
+  def initialize(root)
+    @root_path = root
+  end
+
+  # adds infos for api pages which are generated out of the OpenAPI spec
+  def api_pages
+    filename = Pathname(@root_path).join("api/apiv3/openapi-spec.yml")
+    spec = YAML.load_file(filename)
+    @operations = collect_operations_from_spec(spec)
+    spec["tags"]
+      .map { |ref| api_page_by_tag(ref["$ref"]) }
+      .push(
+        introduction_page(spec, filename),
+        markdown_page("api/README.md", "api"),
+        markdown_page("api/bcf/bcf-rest-api.md", "api/bcf-rest-api"),
+        markdown_page("api/faq/README.md", "api/faq")
+      )
+  end
+
+  private
+
+  def introduction_page(spec, filename)
+    anchors, links = parse_markdown(spec["info"]["description"])
+    { path: "#{@root_path}/api/introduction", anchors:, links:, filename: }
+  end
+
+  def markdown_page(path, destination)
+    filename = Pathname(@root_path).join(path).to_s
+    anchors, links = parse_markdown(File.read(filename))
+    { path: "#{@root_path}/#{destination}", anchors:, links:, filename: }
+  end
+
+  def collect_operations_from_spec(spec)
+    spec["paths"].map do |p|
+      path_obj_path = Pathname(@root_path).join("api/apiv3/", p[1]["$ref"])
+      path_obj = YAML.load_file(path_obj_path)
+      path_obj.keys.map { |key| path_obj[key] }
+    end.flatten
+  end
+
+  def operation_ids_by_tag(tag, id_gen)
+    @operations
+      .select { |operation| operation["tags"]&.include?(tag["name"]) }
+      .map { |operation| id_gen.generate_id(operation["summary"]) }
+  end
+
+  def api_page_by_tag(ref)
+    tag_source = Pathname(@root_path).join("api/apiv3", ref)
+    tag = YAML.load_file(tag_source)
+    anchors, links, id_gen = parse_markdown(tag["description"])
+    anchors.concat(operation_ids_by_tag(tag, id_gen))
+    tag_path = ActiveSupport::Inflector.parameterize(tag["name"])
+    tag_path = "endpoints/#{tag_path}" unless PULLED_UP_TAG_PAGES.include?(tag_path)
+    { path: "#{@root_path}/api/#{tag_path}", anchors:, links:, filename: tag_source }
+  end
+end
+
+class DocsChecker
+  def initialize(root)
+    @root_path = root
+  end
+
+  def run
+    scan
+    scan_api_pages
+    add_virtual_pages
+    check
+    report
+    @errors.empty?
+  end
+
+  private
+
+  def build_doc(filename)
+    anchors, links = parse_markdown(File.read(filename))
+    { anchors:, links:, path: File.dirname(filename), filename: }
+  end
+
+  def scan
+    @docs = Dir.glob("#{@root_path}/**/README.md")
+               .reject { |filename| filename.include?("/api/") }
+               .map { |filename| build_doc(filename) }
+  end
+
+  def scan_api_pages
+    @docs.concat(APIChecker.new(@root_path).api_pages)
+  end
+
+  def add_virtual_pages
+    # these pages are added by the website from other sources
+    @docs.push(
+      { path: "#{@root_path}/api/v3/spec.json", anchors: [], links: [] },
+      { path: "#{@root_path}/api/v3/spec.yml", anchors: [], links: [] },
+      { path: "#{@root_path}/installation-and-operations/installation/helm-chart", anchors: [], links: [] },
+      { path: "#{@root_path}/development/translate-openproject/fair-language", anchors: [], links: [] }
+    )
+  end
+
+  def check_link(uri, link, doc)
+    full_url = File.expand_path(uri.to_s, doc[:path])
+    target_doc_path = URI(full_url).path.chomp("/")
+    target_doc = @docs.find { |d| d[:path] == target_doc_path }
+    if target_doc.nil?
+      return if File.exist?(target_doc_path) # linked files in doc e.g. "./restore.sql"
+
+      full_url = File.expand_path(uri.to_s, File.dirname(doc[:filename]))
+      return if File.exist?(full_url) # linked images in doc e.g. "api/bcf/BCFicon128.png" (but target is api/bcf-rest-api/BCFicon128.png)
+
+      return { error: (link[:type] || "Page").capitalize, link:, doc: }
+    end
+    unless uri.fragment.nil? || target_doc[:anchors].include?(uri.fragment)
+      { error: "Anchor", link:, doc: }
+    end
+  end
+
+  def strip_external_link_to_doc(url, path)
+    uri = URI(url)
+    full_path = File.expand_path(uri.path.sub("/docs", "."), @root_path)
+
+    relative_url = Pathname.new(full_path).relative_path_from("#{path}/").to_s
+    return "#{relative_url}/##{uri.fragment}" unless uri.fragment.nil?
+
+    relative_url
+  end
+
+  def parse_uri(link, doc)
+    uri = URI(link[:url])
+    if uri.hostname == "www.openproject.org" && uri.path&.start_with?("/docs")
+      uri = URI(strip_external_link_to_doc(link[:url], doc[:path]))
+    end
+    uri unless %w[mailto https http].include?(uri.scheme)
+  end
+
+  def check_doc_link(link, doc)
+    uri = parse_uri(link, doc)
+    error = check_link(uri, link, doc) unless uri.nil?
+    @errors.push(error) unless error.nil?
+  end
+
+  def check_doc(doc)
+    doc[:links].each { |link| check_doc_link(link, doc) }
+  end
+
+  def check
+    @errors = []
+    @docs.each { |doc| check_doc(doc) }
+  end
+
+  def report
+    @errors.each do |error|
+      pos = error[:link][:pos]
+      report_item(
+        "error",
+        error[:doc][:filename],
+        pos[:start_line], pos[:start_column], pos[:end_line], pos[:end_column],
+        "#{error[:error]} not found for link address `#{error[:link][:url]}`"
+      )
+    end
+    puts "Done. No broken references found." if @errors.empty?
+  end
+
+  def github_escape(str)
+    str.gsub(/[%:\n\r]/, { "%" => "%25", "\n" => "%0A", "\r" => "%0D", ":" => "%3A" }).squeeze(" ")
+  end
+
+  def report_item(*)
+    if ::ENV["GITHUB_ACTIONS"]
+      report_to_github(*)
+    else
+      report_to_stdout(*)
+    end
+  end
+
+  def report_to_stdout(report_level, file, line, col, _end_line, _end_col, message)
+    puts "#{file}:#{line}:#{col} #{report_level}: #{message}"
+  end
+
+  def report_to_github(report_level, file, line, col, end_line, end_col, message)
+    # @see https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-a-warning-message
+    # Example annotation output from github's docs:
+    # ::warning file={name},line={line},title={title}::{message}
+    attributes = {
+      file:,
+      line:,
+      col:,
+      endColumn: end_col == col ? nil : col,
+      endLine: end_line == line ? nil : line
+    }.compact
+    attributes_string = attributes.map { |k, v| "#{k}=#{v}" }.join(",")
+    puts "::#{report_level} #{attributes_string}::#{github_escape(message)}"
+  end
+end
+
+exit 1 unless DocsChecker.new(
+  File.expand_path("../../docs/", __dir__)
+).run

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+echo "Fixing language root key in pt-BR and pt-PT crowdin files to match the filename"
+if [ "$(uname -s)" = "Darwin" ]; then
+  sed -i '' 's/^pt:/pt-BR:/' config/locales/crowdin/*pt-BR*.yml modules/*/config/locales/crowdin/*pt-BR*.yml
+  sed -i '' 's/^pt:/pt-PT:/' config/locales/crowdin/*pt-PT*.yml modules/*/config/locales/crowdin/*pt-PT*.yml
+else
+  sed -i 's/^pt:/pt-BR:/' config/locales/crowdin/*pt-BR*.yml modules/*/config/locales/crowdin/*pt-BR*.yml
+  sed -i 's/^pt:/pt-PT:/' config/locales/crowdin/*pt-PT*.yml modules/*/config/locales/crowdin/*pt-PT*.yml
+fi
