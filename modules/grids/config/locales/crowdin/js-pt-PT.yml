@@ -1,0 +1,70 @@
+pt-PT:
+  js:
+    grid:
+      add_widget: 'Adicionar widget'
+      remove: 'Remover o widget'
+      configure: 'Configurar widget'
+      upsale:
+        text: "Alguns widgets, como o widget gráfico do pacote de trabalho, estão disponíveis apenas na edição Enterprise."
+        link: 'Edição Enterprise.'
+      widgets:
+        missing_permission: "Não tem as permissões necessárias para visualizar este widget."
+        custom_text:
+          title: 'Texto personalizado'
+        documents:
+          title: 'Documentos'
+          no_results: 'Ainda não há documentos.'
+        members:
+          title: 'Membros'
+          no_results: 'Nenhum membro visível.'
+          view_all_members: 'Ver todos os membros'
+          add: 'Membro'
+          too_many: 'A mostrar %{count} de %{total} membros.'
+        news:
+          title: 'Noticias'
+          at: 'em'
+          no_results: 'Nada de novo no relatório.'
+        project_description:
+          title: 'Descrição do projeto'
+          no_results: "Ainda não foi escrita nenhuma descrição. Uma pode ser fornecida nas 'Definições de Projeto'."
+        project_details:
+          title: 'Detalhes do projeto'
+          no_results: 'Não foi definido nenhum campo personalizado para projetos.'
+        project_status:
+          title: 'Estado do Projeto'
+          not_started: 'Não iniciado'
+          on_track: 'Sob controlo'
+          off_track: 'Fora de controlo'
+          at_risk: 'Em risco'
+          not_set: 'Não definido'
+          finished: 'Terminado'
+          discontinued: 'Descontinuado'
+        subprojects:
+          title: 'Subprojetos'
+          no_results: 'Nenhum subprojeto.'
+        project_favorites:
+          title: 'Projetos favoritos'
+          no_results: 'Atualmente, não tem projetos favoritos. Clique no ícone da estrela no painel do projeto para adicionar um projeto aos seus favoritos.'
+        time_entries_current_user:
+          title: 'O meu tempo gasto'
+          displayed_days: 'Dias exibidos no widget:'
+        time_entries_list:
+          title: 'Tempo gasto (últimos 7 dias)'
+          no_results: 'Não há entradas de tempo nos últimos 7 dias.'
+        work_packages_accountable:
+          title: "Pacotes de trabalho pelos quais sou responsável"
+        work_packages_assigned:
+          title: 'Tarefas atribuídas a mim'
+        work_packages_created:
+          title: 'Pacotes de trabalho criados por mim'
+        work_packages_watched:
+          title: 'Pacotes de trabalho observados por mim'
+        work_packages_table:
+          title: 'Tabela de pacotes de trabalho'
+        work_packages_graph:
+          title: 'Gráfico de pacotes de trabalho'
+        work_packages_calendar:
+          title: 'Calendário'
+        work_packages_overview:
+          title: 'Visão geral dos pacotes de trabalho'
+          placeholder: 'Clique para editar...'

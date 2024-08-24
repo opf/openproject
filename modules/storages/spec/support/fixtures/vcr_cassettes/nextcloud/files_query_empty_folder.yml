@@ -1,0 +1,102 @@
+---
+http_interactions:
+- request:
+    method: propfind
+    uri: https://nextcloud.local/remote.php/dav/files/m.jade@death.star/Folder%20with%20spaces/very%20empty%20folder
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+          <d:prop>
+            <oc:fileid/>
+            <oc:size/>
+            <d:getcontenttype/>
+            <d:getlastmodified/>
+            <oc:permissions/>
+            <oc:owner-display-name/>
+          </d:prop>
+        </d:propfind>
+    headers:
+      Depth:
+      - '1'
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.3.0
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml; charset=utf-8
+      Content-Length:
+      - '253'
+  response:
+    status:
+      code: 207
+      message: Multi-Status
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Fri, 09 Aug 2024 12:11:51 GMT
+      Dav:
+      - 1, 3, extended-mkcol, access-control, calendarserver-principal-property-search,
+        nextcloud-checksum-update, nc-calendar-search, nc-enable-birthday-calendar
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=c272d22b7ef10a054561e57d0e5d2308; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=HYt%2F8%2BEcBasj7xEiIVXD01ty1ZGw8StGwXJnhn1m6odmNUOcn8ydP%2FCX1teHG6fgJRzGlINfXZUqOMvzVr4qPztOgsgCn5mIY%2FjkoXyQNSkQjEPuvtqXM4qvJxWCwLvA;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=c272d22b7ef10a054561e57d0e5d2308;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=c272d22b7ef10a054561e57d0e5d2308;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=c272d22b7ef10a054561e57d0e5d2308;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=c272d22b7ef10a054561e57d0e5d2308;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=c272d22b7ef10a054561e57d0e5d2308;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=c272d22b7ef10a054561e57d0e5d2308;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=c272d22b7ef10a054561e57d0e5d2308;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=c272d22b7ef10a054561e57d0e5d2308;
+        path=/; secure; HttpOnly; SameSite=Lax
+      Vary:
+      - Brief,Prefer
+      X-Content-Type-Options:
+      - nosniff
+      X-Debug-Token:
+      - lMaRoq2MnNaw9tg6xmNo
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - lMaRoq2MnNaw9tg6xmNo
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '383'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns"><d:response><d:href>/remote.php/dav/files/m.jade@death.star/Folder%20with%20spaces/very%20empty%20folder/</d:href><d:propstat><d:prop><oc:fileid>571</oc:fileid><oc:size>0</oc:size><d:getlastmodified>Fri, 09 Aug 2024 11:52:04 GMT</d:getlastmodified><oc:permissions>RGDNVCK</oc:permissions><oc:owner-display-name>Mara Jade</oc:owner-display-name></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>
+  recorded_at: Fri, 09 Aug 2024 12:11:51 GMT
+recorded_with: VCR 6.2.0

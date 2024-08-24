@@ -1,0 +1,39 @@
+#English strings go here
+pt-BR:
+  plugin_openproject_boards:
+    name: "Quadros do OpenProject"
+    description: "Fornece visualizações do quadro."
+  permission_show_board_views: "Visualizar quadros"
+  permission_manage_board_views: "Gerenciar quadros"
+  project_module_board_view: "Quadros"
+  boards:
+    label_board: "Quadro"
+    label_boards: "Quadros"
+    label_create_new_board: "Criar novo quadro"
+    label_board_type: "Tipo de quadro"
+    board_types:
+      free: Básico
+      action: "Quadro de ação (%{attribute})"
+    board_type_attributes:
+      assignee: Atribuição
+      status: Status
+      version: Versão
+      subproject: Subprojeto
+      subtasks: Primário-secundário
+      basic: Básico
+    board_type_descriptions:
+      basic: >
+        Comece do zero com um quadro em branco. Adicione manualmente cartões e colunas a este quadro.
+      status: >
+        Quadro no estilo kanban com colunas para estados como Afazeres, Em andamento, Concluído
+      assignee: >
+        Quadro com colunas automatizadas com base nos usuários atribuídos. Ideal para despacho de pacotes de trabalho.
+      version: >
+        Quadro com colunas automatizadas baseado no atributo da versão. Ideal para planejar desenvolvimento de produto.
+      subproject: >
+        Quadro com colunas automatizadas para subprojetos. Arrastar pacotes de trabalho para outras listas atualiza os (sub)projetos de acordo.
+      subtasks: >
+        Quadro com colunas automatizadas para subelementos. Arrastar pacotes de trabalho para outras listas atualiza os pais de acordo.
+    upsale:
+      teaser_text: 'Gostaria de automatizar seu fluxo de trabalho com Quadros? Quadros avançados são um complemento do Enterprise. Atualize para um plano pago.'
+      upgrade: 'Faça o upgrade agora'

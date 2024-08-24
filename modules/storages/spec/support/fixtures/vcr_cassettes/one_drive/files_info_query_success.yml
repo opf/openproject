@@ -1,0 +1,138 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU?$select=id,name,fileSystemInfo,file,folder,size,createdBy,lastModifiedBy,parentReference
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.1
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false;
+        charset=utf-8
+      Content-Encoding:
+      - gzip
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 6343cd33-0fcb-4d2e-a4a0-3beaef8385a0
+      Client-Request-Id:
+      - 6343cd33-0fcb-4d2e-a4a0-3beaef8385a0
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF000002D8"}}'
+      Date:
+      - Tue, 30 Jan 2024 11:55:52 GMT
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#Collection(driveItem)/$entity","@odata.etag":"\"{BAABD554-2A6E-4B51-A07F-22B54378CC94},1\"","createdBy":{"user":{"email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a","displayName":"Eric
+        Schubert"}},"id":"01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU","lastModifiedBy":{"user":{"email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a","displayName":"Eric
+        Schubert"}},"name":"Folder with spaces","parentReference":{"driveType":"documentLibrary","driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","id":"01AZJL5PN6Y2GOVW7725BZO354PWSELRRZ","name":"VCR","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50"},"fileSystemInfo":{"createdDateTime":"2023-09-26T14:38:57Z","lastModifiedDateTime":"2023-09-26T14:38:57Z"},"folder":{"childCount":4},"size":35141}'
+  recorded_at: Tue, 30 Jan 2024 11:55:53 GMT
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU?$select=id,name,fileSystemInfo,file,folder,size,createdBy,lastModifiedBy,parentReference
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.1
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false;
+        charset=utf-8
+      Content-Encoding:
+      - gzip
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - bcaf416b-33e9-42df-ab32-98c8c116c08e
+      Client-Request-Id:
+      - bcaf416b-33e9-42df-ab32-98c8c116c08e
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF0000045E"}}'
+      Date:
+      - Tue, 30 Jan 2024 11:55:53 GMT
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#Collection(driveItem)/$entity","@odata.etag":"\"{3D884033-B88B-4195-8F36-D30B41AB9234},6\"","createdBy":{"user":{"email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a","displayName":"Eric
+        Schubert"}},"id":"01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU","lastModifiedBy":{"user":{"email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a","displayName":"Eric
+        Schubert"}},"name":"Document.docx","parentReference":{"driveType":"documentLibrary","driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","id":"01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR","name":"Folder","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:/Folder","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50"},"file":{"hashes":{"quickXorHash":"unQc+b2OwmpXiE0xrwtDf4g4ZjI="},"mimeType":"application/vnd.openxmlformats-officedocument.wordprocessingml.document"},"fileSystemInfo":{"createdDateTime":"2023-09-26T14:40:58Z","lastModifiedDateTime":"2023-09-26T14:42:03Z"},"size":22514}'
+  recorded_at: Tue, 30 Jan 2024 11:55:53 GMT
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA?$select=id,name,fileSystemInfo,file,folder,size,createdBy,lastModifiedBy,parentReference
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.1
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false;
+        charset=utf-8
+      Content-Encoding:
+      - gzip
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 6f7c7e5d-aeb5-41e1-8a03-f343e93d46be
+      Client-Request-Id:
+      - 6f7c7e5d-aeb5-41e1-8a03-f343e93d46be
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF00000318"}}'
+      Date:
+      - Tue, 30 Jan 2024 11:55:52 GMT
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#Collection(driveItem)/$entity","@odata.etag":"\"{128880A2-6DA3-4DFA-995F-A075F7ACED60},3\"","createdBy":{"user":{"email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a","displayName":"Eric
+        Schubert"}},"id":"01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA","lastModifiedBy":{"user":{"email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a","displayName":"Eric
+        Schubert"}},"name":"NextcloudHub.md","parentReference":{"driveType":"documentLibrary","driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","id":"01AZJL5PPWP5UOATNRJJBYJG5TACDHEUAG","name":"Subfolder","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:/Folder/Subfolder","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50"},"file":{"hashes":{"quickXorHash":"2HQJc625zkgBM9NAAjuXr1Im/0M="},"mimeType":"application/octet-stream"},"fileSystemInfo":{"createdDateTime":"2023-09-26T14:45:25Z","lastModifiedDateTime":"2023-09-26T14:46:13Z"},"size":1095}'
+  recorded_at: Tue, 30 Jan 2024 11:55:53 GMT
+recorded_with: VCR 6.2.0

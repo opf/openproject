@@ -1,0 +1,28 @@
+#English strings go here
+pt-BR:
+  js:
+    team_planner:
+      add_existing: 'Adicionar existente'
+      add_existing_title: 'Adicionar pacotes de trabalho existentes'
+      create_label: 'Planejador de equipe'
+      create_title: 'Criar novo planejador de equipe'
+      unsaved_title: 'Planejador de equipe não nomeado'
+      no_data: 'Adicione responsáveis para configurar seu planejador de equipe.'
+      add_assignee: 'Adicionar responsável'
+      remove_assignee: 'Remover responsável'
+      two_weeks: '2 semanas'
+      one_week: '1 semana'
+      four_weeks: '4 semanas'
+      eight_weeks: '8 semanas'
+      work_week: 'Semana de trabalho'
+      today: 'Hoje'
+      drag_here_to_remove: 'Arraste aqui para remover o responsável e as datas de início e término.'
+      cannot_drag_here: 'Não é possível remover o pacote de trabalho devido a permissões ou restrições de edição.'
+      cannot_drag_to_non_working_day: 'Esse pacote de trabalho não pode começar/terminar em um fim de semana'
+      quick_add:
+        empty_state: 'Use o campo de pesquisa para encontrar pacotes de trabalho e arraste-os para o planejador para atribuí-los para alguém e definir as datas de início e término.'
+        search_placeholder: 'Pesquisar...'
+      modify:
+        errors:
+          permission_denied: 'Você não tem as permissões necessárias para modificar isso.'
+          fallback: 'Este pacote de trabalho não pode ser editado.'

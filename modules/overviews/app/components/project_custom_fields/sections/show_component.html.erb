@@ -1,0 +1,35 @@
+<%=
+  component_wrapper do
+    render(Primer::OpenProject::SidePanel::Section.new(
+      classes: 'op-project-custom-field-section-container',
+      test_selector: "project-custom-field-section-#{@project_custom_field_section.id}"
+    )) do |section|
+      section.with_title { @project_custom_field_section.name }
+
+      if allowed_to_edit?
+        section.with_action_icon(
+          icon: :pencil,
+          tag: :a,
+          href: project_custom_field_section_dialog_path(project_id: @project.id, section_id: @project_custom_field_section.id),
+          data: {
+            controller: 'async-dialog'
+          },
+          test_selector: "project-custom-field-section-edit-button",
+          aria: { label: I18n.t(:label_edit) }
+        )
+      end
+
+      flex_layout do |details_container|
+        @project_custom_fields.each_with_index do |project_custom_field, i|
+          margin =  i == @project_custom_fields.size - 1 ? 0 : 3
+          details_container.with_row(mb: margin) do
+            render(ProjectCustomFields::Sections::ProjectCustomFields::ShowComponent.new(
+              project_custom_field:,
+              project_custom_field_values: get_eager_loaded_project_custom_field_values_for(project_custom_field.id)
+            ))
+          end
+        end
+      end
+    end
+  end
+%>

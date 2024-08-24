@@ -1,0 +1,50 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/me
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.3
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 8880066a-b15a-4140-8389-0831db4b84e5
+      Client-Request-Id:
+      - 8880066a-b15a-4140-8389-0831db4b84e5
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF00000368"}}'
+      X-Ms-Resource-Unit:
+      - '1'
+      Odata-Version:
+      - '4.0'
+      Date:
+      - Fri, 08 Mar 2024 10:07:54 GMT
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#users/$entity","businessPhones":[],"displayName":"Eric
+        Schubert","givenName":"Eric","jobTitle":"Developer","mail":"eschubert.op@outlook.com","mobilePhone":null,"officeLocation":null,"preferredLanguage":null,"surname":"Schubert","userPrincipalName":"eschubert.op_outlook.com#EXT#@finn.onmicrosoft.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"}'
+  recorded_at: Fri, 08 Mar 2024 10:07:55 GMT
+recorded_with: VCR 6.2.0

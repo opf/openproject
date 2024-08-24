@@ -1,0 +1,26 @@
+<%= render(Primer::OpenProject::SubHeader.new(data: {
+  controller: "filter--filters-form",
+  "application-target": "dynamic",
+  "filter--filters-form-output-format-value": "json",
+})) do |subheader|
+  subheader.with_filter_component do
+    render(Meetings::MeetingFilterButtonComponent.new(query: @query, project: @project))
+  end
+
+  subheader.with_action_button(tag: :a,
+                               href: dynamic_path,
+                               scheme: :primary,
+                               mobile_icon: :plus,
+                               mobile_label: label_text,
+                               aria: { label: accessibility_label_text },
+                               title: accessibility_label_text,
+                               id: id,
+                               test_selector: "add-meeting-button") do |button|
+    button.with_leading_visual_icon(icon: :plus)
+    label_text
+  end if render_create_button?
+
+  subheader.with_bottom_pane_component(mt: 0) do
+    render(Meetings::MeetingFiltersComponent.new(query: @query, project: @project))
+  end
+end %>

@@ -1,0 +1,98 @@
+---
+http_interactions:
+- request:
+    method: propfind
+    uri: https://nextcloud.local/remote.php/dav/files/admin/Folder
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+          <d:prop>
+            <oc:fileid/>
+            <nc:acl-list/>
+          </d:prop>
+        </d:propfind>
+    headers:
+      Depth:
+      - infinity
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.4
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml; charset=utf-8
+      Content-Length:
+      - '192'
+  response:
+    status:
+      code: 207
+      message: Multi-Status
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Mon, 29 Apr 2024 09:27:02 GMT
+      Dav:
+      - 1, 3, extended-mkcol, access-control, calendarserver-principal-property-search,
+        nextcloud-checksum-update, nc-calendar-search, nc-enable-birthday-calendar
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=bbc1b8b5d96bfb844ecb9f000d05ccf9; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=QGRWLsaUpaf5JsdI0cV162JoZvcVfhQVV61E6mpPh%2BvmQRlBwBWC%2BP42vMFWwOmkkWTTF9miI%2FBEoiqthA3UQ3ib0UiO40kKObozzqQBv5d%2FsnkiMF0pJJMnsdM8JWTT;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=bbc1b8b5d96bfb844ecb9f000d05ccf9;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=bbc1b8b5d96bfb844ecb9f000d05ccf9;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=bbc1b8b5d96bfb844ecb9f000d05ccf9;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=bbc1b8b5d96bfb844ecb9f000d05ccf9;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=bbc1b8b5d96bfb844ecb9f000d05ccf9;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=bbc1b8b5d96bfb844ecb9f000d05ccf9;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=bbc1b8b5d96bfb844ecb9f000d05ccf9;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=bbc1b8b5d96bfb844ecb9f000d05ccf9;
+        path=/; secure; HttpOnly; SameSite=Lax
+      Vary:
+      - Brief,Prefer
+      X-Content-Type-Options:
+      - nosniff
+      X-Debug-Token:
+      - C2A5yYZ2GjWsVq5rexEF
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.18
+      X-Request-Id:
+      - C2A5yYZ2GjWsVq5rexEF
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '366'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns"><d:response><d:href>/remote.php/dav/files/admin/Folder/</d:href><d:propstat><d:prop><oc:fileid>169</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/Folder/android-studio-2021.3.1.17-linux.tar.gz</d:href><d:propstat><d:prop><oc:fileid>267</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/Folder/empty/</d:href><d:propstat><d:prop><oc:fileid>172</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/Folder/%c3%9cml%c3%a6%c3%bbts/</d:href><d:propstat><d:prop><oc:fileid>350</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/Folder/%c3%9cml%c3%a6%c3%bbts/Anr%c3%bcchiges%20deutsches%20Dokument.docx</d:href><d:propstat><d:prop><oc:fileid>351</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>
+  recorded_at: Mon, 29 Apr 2024 09:27:02 GMT
+recorded_with: VCR 6.2.0

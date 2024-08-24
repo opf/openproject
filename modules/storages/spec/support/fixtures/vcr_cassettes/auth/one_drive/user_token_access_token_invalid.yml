@@ -1,0 +1,154 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/me
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.3
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Content-Type:
+      - application/json
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - ad0aa0d8-97e8-4c7f-9569-f4363f882e4a
+      Client-Request-Id:
+      - ad0aa0d8-97e8-4c7f-9569-f4363f882e4a
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF00000355"}}'
+      Www-Authenticate:
+      - Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize",
+        client_id="00000003-0000-0000-c000-000000000000"
+      Date:
+      - Fri, 08 Mar 2024 10:12:12 GMT
+    body:
+      encoding: UTF-8
+      string: '{"error":{"code":"InvalidAuthenticationToken","message":"IDX14100:
+        JWT is not well formed, there are no dots (.).\nThe token needs to be in JWS
+        or JWE Compact Serialization Format. (JWS): ''EncodedHeader.EndcodedPayload.EncodedSignature''.
+        (JWE): ''EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag''.","innerError":{"date":"2024-03-08T10:12:12","request-id":"ad0aa0d8-97e8-4c7f-9569-f4363f882e4a","client-request-id":"ad0aa0d8-97e8-4c7f-9569-f4363f882e4a"}}}'
+  recorded_at: Fri, 08 Mar 2024 10:12:13 GMT
+- request:
+    method: post
+    uri: https://login.microsoftonline.com/4d44bf36-9b56-45c0-8807-bbf386dd047f/oauth2/v2.0/token
+    body:
+      encoding: ASCII-8BIT
+      string: grant_type=refresh_token&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default&client_id=4262df2b-77bb-49c2-a5df-28355da676d2&client_secret=Vwk8Q%7EJTuPh.pAjvPiWBQBdTFMDK%7EAIwxbj9_axB&refresh_token=0.AQkANr9ETVabwEWIB7vzht0EfyvfYkK7d8JJpd8oNV2mdtIJAK8.AgABAAEAAADnfolhJpSnRYB1SVj-Hgd8AgDs_wUA9P8ntRuLW080vHVlO5D6JSD0duXIRciAKS285L-3UTLSPQV-sTbd39NDX8E5Iy6IzOQ1Ts_e7pRRtcSpfdJUkSYHWw8EzTo4AVpgiSL1z2nQGrKMBB7zdUmhWtVCC6vWnvlq6MEMJVnRX_99r1lpt09J3LV237zUcinactOxgRUjvUsMtn-1Dy43hRj3zjBjiC0RrePD_hQ7MVcBX15u4VxUDzCzOOquPtJoai0aQ7W8PSDakrIvYiDzdCZVWuxmLDM-rmGu8dJyuLzTBszQGqCUnH4CamL-9GgZExZK1_YrMoB7kei2ByHN_EZ2NCvEPXZlLZWBy_DC8Chp2CdamK2ViuUrLEh90Iu5UpiYQhpJ_CBJjHlWHcMjE_SYkPlyKekogTpNbAFxlx5-mzEpfPFX3f8JdzMem4-LTV3SOAmXHUcsH00qk-n_Gz8wAK06kxj5xe8KPObw3DfBlL9A15V4gzLW_1yP7SH8MpU2E_88-hP74nMs9suaTX9Pd5Nf3xpYMge0G4rAxj7VWKiVTkmhoct_9sbf-FxIUfFeaNwkZlTxhsPow_t0uwSFUzwUT-JCxlqBiDBqMSdrdEkzf2vPDIHkoMgIkKT_7vxhzTIjOPsiXbZz_tQztqjGNchmJyYQ6oqRU1prLCFQ4XZ-fCg8JjovSebsaj22VVo4dVQV6LHL6JXC4yLrLDwhLtLaGZcOj-QQzWspofBGWvTEn5g0CIFdBkeZkWSYfULwczOJNVgiq1yG1D1OVpGpc0ij6FnS6ax2_bVBt6Ms8gIUUivrZ99Hy4Uydo4UGJfaQFT5GJ6rLe5s_j6fg7JgbjW2GEZPxbugGaNpfq_4IZGXJJ5T9qXhnGsAIddS0KG8e0UO3ZR0ZZx3f40fofawZ-P4PK2HPatd4q2wze4R9uS_7weE8-kS43xCHiokvI0ghcWETLh-l_hJYkhFJfLGD0AdHtvSqTlLot3ErGYrczhWJMQtF-P4_r2tGR8119PE5Ud-8rhwe_ufFRvBe93HJ_imWATrao4EKkBl_NGb18z0SvZ2wdYZRz6l5WCzXfbgxAVRzuCeVw9xaBFakGg0xJg_7jQ0qx7tR9p4jdyiIcu6IK3agzXQ7xFTlgb-paiqhU8S_r0w-_KgBLpBGa3ECHquPWwOjenBxrA8ue5KZLTHW3Q7u9w4TOzb0JcvbAvbQ95MpHJju8TJ24ik1e6ADlILtsoQhp29FBYrDt_s3AuGFG4iBoZSgw-quGc59uCWJqIchq5y7xYg4EHAY9njXojlGIuIjEdl1Rc4g1bCguLkrSYIXAQSNW6ujqOmfNSjXMze3siHey1WLBQ1FeU2C9f9AdiiCtEORwLR54oPGIGjc_3kINecU1YptbzkvLPoy5aS5d_SjZmSy1Yl6JMDZ8QH8wm8Bu0kLvxnlWMHTMw5gjQpoeBhUsh9wQJn0lUGO14D5lXJJZlBrYDaZ0ee8T7lKPeaazkVF2kh-gwgdSNLXagTkhgQdmLVtMAUrqLH2Q
+    headers:
+      User-Agent:
+      - httpx.rb/1.2.3
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Content-Length:
+      - '1804'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Pragma:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      P3p:
+      - CP="DSP CUR OTPi IND OTRi ONL FIN"
+      X-Ms-Request-Id:
+      - e821fe8d-3b01-4b6b-84a4-9ea1ad989e01
+      X-Ms-Ests-Server:
+      - 2.1.17396.8 - SEC ProdSlices
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - fpc=ArOzgq1vi4pDjjvHIUkf75pjrVfjAQAAAHzbfN0OAAAA; expires=Sun, 07-Apr-2024
+        10:12:13 GMT; path=/; secure; HttpOnly; SameSite=None, x-ms-gateway-slice=estsfd;
+        path=/; secure; samesite=none; httponly, stsservicecookie=estsfd; path=/;
+        secure; samesite=none; httponly
+      Date:
+      - Fri, 08 Mar 2024 10:12:13 GMT
+      Content-Length:
+      - '4400'
+    body:
+      encoding: UTF-8
+      string: '{"token_type":"Bearer","scope":"profile openid email https://graph.microsoft.com/Directory.ReadWrite.All
+        https://graph.microsoft.com/Files.ReadWrite.All https://graph.microsoft.com/Sites.Read.All
+        https://graph.microsoft.com/Sites.ReadWrite.All https://graph.microsoft.com/User.Read
+        https://graph.microsoft.com/.default","expires_in":3924,"ext_expires_in":3924,"access_token":"<ACCESS_TOKEN>","refresh_token":"0.AQkANr9ETVabwEWIB7vzht0EfyvfYkK7d8JJpd8oNV2mdtIJAK8.AgABAAEAAADnfolhJpSnRYB1SVj-Hgd8AgDs_wUA9P8lgegjoHlDEVPHGZ5FBon869Xv5-c9gQV0LKbMA9Wmq-BRtWBTZbAn3-GH1LZEjk8ZIpuiyHsXCBfhudmlW8BlxIjr-AVqZVY59pZfPQ7kW-EiETxysRxvb6-KqsT8CGjYcbQb_hRpBJXaQwtBOu6rh6Noie1K_pzq3D8R8QEwnLMlfwWj_63iVWf5IfNposuZ40WQcYmwiQpHfmNy-mq1kD35YQrjaEGDW1vs_9tT-sS7GnkmxvzvUkiOxrOc9c69se7DU4fjX9PuSxy4q8u44kr5BifW6D3IdM0Ow6_y0bC75hhf78OyKMLrUjvICd7_STcsjyjWB3x3QRABNEJrNpHRTJ1_WmQmwOwRPzr4kCGyRWUTLqgJL96fzDUb_stnmjo_tEI1AAUSk4MO5lXpatzfihKJviKMUxGKFYb5PMKlMUBaBiM1kJKPoQyduw21jfJGXfe8NsrgSC3_FU_khY3xC-hYU_9m5AMTe2RtvQG6k-IciyyoHDfD0KHN9el8-zSu0euwkU39OnkV5H2LNN9UeTdzJQj5ZKoOXhI3xFW9z4nFJT3pO0VmbyWUvPM_8HkJafEujt1DO6ocD9COZq4mudVUdRNoRvTOBeu3FtEt6X80OyPawO5fPLh_JuvhG_ff_jBEUX1wJwpnBykdczoA37P1p6KSbB6h3_ZoB5harlzv1KjKFyKpyNGnNAkrEqAr3nX2MEWTuurGPDw1psrHpvTODWXcM_EAJ5HG2j4-ET7XZjTQr9dq1jhHiXiHtGZdJ2R0aThe1Cye7fx7MSzNIE36HtpOns9gfa40oi5IC9be2BwYJPcGc9rXOFAT-tfjumitN8UJi5uzkHJ2-tzA9DkrE2fGDMaNtEgYsyBfDjeVbgio5n2nXIu9zHht_y3KDLRYV4XqIxCRSIyqy513WdR3jRrLB1bIflBNtgqdinQlWXM3e9jm9kBisBTjPR4Iq0NE-GPUg0-8jDEBZ11ZvrttDx1jtc5mxdSMYP7oSLG7sMOBxDmff0xMl05Wv-4j54830ebY2sF_lrJ78qpnaePen0ANgODMug28dCJ2yStzMW2ZyGqdurhRp_8sh09W3Q3xkto-OPuHLjYZDqCMfU03DcPk61BQJPRWKtvTSvfHDOzh9COmQI7qxzsJmv-MIIQ9tS12Lm6sxivJH-PAa7INrxHESf7UOgepp6onZiQKXvLuYUJK4hmP8SVMG-y-H3bPxFmS-lM3w5w-s_4wRHY6Xrj8MmSf_92_oekEK71K2pRQqlRj79g6ReZh5bDF2lZRDPX6gqE3LFa7FicUAyRuZY3CtnfK4S84fuzeU5X9V7Vs2kXymj_TSTbhnkAkRpYjj8wXUMqTuR4ggeRCapJGWGXDItJHDlpVyzdNa3128LZ2aChbbHctY_nqloDhUOfq_LeuD5w2Ud6cysbI7kMHp6VUrSZdSp8CKSM_z-E6HCtMXi4bYjYNwFBcKvhXoBbduPMwTjDxIzPhPvciL1TAMRa1g1DPRQ"}'
+  recorded_at: Fri, 08 Mar 2024 10:12:13 GMT
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/me
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - httpx.rb/1.2.3
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <BEARER TOKEN>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - ab1dd57e-6196-46f6-9387-e6c679b666c2
+      Client-Request-Id:
+      - ab1dd57e-6196-46f6-9387-e6c679b666c2
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF000002D8"}}'
+      X-Ms-Resource-Unit:
+      - '1'
+      Odata-Version:
+      - '4.0'
+      Date:
+      - Fri, 08 Mar 2024 10:12:13 GMT
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#users/$entity","businessPhones":[],"displayName":"Eric
+        Schubert","givenName":"Eric","jobTitle":"Developer","mail":"eschubert.op@outlook.com","mobilePhone":null,"officeLocation":null,"preferredLanguage":null,"surname":"Schubert","userPrincipalName":"eschubert.op_outlook.com#EXT#@finn.onmicrosoft.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"}'
+  recorded_at: Fri, 08 Mar 2024 10:12:13 GMT
+recorded_with: VCR 6.2.0

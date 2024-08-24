@@ -1,0 +1,5 @@
+pt-BR:
+  js:
+    work_packages:
+      default_queries:
+        milestones: 'Marcos'

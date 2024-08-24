@@ -1,0 +1,16 @@
+pt-PT:
+  grids:
+    label_widget_in_grid: "Widget contido na Grelha %{grid_name}"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Página"
+        row_count: "Número de linhas"
+        column_count: "Número de colunas"
+        widgets: "Widgets"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'sobreposição.'
+          outside: 'está fora da rede.'
+          end_before_start: 'o valor final tem de ser maior que o valor inicial.'

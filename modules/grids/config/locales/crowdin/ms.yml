@@ -1,0 +1,16 @@
+ms:
+  grids:
+    label_widget_in_grid: "Widget yang terdapat dalam Grid %{grid_name}"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Halaman"
+        row_count: "Bilangan baris"
+        column_count: "Bilangan kolum"
+        widgets: "Widget"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'bertindih.'
+          outside: 'luar daripada grid.'
+          end_before_start: 'nilai akhir perlu lebih besar daripada nilai mula.'

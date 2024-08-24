@@ -1,0 +1,5 @@
+ms:
+  js:
+    work_packages:
+      default_queries:
+        milestones: 'Pencapaian'

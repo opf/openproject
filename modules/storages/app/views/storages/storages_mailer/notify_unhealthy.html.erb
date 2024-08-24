@@ -1,0 +1,62 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<table <%= placeholder_table_styles(width: '100%', style: 'width:100%;max-width:700px') %>>
+  <tr>
+    <td>
+      <%= render(partial: 'mailer/mailer_header',
+                 locals: {
+                   user: @admin,
+                   summary: I18n.t("mail.storages.health.unhealthy.summary", storage_name: @storage.name),
+                   button_href: @url,
+                   button_text: I18n.t(:'mail.storages.health.see_storage_settings')
+                 }) %>
+
+      <%= render(partial: 'health_status_notification',
+                 locals: {
+                   state: :unhealthy,
+                   storage: @storage,
+                   url: @url,
+                   reason: "#{@storage.health_reason_identifier} - #{@storage.health_reason_description}"
+                 }) %>
+
+      <%= render(partial: 'mailer/notification_settings_table',
+                 locals: {
+                   button_url: @url,
+                   button_text: I18n.t(:'mail.storages.health.email_notification_settings')
+                 }) %>
+
+      <table>
+        <tr>
+          <%= placeholder_cell('13px', vertical: false) %>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

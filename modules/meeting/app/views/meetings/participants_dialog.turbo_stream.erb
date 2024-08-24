@@ -1,0 +1,5 @@
+<%=
+  turbo_stream.dialog do
+    render(Meetings::SidePanel::ParticipantsDialog.new(meeting: @meeting))
+  end
+%>

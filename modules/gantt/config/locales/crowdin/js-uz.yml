@@ -1,0 +1,5 @@
+uz:
+  js:
+    work_packages:
+      default_queries:
+        milestones: 'Milestones'

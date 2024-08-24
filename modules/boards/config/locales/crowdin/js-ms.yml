@@ -1,0 +1,86 @@
+#English strings go here
+ms:
+  js:
+    boards:
+      create_new: 'Cipta board baru'
+      label_unnamed_board: 'Board tanpa nama'
+      label_unnamed_list: 'Senarai tanpa nama'
+      label_board_type: "Jenis board\n"
+      upsale:
+        teaser_text: 'Adakah anda ingin mengautomasikan aliran kerja dengan Board? Board lanjutan ada di dalam tambahan Enterprise. Sila naik taraf ke pelan berbayar.'
+        upgrade: 'Naik taraf sekarang'
+      lists:
+        delete: 'Padam senarai'
+      version:
+        is_locked: 'Versi ini dikunci. Tiada item yang boleh ditambah ke dalam versi ini.'
+        is_closed: 'Versi ini ditutup. Tiada item yang boleh ditambah ke dalam versi ini.'
+        close_version: 'Versi tertutup'
+        open_version: 'Versi terbuka'
+        lock_version: 'Versi terkunci'
+        unlock_version: 'Versi dibuka'
+        edit_version: 'Versi edit'
+        show_version: 'Papar versi'
+        locked: 'Terkunci'
+        closed: 'Tertutup'
+      new_board: 'Board baharu'
+      add_list: 'Tambah senarai ke board'
+      add_card: 'Tambah kad'
+      error_attribute_not_writable: "Pakej kerja tidak boleh dialihkan, %{attribute} tidak boleh ditulis."
+      error_loading_the_list: "Ralat memuat senarai: %{error_message}"
+      error_permission_missing: "Kebenaran untuk membuat pertanyaan awam tidak ditemui"
+      error_cannot_move_into_self: "Anda tidak boleh mengalihkan pakej kerja ke dalam kolum sendiri."
+      text_hidden_list_warning: "Hanya beberapa senarai dipaparkan kerana anda tidak mempunyai kebenaran. Hubungi pentadbir anda untuk maklumat lanjut."
+      click_to_remove_list: "Klik untuk padamkan senarai ini"
+      board_type:
+        text: "Jenis board\n"
+        free: 'asas'
+        select_board_type: 'Sila pilih jenis board yang anda perlukan.'
+        free_text: >
+          Mula dari awal dengan board kosong. Tambah kad dan kolum ke board ini secara manual.
+        action: 'Board tindakan'
+        action_by_attribute: 'Board tindakan (%{attribute})'
+        action_text: >
+          Board dengan senarai yang disaring di atribut %{attribute}. Pemindahan pakej kerja ke senarai lain akan mengemas kini atribut mereka.
+        action_text_subprojects: >
+          Board dengan kolum automatik untuk subprojek. Menarik pakej kerja ke senarai lain akan mengemas kini (sub-)projek sewajarnya.
+        action_text_subtasks: >
+          Board dengan kolum automatik untuk sub-elemen. Menarik pakej kerja ke senarai lain akan mengemas kini (sub-)projek sewajarnya.
+        action_text_status: >
+          Board gaya kanban asas dengan kolum untuk status seperti Untuk Dilakukan, Dalam Pelaksanaan, Selesai.
+        action_text_assignee: >
+          Board dengan kolum automatik berdasarkan pengguna yang ditentukan. Ideal untuk penghantaran pakej kerja.
+        action_text_version: >
+          Board dengan kolum automatik berdasarkan versi atribut. Ideal untuk merancang pembangunan produk.
+        action_type:
+          assignee: penerima tugasan
+          status: status
+          version: versi
+          subproject: subprojek
+          subtasks: induk-anak
+        board_type_title:
+          assignee: Penerima tugasan
+          status: Status
+          version: Versi
+          subproject: Subprojek
+          subtasks: Induk-anak
+          basic: "Asas\n"
+        select_attribute: "Atribut tindakan"
+      add_list_modal:
+        labels:
+          assignee: Pilih pengguna untuk ditambah sebagai senarai penerima tugasan baharu
+          status: Pilih status untuk ditambah sebagai senarai baharu
+          version: Pilih versi untuk ditambah sebagai senarai baharu
+          subproject: Pilih subprojek untuk ditambah sebagai senarai baharu
+          subtasks: Pilih pakej kerja untuk ditambah sebagai senarai baharu
+        warning:
+          status: |
+            Tiada status yang tersedia pada masa ini. <br>
+            Sama ada sudah tiada atau semua sudah ditambah ke board.
+          assignee: Tiada ahli yang sepadan dengan nilai penyaringan anda.  <br>
+          no_member: Projek ini tidak mempunyai ahli yang boleh ditambah pada masa ini.  <br>
+          add_members: <a href="%{link}">Tambah ahli baru ke projek ini</a> untuk pilih pengguna lagi.
+      configuration_modal:
+        title: 'Konfigurasi board ini'
+        display_settings:
+          card_mode: "Paparkan sebagai kad"
+          table_mode: "Paparkan sebagai jadual"

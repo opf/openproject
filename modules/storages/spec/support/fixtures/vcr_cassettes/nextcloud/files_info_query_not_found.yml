@@ -1,0 +1,88 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://nextcloud.local/ocs/v1.php/apps/integration_openproject/filesinfo
+    body:
+      encoding: UTF-8
+      string: '{"fileIds":["1234"]}'
+    headers:
+      Authorization:
+      - Bearer L49hIQGzShBYfjblMAtTDtT15rtZ8wagxFIbwQTzD0LRIfUOBmOYz9wY5pvIY9zkLMpXLcK9
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      Ocs-Apirequest:
+      - 'true'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Length:
+      - '154'
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 30 Aug 2023 15:26:14 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.56 (Debian)
+      Set-Cookie:
+      - __Host-nc_sameSiteCookielax=true; path=/; httponly;secure; expires=Fri, 31-Dec-2100
+        23:59:59 GMT; SameSite=lax
+      - __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict
+      - oc_sessionPassphrase=mubP6L1KhzkAbwW%2BdVOdSsS10ZEeOJUYFAEVeqbp1%2BA37vA9h98ve5%2BxUBz1zPeIpCJRBNvPfF1sOmZBn5HM8qGFwvc9b9scbO4E9GovlEPYW0X%2B1WMN0eKqmW45nR7A;
+        path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=cc97b31ff8dede5d34607ee68aff20e8; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=cc97b31ff8dede5d34607ee68aff20e8; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=cc97b31ff8dede5d34607ee68aff20e8; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=cc97b31ff8dede5d34607ee68aff20e8; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=cc97b31ff8dede5d34607ee68aff20e8; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=cc97b31ff8dede5d34607ee68aff20e8; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=cc97b31ff8dede5d34607ee68aff20e8; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=cc97b31ff8dede5d34607ee68aff20e8; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=cc97b31ff8dede5d34607ee68aff20e8; path=/; secure; HttpOnly; SameSite=Lax
+      - ocybhqi440sc=ff3381b14b648bcb48e62a82cbb42c87; path=/; secure; HttpOnly; SameSite=Lax
+      Vary:
+      - Origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.8
+      X-Request-Id:
+      - v3tT2TMs2xjqxJOvWJ2f
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK","totalitems":"","itemsperpage":""},"data":{"1234":{"status":"Not
+        Found","statuscode":404}}}}'
+  recorded_at: Wed, 30 Aug 2023 15:26:14 GMT
+recorded_with: VCR 6.2.0

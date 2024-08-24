@@ -1,0 +1,102 @@
+---
+http_interactions:
+- request:
+    method: propfind
+    uri: https://nextcloud.local/remote.php/dav/files/m.jade@death.star/Folder/Nested%20Folder
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+          <d:prop>
+            <oc:fileid/>
+            <oc:size/>
+            <d:getcontenttype/>
+            <d:getlastmodified/>
+            <oc:permissions/>
+            <oc:owner-display-name/>
+          </d:prop>
+        </d:propfind>
+    headers:
+      Depth:
+      - '1'
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.3.0
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml; charset=utf-8
+      Content-Length:
+      - '253'
+  response:
+    status:
+      code: 207
+      message: Multi-Status
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Fri, 09 Aug 2024 12:11:51 GMT
+      Dav:
+      - 1, 3, extended-mkcol, access-control, calendarserver-principal-property-search,
+        nextcloud-checksum-update, nc-calendar-search, nc-enable-birthday-calendar
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=64d64f812c9648275f44b170982350bb; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=dhivPf06ezPZQDmZws1Q9%2FcOy8cSjLaZ4ZpcE3Hv%2F8gf%2BAtkyDu6wQpb0lkxtT01%2BjRZFlnLmxdhKR9GlS1l3Z5MtDOJ9e3wFqS3RFOzXQb48d2VUCnXOjPyYVyBs2Lk;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=64d64f812c9648275f44b170982350bb;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=64d64f812c9648275f44b170982350bb;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=64d64f812c9648275f44b170982350bb;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=64d64f812c9648275f44b170982350bb;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=64d64f812c9648275f44b170982350bb;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=64d64f812c9648275f44b170982350bb;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=64d64f812c9648275f44b170982350bb;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=64d64f812c9648275f44b170982350bb;
+        path=/; secure; HttpOnly; SameSite=Lax
+      Vary:
+      - Brief,Prefer
+      X-Content-Type-Options:
+      - nosniff
+      X-Debug-Token:
+      - ME7ZNWNYlt0umkVa3tm2
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - ME7ZNWNYlt0umkVa3tm2
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '499'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns"><d:response><d:href>/remote.php/dav/files/m.jade@death.star/Folder/Nested%20Folder/</d:href><d:propstat><d:prop><oc:fileid>601</oc:fileid><oc:size>231045</oc:size><d:getlastmodified>Fri, 09 Aug 2024 11:53:42 GMT</d:getlastmodified><oc:permissions>RGDNVCK</oc:permissions><oc:owner-display-name>Mara Jade</oc:owner-display-name></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/m.jade@death.star/Folder/Nested%20Folder/giphy.gif</d:href><d:propstat><d:prop><oc:fileid>603</oc:fileid><oc:size>184726</oc:size><d:getcontenttype>image/gif</d:getcontenttype><d:getlastmodified>Fri, 09 Aug 2024 11:53:24 GMT</d:getlastmodified><oc:permissions>RGDNVW</oc:permissions><oc:owner-display-name>Mara Jade</oc:owner-display-name></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/m.jade@death.star/Folder/Nested%20Folder/release_meme.jpg</d:href><d:propstat><d:prop><oc:fileid>604</oc:fileid><oc:size>46264</oc:size><d:getcontenttype>image/jpeg</d:getcontenttype><d:getlastmodified>Fri, 09 Aug 2024 11:53:30 GMT</d:getlastmodified><oc:permissions>RGDNVW</oc:permissions><oc:owner-display-name>Mara Jade</oc:owner-display-name></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/m.jade@death.star/Folder/Nested%20Folder/todo.txt</d:href><d:propstat><d:prop><oc:fileid>602</oc:fileid><oc:size>55</oc:size><d:getcontenttype>text/plain</d:getcontenttype><d:getlastmodified>Fri, 09 Aug 2024 11:53:35 GMT</d:getlastmodified><oc:permissions>RGDNVW</oc:permissions><oc:owner-display-name>Mara Jade</oc:owner-display-name></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>
+  recorded_at: Fri, 09 Aug 2024 12:11:51 GMT
+recorded_with: VCR 6.2.0

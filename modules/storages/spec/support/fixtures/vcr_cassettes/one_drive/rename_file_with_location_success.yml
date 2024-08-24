@@ -1,0 +1,112 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://login.microsoftonline.com/4d44bf36-9b56-45c0-8807-bbf386dd047f/oauth2/v2.0/token
+    body:
+      encoding: ASCII-8BIT
+      string: grant_type=client_credentials&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default+offline_access&client_id=4262df2b-77bb-49c2-a5df-28355da676d2&client_secret=Vwk8Q%7EJTuPh.pAjvPiWBQBdTFMDK%7EAIwxbj9_axB
+    headers:
+      User-Agent:
+      - httpx.rb/1.2.6
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Content-Length:
+      - '201'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Pragma:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      P3p:
+      - CP="DSP CUR OTPi IND OTRi ONL FIN"
+      X-Ms-Request-Id:
+      - ffa8f490-b965-4f8e-bc76-cadd36557600
+      X-Ms-Ests-Server:
+      - 2.1.18298.5 - FRC ProdSlices
+      X-Ms-Srs:
+      - 1.P
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - fpc=ArnOt0kiO4BGuweLgTpTFIykbDoXAQAAAGdUC94OAAAA; expires=Wed, 24-Jul-2024
+        11:49:59 GMT; path=/; secure; HttpOnly; SameSite=None, x-ms-gateway-slice=estsfd;
+        path=/; secure; samesite=none; httponly, stsservicecookie=estsfd; path=/;
+        secure; samesite=none; httponly
+      Date:
+      - Mon, 24 Jun 2024 11:49:58 GMT
+      Content-Length:
+      - '1760'
+    body:
+      encoding: UTF-8
+      string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"<ACCESS_TOKEN>"}'
+  recorded_at: Mon, 24 Jun 2024 11:49:59 GMT
+- request:
+    method: patch
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PPMSBBO3R2BIZHJFCELSW3RP7GN
+    body:
+      encoding: UTF-8
+      string: '{"name":"I❤️you death star.png"}'
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - httpx.rb/1.2.6
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Length:
+      - '37'
+      Authorization:
+      - Bearer <BEARER TOKEN>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - e3c6e74c-eccc-46f3-9a5a-95710b29e084
+      Client-Request-Id:
+      - e3c6e74c-eccc-46f3-9a5a-95710b29e084
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"005","RoleInstance":"FR3PEPF000005F4"}}'
+      Odata-Version:
+      - '4.0'
+      Date:
+      - Mon, 24 Jun 2024 11:50:00 GMT
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs'')/items/$entity","@microsoft.graph.downloadUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/_layouts/15/download.aspx?UniqueId=ed4290ec-41c7-4e46-9288-8b95b717fccd&Translate=false&tempauth=v1.eyJzaXRlaWQiOiIxYjRiNjU3Ni05MDZkLTRkOTQtOGY0OS02ZDAwYTk1MDdiNTAiLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXVkIjoiMDAwMDAwMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwL2Zpbm4uc2hhcmVwb2ludC5jb21ANGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwiZXhwIjoiMTcxOTIzMzQwMCJ9.EgsI4u6x9rmTij0QBRoNMjAuMTkwLjE5MC45OSosZ2VLeEg1cUh3Qi81RVJudlp1UC9xOUJYUlBoUkRoT0ZMWjByUXppS2FtTT0wlQE4AUIQoTXEG28gAJAeSuUTap6OE0oQaGFzaGVkcHJvb2Z0b2tlbnoBMboBK2FsbHNpdGVzLnJlYWQgYWxsc2l0ZXMud3JpdGUgYWxsZmlsZXMud3JpdGXCAUk0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDJANGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmyAEB.m_odT3aPits40RUzjqhPjF9Y-MvkduKxqPj5ihmoHDU&ApiVersion=2.0","createdDateTime":"2023-09-26T14:40:27Z","eTag":"\"{ED4290EC-41C7-4E46-9288-8B95B717FCCD},4\"","id":"01AZJL5PPMSBBO3R2BIZHJFCELSW3RP7GN","lastModifiedDateTime":"2024-06-24T11:50:00Z","name":"I\u2764\ufe0fyou
+        death star.png","webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR/Folder%20with%20spaces/I%E2%9D%A4%EF%B8%8Fyou%20death%20start.png","cTag":"\"c:{ED4290EC-41C7-4E46-9288-8B95B717FCCD},3\"","size":9482,"createdBy":{"user":{"email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a","displayName":"Eric
+        Schubert"}},"lastModifiedBy":{"user":{"displayName":"SharePoint App"}},"parentReference":{"driveType":"documentLibrary","driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","id":"01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU","name":"Folder
+        with spaces","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:/Folder
+        with spaces","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50"},"file":{"mimeType":"image/png","hashes":{"quickXorHash":"58goJ0v735ljlyoxrwUj5+78tHc="}},"fileSystemInfo":{"createdDateTime":"2023-09-26T14:40:27Z","lastModifiedDateTime":"2024-06-24T11:50:00Z"},"image":{"height":419,"width":347},"photo":{},"shared":{"scope":"users"}}'
+  recorded_at: Mon, 24 Jun 2024 11:50:00 GMT
+recorded_with: VCR 6.2.0

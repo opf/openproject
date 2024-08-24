@@ -1,0 +1,86 @@
+#English strings go here
+pt-PT:
+  js:
+    boards:
+      create_new: 'Criar novo quadro'
+      label_unnamed_board: 'Quadro sem nome'
+      label_unnamed_list: 'Lista sem nome'
+      label_board_type: 'Tipo de quadro'
+      upsale:
+        teaser_text: 'Gostaria de automatizar seus fluxos de trabalho com Quadros? Quadros avançados são um complemento de Enterprise. Faça upgrade para um plano pago.'
+        upgrade: 'Atualizar agora'
+      lists:
+        delete: 'Apagar lista'
+      version:
+        is_locked: 'A versão está bloqueada. Nenhum item pode ser adicionado a esta versão.'
+        is_closed: 'A versão está fechada. Nenhum item pode ser adicionado a esta versão.'
+        close_version: 'Fechar versão'
+        open_version: 'Abrir versão'
+        lock_version: 'Bloquear versão'
+        unlock_version: 'Desbloquear versão'
+        edit_version: 'Editar versão'
+        show_version: 'Mostrar versão'
+        locked: 'Bloqueado'
+        closed: 'Fechado'
+      new_board: 'Novo quadro'
+      add_list: 'Adicionar lista ao qaudro'
+      add_card: 'Adicionar cartão'
+      error_attribute_not_writable: "Não é possível mover o pacote de trabalho, %{attribute} não é gravável."
+      error_loading_the_list: "Erro ao carregar a lista: %{error_message}"
+      error_permission_missing: "A permissão para criar consultas públicas está em falta"
+      error_cannot_move_into_self: "Não pode mover um pacote de trabalho para a sua própria coluna."
+      text_hidden_list_warning: "Nem todas as listas são exibidas porque lhe falta permissão. Para mais informações, entre em contacto com seu administrador."
+      click_to_remove_list: "Clique para remover esta lista"
+      board_type:
+        text: 'Tipo de quadro'
+        free: 'básico'
+        select_board_type: 'Por favor, escolha o tipo de quadro que precisa.'
+        free_text: >
+          Comece do zero com um quadro em branco. Adicione manualmente cartões e colunas a este quadro.
+        action: 'Quadro de ação'
+        action_by_attribute: 'Quadro de ação (%{attribute})'
+        action_text: >
+          Um quadro com listas filtradas no atributo %{attribute} . Mover pacotes de trabalho para outras listas irá atualizar o seu atributo.
+        action_text_subprojects: >
+          Quadro com colunas automatizadas para sub-projetos. Arrastar pacotes de trabalho para outras listas atualiza o (sub-)projeto de acordo.
+        action_text_subtasks: >
+          Board com colunas automatizadas para sub-elementos. Arrastar pacotes de trabalho para outras listas atualiza o pai de acordo.
+        action_text_status: >
+          Quadro de estilo kanban básico com colunas para status como Por Fazer, Em Progresso, Concluído.
+        action_text_assignee: >
+          Quadro com colunas automatizadas baseadas em utilizadores atribuídos. Ideal para despacho de pacotes de trabalho.
+        action_text_version: >
+          Quadro com colunas automatizadas com base no atributo da versão. Ideal para o desenvolvimento do produto.
+        action_type:
+          assignee: responsável
+          status: estado
+          version: versão
+          subproject: Sub-projecto
+          subtasks: pai-filho
+        board_type_title:
+          assignee: Atribuído para
+          status: Situação
+          version: Versão
+          subproject: Sub-projecto
+          subtasks: Pai-filho
+          basic: Básico
+        select_attribute: "Atributo de ação"
+      add_list_modal:
+        labels:
+          assignee: Selecione o utilizador a adicionar como nova lista de responsáveis
+          status: Selecione o estado para adicionar como uma nova lista
+          version: Selecione a versão para adicionar como uma nova lista
+          subproject: Selecione o sub-projeto para adicionar como uma nova lista
+          subtasks: Selecione o pacote de trabalho para adicionar como uma nova lista
+        warning:
+          status: |
+            De momento, não há nenhum estado disponível. <br>
+            Não há nenhum ou já foram todos adicionados ao painel.
+          assignee: Não há nenhum membro correspondente ao seu valor.  <br>
+          no_member: Este projeto não possui nenhum membro que possa ser adicionado.  <br>
+          add_members: <a href="%{link}">Adicione um novo membro a este projeto</a> para selecionar novamente utilizadores.
+      configuration_modal:
+        title: 'Configurar este quadro'
+        display_settings:
+          card_mode: "Exibir como cartões"
+          table_mode: "Exibir como tabela"

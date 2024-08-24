@@ -1,0 +1,8 @@
+#English strings go here
+pt-PT:
+  js:
+    calendar:
+      create_new: 'Criar novo calendário'
+      title: 'Calendário'
+      too_many: 'Existem ao todo %{count} pacotes de trabalho, mas apenas %{max} podem ser exibidos.'
+      unsaved_title: 'Calendário sem nome'
