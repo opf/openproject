@@ -1,0 +1,32 @@
+ms:
+  plugin_openproject_openid_connect:
+    name: "Sambungkan OpenID OpenProject"
+    description: "Tambah penyedia strategi OmniAuth OpenID Connect ke OpenProject."
+  logout_warning: >
+    Anda telah log keluar. Sebarang bentuk kandungan yang anda hantar mungkin hilang. Sila [log masuk].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Nama
+        display_name: Nama paparan
+        identifier: Pengenal
+        secret: "Rahsia\n"
+        scope: Skop
+        limit_self_registration: Hadkan pendaftaran sendiri
+  openid_connect:
+    menu_title: Penyedia OpenID
+    providers:
+      label_add_new: Tambah penyedia OpenID baharu
+      label_edit: Edit penyedia OpenID %{name}
+      no_results_table: Belum ada penyedia yang ditetapkan lagi.
+      plural: Penyedia OpenID
+      singular: Penyedia OpenID
+    setting_instructions:
+      azure_deprecation_warning: >
+        Aplikasi Azure yang dikonfigurasikan menghala ke API yang ditamatkan daripada Azure. Sila buat aplikasi Azure baharu untuk memastikan kefungsiannya pada masa akan datang.
+      azure_graph_api: >
+        Gunakan titik akhir info pengguna graph.microsoft.com untuk meminta data pengguna. Ini sepatutnya default melainkan anda mempunyai aplikasi azure yang lama.
+      azure_tenant_html: >
+        Tetapkan penyewa titik akhir Azure anda. Ini akan mengawal sesiapa yang mendapat akses kepada contoh OpenProject. Untuk maklumat lanjut, sila kunjungi <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">panduan pengguna kami di sambungan OpenID Azure</a>.
+      limit_self_registration: >
+        Jika pengguna yang dibenarkan hanya boleh mendaftar menggunakan penyediaan ini jika tetapan pendaftaran sendiri dibenarkan.
