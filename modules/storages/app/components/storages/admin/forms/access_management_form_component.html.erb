@@ -1,0 +1,38 @@
+<%=
+  component_wrapper(tag: 'turbo-frame') do
+    render(Primer::Beta::Text.new(tag: :div, test_selector: 'storage-access-management-form')) do
+      primer_form_with(
+        model:,
+        url: admin_settings_storage_access_management_path(storage),
+        method: form_method
+      ) do |form|
+        flex_layout do |access_management_row|
+          access_management_row.with_row(mb: 3) do
+            render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t(:'storages.file_storage_view.access_management.subtitle') }
+          end
+
+          access_management_row.with_row(mb: 3) do
+            render(Primer::Beta::Text.new(test_selector: 'storage-access-management-description')) do
+              I18n.t(:'storages.file_storage_view.access_management.description')
+            end
+          end
+
+          access_management_row.with_row do
+            render(Storages::Admin::AccessManagementForm.new(form, storage:))
+          end
+
+          access_management_row.with_row do
+            render(
+              Storages::Admin::SubmitOrCancelForm.new(
+                form,
+                storage:,
+                submit_button_options: {},
+                cancel_button_options: { href: cancel_button_path }
+              )
+            )
+          end
+        end
+      end
+    end
+  end
+%>

@@ -1,0 +1,39 @@
+<%=
+  component_wrapper(tag: 'turbo-frame') do
+    grid_layout('op-storage-view--row',
+                tag: :div,
+                test_selector: 'storage-access-management-section',
+                align_items: :center) do |grid|
+      grid.with_area(:item, tag: :div, mr: 3) do
+        concat(render(Primer::Beta::Text.new(font_weight: :bold, mr: 1, test_selector: 'access-management-label')) do
+          I18n.t('storages.file_storage_view.access_management.subtitle')
+        end)
+        concat(configuration_check_label_for(:access_management_configured))
+      end
+
+      grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'access-management-description') do
+        render(Primer::Beta::Text.new) { access_management_description }
+      end
+
+      if editable_storage?
+        grid.with_area(:"icon-button", tag: :div, color: :muted) do
+          flex_layout(justify_content: :flex_end) do |icons_container|
+            icons_container.with_column do
+              render(
+                Primer::Beta::IconButton.new(
+                  icon: :pencil,
+                  tag: :a,
+                  scheme: :invisible,
+                  href: edit_admin_settings_storage_access_management_path(storage),
+                  aria: { label: I18n.t('storages.label_edit_storage_access_management') },
+                  test_selector: 'storage-edit-access-management-button',
+                  data: { turbo_stream: true }
+                )
+              )
+            end
+          end
+        end
+      end
+    end
+  end
+%>
