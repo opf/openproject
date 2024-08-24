@@ -1,0 +1,24 @@
+#English strings go here for Rails i18n
+ms:
+  plugin_openproject_recaptcha:
+    name: "ReCaptcha OpenProject"
+    description: "Modul ini menyediakan pemeriksaan recaptcha semasa log masuk."
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: 'Sila tunggu sebentar ...'
+    verify_account: "Sahkan akaun anda"
+    error_captcha: "Akaun anda tidak dapat disahkan. Sila hubungi pentadbir."
+    settings:
+      website_key: 'Kekunci laman web'
+      response_limit: 'Had tindak balas untuk HCaptcha'
+      response_limit_text: 'Bilangan maksimum aksara bagi menganggap tindak balas HCaptcha sebagai sah.'
+      website_key_text: 'Masukkan kekunci laman web yang anda telah ciptakan di konsol pentadbir bagi domain ini.'
+      secret_key: 'Kekunci rahsia'
+      secret_key_text: 'Masukkan kekunci rahsia yang anda telah ciptakan di konsol pentadbir reCAPTCHA.'
+      type: 'Gunakan reCAPTCHA'
+      type_disabled: 'Nyahdayakan reCAPTCHA'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      type_hcaptcha: 'HCaptcha'
+      recaptcha_description_html: >
+        reCAPTCHA ialah perkhidmatan percuma oleh Google yang boleh didayakan untuk contoh OpenProject anda. Jika didayakan, borang captcha akan diberikan semasa log masuk semua pengguna yang masih belum mengesahkan captcha lagi. <br/> Sila lihat pautan berikut untuk butiran lebih tentang reCAPTCHA dan versi-versi mereka, dan bagaimana untuk ciptakan laman web serta kekunci rahsia: %{recaptcha_link} <br/> HCaptcha ialah alternatif percuma dari Google yang anda boleh gunakan jika anda tidak ingin menggunakan reCAPTCHA. Lihat pautan ini untuk maklumat lanjut: %{hcaptcha_link}
