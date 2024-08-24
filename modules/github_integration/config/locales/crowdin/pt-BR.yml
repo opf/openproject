@@ -1,0 +1,40 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+pt-BR:
+  button_add_deploy_target: Adicionar alvo de implantação
+  label_deploy_target: Alvo de implantação
+  label_deploy_target_new: Novo alvo de implantação
+  label_deploy_target_plural: Alvos de implantação
+  label_github_integration: Integração com o GitHub
+  notice_deploy_target_created: Alvo de implantação criado
+  notice_deploy_target_destroyed: Alvo de implantação excluído
+  plugin_openproject_github_integration:
+    name: "Integração do OpenProject GitHub"
+    description: "Integra o OpenProject e o GitHub para um melhor fluxo de trabalho"
+  project_module_github: "GitHub"
+  permission_show_github_content: "Exibir conteúdo GitHub"
+  permission_introspection: Leia a versão principal do OpenProject em execução e construa o SHA.
+  text_deploy_target_type_info: >
+    No momento, oferecemos suporte apenas ao próprio OpenProject
+  text_deploy_target_api_key_info: >
+    Uma [API key](docs_url) do OpenProject pertencente a um usuário que tenha permissões globais de introspecção.
+  text_pull_request_deployed_to: "%{pr_link} implantado para %{deploy_target_link}"
