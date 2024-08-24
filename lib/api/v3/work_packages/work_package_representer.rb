@@ -463,7 +463,6 @@ module API
         property :readonly,
                  writable: false,
                  render_nil: false,
-                 if: ->(*) { ::Status.can_readonly? },
                  getter: ->(*) do
                    status_id && status.is_readonly?
                  end

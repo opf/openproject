@@ -28,6 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+<<<<<<<< HEAD:modules/storages/app/common/storages/peripherals/managed_folder_identifier/nextcloud.rb
 module Storages
   module Peripherals
     module ManagedFolderIdentifier
@@ -48,6 +49,21 @@ module Storages
         def location
           path
         end
+========
+module Storages::Peripherals::StorageInteraction::Nextcloud
+  class FolderFilesFileIdsDeepQuery
+    def self.call(storage:, folder:)
+      ::Storages::Peripherals::Registry
+        .resolve("nextcloud.queries.propfind")
+        .call(
+          storage:,
+          depth: 'infinity',
+          path: folder.path,
+          # nc:acl-list is only required to avoid https://community.openproject.org/wp/49628. See comment #4.
+          props: %w[oc:fileid nc:acl-list]
+        ).map do |obj|
+        obj.transform_values { |value| Storages::StorageFileInfo.from_id(value["fileid"]) }
+>>>>>>>> origin/develop:modules/storages/app/common/storages/peripherals/storage_interaction/nextcloud/folder_files_file_ids_deep_query.rb
       end
     end
   end

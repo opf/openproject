@@ -1,5 +1,8 @@
+<<<<<<<< HEAD:modules/storages/app/common/storages/peripherals/storage_interaction/authentication_strategies/basic_auth.rb
 # frozen_string_literal:true
 
+========
+>>>>>>>> origin/develop:app/workers/attachments/virus_rescan_job.rb
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,6 +31,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+<<<<<<<< HEAD:modules/storages/app/common/storages/peripherals/storage_interaction/authentication_strategies/basic_auth.rb
 module Storages
   module Peripherals
     module StorageInteraction
@@ -52,9 +56,45 @@ module Storages
             log_message = "Cannot authenticate storage with basic auth. Password or username not configured."
             data = ::Storages::StorageErrorData.new(source: self.class, payload: storage)
             Failures::Builder.call(code: :error, log_message:, data:)
+========
+module Attachments
+  class VirusRescanJob < VirusScanJob
+    queue_with_priority :low
+
+    def perform
+      return unless Setting::VirusScanning.enabled?
+
+      User.execute_as(User.system) do
+        OpenProject::Mutex.with_advisory_lock(Attachment, 'virus_rescan') do
+          Attachment.status_rescan.find_each do |attachment|
+            scan_attachment(attachment)
+          rescue StandardError => e
+            Rails.logger.error "Failed to rescan #{attachment.id} for viruses: #{e.message}. Attachment will remain accessible."
+>>>>>>>> origin/develop:app/workers/attachments/virus_rescan_job.rb
           end
         end
       end
+      redirect_status
+    end
+
+    def redirect_status
+      path = ApplicationController.helpers.admin_quarantined_attachments_path
+      payload = redirect_payload(path)
+      html = I18n.t('settings.antivirus.remaining_scan_complete_html',
+                    file_count: I18n.t(:label_x_files, count: Attachment.status_quarantined.count))
+
+      upsert_status(
+        status: :success,
+        payload: payload.merge(html:)
+      )
+    end
+
+    def store_status?
+      true
+    end
+
+    def updates_own_status?
+      true
     end
   end
 end

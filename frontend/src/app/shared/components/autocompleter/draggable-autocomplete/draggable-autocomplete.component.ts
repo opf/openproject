@@ -8,7 +8,7 @@ import {
   OnInit,
   Output,
   ViewChild,
-} from '@angular/core';
+  ElementRef } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { DragulaService, Group } from 'ng2-dragula';

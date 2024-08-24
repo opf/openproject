@@ -47,6 +47,7 @@ class Queries::WorkPackages::Selects::RelationOfTypeSelect < Queries::WorkPackag
   end
 
   def self.instances(_context = nil)
+
     Relation::TYPES.map { |_key, type| new(type) }
   end
 end
