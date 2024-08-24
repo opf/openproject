@@ -1,0 +1,40 @@
+<widget-header
+  [name]="widgetName"
+  [editable]="false">
+
+  <widget-menu
+    slot="menu"
+    [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<div *ngIf="(projects$ | async) as projects" class="grid--widget-content">
+  <div class="op-header-project-select--no-favorites" *ngIf="projects.length === 0">
+    <svg
+      class="op-header-project-select--no-favorites-icon"
+      star-icon
+      size="medium"
+    ></svg>
+    <p>
+      <strong [textContent]="text.no_favorites"></strong>
+      <br/>
+      <span class="op-header-project-select--no-favorites-subtext"
+            [textContent]="text.no_favorites_subtext"></span>
+    </p>
+  </div>
+  <ng-container *ngIf="projects.length > 0">
+    <ul class="op-widget-project-favorites--list">
+      <li *ngFor="let project of projects">
+        <svg
+          star-fill-icon
+          class="op-primer--star-icon"
+          size="small"
+        ></svg>
+        <a
+          class="op-widget-project-favorites--link"
+          [href]="projectPath(project)"
+          [textContent]="project.name">
+        </a>
+    </ul>
+  </ng-container>
+</div>

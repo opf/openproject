@@ -1,0 +1,21 @@
+@import "../../global_styles/openproject/variables"
+
+.op-exclusion-info
+  display: inline-block
+
+  &--icon
+    margin-left: 0.25rem
+    cursor: pointer
+    color: var(--fgColor-muted)
+    &:hover
+      color: var(--fgColor-default)
+
+  @media screen and (min-width: $breakpoint-lg)
+    &--modal
+      width: 240px
+
+  &--modal
+    margin: 0.5rem
+
+    & .spot-drop-modal--header-title
+      line-height: 20px
