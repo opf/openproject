@@ -1,0 +1,7 @@
+# Schema: PlaceholderUserCreateModel
+---
+type: object
+properties:
+  name:
+    type: string
+    description: The new name of the placeholder user to be created.

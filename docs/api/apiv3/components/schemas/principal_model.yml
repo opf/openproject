@@ -1,0 +1,53 @@
+# Schema: PrincipalModel
+---
+type: object
+required:
+  - _type
+  - id
+  - name
+  - _links
+properties:
+  _type:
+    type: string
+    enum:
+      - User
+      - Group
+      - PlaceholderUser
+  id:
+    type: integer
+    description: The principal's unique identifier.
+    minimum: 1
+  name:
+    type: string
+    description: The principal's display name, layout depends on instance settings.
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of the most recent change to the principal
+  _links:
+    type: object
+    required:
+      - self
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This principal resource.
+
+              **Resource**: User|Group|PlaceholderUser
+      memberships:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              An href to the collection of the principal's memberships.
+              
+              # Conditions:
+              
+              - user has permission `view_members` or `manage_members` in any project
+              
+              **Resource**: Collection

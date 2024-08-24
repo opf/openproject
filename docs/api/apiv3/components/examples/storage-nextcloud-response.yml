@@ -1,0 +1,83 @@
+# Example: Nextcloud storage
+---
+value:
+  _type: Storage
+  id: 1337
+  name: It's no moon
+  hasApplicationPassword: true
+  createdAt: '2021-12-20T13:37:00.211Z'
+  updatedAt: '2021-12-20T13:37:00.211Z'
+  configured: true
+  _embedded:
+    oauthApplication:
+      id: 42
+      _type: OAuthApplication
+      name: It's no moon (Nextcloud)
+      clientId: O5h6WObhMg1Z8IcLHRE3_LMh4jJYmmca2V6OTFSv8DA
+      confidential: true
+      createdAt: '2022-12-07T12:56:42.626Z'
+      updatedAt: '2022-12-07T12:56:42.626Z'
+      scopes:
+        - api_v3
+      _links:
+        self:
+          href: '/api/v3/oauth_applications/42'
+        owner:
+          href: '/api/v3/users/13'
+          title: Darth Vader
+        integration:
+          href: '/api/v3/storages/1337'
+          title: It's no moon
+        redirectUri:
+          - href: 'https://nextcloud.deathstar.rocks/index.php/apps/integration_openproject/oauth-redirect'
+    oauthClientCredentials:
+      _type: OAuthClientCredentials
+      id: 42
+      clientId: fGEFWxIpROrpci25TW6qWCZozDFEAKSkonMBkrf3LYvBXRljBbLajBf2vD2fjePm
+      confidential: true
+      createdAt: '2023-12-08T09:49:24.397Z'
+      updatedAt: '2023-12-08T09:49:24.397Z'
+      _links:
+        self:
+          href: /api/v3/oauth_client_credentials/42
+        integration:
+          href: /api/v3/storages/1337
+          title: It's no moon
+  _links:
+    self:
+      href: /api/v3/storages/1337
+      title: It's no moon
+    type:
+      href: urn:openproject-org:api:v3:storages:Nextcloud
+      title: Nextcloud
+    origin:
+      href: https://nextcloud.deathstar.rocks/
+    prepareUpload:
+      - href: /api/v3/storages/1337/files/prepare_upload
+        method: post
+        title: Upload file
+        payload:
+          projectId: 21
+          fileName: '{fileName}'
+          parent: '{parent}'
+        templated: true
+      - href: /api/v3/storages/95/files/prepare_upload
+        method: post
+        title: Upload file
+        payload:
+          projectId: 11
+          fileName: '{fileName}'
+          parent: '{parent}'
+        templated: true
+    open:
+      href: /api/v3/storages/1337/open
+    authorizationState:
+      href: urn:openproject-org:api:v3:storages:authorization:Connected
+      title: Connected
+    projectStorages:
+      href: /api/v3/project_storages?filters=[{"storageId":{"operator":"=","values":["1337"]}}]
+    oauthApplication:
+      href: /api/v3/oauth_application/42
+      title: It's no moon (Nextcloud)
+    oauthClientCredentials:
+      href: /api/v3/oauth_client_credentials/42

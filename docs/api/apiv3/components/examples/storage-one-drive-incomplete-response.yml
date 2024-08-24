@@ -1,0 +1,28 @@
+# Example: OneDrive storage
+---
+value:
+  _type: Storage
+  id: 1337
+  name: It's no moon
+  tenantId: e36f1dbc-fdae-427e-b61b-0d96ddfb81a4
+  driveId: null
+  createdAt: '2021-12-20T13:37:00.211Z'
+  updatedAt: '2021-12-20T13:37:00.211Z'
+  configured: false
+  _links:
+    self:
+      href: /api/v3/storages/1337
+      title: It's no moon
+    type:
+      href: urn:openproject-org:api:v3:storages:OneDrive
+      title: OneDrive/SharePoint
+    prepareUpload: []
+    open:
+      href: /api/v3/storages/1337/open
+    authorizationState:
+      href: urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
+      title: Authorization failed
+    projectStorages:
+      href: /api/v3/project_storages?filters=[{"storageId":{"operator":"=","values":["1337"]}}]
+    oauthClientCredentials:
+      href: /api/v3/oauth_client_credentials/42

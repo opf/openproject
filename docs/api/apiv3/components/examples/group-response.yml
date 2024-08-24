@@ -1,0 +1,42 @@
+# Example: GroupResponse
+---
+value:
+  _type: Group
+  id: 26
+  name: Force Users
+  createdAt: '2024-01-11T15:54:16.542Z'
+  updatedAt: '2024-01-11T15:58:02.237Z'
+  _embedded:
+    members:
+      - _hint: Principal resource shortened for brevity
+        _type: User
+        id: 23
+        name: Grogu Jarin
+      - _hint: Principal resource shortened for brevity
+        _type: User
+        id: 14
+        name: Mara Jade
+      - _hint: Principal resource shortened for brevity
+        _type: User
+        id: 3
+        name: Darth Vader
+  _links:
+    self:
+      href: '/api/v3/groups/26'
+      title: Force Users
+    memberships:
+      href: '/api/v3/memberships?filters=%5B%7B%22principal%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%2226%22%5D%7D%7D%5D'
+      title: Memberships
+    delete:
+      href: '/api/v3/groups/26'
+      method: delete
+    updateImmediately:
+      href: '/api/v3/groups/26'
+      method: patch
+    members:
+      - href: '/api/v3/users/23'
+        title: Grogu Jarin
+      - href: '/api/v3/users/14'
+        title: Mara Jade
+      - href: '/api/v3/users/3'
+        title: Darth Vader

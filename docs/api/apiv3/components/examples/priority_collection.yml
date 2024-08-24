@@ -1,0 +1,51 @@
+# Example: Priority collection
+---
+value:
+  _embedded:
+    elements:
+      - _links:
+          self:
+            href: "/api/v3/priorities/1"
+            title: Low
+        _type: Priority
+        id: 1
+        isActive: true
+        isDefault: false
+        name: Low
+        position: 1
+      - _links:
+          self:
+            href: "/api/v3/priorities/2"
+            title: Normal
+        _type: Priority
+        id: 2
+        isActive: true
+        isDefault: true
+        name: Normal
+        position: 2
+      - _links:
+          self:
+            href: "/api/v3/priorities/3"
+            title: High
+        _type: Priority
+        id: 3
+        isActive: true
+        isDefault: false
+        name: High
+        position: 3
+      - _links:
+          self:
+            href: "/api/v3/priorities/4"
+            title: Immediate
+        _type: Priority
+        id: 4
+        isActive: true
+        isDefault: false
+        name: Immediate
+        position: 5
+  _links:
+    self:
+      href: "/api/v3/priorities"
+  _type: Collection
+  count: 4
+  total: 4

@@ -1,0 +1,35 @@
+# Schema: PriorityCollectionModel
+---
+allOf:
+  - $ref: "./collection_model.yml"
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+            self:
+              allOf:
+                - $ref: "./link.yml"
+                - properties:
+                    self:
+                      allOf:
+                        - $ref: "./link.yml"
+                        - description: |-
+                            This priority collection
+                            
+                            **Resource**: PriorityCollectionModel
+              readOnly: true
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            items:
+              $ref: "./priority_model.yml"
