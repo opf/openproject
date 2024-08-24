@@ -1,0 +1,58 @@
+---
+title: Spacings
+---
+
+**Note:** These are still SPOT-defined spacings and need to be adapted for primer.
+
+<div class="spacings">
+<%
+tokens = JSON.parse File.read(Rails.root.join('frontend/src/app/spot/styles/tokens/dist/tokens.json'))
+tokens
+  .select { |k, v| k.start_with?('spot-spacing-') }
+  .sort_by { |k, | k.split('-')[2].gsub('_', '.').to_f }
+  .each do |name, value|
+ %>
+<div class="spacings--spacing">
+  <div class="spacings--name"><%= name %></div>
+  <div class="spacings--value"><%= value %></div>
+  <div
+    class="spacings--preview"
+    style="height: <%= value %>"></div>
+</div>
+<% end %>
+</div>
+
+<style>
+.spacings {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -1rem;
+}
+
+.spacings--spacing {
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.spacings--spacing > * {
+  flex-basis: 30%;
+}
+
+.spacings--preview {
+  background-color: #507193;
+  flex-shrink: 1;
+  flex-basis: 100%;
+}
+
+.spacings--name {
+  font-weight: bold;
+  padding: 0.3rem;
+}
+
+.spacings--value {
+  padding: 0.3rem;
+}
+</style>

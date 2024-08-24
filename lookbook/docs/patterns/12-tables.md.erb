@@ -1,0 +1,50 @@
+## Overview
+
+### Border Box Table
+
+<%= embed OpPrimer::BorderBoxTableComponentPreview, :default %>
+
+### Sortable table
+
+<%= embed OpenProject::Deprecated::TablePreview, :default %>
+
+## Usage
+
+To use either table implementation, you need to subclass into your own namespace:
+
+- **Regular table:** `TableComponent` and `RowComponent`
+- **BorderBox table:** `OpPrimer::BorderBoxTableComponent` and `OpPrimer::BorderBoxRowComponent`
+
+**Columns:** Define the columns of the table as class method `columns :a, :b, :c`
+
+**Headers:** Define the headers of the component like so
+
+```ruby
+def headers
+  [
+    [:a, { caption: 'Column A' }],
+    [:b, { caption: 'Column B' }],
+    [:c, { caption: 'Column C' }]
+  ]
+end
+```
+
+**Actions:** Define the actions in the row component as `button_links`. See the example code
+
+<%= embed OpPrimer::BorderBoxTableComponentPreview, :default, panels: %i[source] %>
+
+## Best practices
+
+**Do**
+
+- Use a BorderBox table if you have a *few* entries of unsorted data, that does not require pagination
+- Use up to two actions using the `:secondary` scheme of `Primer::Beta::Button` and `Primer::Beta::IconButton`.
+- OR: Use an action menu with `:invisible` scheme
+
+**Don't**
+
+- Use the BorderBox table for a lot of items that require sorting or pagination
+
+## Examples
+
+For detailed examples have a look at the other [preview examples](/lookbook/inspect/OpenProject/Primer/border_box_table/default) of the component.

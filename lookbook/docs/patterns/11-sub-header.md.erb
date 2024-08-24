@@ -1,0 +1,50 @@
+This component is an own implementation for OpenProject requirements of contextual elements that affect the content of the page below. Such a component does not exist in the Primer Design System.
+
+## Overview
+
+<%= embed OpenProject::Common::SubHeaderPreview, :default %>
+
+## Anatomy
+
+**Filter input:** (Optional) It will change depending on the viewport:
+
+- **Desktop:** A basic [text input](https://primer.style/components/text-input) with a [search icon](https://primer.style/components/text-input#with-leading-and-trailing-visuals) which is mostly used on index pages to filter the elements below.
+- **Mobile:**
+  - There will be an IconButton shown instead of the input
+  - Clicking that, will show the input again and hide all other elements of the SubHeader
+  - An additional cancel button is shown to return to the previous state
+
+**Filter button:** (Optional)A button which is shown next to the filter input (or on the very left, if there is no filter input)
+
+**Text:** (Optional) A bold text shown in the middle of the SubHeader
+
+**Action buttons**: (Optional) A set of buttons that are shown on the right side
+
+
+## Best practices
+
+**Do**
+
+- Restrict SubHeader actions to the page's content-specific actions (e.g. filtering or creating a new object).
+- Use IconButtons instead of Buttons for actions only when the icon is clear enough to describe the action.
+
+**Don't**
+
+- Use the SubHeader to perform generic view actions (should be part of the PageHeader)
+
+## Used in
+
+* Project list
+* Members
+* Meetings
+* Storages
+* ...
+
+## Examples
+
+
+For detailed examples have a look at the other [preview examples](../../inspect/primer/open_project/sub_header/playground) of the component.
+
+This is an exemplary playground of the `Primer::OpenProject::SubHeader`.
+
+<%= embed OpenProject::Common::SubHeaderPreview, :playground, panels: %i[params source] %>
