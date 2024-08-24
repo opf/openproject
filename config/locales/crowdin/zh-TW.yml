@@ -2675,7 +2675,7 @@ zh-TW:
   permission_change_wiki_parent_page: "更改上層 Wiki 頁面"
   permission_change_work_package_status: "變更工作項目狀態"
   permission_change_work_package_status_explanation: "允許在不編輯工作包權限的情況下更改狀態"
-  permission_comment_news: "最新消息留言"
+  permission_comment_news: "在「最新消息」留言"
   permission_commit_access: "讀/寫 權限版本庫 (Commit)"
   permission_copy_projects: "複製專案"
   permission_copy_work_packages: "複製工作項目"
@@ -3223,7 +3223,7 @@ zh-TW:
   text_no_roles_defined: 沒有定義的角色
   text_no_access_tokens_configurable: "沒有存取權杖(Token)可以被設定"
   text_no_configuration_data: "角色，類型，工作項目狀態與工作流程都尚未設定。\n強烈建議先載入預設值，然後再修改它們。"
-  text_no_notes: "這個工作項目沒有評論"
+  text_no_notes: "這個工作項目沒有留言"
   text_notice_too_many_values_are_inperformant: "注意: 每頁顯示超過100個項目會增加頁面載入時間。"
   text_notice_security_badge_displayed_html: >
     注：如果啓用，這會在 <a href="%{information_panel_path}">%{information_panel_label}</a> 管理面板中和首頁上顯示一個包含您的安裝狀態的徽章。徽章僅向管理員顯示。<br/>徽章將根據官方的 OpenProject 版本數據庫檢查您當前的 OpenProject 版本，提醒您是否存在任何更新或已知漏洞。如需詳細瞭解檢查可以提供哪些信息，需要哪些數據來提供可用更新，以及如何禁用此檢查，請訪問<a href="%{more_info_url}">配置文檔</a>。
