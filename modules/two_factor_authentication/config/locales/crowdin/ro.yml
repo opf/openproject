@@ -33,7 +33,7 @@ ro:
     error_invalid_backup_code: "Cod de backup 2FA invalid"
     channel_unavailable: "Canalul de livrare %{channel} nu este disponibil."
     no_valid_phone_number: "Nu există un număr de telefon valabil."
-    label_pwd_confirmation: "Parolă"
+    label_pwd_confirmation: "Parola"
     notice_pwd_confirmation: "Trebuie să vă confirmați parola atunci când faceți modificări la aceste setări."
     label_device_type: "Tipul de dispozitiv"
     label_default_device: "Dispozitiv 2FA implicit"

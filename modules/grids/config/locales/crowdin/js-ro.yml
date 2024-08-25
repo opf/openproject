@@ -17,7 +17,7 @@ ro:
         members:
           title: 'Membri'
           no_results: 'Nu există membri vizibili.'
-          view_all_members: 'Vizualizare toți participanții'
+          view_all_members: 'Vezi toți membrii'
           add: 'Membru'
           too_many: 'Afișarea a %{count} din %{total} membri.'
         news:
