@@ -22,9 +22,9 @@
 ro:
   js:
     ajax:
-      hide: "Ascundere"
-      loading: "Încărcare…"
-      updating: "Actualizare…"
+      hide: "Ascunde"
+      loading: "Se încarcă…"
+      updating: "Se actualizează…"
     attachments:
       delete: "Șterge atașament"
       delete_confirmation: |
@@ -40,7 +40,7 @@ ro:
       type_to_search: "Introduceți textul de căutat"
     autocomplete_select:
       placeholder:
-        multi: 'Adăugaţi "%{name}"'
+        multi: 'Adaugă ”%{name}”'
         single: 'Selectaţi "%{name}"'
       remove: "Elminaţi \"%{name}\""
       active: "Activ %{label} %{name}"
@@ -98,16 +98,16 @@ ro:
     button_show_gantt: "Arată vizualizarea Gantt"
     button_show_fullscreen: "Arată vizualizarea pe tot ecranul"
     button_more_actions: "Mai multe actiuni"
-    button_quote: "Citare"
-    button_save: "Salvare"
+    button_quote: "Citat"
+    button_save: "Salvează"
     button_settings: "Setări"
-    button_uncheck_all: "Deselecteaza tot"
-    button_update: "Actualizare"
-    button_export-pdf: "Descărcare PDF"
-    button_export-atom: "Descărcare Atom"
-    button_create: "Creare"
+    button_uncheck_all: "Deselectează tot"
+    button_update: "Actualizează"
+    button_export-pdf: "Descarcă PDF"
+    button_export-atom: "Descarcă Atom"
+    button_create: "Creează"
     card:
-      add_new: "Adăugați un nou card"
+      add_new: "Adaugă card nou"
       highlighting:
         inline: "Evidențiați în linie:"
         entire_card_by: "Întreaga carte de"
@@ -213,11 +213,11 @@ ro:
             label_company: "Companie"
             label_first_name: "Prenume"
             label_last_name: "Nume"
-            label_domain: "domeniu"
+            label_domain: "Domeniu"
             label_subscriber: "Abonat"
             label_maximum_users: "Număr maxim de utilizatori activi"
-            label_starts_at: "Începe de la"
-            label_expires_at: "Expiră la"
+            label_starts_at: "Începe în"
+            label_expires_at: "Expiră în"
             receive_newsletter: Doresc să primesc <a target="_blank" href="%{link}">buletinul informativ</a> OpenProject.
             taken_domain: Nu poate exista decât un singur proces activ pe domeniu.
             domain_mismatch: Numele de gazdă al solicitării curente nu se potrivește cu numele de gazdă configurat. Vă rugăm să verificați de două ori setările sistemului.
@@ -315,7 +315,7 @@ ro:
         bar: "Etichete de bare"
         left: "Stânga"
         right: "Dreapta"
-        farRight: "Extrema dreaptă"
+        farRight: "Extremă dreaptă"
         description: >
           Selectați atributele pe care doriți să le afișați în pozițiile respective ale graficului Gantt tot timpul. Țineți cont că atunci când planează deasupra unui element, etichetele sale vor fi afișate în locul acestor atribute.
       button_activate: "Grafic Gantt"
@@ -402,7 +402,7 @@ ro:
     label_avatar: "Avatar"
     label_between: "între"
     label_board: "Tablă"
-    label_board_locked: "Închis"
+    label_board_locked: "Blocat"
     label_board_plural: "Panouri"
     label_board_sticky: "Lipicios"
     label_change: "Modificare"
@@ -446,7 +446,7 @@ ro:
     label_group_by: "Grupare după"
     label_group_plural: "Grupuri"
     label_hide_attributes: "Arată mai puţin"
-    label_hide_column: "Ascundere coloana"
+    label_hide_column: "Ascunde coloana"
     label_hide_project_menu: "Închideți meniul proiectului"
     label_in: "în"
     label_in_less_than: "în mai puțin de"
@@ -534,7 +534,7 @@ ro:
     label_children_derived_duration: "Durata derivată a pachetului de lucru pentru copii"
     label_warning: "Avertizare"
     label_work_package: "Pachet de lucru"
-    label_work_package_parent: "Pachetul de lucru părinte"
+    label_work_package_parent: "Pachet de lucru părinte"
     label_work_package_plural: "Pachete de lucru"
     label_watch: "Monitorizare"
     label_watch_work_package: "Urmăriți pachetul de lucru"
@@ -624,7 +624,7 @@ ro:
         commented: "Cu comentarii"
         processed: "Processed"
         prioritized: "Prioritized"
-        dateAlert: "Alertă de dată"
+        dateAlert: "Alertă dată"
         shared: "Partajat"
       date_alerts:
         milestone_date: "Dată etapă"
@@ -668,7 +668,7 @@ ro:
         title: "Setări de notificare"
         notify_me: "Anunta-ma"
         reminders:
-          no_notification: Nici o notificare
+          no_notification: Nicio notificare
           timeframes:
             normal:
               PT0S: în aceeași zi
@@ -676,14 +676,14 @@ ro:
               P3D: Cu 3 zile înainte
               P7D: ' cu o săptămână înainte '
             overdue:
-              P1D: în fiecare zi
+              P1D: zilnic
               P3D: la fiecare 3 zile
               P7D: săptămânal
         reasons:
           mentioned:
             title: "Menţionat"
             description: "Primește o notificare de fiecare dată când cineva mă menționează oriunde"
-          assignee: "Responsabil"
+          assignee: "Executant"
           responsible: "Responsabil"
           shared: "Partajat"
           watched: "Observator"
@@ -700,7 +700,7 @@ ro:
             title: "Neparticipantă"
             description: "Notificări suplimentare pentru activitățile din toate proiectele."
           date_alerts:
-            title: "Alerte date"
+            title: "Alerte dăți"
             description: "Notificări automate atunci când se apropie date importante pentru pachetele de lucru deschise în care sunteți implicat (desemnat, responsabil sau observator)."
             teaser_text: "Cu alertele de date, veți fi notificat cu privire la următoarele date de început sau de sfârșit, astfel încât să nu ratați sau să uitați niciodată un termen limită important."
           overdue: În caz de întârziere
