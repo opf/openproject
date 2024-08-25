@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-<<<<<<<< HEAD:spec/lib/open_project/scm/manager_spec.rb
 require "spec_helper"
 
 RSpec.describe OpenProject::SCM::Manager do
@@ -50,32 +49,6 @@ RSpec.describe OpenProject::SCM::Manager do
   context "scm is not known" do
     it "is not included" do
       expect(OpenProject::SCM::Manager.registered).not_to have_key(:some_scm)
-========
-module API
-  module V3
-    module Meetings
-      class MeetingsAPI < ::API::OpenProjectAPI
-        resources :meetings do
-          helpers do
-            def meeting
-              MeetingContent.find params[:id]
-            end
-          end
-
-          route_param :id, type: Integer, desc: 'Activity ID' do
-            after_validation do
-              @meeting = Meeting.visible.find(declared_params[:id])
-            end
-
-            get &::API::V3::Utilities::Endpoints::Show
-              .new(model: ::Meeting)
-              .mount
-
-            mount ::API::V3::Attachments::AttachmentsByMeetingAPI
-          end
-        end
-      end
->>>>>>>> origin/develop:modules/meeting/lib/api/v3/meetings/meetings_api.rb
     end
   end
 end

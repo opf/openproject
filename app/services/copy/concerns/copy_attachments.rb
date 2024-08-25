@@ -55,18 +55,6 @@ module Copy
           model_target.send(:"#{reference}=", replaced)
         end
       end
-
-      def update_references(attachment_source:, attachment_target:, model_source:, model_target:, references:)
-        references.each do |reference|
-          text = model_source.send(reference)
-          next if text.nil?
-
-          replaced = text.gsub("/api/v3/attachments/#{attachment_source}/content",
-                               "/api/v3/attachments/#{attachment_target}/content")
-
-          model_target.send(:"#{reference}=", replaced)
-        end
-      end
     end
   end
 end

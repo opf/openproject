@@ -70,10 +70,6 @@ module API
           current_user_can_manage?
         end
 
-        def current_user_can_see_date_properties?
-          current_user_can_manage?
-        end
-
         def current_user_can_manage?
           current_user&.allowed_globally?(:manage_placeholder_user)
         end

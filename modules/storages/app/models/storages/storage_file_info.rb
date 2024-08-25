@@ -75,9 +75,5 @@ module Storages
     def self.from_id(file_id)
       new(id: file_id, status: "OK", status_code: 200)
     end
-
-    def self.from_id(file_id)
-      new(id: file_id, status: 'OK', status_code: 200)
-    end
   end
 end

@@ -1,11 +1,8 @@
-<<<<<<<< HEAD:modules/storages/app/common/storages/peripherals/storage_interaction/result_data/copy_template_folder.rb
 # frozen_string_literal: true
 
-========
->>>>>>>> origin/develop:app/models/setting/virus_scanning.rb
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-<<<<<<<< HEAD:modules/storages/app/common/storages/peripherals/storage_interaction/result_data/copy_template_folder.rb
 module Storages
   module Peripherals
     module StorageInteraction
@@ -40,12 +36,6 @@ module Storages
           def requires_polling? = !!requires_polling
         end
       end
-========
-class Setting
-  module VirusScanning
-    def self.enabled?
-      Setting.antivirus_scan_mode != :disabled
->>>>>>>> origin/develop:app/models/setting/virus_scanning.rb
     end
   end
 end
