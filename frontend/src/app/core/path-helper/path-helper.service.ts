@@ -315,6 +315,6 @@ export class PathHelperService {
   }
 
   public jobStatusModalPath(jobId:string) {
-    return `${this.staticBase}/job_statuses/dialog/${jobId}`;
+    return `${this.staticBase}/job_statuses/${jobId}/dialog`;
   }
 }
