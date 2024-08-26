@@ -23,7 +23,7 @@ ro:
     bcf_xml:
       xml_file: 'Fișier BCF XML'
       import_title: 'Importă'
-      export: 'Exportare'
+      export: 'Exportă'
       import_update_comment: '(Actualizat în BCF import)'
       import_failed: 'Nu se poate importa fișierul BCF: %{error}'
       import_failed_unsupported_bcf_version: 'Nu a reușit să citească fișierul BCF: Versiunea BCF nu este acceptată. Vă rugăm să vă asigurați că versiunea este cel puțin %{minimal_version} sau mai mare.'
@@ -81,7 +81,7 @@ ro:
     attributes:
       bim/ifc_models/ifc_model:
         ifc_attachment: "Fișier IFC"
-        is_default: "Modelul implicit"
+        is_default: "Model implicit"
         attachments: "Fișier IFC"
     errors:
       models:

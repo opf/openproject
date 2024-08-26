@@ -117,7 +117,7 @@ zh-TW:
   label_yes: "是"
   notice_something_wrong: "發生錯誤，請重試。"
   notice_successful_restore: "復原成功。"
-  notice_successful_lock: "鎖定成功。"
+  notice_successful_lock: "停用成功。"
   notice_cost_logged_successfully: '單位成本紀錄成功。'
   permission_edit_cost_entries: "編輯自己紀錄的單位成本"
   permission_edit_own_cost_entries: "編輯自己紀錄的單位成本"

@@ -41,8 +41,7 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
   shared_let(:notification) do
     create(:notification,
            recipient:,
-           resource: work_package,
-           project:)
+           resource: work_package)
   end
 
   let(:send_read) do

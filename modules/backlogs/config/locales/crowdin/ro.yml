@@ -75,7 +75,7 @@ ro:
     unassigned: "Neasociate"
     x_more: "%{count} mai mult..."
   backlogs_active: "activ"
-  backlogs_any: "Oricare"
+  backlogs_any: "oricare"
   backlogs_inactive: "Proiectul nu prezintă nicio activitate"
   backlogs_points_burn_direction: "Arderea punctelor în sus/jos"
   backlogs_product_backlog: "Fișa produsului"

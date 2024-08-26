@@ -27,6 +27,8 @@
 #++
 
 class ProjectsController < ApplicationController
+  include OpTurbo::ComponentStream
+
   menu_item :overview
   menu_item :roadmap, only: :roadmap
 
@@ -51,7 +53,7 @@ class ProjectsController < ApplicationController
     :projects
   end
 
-  def index
+  def index # rubocop:disable Format/AbcSize
     respond_to do |format|
       format.html do
         flash.now[:error] = @query.errors.full_messages if @query.errors.any?
@@ -61,6 +63,27 @@ class ProjectsController < ApplicationController
 
       format.any(*supported_export_formats) do
         export_list(@query, request.format.symbol)
+      end
+
+      format.turbo_stream do
+        replace_via_turbo_stream(
+          component: Projects::IndexPageHeaderComponent.new(query: @query, current_user:, state: :show, params:)
+        )
+        update_via_turbo_stream(
+          component: Filter::FilterButtonComponent.new(query: @query, disable_buttons: false)
+        )
+        replace_via_turbo_stream(component: Projects::TableComponent.new(query: @query, current_user:, params:))
+
+        current_url = url_for(params.permit(:conroller, :action, :query_id, :filters, :columns, :sortBy, :page, :per_page))
+        turbo_streams << turbo_stream.push_state(current_url)
+        turbo_streams << turbo_stream.turbo_frame_set_src(
+          "projects_sidemenu",
+          projects_menu_url(query_id: @query.id, controller_path: "projects")
+        )
+
+        turbo_streams << turbo_stream.replace("flash-messages", helpers.render_flash_messages)
+
+        render turbo_stream: turbo_streams
       end
     end
   end

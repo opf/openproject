@@ -6,6 +6,7 @@ import {
   EventEmitter,
   Input,
   OnInit,
+  OnDestroy,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -34,7 +35,7 @@ export interface DraggableOption {
   styleUrls: ['./draggable-autocomplete.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DraggableAutocompleteComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
+export class DraggableAutocompleteComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit, OnDestroy {
   /** Options to show in the autocompleter */
   @Input() options:DraggableOption[];
 
@@ -97,6 +98,8 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   }
 
   ngOnInit():void {
+    this.dragula.destroy('columns');
+
     populateInputsFromDataset(this);
 
     this.updateAvailableOptions();

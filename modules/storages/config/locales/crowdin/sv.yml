@@ -22,7 +22,7 @@ sv:
         storages/project_storage:
           attributes:
             project_folder_id:
-              blank: Please select a folder.
+              blank: Välj en mapp.
             project_folder_mode:
               mode_unavailable: is not available for this storage.
             project_ids:

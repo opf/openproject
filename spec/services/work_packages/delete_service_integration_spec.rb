@@ -100,8 +100,7 @@ RSpec.describe WorkPackages::DeleteService, "integration", type: :model do
       create(:notification,
              recipient: user,
              actor: user,
-             resource: work_package,
-             project:)
+             resource: work_package)
     end
 
     let(:instance) do
