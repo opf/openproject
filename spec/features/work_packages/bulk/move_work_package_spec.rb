@@ -98,9 +98,8 @@ RSpec.describe "Moving a work package through Rails view", :js do
         it "copies them in the background and shows a status page", :with_cuprite do
           click_on "Move and follow"
           wait_for_reload
-          page.find_test_selector("job-status--header")
 
-          expect(page).to have_text "The job has been queued and will be processed shortly."
+          expect(page).to have_text("The job has been queued and will be processed shortly.", wait: 10)
 
           perform_enqueued_jobs
 

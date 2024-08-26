@@ -152,7 +152,6 @@ import { OpExclusionInfoComponent } from 'core-app/shared/components/fields/disp
 import { NewProjectComponent } from 'core-app/features/projects/components/new-project/new-project.component';
 import { CopyProjectComponent } from 'core-app/features/projects/components/copy-project/copy-project.component';
 import { ProjectsComponent } from 'core-app/features/projects/components/projects/projects.component';
-import { DisplayJobPageComponent } from 'core-app/features/job-status/display-job-page/display-job-page.component';
 import { OpenProjectJobStatusModule } from 'core-app/features/job-status/openproject-job-status.module';
 import {
   NotificationsSettingsPageComponent,
@@ -424,7 +423,6 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-new-project', NewProjectComponent, { injector });
     registerCustomElement('opce-project-settings', ProjectsComponent, { injector });
     registerCustomElement('opce-copy-project', CopyProjectComponent, { injector });
-    registerCustomElement('opce-display-job-status-page', DisplayJobPageComponent, { injector });
     registerCustomElement('opce-notification-settings', NotificationsSettingsPageComponent, { injector });
     registerCustomElement('opce-reminder-settings', ReminderSettingsPageComponent, { injector });
     registerCustomElement('opce-notification-center', InAppNotificationCenterComponent, { injector });

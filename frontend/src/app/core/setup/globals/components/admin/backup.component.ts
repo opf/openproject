@@ -30,12 +30,11 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { OpenProjectBackupService } from 'core-app/core/backup/op-backup.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalError } from 'core-app/features/hal/services/hal-error';
+import { JobStatusModalService } from 'core-app/features/job-status/job-status-modal.service';
 
 @Component({
   selector: 'opce-backup',
@@ -77,8 +76,8 @@ export class BackupComponent implements AfterViewInit {
     public injector:Injector,
     protected i18n:I18nService,
     protected toastService:ToastService,
-    protected opModalService:OpModalService,
     protected pathHelper:PathHelperService,
+    protected jobStatusModalService:JobStatusModalService,
   ) {
     this.includeAttachments = this.mayIncludeAttachments;
   }
@@ -116,7 +115,7 @@ export class BackupComponent implements AfterViewInit {
       .subscribe(
         (resp:HalResource) => {
           this.jobStatusId = resp.jobStatusId as string;
-          this.opModalService.show(JobStatusModalComponent, 'global', { jobId: resp.jobStatusId });
+          this.jobStatusModalService.show(resp.jobStatusId as string);
         },
         (error:HalError) => {
           this.toastService.addError(error.message);

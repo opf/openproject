@@ -68,7 +68,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     create(:user,
            member_with_permissions: { project => %w[view_work_packages export_work_packages] })
   end
-  let(:options) { { gantt: true, gantt_mode: "day", gantt_width: "wide", paper_size: "EXECUTIVE" } }
+  let(:options) { { pdf_export_type: "gantt", gantt_mode: "day", gantt_width: "wide", paper_size: "EXECUTIVE" } }
   let(:query_attributes) { {} }
   let(:column_names) { %w[id subject status] }
   let!(:query) do

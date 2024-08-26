@@ -288,7 +288,7 @@ Rails.application.reloader.to_prepare do
 
       wpt.permission :export_work_packages,
                      {
-                       work_packages: %i[index all]
+                       work_packages: %i[index export_dialog all]
                      },
                      permissible_on: %i[work_package project],
                      dependencies: :view_work_packages
