@@ -43,16 +43,14 @@ $ rbenv init
 
 #### Installing ruby
 
-With both installed, we can now install the actual ruby version. You can check available ruby versions
-with `rbenv install --list`.
-At the time of this writing, the latest stable version is `3.3.4`, which we also require.
+With both installed, we can now install the actual ruby version.
+You can check available ruby versions with `rbenv install --list`.
 
-We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile).
-Search for the `ruby '~> X.Y.Z'` line
-and install that version.
+We suggest you install the version we require in [.ruby-version](https://github.com/opf/openproject/blob/dev/.ruby-version).
+Read the first line e.g. `3.3.4` and install that version.
 
 ```shell
-# Install the required version as read from the Gemfile
+# Install the required version as read from the .ruby-version file
 rbenv install 3.3.4
 ```
 

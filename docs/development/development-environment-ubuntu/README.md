@@ -39,9 +39,12 @@ sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev 
 ### Install Ruby
 
 Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install
-Ruby. We always require the latest ruby versions, and you can check which version is required
-by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At
-the time of writing, this version is "3.3.4"
+Ruby.
+You can check available ruby versions with `rbenv install --list`.
+At the time of this writing, the latest stable version is `3.3.4`, which we also require.
+
+We suggest you install the version we require in [.ruby-version](https://github.com/opf/openproject/blob/dev/.ruby-version).
+Read the first line e.g. `3.3.4` and install that version.
 
 #### Install rbenv and ruby-build
 
@@ -74,15 +77,14 @@ git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 
 #### Installing ruby
 
-With both installed, we can now install ruby. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `3.3.4` which we also require.
+With both installed, we can now install ruby. 
+You can check available ruby versions with `rbenv install --list`.
 
-We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile).
-Search for the `ruby '~> X.Y.Z'` line
-and install that version.
+We suggest you install the version we require in [.ruby-version](https://github.com/opf/openproject/blob/dev/.ruby-version).
+Read the first line e.g. `3.3.4` and install that version.
 
 ```shell
-# Install the required version as read from the Gemfile
+# Install the required version as read from the .ruby-version file
 rbenv install 3.3.4
 ```
 
