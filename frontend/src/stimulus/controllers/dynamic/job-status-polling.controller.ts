@@ -1,16 +1,18 @@
 import { Controller } from '@hotwired/stimulus';
 import { FrameElement } from '@hotwired/turbo';
 
-export default class JobStatusPollingController extends Controller<FrameElement> {
-  static targets = ['finished', 'download', 'redirect'];
+export default class JobStatusPollingController extends Controller<HTMLElement> {
+  static targets = ['finished', 'download', 'redirect', 'indicator', "frame"];
   static values = { backOnClose: { type: Boolean, default: false } };
 
   declare readonly backOnCloseValue:boolean;
+  declare readonly indicatorTarget:HTMLElement;
+  declare readonly frameTarget:FrameElement;
 
   interval:ReturnType<typeof setInterval>;
 
   connect() {
-    this.interval = setInterval(() => this.element.reload(), 2000);
+    this.interval = setInterval(() => this.frameTarget.reload(), 2000);
   }
 
   disconnect() {
@@ -30,10 +32,7 @@ export default class JobStatusPollingController extends Controller<FrameElement>
   }
 
   hideProgressIndicator() {
-    const node = document.querySelector('#job-status-modal-dialog .op-loading-indicator');
-    if (node) {
-      node.remove();
-    }
+    this.indicatorTarget.remove();
   }
 
   downloadTargetConnected(element:HTMLLinkElement) {
