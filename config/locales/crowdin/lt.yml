@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -209,10 +209,12 @@ lt:
     reorder_confirmation: "Dėmesio: Dabartinė galimų reikšmių tvarka bus prarasta. Tęsti?"
     instructions:
       is_required: "Pažymėti savo lauką kaip privalomą. Taip bus privaloma jį užpildyti kuriant ar atnaujinant esamus resursus."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Pažymėti savo lauką kaip prieinamą visuose esamuose ir naujuose projektuose."
       searchable: "Įtraukti lauko reikšmes naudojant globalios paieškos funkcionalumą."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Leisti keisti lauką patiems naudotojams."
-      visible: "Padaryti lauką matomu visiems naudotojams (ne administratoriams) projekto apžvalgoje ir rodomą projekto detalių valdiklyje Projekto apžvalgoje."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Leisi naudoti savo lauką darbo paketų vaizdų filtruose. Pastebėtina, kad globaliuose vaizduose matysis savi laukai, kuriuose pažymėta „Visiems projektams“.
     tab:
@@ -630,7 +632,7 @@ lt:
         possible_values: "Galimos reikšmės"
         regexp: "Reguliari išraiška"
         searchable: "Galimas ieškoti"
-        visible: "Matomas"
+        admin_only: "Admin-only"
       custom_value:
         value: "Reikšmė"
       doorkeeper/application:
@@ -700,6 +702,7 @@ lt:
         versions: "Versijos"
         work_packages: "Darbų paketai"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: Skiltis
       query:
         column_names: "Stulpeliai"
@@ -1044,6 +1047,12 @@ lt:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match work and remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
+              must_be_set_when_remaining_work_is_set: "Privaloma, kai nustatytas likęs darbas."
+              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "nėra pradžios data, nors tai reikalinga svarbiems etapams."
               cannot_be_null: "negalima nustatyti null, nes nežinoma nei pradžios diena, nei trukmė."
@@ -1073,13 +1082,13 @@ lt:
             estimated_hours:
               not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Negali būti mažesnis už likusį darbą."
-              must_be_set_when_remaining_work_is_set: "Privaloma, kai nustatytas likęs darbas."
-              only_values_greater_or_equal_zeroes_allowed: "Turi būti >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
               format: "%{message}"
             remaining_hours:
               not_a_number: "is not a valid duration."
               cant_exceed_work: "Negali būdi daugiau nei Darbas."
               must_be_set_when_work_is_set: "Privaloma, kai nustatytas Darbas."
+              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
               format: "%{message}"
           readonly_status: "Darbo paketas yra tik skaitymo būsenoje, taigi jo atributų keisti negalima."
         type:
@@ -1660,6 +1669,7 @@ lt:
   error_pdf_failed_to_export: "PDF eksportas negali būti išsaugotas: %{error}"
   error_token_authenticity: "Neįmanoma patikrinti Cross-Site Request Forgery žetono. Gal bandėte nusiųsti duomenis iš kelių naršyklių ar kortelių? Prašome uždaryti visas korteles ir pabandyti dar kartą."
   error_work_package_not_found_in_project: "Darbų paketas nerastas arba nepriklauso šiam projektui"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "turi būti projekto narys"
   error_migrations_are_pending: "Jūsų OpenProject instaliacijai trūksta duomenų bazės migracijos. Greičiausiai atnaujinimo metu buvo nepaleistas migravimas. Atnaujinimo gide aprašyta kaip tinkamai atnaujinti jūsų instaliaciją."
   error_migrations_visit_upgrade_guides: "Prašome perskaityti dokumentaciją atnaujinimo vadove"
@@ -1864,6 +1874,11 @@ lt:
       responsible: "Atsakingas"
       shared: "Bendrinta"
       watched: "Stebėtojas"
+    facets:
+      unread: "Neskaitytas"
+      unread_title: "Rodyti neperskaitytus"
+      all: "Visi"
+      all_title: "Rodyti viską"
     menu:
       by_project: "Neperskaityti pagal projektą"
       by_reason: "Priežastis"
@@ -2223,6 +2238,8 @@ lt:
   label_next_week: "Sekanti savaitė"
   label_no_change_option: "(Jokio pakeitimo)"
   label_no_data: "Nėra rodytinų duomenų"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Nėra tėvinio puslapio"
   label_nothing_display: "Nėra ką rodyti"
   label_nobody: "niekas"

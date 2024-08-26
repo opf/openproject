@@ -11,14 +11,16 @@
                  append_to: @autocomplete_options.fetch(:append_to, 'body')
                } %>
   <% else %>
-    <%= angular_component_tag @autocomplete_options.fetch(:component),
-                              data: @autocomplete_options.delete(:data) { {} },
-                              inputs: @autocomplete_options.merge(
-                                classes: "ng-select--primerized #{@input.invalid? ? '-error' : ''}",
-                                inputName: @autocomplete_options.fetch(:inputName) { builder.field_name(@input.name) },
-                                inputValue: @autocomplete_options.fetch(:inputValue) { builder.object.send(@input.name) },
-                                defaultData: @autocomplete_options.fetch(:defaultData) { true }
-                              )
-    %>
+    <%= content_tag(:div, class: ("projects-autocomplete-with-search-icon" if @autocomplete_options.delete(:with_search_icon))) do %>
+      <%= angular_component_tag @autocomplete_options.fetch(:component),
+                                data: @autocomplete_options.delete(:data) { {} },
+                                inputs: @autocomplete_options.merge(
+                                  classes: "ng-select--primerized #{@input.invalid? ? '-error' : ''}",
+                                  inputName: @autocomplete_options.fetch(:inputName) { builder.field_name(@input.name) },
+                                  inputValue: @autocomplete_options.fetch(:inputValue) { builder.object.send(@input.name) },
+                                  defaultData: @autocomplete_options.fetch(:defaultData) { true }
+                                )
+      %>
+    <% end %>
   <% end %>
 <% end %>

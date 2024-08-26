@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ class Queries::Projects::Orders::ProjectStatusOrder < Queries::Orders::Base
 
   def order(scope)
     with_raise_on_invalid do
-      scope.order(Arel.sql("status_code").send(direction))
+      scope.order(status_code: direction)
     end
   end
 end

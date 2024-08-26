@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -41,13 +41,13 @@ end -%>
   <legend class="form--fieldset-legend"><%= Budget.human_attribute_name(:labor_budget) %></legend>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
-      <table class="generic-table" id="labor_budget_items">
+      <table class="generic-table" data-controller="table-highlighting" id="labor_budget_items">
         <colgroup>
-          <col opHighlightCol>
-          <col opHighlightCol>
-          <col opHighlightCol>
+          <col>
+          <col>
+          <col>
           <% if User.current.allowed_in_project?(:view_cost_rates, @project)%>
-            <col opHighlightCol>
+            <col>
           <%end%>
           <col>
         </colgroup>

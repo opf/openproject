@@ -1,25 +1,11 @@
 # Schema: PrincipalCollectionModel
 ---
 allOf:
-  - $ref: './collection_model.yml'
+  - $ref: './offset_paginated_collection_model.yml'
   - type: object
     required:
-      - _links
       - _embedded
     properties:
-      _links:
-        type: object
-        required:
-          - self
-          - representations
-        properties:
-          self:
-            allOf:
-              - $ref: "./link.yml"
-              - description: |-
-                  This principal collection
-                  
-                  **Resource**: Collection
       _embedded:
         type: object
         required:

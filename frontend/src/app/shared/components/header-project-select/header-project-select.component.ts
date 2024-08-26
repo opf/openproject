@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -46,10 +46,9 @@ import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builde
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
-export const headerProjectSelectSelector = 'op-header-project-select';
 
 @Component({
-  selector: headerProjectSelectSelector,
+  selector: 'opce-header-project-select',
   templateUrl: './header-project-select.component.html',
   styleUrls: ['./header-project-select.component.sass'],
   encapsulation: ViewEncapsulation.None,
@@ -199,6 +198,14 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
         this.searchableProjectListService.loadAllProjects();
       }
     });
+  }
+
+  displayModeChange(mode:'all'|'favored'):void {
+    this.displayMode = mode;
+
+    if (this.currentProject?.id) {
+      this.searchableProjectListService.selectedItemID$.next(parseInt(this.currentProject.id, 10));
+    }
   }
 
   close():void {

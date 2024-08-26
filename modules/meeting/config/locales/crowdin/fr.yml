@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -122,7 +122,8 @@ fr:
       agenda_text: "Copier l'ordre du jour de l'ancienne réunion"
     email:
       send_emails: "Envoyer des e-mails"
-      send_invitation_emails: "Envoyez des e-mails d'invitation à tous les participants."
+      send_invitation_emails: >
+        Envoyez un courriel d'invitation aux participants énumérés ci-dessus. Notez que la désactivation de cette option n'affecte pas l'envoi d'e-mails après que ce formulaire a été soumis.
       open_meeting_link: "Ouvrir la réunion"
       invited:
         summary: "%{actor} vous a envoyé une invitation pour la réunion %{title}"

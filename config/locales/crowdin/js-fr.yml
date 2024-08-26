@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ fr:
     button_back_to_list_view: "Retour à la liste"
     button_cancel: "Annuler"
     button_close: "Fermer"
-    button_change_project: "Changer de projet"
+    button_change_project: "Déplacer vers un autre projet"
     button_check_all: "Tout cocher"
     button_configure-form: "Configurer le formulaire"
     button_confirm: "Confirmer"
@@ -74,7 +74,7 @@ fr:
     button_copy: "Copier"
     button_copy_to_clipboard: "Copier dans le presse-papier"
     button_copy_link_to_clipboard: "Copier le lien dans le presse-papiers"
-    button_copy_to_other_project: "Copier vers un autre projet"
+    button_copy_to_other_project: "Dupliquer dans un autre projet"
     button_custom-fields: "Champs personnalisés"
     button_delete: "Supprimer"
     button_delete_watcher: "Supprimer observateur"
@@ -638,11 +638,6 @@ fr:
         upsale:
           title: "Alarmes"
           description: "Avec les alarmes, vous serez informé(e) à l'approche des dates de début ou de fin vous concernant afin de ne jamais manquer ou oublier une échéance importante."
-      facets:
-        unread: "Non lu"
-        unread_title: "Afficher les messages non lus"
-        all: "Toutes"
-        all_title: "Afficher tout"
       center:
         label_actor_and: "et"
         and_more_users:
@@ -653,12 +648,13 @@ fr:
           with_current_filter: "Il n'y a pas de notifications dans cette vue pour le moment"
         mark_all_read: "Tout marquer comme lu"
         mark_as_read: "Marquer comme lu"
-        text_update_date: "%{date} par"
+        text_update_date_by: "%{date} par"
         total_count_warning: "Affichage des %{newest_count} notifications les plus récentes. %{more_count} autres ne sont pas affichées."
         empty_state:
           no_notification: "Il semble que vous êtes à jour."
           no_notification_with_current_project_filter: "Il semble que vous êtes à jour dans le projet sélectionné."
           no_notification_with_current_filter: "Il semble que vous êtes à jour pour le filtre %{filter}."
+          no_notification_for_filter: "Il semble que vous êtes à jour pour ce filtre."
           no_selection: "Cliquez sur une notification pour voir tous les détails de l'activité."
         new_notifications:
           message: "Il y a de nouvelles notifications."

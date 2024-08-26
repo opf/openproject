@@ -6,7 +6,7 @@
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 #Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
 #as published by the Free Software Foundation; either version 2
@@ -48,3 +48,6 @@ ko:
         empty: '아직 링크된 병합 요청이 없습니다. MR 제목/설명에 <code>OP#%{wp_id}</code>(또는 비공개 링크의 경우 <code>PP#%{wp_id}</code>) 코드를 사용하여 기존 MR을 링크하거나 새 MR을 만드세요.'
       gitlab_pipelines: 파이프라인
       updated_on: 업데이트 날짜
+    work_packages:
+      tabs:
+        gitlab: "GitLab"

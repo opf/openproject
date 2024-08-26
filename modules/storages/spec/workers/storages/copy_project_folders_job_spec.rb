@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -123,18 +123,18 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
   describe "managed project folders" do
     before do
       Storages::Peripherals::Registry
-        .stub("#{storage.short_provider_type}.queries.file_path_to_id_map", ->(storage:, auth_strategy:, folder:) {
+        .stub("#{storage.short_provider_type}.queries.file_path_to_id_map", lambda { |storage:, auth_strategy:, folder:|
           ServiceResult.success(result: target_deep_file_ids)
         })
 
       Storages::Peripherals::Registry
-        .stub("#{storage.short_provider_type}.queries.files_info", ->(storage:, auth_strategy:, file_ids:) {
+        .stub("#{storage.short_provider_type}.queries.files_info", lambda { |storage:, auth_strategy:, file_ids:|
           ServiceResult.success(result: source_file_infos)
         })
 
       Storages::Peripherals::Registry
         .stub("#{storage.short_provider_type}.commands.copy_template_folder",
-              ->(auth_strategy:, storage:, source_path:, destination_path:) {
+              lambda { |auth_strategy:, storage:, source_path:, destination_path:|
                 ServiceResult.success(result: copy_result.with(id: "copied-folder", polling_url:))
               })
     end
@@ -173,17 +173,17 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
       before do
         Storages::Peripherals::Registry
           .stub("#{storage.short_provider_type}.commands.copy_template_folder",
-                ->(auth_strategy:, storage:, source_path:, destination_path:) {
+                lambda { |auth_strategy:, storage:, source_path:, destination_path:|
                   ServiceResult.success(result: copy_result.with(polling_url:, requires_polling: true))
                 })
 
         Storages::Peripherals::Registry
-          .stub("#{storage.short_provider_type}.queries.file_path_to_id_map", ->(storage:, auth_strategy:, folder:) {
+          .stub("#{storage.short_provider_type}.queries.file_path_to_id_map", lambda { |storage:, auth_strategy:, folder:|
             ServiceResult.success(result: target_deep_file_ids)
           })
 
         Storages::Peripherals::Registry
-          .stub("#{storage.short_provider_type}.queries.files_info", ->(storage:, auth_strategy:, file_ids:) {
+          .stub("#{storage.short_provider_type}.queries.files_info", lambda { |storage:, auth_strategy:, file_ids:|
             ServiceResult.success(result: source_file_infos)
           })
 
@@ -239,7 +239,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
       before do
         Storages::Peripherals::Registry
           .stub("#{storage.short_provider_type}.commands.copy_template_folder",
-                ->(auth_strategy:, storage:, source_path:, destination_path:) {
+                lambda { |auth_strategy:, storage:, source_path:, destination_path:|
                   ServiceResult.failure(
                     result: :error,
                     errors: Storages::StorageError.new(code: :error, log_message: "General Failure reporting for duty")
@@ -259,13 +259,12 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
       end
 
       it "logs the error" do
-        allow(OpenProject.logger).to receive(:warn)
+        allow(Rails.logger).to receive(:error)
         GoodJob::Batch.enqueue(user:, errors: []) { described_class.perform_later(source:, target:, work_packages_map:) }
 
         GoodJob.perform_inline
-        expect(OpenProject.logger).to have_received(:warn)
-                                        .with("error | General Failure reporting for duty")
-                                        .once
+        expect(Rails.logger)
+          .to have_received(:error).with([I18n.t("services.errors.models.copy_project_folders_service.error")]).once
       end
     end
     # rubocop:enable Lint/UnusedBlockArgument

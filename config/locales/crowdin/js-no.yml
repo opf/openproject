@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@
     button_back_to_list_view: "Tilbake til listevisning"
     button_cancel: "Avbryt"
     button_close: "Lukk"
-    button_change_project: "Bytt prosjekt"
+    button_change_project: "Move to another project"
     button_check_all: "Velg alle"
     button_configure-form: "Konfigurer skjema"
     button_confirm: "Bekreft"
@@ -74,7 +74,7 @@
     button_copy: "Kopier"
     button_copy_to_clipboard: "Kopier til utklippstavlen"
     button_copy_link_to_clipboard: "Kopier lenke til utklippstavlen"
-    button_copy_to_other_project: "Kopier til et annet prosjekt"
+    button_copy_to_other_project: "Duplicate to other project"
     button_custom-fields: "Egendefinerte felter"
     button_delete: "Slett"
     button_delete_watcher: "Slett overvåker"
@@ -102,7 +102,7 @@
     button_save: "Lagre"
     button_settings: "Innstillinger"
     button_uncheck_all: "Avmerk alle"
-    button_update: "Oppdater"
+    button_update: "Oppdatèr"
     button_export-pdf: "Last ned PDF"
     button_export-atom: "Last ned Atom"
     button_create: "Opprett"
@@ -638,11 +638,6 @@
         upsale:
           title: "Dato varsler"
           description: "Med datovarsler, vil du bli varslet om kommende start- eller sluttdatoer slik at du aldri går glipp av eller glemmer en viktig frist."
-      facets:
-        unread: "Ulest"
-        unread_title: "Vis ulest"
-        all: "Alle"
-        all_title: "Vis alle"
       center:
         label_actor_and: "og"
         and_more_users:
@@ -653,12 +648,13 @@
           with_current_filter: "Det er ingen varsler i denne visningen for øyeblikket"
         mark_all_read: "Merk alle som lest"
         mark_as_read: "Merk som lest"
-        text_update_date: "%{date} av"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Viser de %{newest_count} nyeste varsler. %{more_count} flere er ikke vist."
         empty_state:
           no_notification: "Ser ut som du er helt oppdatert."
           no_notification_with_current_project_filter: "Ser ut som du er helt oppdatert med det valgte prosjektet."
           no_notification_with_current_filter: "Ser ut som du er helt oppdatert med filteret %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Klikk på en melding for å se alle aktivitetsdetaljer."
         new_notifications:
           message: "Det finnes nye varsler."

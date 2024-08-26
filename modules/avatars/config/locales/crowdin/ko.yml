@@ -11,7 +11,6 @@ ko:
   message_avatar_uploaded: "아바타를 변경했습니다."
   error_image_upload: "이미지를 저장하는 중에 오류가 발생했습니다."
   error_image_size: "이미지가 너무 큽니다."
-  button_change_avatar: "아바타 변경"
   are_you_sure_delete_avatar: "아바타를 삭제하시겠습니까?"
   avatar_deleted: "아바타가 삭제되었습니다."
   unable_to_delete_avatar: "아바타를 삭제할 수 없습니다."

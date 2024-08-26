@@ -10,7 +10,7 @@
     class="spot-input"
     (click)="onInputClick($event)"
     (focus)="showProgressModal()"
-    [value]="asHours"
+    [value]="asHoursOrPercent"
     [disabled]="opened || inFlight"
     [id]="handler.htmlId"
   />

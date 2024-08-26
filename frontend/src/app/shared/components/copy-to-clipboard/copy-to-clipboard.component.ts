@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,22 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ElementRef,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 import { CopyToClipboardService } from './copy-to-clipboard.service';
 
-export const copyToClipboardSelector = 'copy-to-clipboard';
-
 @Component({
   template: '',
-  selector: copyToClipboardSelector,
+  selector: 'opce-copy-to-clipboard',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
@@ -57,7 +50,8 @@ export class CopyToClipboardComponent implements OnInit {
     readonly elementRef:ElementRef,
     readonly I18n:I18nService,
     protected copyToClipboardService:CopyToClipboardService,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     const element = this.elementRef.nativeElement;

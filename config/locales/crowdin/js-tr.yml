@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ tr:
     button_back_to_list_view: "Liste görünümüne geri dön"
     button_cancel: "İptal etmek"
     button_close: "Kapat"
-    button_change_project: "Projeyi değiştir"
+    button_change_project: "Move to another project"
     button_check_all: "Hepsini kontrol et"
     button_configure-form: "Formu yapılandır"
     button_confirm: "Onaylamak"
@@ -74,7 +74,7 @@ tr:
     button_copy: "Kopyalamak"
     button_copy_to_clipboard: "Panoya kopyala"
     button_copy_link_to_clipboard: "Copy link to clipboard"
-    button_copy_to_other_project: "Başka bir projeye kopyala"
+    button_copy_to_other_project: "Duplicate to other project"
     button_custom-fields: "Özel Alanlar"
     button_delete: "silmek"
     button_delete_watcher: "Takipçi sil"
@@ -637,11 +637,6 @@ tr:
         upsale:
           title: "Tarih uyarısı"
           description: "Tarih uyarıları ile yaklaşan başlangıç veya bitiş tarihleri hakkında bilgilendirileceksiniz, böylece önemli bir teslim tarihini asla kaçırmaz veya unutmazsınız."
-      facets:
-        unread: "okunmamış"
-        unread_title: "Okunmayanları göster"
-        all: "Hepsi"
-        all_title: "Tümünü göster"
       center:
         label_actor_and: "ve"
         and_more_users:
@@ -652,12 +647,13 @@ tr:
           with_current_filter: "Şu anda bu görünümde bildirim yok"
         mark_all_read: "Tümünü okundu olarak işaretle"
         mark_as_read: "Okundu olarak işaretle"
-        text_update_date: "%{date} tarafından"
+        text_update_date_by: "%{date} by"
         total_count_warning: "En yeni %{newest_count} bildirim gösteriliyor. %{more_count} tane daha görüntülenmiyor."
         empty_state:
           no_notification: "Looks like you are all caught up."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Tüm etkinlik ayrıntılarını görüntülemek için bir bildirime tıklayın."
         new_notifications:
           message: "Yeni bildirimler var"

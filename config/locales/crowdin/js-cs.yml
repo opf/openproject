@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ cs:
     button_back_to_list_view: "Zpět na seznam"
     button_cancel: "Zrušit"
     button_close: "Zavřít"
-    button_change_project: "Změnit projekt"
+    button_change_project: "Move to another project"
     button_check_all: "Zaškrtnout vše"
     button_configure-form: "Nastavení formuláře"
     button_confirm: "Potvrdit"
@@ -74,7 +74,7 @@ cs:
     button_copy: "Kopírovat"
     button_copy_to_clipboard: "Kopírovat do schránky"
     button_copy_link_to_clipboard: "Kopírovat odkaz do schránky"
-    button_copy_to_other_project: "Kopírovat do jiného projektu"
+    button_copy_to_other_project: "Duplicate to other project"
     button_custom-fields: "Vlastní pole"
     button_delete: "Odstranit"
     button_delete_watcher: "Smazat sledujícího uživatele"
@@ -637,11 +637,6 @@ cs:
         upsale:
           title: "Upozornění na datum"
           description: "S upozorněním na datum budete upozorněni na blížící se datum zahájení nebo ukončení, abyste nikdy nezmeškali nebo nezapomněli na důležitou lhůtu."
-      facets:
-        unread: "Nepřečtené"
-        unread_title: "Zobrazit nepřečtené"
-        all: "Vše"
-        all_title: "Zobrazit vše"
       center:
         label_actor_and: "a"
         and_more_users:
@@ -654,12 +649,13 @@ cs:
           with_current_filter: "V současné době nejsou v tomto zobrazení žádná oznámení"
         mark_all_read: "Označit vše jako přečtené"
         mark_as_read: "Označit jako přečtené"
-        text_update_date: "%{date} od"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Zobrazení posledních oznámení %{newest_count} . Nezobrazuje se ještě %{more_count}"
         empty_state:
           no_notification: "Vypadá to, že jste všechno dohnali..."
           no_notification_with_current_project_filter: "Vypadá to, že nemáte žadné nové oznámení pro vybraný projekt."
           no_notification_with_current_filter: "Vypadá to, že tady nic není %{filter} filtr."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Klikněte na oznámení pro zobrazení všech podrobností o aktivitě."
         new_notifications:
           message: "Máte nová oznámení."

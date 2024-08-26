@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -67,7 +67,7 @@ ja:
     button_back_to_list_view: "リスト表示に戻る"
     button_cancel: "キャンセル"
     button_close: "閉じる"
-    button_change_project: "プロジェクトの変更"
+    button_change_project: "Move to another project"
     button_check_all: "全てを選択"
     button_configure-form: "フォームを設定"
     button_confirm: "確認"
@@ -75,7 +75,7 @@ ja:
     button_copy: "コピー"
     button_copy_to_clipboard: "クリップボードにコピー"
     button_copy_link_to_clipboard: "クリップボードにリンクをコピー"
-    button_copy_to_other_project: "他のプロジェクトにコピー"
+    button_copy_to_other_project: "Duplicate to other project"
     button_custom-fields: "カスタムフィールド"
     button_delete: "削除"
     button_delete_watcher: "ウォッチャーを削除"
@@ -639,11 +639,6 @@ ja:
         upsale:
           title: "Date alerts"
           description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
-      facets:
-        unread: "Unread"
-        unread_title: "Show unread"
-        all: "全て"
-        all_title: "全てを表示"
       center:
         label_actor_and: "及び"
         and_more_users:
@@ -653,12 +648,13 @@ ja:
           with_current_filter: "There are no notifications in this view at the moment"
         mark_all_read: "Mark all as read"
         mark_as_read: "Mark as read"
-        text_update_date: "%{date} by"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you are all caught up."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -124,7 +124,8 @@ ru:
       agenda_text: "Копировать повестку старой встречи"
     email:
       send_emails: "Отправить по электронной почте"
-      send_invitation_emails: "Разошлите всем участникам приглашения по электронной почте."
+      send_invitation_emails: >
+        Send out an invitation email to the participants listed above. Note that unchecking this option does not affect the sending of emails after this form is submitted.
       open_meeting_link: "Открыть совещание"
       invited:
         summary: "%{actor} отправил вам приглашение на совещание %{title}"

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ ro:
     button_back_to_list_view: "Înapoi la listă"
     button_cancel: "Anulare"
     button_close: "Închide"
-    button_change_project: "Proiect de schimbare"
+    button_change_project: "Move to another project"
     button_check_all: "Selectează tot"
     button_configure-form: "Configurați formularul"
     button_confirm: "Confirmă"
@@ -74,7 +74,7 @@ ro:
     button_copy: "Copiază"
     button_copy_to_clipboard: "Copiză în clipboard"
     button_copy_link_to_clipboard: "Copiază link-ul în clipboard"
-    button_copy_to_other_project: "Copiază în alt proiect"
+    button_copy_to_other_project: "Duplicate to other project"
     button_custom-fields: "Câmpuri personalizate"
     button_delete: "Șterge"
     button_delete_watcher: "Șterge observator"
@@ -637,11 +637,6 @@ ro:
         upsale:
           title: "Alerte date"
           description: "Cu alertele de date, veți fi notificat cu privire la următoarele date de început sau de sfârșit, astfel încât să nu ratați sau să uitați niciodată un termen limită important."
-      facets:
-        unread: "necitită"
-        unread_title: "Afișare necitite"
-        all: "Toate"
-        all_title: "Afișare completă"
       center:
         label_actor_and: "și"
         and_more_users:
@@ -653,12 +648,13 @@ ro:
           with_current_filter: "Nu există notificări în această vizualizare în acest moment"
         mark_all_read: "Marchează Tot ca Citit"
         mark_as_read: "Marchează ca Citit"
-        text_update_date: "%{date} de"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Se afișează %{newest_count} cele mai recente notificări. %{more_count} în plus nu sunt afișate."
         empty_state:
           no_notification: "Se pare că v-ați pus la punct."
           no_notification_with_current_project_filter: "Se pare că v-ați pus la punct cu proiectul selectat."
           no_notification_with_current_filter: "Se pare că ești la zi cu filtrul %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Faceți clic pe o notificare pentru a vizualiza toate detaliile activității."
         new_notifications:
           message: "Există notificări noi."
@@ -768,7 +764,7 @@ ro:
           label: "Întrerupeți temporar memento-urile zilnice prin e-mail"
           first_day: "Prima zi"
           last_day: "Ultima zi"
-    text_are_you_sure: "Ești sigur?"
+    text_are_you_sure: "Sunteți sigur?"
     text_data_lost: "Toate datele introduse vor fi pierdute."
     text_user_wrote: "%{value} a scris:"
     types:

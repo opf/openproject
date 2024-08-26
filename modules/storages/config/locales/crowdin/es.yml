@@ -21,6 +21,8 @@ es:
               only_numeric_or_uuid: solo puede ser numérico o un UUID.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: no está disponible para este almacenamiento.
             project_ids:
@@ -57,11 +59,14 @@ es:
   permission_write_files: 'Carpetas de proyecto gestionadas automáticamente: Escribir archivos'
   project_module_storages: Archivos
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Gestionado automáticamente
       inactive: Ninguna carpeta específica
       manual: Carpeta existente gestionada manualmente
     remove_project:
+      deletion_failure_flash: Failed to remove the project from the storage. %{error}
       dialog:
         automatically_managed_appendix: Además, en este caso este almacenamiento tiene una carpeta de proyecto administrada automáticamente, se eliminarán sus archivos para siempre.
         confirmation_text: Confirme que entiende y desea eliminar este almacenamiento de archivos de este proyecto
@@ -86,6 +91,12 @@ es:
         rename_project_folder: 'Cambiar el nombre de la carpeta del proyecto gestionado:'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
+          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
+          not_found: The source template location %{source_path} wasn't found.
+          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -167,6 +178,9 @@ es:
       nextcloud:
         group_folders_app: Carpetas de grupo
         integration_app: Integración OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: Este almacenamiento tiene una configuración incompleta. Complete la configuración antes de habilitarlo en varios proyectos.
+      setup_incomplete_header: Configuración de almacenamiento incompleta
     error_invalid_provider_type: Por favor, seleccione un proveedor de almacenamiento válido.
     file_storage_view:
       access_management:
@@ -302,16 +316,24 @@ es:
     no_results: Aún no se han configurado almacenes de archivos.
     notice_successful_storage_connection: |-
       ¡Almacenamiento conectado con éxito! Recuerda activar el módulo y el almacenamiento específico en la configuración del proyecto de cada proyecto deseado para usarlo.
+    oauth_access_granted_modal:
+      access_granted: Access granted
+      project_settings:
+        access_granted_screen_reader: Access granted. You are now ready to use %{storage}
+        storage_ready: You are now ready to use %{storage}
+      storage_admin:
+        access_granted_screen_reader: Access granted. You are now ready to add projects to %{storage}
+        storage_ready: You are now ready to add projects to %{storage}
     oauth_grant_nudge_modal:
-      access_granted: Acceso permitido
-      access_granted_screen_reader: Acceso concedido. Ya puede utilizar %{storage}.
-      body: Para obtener acceso a la carpeta del proyecto necesitas iniciar sesión en %{storage}.
       cancel_button_label: Lo haré más tarde
-      confirm_button_aria_label: Iniciar sesión en %{storage}
-      confirm_button_label: Iniciar sesión
+      heading: Login to %{provider_type} required
+      login_button_aria_label: Login to %{storage}
+      login_button_label: "%{provider_type} log in"
+      project_settings:
+        description: To get access to the project folder you need to login to %{storage}.
       requesting_access_to: Solicitando acceso a %{storage}
-      storage_ready: Ahora estás listo para usar %{storage}
-      title: Queda un paso más...
+      storage_admin:
+        description: In order to add projects to this storage you need to be logged into %{provider_type}. Please, log in and try again.
     open_project_storage_modal:
       success:
         subtitle: Se te está redirigiendo

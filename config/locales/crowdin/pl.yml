@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -209,10 +209,12 @@ pl:
     reorder_confirmation: "Ostrzeżenie: Bieżąca kolejność dostępnych wartości zostanie utracona. Kontynuować?"
     instructions:
       is_required: "Oznacz pole niestandardowe jako wymagane. To spowoduje obowiązkowe wypełnianie pola podczas tworzenia nowych lub aktualizacji istniejących zasobów."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Zaznacz pole niestandardowe jako dostępne we wszystkich istniejących i nowych projektach."
       searchable: "Uwzględnij wartości pól podczas korzystania z funkcji wyszukiwania globalnego."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Zezwól na edycję pola przez samych użytkowników."
-      visible: "Ustaw pole jako widoczne dla wszystkich użytkowników (niebędących administratorami) w przeglądzie projektu i wyświetlane w widżecie szczegółów projektu w przeglądzie projektu."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Zezwól na użycie pola niestandardowego w filtrze w widokach pakietów roboczych. Pamiętaj, że pole niestandardowe będzie wyświetlane w widokach globalnych dopiero po zaznaczeniu opcji „Dla wszystkich projektów”.
     tab:
@@ -630,7 +632,7 @@ pl:
         possible_values: "Możliwe wartości"
         regexp: "Wyrażenie regularne"
         searchable: "Wyszukiwalne"
-        visible: "Widoczne"
+        admin_only: "Admin-only"
       custom_value:
         value: "Wartość"
       doorkeeper/application:
@@ -700,6 +702,7 @@ pl:
         versions: "Wersje"
         work_packages: "Zadania"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: Sekcja
       query:
         column_names: "Kolumny"
@@ -812,7 +815,7 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
-        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         error_conflict: "Information has been updated by at least one other user in the meantime."
@@ -1044,6 +1047,12 @@ pl:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "nie odpowiada pracy i pozostałej pracy"
+              cannot_be_set_when_work_is_zero: "nie można ustawić, gdy praca wynosi zero"
+              must_be_set_when_remaining_work_is_set: "Wymagane, gdy ustawiona jest opcja Pozostała praca."
+              must_be_set_when_work_and_remaining_work_are_set: "Wymagane, gdy ustawione są opcje Praca i Pozostała praca."
+              inclusion: "musi wynosić od 0 do 100."
             due_date:
               not_start_date: "nie jest w dniu rozpoczęcia, chociaż jest to wymagane dla Kamieni Milowych."
               cannot_be_null: "nie można ustawić na wartość zero, ponieważ data rozpoczęcia i czas trwania są znane."
@@ -1073,13 +1082,13 @@ pl:
             estimated_hours:
               not_a_number: "nie jest prawidłowym czasem trwania."
               cant_be_inferior_to_remaining_work: "Nie może być mniejsza niż wartość pozostałej pracy."
-              must_be_set_when_remaining_work_is_set: "Wymagane, gdy ustawiona jest opcja Pozostała praca."
-              only_values_greater_or_equal_zeroes_allowed: "Musi być >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Wymagane, gdy ustawione są opcje Pozostała praca i % ukończenia."
               format: "%{message}"
             remaining_hours:
               not_a_number: "nie jest prawidłowym czasem trwania."
               cant_exceed_work: "Nie może być wyższa niż wartość pracy."
               must_be_set_when_work_is_set: "Wymagane, gdy ustawiona jest opcja Praca."
+              must_be_set_when_work_and_percent_complete_are_set: "Wymagane, gdy ustawione są opcje Praca i % ukończenia."
               format: "%{message}"
           readonly_status: "Pakiet roboczy ma status tylko do odczytu, więc jego atrybutów nie można zmienić."
         type:
@@ -1660,6 +1669,7 @@ pl:
   error_pdf_failed_to_export: "Nie można było zapisać eksportu PDF: %{error}"
   error_token_authenticity: "Nie można zweryfikować tokenu Cross-Site Request Forgery. Czy podjęto próbę przesłania danych w wielu przeglądarkach lub z wielu kart? Zamknij wszystkie karty i spróbuj ponownie."
   error_work_package_not_found_in_project: "Pakiet roboczy nie został znaleziony lub nie należy do tego projektu"
+  error_work_package_id_not_found: "Nie znaleziono pakietu roboczego."
   error_must_be_project_member: "musi być członkiem projektu"
   error_migrations_are_pending: "Ta instalacja OpenProject oczekuje na migracje baz danych. Prawdopodobnie pominięto uruchomienie migracji przy ostatnim uaktualnieniu. Sprawdź instrukcję uaktualniania, aby prawidłowo uaktualnić tę instalację."
   error_migrations_visit_upgrade_guides: "Przejdź do naszej dokumentacji instrukcji uaktualniania"
@@ -1864,6 +1874,11 @@ pl:
       responsible: "Osoba odpowiedzialna"
       shared: "Udostępniono"
       watched: "Obserwator"
+    facets:
+      unread: "Nieprzeczytane"
+      unread_title: "Pokaż nieprzeczytane"
+      all: "Wszystkie"
+      all_title: "Pokaż wszystkie"
     menu:
       by_project: "Nieprzeczytane wg projektu"
       by_reason: "Powód"
@@ -2223,6 +2238,8 @@ pl:
   label_next_week: "Następny tydzień"
   label_no_change_option: "(Bez zmian)"
   label_no_data: "Brak danych do pokazania"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Bez strony nadrzędnej"
   label_nothing_display: "Brak danych do pokazania"
   label_nobody: "nikt"

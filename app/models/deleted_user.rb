@@ -11,19 +11,13 @@ class DeletedUser < User
   end
 
   # Overrides a few properties
-  def logged?; false end
-
-  def builtin?; true end
-
-  def admin; false end
-
-  def name(*_args); I18n.t("user.deleted") end
-
-  def mail; nil end
-
-  def time_zone; nil end
-
-  def rss_key; nil end
-
-  def destroy; false end
+  def available_custom_fields = []
+  def logged? = false
+  def builtin? = true
+  def admin = false
+  def name(*_args) = I18n.t("user.deleted")
+  def mail = nil
+  def time_zone = nil
+  def rss_key = nil
+  def destroy = false
 end

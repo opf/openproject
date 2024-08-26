@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +38,7 @@ require_module_spec_helper
 # We decrease the notification polling interval because some portions of the JS code rely on something triggering
 # the Angular change detection. This is usually done by the notification polling, but we don't want to wait
 RSpec.describe("Activation of storages in projects",
-               :js, :oauth_connection_helpers, :webmock, :with_cuprite,
+               :js, :oauth_connection_helpers, :storage_server_helpers, :webmock, :with_cuprite,
                with_settings: { notifications_polling_interval: 1_000 }) do
   let(:user) { create(:user) }
   # The first page is the Project -> Settings -> General page, so we need
@@ -64,43 +64,15 @@ RSpec.describe("Activation of storages in projects",
 
   let(:location_picker) { Components::FilePickerDialog.new }
 
-  let(:root_xml_response) { create(:webdav_data) }
-  let(:folder1_xml_response) { create(:webdav_data_folder) }
-  let(:folder1_fileinfo_response) do
-    {
-      ocs: {
-        data: {
-          status: "OK",
-          statuscode: 200,
-          id: 11,
-          name: "Folder1",
-          path: "files/Folder1",
-          mtime: 1682509719,
-          ctime: 0
-        }
-      }
-    }
-  end
-
   before do
     oauth_client_token
-
-    stub_request(:propfind, "#{storage.host}remote.php/dav/files/#{remote_identity.origin_user_id}")
-      .to_return(status: 207, body: root_xml_response, headers: {})
-    stub_request(:propfind, "#{storage.host}remote.php/dav/files/#{remote_identity.origin_user_id}/Folder1")
-      .to_return(status: 207, body: folder1_xml_response, headers: {})
-    stub_request(:get, "#{storage.host}ocs/v1.php/apps/integration_openproject/fileinfo/11")
-      .to_return(status: 200, body: folder1_fileinfo_response.to_json, headers: {})
-    stub_request(:get, "#{storage.host}ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
-    stub_request(
-      :delete,
-      "#{storage.host}remote.php/dav/files/OpenProject/OpenProject/Project%20name%20without%20sequence%20(#{project.id})"
-    ).to_return(status: 200, body: "", headers: {})
-
     storage
     project
     oauth_client_token
-    login_as user
+
+    stub_outbound_storage_files_request_for(storage:, remote_identity:)
+
+    login_as(user)
   end
 
   it "adds, edits and removes storages to projects" do

@@ -57,86 +57,78 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
   describe "custom field columns selected" do
     let(:query_columns) { %w[name description project_status public] + global_project_custom_fields.map(&:column_name) }
 
-    context "when ee enabled", with_ee: %i[custom_fields_in_projects_list] do
-      before do
-        project # re-evaluate project to ensure it is created within the desired user context
-      end
+    before do
+      project # re-evaluate project to ensure it is created within the desired user context
+    end
 
-      context "with admin permission" do
-        let(:current_user) { build_stubbed(:admin) }
+    context "with admin permission" do
+      let(:current_user) { build_stubbed(:admin) }
 
-        it "renders all those columns" do
-          cf_names = global_project_custom_fields.map(&:name)
-          expect(header).to eq ["ID", "Identifier", "Name", "Description", "Status", "Public", *cf_names]
+      it "renders all those columns" do
+        cf_names = global_project_custom_fields.map(&:name)
+        expect(header).to eq ["ID", "Identifier", "Name", "Description", "Status", "Public", *cf_names]
 
-          expect(header).to include not_used_string_cf.name
-          expect(header).to include hidden_cf.name
+        expect(header).to include not_used_string_cf.name
+        expect(header).to include hidden_cf.name
 
-          custom_values = global_project_custom_fields.map do |cf|
-            case cf
-            when bool_cf
-              "true"
-            when text_cf
-              project.typed_custom_value_for(cf)
-            when not_used_string_cf
-              nil
-            else
-              project.formatted_custom_value_for(cf)
-            end
+        custom_values = global_project_custom_fields.map do |cf|
+          case cf
+          when bool_cf
+            "true"
+          when text_cf
+            project.typed_custom_value_for(cf)
+          when not_used_string_cf
+            nil
+          else
+            project.formatted_custom_value_for(cf)
           end
-
-          expect(sheet.row(1))
-            .to eq [project.id.to_s, project.identifier, project.name, project.description, "Off track", "false",
-                    *custom_values]
-
-          # The column for the project-level-disabled custom field is blank
-          expect(sheet.row(1)[header.index(not_used_string_cf.name)]).to be_nil
         end
-      end
 
-      context "with view_project_attributes permission" do
-        it "renders available project custom fields in the header if enabled in any project" do
-          cf_names = global_project_custom_fields.map(&:name)
+        expect(sheet.row(1))
+          .to eq [project.id.to_s, project.identifier, project.name, project.description, "Off track", "false",
+                  *custom_values]
 
-          expect(header).to eq ["ID", "Identifier", "Name", "Description", "Status", "Public", *cf_names]
-
-          expect(header).not_to include not_used_string_cf.name
-          expect(header).not_to include hidden_cf.name
-
-          custom_values = global_project_custom_fields.map do |cf|
-            case cf
-            when bool_cf
-              "true"
-            when text_cf
-              project.typed_custom_value_for(cf)
-            when not_used_string_cf
-              nil
-            else
-              project.formatted_custom_value_for(cf)
-            end
-          end
-
-          expect(sheet.row(1))
-            .to eq [project.id.to_s, project.identifier, project.name, project.description, "Off track", "false",
-                    *custom_values]
-        end
-      end
-
-      context "without view_project_attributes permission" do
-        let(:permissions) { %i(view_projects) }
-
-        it "does not render project custom fields in the header" do
-          expect(header).to eq ["ID", "Identifier", "Name", "Description", "Status", "Public"]
-
-          expect(sheet.row(1))
-            .to eq [project.id.to_s, project.identifier, project.name, project.description, "Off track", "false"]
-        end
+        # The column for the project-level-disabled custom field is blank
+        expect(sheet.row(1)[header.index(not_used_string_cf.name)]).to be_nil
       end
     end
 
-    context "when ee not enabled" do
-      it "renders only the default columns" do
-        expect(header).to eq %w[ID Identifier Name Description Status Public]
+    context "with view_project_attributes permission" do
+      it "renders available project custom fields in the header if enabled in any project" do
+        cf_names = global_project_custom_fields.map(&:name)
+
+        expect(header).to eq ["ID", "Identifier", "Name", "Description", "Status", "Public", *cf_names]
+
+        expect(header).not_to include not_used_string_cf.name
+        expect(header).not_to include hidden_cf.name
+
+        custom_values = global_project_custom_fields.map do |cf|
+          case cf
+          when bool_cf
+            "true"
+          when text_cf
+            project.typed_custom_value_for(cf)
+          when not_used_string_cf
+            nil
+          else
+            project.formatted_custom_value_for(cf)
+          end
+        end
+
+        expect(sheet.row(1))
+          .to eq [project.id.to_s, project.identifier, project.name, project.description, "Off track", "false",
+                  *custom_values]
+      end
+    end
+
+    context "without view_project_attributes permission" do
+      let(:permissions) { %i(view_projects) }
+
+      it "does not render project custom fields in the header" do
+        expect(header).to eq ["ID", "Identifier", "Name", "Description", "Status", "Public"]
+
+        expect(sheet.row(1))
+          .to eq [project.id.to_s, project.identifier, project.name, project.description, "Off track", "false"]
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -212,10 +212,12 @@
     reorder_confirmation: "Advarsel: Gjeldende rekkefølge for tilgjengelige verdier vil gå tapt. Vil du fortsette?"
     instructions:
       is_required: "Marker det egendefinerte feltet som påkrevd. Dette vil gjøre det obligatorisk å fylle ut feltet når du oppretter nye eller oppdaterer eksisterende ressurser."
+      is_required_for_project: "Marker for å aktivere denne attributten og gjøre den påkrevd i alle prosjekter. Det kan ikke deaktiveres for enkeltprosjekter."
       is_for_all: "Merk egendefinert felt som tilgjengelig for alle eksisterende og nye prosjekter."
       searchable: "Inkluder feltverdier ved bruk av den globale søkefunksjonaliteten."
+      searchable_for_project: "Marker for å gjøre denne attributten tilgjengelig som filter i prosjektlister."
       editable: "La feltet være redigerbart av brukere selv."
-      visible: "Feltet synlig for alle brukere (ikke-administratorer) i prosjektoversikten og vises i prosjektdetalj-widgeten i Prosjektoversikten."
+      admin_only: "Marker for å gjøre denne attributten synlig kun for administratorer. Brukere uten administrative rettigheter vil ikke kunne se eller redigere den."
       is_filter: >
         Tillat at egendefinert felt brukes i filter i arbeidspakkevisninger. Merk at med 'For alle prosjekter' som er valgt, vil egendefinert felt vises i globale visninger.
     tab:
@@ -618,7 +620,7 @@
         possible_values: "Mulige verdier"
         regexp: "Regulære uttrykk"
         searchable: "Søkbar"
-        visible: "Synlig"
+        admin_only: "Kun administratorer"
       custom_value:
         value: "Verdi"
       doorkeeper/application:
@@ -688,6 +690,7 @@
         versions: "Versjoner"
         work_packages: "Arbeidspakker"
       project_custom_field:
+        is_required: "Påkrevd for alle prosjekter"
         custom_field_section: Seksjon
       query:
         column_names: "Kolonner"
@@ -1032,6 +1035,12 @@
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "samsvarer ikke med arbeid og arbeid som gjenstår"
+              cannot_be_set_when_work_is_zero: "kan ikke angis når arbeidet er null"
+              must_be_set_when_remaining_work_is_set: "Påkrevd når gjenværende arbeid er satt."
+              must_be_set_when_work_and_remaining_work_are_set: "Påkrevd når arbeid og gjenstående arbeid settes."
+              inclusion: "må være mellom 0 og 100."
             due_date:
               not_start_date: "er ikke på startdato, selv om dette er nødvendig for milepæler."
               cannot_be_null: "kan ikke settes til null da startdato og varighet er kjent."
@@ -1061,13 +1070,13 @@
             estimated_hours:
               not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Kan ikke være lavere enn gjenstående arbeid."
-              must_be_set_when_remaining_work_is_set: "Påkrevd når gjenværende arbeid er satt."
-              only_values_greater_or_equal_zeroes_allowed: "Må være >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Påkrevd når gjenværende arbeid og % Fullført er satt."
               format: "%{message}"
             remaining_hours:
               not_a_number: "is not a valid duration."
               cant_exceed_work: "Kan ikke være høyere enn arbeidet."
               must_be_set_when_work_is_set: "Påkrevet når arbeidet settes."
+              must_be_set_when_work_and_percent_complete_are_set: "Påkrevd når gjenværende arbeid og % Fullført er satt."
               format: "%{message}"
           readonly_status: "Arbeidspakken er i skrivebeskyttet status slik at egenskapene ikke kan endres."
         type:
@@ -1592,6 +1601,7 @@
   error_pdf_failed_to_export: "PDF-eksporten kunne ikke lagres: %{error}"
   error_token_authenticity: "Kan ikke bekrefte Cross-Site Request Forgery token. Har du prøvd å sende inn data i flere nettlesere eller faner? Vennligst lukk alle fanene og prøv igjen."
   error_work_package_not_found_in_project: "Arbeidspakken ble ikke funnet eller tilhører ikke dette prosjektet"
+  error_work_package_id_not_found: "Arbeidspakken ble ikke funnet."
   error_must_be_project_member: "må være prosjektmedlem"
   error_migrations_are_pending: "Din OpenProject installasjon har ventende databaseoverføringer. Du har sannsynligvis gått tilbake til overføringene på din siste oppgradering. Vennligst sjekk oppgraderings guiden for å oppgradere installasjonen din ordentlig."
   error_migrations_visit_upgrade_guides: "Vennligst besøk vår veiledning/dokumentasjon for oppgradering"
@@ -1796,6 +1806,11 @@
       responsible: "Ansvarlig"
       shared: "Delt"
       watched: "Overvåker"
+    facets:
+      unread: "Ulest"
+      unread_title: "Vis ulest"
+      all: "Alle"
+      all_title: "Vis alle"
     menu:
       by_project: "Ulest etter prosjekt"
       by_reason: "Grunn"
@@ -2155,6 +2170,8 @@
   label_next_week: "Neste uke"
   label_no_change_option: "(Ingen endring)"
   label_no_data: "Ingen data å vise"
+  label_no_due_date: "ingen ferdigdato"
+  label_no_start_date: "ingen startdato"
   label_no_parent_page: "Ingen overordnet side"
   label_nothing_display: "Ingenting å vise"
   label_nobody: "ingen"

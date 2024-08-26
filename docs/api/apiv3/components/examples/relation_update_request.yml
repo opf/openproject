@@ -1,0 +1,4 @@
+description: |-
+  Example request to update the relation's description.
+value:
+  description: This is the new description.

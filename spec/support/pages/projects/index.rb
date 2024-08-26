@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -121,6 +121,12 @@ module Pages
         end
       end
 
+      def expect_page_link(text)
+        within ".op-pagination--pages" do
+          expect(page).to have_css("a.op-pagination--item-link", text:)
+        end
+      end
+
       def expect_filters_container_toggled
         expect(page).to have_css(".op-filters-form")
       end
@@ -179,22 +185,22 @@ module Pages
 
       def filter_by_active(value)
         set_filter("active", "Active", "is", [value])
-        apply_filters
+        wait_for_reload
       end
 
       def filter_by_public(value)
         set_filter("public", "Public", "is", [value])
-        apply_filters
+        wait_for_reload
       end
 
       def filter_by_favored(value)
         set_filter("favored", "Favorite", "is", [value])
-        apply_filters
+        wait_for_reload
       end
 
       def filter_by_membership(value)
         set_filter("member_of", "I am member", "is", [value])
-        apply_filters
+        wait_for_reload
       end
 
       def set_filter(name, human_name, human_operator = nil, values = [])
@@ -222,13 +228,6 @@ module Pages
 
       def remove_filter(name)
         page.find("li[filter-name='#{name}'] .filter_rem").click
-      end
-
-      def apply_filters
-        within(".advanced-filters--filters") do
-          click_on "Apply"
-          wait_for_network_idle
-        end
       end
 
       def set_toggle_filter(values)
@@ -276,6 +275,7 @@ module Pages
       def open_filters
         retry_block do
           toggle_filters_section
+          expect(page).to have_css(".op-filters-form.-expanded")
           page.find_field("Add filter", visible: true)
         end
       end
@@ -402,8 +402,22 @@ module Pages
         find(".generic-table--sort-header a", text: column_name.upcase).click
       end
 
+      def expect_sort_order_via_table_header(column_name, direction:)
+        raise ArgumentError, "direction should be :asc or :desc" unless %i[asc desc].include?(direction)
+
+        find(".generic-table--sort-header .#{direction} a", text: column_name.upcase)
+      end
+
       def set_page_size(size)
-        find(".op-pagination--options .op-pagination--item", text: size).click
+        within ".op-pagination--options" do
+          find(".op-pagination--item", text: size).click
+        end
+      end
+
+      def expect_page_size(size)
+        within ".op-pagination--options" do
+          expect(page).to have_css(".op-pagination--item_current", text: size)
+        end
       end
 
       def go_to_page(page_number)

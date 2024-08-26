@@ -4,7 +4,13 @@
                               inputName: 'value',
                               multiple: true,
                               multipleAsSeparateInputs: false,
-                              inputValue: filter.values
+                              inputValue: filter.values,
+                              hiddenFieldAction: "change->filter--filters-form#autocompleteSendForm"
+                              # Set on the template as there is a timing issue where the
+                              # angular component is not yet ready in the DOM and hence
+                              # the action can't be registered on the input field at the time
+                              # of the #connect lifecycle hook of the filter--filters-form
+                              # Stimulus controller.
                             }.merge(autocomplete_options.except(:component)),
                             class: 'form--field',
                             data: {

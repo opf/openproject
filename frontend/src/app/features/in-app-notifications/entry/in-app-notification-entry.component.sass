@@ -23,6 +23,9 @@ $subject-font-size: 14px
   &:hover
     background: $ian-bg-hover-color
 
+  &:first-child
+    border-top: none
+
   &:last-of-type
     border-bottom: 1px solid var(--borderColor-default)
 
@@ -54,7 +57,7 @@ $subject-font-size: 14px
     grid-template-areas: "status wpIdLink project reason count buttons"
     grid-column-gap: 5px
     font-size: var(--body-font-size)
-    align-items: center
+    align-items: baseline
 
   &--middle-line
     grid-area: body

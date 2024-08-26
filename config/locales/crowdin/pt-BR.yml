@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -211,10 +211,12 @@ pt-BR:
     reorder_confirmation: "Aviso: A ordem atual dos valores disponíveis será perdida. Continuar?"
     instructions:
       is_required: "Marcar o campo personalizado como obrigatório. Isto tornará obrigatório o preenchimento do campo ao criar novos recursos ou ao atualizar recursos existentes."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Marcar o campo personalizado como disponível em todos os projetos existentes e novos."
       searchable: "Incluir os valores dos campos ao utilizar a funcionalidade de busca global."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Permita que o campo seja editável pelos próprios usuários."
-      visible: "Torne o campo visível para todos os usuários (não-administradores) na visão geral do projeto e exibido no widget de detalhes do projeto na Visão geral do projeto."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Permita que o campo personalizado seja utilizado num filtro nas visualizações do pacote de trabalho. Note que apenas com a opção "Para todos os projetos" selecionada, o campo personalizado irá aparecer nas visualizações globais.
     tab:
@@ -617,7 +619,7 @@ pt-BR:
         possible_values: "Valores possíveis"
         regexp: "Expressão regular"
         searchable: "Pesquisável"
-        visible: "Visível"
+        admin_only: "Admin-only"
       custom_value:
         value: "Valor"
       doorkeeper/application:
@@ -687,6 +689,7 @@ pt-BR:
         versions: "Versões"
         work_packages: "Pacotes de Trabalho"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: Seção
       query:
         column_names: "Colunas"
@@ -1031,6 +1034,12 @@ pt-BR:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "não corresponde ao trabalho e ao trabalho restante"
+              cannot_be_set_when_work_is_zero: "não pode ser definido quando o trabalho é zero"
+              must_be_set_when_remaining_work_is_set: "Necessário quando o Trabalho restante for definido."
+              must_be_set_when_work_and_remaining_work_are_set: "Necessário quando o Trabalho e o Trabalho restante são definidos."
+              inclusion: "deve estar entre 0 e 100."
             due_date:
               not_start_date: "não é na data de início, embora isso seja necessário para os marcos."
               cannot_be_null: "não pode ser definido como nulo já que a data de início e a duração são conhecidas. "
@@ -1060,13 +1069,13 @@ pt-BR:
             estimated_hours:
               not_a_number: "não é uma duração válida."
               cant_be_inferior_to_remaining_work: "Não pode ser menor do que o Trabalho restante."
-              must_be_set_when_remaining_work_is_set: "Necessário quando o Trabalho restante for definido."
-              only_values_greater_or_equal_zeroes_allowed: "Deve ser >= 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Necessário quando o Trabalho restante e o % concluído são definidos."
               format: "%{message}"
             remaining_hours:
               not_a_number: "não é uma duração válida."
               cant_exceed_work: "Não pode ser maior do que o Trabalho."
               must_be_set_when_work_is_set: "Necessário quando o Trabalho for definido."
+              must_be_set_when_work_and_percent_complete_are_set: "Necessário quando Trabalho e % concluído são definidos."
               format: "%{message}"
           readonly_status: "O pacote de trabalho está em estado somente leitura, então seus atributos não podem ser alterados."
         type:
@@ -1591,6 +1600,7 @@ pt-BR:
   error_pdf_failed_to_export: "Não foi possível salvar a exportação do PDF: %{error}"
   error_token_authenticity: "Não foi possível verificar o token de Falsificação de Solicitação Entre Sites. Você tentou enviar dados em vários navegadores ou abas? Por favor, feche todas as abas e tente novamente."
   error_work_package_not_found_in_project: "O pacote de trabalho não foi encontrado ou não pertence a este projeto"
+  error_work_package_id_not_found: "O pacote de trabalho não foi encontrado."
   error_must_be_project_member: "deve ser membro do projeto"
   error_migrations_are_pending: "Sua instalação do OpenProject possui migrações de banco de dados pendentes. Você provavelmente esqueceu de executar as migrações em sua última atualização. Por favor, verifique o guia de atualização para atualizar adequadamente sua instalação."
   error_migrations_visit_upgrade_guides: "Por favor, visite nossa documentação do guia de atualização"
@@ -1795,6 +1805,11 @@ pt-BR:
       responsible: "Responsável"
       shared: "Compartilhado"
       watched: "Observador"
+    facets:
+      unread: "Não lido"
+      unread_title: "Exibir não lidos"
+      all: "Todos"
+      all_title: "Mostrar todos"
     menu:
       by_project: "Não lido por projeto"
       by_reason: "Motivo"
@@ -2154,6 +2169,8 @@ pt-BR:
   label_next_week: "Próxima semana"
   label_no_change_option: "(Sem alteração)"
   label_no_data: "Sem dados para exibir"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Nenhuma página pai"
   label_nothing_display: "Nada para exibir"
   label_nobody: "ninguém"

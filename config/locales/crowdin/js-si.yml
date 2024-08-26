@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ si:
     button_back_to_list_view: "ලැයිස්තු දැක්ම වෙත ආපසු"
     button_cancel: "අවලංගු කරන්න"
     button_close: "වසන්න"
-    button_change_project: "ව්යාපෘතිය වෙනස් කරන්න"
+    button_change_project: "Move to another project"
     button_check_all: "සියල්ල පරීක්ෂා කරන්න"
     button_configure-form: "පෝරමය සකසන්න"
     button_confirm: "තහවුරු කරන්න"
@@ -74,7 +74,7 @@ si:
     button_copy: "පිටපත් කරන්න"
     button_copy_to_clipboard: "පසුරු පුවරුවට පිටපත් කරන්න"
     button_copy_link_to_clipboard: "Copy link to clipboard"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Duplicate to other project"
     button_custom-fields: "අභිරුචි ක්ෂේත්ර"
     button_delete: "මකන්න"
     button_delete_watcher: "මුරකරු මකන්න"
@@ -638,11 +638,6 @@ si:
         upsale:
           title: "Date alerts"
           description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
-      facets:
-        unread: "Unread"
-        unread_title: "Show unread"
-        all: "සියලු"
-        all_title: "සියල්ල පෙන්වන්න"
       center:
         label_actor_and: "සහ"
         and_more_users:
@@ -653,12 +648,13 @@ si:
           with_current_filter: "There are no notifications in this view at the moment"
         mark_all_read: "Mark all as read"
         mark_as_read: "Mark as read"
-        text_update_date: "%{date} by"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you are all caught up."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."

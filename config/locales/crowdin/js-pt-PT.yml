@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ pt-PT:
     button_back_to_list_view: "Voltar à visualização de lista"
     button_cancel: "Cancelar"
     button_close: "Fechar"
-    button_change_project: "Alterar projeto"
+    button_change_project: "Move to another project"
     button_check_all: "Seleccionar Todos"
     button_configure-form: "Configurar formulário"
     button_confirm: "Confirmar"
@@ -74,7 +74,7 @@ pt-PT:
     button_copy: "Copiar"
     button_copy_to_clipboard: "Copiar para a Área de transferência"
     button_copy_link_to_clipboard: "Copiar link para a área de transferência"
-    button_copy_to_other_project: "Copiar para outro projeto"
+    button_copy_to_other_project: "Duplicate to other project"
     button_custom-fields: "Campos personalizados"
     button_delete: "Eliminar"
     button_delete_watcher: "Eliminar observador"
@@ -638,11 +638,6 @@ pt-PT:
         upsale:
           title: "Alertas de data"
           description: "Com os alertas de data, receberá uma notificação sobre as próximas datas de início e conclusão, para que não nunca perca ou esqueça prazos importantes. "
-      facets:
-        unread: "Não lida"
-        unread_title: "Mostrar não lidas"
-        all: "Todos"
-        all_title: "Mostrar tudo"
       center:
         label_actor_and: "e"
         and_more_users:
@@ -653,12 +648,13 @@ pt-PT:
           with_current_filter: "Não há notificações nesta visualização neste momento"
         mark_all_read: "Marcar tudo como lido"
         mark_as_read: "Marcar como lida"
-        text_update_date: "%{date} por"
+        text_update_date_by: "%{date} by"
         total_count_warning: "A mostrar as %{newest_count} notificações mais recentes. Mas %{more_count} não estão visíveis."
         empty_state:
           no_notification: "Parece que tem tudo em dia."
           no_notification_with_current_project_filter: "Parece que está em dia com o projeto selecionado."
           no_notification_with_current_filter: "Parece que está em dia no filtro %{filter}."
+          no_notification_for_filter: "Parece que está em dia neste filtro."
           no_selection: "Clique numa notificação para ver todos os detalhes da atividade."
         new_notifications:
           message: "Há novas notificações."

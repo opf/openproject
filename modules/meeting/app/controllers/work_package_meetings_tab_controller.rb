@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -83,6 +83,9 @@ class WorkPackageMeetingsTabController < ApplicationController
         upcoming_meetings_count: @upcoming_meetings_count,
         past_meetings_count: @past_meetings_count
       )
+
+      replace_tab_counter_via_turbo_stream(work_package: @work_package)
+
       # TODO: show success message?
     else
       # show errors in form

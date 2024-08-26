@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -78,22 +78,44 @@ RSpec.describe "Open the Gitlab tab", :js do
       work_package_page.switch_to_tab(tab: "gitlab")
     end
 
-    it "shows the gitlab tab when the user is allowed to see it" do
-      work_package_page.visit!
-      work_package_page.switch_to_tab(tab: "gitlab")
+    context "when the user is allowed to see the gitlab tab" do
+      before do
+        work_package_page.visit!
+        work_package_page.switch_to_tab(tab: "gitlab")
+      end
 
-      tabs.expect_counter(gitlab_tab_element, 2)
+      it "shows the issues and merge requests associated with the work package" do
+        tabs.expect_counter(gitlab_tab_element, 2)
 
-      gitlab_tab.git_actions_menu_button.click
-      gitlab_tab.git_actions_copy_branch_name_button.click
-      expect(page).to have_text("Copied!")
-      expect_clipboard_content("#{work_package.type.name.downcase}/#{work_package.id}-a-test-work_package")
+        expect(page).to have_text("A Test Issue title")
+        expect(page).to have_text("Open")
 
-      expect(page).to have_text("A Test Issue title")
-      expect(page).to have_text("Open")
+        expect(page).to have_text("A Test MR title")
+        expect(page).to have_text("Pending")
+      end
 
-      expect(page).to have_text("A Test MR title")
-      expect(page).to have_text("Pending")
+      it "allows the user to copy the branch name to the clipboard" do
+        gitlab_tab.git_actions_menu_button.click
+        gitlab_tab.git_actions_copy_branch_name_button.click
+
+        expect(page).to have_text("Copied!")
+        expect_clipboard_content("#{work_package.type.name.downcase}/#{work_package.id}-a-test-work_package")
+      end
+
+      it "shows a commit message with space between title and link" do
+        gitlab_tab.git_actions_menu_button.click
+
+        commit_message_input_text = page.find_field("Commit message").value
+        expect(commit_message_input_text).to include("A test work_package http://")
+      end
+
+      it "allows the user to copy a commit message with newlines between title and link to the clipboard" do
+        gitlab_tab.git_actions_menu_button.click
+        gitlab_tab.git_actions_copy_commit_message_button.click
+
+        expect(page).to have_text("Copied!")
+        expect_clipboard_content("A test work_package\nhttp://")
+      end
     end
 
     context "when there are no merge requests or issues" do

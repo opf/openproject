@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -113,8 +113,6 @@ RSpec.describe ProjectQuery do
   end
 
   describe ".available_selects" do
-    current_user { user }
-
     before do
       scope = instance_double(ActiveRecord::Relation)
 
@@ -127,52 +125,48 @@ RSpec.describe ProjectQuery do
               .and_return([23, 42])
     end
 
-    it "lists registered selects" do
-      expect(instance.available_selects.map(&:attribute))
-        .to contain_exactly(:name,
-                            :favored,
-                            :public,
-                            :description,
-                            :hierarchy,
-                            :project_status,
-                            :status_explanation)
+    # rubocop:disable Naming/VariableNumber
+    context "for non admin user" do
+      current_user { user }
+
+      it "lists registered selects" do
+        expect(instance.available_selects.map(&:attribute))
+          .to match_array(%i[
+                            name
+                            favored
+                            public
+                            description
+                            hierarchy
+                            project_status
+                            status_explanation
+                            cf_23
+                            cf_42
+                          ])
+      end
     end
 
-    context "with the user being admin" do
+    context "for admin user" do
       current_user { admin }
 
       it "includes admin columns" do
         expect(instance.available_selects.map(&:attribute))
-          .to contain_exactly(:name,
-                              :public,
-                              :favored,
-                              :description,
-                              :hierarchy,
-                              :project_status,
-                              :status_explanation,
-                              :created_at,
-                              :latest_activity_at,
-                              :required_disk_space)
+          .to match_array(%i[
+                            name
+                            favored
+                            public
+                            description
+                            hierarchy
+                            project_status
+                            status_explanation
+                            created_at
+                            latest_activity_at
+                            required_disk_space
+                            cf_23
+                            cf_42
+                          ])
       end
     end
-
-    context "with an enterprise token",
-            with_ee: %i[custom_fields_in_projects_list] do
-      # rubocop:disable Naming/VariableNumber
-      it "includes custom field columns" do
-        expect(instance.available_selects.map(&:attribute))
-          .to contain_exactly(:name,
-                              :public,
-                              :favored,
-                              :description,
-                              :hierarchy,
-                              :project_status,
-                              :status_explanation,
-                              :cf_23,
-                              :cf_42)
-      end
-      # rubocop:enable Naming/VariableNumber
-    end
+    # rubocop:enable Naming/VariableNumber
   end
 
   describe "#valid_subset!" do

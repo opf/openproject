@@ -1,0 +1,40 @@
+<%=
+  component_wrapper do
+    render(
+      Primer::Alpha::Dialog.new(
+        id: dialog_id,
+        title:,
+        data: {
+          "application-target": "dynamic",
+          controller: "auto-show-dialog",
+        },
+        test_selector: "oauth-access-granted-modal"
+      )
+    ) do |dialog|
+      dialog.with_header(
+        show_divider: false,
+        role: :alert,
+        aria: { live: :assertive },
+        visually_hide_title: true
+      )
+
+      dialog.with_body(
+        id: dialog_body_id,
+        test_selector: "oauth-access-granted-modal-body",
+        aria: { hidden: true }
+      ) do
+        render(Primer::Beta::Text.new) { body_text }
+      end
+
+      dialog.with_footer(show_divider: false) do
+        render(
+          Primer::Beta::Button.new(
+            scheme: :default,
+            size: :medium,
+            data: { "close-dialog-id": dialog_id }
+          )
+        ) { cancel_button_text }
+      end
+    end
+  end
+%>

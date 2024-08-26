@@ -38,6 +38,18 @@ class TestController < ApplicationControler
 end
 ```
 
+For this to work, the `OpTurbo::Streamable` module needs to be included in the modal component:
+
+```ruby
+class MyDialogComponent < ApplicationControler
+  # include the module
+  include OpTurbo::Streamable
+
+  # ...
+end
+```
+
+
 Assuming the MyDialogComponent template looks like this:
 
 ```erb

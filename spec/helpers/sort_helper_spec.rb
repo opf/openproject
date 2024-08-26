@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -247,6 +247,26 @@ RSpec.describe SortHelper do
             </th>
           HTML
         end
+      end
+    end
+
+    describe "passing data params" do
+      let(:options) { { data: { "turbo-stream": true } } }
+
+      it "includes the passed data param in the link" do
+        expect(output).to be_html_eql(<<~HTML)
+          <th title="Sort by &quot;Id&quot;">
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <a title="Sort by &quot;Id&quot;" data-turbo-stream="true" rel="nofollow" href="/work_packages?sort=sort_criteria_params">
+                    Id
+                  </a>
+                </span>
+              </div>
+            </div>
+          </th>
+        HTML
       end
     end
   end

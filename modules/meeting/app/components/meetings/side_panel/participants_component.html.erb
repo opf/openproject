@@ -3,7 +3,7 @@
     render(Primer::OpenProject::SidePanel::Section.new) do |section|
       section.with_title { Meeting.human_attribute_name(:participants) }
       section.with_description { I18n.t('meeting.attachments.text') }
-      section.with_counter { @meeting.invited_or_attended_participants.count }
+      section.with_counter(count: @meeting.invited_or_attended_participants.count)
 
       if @meeting.editable?
         section.with_action_icon(
@@ -11,6 +11,7 @@
           scheme: :invisible,
           tag: :a,
           href: participants_dialog_meeting_path(@meeting),
+          classes: "hide-when-print",
           data: { controller: 'async-dialog' },
           'aria-label': t("label_meeting_manage_participants"),
           test_selector: "manage-participants-button",
@@ -42,6 +43,7 @@
                 font_weight: :bold,
                 tag: :a,
                 href: participants_dialog_meeting_path(@meeting),
+                classes: "hide-when-print",
                 data: { controller: 'async-dialog' }
               )) do |button|
                 button.with_leading_visual_icon(icon: "person-add")

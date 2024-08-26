@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ module Pages
       end
 
       def mark_all_read
-        click_button "Mark all as read"
+        click_link_or_button "Mark all as read"
       end
 
       def mark_notification_as_read(notification)
@@ -111,11 +111,11 @@ module Pages
       end
 
       def expect_closed
-        expect(page).to have_no_css("op-in-app-notification-center")
+        expect(page).to have_no_css("opce-notification-center")
       end
 
       def expect_open
-        expect(page).to have_css("op-in-app-notification-center")
+        expect(page).to have_css("opce-notification-center")
       end
 
       def expect_empty
@@ -139,7 +139,7 @@ module Pages
       end
 
       def bell_element
-        page.find('op-in-app-notification-bell [data-test-selector="op-ian-bell"]')
+        page.find('opce-in-app-notification-bell [data-test-selector="op-ian-bell"]')
       end
 
       def expect_no_toaster

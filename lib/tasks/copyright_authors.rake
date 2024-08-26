@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# rubocop:disable Rails/RakeEnvironment
 namespace :copyright do
   namespace :authors do
     desc "Shows contributors of a repository"
-    task :show, :arg1 do |_task, args|
-      contribution_periods = contribution_periods_of_repository(args[:arg1])
+    task :show, :path do |_task, args|
+      contribution_periods = contribution_periods_of_repository(args[:path])
       formatted_periods = format_contribution_periods(contribution_periods)
 
       show_contribution_periods(formatted_periods)
@@ -38,30 +39,30 @@ namespace :copyright do
 
     private
 
-    CONTRIBUTION = Struct.new(:author, :date)
-    CONTRIBUTION_PERIOD = Struct.new(:author, :begin, :end)
+    def contributions_of_repository(path)
+      contribution_info = Data.define(:author, :date)
 
-    CONTRIBUTION_REGEX = /^(?<date>\d\d\d\d-\d\d-\d\d) (?<author>.*)$/
-
-    def contribution_periods_of_repository(path)
-      contributions = []
-      contribution_periods = []
       path = "." if path.nil?
       log = `git --git-dir #{path}/.git log --date=short --pretty=format:"%ad %aN"`
 
-      log.scan(CONTRIBUTION_REGEX).each do |m|
-        contributions << CONTRIBUTION.new(m[1], Date.parse(m[0]))
+      log.scan(/^(?<date>\d\d\d\d-\d\d-\d\d) (?<author>.*)$/).map do |m|
+        contribution_info.new(m[1], Date.parse(m[0]))
       end
+    end
 
-      authors = contributions.collect(&:author).uniq
+    def contribution_periods_of_repository(path)
+      contribution_period = Data.define(:author, :begin, :end)
 
-      authors.each do |a|
-        first, last = contributions.select { |c| c.author == a }
-                      .minmax_by(&:date)
-        contribution_periods << CONTRIBUTION_PERIOD.new(a, first.date.year, last.date.year)
-      end
+      contribution_periods = contributions_of_repository(path)
+        .group_by(&:author).map do |author, author_contributions|
+          first, last = author_contributions.map { |c| c.date.year }.minmax
 
-      contribution_periods.sort_by { |c| [c.end, c.begin] }.reverse
+          contribution_period.new(author, first, last)
+        end
+
+      contribution_periods
+        .sort_by { |c| [c.end, c.begin] }
+        .reverse
     end
 
     def format_contribution_periods(contribution_periods)
@@ -79,3 +80,4 @@ namespace :copyright do
     end
   end
 end
+# rubocop:enable Rails/RakeEnvironment

@@ -6,7 +6,7 @@
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 #Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
 #as published by the Free Software Foundation; either version 2
@@ -48,3 +48,6 @@ hu:
         empty: 'Még nincsenek hozzákapcsolt egyesítési kérelmek (merge requests). Linkelj egy meglévő MR-t az <code>OP#%{wp_id}</code> (vagy a <code>PP#%{wp_id}</code> a privát linkekhez) kód használatával az MR címében/leírásában, vagy hozz létre egy új MR-t.'
       gitlab_pipelines: Pipeline-ok
       updated_on: Frissítve ekkor
+    work_packages:
+      tabs:
+        gitlab: "GitLab"

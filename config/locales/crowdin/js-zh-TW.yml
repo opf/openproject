@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ zh-TW:
     button_back_to_list_view: "返回清單"
     button_cancel: "取消"
     button_close: "關閉"
-    button_change_project: "切換專案"
+    button_change_project: "移動到其它專案"
     button_check_all: "勾選全部"
     button_configure-form: "表單設定"
     button_confirm: "確認"
@@ -74,7 +74,7 @@ zh-TW:
     button_copy: "複製"
     button_copy_to_clipboard: "複製到剪貼簿"
     button_copy_link_to_clipboard: "複製到剪貼簿"
-    button_copy_to_other_project: "複製到其他專案"
+    button_copy_to_other_project: "複製到其它專案"
     button_custom-fields: "客製欄位"
     button_delete: "删除"
     button_delete_watcher: "刪除監看者"
@@ -636,11 +636,6 @@ zh-TW:
         upsale:
           title: "日期提醒"
           description: "透過日期提醒，您將收到相關通知，這樣您就不會錯過或忘記重要的日期。"
-      facets:
-        unread: "未讀"
-        unread_title: "顯示未讀"
-        all: "全部"
-        all_title: "顯示全部"
       center:
         label_actor_and: "和"
         and_more_users:
@@ -650,12 +645,13 @@ zh-TW:
           with_current_filter: "目前此檢視中沒有任何通知"
         mark_all_read: "全部標示為已讀"
         mark_as_read: "標記為已讀"
-        text_update_date: "%{date}，"
+        text_update_date_by: "%{date} 依"
         total_count_warning: "正在顯示 %{newest_count} 條最新通知。還有 %{more_count} 條未顯示。"
         empty_state:
           no_notification: "看起來您已查看所有通知。"
           no_notification_with_current_project_filter: "看起來您已查看所選專案的所有通知。"
           no_notification_with_current_filter: "看起來您已查看“%{filter}”篩選條件的所有通知。"
+          no_notification_for_filter: "看起來你已經處理完了這個篩選器的所有內容。"
           no_selection: "點擊通知可查看所有活動詳細信息。"
         new_notifications:
           message: "您有新的通知"

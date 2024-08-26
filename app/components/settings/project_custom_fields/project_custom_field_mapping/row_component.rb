@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 module Settings
   module ProjectCustomFields
     module ProjectCustomFieldMapping
-      class RowComponent < Projects::RowComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+      class RowComponent < Projects::RowComponent
         include OpTurbo::Streamable
 
         def wrapper_uniq_by

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,7 @@
 #++
 
 module Storages
-  class OneDriveManagedFolderSyncService
-    extend ActiveModel::Naming
-    extend ActiveModel::Translation
-    include TaggedLogging
+  class OneDriveManagedFolderSyncService < BaseService
     include Injector["one_drive.commands.create_folder", "one_drive.commands.rename_file",
                      "one_drive.commands.set_permissions", "one_drive.queries.files", "one_drive.authentication.userless"]
 
@@ -40,8 +37,7 @@ module Storages
 
     OP_PERMISSIONS = %i[read_files write_files create_files delete_files share_files].freeze
 
-    def self.i18n_scope = "services"
-    def self.model_name = ActiveModel::Name.new(self, Storages, "OneDriveSyncService")
+    def self.i18n_key = "OneDriveSyncService"
 
     def self.call(storage)
       new(storage).call
@@ -52,8 +48,6 @@ module Storages
       @storage = storage
       @result = ServiceResult.success(errors: ActiveModel::Errors.new(self))
     end
-
-    def read_attribute_for_validation(attr) = attr
 
     def call
       with_tagged_logger([self.class.name, "storage-#{@storage.id}"]) do
@@ -71,22 +65,34 @@ module Storages
 
     private
 
+    # rubocop:disable Metrics/AbcSize
     def apply_permission_to_folders
       info "Setting permissions to project folders"
-      active_project_storages_scope.includes(:project).where.not(project_folder_id: nil).find_each do |project_storage|
-        permissions = { read: [], write: admin_client_tokens_scope.pluck(:origin_user_id) }
-        project_tokens(project_storage).each do |token|
-          add_user_to_permission_list(permissions, token, project_storage.project)
+      active_project_storages_scope.includes(:project)
+                                   .where.not(project_folder_id: nil)
+                                   .find_each do |project_storage|
+        permissions = admin_remote_identities_scope
+                        .pluck(:origin_user_id)
+                        .map do |origin_user_id|
+          { user_id: origin_user_id, permissions: [:write_files] }
         end
 
-        info "Setting permissions for #{project_storage.managed_project_folder_name}"
-        set_folder_permissions(project_storage.project_folder_id, permissions)
+        project_remote_identities(project_storage).each do |identity|
+          add_user_to_permission_list(permissions, identity, project_storage.project)
+        end
+
+        info "Setting permissions for #{project_storage.managed_project_folder_name}: #{permissions}"
+
+        project_folder_id = project_storage.project_folder_id
+        build_permissions_input_data(project_folder_id, permissions)
+          .either(
+            ->(input_data) { set_permissions.call(storage: @storage, auth_strategy:, input_data:) },
+            ->(failure) { log_validation_error(failure, project_folder_id:, permissions:) }
+          )
       end
     end
 
-    def set_folder_permissions(folder_id, permissions)
-      set_permissions.call(storage: @storage, path: folder_id, permissions:, auth_strategy:)
-    end
+    # rubocop:enable Metrics/AbcSize
 
     def ensure_folders_exist(folder_map)
       info "Ensuring that automatically managed project folders exist and are correctly named."
@@ -104,31 +110,37 @@ module Storages
 
     def hide_inactive_folders(folder_map)
       info "Hiding folders related to inactive projects"
-      permissions = { write: [], read: [] }
 
-      inactive_folder_ids(folder_map).each do |item_id|
-        info "Hiding folder with ID #{item_id} as it does not belong to any active project"
+      inactive_folder_ids(folder_map).each { |item_id| hide_folder(item_id) }
+    end
 
-        # FIXME: Set permissions wont ever fail.
-        set_permissions.call(storage: @storage, path: item_id, permissions:, auth_strategy:)
-                       .on_failure do |service_result|
-          log_storage_error(service_result.errors, item_id:, context: "hide_folder")
-          add_error(:hide_inactive_folders, service_result.errors, options: { path: folder_map[item_id] })
-        end
-      end
+    def hide_folder(item_id)
+      info "Hiding folder with ID #{item_id} as it does not belong to any active project"
+
+      build_permissions_input_data(item_id, [])
+        .either(
+          ->(input_data) do
+            set_permissions.call(storage: @storage, auth_strategy:, input_data:)
+                           .on_failure do |service_result|
+              log_storage_error(service_result.errors, item_id:, context: "hide_folder")
+              add_error(:hide_inactive_folders, service_result.errors, options: { path: folder_map[item_id] })
+            end
+          end,
+          ->(failure) { log_validation_error(failure, item_id:, context: "hide_folder") }
+        )
     end
 
     def inactive_folder_ids(folder_map)
       folder_map.keys - active_project_storages_scope.pluck(:project_folder_id).compact
     end
 
-    def add_user_to_permission_list(permissions, token, project)
-      op_user_permissions = token.user.all_permissions_for(project)
+    def add_user_to_permission_list(permissions, identity, project)
+      op_user_permissions = identity.user.all_permissions_for(project)
 
       if op_user_permissions.member?(:write_files)
-        permissions[:write] << token.origin_user_id
+        permissions << { user_id: identity.origin_user_id, permissions: [:write_files] }
       elsif op_user_permissions.member?(:read_files)
-        permissions[:read] << token.origin_user_id
+        permissions << { user_id: identity.origin_user_id, permissions: [:read_files] }
       end
     end
 
@@ -163,8 +175,9 @@ module Storages
 
     def audit_last_project_folder(last_project_folder, project_folder_id)
       ApplicationRecord.transaction do
-        success = last_project_folder.update(origin_folder_id: project_folder_id) &&
-                  last_project_folder.project_storage.update(project_folder_id:)
+        success =
+          last_project_folder.update(origin_folder_id: project_folder_id) &&
+            last_project_folder.project_storage.update(project_folder_id:)
 
         raise ActiveRecord::Rollback unless success
       end
@@ -195,13 +208,13 @@ module Storages
       folders
     end
 
-    def project_tokens(project_storage)
-      project_tokens = client_tokens_scope.where.not(id: admin_client_tokens_scope).order(:id)
+    def project_remote_identities(project_storage)
+      project_remote_identities = client_remote_identities_scope.where.not(id: admin_remote_identities_scope).order(:id)
 
       if project_storage.project.public? && ProjectRole.non_member.permissions.intersect?(OP_PERMISSIONS)
-        project_tokens
+        project_remote_identities
       else
-        project_tokens.where(user: project_storage.project.users)
+        project_remote_identities.where(user: project_storage.project.users)
       end
     end
 
@@ -209,12 +222,21 @@ module Storages
       @storage.project_storages.active.automatic
     end
 
-    def client_tokens_scope = RemoteIdentity.where(oauth_client: @storage.oauth_client)
+    def client_remote_identities_scope
+      RemoteIdentity.includes(:user).where(oauth_client: @storage.oauth_client)
+    end
 
-    def admin_client_tokens_scope = RemoteIdentity.where(oauth_client: @storage.oauth_client, user: User.admin.active)
+    def admin_remote_identities_scope
+      RemoteIdentity.includes(:user).where(oauth_client: @storage.oauth_client, user: User.admin.active)
+    end
 
     def root_folder = Peripherals::ParentFolder.new("/")
+
     def auth_strategy = userless.call
+
+    def build_permissions_input_data(file_id, user_permissions)
+      Peripherals::StorageInteraction::Inputs::SetPermissions.build(file_id:, user_permissions:)
+    end
 
     # @param attribute [Symbol] attribute to which the error will be tied to
     # @param storage_error [Storages::StorageError] an StorageError instance

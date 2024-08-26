@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,22 +27,25 @@
 #++
 
 class ProjectsController < ApplicationController
+  include OpTurbo::ComponentStream
+
   menu_item :overview
   menu_item :roadmap, only: :roadmap
 
-  before_action :find_project, except: %i[index new]
-  before_action :load_query_or_deny_access, only: %i[index]
+  before_action :find_project, except: %i[index new export_list_modal]
+  before_action :load_query_or_deny_access, only: %i[index export_list_modal]
   before_action :authorize, only: %i[copy deactivate_work_package_attachments]
   before_action :authorize_global, only: %i[new]
   before_action :require_admin, only: %i[destroy destroy_info]
 
-  no_authorization_required! :index
+  no_authorization_required! :index, :export_list_modal
 
   include SortHelper
   include PaginationHelper
   include QueriesHelper
   include ProjectsHelper
   include Projects::QueryLoading
+  include OpTurbo::DialogStreamHelper
 
   helper_method :has_managed_project_folders?
 
@@ -50,7 +53,7 @@ class ProjectsController < ApplicationController
     :projects
   end
 
-  def index
+  def index # rubocop:disable Format/AbcSize
     respond_to do |format|
       format.html do
         flash.now[:error] = @query.errors.full_messages if @query.errors.any?
@@ -60,6 +63,27 @@ class ProjectsController < ApplicationController
 
       format.any(*supported_export_formats) do
         export_list(@query, request.format.symbol)
+      end
+
+      format.turbo_stream do
+        replace_via_turbo_stream(
+          component: Projects::IndexPageHeaderComponent.new(query: @query, current_user:, state: :show, params:)
+        )
+        update_via_turbo_stream(
+          component: Filter::FilterButtonComponent.new(query: @query, disable_buttons: false)
+        )
+        replace_via_turbo_stream(component: Projects::TableComponent.new(query: @query, current_user:, params:))
+
+        current_url = url_for(params.permit(:conroller, :action, :query_id, :filters, :columns, :sortBy, :page, :per_page))
+        turbo_streams << turbo_stream.push_state(current_url)
+        turbo_streams << turbo_stream.turbo_frame_set_src(
+          "projects_sidemenu",
+          projects_menu_url(query_id: @query.id, controller_path: "projects")
+        )
+
+        turbo_streams << turbo_stream.replace("flash-messages", helpers.render_flash_messages)
+
+        render turbo_stream: turbo_streams
       end
     end
   end
@@ -103,6 +127,10 @@ class ProjectsController < ApplicationController
     else
       head :no_content
     end
+  end
+
+  def export_list_modal
+    respond_with_dialog Projects::ExportListModalComponent.new(query: @query)
   end
 
   private

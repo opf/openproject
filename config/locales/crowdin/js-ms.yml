@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ ms:
     button_back_to_list_view: "Kembali ke paparan senarai"
     button_cancel: "Batal"
     button_close: "Tutup"
-    button_change_project: "Tukar projek"
+    button_change_project: "Move to another project"
     button_check_all: "Tanda semua"
     button_configure-form: "Konfigurasi borang"
     button_confirm: "Sahkan"
@@ -74,7 +74,7 @@ ms:
     button_copy: "Salin"
     button_copy_to_clipboard: "Salin ke papan klip"
     button_copy_link_to_clipboard: "Salin pautan ke papan klip"
-    button_copy_to_other_project: "Salin ke projek lain"
+    button_copy_to_other_project: "Duplicate to other project"
     button_custom-fields: "Ruang tersuai"
     button_delete: "Padam"
     button_delete_watcher: "Padam pemerhati"
@@ -638,11 +638,6 @@ ms:
         upsale:
           title: "Peringatan tarikh"
           description: "Dengan peringatan tarikh, anda akan dimaklumkan tentang tarikh mula dan akhir yang akan datang supaya anda tidak pernah terlepas atau lupa tarikh akhir yang penting."
-      facets:
-        unread: "Belum dibaca"
-        unread_title: "Paparkan yang belum dibaca"
-        all: "Semua"
-        all_title: "Paparkan semua"
       center:
         label_actor_and: "dan"
         and_more_users:
@@ -652,12 +647,13 @@ ms:
           with_current_filter: "Tiada pemberitahuan dalam paparan ini buat masa ini"
         mark_all_read: "Tanda semua sudah dibaca"
         mark_as_read: "Tanda sudah dibaca"
-        text_update_date: "%{date} oleh"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Sedang memaparkan %{newest_count} pemberitahuan yang terbaru. %{more_count} lagi tidak dipaparkan."
         empty_state:
           no_notification: "Nampaknya anda telah selesaikan semuanya."
           no_notification_with_current_project_filter: "Nampaknya anda sudah selesai dengan projek yang dipilih."
           no_notification_with_current_filter: "Nampaknya anda sudah selesai untuk penyaringan %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Klik pemberitahuan untuk paparkan semua butiran aktiviti."
         new_notifications:
           message: "Terdapat pemberitahuan baharu."

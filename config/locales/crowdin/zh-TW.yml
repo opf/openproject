@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -211,10 +211,12 @@ zh-TW:
     reorder_confirmation: "警告：目前可用值的順序將會遺失。繼續嗎？"
     instructions:
       is_required: "將此欄位定義成必填。\n"
+      is_required_for_project: "勾選以啟用此屬性，並使其成為所有專案的必要屬性。個別專案無法停用。"
       is_for_all: "將客製欄位標記為「所有現有專案」和「新專案」中可用。"
       searchable: "使用全域搜尋功能時包含此欄位。"
+      searchable_for_project: "勾選可使此屬性在專案清單中作為篩選條件。"
       editable: "允許使用者自行編輯此欄位"
-      visible: "讓欄位對專案總覽中所有使用者（非管理員）皆可見，並詳細顯示在專案總覽中的小工具程式。"
+      admin_only: "勾選可使此屬性只對管理員可見。沒有管理員權限的使用者將無法檢視或編輯。"
       is_filter: >
         允許在工作項目檢視中的篩選條件使用客製欄位。請注意，僅在選擇「所有專案」的情況下，客製欄位才會出現在所有檢視中。
     tab:
@@ -610,7 +612,7 @@ zh-TW:
         possible_values: "可選擇內容"
         regexp: "正規表示式"
         searchable: "搜索"
-        visible: "可見"
+        admin_only: "僅限管理員"
       custom_value:
         value: "值"
       doorkeeper/application:
@@ -680,6 +682,7 @@ zh-TW:
         versions: "版本"
         work_packages: "工作項目"
       project_custom_field:
+        is_required: "所有專案都需要"
         custom_field_section: 區段
       query:
         column_names: "欄"
@@ -1024,6 +1027,12 @@ zh-TW:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "工作與剩餘工作不匹配"
+              cannot_be_set_when_work_is_zero: "工作為零時無法設置"
+              must_be_set_when_remaining_work_is_set: "設置剩餘工作時需要"
+              must_be_set_when_work_and_remaining_work_are_set: "當設置了工作和剩餘工作時需要。"
+              inclusion: "必須介於 0 和 100 之間。"
             due_date:
               not_start_date: "儘管日期是里程碑所必需的，但不是開始日期。"
               cannot_be_null: "無法設置為 null，因為開始日期和持續時間已知。"
@@ -1053,13 +1062,13 @@ zh-TW:
             estimated_hours:
               not_a_number: "不是有效的持續時間。"
               cant_be_inferior_to_remaining_work: "不能低於剩餘工時。"
-              must_be_set_when_remaining_work_is_set: "必須在設置 \"剩餘工時 \"時設置。"
-              only_values_greater_or_equal_zeroes_allowed: "必須 > = 0。"
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "設置 剩餘工作 和 已完成% 時必填。"
               format: "%{message}"
             remaining_hours:
               not_a_number: "不是有效的持續時間。"
               cant_exceed_work: "不能高於工時。"
               must_be_set_when_work_is_set: "當設置工時需要。"
+              must_be_set_when_work_and_percent_complete_are_set: "設置 工作 和 已完成% 時必填。"
               format: "%{message}"
           readonly_status: "工作項目處於唯讀狀態，因此無法變更其屬性。"
         type:
@@ -1556,6 +1565,7 @@ zh-TW:
   error_pdf_failed_to_export: "無法另存 pdf 匯出: %{error}"
   error_token_authenticity: "無法驗證跨網域請求權杖(Token)。你是不是試圖在多個瀏覽器或者分頁上傳送資料？請關閉所有的分頁後再試一次。"
   error_work_package_not_found_in_project: "工作項目找不到或是不屬於這個專案"
+  error_work_package_id_not_found: "無此工作項目"
   error_must_be_project_member: "必須是專案的成員"
   error_migrations_are_pending: "您的 OpenProject 安裝有待定的資料庫轉移。您可能在上次升級時遺漏了執行遷移。請檢查升級指南以正確升級您的安裝。"
   error_migrations_visit_upgrade_guides: "請參閱我們的升級指南文件"
@@ -1760,6 +1770,11 @@ zh-TW:
       responsible: "負責人"
       shared: "共用"
       watched: "監看者"
+    facets:
+      unread: "未讀"
+      unread_title: "顯示未讀"
+      all: "全部"
+      all_title: "顯示全部"
     menu:
       by_project: "未讀項目"
       by_reason: "原由"
@@ -1978,7 +1993,7 @@ zh-TW:
   label_file_plural: "檔案"
   label_filter_add: "新增條件"
   label_filter: "篩選條件"
-  label_filter_plural: "篩選條件"
+  label_filter_plural: "篩選器"
   label_filters_toggle: "顯示/隱藏篩選條件"
   label_float: "浮點數"
   label_folder: "資料夾"
@@ -1991,7 +2006,7 @@ zh-TW:
   label_generate_key: "產生一個金鑰"
   label_git_path: ".git 目錄的路徑"
   label_greater_or_equal: ">="
-  label_group_by: "分類"
+  label_group_by: "分組依據"
   label_group_new: "新增群組"
   label_group: "群組"
   label_group_named: "群組名稱 %{name}"
@@ -2002,7 +2017,7 @@ zh-TW:
   label_history: "歷史"
   label_hierarchy_leaf: "頁面結構頁"
   label_home: "Home"
-  label_subject_or_id: "名稱或 id"
+  label_subject_or_id: "主旨或 id"
   label_calendar_subscriptions: "訂閱行事曆"
   label_identifier: "識別碼"
   label_in: "在"
@@ -2045,7 +2060,7 @@ zh-TW:
   label_latest_revision_plural: "最新版本"
   label_ldap_authentication: "LDAP 認證"
   label_learn_more: "了解更多"
-  label_less_or_equal: "之後"
+  label_less_or_equal: "<="
   label_less_than_ago: "幾天內"
   label_link_url: "連結(URL)"
   label_list: "清單"
@@ -2119,6 +2134,8 @@ zh-TW:
   label_next_week: "下一週"
   label_no_change_option: "(沒有變動)"
   label_no_data: "沒有資料可顯示"
+  label_no_due_date: "無完成日期"
+  label_no_start_date: "無開始日期"
   label_no_parent_page: "無上層頁面"
   label_nothing_display: "沒有可以顯示的"
   label_nobody: "沒有人"

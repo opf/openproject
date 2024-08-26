@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -156,7 +156,7 @@ See COPYRIGHT and LICENSE files for more details.
           <div class="form--field">
             <label class="form--label" for='start_date'><%= WorkPackage.human_attribute_name(:start_date) %></label>
             <div class="form--field-container -visible-overflow">
-              <%= angular_component_tag 'op-basic-single-date-picker',
+              <%= angular_component_tag 'opce-basic-single-date-picker',
                                         inputs: {
                                           id: "start_date",
                                           name: "start_date"
@@ -167,7 +167,7 @@ See COPYRIGHT and LICENSE files for more details.
           <div class="form--field">
             <label class="form--label" for='due_date'><%= WorkPackage.human_attribute_name(:due_date) %></label>
             <div class="form--field-container -visible-overflow">
-              <%= angular_component_tag 'op-basic-single-date-picker',
+              <%= angular_component_tag 'opce-basic-single-date-picker',
                                         inputs: {
                                           id: "due_date",
                                           name: "due_date"

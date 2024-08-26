@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,23 +26,16 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 import { ResizeDelta } from 'core-app/shared/components/resizer/resizer.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { MainMenuToggleService } from 'core-app/core/main-menu/main-menu-toggle.service';
 
-export const mainMenuResizerSelector = 'main-menu-resizer';
 
 @Component({
-  selector: mainMenuResizerSelector,
+  selector: 'opce-main-menu-resizer',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <op-resizer class="main-menu--resizer"

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -214,10 +214,12 @@ vi:
     reorder_confirmation: "Cảnh báo: Thứ tự hiện tại của các giá trị sẽ bị mất. Tiếp tục?"
     instructions:
       is_required: "Đánh dấu trường tùy chỉnh là bắt buộc. Điều này sẽ làm cho việc điền vào trường là bắt buộc khi tạo mới hoặc cập nhật tài nguyên hiện có."
+      is_required_for_project: "Tích để bật thuộc tính này và yêu cầu nó trong tất cả các dự án. Không thể hủy kích hoạt nó cho từng dự án."
       is_for_all: "Đánh dấu trường tùy chỉnh là khả dụng trong tất cả các dự án hiện có và mới."
       searchable: "Bao gồm giá trị trường khi sử dụng chức năng tìm kiếm toàn cầu."
+      searchable_for_project: "Bao gồm giá trị trường khi sử dụng chức năng tìm kiếm toàn cầu."
       editable: "Cho phép trường có thể chỉnh sửa bởi người dùng tự mình."
-      visible: "Làm cho trường hiển thị cho tất cả người dùng (không phải quản trị viên) trong tổng quan dự án và hiển thị trong tiện ích chi tiết dự án trên Tổng quan dự án."
+      admin_only: "Tích để chỉ hiển thị thuộc tính này cho người quản trị. Người dùng không có quyền quản trị sẽ không thể xem hoặc chỉnh sửa thuộc tính này."
       is_filter: >
         Cho phép trường tùy chỉnh được sử dụng trong bộ lọc trong chế độ xem gói công việc. Lưu ý rằng chỉ khi 'Cho tất cả các dự án' được chọn, trường tùy chỉnh mới xuất hiện trong các chế độ xem toàn cầu.
     tab:
@@ -614,7 +616,7 @@ vi:
         possible_values: "Giá trị có thể"
         regexp: "Biểu thức chính quy"
         searchable: "Có thể tìm kiếm được"
-        visible: "Hiển thị"
+        admin_only: "Chỉ dành cho quản trị viên"
       custom_value:
         value: "Giá trị"
       doorkeeper/application:
@@ -684,6 +686,7 @@ vi:
         versions: "Các phiên bản"
         work_packages: "Work Packages"
       project_custom_field:
+        is_required: "Yêu cầu cho tất cả các dự án"
         custom_field_section: Mục tùy chỉnh
       query:
         column_names: "Cột"
@@ -1028,6 +1031,12 @@ vi:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "không khớp với công việc và công việc còn lại"
+              cannot_be_set_when_work_is_zero: "không thể thiết lập khi công việc bằng không"
+              must_be_set_when_remaining_work_is_set: "Bắt buộc khi thiết lập Công việc còn lại."
+              must_be_set_when_work_and_remaining_work_are_set: "Bắt buộc khi thiết lập Công việc và Công việc còn lại."
+              inclusion: "phải nằm trong khoảng từ 0 đến 100."
             due_date:
               not_start_date: "không phải ngày bắt đầu, mặc dù điều này là cần thiết cho các mốc quan trọng."
               cannot_be_null: "không thể được đặt thành null vì ngày bắt đầu và thời gian là đã biết."
@@ -1057,13 +1066,13 @@ vi:
             estimated_hours:
               not_a_number: "không phải là thời gian hợp lệ."
               cant_be_inferior_to_remaining_work: "Không thể thấp hơn Công việc còn lại."
-              must_be_set_when_remaining_work_is_set: "Yêu cầu khi Công việc còn lại được đặt."
-              only_values_greater_or_equal_zeroes_allowed: "Phải lớn hơn hoặc bằng 0."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "Bắt buộc khi thiết lập Lượng công việc còn lại và % Hoàn thành."
               format: "%{message}"
             remaining_hours:
               not_a_number: "không phải là thời gian hợp lệ."
               cant_exceed_work: "Không thể cao hơn Công việc."
               must_be_set_when_work_is_set: "Yêu cầu khi Công việc được đặt."
+              must_be_set_when_work_and_percent_complete_are_set: "Bắt buộc khi Công việc và % Hoàn thành được thiết lập."
               format: "%{message}"
           readonly_status: "Gói công việc đang ở trạng thái chỉ đọc nên các thuộc tính của nó không thể bị thay đổi."
         type:
@@ -1560,6 +1569,7 @@ vi:
   error_pdf_failed_to_export: "Xuất PDF không thể được lưu: %{error}"
   error_token_authenticity: "Không thể xác minh token Cross-Site Request Forgery. Bạn có cố gắng gửi dữ liệu trên nhiều trình duyệt hoặc tab không? Vui lòng đóng tất cả các tab và thử lại."
   error_work_package_not_found_in_project: "Work package không được tìm thấy hoặc không thuộc về dự án này"
+  error_work_package_id_not_found: "Không tìm thấy gói công việc."
   error_must_be_project_member: "phải là thành viên dự án"
   error_migrations_are_pending: "Cài đặt OpenProject của bạn có các di trú cơ sở dữ liệu đang chờ xử lý. Có thể bạn đã bỏ lỡ việc chạy các di trú trong lần nâng cấp gần nhất. Vui lòng kiểm tra hướng dẫn nâng cấp để nâng cấp cài đặt của bạn đúng cách."
   error_migrations_visit_upgrade_guides: "Vui lòng truy cập hướng dẫn nâng cấp của chúng tôi"
@@ -1764,6 +1774,11 @@ vi:
       responsible: "Có trách nhiệm"
       shared: "Được chia sẻ"
       watched: "Quan sát viên"
+    facets:
+      unread: "Chưa đọc"
+      unread_title: "Hiện chưa đọc"
+      all: "Tất cả"
+      all_title: "Hiện tất cả"
     menu:
       by_project: "Chưa đọc theo dự án"
       by_reason: "Lý do"
@@ -1982,7 +1997,7 @@ vi:
   label_file_plural: "Tệp"
   label_filter_add: "Thêm bộ lọc"
   label_filter: "Bộ lọc"
-  label_filter_plural: "Các bộ lọc"
+  label_filter_plural: "Bộ lọc"
   label_filters_toggle: "Hiển thị/ẩn bộ lọc"
   label_float: "Số thực"
   label_folder: "Thư mục"
@@ -2123,6 +2138,8 @@ vi:
   label_next_week: "Tuần tới"
   label_no_change_option: "(không đổi)"
   label_no_data: "Không có dữ liệu để hiển thị"
+  label_no_due_date: "không có ngày kết thúc"
+  label_no_start_date: "không có ngày bắt đầu"
   label_no_parent_page: "Không có trang quan hệ"
   label_nothing_display: "Không có gì để hiển thị"
   label_nobody: "không ai"

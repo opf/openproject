@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,12 +33,17 @@ module Projects
   class IndexSubHeaderComponent < ApplicationComponent
     # rubocop:enable OpenProject/AddPreviewForViewComponent
     include ApplicationHelper
+    include OpTurbo::Streamable
 
     def initialize(query:, current_user:, disable_buttons: nil)
       super
       @query = query
       @current_user = current_user
       @disable_buttons = disable_buttons
+    end
+
+    def self.wrapper_key
+      "projects-index-sub-header"
     end
   end
 end

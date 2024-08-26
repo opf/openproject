@@ -11,7 +11,6 @@ th:
   message_avatar_uploaded: "เปลี่ยนรูปโปรไฟล์แล้ว"
   error_image_upload: "ไม่สามารถบันทึกรูปได้"
   error_image_size: "แฟ้มมีขนาดใหญ่เกินไป"
-  button_change_avatar: "เปลี่ยนรูปโปรไฟล์"
   are_you_sure_delete_avatar: "คุณแน่ใจหรือไม่ว่าคุณต้องการลบรูปนี้?"
   avatar_deleted: "ลบรูปโปรไฟล์สำเร็จ"
   unable_to_delete_avatar: "ไม่สามารถลบรูปโปรไฟล์ได้"
