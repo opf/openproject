@@ -867,16 +867,20 @@ components:
       "$ref": "./components/schemas/week_day_write_model.yml"
     Wiki_PageModel:
       "$ref": "./components/schemas/wiki_page_model.yml"
-    Work_PackageModel:
+    WorkPackageModel:
       "$ref": "./components/schemas/work_package_model.yml"
-    Work_Package_SchemasModel:
-      "$ref": "./components/schemas/work_package_schemas_model.yml"
+    WorkPackageFormModel:
+      "$ref": "./components/schemas/work_package_form_model.yml"
+    WorkPackagePatchModel:
+      "$ref": "./components/schemas/work_package_patch_model.yml"
+    WorkPackageSchemaModel:
+      "$ref": "./components/schemas/work_package_schema_model.yml"
+    WorkPackageWriteModel:
+      "$ref": "./components/schemas/work_package_write_model.yml"
     Work_Package_activitiesModel:
       "$ref": "./components/schemas/work_package_activities_model.yml"
     Work_PackagesModel:
       "$ref": "./components/schemas/work_packages_model.yml"
-    WorkPackagePatchModel:
-      "$ref": "./components/schemas/work_package_patch_model.yml"
   securitySchemes:
     BasicAuth:
       type: http
