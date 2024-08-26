@@ -25,13 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 // ++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
 import {
@@ -65,6 +59,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
 
   public ckEditorContext:ICKEditorContext = {
     resource: this.change.pristineResource,
+    field: this.field.name,
     macros: 'none' as const,
     previewContext: this.previewContext,
     options: { rtl: this.schema.options && this.schema.options.rtl },

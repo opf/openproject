@@ -88,6 +88,8 @@ export interface ICKEditorContext {
   type:ICKEditorType;
   // Hal Resource to pass into ckeditor
   resource?:HalResource;
+  // If available, field name of the edit
+  field?:string;
   // Specific removing of plugins
   removePlugins?:string[];
   // Set of enabled macro plugins or false to disable all

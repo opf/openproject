@@ -129,6 +129,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     this.context = {
       type: this.editorType,
       resource: this.halResource,
+      field: this.wrappedTextArea.name,
       previewContext: this.previewContext,
       removePlugins: this.removePlugins,
     };
