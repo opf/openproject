@@ -1,11 +1,19 @@
 <%= component_wrapper(tag: 'turbo-frame') do %>
-  <%= render(Primer::OpenProject::SubHeader.new(data: {
-      controller: "filter--filters-form",
-      'filter--filters-form-perform-turbo-requests-value': true,
-      "application-target": "dynamic",
-    })) do |subheader|
+  <%= render(Primer::OpenProject::SubHeader.new(data: sub_header_data_attributes)) do |subheader|
+      subheader.with_filter_input(name: "name_and_identifier",
+                                  label: t('projects.index.search.label'),
+                                  value: filter_input_value,
+                                  placeholder: t('projects.index.search.placeholder'),
+                                  leading_visual: {
+                                    icon: :search,
+                                    size: :small
+                                  },
+                                  show_clear_button: true,
+                                  clear_button_id: clear_button_id,
+                                  data: filter_input_data_attributes)
+
       subheader.with_filter_component do
-        render(Filter::FilterButtonComponent.new(query: @query, disabled: @disable_buttons))
+        render(Projects::ProjectFilterButtonComponent.new(query: @query, disabled: @disable_buttons))
       end
 
       subheader.with_action_button(tag: :a,

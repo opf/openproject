@@ -136,7 +136,11 @@ module Pages
       end
 
       def expect_filter_set(filter_name)
-        expect(page).to have_css("li[filter-name='#{filter_name}']:not(.hidden)", visible: :hidden)
+        if filter_name == "name_and_identifier"
+          expect(page.find_by_id(filter_name).value).not_to be_empty
+        else
+          expect(page).to have_css("li[data-filter-name='#{filter_name}']:not(.hidden)", visible: :hidden)
+        end
       end
 
       def expect_filter_count(count)
@@ -203,18 +207,34 @@ module Pages
         wait_for_reload
       end
 
-      def set_filter(name, human_name, human_operator = nil, values = [])
-        select human_name, from: "add_filter_select"
-        selected_filter = page.find("li[filter-name='#{name}']")
+      def filter_by_name_and_identifier(value)
+        set_name_and_identifier_filter([value])
+        wait_for_reload
+      end
 
+      def set_filter(name, human_name, human_operator = nil, values = [])
+        if name == "name_and_identifier"
+          set_simple_filter(name, values)
+        else
+          set_advanced_filter(name, human_name, human_operator, values)
+        end
+      end
+
+      def set_simple_filter(_name, values)
+        return unless values.any?
+
+        set_name_and_identifier_filter(values) # This is the only one simple filter at the moment.
+      end
+
+      def set_advanced_filter(name, human_name, human_operator = nil, values = [])
+        select human_name, from: "add_filter_select"
+        selected_filter = page.find("li[data-filter-name='#{name}']")
         select(human_operator, from: "operator") unless boolean_filter?(name)
 
         within(selected_filter) do
           return unless values.any?
 
-          if name == "name_and_identifier"
-            set_name_and_identifier_filter(values)
-          elsif boolean_filter?(name)
+          if boolean_filter?(name)
             set_toggle_filter(values)
           elsif name == "created_at"
             select(human_operator, from: "operator")
@@ -227,7 +247,11 @@ module Pages
       end
 
       def remove_filter(name)
-        page.find("li[filter-name='#{name}'] .filter_rem").click
+        if name == "name_and_identifier"
+          page.find_by_id("name_and_identifier").find(:xpath, "following-sibling::button").click
+        else
+          page.find("li[data-filter-name='#{name}'] .filter_rem").click
+        end
       end
 
       def set_toggle_filter(values)
@@ -246,7 +270,7 @@ module Pages
       end
 
       def set_name_and_identifier_filter(values)
-        fill_in "value", with: values.first
+        fill_in "name_and_identifier", with: values.first
       end
 
       def set_created_at_filter(human_operator, values)
@@ -260,12 +284,12 @@ module Pages
       end
 
       def set_custom_field_filter(selected_filter, human_operator, values)
-        if selected_filter[:"filter-type"] == "list_optional"
+        if selected_filter[:"data-filter-type"] == "list_optional"
           if values.size == 1
             value_select = find('.single-select select[name="value"]')
             value_select.select values.first
           end
-        elsif selected_filter[:"filter-type"] == "date"
+        elsif selected_filter[:"data-filter-type"] == "date"
           if human_operator == "on"
             fill_in "value", with: values.first
           end

@@ -51,7 +51,7 @@ module Filter
 
     def allowed_filters
       query
-        .available_filters
+        .available_advanced_filters
     end
 
     protected

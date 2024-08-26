@@ -16,8 +16,8 @@
         <% filter_boolean = filter.is_a?(Queries::Filters::Shared::BooleanFilter) %>
         <% autocomplete_filter = additional_options.key?(:autocomplete_options) %>
         <li class="advanced-filters--filter <%= filter_active ? '' : 'hidden' %>"
-            filter-name="<%= filter.name %>"
-            filter-type="<%= filter.type %>"
+            data-filter-name="<%= filter.name %>"
+            data-filter-type="<%= filter.type %>"
             data-filter--filters-form-target="filter">
           <label class='advanced-filters--filter-name' for="<%= filter.name %>">
             <%= filter.human_name %>
@@ -105,15 +105,5 @@
         </div>
       </li>
     </ul>
-    <% unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list)%>
-      <%=
-        helpers.angular_component_tag 'op-enterprise-banner',
-                                      inputs: {
-                                        collapsible: true,
-                                        textMessage: t('ee.upsale.project_filters.description_html'),
-                                        moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_projects][:href],
-                                      }
-      %>
-    <% end %>
   </fieldset>
 <% end %>
