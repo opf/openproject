@@ -281,7 +281,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       end
     end
 
-    context "for project attributes", with_ee: %i[custom_fields_in_projects_list] do
+    context "for project attributes" do
       let(:user) do
         create(:user,
                member_with_roles: {
