@@ -36,6 +36,21 @@ module Pages::StructuredMeeting
       expect(page).to have_no_css('[id^="meeting-agenda-items-item-component"]')
     end
 
+    def trigger_dropdown_menu_item(name)
+      click_link_or_button "op-meetings-header-action-trigger"
+      click_link_or_button name
+    end
+
+    def trigger_change_poll
+      script = <<~JS
+        var target = document.querySelector('[data-test-selector="meeting-page-header"]');
+        var controller = window.Stimulus.getControllerForElementAndIdentifier(target, 'poll-for-changes')
+        controller.triggerTurboStream();
+      JS
+
+      page.execute_script(script)
+    end
+
     def add_agenda_item(type: MeetingAgendaItem, save: true, &)
       page.within("#meeting-agenda-items-new-button-component") do
         click_on I18n.t(:button_add)
