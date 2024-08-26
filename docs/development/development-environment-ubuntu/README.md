@@ -84,7 +84,7 @@ We suggest you install the version we require in [.ruby-version](https://github.
 Read the first line e.g. `3.3.4` and install that version.
 
 ```shell
-# Install the required version as read from the Gemfile
+# Install the required version as read from the .ruby-version file
 rbenv install 3.3.4
 ```
 
