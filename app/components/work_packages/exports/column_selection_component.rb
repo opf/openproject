@@ -44,7 +44,10 @@ module WorkPackages
       end
 
       def available_columns
-        work_packages_columns_options
+        query
+          .displayable_columns
+          .sort_by(&:caption)
+          .map { |column| { id: column.name.to_s, name: column.caption } }
       end
 
       def protected_options
@@ -54,7 +57,7 @@ module WorkPackages
       def selected_columns
         query
           .columns
-          .map { |s| { id: s.name, name: s.caption } }
+          .map { |column| { id: column.name.to_s, name: column.caption } }
       end
     end
   end
