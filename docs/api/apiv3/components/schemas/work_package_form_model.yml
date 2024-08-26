@@ -17,11 +17,10 @@ properties:
       schema:
         $ref: './work_package_schema_model.yml'
       validationErrors:
-        type: array
-        items:
-          type: object
+        type: object
         description: |-
-          A list of validation errors. This list is empty, if the request body is valid.
+          All validation errors, where the key is the faulty property. The object is empty, if the request body is
+          valid.
   _links:
     type: object
     properties:

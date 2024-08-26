@@ -567,6 +567,12 @@ components:
       $ref: "./components/examples/view_work_packages_table.yml"
     ViewTeamPlanner:
       $ref: "./components/examples/view_team_planner.yml"
+    WorkPackageCreateOnlySubject:
+      $ref: "./components/examples/work_package_create_only_subject.yml"
+    WorkPackageCreateValid:
+      $ref: "./components/examples/work_package_create_valid.yml"
+    WorkPackageEditSubject:
+      $ref: "./components/examples/work_package_edit_subject.yml"
 
   responses:
     InvalidQuery:

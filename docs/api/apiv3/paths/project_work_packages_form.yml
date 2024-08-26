@@ -1,8 +1,8 @@
 # /api/v3/projects/{id}/work_packages/form
 ---
 post:
-  summary: Work Package Create Form For Project
-  operationId: Work_Package_Create_Form_For_Project
+  summary: Form for creating Work Packages in a Project
+  operationId: form_create_work_package_in_project
   tags:
     - Work Packages
   description: |-
@@ -22,6 +22,11 @@ post:
       application/json:
         schema:
           $ref: '../components/schemas/work_package_write_model.yml'
+        examples:
+          'Minimal example':
+            $ref: '../components/examples/work_package_create_only_subject.yml'
+          'Valid example':
+            $ref: '../components/examples/work_package_create_valid.yml'
   responses:
     '200':
       description: OK

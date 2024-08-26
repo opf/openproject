@@ -1,6 +1,9 @@
 # Schema: WorkPackageWriteModel
 ---
 type: object
+description: |-
+  This model is used for creating and updating work packages. It can also be used for validation against the work
+  package form endpoints.
 properties:
   subject:
     type: string

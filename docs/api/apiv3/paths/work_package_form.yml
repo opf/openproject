@@ -1,16 +1,16 @@
 # /api/v3/work_packages/{id}/form
 ---
 post:
-  summary: Work Package Edit Form
-  operationId: Work_Package_Edit_Form
+  summary: Form for editing a Work Package
+  operationId: form_edit_work_package
   tags:
     - Work Packages
   description: |-
     When calling this endpoint, the client provides a single object containing the properties and links to be
-    created, in the body. The input is validated and a schema response is returned. If the validation errors of the
-    response is empty, the same payload can be used to create a work package.
+    edited, in the body. The input is validated and a schema response is returned. If the validation errors of the
+    response is empty, the same payload can be used to edit the work package.
 
-    Only the properties of the work package write model are allowed to set on a work package on creation.
+    Only the properties of the work package write model are allowed to set on a work package on editing.
 
     When setting start date, finish date, and duration together, their correctness will be checked and a validation
     error will be returned if one value does not match with the two others. You can make the server compute a value:
@@ -22,6 +22,9 @@ post:
       application/json:
         schema:
           $ref: '../components/schemas/work_package_write_model.yml'
+        examples:
+          'Changing subject':
+            $ref: '../components/examples/work_package_edit_subject.yml'
   parameters:
     - name: id
       description: ID of the work package being modified
