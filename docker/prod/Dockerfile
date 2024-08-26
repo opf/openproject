@@ -70,7 +70,7 @@ RUN \
 COPY . .
 
 # Copy lock file again as the updated version was overriden by COPY just now
-RUN cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak \ &&
+RUN cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak && \
     ./docker/prod/setup/precompile-assets.sh && \
     ./docker/prod/setup/postinstall-common.sh && \
     cp ./config/database.production.yml config/database.yml && \
