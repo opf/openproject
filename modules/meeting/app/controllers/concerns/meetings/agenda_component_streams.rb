@@ -259,12 +259,18 @@ module Meetings
       def move_item_within_section_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item)
         move_item_via_turbo_stream(meeting_agenda_item:)
 
+        # Update the header for updated timestamp
+        update_header_component_via_turbo_stream
+
         # update the displayed time slots of all other items in the section
         update_show_items_of_section_via_turbo_stream(meeting_section: meeting_agenda_item.meeting_section)
       end
 
       def move_item_to_other_section_via_turbo_stream(old_section:, current_section:, meeting_agenda_item: @meeting_agenda_item)
         move_item_via_turbo_stream(meeting_agenda_item:)
+
+        # Update the header for updated timestamp
+        update_header_component_via_turbo_stream
 
         # update the old section
         update_section_header_via_turbo_stream(meeting_section: old_section)

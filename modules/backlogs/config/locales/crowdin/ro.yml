@@ -26,7 +26,7 @@ ro:
   activerecord:
     attributes:
       work_package:
-        position: "Poziţie"
+        position: "Poziție"
         story_points: "Puncte"
         backlogs_work_package_type: "Tipul de restante"
     errors:
@@ -61,11 +61,11 @@ ro:
     points: "Puncte"
     positions_could_not_be_rebuilt: "Pozițiile nu au putut fi reconstruite."
     positions_rebuilt_successfully: "Toate elementele au fost șterse cu succes"
-    properties: "Proprietăţi"
+    properties: "Proprietăți"
     rebuild: "Reconstruiți"
     rebuild_positions: "Reconstruiți"
-    remaining_hours: "Remaining work"
-    remaining_hours_ideal: "Remaining work (ideal)"
+    remaining_hours: "Muncă rămasă"
+    remaining_hours_ideal: "Munca rămasă (ideal)"
     show_burndown_chart: "Size Chart"
     story: "Articol"
     story_points: "Puncte"
@@ -75,7 +75,7 @@ ro:
     unassigned: "Neasociate"
     x_more: "%{count} mai mult..."
   backlogs_active: "activ"
-  backlogs_any: "Oricare"
+  backlogs_any: "oricare"
   backlogs_inactive: "Proiectul nu prezintă nicio activitate"
   backlogs_points_burn_direction: "Arderea punctelor în sus/jos"
   backlogs_product_backlog: "Fișa produsului"
@@ -147,7 +147,7 @@ ro:
   rb_label_copy_tasks_none: "Nimic"
   rb_label_copy_tasks_open: "Deschis"
   rb_label_link_to_original: "Includeți un link către povestea originală"
-  remaining_hours: "remaining work"
+  remaining_hours: "muncă rămasă"
   required_burn_rate_hours: "rata de ardere necesară (ore)"
   required_burn_rate_points: "rata de ardere necesară (puncte)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

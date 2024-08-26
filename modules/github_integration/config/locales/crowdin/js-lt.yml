@@ -49,3 +49,6 @@ lt:
           draft: 'sukūrė juodraštį'
           merged: 'suliejo'
           ready_for_review: 'pažymėjo paruoštu peržiūrai'
+    work_packages:
+      tabs:
+        github: "GitHub"

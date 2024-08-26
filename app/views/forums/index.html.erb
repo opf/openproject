@@ -46,15 +46,15 @@ See COPYRIGHT and LICENSE files for more details.
 <% else %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
-      <table class="generic-table boards">
+      <table class="generic-table boards" data-controller="table-highlighting">
         <colgroup>
-          <col opHighlightCol>
-          <col opHighlightCol>
-          <col opHighlightCol>
-          <col opHighlightCol>
+          <col>
+          <col>
+          <col>
+          <col>
           <% if User.current.allowed_in_project?(:manage_forums, @project) %>
-            <col opHighlightCol>
             <col>
+            <col data-highlight="false">
           <% end %>
         </colgroup>
         <thead>

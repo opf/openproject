@@ -202,6 +202,11 @@ Rails.application.routes.draw do
     member do
       get :rename
       post :toggle_public
+      get :destroy_confirmation_modal
+    end
+
+    collection do
+      get :configure_view_modal
     end
   end
 
@@ -246,6 +251,10 @@ Rails.application.routes.draw do
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, as: "confirm_destroy"
       post :deactivate_work_package_attachments
+    end
+
+    collection do
+      get :export_list_modal
     end
 
     resources :versions, only: %i[new create] do
@@ -302,6 +311,7 @@ Rails.application.routes.draw do
         get "/report/:detail" => "work_packages/reports#report_details"
         get "/report" => "work_packages/reports#report"
         get "menu" => "work_packages/menus#show"
+        get "/export_dialog" => "work_packages#export_dialog"
       end
 
       # states managed by client-side routing on work_package#index
@@ -560,13 +570,17 @@ Rails.application.routes.draw do
                controller: "work_packages/progress",
                as: :work_package_progress
     end
+    get "/export_dialog" => "work_packages#export_dialog", on: :collection, as: "export_dialog"
+
+    get "/split_view/update_counter" => "work_packages/split_view#update_counter",
+        on: :member
 
     # states managed by client-side (angular) routing on work_package#show
     get "/" => "work_packages#index", on: :collection, as: "index"
     get "/create_new" => "work_packages#index", on: :collection, as: "new_split"
     get "/new" => "work_packages#index", on: :collection, as: "new", state: "new"
     # We do not want to match the work package export routes
-    get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!shares).+/ }
+    get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!(shares|split_view)).+/ }
     get "/share_upsale" => "work_packages#index", on: :collection, as: "share_upsale"
     get "/edit" => "work_packages#show", on: :member, as: "edit"
   end
@@ -701,21 +715,19 @@ Rails.application.routes.draw do
 
   concern :with_split_view do |options|
     get "details/:work_package_id(/:tab)",
-        on: :collection,
         action: options.fetch(:action, :split_view),
         defaults: { tab: :overview },
         as: :details,
         work_package_split_view: true
 
     get "/:work_package_id/close",
-        on: :collection,
         action: :close_split_view
   end
 
   resources :notifications, only: :index do
-    concerns :with_split_view, base_route: :notifications_path
-
     collection do
+      concerns :with_split_view, base_route: :notifications_path
+
       post :mark_all_read
       resource :menu, module: :notifications, only: %i[show], as: :notifications_menu
     end

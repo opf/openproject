@@ -8,12 +8,12 @@ ro:
       create_title: 'Creați un nou planificator de echipă'
       unsaved_title: 'Planificator de echipă nenumit'
       no_data: 'Adăugați persoane desemnate pentru a vă configura planificatorul echipei.'
-      add_assignee: 'Adăugare responsabil'
-      remove_assignee: 'Înlăturați responsabilul'
+      add_assignee: 'Adaugă responsabil'
+      remove_assignee: 'Înlătură responsabil'
       two_weeks: '2-săptămână'
       one_week: '1-săptămână'
-      four_weeks: '4-week'
-      eight_weeks: '8-week'
+      four_weeks: '4 săptămâni'
+      eight_weeks: '8 săptămâni'
       work_week: 'Săptămână de lucru'
       today: 'Azi'
       drag_here_to_remove: 'Trageți aici pentru a elimina responsabilul și a începe și a termina datele.'
@@ -21,7 +21,7 @@ ro:
       cannot_drag_to_non_working_day: 'Acest pachet de lucru nu poate începe/încheia o zi nelucrătoare.'
       quick_add:
         empty_state: 'Utilizați câmpul de căutare pentru a găsi pachete de lucru și trageți-le la planificator pentru a-l atribui cuiva și defini datele de început și de sfârșit.'
-        search_placeholder: 'Căutați...'
+        search_placeholder: 'Caută...'
       modify:
         errors:
           permission_denied: 'Nu aveți permisiunile necesare pentru a modifica acest lucru.'

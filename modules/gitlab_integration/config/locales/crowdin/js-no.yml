@@ -48,3 +48,6 @@
         empty: 'Det er ingen fletteforespørsler koblet ennå. Koble til en eksisterende MR ved å bruke koden <code>OP#%{wp_id}</code> (eller <code>PP#%{wp_id}</code> for private lenker) i MR tittelen/beskrivelsen eller opprett en ny MR.'
       gitlab_pipelines: Pipelines
       updated_on: Oppdatert den
+    work_packages:
+      tabs:
+        gitlab: "GitLab"

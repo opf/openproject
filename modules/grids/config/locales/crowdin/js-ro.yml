@@ -8,7 +8,7 @@ ro:
         text: "Unele widgeturi, cum ar fi widgetul grafic al pachetului de lucru, sunt disponibile numai în ediția Enterprise."
         link: 'Ediția Enterprise.'
       widgets:
-        missing_permission: "You don't have the necessary permissions to view this widget."
+        missing_permission: "Nu ai drepturile necesare pentru a vizualiza acest widget."
         custom_text:
           title: 'Text customizat'
         documents:
@@ -17,7 +17,7 @@ ro:
         members:
           title: 'Membri'
           no_results: 'Nu există membri vizibili.'
-          view_all_members: 'Vizualizare toți participanții'
+          view_all_members: 'Vezi toți membrii'
           add: 'Membru'
           too_many: 'Afișarea a %{count} din %{total} membri.'
         news:
@@ -43,8 +43,8 @@ ro:
           title: 'Subproiecte'
           no_results: 'Cu subproiecte'
         project_favorites:
-          title: 'Favorite projects'
-          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
+          title: 'Proiecte favorite'
+          no_results: 'Nu ai niciun proiect favorit. Fă clic pe pictograma cu steluță din tabloul de bord al proiectului pentru a adăuga unul la favorite.'
         time_entries_current_user:
           title: 'Timpul meu petrecut'
           displayed_days: 'Zile afișate în lista de activități a proiectului'
@@ -66,5 +66,5 @@ ro:
         work_packages_calendar:
           title: 'Calendar'
         work_packages_overview:
-          title: 'Prezentare generală a pachetelor de lucru'
+          title: 'Prezentare generală pachete de lucru'
           placeholder: 'Dă clic pentru a edita acest meniu.'

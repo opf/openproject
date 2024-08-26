@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) the OpenProject GmbH
 //
@@ -41,6 +41,8 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ProjectStoragesResourceService } from 'core-app/core/state/project-storages/project-storages.service';
 import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
+import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Component({
   selector: 'op-files-tab',
@@ -68,6 +70,8 @@ export class WorkPackageFilesTabComponent implements OnInit {
     private readonly i18n:I18nService,
     private readonly currentUserService:CurrentUserService,
     private readonly projectStoragesResourceService:ProjectStoragesResourceService,
+    private readonly pathHelper:PathHelperService,
+    private readonly turboRequests:TurboRequestsService,
   ) { }
 
   ngOnInit():void {
@@ -95,5 +99,20 @@ export class WorkPackageFilesTabComponent implements OnInit {
     ).pipe(
       map(([storages, viewPermission]) => storages.length > 0 && viewPermission),
     );
+  }
+
+  attachmentRemoved() {
+    this.updateCounter();
+  }
+
+  attachmentAdded() {
+    this.updateCounter();
+  }
+
+  private updateCounter() {
+    if (this.workPackage.id) {
+      const url = this.pathHelper.workPackageUpdateCounterPath(this.workPackage.id, 'files');
+      void this.turboRequests.request(url);
+    }
   }
 }

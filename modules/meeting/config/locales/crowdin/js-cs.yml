@@ -22,3 +22,6 @@
 cs:
   js:
     label_meetings: 'Schůzky'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

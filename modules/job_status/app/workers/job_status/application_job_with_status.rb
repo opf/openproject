@@ -113,8 +113,8 @@ module JobStatus
 
     ##
     # Crafts a payload for a download result
-    def download_payload(path)
-      { download: path }
+    def download_payload(path, mime_type)
+      { download: path, mime_type: }
     end
   end
 end

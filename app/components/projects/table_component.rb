@@ -30,6 +30,8 @@
 
 module Projects
   class TableComponent < ::TableComponent
+    include OpTurbo::Streamable
+
     options :params # We read collapsed state from params
     options :current_user # adds this option to those of the base class
     options :query
@@ -45,6 +47,10 @@ module Projects
 
     def initial_sort
       %i[lft asc]
+    end
+
+    def self.wrapper_key
+      "projects-table"
     end
 
     def table_id
@@ -87,7 +93,10 @@ module Projects
     end
 
     def default_pagination_options
-      { allowed_params: %i[query_id filters columns sortBy] }
+      {
+        allowed_params: %i[query_id filters columns sortBy],
+        turbo: true
+      }
     end
 
     def optional_pagination_options
@@ -109,10 +118,14 @@ module Projects
       end
     end
 
-    def order_options(select)
-      {
-        caption: select.caption
-      }
+    def order_options(select, turbo: false)
+      options = { caption: select.caption }
+
+      if turbo
+        options[:data] = { "turbo-stream": true }
+      end
+
+      options
     end
 
     def sortable_column?(select)

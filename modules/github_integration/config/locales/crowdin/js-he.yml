@@ -49,3 +49,6 @@ he:
           draft: 'drafted'
           merged: 'merged'
           ready_for_review: 'marked ready for review'
+    work_packages:
+      tabs:
+        github: "GitHub"

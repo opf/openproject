@@ -1,4 +1,4 @@
 ro:
   overviews:
-    label: 'Vedere de ansamblu'
-  permission_manage_overview: 'Gestionați pagina de prezentare generală'
+    label: 'Prezentare generală'
+  permission_manage_overview: 'Gestionează pagina de prezentare generală'

@@ -26,6 +26,7 @@ cs:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "2FA doručení bylo zakázáno."
+    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
     error_no_device: "Žádné registrované 2FA zařízení pro tohoto uživatele nebylo nalezeno, přestože bylo nezbytné pro tuto instanci."
     error_no_matching_strategy: "Žádná odpovídající 2FA strategie pro tohoto uživatele. Obraťte se prosím na svého administrátora."
     error_is_enforced_not_active: "Chyba konfigurace: Dvoufázové ověření bylo vynuceno, ale žádná aktivní strategie neexistuje."

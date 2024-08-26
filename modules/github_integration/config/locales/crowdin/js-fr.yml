@@ -49,3 +49,6 @@ fr:
           draft: 'brouillon'
           merged: 'fusionnée'
           ready_for_review: 'marquée comme prête à être révisée'
+    work_packages:
+      tabs:
+        github: "GitHub"

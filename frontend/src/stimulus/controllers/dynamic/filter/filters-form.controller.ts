@@ -30,6 +30,12 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
+import { renderStreamMessage } from '@hotwired/turbo';
+import { debounce } from 'lodash';
+
+interface PrimerTextFieldElement extends HTMLElement {
+  inputElement:HTMLInputElement;
+}
 
 interface InternalFilterValue {
   name:string;
@@ -43,6 +49,7 @@ export default class FiltersFormController extends Controller {
   static targets = [
     'filterFormToggle',
     'filterForm',
+    'simpleFilter',
     'filter',
     'addFilterSelect',
     'spacer',
@@ -56,6 +63,7 @@ export default class FiltersFormController extends Controller {
 
   declare readonly filterFormToggleTarget:HTMLButtonElement;
   declare readonly filterFormTarget:HTMLFormElement;
+  declare readonly simpleFilterTargets:HTMLElement[];
   declare readonly filterTargets:HTMLElement[];
   declare readonly addFilterSelectTarget:HTMLSelectElement;
   declare readonly spacerTarget:HTMLElement;
@@ -69,14 +77,87 @@ export default class FiltersFormController extends Controller {
   static values = {
     displayFilters: { type: Boolean, default: false },
     outputFormat: { type: String, default: 'params' },
+    performTurboRequests: { type: Boolean, default: false },
+    clearButtonId: String,
   };
 
   declare displayFiltersValue:boolean;
   declare outputFormatValue:string;
+  declare performTurboRequestsValue:boolean;
+  declare readonly clearButtonIdValue:string;
+
+  initialize() {
+    // Initialize runs anytime an element with a controller connected to the DOM for the first time
+    this.sendForm = debounce(this.sendForm.bind(this), 300);
+  }
 
   connect() {
     const urlParams = new URLSearchParams(window.location.search);
     this.displayFiltersValue = urlParams.has('filters');
+
+    const clearButton = document.getElementById(this.clearButtonIdValue);
+    clearButton?.addEventListener('click', (event:MouseEvent) => this.clearInputWithButton(event));
+
+    // Auto-register change event listeners for all fields
+    // to keep DOM cleaner.
+    if (this.performTurboRequestsValue) {
+      this.simpleValueTargets.forEach((simpleValue) => {
+        simpleValue.addEventListener('input', this.sendForm.bind(this));
+      });
+
+      this.operatorTargets.forEach((operator) => {
+        operator.addEventListener('change', this.sendForm.bind(this));
+      });
+
+      this.filterValueSelectTargets.forEach((select) => {
+        select.addEventListener('change', this.sendForm.bind(this));
+      });
+
+      this.filterValueContainerTargets.forEach((container) => {
+        container.addEventListener('change', this.sendForm.bind(this));
+      });
+
+      this.singleDayTargets.forEach((singleDay) => {
+        singleDay.addEventListener('change', this.sendForm.bind(this));
+      });
+
+      this.daysTargets.forEach((days) => {
+        days.addEventListener('change', this.sendForm.bind(this));
+      });
+    }
+  }
+
+  disconnect() {
+    const clearButton = document.getElementById(this.clearButtonIdValue);
+    clearButton?.removeEventListener('click', (event:MouseEvent) => this.clearInputWithButton(event));
+
+    // Auto-deregister change event listeners for all fields
+    // to keep DOM cleaner.
+    if (this.performTurboRequestsValue) {
+      this.simpleValueTargets.forEach((simpleValue) => {
+        simpleValue.removeEventListener('change', this.sendForm.bind(this));
+      });
+
+      this.operatorTargets.forEach((operator) => {
+        operator.removeEventListener('change', this.sendForm.bind(this));
+      });
+
+      this.filterValueSelectTargets.forEach((select) => {
+        select.removeEventListener('change', this.sendForm.bind(this));
+      });
+
+      this.filterValueContainerTargets.forEach((container) => {
+        container.removeEventListener('change', this.sendForm.bind(this));
+      });
+
+      this.singleDayTargets.forEach((singleDay) => {
+        singleDay.removeEventListener('change', this.sendForm.bind(this));
+      });
+
+      this.daysTargets.forEach((days) => {
+        days.removeEventListener('change', this.sendForm.bind(this));
+      });
+    }
   }
 
   toggleDisplayFilters() {
@@ -128,13 +209,17 @@ export default class FiltersFormController extends Controller {
 
   addFilter(event:Event) {
     const selectedFilterName = (event.target as HTMLSelectElement).value;
-    const selectedFilter = this.filterTargets.find((filter) => filter.getAttribute('filter-name') === selectedFilterName);
+    const selectedFilter = this.filterTargets.find((filter) => filter.getAttribute('data-filter-name') === selectedFilterName);
     if (selectedFilter) {
       selectedFilter.classList.remove('hidden');
     }
     this.disableSelection();
     this.reselectPlaceholderOption();
     this.setSpacerVisibility();
+
+    if (this.performTurboRequestsValue) {
+      this.sendForm();
+    }
   }
 
   private disableSelection() {
@@ -146,13 +231,32 @@ export default class FiltersFormController extends Controller {
   }
 
   removeFilter({ params: { filterName } }:{ params:{ filterName:string } }) {
-    const filterToRemove = this.filterTargets.find((filter) => filter.getAttribute('filter-name') === filterName);
+    const filterToRemove = this.filterTargets.find((filter) => filter.getAttribute('data-filter-name') === filterName);
     filterToRemove?.classList.add('hidden');
 
     const selectOptions = Array.from(this.addFilterSelectTarget.options);
     const removedFilterOption = selectOptions.find((option) => option.value === filterName);
     removedFilterOption?.removeAttribute('disabled');
     this.setSpacerVisibility();
+
+    if (this.performTurboRequestsValue) {
+      this.sendForm();
+    }
+  }
+
+  clearInputWithButton(event:MouseEvent) {
+    // Primer does not trigger an input event when clearing the value of the input field unless
+    // it is focused. This handler will find the sibling input of the clear button inside the
+    // PrimerTextField and triggers the input in order to notify the auto-reloading filter mechanism.
+    const element = event.currentTarget as HTMLElement;
+    const primerTextField = element.closest('primer-text-field') as PrimerTextFieldElement;
+    const inputElement = primerTextField.inputElement;
+
+    const inputEvent = new Event('input', {
+      bubbles: true,
+      cancelable: true,
+    });
+    inputElement.dispatchEvent(inputEvent);
   }
 
   private setSpacerVisibility() {
@@ -198,35 +302,93 @@ export default class FiltersFormController extends Controller {
     }
   }
 
+  autocompleteSendForm() {
+    if (this.performTurboRequestsValue) {
+      this.sendForm();
+    }
+  }
+
   sendForm() {
-    const ajaxIndicator = document.querySelector('#ajax-indicator') as HTMLElement;
-    ajaxIndicator.style.display = '';
-
     const params = new URLSearchParams();
-
     params.append('filters', this.buildFiltersParam(this.parseFilters()));
 
     const currentParams = new URLSearchParams(window.location.search);
+
+    if (params.get('filters') === currentParams.get('filters')) {
+      // Some fields may be triggered via the input event and the change event too.
+      // This early return will prevent firing request when the filter params are not changed.
+      return;
+    }
+
+    const ajaxIndicator = document.querySelector('#ajax-indicator') as HTMLElement;
+    ajaxIndicator.style.display = '';
+
     FiltersFormController.paramsToCopy.forEach((name) => {
       if (currentParams.has(name)) {
         params.append(name, currentParams.get(name) as string);
       }
     });
 
-    window.location.href = `${window.location.pathname}?${params.toString()}`;
+    const url = `${window.location.pathname}?${params.toString()}`;
+
+    if (this.performTurboRequestsValue) {
+      fetch(url, {
+        headers: {
+          Accept: 'text/vnd.turbo-stream.html',
+        },
+      })
+        .then((response:Response) => response.text())
+        .then((html:string) => {
+          renderStreamMessage(html);
+          ajaxIndicator.style.display = 'none';
+        })
+        .catch((error:Error) => {
+          console.error('Error:', error);
+          ajaxIndicator.style.display = 'none';
+        });
+    } else {
+      window.location.href = url;
+    }
   }
 
   private parseFilters():InternalFilterValue[] {
+    const filters:InternalFilterValue[] = [];
+    filters.push(...this.parseSimpleFilters());
+    filters.push(...this.parseAdvancedFilters());
+    return filters;
+  }
+
+  private parseSimpleFilters():InternalFilterValue[] {
+    const simpleFilters = this.simpleFilterTargets;
+    const filters:InternalFilterValue[] = [];
+
+    simpleFilters.forEach((filter) => {
+      const name = filter.getAttribute('data-filter-name');
+      const type = filter.getAttribute('data-filter-type');
+      const operator = filter.getAttribute('data-filter-operator');
+      if (name && type && operator) {
+        const value = this.parseFilterValue(filter, name, type, operator) as string[]|null;
+
+        if (value) {
+          filters.push({ name, operator, value });
+        }
+      }
+    });
+    return filters;
+  }
+
+  private parseAdvancedFilters():InternalFilterValue[] {
     const advancedFilters = this.filterTargets.filter((filter) => !filter.classList.contains('hidden'));
     const filters:InternalFilterValue[] = [];
 
     advancedFilters.forEach((filter) => {
-      const filterName = filter.getAttribute('filter-name');
-      const filterType = filter.getAttribute('filter-type');
+      const filterName = filter.getAttribute('data-filter-name');
+      const filterType = filter.getAttribute('data-filter-type');
       const parsedOperator = this.operatorTargets.find((operator) => operator.getAttribute('data-filter-name') === filterName)?.value;
+      const valueContainer = this.filterValueContainerTargets.find((filterValueContainer) => filterValueContainer.getAttribute('data-filter-name') === filterName);
 
-      if (filterName && filterType && parsedOperator) {
-        const parsedValue = this.parseFilterValue(filterName, filterType, parsedOperator) as string[]|null;
+      if (valueContainer && filterName && filterType && parsedOperator) {
+        const parsedValue = this.parseFilterValue(valueContainer, filterName, filterType, parsedOperator) as string[]|null;
 
         if (parsedValue) {
           filters.push({ name: filterName, operator: parsedOperator, value: parsedValue });
@@ -262,40 +424,35 @@ export default class FiltersFormController extends Controller {
   private readonly selectFilterTypes = ['list', 'list_all', 'list_optional'];
   private readonly dateFilterTypes = ['datetime_past', 'date'];
 
-  private parseFilterValue(filterName:string, filterType:string, operator:string) {
-    const valueContainer = this.filterValueContainerTargets.find((filterValueContainer) => filterValueContainer.getAttribute('data-filter-name') === filterName);
+  private parseFilterValue(valueContainer:HTMLElement, filterName:string, filterType:string, operator:string) {
+    const checkbox = valueContainer.querySelector('input[type="checkbox"]') as HTMLInputElement;
+    const isAutocomplete = valueContainer.dataset.filterAutocomplete === 'true';
 
-    if (valueContainer) {
-      const checkbox = valueContainer.querySelector('input[type="checkbox"]') as HTMLInputElement;
-      const isAutocomplete = valueContainer.dataset.filterAutocomplete === 'true';
-
-      if (checkbox) {
-        return [checkbox.checked ? 't' : 'f'];
-      }
-
-      if (isAutocomplete) {
-        return (valueContainer.querySelector('input[name="value"]') as HTMLInputElement)?.value.split(',');
-      }
-
-      if (this.operatorsWithoutValues.includes(operator)) {
-        return [];
-      }
-
-      if (this.selectFilterTypes.includes(filterType)) {
-        return this.parseSelectFilterValue(valueContainer, filterName);
-      }
-
-      if (this.dateFilterTypes.includes(filterType)) {
-        return this.parseDateFilterValue(valueContainer, filterName);
-      }
-
-      const value = this.simpleValueTargets.find((simpleValueInput) => simpleValueInput.getAttribute('data-filter-name') === filterName)?.value;
-
-      if (value && value.length > 0) {
-        return [value];
-      }
+    if (checkbox) {
+      return [checkbox.checked ? 't' : 'f'];
     }
 
+    if (isAutocomplete) {
+      return (valueContainer.querySelector('input[name="value"]') as HTMLInputElement)?.value.split(',');
+    }
+
+    if (this.operatorsWithoutValues.includes(operator)) {
+      return [];
+    }
+
+    if (this.selectFilterTypes.includes(filterType)) {
+      return this.parseSelectFilterValue(valueContainer, filterName);
+    }
+
+    if (this.dateFilterTypes.includes(filterType)) {
+      return this.parseDateFilterValue(valueContainer, filterName);
+    }
+
+    const value = this.simpleValueTargets.find((simpleValueInput) => simpleValueInput.getAttribute('data-filter-name') === filterName)?.value;
+
+    if (value && value.length > 0) {
+      return [value];
+    }
     return null;
   }
 

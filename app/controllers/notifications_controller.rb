@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ class NotificationsController < ApplicationController
 
   before_action :require_login
   before_action :filtered_query, only: :mark_all_read
-  no_authorization_required! :index, :split_view, :close_split_view, :mark_all_read, :date_alerts, :share_upsale
+  no_authorization_required! :index, :split_view, :update_counter, :close_split_view, :mark_all_read, :date_alerts, :share_upsale
 
   def index
     render_notifications_layout

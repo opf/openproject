@@ -122,7 +122,8 @@
       agenda_text: "Kopier sakslisten fra det forrige møtet"
     email:
       send_emails: "Send e-post"
-      send_invitation_emails: "Send out invitation emails for all participants."
+      send_invitation_emails: >
+        Send out an invitation email to the participants listed above. Note that unchecking this option does not affect the sending of emails after this form is submitted.
       open_meeting_link: "Åpent møte"
       invited:
         summary: "%{actor} har sendt deg en invitasjon til møtet %{title}"

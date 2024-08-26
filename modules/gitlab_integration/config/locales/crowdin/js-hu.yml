@@ -48,3 +48,6 @@ hu:
         empty: 'Még nincsenek hozzákapcsolt egyesítési kérelmek (merge requests). Linkelj egy meglévő MR-t az <code>OP#%{wp_id}</code> (vagy a <code>PP#%{wp_id}</code> a privát linkekhez) kód használatával az MR címében/leírásában, vagy hozz létre egy új MR-t.'
       gitlab_pipelines: Pipeline-ok
       updated_on: Frissítve ekkor
+    work_packages:
+      tabs:
+        gitlab: "GitLab"

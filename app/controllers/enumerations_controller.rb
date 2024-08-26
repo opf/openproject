@@ -113,16 +113,8 @@ class EnumerationsController < ApplicationController
   end
 
   ##
-  # Find an enumeration class with the given Name
-  # this should be fail save for nonsense names or names
-  # which are no enumerations to prevent remote code execution attacks.
-  # params: type (string)
+  # Find an enumeration class with the given name
   def enumeration_class(type)
-    klass = type.to_s.constantize
-    raise NameError unless klass.ancestors.include? Enumeration
-
-    klass
-  rescue NameError
-    nil
+    Enumeration.registered_subclasses.detect { |cls| cls.name == type }
   end
 end

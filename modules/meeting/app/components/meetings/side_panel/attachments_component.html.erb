@@ -3,7 +3,7 @@
     render(Primer::OpenProject::SidePanel::Section.new) do |section|
       section.with_title { t(:label_attachment_plural) }
       section.with_description { I18n.t('meeting.attachments.text') }
-      section.with_counter { @meeting.attachments.count }
+      section.with_counter(count: @meeting.attachments.count)
 
       section.with_footer_button(
         id: "meetings-add-attachments",

@@ -28,22 +28,16 @@
  * ++
  */
 
-import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { PortalOutletTarget } from 'core-app/shared/components/modal/portal-outlet-target.enum';
 import ProjectStorageFormController from '../project-storage-form.controller';
 
 export default class ProjectFolderModeFormController extends ProjectStorageFormController {
-  protected get OutletTarget():PortalOutletTarget {
-    return PortalOutletTarget.Custom;
+  connect():void {
+    this.toggleFolderDisplay(this.folderModeValue);
+    this.setProjectFolderModeQueryParam(this.folderModeValue);
   }
 
-  protected displayFolderSelectionOrLoginButton(isConnected:boolean, projectFolder:IStorageFile|null):void {
-    if (isConnected) {
-      this.selectedFolderTextTarget.innerText = projectFolder === null
-        ? this.placeholderFolderNameValue
-        : projectFolder.name;
-    } else {
-      this.selectedFolderTextTarget.innerText = this.notLoggedInValidationValue;
-    }
+  protected get OutletTarget():PortalOutletTarget {
+    return PortalOutletTarget.Custom;
   }
 }

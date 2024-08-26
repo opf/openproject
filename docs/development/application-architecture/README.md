@@ -217,7 +217,7 @@ A response that is fully controlled by Rails but extended by some Angular compon
 
 3. The rendered response is returned to the Browser and Angular is initialized globally once in [`frontend/src/main.ts`](https://github.com/opf/openproject/blob/dev/frontend/src/main.ts#L48-L49).
 
-4. A global service, the [`DynamicBootstrapper`](https://github.com/opf/openproject/blob/dev/frontend/src/app/core/setup/globals/dynamic-bootstrapper.ts), looks for eligible components to bootstrap in the rendered template and forces the global angular application to bootstrap this component. This may result in many dom-separated components in the page to be bootstrapped by Angular for dynamic content.
+4. Dynamic components in Angular are registered as [custom elements](https://angular.dev/guide/elements) so they can be used throughout the page as web components.
 
 5. This triggers the [`FormConfigurationComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/admin/types/type-form-configuration.component.ts) to be initialized and allows the application to include a highly dynamic component (drag & drop organization of attributes) to be used on an admin form that otherwise has no connection to Angular.
 

@@ -22,3 +22,6 @@
 uk:
   js:
     label_meetings: 'Зустрічі'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

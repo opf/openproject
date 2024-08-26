@@ -254,11 +254,11 @@ module WorkPackage::PDFExport::Common::Common
   end
 
   def wants_report?
-    options[:show_report]
+    options[:pdf_export_type] == "report"
   end
 
   def wants_gantt?
-    options[:gantt]
+    options[:pdf_export_type] == "gantt"
   end
 
   def with_cover?
@@ -267,10 +267,6 @@ module WorkPackage::PDFExport::Common::Common
 
   def with_sums_table?
     query.display_sums?
-  end
-
-  def with_attachments?
-    options[:show_images]
   end
 
   def build_pdf_filename(base)

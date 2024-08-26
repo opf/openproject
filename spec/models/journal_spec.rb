@@ -41,8 +41,7 @@ RSpec.describe Journal do
     let!(:notification) do
       create(:notification,
              journal:,
-             resource: work_package,
-             project: work_package.project)
+             resource: work_package)
     end
 
     it "has a notifications association" do

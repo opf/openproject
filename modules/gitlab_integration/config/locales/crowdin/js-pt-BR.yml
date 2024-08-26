@@ -48,3 +48,6 @@ pt-BR:
         empty: 'Ainda não há solicitações de combinação vinculadas. Para vincular uma SC existente, use o código <code>OP#%{wp_id}</code> (ou <code>PP#%{wp_id}</code> para links privados) no título ou descrição da SC. Você também pode criar um nova SC.'
       gitlab_pipelines: Pipelines
       updated_on: Atualizado em
+    work_packages:
+      tabs:
+        gitlab: "GitLab"

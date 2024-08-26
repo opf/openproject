@@ -74,7 +74,7 @@ de:
     button_copy: "Kopieren"
     button_copy_to_clipboard: "In Zwischenablage kopieren"
     button_copy_link_to_clipboard: "Link in Zwischenablage kopieren"
-    button_copy_to_other_project: "In anderes Projekt kopieren"
+    button_copy_to_other_project: "In ein anderes Projekt duplizieren"
     button_custom-fields: "Benutzerdefinierte Felder"
     button_delete: "Löschen"
     button_delete_watcher: "Beobachter löschen"
@@ -647,7 +647,7 @@ de:
           with_current_filter: "Es gibt derzeit keine Benachrichtigungen in dieser Ansicht"
         mark_all_read: "Alles als gelesen markieren"
         mark_as_read: "Als gelesen markieren"
-        text_update_date: "%{date} von"
+        text_update_date_by: "%{date} von"
         total_count_warning: "Zeige die %{newest_count} neuesten Benachrichtigungen. %{more_count} weitere werden nicht angezeigt."
         empty_state:
           no_notification: "Alle Benachrichtungen abgearbeitet"

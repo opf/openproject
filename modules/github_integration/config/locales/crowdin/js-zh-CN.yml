@@ -49,3 +49,6 @@ zh-CN:
           draft: '草稿'
           merged: '已合并'
           ready_for_review: '标记为可供审核'
+    work_packages:
+      tabs:
+        github: "GitHub"

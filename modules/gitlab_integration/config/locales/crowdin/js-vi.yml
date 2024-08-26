@@ -48,3 +48,6 @@ vi:
         empty: 'Chưa có yêu cầu kéo nào được liên kết. Liên kết một MR hiện có bằng cách sử dụng mã <code>OP#%{wp_id}</code> (hoặc <code>PP#%{wp_id}</code> cho liên kết riêng) trong tiêu đề/mô tả MR hoặc tạo một MR mới.'
       gitlab_pipelines: Pipelines
       updated_on: Được cập nhật vào
+    work_packages:
+      tabs:
+        gitlab: "GitLab"

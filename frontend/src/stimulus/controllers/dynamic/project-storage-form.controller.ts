@@ -213,7 +213,7 @@ export default class ProjectStorageFormController extends Controller {
     window.history.replaceState(window.history.state, '', url);
   }
 
-  private toggleFolderDisplay(value:string):void {
+  protected toggleFolderDisplay(value:string):void {
     // If the manual radio button is selected, show the manual folder selection section
     if (this.hasProjectFolderSectionTarget && value === 'manual') {
       this.projectFolderSectionTarget.classList.remove('d-none');

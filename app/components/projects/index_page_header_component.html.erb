@@ -1,155 +1,158 @@
-<%=
-  render(Primer::OpenProject::PageHeader.new(state: @state)) do |header|
-    header.with_title(data: { 'test-selector': 'project-query-name' }) do |title|
-      title.with_editable_form(model: query,
-                               update_path: @query.new_record? ? project_queries_path(projects_query_params) : project_query_path(@query, projects_query_params),
-                               method: @query.new_record? ? :post : :put,
-                               cancel_path: projects_path(**projects_query_params, **{ query_id: query.id }.compact),
-                               input_name: "name",
-                               label: ProjectQuery.human_attribute_name(:name),
-                               placeholder: I18n.t(:"projects.lists.new.placeholder"),
-                               scope: 'query',
-                               id: 'project-save-form')
-      page_title
-    end
-    header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: current_breadcrumb_element == page_title ? :bold : :normal)
-
-    if can_save?
-      header_save_action(
-        header:,
-        message: t("lists.can_be_saved"),
-        label: t("button_save"),
-        href: project_query_path(query, projects_query_params),
-        method: :patch
-      )
-    elsif can_save_as?
-      header_save_action(
-        header:,
-        message: t("lists.can_be_saved_as"),
-        label: t("button_save_as"),
-        href: new_project_query_path(projects_query_params)
-      )
-    end
-
-    if can_access_shares?
-      header.with_action_icon_button(
-        tag: :a,
-        href: dialog_project_query_members_path(query),
-        icon: "share-android",
-        mobile_icon: "share-android",
-        label: t(:label_share),
-        data: { controller: "async-dialog", test_selector: "toggle-share-dialog-button" }
-      )
-    end
-
-    if can_toggle_favor?
-      if currently_favored?
-        header.with_action_icon_button(
-          icon: "star-fill",
-          mobile_icon: "star-fill",
-          label: t(:button_unfavorite),
-          classes: "op-primer--star-icon",
-          tag: :a,
-          href: helpers.build_favorite_path(query, format: :html),
-          data: { method: :delete, "test-selector": "project-query-unfavorite" },
-        )
-      else
-        header.with_action_icon_button(
-          icon: "star",
-          mobile_icon: "star",
-          label: t(:button_favorite),
-          tag: :a,
-          href: helpers.build_favorite_path(query, format: :html),
-          data: { method: :post, "test-selector": "project-query-favorite" },
-        )
+<%= component_wrapper(tag: 'turbo-frame') do %>
+  <%=
+    render(Primer::OpenProject::PageHeader.new(state: @state)) do |header|
+      header.with_title(data: { 'test-selector': 'project-query-name' }) do |title|
+        title.with_editable_form(model: query,
+                                update_path: @query.new_record? ? project_queries_path(projects_query_params) : project_query_path(@query, projects_query_params),
+                                method: @query.new_record? ? :post : :put,
+                                cancel_path: projects_path(**projects_query_params, **{ query_id: query.id }.compact),
+                                input_name: "name",
+                                label: ProjectQuery.human_attribute_name(:name),
+                                placeholder: I18n.t(:"projects.lists.new.placeholder"),
+                                scope: 'query',
+                                id: 'project-save-form')
+        page_title
       end
-    end
-
-    header.with_action_menu(
-      menu_arguments: {
-        anchor_align: :end
-      },
-      button_arguments: {
-        icon: "op-kebab-vertical",
-        "aria-label": t(:label_more),
-        data: { "test-selector": "project-more-dropdown-menu" }
-      }
-    ) do |menu|
-      if can_rename?
-        menu.with_item(
-          label: t('button_rename'),
-          href: rename_project_query_path(query),
-        ) do |item|
-          item.with_leading_visual_icon(icon: :pencil)
-        end
-      end
-
-      if gantt_portfolio_project_ids.any?
-        menu.with_item(
-          tag: :a,
-          label: t('projects.index.open_as_gantt'),
-          href: gantt_portfolio_query_link,
-          id: 'projects-index-open-as-gantt',
-          content_arguments: { target: '_blank' }
-        ) do |item|
-          item.with_leading_visual_icon(icon: 'op-view-timeline')
-        end
-      end
-
-      menu.with_item(
-        tag: :a,
-        label: t(:label_overall_activity),
-        href: activities_path
-      ) do |item|
-        item.with_leading_visual_icon(icon: 'tasklist')
-      end
+      header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: current_breadcrumb_element == page_title ? :bold : :normal)
 
       if can_save?
-        menu_save_item(
-          menu:,
-          label: t('button_save'),
+        header_save_action(
+          header:,
+          message: t("lists.can_be_saved"),
+          label: t("button_save"),
           href: project_query_path(query, projects_query_params),
           method: :patch
         )
-      end
-
-      if may_save_as?
-        menu_save_item(
-          menu:,
-          label: t('button_save_as'),
+      elsif can_save_as?
+        header_save_action(
+          header:,
+          message: t("lists.can_be_saved_as"),
+          label: t("button_save_as"),
           href: new_project_query_path(projects_query_params)
         )
       end
 
-      menu.with_item(
-        label: t('js.label_export'),
-        content_arguments: { 'data-show-dialog-id': Projects::ExportListModalComponent::MODAL_ID }
-      ) do |item|
-        item.with_leading_visual_icon(icon: 'sign-out')
+      if can_access_shares?
+        header.with_action_icon_button(
+          tag: :a,
+          href: dialog_project_query_members_path(query),
+          icon: "share-android",
+          mobile_icon: "share-android",
+          label: t(:label_share),
+          data: { controller: "async-dialog", test_selector: "toggle-share-dialog-button" }
+        )
       end
 
-      menu.with_item(
-        label: t(:'queries.configure_view.heading'),
-        content_arguments: { 'data-show-dialog-id': Projects::ConfigureViewModalComponent::MODAL_ID }
-      ) do |item|
-        item.with_leading_visual_icon(icon: :gear)
+      if can_toggle_favor?
+        if currently_favored?
+          header.with_action_icon_button(
+            icon: "star-fill",
+            mobile_icon: "star-fill",
+            label: t(:button_unfavorite),
+            classes: "op-primer--star-icon",
+            tag: :a,
+            href: helpers.build_favorite_path(query, format: :html),
+            data: { method: :delete, "test-selector": "project-query-unfavorite" },
+          )
+        else
+          header.with_action_icon_button(
+            icon: "star",
+            mobile_icon: "star",
+            label: t(:button_favorite),
+            tag: :a,
+            href: helpers.build_favorite_path(query, format: :html),
+            data: { method: :post, "test-selector": "project-query-favorite" },
+          )
+        end
       end
 
-      if query.persisted?
+      header.with_action_menu(
+        menu_arguments: {
+          anchor_align: :end
+        },
+        button_arguments: {
+          icon: "op-kebab-vertical",
+          "aria-label": t(:label_more),
+          data: { "test-selector": "project-more-dropdown-menu" }
+        }
+      ) do |menu|
+        if can_rename?
+          menu.with_item(
+            label: t('button_rename'),
+            href: rename_project_query_path(query),
+          ) do |item|
+            item.with_leading_visual_icon(icon: :pencil)
+          end
+        end
+
+        if gantt_portfolio_project_ids.any?
+          menu.with_item(
+            tag: :a,
+            label: t('projects.index.open_as_gantt'),
+            href: gantt_portfolio_query_link,
+            id: 'projects-index-open-as-gantt',
+            content_arguments: { target: '_blank' }
+          ) do |item|
+            item.with_leading_visual_icon(icon: 'op-view-timeline')
+          end
+        end
+
         menu.with_item(
-          label: t(:button_delete),
-          scheme: :danger,
-          content_arguments: { 'data-show-dialog-id': Projects::DeleteListModalComponent::MODAL_ID }
+          tag: :a,
+          label: t(:label_overall_activity),
+          href: activities_path,
+          content_arguments: { rel: "nofollow" }
         ) do |item|
-          item.with_leading_visual_icon(icon: 'trash')
+          item.with_leading_visual_icon(icon: 'tasklist')
+        end
+
+        if can_save?
+          menu_save_item(
+            menu:,
+            label: t('button_save'),
+            href: project_query_path(query, projects_query_params),
+            method: :patch
+          )
+        end
+
+        if may_save_as?
+          menu_save_item(
+            menu:,
+            label: t('button_save_as'),
+            href: new_project_query_path(projects_query_params)
+          )
+        end
+
+        menu.with_item(
+          tag: :a,
+          label: t('js.label_export'),
+          href: export_list_modal_projects_path(projects_query_params),
+          content_arguments: { data: { controller: "async-dialog" }, rel: "nofollow" }
+        ) do |item|
+          item.with_leading_visual_icon(icon: 'sign-out')
+        end
+
+        menu.with_item(
+          tag: :a,
+          label: t(:'queries.configure_view.heading'),
+          href: configure_view_modal_project_queries_path(projects_query_params),
+          content_arguments: { data: { controller: "async-dialog" }}
+        ) do |item|
+          item.with_leading_visual_icon(icon: :gear)
+        end
+
+        if query.persisted?
+          menu.with_item(
+            tag: :a,
+            label: t(:button_delete),
+            scheme: :danger,
+            href: destroy_confirmation_modal_project_query_path(query.id),
+            content_arguments: { data: { controller: "async-dialog" }}
+          ) do |item|
+            item.with_leading_visual_icon(icon: 'trash')
+          end
         end
       end
     end
-  end
-%>
-
-<% if show_state? %>
-  <%= render(Projects::ConfigureViewModalComponent.new(query:)) %>
-  <%= render(Projects::DeleteListModalComponent.new(query:)) if query.persisted? %>
-  <%= render(Projects::ExportListModalComponent.new(query:)) %>
+  %>
 <% end %>

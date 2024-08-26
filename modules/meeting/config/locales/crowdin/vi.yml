@@ -121,7 +121,8 @@ vi:
       agenda_text: "Sao chép chương trình nghị sự của cuộc họp cũ"
     email:
       send_emails: "Gửi email"
-      send_invitation_emails: "Gửi email mời khi tạo"
+      send_invitation_emails: >
+        Gửi email mời đến những người tham gia được liệt kê ở trên. Lưu ý rằng việc bỏ chọn tùy chọn này không ảnh hưởng đến việc gửi email sau khi biểu mẫu này được gửi.
       open_meeting_link: "Mở cuộc họp"
       invited:
         summary: "%{actor} đã gửi cho bạn một lời mời tham gia cuộc họp %{title}"

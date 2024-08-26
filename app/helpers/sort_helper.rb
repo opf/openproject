@@ -286,7 +286,7 @@ module SortHelper
     allowed_params ||= %w[filters per_page expand columns]
 
     # Don't lose other params.
-    link_to_content_update(h(caption), safe_query_params(allowed_params).merge(sort_options), html_options)
+    link_to_content_update(h(caption), safe_query_params(allowed_params).merge(sort_options), html_options.merge(rel: :nofollow))
   end
 
   # Returns a table header <th> tag with a sort link for the named column
@@ -319,11 +319,12 @@ module SortHelper
     default_order = options.delete(:default_order) || "asc"
     lang = options.delete(:lang) || nil
     param = options.delete(:param) || :sort
+    data = options.delete(:data) || {}
 
     options[:title] = sort_header_title(column, caption, options)
 
     within_sort_header_tag_hierarchy(options, sort_class(column)) do
-      sort_link(column, caption, default_order, allowed_params:, param:, lang:, title: options[:title])
+      sort_link(column, caption, default_order, allowed_params:, param:, lang:, title: options[:title], data:)
     end
   end
 

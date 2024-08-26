@@ -28,5 +28,5 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <div class="text-diff">
-  <%= simple_format_without_paragraph diff.to_html %>
+  <%= simple_format_without_paragraph diff.to_html.html_safe %>
 </div>

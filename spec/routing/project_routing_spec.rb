@@ -79,6 +79,14 @@ RSpec.describe ProjectsController do
     end
   end
 
+  describe "export_list_modal" do
+    it do
+      expect(get("/projects/export_list_modal")).to route_to(
+        controller: "projects", action: "export_list_modal"
+      )
+    end
+  end
+
   describe "templated" do
     it do
       expect(delete("/projects/123/templated"))

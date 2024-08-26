@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) the OpenProject GmbH
 //
@@ -31,9 +31,11 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -120,6 +122,10 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   @Input() public allowLinking = true;
 
   @ViewChild('hiddenFileInput') public filePicker:ElementRef<HTMLInputElement>;
+
+  @Output() public fileRemoved = new EventEmitter<void>();
+
+  @Output() public fileAdded = new EventEmitter<void>();
 
   fileLinks:Observable<IFileLink[]>;
 
@@ -291,7 +297,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
         switchMap((key) => this.fileLinkResourceService.remove(key, fileLink)),
       )
       .subscribe({
-        next: () => { /* Do nothing */ },
+        next: () => { this.fileRemoved.emit(); },
         error: (error:HttpErrorResponse) => this.toastService.addError(error),
       });
   }
@@ -412,6 +418,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       .subscribe({
         next: (collection) => {
           this.toastService.addSuccess(this.text.toast.successFileLinksCreated(collection.count));
+          this.fileAdded.emit();
         },
         error: (error) => {
           if (isUploadError) {

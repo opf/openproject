@@ -39,7 +39,7 @@ module Pages::Admin::SystemSettings
     end
 
     def welcome_text_selector
-      'ckeditor-augmented-textarea[data-textarea-selector="\"#settings_welcome_text\""]'
+      'opce-ckeditor-augmented-textarea[data-textarea-selector="\"#settings_welcome_text\""]'
     end
   end
 end

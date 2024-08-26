@@ -22,3 +22,6 @@
 fil:
   js:
     label_meetings: 'Mga Pagpupulong'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

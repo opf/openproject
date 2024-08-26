@@ -22,3 +22,6 @@
 sv:
   js:
     label_meetings: 'Möten'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

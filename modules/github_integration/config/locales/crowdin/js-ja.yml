@@ -49,3 +49,6 @@ ja:
           draft: 'ドラフト'
           merged: 'マージ済'
           ready_for_review: 'レビュー準備完了'
+    work_packages:
+      tabs:
+        github: "GitHub"

@@ -22,3 +22,6 @@
 ru:
   js:
     label_meetings: 'Встречи'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

@@ -49,3 +49,6 @@ cs:
           draft: 'navrženo'
           merged: 'sloučeno'
           ready_for_review: 'označeno jako připraveno k revizi'
+    work_packages:
+      tabs:
+        github: "GitHub"
