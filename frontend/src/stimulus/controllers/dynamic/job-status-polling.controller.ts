@@ -2,7 +2,7 @@ import { Controller } from '@hotwired/stimulus';
 import { FrameElement } from '@hotwired/turbo';
 
 export default class JobStatusPollingController extends Controller<HTMLElement> {
-  static targets = ['finished', 'download', 'redirect', 'indicator', "frame"];
+  static targets = ['finished', 'download', 'redirect', 'indicator', 'frame'];
   static values = { backOnClose: { type: Boolean, default: false } };
 
   declare readonly backOnCloseValue:boolean;
