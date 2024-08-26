@@ -31,6 +31,7 @@ import {
 import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 import { HttpClient } from '@angular/common/http';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -53,6 +54,7 @@ export class OpenProjectPluginContext {
     hooks: this.injector.get<HookService>(HookService),
     i18n: this.injector.get<I18nService>(I18nService),
     notifications: this.injector.get<ToastService>(ToastService),
+    timezone: this.injector.get<TimezoneService>(TimezoneService),
     opModalService: this.injector.get<OpModalService>(OpModalService),
     displayField: this.injector.get<DisplayFieldService>(DisplayFieldService),
     editField: this.injector.get<EditFieldService>(EditFieldService),
