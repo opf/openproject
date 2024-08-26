@@ -98,9 +98,9 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   }
 
   ngOnInit():void {
-    this.dragula.destroy('columns');
-
     populateInputsFromDataset(this);
+
+    this.dragula.destroy(this.dragAreaName);
 
     this.updateAvailableOptions();
 
