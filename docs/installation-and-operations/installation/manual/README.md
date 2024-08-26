@@ -96,9 +96,9 @@ Lastly, revert to the previous system user:
 
 ## Installation of Ruby
 
-The are several possibilities to install Ruby on your machine. We will
-use [rbenv](https://github.com/rbenv/rbenv). Please be aware that the actual installation of a specific Ruby version takes some
-time to finish.
+The are several possibilities to install Ruby on your machine. 
+We will use [rbenv](https://github.com/rbenv/rbenv). 
+Please be aware that the actual installation of a specific Ruby version takes some time to finish.
 
 ```shell
 [root@host] su openproject --login
@@ -107,7 +107,12 @@ time to finish.
 [openproject@host] echo 'eval "$(rbenv init -)"' >> ~/.profile
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+```
 
+We suggest you install the version we require in [.ruby-version](https://github.com/opf/openproject/blob/dev/.ruby-version).
+Read the first line e.g. `3.3.4` and install that version.
+
+```shell
 [openproject@host] rbenv install 3.3.4
 [openproject@host] rbenv rehash
 [openproject@host] rbenv global 3.3.4
