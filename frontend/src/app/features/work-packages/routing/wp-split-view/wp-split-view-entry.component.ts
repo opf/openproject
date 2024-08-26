@@ -43,7 +43,6 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
       [workPackageId]="workPackageId"
       [activeTab]="activeTab"
       [showTabs]="false"
-      [resizeStyle]="resizeStyle"
       [resizerClass]="resizerClass"
     ></op-wp-split-view>
   `,
@@ -53,7 +52,6 @@ export class WorkPackageSplitViewEntryComponent {
   @Input() workPackageId:string;
   @Input() activeTab:string;
   @Input() resizerClass:string;
-  @Input() resizeStyle:string;
 
   constructor(readonly elementRef:ElementRef) {
     populateInputsFromDataset(this);
