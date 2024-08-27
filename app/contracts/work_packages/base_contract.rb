@@ -405,7 +405,7 @@ module WorkPackages
     def validate_percent_complete_is_empty_when_work_is_zero
       return if WorkPackage.status_based_mode?
 
-      if work == 0 && percent_complete_set?
+      if work_set_and_valid? && work == 0 && percent_complete_set?
         errors.add(:done_ratio, :cannot_be_set_when_work_is_zero)
       end
     end
@@ -419,7 +419,7 @@ module WorkPackages
     end
 
     def work_set_and_valid?
-      work_set? && work >= 0
+      work_set? && work >= 0 && !model.errors.has_key?(:estimated_hours)
     end
 
     def work_empty?
@@ -435,7 +435,7 @@ module WorkPackages
     end
 
     def remaining_work_set_and_valid?
-      remaining_work_set? && remaining_work >= 0
+      remaining_work_set? && remaining_work >= 0 && !model.errors.has_key?(:remaining_hours)
     end
 
     def remaining_work_empty?
@@ -445,7 +445,8 @@ module WorkPackages
     def invalid_work_or_remaining_work_values?
       (work_set? && work.negative?) ||
         (remaining_work_set? && remaining_work.negative?) ||
-      remaining_work_exceeds_work?
+        (model.errors.has_key?(:estimated_hours) || model.errors.has_key?(:remaining_hours)) ||
+        remaining_work_exceeds_work?
     end
 
     def remaining_work_exceeds_work?

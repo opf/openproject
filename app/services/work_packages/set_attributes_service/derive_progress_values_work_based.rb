@@ -45,8 +45,8 @@ class WorkPackages::SetAttributesService
     end
 
     def invalid_progress_values?
-      work&.negative? \
-        || remaining_work&.negative? \
+      work_invalid? \
+        || remaining_work_invalid? \
         || percent_complete_out_of_range? \
         || percent_complete_unparsable? \
         || remaining_work_set_greater_than_work?
@@ -150,6 +150,14 @@ class WorkPackages::SetAttributesService
     def work_from_percent_complete_and_remaining_work
       remaining_percent_complete = 1.0 - (percent_complete / 100.0)
       remaining_work / remaining_percent_complete
+    end
+
+    def work_invalid?
+      !DurationConverter.valid?(work_package.estimated_hours_before_type_cast)
+    end
+
+    def remaining_work_invalid?
+      !DurationConverter.valid?(work_package.remaining_hours_before_type_cast)
     end
 
     def percent_complete_unparsable?

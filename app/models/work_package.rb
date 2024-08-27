@@ -565,7 +565,7 @@ class WorkPackage < ApplicationRecord
   def convert_duration_to_hours(value)
     if value.is_a?(String)
       begin
-        value = value.blank? ? nil : DurationConverter.parse(value)
+        value = DurationConverter.parse(value)
       rescue ChronicDuration::DurationParseError
         # keep invalid value, error shall be caught by numericality validator
       end

@@ -701,7 +701,8 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
 
     context "when work is set to a string" do
       let(:set_attributes) { { estimated_hours: "I am a string" } }
-      let(:expected_derived_attributes) { { estimated_hours: 0.0, remaining_hours: 0.0 } }
+      let(:expected_derived_attributes) { { estimated_hours: 0.0 } }
+      let(:expected_kept_attributes) { %w[remaining_hours done_ratio] }
 
       it "keeps the original string value in the _before_type_cast method " \
          "so that validation can detect it is invalid" do
@@ -710,6 +711,11 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
 
         expect(work_package.estimated_hours_before_type_cast).to eq("I am a string")
       end
+
+      include_examples "update progress values",
+                       description: "is an error state (to be detected by contract), " \
+                                    "and remaining work and % complete are kept",
+                       expected_hints: {}
     end
 
     context "when work and remaining work are set" do
@@ -772,7 +778,8 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
 
     context "when work is set to a string" do
       let(:set_attributes) { { estimated_hours: "I am a string" } }
-      let(:expected_derived_attributes) { { estimated_hours: 0.0, remaining_hours: 0.0 } }
+      let(:expected_derived_attributes) { { estimated_hours: 0.0 } }
+      let(:expected_kept_attributes) { %w[remaining_hours done_ratio] }
 
       it "keeps the original string value in the _before_type_cast method " \
          "so that validation can detect it is invalid" do
@@ -781,6 +788,30 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
 
         expect(work_package.estimated_hours_before_type_cast).to eq("I am a string")
       end
+
+      include_examples "update progress values",
+                       description: "is an error state (to be detected by contract), " \
+                                    "and remaining work and % complete are kept",
+                       expected_hints: {}
+    end
+
+    context "when remaining work is set to a string" do
+      let(:set_attributes) { { remaining_hours: "I am a string" } }
+      let(:expected_derived_attributes) { { remaining_hours: 0.0 } }
+      let(:expected_kept_attributes) { %w[estimated_hours done_ratio] }
+
+      it "keeps the original string value in the _before_type_cast method " \
+         "so that validation can detect it is invalid" do
+        work_package.attributes = set_attributes
+        instance.call
+
+        expect(work_package.remaining_hours_before_type_cast).to eq("I am a string")
+      end
+
+      include_examples "update progress values",
+                       description: "is an error state (to be detected by contract), " \
+                                    "and work and % complete are kept",
+                       expected_hints: {}
     end
 
     context "when work and remaining work are set" do
@@ -853,6 +884,25 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       include_examples "update progress values",
                        description: "is an error state (to be detected by contract), " \
                                     "and % complete and work are kept",
+                       expected_hints: {}
+    end
+
+    context "when remaining work is set to a string" do
+      let(:set_attributes) { { remaining_hours: "I am a string" } }
+      let(:expected_derived_attributes) { { remaining_hours: 0.0 } }
+      let(:expected_kept_attributes) { %w[estimated_hours done_ratio] }
+
+      it "keeps the original string value in the _before_type_cast method " \
+         "so that validation can detect it is invalid" do
+        work_package.attributes = set_attributes
+        instance.call
+
+        expect(work_package.remaining_hours_before_type_cast).to eq("I am a string")
+      end
+
+      include_examples "update progress values",
+                       description: "is an error state (to be detected by contract), " \
+                                    "and work and % complete are kept",
                        expected_hints: {}
     end
 
