@@ -63,7 +63,7 @@ module OpenProject
                                    description: "Provide a SAML provider and sync its settings through ENV",
                                    env_alias: "OPENPROJECT_SAML",
                                    writable: false,
-                                   default: nil,
+                                   default: {},
                                    format: :hash
       end
     end
