@@ -1,7 +1,7 @@
 <%=
   component_wrapper do
     flex_layout do |journals_index_wrapper_container|
-      journals_index_wrapper_container.with_row(id: "wp-journals-inner-container") do
+      journals_index_wrapper_container.with_row(id: "wp-journals-inner-container", mb: inner_container_margin_bottom) do
         flex_layout(id: insert_target_modifier_id, data: { "test_selector": "op-wp-journals-container" }) do |journals_index_container|
           if empty_state?
             journals_index_container.with_row(mt: 2, mb: 3) do

@@ -70,6 +70,14 @@ module WorkPackages
         def empty_state?
           filter == :only_comments && journal_with_notes.empty?
         end
+
+        def inner_container_margin_bottom
+          if journal_sorting == "desc"
+            3
+          else
+            0
+          end
+        end
       end
     end
   end
