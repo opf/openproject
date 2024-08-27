@@ -33,14 +33,16 @@ module WorkPackages
     class ColumnSelectionComponent < ApplicationComponent
       include WorkPackagesHelper
 
-      attr_reader :query, :id, :caption
+      attr_reader :query, :id, :caption, :label
 
-      def initialize(query, id, caption)
+      def initialize(query, id, caption,
+                     label = I18n.t(:"queries.configure_view.columns.input_label"))
         super()
 
         @query = query
         @id = id
         @caption = caption
+        @label = label
       end
 
       def available_columns
