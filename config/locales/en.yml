@@ -3696,6 +3696,22 @@ en:
         work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          cleared_because_work_is_0h: "Cleared because Work is 0h."
+          derived: "Derived from Work and Remaining work."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          derived: "Derived from Remaining work and % Complete."
+          same_as_remaining_work: "Set to same value as Remaining work."
+        remaining_hours:
+          cleared_because_work_is_empty: "Cleared because Work is empty."
+          cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
+          decreased_like_work: "Decreased by the same amount as Work."
+          derived: "Derived from Work and % Complete."
+          increased_like_work: "Increased by the same amount as Work."
+          same_as_work: "Set to same value as Work."
     permissions:
       comment: "Comment"
       comment_description: "Can view and comment this work package."

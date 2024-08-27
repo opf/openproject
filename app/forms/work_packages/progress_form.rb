@@ -136,6 +136,7 @@ class WorkPackages::ProgressForm < ApplicationForm
       name:,
       value: field_value(name),
       label:,
+      caption: field_hint_message(name),
       validation_message: validation_message(name)
     )
 
@@ -178,6 +179,13 @@ class WorkPackages::ProgressForm < ApplicationForm
     else
       DurationConverter.output(@work_package.public_send(name))
     end
+  end
+
+  def field_hint_message(field_name)
+    hint = work_package.derived_progress_hints[field_name]
+    return if hint.nil?
+
+    I18n.t("work_package.progress.derivation_hints.#{field_name}.#{hint}")
   end
 
   def validation_message(name)

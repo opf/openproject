@@ -332,6 +332,14 @@ class WorkPackage < ApplicationRecord
     write_attribute :done_ratio, convert_value_to_percentage(value)
   end
 
+  def derived_progress_hints=(hints)
+    @derived_progress_hints = hints
+  end
+
+  def derived_progress_hints
+    @derived_progress_hints ||= {}
+  end
+
   def duration_in_hours
     duration ? duration * 24 : nil
   end

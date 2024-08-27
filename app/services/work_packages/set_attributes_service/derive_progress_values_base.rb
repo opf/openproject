@@ -141,6 +141,10 @@ class WorkPackages::SetAttributesService
 
     private
 
+    def set_hint(field, hint)
+      work_package.derived_progress_hints[field] = hint
+    end
+
     def round_progress_values
       # The values are set only when rounding returns a different value. Doing
       # otherwise would modify the values returned by `xxx_before_type_cast` and
@@ -157,8 +161,6 @@ class WorkPackages::SetAttributesService
     end
 
     def remaining_work_from_percent_complete_and_work
-      return nil if work_empty? || percent_complete_empty?
-
       completed_work = work * percent_complete / 100.0
       remaining_work = (work - completed_work).round(2)
       remaining_work.clamp(0.0, work)
