@@ -86,9 +86,9 @@ RSpec.describe "projects/:project_id/project_storages/:id/open" do
             before do
               Storages::Peripherals::Registry.stub(
                 "nextcloud.queries.file_info", ->(_) do
-                  ServiceResult.failure(result: code,
-                                        errors: Storages::StorageError.new(code:))
-                end
+                                                 ServiceResult.failure(result: code,
+                                                                       errors: Storages::StorageError.new(code:))
+                                               end
               )
             end
 
@@ -101,8 +101,8 @@ RSpec.describe "projects/:project_id/project_storages/:id/open" do
 
                   expect(last_response).to have_http_status(:found)
                   expect(last_response.headers["Location"]).to eq (
-                    "http://#{Setting.host_name}/oauth_clients/#{storage.oauth_client.client_id}/ensure_connection?destination_url=http%3A%2F%2F#{CGI.escape(Setting.host_name)}%2Fprojects%2F#{project.identifier}%2Fproject_storages%2F#{project_storage.id}%2Fopen&storage_id=#{storage.id}"
-                  )
+                                                                    "http://#{Setting.host_name}/oauth_clients/#{storage.oauth_client.client_id}/ensure_connection?destination_url=http%3A%2F%2F#{CGI.escape(Setting.host_name)}%2Fprojects%2F#{project.identifier}%2Fproject_storages%2F#{project_storage.id}%2Fopen&storage_id=#{storage.id}"
+                                                                  )
                 end
               end
 
