@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://nextcloud.local/ocs/v1.php/apps/integration_openproject/fileinfo/169
+    uri: https://nextcloud.internal/ocs/v1.php/apps/integration_openproject/fileinfo/169
     body:
       encoding: US-ASCII
       string: ''
@@ -80,7 +80,7 @@ http_interactions:
   recorded_at: Mon, 24 Jun 2024 12:47:43 GMT
 - request:
     method: move
-    uri: https://nextcloud.local/remote.php/dav/files/admin/Folder
+    uri: https://nextcloud.internal/remote.php/dav/files/admin/Folder
     body:
       encoding: US-ASCII
       string: ''
@@ -88,7 +88,7 @@ http_interactions:
       Authorization:
       - Bearer <BEARER TOKEN>
       Destination:
-      - https://nextcloud.local/remote.php/dav/files/admin/I%20am%20the%20senat
+      - https://nextcloud.internal/remote.php/dav/files/admin/I%20am%20the%20senat
       User-Agent:
       - httpx.rb/1.2.6
       Accept:
@@ -157,7 +157,7 @@ http_interactions:
   recorded_at: Mon, 24 Jun 2024 12:47:43 GMT
 - request:
     method: get
-    uri: https://nextcloud.local/ocs/v1.php/apps/integration_openproject/fileinfo/169
+    uri: https://nextcloud.internal/ocs/v1.php/apps/integration_openproject/fileinfo/169
     body:
       encoding: US-ASCII
       string: ''

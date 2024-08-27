@@ -15,7 +15,7 @@ To test Kerberos, you'll need to setup a local kerberos admin and kdc server. Th
 
 - A debian / ubuntu VM or local machine
 
-- A local packaged installation installed using the hostname `openproject.local`
+- A local packaged installation installed using the hostname `openproject.internal`
 
 ## Installing kerberos server
 
@@ -25,22 +25,22 @@ First, install kdc and admin server:
 apt install krb5-kdc krb5-admin-server krb5-config -y
 ```
 
-During that installation, you'll be asked to enter the default realm. We'll use `TEST.LOCAL` in the course of this guide.
+During that installation, you'll be asked to enter the default realm. We'll use `TEST.INTERNAL` in the course of this guide.
 
 ![Defining the default realm](realm.png)
 
 Next, you'll have to enter the hostnames used for your server. We'll assume this setup:
 
-- The development server is running under `openproject.local`
-- The KDC and admin server will be running under `kerberos.local`
+- The development server is running under `openproject.internal`
+- The KDC and admin server will be running under `kerberos.internal`
 
 You can simply add both of these hostnames to localhost in your `/etc/hosts` file.
 
-Then, in the following screen, enter `openproject.local kerberos.local`
+Then, in the following screen, enter `openproject.internal kerberos.internal`
 
 ![image-20220622162300570](image-20220622162300570.png)
 
-For the administrative server, also enter `kerberos.local`
+For the administrative server, also enter `kerberos.internal`
 
 ![Add the admin server](admin-server.png)
 
@@ -50,7 +50,7 @@ The next dialog, you can simply continue with OK. The configuration will continu
 
 Next, add the realm with the command `krb5_newrealm`. You'll be prompted for a password. Double-check that it prints this line or similar:
 
-`Initializing database '/var/lib/krb5kdc/principal' for realm 'TEST.LOCAL',`
+`Initializing database '/var/lib/krb5kdc/principal' for realm 'TEST.INTERNAL',`
 
 Enter a password and continue with enter. The realm is now setup.
 
@@ -58,7 +58,7 @@ Next,  you'll restart the kdc server with `systemctl restart krb5-kdc` and confi
 
 ### Adding your principal
 
-You can now run `kadmin.local`  to access the admin CLI for adding principals to kerberos. In that prompt, enter a new user for testing:
+You can now run `kadmin.internal`  to access the admin CLI for adding principals to kerberos. In that prompt, enter a new user for testing:
 
 `addprinc user1`
 
@@ -67,14 +67,14 @@ This will prompt for a password for user1, which you have to confirm afterwards.
 To check that the user was created successfully, run this command `get_principal`:
 
 ```text
-> kadmin.local: get_principal user1
-Principal: user1@TEST.LOCAL
+> kadmin.internal: get_principal user1
+Principal: user1@TEST.INTERNAL
 Expiration date: [never]
 Last password change: Mi Jun 22 16:28:58 CEST 2022
 Password expiration date: [never]
 Maximum ticket life: 0 days 10:00:00
 Maximum renewable life: 7 days 00:00:00
-Last modified: Mi Jun 22 16:28:58 CEST 2022 (HTTP/admin@TEST.LOCAL)
+Last modified: Mi Jun 22 16:28:58 CEST 2022 (HTTP/admin@TEST.INTERNAL)
 Last successful authentication: [never]
 Last failed authentication: [never]
 Failed password attempts: 0
@@ -90,21 +90,21 @@ Policy: [none]
 
 The OpenProject Apache module for kerberos will call the kerberos with its own service principal. That we will have to create and add a keytab for, so that the password can be access by Apache.
 
-In the `kadmin.local` prompt, run this:
+In the `kadmin.internal` prompt, run this:
 
 ```shell
-addprinc -randkey HTTP/openproject.local
+addprinc -randkey HTTP/openproject.internal
 ```
 
 Note that this will not require a password prompt.
 
-This adds a principal for the HTTP/openproject.local service. Next, add it to a keyfile at `/etc/apache2/openproject.keytab`:
+This adds a principal for the HTTP/openproject.internal service. Next, add it to a keyfile at `/etc/apache2/openproject.keytab`:
 
 ```shell
-ktadd -k /etc/apache2/openproject.keytab HTTP/openproject.local
+ktadd -k /etc/apache2/openproject.keytab HTTP/openproject.internal
 ```
 
-Exit the `kadmin.local` console. Make sure the file is readable by apache2:
+Exit the `kadmin.internal` console. Make sure the file is readable by apache2:
 
 ```shell
 chown www-data:www-data /etc/apache2/openproject.keytab
@@ -128,14 +128,14 @@ Add the following contents:
   AuthType GSSAPI
   # The Basic Auth dialog name shown to the user
   # change this freely
-  AuthName "TEST.LOCAL realm login"
+  AuthName "TEST.INTERNAL realm login"
 
   # The realm used for Kerberos, you will want to
   # change this to your actual domain
   GssapiCredStore keytab:/etc/apache2/openproject.keytab
   # You can also try to set the explicit name instead of the keytab,
   # this will lookup the keytab from its default location /etc/kr5b.keytab
-  #GssapiCredStore HTTP/openproject.local@TEST.LOCAL
+  #GssapiCredStore HTTP/openproject.internal@TEST.INTERNAL
   # Disable SSL
   GssapiSSLonly           Off
   # Enable sending username without REALM
@@ -154,7 +154,7 @@ Add the following contents:
 
 Save the file and check the config with `apache2ctl configtest`. If this works fine, restart apache with `systemctl restart apache2`.
 
-If your OpenProject installation isn't yet running under `openproject.local`, run `openproject reconfigure` to change the hostname.
+If your OpenProject installation isn't yet running under `openproject.internal`, run `openproject reconfigure` to change the hostname.
 
 ## Configure OpenProject
 

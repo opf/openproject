@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://nextcloud.local/ocs/v2.php/apps/dav/api/v1/direct
+    uri: https://nextcloud.internal/ocs/v2.php/apps/dav/api/v1/direct
     body:
       encoding: UTF-8
       string: '{"fileId":"182"}'
@@ -80,6 +80,6 @@ http_interactions:
       - '183'
     body:
       encoding: UTF-8
-      string: '{"ocs":{"meta":{"status":"ok","statuscode":200,"message":"OK"},"data":{"url":"https:\/\/nextcloud.local\/remote.php\/direct\/I5uqL5tARwsUPNuqSzTMJ8dvsCmqAxBF18ltlmzDEEFn5ZOyfbkAFoJ4rMSV"}}}'
+      string: '{"ocs":{"meta":{"status":"ok","statuscode":200,"message":"OK"},"data":{"url":"https:\/\/nextcloud.internal\/remote.php\/direct\/I5uqL5tARwsUPNuqSzTMJ8dvsCmqAxBF18ltlmzDEEFn5ZOyfbkAFoJ4rMSV"}}}'
   recorded_at: Mon, 08 Apr 2024 11:34:13 GMT
 recorded_with: VCR 6.2.0

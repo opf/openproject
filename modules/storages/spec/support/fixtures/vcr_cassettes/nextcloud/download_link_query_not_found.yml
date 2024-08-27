@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://nextcloud.local/ocs/v2.php/apps/dav/api/v1/direct
+    uri: https://nextcloud.internal/ocs/v2.php/apps/dav/api/v1/direct
     body:
       encoding: UTF-8
       string: '{"fileId":"DeathStarNumberThree"}'

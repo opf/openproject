@@ -19,7 +19,7 @@ services:
     networks:
       - external
     extra_hosts:
-      - "openproject.local:host-gateway"
+      - "openproject.internal:host-gateway"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.gitlab.rule=Host(`gitlab.local`)"

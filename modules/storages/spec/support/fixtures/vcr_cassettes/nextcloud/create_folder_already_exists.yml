@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: mkcol
-    uri: https://nextcloud.local/remote.php/dav/files/admin/Folder
+    uri: https://nextcloud.internal/remote.php/dav/files/admin/Folder
     body:
       encoding: US-ASCII
       string: ''

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: propfind
-    uri: https://nextcloud.local/remote.php/dav/files/m.jade@death.star/Folder/Nested%20Folder
+    uri: https://nextcloud.internal/remote.php/dav/files/m.jade@death.star/Folder/Nested%20Folder
     body:
       encoding: UTF-8
       string: |

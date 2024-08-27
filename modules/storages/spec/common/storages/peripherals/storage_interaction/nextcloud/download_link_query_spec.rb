@@ -74,7 +74,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLin
         expect(download_link).to be_success
 
         uri = URI(download_link.result)
-        expect(uri.host).to eq("nextcloud.local")
+        expect(uri.host).to eq("nextcloud.internal")
         expect(uri.path)
           .to match(/index.php\/apps\/integration_openproject\/direct\/[0-9a-zA-Z]+\/#{file_link.origin_name}/)
       end
@@ -95,7 +95,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLin
         expect(download_link).to be_success
 
         uri = URI(download_link.result)
-        expect(uri.host).to eq("nextcloud.local")
+        expect(uri.host).to eq("nextcloud.internal")
         expect(uri.path)
           .to match(/index.php\/apps\/integration_openproject\/direct\/[0-9a-zA-Z]+\/#{file_link.origin_name}/)
       end

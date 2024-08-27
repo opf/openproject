@@ -115,7 +115,7 @@ FactoryBot.define do
     end
 
     name { "Nextcloud Local" }
-    host { "https://nextcloud.local/" }
+    host { "https://nextcloud.internal/" }
 
     initialize_with do
       Storages::NextcloudStorage.create_or_find_by(attributes.except(:oauth_client, :oauth_application))
@@ -131,7 +131,7 @@ FactoryBot.define do
              uid: ENV.fetch("NEXTCLOUD_LOCAL_OPENPROJECT_UID", "MISSING_NEXTCLOUD_LOCAL_OPENPROJECT_UID"),
              secret: ENV.fetch("NEXTCLOUD_LOCAL_OPENPROJECT_SECRET", "MISSING_NEXTCLOUD_LOCAL_OPENPROJECT_SECRET"),
              redirect_uri: ENV.fetch("NEXTCLOUD_LOCAL_OPENPROJECT_REDIRECT_URI",
-                                     "https://nextcloud.local/index.php/apps/integration_openproject/oauth-redirect"),
+                                     "https://nextcloud.internal/index.php/apps/integration_openproject/oauth-redirect"),
              scopes: "api_v3",
              integration: storage)
 

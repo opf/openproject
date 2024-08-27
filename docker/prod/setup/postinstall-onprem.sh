@@ -10,7 +10,7 @@ apt-get update -qq
 # See https://salsa.debian.org/postfix-team/postfix-dev/-/blob/debian/buster-updates/debian/postfix.postinst#L40
 if [ -f /run/.containerenv -o -f /.dockerenv ]; then
 	mv /bin/hostname /bin/x-hostname
-	echo openproject.local > /etc/hostname
+	echo openproject.internal > /etc/hostname
 	apt-get install -y postfix
 	mv /bin/x-hostname /bin/hostname
 fi

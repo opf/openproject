@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://nextcloud.local/ocs/v1.php/apps/integration_openproject/fileinfo/167
+    uri: https://nextcloud.internal/ocs/v1.php/apps/integration_openproject/fileinfo/167
     body:
       encoding: US-ASCII
       string: ''
@@ -81,7 +81,7 @@ http_interactions:
   recorded_at: Mon, 24 Jun 2024 12:47:44 GMT
 - request:
     method: move
-    uri: https://nextcloud.local/remote.php/dav/files/admin/Folder%20with%20spaces/New%20Requests/request_001.md
+    uri: https://nextcloud.internal/remote.php/dav/files/admin/Folder%20with%20spaces/New%20Requests/request_001.md
     body:
       encoding: US-ASCII
       string: ''
@@ -89,7 +89,7 @@ http_interactions:
       Authorization:
       - Bearer <BEARER TOKEN>
       Destination:
-      - https://nextcloud.local/remote.php/dav/files/admin/Folder%20with%20spaces/New%20Requests/I%E2%9D%A4%EF%B8%8Fyou%20death%20star.md
+      - https://nextcloud.internal/remote.php/dav/files/admin/Folder%20with%20spaces/New%20Requests/I%E2%9D%A4%EF%B8%8Fyou%20death%20star.md
       User-Agent:
       - httpx.rb/1.2.6
       Accept:
@@ -162,7 +162,7 @@ http_interactions:
   recorded_at: Mon, 24 Jun 2024 12:47:44 GMT
 - request:
     method: get
-    uri: https://nextcloud.local/ocs/v1.php/apps/integration_openproject/fileinfo/167
+    uri: https://nextcloud.internal/ocs/v1.php/apps/integration_openproject/fileinfo/167
     body:
       encoding: US-ASCII
       string: ''

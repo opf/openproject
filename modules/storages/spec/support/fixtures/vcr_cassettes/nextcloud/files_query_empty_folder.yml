@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: propfind
-    uri: https://nextcloud.local/remote.php/dav/files/m.jade@death.star/Folder%20with%20spaces/very%20empty%20folder
+    uri: https://nextcloud.internal/remote.php/dav/files/m.jade@death.star/Folder%20with%20spaces/very%20empty%20folder
     body:
       encoding: UTF-8
       string: |

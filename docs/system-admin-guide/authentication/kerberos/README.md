@@ -22,7 +22,7 @@ Assuming you have Kerberos set up with a realm, you need to create a Kerberos se
 Create the service principal (e.g. using `kadmin`) and a keytab for OpenProject used for Apache with the following commands:
 
 ```shell
-# Assuming you're in the `kadmin.local` interactive command
+# Assuming you're in the `kadmin.internal` interactive command
 
 addprinc -randkey HTTP/openproject.example.com
 ktadd -k /etc/apache2/openproject.keytab HTTP/openproject.example.com

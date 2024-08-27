@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: mkcol
-    uri: https://nextcloud.local/remote.php/dav/files/admin/To%20Be%20Deleted%20Soon
+    uri: https://nextcloud.internal/remote.php/dav/files/admin/To%20Be%20Deleted%20Soon
     body:
       encoding: US-ASCII
       string: ''
@@ -77,7 +77,7 @@ http_interactions:
   recorded_at: Tue, 23 Apr 2024 13:36:36 GMT
 - request:
     method: propfind
-    uri: https://nextcloud.local/remote.php/dav/files/admin/To%20Be%20Deleted%20Soon
+    uri: https://nextcloud.internal/remote.php/dav/files/admin/To%20Be%20Deleted%20Soon
     body:
       encoding: UTF-8
       string: |
@@ -174,7 +174,7 @@ http_interactions:
   recorded_at: Tue, 23 Apr 2024 13:36:36 GMT
 - request:
     method: delete
-    uri: https://nextcloud.local/remote.php/dav/files/admin/To%20Be%20Deleted%20Soon
+    uri: https://nextcloud.internal/remote.php/dav/files/admin/To%20Be%20Deleted%20Soon
     body:
       encoding: US-ASCII
       string: ''

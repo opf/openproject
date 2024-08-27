@@ -121,14 +121,14 @@ setup a reverse proxy in docker, like [traefik](https://traefik.io/). Then follo
 
   ```yaml
   labels:
-    - "traefik.http.routers.op-backend.rule=Host(`op-backend.local`)"
+    - "traefik.http.routers.op-backend.rule=Host(`op-backend.internal`)"
   ```
 
 - add the extra hosts to your `/etc/hosts` to redirect to `localhost`
 - add the extra hosts to your `backend` service with
 
   ```yaml
-  OPENPROJECT_DEV_EXTRA_HOSTS: 'op-backend.local,op-backend.local'
+  OPENPROJECT_DEV_EXTRA_HOSTS: 'op-backend.internal,op-backend.internal'
   ```
 
 > **Reminder**:

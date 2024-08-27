@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://nextcloud.local/ocs/v2.php/apps/dav/api/v1/direct
+    uri: https://nextcloud.internal/ocs/v2.php/apps/dav/api/v1/direct
     body:
       encoding: UTF-8
       string: '{"fileId":"182"}'
@@ -74,7 +74,7 @@ http_interactions:
   recorded_at: Mon, 08 Apr 2024 11:49:14 GMT
 - request:
     method: post
-    uri: https://nextcloud.local/index.php/apps/oauth2/api/v1/token
+    uri: https://nextcloud.internal/index.php/apps/oauth2/api/v1/token
     body:
       encoding: ASCII-8BIT
       string: grant_type=refresh_token&scope=&client_id=7fj7lpG0GOqwOGhHAyfGwd1oEgtbTto7mctu0IaSN3SE79o9Xs0q8k3kDiEwXDrM&client_secret=j7RoyauWeIpMc7cYdY3lewCGKxdgiAowonpGzmAuj9iRSvYBAGXhP7hvz9Hp7skR&refresh_token=FONj4kNQyzalItisiPfffipcIL0Ou4X5Q0fy0le2OmBkozdkzh8JNWGXnK9ZuQbDbCBe9B5wEpZzKofVUJdANHQ1yfX8wrqJtB6SbRqCcDEjzuSTssNwNYqIRsLHj4br
@@ -148,7 +148,7 @@ http_interactions:
   recorded_at: Mon, 08 Apr 2024 11:49:14 GMT
 - request:
     method: post
-    uri: https://nextcloud.local/ocs/v2.php/apps/dav/api/v1/direct
+    uri: https://nextcloud.internal/ocs/v2.php/apps/dav/api/v1/direct
     body:
       encoding: UTF-8
       string: '{"fileId":"182"}'
@@ -226,6 +226,6 @@ http_interactions:
       - '182'
     body:
       encoding: UTF-8
-      string: '{"ocs":{"meta":{"status":"ok","statuscode":200,"message":"OK"},"data":{"url":"https:\/\/nextcloud.local\/remote.php\/direct\/tfqJBvmg8n89HX0iFVMhQHVYLTKsJx69aNnbGjU8HOrXfKTTVMBTFFu60SMI"}}}'
+      string: '{"ocs":{"meta":{"status":"ok","statuscode":200,"message":"OK"},"data":{"url":"https:\/\/nextcloud.internal\/remote.php\/direct\/tfqJBvmg8n89HX0iFVMhQHVYLTKsJx69aNnbGjU8HOrXfKTTVMBTFFu60SMI"}}}'
   recorded_at: Mon, 08 Apr 2024 11:49:14 GMT
 recorded_with: VCR 6.2.0

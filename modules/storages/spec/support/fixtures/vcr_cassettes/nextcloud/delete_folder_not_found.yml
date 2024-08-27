@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: delete
-    uri: https://nextcloud.local/remote.php/dav/files/admin/IDoNotExist
+    uri: https://nextcloud.internal/remote.php/dav/files/admin/IDoNotExist
     body:
       encoding: US-ASCII
       string: ''

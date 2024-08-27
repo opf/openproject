@@ -49,7 +49,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQ
       Storages::UploadData.new(folder_id: "169", file_name: "DeathStart_blueprints.tiff")
     end
     let(:token) { "SrQJeC5zM3B5Gw64d7dEQFQpFw8YBAtZWoxeLb59AR7PpGPyoGAkAko5G6ZiZ2HA" }
-    let(:upload_url) { "https://nextcloud.local/index.php/apps/integration_openproject/direct-upload/#{token}" }
+    let(:upload_url) { "https://nextcloud.internal/index.php/apps/integration_openproject/direct-upload/#{token}" }
     let(:upload_method) { :post }
 
     it_behaves_like "upload_link_query: successful upload link response"

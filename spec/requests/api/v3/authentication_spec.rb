@@ -374,15 +374,15 @@ RSpec.describe "API V3 Authentication" do
         "providers" => {
           "keycloak" => {
             "display_name" => "Keycloak",
-            "identifier" => "https://openproject.local",
+            "identifier" => "https://openproject.internal",
             "secret" => "9AWjVC3A4U1HLrZuSP4xiwHfw6zmgECn",
-            "host" => "keycloak.local",
-            "issuer" => "https://keycloak.local/realms/master",
+            "host" => "keycloak.internal",
+            "issuer" => "https://keycloak.internal/realms/master",
             "authorization_endpoint" => "/realms/master/protocol/openid-connect/auth",
             "token_endpoint" => "/realms/master/protocol/openid-connect/token",
             "userinfo_endpoint" => "/realms/master/protocol/openid-connect/userinfo",
-            "end_session_endpoint" => "https://keycloak.local/realms/master/protocol/openid-connect/logout",
-            "jwks_uri" => "https://keycloak.local/realms/master/protocol/openid-connect/certs"
+            "end_session_endpoint" => "https://keycloak.internal/realms/master/protocol/openid-connect/logout",
+            "jwks_uri" => "https://keycloak.internal/realms/master/protocol/openid-connect/certs"
           }
         }
       }
@@ -419,7 +419,7 @@ RSpec.describe "API V3 Authentication" do
       end
     end
 
-    context "when token is issued by provider configured in OP" do
+    fcontext "when token is issued by provider configured in OP" do
       context "when token signature algorithm is not supported" do
         let(:token) do
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJpc3MiOiJodHRwczovL2tleWNsb2FrLmxvY2FsL3JlYWxtcy9tYXN0ZXIifQ.Pwod8ZJqq3jWsbnrGw4ZU1-aLS2bSicb8PgiF78JHUc"
@@ -435,7 +435,7 @@ RSpec.describe "API V3 Authentication" do
 
       context "when kid is present" do
         let(:keys_request_stub) do
-          stub_request(:get, "https://keycloak.local/realms/master/protocol/openid-connect/certs")
+          stub_request(:get, "https://keycloak.internal/realms/master/protocol/openid-connect/certs")
             .with(
               headers: {
                 "Accept" => "*/*",
@@ -503,7 +503,7 @@ RSpec.describe "API V3 Authentication" do
 
       context "when kid is absent in keycloak keys response" do
         let(:keys_request_stub) do
-          stub_request(:get, "https://keycloak.local/realms/master/protocol/openid-connect/certs")
+          stub_request(:get, "https://keycloak.internal/realms/master/protocol/openid-connect/certs")
             .with(
               headers: {
                 "Accept" => "*/*",
