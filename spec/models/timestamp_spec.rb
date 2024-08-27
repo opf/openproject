@@ -197,7 +197,7 @@ RSpec.describe Timestamp do
       end
 
       describe "2022-01-01" do
-        subject { described_class.parse("2022-01-01") }
+        subject { Time.use_zone("UTC") { described_class.parse("2022-01-01") } }
 
         it "returns a Timestamp representing that absolute time" do
           expect(subject).to be_a described_class
