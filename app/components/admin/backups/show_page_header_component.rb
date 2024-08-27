@@ -1,4 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -24,41 +26,36 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-require "support/pages/page"
+module Admin
+  module Backups
+    class ShowPageHeaderComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include ApplicationHelper
 
-module Pages
-  class CustomFields < Page
-    def path
-      "/custom_fields"
-    end
-
-    def visit_tab(name)
-      visit!
-      within_test_selector("custom-fields--tab-nav") do
-        click_link name.to_s
+      def initialize(backup_token:)
+        super
+        @backup_token = backup_token
       end
-    end
 
-    def select_format(label)
-      select label, from: "custom_field_field_format"
-    end
+      def breadcrumb_items
+        [{ href: admin_index_path, text: t(:label_administration) },
+         t(:label_backup)]
+      end
 
-    def set_name(name)
-      find_by_id("custom_field_name").set name
-    end
+      def button_title
+        button_action = @backup_token.present? ? "reset" : "create"
+        t("backup.label_#{button_action}_token")
+      end
 
-    def set_default_value(value)
-      fill_in "custom_field[default_value]", with: value
-    end
+      def button_icon
+        @backup_token.present? ? :"op-reload" : :plus
+      end
 
-    def set_all_projects(value)
-      find_by_id("custom_field_is_for_all").set value
-    end
-
-    def has_form_element?(name)
-      page.has_css? "label.form--label", text: name
+      def button_scheme
+        @backup_token.present? ? :default : :primary
+      end
     end
   end
 end
