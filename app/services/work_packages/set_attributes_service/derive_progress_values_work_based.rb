@@ -124,7 +124,7 @@ class WorkPackages::SetAttributesService
     def update_percent_complete
       return if work_empty?
 
-      if work.zero?
+      if work < 0.005
         set_hint(:done_ratio, :cleared_because_work_is_0h)
         self.percent_complete = nil
       elsif remaining_work_empty?
@@ -141,10 +141,19 @@ class WorkPackages::SetAttributesService
     end
 
     def percent_complete_from_work_and_remaining_work
-      completed_work = work - remaining_work
-      completion_ratio = completed_work.to_f / work
+      rounded_work = work.round(2)
+      rounded_remaining_work = remaining_work.round(2)
+      completed_work = rounded_work - rounded_remaining_work
+      completion_ratio = completed_work.to_f / rounded_work
 
-      (completion_ratio * 100).round
+      percentage = (completion_ratio * 100)
+      case percentage
+      in 0 then 0
+      in 0..1 then 1
+      in 99...100 then 99
+      else
+        percentage.round
+      end
     end
 
     def work_from_percent_complete_and_remaining_work
@@ -153,11 +162,11 @@ class WorkPackages::SetAttributesService
     end
 
     def work_invalid?
-      !DurationConverter.valid?(work_package.estimated_hours_before_type_cast)
+      !work_valid?
     end
 
     def remaining_work_invalid?
-      !DurationConverter.valid?(work_package.remaining_hours_before_type_cast)
+      !remaining_work_valid?
     end
 
     def percent_complete_unparsable?

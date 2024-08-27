@@ -75,6 +75,10 @@ class WorkPackages::SetAttributesService
       !work_came_from_user?
     end
 
+    def work_valid?
+      DurationConverter.valid?(work_package.estimated_hours_before_type_cast)
+    end
+
     def remaining_work
       work_package.remaining_hours
     end
@@ -105,6 +109,10 @@ class WorkPackages::SetAttributesService
 
     def remaining_work_not_provided_by_user?
       !remaining_work_came_from_user?
+    end
+
+    def remaining_work_valid?
+      DurationConverter.valid?(work_package.remaining_hours_before_type_cast)
     end
 
     def percent_complete
@@ -151,11 +159,11 @@ class WorkPackages::SetAttributesService
       # prevent the numericality validator from working when setting the field
       # to a string value.
       rounded = work&.round(2)
-      if rounded != work
+      if rounded != work && work_valid?
         self.work = rounded
       end
       rounded = remaining_work&.round(2)
-      if rounded != remaining_work
+      if rounded != remaining_work && remaining_work_valid?
         self.remaining_work = rounded
       end
     end

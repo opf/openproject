@@ -142,6 +142,44 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
                        }
     end
 
+    context "when work is set to 0.0049h" do
+      let(:set_attributes) { { estimated_hours: 0.0049 } }
+      let(:expected_derived_attributes) do
+        { estimated_hours: 0, remaining_hours: 0, done_ratio: nil }
+      end
+
+      include_examples "update progress values",
+                       description: "work and remaining work are set to 0h (rounded) and % Complete is cleared",
+                       expected_hints: {
+                         remaining_work: :decreased_like_work,
+                         percent_complete: :cleared_because_work_is_0h
+                       }
+    end
+
+    context "when % complete is derived to 99.5% or more" do
+      let(:set_attributes) { { estimated_hours: 20000, remaining_hours: 1 } }
+      let(:expected_derived_attributes) { { done_ratio: 99 } }
+      let(:expected_kept_attributes) { %w[remaining_hours] }
+
+      include_examples "update progress values",
+                       description: "% complete is set to 99% instead of rounding it to 100%",
+                       expected_hints: {
+                         percent_complete: :derived
+                       }
+    end
+
+    context "when % complete is derived to 0.5% or less" do
+      let(:set_attributes) { { estimated_hours: 20000, remaining_hours: 19999 } }
+      let(:expected_derived_attributes) { { done_ratio: 1 } }
+      let(:expected_kept_attributes) { %w[remaining_hours] }
+
+      include_examples "update progress values",
+                       description: "% complete is set to 1% instead of rounding it to 0%",
+                       expected_hints: {
+                         percent_complete: :derived
+                       }
+    end
+
     context "when work is decreased" do
       # work changed by -2h
       let(:set_attributes) { { estimated_hours: 10.0 - 2.0 } }
@@ -486,6 +524,17 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
                        }
     end
 
+    context "when work and remaining work are different but would be identical if rounded" do
+      let(:set_attributes) { { estimated_hours: 1.997, remaining_hours: 1.995 } }
+      let(:expected_derived_attributes) { { estimated_hours: 2.0, remaining_hours: 2.0, done_ratio: 0 } }
+
+      include_examples "update progress values",
+                       description: "% complete is calculated with rounded values",
+                       expected_hints: {
+                         done_ratio: :derived
+                       }
+    end
+
     context "when work is set" do
       let(:set_attributes) { { estimated_hours: 10.0 } }
       let(:expected_derived_attributes) { { done_ratio: 80.0 } }
@@ -795,6 +844,26 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
                        expected_hints: {}
     end
 
+    context "when work is set to an invalid string with a leading number " \
+            "which could be rounded ('3.999 invalid' for instance)" do
+      let(:set_attributes) { { estimated_hours: "3.999 invalid" } }
+      let(:expected_derived_attributes) { { estimated_hours: 3.999 } }
+      let(:expected_kept_attributes) { %w[remaining_hours done_ratio] }
+
+      it "keeps the original string value in the _before_type_cast method " \
+         "so that validation can detect it is invalid" do
+        work_package.attributes = set_attributes
+        instance.call
+
+        expect(work_package.estimated_hours_before_type_cast).to eq("3.999 invalid")
+      end
+
+      include_examples "update progress values",
+                       description: "is an error state (to be detected by contract), " \
+                                    "and remaining work and % complete are kept",
+                       expected_hints: {}
+    end
+
     context "when remaining work is set to a string" do
       let(:set_attributes) { { remaining_hours: "I am a string" } }
       let(:expected_derived_attributes) { { remaining_hours: 0.0 } }
@@ -806,6 +875,26 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
         instance.call
 
         expect(work_package.remaining_hours_before_type_cast).to eq("I am a string")
+      end
+
+      include_examples "update progress values",
+                       description: "is an error state (to be detected by contract), " \
+                                    "and work and % complete are kept",
+                       expected_hints: {}
+    end
+
+    context "when remaining work is set to an invalid string with a leading " \
+            "number which could be rounded ('3.999 invalid' for instance)" do
+      let(:set_attributes) { { remaining_hours: "3.999 invalid" } }
+      let(:expected_derived_attributes) { { remaining_hours: 3.999 } }
+      let(:expected_kept_attributes) { %w[estimated_hours done_ratio] }
+
+      it "keeps the original string value in the _before_type_cast method " \
+         "so that validation can detect it is invalid" do
+        work_package.attributes = set_attributes
+        instance.call
+
+        expect(work_package.remaining_hours_before_type_cast).to eq("3.999 invalid")
       end
 
       include_examples "update progress values",

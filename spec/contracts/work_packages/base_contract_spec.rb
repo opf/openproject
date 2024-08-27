@@ -614,6 +614,18 @@ RSpec.describe WorkPackages::BaseContract,
                                               done_ratio: nil
     end
 
+    context "when work is 0h and remaining work is not a valid duration (an invalid string for instance)" do
+      let(:estimated_hours) { 0.0 }
+      let(:remaining_hours) { "invalid" }
+      let(:done_ratio) { 50 }
+
+      # no errors should be reported for % complete in this case to not overload
+      # the progress modal with error messages.
+      include_examples "contract is invalid", estimated_hours: nil,
+                                              remaining_hours: :not_a_number,
+                                              done_ratio: nil
+    end
+
     context "when all three empty" do
       let(:estimated_hours) { nil }
       let(:remaining_hours) { nil }
@@ -626,6 +638,14 @@ RSpec.describe WorkPackages::BaseContract,
       let(:estimated_hours) { 10 }
       let(:remaining_hours) { 6.0 }
       let(:done_ratio) { 40 }
+
+      include_examples "contract is valid"
+    end
+
+    context "with inexact calculated % complete value (rounded to 1% VS 0.05% actual)" do
+      let(:estimated_hours) { 2000 }
+      let(:remaining_hours) { 1999 }
+      let(:done_ratio) { 1 }
 
       include_examples "contract is valid"
     end
