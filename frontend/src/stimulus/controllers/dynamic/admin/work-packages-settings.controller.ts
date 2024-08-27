@@ -64,6 +64,9 @@ export default class WorkPackagesSettingsController extends Controller {
 
   getWarningMessageHtml():string {
     const newMode = this.progressCalculationModeSelectTarget.value;
+    if (newMode === this.initialMode) {
+      return '';
+    }
 
     // to be removed in 15.0 with :percent_complete_edition feature flag removal
     if (!this.percentCompleteEditionActiveValue && newMode === 'field') {
