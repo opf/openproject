@@ -34,31 +34,30 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   before_action :find_work_package
   before_action :find_project
   before_action :find_journal, only: %i[edit cancel_edit update]
+  before_action :set_filter
   before_action :authorize
 
   def index
     render(
       WorkPackages::ActivitiesTab::IndexComponent.new(
         work_package: @work_package,
-        filter: params[:filter]&.to_sym || :all
+        filter: @filter
       ),
       layout: false
     )
   end
 
   def update_filter
-    filter = params[:filter]&.to_sym || :all
-
     update_via_turbo_stream(
       component: WorkPackages::ActivitiesTab::Journals::FilterAndSortingComponent.new(
         work_package: @work_package,
-        filter:
+        filter: @filter
       )
     )
     update_via_turbo_stream(
       component: WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
         work_package: @work_package,
-        filter:
+        filter: @filter
       )
     )
 
@@ -66,7 +65,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def update_streams
-    generate_time_based_update_streams(params[:last_update_timestamp], params[:filter])
+    generate_time_based_update_streams(params[:last_update_timestamp])
 
     respond_with_turbo_streams
   end
@@ -77,7 +76,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
         journal: @journal,
         state: :edit,
-        filter: params[:filter]&.to_sym || :all
+        filter: @filter
       )
     )
 
@@ -89,7 +88,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
         journal: @journal,
         state: :show,
-        filter: params[:filter]&.to_sym || :all
+        filter: @filter
       )
     )
 
@@ -100,13 +99,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     call = create_notification_service_call
 
     if call.success? && call.result
-      if call.result.initial?
-        # we need to update the whole item component for an initial journal entry
-        # and not just the show part as happens in the time based update
-        # as this part is not rendered for initial journal
-        update_item_component(call.result, state: :show, filter: params[:filter]&.to_sym || :all)
-      end
-      generate_time_based_update_streams(params[:last_update_timestamp], params[:filter])
+      handle_successful_create_call(call)
     end
 
     respond_with_turbo_streams
@@ -118,7 +111,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     )
 
     if call.success? && call.result
-      update_item_component(call.result, state: :show, filter: params[:filter]&.to_sym || :all)
+      update_item_component(call.result, state: :show)
     end
     # TODO: handle errors
 
@@ -126,8 +119,6 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def update_sorting
-    filter = params[:filter]&.to_sym || :all
-
     call = Users::UpdateService.new(user: User.current, model: User.current).call(
       pref: { comments_sorting: params[:sorting] }
     )
@@ -135,12 +126,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     if call.success?
       # update the whole tab to reflect the new sorting in all components
       # we need to call replace in order to properly re-init the index stimulus component
-      replace_via_turbo_stream(
-        component: WorkPackages::ActivitiesTab::IndexComponent.new(
-          work_package: @work_package,
-          filter:
-        )
-      )
+      replace_whole_tab
     end
 
     respond_with_turbo_streams
@@ -160,12 +146,48 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     @journal = Journal.find(params[:id])
   end
 
+  def set_filter
+    @filter = params[:filter]&.to_sym || :all
+  end
+
   def journal_sorting
     User.current.preference&.comments_sorting || "desc"
   end
 
   def journal_params
     params.require(:journal).permit(:notes)
+  end
+
+  def handle_successful_create_call(call)
+    if @filter == :only_changes
+      handle_only_changes_filter_on_create
+    else
+      handle_other_filters_on_create(call)
+    end
+  end
+
+  def handle_only_changes_filter_on_create
+    @filter = :all # reset filter
+    # we need to update the whole tab in order to reset the filter
+    # as the added journal would not be shown otherwise
+    replace_whole_tab
+  end
+
+  def handle_other_filters_on_create(call)
+    if call.result.initial?
+      update_item_component(call.result, state: :show)
+    else
+      generate_time_based_update_streams(params[:last_update_timestamp])
+    end
+  end
+
+  def replace_whole_tab
+    replace_via_turbo_stream(
+      component: WorkPackages::ActivitiesTab::IndexComponent.new(
+        work_package: @work_package,
+        filter: @filter
+      )
+    )
   end
 
   def create_notification_service_call
@@ -178,22 +200,21 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     ###
   end
 
-  def update_item_component(journal, state: :show, filter: :all)
+  def update_item_component(journal, state: :show)
     update_via_turbo_stream(
       component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
         journal:,
         state:,
-        filter:
+        filter: @filter
       )
     )
   end
 
-  def generate_time_based_update_streams(last_update_timestamp, filter)
-    filter = filter&.to_sym || :all
+  def generate_time_based_update_streams(last_update_timestamp)
     # TODO: prototypical implementation
     journals = @work_package.journals
 
-    if filter == :only_comments
+    if @filter == :only_comments
       journals = journals.where.not(notes: "")
     end
 
@@ -202,14 +223,14 @@ class WorkPackages::ActivitiesTabController < ApplicationController
         # we need to update the whole component as the show part is not rendered for journals which originally have no notes
         component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
           journal:,
-          filter:
+          filter: @filter
         )
       )
       # TODO: is it possible to loose an edit state this way?
     end
 
     journals.where("created_at > ?", last_update_timestamp).find_each do |journal|
-      append_or_prepend_latest_journal_via_turbo_stream(journal, filter)
+      append_or_prepend_latest_journal_via_turbo_stream(journal)
     end
 
     if journals.any?
@@ -217,13 +238,13 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     end
   end
 
-  def append_or_prepend_latest_journal_via_turbo_stream(journal, filter)
+  def append_or_prepend_latest_journal_via_turbo_stream(journal)
     target_component = WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
       work_package: @work_package,
-      filter:
+      filter: @filter
     )
 
-    component = WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:, filter:)
+    component = WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:, filter: @filter)
 
     stream_config = {
       target_component:,

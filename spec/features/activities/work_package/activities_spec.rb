@@ -370,6 +370,20 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
           activity_tab.expect_journal_changed_attribute(text: "Subject")
         end
       end
+
+      it "resets an only_changes filter if a comment is added by the user", :aggregate_failures do
+        activity_tab.filter_journals(:only_changes)
+
+        # expect only the changes
+        activity_tab.expect_no_journal_notes(text: "First comment by admin")
+        activity_tab.expect_no_journal_notes(text: "Second comment by admin")
+
+        # add a comment
+        activity_tab.add_comment(text: "Third comment by admin")
+
+        # the only_changes filter should be reset
+        activity_tab.expect_journal_notes(text: "Third comment by admin")
+      end
     end
   end
 
