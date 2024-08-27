@@ -66,6 +66,10 @@ module WorkPackages
         def journal_with_notes
           journals.where.not(notes: "")
         end
+
+        def empty_state?
+          filter == :only_comments && journal_with_notes.empty?
+        end
       end
     end
   end

@@ -1,20 +1,25 @@
 <%=
   component_wrapper do
-    flex_layout(id: insert_target_modifier_id, data: { "test_selector": "op-wp-journals-container" }) do |journals_index_container|
-      if filter == :only_comments && journal_with_notes.empty?
-        journals_index_container.with_row(mt: 2) do
-          render(
-            WorkPackages::ActivitiesTab::Journals::EmptyComponent.new()
-          )
+    flex_layout do |journals_index_wrapper_container|
+      journals_index_wrapper_container.with_row(id: "wp-journals-inner-container") do
+        flex_layout(id: insert_target_modifier_id, data: { "test_selector": "op-wp-journals-container" }) do |journals_index_container|
+          if empty_state?
+            journals_index_container.with_row(mt: 2) do
+              render(
+                WorkPackages::ActivitiesTab::Journals::EmptyComponent.new()
+              )
+            end
+          end
+          journals.each do |journal|
+            journals_index_container.with_row do
+              render(
+                WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:, filter:)
+              )
+            end
+          end
         end
       end
-      journals.each do |journal|
-        journals_index_container.with_row do
-          render(
-            WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:, filter:)
-          )
-        end
-      end
+      journals_index_wrapper_container.with_row(id: "wp-stem-connection") unless empty_state?
     end
   end
 %>
