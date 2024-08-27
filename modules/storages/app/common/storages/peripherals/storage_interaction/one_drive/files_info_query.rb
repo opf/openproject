@@ -33,6 +33,7 @@ module Storages
     module StorageInteraction
       module OneDrive
         class FilesInfoQuery
+          include TaggedLogging
           using ServiceResultRefinements
 
           def self.call(storage:, auth_strategy:, file_ids: [])
