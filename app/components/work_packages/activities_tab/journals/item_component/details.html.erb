@@ -1,26 +1,31 @@
-<%=
-  component_wrapper(class: "work-packages-activities-tab-journals-item-component-details") do
-    if journal.details.any? && filter != :only_comments
+<%= component_wrapper(class: "work-packages-activities-tab-journals-item-component-details") do
+  case filter
+  when :only_comments
+    flex_layout(my: 0, border: :left, classes: "journal-details-container") do |details_container|
+      render_empty_line(details_container) unless journal.initial?
+    end
+  when :only_changes
+    if journal.details.any?
       flex_layout(my: 0, border: :left, classes: "journal-details-container") do |details_container|
-        if journal.notes.present? && filter != :only_changes
+        render_details_header(details_container)
+        render_details(details_container)
+      end
+    end
+  else # :all or any other state
+    flex_layout(my: 0, border: :left, classes: "journal-details-container") do |details_container|
+      if journal.details.any?
+        if journal.notes.present?
           render_details(details_container)
         else
           render_details_header(details_container)
           render_details(details_container)
         end
-      end
-    elsif journal.details.empty?
-      unless filter == :only_changes
-        flex_layout(my: 0, border: :left, classes: "journal-details-container journal-details-container--empty--#{journal_sorting}") do |details_container|
-          # empty row to render the flex layout with its minimal height
-          render_empty_line(details_container)
-        end
-      end
-    else
-      flex_layout(my: 0, border: :left, classes: "journal-details-container journal-details-container--empty--#{journal_sorting}") do |details_container|
+      elsif journal.notes.present?
+        render_details(details_container)
+      else
         # empty row to render the flex layout with its minimal height
         render_empty_line(details_container)
       end
     end
   end
-%>
+end %>
