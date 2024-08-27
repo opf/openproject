@@ -39,7 +39,7 @@ class WorkPackagesController < ApplicationController
                 :project, only: :show
   before_action :load_and_authorize_in_optional_project,
                 :check_allowed_export,
-                :protect_from_unauthorized_export, %i[index export_dialog]
+                :protect_from_unauthorized_export, only: %i[index export_dialog]
   authorization_checked! :index, :show, :export_dialog
 
   before_action :load_and_validate_query, only: :index, unless: -> { request.format.html? }
