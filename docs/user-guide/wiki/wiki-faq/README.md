@@ -16,12 +16,6 @@ Yes, you can do both, you have to export the wiki or the wiki page as a Markdown
 
 Currently supported are PNG and JPEG.
 
-## Can I include a wiki page in another wiki?
-
-You can paste the content of one wiki into another wiki. To do this, you need to copy the content of your wiki pages and paste the text into a wiki page in another wiki.
-There exists a macro {{include(wikipage title)}} which includes another page from the same project.
-If the page is located in a different project the command needs to be changed to the following: {{include(project title: wikipage title)}}
-
 ## Can I include wiki pages in the left menu bar? What does "Configure menu item" mean?
 
 The option configure menu item was designed to ease the handling of page structures.
