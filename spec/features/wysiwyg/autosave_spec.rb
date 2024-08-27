@@ -48,9 +48,7 @@ RSpec.describe "Wysiwyg autosave spec",
 
     it "can autosave" do
       editor.click_and_type_slowly "Initial version"
-      accept_confirm do
-        click_on "Save"
-      end
+      click_on "Save"
 
       expect(page).to have_css(".op-toast.-success")
       within("#content") do
@@ -69,9 +67,7 @@ RSpec.describe "Wysiwyg autosave spec",
       end
 
       # Save wiki page
-      accept_confirm do
-        click_on "Save"
-      end
+      click_on "Save"
 
       expect(page).to have_css(".op-toast.-success")
       within("#content") do

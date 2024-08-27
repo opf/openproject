@@ -72,7 +72,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   ngOnInit():void {
     super.ngOnInit();
 
-    this.handler.registerOnSubmit(() => this.getCurrentValue());
+    this.handler.registerOnSubmit(() => Promise.resolve(this.getCurrentValue()));
     this.text = {
       attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
       save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
@@ -98,12 +98,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     }
   }
 
-  public getCurrentValue():Promise<void> {
-    return this.editor
-      .getTransformedContent()
-      .then((val) => {
-        this.rawValue = val;
-      });
+  public getCurrentValue():void {
+    this.rawValue = this.editor.getTransformedContent();
   }
 
   public onContentChange(value:string):void {
@@ -115,10 +111,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public handleUserSubmit():boolean {
-    this.getCurrentValue()
-      .then(() => {
-        this.handler.handleUserSubmit();
-      });
+    this.getCurrentValue();
+    void this.handler.handleUserSubmit();
 
     return false;
   }

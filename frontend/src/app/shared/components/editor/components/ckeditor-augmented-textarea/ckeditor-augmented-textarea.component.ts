@@ -161,7 +161,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
   public async saveForm(evt?:SubmitEvent):Promise<void> {
     this.inFlight = true;
 
-    await this.syncToTextarea();
+    this.syncToTextarea();
     window.OpenProject.pageIsSubmitted = true;
 
     setTimeout(() => {
@@ -193,9 +193,9 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     return editor;
   }
 
-  private async syncToTextarea() {
+  private syncToTextarea() {
     try {
-      this.wrappedTextArea.value = await this.ckEditorInstance.getTransformedContent(true);
+      this.wrappedTextArea.value = this.ckEditorInstance.getTransformedContent(true);
     } catch (e) {
       // eslint-disable-next-line @typescript-eslint/no-base-to-string
       const message = (e as Error)?.message || (e as object).toString();

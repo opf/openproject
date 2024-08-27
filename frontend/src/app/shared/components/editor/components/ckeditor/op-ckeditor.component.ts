@@ -100,10 +100,8 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
   // to read back changes as they happen
   private debouncedEmitter = _.debounce(
     () => {
-      void this.getTransformedContent(false)
-        .then((val) => {
-          this.contentChanged.emit(val);
-        });
+      const val = this.getTransformedContent(false);
+      this.contentChanged.emit(val);
     },
     1000,
     { leading: true },
@@ -136,11 +134,10 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
     }
 
     if (content === null || content === undefined) {
-      console.error('Trying to get content from CKEditor failed, as it returned null.');
-    } else {
-      this._content = content;
+      throw new Error('Trying to get content from CKEditor failed, as it returned null.');
     }
 
+    this._content = content;
     return content;
   }
 
@@ -148,32 +145,37 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
    * Get a promise with the transformed content, will wrap errors in the promise.
    * @param notificationOnError
    */
-  public getTransformedContent(notificationOnError = true):Promise<string> {
-    if (!this.initialized) {
-      throw new Error('Tried to access CKEditor instance before initialization.');
-    }
-
-    if (this.componentDestroyed) {
-      throw new Error('Component destroyed');
-    }
-
-    return new Promise<string>((resolve, reject) => {
-      try {
-        resolve(this.getRawData());
-      } catch (e) {
-        console.error(`Failed to save CKEditor content: ${e}.`);
-        const error = this.I18n.t(
-          'js.editor.error_saving_failed',
-          { error: e || this.I18n.t('js.error.internal') },
-        );
-
-        if (notificationOnError) {
-          this.Notifications.addError(error);
-        }
-
-        reject(error);
+  public getTransformedContent(notificationOnError = true):string {
+    try {
+      if (!this.initialized) {
+        throw new Error('Tried to access CKEditor instance before initialization.');
       }
-    });
+
+      if (this.componentDestroyed) {
+        throw new Error('Component destroyed');
+      }
+
+      if (!this.ckEditorInstance || this.ckEditorInstance.state === 'destroyed') {
+        console.warn('CKEditor instance is destroyed, returning last content');
+        return this._content;
+      }
+
+      return this.getRawData();
+    } catch (e) {
+      console.error(`Failed to save CKEditor content: ${e}.`);
+
+      const error = this.I18n.t(
+        'js.editor.error_saving_failed',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
+        { error: e.toString() || this.I18n.t('js.error.internal') },
+      );
+
+      if (notificationOnError) {
+        this.Notifications.addError(error);
+      }
+
+      return this._content;
+    }
   }
 
   /**
@@ -225,7 +227,6 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
         this.setupWatchdog(watchdog);
         const editor = watchdog.editor;
         this.ckEditorInstance = editor;
-
 
         // Switch mode
         editor.on('op:source-code-enabled', () => this.enableManualMode());

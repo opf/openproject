@@ -21,6 +21,10 @@ export interface CKEditorDomEventData {
 }
 
 export interface ICKEditorInstance {
+  id:string;
+
+  state:string;
+
   getData(options:{ trim:boolean }):string;
 
   setData(content:string):void;
