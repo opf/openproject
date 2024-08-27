@@ -39,14 +39,12 @@ class WorkPackagesController < ApplicationController
                 :project, only: :show
   before_action :load_and_authorize_in_optional_project,
                 :check_allowed_export,
-                :protect_from_unauthorized_export, only: :index
+                :protect_from_unauthorized_export, %i[index export_dialog]
   authorization_checked! :index, :show, :export_dialog
 
   before_action :load_and_validate_query, only: :index, unless: -> { request.format.html? }
   before_action :load_work_packages, only: :index, if: -> { request.format.atom? }
-
-  before_action :load_and_authorize_in_optional_project_for_export, only: :export_dialog, if: -> { request.format.html? }
-  before_action :load_and_validate_query_for_export, only: :export_dialog, if: -> { request.format.html? }
+  before_action :load_and_validate_query_for_export, only: :export_dialog
 
   def index
     respond_to do |format|
@@ -93,10 +91,6 @@ class WorkPackagesController < ApplicationController
   end
 
   protected
-
-  def load_and_authorize_in_optional_project_for_export
-    load_and_authorize_in_optional_project
-  end
 
   def load_and_validate_query_for_export
     load_and_validate_query
