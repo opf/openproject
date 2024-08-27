@@ -147,6 +147,7 @@ zh-CN:
     empty_text: "拖动项目到此处或创建一个新项目"
   notice_successful_notification: "通知发送成功"
   notice_timezone_missing: 没有设定时区，预设时区为 %{zone}。要选择您的时区，请单击此处。
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "创建会议"
   permission_edit_meetings: "编辑会议"
   permission_delete_meetings: "删除会议"
@@ -178,6 +179,7 @@ zh-CN:
   label_meeting_delete: "删除会议"
   label_meeting_created_by: "创建者:"
   label_meeting_last_updated: "最后更新"
+  label_meeting_reload: "Reload"
   label_agenda_items: "议程项目"
   label_agenda_items_reordered: "重新排序"
   label_agenda_item_remove: "从议程中移除"

@@ -336,18 +336,6 @@ uk:
         years: "Років"
         description: >
           Виберіть початкове значення масштабу, коли функція автомасштабування недоступна.
-      export:
-        title: "Параметри діаграми Ґанта (PDF)"
-        button_export: "Експорт"
-        column_widths:
-          narrow: "Вузькі"
-          medium: "Середні"
-          wide: "Широкі"
-          very_wide: "Дуже широкі"
-        options:
-          date_zoom: "Масштабування дати"
-          paper_size: "Розмір паперу"
-          column_widths: "Ширина стовпців"
     general_text_no: "ні"
     general_text_yes: "так"
     general_text_No: "Ні"

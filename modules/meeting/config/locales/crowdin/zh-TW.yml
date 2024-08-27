@@ -147,6 +147,7 @@ zh-TW:
     empty_text: "將項目拖曳至此處或建立新項目"
   notice_successful_notification: "通知傳送成功"
   notice_timezone_missing: 沒有設定時區，預設時區為 %{zone} 。請按這裡選擇您的時區。
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "建立會議"
   permission_edit_meetings: "編輯會議"
   permission_delete_meetings: "刪除會議"
@@ -178,6 +179,7 @@ zh-TW:
   label_meeting_delete: "刪除會議"
   label_meeting_created_by: "建立者"
   label_meeting_last_updated: "最後更新於"
+  label_meeting_reload: "Reload"
   label_agenda_items: "議程"
   label_agenda_items_reordered: "重新排列"
   label_agenda_item_remove: "從議程中刪除"

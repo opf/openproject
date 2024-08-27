@@ -336,18 +336,6 @@ pl:
         years: "Lata"
         description: >
           Wybierz początkowy poziom powiększenia, który ma być wyświetlany, gdy tryb autopowiększenia jest niedostępny.
-      export:
-        title: "Opcje PDF wykresu Gantta"
-        button_export: "Eksportuj"
-        column_widths:
-          narrow: "Wąskie"
-          medium: "Średnie"
-          wide: "Szerokie"
-          very_wide: "Bardzo szerokie"
-        options:
-          date_zoom: "Powiększenie daty"
-          paper_size: "Rozmiar papieru"
-          column_widths: "Szerokość kolumn"
     general_text_no: "nie"
     general_text_yes: "tak"
     general_text_No: "Nie"

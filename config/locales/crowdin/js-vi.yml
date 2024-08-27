@@ -336,18 +336,6 @@ vi:
         years: "Năm"
         description: >
           Chọn mức độ phóng to ban đầu sẽ được hiển thị khi tự động phóng to không khả dụng.
-      export:
-        title: "Tùy chọn PDF biểu đồ Gantt"
-        button_export: "Xuất"
-        column_widths:
-          narrow: "Hẹp"
-          medium: "Vừa phải"
-          wide: "Rộng"
-          very_wide: "Rất rộng"
-        options:
-          date_zoom: "Phóng to theo ngày"
-          paper_size: "Kích thước giấy"
-          column_widths: "Chiều rộng cột"
     general_text_no: "không"
     general_text_yes: "có"
     general_text_No: "Không"

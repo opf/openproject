@@ -148,6 +148,7 @@ nl:
     empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Notificatie succesvol verzonden"
   notice_timezone_missing: Geen tijdzone is ingesteld en %{zone} is aangenomen. Om uw tijdzone te kiezen, klik dan hier.
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "Creëer vergaderingen"
   permission_edit_meetings: "Vergaderingen bewerken"
   permission_delete_meetings: "Verwijder vergaderingen"
@@ -179,6 +180,7 @@ nl:
   label_meeting_delete: "Verwijder vergadering"
   label_meeting_created_by: "Gemaakt door"
   label_meeting_last_updated: "Laatst bijgewerkt"
+  label_meeting_reload: "Reload"
   label_agenda_items: "Agendapunten"
   label_agenda_items_reordered: "reordered"
   label_agenda_item_remove: "Van de agenda schrappen"

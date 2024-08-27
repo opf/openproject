@@ -150,6 +150,7 @@ ru:
     empty_text: "Перенесите элементы сюда или создайте новые"
   notice_successful_notification: "Уведомление успешно отправленно"
   notice_timezone_missing: Не установлен часовой пояс и применена %{zone}. Чтобы выбрать часовой пояс, пожалуйста, нажмите сюда.
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "Создание совещания"
   permission_edit_meetings: "Править встречи"
   permission_delete_meetings: "Удалить встречу"
@@ -181,6 +182,7 @@ ru:
   label_meeting_delete: "Удалить совещание"
   label_meeting_created_by: "Автор"
   label_meeting_last_updated: "Последнее обновление"
+  label_meeting_reload: "Reload"
   label_agenda_items: "Пункты повестки"
   label_agenda_items_reordered: "переупорядочено"
   label_agenda_item_remove: "Удалить из повестки"

@@ -148,6 +148,7 @@ pt-PT:
     empty_text: "Arraste itens para aqui ou crie um novo"
   notice_successful_notification: "Notificação enviada com sucesso"
   notice_timezone_missing: Sem fuso horário definido, presume-se %{zone}. Para escolher o seu fuso horário, por favor clique aqui.
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "Criar reuniões"
   permission_edit_meetings: "Editar reuniões"
   permission_delete_meetings: "Apagar reuniões"
@@ -179,6 +180,7 @@ pt-PT:
   label_meeting_delete: "Apagar reunião"
   label_meeting_created_by: "Criado por"
   label_meeting_last_updated: "Ultima atualização"
+  label_meeting_reload: "Reload"
   label_agenda_items: "Pontos da ordem de trabalhos"
   label_agenda_items_reordered: "reordenados"
   label_agenda_item_remove: "Remover da ordem de trabalhos"

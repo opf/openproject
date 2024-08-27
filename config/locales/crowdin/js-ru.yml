@@ -335,18 +335,6 @@ ru:
         years: "Лет"
         description: >
           Выберите начальный уровень масштаба, который должен быть показан, когда автозум недоступен.
-      export:
-        title: "Параметры диаграммы Гантта в PDF"
-        button_export: "Экспорт"
-        column_widths:
-          narrow: "Узкий"
-          medium: "Средний"
-          wide: "Широкий"
-          very_wide: "Очень широкий"
-        options:
-          date_zoom: "Изменение даты"
-          paper_size: "Размер бумаги"
-          column_widths: "Ширина столбца"
     general_text_no: "нет"
     general_text_yes: "Да"
     general_text_No: "Нет"

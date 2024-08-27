@@ -31,7 +31,7 @@
           attributes:
             host:
               authorization_header_missing: er ikke ferdig konfigurert. Nextcloud forekomsten mottar ikke "Authorization"-overskriften, som er nødvendig for en Bearer-nøkkel basert autorisasjon for API-forespørsler. Dobbeltsjekk HTTP-serverkonfigurasjonen din.
-              cannot_be_connected_to: kan ikke kobles til.
+              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
               minimal_nextcloud_version_unmet: oppfyller ikke minimale krav til versjon (må være Nextcloud 23 eller høyere)
               not_nextcloud_server: er ikke en Nextcloud server
               op_application_not_installed: ser ut til å ikke ha appen "OpenProject integrasjon" installert. Installer den først og prøv igjen.

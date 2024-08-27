@@ -336,18 +336,6 @@ pt-PT:
         years: "Anos"
         description: >
           Selecione o nível de zoom inicial que deve ser mostrado quando o zoom automático não está disponível.
-      export:
-        title: "Opções de PDF do gráfico de Gantt"
-        button_export: "Exportar"
-        column_widths:
-          narrow: "Estreito"
-          medium: "Médio"
-          wide: "Amplo"
-          very_wide: "Muito amplo"
-        options:
-          date_zoom: "Formato de datas"
-          paper_size: "Tamanho do papel"
-          column_widths: "Larguras da coluna"
     general_text_no: "não"
     general_text_yes: "sim"
     general_text_No: "Não"

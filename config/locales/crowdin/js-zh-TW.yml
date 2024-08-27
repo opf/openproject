@@ -334,18 +334,6 @@ zh-TW:
         years: "年"
         description: >
           選擇初始縮放級別，當自動縮放無法顯示。
-      export:
-        title: "甘特圖 PDF 選項"
-        button_export: "匯出"
-        column_widths:
-          narrow: "窄"
-          medium: "中"
-          wide: "寬"
-          very_wide: "非常寬"
-        options:
-          date_zoom: "日期縮放"
-          paper_size: "紙張大小"
-          column_widths: "列寬"
     general_text_no: "否"
     general_text_yes: "是"
     general_text_No: "否"
@@ -467,7 +455,7 @@ zh-TW:
     label_meeting_minutes: "會議記錄"
     label_menu_collapse: "收合"
     label_menu_expand: "展開"
-    label_more_than_ago: "多天前"
+    label_more_than_ago: "超過幾天"
     label_next: "下一個"
     label_no_color: "無顏色"
     label_no_data: "沒有資料可顯示"
@@ -997,7 +985,7 @@ zh-TW:
         subproject: "子專案"
         title: "標題"
         type: "類型"
-        updatedAt: "最後更新"
+        updatedAt: "更新"
         versionName: "版本"
         version: "版本"
         work: "工時"

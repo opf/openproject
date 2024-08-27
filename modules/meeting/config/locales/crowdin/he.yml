@@ -150,6 +150,7 @@ he:
     empty_text: "Drag items here or create a new one"
   notice_successful_notification: "הודעה נשלחה בהצלחה"
   notice_timezone_missing: אין איזור זמן מוגדר, ההערכה היא %{zone}. כדי לבחור את איזור הזמן שלך, אנא לחץ כאן.
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "צור פגישות"
   permission_edit_meetings: "ערוך פגישות"
   permission_delete_meetings: "מחק פגישות"
@@ -181,6 +182,7 @@ he:
   label_meeting_delete: "Delete meeting"
   label_meeting_created_by: "Created by"
   label_meeting_last_updated: "Last updated"
+  label_meeting_reload: "Reload"
   label_agenda_items: "Agenda items"
   label_agenda_items_reordered: "reordered"
   label_agenda_item_remove: "Remove from agenda"

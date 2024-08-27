@@ -150,6 +150,7 @@ pl:
     empty_text: "Przeciągnij elementy tutaj lub utwórz nowe"
   notice_successful_notification: "Powiadomienia wysłane pomyślnie"
   notice_timezone_missing: 'Została ustawiona domyślna strefa czasowa: %{zone}. Aby zmienić strefę czasową, kliknij tutaj.'
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "Utwórz spotkanie"
   permission_edit_meetings: "Modyfikuj spotkania"
   permission_delete_meetings: "Usuń spotkania"
@@ -181,6 +182,7 @@ pl:
   label_meeting_delete: "Usuń spotkanie"
   label_meeting_created_by: "Utworzony przez"
   label_meeting_last_updated: "Ostatnia aktualizacja"
+  label_meeting_reload: "Reload"
   label_agenda_items: "Punkty planu spotkania"
   label_agenda_items_reordered: "zmieniono kolejność"
   label_agenda_item_remove: "Usuń z planu spotkania"

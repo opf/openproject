@@ -148,6 +148,7 @@ sv:
     empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Underrättelse skickades"
   notice_timezone_missing: Ingen tidszon angiven och %{zone} antas. För att välja din tidszon, vänligen klicka här.
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "Skapa möten"
   permission_edit_meetings: "Redigera möten"
   permission_delete_meetings: "Ta bort möten"
@@ -179,6 +180,7 @@ sv:
   label_meeting_delete: "Delete meeting"
   label_meeting_created_by: "Skapad av"
   label_meeting_last_updated: "Last updated"
+  label_meeting_reload: "Reload"
   label_agenda_items: "Agenda items"
   label_agenda_items_reordered: "reordered"
   label_agenda_item_remove: "Remove from agenda"

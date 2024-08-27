@@ -335,18 +335,6 @@ cs:
         years: "Roky"
         description: >
           Vyberte počáteční úroveň přiblížení, která by se měla zobrazit, pokud není autozoom dostupný.
-      export:
-        title: "Možnosti Ganttova diagramu PDF"
-        button_export: "Export"
-        column_widths:
-          narrow: "Úzké"
-          medium: "Střední"
-          wide: "Široké"
-          very_wide: "Velmi široký"
-        options:
-          date_zoom: "Přiblížení data"
-          paper_size: "Velikost papíru"
-          column_widths: "Šířka sloupce"
     general_text_no: "ne"
     general_text_yes: "ano"
     general_text_No: "Ne"

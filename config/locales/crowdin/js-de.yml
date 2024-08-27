@@ -335,18 +335,6 @@ de:
         years: "Jahre"
         description: >
           Wählen Sie die Zoomstufe für das Gantt-Diagramm aus, wenn kein Autozoom aktiviert ist.
-      export:
-        title: "Gantt-Diagramm PDF-Optionen"
-        button_export: "Exportieren"
-        column_widths:
-          narrow: "Schmal"
-          medium: "Mittel"
-          wide: "Breit"
-          very_wide: "Sehr breit"
-        options:
-          date_zoom: "Datumszoom"
-          paper_size: "Papierformat"
-          column_widths: "Spaltenbreite"
     general_text_no: "nein"
     general_text_yes: "ja"
     general_text_No: "Nein"

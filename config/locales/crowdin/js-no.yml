@@ -336,18 +336,6 @@
         years: "År"
         description: >
           Velg standard zoom-nivå som skal vises når autozoom ikke er tilgjengelig.
-      export:
-        title: "Gantt-diagram PDF alternativer"
-        button_export: "Eksportèr"
-        column_widths:
-          narrow: "Smal"
-          medium: "Medium"
-          wide: "Bred"
-          very_wide: "Veldig bred"
-        options:
-          date_zoom: "Dato zoom"
-          paper_size: "Papirstørrelse"
-          column_widths: "Kolonnebredder"
     general_text_no: "nei"
     general_text_yes: "ja"
     general_text_No: "Nei"

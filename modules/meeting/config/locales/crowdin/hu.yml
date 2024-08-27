@@ -148,6 +148,7 @@ hu:
     empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Értesítés sikeresen kiküldve"
   notice_timezone_missing: Nincs időzóna beállítva, %{zone} a feltételezett. Időzóna beállításához kattintson ide.
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "Megbeszélések létrehozása"
   permission_edit_meetings: "Megbeszélések szerkesztése"
   permission_delete_meetings: "Megbeszélések törlése"
@@ -179,6 +180,7 @@ hu:
   label_meeting_delete: "Megbeszélés törlése"
   label_meeting_created_by: "Létrehozta"
   label_meeting_last_updated: "Utoljára frissítve"
+  label_meeting_reload: "Reload"
   label_agenda_items: "Agenda items"
   label_agenda_items_reordered: "Átrakva"
   label_agenda_item_remove: "Remove from agenda"
