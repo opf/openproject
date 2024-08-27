@@ -2095,7 +2095,7 @@ zh-TW:
   label_modules: "模組"
   label_months_from: "從幾個月"
   label_more: "更多"
-  label_more_than_ago: "多天前"
+  label_more_than_ago: "超過幾天"
   label_move_work_package: "移動工作項目"
   label_my_account: "我的帳號"
   label_my_activity: "我的活動紀錄"
