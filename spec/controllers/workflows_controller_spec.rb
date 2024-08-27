@@ -161,7 +161,7 @@ RSpec.describe WorkflowsController do
         get :edit, params: { role_id: role.id.to_s, type_id: type.id.to_s, used_statuses_only: "1" }
       end
 
-      it "is responds with the statuses", :aggregate_failures do
+      it "responds with the used statuses", :aggregate_failures do
         expect(response)
           .to have_http_status(:ok)
         expect(response)
@@ -184,7 +184,7 @@ RSpec.describe WorkflowsController do
         get :edit, params: { role_id: role.id.to_s, type_id: type.id.to_s }
       end
 
-      it "is responds with the statuses", :aggregate_failures do
+      it "responds with all statuses", :aggregate_failures do
         expect(response)
           .to have_http_status(:ok)
         expect(response)
