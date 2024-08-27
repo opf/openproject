@@ -74,7 +74,7 @@ module Storages::Admin
       if storage.automatic_management_enabled?
         status_label(I18n.t("storages.label_active"), scheme: :success, test_selector:)
       elsif storage.automatic_management_unspecified?
-        status_label(I18n.t("storages.label_incomplete"), scheme: :attention, test_selector:)
+        status_label(I18n.t(:label_incomplete), scheme: :attention, test_selector:)
       else
         status_label(I18n.t("storages.label_inactive"), scheme: :secondary, test_selector:)
       end

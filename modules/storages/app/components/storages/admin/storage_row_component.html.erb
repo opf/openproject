@@ -4,7 +4,7 @@
       concat(render(Primer::Beta::Link.new(href: url_helpers.edit_admin_settings_storage_path(storage), font_weight: :bold, mr: 1, data: { 'test-selector': 'storage-name' })) { storage.name })
 
       unless storage.configured?
-        concat(render(Primer::Beta::Label.new(scheme: :attention, test_selector: "label-incomplete")) { I18n.t('storages.label_incomplete') })
+        concat(render(Primer::Beta::Label.new(scheme: :attention, test_selector: "label-incomplete")) { I18n.t(:label_incomplete) })
       end
 
       if storage.health_unhealthy?

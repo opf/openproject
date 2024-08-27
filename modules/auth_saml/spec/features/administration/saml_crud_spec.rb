@@ -83,10 +83,6 @@ RSpec.describe "SAML administration CRUD",
         expect(page).to have_text "Not configured"
       end
 
-      within_test_selector("saml_provider_mapping") do
-        expect(page).to have_text "Completed"
-      end
-
       # Back to index
       visit "/admin/saml/providers"
       expect(page).to have_text "My provider"

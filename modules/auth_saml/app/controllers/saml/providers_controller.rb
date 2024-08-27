@@ -62,7 +62,7 @@ module Saml
       else
         @edit_state = :metadata
 
-        flash[:error] = call.message
+        flash.now[:error] = call.message
         render action: :edit
       end
     end
@@ -77,7 +77,7 @@ module Saml
       if call.success?
         successful_save_response
       else
-        flash[:error] = call.message
+        flash.now[:error] = call.message
         render action: :new
       end
     end
