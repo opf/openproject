@@ -76,6 +76,8 @@ class DurationConverter
 
   class << self
     def parse(duration_string)
+      return nil if duration_string.blank?
+
       # Assume the next logical unit to allow users to write
       # durations such as "2h 1" assuming "1" is "1 minute"
       last_unit_in_string = duration_string.scan(/[a-zA-Z]+/)
@@ -95,6 +97,21 @@ class DurationConverter
                             **duration_length_options) / 3600.to_f
     end
 
+    def valid?(duration)
+      case duration
+      when String
+        duration.blank? || parseable?(duration)
+      when Numeric
+        duration >= 0
+      when nil
+        true
+      else
+        false
+      end
+    rescue ChronicDuration::DurationParseError
+      false
+    end
+
     def output(duration_in_hours)
       return duration_in_hours if duration_in_hours.nil?
 
@@ -107,6 +124,39 @@ class DurationConverter
     end
 
     private
+
+    def parseable?(duration_string)
+      if number = Integer(duration_string, 10, exception: false) || Float(duration_string, exception: false)
+        number >= 0
+      else
+        begin
+          internal_parse(duration_string)
+          true
+        rescue ChronicDuration::DurationParseError
+          false
+        end
+      end
+    end
+
+    def internal_parse(duration_string)
+      # Assume the next logical unit to allow users to write
+      # durations such as "2h 1" assuming "1" is "1 minute"
+      last_unit_in_string = duration_string.scan(/[a-zA-Z]+/)
+                                           .last
+      default_unit = if last_unit_in_string
+                       last_unit_in_string
+                         .then { |last_unit| UNIT_ABBREVIATION_MAP[last_unit.downcase] }
+                         .then { |last_unit| NEXT_UNIT_MAP[last_unit] }
+                     else
+                       "hours"
+                     end
+
+      ChronicDuration.parse(duration_string,
+                            keep_zero: true,
+                            default_unit:,
+                            raise_exceptions: true,
+                            **duration_length_options) / 3600.to_f
+    end
 
     def format
       Setting.duration_format == "days_and_hours" ? :days_and_hours : :hours_only

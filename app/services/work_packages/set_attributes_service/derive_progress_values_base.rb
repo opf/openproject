@@ -75,6 +75,10 @@ class WorkPackages::SetAttributesService
       !work_came_from_user?
     end
 
+    def work_valid?
+      DurationConverter.valid?(work_package.estimated_hours_before_type_cast)
+    end
+
     def remaining_work
       work_package.remaining_hours
     end
@@ -105,6 +109,10 @@ class WorkPackages::SetAttributesService
 
     def remaining_work_not_provided_by_user?
       !remaining_work_came_from_user?
+    end
+
+    def remaining_work_valid?
+      DurationConverter.valid?(work_package.remaining_hours_before_type_cast)
     end
 
     def percent_complete
@@ -141,24 +149,26 @@ class WorkPackages::SetAttributesService
 
     private
 
+    def set_hint(field, hint)
+      work_package.derived_progress_hints[field] = hint
+    end
+
     def round_progress_values
       # The values are set only when rounding returns a different value. Doing
       # otherwise would modify the values returned by `xxx_before_type_cast` and
       # prevent the numericality validator from working when setting the field
       # to a string value.
       rounded = work&.round(2)
-      if rounded != work
+      if rounded != work && work_valid?
         self.work = rounded
       end
       rounded = remaining_work&.round(2)
-      if rounded != remaining_work
+      if rounded != remaining_work && remaining_work_valid?
         self.remaining_work = rounded
       end
     end
 
     def remaining_work_from_percent_complete_and_work
-      return nil if work_empty? || percent_complete_empty?
-
       completed_work = work * percent_complete / 100.0
       remaining_work = (work - completed_work).round(2)
       remaining_work.clamp(0.0, work)

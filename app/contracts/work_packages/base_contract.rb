@@ -58,6 +58,8 @@ module WorkPackages
                             && WorkPackage.work_based_mode?
                         } do
       if OpenProject::FeatureDecisions.percent_complete_edition_active?
+        next if invalid_work_or_remaining_work_values? # avoid too many error messages at the same time
+
         validate_percent_complete_matches_work_and_remaining_work
         validate_percent_complete_is_empty_when_work_is_zero
         validate_percent_complete_is_set_when_work_and_remaining_work_are_set
@@ -387,9 +389,7 @@ module WorkPackages
     end
 
     def validate_percent_complete_is_set_when_work_and_remaining_work_are_set
-      return if remaining_work_exceeds_work? # avoid too many error messages at the same time
-
-      if work_set_and_valid? && remaining_work_set_and_valid? && work != 0 && percent_complete_empty?
+      if work_set? && remaining_work_set? && work != 0 && percent_complete_empty?
         errors.add(:done_ratio, :must_be_set_when_work_and_remaining_work_are_set)
       end
     end
@@ -397,7 +397,7 @@ module WorkPackages
     def validate_percent_complete_matches_work_and_remaining_work
       return if percent_complete_derivation_unapplicable?
 
-      if percent_complete != percent_complete_derived_from_work_and_remaining_work
+      if !percent_complete_range_derived_from_work_and_remaining_work.cover?(percent_complete)
         errors.add(:done_ratio, :does_not_match_work_and_remaining_work)
       end
     end
@@ -419,7 +419,7 @@ module WorkPackages
     end
 
     def work_set_and_valid?
-      work_set? && work >= 0
+      work_set? && work >= 0 && !model.errors.has_key?(:estimated_hours)
     end
 
     def work_empty?
@@ -435,7 +435,7 @@ module WorkPackages
     end
 
     def remaining_work_set_and_valid?
-      remaining_work_set? && remaining_work >= 0
+      remaining_work_set? && remaining_work >= 0 && !model.errors.has_key?(:remaining_hours)
     end
 
     def remaining_work_empty?
@@ -445,7 +445,8 @@ module WorkPackages
     def invalid_work_or_remaining_work_values?
       (work_set? && work.negative?) ||
         (remaining_work_set? && remaining_work.negative?) ||
-      remaining_work_exceeds_work?
+        (model.errors.has_key?(:estimated_hours) || model.errors.has_key?(:remaining_hours)) ||
+        remaining_work_exceeds_work?
     end
 
     def remaining_work_exceeds_work?
@@ -475,13 +476,16 @@ module WorkPackages
     def percent_complete_derivation_unapplicable?
       WorkPackage.status_based_mode? || # only applicable in work-based mode
         work_empty? || remaining_work_empty? || percent_complete_empty? || # only applicable if all 3 values are set
-        work == 0 || percent_complete == 100 || # only applicable if not in special cases leading to divisions by zero
-        invalid_work_or_remaining_work_values? # only applicable if work and remaining work values are valid
+        work == 0 || percent_complete == 100 # only applicable if not in special cases leading to divisions by zero
     end
 
-    def percent_complete_derived_from_work_and_remaining_work
+    def percent_complete_range_derived_from_work_and_remaining_work
       work_done = work - remaining_work
-      (100 * work_done.to_f / work).round
+      percentage = (100 * work_done.to_f / work)
+
+      lower_bound = percentage.truncate
+      upper_bound = lower_bound + 1
+      lower_bound..upper_bound
     end
 
     def validate_no_reopen_on_closed_version
