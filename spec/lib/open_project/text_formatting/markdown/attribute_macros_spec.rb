@@ -32,12 +32,17 @@ require_relative "expected_markdown"
 RSpec.describe OpenProject::TextFormatting,
                "Attribute macros" do
   include_context "expected markdown modules"
+  shared_let(:project) { create(:valid_project) }
+  let(:work_package) { create(:work_package, project:, id: 1234) }
+  let(:options) { { project:, object: work_package } }
 
   describe "attribute label macros" do
     it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           # My headline
+
+          Inline reference to WP: workPackageLabel:subject
 
           Inline reference to WP by ID: workPackageLabel:1234:subject
 
@@ -56,6 +61,9 @@ RSpec.describe OpenProject::TextFormatting,
             <a class="op-uc-link_permalink icon-link op-uc-link" aria-hidden="true" href="#my-headline"></a>
           </h1>
           <p class="op-uc-p">
+            Inline reference to WP: <opce-macro-attribute-label data-model="workPackage" data-id="1234" data-attribute="subject"></opce-macro-attribute-label>
+          </p>
+          <p class="op-uc-p">
             Inline reference to WP by ID: <opce-macro-attribute-label data-model="workPackage" data-id="1234" data-attribute="subject"></opce-macro-attribute-label>
           </p>
           <p class="op-uc-p">
@@ -63,9 +71,6 @@ RSpec.describe OpenProject::TextFormatting,
           </p>
           <p class="op-uc-p">
             Inline reference to project: <opce-macro-attribute-label data-model="project" data-attribute="status"></opce-macro-attribute-label>
-          </p>
-          <p class="op-uc-p">
-            Inline reference to project with id: <opce-macro-attribute-label data-model="project" data-id="some id" data-attribute="status"></opce-macro-attribute-label>
           </p>
         EXPECTED
       end
@@ -77,6 +82,8 @@ RSpec.describe OpenProject::TextFormatting,
       let(:raw) do
         <<~RAW
           # My headline
+
+          Inline reference to WP: workPackageValue:subject
 
           Inline reference to WP by ID: workPackageValue:1234:subject
 
@@ -94,6 +101,9 @@ RSpec.describe OpenProject::TextFormatting,
             My headline
             <a class="op-uc-link_permalink icon-link op-uc-link" aria-hidden="true" href="#my-headline"></a>
           </h1>
+          <p class="op-uc-p">
+            Inline reference to WP: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="subject"></opce-macro-attribute-value>
+          </p>
           <p class="op-uc-p">
             Inline reference to WP by ID: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="subject"></opce-macro-attribute-value>
           </p>
