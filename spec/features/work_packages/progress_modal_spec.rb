@@ -532,9 +532,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
       # scenario from https://community.openproject.org/wp/57370
       specify "Case 33-2: when remaining work and % complete are cleared, " \
               "changing or clearing work does not modify % complete at all" do
-        puts "#{Time.current.iso8601(3)} #{__FILE__}:#{__LINE__} "
         visit_progress_query_displaying_work_package
-        puts "#{Time.current.iso8601(3)} #{__FILE__}:#{__LINE__} "
 
         progress_popover.open
         progress_popover.set_values(remaining_work: "")
