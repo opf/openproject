@@ -55,6 +55,8 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
 
   @Input() localStorageKey:string;
 
+  @Input() variableName:string = "--split-screen-width";
+
   private resizingElement:HTMLElement;
 
   private elementWidth:number;
@@ -220,6 +222,6 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   }
 
   private setWidthVariable(value:number):void {
-    document.documentElement.style.setProperty("--split-screen-width", `${value}px`);
+    document.documentElement.style.setProperty(this.variableName, `${value}px`);
   }
 }
