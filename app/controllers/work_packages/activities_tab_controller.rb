@@ -47,6 +47,12 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     )
   end
 
+  def update_streams
+    generate_time_based_update_streams(params[:last_update_timestamp])
+
+    respond_with_turbo_streams
+  end
+
   def update_filter
     update_via_turbo_stream(
       component: WorkPackages::ActivitiesTab::Journals::FilterAndSortingComponent.new(
@@ -64,8 +70,16 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     respond_with_turbo_streams
   end
 
-  def update_streams
-    generate_time_based_update_streams(params[:last_update_timestamp])
+  def update_sorting
+    call = Users::UpdateService.new(user: User.current, model: User.current).call(
+      pref: { comments_sorting: params[:sorting] }
+    )
+
+    if call.success?
+      # update the whole tab to reflect the new sorting in all components
+      # we need to call replace in order to properly re-init the index stimulus component
+      replace_whole_tab
+    end
 
     respond_with_turbo_streams
   end
@@ -96,10 +110,13 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def create
-    call = create_notification_service_call
+    call = create_journal_service_call
 
     if call.success? && call.result
       handle_successful_create_call(call)
+    else
+      # TODO: respond with bad request
+      # respond with call.errors, status: :bad_request
     end
 
     respond_with_turbo_streams
@@ -113,23 +130,9 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     if call.success? && call.result
       update_item_component(call.result, state: :show)
     end
+
     # TODO: handle errors
-
-    respond_with_turbo_streams
-  end
-
-  def update_sorting
-    call = Users::UpdateService.new(user: User.current, model: User.current).call(
-      pref: { comments_sorting: params[:sorting] }
-    )
-
-    if call.success?
-      # update the whole tab to reflect the new sorting in all components
-      # we need to call replace in order to properly re-init the index stimulus component
-      replace_whole_tab
-    end
-
-    respond_with_turbo_streams
+    respond_with_turbo_streams(status: call.success? ? :ok : :forbidden)
   end
 
   private
@@ -190,7 +193,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     )
   end
 
-  def create_notification_service_call
+  def create_journal_service_call
     ### taken from ActivitiesByWorkPackageAPI
     AddWorkPackageNoteService
       .new(user: User.current,
