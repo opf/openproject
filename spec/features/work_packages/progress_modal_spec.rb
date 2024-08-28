@@ -514,7 +514,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
       end
 
       # scenario from https://community.openproject.org/wp/57370
-      specify "Case 33-14: when work and % complete are cleared, and then work " \
+      specify "Case 33-1: when work and % complete are cleared, and then work " \
               "is set again then % complete is derived again" do
         visit_progress_query_displaying_work_package
 
@@ -527,6 +527,33 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         progress_popover.set_values(work: "20h")
         # => % complete is derived
         progress_popover.expect_values(work: "20h", remaining_work: "4h", percent_complete: "80%")
+      end
+
+      # scenario from https://community.openproject.org/wp/57370
+      specify "Case 33-2: when remaining work and % complete are cleared, " \
+              "changing or clearing work does not modify % complete at all" do
+        puts "#{Time.current.iso8601(3)} #{__FILE__}:#{__LINE__} "
+        visit_progress_query_displaying_work_package
+        puts "#{Time.current.iso8601(3)} #{__FILE__}:#{__LINE__} "
+
+        progress_popover.open
+        progress_popover.set_values(remaining_work: "")
+        progress_popover.expect_values(work: "", remaining_work: "", percent_complete: "60%")
+        progress_popover.expect_hints(work: :cleared_because_remaining_work_is_empty)
+
+        progress_popover.set_values(percent_complete: "")
+        progress_popover.expect_values(work: "10h", remaining_work: "", percent_complete: "")
+        progress_popover.expect_hints(work: nil, remaining_work: nil, percent_complete: nil)
+
+        # partially deleting work value like when pressing backspace
+        progress_popover.set_values(work: "1")
+        progress_popover.expect_values(work: "1", remaining_work: "", percent_complete: "")
+        progress_popover.expect_hints(work: nil, remaining_work: nil, percent_complete: nil)
+
+        # completly clearing work value
+        progress_popover.set_values(work: "")
+        progress_popover.expect_values(work: "", remaining_work: "", percent_complete: "")
+        progress_popover.expect_hints(work: nil, remaining_work: nil, percent_complete: nil)
       end
     end
 
