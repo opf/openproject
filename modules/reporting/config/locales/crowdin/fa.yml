@@ -84,7 +84,7 @@ fa:
   toggle_multiselect: "activate/deactivate multiselect"
   units: "واحدها"
   validation_failure_date: "is not a valid date"
-  validation_failure_integer: "is not a valid integer"
+  validation_failure_integer: "عدد درست نیست"
   export:
     cost_reports:
       title: "Your Cost Reports XLS export"

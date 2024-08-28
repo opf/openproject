@@ -13,7 +13,7 @@ fa:
     label_board_type: "نوع انجمن"
     board_types:
       free: اصول اولیه
-      action: "تابلوی اکشن (%{attribute})"
+      action: "تابلوی فعالیت (%{attribute})"
     board_type_attributes:
       assignee: نماینده
       status: وضعیت
