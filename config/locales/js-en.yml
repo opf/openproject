@@ -160,6 +160,8 @@ en:
     description_select_work_package: "Select work package #%{id}"
     description_subwork_package: "Child of work package #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "Toggle preview mode"
       source_code: "Toggle Markdown source mode"
       error_saving_failed: "Saving the document failed with the following error: %{error}"
@@ -456,6 +458,7 @@ en:
     label_create: "Create"
     label_create_work_package: "Create new work package"
     label_created_by: "Created by"
+    label_current: "current"
     label_date: "Date"
     label_date_with_format: "Enter the %{date_attribute} using the following format: %{format}"
     label_deactivate: "Deactivate"
@@ -1275,6 +1278,9 @@ en:
         one: "1 day"
         other: "%{count} days"
         zero: "0 days"
+      word:
+        one: "1 word"
+        other: "%{count} words"
     zen_mode:
       button_activate: "Activate zen mode"
       button_deactivate: "Deactivate zen mode"
