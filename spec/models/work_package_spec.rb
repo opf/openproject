@@ -373,6 +373,72 @@ RSpec.describe WorkPackage do
              done_ratio: 30)
     end
 
+    it "allows empty value" do
+      work_package.done_ratio = ""
+      expect(work_package).to be_valid
+      expect(work_package.done_ratio).to be_nil
+    end
+
+    it "allows blank values" do
+      work_package.done_ratio = "  "
+      expect(work_package).to be_valid
+      expect(work_package.done_ratio).to be_nil
+    end
+
+    it "allows nil value" do
+      work_package.done_ratio = nil
+      expect(work_package).to be_valid
+      expect(work_package.done_ratio).to be_nil
+    end
+
+    it "allows values between 0 and 100" do
+      work_package.done_ratio = 0
+      expect(work_package).to be_valid
+      work_package.done_ratio = 34
+      expect(work_package).to be_valid
+      work_package.done_ratio = 99
+      expect(work_package).to be_valid
+
+      work_package.done_ratio = "1"
+      expect(work_package).to be_valid
+      work_package.done_ratio = "100"
+      expect(work_package).to be_valid
+    end
+
+    it "disallows values outside of the 0-100 range" do
+      work_package.done_ratio = -1
+      expect(work_package).not_to be_valid
+
+      work_package.done_ratio = "-1%"
+      expect(work_package.done_ratio).to eq(-1)
+      expect(work_package).not_to be_valid
+
+      work_package.done_ratio = 101.0
+      expect(work_package.done_ratio).to eq(101)
+      expect(work_package).not_to be_valid
+    end
+
+    it "allows floats and truncates them to integer" do
+      work_package.done_ratio = 1.7
+      expect(work_package).to be_valid
+      expect(work_package.done_ratio).to eq(1)
+
+      work_package.done_ratio = "1.7"
+      expect(work_package).to be_valid
+      expect(work_package.done_ratio).to eq(1)
+    end
+
+    it "allows percentage like '50%'" do
+      work_package.done_ratio = "50%"
+      expect(work_package).to be_valid
+      expect(work_package.done_ratio).to eq(50)
+    end
+
+    it "disallows string values, that are not valid percentage values" do
+      work_package.done_ratio = "abc"
+      expect(work_package).not_to be_valid
+    end
+
     describe "#value" do
       context "for work-based mode",
               with_settings: { work_package_done_ratio: "field" } do

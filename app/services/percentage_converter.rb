@@ -1,4 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -24,33 +26,32 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module WorkPackage::Validations
-  extend ActiveSupport::Concern
+class PercentageConverter
+  class ParseError < StandardError; end
 
-  included do
-    validates :subject, :priority, :project, :type, :author, :status, presence: true
+  class << self
+    VALID_PERCENTAGE = /\A\s*(\+|-)?\d+(\.\d*)?\s*%?\s*\z/
 
-    validates :subject, length: { maximum: 255 }
-    validates :done_ratio, inclusion: { in: 0..100 }, numericality: true, allow_nil: true
-    validates :estimated_hours, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }
-    validates :remaining_hours, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }
-    validates :derived_remaining_hours, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }
+    # Parse a string representing a percentage and return the value as a float.
+    def parse(percentage_string)
+      return nil if percentage_string.blank?
+      raise ParseError, "invalid percentage: #{percentage_string}" unless valid?(percentage_string)
 
-    validates :due_date, date: { allow_blank: true }
-    validates :start_date, date: { allow_blank: true }
+      percentage_string.to_f
+    end
 
-    scope :eager_load_for_validation, -> {
-      includes({ project: %i(enabled_modules work_package_custom_fields versions) },
-               { parent: :type },
-               :custom_values,
-               { type: :custom_fields },
-               :priority,
-               :status,
-               :author,
-               :category,
-               :version)
-    }
+    # Returns true for a value which could assigned to a % complete value (done_ratio).
+    def valid?(percentage)
+      case percentage
+      when String
+        percentage.blank? || percentage.match?(VALID_PERCENTAGE)
+      when Numeric, nil
+        true
+      else
+        false
+      end
+    end
   end
 end

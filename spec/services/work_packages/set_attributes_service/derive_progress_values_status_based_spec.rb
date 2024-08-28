@@ -83,11 +83,11 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesStatusBas
       work_package.clear_changes_information
     end
 
-    context "when work is unset" do
+    context "when work is cleared" do
       let(:set_attributes) { { estimated_hours: nil } }
       let(:expected_derived_attributes) { { remaining_hours: nil } }
 
-      include_examples "update progress values", description: "unsets remaining work"
+      include_examples "update progress values", description: "clearss remaining work"
     end
 
     context "when work is changed" do
@@ -121,7 +121,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesStatusBas
     end
   end
 
-  context "given a work package with work and remaining work unset, and a status with 0% complete" do
+  context "given a work package with work and remaining work being empty, and a status with 0% complete" do
     before do
       work_package.status = status_0_pct_complete
       work_package.done_ratio = work_package.status.default_done_ratio
@@ -135,7 +135,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesStatusBas
       let(:expected_derived_attributes) { { remaining_hours: nil } }
 
       include_examples "update progress values",
-                       description: "remaining work remains unset"
+                       description: "remaining work remains empty"
     end
 
     context "when work is set" do
@@ -143,7 +143,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesStatusBas
       let(:expected_derived_attributes) { { remaining_hours: 10.0 } }
 
       include_examples "update progress values",
-                       description: "remaining work is updated accordingly from work and % complete value of the status"
+                       description: "remaining work is derived from work and % complete value of the status"
     end
 
     context "when work is set to a negative value" do

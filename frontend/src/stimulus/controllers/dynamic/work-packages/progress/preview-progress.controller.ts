@@ -91,19 +91,21 @@ export default class PreviewProgressController extends Controller {
     const formData = new FormData(form) as unknown as undefined;
     const formParams = new URLSearchParams(formData);
     const wpParams = [
-      ['work_package[initial][remaining_hours]', formParams.get('work_package[initial][remaining_hours]') || ''],
       ['work_package[initial][estimated_hours]', formParams.get('work_package[initial][estimated_hours]') || ''],
+      ['work_package[initial][remaining_hours]', formParams.get('work_package[initial][remaining_hours]') || ''],
       ['work_package[initial][done_ratio]', formParams.get('work_package[initial][done_ratio]') || ''],
-      ['work_package[remaining_hours]', formParams.get('work_package[remaining_hours]') || ''],
       ['work_package[estimated_hours]', formParams.get('work_package[estimated_hours]') || ''],
+      ['work_package[remaining_hours]', formParams.get('work_package[remaining_hours]') || ''],
       ['work_package[done_ratio]', formParams.get('work_package[done_ratio]') || ''],
       ['work_package[status_id]', formParams.get('work_package[status_id]') || ''],
       ['field', field?.name ?? ''],
-      ['work_package[estimated_hours_touched]', formParams.get('work_package[estimated_hours_touched]') || ''],
-      ['work_package[remaining_hours_touched]', formParams.get('work_package[remaining_hours_touched]') || ''],
-      ['work_package[done_ratio_touched]', formParams.get('work_package[done_ratio_touched]') || ''],
-      ['work_package[status_id_touched]', formParams.get('work_package[status_id_touched]') || ''],
     ];
+
+    this.progressInputTargets.forEach((progressInput) => {
+      const touchedInputName = progressInput.name.replace(']', '_touched]');
+      const touchedValue = formParams.get(touchedInputName) || '';
+      wpParams.push([touchedInputName, touchedValue]);
+    });
 
     const wpPath = this.ensureValidPathname(form.action);
     const wpAction = wpPath.endsWith('/work_packages/new/progress') ? 'new' : 'edit';
