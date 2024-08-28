@@ -262,8 +262,8 @@ zh-CN:
       no_results_title_text: 目前没有项目。
       no_results_content_text: 创建一个新的项目
       search:
-        label: Project name filter
-        placeholder: Search by project name
+        label: 项目名称过滤器
+        placeholder: 按项目名称搜索
     lists:
       active: "有效项目"
       my: "我的项目"
@@ -1609,10 +1609,10 @@ zh-CN:
       subproject: "子项目：%{name}"
   export:
     dialog:
-      title: "Export"
-      submit: "Export"
+      title: "导出"
+      submit: "导出"
       format:
-        label: "File format"
+        label: "文件格式"
         options:
           csv:
             label: "CSV"
@@ -1621,57 +1621,58 @@ zh-CN:
           xls:
             label: "XLS"
       columns:
-        input_caption_report: "By default all attributes added as columns in the work package list are selected."
-        input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
+        input_label_report: "Add columns to attribute table"
+        input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
+        input_caption_table: "默认情况下，所有作为列添加到工作包列表中的属性都会被选中。长文本字段在基于表格的导出中不可用。"
       pdf:
         export_type:
-          label: "PDF export type"
+          label: "PDF 导出类型"
           options:
             table:
-              label: "Table"
-              caption: "Export the work packages list in a table with the desired columns."
+              label: "表格"
+              caption: "以表格形式导出工作包列表，包含所需的列。"
             report:
-              label: "Report"
-              caption: "Export the work package on a detailed report of all work packages in the list."
+              label: "报告"
+              caption: "以详细报告的形式导出列表中的所有工作包。"
             gantt:
-              label: "Gantt chart"
-              caption: "Export the work packages list in a Gantt diagram view."
+              label: "甘特图"
+              caption: "以甘特图视图导出工作包列表。"
         include_images:
-          label: "Include images"
-          caption: "Exclude images to reduce the size of the PDF export."
+          label: "包含图片"
+          caption: "不包含图像以缩小导出PDF的大小。"
         gantt_zoom_levels:
-          label: "Zoom levels"
-          caption: "Select what is the zoom level for dates displayed in the chart."
+          label: "缩放级别"
+          caption: "选择图表中显示日期的缩放级别。"
           options:
-            days: "Days"
-            weeks: "Weeks"
-            months: "Months"
-            quarters: "Quarters"
+            days: "天"
+            weeks: "周"
+            months: "月"
+            quarters: "季度"
         column_width:
-          label: "Table column width"
+          label: "列宽"
           options:
-            narrow: "Narrow"
-            medium: "Medium"
-            wide: "Wide"
-            very_wide: "Very wide"
+            narrow: "窄"
+            medium: "正常"
+            wide: "宽"
+            very_wide: "非常宽"
         paper_size:
-          label: "Paper size"
-          caption: "Depending on the chart size more than one page might be exported."
+          label: "纸张大小"
+          caption: "根据图表大小，可能会导出不止一页。"
         long_text_fields:
-          input_caption: "By default all long text fields are selected."
-          input_label: "Add long text fields"
-          input_placeholder: "Search for long text fields"
-          drag_area_label: "Manage long text fields"
+          input_caption: "默认情况下，所有长文本字段都被选中。"
+          input_label: "添加长文本字段"
+          input_placeholder: "搜索长文本字段"
+          drag_area_label: "管理长文本字段"
       xls:
         include_relations:
-          label: "Include relations"
-          caption: "This option will create a duplicate of each work package for every relation this has with another work package."
+          label: "包含关系"
+          caption: "该选项将为每个工作包与另一个工作包的关系创建一个副本。"
         include_descriptions:
-          label: "Include descriptions"
-          caption: "This option will add a description column in raw format."
-    your_work_packages_export: "Work packages are being exported"
-    succeeded: "Export completed"
-    failed: "An error has occurred while trying to export the work packages: %{message}"
+          label: "包含描述"
+          caption: "该选项将添加原始格式的描述列。"
+    your_work_packages_export: "正在导出工作包"
+    succeeded: "导出完成"
+    failed: "在尝试导出工作包时发生错误： %{message}"
     format:
       atom: "Atom"
       csv: "CSV"

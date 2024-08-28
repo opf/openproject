@@ -125,7 +125,7 @@ lt:
     email:
       send_emails: "Siųsti laiškus"
       send_invitation_emails: >
-        Send out an invitation email to the participants listed above. Note that unchecking this option does not affect the sending of emails after this form is submitted.
+        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Atverti susitikimą"
       invited:
         summary: "%{actor} atsiuntė jums pakvietimą į susitikimą %{title}"
