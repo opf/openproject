@@ -47,7 +47,7 @@ RSpec.describe "Statuses", :skip_csrf, type: :rails_request do
       it "displays an error" do
         post statuses_path, params: { status: { name: "New status", default_done_ratio: "" } }
 
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:unprocessable_entity)
         expect(response).to render_template("new")
         expect(response.body).to include("% Complete must be between 0 and 100.")
       end

@@ -71,7 +71,7 @@ class DocumentsController < ApplicationController
       redirect_to project_documents_path(@project)
     else
       @document = call.result
-      render action: "new"
+      render action: :new, status: :unprocessable_entity
     end
   end
 
@@ -89,7 +89,7 @@ class DocumentsController < ApplicationController
       redirect_to action: "show", id: @document
     else
       @document = call.result
-      render action: "edit"
+      render action: :edit, status: :unprocessable_entity
     end
   end
 

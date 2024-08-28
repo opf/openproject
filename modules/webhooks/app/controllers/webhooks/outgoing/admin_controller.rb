@@ -28,7 +28,7 @@ module Webhooks
           redirect_to action: :index
         else
           @webhook = action.result
-          render action: :new
+          render action: :new, status: :unprocessable_entity
         end
       end
 
@@ -40,7 +40,7 @@ module Webhooks
           redirect_to action: :index
         else
           @webhook = action.result
-          render action: :edit
+          render action: :edit, status: :unprocessable_entity
         end
       end
 

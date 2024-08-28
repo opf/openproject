@@ -24,7 +24,7 @@ module OpenIDConnect
         flash[:notice] = I18n.t(:notice_successful_create)
         redirect_to action: :index
       else
-        render action: :new
+        render action: :new, status: :unprocessable_entity
       end
     end
 
@@ -38,7 +38,7 @@ module OpenIDConnect
         flash[:notice] = I18n.t(:notice_successful_update)
         redirect_to action: :index
       else
-        render action: :edit
+        render action: :edit, status: :unprocessable_entity
       end
     end
 

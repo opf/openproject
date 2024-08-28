@@ -105,7 +105,7 @@ class WikiMenuItemsController < ApplicationController
     else
       respond_to do |format|
         format.html do
-          render action: "edit", id: @page
+          render action: :edit, id: @page, status: :unprocessable_entity
         end
       end
     end

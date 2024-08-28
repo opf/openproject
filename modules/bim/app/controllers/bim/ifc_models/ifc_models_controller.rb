@@ -149,7 +149,7 @@ module Bim
           flash[:notice] = t("ifc_models.flash_messages.upload_successful")
           redirect_to action: :index
         else
-          render action: :new
+          render action: :new, status: :unprocessable_entity
         end
       end
 
@@ -168,7 +168,7 @@ module Bim
           flash[:notice] = t(:notice_successful_update)
           redirect_to action: :index
         else
-          render action: :edit
+          render action: :edit, status: :unprocessable_entity
         end
       end
 

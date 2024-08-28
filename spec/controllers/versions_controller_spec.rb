@@ -340,7 +340,7 @@ RSpec.describe VersionsController do
               }
       end
 
-      it { expect(response).to be_successful }
+      it { expect(response).to have_http_status(:unprocessable_entity) }
       it { expect(response).to render_template("edit") }
       it { expect(assigns(:version).errors.symbols_for(:name)).to contain_exactly(:blank) }
     end

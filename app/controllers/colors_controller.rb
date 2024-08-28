@@ -69,7 +69,7 @@ class ColorsController < ApplicationController
       redirect_to colors_path
     else
       flash.now[:error] = I18n.t(:error_color_could_not_be_saved)
-      render action: "new"
+      render action: :new, status: :unprocessable_entity
     end
   end
 
@@ -81,7 +81,7 @@ class ColorsController < ApplicationController
       redirect_to colors_path
     else
       flash.now[:error] = I18n.t(:error_color_could_not_be_saved)
-      render action: "edit"
+      render action: :edit, status: :unprocessable_entity
     end
   end
 
