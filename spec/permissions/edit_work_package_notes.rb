@@ -29,18 +29,10 @@
 require "spec_helper"
 require File.expand_path("../support/permission_specs", __dir__)
 
-RSpec.describe WorkPackagesController, "view_work_packages permission", type: :controller do
+RSpec.describe WorkPackages::ActivitiesTabController, "edit_work_package_notes permission", type: :controller do
   include PermissionSpecs
 
-  check_permission_required_for("work_packages#show", :view_work_packages)
-  check_permission_required_for("work_packages#index", :view_work_packages)
-end
-
-RSpec.describe WorkPackages::ActivitiesTabController, "view_work_packages permission", type: :controller do
-  include PermissionSpecs
-
-  check_permission_required_for("work_packages/activities_tab#index", :view_work_packages)
-  check_permission_required_for("work_packages/activities_tab#update_streams", :view_work_packages)
-  check_permission_required_for("work_packages/activities_tab#update_sorting", :view_work_packages)
-  check_permission_required_for("work_packages/activities_tab#update_filter", :view_work_packages)
+  check_permission_required_for("work_packages/activities_tab#edit", :edit_work_package_notes)
+  check_permission_required_for("work_packages/activities_tab#cancel_edit", :edit_work_package_notes)
+  check_permission_required_for("work_packages/activities_tab#update", :edit_work_package_notes)
 end

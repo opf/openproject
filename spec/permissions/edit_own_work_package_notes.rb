@@ -29,16 +29,10 @@
 require "spec_helper"
 require File.expand_path("../support/permission_specs", __dir__)
 
-RSpec.describe Overviews::OverviewsController, "manage_project_custom_values permission",
-               type: :controller do
+RSpec.describe WorkPackages::ActivitiesTabController, "edit_own_work_package_notes permission", type: :controller do
   include PermissionSpecs
 
-  # render sidebar on project overview page with view_project permission
-  check_permission_required_for("overviews/overviews#project_custom_fields_sidebar", :view_project_attributes)
-
-  # render dialog with inputs for editing project attributes with edit_project permission
-  check_permission_required_for("overviews/overviews#project_custom_field_section_dialog", :edit_project_attributes)
-
-  # update project attributes with edit_project permission, deeper permission check via contract in place
-  check_permission_required_for("overviews/overviews#update_project_custom_values", :edit_project_attributes)
+  check_permission_required_for("work_packages/activities_tab#edit", :edit_work_package_notes)
+  check_permission_required_for("work_packages/activities_tab#cancel_edit", :edit_work_package_notes)
+  check_permission_required_for("work_packages/activities_tab#update", :edit_work_package_notes)
 end

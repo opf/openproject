@@ -29,7 +29,7 @@
 require "spec_helper"
 require File.expand_path("../support/permission_specs", __dir__)
 
-RSpec.describe Projects::Settings::ProjectCustomFieldsController, "manage_project_custom_field mappings permission",
+RSpec.describe Projects::Settings::ProjectCustomFieldsController, "select_project_custom_fields mappings permission",
                type: :controller do
   include PermissionSpecs
 

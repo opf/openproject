@@ -29,18 +29,10 @@
 require "spec_helper"
 require File.expand_path("../support/permission_specs", __dir__)
 
-RSpec.describe WorkPackagesController, "view_work_packages permission", type: :controller do
+RSpec.describe Overviews::OverviewsController, "view_project_attributes permission",
+               type: :controller do
   include PermissionSpecs
 
-  check_permission_required_for("work_packages#show", :view_work_packages)
-  check_permission_required_for("work_packages#index", :view_work_packages)
-end
-
-RSpec.describe WorkPackages::ActivitiesTabController, "view_work_packages permission", type: :controller do
-  include PermissionSpecs
-
-  check_permission_required_for("work_packages/activities_tab#index", :view_work_packages)
-  check_permission_required_for("work_packages/activities_tab#update_streams", :view_work_packages)
-  check_permission_required_for("work_packages/activities_tab#update_sorting", :view_work_packages)
-  check_permission_required_for("work_packages/activities_tab#update_filter", :view_work_packages)
+  # render sidebar on project overview page with view_project permission
+  check_permission_required_for("overviews/overviews#project_custom_fields_sidebar", :view_project_attributes)
 end
