@@ -60,8 +60,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%= f.text_field :firstname, required: true, container_class: '-middle', disabled: login_via_provider || login_via_ldap %>
       <% if login_via_provider %>
         <span class="form--field-instructions"><%= t('user.text_change_disabled_for_provider_login') %></span>
-      <% end %>
-      <% if login_via_ldap %>
+      <% elsif login_via_ldap %>
         <span class="form--field-instructions"><%= t('user.text_change_disabled_for_ldap_login') %></span>
       <% end %>
     </div>
@@ -69,14 +68,15 @@ See COPYRIGHT and LICENSE files for more details.
       <%= f.text_field :lastname, required: true, container_class: '-middle', disabled: login_via_provider || login_via_ldap %>
       <% if login_via_provider %>
         <span class="form--field-instructions"><%= t('user.text_change_disabled_for_provider_login') %></span>
-      <% end %>
-      <% if login_via_ldap %>
+      <% elsif login_via_ldap %>
         <span class="form--field-instructions"><%= t('user.text_change_disabled_for_ldap_login') %></span>
       <% end %>
     </div>
     <div class="form--field -required">
       <%= f.text_field :mail, required: true, container_class: '-middle', disabled: login_via_ldap %>
-      <% if login_via_ldap %>
+      <% if login_via_provider %>
+        <span class="form--field-instructions"><%= t('user.text_change_disabled_for_provider_login') %></span>
+      <% elsif login_via_ldap %>
         <span class="form--field-instructions"><%= t('user.text_change_disabled_for_ldap_login') %></span>
       <% end %>
     </div>
