@@ -40,6 +40,8 @@ module WorkPackages
           @work_package = work_package
         end
 
+        private
+
         attr_reader :work_package
 
         def journal

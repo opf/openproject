@@ -33,7 +33,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
   let(:admin) { create(:admin) }
   let(:member_role) do
     create(:project_role,
-           permissions: %i[view_work_packages edit_work_packages add_work_packages work_package_assigned])
+           permissions: %i[view_work_packages edit_work_packages add_work_packages work_package_assigned add_work_package_notes])
   end
   let(:member) do
     create(:user,
@@ -44,6 +44,180 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
+
+  describe "permission checks" do
+    let(:viewer_role) do
+      create(:project_role,
+             permissions: %i[view_work_packages])
+    end
+    let(:viewer) do
+      create(:user,
+             firstname: "A",
+             lastname: "Viewer",
+             member_with_roles: { project => viewer_role })
+    end
+
+    let(:viewer_role_with_commenting_permission) do
+      create(:project_role,
+             permissions: %i[view_work_packages add_work_package_notes edit_own_work_package_notes])
+    end
+    let(:viewer_with_commenting_permission) do
+      create(:user,
+             firstname: "A",
+             lastname: "Viewer",
+             member_with_roles: { project => viewer_role_with_commenting_permission })
+    end
+
+    let(:user_role_with_editing_permission) do
+      create(:project_role,
+             permissions: %i[view_work_packages add_work_package_notes edit_work_package_notes])
+    end
+    let(:user_with_editing_permission) do
+      create(:user,
+             firstname: "A",
+             lastname: "Viewer",
+             member_with_roles: { project => user_role_with_editing_permission })
+    end
+
+    let(:work_package) { create(:work_package, project:, author: admin) }
+    let(:first_comment) do
+      create(:work_package_journal, user: admin, notes: "First comment by admin", journable: work_package,
+                                    version: 2)
+    end
+
+    context "when project is public", with_settings: { login_required: false } do
+      let(:project) { create(:project, public: true) }
+      let!(:anonymous_role) do
+        create(:anonymous_role, permissions: %i[view_project view_work_packages])
+      end
+
+      context "when visited by an anonymous visitor" do
+        before do
+          first_comment
+
+          login_as User.anonymous
+
+          wp_page.visit!
+          wp_page.wait_for_activity_tab
+        end
+
+        it "does show comments but does not enable adding, editing or quoting comments" do
+          activity_tab.expect_journal_notes(text: "First comment by admin")
+
+          activity_tab.within_journal_entry(first_comment) do
+            page.find_test_selector("op-wp-journal-#{first_comment.id}-action-menu").click
+
+            expect(page).not_to have_test_selector("op-wp-journal-#{first_comment.id}-edit")
+            expect(page).not_to have_test_selector("op-wp-journal-#{first_comment.id}-quote")
+          end
+
+          activity_tab.expect_no_input_field
+        end
+      end
+    end
+
+    context "when a user has only view_work_packages permission" do
+      current_user { viewer }
+
+      before do
+        first_comment
+
+        wp_page.visit!
+        wp_page.wait_for_activity_tab
+      end
+
+      it "does show comments but does not enable adding comments" do
+        activity_tab.expect_journal_notes(text: "First comment by admin")
+
+        activity_tab.within_journal_entry(first_comment) do
+          page.find_test_selector("op-wp-journal-#{first_comment.id}-action-menu").click
+
+          expect(page).not_to have_test_selector("op-wp-journal-#{first_comment.id}-edit")
+          expect(page).not_to have_test_selector("op-wp-journal-#{first_comment.id}-quote")
+        end
+
+        activity_tab.expect_no_input_field
+      end
+    end
+
+    context "when a user has add_work_package_notes and edit_own_work_package_notes permission" do
+      current_user { viewer_with_commenting_permission }
+
+      before do
+        first_comment
+
+        wp_page.visit!
+        wp_page.wait_for_activity_tab
+      end
+
+      it "does show comments and enable adding and quoting comments and editing own comments" do
+        activity_tab.expect_journal_notes(text: "First comment by admin")
+
+        activity_tab.within_journal_entry(first_comment) do
+          page.find_test_selector("op-wp-journal-#{first_comment.id}-action-menu").click
+
+          # not allowed to edit other user's comments
+          expect(page).not_to have_test_selector("op-wp-journal-#{first_comment.id}-edit")
+          # allowed to quote other user's comments
+          expect(page).to have_test_selector("op-wp-journal-#{first_comment.id}-quote")
+        end
+
+        activity_tab.expect_input_field
+
+        activity_tab.add_comment(text: "First comment by viewer with commenting permission")
+
+        second_comment = work_package.journals.reload.last
+
+        activity_tab.within_journal_entry(second_comment) do
+          # for some reason only opens on the second click in the test
+          # probably due to the previous click on the first comment
+          2.times { page.find_test_selector("op-wp-journal-#{second_comment.id}-action-menu").click }
+
+          expect(page).to have_test_selector("op-wp-journal-#{second_comment.id}-edit")
+          expect(page).to have_test_selector("op-wp-journal-#{second_comment.id}-quote")
+        end
+      end
+    end
+
+    context "when a user has add_work_package_notes and general edit_work_package_notes permission" do
+      current_user { user_with_editing_permission }
+
+      before do
+        first_comment
+
+        wp_page.visit!
+        wp_page.wait_for_activity_tab
+      end
+
+      it "does show comments and enable adding and quoting comments and editing own comments" do
+        activity_tab.expect_journal_notes(text: "First comment by admin")
+
+        activity_tab.within_journal_entry(first_comment) do
+          page.find_test_selector("op-wp-journal-#{first_comment.id}-action-menu").click
+
+          # allowed to edit other user's comments
+          expect(page).to have_test_selector("op-wp-journal-#{first_comment.id}-edit")
+          # allowed to quote other user's comments
+          expect(page).to have_test_selector("op-wp-journal-#{first_comment.id}-quote")
+        end
+
+        activity_tab.expect_input_field
+
+        activity_tab.add_comment(text: "First comment by viewer with editing permission")
+
+        second_comment = work_package.journals.reload.last
+
+        activity_tab.within_journal_entry(second_comment) do
+          # for some reason only opens on the second click in the test
+          # probably due to the previous click on the first comment
+          2.times { page.find_test_selector("op-wp-journal-#{second_comment.id}-action-menu").click }
+
+          expect(page).to have_test_selector("op-wp-journal-#{second_comment.id}-edit")
+          expect(page).to have_test_selector("op-wp-journal-#{second_comment.id}-quote")
+        end
+      end
+    end
+  end
 
   context "when a workpackage is created and visited by the same user" do
     current_user { admin }

@@ -1,6 +1,6 @@
 <%=
   component_wrapper do
-    flex_layout(my: 2) do |new_form_container|
+    flex_layout(my: 2, data: { test_selector: "op-work-package-journal-form" }) do |new_form_container|
       new_form_container.with_row(data: { 
           "work-packages--activities-tab--index-target": "buttonRow"
         }) do

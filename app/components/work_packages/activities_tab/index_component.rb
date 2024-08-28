@@ -69,6 +69,10 @@ module WorkPackages
       def polling_interval
         ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"] || 10000
       end
+
+      def adding_comment_allowed?
+        User.current.allowed_in_project?(:add_work_package_notes, @work_package.project)
+      end
     end
   end
 end

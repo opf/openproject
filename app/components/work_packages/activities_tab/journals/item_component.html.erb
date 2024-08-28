@@ -48,8 +48,8 @@
                                             'aria-label': I18n.t(:button_actions),
                                             scheme: :invisible)
                       copy_url_action_item(menu)
-                      edit_action_item(menu) if editable?
-                      quote_action_item(menu) if journal.notes.present?
+                      edit_action_item(menu) if allowed_to_edit?
+                      quote_action_item(menu) if journal.notes.present? && allowed_to_quote?
                     end
                   end
                 end

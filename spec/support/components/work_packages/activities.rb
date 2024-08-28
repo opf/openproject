@@ -135,6 +135,14 @@ module Components
         expect(page).not_to have_test_selector("op-wp-journals-container-empty")
       end
 
+      def expect_input_field
+        expect(page).to have_test_selector("op-work-package-journal-form")
+      end
+
+      def expect_no_input_field
+        expect(page).not_to have_test_selector("op-work-package-journal-form")
+      end
+
       def add_comment(text: nil, save: true)
         # TODO: get rid of static sleep
         sleep 1 # otherwise the stimulus component is not mounted yet and the click does not work

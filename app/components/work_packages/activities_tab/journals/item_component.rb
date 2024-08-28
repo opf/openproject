@@ -84,10 +84,6 @@ module WorkPackages
           "#activity-#{journal.version}"
         end
 
-        def editable?
-          journal.user == User.current
-        end
-
         def updated?
           return false if journal.initial?
 
@@ -100,6 +96,23 @@ module WorkPackages
 
         def notification_on_details?
           has_unread_notifications? && journal.notes.blank?
+        end
+
+        def allowed_to_edit?
+          allowed_to_edit_others? || allowed_to_edit_own?
+        end
+
+        def allowed_to_edit_others?
+          User.current.allowed_in_project?(:edit_work_package_notes, journal.journable.project)
+        end
+
+        def allowed_to_edit_own?
+          journal.user == User.current && User.current.allowed_in_project?(:edit_own_work_package_notes,
+                                                                           journal.journable.project)
+        end
+
+        def allowed_to_quote?
+          User.current.allowed_in_project?(:add_work_package_notes, journal.journable.project)
         end
 
         def copy_url_action_item(menu)
