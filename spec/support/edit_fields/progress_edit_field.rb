@@ -38,6 +38,12 @@ class ProgressEditField < EditField
     "percentageDone" => :done_ratio,
     "statusWithinProgressModal" => :status_id
   }.freeze
+  HUMAN_FIELD_NAME_MAP = {
+    "estimatedTime" => "work",
+    "remainingTime" => "remaining work",
+    "percentageDone" => "% complete",
+    "statusWithinProgressModal" => "status"
+  }.freeze
 
   def initialize(context,
                  property_name,
@@ -46,6 +52,7 @@ class ProgressEditField < EditField
     super
 
     @field_name = "work_package_#{FIELD_NAME_MAP.fetch(@property_name)}"
+    @human_field_name = HUMAN_FIELD_NAME_MAP.fetch(@property_name)
     @trigger_selector = "input[id$=inline-edit--field-#{@property_name}]"
   end
 
@@ -106,6 +113,13 @@ class ProgressEditField < EditField
 
   def input_element
     modal_element.find_field(field_name)
+  end
+
+  def input_caption_element
+    input_element["aria-describedby"]
+      .split
+      .find { _1.start_with?("caption-") }
+      &.then { |caption_id| find(id: caption_id) }
   end
 
   def trigger_element
@@ -200,6 +214,15 @@ class ProgressEditField < EditField
       else
         expect(page).to have_field(field_name, disabled:, readonly:, with: value.to_s)
       end
+    end
+  end
+
+  def expect_caption(expected_caption)
+    if expected_caption.nil?
+      expect(input_caption_element).to be_nil, "Expected no caption for #{@human_field_name} field, " \
+                                               "got \"#{input_caption_element&.text}\""
+    else
+      expect(input_caption_element).to have_text(expected_caption)
     end
   end
 

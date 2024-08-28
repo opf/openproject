@@ -49,6 +49,15 @@ module Components
         work: :estimatedTime
       }.freeze
 
+      WORK_PACKAGE_FIELD_NAME_MAP = {
+        estimated_time: :estimated_hours,
+        percent_complete: :done_ratio,
+        percentage_done: :done_ratio,
+        remaining_work: :remaining_hours,
+        remaining_time: :remaining_hours,
+        work: :estimated_hours
+      }.freeze
+
       attr_reader :container, :create_form
 
       def initialize(container: page, create_form: false)
@@ -118,9 +127,22 @@ module Components
       end
 
       def expect_values(**field_value_pairs)
-        aggregate_failures("progress popover expectations") do
+        aggregate_failures("progress popover values expectations") do
           field_value_pairs.each do |field_name, value|
             expect_value(field_name, value)
+          end
+        end
+      end
+
+      def expect_hint(field_name, hint)
+        expected_caption = hint && I18n.t("work_package.progress.derivation_hints.#{wp_field_name(field_name)}.#{hint}")
+        field(field_name).expect_caption(expected_caption)
+      end
+
+      def expect_hints(**field_hint_pairs)
+        aggregate_failures("progress popover hints expectations") do
+          field_hint_pairs.each do |field_name, hint|
+            expect_hint(field_name, hint)
           end
         end
       end
@@ -136,6 +158,13 @@ module Components
         field_name = field_name.to_s.underscore.to_sym
         JS_FIELD_NAME_MAP.fetch(field_name) do
           raise ArgumentError, "cannot map '#{field_name.inspect}' to its javascript field name"
+        end
+      end
+
+      def wp_field_name(field_name)
+        field_name = field_name.to_s.underscore.to_sym
+        WORK_PACKAGE_FIELD_NAME_MAP.fetch(field_name) do
+          raise ArgumentError, "cannot map '#{field_name.inspect}' to its work package field name"
         end
       end
     end

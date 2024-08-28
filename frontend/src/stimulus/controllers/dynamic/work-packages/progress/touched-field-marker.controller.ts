@@ -73,6 +73,9 @@ export default class TouchedFieldMarkerController extends Controller {
 
   private untouchFieldsWhenWorkIsEdited() {
     if (this.areBothTouched('remaining_hours', 'done_ratio')) {
+      if (this.isValueEmpty('done_ratio') && this.isValueEmpty('remaining_hours')) {
+        return;
+      }
       if (this.isValueEmpty('done_ratio')) {
         this.markUntouched('done_ratio');
       } else {

@@ -78,23 +78,7 @@ class DurationConverter
     def parse(duration_string)
       return nil if duration_string.blank?
 
-      # Assume the next logical unit to allow users to write
-      # durations such as "2h 1" assuming "1" is "1 minute"
-      last_unit_in_string = duration_string.scan(/[a-zA-Z]+/)
-                                           .last
-      default_unit = if last_unit_in_string
-                       last_unit_in_string
-                         .then { |last_unit| UNIT_ABBREVIATION_MAP[last_unit.downcase] }
-                         .then { |last_unit| NEXT_UNIT_MAP[last_unit] }
-                     else
-                       "hours"
-                     end
-
-      ChronicDuration.raise_exceptions = true
-      ChronicDuration.parse(duration_string,
-                            keep_zero: true,
-                            default_unit:,
-                            **duration_length_options) / 3600.to_f
+      do_parse(duration_string)
     end
 
     def valid?(duration)
@@ -130,7 +114,7 @@ class DurationConverter
         number >= 0
       else
         begin
-          internal_parse(duration_string)
+          do_parse(duration_string)
           true
         rescue ChronicDuration::DurationParseError
           false
@@ -138,7 +122,7 @@ class DurationConverter
       end
     end
 
-    def internal_parse(duration_string)
+    def do_parse(duration_string)
       # Assume the next logical unit to allow users to write
       # durations such as "2h 1" assuming "1" is "1 minute"
       last_unit_in_string = duration_string.scan(/[a-zA-Z]+/)
