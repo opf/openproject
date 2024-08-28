@@ -74,6 +74,8 @@ export default class FiltersFormController extends Controller {
   declare readonly singleDayTargets:HTMLInputElement[];
   declare readonly simpleValueTargets:HTMLInputElement[];
 
+  autoReloadTargets:HTMLElement[];
+
   static values = {
     displayFilters: { type: Boolean, default: false },
     outputFormat: { type: String, default: 'params' },
@@ -89,6 +91,14 @@ export default class FiltersFormController extends Controller {
   initialize() {
     // Initialize runs anytime an element with a controller connected to the DOM for the first time
     this.sendForm = debounce(this.sendForm.bind(this), 300);
+    this.autoReloadTargets = [
+      ...this.simpleValueTargets,
+      ...this.operatorTargets,
+      ...this.filterValueContainerTargets,
+      ...this.filterValueSelectTargets,
+      ...this.daysTargets,
+      ...this.singleDayTargets,
+    ];
   }
 
   connect() {
@@ -101,28 +111,12 @@ export default class FiltersFormController extends Controller {
     // Auto-register change event listeners for all fields
     // to keep DOM cleaner.
     if (this.performTurboRequestsValue) {
-      this.simpleValueTargets.forEach((simpleValue) => {
-        simpleValue.addEventListener('input', this.sendForm.bind(this));
-      });
-
-      this.operatorTargets.forEach((operator) => {
-        operator.addEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.filterValueSelectTargets.forEach((select) => {
-        select.addEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.filterValueContainerTargets.forEach((container) => {
-        container.addEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.singleDayTargets.forEach((singleDay) => {
-        singleDay.addEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.daysTargets.forEach((days) => {
-        days.addEventListener('change', this.sendForm.bind(this));
+      this.autoReloadTargets.forEach((target) => {
+        if (target instanceof HTMLInputElement) {
+          target.addEventListener('input', this.sendForm.bind(this));
+        } else {
+          target.addEventListener('change', this.sendForm.bind(this));
+        }
       });
     }
   }
@@ -134,28 +128,12 @@ export default class FiltersFormController extends Controller {
     // Auto-deregister change event listeners for all fields
     // to keep DOM cleaner.
     if (this.performTurboRequestsValue) {
-      this.simpleValueTargets.forEach((simpleValue) => {
-        simpleValue.removeEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.operatorTargets.forEach((operator) => {
-        operator.removeEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.filterValueSelectTargets.forEach((select) => {
-        select.removeEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.filterValueContainerTargets.forEach((container) => {
-        container.removeEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.singleDayTargets.forEach((singleDay) => {
-        singleDay.removeEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.daysTargets.forEach((days) => {
-        days.removeEventListener('change', this.sendForm.bind(this));
+      this.autoReloadTargets.forEach((target) => {
+        if (target instanceof HTMLInputElement) {
+          target.removeEventListener('input', this.sendForm.bind(this));
+        } else {
+          target.removeEventListener('change', this.sendForm.bind(this));
+        }
       });
     }
   }
