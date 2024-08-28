@@ -16,7 +16,6 @@ RSpec.describe "Split screen in the notification center", :js, :with_cuprite do
   shared_let(:notification) do
     create(:notification,
            recipient:,
-           project:,
            resource: work_package,
            journal: work_package.journals.last)
   end
@@ -24,7 +23,6 @@ RSpec.describe "Split screen in the notification center", :js, :with_cuprite do
   shared_let(:second_notification) do
     create(:notification,
            recipient:,
-           project:,
            resource: second_work_package,
            journal: second_work_package.journals.last)
   end

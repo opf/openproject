@@ -68,7 +68,7 @@ zh-TW:
     button_close: "關閉"
     button_change_project: "切換專案"
     button_check_all: "勾選全部"
-    button_configure-form: "配置表單"
+    button_configure-form: "表單設定"
     button_confirm: "確認"
     button_continue: "繼續"
     button_copy: "複製"
@@ -79,10 +79,10 @@ zh-TW:
     button_delete: "删除"
     button_delete_watcher: "刪除監看者"
     button_details_view: "詳細檢視"
-    button_duplicate: "複本"
+    button_duplicate: "複製"
     button_edit: "編輯"
     button_filter: "篩選條件"
-    button_collapse_all: "全部摺疊"
+    button_collapse_all: "全部收合"
     button_expand_all: "全部展開"
     button_advanced_filter: "進階篩選"
     button_list_view: "清單檢視"
@@ -139,11 +139,11 @@ zh-TW:
     description_subwork_package: "子工作項目 #%{id}"
     editor:
       preview: "切換預覽模式"
-      source_code: "切換標記源模式"
-      error_saving_failed: "保存文檔失敗, 出現以下錯誤: %{error}"
+      source_code: "切換Markdown模式"
+      error_saving_failed: "保存文件失敗, 出現以下錯誤: %{error}"
       ckeditor_error: "CKEditor 出現錯誤"
       mode:
-        manual: "切換到標記源模式"
+        manual: "切換到Markdown模式"
         wysiwyg: "切換到所見即所得編輯器"
       macro:
         error: "無法展開巨集(macro)：%{message}"
@@ -153,18 +153,18 @@ zh-TW:
           nested_macro: "該macro遞歸引用 %{model} %{id}。"
           invalid_attribute: "所選屬性 '%{name}' 不存在。"
         child_pages:
-          button: "指向子頁面的連結"
+          button: "導到子頁面"
           include_parent: "包括主項目"
           text: "[Placeholder] 連結到子頁面"
           page: "維基頁面"
           this_page: " 本頁"
           hint: |
-            將此欄位留空, 以列出當前頁的所有子頁面。如果要引用其他頁面, 請提供其標題或 slug。
+            將此欄位留空, 以列出當前頁的所有子頁面。如果要引用其他頁面, 請提供其標題或名稱。
         code_block:
           button: "插入程式碼片段"
           title: "插入/編輯程式碼片段"
-          language: "設定語言"
-          language_hint: "輸入將用於突出顯示的格式語言 (如果支援)。"
+          language: "格式化語言"
+          language_hint: "輸入可用來突顯之格式化語言 (如果支援)。"
         dropdown:
           macros: "巨集"
           chose_macro: "選擇macro"
@@ -176,12 +176,12 @@ zh-TW:
           page: "維基頁面"
           not_set: "(頁面尚未設置)"
           hint: |
-            通過指定其標題或Slug, 包括另一個 Wiki 頁面的內容。您可以通過將另一個專案的 Wiki 頁與下面的示例類似的冒號進行分隔, 從而包括該頁面。
+            通過指定其標題或名稱（slug）, 包括另一個 Wiki 頁面的內容。您可以通過將另一個專案的 Wiki 頁與下面的示例類似的冒號進行分隔, 從而包括該頁面。
         work_package_button:
           button: "插入「新增工作項目按鈕」"
           type: "工作項目類型"
           button_style: "使用按鈕樣式"
-          button_style_hint: "可選: 檢查以使宏顯示為按鈕, 而不是連結。"
+          button_style_hint: "可選: 檢查以使巨集顯示為按鈕, 而不是連結。"
           without_type: "建立工作項目"
           with_type: "新增工作項目 (類型: %{typename})"
         embedded_table:
@@ -242,7 +242,7 @@ zh-TW:
             description: "本地部署的 Enterprise edition 具有哪些優勢？"
             high_security: "安全功能"
             high_security_text: "單點登錄（SAML，OpenID Connect，CAS），LDAP 群組。\n"
-            installation: "安裝說明"
+            installation: "支援安裝"
             installation_text: "經驗豐富的軟件工程師將指導您在自己的基礎設施中完成整個安裝和設置過程。"
             premium_features: "企業版附加插件"
             premium_features_text: "敏捷看板、客製化主題與標誌、圖表、具備客製化動作的智慧工作流程、支援全文檢索工作項目文件及複選客製欄位。"
@@ -333,7 +333,7 @@ zh-TW:
         quarters: "季"
         years: "年"
         description: >
-          選擇自動縮放無法接通應顯示的初始縮放級別。
+          選擇初始縮放級別，當自動縮放無法顯示。
       export:
         title: "甘特圖 PDF 選項"
         button_export: "匯出"
@@ -372,7 +372,7 @@ zh-TW:
       title: "訂閱日曆"
       inital_setup_error_message: "更新資料時發生錯誤"
       description: "您可以使用 URL (iCalendar) 在外部客戶端中訂閱此日曆，並從外部客戶端查看最新工作包信息。"
-      warning: "請不要與其他用戶共享此 URL 。擁有這個鏈接的任何人都可以在沒有帳戶或密碼的情況下查看工作包的詳細信息。"
+      warning: "請不要與其他用戶共用此 URL 。擁有這個鏈接的任何人都可以在沒有帳戶或密碼的情況下查看工作包的詳細信息。"
       token_name_label: "您將在哪裡使用它？"
       token_name_placeholder: '輸入名稱，例如“Phone”'
       token_name_description_text: '如果您從多個設備訂閱此日曆，此名稱將有助於在<a href="my/access_token", target="_blank">訪問權杖</a>列表中區分它們。'
@@ -417,7 +417,7 @@ zh-TW:
     label_display: "顯示"
     label_cancel_comment: "取消注釋"
     label_closed_work_packages: "已關閉"
-    label_collapse: "折疊"
+    label_collapse: "收合"
     label_collapsed: "已收合"
     label_collapse_all: "全部摺疊"
     label_comment: "留言"
@@ -445,9 +445,9 @@ zh-TW:
     label_group_by: "分組依據"
     label_group_plural: "群組"
     label_hide_attributes: "簡略"
-    label_hide_column: "隱藏欄"
-    label_hide_project_menu: "折疊專案選單"
-    label_in: "在"
+    label_hide_column: "隱藏欄位"
+    label_hide_project_menu: "收合專案選單"
+    label_in: "於"
     label_in_less_than: "少於"
     label_in_more_than: "多於"
     label_incoming_emails: "接收到的電子郵件"
@@ -467,7 +467,7 @@ zh-TW:
     label_meeting_minutes: "會議記錄"
     label_menu_collapse: "收合"
     label_menu_expand: "展開"
-    label_more_than_ago: "多天前"
+    label_more_than_ago: "超過幾天"
     label_next: "下一個"
     label_no_color: "無顏色"
     label_no_data: "沒有資料可顯示"
@@ -489,7 +489,7 @@ zh-TW:
     label_project: "專案"
     label_project_list: "列出專案"
     label_project_plural: "專案"
-    label_visibility_settings: "可見度設定"
+    label_visibility_settings: "公開設定"
     label_quote_comment: "引述這個留言"
     label_recent: "最近"
     label_reset: "重置"
@@ -499,7 +499,7 @@ zh-TW:
     label_remove_row: "移除列"
     label_report: "報表"
     label_repository_plural: "版本庫"
-    label_save_as: "保存為"
+    label_save_as: "另存為"
     label_search_columns: "選取欄位"
     label_select_project: "選擇專案"
     label_select_watcher: "選擇監看者"
@@ -548,8 +548,8 @@ zh-TW:
     label_starred_queries: "收藏"
     label_global_queries: "公開"
     label_custom_queries: "私人"
-    label_columns: "欄"
-    label_attachments: 附加檔
+    label_columns: "欄位"
+    label_attachments: 附件
     label_drop_files: "將檔案拖至此處當作附件"
     label_drop_or_click_files: "將檔案拖至此處，或點選上傳。"
     label_drop_folders_hint: 不能將資料夾作為附件上載。請選擇單個檔。
@@ -605,11 +605,11 @@ zh-TW:
           gantt_menu: "使用甘特圖模塊輕鬆創建項目時間表和時間線。"
           timeline: "您可以在此<b>編輯您的項目計劃</b>、創建新的工作包（例如任務、里程碑、階段等）以及<b>添加依賴項</b>。所有團隊成員都可以隨時查看和更新最新計劃。"
         team_planner:
-          overview: "工作組規劃器使您可以直觀地為團隊成員分配任務，並全面瞭解哪些成員正在處理哪些工作。"
-          calendar: "單周或雙周規劃面板可以顯示分配給您的團隊成員的所有工作包。"
-          add_assignee: "首先，請將受理人添加到工作組規劃器。"
-          add_existing: "搜索現有工作包並將其拖動到工作組規劃器，以立即將其分配給團隊成員並定義開始日期和結束日期。"
-          card: "水平拖動工作包以前移或後移其時間，拖動邊緣以更改開始日期和結束日期，甚至可以將其垂直拖動到不同的行以分配給其他成員。"
+          overview: "小組工作企劃使您可以直觀地為小組成員分配任務，並全面瞭解哪些成員正在處理哪些工作。"
+          calendar: "單周或雙周規劃面版，可以顯示分配給您的小組成員的所有工作項目。"
+          add_assignee: "首先，請將執行者新增到小組工作企劃。"
+          add_existing: "搜索現有工作項目並將其拖動到小組工作企劃中，立即將其分配給小組成員並規定開始日期和結束日期。"
+          card: "水平拖動工作項目前後移其時間，拖曳可更改開始日期和結束日期，甚至可以將其垂直拖動到不同的行以分配給其他成員。"
     notifications:
       title: "通知"
       no_unread: "無未讀通知"
@@ -620,11 +620,11 @@ zh-TW:
         accountable: "負責人"
         created: "已建立"
         scheduled: "已排程"
-        commented: "已評論"
+        commented: "已留言"
         processed: "已處理"
         prioritized: "已優先"
         dateAlert: "日期提醒"
-        shared: "共享"
+        shared: "共用"
       date_alerts:
         milestone_date: "里程碑日期"
         overdue: "逾期"
@@ -682,7 +682,7 @@ zh-TW:
             description: "每當有人提及我時都收到通知"
           assignee: "執行者"
           responsible: "負責人"
-          shared: "共享"
+          shared: "共用"
           watched: "監看者\n"
           work_package_commented: "有新留言"
           work_package_created: "新增工作項目"
@@ -694,7 +694,7 @@ zh-TW:
             title: "參與中"
             description: "你參與的工作項目中所有活動的通知（執行者、負責人或監看者）。"
           delayed:
-            title: "非參與中"
+            title: "未參與之工作項目"
             description: "額外通知"
           date_alerts:
             title: "日期提醒"
@@ -810,7 +810,7 @@ zh-TW:
       duplicates: "重複"
       duplicated: "重複於"
       blocks: "攔阻"
-      blocked: "攔阻於"
+      blocked: "被阻擋"
       precedes: "後置項目"
       follows: "前置項目"
       includes: "包括"
@@ -849,7 +849,7 @@ zh-TW:
       abort: "捨棄"
     relations_autocomplete:
       placeholder: "搜尋"
-      parent_placeholder: "選擇新父級，或按 Escape 鍵來取消。"
+      parent_placeholder: "選擇新上層工作項目，或按 Escape 鍵來取消。"
     autocompleter:
       placeholder: "搜尋"
       notFoundText: "找不到任何項目"
@@ -865,8 +865,8 @@ zh-TW:
     sort:
       sorted_asc: "已套用升冪排序， "
       sorted_dsc: "已套用降冪排序， "
-      sorted_no: "已套用不排序, "
-      sorting_disabled: "已禁用排序"
+      sorted_no: "不需排序, "
+      sorting_disabled: "已停用排序"
       activate_asc: "啟動以套用昇冪排序"
       activate_dsc: "啟動以套用降冪排序"
       activate_no: "啟動以移除排序"
@@ -886,15 +886,15 @@ zh-TW:
       heading1: "標題 1"
       heading2: "標題 2"
       heading3: "標題 3"
-      unordered_list: "項目符號清單"
-      ordered_list: "編號清單"
+      unordered_list: "未排序清單"
+      ordered_list: "排序清單"
       quote: "引言"
       unquote: "取消引言"
       preformatted_text: "預先格式化文字"
       wiki_link: "連結到一個 Wiki 頁面"
       image: "圖片"
     sharing:
-      share: "共享"
+      share: "共用"
       selected_count: "已選取 %{count} 個"
       selection:
         mixed: "混合"
@@ -905,9 +905,9 @@ zh-TW:
         copy: "整批複製"
         delete: "整批刪除"
       button_clear: "清除"
-      comment_added: "成功發表意見。"
+      comment_added: "留言成功"
       comment_send_failed: "發生錯誤。無法留言。"
-      comment_updated: "注釋已成功更新。"
+      comment_updated: "留言已成功更新。"
       confirm_edit_cancel: "是否確定取消編輯中的工作項目"
       datepicker_modal:
         automatically_scheduled_parent: "自動安排。日期來源於關係。"
@@ -924,12 +924,12 @@ zh-TW:
       description_options_show: "顯示選項"
       edit_attribute: "%{attribute} - 編輯"
       key_value: "%{key}: %{value}"
-      label_enable_multi_select: "啟用複選"
-      label_disable_multi_select: "停用複選"
+      label_enable_multi_select: "啟用多選"
+      label_disable_multi_select: "停用多選"
       label_filter_add: "新增條件"
       label_filter_by_text: "用文字篩選"
       label_options: "選項"
-      label_column_multiselect: "組合的下拉欄位: 使用方向鍵選擇，用 enter 鍵確認，用backspace鍵刪除"
+      label_column_multiselect: "複合下拉欄位: 使用方向鍵選擇，用 enter 鍵確認，用backspace鍵刪除"
       message_error_during_bulk_delete: 刪除工作項目時發生錯誤
       message_successful_bulk_delete: 成功刪除工作項目
       message_successful_show_in_fullscreen: "點擊此處以全螢幕檢視此工作項目"
@@ -981,7 +981,7 @@ zh-TW:
         assignee: "執行者"
         author: "作者"
         createdAt: "建立於"
-        description: "說明"
+        description: "敘述"
         date: "日期"
         percentComplete: "完成度(%)"
         percentCompleteAlternative: "進度"
@@ -1001,7 +1001,7 @@ zh-TW:
         subproject: "子專案"
         title: "標題"
         type: "類型"
-        updatedAt: "更新於"
+        updatedAt: "更新"
         versionName: "版本"
         version: "版本"
         work: "工時"
@@ -1017,7 +1017,7 @@ zh-TW:
         overdue: "逾期"
         summary: "總覽"
         shared_with_users: "分配給成員"
-        shared_with_me: "共享給我的"
+        shared_with_me: "我共用之工作項目"
       jump_marks:
         pagination: "跳轉至表格分頁"
         label_pagination: "點擊此處跳過工作項目表並轉到分頁"
@@ -1028,7 +1028,7 @@ zh-TW:
         date: "選擇日期"
       query:
         column_names: "欄"
-        group_by: "分組依據"
+        group_by: "依據此條件分組"
         group: "分組依據"
         group_by_disabled_by_hierarchy: "目前為層級模式顯示、無法以群組模式呈現。"
         hierarchy_disabled_by_group_by: "層次結構模式已禁用，因為結果依據 %{column} 分組。"
@@ -1045,7 +1045,7 @@ zh-TW:
         rename_query_placeholder: "此檢視的名稱"
         star_text: "將此版面收藏起來，並新增至左側已儲存版面側邊欄。"
         public_text: >
-          發布此檢視圖，允許其他使用者存取您的視圖。 具有「管理公用檢視圖」權限的使用者可以修改或刪除公用查詢。 這不會影響該檢視圖中工作項目的可見性，並且根據使用者的權限，使用者可能會看到不同的結果。
+          發布此版面，允許其他使用者存取您的版面。 具有「管理公開版面」權限的使用者可以修改或刪除公開查詢。 這不會影響該版面中工作項目的可見性，並且根據使用者的權限，使用者可能會看到不同的結果。
         errors:
           unretrievable_query: "無法從 url 取得版面"
           not_found: "無此查詢"
@@ -1055,10 +1055,10 @@ zh-TW:
         is_parent: "此工作包的日期會自動從其子項推導出。可啟用“手動計劃”來設置日期。"
         is_switched_from_manual_to_automatic: "由於與其他工作包的關係，在從手動計劃切換為自動計劃後，此工作包的日期可能需要重新計算。"
       sharing:
-        title: "共享工作項目"
-        show_all_users: "顯示與之共享工作包的所有用戶"
+        title: "共用工作項目"
+        show_all_users: "顯示與之共用工作項目的所有用戶"
         upsale:
-          description: "與不是專案成員的使用者共享工作項目。"
+          description: "與不是專案成員的使用者共用工作項目。"
       table:
         configure_button: "設定工作項目"
         summary: "由工作項目和工作項目屬性列組成的表格。"
@@ -1074,7 +1074,7 @@ zh-TW:
         display_settings: "顯示設定"
         default_mode: "展開清單"
         hierarchy_mode: "階層"
-        hierarchy_hint: "所有已篩選的資料與其來源將一起優化。階層可以展開和折疊。"
+        hierarchy_hint: "所有已篩選的資料與其來源將一起優化。階層可以展開和收合。"
         display_sums_hint: "在表格結果下方的一行中顯示總和。"
         show_timeline_hint: "在表格的右側顯示互動式甘特圖。可以通過在表和甘特圖之間拖動分隔線來更改其寬度。"
         highlighting: "強調"
@@ -1120,9 +1120,9 @@ zh-TW:
         hide_hierarchy: "隱藏層次結構"
         hide_sums: "隱藏匯總"
         save: "儲存"
-        save_as: "保存為"
+        save_as: "另存為"
         export: "匯出"
-        visibility_settings: "可見度設定"
+        visibility_settings: "公開設定"
         share_calendar: "訂閱日曆"
         page_settings: "重新命名版面"
         delete: "删除"

@@ -1148,7 +1148,7 @@ de:
       status: "Arbeitspaket-Status"
       token/api:
         one: Zugangs-Token
-        other: Access tokens
+        other: Zugangs-Token
       type: "Typ"
       user: "Benutzer"
       version: "Version"
@@ -1814,7 +1814,7 @@ de:
   label_add_another_file: "Eine weitere Datei hinzufügen"
   label_add_columns: "Ausgewählte Spalten hinzufügen"
   label_add_note: "Kommentar hinzufügen"
-  label_add_projects: "Projekte erstellen"
+  label_add_projects: "Projekte hinzufügen"
   label_add_related_work_packages: "Zugehöriges Arbeitspaket hinzufügen"
   label_add_subtask: "Unteraufgabe hinzufügen"
   label_added: "hinzugefügt"

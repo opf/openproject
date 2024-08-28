@@ -11,7 +11,7 @@ fr:
       login_to: "Connexion à %{storageType}"
       no_connection: "Aucune connexion à %{storageType}"
       open_storage: "Ouvrir %{storageType}"
-      select_location: "Sélectionnez la localisation"
+      select_location: "Sélectionnez l'emplacement"
       choose_location: "Choisir emplacement"
       types:
         nextcloud: "Nextcloud"
@@ -31,7 +31,7 @@ fr:
         already_existing_body: >
           Un fichier avec le nom « %{fileName} » existe déjà à l'emplacement où vous essayez de téléverser ce fichier. Que voulez-vous faire ?
         directory_not_writeable: "Vous n'avez pas la permission d'ajouter des fichiers à ce dossier."
-        dragging_many_files: "Le téléversement vers %{storageType} ne supporte qu'un seul fichier à la fois."
+        dragging_many_files: "Le dépôt vers %{storageType} ne supporte qu'un seul fichier à la fois."
         dragging_folder: "Le téléversement vers %{storageType} ne prend pas en charge les dossiers."
         empty_folder: "Ce dossier est vide."
         empty_folder_location_hint: "Cliquez sur le bouton ci-dessous pour téléverser le fichier à cet endroit."
@@ -52,7 +52,7 @@ fr:
         open_location: "Ouvrir le fichier à l'emplacement"
         remove: "Supprimer le lien de fichier"
         remove_confirmation: >
-          Êtes-vous sûr de vouloir dissocier le fichier de ce lot de travaux ? Unlinking n'affecte pas le fichier original et supprime seulement la connexion à ce lot de travaux.
+          Êtes-vous sûr de vouloir dissocier le fichier de ce lot de travaux ? La suppression du lien n'affecte pas le fichier original et supprime seulement la connexion à ce lot de travaux.
         remove_short: "Supprimer le lien"
         select: "Sélectionner les fichiers"
         select_all: "Tout sélectionner"
@@ -76,7 +76,7 @@ fr:
             nextcloud: >
               Veuillez vérifier que la dernière version de l'application Nextcloud "OpenProject Integration" est installée et contactez votre administrateur pour plus d'informations.
         link_uploaded_file_error: >
-          Une erreur s'est produite lors de la liaison du fichier '%{fileName}' récemment téléversé au lot de travaux %{workPackageId}.
+          Une erreur s'est produite lors de la liaison du fichier '%{fileName}' récemment déposé sur le lot de travaux %{workPackageId}.
         tooltip:
           not_logged_in: "Veuillez vous connecter au stockage pour accéder à ce fichier."
           view_not_allowed: "Vous n'avez pas la permission de voir ce fichier."

@@ -11,7 +11,7 @@ System settings allow you to configure a number of options concerning your OpenP
 
 To modify these settings, navigate to **Administration → System settings**.
 
-![System settings in OpenProject adminisration](openproject_system_guide_system_settings.png)
+![System settings in OpenProject administration](openproject_system_guide_system_settings.png)
 
 ## Overview
 

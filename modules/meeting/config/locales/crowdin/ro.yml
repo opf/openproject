@@ -40,7 +40,7 @@ ro:
         participants_attended: "Participanți"
         participants_invited: "Invitaţi"
         project: "Proiect"
-        start_date: "Dată"
+        start_date: "Data"
         start_time: "Start time"
         start_time_hour: "Start time"
       meeting_agenda_item:
@@ -58,7 +58,7 @@ ro:
       structured_meeting: "Meeting (dynamic)"
       meeting_agenda_item: "Agenda item"
       meeting_agenda: "Agendă"
-      meeting_minutes: "Concluzii"
+      meeting_minutes: "Minute"
       meeting_section: "Section"
   activity:
     filter:
@@ -91,7 +91,7 @@ ro:
   label_meeting_new: "Noua întâlnire"
   label_meeting_edit: "Editare Întâlnire"
   label_meeting_agenda: "Agendă"
-  label_meeting_minutes: "Concluzii"
+  label_meeting_minutes: "Minute"
   label_meeting_close: "Închide"
   label_meeting_open: "Deschis"
   label_meeting_agenda_close: "Închideți ordinea de zi pentru a începe procesul-verbal"
@@ -111,15 +111,15 @@ ro:
   label_icalendar_download: "Download iCalendar event"
   label_version: "Versiune"
   label_time_zone: "Fus orar"
-  label_start_date: "Data de început"
+  label_start_date: "Dată început"
   meeting:
     attachments:
       text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
-      title: "Copy meeting: %{title}"
-      attachments: "Copy attachments"
-      attachments_text: "Copy over all attached files to the new meeting"
-      agenda: "Copy agenda"
+      title: "Copiază întâlnirea: %{title}"
+      attachments: "Copiază atașamentele"
+      attachments_text: "Copiază peste toate fișierele atașate la noua ședință"
+      agenda: "Copiază agenda"
       agenda_text: "Copy the agenda of the old meeting"
     email:
       send_emails: "Send emails"
@@ -154,7 +154,7 @@ ro:
   permission_view_meetings: "Vezi întâlniri"
   permission_create_meeting_agendas: "Create meeting agendas"
   permission_create_meeting_agendas_explanation: "Allows editing the Classic Meeting's agenda content."
-  permission_manage_agendas: "Gestionați agendele"
+  permission_manage_agendas: "Gestionează agendele"
   permission_manage_agendas_explanation: "Allows managing the Dynamic Meeting's agenda items."
   permission_close_meeting_agendas: "Închideți agendele"
   permission_send_meeting_agendas_notification: "Trimiteți o notificare de revizuire pentru agende"
@@ -189,18 +189,18 @@ ro:
   label_agenda_item_move_to_bottom: "Mută jos"
   label_agenda_item_move_up: "Mută în sus"
   label_agenda_item_move_down: "Mută în jos"
-  label_agenda_item_add_notes: "Adăugare note"
+  label_agenda_item_add_notes: "Adaugă note"
   label_agenda_item_work_package: "Agenda item work package"
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
-  label_initial_meeting_details: "ID Întâlnire"
+  label_initial_meeting_details: "ID întâlnire"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
   label_meeting_state: "Meeting status"
-  label_meeting_state_open: "Deschis"
+  label_meeting_state_open: "Deschisă"
   label_meeting_state_open_html: "<i>Open</i>"
-  label_meeting_state_closed: "Închis"
+  label_meeting_state_closed: "Închisă"
   label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "Reopen meeting"
   label_meeting_close_action: "Close meeting"
@@ -209,7 +209,7 @@ ro:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
-  label_meeting_show_all_participants: "Afișare completă"
+  label_meeting_show_all_participants: "Afișează tot"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."

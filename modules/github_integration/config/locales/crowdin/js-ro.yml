@@ -28,7 +28,7 @@ ro:
         title: "Cereri de extragere"
         copy_menu:
           label: Git fragmente
-          description: Copiați fragmente git în clipboard
+          description: Copiază fragmente git în clipboard
         git_actions:
           branch_name: Nume sucursală
           commit_message: Mesajul commit-ului

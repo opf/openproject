@@ -111,7 +111,7 @@ fr:
             set_folders_permissions:
               permission_not_set: n'a pas pu définir les autorisations sur %{path}.
           error: Une erreur inattendue s'est produite. Veuillez vous assurer que votre instance Nextcloud est joignable et vérifiez les journaux des processus OpenProject pour obtenir plus d'informations.
-          group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
+          group_does_not_exist: "%{group} n'existe pas. Vérifiez la configuration de votre instance Nextcloud."
           insufficient_privileges: OpenProject n'a pas assez de privilèges pour ajouter %{user} au groupe %{group}. Vérifiez les paramètres de votre groupe dans Nextcloud.
           not_allowed: Nextcloud bloque la demande.
           unauthorized: OpenProject n'a pas pu se synchroniser avec Nextcloud. Veuillez vérifier votre espace de stockage et la configuration de Nextcloud.
@@ -140,7 +140,7 @@ fr:
       complete_without_setup: Compléter sans
       done_complete_setup: Configuration terminée.
       done_continue: Terminé, continuer
-      open_storage: Open file storage
+      open_storage: Ouvrir le stockage de fichiers
       replace_oauth_application: Remplacer OAuth OpenProject
       replace_oauth_client: Remplacer OAuth %{provider_type}
       save_and_continue: Sauvegarder et poursuivre
@@ -159,7 +159,7 @@ fr:
       project_storage: 'Voulez-vous vraiment supprimer %{file_storage} de ce projet ? Pour confirmer cette action, veuillez introduire le nom de l''espace de stockage dans le champ ci-dessous, cela permettra de :'
       project_storage_delete_result_1: Supprimer tous les liens des lots de travaux de ce projet vers les fichiers et dossiers de cet espace de stockage.
       project_storage_delete_result_2: Si cet espace de stockage a un dossier de projet géré automatiquement, lui et ses fichiers seront définitivement supprimés.
-      storage: 'Voulez-vous vraiment supprimer %{file_storage} de ce projet ? Pour confirmer cette action, veuillez saisir le nom de l''espace de stockage dans le champ ci-dessous. Cela va :'
+      storage: 'Êtes-vous sûr de vouloir supprimer %{file_storage} ? Pour confirmer cette action, veuillez introduire le nom du stockage dans le champ ci-dessous :'
       storage_delete_result_1: Supprimer toutes les configurations de stockage pour tous les projets utilisant ce stockage.
       storage_delete_result_2: Supprimer tous les liens des lots de travaux de ce projet vers les fichiers et dossiers dans cet espace de stockage.
       storage_delete_result_3: Si ce stockage contient des dossiers de projet gérés automatiquement, ceux-ci et les fichiers qu'ils contiennent seront supprimés définitivement.
@@ -184,7 +184,7 @@ fr:
       oauth_applications: Applications OAuth
       one_drive_oauth: OAuth Azure
       openproject_oauth: OAuth OpenProject
-      project_folders: Dossier du projet
+      project_folders: Dossiers du projet
       redirect_uri: URI de redirection
       storage_provider: Fournisseur de stockage
     health:
@@ -269,7 +269,7 @@ fr:
     label_delete_storage: Supprimer le stockage
     label_edit_storage: Modifier le stockage
     label_edit_storage_access_management: Modifier la gestion de l'accès à l'espace de stockage
-    label_edit_storage_automatically_managed_folders: Editer les dossiers automatiquement gérés
+    label_edit_storage_automatically_managed_folders: Modifier les dossiers automatiquement gérés
     label_edit_storage_host: Modifier l'hôte de stockage
     label_existing_manual_folder: Répertoire existant avec permissions gérées manuellement
     label_file_storage: Stockage de fichiers

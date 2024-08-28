@@ -77,8 +77,6 @@ module API
                             skip_render: ->(*) { represented.actor.nil? },
                             v3_path: :user
 
-        associated_resource :project
-
         associated_resource :journal,
                             as: :activity,
                             representer: ::API::V3::Activities::ActivityRepresenter,
@@ -87,11 +85,26 @@ module API
 
         polymorphic_resource :resource
 
+        resource :project,
+                 getter: ->(*) {
+                           ::API::V3::Projects::ProjectRepresenter
+                             .create(represented.resource.project, current_user:, embed_links:)
+                         },
+                 link: ->(*) {
+                         {
+                           href: api_v3_paths.project(represented.resource.project.id),
+                           title: represented.resource.project.name
+                         }
+                       },
+                 setter: ->(*) {
+                           raise NotImplementedError
+                         }
+
         def _type
           "Notification"
         end
 
-        self.to_eager_load = %i[project actor journal]
+        self.to_eager_load = %i[actor journal]
       end
     end
   end

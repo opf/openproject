@@ -263,16 +263,16 @@ tr:
       no_results_title_text: Şu anda hiç proje bulunmamakta
       no_results_content_text: Yeni bir proje oluşturun
     lists:
-      active: "Active projects"
+      active: "Aktif projeler"
       my: "Projelerim"
-      favored: "Favorite projects"
-      archived: "Archived projects"
+      favored: "Favori projeler"
+      archived: "Arşivlenmiş projeler"
       shared: "Shared project lists"
       my_lists: "My project lists"
       new:
-        placeholder: "New project list"
+        placeholder: "Yeni proje listesi"
       delete_modal:
-        title: "Delete project list"
+        title: "Proje listesini sil"
         text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Dil Tanımlayıcı değiştir
@@ -291,7 +291,7 @@ tr:
           title: "Proje öznitelikleri"
           description: 'These project attributes will be displayed in your <a href=%{overview_url} target="_blank">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target="_blank">administration settings</a> by the administrator of the instance. '
         filter:
-          label: "Search project attribute"
+          label: "Proje özniteliğini ara"
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
@@ -334,16 +334,16 @@ tr:
     columns:
       shared: "Shared"
     filters:
-      all_shares: "All shares"
+      all_shares: "Tüm paylaşımlar"
     menu:
       all: "Hepsi"
-      invited: "Invited"
+      invited: "Davet Edildi"
       locked: "Kilitlendi"
-      project_roles: "Project roles"
+      project_roles: "Proje Rolleri"
       wp_shares: "Work package shares"
       groups: "Gruplar"
     delete_member_dialog:
-      title: "Remove member"
+      title: "Üyeyi çıkart"
       will_remove_the_users_role: "This will remove the user’s role from this project."
       will_remove_the_groups_role: "This will remove the group role from this project."
       however_work_packages_shared_with_user_html:
@@ -1327,7 +1327,7 @@ tr:
   button_edit: "Düzenle"
   button_edit_associated_wikipage: "İlişkili Wiki sayfasını düzenle: %{page_title}"
   button_expand_all: "Tümünü genişlet"
-  button_favorite: "Add to favorites"
+  button_favorite: "Favorilere Ekle"
   button_filter: "Filtre"
   button_generate: "Üretmek"
   button_list: "Liste"
@@ -1355,7 +1355,7 @@ tr:
   button_unarchive: "Arşivden çıkar"
   button_uncheck_all: "Tüm işaretleri kaldır"
   button_unlock: "Kilidi kaldır"
-  button_unfavorite: "Remove from favorites"
+  button_unfavorite: "Favorilerden çıkar"
   button_unwatch: "İzleme"
   button_update: "Güncelle"
   button_upgrade: "Yükselt"

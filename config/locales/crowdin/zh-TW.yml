@@ -207,7 +207,7 @@ zh-TW:
     enabled_in_project: "已在專案中啟用"
     contained_in_type: "已包含在類型中"
     confirm_destroy_option: "刪除一個項目將會一併刪除所有出現這個項目的地方 (例如：在工作項目中)。你確定要刪除它嗎？"
-    reorder_alphabetical: "按字母順序重新排列值"
+    reorder_alphabetical: "按字母順序重新排列"
     reorder_confirmation: "警告：目前可用值的順序將會遺失。繼續嗎？"
     instructions:
       is_required: "將此欄位定義成必填。\n"
@@ -248,7 +248,7 @@ zh-TW:
       work_package_attachments: "工作項目：附件"
       work_package_categories: "工作項目：類別"
       work_package_file_links: "工作項目：檔案連結"
-      work_package_shares: "共享之工作項目"
+      work_package_shares: "共用之工作項目"
     delete:
       scheduled: "已經安排背景執行刪除任務。你將會收到結果通知。"
       schedule_failed: "專案無法刪除: %{errors}"
@@ -266,7 +266,7 @@ zh-TW:
       my: "我的專案"
       favored: "收藏的專案"
       archived: "封存專案"
-      shared: "共享專案清單"
+      shared: "共用專案清單"
       my_lists: "我的專案列表"
       new:
         placeholder: "新專案清單"
@@ -331,45 +331,45 @@ zh-TW:
     invite_by_mail: "寄發邀請至：%{mail}"
     send_invite_to: "寄送邀請"
     columns:
-      shared: "共享"
+      shared: "共用"
     filters:
-      all_shares: "所有共享的"
+      all_shares: "所有共用的"
     menu:
       all: "全部"
       invited: "已邀請"
       locked: "停用"
       project_roles: "專案角色"
-      wp_shares: "共享之工作項目"
+      wp_shares: "共用之工作項目"
       groups: "群組"
     delete_member_dialog:
       title: "移除成員"
       will_remove_the_users_role: "這將從此專案中移除使用者的角色。"
       will_remove_the_groups_role: "這將從此專案中移除群組角色。"
       however_work_packages_shared_with_user_html:
-        other: "不過， %{shared_work_packages_link} ，也與此使用者共享。"
+        other: "不過， %{shared_work_packages_link} ，也與此使用者共用。"
       however_work_packages_shared_with_group_html:
-        other: "不過， %{shared_work_packages_link} ，也與此群組共享。"
+        other: "不過， %{shared_work_packages_link} ，也與此群組共用。"
       remove_work_packages_shared_with_user_too: "已移除專案成員的使用者仍可存取共用工作項目。您也想移除共用嗎？"
       remove_work_packages_shared_with_group_too: "已移除成員身份的群組仍可存取共用工作套件。您也想移除共用嗎？"
       will_not_affect_inherited_shares: "(這不會影響與其小組共用的工作項目)。"
       can_remove_direct_but_not_shared_roles: "您可以刪除該用戶的直接項目成員身份，但他們所在的組也是該項目的成員，因此他們將繼續通過組成為成員。"
       also_work_packages_shared_with_user_html:
-        other: "此外，還與該用戶共享了 %{shared_work_packages_link}。"
-      remove_project_membership_or_work_package_shares_too: "您只想刪除作為直接成員的用戶(保留共享)，還是也刪除工作包共享？"
+        other: "此外，還與該用戶共用了 %{shared_work_packages_link}。"
+      remove_project_membership_or_work_package_shares_too: "您只想刪除作為直接成員的用戶(保留共用)，還是也刪除工作包共享？"
       will_remove_all_user_access_priveleges: "刪除該成員將移除該專案所有存取權限。但使用者部分專案資料仍然存在。"
       will_remove_all_group_access_priveleges: "刪除該成員將刪除該組對項目的所有訪問權限。該組仍將作為實例的一部分存在。"
       cannot_delete_inherited_membership: "您不能刪除此成員，因為他們所屬的組本身就是此項目的成員。"
       cannot_delete_inherited_membership_note_admin_html: "您可以在 %{administration_settings_link} 中刪除作為項目成員的組或組中的特定成員。"
       cannot_delete_inherited_membership_note_non_admin: "您可以將該組作為項目成員移除，或者聯繫管理員將該特定成員從組中移除。"
     delete_work_package_shares_dialog:
-      title: "撤銷已共享的工作項目"
+      title: "撤銷已共用的工作項目"
       shared_with_this_user_html:
         other: "%{all_shared_work_packages_link} 已與該用戶共享。"
       shared_with_this_group_html:
         other: "%{all_shared_work_packages_link} 已與該組共享。"
       shared_with_permission_html:
         other: "只有 %{shared_work_packages_link} 共享了 %{shared_role_name} 權限。"
-      revoke_all_or_with_role: "您想撤銷對所有共享工作包的訪問權限，還是只撤銷對具有 %{shared_role_name} 權限的工作包的訪問權限？"
+      revoke_all_or_with_role: "您想撤銷對所有共用工作項目的存取權限，還是只撤銷 %{shared_role_name} 的相關權限？"
       will_not_affect_inherited_shares: "(這不會影響與其群組共用的工作包)。"
       cannot_remove_inherited: "無法刪除通過群組共享的工作包共享。"
       cannot_remove_inherited_with_role: "與角色 %{shared_role_name} 共享的工作包是通過群組共享的，不能刪除。"
@@ -472,7 +472,7 @@ zh-TW:
         is_readonly: "唯讀"
         excluded_from_totals: "不包括在總計中"
   themes:
-    dark: "黑暗(測試版)"
+    dark: "深色(測試版)"
     light: "白色主題"
     light_high_contrast: "高對比白色主題"
   types:
@@ -493,7 +493,7 @@ zh-TW:
         所選顏色區分甘特圖或工作項目中的不同類型。因此建議使用濃烈的顏色。
   versions:
     overview:
-      work_packages_in_archived_projects: "該版本與歸檔項目共享，這些項目仍然有分配給此版本的工作包。雖然這些工作包被計算在內，但不會顯示在鏈接視圖中。"
+      work_packages_in_archived_projects: "該版本與歸檔項目共用，這些專案仍然有分配給此版本的工作項目。雖然這些工作項目被計算在內，但不會顯示在視圖中。"
       no_results_title_text: 目前沒有分配給此版本的工作項目。
   wiki:
     page_not_editable_index: 本頁不存在,重新導至wiki目錄頁。
@@ -524,8 +524,8 @@ zh-TW:
         目標項目中未啓用工作包的當前類型。如果您希望工作包類型保持不變，請在目標項目中啓用這些類型。否則，請從列表中選擇目標項目中的可用類型。
     sharing:
       missing_workflow_warning:
-        title: "工作包共享缺少工作流"
-        message: "沒有為\"工作包編輯者\"角色配置工作流。沒有工作流，共享用戶就無法更改工作包的狀態。工作流可以複製。選擇一個源類型(例如\"任務\")和源角色(例如\"成員\")。然後選擇目標類型。一開始，您可以將所有類型都選擇為目標類型。最後，選擇\"工作包編輯者\"角色作為目標，然後點擊\"複製\"。在創建默認設置之後，像對其他角色一樣進行微調，對工作流進行詳細調整。"
+        title: "共用工作項目缺少工作流"
+        message: "沒有為\"工作項目編輯者\"角色配置工作流。沒有工作流，共用用戶就無法更改工作項目的狀態。工作流可以複製。選擇一個類型(例如\"任務\")和角色(例如\"成員\")。然後選擇目標類型。一開始，您可以將所有類型都選擇為目標類型。最後，選擇\"工作項目編輯者\"角色作為目標，然後點擊\"複製\"。在創建預設設置之後，像對其他角色一樣進行微調，對工作流進行詳細調整。"
         link_message: "在管理中配置工作流。"
     summary:
       reports:
@@ -710,7 +710,7 @@ zh-TW:
       type:
         description: "描述的預設文字"
         attribute_groups: ""
-        is_in_roadmap: "在 RoadMap 預設為顯示"
+        is_in_roadmap: "在藍圖中預設為顯示"
         is_default: "新專案的預設啟動類型"
         is_milestone: "里程碑"
         color: "顏色"
@@ -731,10 +731,10 @@ zh-TW:
         hide_mail: "隱藏我的電子郵件地址"
         impaired: "協助工具模式"
         time_zone: "時區"
-        auto_hide_popups: "自動隱藏成功通知"
+        auto_hide_popups: "提醒後自動隱藏"
         warn_on_leaving_unsaved: "離開尚未儲存的工作項目時提示我"
         theme: "模式 "
-        mode_guideline: "為了親和性以及方便閱讀性，某些模式將覆蓋自訂主題顏色。對於完整的自訂主題，請選擇 Light 模式。"
+        mode_guideline: "為了親和性以及方便閱讀性，某些模式將覆蓋自訂主題顏色。對於完整的自訂主題，請選擇白色模式。"
       version:
         effective_date: "完成日期"
         sharing: "分享"
@@ -761,14 +761,14 @@ zh-TW:
           true: "包含非工作日"
         notify: "通知" #used in custom actions
         parent: "上層目錄："
-        parent_issue: "上層目錄："
-        parent_work_package: "上層目錄："
+        parent_issue: "上層工作項目："
+        parent_work_package: "上層工作項目："
         priority: "優先等級"
         progress: "完成度(%)"
         readonly: "唯讀"
         remaining_hours: "剩餘工作"
         remaining_time: "剩餘工作"
-        shared_with_users: "共享對象"
+        shared_with_users: "參與成員"
         schedule_manually: "手動排程"
         spent_hours: "耗時"
         spent_time: "耗時"
@@ -1033,7 +1033,7 @@ zh-TW:
               not_available_for_milestones: "不適用於里程碑類型的工作項目。"
               cannot_be_null: "無法設置為 null，因為開始日期和結束日期已知。"
             parent:
-              cannot_be_milestone: "不可以成為一個里程碑"
+              cannot_be_milestone: "不能是里程碑"
               cannot_be_self_assigned: "不能指派給自己"
               cannot_be_in_another_project: "不能在另一個專案中"
               not_a_valid_parent: "不正確。"
@@ -1196,7 +1196,7 @@ zh-TW:
     author: "作者"
     base: "一般錯誤:"
     blocks_ids: "已被限制的工作項目 IDs"
-    category: "分類"
+    category: "類別"
     comment: "留言"
     comments: "留言"
     content: "內容"
@@ -1292,7 +1292,7 @@ zh-TW:
   button_clear: "清除"
   button_click_to_reveal: "點擊顯示"
   button_close: "關閉"
-  button_collapse_all: "全部摺疊"
+  button_collapse_all: "全部收合"
   button_configure: "設定"
   button_continue: "繼續"
   button_copy: "複製"
@@ -1348,11 +1348,11 @@ zh-TW:
   button_add_menu_entry: "新增選單項目"
   button_configure_menu_entry: "設定選單項目"
   button_delete_menu_entry: "刪除選單項目"
-  button_view_shared_work_packages: "檢視共享的工作項目"
+  button_view_shared_work_packages: "檢視共用的工作項目"
   button_manage_roles: "管理角色"
   button_remove_member: "移除成員"
-  button_remove_member_and_shares: "移除成員及共享"
-  button_revoke_work_package_shares: "撤銷已共享的工作項目"
+  button_remove_member_and_shares: "移除成員及共用"
+  button_revoke_work_package_shares: "撤銷已共用的工作項目"
   button_revoke_access: "撤銷存取權限"
   button_revoke_all: "全部撤銷"
   button_revoke_only: "僅撤銷 %{shared_role_name}"
@@ -1530,8 +1530,8 @@ zh-TW:
   error_can_not_archive_project: "這個專案無法封存：%{errors}"
   error_can_not_delete_entry: "無法刪除項目"
   error_can_not_delete_custom_field: "無法刪除客製欄位"
-  error_can_not_delete_in_use_archived_undisclosed: "歸檔專案中也有工作套件。您需要請管理員執行刪除，才能看到哪些專案會受到影響。"
-  error_can_not_delete_in_use_archived_work_packages: "已歸檔的專案中也有工作套件。您需要先重新啟動下列專案，才能變更各工作套件的屬性： %{archived_projects_urls}"
+  error_can_not_delete_in_use_archived_undisclosed: "歸檔專案中也有工作項目。您需要請管理員執行刪除，才能看到哪些專案會受到影響。"
+  error_can_not_delete_in_use_archived_work_packages: "已歸檔的專案中也有工作項目。您需要先重新啟動下列專案，才能變更各工作項目屬性： %{archived_projects_urls}"
   error_can_not_delete_type:
     explanation: '此類型包含工作套件，且無法刪除。您可以在<a target="_blank" href="%{url}">此檢視</a>中看到所有受影響的工作套件。'
   error_can_not_delete_standard_type: "標準類型無法刪除"
@@ -1660,7 +1660,7 @@ zh-TW:
       shortcuts: "快捷鍵"
       blog: "Openproject 部落格"
       forums: "社群討論區"
-      newsletter: "安全警報 / 消息"
+      newsletter: "資通安全通知 / 電子報"
   image_conversion:
     imagemagick: "Imagemagick"
   journals:
@@ -1693,7 +1693,7 @@ zh-TW:
         file_links_journal: >
           從現在開始，與文件鏈接(存儲在外部存儲器中的文件) 相關的活動將出現在“活動”選項卡中。以下是與已經存在的鏈接相關的活動的表示：
         progress_calculation_adjusted_from_disabled_mode: >-
-          自動計算進度<a href="%{href}" target="_blank">設定為「Work-based」模式並隨著版本更新進行調整</a>。
+          自動計算進度<a href="%{href}" target="_blank">設定為「基於工時」模式並隨著版本更新進行調整</a>。
         progress_calculation_adjusted: >-
           自動計算進度<a href="%{href}" target="_blank">隨版本更新調整</a>。
         totals_removed_from_childless_work_packages: >-
@@ -1758,7 +1758,7 @@ zh-TW:
       dateAlert: "到期提醒"
       mentioned: "被提及"
       responsible: "負責人"
-      shared: "共享"
+      shared: "共用"
       watched: "監看者"
     menu:
       by_project: "未讀項目"
@@ -1779,7 +1779,7 @@ zh-TW:
   label_activate_user: "啟動使用者"
   label_active_in_new_projects: "在新專案中啟用"
   label_activity: "活動"
-  label_add_edit_translations: "增加和編輯翻譯"
+  label_add_edit_translations: "加入翻譯"
   label_add_another_file: "新增另一個檔案"
   label_add_columns: "新增所選欄"
   label_add_note: "新增註記"
@@ -1876,11 +1876,11 @@ zh-TW:
   label_chronological_order: "由舊排列至新"
   label_close_versions: "關閉已完成的版本"
   label_closed_work_packages: "已關閉"
-  label_collapse: "折疊"
-  label_collapsed_click_to_show: "已折疊。按一下以顯示"
+  label_collapse: "收合"
+  label_collapsed_click_to_show: "已收合。按一下以顯示"
   label_configuration: 組態
   label_comment_add: "新增留言"
-  label_comment_added: "新增內容"
+  label_comment_added: "新增留言"
   label_comment_delete: "刪除留言"
   label_comment_plural: "留言"
   label_commits_per_author: "每個作者的Commit"
@@ -1923,11 +1923,11 @@ zh-TW:
   label_missing_or_hidden_custom_option: "(缺少值或缺少訪問權限)"
   label_descending: "降冪"
   label_details: "詳細資料"
-  label_development_roadmap: "發展路徑圖"
+  label_development_roadmap: "開發藍圖"
   label_diff: "比較"
   label_diff_inline: "行內"
   label_diff_side_by_side: "並排"
-  label_digital_accessibility: "數字可訪問性 (DE)"
+  label_digital_accessibility: "數位無障礙聲明 (德文)"
   label_disabled: "已停用"
   label_disabled_uppercase: "關閉"
   label_display: "顯示"
@@ -1967,7 +1967,7 @@ zh-TW:
   label_import: "匯入"
   label_export_to: "也可匯出成"
   label_expand: "展開"
-  label_expanded_click_to_collapse: "已擴大。按一下可折疊"
+  label_expanded_click_to_collapse: "已展開。按一下可收合"
   label_f_hour: "%{value} 小時"
   label_f_hour_plural: "%{value} 個小時"
   label_favorite: "最愛"
@@ -2023,7 +2023,7 @@ zh-TW:
   label_invite_user: "邀請使用者"
   label_share: "分享"
   label_share_project_list: "共用專案清單"
-  label_share_work_package: "共享工作項目"
+  label_share_work_package: "共用工作項目"
   label_show_hide: "顯示/隱藏"
   label_show_hide_n_items: "顯示/隱藏 %{count} 項目"
   label_show_all_registered_users: "顯示所有註冊使用者"
@@ -2095,7 +2095,7 @@ zh-TW:
   label_modules: "模組"
   label_months_from: "從幾個月"
   label_more: "更多"
-  label_more_than_ago: "多天前"
+  label_more_than_ago: "超過幾天"
   label_move_work_package: "移動工作項目"
   label_my_account: "我的帳號"
   label_my_activity: "我的活動紀錄"
@@ -2109,7 +2109,7 @@ zh-TW:
   label_new_statuses_allowed: "允許的新狀態"
   label_news_singular: "最新消息"
   label_news_added: "有最新消息"
-  label_news_comment_added: "最新消息新增留言"
+  label_news_comment_added: "「最新消息」有新留言"
   label_news_latest: "最新消息"
   label_news_new: "增加消息"
   label_news_edit: "編輯消息"
@@ -2212,7 +2212,7 @@ zh-TW:
   label_relates_to: "相關於"
   label_relation_delete: "刪除關聯"
   label_relation_new: "新增關聯"
-  label_release_notes: "發行備註"
+  label_release_notes: "發行說明"
   label_remaining_work: "剩餘工作"
   label_remove_columns: "移除所選欄"
   label_renamed: "重新命名"
@@ -2233,11 +2233,11 @@ zh-TW:
   label_revision: "修訂"
   label_revision_id: "修訂版 %{value}"
   label_revision_plural: "修訂"
-  label_roadmap: "路線圖"
-  label_roadmap_edit: "編輯路線圖 %{name}"
-  label_roadmap_due_in: "截止於%{value}"
-  label_roadmap_no_work_packages: "這個版本沒有工作項目"
-  label_roadmap_overdue: "晚了 %{value}"
+  label_roadmap: "藍圖"
+  label_roadmap_edit: "編輯藍圖 %{name}"
+  label_roadmap_due_in: "%{value} 截止"
+  label_roadmap_no_work_packages: "此版本沒有工作項目"
+  label_roadmap_overdue: "%{value} 逾期"
   label_role_and_permissions: "角色與權限"
   label_role_new: "新增角色"
   label_role_plural: "角色"
@@ -2278,7 +2278,7 @@ zh-TW:
   label_system_storage: "儲存空間資訊"
   label_table_of_contents: "目錄"
   label_tag: "標記"
-  label_team_planner: "團隊規劃"
+  label_team_planner: "小組工作企劃"
   label_text: "長文字"
   label_this_month: "本月"
   label_this_week: "本週"
@@ -2321,7 +2321,7 @@ zh-TW:
   label_version_plural: "版本"
   label_version_sharing_descendants: "與子專案"
   label_version_sharing_hierarchy: "有專案階層"
-  label_version_sharing_none: "非共享的"
+  label_version_sharing_none: "非共用的"
   label_version_sharing_system: "有所有的版本"
   label_version_sharing_tree: "有專案樹"
   label_videos: "影片"
@@ -2357,7 +2357,7 @@ zh-TW:
   label_work_package_new: "新增工作項目"
   label_work_package_edit: "編輯工作項目 %{name}"
   label_work_package_plural: "工作項目"
-  label_work_packages_settings: "工作包設置"
+  label_work_packages_settings: "工作項目設置"
   label_work_package_status: "工作項目狀態"
   label_work_package_status_new: "新狀態"
   label_work_package_status_plural: "工作項目狀態"
@@ -2450,7 +2450,7 @@ zh-TW:
         assigned: "指派"
         responsible: "負責人"
         mentioned: "被提及"
-        shared: "共享"
+        shared: "共用"
         subscribed: "所有"
         prefix: "因為通知設定而收到：%{reason}"
         date_alert_start_date: "日期提醒"
@@ -2596,14 +2596,14 @@ zh-TW:
   notice_email_sent: "一封郵件被傳送給 %{value}"
   notice_failed_to_save_work_packages: "%{total} 個選取的工作項目中的 %{count} 儲存失敗: %{ids}"
   notice_failed_to_save_members: "無法保存成員: %{errors}。"
-  notice_deletion_scheduled: "刪除已安排並且將異步執行。"
+  notice_deletion_scheduled: "已安排排程進行刪除。"
   notice_file_not_found: "您試圖存取的頁面不存在或已被移除。"
   notice_forced_logout: "由於超過 %{ttl_time} 分鐘沒有操作，您已被自動登出。"
   notice_internal_server_error: "你試圖前往的頁面發生一個錯誤。如果你一直遇到問題，請聯絡你的 %{app_title} 管理員以得到協助！"
   notice_locking_conflict: "在此同時，資訊已經被至少一個使用者更新"
   notice_locking_conflict_additional_information: "更新來自於 %{users}"
   notice_locking_conflict_reload_page: "請重新載入頁面，檢查所做的更改並重新套用您的更新。"
-  notice_member_added: 增加至專案的 %{name}
+  notice_member_added: 新增 %{name} 至專案
   notice_members_added: 已加入了 %{number} 個用戶至專案中
   notice_member_removed: "%{user} 已從專案移除"
   notice_member_deleted: "%{user} 已經從專案移除並刪除了"
@@ -2675,7 +2675,7 @@ zh-TW:
   permission_change_wiki_parent_page: "更改上層 Wiki 頁面"
   permission_change_work_package_status: "變更工作項目狀態"
   permission_change_work_package_status_explanation: "允許在不編輯工作包權限的情況下更改狀態"
-  permission_comment_news: "最新消息留言"
+  permission_comment_news: "在「最新消息」留言"
   permission_commit_access: "讀/寫 權限版本庫 (Commit)"
   permission_copy_projects: "複製專案"
   permission_copy_work_packages: "複製工作項目"
@@ -2775,7 +2775,7 @@ zh-TW:
       make_template: "設為範本"
       remove_from_templates: "從範本中移除"
     archive:
-      are_you_sure: "是否確定要 archive 專案 '%{name}'？"
+      are_you_sure: "是否確定要封存專案 '%{name}'？"
       archived: "封存"
     count:
       zero: "0 個專案"
@@ -2799,7 +2799,7 @@ zh-TW:
     member_of_group: "執行者的群組"
     name_or_identifier: "名稱或識別碼"
     only_subproject_id: "只限子專案"
-    shared_with_user: "與使用者共享"
+    shared_with_user: "與使用者共用"
     shared_with_me: "與我共用"
     subproject_id: "包含子專案"
   repositories:
@@ -2965,7 +2965,7 @@ zh-TW:
   setting_consent_info: "條文"
   setting_consent_required: "是否需要使用者允許"
   setting_consent_decline_mail: "同意郵件列在通訊錄"
-  setting_cross_project_work_package_relations: "允許跨專案的工作項目關聯起來"
+  setting_cross_project_work_package_relations: "允許將跨專案之工作項目關聯起來"
   setting_first_week_of_year: "一年的第一週從哪一天開始"
   setting_date_format: "日期"
   setting_default_language: "預設語言"
@@ -2995,7 +2995,7 @@ zh-TW:
   setting_work_package_done_ratio_field: "基於工時"
   setting_work_package_done_ratio_status: "基於狀態"
   setting_work_package_done_ratio_explanation_html: >
-    在<b>work-based</b>模式中，"完成百分比"是根據已完成的工作量與總工作量來計算的。在 <b>status-based</b> 模式中，每個狀態都有一個與其關聯的完成百分比值。更改狀態將更改完成百分比。
+    在<b>基於工時</b>模式中，"完成百分比"是根據已完成的工作量與總工作量來計算的。在 <b>基於狀態</b> 模式中，每個狀態都有一個與其關聯的完成百分比值。更改狀態將更改完成百分比。
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
   setting_work_packages_projects_export_limit: "工作項目/專案匯出數量限制"
@@ -3013,7 +3013,7 @@ zh-TW:
   setting_password_days_valid: "在經過多少天後強制執行密碼變更"
   setting_password_min_length: "最小長度"
   setting_password_min_adhered_rules: "必要類別的最小數目"
-  setting_per_page_options: "每頁顯示項目個數的設置"
+  setting_per_page_options: "設置每頁顯示個數"
   setting_plain_text_mail: "純文字郵件（不含 HTML）"
   setting_protocol: "Protocol"
   setting_project_gantt_query: "專案含甘特圖檢視"
@@ -3047,7 +3047,7 @@ zh-TW:
   setting_welcome_title: "歡迎區塊標題"
   setting_welcome_on_homescreen: "在主頁面上顯示歡迎區塊"
   setting_work_package_list_default_highlighting_mode: "預設顯示模式"
-  setting_work_package_list_default_highlighted_attributes: "預設強調的屬性"
+  setting_work_package_list_default_highlighted_attributes: "預設顯眼屬性"
   setting_working_days: "工作日"
   settings:
     attachments:
@@ -3090,7 +3090,7 @@ zh-TW:
     highlighting:
       mode_long:
         inline: "專案屬性"
-        none: "不強調"
+        none: "無高亮度顯示"
         status: "依工作項目狀態區分"
         type: "依工作項目類型區分"
         priority: "依工作項目優先順序區分"
@@ -3223,7 +3223,7 @@ zh-TW:
   text_no_roles_defined: 沒有定義的角色
   text_no_access_tokens_configurable: "沒有存取權杖(Token)可以被設定"
   text_no_configuration_data: "角色，類型，工作項目狀態與工作流程都尚未設定。\n強烈建議先載入預設值，然後再修改它們。"
-  text_no_notes: "這個工作項目沒有評論"
+  text_no_notes: "這個工作項目沒有留言"
   text_notice_too_many_values_are_inperformant: "注意: 每頁顯示超過100個項目會增加頁面載入時間。"
   text_notice_security_badge_displayed_html: >
     注：如果啓用，這會在 <a href="%{information_panel_path}">%{information_panel_label}</a> 管理面板中和首頁上顯示一個包含您的安裝狀態的徽章。徽章僅向管理員顯示。<br/>徽章將根據官方的 OpenProject 版本數據庫檢查您當前的 OpenProject 版本，提醒您是否存在任何更新或已知漏洞。如需詳細瞭解檢查可以提供哪些信息，需要哪些數據來提供可用更新，以及如何禁用此檢查，請訪問<a href="%{more_info_url}">配置文檔</a>。
@@ -3246,7 +3246,7 @@ zh-TW:
   text_user_invited: 這個使用者已經被邀請而且正在等待註冊。
   text_user_wrote: "%{value} 寫道："
   text_warn_on_leaving_unsaved: "若離開當前頁面，將遺失此工作項目未儲存的內容。"
-  text_what_did_you_change_click_to_add_comment: "你改變了甚麼？點擊來新增說明"
+  text_what_did_you_change_click_to_add_comment: "點擊這裡來說明變更了什麼"
   text_wiki_destroy_confirmation: "您是否確定要刪除此 wiki 和它所有的內容？"
   text_wiki_page_destroy_children: "刪除子頁面和所有他們的派生頁面"
   text_wiki_page_destroy_question: "此頁有 %{descendants} 子頁面和派生頁面。您想進行何種操作？"
@@ -3379,7 +3379,7 @@ zh-TW:
       modal:
         work_based_help_text: "完成百分比由 \"工時\" 和 \"剩餘工時\" 自動得出。"
         status_based_help_text: "完成百分比由工作包狀態設定。"
-        migration_warning_text: "在「Work-based」進度計算模式下，完成百分比無法手動設置，並且與「Work」相關聯。目前手動輸入數值已保留，無法編輯。 請務必輸入「Work」才能進行。"
+        migration_warning_text: "在「基於工時」進度計算模式下，完成百分比無法手動設置，並且與「工時」相關聯。目前手動輸入數值已保留，無法編輯。 請務必輸入「工時」才能進行。"
     permissions:
       comment: "留言"
       comment_description: "可查看此工作項目與留言"
@@ -3401,24 +3401,24 @@ zh-TW:
       group: "群組"
       role: "角色"
       type: "類型"
-    denied: "您沒有權限共享 %{entities}。"
+    denied: "您沒有權限共用 %{entities}。"
     label_search: "搜尋要邀請的用戶"
     label_search_placeholder: "以帳號或電子郵件搜尋"
-    label_toggle_all: "切換到「所有共享的」"
+    label_toggle_all: "切換到「所有共用的」"
     remove: "刪除"
     share: "分享"
     text_empty_search_description: "沒有符合當前過濾條件的用戶。"
     text_empty_search_header: "我們找不到任何匹配結果。"
-    text_empty_state_description: "%{entity} 尚未與任何人共享。"
-    text_empty_state_header: "非共享的"
+    text_empty_state_description: "%{entity} 尚未與任何人共用。"
+    text_empty_state_header: "非共用的"
     text_user_limit_reached: "添加其他用戶將超出當前限制。請聯繫管理員增加用戶限制，以確保外部用戶能夠訪問 %{entity}。"
     text_user_limit_reached_admins: '添加更多用戶將超出當前限制。請<a href="%{upgrade_url}">升級您的計劃</a>，以便添加更多用戶。'
     warning_user_limit_reached: >
       添加其他用戶將超出當前限制。請聯繫管理員增加用戶限制，以確保外部用戶能夠訪問 %{entity}。
     warning_user_limit_reached_admin: >
       添加其他用戶將超出當前限制。請<a href="%{upgrade_url}">升級您的計劃</a>，以確保外部用戶能夠訪問 %{entity}。
-    warning_no_selected_user: "請選擇要與之共享此 %{entity} 的用戶"
-    warning_locked_user: "使用者 %{user} 已停用，無法共享"
+    warning_no_selected_user: "請選擇要與之共用此 %{entity} 的用戶"
+    warning_locked_user: "使用者 %{user} 已停用，無法共用"
     user_details:
       locked: "使用者已停用"
       invited: "已傳送邀請"
@@ -3426,34 +3426,34 @@ zh-TW:
       invite_resent: "已重傳邀請"
       not_project_member: "非專案的成員"
       project_group: "小組成員可能擁有額外權限(作為項目成員)"
-      not_project_group: "組 (與所有成員共享)"
+      not_project_group: "組 (與所有成員共用)"
       additional_privileges_project: "可能有額外的權限(作為項目成員)"
       additional_privileges_group: "可能有額外的權限(作為組成員)"
       additional_privileges_project_or_group: "可能有額外的權限(作為項目成員或組成員)"
     project_queries:
       publishing_denied: "您沒有公開專案列表的權限。"
-      access_warning: "用戶只能看到他們有權訪問的項目。共享項目列表不會影響單個項目的權限。"
+      access_warning: "用戶只能看到他們有權訪問的專案。共用專案列表不會影響單一專案的權限。"
       user_details:
         owner: "列表所有者"
-        can_view_because_public: "已經可以查看，因為列表與所有人共享"
+        can_view_because_public: "已經可以查看，因為列表與所有人共用"
         can_manage_public_lists: "可根據全域權限進行編輯"
       public_flag:
         label: "通過 %{instance_name} 與大家分享"
         caption: "每個人都可以查看此項目列表。有全局編輯權限的人可以修改它。"
       blank_state:
         public:
-          header: "共享給所有人"
+          header: "共用給所有人"
           description: "每個人都可以查看此項目列表。您也可以添加具有額外權限的個別用戶。"
         private:
-          header: "不共享：私有"
-          description: "此項目列表尚未與任何人共享。只有您可以訪問此列表。"
+          header: "不共用：私有"
+          description: "此專案列表尚未與任何人共用。只有您可以訪問此列表。"
       permissions:
         view: "檢視"
         view_description: "可以查看此項目列表。"
         edit: "編輯"
-        edit_description: "可以查看、共享和編輯此項目列表。"
+        edit_description: "可以查看、共用和編輯此專案列表。"
       upsale:
-        message: "與單個用戶共享項目列表是一項企業附加功能。"
+        message: "與單個用戶共用專案列表是一項企業附加功能。"
   working_days:
     info: >
       在安排工作包時，未選擇的日期將被跳過(且不計入天數)。可以在工作包級別覆蓋這些選項。

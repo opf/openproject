@@ -22,11 +22,11 @@
 ro:
   js:
     ajax:
-      hide: "Ascundere"
-      loading: "Încărcare…"
-      updating: "Actualizare…"
+      hide: "Ascunde"
+      loading: "Se încarcă…"
+      updating: "Se actualizează…"
     attachments:
-      delete: "Ștergere atașament"
+      delete: "Șterge atașament"
       delete_confirmation: |
         Sunteți sigur că doriți să ștergeți acest fișier? Această acțiune nu este reversibilă.
       draggable_hint: |
@@ -40,7 +40,7 @@ ro:
       type_to_search: "Introduceți textul de căutat"
     autocomplete_select:
       placeholder:
-        multi: 'Adăugaţi "%{name}"'
+        multi: 'Adaugă ”%{name}”'
         single: 'Selectaţi "%{name}"'
       remove: "Elminaţi \"%{name}\""
       active: "Activ %{label} %{name}"
@@ -71,13 +71,13 @@ ro:
     button_configure-form: "Configurați formularul"
     button_confirm: "Confirmă"
     button_continue: "Continuaţi"
-    button_copy: "Copiere"
-    button_copy_to_clipboard: "Copiere în clipboard"
-    button_copy_link_to_clipboard: "Copy link to clipboard"
+    button_copy: "Copiază"
+    button_copy_to_clipboard: "Copiză în clipboard"
+    button_copy_link_to_clipboard: "Copiază link-ul în clipboard"
     button_copy_to_other_project: "Copiază în alt proiect"
     button_custom-fields: "Câmpuri personalizate"
-    button_delete: "Ștergere"
-    button_delete_watcher: "Ştergere observator"
+    button_delete: "Șterge"
+    button_delete_watcher: "Șterge observator"
     button_details_view: "Vizualizare detaliată"
     button_duplicate: "Duplicare"
     button_edit: "Editare"
@@ -98,16 +98,16 @@ ro:
     button_show_gantt: "Arată vizualizarea Gantt"
     button_show_fullscreen: "Arată vizualizarea pe tot ecranul"
     button_more_actions: "Mai multe actiuni"
-    button_quote: "Citare"
-    button_save: "Salvare"
+    button_quote: "Citat"
+    button_save: "Salvează"
     button_settings: "Setări"
-    button_uncheck_all: "Deselecteaza tot"
-    button_update: "Actualizare"
-    button_export-pdf: "Descărcare PDF"
-    button_export-atom: "Descărcare Atom"
-    button_create: "Creare"
+    button_uncheck_all: "Deselectează tot"
+    button_update: "Actualizează"
+    button_export-pdf: "Descarcă PDF"
+    button_export-atom: "Descarcă Atom"
+    button_create: "Creează"
     card:
-      add_new: "Adăugați un nou card"
+      add_new: "Adaugă card nou"
       highlighting:
         inline: "Evidențiați în linie:"
         entire_card_by: "Întreaga carte de"
@@ -213,11 +213,11 @@ ro:
             label_company: "Companie"
             label_first_name: "Prenume"
             label_last_name: "Nume"
-            label_domain: "domeniu"
+            label_domain: "Domeniu"
             label_subscriber: "Abonat"
             label_maximum_users: "Număr maxim de utilizatori activi"
-            label_starts_at: "Începe de la"
-            label_expires_at: "Expiră la"
+            label_starts_at: "Începe în"
+            label_expires_at: "Expiră în"
             receive_newsletter: Doresc să primesc <a target="_blank" href="%{link}">buletinul informativ</a> OpenProject.
             taken_domain: Nu poate exista decât un singur proces activ pe domeniu.
             domain_mismatch: Numele de gazdă al solicitării curente nu se potrivește cu numele de gazdă configurat. Vă rugăm să verificați de două ori setările sistemului.
@@ -315,7 +315,7 @@ ro:
         bar: "Etichete de bare"
         left: "Stânga"
         right: "Dreapta"
-        farRight: "Extrema dreaptă"
+        farRight: "Extremă dreaptă"
         description: >
           Selectați atributele pe care doriți să le afișați în pozițiile respective ale graficului Gantt tot timpul. Țineți cont că atunci când planează deasupra unui element, etichetele sale vor fi afișate în locul acestor atribute.
       button_activate: "Grafic Gantt"
@@ -377,7 +377,7 @@ ro:
       token_name_label: "Where will you be using this?"
       token_name_placeholder: 'Type a name, e.g. "Phone"'
       token_name_description_text: 'If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="my/access_token", target="_blank">access tokens</a> list.'
-      copy_url_label: "Copy URL"
+      copy_url_label: "Copiază URL"
       ical_generation_error_text: "An error occured while generating the calendar URL."
       success_message: 'The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.'
     label_activate: "Activare"
@@ -402,7 +402,7 @@ ro:
     label_avatar: "Avatar"
     label_between: "între"
     label_board: "Tablă"
-    label_board_locked: "Închis"
+    label_board_locked: "Blocat"
     label_board_plural: "Panouri"
     label_board_sticky: "Lipicios"
     label_change: "Modificare"
@@ -436,7 +436,7 @@ ro:
     label_expand_project_menu: "Deschideți meniul proiectului"
     label_export: "Exportare"
     label_export_preparing: "Exportul este în curs de pregătire și va fi descărcat în curând."
-    label_favorites: "Favorites"
+    label_favorites: "Favorite"
     label_filename: "Fișier"
     label_filesize: "Dimensiune"
     label_general: "General"
@@ -446,7 +446,7 @@ ro:
     label_group_by: "Grupare după"
     label_group_plural: "Grupuri"
     label_hide_attributes: "Arată mai puţin"
-    label_hide_column: "Ascundere coloana"
+    label_hide_column: "Ascunde coloana"
     label_hide_project_menu: "Închideți meniul proiectului"
     label_in: "în"
     label_in_less_than: "în mai puțin de"
@@ -488,7 +488,7 @@ ro:
     label_per_page: "Pe pagină:"
     label_please_wait: "Așteptați"
     label_project: "Proiect"
-    label_project_list: "Project lists"
+    label_project_list: "Listă proiecte"
     label_project_plural: "Proiecte"
     label_visibility_settings: "Setări de vizibilitate"
     label_quote_comment: "Citare comentariu"
@@ -534,7 +534,7 @@ ro:
     label_children_derived_duration: "Durata derivată a pachetului de lucru pentru copii"
     label_warning: "Avertizare"
     label_work_package: "Pachet de lucru"
-    label_work_package_parent: "Pachetul de lucru părinte"
+    label_work_package_parent: "Pachet de lucru părinte"
     label_work_package_plural: "Pachete de lucru"
     label_watch: "Monitorizare"
     label_watch_work_package: "Urmăriți pachetul de lucru"
@@ -558,7 +558,7 @@ ro:
     label_formattable_attachment_hint: "Atașați și legați fișiere prin plasarea în acest câmp sau prin lipirea din clipboard."
     label_remove_file: "Ştergere %{fileName}"
     label_remove_watcher: "Eliminare observator %{name}"
-    label_remove_all_files: Ştergeţi toate fişierele
+    label_remove_all_files: Șterge toate fișierele
     label_add_description: "Adăugați o descriere pentru %{file}"
     label_upload_notification: "Se încarcă fișierele..."
     label_work_package_upload_notification: "Fişierele pentru pachetul de lucru #%{id}: %{subject} sunt în curs de încărcare"
@@ -624,10 +624,10 @@ ro:
         commented: "Cu comentarii"
         processed: "Processed"
         prioritized: "Prioritized"
-        dateAlert: "Alertă de dată"
-        shared: "Shared"
+        dateAlert: "Alertă dată"
+        shared: "Partajat"
       date_alerts:
-        milestone_date: "Data etapa"
+        milestone_date: "Dată etapă"
         overdue: "Restanțe"
         overdue_since: "din %{difference_in_days}"
         property_today: "este astăzi"
@@ -658,7 +658,7 @@ ro:
         empty_state:
           no_notification: "Se pare că v-ați pus la punct."
           no_notification_with_current_project_filter: "Se pare că v-ați pus la punct cu proiectul selectat."
-          no_notification_with_current_filter: "Se pare că v-ați pus la punct pentru filtrul %{filter}."
+          no_notification_with_current_filter: "Se pare că ești la zi cu filtrul %{filter}."
           no_selection: "Faceți clic pe o notificare pentru a vizualiza toate detaliile activității."
         new_notifications:
           message: "Există notificări noi."
@@ -668,7 +668,7 @@ ro:
         title: "Setări de notificare"
         notify_me: "Anunta-ma"
         reminders:
-          no_notification: Nici o notificare
+          no_notification: Nicio notificare
           timeframes:
             normal:
               PT0S: în aceeași zi
@@ -676,16 +676,16 @@ ro:
               P3D: Cu 3 zile înainte
               P7D: ' cu o săptămână înainte '
             overdue:
-              P1D: în fiecare zi
+              P1D: zilnic
               P3D: la fiecare 3 zile
               P7D: săptămânal
         reasons:
           mentioned:
             title: "Menţionat"
             description: "Primește o notificare de fiecare dată când cineva mă menționează oriunde"
-          assignee: "Responsabil"
+          assignee: "Executant"
           responsible: "Responsabil"
-          shared: "Shared"
+          shared: "Partajat"
           watched: "Observator"
           work_package_commented: "Toate comentariile noi"
           work_package_created: "Pachete de lucru noi"
@@ -700,7 +700,7 @@ ro:
             title: "Neparticipantă"
             description: "Notificări suplimentare pentru activitățile din toate proiectele."
           date_alerts:
-            title: "Alerte date"
+            title: "Alerte dăți"
             description: "Notificări automate atunci când se apropie date importante pentru pachetele de lucru deschise în care sunteți implicat (desemnat, responsabil sau observator)."
             teaser_text: "Cu alertele de date, veți fi notificat cu privire la următoarele date de început sau de sfârșit, astfel încât să nu ratați sau să uitați niciodată un termen limită important."
           overdue: În caz de întârziere
@@ -729,7 +729,7 @@ ro:
         Vă rugăm să alegeți un proiect în care să creați pachetul de lucru pentru a vedea toate atributele. Puteți selecta numai proiectele care au tipul de mai sus activat.
       details_activity: "Activitate detalii proiect"
       context: "Contextul proiectului"
-      click_to_switch_to_project: "Project: %{projectname}"
+      click_to_switch_to_project: "Proiect: %{projectname}"
       confirm_template_load: "Schimbarea șablonului va reîncărca pagina și veți pierde toate datele introduse în acest formular. Continuați?"
       use_template: "Utilizează șablon"
       no_template_selected: "(Nimic)"
@@ -768,7 +768,7 @@ ro:
           label: "Întrerupeți temporar memento-urile zilnice prin e-mail"
           first_day: "Prima zi"
           last_day: "Ultima zi"
-    text_are_you_sure: "Sunteți sigur?"
+    text_are_you_sure: "Ești sigur?"
     text_data_lost: "Toate datele introduse vor fi pierdute."
     text_user_wrote: "%{value} a scris:"
     types:
@@ -900,7 +900,7 @@ ro:
       share: "Distribuiți"
       selected_count: "%{count} selected"
       selection:
-        mixed: "Mixed"
+        mixed: "Amestecat"
     work_packages:
       bulk_actions:
         move: "Modificare identificator proiect"
@@ -960,7 +960,7 @@ ro:
         header_with_parent: "Nou %{type} (copilul %{parent_type} #%{id})"
         button: "Creare"
       copy:
-        title: "Copiere pachet de lucru"
+        title: "Copiază pachet de lucru"
       hierarchy:
         show: "Afișați modul ierarhic"
         hide: "Ascundeți modul ierarhic"
@@ -1011,7 +1011,7 @@ ro:
         workAlternative: "Durata estimată"
         remainingTime: "Remaining work"
       default_queries:
-        manually_sorted: "New manually sorted query"
+        manually_sorted: "Interogare nouă sortată manual"
         latest_activity: "Activitate recentă"
         created_by_me: "Creat de mine"
         assigned_to_me: "Atribuit mie"
@@ -1019,8 +1019,8 @@ ro:
         all_open: "Toate deschise"
         overdue: "Restanțe"
         summary: "Descriere"
-        shared_with_users: "Shared with users"
-        shared_with_me: "Shared with me"
+        shared_with_users: "Partajate cu utilizatorii"
+        shared_with_me: "Partajate cu mine"
       jump_marks:
         pagination: "Salt la paginarea tabelului"
         label_pagination: "Click aici pentru a sări peste tabelul cu pachete de lucru și a ajunge la paginare"
@@ -1103,7 +1103,7 @@ ro:
         relation_filters:
           filter_work_packages_by_relation_type: "Filtrare pachete de lucru"
       tabs:
-        overview: Vedere de ansamblu
+        overview: Prezentare generală
         activity: Activitate
         relations: Relații
         watchers: Observatori
@@ -1128,31 +1128,31 @@ ro:
         visibility_settings: "Setări de vizibilitate"
         share_calendar: "Subscribe to calendar"
         page_settings: "Redenumire"
-        delete: "Ștergere"
+        delete: "Șterge"
       filter: "Filtrare"
       unselected_title: "Pachet de lucru"
       search_query_label: "Căutați vizualizări salvate"
     modals:
       label_name: "Nume"
-      label_delete_page: "Ştergeți pagina curentă"
+      label_delete_page: "Șterge pagina curentă"
       button_apply: "Salvare"
       button_save: "Salvare"
       button_submit: "Trimitere"
       button_cancel: "Anulare"
-      button_delete: "Ștergere"
+      button_delete: "Șterge"
       form_submit:
         title: "Confirmați pentru a continua"
         text: "Sunteți sigur/ă că doriți să realizați această acțiune?"
       destroy_work_package:
         title: "Confirmați ștergerea %{label}"
-        single_text: "Sunteți sigur că doriți să ștergeți pachetul de lucru"
-        bulk_text: "Sunteți sigur că doriți să ștergeți următoarele %{label}?"
+        single_text: "Ești sigur că vrei să ștergi pachetul de lucru"
+        bulk_text: "Ești sigur că vrei să ștergi următoarele %{label}?"
         has_children: "Pachetul de lucru conține %{childUnits}:"
         confirm_deletion_children: "Recunosc că TOȚI descendenții pachetelor de lucru enumerate vor fi eliminați în mod recursiv."
         deletes_children: "De asemenea, toate pachetele de lucru minore și descendenții acestora vor fi șterse în mod recursiv."
       destroy_time_entry:
         title: "Confirmarea ștergerii înregistrării timpului"
-        text: "Sunteți sigur că doriți să ștergeți următoarea înregistrare a timpului?"
+        text: "Ești sigur că vrei să ștergi următoarea înregistrare a timpului?"
     notice_no_results_to_display: "Fara rezultate vizibile de afisat."
     notice_successful_create: "Creare reuşită."
     notice_successful_delete: "Ştergere reuşită."
@@ -1208,7 +1208,7 @@ ro:
       close_search: "Inchide cautarea"
       current_project_and_all_descendants: "In acest proiect + subproiecte"
       current_project: "In acest proiect"
-      recently_viewed: "Recently viewed"
+      recently_viewed: "Vizualizate recent"
       search: "Căutare"
       title:
         all_projects: "toate proiectele"

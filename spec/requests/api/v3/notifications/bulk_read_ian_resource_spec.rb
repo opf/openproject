@@ -39,9 +39,9 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
 
   shared_let(:work_package) { create(:work_package, project:) }
 
-  shared_let(:notification1) { create(:notification, recipient:, project:, resource: work_package) }
-  shared_let(:notification2) { create(:notification, recipient:, project:, resource: work_package) }
-  shared_let(:notification3) { create(:notification, recipient:, project:, resource: work_package) }
+  shared_let(:notification1) { create(:notification, recipient:, resource: work_package) }
+  shared_let(:notification2) { create(:notification, recipient:, resource: work_package) }
+  shared_let(:notification3) { create(:notification, recipient:, resource: work_package) }
   shared_let(:other_user_notification) { create(:notification, recipient: other_recipient) }
 
   let(:filters) { nil }

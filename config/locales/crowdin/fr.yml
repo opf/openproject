@@ -67,7 +67,7 @@ fr:
         text: "Voulez-vous vraiment supprimer le jeton actuellement utilisé pour l'édition Entreprise ?"
         title: "Supprimer le jeton"
       replace_token: "Remplacer votre licence actuelle"
-      order: "Commander l'édition Entreprise autohebergée"
+      order: "Commander l'édition Entreprise auto-hébergée"
       paste: "Coller votre jeton de support pour la version Entreprise"
       required_for_feature: "Cet add-on n'est disponible qu'avec un jeton de support actif pour la version Entreprise."
       enterprise_link: "Pour plus d'informations, cliquez ici."
@@ -88,7 +88,7 @@ fr:
     is_active: actuellement affiché
     is_inactive: actuellement non affiché
   antivirus_scan:
-    not_processed_yet_message: "Le téléchargement est bloqué, car le fichier n'a pas encore été scanné par l'anti-virus. Veuillez réessayer plus tard."
+    not_processed_yet_message: "Le téléchargement est bloqué, car le fichier n'a pas encore été vérifié par l'anti-virus. Veuillez réessayer plus tard."
     quarantined_message: "Un virus a été détecté dans le fichier '%{filename}'. Il a été mis en quarantaine et ne peut être téléchargé."
     deleted_message: "Un virus a été détecté dans le fichier '%{filename}'. Le fichier a été supprimé."
     deleted_by_admin: "Le fichier en quarantaine '%{filename}' a été supprimé par un administrateur."
@@ -244,11 +244,11 @@ fr:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
       members: "Membres du projet"
       overviews: "Vue d'ensemble du projet"
-      queries: "Lots de Travaux : vues enregistrées"
-      wiki_page_attachments: "Pages Wiki : pièces jointes"
+      queries: "Lots de travaux : vues enregistrées"
+      wiki_page_attachments: "Pages wiki : pièces jointes"
       work_package_attachments: "Lots de Travaux : pièces jointes"
       work_package_categories: "Lots de travaux : catégories"
-      work_package_file_links: "Lots de Travaux : liens vers des fichiers"
+      work_package_file_links: "Lots de travaux : liens vers des fichiers"
       work_package_shares: "Lots de travaux : partages"
     delete:
       scheduled: "La suppression a été planifiée et est effectuée en arrière-plan. Vous serez notifié du résultat."
@@ -336,10 +336,10 @@ fr:
     filters:
       all_shares: "Tous les partages"
     menu:
-      all: "Tout"
+      all: "Tous"
       invited: "Invité"
       locked: "Verrouillé"
-      project_roles: "Rôle du projet"
+      project_roles: "Rôles du projet"
       wp_shares: "Partages du lot des travaux"
       groups: "Groupes"
     delete_member_dialog:
@@ -387,8 +387,8 @@ fr:
   my:
     access_token:
       create_dialog:
-        header: The %{type} token has been generated
-        warning: Note that this is the only time you will see this token, make sure to copy it now.
+        header: Le jeton %{type} a été généré
+        warning: Notez que c'est la seule fois que vous verrez ce jeton, assurez-vous de le copier maintenant.
       errors:
         token_name_blank: "Veuillez fournir un nom de jeton d'API"
         token_name_in_use: "Ce nom de jeton d'API est déjà utilisé, veuillez en choisir un autre"
@@ -974,11 +974,11 @@ fr:
             circular_dependency: "La relation créée un cercle de relations."
           attributes:
             to:
-              error_not_found: "lot de travaux dans la position `à` introuvable ou invisible"
-              error_readonly: "impossible de modifier le lien d'une relation existante `à`"
+              error_not_found: "lot de travaux dans la position 'à' introuvable ou invisible"
+              error_readonly: "impossible de modifier le lien d'une relation existante 'vers'"
             from:
-              error_not_found: "lot de travaux dans la position `de` introuvable ou invisible"
-              error_readonly: "impossible de modifier le lien d'une relation existante `de`"
+              error_not_found: "lot de travaux dans la position 'depuis' introuvable ou invisible"
+              error_readonly: "impossible de modifier le lien d'une relation existante 'depuis'"
         repository:
           not_available: "Le fournisseur de gestion de contrôle de sources n'est pas disponible"
           not_whitelisted: "n'est pas autorisé par la configuration."
@@ -1034,12 +1034,12 @@ fr:
               format: "%{message}"
             due_date:
               not_start_date: "n'est pas identique à la date de début, bien que cela soit requis pour les jalons."
-              cannot_be_null: "ne peut pas être défini à NULL car la date de début et la durée sont connues."
+              cannot_be_null: "ne peut pas être définie à NULL car la date de début et la durée sont connues."
             duration:
               larger_than_dates: "est plus grand que l'intervalle entre la date de début et la date de fin."
               smaller_than_dates: "est plus petit que l'intervalle entre la date de début et la date de fin."
               not_available_for_milestones: "n'est pas disponible pour les lots de travaux de type jalon."
-              cannot_be_null: "ne peut pas être défini à NULL car la date de début et la date de fin sont connues."
+              cannot_be_null: "ne peut pas être définie à NULL car la date de début et la date de fin sont connues."
             parent:
               cannot_be_milestone: "ne peut pas être un jalon."
               cannot_be_self_assigned: "ne peut pas être assigné à lui-même."
@@ -1047,7 +1047,7 @@ fr:
               not_a_valid_parent: "est invalide."
             start_date:
               violates_relationships: "peut uniquement valoir %{soonest_start} ou une date ultérieure afin de ne pas violer les relations du lot de travaux."
-              cannot_be_null: "ne peut pas être défini à NULL car la date de fin et la durée sont connues."
+              cannot_be_null: "ne peut pas être définie à NULL car la date de fin et la durée sont connues."
             status_id:
               status_transition_invalid: "n'est pas valide, car aucune transition valide n'existe de l'ancien vers le nouveau statut pour les rôles de l'utilisateur actuel."
               status_invalid_in_type: "est invalide car le statut actuel n’existe pas dans ce type."
@@ -1093,8 +1093,8 @@ fr:
               numeric: "numérique (e.g. « 1 »)"
               special: "spécial (e.g. « % »)"
               reused:
-                one: "a déjà été utilisé auparavant. S'il vous plaît, veuillez en choisir un différent."
-                other: "a déjà été utilisé auparavant. Veuillez faire un choix qui diffère de vos %{count} choix précédents."
+                one: "a déjà été utilisé. Veuillez choisir un mot de passe différent du précédent."
+                other: "a déjà été utilisé. Veuillez choisir un mot de passe différent des %{count} précédents."
               match:
                 confirm: "Confirmez le nouveau mot de passe."
                 description: "La confirmation du mot de passe doit correspondre à celui saisi dans le champ “Nouveau mot de passe”."
@@ -1152,8 +1152,8 @@ fr:
         other: "Rôles"
       status: "Statut du lot de travaux"
       token/api:
-        one: Access token
-        other: Access tokens
+        one: Jeton d'accès
+        other: Jetons d’accès
       type: "Type"
       user: "Utilisateur"
       version: "Version"
@@ -1989,7 +1989,7 @@ fr:
   label_enterprise: "Entreprise"
   label_enterprise_active_users: "%{current}/%{limit} utilisateurs actifs inscrits"
   label_enterprise_edition: "Version Entreprise"
-  label_enterprise_support: "Assistance Enterprise"
+  label_enterprise_support: "Support Enterprise"
   label_enterprise_addon: "add-on Enterprise"
   label_environment: "Environement"
   label_estimates_and_progress: "Estimations et progression"
@@ -2140,7 +2140,7 @@ fr:
   label_my_queries: "Mes requêtes personnalisées"
   label_name: "Nom"
   label_never: "Jamais"
-  label_new: "nouveau"
+  label_new: "Nouveau"
   label_new_features: "Nouvelles fonctionnalités"
   label_new_statuses_allowed: "Nouveaux statuts autorisés"
   label_news_singular: "Actualités"
@@ -2168,7 +2168,7 @@ fr:
   label_operator_none: "est vide"
   label_operator_equals_or: "est (OU)"
   label_operator_equals_all: "est (ET)"
-  label_operator_shared_with_user_any: "tout"
+  label_operator_shared_with_user_any: "tous"
   label_open_menu: "Ouvrir le menu"
   label_open_work_packages: "ouverts"
   label_open_work_packages_plural: "ouverts"
@@ -3375,7 +3375,7 @@ fr:
     unlock_and_reset_failed_logins: "Déverrouiller et réinitialiser les échecs de connexion"
   version_status_closed: "clôturé"
   version_status_locked: "verrouillé"
-  version_status_open: "ouverts"
+  version_status_open: "ouvert"
   note: Note
   note_password_login_disabled: "L'authentification via mot de passe a été désactivé par %{configuration}."
   warning: Attention

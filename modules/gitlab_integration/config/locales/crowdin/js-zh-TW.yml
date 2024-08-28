@@ -39,7 +39,7 @@ zh-TW:
           branch_name: 分支名稱
           commit_message: 提交訊息
           cmd: 以空白提交建立分支
-          title: Quick snippets for Git
+          title: Git 快速代碼段
           copy_success: '✅ 已複製!'
           copy_error: '❌ 複製失敗！'
       tab_issue:

@@ -130,17 +130,17 @@ fr:
         polar_area: "Aire polaire"
       tabs:
         graph_settings: "Général"
-        dataset: "Ensemble de données %{number}%"
+        dataset: "Ensemble de données %{number}"
       errors:
-        could_not_load: "Les données à afficher le graphique n'ont pas pu être chargées. Les permissions nécessaires peuvent être manquantes."
+        could_not_load: "Les données pour afficher le graphique n'ont pas pu être chargées. Les permissions nécessaires peuvent être manquantes."
     description_available_columns: "Colonnes disponibles"
-    description_current_position: "Vous êtes ici :"
+    description_current_position: "Vous êtes ici : "
     description_select_work_package: "Sélectionner le lot de travaux #%{id}"
     description_subwork_package: "Enfant du lot de travaux #%{id}"
     editor:
       preview: "Basculer en mode aperçu"
       source_code: "Basculer en mode source Markdown"
-      error_saving_failed: "L'enregistrement du document a échoué en raison de l'erreur suivante: %{error}"
+      error_saving_failed: "L'enregistrement du document a échoué en raison de l'erreur suivante : %{error}"
       ckeditor_error: "Une erreur s'est produite dans CKEditor"
       mode:
         manual: "Basculer en mode source Markdown"
@@ -159,7 +159,7 @@ fr:
           page: "Page du wiki"
           this_page: "cette page"
           hint: |
-            Laissez ce champ vide pour répertorier toutes les pages enfants de la page actuelle. Si vous souhaitez référencer une page différente, indiquez son titre ou slug.
+            Laissez ce champ vide pour répertorier toutes les pages enfants de la page actuelle. Si vous souhaitez référencer une page différente, indiquez son titre ou son slug.
         code_block:
           button: "Insérer le fragment de code"
           title: "Insérer/modifier le fragment de code"
@@ -174,9 +174,9 @@ fr:
           button: "Inclure le contenu d’une autre page wiki"
           text: "[Placeholder] Page wiki inclue de"
           page: "Page du wiki"
-          not_set: "(page pas encore définie)"
+          not_set: "(page non encore définie)"
           hint: |
-            Incluez le contenu d’une autre page du wiki en indiquant son titre ou slug.
+            Incluez le contenu d’une autre page du wiki en indiquant son titre ou son slug.
             Vous pouvez inclure la page wiki d'un autre projet en les séparant par un point-virgule comme dans l’exemple suivant.
         work_package_button:
           button: "Insérer un bouton pour créer un lot de travaux"
@@ -369,7 +369,7 @@ fr:
           "14_4":
             standard:
               new_features_html: >
-                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
+                La version contient diverses nouvelles fonctionnalités et améliorations, telles que : <br> <ul class="%{list_styling_class}"> <li>Option de mode sombre dans les paramètres personnels</li> <li>Séparation des permissions pour la visualisation et l'édition des attributs du projet</li> <li>Amélioration de l'état de progression basé sur le statut</li> <li>Validation de la connexion pour les stockages Nextcloud</li> <li>Plus d'options de filtre pour les listes de projets</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."

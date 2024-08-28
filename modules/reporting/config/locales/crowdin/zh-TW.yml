@@ -22,8 +22,8 @@
 zh-TW:
   plugin_openproject_reporting:
     name: "OpenProject 報表"
-    description: "本插件允許透過OpenProject 時間及成本插件建立具篩選及群組的客製化成本報表"
-  button_save_as: "將報表另存為..。"
+    description: "本外掛允許透過OpenProject 時間及成本外掛，建立具篩選及群組的客製化成本報表"
+  button_save_as: "另存報表..."
   comments: "留言"
   cost_reports_title: "時間與費用"
   label_cost_report: "成本報告"
