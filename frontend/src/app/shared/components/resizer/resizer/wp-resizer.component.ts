@@ -55,7 +55,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
 
   @Input() localStorageKey:string;
 
-  @Input() variableName:string = "--split-screen-width";
+  @Input() variableName:string = '--split-screen-width';
 
   private resizingElement:HTMLElement;
 
