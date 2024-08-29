@@ -1,0 +1,108 @@
+# OpenProject 14.5.0
+
+Release date: 2024-08-29
+
+We released OpenProject [OpenProject 14.5.0](https://community.openproject.org/versions/1411).
+The release contains several bug fixes and we recommend updating to the newest version.
+In these Release Notes, we will give an overview of important feature changes.
+At the end, you will find a complete list of all changes and bug fixes.
+
+## Important feature changes
+
+<!-- Inform about the major features in this section -->
+
+## Important updates and breaking changes
+
+<!-- Remove this section if empty, add to it in pull requests linking to tickets and provide information -->
+
+<!--more-->
+
+## Bug fixes and changes
+
+<!-- Warning: Anything within the below lines will be automatically removed by the release script -->
+<!-- BEGIN AUTOMATED SECTION -->
+
+- Feature: PDF export of meeting agenda and meeting  \[[#22517](https://community.openproject.org/wp/22517)\]
+- Feature: Work packages export modal with settings & Job status modal \[[#48274](https://community.openproject.org/wp/48274)\]
+- Feature: Enable a storage for multiple projects at once \[[#49212](https://community.openproject.org/wp/49212)\]
+- Feature: Update PageHeaders & SubHeaders in the My account pages \[[#53807](https://community.openproject.org/wp/53807)\]
+- Feature: Update PageHeaders & SubHeaders in the Admin pages \[[#53808](https://community.openproject.org/wp/53808)\]
+- Feature: Always visible text filter in project list \[[#55234](https://community.openproject.org/wp/55234)\]
+- Feature: Meetings: Disable by default "Send out invitation emails upon creation" \[[#56275](https://community.openproject.org/wp/56275)\]
+- Feature: Create 14.5 release teaser \[[#56535](https://community.openproject.org/wp/56535)\]
+- Feature: Make Project List and header view turbo aware \[[#56557](https://community.openproject.org/wp/56557)\]
+- Feature: Release custom field columns/filters in project lists to Community Edition \[[#56573](https://community.openproject.org/wp/56573)\]
+- Feature: Include multiple 24px icons to our library \[[#56647](https://community.openproject.org/wp/56647)\]
+- Feature: Enlarge meeting history pop-up / reduce scrolling \[[#56814](https://community.openproject.org/wp/56814)\]
+- Feature: Move some actions in the Notification center into the SubHeader \[[#56864](https://community.openproject.org/wp/56864)\]
+- Feature: Change the styling of the split screen layout in the notification center \[[#56866](https://community.openproject.org/wp/56866)\]
+- Feature: Rename actions in work package dropdown menu \[[#56900](https://community.openproject.org/wp/56900)\]
+- Feature: Add numbers to tabs in new notification split screen \[[#56918](https://community.openproject.org/wp/56918)\]
+- Feature: Clarify meaning of "Send e-mails" settings in meetings creation form \[[#57261](https://community.openproject.org/wp/57261)\]
+- Feature: Captcha support for CloudFlare Turnstile \[[#57328](https://community.openproject.org/wp/57328)\]
+- Feature: Full height split screen for notifications \[[#57341](https://community.openproject.org/wp/57341)\]
+- Feature: Administration for workflows: Uncheck box by default to display all statuses \[[#57421](https://community.openproject.org/wp/57421)\]
+- Feature: Store revisions of WYSIWYG content in local storage \[[#57490](https://community.openproject.org/wp/57490)\]
+- Bugfix: \[API doc\] GET /projects missing params and incorrect response \[[#40642](https://community.openproject.org/wp/40642)\]
+- Bugfix: OpenAPI Specs wrong for creating work package relations \[[#40942](https://community.openproject.org/wp/40942)\]
+- Bugfix: API Description and OpenAPI Spec not consistent \[[#40945](https://community.openproject.org/wp/40945)\]
+- Bugfix: Truncaded custom fields in work package table (Browser: Edge) \[[#52890](https://community.openproject.org/wp/52890)\]
+- Bugfix: GitLab integration pipeline status not updated \[[#54122](https://community.openproject.org/wp/54122)\]
+- Bugfix: Wrong date format in notification email \[[#54136](https://community.openproject.org/wp/54136)\]
+- Bugfix: Sort order of wiki pages in side-menu wrong / inconsistent \[[#54450](https://community.openproject.org/wp/54450)\]
+- Bugfix: Contents being lost and updated to 'undefined' in wikis, documents and work packages \[[#54796](https://community.openproject.org/wp/54796)\]
+- Bugfix: Gantt PDF export shows superfluous hyphen (-) when start or finish date is missing \[[#55088](https://community.openproject.org/wp/55088)\]
+- Bugfix: Project attributes: Fix phrasing of "required" and "visible" options \[[#55299](https://community.openproject.org/wp/55299)\]
+- Bugfix: Budget: Groups and placeholder users saved as "deleted user" \[[#55974](https://community.openproject.org/wp/55974)\]
+- Bugfix: Direct upgrade from OpenProject 11 to  14 db migration RemoveDestroyedHelpTexts not working \[[#56043](https://community.openproject.org/wp/56043)\]
+- Bugfix: Authorization::UnknownPermissionError happened in GET::API::V3::Root#/ \[[#56064](https://community.openproject.org/wp/56064)\]
+- Bugfix: Project selector loses current project switching to "Favorites" selection and then back to "All" \[[#56144](https://community.openproject.org/wp/56144)\]
+- Bugfix: Send invitation button broken when user tries to reinvite themselves \[[#56235](https://community.openproject.org/wp/56235)\]
+- Bugfix: Breadcrumb and menu structure is inconsistent for Billing administration \[[#56643](https://community.openproject.org/wp/56643)\]
+- Bugfix: Meeting timestamp in edit form not the same as in details \[[#56771](https://community.openproject.org/wp/56771)\]
+- Bugfix: Internal error when trying to change 2FA settings that are enforced through ENV \[[#56821](https://community.openproject.org/wp/56821)\]
+- Bugfix: FixDeletedDataJournals migration can fail sometimes \[[#56846](https://community.openproject.org/wp/56846)\]
+- Bugfix: Backlogs and GitHub have unnecessarily nested menu nodes \[[#56920](https://community.openproject.org/wp/56920)\]
+- Bugfix: Wording of error message for Nextcloud host in storage form is missleading \[[#56992](https://community.openproject.org/wp/56992)\]
+- Bugfix: OpenProject Dark Mode: selection colour of table rows \[[#57003](https://community.openproject.org/wp/57003)\]
+- Bugfix: Work package toolbar has double outline on left \[[#57004](https://community.openproject.org/wp/57004)\]
+- Bugfix: Firefox cuts PDF export after the first page \[[#57027](https://community.openproject.org/wp/57027)\]
+- Bugfix: Some status indicators are missing a border \[[#57031](https://community.openproject.org/wp/57031)\]
+- Bugfix: New status field rendering not vertically aligned correctly in notification center \[[#57033](https://community.openproject.org/wp/57033)\]
+- Bugfix: DB Migration 9.x to 14.3.0 Fails on Migrating to MyProjectPageToGrid \[[#57036](https://community.openproject.org/wp/57036)\]
+- Bugfix: Switching tab in the notification center looses the current filters  \[[#57067](https://community.openproject.org/wp/57067)\]
+- Bugfix: Nextcloud "recheck connection" checks for GroupFolderApp though AMPF is deactivated \[[#57068](https://community.openproject.org/wp/57068)\]
+- Bugfix: In the calendar widget on the My Page page, meetings are displayed with the wrong time \[[#57078](https://community.openproject.org/wp/57078)\]
+- Bugfix: Default user avatar is too big for work package table rendering (safari) \[[#57093](https://community.openproject.org/wp/57093)\]
+- Bugfix: OpenProject Dark Mode: CKEditor using too light colours e.g. for pressed buttons \[[#57103](https://community.openproject.org/wp/57103)\]
+- Bugfix: Cannot download 2FA backup codes \[[#57146](https://community.openproject.org/wp/57146)\]
+- Bugfix: OpenProject Dark Mode: diff view for description (and large text fields) not matching \[[#57151](https://community.openproject.org/wp/57151)\]
+- Bugfix: Project filter in notification center is not correctly highlighted \[[#57154](https://community.openproject.org/wp/57154)\]
+- Bugfix: Time and cost report :  text of unit cost activity is displayed with html tag <i> \[[#57198](https://community.openproject.org/wp/57198)\]
+- Bugfix: Meeting selection in work packages highly confusing \[[#57205](https://community.openproject.org/wp/57205)\]
+- Bugfix: Attachment headlines are semi-transparent and overlapped by content \[[#57209](https://community.openproject.org/wp/57209)\]
+- Bugfix: Webhook doesn't log all errors \[[#57277](https://community.openproject.org/wp/57277)\]
+- Bugfix: Notifications for date alerts show name of a person \[[#57279](https://community.openproject.org/wp/57279)\]
+- Bugfix: OpenProject Dark Mode: reiterate hover/active button colour \[[#57282](https://community.openproject.org/wp/57282)\]
+- Bugfix: Sorting by custom field has strong impact on performance for the project list \[[#57305](https://community.openproject.org/wp/57305)\]
+- Bugfix: Robots follow action links unnecessarily \[[#57316](https://community.openproject.org/wp/57316)\]
+- Bugfix: Some previews in the Lookbook do not work \[[#57322](https://community.openproject.org/wp/57322)\]
+- Bugfix: Number of meeting participants does not add up \[[#57392](https://community.openproject.org/wp/57392)\]
+- Bugfix: 'Buy now' button is misplaced  \[[#57394](https://community.openproject.org/wp/57394)\]
+- Bugfix: Sorting by link custom field causes exception \[[#57401](https://community.openproject.org/wp/57401)\]
+- Bugfix: Non-working days are not correctly highlighted in the Gantt chart \[[#57414](https://community.openproject.org/wp/57414)\]
+- Bugfix: If user has LDAP and identity provider connection, my account shows duplicate instructions \[[#57521](https://community.openproject.org/wp/57521)\]
+- Feature: Introduce a standardized component for PageHeaders & SubHeaders  \[[#52399](https://community.openproject.org/wp/52399)\]
+
+<!-- END AUTOMATED SECTION -->
+<!-- Warning: Anything above this line will be automatically removed by the release script -->
+
+## Contributions
+A very special thank you goes to our sponsors for this release.
+Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
+Special thanks for reporting and finding bugs go to Frank Schmid, Michael Kluge, Mariusz Kamiński, Rince wind, Joris Ceelen, Michael Lathion, Cornelius Heisse, Ivan Kuchin.
+
+Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings!
+Would you like to help out with translations yourself?
+Then take a look at our translation guide and find out exactly how you can contribute.
+It is very much appreciated!
