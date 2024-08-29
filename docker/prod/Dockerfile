@@ -6,6 +6,7 @@ ARG BUNDLER_VERSION="2.5.13"
 ARG NODE_VERSION="20.9.0"
 ARG BIM_SUPPORT=true
 ARG USE_JEMALLOC=false
+ENV USE_JEMALLOC=${USE_JEMALLOC}
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BUNDLE_JOBS=8
 ENV BUNDLE_RETRY=3
@@ -87,6 +88,7 @@ FROM base as slim
 USER $APP_USER
 EXPOSE 8080
 CMD ["./docker/prod/web"]
+ENTRYPOINT ["./docker/prod/entrypoint-slim.sh"]
 VOLUME ["$APP_DATA_PATH"]
 
 # -------------------------------------
