@@ -1,6 +1,7 @@
 ---
 sidebar_navigation:
   title: Development setup on Debian / Ubuntu
+  short_title: Setup on Debian / Ubuntu
 description: OpenProject development setup on Debian / Ubuntu
 keywords: development setup debian ubuntu linux
 ---
@@ -17,8 +18,6 @@ OpenProject Development Environment will be installed with a PostgreSQL database
 shall NOT be present before.
 
 **Please note**: This guide is NOT suitable for a production setup, but only for developing with it!
-
-Remark: *At the time of writing* in this page refers to 12/10/2021
 
 If you find any bugs or you have any recommendations for improving this tutorial, please, feel free to send a pull
 request or comment in the [OpenProject forums](https://community.openproject.org/projects/openproject/boards).
@@ -350,24 +349,3 @@ in a production setting.**
 ```shell
 RAILS_ENV=development bin/rails runner "Delayed::Job.delete_all"
 ```
-
-### Start Coding
-
-Please have a look at [our development guidelines](../code-review-guidelines/) for tips and guides on how to start
-coding. We have advice on how to get your changes back into the OpenProject core as smooth as possible.
-Also, take a look at the `doc` directory in our sources, especially
-the [how to run tests](https://github.com/opf/openproject/tree/dev/docs/development/running-tests) documentation (we
-like to have automated tests for every new developed feature).
-
-### Troubleshooting
-
-The OpenProject logfile can be found in `log/development.log`.
-
-If an error occurs, it should be logged there (as well as in the output to STDOUT/STDERR of the rails server process).
-
-### Questions, Comments, and Feedback
-
-If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the
-appropriate community.openproject.org [forum](https://community.openproject.org/projects/openproject/boards/9).
-[Follow OpenProject on twitter](https://twitter.com/openproject), and
-follow [the news](https://www.openproject.org/blog) to stay up to date.

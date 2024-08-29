@@ -1,13 +1,14 @@
 ---
 sidebar_navigation:
   title: Development setup via docker on MacOS
+  short_title: Setup via Docker on MacOS
 description: OpenProject development setup via docker on MacOS
 keywords: development setup docker macos
 ---
 
 # OpenProject development setup via docker (MacOS)
 
-This guide covers observed nuances with the docker runtime on MacOS. Please ensure you've gone through the general [OpenProject development setup via docker](../development-environment-docker) guide before proceeding.
+This guide covers observed nuances with the docker runtime on MacOS. Please ensure you've gone through the general [OpenProject development setup via docker](../docker) guide before proceeding.
 
 ## Docker on MacOS File System Performance
 

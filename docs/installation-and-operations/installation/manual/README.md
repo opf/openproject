@@ -456,8 +456,3 @@ If you need to restart the server (for example after a configuration change), do
 
   With each new OpenProject core version, the plug-ins might need to be updated. Please make sure that the plug-in versions of all you plug-ins works with the OpenProject version you use.
   Many plug-ins follow the OpenProject version with their version number (So, if you have installed OpenProject version 4.1.0, the plug-in should also have the version 4.1.0).
-
-## Questions, comments, and feedback
-
-If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the appropriate community [forum](https://community.openproject.org/projects/openproject/boards/9).
-[Follow OpenProject on twitter](https://twitter.com/openproject), and follow the news on [openproject.org](https://www.openproject.org) to stay up to date.

@@ -93,7 +93,7 @@ application server. You can do that with `/usr/sbin/setsebool -P httpd_can_netwo
 ## Step 4: Configure OpenProject for HTTPS usage
 
 We assume you have already configured your OpenProject local development environment
-as [described in this guide](../development-environment-ubuntu). You will need to add your custom host name
+as [described in this guide](../development-environment). You will need to add your custom host name
 to the environment. You can use this variable to do so.
 
 ```yaml
@@ -133,10 +133,3 @@ setup a reverse proxy in docker, like [traefik](https://traefik.io/). Then follo
 
 > **Reminder**:
   This setup is still experimental and under further development. Use it only, when you know what you are doing.
-
-## Questions, Comments, and Feedback
-
-If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the
-appropriate community.openproject.org [forum](https://community.openproject.org/projects/openproject/boards/9).
-[Follow OpenProject on twitter](https://twitter.com/openproject), and
-follow [the news](https://www.openproject.org/blog) to stay up to date.

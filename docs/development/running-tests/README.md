@@ -119,7 +119,7 @@ Smoke tests are automated and manual tests to ensure the main application featur
 **Best practices**
 
 - Automate smoke testing on top of manual testing when possible
-- Run after deployments to the appropriate [environments](../environments), e.g., the edge environment for features of the next release and staging environment for bug fixes to a stable release
+- Run after deployments to the appropriate [environments](../application-architecture/#environments), e.g., the edge environment for features of the next release and staging environment for bug fixes to a stable release
 - Keep smoke tests updated so that they can evolve together with the application
 
 **References**
@@ -251,7 +251,7 @@ Upgrade tests are manually performed for major code changes and data migrations 
 
 #### Usability testing
 
-When new features or changes to the application are available on our [Edge or Community environments](../environments), product team members, customers, and community users can provide usability feedback on how the change is perceived.
+When new features or changes to the application are available on our [Edge or Community environments](../application-architecture/#environments), product team members, customers, and community users can provide usability feedback on how the change is perceived.
 
 **Key objectives and effects**
 
@@ -725,7 +725,7 @@ good as a test server.
 ### Running tests locally in Docker
 
 Most of the above applies to running tests locally, with some docker specific setup changes that are discussed [in the
-docker development documentation](../development-environment-docker).
+docker development documentation](../development-environment/docker).
 
 ### Generators
 
