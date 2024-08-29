@@ -1,6 +1,7 @@
 ---
 sidebar_navigation:
   title: Development setup on MacOS
+  short_title: Setup on MacOS
 description: OpenProject development setup on Mac OS
 keywords: development setup macos
 ---
@@ -207,8 +208,6 @@ Now, run the following tasks to migrate and seed the dev database, and prepare t
 RAILS_ENV=development bin/rails db:seed
 ```
 
-1
-
 ### Run OpenProject through overmind
 
 You can run all required workers of OpenProject through `overmind`, which combines them in a single tab. Optionally, you
@@ -334,24 +333,3 @@ in a production setting.**
 ```shell
 RAILS_ENV=development bin/rails runner "Delayed::Job.delete_all"
 ```
-
-### Start Coding
-
-Please have a look at [our development guidelines](../code-review-guidelines) for tips and guides on how to start
-coding. We have advice on how to get your changes back into the OpenProject core as smooth as possible.
-Also, take a look at the `doc` directory in our sources, especially
-the [how to run tests](https://github.com/opf/openproject/blob/dev/docs/development/running-tests) documentation (we
-like to have automated tests for every new developed feature).
-
-### Troubleshooting
-
-The OpenProject logfile can be found in `log/development.log`.
-
-If an error occurs, it should be logged there (as well as in the output to STDOUT/STDERR of the rails server process).
-
-### Questions, Comments, and Feedback
-
-If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the
-appropriate community.openproject.org [forum](https://community.openproject.org/projects/openproject/boards/9).
-[Follow OpenProject on twitter](https://twitter.com/openproject), and
-follow [the news](https://www.openproject.org/blog) to stay up to date.

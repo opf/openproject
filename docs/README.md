@@ -39,7 +39,7 @@ Please see our [Use Cases section](./use-cases/) for detailed how-to guides and 
 
 ## Development
 
-* [Full development environment for developers on Ubuntu](./development/development-environment-ubuntu) and [Mac OS X](./development/development-environment-osx)
+* [Full development environment for developers](./development/development-environment)
 * [Developing plugins](./development/create-openproject-plugin)
 * [Developing OmniAuth Plugins](./development/create-omniauth-plugin)
 * [Running tests](./development/running-tests)
