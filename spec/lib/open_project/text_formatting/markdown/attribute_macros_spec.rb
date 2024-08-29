@@ -72,6 +72,9 @@ RSpec.describe OpenProject::TextFormatting,
           <p class="op-uc-p">
             Inline reference to project: <opce-macro-attribute-label data-model="project" data-attribute="status"></opce-macro-attribute-label>
           </p>
+          <p class="op-uc-p">
+            Inline reference to project with id: <opce-macro-attribute-label data-model="project" data-id="some id" data-attribute="status"></opce-macro-attribute-label>
+          </p>
         EXPECTED
       end
     end
