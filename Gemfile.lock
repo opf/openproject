@@ -1056,7 +1056,7 @@ GEM
     secure_headers (6.5.0)
     selenium-devtools (0.127.0)
       selenium-webdriver (~> 4.2)
-    selenium-webdriver (4.23.0)
+    selenium-webdriver (4.24.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
