@@ -32,6 +32,7 @@ class AccountController < ApplicationController
   include Accounts::Registration
   include Accounts::UserConsent
   include Accounts::UserLimits
+  include Accounts::UserLogin
   include Accounts::UserPasswordChange
 
   # prevents login action to be filtered by check_if_login_required application scope filter

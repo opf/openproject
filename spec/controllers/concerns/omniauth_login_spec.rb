@@ -29,7 +29,7 @@
 require "spec_helper"
 
 # Concern is included into AccountController and depends on methods available there
-RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/SpecFilePathFormat
+RSpec.describe OmniAuthLoginController, :skip_2fa_stage do # rubocop:disable RSpec/SpecFilePathFormat
   let(:omniauth_strategy) { double("Google Strategy", name: "google") } # rubocop:disable RSpec/VerifiedDoubles
   let(:omniauth_hash) do
     OmniAuth::AuthHash.new(
@@ -57,7 +57,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
       context "when providing all required fields" do
         before do
           request.env["omniauth.origin"] = "https://example.net/some_back_url"
-          post :omniauth_login, params: { provider: :google }
+          post :callback, params: { provider: :google }
         end
 
         it "registers the user on-the-fly" do
@@ -93,7 +93,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
         end
 
         it "takes the uid from the mapped attributes" do
-          post :omniauth_login, params: { provider: :google }
+          post :callback, params: { provider: :google }
 
           user = User.find_by_login("whattheheck@example.com")
           expect(user).to be_an_instance_of(User)
@@ -129,7 +129,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
               }
             end
 
-            post :omniauth_login, params: { provider: :google }
+            post :callback, params: { provider: :google }
 
             user = User.find_by_login("bar@example.org")
             expect(user).to be_an_instance_of(User)
@@ -142,7 +142,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
 
         describe "unavailable" do
           it "keeps the default mapping" do
-            post :omniauth_login, params: { provider: :google }
+            post :callback, params: { provider: :google }
 
             user = User.find_by_login("whattheheck@example.com")
             expect(user).to be_an_instance_of(User)
@@ -163,61 +163,9 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
         end
 
         it "renders user form" do
-          post :omniauth_login, params: { provider: :google }
+          post :callback, params: { provider: :google }
           expect(response).to render_template :register
           expect(assigns(:user).mail).to eql("foo@bar.com")
-        end
-
-        it "registers user via post" do
-          allow(OpenProject::OmniAuth::Authorization).to receive(:after_login!)
-
-          auth_source_registration = omniauth_hash.merge(
-            omniauth: true,
-            timestamp: Time.current
-          )
-          session[:auth_source_registration] = auth_source_registration
-          post :register,
-               params: {
-                 user: {
-                   login: "login@bar.com",
-                   firstname: "Foo",
-                   lastname: "Smith",
-                   mail: "foo@bar.com"
-                 }
-               }
-          expect(response).to redirect_to home_url(first_time_user: true)
-
-          user = User.find_by_login("login@bar.com")
-          expect(OpenProject::OmniAuth::Authorization)
-            .to have_received(:after_login!).with(user, a_hash_including(omniauth_hash), any_args)
-          expect(user).to be_an_instance_of(User)
-          expect(user.ldap_auth_source_id).to be_nil
-          expect(user.current_password).to be_nil
-          expect(user.identity_url).to eql("google:123545")
-        end
-
-        context "when after a timeout expired" do
-          before do
-            session[:auth_source_registration] = omniauth_hash.merge(
-              omniauth: true,
-              timestamp: 42.days.ago
-            )
-          end
-
-          it "does not register the user when providing all the missing fields" do
-            post :register,
-                 params: {
-                   user: {
-                     firstname: "Foo",
-                     lastname: "Smith",
-                     mail: "foo@bar.com"
-                   }
-                 }
-
-            expect(response).to redirect_to signin_path
-            expect(flash[:error]).to eq(I18n.t(:error_omniauth_registration_timed_out))
-            expect(User.find_by_login("foo@bar.com")).to be_nil
-          end
         end
       end
 
@@ -237,7 +185,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
         before do
           request.env["omniauth.origin"] = "https://example.net/some_back_url"
 
-          post :omniauth_login, params: { provider: :google }
+          post :callback, params: { provider: :google }
         end
 
         it "shows a notice about the activated account", :aggregate_failures do
@@ -274,14 +222,14 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
         end
 
         it "signs in the user after successful external authentication" do
-          post :omniauth_login, params: { provider: :google }
+          post :callback, params: { provider: :google }
 
           expect(response).to redirect_to my_page_path
         end
 
         it "logs a successful login" do
           post_at = Time.now.utc
-          post :omniauth_login, params: { provider: :google }
+          post :callback, params: { provider: :google }
 
           user.reload
           expect(user.last_login_on.utc.to_i).to be >= post_at.utc.to_i
@@ -290,7 +238,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
         context "with a back_url present" do
           before do
             request.env["omniauth.origin"] = "http://test.host/projects"
-            post :omniauth_login, params: { provider: :google }
+            post :callback, params: { provider: :google }
           end
 
           it "redirects to that url", :aggregate_failures do
@@ -301,7 +249,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
         context "with a back_url from a login path" do
           before do
             request.env["omniauth.origin"] = "http://test.host/login"
-            post :omniauth_login, params: { provider: :google }
+            post :callback, params: { provider: :google }
           end
 
           it "redirects to that url", :aggregate_failures do
@@ -322,7 +270,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
           end
 
           it "signs in the user after successful external authentication" do
-            expect { post :omniauth_login, params: { provider: :google } }
+            expect { post :callback, params: { provider: :google } }
                 .not_to change { user.reload.firstname }
 
             expect(response).to redirect_to my_page_path
@@ -376,7 +324,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
           end
 
           it "logs in the user" do
-            post :omniauth_login, params: { provider: :google }
+            post :callback, params: { provider: :google }
 
             expect(response).to redirect_to my_page_path
             expect(OpenProject::OmniAuth::Authorization)
@@ -389,7 +337,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
             end
 
             it "is rejected against google" do
-              post :omniauth_login, params: { provider: :google }
+              post :callback, params: { provider: :google }
 
               expect(response).to redirect_to signin_path
               expect(flash[:error]).to eq "I only want to see other@mail.com here."
@@ -399,7 +347,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
 
             it "is rejected against any other provider too" do
               omniauth_hash.provider = "any other"
-              post :omniauth_login, params: { provider: :google }
+              post :callback, params: { provider: :google }
 
               expect(response).to redirect_to signin_path
               expect(flash[:error]).to eq "I only want to see other@mail.com here."
@@ -416,7 +364,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
             end
 
             it "is rejected against google" do
-              post :omniauth_login, params: { provider: :google }
+              post :callback, params: { provider: :google }
 
               expect(response).to redirect_to signin_path
               expect(flash[:error]).to eq "Go away foo!"
@@ -427,7 +375,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
             it "is approved against any other provider" do
               omniauth_hash.provider = "some other"
 
-              post :omniauth_login, params: { provider: :google }
+              post :callback, params: { provider: :google }
 
               expect(response).to redirect_to home_url(first_time_user: true)
 
@@ -444,7 +392,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
               omniauth_hash.provider = "yet another"
               config.global_email = "yarrrr@joro.es"
 
-              post :omniauth_login, params: { provider: :google }
+              post :callback, params: { provider: :google }
 
               expect(response).to redirect_to signin_path
               expect(flash[:error]).to eq "I only want to see yarrrr@joro.es here."
@@ -460,7 +408,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
           user.register
           user.save!
 
-          post :omniauth_login, params: { provider: :google }
+          post :callback, params: { provider: :google }
         end
 
         it "shows a notice about the activated account", :aggregate_failures do
@@ -475,7 +423,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
           user.invite
           user.save!
 
-          post :omniauth_login, params: { provider: :google }
+          post :callback, params: { provider: :google }
         end
 
         it "shows a notice about the activated account", :aggregate_failures do
@@ -490,7 +438,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
           user.lock
           user.save!
 
-          post :omniauth_login, params: { provider: :google }
+          post :callback, params: { provider: :google }
         end
 
         it "shows an error indicating a failed login", :aggregate_failures do
@@ -511,7 +459,7 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
       end
 
       before do
-        post :omniauth_login, params: { provider: :google }
+        post :callback, params: { provider: :google }
       end
 
       it "responds with an error" do
@@ -530,13 +478,13 @@ RSpec.describe AccountController, :skip_2fa_stage do # rubocop:disable RSpec/Spe
 
     describe "Error occurs during authentication" do
       it "redirects to login page" do
-        post :omniauth_failure
+        post :failure
         expect(response).to redirect_to signin_path
       end
 
       it "logs a warn message" do
         allow(Rails.logger).to receive(:warn)
-        post :omniauth_failure, params: { message: "invalid_credentials" }
+        post :failure, params: { message: "invalid_credentials" }
 
         expect(Rails.logger).to have_received(:warn).with("invalid_credentials")
       end

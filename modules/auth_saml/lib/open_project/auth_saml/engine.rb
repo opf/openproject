@@ -73,7 +73,7 @@ module OpenProject
               # Set the uid and index for the logout in this session again
               session.merge! prev_session.slice(*h[:retain_from_session])
 
-              redirect_to omni_auth_start_path(h[:name]) + "/spslo"
+              redirect_to "#{omni_auth_start_path(h[:name])}/spslo"
             end
 
             h.symbolize_keys

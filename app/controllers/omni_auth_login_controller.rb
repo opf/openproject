@@ -29,6 +29,7 @@
 class OmniAuthLoginController < ApplicationController
   include OmniauthHelper
   include Accounts::Registration
+  include Accounts::UserLogin
 
   # disable CSRF protection since that should be covered by the omniauth strategy
   # the other filters are not applicable either since OmniAuth is doing authentication
@@ -39,13 +40,13 @@ class OmniAuthLoginController < ApplicationController
   skip_before_action :check_if_login_required
   skip_before_action :check_session_lifetime
 
-  no_authorization_required! :login, :failure
+  no_authorization_required! :callback, :failure
 
   helper :omniauth
 
   layout "no_menu"
 
-  def login
+  def callback
     params[:back_url] = omniauth_back_url if remember_back_url?
 
     # Extract auth info and perform check / login or activate user
@@ -82,30 +83,5 @@ class OmniAuthLoginController < ApplicationController
     request.env["omniauth.origin"].presence || params[:RelayState]
   end
 
-  def show_error(error)
-    flash[:error] = error
-    redirect_to action: :login
-  end
-
-  def register_via_omniauth(session, user_attributes)
-    handle_omniauth_authentication(session[:auth_source_registration], user_params: user_attributes)
-  end
-
-  def handle_omniauth_authentication(auth_hash, user_params: nil) # rubocop:disable Metrics/AbcSize
-    call = ::Authentication::OmniauthService
-      .new(strategy: request.env["omniauth.strategy"], auth_hash:, controller: self)
-      .call(user_params)
-
-    if call.success?
-      session[:omniauth_provider] = auth_hash[:provider]
-      flash[:notice] = call.message if call.message.present?
-      login_user_if_active(call.result, just_registered: call.result.just_created?)
-    elsif call.includes_error?(:base, :failed_to_activate)
-      redirect_omniauth_register_modal(call.result, auth_hash)
-    else
-      error = call.message
-      Rails.logger.error "Authorization request failed: #{error}"
-      show_error error
-    end
-  end
+  def default_breadcrumb; end
 end
