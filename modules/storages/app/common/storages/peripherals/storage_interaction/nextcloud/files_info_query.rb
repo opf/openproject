@@ -56,6 +56,7 @@ module Storages
                 return ServiceResult.success(result: [])
               end
 
+              info "Retrieving file information for #{file_ids.join(', ')}"
               http_options = Util.ocs_api_request.deep_merge(Util.accept_json)
               Authentication[auth_strategy].call(storage: @storage, http_options:) do |http|
                 parsed_response = files_info(http, file_ids).on_failure { return _1 }.result
