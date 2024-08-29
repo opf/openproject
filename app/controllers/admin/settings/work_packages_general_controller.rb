@@ -27,9 +27,9 @@
 #++
 
 module Admin::Settings
-  class WorkPackagesSettingsController < ::Admin::SettingsController
+  class WorkPackagesGeneralController < ::Admin::SettingsController
     current_menu_item :show do
-      :work_packages_settings_general
+      :work_packages_general
     end
   end
 end

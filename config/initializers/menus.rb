@@ -300,13 +300,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :users_and_permissions
 
   menu.push :admin_work_packages,
-            { controller: "/admin/settings/work_packages_settings", action: :show },
+            { controller: "/admin/settings/work_packages_general", action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_work_package_plural,
             icon: "op-view-list"
 
-  menu.push :work_packages_settings_general,
-            { controller: "/admin/settings/work_packages_settings", action: :show },
+  menu.push :work_packages_general,
+            { controller: "/admin/settings/work_packages_general", action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_general,
             parent: :admin_work_packages
