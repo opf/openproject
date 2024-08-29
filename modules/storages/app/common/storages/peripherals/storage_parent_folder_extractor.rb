@@ -28,19 +28,13 @@
 
 module Storages
   module Peripherals
-    class ParentFolder
-      attr_reader :path
-
-      def initialize(path)
-        @path = path
-      end
-
+    ParentFolder = Data.define(:path) do
       def root?
-        @path == "/"
+        path == "/"
       end
 
       def to_s
-        @path
+        path
       end
     end
 
