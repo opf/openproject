@@ -26,30 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "uri"
+class OmniAuthLoginController < ApplicationController
+  include OmniauthHelper
+  include Accounts::Registration
 
-##
-# Intended to be used by the AccountController to handle omniauth logins
-module Accounts::OmniauthLogin
-  extend ActiveSupport::Concern
+  # disable CSRF protection since that should be covered by the omniauth strategy
+  # the other filters are not applicable either since OmniAuth is doing authentication
+  # itself
 
-  included do
-    # disable CSRF protection since that should be covered by the omniauth strategy
-    # the other filters are not applicable either since OmniAuth is doing authentication
-    # itself
-    %i[
-      verify_authenticity_token
-      user_setup
-      check_if_login_required
-      check_session_lifetime
-    ]
-      .each { |key| skip_before_action key, only: [:omniauth_login] }
-    no_authorization_required! :omniauth_login, :omniauth_failure
+  skip_before_action :verify_authenticity_token
+  skip_before_action :user_setup
+  skip_before_action :check_if_login_required
+  skip_before_action :check_session_lifetime
 
-    helper :omniauth
-  end
+  no_authorization_required! :login, :failure
 
-  def omniauth_login
+  helper :omniauth
+
+  layout "no_menu"
+
+  def login
     params[:back_url] = omniauth_back_url if remember_back_url?
 
     # Extract auth info and perform check / login or activate user
@@ -57,13 +53,9 @@ module Accounts::OmniauthLogin
     handle_omniauth_authentication(auth_hash)
   end
 
-  def omniauth_failure
+  def failure
     logger.warn(params[:message]) if params[:message]
     show_error I18n.t(:error_external_authentication_failed)
-  end
-
-  def direct_login_provider_url(params = {})
-    omniauth_start_url(direct_login_provider, params)
   end
 
   private
@@ -71,14 +63,14 @@ module Accounts::OmniauthLogin
   def redirect_omniauth_register_modal(user, auth_hash)
     # Store a timestamp so we can later make sure that authentication information can
     # only be reused for a short time.
-    session_info = auth_hash.merge(omniauth: true, timestamp: Time.new)
-
-    onthefly_creation_failed(user, session_info)
+    session[:auth_source_registration] = auth_hash.merge(omniauth: true, timestamp: Time.current)
+    @user = user
+    render template: "/account/register"
   end
 
   # Avoid remembering the back_url if we're coming from the login page
   def remember_back_url?
-    return if omniauth_back_url.blank?
+    return false if omniauth_back_url.blank?
 
     account_routes = /\/(login|account)/
     omniauth_direct_login? || !omniauth_back_url.match?(account_routes)
@@ -92,14 +84,14 @@ module Accounts::OmniauthLogin
 
   def show_error(error)
     flash[:error] = error
-    redirect_to action: "login"
+    redirect_to action: :login
   end
 
   def register_via_omniauth(session, user_attributes)
     handle_omniauth_authentication(session[:auth_source_registration], user_params: user_attributes)
   end
 
-  def handle_omniauth_authentication(auth_hash, user_params: nil)
+  def handle_omniauth_authentication(auth_hash, user_params: nil) # rubocop:disable Metrics/AbcSize
     call = ::Authentication::OmniauthService
       .new(strategy: request.env["omniauth.strategy"], auth_hash:, controller: self)
       .call(user_params)
