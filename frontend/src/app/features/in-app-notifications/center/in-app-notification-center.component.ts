@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  filter,
-  map,
-} from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { StateService } from '@uirouter/angular';
-import { UIRouterGlobals } from '@uirouter/core';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 import {
   INotification,
@@ -49,12 +39,13 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import {
   ColorsService,
 } from 'core-app/shared/components/colors/colors.service';
 
 @Component({
-  selector: 'op-in-app-notification-center',
   templateUrl: './in-app-notification-center.component.html',
   styleUrls: ['./in-app-notification-center.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -83,7 +74,7 @@ export class InAppNotificationCenterComponent implements OnInit {
       )),
     );
 
-  stateChanged$ = this.storeService.stateChanged$;
+  selectedWorkPackage$ = this.storeService.selectedWorkPackage$;
 
   reasonMenuItems = [
     {
@@ -112,7 +103,7 @@ export class InAppNotificationCenterComponent implements OnInit {
     },
   ];
 
-  selectedFilter = this.reasonMenuItems.find((item) => item.key === this.uiRouterGlobals.params.name)?.title;
+  selectedFilter = this.reasonMenuItems.find((item) => item.key === this.urlParams.get('name'))?.title;
 
   image = {
     no_notification: imagePath('notification-center/empty-state-no-notification.svg'),
@@ -127,7 +118,7 @@ export class InAppNotificationCenterComponent implements OnInit {
   text = {
     no_notification: this.I18n.t('js.notifications.center.empty_state.no_notification'),
     no_notification_with_current_filter_project: this.I18n.t('js.notifications.center.empty_state.no_notification_with_current_project_filter'),
-    no_notification_with_current_filter: this.I18n.t('js.notifications.center.empty_state.no_notification_with_current_filter', { filter: this.selectedFilter }),
+    no_notification_for_filter: this.I18n.t('js.notifications.center.empty_state.no_notification_for_filter'),
     no_selection: this.I18n.t('js.notifications.center.empty_state.no_selection'),
     change_notification_settings: this.I18n.t(
       'js.notifications.settings.change_notification_settings',
@@ -144,13 +135,15 @@ export class InAppNotificationCenterComponent implements OnInit {
     },
   };
 
+  protected readonly idFromLink = idFromLink;
+
   constructor(
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
     readonly I18n:I18nService,
     readonly storeService:IanCenterService,
     readonly bellService:IanBellService,
-    readonly uiRouterGlobals:UIRouterGlobals,
+    readonly urlParams:UrlParamsService,
     readonly state:StateService,
     readonly apiV3:ApiV3Service,
     readonly pathService:PathHelperService,
@@ -159,10 +152,11 @@ export class InAppNotificationCenterComponent implements OnInit {
   }
 
   ngOnInit():void {
-    this.storeService.setFacet('unread');
+    const facet = this.urlParams.get('facet') || 'unread';
+    this.storeService.setFacet(facet as 'unread'|'all');
     this.storeService.setFilters({
-      filter: this.uiRouterGlobals.params.filter, // eslint-disable-line @typescript-eslint/no-unsafe-assignment
-      name: this.uiRouterGlobals.params.name, // eslint-disable-line @typescript-eslint/no-unsafe-assignment
+      filter: this.urlParams.get('filter'),
+      name: this.urlParams.get('name'),
     });
   }
 
@@ -170,6 +164,11 @@ export class InAppNotificationCenterComponent implements OnInit {
     if (!hasNotifications) {
       return this.text.no_notification;
     }
-    return (this.uiRouterGlobals.params.filter === 'project' ? this.text.no_notification_with_current_filter_project : this.text.no_notification_with_current_filter);
+
+    if (this.urlParams.get('filter') === 'project') {
+      return this.text.no_notification_with_current_filter_project;
+    }
+
+    return this.text.no_notification_for_filter;
   }
 }

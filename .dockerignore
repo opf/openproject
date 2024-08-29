@@ -22,11 +22,18 @@ browserslist
 !/docs/api/apiv3/tags
 !/docs/api/apiv3/components
 
+# Ignore spec/** folders
+spec/**
+# Allow factories in case we use lookbook
+!spec/factories
+!spec/factories/**
+!spec/support
+!spec/support/**
+
 extra
 features
 help
 log/*.log
-spec
 /tmp
 frontend/.angular/cache
 frontend/node_modules

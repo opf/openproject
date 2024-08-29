@@ -9,7 +9,7 @@ pt-BR:
     verify_account: "Verifique a sua conta"
     error_captcha: "Não foi possível verificar sua conta. Por favor, entre em contato com um administrador."
     settings:
-      website_key: 'Chave do site'
+      website_key: 'Website key (May also be called "Site key")'
       response_limit: 'Limite de resposta para HCaptcha'
       response_limit_text: 'O número máximo de caracteres para tratar a resposta HCaptcha como válida.'
       website_key_text: 'Digite a chave do site que você criou no console de administração reCAPTCHA para este domínio.'
@@ -20,5 +20,6 @@ pt-BR:
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       type_hcaptcha: 'HCaptcha'
-      recaptcha_description_html: >
-        reCAPTCHA é um serviço gratuito do Google que pode ser ativado para sua instância do OpenProject. Se habilitado, um formulário captcha será renderizado no login para todos os usuários que ainda não verificaram um captcha. <br/> Consulte o link a seguir para obter mais detalhes sobre o reCAPTCHA e suas versões, e como criar o site e as chaves secretas: %{recaptcha_link} <br/> HCaptcha é uma alternativa sem Google que você pode usar se não quiser usar o reCAPTCHA. Consulte este link para obter mais informações: %{hcaptcha_link}
+      type_turnstile: 'Cloudflare Turnstile™'
+      captcha_description_html: >
+        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link} <br/> Cloudflare Turnstile™ is another alternative that is more convenient for users while still providing the same level of security. See this link for more information: %{turnstile_link}

@@ -1,7 +1,13 @@
 <% html_title(t(:label_my_account), t('two_factor_authentication.devices.add_new')) -%>
-<% breadcrumb_paths link_to(t('two_factor_authentication.label_two_factor_authentication'), index_path),
-                    t('two_factor_authentication.devices.add_new') -%>
-<%= toolbar title: t('two_factor_authentication.devices.add_new') %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title(test_selector: "two_factor_authentication_new_device_header_title") { t('two_factor_authentication.devices.add_new') }
+    header.with_breadcrumbs([{ href: my_account_path, text: t(:label_my_account) },
+                             { href: my_2fa_devices_path , text: t('two_factor_authentication.label_two_factor_authentication') },
+                             I18n.t("menus.breadcrumb.nested_element", section_header: t("two_factor_authentication.devices.#{@device_type}.title"), title: t("two_factor_authentication.devices.add_new")).html_safe], selected_item_font_weight: :normal)
+  end
+%>
 <%= labelled_tabular_form_for @device,
                               url: { action: :register },
                               html: { class: nil, autocomplete: 'off', data: {

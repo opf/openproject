@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ fr:
     button_back_to_list_view: "Retour à la liste"
     button_cancel: "Annuler"
     button_close: "Fermer"
-    button_change_project: "Changer de projet"
+    button_change_project: "Déplacer vers un autre projet"
     button_check_all: "Tout cocher"
     button_configure-form: "Configurer le formulaire"
     button_confirm: "Confirmer"
@@ -74,7 +74,7 @@ fr:
     button_copy: "Copier"
     button_copy_to_clipboard: "Copier dans le presse-papier"
     button_copy_link_to_clipboard: "Copier le lien dans le presse-papiers"
-    button_copy_to_other_project: "Copier vers un autre projet"
+    button_copy_to_other_project: "Dupliquer dans un autre projet"
     button_custom-fields: "Champs personnalisés"
     button_delete: "Supprimer"
     button_delete_watcher: "Supprimer observateur"
@@ -138,6 +138,8 @@ fr:
     description_select_work_package: "Sélectionner le lot de travaux #%{id}"
     description_subwork_package: "Enfant du lot de travaux #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "Basculer en mode aperçu"
       source_code: "Basculer en mode source Markdown"
       error_saving_failed: "L'enregistrement du document a échoué en raison de l'erreur suivante : %{error}"
@@ -276,8 +278,10 @@ fr:
           Les modifications pourraient prendre un certain temps pour être appliquées. Vous serez averti(e) lorsque tous les lots de travaux pertinents auront été mis à jour.
           Voulez-vous continuer ?
       work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Passer du mode de calcul de la progression basé sur le statut au mode basé sur le travail transformera <i>% réalisé</i> en champ non modifiable dont la valeur est dérivée des champs <i>Travail</i> et <i>Travail restant</i>. Les valeurs existantes pour <i>% réalisé</i> sont conservées. Des valeurs pour <i>Travail</i> et <i>Travail restant</i> sont requises pour modifier <i>% réalisé</i>.
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Passer du mode de calcul de la progression basé sur le travail au mode basé sur le statut entraînera la perte de toutes les valeurs de <i>% réalisé</i> existantes et leur remplacement par les valeurs associées à chaque statut. Les valeurs existantes pour <i>Travail restant</i> peuvent également être recalculées pour refléter ce changement. Cette action est irréversible.
     custom_actions:
@@ -336,18 +340,6 @@ fr:
         years: "Années"
         description: >
           Sélectionnez le niveau de zoom initial qui devrait être affiché lorsque le zoom automatique n'est pas disponible.
-      export:
-        title: "Options du PDF de diagramme de Gantt"
-        button_export: "Exporter"
-        column_widths:
-          narrow: "Étroite"
-          medium: "Moyenne"
-          wide: "Large"
-          very_wide: "Très large"
-        options:
-          date_zoom: "Échelle de date"
-          paper_size: "Format du papier"
-          column_widths: "Largeur de colonnes"
     general_text_no: "non"
     general_text_yes: "oui"
     general_text_No: "Non"
@@ -410,6 +402,7 @@ fr:
     label_create: "Créer"
     label_create_work_package: "Créer un nouveau lot de travaux"
     label_created_by: "Créé par"
+    label_current: "current"
     label_date: "date"
     label_date_with_format: "Saisissez l'attribut %{date_attribute} en utilisant le format suivant : %{format}"
     label_deactivate: "Désactiver"
@@ -638,11 +631,6 @@ fr:
         upsale:
           title: "Alarmes"
           description: "Avec les alarmes, vous serez informé(e) à l'approche des dates de début ou de fin vous concernant afin de ne jamais manquer ou oublier une échéance importante."
-      facets:
-        unread: "Non lu"
-        unread_title: "Afficher les messages non lus"
-        all: "Toutes"
-        all_title: "Afficher tout"
       center:
         label_actor_and: "et"
         and_more_users:
@@ -653,12 +641,13 @@ fr:
           with_current_filter: "Il n'y a pas de notifications dans cette vue pour le moment"
         mark_all_read: "Tout marquer comme lu"
         mark_as_read: "Marquer comme lu"
-        text_update_date: "%{date} par"
+        text_update_date_by: "%{date} par"
         total_count_warning: "Affichage des %{newest_count} notifications les plus récentes. %{more_count} autres ne sont pas affichées."
         empty_state:
           no_notification: "Il semble que vous êtes à jour."
           no_notification_with_current_project_filter: "Il semble que vous êtes à jour dans le projet sélectionné."
           no_notification_with_current_filter: "Il semble que vous êtes à jour pour le filtre %{filter}."
+          no_notification_for_filter: "Il semble que vous êtes à jour pour ce filtre."
           no_selection: "Cliquez sur une notification pour voir tous les détails de l'activité."
         new_notifications:
           message: "Il y a de nouvelles notifications."
@@ -1198,6 +1187,9 @@ fr:
         one: "1 jour"
         other: "%{count} jours"
         zero: "0 jour"
+      word:
+        one: "1 word"
+        other: "%{count} words"
     zen_mode:
       button_activate: "Activer le mode zen"
       button_deactivate: "Désactiver le mode zen"

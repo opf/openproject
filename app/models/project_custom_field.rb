@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,9 +43,9 @@ class ProjectCustomField < CustomField
       if user.admin?
         all
       elsif user.allowed_in_any_project?(:select_project_custom_fields) || user.allowed_globally?(:add_project)
-        where(visible: true)
+        where(admin_only: false)
       else
-        where(visible: true).where(mappings_with_view_project_attributes_permission(user, project).exists)
+        where(admin_only: false).where(mappings_with_view_project_attributes_permission(user, project).exists)
       end
     end
 

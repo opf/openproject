@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ ro:
     button_back_to_list_view: "Înapoi la listă"
     button_cancel: "Anulare"
     button_close: "Închide"
-    button_change_project: "Proiect de schimbare"
+    button_change_project: "Move to another project"
     button_check_all: "Selectează tot"
     button_configure-form: "Configurați formularul"
     button_confirm: "Confirmă"
@@ -74,7 +74,7 @@ ro:
     button_copy: "Copiază"
     button_copy_to_clipboard: "Copiză în clipboard"
     button_copy_link_to_clipboard: "Copiază link-ul în clipboard"
-    button_copy_to_other_project: "Copiază în alt proiect"
+    button_copy_to_other_project: "Duplicate to other project"
     button_custom-fields: "Câmpuri personalizate"
     button_delete: "Șterge"
     button_delete_watcher: "Șterge observator"
@@ -102,7 +102,7 @@ ro:
     button_save: "Salvează"
     button_settings: "Setări"
     button_uncheck_all: "Deselectează tot"
-    button_update: "Actualizează"
+    button_update: "Actualizare"
     button_export-pdf: "Descarcă PDF"
     button_export-atom: "Descarcă Atom"
     button_create: "Creează"
@@ -138,6 +138,8 @@ ro:
     description_select_work_package: "Selectaţi pachetul de lucru #%{id}"
     description_subwork_package: "Fiu al pachetului de lucru #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "Activaţi/Dezactivați previzualizarea"
       source_code: "Faceți click pentru a activa/dezactiva modul ierarhic."
       error_saving_failed: "Salvarea documentului a eșuat cu următoarea eroare: %{error}"
@@ -275,8 +277,10 @@ ro:
           Modificările ar putea dura ceva timp pentru a produce efecte. Vei fi notificat când toate pachetele de lucru relevante au fost actualizate.
           Ești sigur că vrei să continui?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
           Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
@@ -335,18 +339,6 @@ ro:
         years: "Ani"
         description: >
           Selectați nivelul inițial de zoom care trebuie afișat atunci când funcția de zoom automat nu este disponibilă.
-      export:
-        title: "Gantt chart PDF options"
-        button_export: "Exportare"
-        column_widths:
-          narrow: "Narrow"
-          medium: "Medium"
-          wide: "Wide"
-          very_wide: "Very wide"
-        options:
-          date_zoom: "Date zoom"
-          paper_size: "Paper size"
-          column_widths: "Column widths"
     general_text_no: "nu"
     general_text_yes: "da"
     general_text_No: "Nu"
@@ -409,6 +401,7 @@ ro:
     label_create: "Creare"
     label_create_work_package: "Creare pachet de lucru nou"
     label_created_by: "Creat de"
+    label_current: "current"
     label_date: "Dată"
     label_date_with_format: "Introduceţi %{date_attribute} folosind următorul format: %{format}"
     label_deactivate: "Dezactivare"
@@ -637,11 +630,6 @@ ro:
         upsale:
           title: "Alerte date"
           description: "Cu alertele de date, veți fi notificat cu privire la următoarele date de început sau de sfârșit, astfel încât să nu ratați sau să uitați niciodată un termen limită important."
-      facets:
-        unread: "necitită"
-        unread_title: "Afișare necitite"
-        all: "Toate"
-        all_title: "Afișare completă"
       center:
         label_actor_and: "și"
         and_more_users:
@@ -653,12 +641,13 @@ ro:
           with_current_filter: "Nu există notificări în această vizualizare în acest moment"
         mark_all_read: "Marchează Tot ca Citit"
         mark_as_read: "Marchează ca Citit"
-        text_update_date: "%{date} de"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Se afișează %{newest_count} cele mai recente notificări. %{more_count} în plus nu sunt afișate."
         empty_state:
           no_notification: "Se pare că v-ați pus la punct."
           no_notification_with_current_project_filter: "Se pare că v-ați pus la punct cu proiectul selectat."
           no_notification_with_current_filter: "Se pare că ești la zi cu filtrul %{filter}."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Faceți clic pe o notificare pentru a vizualiza toate detaliile activității."
         new_notifications:
           message: "Există notificări noi."
@@ -768,7 +757,7 @@ ro:
           label: "Întrerupeți temporar memento-urile zilnice prin e-mail"
           first_day: "Prima zi"
           last_day: "Ultima zi"
-    text_are_you_sure: "Ești sigur?"
+    text_are_you_sure: "Sunteți sigur?"
     text_data_lost: "Toate datele introduse vor fi pierdute."
     text_user_wrote: "%{value} a scris:"
     types:
@@ -1200,6 +1189,10 @@ ro:
         one: "1 zi"
         other: "%{count} zile"
         zero: "0 zile"
+      word:
+        one: "1 word"
+        few: "%{count} words"
+        other: "%{count} words"
     zen_mode:
       button_activate: "Activați modul zen"
       button_deactivate: "Dezactivați modul zen"

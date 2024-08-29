@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -557,6 +557,11 @@ RSpec.describe MailHandler do
             .to eql("2010-12-31")
         end
 
+        it "sets the accountable" do
+          expect(subject.responsible)
+            .to eql(user)
+        end
+
         it "sets the assignee" do
           expect(subject.assigned_to)
             .to eql(user)
@@ -651,6 +656,11 @@ RSpec.describe MailHandler do
         include_context "for wp on given project group assignment"
 
         it_behaves_like "work package created"
+
+        it "sets the accountable to the group" do
+          expect(subject.responsible)
+            .to eql(group)
+        end
 
         it "sets the assignee to the group" do
           expect(subject.assigned_to)
@@ -1078,6 +1088,9 @@ RSpec.describe MailHandler do
         it_behaves_like "work package created"
 
         it "ignores the invalid attributes and set default ones where possible" do
+          expect(subject.responsible)
+            .to be_nil
+
           expect(subject.assigned_to)
             .to be_nil
 
@@ -1212,14 +1225,18 @@ RSpec.describe MailHandler do
                             member_with_permissions: { project => %i(view_work_packages) },
                             notification_settings: [build(:notification_setting, assignee: true, responsible: true)])
 
+          responsible = create(:user,
+                               member_with_permissions: { project => %i(view_work_packages) },
+                               notification_settings: [build(:notification_setting, assignee: true, responsible: true)])
           work_package.update_column(:assigned_to_id, assignee.id)
+          work_package.update_column(:responsible_id, responsible.id)
 
           # Sends notifications for the assignee and the author who is listening for all changes.
           expect do
             perform_enqueued_jobs do
               subject
             end
-          end.to change(Notification, :count).by(1)
+          end.to change(Notification, :count).by(2)
         end
       end
 
@@ -1269,6 +1286,7 @@ RSpec.describe MailHandler do
             .to eql(
               "due_date" => [nil, Date.parse("Fri, 31 Dec 2010")],
               "status_id" => [original_status.id, resolved_status.id],
+              "responsible_id" => [nil, other_user.id],
               "assigned_to_id" => [nil, other_user.id],
               "start_date" => [nil, Date.parse("Fri, 01 Jan 2010")],
               "duration" => [nil, 365],

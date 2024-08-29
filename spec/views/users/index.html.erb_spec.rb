@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,9 +39,9 @@ RSpec.describe "users/index" do
     assign(:status, "all")
     assign(:groups, Group.all)
 
-    allow(view).to receive(:current_user).and_return(admin)
-    allow(view).to receive(:controller_name).and_return("users")
-    allow(view).to receive(:action_name).and_return("index")
+    without_partial_double_verification do
+      allow(view).to receive_messages(current_user: admin, controller_name: "users", action_name: "index")
+    end
   end
 
   subject { rendered.squish }

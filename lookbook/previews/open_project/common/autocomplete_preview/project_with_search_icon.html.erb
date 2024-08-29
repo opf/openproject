@@ -1,0 +1,28 @@
+<%
+  the_form = Class.new(ApplicationForm) do
+    form do |f|
+      f.project_autocompleter(
+        name: :id,
+        label: Project.model_name.human,
+        visually_hide_label: true,
+        autocomplete_options: {
+          with_search_icon: true,
+          openDirectly: false,
+          focusDirectly: false,
+          dropdownPosition: 'bottom',
+          disabledProjects: Project.visible.take(10).pluck(:id).to_h { |id| [id, "Disabled reason!"] },
+        }
+      )
+    end
+  end
+
+  model = Project.new
+%>
+
+<%= primer_form_with(
+      model:,
+      url: '/abc',
+      id: 'asdf') do |f|
+  render(the_form.new(f))
+end
+%>

@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
@@ -36,11 +34,10 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { MainMenuToggleService } from './main-menu-toggle.service';
 import { TopMenuService } from 'core-app/core/top-menu/top-menu.service';
 
-export const mainMenuToggleSelector = 'main-menu-toggle';
-
 @Component({
-  selector: mainMenuToggleSelector,
+  selector: 'opce-main-menu-toggle',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
     class: 'op-app-menu op-main-menu-toggle',
   },

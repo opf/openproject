@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,8 @@ module OpTurbo
     class MissingComponentWrapper < StandardError; end
     # rubocop:enable OpenProject/AddPreviewForViewComponent
 
+    INLINE_ACTIONS = %i[dialog flash].freeze
+
     extend ActiveSupport::Concern
 
     class_methods do
@@ -43,7 +45,7 @@ module OpTurbo
     included do
       def render_as_turbo_stream(view_context:, action: :update)
         case action
-        when :update, :dialog
+        when :update, *INLINE_ACTIONS
           @inner_html_only = true
           template = render_in(view_context)
         when :replace
@@ -56,7 +58,7 @@ module OpTurbo
           raise ArgumentError, "Unsupported action #{action}"
         end
 
-        if action != :dialog && !wrapped?
+        if INLINE_ACTIONS.exclude?(action) && !wrapped?
           raise MissingComponentWrapper,
                 "Wrap your component in a `component_wrapper` block in order to use turbo-stream methods"
         end

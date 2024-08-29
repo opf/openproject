@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% html_title(t(:label_administration), "#{ t('account.deletion_info.heading', name: @user.name)}") -%>
+<% layout = local_assigns[:layout] %>
+
+<% html_title(layout== "my" ? t(:label_my_account) : t(:label_administration), "#{ t('account.deletion_info.heading', name: @user.name)}") -%>
+
+<%= render ::Users::DeletePageHeaderComponent.new(layout: layout, user: @user) %>
 
 <%= labelled_tabular_form_for(
         :user,

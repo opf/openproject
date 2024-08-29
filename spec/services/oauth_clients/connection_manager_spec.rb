@@ -514,10 +514,10 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
         without_partial_double_verification do
           allow(yield_double_object)
             .to receive(:yield_twice_method)
-            .and_return(
-              yield_service_result1,
-              yield_service_result2
-            )
+                  .and_return(
+                    yield_service_result1,
+                    yield_service_result2
+                  )
         end
       end
 

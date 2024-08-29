@@ -1,0 +1,5 @@
+description: |-
+  A request body to create a work package with only a subject. This can only be used, if the project context is already
+  given in the path. All other values will fall back to defaults.
+value:
+  subject: Replace GNK power droids

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -319,11 +319,12 @@ module SortHelper
     default_order = options.delete(:default_order) || "asc"
     lang = options.delete(:lang) || nil
     param = options.delete(:param) || :sort
+    data = options.delete(:data) || {}
 
     options[:title] = sort_header_title(column, caption, options)
 
     within_sort_header_tag_hierarchy(options, sort_class(column)) do
-      sort_link(column, caption, default_order, allowed_params:, param:, lang:, title: options[:title])
+      sort_link(column, caption, default_order, allowed_params:, param:, lang:, title: options[:title], data:)
     end
   end
 

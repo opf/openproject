@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,35 +29,10 @@
 require "spec_helper"
 
 RSpec.describe Queries::TimeEntries::Filters::ActivityFilter do
-  let(:time_entry_activity1) { build_stubbed(:time_entry_activity) }
-  let(:time_entry_activity2) { build_stubbed(:time_entry_activity) }
-  let(:activities) { [time_entry_activity1, time_entry_activity2] }
+  shared_let(:activities) { create_list(:time_entry_activity, 2) }
+
   let(:plucked_allowed_values) do
     activities.map { |x| [x.name, x.id] }
-  end
-
-  before do
-    allow(TimeEntryActivity)
-      .to receive(:shared)
-      .and_return(activities)
-
-    allow(TimeEntryActivity)
-      .to receive_message_chain(:where, :or)
-      .and_return(activities)
-
-    allow(activities)
-      .to receive(:where)
-      .and_return(activities)
-
-    allow(activities)
-      .to receive(:pluck)
-      .with(:id)
-      .and_return(activities.map(&:id))
-
-    allow(activities)
-      .to receive(:pluck)
-      .with(:name, :id)
-      .and_return(activities.map { |x| [x.name, x.id] })
   end
 
   it_behaves_like "basic query filter" do

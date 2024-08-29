@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -32,12 +32,12 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% end %>
 
-<global-search-title></global-search-title>
+<opce-global-search-title></opce-global-search-title>
 
-<global-search-tabs></global-search-tabs>
+<opce-global-search-tabs></opce-global-search-tabs>
 
 <% if params[:work_packages].present? %>
-  <global-search-work-packages-entry></global-search-work-packages-entry>
+  <opce-global-search-work-packages></opce-global-search-work-packages>
 <% else %>
 
   <h3><%= t(:label_result_plural) %> (<%= @results_count&.values&.sum || 0 %>)</h3>

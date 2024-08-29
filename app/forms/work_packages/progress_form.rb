@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,7 @@ class WorkPackages::ProgressForm < ApplicationForm
     # no-op
   end
 
-  attr_reader :work_package
+  attr_reader :work_package, :mode
 
   def initialize(work_package:,
                  mode: :work_based,
@@ -61,51 +61,24 @@ class WorkPackages::ProgressForm < ApplicationForm
 
   form do |query_form|
     query_form.group(layout: :horizontal) do |group|
-      if @mode == :status_based
-        select_field_options = { name: :status_id, label: I18n.t(:label_percent_complete) }.tap do |options|
-          options.reverse_merge!(default_field_options(:status_id))
-          options.merge!(disabled: @work_package.new_record?)
-        end
+      if mode == :status_based
+        select_status_list(group)
+        text_field(group, name: :estimated_hours, label: I18n.t(:label_work))
+        readonly_text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work))
 
-        group.select_list(**select_field_options) do |select_list|
-          WorkPackages::UpdateContract.new(@work_package, User.current)
-                                      .assignable_statuses
-                                      .find_each do |status|
-            select_list.option(
-              label: "#{status.name} (#{status.default_done_ratio}%)",
-              value: status.id
-            )
-          end
-        end
-
-        render_text_field(group, name: :estimated_hours, label: I18n.t(:label_work))
-        render_readonly_text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work))
-
-        # Add a hidden field in create forms as the select field is disabled and is otherwise not included in the form payload
-        group.hidden(name: :status_id) if @work_package.new_record?
-
-        group.hidden(name: :status_id_touched,
-                     value: @touched_field_map["status_id_touched"] || false,
-                     data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
-                             "referrer-field": "work_package[status_id]" })
-        group.hidden(name: :estimated_hours_touched,
-                     value: @touched_field_map["estimated_hours_touched"] || false,
-                     data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
-                             "referrer-field": "work_package[estimated_hours]" })
+        hidden_touched_field(group, name: :status_id)
+        hidden_touched_field(group, name: :estimated_hours)
       else
-        render_text_field(group, name: :estimated_hours, label: I18n.t(:label_work))
-        render_text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work),
-                                 disabled: disabled_remaining_work_field?)
-        render_readonly_text_field(group, name: :done_ratio, label: I18n.t(:label_percent_complete))
+        text_field(group, name: :estimated_hours, label: I18n.t(:label_work))
+        text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work))
+        text_field(group, name: :done_ratio, label: I18n.t(:label_percent_complete))
 
-        group.hidden(name: :estimated_hours_touched,
-                     value: @touched_field_map["estimated_hours_touched"] || false,
-                     data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
-                             "referrer-field": "work_package[estimated_hours]" })
-        group.hidden(name: :remaining_hours_touched,
-                     value: @touched_field_map["remaining_hours_touched"] || false,
-                     data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
-                             "referrer-field": "work_package[remaining_hours]" })
+        hidden_touched_field(group, name: :estimated_hours)
+        hidden_touched_field(group, name: :remaining_hours)
+        hidden_touched_field(group, name: :done_ratio)
+      end
+      group.fields_for(:initial) do |builder|
+        InitialValuesForm.new(builder, work_package:, mode:)
       end
     end
   end
@@ -129,40 +102,72 @@ class WorkPackages::ProgressForm < ApplicationForm
     field
   end
 
-  def render_text_field(group,
-                        name:,
-                        label:,
-                        disabled: false,
-                        placeholder: nil)
-    text_field_options = {
+  def select_status_list(group)
+    # status selection is disabled in create forms
+    disabled = work_package.new_record?
+
+    select_field_options =
+      default_field_options(:status_id)
+        .merge(
+          name: :status_id,
+          label: I18n.t(:label_percent_complete),
+          disabled:
+        )
+
+    group.select_list(**select_field_options) do |select_list|
+      WorkPackages::UpdateContract.new(work_package, User.current)
+                                  .assignable_statuses
+                                  .each do |status| # avoid find_each to keep ordering by position
+        select_list.option(
+          label: "#{status.name} (#{status.default_done_ratio}%)",
+          value: status.id
+        )
+      end
+    end
+
+    # Add a hidden field if the select field is disabled, otherwise it would not be included in the form payload
+    group.hidden(name: :status_id) if disabled
+  end
+
+  def text_field(group,
+                 name:,
+                 label:)
+    text_field_options = default_field_options(name).merge(
       name:,
       value: field_value(name),
       label:,
-      disabled:,
-      placeholder:
-    }
-    text_field_options.reverse_merge!(default_field_options(name))
+      caption: field_hint_message(name),
+      validation_message: validation_message(name)
+    )
 
     group.text_field(**text_field_options)
   end
 
-  def render_readonly_text_field(group,
-                                 name:,
-                                 label:,
-                                 disabled: false,
-                                 placeholder: true)
-    text_field_options = {
+  def readonly_text_field(group,
+                          name:,
+                          label:,
+                          placeholder: true)
+    text_field_options = default_field_options(name).merge(
       name:,
       value: field_value(name),
       label:,
       readonly: true,
-      disabled:,
       classes: "input--readonly",
       placeholder: ("-" if placeholder)
-    }
-    text_field_options.reverse_merge!(default_field_options(name))
+    )
 
     group.text_field(**text_field_options)
+  end
+
+  def hidden_touched_field(group, name:)
+    group.hidden(name: :"#{name}_touched",
+                 value: touched(name),
+                 data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
+                         "referrer-field": "work_package[#{name}]" })
+  end
+
+  def touched(name)
+    @touched_field_map["#{name}_touched"] || false
   end
 
   def field_value(name)
@@ -170,16 +175,27 @@ class WorkPackages::ProgressForm < ApplicationForm
     if (user_value = errors.map { |error| error.options[:value] }.find { !_1.nil? })
       user_value
     elsif name == :done_ratio
-      format_to_smallest_fractional_part(@work_package.public_send(name))
+      as_percent(@work_package.public_send(name))
     else
       DurationConverter.output(@work_package.public_send(name))
     end
   end
 
-  def format_to_smallest_fractional_part(number)
-    return number if number.nil?
+  def field_hint_message(field_name)
+    hint = work_package.derived_progress_hints[field_name]
+    return if hint.nil?
 
-    number % 1 == 0 ? number.to_i : number
+    I18n.t("work_package.progress.derivation_hints.#{field_name}.#{hint}")
+  end
+
+  def validation_message(name)
+    # it's ok to take the first error only, that's how primer_view_component does it anyway.
+    message = @work_package.errors.messages_for(name).first
+    message&.upcase_first
+  end
+
+  def as_percent(value)
+    value ? "#{value}%" : nil
   end
 
   def default_field_options(name)
@@ -191,11 +207,5 @@ class WorkPackages::ProgressForm < ApplicationForm
       data[:"work-packages--progress--focus-field-target"] = "fieldToFocus"
     end
     { data: }
-  end
-
-  # Remaining work field is enabled when work is set, or when there are errors
-  # on fields so that they can be corrected.
-  def disabled_remaining_work_field?
-    @work_package.estimated_hours.nil? && @work_package.errors.empty?
   end
 end

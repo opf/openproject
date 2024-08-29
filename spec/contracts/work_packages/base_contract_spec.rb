@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,8 @@
 require "spec_helper"
 require "contracts/shared/model_contract_shared_context"
 
-RSpec.describe WorkPackages::BaseContract do
+RSpec.describe WorkPackages::BaseContract,
+               with_flag: { percent_complete_edition: true } do
   include_context "ModelContract shared context"
 
   let(:work_package) do
@@ -291,51 +292,60 @@ RSpec.describe WorkPackages::BaseContract do
   end
 
   describe "work (estimated hours)" do
-    let(:estimated_hours) { 1 }
-    let(:remaining_hours) { 0 }
-
     before do
       work_package.estimated_hours = estimated_hours
       work_package.remaining_hours = remaining_hours
-      work_package.clear_remaining_hours_change
+      work_package.done_ratio = done_ratio
     end
 
-    context "when > 0" do
-      let(:estimated_hours) { 1 }
-
-      include_examples "contract is valid"
-    end
-
-    context "when 0" do
-      let(:estimated_hours) { 0 }
-
-      include_examples "contract is valid"
-    end
-
-    context "when nil while remaining work is nil" do
-      let(:estimated_hours) { nil }
+    context "when only one being set" do
+      let(:estimated_hours) { 3.0 }
       let(:remaining_hours) { nil }
+      let(:done_ratio) { nil }
 
       include_examples "contract is valid"
     end
 
-    context "when nil while remaining work is set" do
+    context "when empty while remaining work and % complete are set" do
       let(:estimated_hours) { nil }
       let(:remaining_hours) { 2.0 }
+      let(:done_ratio) { 50 }
 
-      include_examples "contract is invalid", estimated_hours: :must_be_set_when_remaining_work_is_set
+      include_examples "contract is invalid", estimated_hours: :must_be_set_when_remaining_work_and_percent_complete_are_set
+    end
+
+    context "when empty while remaining work is set and % complete is set to an invalid value" do
+      let(:estimated_hours) { nil }
+      let(:remaining_hours) { 2.0 }
+      let(:done_ratio) { 200 }
+
+      include_examples "contract is invalid", estimated_hours: nil,
+                                              remaining_hours: nil,
+                                              done_ratio: :inclusion
+    end
+
+    context "when empty while % complete is set and remaining work is set to an invalid value" do
+      let(:estimated_hours) { nil }
+      let(:remaining_hours) { -2.0 }
+      let(:done_ratio) { 50 }
+
+      include_examples "contract is invalid", estimated_hours: nil,
+                                              remaining_hours: :greater_than_or_equal_to,
+                                              done_ratio: nil
     end
 
     context "when < 0" do
       let(:estimated_hours) { -1 }
-      let(:remaining_hours) { -2 }
+      let(:remaining_hours) { nil }
+      let(:done_ratio) { nil }
 
-      include_examples "contract is invalid", estimated_hours: :only_values_greater_or_equal_zeroes_allowed
+      include_examples "contract is invalid", estimated_hours: :greater_than_or_equal_to
     end
 
     context "when inferior to remaining work" do
       let(:estimated_hours) { 5.0 }
       let(:remaining_hours) { 7.0 }
+      let(:done_ratio) { 50 }
 
       include_examples "contract is invalid", estimated_hours: :cant_be_inferior_to_remaining_work
     end
@@ -368,45 +378,392 @@ RSpec.describe WorkPackages::BaseContract do
 
   describe "remaining work (remaining hours)" do
     before do
-      work_package.estimated_hours = 5.0
-      work_package.clear_remaining_hours_change
+      work_package.estimated_hours = estimated_hours
       work_package.remaining_hours = remaining_hours
+      work_package.done_ratio = done_ratio
     end
 
     context "when it's the same as work" do
+      let(:estimated_hours) { 5.0 }
       let(:remaining_hours) { 5.0 }
+      let(:done_ratio) { 0 }
 
       include_examples "contract is valid"
     end
 
     context "when it's less than work" do
+      let(:estimated_hours) { 5.0 }
       let(:remaining_hours) { 4.0 }
+      let(:done_ratio) { 20 }
 
       include_examples "contract is valid"
     end
 
     context "when it's greater than work" do
+      let(:estimated_hours) { 5.0 }
       let(:remaining_hours) { 6.0 }
+      let(:done_ratio) { 0 }
 
       include_examples "contract is invalid", remaining_hours: :cant_exceed_work
     end
 
-    context "when unset" do
-      let(:remaining_hours) { nil }
+    context "when only one being set" do
+      let(:estimated_hours) { nil }
+      let(:remaining_hours) { 1.5 }
+      let(:done_ratio) { nil }
 
-      include_examples "contract is invalid", remaining_hours: :must_be_set_when_work_is_set
+      include_examples "contract is valid"
+    end
+
+    context "when empty while work and % complete are set" do
+      let(:estimated_hours) { 3 }
+      let(:remaining_hours) { nil }
+      let(:done_ratio) { 50 }
+
+      include_examples "contract is invalid", remaining_hours: :must_be_set_when_work_and_percent_complete_are_set
+    end
+
+    context "when empty while work is set and % complete is set to an invalid value" do
+      let(:estimated_hours) { 3 }
+      let(:remaining_hours) { nil }
+      let(:done_ratio) { -1 }
+
+      include_examples "contract is invalid", estimated_hours: nil,
+                                              remaining_hours: nil,
+                                              done_ratio: :inclusion
+    end
+
+    context "when empty while % complete is set and work is set to a negative value" do
+      let(:estimated_hours) { -3 }
+      let(:remaining_hours) { nil }
+      let(:done_ratio) { 50 }
+
+      include_examples "contract is invalid", estimated_hours: :greater_than_or_equal_to,
+                                              remaining_hours: nil,
+                                              done_ratio: nil
     end
   end
 
-  describe "work and remaining work" do
-    context "when changing both and remaining work exceeds work" do
+  describe "percent complete" do
+    context "when in status-based progress calculation mode (inferred by status)",
+            with_settings: { work_package_done_ratio: "status" } do
+      it_behaves_like "invalid if changed", :done_ratio
+    end
+
+    context "when in work-based progress calculation mode",
+            with_settings: { work_package_done_ratio: "field" } do
       before do
-        work_package.estimated_hours = 5.0
-        work_package.remaining_hours = 6.0
+        work_package.estimated_hours = estimated_hours
+        work_package.remaining_hours = remaining_hours
+        work_package.done_ratio = done_ratio
       end
 
+      context "when less than 0" do
+        let(:estimated_hours) { nil }
+        let(:remaining_hours) { nil }
+        let(:done_ratio) { -1 }
+
+        it_behaves_like "contract is invalid", done_ratio: :inclusion
+      end
+
+      context "when more than 100" do
+        let(:estimated_hours) { nil }
+        let(:remaining_hours) { nil }
+        let(:done_ratio) { 101 }
+
+        it_behaves_like "contract is invalid", done_ratio: :inclusion
+      end
+
+      context "when not a number" do
+        let(:estimated_hours) { nil }
+        let(:remaining_hours) { nil }
+        let(:done_ratio) { "abc" }
+
+        it_behaves_like "contract is invalid", done_ratio: :not_a_number
+      end
+
+      context "when only one being set" do
+        let(:estimated_hours) { nil }
+        let(:remaining_hours) { nil }
+        let(:done_ratio) { 42 }
+
+        it_behaves_like "contract is valid"
+      end
+
+      context "when empty while work and remaining work are set" do
+        let(:estimated_hours) { 4 }
+        let(:remaining_hours) { 3 }
+        let(:done_ratio) { nil }
+
+        it_behaves_like "contract is invalid", done_ratio: :must_be_set_when_work_and_remaining_work_are_set
+      end
+
+      context "when empty while work is set and remaining work is set to a negative value" do
+        let(:estimated_hours) { 4 }
+        let(:remaining_hours) { -3 }
+        let(:done_ratio) { nil }
+
+        it_behaves_like "contract is invalid", estimated_hours: nil,
+                                               remaining_hours: :greater_than_or_equal_to,
+                                               done_ratio: nil
+      end
+
+      context "when set while work is set and remaining work is set to a negative value" do
+        let(:estimated_hours) { 4 }
+        let(:remaining_hours) { -3 }
+        let(:done_ratio) { 50 }
+
+        include_examples "contract is invalid", estimated_hours: nil,
+                                                remaining_hours: :greater_than_or_equal_to,
+                                                done_ratio: nil
+      end
+
+      context "when empty while remaining work is set and work is set to a negative value" do
+        let(:estimated_hours) { -4 }
+        let(:remaining_hours) { 3 }
+        let(:done_ratio) { nil }
+
+        it_behaves_like "contract is invalid", estimated_hours: :greater_than_or_equal_to,
+                                               remaining_hours: nil,
+                                               done_ratio: nil
+      end
+
+      context "when set while remaining work is set and work is set to a negative value" do
+        let(:estimated_hours) { -4 }
+        let(:remaining_hours) { 3 }
+        let(:done_ratio) { 50 }
+
+        it_behaves_like "contract is invalid", estimated_hours: :greater_than_or_equal_to,
+                                               remaining_hours: nil,
+                                               done_ratio: nil
+      end
+
+      context "when set while work and remaining work are both set to a negative values (and work > remaining work)" do
+        let(:estimated_hours) { -4 }
+        let(:remaining_hours) { -12 }
+        let(:done_ratio) { 50 }
+
+        it_behaves_like "contract is invalid", estimated_hours: :greater_than_or_equal_to,
+                                               remaining_hours: :greater_than_or_equal_to,
+                                               done_ratio: nil
+      end
+    end
+  end
+
+  describe "work, remaining work, and % complete" do
+    before do
+      work_package.estimated_hours = estimated_hours
+      work_package.remaining_hours = remaining_hours
+      work_package.done_ratio = done_ratio
+    end
+
+    context "when remaining work exceeds work" do
+      let(:estimated_hours) { 5.0 }
+      let(:remaining_hours) { 6.0 }
+      let(:done_ratio) { 50 }
+
+      # no errors should be reported for % complete in this case to not overload
+      # the progress modal with error messages.
       include_examples "contract is invalid", estimated_hours: :cant_be_inferior_to_remaining_work,
-                                              remaining_hours: :cant_exceed_work
+                                              remaining_hours: :cant_exceed_work,
+                                              done_ratio: nil
+
+      context "and % complete is 100%" do
+        let(:done_ratio) { 100 }
+
+        include_examples "contract is invalid",
+                         estimated_hours: nil,
+                         remaining_hours: :must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p,
+                         done_ratio: nil
+      end
+    end
+
+    context "when remaining work exceeds work and done_ratio is empty" do
+      let(:estimated_hours) { 5.0 }
+      let(:remaining_hours) { 6.0 }
+      let(:done_ratio) { nil }
+
+      # no errors should be reported for % complete in this case to not overload
+      # the progress modal with error messages.
+      include_examples "contract is invalid", estimated_hours: :cant_be_inferior_to_remaining_work,
+                                              remaining_hours: :cant_exceed_work,
+                                              done_ratio: nil
+    end
+
+    context "when work is not a valid duration (an invalid string for instance)" do
+      let(:estimated_hours) { "invalid" }
+      let(:remaining_hours) { 6.0 }
+      let(:done_ratio) { 50 }
+
+      # no errors should be reported for % complete in this case to not overload
+      # the progress modal with error messages.
+      include_examples "contract is invalid", estimated_hours: :not_a_number,
+                                              remaining_hours: nil,
+                                              done_ratio: nil
+    end
+
+    context "when remaining work is not a valid duration (an invalid string for instance)" do
+      let(:estimated_hours) { 10.0 }
+      let(:remaining_hours) { "invalid" }
+      let(:done_ratio) { 50 }
+
+      # no errors should be reported for % complete in this case to not overload
+      # the progress modal with error messages.
+      include_examples "contract is invalid", estimated_hours: nil,
+                                              remaining_hours: :not_a_number,
+                                              done_ratio: nil
+    end
+
+    context "when work is 0h and remaining work is not a valid duration (an invalid string for instance)" do
+      let(:estimated_hours) { 0.0 }
+      let(:remaining_hours) { "invalid" }
+      let(:done_ratio) { 50 }
+
+      # no errors should be reported for % complete in this case to not overload
+      # the progress modal with error messages.
+      include_examples "contract is invalid", estimated_hours: nil,
+                                              remaining_hours: :not_a_number,
+                                              done_ratio: nil
+    end
+
+    context "when all three empty" do
+      let(:estimated_hours) { nil }
+      let(:remaining_hours) { nil }
+      let(:done_ratio) { nil }
+
+      include_examples "contract is valid"
+    end
+
+    context "when all three set with consistent values" do
+      let(:estimated_hours) { 10 }
+      let(:remaining_hours) { 6.0 }
+      let(:done_ratio) { 40 }
+
+      include_examples "contract is valid"
+    end
+
+    context "with inexact calculated % complete value (rounded to 1% VS 0.05% actual)" do
+      let(:estimated_hours) { 2000 }
+      let(:remaining_hours) { 1999 }
+      let(:done_ratio) { 1 }
+
+      include_examples "contract is valid"
+    end
+
+    context "when all three set with inconsistent values" do
+      let(:estimated_hours) { 10 }
+      let(:remaining_hours) { 0 }
+      let(:done_ratio) { 50 }
+
+      include_examples "contract is invalid", done_ratio: :does_not_match_work_and_remaining_work
+    end
+
+    context "when work and remaining work are both 0h" do
+      let(:estimated_hours) { 0 }
+      let(:remaining_hours) { 0 }
+
+      context "when % complete is set to any value" do
+        let(:done_ratio) { 50 }
+
+        include_examples "contract is invalid", done_ratio: :cannot_be_set_when_work_is_zero
+      end
+
+      context "when % complete is set to 100%" do
+        let(:done_ratio) { 100 }
+
+        include_examples "contract is invalid", done_ratio: :cannot_be_set_when_work_is_zero
+      end
+
+      context "when % complete is empty" do
+        let(:done_ratio) { nil }
+
+        include_examples "contract is valid"
+      end
+    end
+
+    context "when % complete is 100%" do
+      let(:done_ratio) { 100 }
+
+      context "and work and remaining are both set to 0h" do
+        let(:estimated_hours) { 0 }
+        let(:remaining_hours) { 0 }
+
+        include_examples "contract is invalid",
+                         estimated_hours: nil,
+                         remaining_hours: nil,
+                         done_ratio: :cannot_be_set_when_work_is_zero
+      end
+
+      context "and work is set" do
+        let(:estimated_hours) { 10 }
+
+        context "and remaining work is empty" do
+          let(:remaining_hours) { nil }
+
+          include_examples "contract is invalid",
+                           estimated_hours: nil,
+                           remaining_hours: :must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p,
+                           done_ratio: nil
+        end
+
+        context "and remaining is set to 0h" do
+          let(:remaining_hours) { 0 }
+
+          include_examples "contract is valid"
+        end
+
+        context "and remaining is set (but not 0h)" do
+          let(:remaining_hours) { 5 }
+
+          include_examples "contract is invalid",
+                           estimated_hours: nil,
+                           remaining_hours: :must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p,
+                           done_ratio: nil
+        end
+      end
+
+      context "and work is empty" do
+        let(:estimated_hours) { nil }
+
+        context "and remaining work is empty" do
+          let(:remaining_hours) { nil }
+
+          include_examples "contract is valid"
+        end
+
+        context "and remaining is set to 0h" do
+          let(:remaining_hours) { 0 }
+
+          include_examples "contract is invalid", estimated_hours: nil,
+                                                  remaining_hours: :must_be_empty_when_work_is_empty_and_percent_complete_is_100p,
+                                                  done_ratio: nil
+        end
+
+        context "and remaining is set (but not 0h)" do
+          let(:remaining_hours) { 5 }
+
+          include_examples "contract is invalid", estimated_hours: nil,
+                                                  remaining_hours: :must_be_empty_when_work_is_empty_and_percent_complete_is_100p,
+                                                  done_ratio: nil
+        end
+      end
+    end
+
+    context "when work and remaining work are both empty" do
+      let(:estimated_hours) { nil }
+      let(:remaining_hours) { nil }
+
+      context "when % complete is set to any value" do
+        let(:done_ratio) { 50 }
+
+        include_examples "contract is valid"
+      end
+
+      context "when % complete is empty" do
+        let(:done_ratio) { nil }
+
+        include_examples "contract is valid"
+      end
     end
   end
 
@@ -717,13 +1074,6 @@ RSpec.describe WorkPackages::BaseContract do
       end
 
       it_behaves_like "contract is valid"
-    end
-  end
-
-  describe "percentage done" do
-    context "when % Complete inferred by status",
-            with_settings: { work_package_done_ratio: "status" } do
-      it_behaves_like "invalid if changed", :done_ratio
     end
   end
 

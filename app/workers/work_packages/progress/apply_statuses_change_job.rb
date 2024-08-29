@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,17 +58,26 @@ class WorkPackages::Progress::ApplyStatusesChangeJob < WorkPackages::Progress::J
     @changes = changes
 
     with_temporary_progress_table do
-      if WorkPackage.use_status_for_done_ratio?
-        set_p_complete_from_status
-        derive_remaining_work_from_work_and_p_complete
-      end
+      adjust_progress_values
       update_totals
-
       copy_progress_values_to_work_packages_and_update_journals(journal_cause)
     end
   end
 
   private
+
+  def adjust_progress_values
+    if WorkPackage.work_based_mode?
+      clear_percent_complete_when_0h_work
+    elsif WorkPackage.status_based_mode?
+      set_p_complete_from_status
+      if OpenProject::FeatureDecisions.percent_complete_edition_active?
+        fix_remaining_work_set_with_100p_complete
+        derive_unset_work_from_remaining_work_and_p_complete
+      end
+      derive_remaining_work_from_work_and_p_complete
+    end
+  end
 
   def journal_cause
     assert_valid_cause_type!
@@ -108,5 +117,13 @@ class WorkPackages::Progress::ApplyStatusesChangeJob < WorkPackages::Progress::J
     if changes.nil?
       raise ArgumentError, "changes must be provided"
     end
+  end
+
+  def clear_percent_complete_when_0h_work
+    execute(<<~SQL.squish)
+      UPDATE temp_wp_progress_values
+      SET done_ratio = NULL
+      WHERE estimated_hours = 0
+    SQL
   end
 end

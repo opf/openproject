@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -212,10 +212,12 @@ ko:
     reorder_confirmation: "경고: 사용 가능한 값의 현재 순서가 손실됩니다. 계속하시겠습니까?"
     instructions:
       is_required: "사용자 지정 필드를 필수로 표시합니다. 이렇게 하면 새 리소스를 생성하거나 기존 리소스를 업데이트할 때 이 필드를 반드시 입력해야 합니다."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "모든 기존 프로젝트와 새 프로젝트에서 사용자 지정 필드를 사용 가능으로 표시합니다."
       searchable: "글로벌 검색 기능을 사용할 때 필드 값을 포함합니다."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "사용자가 필드를 편집할 수 있도록 허용합니다."
-      visible: "프로젝트 개요의 모든 사용자(비관리자)에 대해 필드가 표시되고 프로젝트 개요의 프로젝트 세부 정보 위젯에 표시되게 합니다."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         작업 패키지 보기의 필터에서 사용자 지정 필드를 사용할 수 있도록 허용합니다. '모든 프로젝트용'을 선택한 경우에만 사용자 지정 필드가 글로벌 보기에 표시됩니다.
     tab:
@@ -262,6 +264,9 @@ ko:
       open_as_gantt: "Gantt 보기로 열기"
       no_results_title_text: 프로젝트가 없습니다.
       no_results_content_text: 새 프로젝트 생성
+      search:
+        label: Project name filter
+        placeholder: Search by project name
     lists:
       active: "활성 프로젝트"
       my: "내 프로젝트"
@@ -611,7 +616,7 @@ ko:
         possible_values: "가능한 값"
         regexp: "정규 표현식"
         searchable: "검색가능한"
-        visible: "표시"
+        admin_only: "Admin-only"
       custom_value:
         value: "값"
       doorkeeper/application:
@@ -681,6 +686,7 @@ ko:
         versions: "버전"
         work_packages: "작업 패키지"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: 섹션
       query:
         column_names: "컬럼"
@@ -1025,6 +1031,12 @@ ko:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when Work is 0h"
+              must_be_set_when_remaining_work_is_set: "required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "required when Work and Remaining work are set."
+              inclusion: "- 0에서 100 사이여야 합니다."
             due_date:
               not_start_date: "마일스톤에서 요구하지만, 시작 날짜가 없음"
               cannot_be_null: "시작 날짜와 기간을 알고 있으므로 null로 설정할 수 없습니다."
@@ -1053,15 +1065,17 @@ ko:
               does_not_exist: "지정한 카테고리가 존재하지 않습니다."
             estimated_hours:
               not_a_number: "- 유효한 기간이 아닙니다."
-              cant_be_inferior_to_remaining_work: "남은 작업보다 낮을 수 없습니다."
-              must_be_set_when_remaining_work_is_set: "'남은 작업'이 설정된 경우 필수입니다."
-              only_values_greater_or_equal_zeroes_allowed: "0 이상이어야 합니다."
-              format: "%{message}"
+              cant_be_inferior_to_remaining_work: "cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "required when Remaining work and % Complete are set."
             remaining_hours:
               not_a_number: "- 유효한 기간이 아닙니다."
-              cant_exceed_work: "작업보다 높을 수 없습니다."
-              must_be_set_when_work_is_set: "작업이 설정된 경우 필수입니다."
-              format: "%{message}"
+              cant_exceed_work: "cannot be higher than Work."
+              must_be_set_when_work_is_set: "required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "required when Work and % Complete are set."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                must be 0h when Work is set and % Complete is 100%.
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                must be empty when Work is empty and % Complete is 100%.
           readonly_status: "작업 패키지가 읽기 전용 상태이므로 해당 속성을 변경할 수 없습니다."
         type:
           attributes:
@@ -1557,6 +1571,7 @@ ko:
   error_pdf_failed_to_export: "PDF 내보내기를 저장할 수 없습니다: %{error}"
   error_token_authenticity: "교차 사이트 요청 위조 토큰을 확인할 수 없습니다. 여러 브라우저나 탭에서 데이터 제출을 시도하셨습니까? 모든 탭을 닫고 다시 시도하세요."
   error_work_package_not_found_in_project: "작업 패키지가 없거나 이 프로젝트에 속하지 않습니다."
+  error_work_package_id_not_found: "작업 패키지를 찾을 수 없습니다."
   error_must_be_project_member: "은(는) 프로젝트 멤버여야 합니다."
   error_migrations_are_pending: "OpenProject 설치에 보류 중인 데이터베이스 마이그레이션이 있습니다. 지난 업그레이드에서 마이그레이션을 실행하지 않았을 가능성이 있습니다. 업그레이드 가이드를 확인하여 제대로 설치를 업그레이드하세요."
   error_migrations_visit_upgrade_guides: "업그레이드 가이드 문서를 참조하십시오."
@@ -1598,9 +1613,71 @@ ko:
       project: "프로젝트: %{name}"
       subproject: "하위 프로젝트: %{name}"
   export:
-    your_work_packages_export: "내 작업 패키지 내보내기"
-    succeeded: "내보내기가 성공적으로 완료되었습니다."
-    failed: "내보내기가 실패했습니다: %{message}"
+    dialog:
+      title: "Export"
+      submit: "Export"
+      format:
+        label: "File format"
+        options:
+          csv:
+            label: "CSV"
+          pdf:
+            label: "PDF"
+          xls:
+            label: "XLS"
+      columns:
+        input_label_report: "Add columns to attribute table"
+        input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
+        input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
+      pdf:
+        export_type:
+          label: "PDF export type"
+          options:
+            table:
+              label: "Table"
+              caption: "Export the work packages list in a table with the desired columns."
+            report:
+              label: "Report"
+              caption: "Export the work package on a detailed report of all work packages in the list."
+            gantt:
+              label: "Gantt chart"
+              caption: "Export the work packages list in a Gantt diagram view."
+        include_images:
+          label: "Include images"
+          caption: "Exclude images to reduce the size of the PDF export."
+        gantt_zoom_levels:
+          label: "Zoom levels"
+          caption: "Select what is the zoom level for dates displayed in the chart."
+          options:
+            days: "Days"
+            weeks: "Weeks"
+            months: "Months"
+            quarters: "Quarters"
+        column_width:
+          label: "Table column width"
+          options:
+            narrow: "Narrow"
+            medium: "Medium"
+            wide: "Wide"
+            very_wide: "Very wide"
+        paper_size:
+          label: "Paper size"
+          caption: "Depending on the chart size more than one page might be exported."
+        long_text_fields:
+          input_caption: "By default all long text fields are selected."
+          input_label: "Add long text fields"
+          input_placeholder: "Search for long text fields"
+          drag_area_label: "Manage long text fields"
+      xls:
+        include_relations:
+          label: "Include relations"
+          caption: "This option will create a duplicate of each work package for every relation this has with another work package."
+        include_descriptions:
+          label: "Include descriptions"
+          caption: "This option will add a description column in raw format."
+    your_work_packages_export: "Work packages are being exported"
+    succeeded: "Export completed"
+    failed: "An error has occurred while trying to export the work packages: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1761,6 +1838,11 @@ ko:
       responsible: "담당"
       shared: "공유됨"
       watched: "주시자"
+    facets:
+      unread: "읽지 않음"
+      unread_title: "읽지 않은 항목 표시"
+      all: "모두"
+      all_title: "모두 표시"
     menu:
       by_project: "프로젝트 기준 읽지 않음"
       by_reason: "이유"
@@ -2120,6 +2202,8 @@ ko:
   label_next_week: "다음 주"
   label_no_change_option: "(변경 없음)"
   label_no_data: "표시할 데이터가 없습니다."
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "부모 페이지 없음"
   label_nothing_display: "표시할 것이 없음"
   label_nobody: "아무도 없음"
@@ -2995,8 +3079,10 @@ ko:
   setting_work_package_done_ratio: "진행률 계산"
   setting_work_package_done_ratio_field: "작업 기반"
   setting_work_package_done_ratio_status: "상태 기반"
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
-    <b>작업 기반</b> 모드에서 완료 %는 총 작업 대비 완료된 작업을 기준으로 계산됩니다. <b>상태 기반</b> 모드에서는 각 상태에 완료 % 값이 연결되어 있습니다. 상태를 변경하면 완료 %도 변경됩니다.
+    In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "작업 패키지 속성"
   setting_work_package_startdate_is_adddate: "새 작업 패키지에 대한 시작 날짜로 현재 날짜 사용"
   setting_work_packages_projects_export_limit: "작업 패키지/프로젝트 내보내기 제한"
@@ -3378,9 +3464,26 @@ ko:
     progress:
       label_note: "참고:"
       modal:
-        work_based_help_text: "완료 %는 작업 및 남은 작업에서 자동으로 파생됩니다."
+        work_based_help_text: "Each field is automatically calculated from the two others when possible."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "완료 %는 작업 패키지 상태에 따라 설정됩니다."
         migration_warning_text: "작업 기반 진행률 계산 모드에서 완료 %는 수동으로 설정할 수 없으며 작업에 연결됩니다. 기존 값은 유지되지만 편집할 수 없습니다. 먼저 작업을 입력하세요."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          cleared_because_work_is_0h: "Cleared because Work is 0h."
+          derived: "Derived from Work and Remaining work."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          derived: "Derived from Remaining work and % Complete."
+          same_as_remaining_work: "Set to same value as Remaining work."
+        remaining_hours:
+          cleared_because_work_is_empty: "Cleared because Work is empty."
+          cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
+          decreased_like_work: "Decreased by the same amount as Work."
+          derived: "Derived from Work and % Complete."
+          increased_like_work: "Increased by the same amount as Work."
+          same_as_work: "Set to same value as Work."
     permissions:
       comment: "코멘트"
       comment_description: "이 작업 패키지를 보고 코멘트를 작성할 수 있습니다."

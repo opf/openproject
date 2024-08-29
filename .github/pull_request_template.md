@@ -1,6 +1,9 @@
-<!-- Contributors: Please check our [PR guide](https://www.openproject.org/docs/development/code-review-guidelines/#preparing-your-pull-request) before opening a PR. -->
+# Ticket
+<!-- Provide the link to respective work package -->
 
-<!-- Reviewers: Please check our [Review guide](https://www.openproject.org/docs/development/code-review-guidelines/#reviewing) -->
+<!-- Contributors: Please check our PR guide: https://www.openproject.org/docs/development/code-review-guidelines/#preparing-your-pull-request before opening a PR. -->
+
+<!-- Reviewers: Please check our Review guide: https://www.openproject.org/docs/development/code-review-guidelines/#reviewing -->
 
 # What are you trying to accomplish?
 <!-- Provide a description of the changes. -->
@@ -12,9 +15,6 @@
 <!-- This section is a place for you to describe your thought process in making these changes.
      List any tradeoffs you made to take on or pay down tech debt.
      Describe any alternative approaches you considered and why you discarded them. -->
-
-# Ticket
-<!-- Provide the link to respective work package -->
 
 # Merge checklist
 

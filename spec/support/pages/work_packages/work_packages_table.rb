@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -353,6 +353,10 @@ module Pages
       else
         row(work_package)
       end
+    end
+
+    def progress_popover(work_package)
+      Components::WorkPackages::ProgressPopover.new(container: work_package_container(work_package))
     end
 
     protected

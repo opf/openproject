@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,6 @@ RSpec.describe WorkPackages::Progress::WorkBased::ModalBodyComponent,
 
   include_examples "progress modal validations"
   include_examples "progress modal submit path"
-  include_examples "progress modal help links"
 
   describe "#mode" do
     subject(:component) { described_class.new(WorkPackage.new) }
@@ -66,38 +65,12 @@ RSpec.describe WorkPackages::Progress::WorkBased::ModalBodyComponent,
         expect(component.focused_field).to eq(:remaining_hours)
       end
     end
-  end
 
-  describe "#should_display_migration_warning?" do
-    subject(:component) { described_class.new(work_package) }
+    context "when given percentageDone" do
+      let(:focused_field) { "percentageDone" }
 
-    context "when the work package has a percent complete value but no work or remaining work set" do
-      let(:work_package) do
-        create(:work_package) do |work_package|
-          work_package.estimated_hours = nil
-          work_package.remaining_hours = nil
-          work_package.done_ratio = 10
-          work_package.save!(validate: false)
-        end
-      end
-
-      it "returns true" do
-        expect(component.should_display_migration_warning?).to be true
-      end
-    end
-
-    context "when the work package has a percent complete value but and a work value but no remaining work set" do
-      let(:work_package) do
-        create(:work_package) do |work_package|
-          work_package.estimated_hours = 55
-          work_package.remaining_hours = nil
-          work_package.done_ratio = 10
-          work_package.save!(validate: false)
-        end
-      end
-
-      it "returns false" do
-        expect(component.should_display_migration_warning?).to be false
+      it "returns :done_ratio" do
+        expect(component.focused_field).to eq(:done_ratio)
       end
     end
   end

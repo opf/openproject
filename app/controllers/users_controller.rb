@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -219,7 +219,7 @@ class UsersController < ApplicationController
   end
 
   def deletion_info
-    render action: "deletion_info", layout: my_or_admin_layout
+    render action: "deletion_info", layout: my_or_admin_layout, locals: { layout: my_or_admin_layout }
   end
 
   private

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,7 +63,7 @@ module CustomFieldsHelper
   end
 
   # Return custom field html tag corresponding to its format
-  def custom_field_tag(name, custom_value)
+  def custom_field_tag(name, custom_value) # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
     custom_field = custom_value.custom_field
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
@@ -72,7 +72,7 @@ module CustomFieldsHelper
 
     tag = case field_format.try(:edit_as)
           when "date"
-            angular_component_tag "op-basic-single-date-picker",
+            angular_component_tag "opce-basic-single-date-picker",
                                   inputs: {
                                     required: custom_field.is_required,
                                     value: custom_value.value,
@@ -143,14 +143,14 @@ module CustomFieldsHelper
     custom_field_label_tag(name, custom_value) + custom_field_tag(name, custom_value)
   end
 
-  def custom_field_tag_for_bulk_edit(name, custom_field, project = nil)
+  def custom_field_tag_for_bulk_edit(name, custom_field, project = nil) # rubocop:disable Metrics/AbcSize
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
     field_format = OpenProject::CustomFieldFormat.find_by_name(custom_field.field_format)
 
     case field_format.try(:edit_as)
     when "date"
-      angular_component_tag "op-modal-single-date-picker",
+      angular_component_tag "opce-modal-single-date-picker",
                             inputs: {
                               id: field_id,
                               name: field_name

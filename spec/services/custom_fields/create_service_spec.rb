@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +31,7 @@ require "services/base_services/behaves_like_create_service"
 
 RSpec.describe CustomFields::CreateService, type: :model do
   it_behaves_like "BaseServices create service" do
-    context "when creating a project cf",
-            with_ee: %i[custom_fields_in_projects_list] do
+    context "when creating a project cf" do
       let(:model_instance) { build_stubbed(:project_custom_field) }
 
       it "modifies the settings on successful call" do

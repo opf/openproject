@@ -11,7 +11,6 @@ ms:
   message_avatar_uploaded: "Avatar berjaya ditukar."
   error_image_upload: "Ralat menyimpan imej."
   error_image_size: "Imej terlalu besar."
-  button_change_avatar: "Tukar avatar."
   are_you_sure_delete_avatar: "Adakah anda pasti mahu memadam avatar anda?"
   avatar_deleted: "Avatar berjaya dipadam."
   unable_to_delete_avatar: "Avatar tidak berjaya dipadam."

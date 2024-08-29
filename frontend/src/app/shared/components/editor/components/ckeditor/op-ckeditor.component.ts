@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -47,6 +38,7 @@ import {
 import { CKEditorSetupService } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 declare module 'codemirror';
 
@@ -55,7 +47,7 @@ declare module 'codemirror';
   templateUrl: './op-ckeditor.html',
   styleUrls: ['./op-ckeditor.sass'],
 })
-export class OpCkeditorComponent implements OnInit, OnDestroy {
+export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input() context:ICKEditorContext;
 
   @Input()
@@ -108,10 +100,8 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
   // to read back changes as they happen
   private debouncedEmitter = _.debounce(
     () => {
-      void this.getTransformedContent(false)
-        .then((val) => {
-          this.contentChanged.emit(val);
-        });
+      const val = this.getTransformedContent(false);
+      this.contentChanged.emit(val);
     },
     1000,
     { leading: true },
@@ -126,6 +116,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
     private readonly configurationService:ConfigurationService,
     private readonly ckEditorSetup:CKEditorSetupService,
   ) {
+    super();
   }
 
   /**
@@ -133,38 +124,58 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
    * the data cannot be loaded (MS Edge!)
    */
   public getRawData():string {
+    let content:string;
+
     if (this.manualMode) {
-      return this._content = this.codeMirrorInstance.getValue();
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+      content = this.codeMirrorInstance.getValue() as string;
+    } else {
+      content = this.ckEditorInstance.getData({ trim: false });
     }
-    return this._content = this.ckEditorInstance.getData({ trim: false });
+
+    if (content === null || content === undefined) {
+      throw new Error('Trying to get content from CKEditor failed, as it returned null.');
+    }
+
+    this._content = content;
+    return content;
   }
 
   /**
    * Get a promise with the transformed content, will wrap errors in the promise.
    * @param notificationOnError
    */
-  public getTransformedContent(notificationOnError = true):Promise<string> {
-    if (!this.initialized) {
-      throw new Error('Tried to access CKEditor instance before initialization.');
-    }
-
-    return new Promise<string>((resolve, reject) => {
-      try {
-        resolve(this.getRawData());
-      } catch (e) {
-        console.error(`Failed to save CKEditor content: ${e}.`);
-        const error = this.I18n.t(
-          'js.editor.error_saving_failed',
-          { error: e || this.I18n.t('js.error.internal') },
-        );
-
-        if (notificationOnError) {
-          this.Notifications.addError(error);
-        }
-
-        reject(error);
+  public getTransformedContent(notificationOnError = true):string {
+    try {
+      if (!this.initialized) {
+        throw new Error('Tried to access CKEditor instance before initialization.');
       }
-    });
+
+      if (this.componentDestroyed) {
+        throw new Error('Component destroyed');
+      }
+
+      if (!this.ckEditorInstance || this.ckEditorInstance.state === 'destroyed') {
+        console.warn('CKEditor instance is destroyed, returning last content');
+        return this._content;
+      }
+
+      return this.getRawData();
+    } catch (e) {
+      console.error(`Failed to save CKEditor content: ${e}.`);
+
+      const error = this.I18n.t(
+        'js.editor.error_saving_failed',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
+        { error: e.toString() || this.I18n.t('js.error.internal') },
+      );
+
+      if (notificationOnError) {
+        this.Notifications.addError(error);
+      }
+
+      return this._content;
+    }
   }
 
   /**
@@ -216,7 +227,6 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
         this.setupWatchdog(watchdog);
         const editor = watchdog.editor;
         this.ckEditorInstance = editor;
-
 
         // Switch mode
         editor.on('op:source-code-enabled', () => this.enableManualMode());

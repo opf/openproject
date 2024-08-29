@@ -1,0 +1,4 @@
+description: |-
+  A request body to edit a work package's subject.
+value:
+  subject: Replace GNK power droids

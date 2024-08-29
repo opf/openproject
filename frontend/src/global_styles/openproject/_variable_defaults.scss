@@ -1,6 +1,6 @@
 /*-- copyright
  * OpenProject is an open source project management software.
- * Copyright (C) 2012-2024 the OpenProject GmbH
+ * Copyright (C) the OpenProject GmbH
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 3.
@@ -131,4 +131,7 @@
   --link-text-decoration: none;
   --type-form-conf-attribute--background: var(--gray-light);
   --select-arrow-bg-color-url: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  --split-screen-width: 550px;
+  --full-view-split-right-width: 550px;
+  --gantt-split-width: 50%;
 }

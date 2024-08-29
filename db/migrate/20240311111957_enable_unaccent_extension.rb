@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,13 @@ class EnableUnaccentExtension < ActiveRecord::Migration[7.1]
     raise <<~MESSAGE
       \e[33mWARNING:\e[0m Could not find or enable the `unaccent` extension for PostgreSQL.
       This is needed for filtering users with accents, please install the postgresql-contrib module
-      for your PostgreSQL installation and re-run this migration.
+      for your PostgreSQL installation using the package manager of your operating system.
+
+      Once this package is installed, please re-run this migration like so:
+
+      - Packaged installation: openproject run bundle exec rake db:migrate:redo 20240311111957
+      - Docker installation: docker exec -it "container_id" bundle exec rake db:migrate:redo 20240311111957
+      - Docker-compose installation: docker-compose exec app bundle exec rake db:migrate:redo 20240311111957
 
       Read more about the contrib module at `https://www.postgresql.org/docs/current/contrib.html`.
     MESSAGE

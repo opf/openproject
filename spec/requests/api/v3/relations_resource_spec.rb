@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -84,8 +84,8 @@ RSpec.describe "API v3 Relation resource" do
         get path
       end
 
-      it_behaves_like "API V3 collection response", 1, 1, "Relation" do
-        let(:elements) { [visible_relation] }
+      it_behaves_like "redirect response", 308 do
+        let(:location) { "/api/v3/relations?filters=%5B%7B%22involved%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22#{work_package.id}%22%5D%7D%7D%5D" } # rubocop:disable Layout/LineLength
       end
     end
 

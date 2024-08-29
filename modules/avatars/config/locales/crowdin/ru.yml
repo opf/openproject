@@ -11,7 +11,6 @@ ru:
   message_avatar_uploaded: "Аватар успешно загружен."
   error_image_upload: "Ошибка сохранения изображения."
   error_image_size: "Изображение слишком большое."
-  button_change_avatar: "Изменить аватар"
   are_you_sure_delete_avatar: "Вы уверены, что хотите удалить свой аватар?"
   avatar_deleted: "Аватар успешно удален."
   unable_to_delete_avatar: "Аватар не может быть удалён."

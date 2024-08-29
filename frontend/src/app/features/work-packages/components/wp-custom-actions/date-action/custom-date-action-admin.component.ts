@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,15 +27,19 @@
 //++
 
 import {
-  ApplicationRef, ChangeDetectorRef, Component, ElementRef, OnInit,
+  ApplicationRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
-export const customDateActionAdminSelector = 'custom-date-action-admin';
-
 @Component({
-  selector: customDateActionAdminSelector,
+  selector: 'opce-custom-date-action-admin',
   templateUrl: './custom-date-action-admin.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomDateActionAdminComponent implements OnInit {
   public valueVisible = false;
@@ -46,6 +50,7 @@ export class CustomDateActionAdminComponent implements OnInit {
 
   public visibleValue:string = '';
 
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   public selectedOperator:any;
 
   private onKey = 'on';
@@ -59,10 +64,12 @@ export class CustomDateActionAdminComponent implements OnInit {
     { key: this.currentKey, label: this.I18n.t('js.custom_actions.date.current_date') },
   ];
 
-  constructor(private elementRef:ElementRef,
+  constructor(
+    private elementRef:ElementRef,
     private cdRef:ChangeDetectorRef,
     public appRef:ApplicationRef,
-    private I18n:I18nService) {
+    private I18n:I18nService,
+  ) {
   }
 
   // cannot use $onInit as it would be called before the operators gets filled
@@ -82,6 +89,7 @@ export class CustomDateActionAdminComponent implements OnInit {
   }
 
   public toggleValueVisibility() {
+    /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */
     this.valueVisible = this.selectedOperator.key === this.onKey;
     if (this.fieldValue === this.currentFieldValue) {
       this.fieldValue = '';
@@ -91,6 +99,7 @@ export class CustomDateActionAdminComponent implements OnInit {
   }
 
   private updateDbValue() {
+    /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */
     if (this.selectedOperator.key === this.currentKey) {
       this.fieldValue = this.currentFieldValue;
     }

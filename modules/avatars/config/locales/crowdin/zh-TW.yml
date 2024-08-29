@@ -11,7 +11,6 @@ zh-TW:
   message_avatar_uploaded: "大頭照上傳成功。"
   error_image_upload: "儲存大頭貼時發生錯誤"
   error_image_size: "圖片太大。"
-  button_change_avatar: "變更個人資料相片"
   are_you_sure_delete_avatar: "您確定要刪除您的大頭貼？"
   avatar_deleted: "大頭貼刪除成功"
   unable_to_delete_avatar: "大頭貼刪除失敗"

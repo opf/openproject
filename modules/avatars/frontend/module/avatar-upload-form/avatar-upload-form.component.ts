@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
 
 import { resizeFile } from 'core-app/shared/helpers/images/resizer';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -44,7 +37,7 @@ import { AvatarUploadFile, AvatarUploadService } from '../avatar-upload.service'
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'avatar-upload-form',
+  selector: 'opce-avatar-upload-form',
   templateUrl: './avatar-upload-form.html',
   providers: [{ provide: OpUploadService, useClass: AvatarUploadService }],
   changeDetection: ChangeDetectionStrategy.OnPush,

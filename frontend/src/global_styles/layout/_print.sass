@@ -33,6 +33,11 @@
   #content
     overflow: visible !important
 
+    &:not(.content--split)
+      // Otherwise content will be cut off weirdly between the pages in all browser
+      // and Firefox will show only the first page
+      display: inline-block
+
   .autoscroll
     overflow-x: visible
 
@@ -57,3 +62,11 @@
     font-size: 1.5em
   h3
     font-size: 1.17em
+
+  .-browser-firefox
+    #content-wrapper
+      // Needed to prevent an empty first page when printing in Firefox
+      display: inline-block
+    *
+      // Needed for Firefox only. Otherwise, background-colors (e.g. of buttons) are not correctly printed
+      print-color-adjust: exact

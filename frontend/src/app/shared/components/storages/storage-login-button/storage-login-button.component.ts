@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,13 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -41,10 +35,9 @@ import { IStorageLoginInput } from 'core-app/shared/components/storages/storage-
 import { storageLocaleString } from 'core-app/shared/components/storages/functions/storages.functions';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
-export const opStorageLoginButtonSelector = 'op-storage-login-button';
 
 @Component({
-  selector: opStorageLoginButtonSelector,
+  selector: 'op-storage-login-button',
   templateUrl: 'storage-login-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

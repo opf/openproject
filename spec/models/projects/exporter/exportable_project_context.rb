@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ RSpec.shared_context "with a project with an arrangement of custom fields" do
   shared_let(:text_cf) { create(:text_project_custom_field, position: 6) }
   shared_let(:string_cf) { create(:string_project_custom_field, position: 7) }
   shared_let(:date_cf) { create(:date_project_custom_field, position: 8) }
-  shared_let(:hidden_cf) { create(:string_project_custom_field, position: 9, visible: false) }
+  shared_let(:hidden_cf) { create(:string_project_custom_field, position: 9, admin_only: true) }
 
   let!(:not_used_string_cf) { create(:string_project_custom_field, position: 10) }
 

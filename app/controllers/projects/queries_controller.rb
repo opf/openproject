@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,14 @@
 class Projects::QueriesController < ApplicationController
   include Projects::QueryLoading
   include OpTurbo::ComponentStream
+  include OpTurbo::DialogStreamHelper
 
   # No need for a more specific authorization check. That is carried out in the contracts.
-  no_authorization_required! :show, :new, :create, :rename, :update, :toggle_public, :destroy
-  before_action :require_login
-  before_action :find_query, only: %i[show rename update destroy toggle_public]
-  before_action :build_query_or_deny_access, only: %i[new create]
+  no_authorization_required! :show, :new, :create, :rename, :update, :toggle_public, :destroy, :destroy_confirmation_modal,
+                             :configure_view_modal
+  before_action :require_login, except: %i[configure_view_modal]
+  before_action :find_query, only: %i[show rename update destroy toggle_public destroy_confirmation_modal]
+  before_action :build_query_or_deny_access, only: %i[new create configure_view_modal]
 
   current_menu_item [:new, :rename, :create, :update] do
     :projects
@@ -45,15 +47,37 @@ class Projects::QueriesController < ApplicationController
   end
 
   def new
-    render template: "/projects/index",
-           layout: "global",
-           locals: { query: @query, state: :edit }
+    respond_to do |format|
+      format.html do
+        render template: "/projects/index",
+               layout: "global",
+               locals: { query: @query, state: :edit }
+      end
+      format.turbo_stream do
+        replace_via_turbo_stream(
+          component: Projects::IndexPageHeaderComponent.new(query: @query, current_user:, state: :edit, params:)
+        )
+
+        render turbo_stream: turbo_streams
+      end
+    end
   end
 
   def rename
-    render template: "/projects/index",
-           layout: "global",
-           locals: { query: @query, state: :rename }
+    respond_to do |format|
+      format.html do
+        render template: "/projects/index",
+               layout: "global",
+               locals: { query: @query, state: :rename }
+      end
+      format.turbo_stream do
+        replace_via_turbo_stream(
+          component: Projects::IndexPageHeaderComponent.new(query: @query, current_user:, state: :rename, params:)
+        )
+
+        render turbo_stream: turbo_streams
+      end
+    end
   end
 
   def create
@@ -99,6 +123,14 @@ class Projects::QueriesController < ApplicationController
                                                     .call
 
     redirect_to projects_path
+  end
+
+  def destroy_confirmation_modal
+    respond_with_dialog Projects::DeleteListModalComponent.new(query: @query)
+  end
+
+  def configure_view_modal
+    respond_with_dialog Projects::ConfigureViewModalComponent.new(query: @query)
   end
 
   private

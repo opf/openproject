@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<persistent-toggle data-identifier="repository.checkout_instructions"></persistent-toggle>
+<opce-persistent-toggle data-identifier="repository.checkout_instructions"></opce-persistent-toggle>
 <%= toolbar title: t('repositories.named_repository',
                      vendor_name: @repository.class.vendor_name) do %>
   <% if @instructions && @instructions.available? %>
@@ -40,9 +40,9 @@ See COPYRIGHT and LICENSE files for more details.
            value="<%= @instructions.checkout_url(true) %>"
            readonly>
     <% csp_onclick('this.focus(); this.select();', '#repository-checkout-url') %>
-    <copy-to-clipboard click-target=".repository-checkout-copy-button"
+    <opce-copy-to-clipboard click-target=".repository-checkout-copy-button"
                        clipboard-target="#repository-checkout-url">
-    </copy-to-clipboard>
+    </opce-copy-to-clipboard>
     <button class="repository-checkout-copy-button toolbar-input--affix toolbar-input-group--affix -append"
             title="<%= t(:button_copy_to_clipboard) %>">
       <%= op_icon('icon-copy') %>
@@ -82,5 +82,3 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render partial: 'checkout_instructions',
              locals: { repository: @repository, instructions: @instructions } %>
 <% end %>
-
-

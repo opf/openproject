@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -78,14 +78,14 @@ RSpec.describe "bcf export", :js,
     page.find(".export-bcf-button").click
 
     # Expect to get a response regarding queuing
-    expect(page).to have_content(I18n.t("js.job_status.generic_messages.in_queue"),
+    expect(page).to have_content(I18n.t("job_status_dialog.generic_messages.in_queue"),
                                  wait: 10)
 
     perform_enqueued_jobs
-    expect(page).to have_text("completed successfully")
+    expect(page).to have_text(I18n.t("export.succeeded"))
 
     # Close the modal
-    page.find(".spot-modal-overlay").click
+    page.find(".Overlay-closeButton").click
 
     @download_list.refresh_from(page)
 

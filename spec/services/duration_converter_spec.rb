@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,13 @@ require "spec_helper"
 
 RSpec.describe DurationConverter do
   describe ".parse" do
+    it "returns nil when given blank strings or nil" do
+      expect(described_class.parse("")).to be_nil
+      expect(described_class.parse("  ")).to be_nil
+      expect(described_class.parse(" \t ")).to be_nil
+      expect(described_class.parse(nil)).to be_nil
+    end
+
     it "returns 0 when given 0 duration" do
       expect(described_class.parse("0 hrs")).to eq(0)
     end
@@ -50,6 +57,64 @@ RSpec.describe DurationConverter do
       expect(described_class.parse("1w 1")).to eq(48)
       expect(described_class.parse("1mo 1")).to eq(200)
       expect(described_class.parse("1mo 1w 1d 1h 30")).to eq(209.5)
+    end
+  end
+
+  describe ".valid?", :aggregate_failures do
+    it "returns true for positive numbers" do
+      expect(described_class.valid?(0)).to be(true)
+      expect(described_class.valid?(0.0)).to be(true)
+      expect(described_class.valid?(100)).to be(true)
+      expect(described_class.valid?(100.0)).to be(true)
+      expect(described_class.valid?(789)).to be(true)
+      expect(described_class.valid?(789.123)).to be(true)
+    end
+
+    it "returns false for negative numbers" do
+      expect(described_class.valid?(-0.01)).to be(false)
+      expect(described_class.valid?(-1)).to be(false)
+      expect(described_class.valid?(-1.5)).to be(false)
+      expect(described_class.valid?(-456)).to be(false)
+      expect(described_class.valid?(-456.789)).to be(false)
+    end
+
+    it "returns true for blank values" do
+      expect(described_class.valid?(nil)).to be(true)
+      expect(described_class.valid?("")).to be(true)
+      expect(described_class.valid?("  ")).to be(true)
+      expect(described_class.valid?(" \t ")).to be(true)
+    end
+
+    it "returns true for strings representing a positive number or a valid duration" do
+      expect(described_class.valid?("50")).to be(true)
+      expect(described_class.valid?(" 50 ")).to be(true)
+      expect(described_class.valid?(" +1278 ")).to be(true)
+      expect(described_class.valid?(" -0 ")).to be(true)
+      expect(described_class.valid?("  1234.0 h  ")).to be(true)
+      expect(described_class.valid?("12h.4")).to be(true) # 12h 0.4m
+      expect(described_class.valid?("1 week 2 days 3 hours 5 minutes")).to be(true)
+    end
+
+    it "returns false for strings not representing a positive number nor a valid duration" do
+      expect(described_class.valid?("invalid")).to be(false)
+      expect(described_class.valid?("dsg")).to be(false)
+      expect(described_class.valid?(" +0h ")).to be(false)
+      expect(described_class.valid?("-5")).to be(false)
+      expect(described_class.valid?("-5.6")).to be(false)
+      expect(described_class.valid?("5.")).to be(false)
+      expect(described_class.valid?("5.h")).to be(false)
+      expect(described_class.valid?("-5.75h")).to be(false)
+      expect(described_class.valid?("invalid")).to be(false)
+      expect(described_class.valid?("-")).to be(false)
+      expect(described_class.valid?("+")).to be(false)
+      expect(described_class.valid?("日")).to be(false)
+      expect(described_class.valid?("invalid 123")).to be(false)
+      expect(described_class.valid?("123 invalid")).to be(false)
+      expect(described_class.valid?("-  23")).to be(false)
+      expect(described_class.valid?("123..5")).to be(false)
+      expect(described_class.valid?("1'234.5")).to be(false)
+      expect(described_class.valid?("1,234.5")).to be(false)
+      expect(described_class.valid?("12mm")).to be(false)
     end
   end
 

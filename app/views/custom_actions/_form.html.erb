@@ -66,7 +66,8 @@
           <% elsif %i(date_property).include?(action.type) %>
             <div class="form--field-container">
               <% date = action.values.first %>
-              <%= tag 'custom-date-action-admin', data: { 'field-value': date.try(:iso8601) || date, 'field-name': input_name } %>
+              <%= angular_component_tag 'opce-custom-date-action-admin',
+                                        data: { 'field-value': date.try(:iso8601) || date, 'field-name': input_name } %>
             </div>
           <% elsif %i(string_property text_property).include?(action.type) %>
             <div class="form--field-container">
@@ -101,7 +102,7 @@
                                           step: 1 %>
             </div>
           <% end %>
-          <hide-section-link data-section-name="<%= action.key %>"></hide-section-link>
+          <opce-hide-section-link data-section-name="<%= action.key %>"></opce-hide-section-link>
         </div>
       </section>
     <% end %>
@@ -116,8 +117,8 @@
     </label>
     <span class="form--field-container">
       <span class="form--text-field-container -middle">
-        <add-section-dropdown data-html-id="custom-actions-form--add-action">
-        </add-section-dropdown>
+        <opce-add-section-dropdown data-html-id="custom-actions-form--add-action">
+        </opce-add-section-dropdown>
       </span>
     </span>
   </div>

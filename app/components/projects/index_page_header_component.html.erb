@@ -1,7 +1,18 @@
-<% if show_state? %>
+<%= component_wrapper(tag: 'turbo-frame') do %>
   <%=
-    render(Primer::OpenProject::PageHeader.new) do |header|
-      header.with_title(data: { 'test-selector': 'project-query-name' }) { page_title }
+    render(Primer::OpenProject::PageHeader.new(state: @state)) do |header|
+      header.with_title(data: { 'test-selector': 'project-query-name' }) do |title|
+        title.with_editable_form(model: query,
+                                update_path: @query.new_record? ? project_queries_path(projects_query_params) : project_query_path(@query, projects_query_params),
+                                method: @query.new_record? ? :post : :put,
+                                cancel_path: projects_path(**projects_query_params, **{ query_id: query.id }.compact),
+                                input_name: "name",
+                                label: ProjectQuery.human_attribute_name(:name),
+                                placeholder: I18n.t(:"projects.lists.new.placeholder"),
+                                scope: 'query',
+                                id: 'project-save-form')
+        page_title
+      end
       header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: current_breadcrumb_element == page_title ? :bold : :normal)
 
       if can_save?
@@ -89,7 +100,8 @@
         menu.with_item(
           tag: :a,
           label: t(:label_overall_activity),
-          href: activities_path
+          href: activities_path,
+          content_arguments: { rel: "nofollow" }
         ) do |item|
           item.with_leading_visual_icon(icon: 'tasklist')
         end
@@ -112,51 +124,35 @@
         end
 
         menu.with_item(
+          tag: :a,
           label: t('js.label_export'),
-          content_arguments: { 'data-show-dialog-id': Projects::ExportListModalComponent::MODAL_ID }
+          href: export_list_modal_projects_path(projects_query_params),
+          content_arguments: { data: { controller: "async-dialog" }, rel: "nofollow" }
         ) do |item|
           item.with_leading_visual_icon(icon: 'sign-out')
         end
 
         menu.with_item(
+          tag: :a,
           label: t(:'queries.configure_view.heading'),
-          content_arguments: { 'data-show-dialog-id': Projects::ConfigureViewModalComponent::MODAL_ID }
+          href: configure_view_modal_project_queries_path(projects_query_params),
+          content_arguments: { data: { controller: "async-dialog" }}
         ) do |item|
           item.with_leading_visual_icon(icon: :gear)
         end
 
         if query.persisted?
           menu.with_item(
+            tag: :a,
             label: t(:button_delete),
             scheme: :danger,
-            content_arguments: { 'data-show-dialog-id': Projects::DeleteListModalComponent::MODAL_ID }
+            href: destroy_confirmation_modal_project_query_path(query.id),
+            content_arguments: { data: { controller: "async-dialog" }}
           ) do |item|
             item.with_leading_visual_icon(icon: 'trash')
           end
         end
       end
-    end
-  %>
-  <%= render(Projects::ConfigureViewModalComponent.new(query:)) %>
-  <%= render(Projects::DeleteListModalComponent.new(query:)) if query.persisted? %>
-  <%= render(Projects::ExportListModalComponent.new(query:)) %>
-<% else %>
-  <%=
-    render(Primer::OpenProject::PageHeader.new) do |header|
-      header.with_title(data: { 'test-selector': 'project-query-name' }) do
-        primer_form_with(model: query,
-                         url: @query.new_record? ? project_queries_path(projects_query_params) : project_query_path(@query, projects_query_params),
-                         scope: 'query',
-                         id: 'project-save-form') do |f|
-          render(
-            Queries::Projects::Form.new(
-              f,
-              cancel_url: projects_path(**projects_query_params, **{ query_id: query.id }.compact)
-            )
-          )
-        end
-      end
-      header.with_breadcrumbs(breadcrumb_items)
     end
   %>
 <% end %>

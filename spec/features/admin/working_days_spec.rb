@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +42,7 @@ RSpec.describe "Working Days", :js, :with_cuprite do
   CHART
 
   let(:dialog) { Components::ConfirmationDialog.new }
-  let(:datepicker) { Components::Datepicker.new }
+  let(:datepicker) { Components::DatepickerModal.new }
 
   current_user { admin }
 
@@ -187,24 +187,25 @@ RSpec.describe "Working Days", :js, :with_cuprite do
     end
 
     it "can add non-working days" do
-      click_on "Non-working day"
+      # Initial loading can sometimes take a while
+      datepicker.open_modal!
 
       # Check if a date is correctly highlighted after selecting it in different time zones
       datepicker.select_day 5
-      datepicker.expect_day "5"
 
       # It can cancel and reopen
       within_test_selector("op-datepicker-modal") do
         click_on "Cancel"
       end
-      click_on "Non-working day"
+
+      datepicker.open_modal!
 
       within_test_selector("op-datepicker-modal") do
         fill_in "name", with: "My holiday"
       end
 
       date1 = NonWorkingDay.maximum(:date).next_week(:monday).next_occurring(:monday)
-      datepicker.set_date date1
+      datepicker.set_date_input(date1)
 
       within_test_selector("op-datepicker-modal") do
         click_on "Add"
@@ -220,7 +221,7 @@ RSpec.describe "Working Days", :js, :with_cuprite do
       end
 
       date2 = NonWorkingDay.maximum(:date).next_week(:monday).next_occurring(:tuesday)
-      datepicker.set_date date2
+      datepicker.set_date_input(date2)
 
       within_test_selector("op-datepicker-modal") do
         click_on "Add"
@@ -238,12 +239,12 @@ RSpec.describe "Working Days", :js, :with_cuprite do
       expect(nwd2.date).to eq date2
 
       # Check if date and name are entered then close the datepicker
-      click_on "Non-working day"
-
+      datepicker.open_modal!
       within_test_selector("op-datepicker-modal") do
         click_on "Add"
       end
-      expect(page).to have_css(".flatpickr-calendar")
+
+      expect(page).to have_css(".flatpickr-calendar", wait: 5)
       datepicker.expect_visible
 
       within_test_selector("op-datepicker-modal") do

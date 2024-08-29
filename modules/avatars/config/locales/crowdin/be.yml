@@ -11,7 +11,6 @@ be:
   message_avatar_uploaded: "Аватар зменены паспяхова."
   error_image_upload: "Памылка пры захаванні відарысу."
   error_image_size: "Відарыс занадта вялікі."
-  button_change_avatar: "Змяніць аватар."
   are_you_sure_delete_avatar: "Вы ўпэўнены што хочаце выдаліць аватар?"
   avatar_deleted: "Аватар выдалены паспяхова."
   unable_to_delete_avatar: "Немагчыма выдаліць аватар."

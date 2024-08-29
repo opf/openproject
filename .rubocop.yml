@@ -208,6 +208,17 @@ Rails/DynamicFindBy:
     - 'spec/features/**/*.rb'
     - 'spec/support/**/*.rb'
     - 'modules/*/spec/features/**/*.rb'
+  Whitelist:
+    - find_by_login
+
+# Allow reorder to prevent find each cop triggering
+Rails/FindEach:
+  AllowedMethods:
+    - order
+    - reorder
+    - limit
+    - select
+    - lock
 
 # We have config.active_record.belongs_to_required_by_default = false ,
 # which means, we do have to declare presence validators on belongs_to relations.

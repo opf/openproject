@@ -26,6 +26,7 @@ zh-CN:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "2FA 传送已禁用。"
+    notice_not_writable: "2FA 设置是通过环境变量提供的，无法覆盖。"
     error_no_device: "尽管此实例需要，但没有为该用户找到注册的 2FA 设备。"
     error_no_matching_strategy: "没有匹配的 2FA 策略可供此用户使用。请联系您的管理员。"
     error_is_enforced_not_active: "配置错误：已强制执行双因子认证，但不存在活动策略。"
@@ -118,10 +119,10 @@ zh-CN:
       2fa_from_webauthn: 请提供 WebAuthn 设备 <strong>%{device_name}</strong>.如果是 USB 设备，请确保插入并使用它。然后点击登录按钮。
       webauthn:
         title: "WebAuthn 认证"
-        description: 使用 Web 身份验证注册 FIDO2 设备（如 YubiKey）或使用移动设备的安全隔区作为第二要素。
+        description: 注册一个 FIDO2 设备 (如Yubikey) 或您移动设备的安全处理器。
         further_steps: 选择名称后，可以点击“继续”按钮。浏览器将提示您出示 WebAuthn 设备。完成后，设备注册即告完成。
       totp:
-        title: "使用您的基于应用程序的身份验证器"
+        title: "基于应用程序的身份验证"
         provisioning_uri: "配置 URI"
         secret_key: "密钥"
         time_based: "基于时间"
@@ -134,14 +135,13 @@ zh-CN:
         text_cannot_scan: |
           如果您无法扫描二维码，可以使用下列详细信息手动输入条目：
         description: |
-          使用基于时间的一次性密码身份验证标准来注册要与 OpenProject 搭配使用的应用程序身份验证器。
-          常见的示例包括 Google Authenticator 或 Authy。
+          使用由身份验证器生成的一次性代码，如 Authy 或 Google 身份验证器。
       sms:
-        title: "使用您的手机"
+        title: "移动设备"
         redacted_identifier: "移动设备 (%{redacted_number})"
         request_2fa_identifier: "%{redacted_identifier}，我们通过 %{delivery_channel} 向您发送了一个身份验证代码"
         description: |
-          注册您的手机号码，以便传送 OpenProject 一次性密码。
+          每次登录时，通过您手机上的短信接收 2FA 代码。
     sns:
       delivery_failed: "SNS 传送失败："
     message_bird:

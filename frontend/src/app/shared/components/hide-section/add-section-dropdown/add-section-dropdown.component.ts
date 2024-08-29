@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,9 +27,7 @@
 //++
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  Component, ElementRef, OnInit, ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   HideSectionDefinition,
   HideSectionService,
@@ -37,10 +35,9 @@ import {
 import { trackByProperty } from 'core-app/shared/helpers/angular/tracking-functions';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
-export const addSectionDropdownSelector = 'add-section-dropdown';
 
 @Component({
-  selector: addSectionDropdownSelector,
+  selector: 'opce-add-section-dropdown',
   templateUrl: './add-section-dropdown.component.html',
 })
 export class AddSectionDropdownComponent extends UntilDestroyedMixin implements OnInit {
@@ -56,9 +53,11 @@ export class AddSectionDropdownComponent extends UntilDestroyedMixin implements 
 
   public placeholder = this.I18n.t('js.placeholders.selection');
 
-  constructor(protected hideSectionService:HideSectionService,
+  constructor(
+    protected hideSectionService:HideSectionService,
     protected elementRef:ElementRef,
-    protected I18n:I18nService) {
+    protected I18n:I18nService,
+  ) {
     super();
   }
 
@@ -71,12 +70,12 @@ export class AddSectionDropdownComponent extends UntilDestroyedMixin implements 
       .pipe(
         this.untilDestroyed(),
       ).subscribe((displayed) => {
-        this.selectable = this.hideSectionService.all
-          .filter((el) => displayed.indexOf(el.key) === -1)
-          .sort((a, b) => a.label.localeCompare(b.label));
+      this.selectable = this.hideSectionService.all
+        .filter((el) => displayed.indexOf(el.key) === -1)
+        .sort((a, b) => a.label.localeCompare(b.label));
 
-        (this.option.nativeElement as HTMLOptionElement).selected = true;
-      });
+      (this.option.nativeElement as HTMLOptionElement).selected = true;
+    });
   }
 
   show(value:string) {
