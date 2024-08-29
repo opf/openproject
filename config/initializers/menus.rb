@@ -305,10 +305,10 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_work_package_plural,
             icon: "op-view-list"
 
-  menu.push :work_packages_setting,
+  menu.push :work_packages_settings_general,
             { controller: "/admin/settings/work_packages_settings", action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_work_packages_settings,
+            caption: :label_general,
             parent: :admin_work_packages
 
   menu.push :types,
