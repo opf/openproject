@@ -52,17 +52,9 @@ apt-get install -yq --no-install-recommends \
 	libclang-dev \
 	git
 
-# Use jemalloc as memory allocator
+# Install jemalloc
 if [ "$USE_JEMALLOC" = "true" ]; then
 	apt-get install -yq libjemalloc2
-	if [ "$ARCHITECTURE" = "x64" ]; then
-		LIB_ARCH="x86_64"
-	elif [ "$ARCHITECTURE" = "arm64" ]; then
-		LIB_ARCH="aarch64"
-	elif [ "$ARCHITECTURE" = "ppc64le" ]; then
-		LIB_ARCH="powerpc64le"
-	fi
-	export LD_PRELOAD=/usr/lib/${LIB_ARCH}-linux-gnu/libjemalloc.so.2
 fi
 
 # Specifics for BIM edition
