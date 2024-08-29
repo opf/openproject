@@ -321,8 +321,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/statuses" },
             if: Proc.new { User.current.admin? },
             caption: :label_status,
-            parent: :admin_work_packages,
-            html: { class: "statuses" }
+            parent: :admin_work_packages
 
   menu.push :workflows,
             { controller: "/workflows", action: "edit" },
