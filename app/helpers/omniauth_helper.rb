@@ -32,7 +32,7 @@ module OmniauthHelper
   end
 
   def direct_login_provider_url(params = {})
-    omniauth_start_url(direct_login_provider, params)
+    omni_auth_start_url(direct_login_provider, params)
   end
 
   ##
