@@ -1054,7 +1054,7 @@ GEM
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     secure_headers (6.5.0)
-    selenium-devtools (0.127.0)
+    selenium-devtools (0.128.0)
       selenium-webdriver (~> 4.2)
     selenium-webdriver (4.23.0)
       base64 (~> 0.2)
