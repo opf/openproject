@@ -138,6 +138,8 @@ ca:
     description_select_work_package: "Selecciona el paquet de treball #%{id}"
     description_subwork_package: "Fill del paquet de treball #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "Canvia al mode de vista prèvia"
       source_code: "Canvia al mode de font Markdown"
       error_saving_failed: "No s'ha pogut guardar el document per culpa del següent error: %{error}"
@@ -276,8 +278,10 @@ ca:
           Els canvis poden tardar un temps a ser aplicats. Et notificarem un cop s'hagin actualitzat tots els paquets de treball rellevants.
           Estàs segur que vols continuar?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
           Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
@@ -398,6 +402,7 @@ ca:
     label_create: "Crear"
     label_create_work_package: "Crear nou paquet de treball"
     label_created_by: "Creat per"
+    label_current: "current"
     label_date: "Data"
     label_date_with_format: "Introdueix el %{date_attribute} amb el format següent: %{format}"
     label_deactivate: "Desactivar"
@@ -1182,6 +1187,9 @@ ca:
         one: "1 dia"
         other: "%{count} dies"
         zero: "0 dies"
+      word:
+        one: "1 word"
+        other: "%{count} words"
     zen_mode:
       button_activate: "Activa el mode zen"
       button_deactivate: "Desactiva el mode zen"

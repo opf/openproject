@@ -182,7 +182,7 @@ cs:
   label_meeting_delete: "Smazat schůzku"
   label_meeting_created_by: "Vytvořil"
   label_meeting_last_updated: "Naposledy aktualizováno"
-  label_meeting_reload: "Reload"
+  label_meeting_reload: "Obnovit"
   label_agenda_items: "Bod programu"
   label_agenda_items_reordered: "přeřazeno"
   label_agenda_item_remove: "Odebrat z programu"

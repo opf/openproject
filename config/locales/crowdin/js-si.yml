@@ -138,6 +138,8 @@ si:
     description_select_work_package: "වැඩ පැකේජය තෝරන්න #%{id}"
     description_subwork_package: "වැඩ පැකේජය දරුවා #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "පෙරදසුනෙහි මාදිලිය ටොගල් කරන්න"
       source_code: "සලකුණු කිරීමේ ප්රභව ප්රකාරය ටොගල් කරන්න"
       error_saving_failed: "පහත දැක්වෙන දෝෂය සමඟ ලේඛනය සුරැකීම අසාර්ථක විය: %{error}"
@@ -276,8 +278,10 @@ si:
           The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
           Are you sure you want to continue?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
           Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
@@ -398,6 +402,7 @@ si:
     label_create: "සාදන්න"
     label_create_work_package: "නව වැඩ පැකේජයක් සාදන්න"
     label_created_by: "විසින් නිර්මාණය"
+    label_current: "current"
     label_date: "දිනය"
     label_date_with_format: "පහත දැක්වෙන ආකෘතිය භාවිතා කරමින් %{date_attribute} ඇතුල් කරන්න: %{format}"
     label_deactivate: "අක්රිය කරන්න"
@@ -1182,6 +1187,9 @@ si:
         one: "දින 1"
         other: "%{count} දින"
         zero: "0 days"
+      word:
+        one: "1 word"
+        other: "%{count} words"
     zen_mode:
       button_activate: "සක්රිය මාදිලිය"
       button_deactivate: "සෙන් මාදිලිය අක්රිය"

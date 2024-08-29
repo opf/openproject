@@ -122,7 +122,7 @@ zh-CN:
     email:
       send_emails: "发送电子邮件"
       send_invitation_emails: >
-        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
+        立即向上面选定的参加者发送电子邮件邀请。您也可以在之后随时手动发送。
       open_meeting_link: "打开会议"
       invited:
         summary: "%{actor} 已经向您发送了一个 %{title} 会议邀请"
