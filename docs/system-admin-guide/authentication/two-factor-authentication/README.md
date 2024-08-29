@@ -19,6 +19,10 @@ From the GUI you are able to configure the following options:
 
 ![Sys-admin-authentication-two-factor-authentication](Sys-admin-authentication-two-factor-authentication.png)
 
+> [!NOTE]
+> These options will not be shown in the administration UI if 2FA settings are configured through environment variables.
+
+
 Usually with another device device like a mobile phone or a tablet, you are able to use a TOTP Application in order to generate the token that is needed as an extra layer of security on top of your password. Here are some applications that work for OpenProject 2FA.
 
 - Open Source andOTP (Android Device) in the [Play Store](https://play.google.com/store/apps/details?id=org.shadowice.flocke.andotp&gl=US)
