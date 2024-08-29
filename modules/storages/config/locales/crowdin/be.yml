@@ -31,7 +31,7 @@ be:
           attributes:
             host:
               authorization_header_missing: не ўсталявана поўнасцю. Сервер Nextcloud не атрымаў "Authorization" загаловак, які неабходны для аўтарызацыі запытаў з дапамогай Bearer токенаў. Калі ласка праверце налады вашага HTTP сервера.
-              cannot_be_connected_to: не можа быць звязаны з.
+              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
               minimal_nextcloud_version_unmet: не задавальняе мінімальным патрабаванням па версіі (Nextcloud павінен быць 23 ці вышэй)
               not_nextcloud_server: гэта не сервер Nextcloud
               op_application_not_installed: здаецца што прылада "OpenProject integration" не ўсталявана. Калі ласка ўстанавіце яе і паспрабуйце зноў.

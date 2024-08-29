@@ -31,7 +31,7 @@ es:
           attributes:
             host:
               authorization_header_missing: no está completamente configurado. La instancia de Nextcloud no recibe la cabecera "Autorización", que es necesaria para la autorización basada en token Bearer de solicitudes API. Por favor, compruebe la configuración de tu servidor HTTP.
-              cannot_be_connected_to: no admite conexiones.
+              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
               minimal_nextcloud_version_unmet: no cumple los requisitos mínimos de versión (debe ser Nextcloud 23 o posteriores)
               not_nextcloud_server: no es un servidor de Nextcloud
               op_application_not_installed: parece que no tienes la aplicación "Integración OpenProject" instalada. Por favor, instálala primero y vuelve a intentarlo.

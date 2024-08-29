@@ -31,7 +31,7 @@ ms:
           attributes:
             host:
               authorization_header_missing: belum disediakan sepenuhnya. Contoh Nextcloud tidak menerima pengepala "Dibenarkan" yang diperlukan untuk token Bearer berdasarkan kebenaran permintaan API. Sila periksa dua kali server konfigurasi HTTP anda dengan teliti.
-              cannot_be_connected_to: tidak boleh disambungkan.
+              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
               minimal_nextcloud_version_unmet: tidak memenuhi keperluan versi minimum (haruslah Nextcloud 23 atau lebih tinggi)
               not_nextcloud_server: ialah bukan server Nextcloud
               op_application_not_installed: kelihatan tidak mempunyai aplikasi "Integrasi OpenProject" yang terpasang. Sila pasangkannya terlebih dahulu dan cuba sekali lagi.

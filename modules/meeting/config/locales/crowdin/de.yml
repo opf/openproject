@@ -123,7 +123,7 @@ de:
     email:
       send_emails: "E-Mails senden"
       send_invitation_emails: >
-        Send out an invitation email to the participants listed above. Note that unchecking this option does not affect the sending of emails after this form is submitted.
+        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Besprechung öffnen"
       invited:
         summary: "%{actor} hat Ihnen eine Einladung für die folgende Besprechung gesendet: %{title}"
@@ -148,6 +148,7 @@ de:
     empty_text: "Neue Agendapunkte hierhin bewegen oder neu erstellen"
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
   notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, klicken Sie bitte hier.
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "Besprechungen erstellen"
   permission_edit_meetings: "Besprechungen bearbeiten"
   permission_delete_meetings: "Besprechungen löschen"
@@ -179,6 +180,7 @@ de:
   label_meeting_delete: "Besprechung löschen"
   label_meeting_created_by: "Erstellt von"
   label_meeting_last_updated: "Zuletzt aktualisiert"
+  label_meeting_reload: "Reload"
   label_agenda_items: "Tagesordnungspunkte"
   label_agenda_items_reordered: "neu geordnet"
   label_agenda_item_remove: "Von der Tagesordnung entfernen"

@@ -31,7 +31,7 @@ lt:
           attributes:
             host:
               authorization_header_missing: nėra pilnai nustatytas. Nextcloud egzempliorius negauna „Autorizacijos“ antraštės, kuri būtina Turėtojo žetonu paremtoms autorizacijos API užklausoms. Prašome patikrinti jūsų HTTP serverio konfigūraciją.
-              cannot_be_connected_to: negali būti prijungtas prie.
+              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
               minimal_nextcloud_version_unmet: neatitinka minimalių versijos reikalavimų (turi būti Nextcloud 23 ar aukštesnis)
               not_nextcloud_server: nėra Nextcloud serveris
               op_application_not_installed: panašu neturi įdiegtos „OpenProject integracijos“ aplikacijos. Prašome ją įdiegti ir bandyti dar kartą.

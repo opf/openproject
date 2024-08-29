@@ -31,7 +31,7 @@ zh-TW:
           attributes:
             host:
               authorization_header_missing: 未完全設置。Nextcloud 實例不會收到「Authorization」標頭，這是基於 Bearer 權杖(Token)API 請求授權所必需的。請仔細檢查您的 HTTP 服務器配置。
-              cannot_be_connected_to: 無法連接。
+              cannot_be_connected_to: 無法連線。請確認主機可以連線，且已安裝 OpenProject 整合應用程式。
               minimal_nextcloud_version_unmet: 未滿足最低版本要求（必須為 Nextcloud 23 或更高版本）
               not_nextcloud_server: 不是一個 Nextcloud 的服務器
               op_application_not_installed: 似乎沒有安裝應用「OpenProject 整合套件」。請先安裝，然後重試。

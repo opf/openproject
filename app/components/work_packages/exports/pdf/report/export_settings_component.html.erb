@@ -3,7 +3,8 @@
     <%= render WorkPackages::Exports::ColumnSelectionComponent.new(
       query,
       "columns-select-export-pdf-report",
-      I18n.t("export.dialog.columns.input_caption_report")
+      I18n.t("export.dialog.columns.input_caption_report"),
+      I18n.t("export.dialog.columns.input_label_report")
     ) %>
   <% end %>
   <% container.with_row do |_columns| %>

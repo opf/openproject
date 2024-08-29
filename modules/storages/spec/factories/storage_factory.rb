@@ -175,6 +175,13 @@ FactoryBot.define do
     end
   end
 
+  factory :one_drive_storage_configured, parent: :one_drive_storage do
+    after(:create) do |storage, _evaluator|
+      create(:oauth_client, integration: storage)
+      create(:oauth_application, integration: storage)
+    end
+  end
+
   factory :sharepoint_dev_drive_storage,
           parent: :one_drive_storage do
     automatically_managed { false }

@@ -328,6 +328,18 @@ class WorkPackage < ApplicationRecord
     write_attribute :remaining_hours, convert_duration_to_hours(hours)
   end
 
+  def done_ratio=(value)
+    write_attribute :done_ratio, convert_value_to_percentage(value)
+  end
+
+  def derived_progress_hints=(hints)
+    @derived_progress_hints = hints
+  end
+
+  def derived_progress_hints
+    @derived_progress_hints ||= {}
+  end
+
   def duration_in_hours
     duration ? duration * 24 : nil
   end
@@ -553,10 +565,17 @@ class WorkPackage < ApplicationRecord
   def convert_duration_to_hours(value)
     if value.is_a?(String)
       begin
-        value = value.blank? ? nil : DurationConverter.parse(value)
+        value = DurationConverter.parse(value)
       rescue ChronicDuration::DurationParseError
         # keep invalid value, error shall be caught by numericality validator
       end
+    end
+    value
+  end
+
+  def convert_value_to_percentage(value)
+    if value.is_a?(String) && PercentageConverter.valid?(value)
+      value = PercentageConverter.parse(value)
     end
     value
   end

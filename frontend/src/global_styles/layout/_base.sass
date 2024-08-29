@@ -88,9 +88,11 @@ $right-space: 16px
 $bottom-space: 10px
 $left-space: 16px
 
+$left-side-min-width: 300px
+
 #content
   display: grid
-  grid-template-columns: 1fr auto
+  grid-template-columns: minmax($left-side-min-width, 1fr) auto
   grid-template-rows: auto 1fr
   grid-template-areas: "header bodyRight" "body bodyRight"
   padding: 0
@@ -101,6 +103,11 @@ $left-space: 16px
   @include styled-scroll-bar
   z-index: 10
   background-color: var(--body-background)
+
+  // Basically if the content-BodyRight is filled:
+  // Apply the user-defined split screen width but be able to shrink in case the screen is not wide enough
+  &:has(#content-bodyRight > *)
+    grid-template-columns: minmax($left-side-min-width, 1fr) minmax(550px, var(--split-screen-width))
 
   &.content--split
     overflow: hidden

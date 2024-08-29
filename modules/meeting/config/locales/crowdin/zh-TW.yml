@@ -122,7 +122,7 @@ zh-TW:
     email:
       send_emails: "發送電子郵件"
       send_invitation_emails: >
-        向以上列出的參與者發送邀請電子郵件。請注意，不勾選不會影響提交此表單後發送電子郵件。
+        立即發送電子郵件邀請函給上述選定的與會者。您也可以稍後隨時手動執行。
       open_meeting_link: "打開會議連結"
       invited:
         summary: "%{actor} 已經向您發送了一個 %{title} 會議邀請"
@@ -147,6 +147,7 @@ zh-TW:
     empty_text: "將項目拖曳至此處或建立新項目"
   notice_successful_notification: "通知傳送成功"
   notice_timezone_missing: 沒有設定時區，預設時區為 %{zone} 。請按這裡選擇您的時區。
+  notice_meeting_updated: "本頁已由他人更新。重新載入以查看變更。"
   permission_create_meetings: "建立會議"
   permission_edit_meetings: "編輯會議"
   permission_delete_meetings: "刪除會議"
@@ -178,6 +179,7 @@ zh-TW:
   label_meeting_delete: "刪除會議"
   label_meeting_created_by: "建立者"
   label_meeting_last_updated: "最後更新於"
+  label_meeting_reload: "重新載入"
   label_agenda_items: "議程"
   label_agenda_items_reordered: "重新排列"
   label_agenda_item_remove: "從議程中刪除"

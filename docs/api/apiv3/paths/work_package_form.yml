@@ -1,68 +1,59 @@
 # /api/v3/work_packages/{id}/form
 ---
 post:
-  summary: Work Package Edit Form
-  operationId: Work_Package_Edit_Form
+  summary: Form for editing a Work Package
+  operationId: form_edit_work_package
   tags:
     - Work Packages
   description: |-
-    When calling this endpoint, the client provides a single object containing the properties and links to be edited, in the body.
+    When calling this endpoint, the client provides a single object containing the properties and links to be
+    edited, in the body. The input is validated and a schema response is returned. If the validation errors of the
+    response is empty, the same payload can be used to edit the work package.
 
-    Note that it is only allowed to provide properties or links supporting the write operation.
+    Only the properties of the work package write model are allowed to set on a work package on editing.
 
-    When setting start date, finish date, and duration together, their correctness will be checked and a 422 error will be returned if one value does not match with the two others. You can make the server compute a value: set only two values in the request and the third one will be computed and returned in the response. For instance, when sending `{ "startDate": "2022-08-23", duration: "P2D" }`, the response will include `{ "dueDate": "2022-08-24" }`.
+    When setting start date, finish date, and duration together, their correctness will be checked and a validation
+    error will be returned if one value does not match with the two others. You can make the server compute a value:
+    set only two values in the request and the third one will be computed and returned in the response. For instance,
+    when sending `{ "startDate": "2022-08-23", duration: "P2D" }`, the response will
+    include `{ "dueDate": "2022-08-24" }`.
   requestBody:
     content:
       application/json:
         schema:
-          "$ref": "../components/schemas/work_package_model.yml"
+          $ref: '../components/schemas/work_package_write_model.yml'
+        examples:
+          'Changing subject':
+            $ref: '../components/examples/work_package_edit_subject.yml'
   parameters:
-  - description: ID of the work package being modified
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - name: id
+      description: ID of the work package being modified
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: '1'
   responses:
     '200':
       description: OK
-      headers: {}
-    '403':
       content:
-        application/hal+json:
+        application/json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not allowed to edit the specified work package.
-      description: |-
-        Returned if the client does not have sufficient permissions.
-
-        **Required permission:** edit work package, assign version, change work package status, manage subtasks or move work package
-
-        *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
-      headers: {}
+            $ref: '../components/schemas/work_package_form_model.yml'
     '404':
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.	
+
+        **Required permission:** view work package
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
+            $ref: '../components/schemas/error_response.yml'
           examples:
             response:
               value:
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
                 message: The specified work package does not exist.
-      description: |-
-        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
-
-        **Required permission:** view work package
-      headers: {}
-    '406':
-      $ref: "../components/responses/missing_content_type.yml"
     '415':
-      $ref: "../components/responses/unsupported_media_type.yml"
+      $ref: '../components/responses/unsupported_media_type.yml'

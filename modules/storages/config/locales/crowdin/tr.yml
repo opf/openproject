@@ -31,7 +31,7 @@ tr:
           attributes:
             host:
               authorization_header_missing: tam olarak kurulmamıştır. Nextcloud örneği, API isteklerinin Taşıyıcı belirteci tabanlı yetkilendirmesi için gerekli olan "Yetkilendirme" başlığını almaz. Lütfen HTTP sunucu yapılandırmanızı iki kez kontrol edin.
-              cannot_be_connected_to: ile bağlanamaz.
+              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
               minimal_nextcloud_version_unmet: minimum sürüm gereksinimlerini karşılamıyor (Nextcloud 23 veya üstü olmalıdır)
               not_nextcloud_server: bir Nextcloud sunucusu değil
               op_application_not_installed: '"OpenProject entegrasyonu" uygulamasının yüklü olmadığı görülüyor. Lütfen önce kurun ve sonra tekrar deneyin.'

@@ -138,6 +138,8 @@ it:
     description_select_work_package: "Seleziona la macro-attività #%{id}"
     description_subwork_package: "Subordinata alla macro-attività #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "Attiva/disattiva modalità anteprima"
       source_code: "Attiva/Disattiva modalità origine Marcatura"
       error_saving_failed: "Il salvataggio del documento è fallito con il seguente errore: %{error}"
@@ -276,8 +278,10 @@ it:
           L'applicazione delle modifiche potrebbe richiedere del tempo. Riceverai una notifica quando tutti i pacchetti di lavoro pertinenti saranno aggiornati.
           Vuoi davvero continuare?
       work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Cambiare la modalità di calcolo dell'avanzamento da basata sullo stato a basata su lavoro renderà <i>% Completa</i> un campo non modificabile il cui valore è derivato da <i>Lavoro</i> e <i>Lavoro rimanente</i>. I valori esistenti per <i>% Complete</i> sono conservati. Se i valori per <i>Lavoro</i> e <i>Lavoro rimanente</i> non erano presenti, saranno necessari per modificare <i>% Complete</i>.
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Cambiando la modalità di calcolo dell'avanzamento da basata sul lavoro a basata sullo stato porvocherà la perdita di tutti i valori <i>% Complete</i> esistenti e saranno sostituiti con i valori associati ad ogni stato. I valori esistenti per il lavoro <i>rimanente</i> potrebbero anche essere ricalcolati per riflettere questo cambiamento. Questa azione non è reversibile.
     custom_actions:
@@ -336,18 +340,6 @@ it:
         years: "Anni"
         description: >
           Seleziona il livello di zoom iniziale da mostrare quando lo zoom automatico non è disponibile.
-      export:
-        title: "Opzioni del diagramma di Gantt in PDF"
-        button_export: "Esporta"
-        column_widths:
-          narrow: "Stretto"
-          medium: "Medio"
-          wide: "Ampio"
-          very_wide: "Molto ampio"
-        options:
-          date_zoom: "Zoom data"
-          paper_size: "Dimensione del foglio"
-          column_widths: "Larghezza colonne"
     general_text_no: "no"
     general_text_yes: "si"
     general_text_No: "No"
@@ -410,6 +402,7 @@ it:
     label_create: "Crea"
     label_create_work_package: "Crea una nuova macro-attività"
     label_created_by: "Creato da"
+    label_current: "current"
     label_date: "Data"
     label_date_with_format: "Immettere il %{date_attribute} utilizzando il seguente formato: %{format}"
     label_deactivate: "Disattivare"
@@ -1194,6 +1187,9 @@ it:
         one: "1 giorno"
         other: "%{count} giorni"
         zero: "0 giorni"
+      word:
+        one: "1 word"
+        other: "%{count} words"
     zen_mode:
       button_activate: "Attiva modalità zen"
       button_deactivate: "Disattiva modalità zen"

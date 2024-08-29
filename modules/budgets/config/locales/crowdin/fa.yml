@@ -51,7 +51,7 @@ fa:
   button_add_cost_type: "Add cost type"
   button_cancel_edit_budget: "Cancel editing budget"
   button_cancel_edit_costs: "Cancel editing costs"
-  caption_labor: "Labor"
+  caption_labor: "کار"
   caption_labor_costs: "Actual labor costs"
   caption_material_costs: "Actual unit costs"
   budgets_title: "بودجه ها"

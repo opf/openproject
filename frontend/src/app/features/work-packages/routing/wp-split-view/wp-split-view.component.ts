@@ -76,7 +76,6 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   @Input() activeTab?:string;
 
   @Input() resizerClass = 'work-packages-partitioned-page--content-right';
-  @Input() resizeStyle:'flexBasis'|'width' = 'flexBasis';
 
   constructor(
     public injector:Injector,

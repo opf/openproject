@@ -263,6 +263,9 @@ zh-TW:
       open_as_gantt: "甘特圖檢視"
       no_results_title_text: 目前沒有專案
       no_results_content_text: 建立新專案
+      search:
+        label: 查詢專案名稱
+        placeholder: 依專案名稱搜尋
     lists:
       active: "啟用中的專案"
       my: "我的專案"
@@ -1028,10 +1031,10 @@ zh-TW:
             assigned_to:
               format: "%{message}"
             done_ratio:
-              does_not_match_work_and_remaining_work: "工作與剩餘工作不匹配"
-              cannot_be_set_when_work_is_zero: "工作為零時無法設置"
-              must_be_set_when_remaining_work_is_set: "設置剩餘工作時需要"
-              must_be_set_when_work_and_remaining_work_are_set: "當設置了工作和剩餘工作時需要。"
+              does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when Work is 0h"
+              must_be_set_when_remaining_work_is_set: "required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "required when Work and Remaining work are set."
               inclusion: "必須介於 0 和 100 之間。"
             due_date:
               not_start_date: "儘管日期是里程碑所必需的，但不是開始日期。"
@@ -1061,15 +1064,17 @@ zh-TW:
               does_not_exist: "指定的類別不存在"
             estimated_hours:
               not_a_number: "不是有效的持續時間。"
-              cant_be_inferior_to_remaining_work: "不能低於剩餘工時。"
-              must_be_set_when_remaining_work_and_percent_complete_are_set: "設置 剩餘工作 和 已完成% 時必填。"
-              format: "%{message}"
+              cant_be_inferior_to_remaining_work: "cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "required when Remaining work and % Complete are set."
             remaining_hours:
               not_a_number: "不是有效的持續時間。"
-              cant_exceed_work: "不能高於工時。"
-              must_be_set_when_work_is_set: "當設置工時需要。"
-              must_be_set_when_work_and_percent_complete_are_set: "設置 工作 和 已完成% 時必填。"
-              format: "%{message}"
+              cant_exceed_work: "cannot be higher than Work."
+              must_be_set_when_work_is_set: "required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "required when Work and % Complete are set."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                must be 0h when Work is set and % Complete is 100%.
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                must be empty when Work is empty and % Complete is 100%.
           readonly_status: "工作項目處於唯讀狀態，因此無法變更其屬性。"
         type:
           attributes:
@@ -1607,9 +1612,71 @@ zh-TW:
       project: "專案: %{name}"
       subproject: "子專案: %{name}"
   export:
-    your_work_packages_export: "輸出工作列表"
-    succeeded: "輸出完成"
-    failed: "匯出失敗：%{message}"
+    dialog:
+      title: "匯出"
+      submit: "匯出"
+      format:
+        label: "檔案格式"
+        options:
+          csv:
+            label: "CSV"
+          pdf:
+            label: "PDF"
+          xls:
+            label: "XLS"
+      columns:
+        input_label_report: "將欄位新增至屬性表"
+        input_caption_report: "預設情況下，所有在工作項目清單中新增為欄位的屬性都會被選取。長文字欄位在屬性表中不可用，但可以顯示在屬性表下方。"
+        input_caption_table: "預設情況下，所有在工作項目清單中新增為欄位的屬性都會被選取。長文字欄位在以表格匯出中不可用。"
+      pdf:
+        export_type:
+          label: "PDF 匯出類型"
+          options:
+            table:
+              label: "表格"
+              caption: "匯出所需欄位表格含有工作項目清單"
+            report:
+              label: "報表"
+              caption: "在清單中所有工作項目的詳細報告上匯出工作項目。"
+            gantt:
+              label: "甘特圖"
+              caption: "匯出甘特圖檢視中的工作項目清單。"
+        include_images:
+          label: "包含圖片"
+          caption: "排除影像以減少 PDF 匯出的大小。"
+        gantt_zoom_levels:
+          label: "縮放等級"
+          caption: "選擇圖表中顯示日期的縮放程度。"
+          options:
+            days: "天"
+            weeks: "週"
+            months: "月"
+            quarters: "季度"
+        column_width:
+          label: "表格列寬"
+          options:
+            narrow: "窄"
+            medium: "中"
+            wide: "寬"
+            very_wide: "非常寬"
+        paper_size:
+          label: "紙張大小"
+          caption: "視圖表大小而定，可能會輸出超過一頁。"
+        long_text_fields:
+          input_caption: "預設選取所有長文字欄位。"
+          input_label: "新增長文字欄位"
+          input_placeholder: "搜尋長文字欄位"
+          drag_area_label: "新增長文字欄位"
+      xls:
+        include_relations:
+          label: "包含相關連的"
+          caption: "此選項會針對每個工作項目與其他工作項目的關係，建立一個複本。"
+        include_descriptions:
+          label: "包含說明"
+          caption: "此選項會在原始格式新增說明欄位。"
+    your_work_packages_export: "工作項目已匯出"
+    succeeded: "匯出完成"
+    failed: "嘗試匯出工作項目時發生錯誤： %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -2110,7 +2177,7 @@ zh-TW:
   label_modules: "模組"
   label_months_from: "從幾個月"
   label_more: "更多"
-  label_more_than_ago: "多天前"
+  label_more_than_ago: "超過幾天"
   label_move_work_package: "移動工作項目"
   label_my_account: "我的帳號"
   label_my_activity: "我的活動紀錄"
@@ -3011,8 +3078,10 @@ zh-TW:
   setting_work_package_done_ratio: "進度計算"
   setting_work_package_done_ratio_field: "基於工時"
   setting_work_package_done_ratio_status: "基於狀態"
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
-    在<b>基於工時</b>模式中，"完成百分比"是根據已完成的工作量與總工作量來計算的。在 <b>基於狀態</b> 模式中，每個狀態都有一個與其關聯的完成百分比值。更改狀態將更改完成百分比。
+    In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
   setting_work_packages_projects_export_limit: "工作項目/專案匯出數量限制"
@@ -3394,9 +3463,26 @@ zh-TW:
     progress:
       label_note: "備註"
       modal:
-        work_based_help_text: "完成百分比由 \"工時\" 和 \"剩餘工時\" 自動得出。"
+        work_based_help_text: "Each field is automatically calculated from the two others when possible."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "完成百分比由工作包狀態設定。"
         migration_warning_text: "在「基於工時」進度計算模式下，完成百分比無法手動設置，並且與「工時」相關聯。目前手動輸入數值已保留，無法編輯。 請務必輸入「工時」才能進行。"
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          cleared_because_work_is_0h: "Cleared because Work is 0h."
+          derived: "Derived from Work and Remaining work."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          derived: "Derived from Remaining work and % Complete."
+          same_as_remaining_work: "Set to same value as Remaining work."
+        remaining_hours:
+          cleared_because_work_is_empty: "Cleared because Work is empty."
+          cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
+          decreased_like_work: "Decreased by the same amount as Work."
+          derived: "Derived from Work and % Complete."
+          increased_like_work: "Increased by the same amount as Work."
+          same_as_work: "Set to same value as Work."
     permissions:
       comment: "留言"
       comment_description: "可查看此工作項目與留言"

@@ -31,7 +31,7 @@ cs:
           attributes:
             host:
               authorization_header_missing: není zcela nastaven. Instance Nextcloud nepřijímá hlavičku "Autorizace", která je nezbytná pro autorizaci API požadavků založených na tokenu Bearer. Zkontrolujte prosím nastavení HTTP serveru.
-              cannot_be_connected_to: nelze se připojit.
+              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
               minimal_nextcloud_version_unmet: nesplňuje minimální požadavky na verzi (musí být Nextcloud 23 nebo vyšší)
               not_nextcloud_server: není Nextcloud server
               op_application_not_installed: Zdá se, že aplikace "OpenProject integration" není nainstalována. Prosím nainstalujte ji a zkuste to znovu.
@@ -62,7 +62,7 @@ cs:
     edit_project_folder:
       label: Edit project folder
     project_folder_mode:
-      automatic: Automatically managed
+      automatic: Automaticky spravované
       inactive: Žádná specifická složka
       manual: Existing folder manually managed
     remove_project:
