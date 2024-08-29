@@ -172,7 +172,7 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context "given a work package with work and remaining work unset, and a status with 0% complete" do
+      context "given a work package with work and remaining work being empty, and a status with 0% complete" do
         before do
           work_package.status = status_0_pct_complete
           work_package.done_ratio = work_package.status.default_done_ratio
@@ -186,7 +186,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           let(:expected_attributes) { { remaining_hours: nil } }
 
           it_behaves_like "service call",
-                          description: "remaining work remains unset"
+                          description: "remaining work remains empty"
         end
 
         context "when work is set" do
@@ -194,7 +194,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           let(:expected_attributes) { { remaining_hours: 10.0 } }
 
           it_behaves_like "service call",
-                          description: "remaining work is updated accordingly from work and % complete value of the status"
+                          description: "remaining work is derived from work and % complete value of the status"
         end
       end
     end
@@ -209,11 +209,11 @@ RSpec.describe WorkPackages::SetAttributesService,
           work_package.clear_changes_information
         end
 
-        context "when remaining work is unset" do
+        context "when remaining work is cleared" do
           let(:call_attributes) { { remaining_hours: nil } }
-          let(:expected_attributes) { { estimated_hours: 10.0, done_ratio: nil } }
+          let(:expected_attributes) { { estimated_hours: nil, done_ratio: 70 } }
 
-          it_behaves_like "service call", description: "keeps work, and unsets % complete"
+          it_behaves_like "service call", description: "keeps % complete, and clears work"
         end
 
         context "when work is increased" do
@@ -224,7 +224,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           end
 
           it_behaves_like "service call",
-                          description: "remaining work is increased by the same amount, and % complete is updated accordingly"
+                          description: "remaining work is increased by the same amount, and % complete is derived"
         end
 
         context "when work and remaining work are both changed to values with more than 2 decimals" do
@@ -250,7 +250,7 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context "given a work package with work and remaining work unset, and % complete being set" do
+      context "given a work package with work and remaining work being empty, and % complete being set" do
         before do
           work_package.estimated_hours = nil
           work_package.remaining_hours = nil
@@ -263,11 +263,11 @@ RSpec.describe WorkPackages::SetAttributesService,
           let(:expected_attributes) { { remaining_hours: 4.0 } }
           let(:expected_kept_attributes) { %w[done_ratio] }
 
-          it_behaves_like "service call", description: "% complete is kept and remaining work is updated accordingly"
+          it_behaves_like "service call", description: "% complete is kept and remaining work is derived"
         end
       end
 
-      context "given a work package with work, remaining work, and % complete being unset" do
+      context "given a work package with work, remaining work, and % complete being empty" do
         before do
           work_package.estimated_hours = nil
           work_package.remaining_hours = nil

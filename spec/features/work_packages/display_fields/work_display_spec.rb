@@ -116,7 +116,7 @@ RSpec.describe "Work display", :js do
     include_examples "work display", expected_text: "0h·Σ 3h"
   end
 
-  context "with just total work (parent work unset)" do
+  context "with just total work (parent work empty)" do
     let_work_packages(<<~TABLE)
       hierarchy   | work |
       parent      |      |

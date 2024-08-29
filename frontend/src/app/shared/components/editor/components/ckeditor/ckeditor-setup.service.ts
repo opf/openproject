@@ -80,9 +80,11 @@ export class CKEditorSetupService {
 
         // Allow custom events on wrapper to set/get data for debugging
         jQuery(wrapper)
-          .on('op:ckeditor:setData', (event:unknown, data:string) => editor.setData(data))
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return
+          .on('op:ckeditor:autosave', () => editor.config.get('autosave').save(editor))
+          .on('op:ckeditor:setData', (_, data:string) => editor.setData(data))
           .on('op:ckeditor:clear', () => editor.setData(' '))
-          .on('op:ckeditor:getData', (event:unknown, cb:(data:string) => void) => cb(editor.getData({ trim: false })));
+          .on('op:ckeditor:getData', (_, cb:(data:string) => void) => cb(editor.getData({ trim: false })));
 
         return watchdog;
       });

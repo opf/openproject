@@ -137,7 +137,6 @@ export class ResizerComponent implements OnDestroy {
   }
 
   private onMouseMove(event:MouseEvent|TouchEvent) {
-    event.preventDefault();
     event.stopPropagation();
 
     this.oldX = this.newX;

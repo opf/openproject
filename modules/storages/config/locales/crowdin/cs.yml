@@ -62,7 +62,7 @@ cs:
     edit_project_folder:
       label: Edit project folder
     project_folder_mode:
-      automatic: Automatically managed
+      automatic: Automaticky spravované
       inactive: Žádná specifická složka
       manual: Existing folder manually managed
     remove_project:

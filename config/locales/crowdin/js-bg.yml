@@ -138,6 +138,8 @@ bg:
     description_select_work_package: "Избери работен пакет #%{id}"
     description_subwork_package: "Подработен пакет #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "Toggle preview mode"
       source_code: "Toggle Markdown source mode"
       error_saving_failed: "Saving the document failed with the following error: %{error}"
@@ -276,8 +278,10 @@ bg:
           The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
           Are you sure you want to continue?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
           Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
@@ -398,6 +402,7 @@ bg:
     label_create: "Създаване"
     label_create_work_package: "Създаване на нов работен пакет"
     label_created_by: "Created by"
+    label_current: "current"
     label_date: "Дата"
     label_date_with_format: "Въведете %{date_attribute}, като използвате следния формат: %{format}"
     label_deactivate: "Деактивирай"
@@ -1182,6 +1187,9 @@ bg:
         one: "1 ден"
         other: "%{count} дни"
         zero: "0 days"
+      word:
+        one: "1 word"
+        other: "%{count} words"
     zen_mode:
       button_activate: "Activate zen mode"
       button_deactivate: "Deactivate zen mode"

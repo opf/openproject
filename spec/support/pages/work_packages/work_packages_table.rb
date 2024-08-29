@@ -355,6 +355,10 @@ module Pages
       end
     end
 
+    def progress_popover(work_package)
+      Components::WorkPackages::ProgressPopover.new(container: work_package_container(work_package))
+    end
+
     protected
 
     def container
