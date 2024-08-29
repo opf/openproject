@@ -33,7 +33,7 @@ require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand, :webmock do
   let(:user) { create(:user) }
-  let(:storage) { create(:nextcloud_storage_with_local_connection, :as_automatically_managed) }
+  let(:storage) { create(:nextcloud_storage_with_local_connection, :as_automatically_managed, username: "vcr") }
   let(:auth_strategy) { Storages::Peripherals::Registry.resolve("nextcloud.authentication.userless").call }
 
   let(:test_folder) do
