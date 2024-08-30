@@ -69,6 +69,9 @@ class CustomField < ApplicationRecord
   validates :min_length, numericality: { less_than_or_equal_to: :max_length, message: :smaller_than_or_equal_to_max_length },
                          unless: Proc.new { |cf| cf.max_length.blank? }
 
+  validates :multi_value, absence: true, unless: :multi_value_possible?
+  validates :allow_non_open_versions, absence: true, unless: :allow_non_open_versions_possible?
+
   before_validation :check_searchability
   after_destroy :destroy_help_text
 
