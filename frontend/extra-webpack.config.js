@@ -5,7 +5,7 @@ module.exports = {
     minimizer: [
       new TerserPlugin({
         terserOptions: {
-          mangle: process.env.OPENPROJECT_ANGULAR_UGLIFY !== 'false',
+          mangle: process.env.OPENPROJECT_ANGULAR_BUILD !== 'fast',
           keep_classnames: true,
           keep_fnames: true,
         }
