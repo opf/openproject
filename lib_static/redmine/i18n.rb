@@ -120,11 +120,7 @@ module Redmine
       return nil unless time
 
       zone = User.current.time_zone
-      local_date = (if zone
-                      time.in_time_zone(zone)
-                    else
-                      time.utc? ? time.localtime : time
-                    end).to_date
+      local_date = time.in_time_zone(zone).to_date
 
       if format
         local_date.strftime(format)
