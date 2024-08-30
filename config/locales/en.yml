@@ -2066,6 +2066,7 @@ en:
   label_authentication_settings: "Authentication settings"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
+  label_available_project_custom_fields: "Available project custom fields"
   label_available_project_forums: "Available forums"
   label_available_project_repositories: "Available repositories"
   label_available_project_versions: "Available versions"

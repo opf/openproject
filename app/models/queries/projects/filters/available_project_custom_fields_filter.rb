@@ -29,9 +29,9 @@
 # ++
 #
 
-class Queries::Projects::Filters::AvailableProjectAttributesFilter < Queries::Projects::Filters::Base
+class Queries::Projects::Filters::AvailableProjectCustomFieldsFilter < Queries::Projects::Filters::Base
   def self.key
-    :available_project_attributes
+    :available_project_custom_fields
   end
 
   def type
@@ -39,8 +39,8 @@ class Queries::Projects::Filters::AvailableProjectAttributesFilter < Queries::Pr
   end
 
   def allowed_values
-    @allowed_values ||= ProjectCustomFieldProjectMapping
-      .includes(:project_custom_field)
+    @allowed_values ||= CustomFieldsProject
+      .includes(:custom_field)
       .distinct
       .pluck(:name, :custom_field_id)
   end
@@ -52,9 +52,9 @@ class Queries::Projects::Filters::AvailableProjectAttributesFilter < Queries::Pr
   def apply_to(_query_scope)
     case operator
     when "="
-      super.with_available_project_custom_fields(values)
+      super.with_available_custom_fields(values)
     when "!"
-      super.without_available_project_custom_fields(values)
+      super.without_available_custom_fields(values)
     else
       raise "unsupported operator"
     end
@@ -65,6 +65,6 @@ class Queries::Projects::Filters::AvailableProjectAttributesFilter < Queries::Pr
   end
 
   def human_name
-    I18n.t(:label_available_project_attributes)
+    I18n.t(:label_available_project_custom_fields)
   end
 end
