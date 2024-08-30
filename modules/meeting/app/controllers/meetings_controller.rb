@@ -96,8 +96,8 @@ class MeetingsController < ApplicationController
 
     if call.success?
       text = I18n.t(:notice_successful_create)
-      if User.current.time_zone.nil?
-        link = I18n.t(:notice_timezone_missing, zone: Time.zone)
+      unless User.current.pref.time_zone?
+        link = I18n.t(:notice_timezone_missing, zone: formatted_time_zone_offset)
         text += " #{view_context.link_to(link, { controller: '/my', action: :settings, anchor: 'pref_time_zone' },
                                          class: 'link_to_profile')}"
       end

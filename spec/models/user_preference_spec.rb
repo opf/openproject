@@ -244,4 +244,26 @@ RSpec.describe UserPreference do
       end
     end
   end
+
+  describe "#time_zone?" do
+    context "with a time zone set and a default configured", with_settings: { user_default_timezone: "America/Los_Angeles" } do
+      let(:settings) { { "time_zone" => "Africa/Algiers" } }
+
+      it "is true" do
+        expect(preference).to be_time_zone
+      end
+    end
+
+    context "with no time zone configured but a default", with_settings: { user_default_timezone: "America/Los_Angeles" } do
+      it "is false" do
+        expect(preference).not_to be_time_zone
+      end
+    end
+
+    context "with neiter a time zone configured nor a default one", with_settings: { user_default_timezone: "" } do
+      it "is false" do
+        expect(preference).not_to be_time_zone
+      end
+    end
+  end
 end

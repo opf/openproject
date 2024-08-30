@@ -688,6 +688,6 @@ class User < Principal
   end
 
   def self.default_admin_account_changed?
-    !User.active.find_by_login("admin").try(:current_password).try(:matches_plaintext?, "admin") # rubocop:disable Rails/DynamicFindBy
+    !User.active.find_by_login("admin").try(:current_password).try(:matches_plaintext?, "admin")
   end
 end

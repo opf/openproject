@@ -135,6 +135,10 @@ class UserPreference < ApplicationRecord
     super.presence || Setting.user_default_timezone.presence || "Etc/UTC"
   end
 
+  def time_zone?
+    settings["time_zone"].present?
+  end
+
   def daily_reminders
     super.presence || { enabled: true, times: ["08:00:00+00:00"] }.with_indifferent_access
   end
