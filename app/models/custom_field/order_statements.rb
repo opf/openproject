@@ -38,7 +38,7 @@ module CustomField::OrderStatements
       else
         [select_custom_option_position]
       end
-    when "string", "text", "date", "bool", "link"
+    when "string", "date", "bool", "link"
       if multi_value?
         [select_custom_values_as_group]
       else
