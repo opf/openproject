@@ -26,10 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  module ProjectCustomFields
-    module ProjectCustomFieldMapping
-      class TableComponent < Admin::CustomFields::CustomFieldProjects::TableComponent
+module Admin
+  module CustomFields
+    module CustomFieldProjects
+      class RowComponent < Projects::RowComponent
+        include OpTurbo::Streamable
+
+        def wrapper_uniq_by
+          "project-#{project.id}"
+        end
+
+        def more_menu_items
+          []
+        end
       end
     end
   end

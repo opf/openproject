@@ -26,30 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  module ProjectCustomFields
-    module ProjectCustomFieldMapping
-      class RowComponent < Admin::CustomFields::CustomFieldProjects::RowComponent
-        def more_menu_items
-          @more_menu_items ||= [more_menu_detach_project].compact
+module Admin
+  module CustomFields
+    module CustomFieldProjects
+      class TableComponent < Projects::TableComponent
+        include OpTurbo::Streamable
+
+        def columns
+          @columns ||= query.selects.reject { |select| select.is_a?(Queries::Selects::NotExistingSelect) }
         end
 
-        private
+        def sortable?
+          false
+        end
 
-        def more_menu_detach_project
-          project = model.first
-          if User.current.admin && project.active?
-            {
-              scheme: :default,
-              icon: nil,
-              label: I18n.t("projects.settings.project_custom_fields.actions.remove_from_project"),
-              href: unlink_admin_settings_project_custom_field_path(
-                id: @table.params[:custom_field].id,
-                project_custom_field_project_mapping: { project_id: project.id }
-              ),
-              data: { turbo_method: :delete }
-            }
-          end
+        # @override optional_pagination_options are passed to the pagination_options
+        # which are passed to #pagination_links_full in pagination_helper.rb
+        #
+        # In Turbo streamable components, we need to be able to specify the url_for(action:) so that links are
+        # generated in the context of the component index action, instead of any turbo stream actions performing
+        # partial updates on the page.
+        #
+        # params[:url_for_action] is passed to the pagination_options making it's way down to any pagination links
+        # that are generated via link_to which calls url_for which uses the params[:url_for_action] to specify
+        # the controller action that link_to should use.
+        #
+        def optional_pagination_options
+          return super unless params[:url_for_action]
+
+          super.merge(params: { action: params[:url_for_action] })
         end
       end
     end
