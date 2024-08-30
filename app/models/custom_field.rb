@@ -277,17 +277,9 @@ class CustomField < ApplicationRecord
     field_format == "bool"
   end
 
-  def multi_value?
-    multi_value
-  end
-
   def multi_value_possible?
     %w[version user list].include?(field_format) &&
       [ProjectCustomField, WorkPackageCustomField, TimeEntryCustomField, VersionCustomField].include?(self.class)
-  end
-
-  def allow_non_open_versions?
-    allow_non_open_versions
   end
 
   def allow_non_open_versions_possible?
