@@ -111,7 +111,7 @@ module Components
       end
 
       def expect_read_only(field_name)
-        field(field_name).expect_read_only_modal_field
+        field(field_name).expect_modal_field_read_only
       end
 
       def expect_select_with_options(field_name, *options)

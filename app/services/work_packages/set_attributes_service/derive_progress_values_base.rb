@@ -79,6 +79,10 @@ class WorkPackages::SetAttributesService
       DurationConverter.valid?(work_package.estimated_hours_before_type_cast)
     end
 
+    def work_invalid?
+      !work_valid?
+    end
+
     def remaining_work
       work_package.remaining_hours
     end
@@ -113,6 +117,10 @@ class WorkPackages::SetAttributesService
 
     def remaining_work_valid?
       DurationConverter.valid?(work_package.remaining_hours_before_type_cast)
+    end
+
+    def remaining_work_invalid?
+      !remaining_work_valid?
     end
 
     def percent_complete

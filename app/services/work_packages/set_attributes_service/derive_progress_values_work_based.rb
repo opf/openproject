@@ -161,14 +161,6 @@ class WorkPackages::SetAttributesService
       remaining_work / remaining_percent_complete
     end
 
-    def work_invalid?
-      !work_valid?
-    end
-
-    def remaining_work_invalid?
-      !remaining_work_valid?
-    end
-
     def percent_complete_unparsable?
       !PercentageConverter.valid?(work_package.done_ratio_before_type_cast)
     end

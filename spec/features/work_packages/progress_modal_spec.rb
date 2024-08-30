@@ -589,5 +589,63 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         progress_popover.expect_values(work: "300h", remaining_work: "60h", percent_complete: "80%")
       end
     end
+
+    context "in status-based mode",
+            with_settings: { work_package_done_ratio: "status" } do
+      before_all do
+        open_status_with_0p_done_ratio.update!(is_default: true)
+
+        create(:workflow,
+               type_id: type_task.id,
+               old_status: open_status_with_0p_done_ratio,
+               new_status: in_progress_status_with_50p_done_ratio,
+               role:)
+        create(:workflow,
+               type_id: type_task.id,
+               old_status: open_status_with_0p_done_ratio,
+               new_status: complete_status_with_100p_done_ratio,
+               role:)
+      end
+
+      context "given status has % complete to 50% and work is unset" do
+        before do
+          update_work_package_with(work_package, status: in_progress_status_with_50p_done_ratio,
+                                                 estimated_hours: nil)
+        end
+
+        specify "when setting work, it updates remaining work and % complete" do
+          visit_progress_query_displaying_work_package
+
+          progress_popover.open
+          progress_popover.expect_values(work: "", remaining_work: "")
+          progress_popover.expect_hints(work: nil, remaining_work: nil)
+
+          progress_popover.set_values(work: "10h")
+          progress_popover.expect_values(work: "10h", remaining_work: "5h")
+          progress_popover.expect_hints(work: nil, remaining_work: :derived)
+        end
+      end
+
+      context "given work = 10h" do
+        before do
+          update_work_package_with(work_package, estimated_hours: 10)
+        end
+
+        specify "when changing the status or work, it updates remaining work" do
+          visit_progress_query_displaying_work_package
+
+          progress_popover.open
+          progress_popover.expect_hints(work: nil, remaining_work: nil)
+
+          progress_popover.set_values(status: in_progress_status_with_50p_done_ratio)
+          progress_popover.expect_values(work: "10h", remaining_work: "5h")
+          progress_popover.expect_hints(work: nil, remaining_work: :derived)
+
+          progress_popover.set_values(work: "")
+          progress_popover.expect_values(work: "", remaining_work: "")
+          progress_popover.expect_hints(work: nil, remaining_work: :cleared_because_work_is_empty)
+        end
+      end
+    end
   end
 end
