@@ -38,8 +38,8 @@ See COPYRIGHT and LICENSE files for more details.
   if @custom_field.is_for_all?
     render Primer::Beta::Blankslate.new(border: true) do |component|
       component.with_visual_icon(icon: :checklist)
-      component.with_heading(tag: :h2).with_content(I18n.t("projects.settings.project_custom_fields.is_required_blank_slate.heading"))
-      component.with_description { I18n.t("projects.settings.project_custom_fields.is_required_blank_slate.description") }
+      component.with_heading(tag: :h2).with_content(I18n.t("custom_fields.admin.custom_field_projects.is_for_all_blank_slate.heading"))
+      component.with_description { I18n.t("custom_fields.admin.custom_field_projects.is_for_all_blank_slate.description") }
     end
   else
     render(Admin::CustomFields::CustomFieldProjects::TableComponent.new(

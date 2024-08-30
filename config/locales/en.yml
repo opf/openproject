@@ -225,6 +225,12 @@ en:
       description: "Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project."
 
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before
       you can add them to this project.

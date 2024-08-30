@@ -48,6 +48,12 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
     end
   end
 
+  def default_breadcrumb; end
+
+  def show_local_breadcrumb
+    false
+  end
+
   private
 
   def find_model_object(object_id = :custom_field_id)
