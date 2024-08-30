@@ -48,7 +48,7 @@ module Settings
             {
               scheme: :default,
               icon: nil,
-              label: I18n.t("projects.settings.project_custom_fields.actions.deactivate_for_project"),
+              label: I18n.t("projects.settings.project_custom_fields.actions.remove_from_project"),
               href: unlink_admin_settings_project_custom_field_path(
                 id: @table.params[:custom_field].id,
                 project_custom_field_project_mapping: { project_id: project.id }
