@@ -35,43 +35,45 @@ module OpenProject
     let(:format) { "%d/%m/%Y" }
     let(:user) { build_stubbed(:user) }
 
-    after do
-      Time.zone = nil
-    end
+    describe "#format_time_as_date" do
+      describe "with user time zone" do
+        before do
+          login_as user
+          allow(user).to receive(:time_zone).and_return(ActiveSupport::TimeZone["Athens"])
+        end
 
-    describe "with user time zone" do
-      before do
-        login_as user
-        allow(user).to receive(:time_zone).and_return(ActiveSupport::TimeZone["Athens"])
+        it "returns a date in the user timezone for a utc timestamp" do
+          Time.use_zone("UTC") do
+            time = Time.zone.local(2013, 6, 30, 23, 59)
+            expect(format_time_as_date(time, format)).to eq "01/07/2013"
+          end
+        end
+
+        it "returns a date in the user timezone for a non-utc timestamp" do
+          Time.use_zone("Berlin") do
+            time = Time.zone.local(2013, 6, 30, 23, 59)
+            expect(format_time_as_date(time, format)).to eq "01/07/2013"
+          end
+        end
       end
 
-      it "returns a date in the user timezone for a utc timestamp" do
-        Time.zone = "UTC"
-        time = Time.zone.local(2013, 6, 30, 23, 59)
-        expect(format_time_as_date(time, format)).to eq "01/07/2013"
-      end
+      describe "without user time zone" do
+        before { allow(User.current).to receive(:time_zone).and_return(nil) }
 
-      it "returns a date in the user timezone for a non-utc timestamp" do
-        Time.zone = "Berlin"
-        time = Time.zone.local(2013, 6, 30, 23, 59)
-        expect(format_time_as_date(time, format)).to eq "01/07/2013"
-      end
-    end
+        it "returns a date in the local system timezone for a utc timestamp" do
+          Time.use_zone("UTC") do
+            time = Time.zone.local(2013, 6, 30, 23, 59)
+            allow(time).to receive(:localtime).and_return(ActiveSupport::TimeZone["Athens"].local(2013, 7, 1, 1, 59))
+            expect(format_time_as_date(time, format)).to eq "01/07/2013"
+          end
+        end
 
-    describe "without user time zone" do
-      before { allow(User.current).to receive(:time_zone).and_return(nil) }
-
-      it "returns a date in the local system timezone for a utc timestamp" do
-        Time.zone = "UTC"
-        time = Time.zone.local(2013, 6, 30, 23, 59)
-        allow(time).to receive(:localtime).and_return(ActiveSupport::TimeZone["Athens"].local(2013, 7, 1, 1, 59))
-        expect(format_time_as_date(time, format)).to eq "01/07/2013"
-      end
-
-      it "returns a date in the original timezone for a non-utc timestamp" do
-        Time.zone = "Berlin"
-        time = Time.zone.local(2013, 6, 30, 23, 59)
-        expect(format_time_as_date(time, format)).to eq "30/06/2013"
+        it "returns a date in the original timezone for a non-utc timestamp" do
+          Time.use_zone("Berlin") do
+            time = Time.zone.local(2013, 6, 30, 23, 59)
+            expect(format_time_as_date(time, format)).to eq "30/06/2013"
+          end
+        end
       end
     end
 
