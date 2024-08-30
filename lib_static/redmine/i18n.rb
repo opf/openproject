@@ -147,6 +147,10 @@ module Redmine
         (Setting.time_format.blank? ? ::I18n.l(local, format: :time) : local.strftime(Setting.time_format))
     end
 
+    def format_time_zone
+      (User.current.time_zone || Time.zone).to_s[/\((.*?)\)/m, 1]
+    end
+
     def day_name(day)
       ::I18n.t("date.day_names")[day % 7]
     end

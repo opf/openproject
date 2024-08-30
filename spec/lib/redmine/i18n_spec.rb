@@ -374,6 +374,48 @@ module OpenProject
       end
     end
 
+    describe "#format_time_zone" do
+      current_user { build_stubbed(:user, preferences: { time_zone: user_time_zone }) }
+      let(:user_time_zone) { "" }
+
+      context "with the current user having set a time zone" do
+        let(:user_time_zone) { "Kathmandu" }
+
+        it "renders the time zone of the user" do
+          # No DST in this time zone so the expectation should be constant.
+          expect(format_time_zone).to eql "GMT+05:45"
+        end
+      end
+
+      context "without the current user having a time zone and no default one configured" do
+        let(:user_time_zone) { "" }
+
+        it "renders the UTC time zone" do
+          expect(format_time_zone).to eql "GMT+00:00"
+        end
+      end
+
+      context "without the current user having a time zone but with a default one configured",
+              with_settings: { user_default_timezone: "Kathmandu" } do
+        let(:user_time_zone) { "" }
+
+        it "renders the default time zone" do
+          # No DST in this time zone so the expectation should be constant.
+          expect(format_time_zone).to eql "GMT+05:45"
+        end
+      end
+
+      context "without the current user having a time zone and also a default one configured",
+              with_settings: { user_default_timezone: "Atlanta" } do
+        let(:user_time_zone) { "Kathmandu" }
+
+        it "renders the default time zone" do
+          # No DST in this time zone so the expectation should be constant.
+          expect(format_time_zone).to eql "GMT+05:45"
+        end
+      end
+    end
+
     describe "day names" do
       valid_languages.each do |lang|
         context "for locale #{lang}" do
