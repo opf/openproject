@@ -98,12 +98,10 @@ class EnterprisesController < ApplicationController
     helpers.write_augur_to_gon
   end
 
-  def default_breadcrumb
-    t(:label_enterprise_edition)
-  end
+  def default_breadcrumb; end
 
   def show_local_breadcrumb
-    true
+    false
   end
 
   def check_user_limit

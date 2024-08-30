@@ -26,13 +26,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { I18n.t(:"attribute_help_texts.label_plural") }
+    header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: :normal)
 
-<% html_title t(:label_administration), t(:'attribute_help_texts.label_plural') %>
-
-<%= render template: 'common/upsale',
-           locals: {
-               feature_title: t(:'attribute_help_texts.label_plural'),
-               feature_description: t('attribute_help_texts.enterprise.description'),
-               feature_reference: 'enterprise-attribute-help-texts',
-               feature_image: 'enterprise/attribute-help-texts.png'
-           } %>
+    header.with_tab_nav(label: nil) do |tab_nav|
+      @tabs.each do |tab|
+        tab_nav.with_tab(selected: currently_selected_tab == tab, href: tab[:path]) do |t|
+          t.with_text { I18n.t(tab[:label]) }
+        end
+      end
+    end if @tabs.present?
+  end
+%>

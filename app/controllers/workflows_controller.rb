@@ -45,7 +45,7 @@ class WorkflowsController < ApplicationController
   end
 
   def edit
-    @used_statuses_only = params[:used_statuses_only] != "0"
+    @used_statuses_only = params[:used_statuses_only] == "1"
 
     statuses_for_form
 

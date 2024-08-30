@@ -123,7 +123,7 @@ fr:
     email:
       send_emails: "Envoyer des e-mails"
       send_invitation_emails: >
-        Envoyez un courriel d'invitation aux participants énumérés ci-dessus. Notez que la désactivation de cette option n'affecte pas l'envoi d'e-mails après que ce formulaire a été soumis.
+        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Ouvrir la réunion"
       invited:
         summary: "%{actor} vous a envoyé une invitation pour la réunion %{title}"

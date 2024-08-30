@@ -138,6 +138,8 @@ ko:
     description_select_work_package: "작업 패키지 #%{id} 선택"
     description_subwork_package: "작업 패키지 #%{id}의 자식"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "미리 보기 모드 토글"
       source_code: "Markdown 소스 모드 토글"
       error_saving_failed: "다음 오류로 인해 문서를 저장하지 못했습니다: %{error}"
@@ -276,8 +278,10 @@ ko:
           변경 사항이 적용되는 데 시간이 걸릴 수 있습니다. 모든 관련 작업 패키지가 업데이트되면 알림이 전송됩니다.
           계속하시겠습니까?
       work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          진행률 계산 모드를 상태 기반에서 작업 기반으로 변경하면 <i>완료 %</i>가 편집할 수 없는 필드가 되며 해당 값은 <i>작업</i> 및 <i>남은 작업</i>에서 파생됩니다. <i>완료 %</i>의 기존 값은 유지됩니다. <i>작업</i> 및 <i>남은 작업</i>의 값이 없는 경우, <i>완료 %</i>를 변경하려면 해당 값이 필요합니다.
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           진행률 계산 모드를 작업 기반에서 상태 기반으로 변경하면 기존의 모든 <i>완료 %</i> 값이 손실되고 각 상태와 관련된 값으로 대체됩니다. <i>남은 작업</i>의 기존 값도 이 변경 사항을 반영하기 위해 다시 계산될 수 있습니다. 이 작업은 되돌릴 수 없습니다.
     custom_actions:
@@ -398,6 +402,7 @@ ko:
     label_create: "만들기"
     label_create_work_package: "새 작업 패키지 만들기"
     label_created_by: "작성자"
+    label_current: "current"
     label_date: "날짜"
     label_date_with_format: "%{date_attribute} 는 %{format} 과 같이 입력되어야 합니다."
     label_deactivate: "비활성화"
@@ -1179,6 +1184,8 @@ ko:
         one: "1일"
         other: "%{count}일"
         zero: "0일"
+      word:
+        other: "%{count} words"
     zen_mode:
       button_activate: "Zen 모드 활성화"
       button_deactivate: "Zen 모드 비활성화"

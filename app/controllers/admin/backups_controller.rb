@@ -76,12 +76,10 @@ class Admin::BackupsController < ApplicationController
     redirect_to action: "show"
   end
 
-  def default_breadcrumb
-    t(:label_backup)
-  end
+  def default_breadcrumb; end
 
   def show_local_breadcrumb
-    true
+    false
   end
 
   def check_enabled

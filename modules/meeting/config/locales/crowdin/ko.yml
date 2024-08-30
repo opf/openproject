@@ -122,7 +122,7 @@ ko:
     email:
       send_emails: "이메일 보내기"
       send_invitation_emails: >
-        Send out an invitation email to the participants listed above. Note that unchecking this option does not affect the sending of emails after this form is submitted.
+        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "미팅 열기"
       invited:
         summary: "%{actor} 님이 %{title} 미팅 초대장을 귀하에게 보냈습니다"

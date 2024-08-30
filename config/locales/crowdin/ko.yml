@@ -1032,10 +1032,10 @@ ko:
             assigned_to:
               format: "%{message}"
             done_ratio:
-              does_not_match_work_and_remaining_work: "- 작업과 남은 작업이 일치하지 않습니다"
-              cannot_be_set_when_work_is_zero: "- 작업이 0인 경우 설정할 수 없습니다"
-              must_be_set_when_remaining_work_is_set: "'남은 작업'이 설정된 경우 필수입니다."
-              must_be_set_when_work_and_remaining_work_are_set: "'작업' 및 '남은 작업'이 설정된 경우 필수입니다."
+              does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when Work is 0h"
+              must_be_set_when_remaining_work_is_set: "required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "required when Work and Remaining work are set."
               inclusion: "- 0에서 100 사이여야 합니다."
             due_date:
               not_start_date: "마일스톤에서 요구하지만, 시작 날짜가 없음"
@@ -1065,15 +1065,17 @@ ko:
               does_not_exist: "지정한 카테고리가 존재하지 않습니다."
             estimated_hours:
               not_a_number: "- 유효한 기간이 아닙니다."
-              cant_be_inferior_to_remaining_work: "남은 작업보다 낮을 수 없습니다."
-              must_be_set_when_remaining_work_and_percent_complete_are_set: "'남은 작업' 및 '완료 %'가 설정된 경우 필수입니다."
-              format: "%{message}"
+              cant_be_inferior_to_remaining_work: "cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "required when Remaining work and % Complete are set."
             remaining_hours:
               not_a_number: "- 유효한 기간이 아닙니다."
-              cant_exceed_work: "작업보다 높을 수 없습니다."
-              must_be_set_when_work_is_set: "작업이 설정된 경우 필수입니다."
-              must_be_set_when_work_and_percent_complete_are_set: "'작업' 및 '완료 %'가 설정된 경우 필수입니다."
-              format: "%{message}"
+              cant_exceed_work: "cannot be higher than Work."
+              must_be_set_when_work_is_set: "required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "required when Work and % Complete are set."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                must be 0h when Work is set and % Complete is 100%.
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                must be empty when Work is empty and % Complete is 100%.
           readonly_status: "작업 패키지가 읽기 전용 상태이므로 해당 속성을 변경할 수 없습니다."
         type:
           attributes:
@@ -1624,7 +1626,8 @@ ko:
           xls:
             label: "XLS"
       columns:
-        input_caption_report: "By default all attributes added as columns in the work package list are selected."
+        input_label_report: "Add columns to attribute table"
+        input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
         input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
       pdf:
         export_type:
@@ -3076,8 +3079,10 @@ ko:
   setting_work_package_done_ratio: "진행률 계산"
   setting_work_package_done_ratio_field: "작업 기반"
   setting_work_package_done_ratio_status: "상태 기반"
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
-    <b>작업 기반</b> 모드에서 완료 %는 총 작업 대비 완료된 작업을 기준으로 계산됩니다. <b>상태 기반</b> 모드에서는 각 상태에 완료 % 값이 연결되어 있습니다. 상태를 변경하면 완료 %도 변경됩니다.
+    In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "작업 패키지 속성"
   setting_work_package_startdate_is_adddate: "새 작업 패키지에 대한 시작 날짜로 현재 날짜 사용"
   setting_work_packages_projects_export_limit: "작업 패키지/프로젝트 내보내기 제한"
@@ -3459,9 +3464,26 @@ ko:
     progress:
       label_note: "참고:"
       modal:
-        work_based_help_text: "완료 %는 작업 및 남은 작업에서 자동으로 파생됩니다."
+        work_based_help_text: "Each field is automatically calculated from the two others when possible."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "완료 %는 작업 패키지 상태에 따라 설정됩니다."
         migration_warning_text: "작업 기반 진행률 계산 모드에서 완료 %는 수동으로 설정할 수 없으며 작업에 연결됩니다. 기존 값은 유지되지만 편집할 수 없습니다. 먼저 작업을 입력하세요."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          cleared_because_work_is_0h: "Cleared because Work is 0h."
+          derived: "Derived from Work and Remaining work."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          derived: "Derived from Remaining work and % Complete."
+          same_as_remaining_work: "Set to same value as Remaining work."
+        remaining_hours:
+          cleared_because_work_is_empty: "Cleared because Work is empty."
+          cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
+          decreased_like_work: "Decreased by the same amount as Work."
+          derived: "Derived from Work and % Complete."
+          increased_like_work: "Increased by the same amount as Work."
+          same_as_work: "Set to same value as Work."
     permissions:
       comment: "코멘트"
       comment_description: "이 작업 패키지를 보고 코멘트를 작성할 수 있습니다."

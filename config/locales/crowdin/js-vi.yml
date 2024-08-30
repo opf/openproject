@@ -102,7 +102,7 @@ vi:
     button_save: "Lưu"
     button_settings: "Cài đặt"
     button_uncheck_all: "Bỏ chọn tất cả"
-    button_update: "Cập Nhật"
+    button_update: "Cập nhật"
     button_export-pdf: "Tải xuống PDF"
     button_export-atom: "Tải xuống Atom"
     button_create: "Tạo"
@@ -138,6 +138,8 @@ vi:
     description_select_work_package: "Chọn công việc #%{id}"
     description_subwork_package: "Con của công việc #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "Chuyển đổi chế độ xem trước"
       source_code: "Chuyển đổi chế độ mã Markdown"
       error_saving_failed: "Lưu tài liệu không thành công với lỗi sau: %{error}"
@@ -276,8 +278,10 @@ vi:
           Các thay đổi có thể mất một thời gian để có hiệu lực. Bạn sẽ được thông báo khi tất cả các công việc liên quan đã được cập nhật.
           Bạn có chắc chắn muốn tiếp tục không?
       work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Thay đổi chế độ tính toán tiến độ từ dựa trên trạng thái sang dựa trên công việc sẽ làm cho <i>% Hoàn thành</i> trở thành trường không thể chỉnh sửa, giá trị của nó được lấy từ <i>Công việc</i> và <i>Công việc còn lại</i>. Các giá trị hiện tại cho <i>% Hoàn thành</i> sẽ được giữ lại. Nếu các giá trị cho <i>Công việc</i> và <i>Công việc còn lại</i> không có, chúng sẽ được yêu cầu để thay đổi <i>% Hoàn thành</i>.
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Thay đổi chế độ tính toán tiến độ từ dựa trên công việc sang dựa trên trạng thái sẽ dẫn đến việc tất cả các giá trị hiện tại của <i>% Hoàn thành</i> bị mất và thay thế bằng các giá trị liên kết với từng trạng thái. Các giá trị hiện tại cho <i>Công việc còn lại</i> cũng có thể được tính lại để phản ánh sự thay đổi này. Hành động này không thể hoàn tác.
     custom_actions:
@@ -398,6 +402,7 @@ vi:
     label_create: "Tạo"
     label_create_work_package: "Tạo gói công việc mới"
     label_created_by: "Được tạo bởi"
+    label_current: "current"
     label_date: "Ngày"
     label_date_with_format: "Nhập %{date_attribute} theo định dạng sau: %{format}"
     label_deactivate: "Hủy kích hoạt"
@@ -1179,6 +1184,8 @@ vi:
         one: "1 ngày"
         other: "%{count} ngày"
         zero: "0 ngày"
+      word:
+        other: "%{count} words"
     zen_mode:
       button_activate: "Kích hoạt chế độ Zen"
       button_deactivate: "Tắt chế độ Zen"

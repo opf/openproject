@@ -64,11 +64,11 @@ it:
       upgrade_to_ee: "Aggiorna a Enterprise edition"
       add_token: "Carica un token di assistenza per Enterprise edition"
       delete_token_modal:
-        text: "Vuoi davvero rimuovere il token Enterprise edition attualmente utilizzato?"
+        text: "Vuoi davvero rimuovere il token Enterprise Edition attualmente utilizzato?"
         title: "Elimina token"
       replace_token: "Sostituisci il token di assistenza attuale"
       order: "Ordina l'edizione Enterprise on-premises"
-      paste: "Incolla il tuo token di assistenza per Enterprise edition"
+      paste: "Incolla il tuo token di assistenza per Enterprise Edition"
       required_for_feature: "Questa aggiunta è disponibile solo con un token di assistenza Enterprise Edition attivo."
       enterprise_link: "Per ulteriori informazioni, clicca qui."
       start_trial: "Inizia la prova gratuita"
@@ -804,7 +804,7 @@ it:
         confirmation: "non coincide con %{attribute}."
         could_not_be_copied: "%{dependency} non può essere (completamente) copiato."
         does_not_exist: "non esiste."
-        error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise Edition"
         error_unauthorized: "potrebbe non essere accessibile."
         error_readonly: "è in sola lettura, pertanto non è stato possibile modificarlo."
         error_conflict: "L'informazione è stata aggiornata da almeno un altro utente nel frattempo."
@@ -1037,10 +1037,10 @@ it:
             assigned_to:
               format: "%{message}"
             done_ratio:
-              does_not_match_work_and_remaining_work: "non corrisponde al lavoro e al lavoro residuo"
-              cannot_be_set_when_work_is_zero: "non può essere impostata quando il lavoro è zero"
-              must_be_set_when_remaining_work_is_set: "Obbligatorio quando si imposta Lavoro residuo."
-              must_be_set_when_work_and_remaining_work_are_set: "Obbligatorio quando si impostano Lavoro e Lavoro residuo."
+              does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when Work is 0h"
+              must_be_set_when_remaining_work_is_set: "required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "required when Work and Remaining work are set."
               inclusion: "deve essere compresa tra 0 e 100."
             due_date:
               not_start_date: "non è sulla data di inizio, nonostante sia obbligatorio per i traguardi."
@@ -1070,15 +1070,17 @@ it:
               does_not_exist: "La categoria specificata non esiste."
             estimated_hours:
               not_a_number: "non è una durata valida."
-              cant_be_inferior_to_remaining_work: "Non può essere inferiore al Lavoro residuo."
-              must_be_set_when_remaining_work_and_percent_complete_are_set: "Richiesto quando sono impostate le opzioni Lavoro residuo e % completamento."
-              format: "%{message}"
+              cant_be_inferior_to_remaining_work: "cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "required when Remaining work and % Complete are set."
             remaining_hours:
               not_a_number: "non è una durata valida."
-              cant_exceed_work: "Non può essere superiore a Lavoro."
-              must_be_set_when_work_is_set: "Obbligatorio quando è impostato Lavoro."
-              must_be_set_when_work_and_percent_complete_are_set: "Richiesto quando sono impostate le opzioni Lavoro e % completamento."
-              format: "%{message}"
+              cant_exceed_work: "cannot be higher than Work."
+              must_be_set_when_work_is_set: "required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "required when Work and % Complete are set."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                must be 0h when Work is set and % Complete is 100%.
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                must be empty when Work is empty and % Complete is 100%.
           readonly_status: "La macro-attività è in uno stato di sola lettura perciò i suoi attributi non possono essere modificati."
         type:
           attributes:
@@ -1592,7 +1594,7 @@ it:
   error_cookie_missing: "Il cookie di OpenProject è mancante. Prego, verifica che i cookie siano attivati, questa applicazione non funziona correttamente senza."
   error_custom_option_not_found: "L'opzione non esiste."
   error_enterprise_activation_user_limit: "Il tuo account potrebbe non essere attivo (raggiunto il limite utente). Si prega di contattare l'amministratore per ottenere l'accesso."
-  error_enterprise_token_invalid_domain: "L'Enterprise edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
+  error_enterprise_token_invalid_domain: "L'Enterprise Edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
   error_failed_to_delete_entry: "Cancellazione voce non riuscita."
   error_in_dependent: "Errore nel tentativo di modificare l'oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Errore nel tentativo di creare un oggetto dipendente: %{dependent_class} - %{related_subject}: %{error}"
@@ -1657,7 +1659,8 @@ it:
           xls:
             label: "XLS"
       columns:
-        input_caption_report: "By default all attributes added as columns in the work package list are selected."
+        input_label_report: "Add columns to attribute table"
+        input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
         input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
       pdf:
         export_type:
@@ -1756,10 +1759,10 @@ it:
     blocks:
       community: "Comunità di OpenProject"
       upsale:
-        title: "Aggiorna ad Enterprise edition"
+        title: "Aggiorna ad Enterprise Edition"
         more_info: "Altre informazioni"
     links:
-      upgrade_enterprise_edition: "Aggiorna ad Enterprise edition"
+      upgrade_enterprise_edition: "Aggiorna ad Enterprise Edition"
       postgres_migration: "Migrazione dell'installazione su PostgreSQL"
       user_guides: "Guide utente"
       faq: "FAQ"
@@ -2065,7 +2068,7 @@ it:
   label_enumerations: "Enumerazioni"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} utenti attivi riservati"
-  label_enterprise_edition: "Enterprise edition"
+  label_enterprise_edition: "Enterprise Edition"
   label_enterprise_support: "Supporto per Imprese"
   label_enterprise_addon: "Componente aggiuntivo Enterprise"
   label_environment: "Ambiente"
@@ -3114,8 +3117,10 @@ it:
   setting_work_package_done_ratio: "Calcolo dei progressi"
   setting_work_package_done_ratio_field: "Basato sul lavoro"
   setting_work_package_done_ratio_status: "Basato sullo stato"
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
-    Nella modalità <b>basata sul lavoro</b>, la % di completamento viene calcolata in base alla quantità di lavoro svolto rispetto al lavoro totale. Nella modalità <b>basata sullo stato</b>, a ogni stato è associato un valore di % completamento. La modifica dello stato cambierà la % completamento.
+    In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Proprietà della macro-attività"
   setting_work_package_startdate_is_adddate: "Usa la data corrente come data di inizio per le nuove macro-attività"
   setting_work_packages_projects_export_limit: "Limite di esportazione di macro-attività/progetti"
@@ -3498,9 +3503,26 @@ it:
     progress:
       label_note: "Nota:"
       modal:
-        work_based_help_text: "La % completamento viene ricavata automaticamente dal lavoro e dal lavoro residuo."
+        work_based_help_text: "Each field is automatically calculated from the two others when possible."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "La % completamento è stabilita dallo stato della macro-attività."
         migration_warning_text: "Nella modalità di calcolo basata sul lavoro, la % completamento non può essere impostata manualmente ed è legata al lavoro. Il valore esistente è stato mantenuto ma non può essere modificato. Specifica prima il lavoro."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          cleared_because_work_is_0h: "Cleared because Work is 0h."
+          derived: "Derived from Work and Remaining work."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          derived: "Derived from Remaining work and % Complete."
+          same_as_remaining_work: "Set to same value as Remaining work."
+        remaining_hours:
+          cleared_because_work_is_empty: "Cleared because Work is empty."
+          cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
+          decreased_like_work: "Decreased by the same amount as Work."
+          derived: "Derived from Work and % Complete."
+          increased_like_work: "Increased by the same amount as Work."
+          same_as_work: "Set to same value as Work."
     permissions:
       comment: "Commentare"
       comment_description: "Può visualizzare e commentare questa macro-attività."

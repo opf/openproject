@@ -67,7 +67,7 @@ zh-CN:
         text: "您确定要删除当前使用的企业版令牌吗？"
         title: "删除令牌"
       replace_token: "替换您当前的支持令牌"
-      order: "订购本地部署的 Enterprise edition"
+      order: "订购本地部署版的 Enterprise edition"
       paste: "粘贴您企业版的支持令牌"
       required_for_feature: "此功能仅限具激活的企业版支持令牌的订阅者使用。"
       enterprise_link: "如需了解详细信息，请单击此处。"
@@ -262,8 +262,8 @@ zh-CN:
       no_results_title_text: 目前没有项目。
       no_results_content_text: 创建一个新的项目
       search:
-        label: Project name filter
-        placeholder: Search by project name
+        label: 项目名称过滤器
+        placeholder: 按项目名称搜索
     lists:
       active: "有效项目"
       my: "我的项目"
@@ -1029,10 +1029,10 @@ zh-CN:
             assigned_to:
               format: "%{message}"
             done_ratio:
-              does_not_match_work_and_remaining_work: "工作与剩余工作不匹配"
-              cannot_be_set_when_work_is_zero: "工作 为 零 时无法设置"
-              must_be_set_when_remaining_work_is_set: "设置 剩余工作 时必须"
-              must_be_set_when_work_and_remaining_work_are_set: "当设置了工作和剩余工作时必填。"
+              does_not_match_work_and_remaining_work: "工时与剩余工时不匹配"
+              cannot_be_set_when_work_is_zero: "当工时为 0h 时无法设置"
+              must_be_set_when_remaining_work_is_set: "设置“剩余工时”时必填。"
+              must_be_set_when_work_and_remaining_work_are_set: "设置“工时”和“剩余工时”时必填。"
               inclusion: "必须介于 0 和 100 之间。"
             due_date:
               not_start_date: "不是在开始日期开始，尽管这是必需的里程碑。"
@@ -1063,14 +1063,16 @@ zh-CN:
             estimated_hours:
               not_a_number: "不是有效的持续时间。"
               cant_be_inferior_to_remaining_work: "不能低于剩余工时。"
-              must_be_set_when_remaining_work_and_percent_complete_are_set: "设置 剩余工作 和 已完成% 时必填。"
-              format: "%{message}"
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "设置“剩余工时”和“% 完成”时必填。"
             remaining_hours:
               not_a_number: "不是有效的持续时间。"
               cant_exceed_work: "不能高于工时。"
-              must_be_set_when_work_is_set: "当设置工时需要。"
-              must_be_set_when_work_and_percent_complete_are_set: "设置 工作 和 已完成% 时必填。"
-              format: "%{message}"
+              must_be_set_when_work_is_set: "设置“工时”时必填。"
+              must_be_set_when_work_and_percent_complete_are_set: "设置“工时”和“% 完成”时必填。"
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                当“工时”已设置，且“% 完成”为 100%时，必须为0h。
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                当“工时”为空，且“% 完成”为 100%时，必须为空。
           readonly_status: "工作包处于只读状态，因此无法更改其属性。"
         type:
           attributes:
@@ -1609,10 +1611,10 @@ zh-CN:
       subproject: "子项目：%{name}"
   export:
     dialog:
-      title: "Export"
-      submit: "Export"
+      title: "导出"
+      submit: "导出"
       format:
-        label: "File format"
+        label: "文件格式"
         options:
           csv:
             label: "CSV"
@@ -1621,57 +1623,58 @@ zh-CN:
           xls:
             label: "XLS"
       columns:
-        input_caption_report: "By default all attributes added as columns in the work package list are selected."
-        input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
+        input_label_report: "添加列到属性表"
+        input_caption_report: "默认情况下，所有添加到当前工作包列表中的列都会被选中。长文本字段在属性表中不可用，但可以显示在其下方。"
+        input_caption_table: "默认情况下，所有添加到当前工作包列表中的列都会被选中。长文本字段在基于表格的导出中不可用。"
       pdf:
         export_type:
-          label: "PDF export type"
+          label: "PDF 导出类型"
           options:
             table:
-              label: "Table"
-              caption: "Export the work packages list in a table with the desired columns."
+              label: "表格"
+              caption: "以表格形式导出工作包列表，包含所需的列。"
             report:
-              label: "Report"
-              caption: "Export the work package on a detailed report of all work packages in the list."
+              label: "报告"
+              caption: "以详细报告的形式导出列表中的所有工作包。"
             gantt:
-              label: "Gantt chart"
-              caption: "Export the work packages list in a Gantt diagram view."
+              label: "甘特图"
+              caption: "以甘特图视图导出工作包列表。"
         include_images:
-          label: "Include images"
-          caption: "Exclude images to reduce the size of the PDF export."
+          label: "包含图片"
+          caption: "不包含图像以缩小导出PDF的大小。"
         gantt_zoom_levels:
-          label: "Zoom levels"
-          caption: "Select what is the zoom level for dates displayed in the chart."
+          label: "缩放级别"
+          caption: "选择图表中显示日期的缩放级别。"
           options:
-            days: "Days"
-            weeks: "Weeks"
-            months: "Months"
-            quarters: "Quarters"
+            days: "天"
+            weeks: "周"
+            months: "月"
+            quarters: "季度"
         column_width:
-          label: "Table column width"
+          label: "列宽"
           options:
-            narrow: "Narrow"
-            medium: "Medium"
-            wide: "Wide"
-            very_wide: "Very wide"
+            narrow: "窄"
+            medium: "正常"
+            wide: "宽"
+            very_wide: "非常宽"
         paper_size:
-          label: "Paper size"
-          caption: "Depending on the chart size more than one page might be exported."
+          label: "纸张大小"
+          caption: "根据图表大小，可能会导出不止一页。"
         long_text_fields:
-          input_caption: "By default all long text fields are selected."
-          input_label: "Add long text fields"
-          input_placeholder: "Search for long text fields"
-          drag_area_label: "Manage long text fields"
+          input_caption: "默认情况下，所有长文本字段都被选中。"
+          input_label: "添加长文本字段"
+          input_placeholder: "搜索长文本字段"
+          drag_area_label: "管理长文本字段"
       xls:
         include_relations:
-          label: "Include relations"
-          caption: "This option will create a duplicate of each work package for every relation this has with another work package."
+          label: "包含关系"
+          caption: "该选项将为每个工作包与另一个工作包的关系创建一个副本。"
         include_descriptions:
-          label: "Include descriptions"
-          caption: "This option will add a description column in raw format."
-    your_work_packages_export: "Work packages are being exported"
-    succeeded: "Export completed"
-    failed: "An error has occurred while trying to export the work packages: %{message}"
+          label: "包含描述"
+          caption: "该选项将添加原始格式的描述列。"
+    your_work_packages_export: "正在导出工作包"
+    succeeded: "导出完成"
+    failed: "在尝试导出工作包时发生错误： %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -2313,7 +2316,7 @@ zh-CN:
   label_revision_id: "修订版本 %{value}"
   label_revision_plural: "修订"
   label_roadmap: "路线图"
-  label_roadmap_edit: "编辑路线图 %{name}"
+  label_roadmap_edit: "编辑路线图%{name}"
   label_roadmap_due_in: "%{value} 到期"
   label_roadmap_no_work_packages: "该版本没有工作包。"
   label_roadmap_overdue: "%{value} 超时"
@@ -2962,7 +2965,7 @@ zh-CN:
       managed: "在 OpenProject 中创建新的存储库"
     storage:
       not_available: "磁盘存储开销不可用于此存储库。"
-      update_timeout: "在 N 分钟内保留存储库最后所需磁盘空间的信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
+      update_timeout: "在 N 分钟内保留存储库最后所需的磁盘空间信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
       oauth_application_details: "关闭此窗口后，将无法再次访问客户端密钥值。请将这些值复制到 Nextcloud OpenProject 集成设置中："
       oauth_application_details_link_text: "转到设置页面"
       setup_documentation_details: "如果您在配置新文件存储方面需要帮助，请查看文档："
@@ -3070,8 +3073,10 @@ zh-CN:
   setting_work_package_done_ratio: "进度计算"
   setting_work_package_done_ratio_field: "基于工时"
   setting_work_package_done_ratio_status: "基于状态"
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    在<b>基于工时</b>模式下，“% 完成”是根据已完成的工时占总工时的比例计算出来的。在<b>基于状态</b>模式下，每个状态都有一个与之相关的“% 完成”。更改状态将改变“% 完成”。
   setting_work_package_done_ratio_explanation_html: >
-    在<b>基于工时</b>模式下，完成百分比是根据已完成的工时占总工时的比例计算出来的。在<b>基于状态</b>模式下，每个状态都有一个与之相关的完成百分比。更改状态将改变完成百分比。
+    在<b>基于工作的</b>模式下，“% 完成”可以自由设置为任何值。如果选择输入 "工时 "值，则会自动得出 "剩余工时"。在<b>基于状态的</b>模式下，每个状态都有一个与之相关的“% 完成”值。更改状态将改变“% 完成”。
   setting_work_package_properties: "工作包属性"
   setting_work_package_startdate_is_adddate: "使用当前日期作为新工作包的开始日期"
   setting_work_packages_projects_export_limit: "工作包/项目导出限制"
@@ -3111,7 +3116,7 @@ zh-CN:
   setting_session_ttl_hint: "当设置的值低于5时，其作用类似于禁用。"
   setting_session_ttl_enabled: "会话过期"
   setting_start_of_week: "一周起始日"
-  setting_sys_api_enabled: "启用版本库管理 web 服务"
+  setting_sys_api_enabled: "启用存储库管理网页服务"
   setting_sys_api_description: "存储库管理网页服务提供了集成的，用户授权的存储库访问。"
   setting_time_format: "时间"
   setting_accessibility_mode_for_anonymous: "为匿名用户启用辅助功能模式"
@@ -3423,7 +3428,7 @@ zh-CN:
   warning_user_limit_reached_admin: >
     添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问此实例。
   warning_user_limit_reached_instructions: >
-    您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
+    您已达到用户限制（%{current}/%{max} 活跃用户）。请联系 sales@openproject.com 升级您的企业版计划以添加额外用户。
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -3452,9 +3457,26 @@ zh-CN:
     progress:
       label_note: "注意："
       modal:
-        work_based_help_text: "完成百分比由 \"工时\" 和 \"剩余工时\" 自动得出。"
+        work_based_help_text: "在可能的情况下，每个字段都会根据另外两个字段自动计算。"
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "“% 完成”由 \"工时\" 和 \"剩余工时\" 自动得出。"
         status_based_help_text: "完成百分比由工作包状态设定。"
         migration_warning_text: "在基于工时的进度计算模式下，完成百分比不能手动设置，而是与工时绑定。现有值已被保留，但无法编辑。请先输入工时。"
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "已清空，因为“剩余工时”为空。"
+          cleared_because_work_is_0h: "已清空，因为 \"工时 \"为 0h。"
+          derived: "源自“工时”和“剩余工时”。"
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "已清空，因为“剩余工时”为空。"
+          derived: "由“剩余工时”和“% 完成”得出"
+          same_as_remaining_work: "设置为与“剩余工时”相同的值。"
+        remaining_hours:
+          cleared_because_work_is_empty: "已清空，因为 \"工时 \"为空。"
+          cleared_because_percent_complete_is_empty: "已清空，因为“% 完成”为空。"
+          decreased_like_work: "减少与 \"工时 \"相同的数额。"
+          derived: "由“工时”和“% 完成”得出"
+          increased_like_work: "增加与 \"工时 \"相同的数额。"
+          same_as_work: "设置为与 \"工时 \"相同的值。"
     permissions:
       comment: "评论"
       comment_description: "可以查看和评论该工作包。"

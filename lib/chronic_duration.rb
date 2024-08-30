@@ -74,7 +74,7 @@ module ChronicDuration
   # return an integer (or float, if fractions of a
   # second are input)
   def parse(string, opts = {})
-    result = calculate_from_words(cleanup(string), opts)
+    result = calculate_from_words(cleanup(string, opts), opts)
     !opts[:keep_zero] && result == 0 ? nil : result
   end
 
@@ -247,11 +247,11 @@ module ChronicDuration
     val
   end
 
-  def cleanup(string)
+  def cleanup(string, opts = {})
     res = string.downcase
     res = filter_by_type(res)
     res = res.gsub(float_matcher) { |n| " #{n} " }.squeeze(" ").strip
-    filter_through_white_list(res)
+    filter_through_white_list(res, opts)
   end
 
   def convert_to_number(string)
@@ -308,7 +308,7 @@ module ChronicDuration
 
   # Get rid of unknown words and map found
   # words to defined time units
-  def filter_through_white_list(string)
+  def filter_through_white_list(string, opts)
     res = []
     string.split.each do |word|
       if word&.match?(float_matcher)
@@ -318,7 +318,7 @@ module ChronicDuration
       stripped_word = word.strip.gsub(/^,/, "").gsub(/,$/, "")
       if mappings.has_key?(stripped_word)
         res << mappings[stripped_word]
-      elsif !join_words.include?(stripped_word) and ChronicDuration.raise_exceptions # rubocop:disable Rails/NegateInclude
+      elsif !join_words.include?(stripped_word) and opts.fetch(:raise_exceptions, ChronicDuration.raise_exceptions) # rubocop:disable Rails/NegateInclude
         raise DurationParseError, "An invalid word #{word.inspect} was used in the string to be parsed."
       end
     end

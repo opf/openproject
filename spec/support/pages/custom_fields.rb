@@ -36,7 +36,7 @@ module Pages
 
     def visit_tab(name)
       visit!
-      within("opce-content-tabs") do
+      within_test_selector("custom-fields--tab-nav") do
         click_link name.to_s
       end
     end
