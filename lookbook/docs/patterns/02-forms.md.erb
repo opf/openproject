@@ -1,0 +1,47 @@
+A form is a series of components that require user input that will then be submitted. Forms are notably common in settings pages but are also present elsewhere like in individual modals (edit project attribute section, edit meeting details) and the filter panel.
+
+## Form elements
+
+A form may be composed of these elements:
+
+- Text input
+- Text area
+- Select
+- Toggle switch
+- Checkbox
+- Checkbox group
+- Radio button
+- Radio groups
+
+Additional elements like Banners might also be used.
+
+## Grouping and hierarchy
+
+Form elements are related need to be grouped together. For this, use a form group. 
+
+If a form is particularly long, split it into different form groups and use a `Subhead` at the start of each to give it a title. When using Subheads, we recommend implementing individual Save buttons for each section (using the <em>Secondary</em> style). If a section only contains `Toggle switch` elements, a separate Save button is not necessarily (since the Toggle sends its own server request on interaction).
+
+If a form does not use Subhead sections, then there should be a single 'Save' (using the <em>Primary</em> style) button at the end.
+
+## Form width
+
+In Primer, form elements automatically take the width of the container. In certain cases (especially Settings pages), full-width input fields will look strange. In this case, form inputs will need to have a smaller width.
+
+In OpenProject, each form element has its own container. It is thus possible to define the container width for each input. This width will define both the visual width of the field but also the max width of the caption field (where the line breaks).
+
+The options are:
+
+- <strong>:auto</strong> => width: auto
+- <strong>:small</strong> => max-width: min(256px, 100vw - 2rem)
+- <strong>:medium</strong> =>  max-width: min(320px, 100vw - 2rem)
+- <strong>:large</strong> => max-width: min(480px, 100vw - 2rem)
+- <strong>:xlarge</strong> => max-width: min(640px, 100vw - 2rem)
+- <strong>:xxlarge</strong> => max-width: min(960px, 100vw - 2rem)
+
+## Vertical spacing
+
+By default, form elements do not have proper vertical spacing in Primer. We recommend a 16px (`stack/gap/normal`) vertical separate between individual elements. There is an [open issue in Primer's GitHub](https://github.com/primer/view_components/issues/3042) to fix this.
+
+Until this is fixed at a component level, please do not manually apply form padding.
+
+An alternative approach is to wrap individual form elements using `Form group`. Please only use this sparingly and only when it is absolutely necessarily.
