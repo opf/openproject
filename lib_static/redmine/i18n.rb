@@ -144,8 +144,14 @@ module Redmine
         (Setting.time_format.blank? ? ::I18n.l(local, format: :time) : local.strftime(Setting.time_format))
     end
 
-    def format_time_zone
-      User.current.time_zone.to_s[/\((.*?)\)/m, 1]
+    # Returns the offset to UTC (with utc prepended) currently active
+    # in the current users time zone. DST is factored in so the offset can
+    # shift over the course of the year
+    def formatted_time_zone_offset
+      # Doing User.current.time_zone and format that will not take heed of DST as it has no notion
+      # of a current time.
+      # https://github.com/rails/rails/issues/7297
+      "UTC#{User.current.time_zone.now.formatted_offset}"
     end
 
     def day_name(day)

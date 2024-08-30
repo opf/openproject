@@ -290,14 +290,7 @@ class MeetingsController < ApplicationController
   end
 
   def set_time_zone(&)
-    zone = User.current.time_zone
-    if zone.nil?
-      localzone = Time.current.utc_offset
-      localzone -= 3600 if Time.current.dst?
-      zone = ::ActiveSupport::TimeZone[localzone]
-    end
-
-    Time.use_zone(zone, &)
+    Time.use_zone(User.current.time_zone, &)
   end
 
   def build_meeting

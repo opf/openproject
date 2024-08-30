@@ -382,16 +382,17 @@ module OpenProject
       end
     end
 
-    describe "#format_time_zone" do
+    describe "#formatted_time_zone_offset" do
       current_user { build_stubbed(:user, preferences: { time_zone: user_time_zone }) }
       let(:user_time_zone) { "" }
 
+      let(:berlin_gmt) { ActiveSupport::TimeZone["Europe/Berlin"].now.utc_offset == 7200 ? "UTC+02:00" : "UTC+01:00" }
+
       context "with the current user having set a time zone" do
-        let(:user_time_zone) { "Kathmandu" }
+        let(:user_time_zone) { "Europe/Berlin" }
 
         it "renders the time zone of the user" do
-          # No DST in this time zone so the expectation should be constant.
-          expect(format_time_zone).to eql "GMT+05:45"
+          expect(formatted_time_zone_offset).to eql berlin_gmt
         end
       end
 
@@ -399,27 +400,25 @@ module OpenProject
         let(:user_time_zone) { "" }
 
         it "renders the UTC time zone" do
-          expect(format_time_zone).to eql "GMT+00:00"
+          expect(formatted_time_zone_offset).to eql "UTC+00:00"
         end
       end
 
       context "without the current user having a time zone but with a default one configured",
-              with_settings: { user_default_timezone: "Kathmandu" } do
+              with_settings: { user_default_timezone: "Europe/Berlin" } do
         let(:user_time_zone) { "" }
 
         it "renders the default time zone" do
-          # No DST in this time zone so the expectation should be constant.
-          expect(format_time_zone).to eql "GMT+05:45"
+          expect(formatted_time_zone_offset).to eql berlin_gmt
         end
       end
 
       context "without the current user having a time zone and also a default one configured",
-              with_settings: { user_default_timezone: "Atlanta" } do
-        let(:user_time_zone) { "Kathmandu" }
+              with_settings: { user_default_timezone: "America/Atlanta" } do
+        let(:user_time_zone) { "Europe/Berlin" }
 
         it "renders the default time zone" do
-          # No DST in this time zone so the expectation should be constant.
-          expect(format_time_zone).to eql "GMT+05:45"
+          expect(formatted_time_zone_offset).to eql berlin_gmt
         end
       end
     end
