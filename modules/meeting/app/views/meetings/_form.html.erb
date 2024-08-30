@@ -160,7 +160,7 @@ See COPYRIGHT and LICENSE files for more details.
         <%= Meeting.human_attribute_name(:start_time) %>
         <label lang="en">
           <%= t(:label_time_zone) %>
-          <%= Time.zone.to_s %>
+          <%= formatted_time_zone_offset %>
         </label>
       </label>
       <%= f.text_field :start_time_hour,
@@ -169,7 +169,7 @@ See COPYRIGHT and LICENSE files for more details.
                        type: 'time',
                        no_label: true,
                        step: 5.minutes,
-                       suffix: Time.zone.to_s,
+                       suffix: formatted_time_zone_offset,
                        container_class: '-xslim' %>
     </div>
   </div>

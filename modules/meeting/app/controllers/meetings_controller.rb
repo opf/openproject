@@ -27,7 +27,6 @@
 #++
 
 class MeetingsController < ApplicationController
-  around_action :set_time_zone
   before_action :load_and_authorize_in_optional_project, only: %i[index new show create history]
   before_action :verify_activities_module_activated, only: %i[history]
   before_action :determine_date_range, only: %i[history]
@@ -287,10 +286,6 @@ class MeetingsController < ApplicationController
     query
       .results
       .paginate(page: page_param, per_page: per_page_param)
-  end
-
-  def set_time_zone(&)
-    Time.use_zone(User.current.time_zone, &)
   end
 
   def build_meeting

@@ -129,7 +129,7 @@ module Redmine
       end
     end
 
-    def format_time(time, include_date = true)
+    def format_time(time, include_date = true, format: Setting.time_format)
       return nil unless time
 
       time = time.to_time if time.is_a?(String)
@@ -137,7 +137,7 @@ module Redmine
       local = time.in_time_zone(zone)
 
       (include_date ? "#{format_date(local)} " : "") +
-        (Setting.time_format.blank? ? ::I18n.l(local, format: :time) : local.strftime(Setting.time_format))
+        (format.blank? ? ::I18n.l(local, format: :time) : local.strftime(format))
     end
 
     # Returns the offset to UTC (with utc prepended) currently active

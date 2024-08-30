@@ -41,12 +41,12 @@ module OpenProject
       describe "with user time zone" do
         let(:user_time_zone) { "Europe/Athens" }
 
-        it "returns a date in the user timezone for a utc timestamp" do
+        it "returns a date string in the user timezone for a utc timestamp" do
           time = ActiveSupport::TimeZone["UTC"].local(2013, 6, 30, 23, 59)
           expect(format_time_as_date(time, format)).to eq "01/07/2013"
         end
 
-        it "returns a date in the user timezone for a non-utc timestamp" do
+        it "returns a date string in the user timezone for a non-utc timestamp" do
           time = ActiveSupport::TimeZone["Berlin"].local(2013, 6, 30, 23, 59)
           expect(format_time_as_date(time, format)).to eq "01/07/2013"
         end
@@ -55,12 +55,12 @@ module OpenProject
       describe "without user time zone" do
         let(:user_time_zone) { "" }
 
-        it "returns a date in the utc timezone for a utc timestamp" do
+        it "returns a date string in the utc timezone for a utc timestamp" do
           time = ActiveSupport::TimeZone["UTC"].local(2013, 6, 30, 23, 59)
           expect(format_time_as_date(time, format)).to eq "30/06/2013"
         end
 
-        it "returns a date in the utc timezone for a non-utc timestamp" do
+        it "returns a date string in the utc timezone for a non-utc timestamp" do
           time = ActiveSupport::TimeZone["Berlin"].local(2013, 6, 30, 23, 59)
           expect(format_time_as_date(time, format)).to eq "30/06/2013"
         end
@@ -278,6 +278,11 @@ module OpenProject
           .to eql now.strftime("%H %M")
       end
 
+      it "renders correctly for only hours and when providing a custom format" do
+        expect(format_time(now, false, format: "%H:%M"))
+          .to eql now.strftime("%H:%M")
+      end
+
       context "with another time zone configured for the user" do
         # Kathmandu has a +05:45 offset
         let(:user_time_zone) { "Kathmandu" }
@@ -290,6 +295,11 @@ module OpenProject
         it "renders correctly for only hours" do
           expect(format_time(now, false))
             .to eql "21 30"
+        end
+
+        it "renders correctly for only hours and when providing a custom format" do
+          expect(format_time(now, false, format: "%H:%M"))
+            .to eql "21:30"
         end
       end
 
