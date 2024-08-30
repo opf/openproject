@@ -138,17 +138,14 @@ module Redmine
 
       time = time.to_time if time.is_a?(String)
       zone = User.current.time_zone
-      local = if zone
-                time.in_time_zone(zone)
-              else
-                (time.utc? ? time.to_time.localtime : time)
-              end
+      local = time.in_time_zone(zone)
+
       (include_date ? "#{format_date(local)} " : "") +
         (Setting.time_format.blank? ? ::I18n.l(local, format: :time) : local.strftime(Setting.time_format))
     end
 
     def format_time_zone
-      (User.current.time_zone || Time.zone).to_s[/\((.*?)\)/m, 1]
+      User.current.time_zone.to_s[/\((.*?)\)/m, 1]
     end
 
     def day_name(day)

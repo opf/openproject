@@ -132,7 +132,7 @@ class UserPreference < ApplicationRecord
   end
 
   def time_zone
-    super.presence || Setting.user_default_timezone.presence
+    super.presence || Setting.user_default_timezone.presence || "Etc/UTC"
   end
 
   def daily_reminders

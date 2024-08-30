@@ -398,7 +398,7 @@ class User < Principal
   end
 
   def log_successful_login
-    update_attribute(:last_login_on, Time.now)
+    update_attribute(:last_login_on, Time.current)
   end
 
   def pref

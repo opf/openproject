@@ -49,7 +49,7 @@ class AnonymousUser < User
 
   def mail; nil end
 
-  def time_zone; nil end
+  def time_zone; ActiveSupport::TimeZone["Etc/UTC"] end
 
   def rss_key; nil end
 

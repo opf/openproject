@@ -273,7 +273,10 @@ module OpenProject
       time_format: "%H %M",
       date_format: "%d %m %Y"
     } do
-      let!(:now) { Time.parse("2011-02-20 15:45:22") }
+      let(:user_time_zone) { "" }
+      let(:now) { Time.zone.parse("2011-02-20 15:45:22") }
+
+      current_user { build_stubbed(:user, preferences: { time_zone: user_time_zone }) }
 
       it "with date and hours" do
         expect(format_time(now))
@@ -285,14 +288,19 @@ module OpenProject
           .to eql now.strftime("%H %M")
       end
 
-      it "with a utc to date and hours" do
-        expect(format_time(now.utc))
-          .to eql now.localtime.strftime("%d %m %Y %H %M")
-      end
+      context "with another time zone configured for the user" do
+        # Kathmandu has a +05:45 offset
+        let(:user_time_zone) { "Kathmandu" }
 
-      it "with a utce to only hours" do
-        expect(format_time(now.utc, false))
-          .to eql now.localtime.strftime("%H %M")
+        it "renders correctly for data and hours" do
+          expect(format_time(now))
+            .to eql "20 02 2011 21 30"
+        end
+
+        it "renders correctly for only hours" do
+          expect(format_time(now, false))
+            .to eql "21 30"
+        end
       end
 
       context "with a different format defined", with_settings: {
