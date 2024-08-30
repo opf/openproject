@@ -21,7 +21,7 @@
 #++
 zh-TW:
   plugin_openproject_backlogs:
-    name: "OpenProject代辦事項"
+    name: "OpenProject待辦事項"
     description: "此模組新增了讓敏捷團隊能夠在 Scrum 專案中使用 OpenProject 的功能。"
   activerecord:
     attributes:

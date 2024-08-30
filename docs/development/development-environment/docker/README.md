@@ -1,6 +1,7 @@
 ---
 sidebar_navigation:
   title: Development setup via docker
+  short_title: Setup via Docker
 description: OpenProject development setup via docker
 keywords: development setup docker
 ---
@@ -464,7 +465,7 @@ Once the keycloak service is started and running, you can access the keycloak in
 and login with initial username and password as `admin`.
 
 Keycloak being an OpenID connect provider, we need to setup an OIDC integration for OpenProject.
-[Setup OIDC (keycloak) integration for OpenProject](../../installation-and-operations/misc/custom-openid-connect-providers/#keycloak)
+[Setup OIDC (keycloak) integration for OpenProject](../../../installation-and-operations/misc/custom-openid-connect-providers/#keycloak)
 
 Once the above setup is completed, In the root `docker-compose.override.yml` file, uncomment all the environment in `backend` service for keycloak and set the values according to configuration done in keycloak for OpenProject Integration.
 

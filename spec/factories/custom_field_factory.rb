@@ -217,8 +217,11 @@ FactoryBot.define do
       factory :float_wp_custom_field, traits: [:float]
       factory :date_wp_custom_field, traits: [:date]
       factory :list_wp_custom_field, traits: [:list]
+      factory :multi_list_wp_custom_field, traits: [:multi_list]
       factory :version_wp_custom_field, traits: [:version]
+      factory :multi_version_wp_custom_field, traits: [:multi_version]
       factory :user_wp_custom_field, traits: [:user]
+      factory :multi_user_wp_custom_field, traits: [:multi_user]
       factory :link_wp_custom_field, traits: [:link]
     end
 

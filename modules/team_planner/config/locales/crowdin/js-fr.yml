@@ -18,7 +18,7 @@ fr:
       today: 'Aujourd''hui'
       drag_here_to_remove: 'Faites glisser ici pour supprimer le responsable et les dates de début et de fin.'
       cannot_drag_here: 'Impossible de supprimer le lot de travaux en raison des autorisations ou des restrictions d''édition.'
-      cannot_drag_to_non_working_day: 'Ce lot de travail ne peut pas démarrer/terminer sur un jour non ouvré.'
+      cannot_drag_to_non_working_day: 'Ce lot de travaux ne peut pas démarrer/terminer sur un jour non ouvré.'
       quick_add:
         empty_state: 'Utilisez le champ de recherche pour trouver des lots de travaux et faites-les glisser vers le planificateur pour l''assigner à quelqu''un et définir des dates de début et de fin.'
         search_placeholder: 'Rechercher...'

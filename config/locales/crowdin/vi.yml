@@ -2064,7 +2064,7 @@ vi:
   label_file_plural: "Tệp"
   label_filter_add: "Thêm bộ lọc"
   label_filter: "Bộ lọc"
-  label_filter_plural: "Bộ lọc"
+  label_filter_plural: "Các bộ lọc"
   label_filters_toggle: "Hiển thị/ẩn bộ lọc"
   label_float: "Số thực"
   label_folder: "Thư mục"
