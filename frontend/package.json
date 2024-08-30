@@ -161,8 +161,7 @@
   },
   "scripts": {
     "analyze": "ng build --configuration production --stats-json && webpack-bundle-analyzer -h 0.0.0.0 -p 9999 ../public/assets/frontend/stats.json",
-    "build:ci": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --configuration ci",
-    "build:fast": "OPENPROJECT_ANGULAR_UGLIFY=false node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --configuration fastprod",
+    "build:fast": "OPENPROJECT_ANGULAR_BUILD=fast node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --configuration production",
     "build": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --configuration production --named-chunks --source-map",
     "build:watch": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --watch --named-chunks",
     "tokens:generate": "theo src/app/spot/styles/tokens/tokens.yml --transform web --format sass,json --dest src/app/spot/styles/tokens/dist",

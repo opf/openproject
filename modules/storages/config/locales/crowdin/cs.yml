@@ -58,7 +58,7 @@ cs:
   project_module_storages: Soubory
   project_storages:
     project_folder_mode:
-      automatic: Automatically managed
+      automatic: Automaticky spravované
       inactive: Žádná specifická složka
       manual: Existing folder manually managed
     remove_project:
