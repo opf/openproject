@@ -47,7 +47,7 @@ class SystemUser < User
 
   def mail; nil end
 
-  def time_zone; nil end
+  def time_zone; ActiveSupport::TimeZone[Setting.user_default_timezone.presence || "Etc/UTC"] end
 
   def rss_key; nil end
 

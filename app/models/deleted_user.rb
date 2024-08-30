@@ -17,7 +17,7 @@ class DeletedUser < User
   def admin = false
   def name(*_args) = I18n.t("user.deleted")
   def mail = nil
-  def time_zone = nil
+  def time_zone; ActiveSupport::TimeZone[Setting.user_default_timezone.presence || "Etc/UTC"] end
   def rss_key = nil
   def destroy = false
 end
