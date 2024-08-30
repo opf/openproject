@@ -45,11 +45,11 @@ module Meetings
     private
 
     def start_date_initial_value
-      format_time_as_date(@meeting.start_time, "%Y-%m-%d")
+      format_time_as_date(@meeting.start_time, format: "%Y-%m-%d")
     end
 
     def start_time_initial_value
-      format_time(@meeting.start_time, false, format: "%H:%M")
+      format_time(@meeting.start_time, include_date: false, format: "%H:%M")
     end
   end
 end

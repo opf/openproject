@@ -30,7 +30,7 @@
             flex_layout(align_items: :center) do |time|
               time.with_column do
                 render(Primer::Beta::Text.new) do
-                  "#{format_time(@meeting.start_time, false)} - #{format_time(@meeting.end_time, false)}"
+                  "#{format_time(@meeting.start_time, include_date: false)} - #{format_time(@meeting.end_time, include_date:false)}"
                 end
               end
 

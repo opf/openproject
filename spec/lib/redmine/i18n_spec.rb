@@ -43,12 +43,12 @@ module OpenProject
 
         it "returns a date string in the user timezone for a utc timestamp" do
           time = ActiveSupport::TimeZone["UTC"].local(2013, 6, 30, 23, 59)
-          expect(format_time_as_date(time, format)).to eq "01/07/2013"
+          expect(format_time_as_date(time, format:)).to eq "01/07/2013"
         end
 
         it "returns a date string in the user timezone for a non-utc timestamp" do
           time = ActiveSupport::TimeZone["Berlin"].local(2013, 6, 30, 23, 59)
-          expect(format_time_as_date(time, format)).to eq "01/07/2013"
+          expect(format_time_as_date(time, format:)).to eq "01/07/2013"
         end
       end
 
@@ -57,12 +57,12 @@ module OpenProject
 
         it "returns a date string in the utc timezone for a utc timestamp" do
           time = ActiveSupport::TimeZone["UTC"].local(2013, 6, 30, 23, 59)
-          expect(format_time_as_date(time, format)).to eq "30/06/2013"
+          expect(format_time_as_date(time, format:)).to eq "30/06/2013"
         end
 
         it "returns a date string in the utc timezone for a non-utc timestamp" do
           time = ActiveSupport::TimeZone["Berlin"].local(2013, 6, 30, 23, 59)
-          expect(format_time_as_date(time, format)).to eq "30/06/2013"
+          expect(format_time_as_date(time, format:)).to eq "30/06/2013"
         end
       end
     end
@@ -274,12 +274,12 @@ module OpenProject
       end
 
       it "with only hours" do
-        expect(format_time(now, false))
+        expect(format_time(now, include_date: false))
           .to eql now.strftime("%H %M")
       end
 
       it "renders correctly for only hours and when providing a custom format" do
-        expect(format_time(now, false, format: "%H:%M"))
+        expect(format_time(now, include_date: false, format: "%H:%M"))
           .to eql now.strftime("%H:%M")
       end
 
@@ -293,12 +293,12 @@ module OpenProject
         end
 
         it "renders correctly for only hours" do
-          expect(format_time(now, false))
+          expect(format_time(now, include_date: false))
             .to eql "21 30"
         end
 
         it "renders correctly for only hours and when providing a custom format" do
-          expect(format_time(now, false, format: "%H:%M"))
+          expect(format_time(now, include_date: false, format: "%H:%M"))
             .to eql "21:30"
         end
       end
@@ -313,7 +313,7 @@ module OpenProject
         end
 
         it "renders only hours" do
-          expect(format_time(now, false))
+          expect(format_time(now, include_date: false))
             .to eql "15:45"
         end
       end
@@ -328,7 +328,7 @@ module OpenProject
         end
 
         it "falls back to default for only hours" do
-          expect(format_time(now, false))
+          expect(format_time(now, include_date: false))
             .to eql "03:45 PM"
         end
 
@@ -343,7 +343,7 @@ module OpenProject
 
             it "raises no error for only hours" do
               described_class.with_locale lang do
-                expect { format_time(now, false) }
+                expect { format_time(now, include_date: false) }
                   .not_to raise_error
               end
             end
@@ -361,7 +361,7 @@ module OpenProject
         end
 
         it "falls back to default for only hours" do
-          expect(format_time(now, false))
+          expect(format_time(now, include_date: false))
             .to eql "03:45 PM"
         end
       end
@@ -376,7 +376,7 @@ module OpenProject
         end
 
         it "falls back to default for only hours" do
-          expect(format_time(now, false))
+          expect(format_time(now, include_date: false))
             .to eql "15:45"
         end
       end

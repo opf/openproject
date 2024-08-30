@@ -116,7 +116,7 @@ module Redmine
     # Format the time to a date in the user time zone if one is set.
     # If none is set and the time is in utc time zone (meaning it came from active record), format the date in the system timezone
     # otherwise just use the date in the time zone attached to the time.
-    def format_time_as_date(time, format = nil)
+    def format_time_as_date(time, format: nil)
       return nil unless time
 
       zone = User.current.time_zone
@@ -129,7 +129,7 @@ module Redmine
       end
     end
 
-    def format_time(time, include_date = true, format: Setting.time_format)
+    def format_time(time, include_date: true, format: Setting.time_format)
       return nil unless time
 
       time = time.to_time if time.is_a?(String)

@@ -91,7 +91,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   let(:category) { create(:category, project:, name: "Demo") }
   let(:version) { create(:version, project:) }
   let(:export_time) { DateTime.new(2023, 6, 30, 23, 59) }
-  let(:export_time_formatted) { format_time(export_time, true) }
+  let(:export_time_formatted) { format_time(export_time, include_date: true) }
   let(:image_path) { Rails.root.join("spec/fixtures/files/image.png") }
   let(:priority) { create(:priority_normal) }
   let(:image_attachment) { Attachment.new author: user, file: File.open(image_path) }

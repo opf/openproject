@@ -260,8 +260,8 @@ class Meeting < ApplicationRecord
   end
 
   def update_derived_fields
-    @start_date = format_time_as_date(start_time, "%Y-%m-%d")
-    @start_time_hour = format_time(start_time, false, format: "%H:%M")
+    @start_date = format_time_as_date(start_time, format: "%Y-%m-%d")
+    @start_time_hour = format_time(start_time, include_date: false, format: "%H:%M")
   end
 
   private
