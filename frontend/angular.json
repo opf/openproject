@@ -102,38 +102,6 @@
                 }
               ]
             },
-            "fastprod": {
-              "index": "",
-              "preserveSymlinks": true,
-              "optimization": false,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": false,
-              "buildOptimizer" : false,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ]
-            },
-            "ci": {
-              "index": "",
-              "preserveSymlinks": true,
-              "optimization": false,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": false,
-              "buildOptimizer" : false,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ]
-            }
           }
         },
         "serve": {
