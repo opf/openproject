@@ -300,7 +300,7 @@ ko:
         actions:
           label_enable_single: "이 프로젝트에서 활성화되어 있습니다. 비활성화하려면 클릭하세요."
           label_disable_single: "이 프로젝트에서 비활성화되어 있습니다. 활성화하려면 클릭하세요."
-          deactivate_for_project: "이 프로젝트에 대해 비활성화"
+          remove_from_project: "Remove from project"
           label_enable_all: "모두 활성화"
           label_disable_all: "모두 비활성화"
         is_required_blank_slate:

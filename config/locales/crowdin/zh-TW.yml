@@ -299,7 +299,7 @@ zh-TW:
         actions:
           label_enable_single: "於此專案使用，請按一下停用"
           label_disable_single: "於此專案未使用，請按一下啟用"
-          deactivate_for_project: "停用此專案"
+          remove_from_project: "Remove from project"
           label_enable_all: "全部啟用"
           label_disable_all: "全部停用"
         is_required_blank_slate:

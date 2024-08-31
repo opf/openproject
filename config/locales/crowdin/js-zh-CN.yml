@@ -1184,7 +1184,7 @@ zh-CN:
         other: "%{count} 天"
         zero: "0 天"
       word:
-        other: "%{count} words"
+        other: " %{count} 个单词"
     zen_mode:
       button_activate: "激活 zen 模式"
       button_deactivate: "取消激活 zen 模式"

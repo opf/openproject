@@ -297,7 +297,7 @@ de:
         actions:
           label_enable_single: "In diesem Projekt aktiv, zum Deaktivieren anklicken"
           label_disable_single: "In diesem Projekt inaktiv, zum Aktivieren anklicken"
-          deactivate_for_project: "Für dieses Projekt deaktivieren"
+          remove_from_project: "Remove from project"
           label_enable_all: "Alles aktivieren"
           label_disable_all: "Alles deaktivieren"
         is_required_blank_slate:

@@ -295,7 +295,7 @@ uk:
         actions:
           label_enable_single: "Увімкнено в цьому проєкті; натисніть, щоб вимкнути"
           label_disable_single: "Вимкнено в цьому проєкті; натисніть, щоб увімкнути"
-          deactivate_for_project: "Деактивувати для цього проєкту"
+          remove_from_project: "Remove from project"
           label_enable_all: "Увімкнути все"
           label_disable_all: "Вимкнути все"
         is_required_blank_slate:
