@@ -297,7 +297,7 @@ zh-CN:
         actions:
           label_enable_single: "在此项目中处于活动状态，点击禁用"
           label_disable_single: "在此项目中未启用，点击启用"
-          deactivate_for_project: "停用此项目"
+          remove_from_project: "Remove from project"
           label_enable_all: "全部启用"
           label_disable_all: "全部禁用"
         is_required_blank_slate:

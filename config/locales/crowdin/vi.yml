@@ -302,7 +302,7 @@ vi:
         actions:
           label_enable_single: "Kích hoạt trong dự án này, nhấp để tắt"
           label_disable_single: "Không kích hoạt trong dự án này, nhấp để bật"
-          deactivate_for_project: "Vô hiệu hóa cho dự án này"
+          remove_from_project: "Remove from project"
           label_enable_all: "Bật tất cả"
           label_disable_all: "Tắt tất cả"
         is_required_blank_slate:

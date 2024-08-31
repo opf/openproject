@@ -300,7 +300,7 @@ fa:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
-          deactivate_for_project: "Deactivate for this project"
+          remove_from_project: "Remove from project"
           label_enable_all: "فعال کردن همه"
           label_disable_all: "Disable all"
         is_required_blank_slate:
