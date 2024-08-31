@@ -211,12 +211,12 @@ pt-BR:
     reorder_confirmation: "Aviso: A ordem atual dos valores disponíveis será perdida. Continuar?"
     instructions:
       is_required: "Marcar o campo personalizado como obrigatório. Isto tornará obrigatório o preenchimento do campo ao criar novos recursos ou ao atualizar recursos existentes."
-      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
+      is_required_for_project: "Marque para ativar esse atributo e torná-lo obrigatório em todos os projetos. Ele não pode ser desativado para projetos individuais."
       is_for_all: "Marcar o campo personalizado como disponível em todos os projetos existentes e novos."
       searchable: "Incluir os valores dos campos ao utilizar a funcionalidade de busca global."
-      searchable_for_project: "Check to make this attribute available as a filter in project lists."
+      searchable_for_project: "Marque para tornar esse atributo disponível como um filtro nas listas de projetos."
       editable: "Permita que o campo seja editável pelos próprios usuários."
-      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
+      admin_only: "Marque para tornar esse atributo visível apenas para os administradores. Os usuários sem direitos de administrador não poderão visualizá-lo ou editá-lo."
       is_filter: >
         Permita que o campo personalizado seja utilizado num filtro nas visualizações do pacote de trabalho. Note que apenas com a opção "Para todos os projetos" selecionada, o campo personalizado irá aparecer nas visualizações globais.
     tab:
@@ -264,8 +264,8 @@ pt-BR:
       no_results_title_text: Atualmente, não existem projetos
       no_results_content_text: Criar um novo projeto
       search:
-        label: Project name filter
-        placeholder: Search by project name
+        label: Filtro de nome de projeto
+        placeholder: Pesquisar por nome de projeto
     lists:
       active: "Projetos ativos"
       my: "Meus projetos"
@@ -391,8 +391,8 @@ pt-BR:
   my:
     access_token:
       create_dialog:
-        header: The %{type} token has been generated
-        warning: Note that this is the only time you will see this token, make sure to copy it now.
+        header: O token %{type} foi gerado
+        warning: Note que esta é a única vez que você verá esse token, certifique-se de copiá-lo agora.
       errors:
         token_name_blank: "Forneça um nome para o token de API."
         token_name_in_use: "Este nome de token de API já está em uso, escolha outro."
@@ -622,7 +622,7 @@ pt-BR:
         possible_values: "Valores possíveis"
         regexp: "Expressão regular"
         searchable: "Pesquisável"
-        admin_only: "Admin-only"
+        admin_only: "Somente administrador"
       custom_value:
         value: "Valor"
       doorkeeper/application:
@@ -692,7 +692,7 @@ pt-BR:
         versions: "Versões"
         work_packages: "Pacotes de Trabalho"
       project_custom_field:
-        is_required: "Required for all projects"
+        is_required: "Obrigatório para todos os projetos"
         custom_field_section: Seção
       query:
         column_names: "Colunas"
@@ -1038,10 +1038,10 @@ pt-BR:
             assigned_to:
               format: "%{message}"
             done_ratio:
-              does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
-              cannot_be_set_when_work_is_zero: "cannot be set when Work is 0h"
-              must_be_set_when_remaining_work_is_set: "required when Remaining work is set."
-              must_be_set_when_work_and_remaining_work_are_set: "required when Work and Remaining work are set."
+              does_not_match_work_and_remaining_work: "não corresponde ao trabalho e ao trabalho restante"
+              cannot_be_set_when_work_is_zero: "não pode ser definido quando o trabalho é 0h"
+              must_be_set_when_remaining_work_is_set: "necessário quando o Trabalho restante for definido."
+              must_be_set_when_work_and_remaining_work_are_set: "necessário quando o Trabalho e o Trabalho restante são definidos."
               inclusion: "deve estar entre 0 e 100."
             due_date:
               not_start_date: "não é na data de início, embora isso seja necessário para os marcos."
@@ -1071,17 +1071,17 @@ pt-BR:
               does_not_exist: "Categoria especificada não existe."
             estimated_hours:
               not_a_number: "não é uma duração válida."
-              cant_be_inferior_to_remaining_work: "cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_and_percent_complete_are_set: "required when Remaining work and % Complete are set."
+              cant_be_inferior_to_remaining_work: "não pode ser menor do que o Trabalho restante."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "necessário quando o Trabalho restante e o % concluído são definidos."
             remaining_hours:
               not_a_number: "não é uma duração válida."
-              cant_exceed_work: "cannot be higher than Work."
-              must_be_set_when_work_is_set: "required when Work is set."
-              must_be_set_when_work_and_percent_complete_are_set: "required when Work and % Complete are set."
+              cant_exceed_work: "não pode ser maior que o Trabalho."
+              must_be_set_when_work_is_set: "necessário quando o Trabalho for definido."
+              must_be_set_when_work_and_percent_complete_are_set: "necessário quando Trabalho e % concluído são definidos."
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
-                must be 0h when Work is set and % Complete is 100%.
+                deve ser 0h quando o trabalho é definido e % concluído é de 100%.
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
-                must be empty when Work is empty and % Complete is 100%.
+                deve estar vazio quando Trabalho estiver vazio e %completo for 100%.
           readonly_status: "O pacote de trabalho está em estado somente leitura, então seus atributos não podem ser alterados."
         type:
           attributes:
@@ -1165,8 +1165,8 @@ pt-BR:
         other: "Papéis"
       status: "Situação do pacote de trabalho"
       token/api:
-        one: Access token
-        other: Access tokens
+        one: Token de acesso
+        other: Tokens de acesso
       type: "Tipo"
       user: "Usuário"
       version: "Versão"
@@ -1648,10 +1648,10 @@ pt-BR:
       subproject: "Subprojeto: %{name}"
   export:
     dialog:
-      title: "Export"
-      submit: "Export"
+      title: "Exportar"
+      submit: "Exportar"
       format:
-        label: "File format"
+        label: "Formato do arquivo"
         options:
           csv:
             label: "CSV"
@@ -1660,37 +1660,37 @@ pt-BR:
           xls:
             label: "XLS"
       columns:
-        input_label_report: "Add columns to attribute table"
-        input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
-        input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
+        input_label_report: "Adicionar colunas à tabela de atributos"
+        input_caption_report: "Por padrão, todos os atributos adicionados como colunas na lista de pacotes de trabalho são selecionados. Os campos de texto longo não estão disponíveis na tabela de atributos, mas podem ser exibidos abaixo dela."
+        input_caption_table: "Por padrão, todos os atributos adicionados como colunas na lista de pacotes de trabalho são selecionados. Os campos de texto longo não estão disponíveis na tabela de atributos, mas podem ser exibidos abaixo dela."
       pdf:
         export_type:
-          label: "PDF export type"
+          label: "Formato de exportação de PDF"
           options:
             table:
-              label: "Table"
-              caption: "Export the work packages list in a table with the desired columns."
+              label: "Tabela"
+              caption: "Exporte a lista de pacotes de trabalho em uma tabela com as colunas desejadas."
             report:
-              label: "Report"
-              caption: "Export the work package on a detailed report of all work packages in the list."
+              label: "Relatório"
+              caption: "Exportar o pacote de trabalho em um relatório detalhado de todos os pacotes de trabalho da lista."
             gantt:
-              label: "Gantt chart"
-              caption: "Export the work packages list in a Gantt diagram view."
+              label: "Gráfico de Gantt"
+              caption: "Exportar a lista de pacotes de trabalho em uma visualização de diagrama de Gantt."
         include_images:
-          label: "Include images"
-          caption: "Exclude images to reduce the size of the PDF export."
+          label: "Incluir imagens"
+          caption: "Excluir imagens para reduzir o tamanho da exportação do PDF."
         gantt_zoom_levels:
-          label: "Zoom levels"
-          caption: "Select what is the zoom level for dates displayed in the chart."
+          label: "Níveis de ampliação"
+          caption: "Selecione qual é o nível de ampliação para as datas exibidas no gráfico."
           options:
-            days: "Days"
-            weeks: "Weeks"
-            months: "Months"
-            quarters: "Quarters"
+            days: "Dias"
+            weeks: "Semanas"
+            months: "Meses"
+            quarters: "Trimestres"
         column_width:
-          label: "Table column width"
+          label: "Largura da coluna da tabela"
           options:
-            narrow: "Narrow"
+            narrow: "Estreito"
             medium: "Medium"
             wide: "Wide"
             very_wide: "Very wide"
