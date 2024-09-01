@@ -297,7 +297,7 @@ zh-CN:
         actions:
           label_enable_single: "在此项目中处于活动状态，点击禁用"
           label_disable_single: "在此项目中未启用，点击启用"
-          remove_from_project: "Remove from project"
+          remove_from_project: "从项目移除"
           label_enable_all: "全部启用"
           label_disable_all: "全部禁用"
         is_required_blank_slate:
@@ -1063,16 +1063,16 @@ zh-CN:
             estimated_hours:
               not_a_number: "不是有效的持续时间。"
               cant_be_inferior_to_remaining_work: "不能低于剩余工时。"
-              must_be_set_when_remaining_work_and_percent_complete_are_set: "设置“剩余工时”和“% 完成”时必填。"
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "设置“剩余工时”和“完成%”时必填。"
             remaining_hours:
               not_a_number: "不是有效的持续时间。"
               cant_exceed_work: "不能高于工时。"
               must_be_set_when_work_is_set: "设置“工时”时必填。"
-              must_be_set_when_work_and_percent_complete_are_set: "设置“工时”和“% 完成”时必填。"
+              must_be_set_when_work_and_percent_complete_are_set: "设置“工时”和“完成%”时必填。"
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
-                当“工时”已设置，且“% 完成”为 100%时，必须为0h。
+                当“工时”已设置，且“完成%”为 100% 时，必须为 0h 。
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
-                当“工时”为空，且“% 完成”为 100%时，必须为空。
+                当“工时”为空，且“完成%”为 100% 时，必须为空。
           readonly_status: "工作包处于只读状态，因此无法更改其属性。"
         type:
           attributes:
@@ -1632,7 +1632,7 @@ zh-CN:
           options:
             table:
               label: "表格"
-              caption: "以表格形式导出工作包列表，包含所需的列。"
+              caption: "将工作包列表导出为包含所需列的表格。"
             report:
               label: "报告"
               caption: "以详细报告的形式导出列表中的所有工作包。"
@@ -1640,8 +1640,8 @@ zh-CN:
               label: "甘特图"
               caption: "以甘特图视图导出工作包列表。"
         include_images:
-          label: "包含图片"
-          caption: "不包含图像以缩小导出PDF的大小。"
+          label: "包含图像"
+          caption: "不包含图像以减小导出PDF的大小。"
         gantt_zoom_levels:
           label: "缩放级别"
           caption: "选择图表中显示日期的缩放级别。"
@@ -1668,7 +1668,7 @@ zh-CN:
       xls:
         include_relations:
           label: "包含关系"
-          caption: "该选项将为每个工作包与另一个工作包的关系创建一个副本。"
+          caption: "此选项将为每个与其他工作包有关系的工作包创建一个副本。"
         include_descriptions:
           label: "包含描述"
           caption: "该选项将添加原始格式的描述列。"
@@ -3074,9 +3074,9 @@ zh-CN:
   setting_work_package_done_ratio_field: "基于工时"
   setting_work_package_done_ratio_status: "基于状态"
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    在<b>基于工时</b>模式下，“% 完成”是根据已完成的工时占总工时的比例计算出来的。在<b>基于状态</b>模式下，每个状态都有一个与之相关的“% 完成”。更改状态将改变“% 完成”。
+    在<b>基于工时</b>模式下，“完成 %”是根据已完成的工时占总工时的比例计算出来的。在<b>基于状态</b>模式下，每个状态都有一个与之相关的“完成 %”。更改状态将改变“完成 %”。
   setting_work_package_done_ratio_explanation_html: >
-    在<b>基于工作的</b>模式下，“% 完成”可以自由设置为任何值。如果选择输入 "工时 "值，则会自动得出 "剩余工时"。在<b>基于状态的</b>模式下，每个状态都有一个与之相关的“% 完成”值。更改状态将改变“% 完成”。
+    在<b>基于工作的</b>模式下，“完成 %”可以自由设置为任何值。如果选择输入 "工时 "值，则会自动得出 "剩余工时"。在<b>基于状态的</b>模式下，每个状态都有一个与之相关的“完成 %”值。更改状态将改变“完成 %”。
   setting_work_package_properties: "工作包属性"
   setting_work_package_startdate_is_adddate: "使用当前日期作为新工作包的开始日期"
   setting_work_packages_projects_export_limit: "工作包/项目导出限制"
@@ -3458,7 +3458,7 @@ zh-CN:
       label_note: "注意："
       modal:
         work_based_help_text: "在可能的情况下，每个字段都会根据另外两个字段自动计算。"
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "“% 完成”由 \"工时\" 和 \"剩余工时\" 自动得出。"
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "“完成 %”由 \"工时\" 和 \"剩余工时\" 自动得出。"
         status_based_help_text: "完成百分比由工作包状态设定。"
         migration_warning_text: "在基于工时的进度计算模式下，完成百分比不能手动设置，而是与工时绑定。现有值已被保留，但无法编辑。请先输入工时。"
       derivation_hints:
@@ -3468,13 +3468,13 @@ zh-CN:
           derived: "源自“工时”和“剩余工时”。"
         estimated_hours:
           cleared_because_remaining_work_is_empty: "已清空，因为“剩余工时”为空。"
-          derived: "由“剩余工时”和“% 完成”得出"
+          derived: "由“剩余工时”和“完成 %”得出"
           same_as_remaining_work: "设置为与“剩余工时”相同的值。"
         remaining_hours:
           cleared_because_work_is_empty: "已清空，因为 \"工时 \"为空。"
-          cleared_because_percent_complete_is_empty: "已清空，因为“% 完成”为空。"
+          cleared_because_percent_complete_is_empty: "已清空，因为“完成 %”为空。"
           decreased_like_work: "减少与 \"工时 \"相同的数额。"
-          derived: "由“工时”和“% 完成”得出"
+          derived: "由“工时”和“完成 %”得出"
           increased_like_work: "增加与 \"工时 \"相同的数额。"
           same_as_work: "设置为与 \"工时 \"相同的值。"
     permissions:

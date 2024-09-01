@@ -1652,7 +1652,7 @@ sv:
       title: "Export"
       submit: "Export"
       format:
-        label: "File format"
+        label: "Filformat"
         options:
           csv:
             label: "CSV"
@@ -1684,10 +1684,10 @@ sv:
           label: "Zoom levels"
           caption: "Select what is the zoom level for dates displayed in the chart."
           options:
-            days: "Days"
-            weeks: "Weeks"
-            months: "Months"
-            quarters: "Quarters"
+            days: "Dagar"
+            weeks: "Veckor"
+            months: "Månader"
+            quarters: "Kvartal"
         column_width:
           label: "Table column width"
           options:
