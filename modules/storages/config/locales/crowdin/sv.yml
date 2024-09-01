@@ -60,7 +60,7 @@ sv:
   project_module_storages: Filer
   project_storages:
     edit_project_folder:
-      label: Edit project folder
+      label: Redigera projektmapp
     project_folder_mode:
       automatic: Automatically managed
       inactive: No specific folder

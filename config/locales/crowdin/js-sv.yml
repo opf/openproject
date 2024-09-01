@@ -1187,8 +1187,8 @@ sv:
         other: "%{count} dagar"
         zero: "0 dagar"
       word:
-        one: "1 word"
-        other: "%{count} words"
+        one: "1 ord"
+        other: "%{count} ord"
     zen_mode:
       button_activate: "Aktivera zen-läge"
       button_deactivate: "Inaktivera avskalat läge"
