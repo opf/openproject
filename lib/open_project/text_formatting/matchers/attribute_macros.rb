@@ -70,6 +70,14 @@ module OpenProject::TextFormatting
         macro_attributes[:id].nil?
       end
 
+      def self.relative_id(macro_attributes, context)
+        if project_embed?(macro_attributes) && context[:project].present?
+          context[:project].try(:id)
+        elsif work_package_embed?(macro_attributes) && work_package_context?(context)
+          context[:object].try(:id)
+        end
+      end
+
       def self.process_match(match, _matched_string, context)
         # Leading string before match
         macro_attributes = {
@@ -79,13 +87,7 @@ module OpenProject::TextFormatting
         }
         type = match[2].downcase
 
-        if relative_embed?(macro_attributes)
-          if project_embed?(macro_attributes) && context[:project].present?
-            macro_attributes[:id] = context[:project].try(:id)
-          elsif work_package_embed?(macro_attributes) && work_package_context?(context)
-            macro_attributes[:id] = context[:object].try(:id)
-          end
-        end
+        macro_attributes[:id] = relative_id(macro_attributes, context) if relative_embed?(macro_attributes)
 
         ApplicationController.helpers.content_tag "opce-macro-attribute-#{type}",
                                                   "",
