@@ -20,6 +20,12 @@ Please note that locally stored means that only you can see and restore your uns
 
 ### Enable a storage for multiple projects at once
 
+Admins responsible for storages in OpenProject can now save time by enabling a storage for multiple projects at once. A new **Enabled in projects** tab is added to the edit storage view. Here, admins see a list of all the projects that the storage is activated in. They can now add projects to the storage by clicking the green button **Add projects**. Here is an example of how this looks like for a Nextcloud file storage:
+
+![Example screenshot of the admin page of a Nextcloud file storage, showing the 'Enabled in projects' tab](openproject-14-5-multiple-projects-to-storage.png)
+
+This feature works for all external file storages that are currently possible with OpenProject.
+
 ### Export work packages in an updated modal with additional settings
 
 ### Display custom field columns/filters in project lists also in the Community Edition
