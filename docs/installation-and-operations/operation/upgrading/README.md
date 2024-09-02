@@ -101,7 +101,7 @@ Note that this still takes previous values into consideration. Values that shoul
 When using the Compose-based docker installation, you can simply do the following:
 
 ```shell
-docker-compose pull
+docker-compose pull --ignore-buildable
 docker-compose up -d
 ```
 
