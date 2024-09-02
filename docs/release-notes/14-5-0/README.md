@@ -12,6 +12,12 @@ In these Release Notes, we will give an overview of important technical updates 
 
 ### Keep and restore local versions of WYSIWYG content changes
 
+As of OpenProject 14.5, every WYSIWYG content change is saved locally so that you can restore it if the editor crashes (e.g. if you reload the page with unsaved changes). OpenProject uses WYSIWYG editors in work package descriptions, wikis and forums. To access the locally saved content of previous changes, click on the new icon we have added to the top of your editor. If there are unsaved changes to the content, you will see a drop-down list with the changes listed, each showing the time and word count of the respective content version.
+
+![Example screenshot of a locally stored content version in WYSIWYG editor](openproject-14-5-wysiwyg-editor.png)
+
+Please note that locally stored means that only you can see and restore your unsaved changes.
+
 ### Enable a storage for multiple projects at once
 
 ### Export work packages in an updated modal with additional settings
