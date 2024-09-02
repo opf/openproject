@@ -161,6 +161,21 @@ In this release, the dynamic bootstrapping of Angular components has been remove
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
+
+
+## Acknowledging Security Research
+
+We thank the following security researchers for approaching us with reports, warnings, and improvements to the OpenProject software and ecosystem: 
+
+- Lukasz D. Tulikowski ([@tulik](https://github.com/tulik))
+- Iqra Aslam
+
+
+
+If you would like to report a vulnerability or help us make OpenProject more secure through other ways, please see our [Statement on Security](../../security-and-privacy/statement-on-security/) for more information.
+
+
+
 ## Contributions
 
 A very special thank you goes to the City of Cologne again for sponsoring features on project attributes and project lists. 
