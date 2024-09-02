@@ -1,7 +1,9 @@
 <%=
   component_wrapper do
     flex_layout(my: 2, data: { test_selector: "op-work-package-journal-form" }) do |new_form_container|
-      new_form_container.with_row(data: { 
+      new_form_container.with_row(
+        display: button_row_display_value,
+        data: { 
           "work-packages--activities-tab--index-target": "buttonRow"
         }) do
         flex_layout(justify_content: :space_between) do |button_row|
@@ -30,7 +32,7 @@
         end
       end
       new_form_container.with_row(
-        display: :none,
+        display: form_row_display_value,
         data: { "work-packages--activities-tab--index-target": "formRow" }
       ) do
         primer_form_with(

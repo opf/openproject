@@ -48,9 +48,13 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def update_streams
-    generate_time_based_update_streams(params[:last_update_timestamp])
+    if params[:last_update_timestamp].present?
+      generate_time_based_update_streams(params[:last_update_timestamp])
+    else
+      status = :bad_request
+    end
 
-    respond_with_turbo_streams
+    respond_with_turbo_streams(status: status || :ok)
   end
 
   def update_filter
@@ -71,42 +75,55 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def update_sorting
-    call = Users::UpdateService.new(user: User.current, model: User.current).call(
-      pref: { comments_sorting: params[:sorting] }
-    )
+    if params[:sorting].present?
+      call = Users::UpdateService.new(user: User.current, model: User.current).call(
+        pref: { comments_sorting: params[:sorting] }
+      )
 
-    if call.success?
-      # update the whole tab to reflect the new sorting in all components
-      # we need to call replace in order to properly re-init the index stimulus component
-      replace_whole_tab
+      if call.success?
+        # update the whole tab to reflect the new sorting in all components
+        # we need to call replace in order to properly re-init the index stimulus component
+        replace_whole_tab
+      else
+        status = :bad_request
+      end
+    else
+      status = :bad_request
     end
 
-    respond_with_turbo_streams
+    respond_with_turbo_streams(status: status || :ok)
   end
 
   def edit
-    # check if allowed to edit at all
-    update_via_turbo_stream(
-      component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
-        journal: @journal,
-        state: :edit,
-        filter: @filter
+    if allowed_to_edit?(@journal)
+      update_via_turbo_stream(
+        component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
+          journal: @journal,
+          state: :edit,
+          filter: @filter
+        )
       )
-    )
+    else
+      status = :forbidden
+    end
 
-    respond_with_turbo_streams
+    respond_with_turbo_streams(status: status || :ok)
   end
 
   def cancel_edit
-    update_via_turbo_stream(
-      component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
-        journal: @journal,
-        state: :show,
-        filter: @filter
+    if allowed_to_edit?(@journal)
+      update_via_turbo_stream(
+        component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
+          journal: @journal,
+          state: :show,
+          filter: @filter
+        )
       )
-    )
+    else
+      status = :forbidden
+    end
 
-    respond_with_turbo_streams
+    respond_with_turbo_streams(status: status || :ok)
   end
 
   def create
@@ -115,24 +132,31 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     if call.success? && call.result
       handle_successful_create_call(call)
     else
-      # TODO: respond with bad request
-      # respond with call.errors, status: :bad_request
+      handle_failed_create_call(call) # errors should be rendered in the form
+      status = :bad_request
     end
 
-    respond_with_turbo_streams
+    respond_with_turbo_streams(status: status || :created)
   end
 
   def update
-    call = Journals::UpdateService.new(model: @journal, user: User.current).call(
-      notes: journal_params[:notes]
-    )
+    if journal_params[:notes].present?
+      call = Journals::UpdateService.new(model: @journal, user: User.current).call(
+        notes: journal_params[:notes]
+      )
 
-    if call.success? && call.result
-      update_item_component(call.result, state: :show)
+      if call.success? && call.result
+        update_item_component(call.result, state: :show)
+      else
+        status = handle_failed_update_call(call)
+      end
+    else
+      # disallow empty notes
+      status = :bad_request
+      update_item_component(@journal, state: :edit) # rerender form with initial values
     end
 
-    # TODO: handle errors
-    respond_with_turbo_streams(status: call.success? ? :ok : :forbidden)
+    respond_with_turbo_streams(status: status || :ok)
   end
 
   private
@@ -182,6 +206,27 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     else
       generate_time_based_update_streams(params[:last_update_timestamp])
     end
+  end
+
+  def handle_failed_create_call(call)
+    update_via_turbo_stream(
+      component: WorkPackages::ActivitiesTab::Journals::NewComponent.new(
+        work_package: @work_package,
+        journal: call.result,
+        form_hidden_initially: false
+      )
+    )
+  end
+
+  def handle_failed_update_call(call)
+    status = if call.errors&.first&.type == :error_unauthorized
+               :forbidden
+             else
+               :bad_request
+             end
+    update_item_component(call.result, state: :edit) # errors should be rendered in the form
+
+    status
   end
 
   def replace_whole_tab
@@ -267,5 +312,9 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     remove_via_turbo_stream(
       component: WorkPackages::ActivitiesTab::Journals::EmptyComponent.new
     )
+  end
+
+  def allowed_to_edit?(journal)
+    journal.editable_by?(User.current)
   end
 end
