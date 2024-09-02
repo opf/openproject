@@ -106,8 +106,6 @@ module WorkPackage::PDFExport::Markdown
   private
 
   def attachment_image_local_file(attachment)
-    return nil if attachment.nil?
-
     attachment.file.local_file
   rescue StandardError => e
     Rails.logger.error "Failed to access attachment #{attachment.id} file: #{e}"
