@@ -244,26 +244,27 @@ module Storages
       end
 
       describe "error handling" do
+        let(:error_prefix) { "services.errors.models.nextcloud_sync_service" }
+
         context "when the initial fetch of remote folders fails" do
           let(:file_ids_result) do
-            ServiceResult.failure(result: :unauthorized,
-                                  errors: storage_error(:unauthorized, "error body",
-                                                        source: Peripherals::StorageInteraction::Nextcloud::FileIdsQuery))
+            errors = storage_error(:unauthorized, "error body", Peripherals::StorageInteraction::Nextcloud::FileIdsQuery)
+            ServiceResult.failure(result: :unauthorized, errors:)
           end
 
           it "logs an error" do
             allow(Rails.logger).to receive(:error).and_call_original
             service.call(storage)
-            expect(Rails.logger).to have_received(:error)
-                                      .with(error_code: :unauthorized, message: "TESTING",
-                                            folder: "OpenProject", data: "error body")
+            expect(Rails.logger)
+              .to have_received(:error).with(error_code: :unauthorized, message: "TESTING",
+                                             folder: "OpenProject", data: "error body")
           end
 
           it "adds to the services errors" do
             result = service.call(storage)
 
             expect(result.errors.size).to eq(1)
-            expect(result.errors[:base]).to contain_exactly(I18n.t("services.errors.models.nextcloud_sync_service.unauthorized"))
+            expect(result.errors[:base]).to contain_exactly(I18n.t("#{error_prefix}.unauthorized"))
           end
 
           it "interrupts the flow" do
@@ -274,8 +275,69 @@ module Storages
           end
         end
 
-        it "logs the occurrence"
-        it "adds the errors to the result"
+        context "when we fail to set the root folder permissions" do
+          let(:group_permissions_result) do
+            errors = storage_error(:error, "error body", Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand)
+            ServiceResult.failure(result: :unauthorized, errors:)
+          end
+
+          it "logs an error" do
+            allow(Rails.logger).to receive(:error).and_call_original
+            service.call(storage)
+
+            expect(Rails.logger).to have_received(:error)
+                                      .with(error_code: :error, message: "TESTING", folder: "OpenProject", data: "error body")
+          end
+
+          it "adds to the services errors" do
+            result = service.call(storage)
+
+            expect(result.errors.size).to eq(1)
+            expect(result.errors[:base]).to contain_exactly(I18n.t("#{error_prefix}.error"))
+          end
+
+          it "interrupts the flow" do
+            service.call(storage)
+            expect(set_permissions).to have_received(:call).once
+
+            [group_users, add_user, create_folder, remove_user, rename_file].each do |command|
+              expect(command).not_to have_received(:call)
+            end
+          end
+        end
+
+        context "when creating folders fails" do
+          let(:create_folder_result) do
+            errors = storage_error(:conflict, "error body", Peripherals::StorageInteraction::Nextcloud::CreateFolderCommand)
+
+            build_create_folder_result
+              .merge(project_storage.managed_project_folder_name => ServiceResult.failure(result: :conflict, errors:))
+          end
+
+          it "logs an error" do
+            allow(Rails.logger).to receive(:error).and_call_original
+            service.call(storage)
+
+            expect(Rails.logger).to have_received(:error)
+                                      .with(error_code: :conflict, message: "TESTING",
+                                            folder_name: project_storage.managed_project_folder_path, data: "error body")
+          end
+
+          it "adds to the services errors" do
+            result = service.call(storage)
+
+            expect(result.errors.size).to eq(1)
+            expect(result.errors[:create_folder])
+              .to contain_exactly(I18n.t("#{error_prefix}.attributes.create_folder.conflict",
+                                         folder_name: project_storage.managed_project_folder_path, parent_location: "/"))
+          end
+
+          it "interrupts the flow" do
+            commands = [file_ids, set_permissions, group_users, add_user, create_folder, remove_user, rename_file]
+            service.call(storage)
+            expect(commands).to all(have_received(:call).at_least(:once))
+          end
+        end
       end
     end
 
@@ -311,334 +373,3 @@ module Storages
     end
   end
 end
-# RSpec.describe Storages::Nextcloud  ManagedFolderSyncService, :webmock do
-#   let(:project_with_special_characters) do
-#     create(:project, name: "[Sample] Project Name / Ehüu",
-#                      members: { multiple_projects_user => ordinary_role, single_project_user => ordinary_role })
-#   end
-#
-#   let(:project_with_trailing_slashes) do
-#     create(:project, name: "Jedi Project Folder ///", members: { multiple_projects_user => ordinary_role })
-#   end
-#
-#   let(:project) do
-#     create(:project, name: "Project 3", members: { multiple_projects_user => ordinary_role })
-#   end
-#
-#   let(:inactive_project) do
-#     create(:project, :archived, name: "NOT ACTIVE PROJECT", members: { multiple_projects_user => ordinary_role })
-#   end
-#
-#   let(:public_project) do
-#     create(:public_project, name: "PUBLIC PROJECT", active: true)
-#   end
-#
-#   let(:single_project_user) { create(:user) }
-#   let(:multiple_projects_user) { create(:user) }
-#   let(:admin) { create(:admin) }
-#
-#   let(:ordinary_role) { create(:project_role, permissions: %w[read_files write_files]) }
-#   let(:non_member_role) { create(:non_member, permissions: %w[read_files]) }
-#
-#   let(:storage) { create(:nextcloud_storage, :with_oauth_client, :as_automatically_managed, password: "12345678") }
-#
-#   let(:project_storage) do
-#     create(:project_storage, :with_historical_data, :as_automatically_managed, project: project_with_special_characters,
-#   storage:)
-#   end
-#
-#   let(:project_storage2) do
-#     create(:project_storage, :with_historical_data, :as_automatically_managed,
-#            project: project_with_trailing_slashes, storage:, project_folder_id: "123")
-#   end
-#   let(:project_storage3) do
-#     create(:project_storage, :with_historical_data, :as_automatically_managed, project:, storage:, project_folder_id: "2600003")
-#   end
-#
-#   let(:project_storage4) do
-#     create(:project_storage, :with_historical_data, :as_automatically_managed,
-#            project: inactive_project, storage:, project_folder_id: "778")
-#   end
-#
-#   let(:project_storage5) do
-#     create(:project_storage, :with_historical_data, :as_automatically_managed,
-#            project: public_project, storage:, project_folder_id: "999")
-#   end
-#
-#   let(:oauth_client) { storage.oauth_client }
-#
-#   let(:prefix) { "services.errors.models.nextcloud_sync_service" }
-#
-#   describe "#call" do
-#   before do
-#     create(:remote_identity, origin_user_id: "Obi-Wan", user: multiple_projects_user, oauth_client:)
-#     create(:remote_identity, origin_user_id: "Yoda", user: single_project_user, oauth_client:)
-#     create(:remote_identity, origin_user_id: "Darth Vader", user: admin, oauth_client:)
-#   end
-#
-#   it "sets project folders properties" do
-#     expect(project_storage1.project_folder_id).to be_nil
-#     expect(project_storage2.project_folder_id).to eq("123")
-#     expect(project_storage3.project_folder_id).to eq("2600003")
-#
-#     expect(project_storage1.last_project_folders.pluck(:origin_folder_id)).to eq([nil])
-#     expect(project_storage2.last_project_folders.pluck(:origin_folder_id)).to eq(["123"])
-#     expect(project_storage3.last_project_folders.pluck(:origin_folder_id)).to eq(["2600003"])
-#
-#     described_class.new(storage).call
-#
-#     expect(project_storage1.reload.project_folder_id).to eq("819")
-#     expect(project_storage2.reload.project_folder_id).to eq("123")
-#     expect(project_storage3.reload.project_folder_id).to eq("2600003")
-#
-#     expect(project_storage1.last_project_folders.pluck(:origin_folder_id)).to eq(["819"])
-#     expect(project_storage2.last_project_folders.pluck(:origin_folder_id)).to eq(["123"])
-#     expect(project_storage3.last_project_folders.pluck(:origin_folder_id)).to eq(["2600003"])
-#
-#     expect_all_stubs
-#   end
-#
-#   describe "error handling and flow control" do
-#     context "when getting the root folder properties fail" do
-#       context "on a handled error case" do
-#         it "stops the flow immediately if the response is anything but a success" do
-#           described_class.new(storage).call
-#
-#           request_stubs[1..].each { |request| expect(request).not_to have_been_requested }
-#         end
-#
-#         it "logs an error message" do
-#           allow(Rails.logger).to receive(:error)
-#           described_class.new(storage).call
-#
-#           expect(Rails.logger)
-#             .to have_received(:error)
-#             .with(folder: "OpenProject", error_code: :not_found, data: { status: 404, body: "" }, message: /not found/)
-#         end
-#
-#         it "returns a failure" do
-#           result = described_class.new(storage).call
-#
-#           expect(result).to be_failure
-#           expect(result.errors[:remote_folders])
-#             .to contain_exactly(I18n.t("#{prefix}.attributes.remote_folders.not_found",
-#                                        group_folder: storage.group_folder))
-#         end
-#       end
-#
-#       it "raises an error when dealing with an unhandled error case" do
-#         expect(described_class.new(storage).call).to be_failure
-#       end
-#
-#       it "raises an error when dealing with a socket or connection error" do
-#         expect(described_class.new(storage).call).to be_failure
-#       end
-#     end
-#
-#     context "when setting the root folder permissions fail" do
-#       context "on a handled error case" do
-#         it "interrupts the flow" do
-#           described_class.new(storage).call
-#
-#           expect(request_stubs[0..1]).to all(have_been_requested)
-#           request_stubs[2..].each { |request| expect(request).not_to have_been_requested }
-#         end
-#
-#         it "logs an error message" do
-#           allow(Rails.logger).to receive(:error)
-#           described_class.new(storage).call
-#
-#           expect(Rails.logger)
-#             .to have_received(:error)
-#             .with(folder: "OpenProject",
-#                   message: /not authorized/,
-#                   error_code: :unauthorized,
-#                   data: { status: 401, body: "Heute nicht" })
-#         end
-#
-#         it "returns a failure" do
-#           result = described_class.new(storage).call
-#
-#           expect(result).to be_failure
-#           expect(result.errors[:base]).to contain_exactly(I18n.t("#{prefix}.unauthorized"))
-#         end
-#       end
-#     end
-#
-#     context "when folder creation fails" do
-#       it "continues normally ignoring that folder" do
-#         expect { described_class.new(storage).call }.not_to change(project_storage1, :project_folder_id)
-#
-#         expect(request_stubs[..2]).to all(have_been_requested)
-#         expect(request_stubs[3]).not_to have_been_requested
-#         expect(request_stubs[4]).to have_been_made.times(2)
-#         expect(request_stubs[5]).to have_been_requested
-#         expect(request_stubs[6]).not_to have_been_requested
-#         expect(request_stubs[7..]).to all(have_been_requested)
-#       end
-#
-#       it "logs the occurrence" do
-#         allow(Rails.logger).to receive(:error)
-#         described_class.new(storage).call
-#
-#         expect(Rails.logger)
-#           .to have_received(:error)
-#           .with(folder_name: "/OpenProject/[Sample] Project Name | Ehuu (#{project1.id})/",
-#                 message: /not found/,
-#                 error_code: :not_found,
-#                 data: "not found")
-#       end
-#     end
-#
-#     context "when renaming a folder fail" do
-#       it "we stop processing to avoid issues with permissions" do
-#         described_class.new(storage).call
-#         request_stubs[6..].each { |request| expect(request).not_to have_been_requested }
-#       end
-#
-#       it "logs the occurrence" do
-#         allow(Rails.logger).to receive(:error)
-#         described_class.new(storage).call
-#
-#         expect(Rails.logger)
-#           .to have_received(:error)
-#           .with(folder_id: project_storage2.project_folder_id,
-#                 error_code: :not_found,
-#                 message: /not found/,
-#                 folder_name: "Jedi Project Folder ||| (#{project2.id})",
-#                 data: { status: 404, body: "" })
-#       end
-#     end
-#
-#     context "when hiding a folder fail" do
-#       before do
-#         request_stubs[6] = stub_request(:proppatch,
-#                                         "#{storage.host}remote.php/dav/files/OpenProject/OpenProject/" \
-#                                         "Lost%20Jedi%20Project%20Folder%20%232")
-#                            .with(body: hide_folder_set_permissions_request_body,
-#                                  headers: {
-#                                    "Authorization" => "Basic T3BlblByb2plY3Q6MTIzNDU2Nzg="
-#                                  })
-#                            .to_return(status: 500, body: "A server error occurred", headers: {})
-#       end
-#
-#       it "does not interrupt the flow" do
-#         described_class.new(storage).call
-#
-#         expect_all_stubs
-#       end
-#
-#       it "logs the occurrence" do
-#         allow(Rails.logger).to receive(:error)
-#         described_class.new(storage).call
-#
-#         expect(Rails.logger)
-#           .to have_received(:error)
-#           .with(context: "hide_folder",
-#                 folder: "/OpenProject/Lost Jedi Project Folder #2/",
-#                 message: /request failed/,
-#                 error_code: :error,
-#                 data: { status: 500, body: "A server error occurred" })
-#       end
-#     end
-#
-#     context "when setting project folder permissions fail" do
-#       before do
-#         request_stubs[8] = stub_request(:proppatch,
-#                                         "#{storage.host}remote.php/dav/files/OpenProject/OpenProject/" \
-#                                         "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29")
-#                            .with(body: set_permissions_request_body,
-#                                  headers: { "Authorization" => "Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=" })
-#                            .to_return(status: 500,
-#                                       body: "Divide by cucumber error. Please reinstall universe and reboot.",
-#                                       headers: {})
-#       end
-#
-#       it "does not interrupt the flow" do
-#         described_class.new(storage).call
-#
-#         expect_all_stubs
-#       end
-#
-#       it "logs the occurrence" do
-#         allow(Rails.logger).to receive(:error)
-#         described_class.new(storage).call
-#
-#         expect(Rails.logger)
-#           .to have_received(:error)
-#           .with(folder: "/OpenProject/Jedi Project Folder ||| (#{project2.id})/",
-#                 message: /failed/,
-#                 error_code: :error,
-#                 data: { status: 500, body: "Divide by cucumber error. Please reinstall universe and reboot." })
-#       end
-#     end
-#
-#     context "when adding a user to the group fails" do
-#       before do
-#         request_stubs[12] = stub_request(:post, "#{storage.host}ocs/v1.php/cloud/users/Obi-Wan/groups")
-#                             .with(
-#                               body: "groupid=OpenProject",
-#                               headers: {
-#                                 "Authorization" => "Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=",
-#                                 "Ocs-Apirequest" => "true"
-#                               }
-#                             ).to_return(status: 302, body: "", headers: {})
-#       end
-#
-#       it "does not interrupt te flow" do
-#         described_class.new(storage).call
-#
-#         expect_all_stubs
-#       end
-#
-#       it "logs the occurrence" do
-#         allow(Rails.logger).to receive(:error)
-#         described_class.new(storage).call
-#
-#         expect(Rails.logger)
-#           .to have_received(:error)
-#           .with(group: "OpenProject",
-#                 user: "Obi-Wan",
-#                 message: /failed/,
-#                 error_code: :error,
-#                 reason: "Outbound request failed",
-#                 data: { status: 302, body: "" })
-#       end
-#     end
-#
-#     context "when removing a user to the group fails" do
-#       let(:remove_user_from_group_response) do
-#         <<~XML
-#           <?xml version="1.0"?>
-#           <ocs>
-#               <meta>
-#                   <status>failure</status>
-#                   <statuscode>105</statuscode>
-#                   <message>Not viable to remove user from the last group you are SubAdmin of</message>
-#               </meta>
-#               <data/>
-#           </ocs>
-#         XML
-#       end
-#
-#       it "does not interrupt the flow" do
-#         described_class.new(storage).call
-#       end
-#
-#       it "logs the occurrence and continues the flow" do
-#         allow(Rails.logger).to receive(:error)
-#         described_class.new(storage).call
-#
-#         expect(Rails.logger)
-#           .to have_received(:error)
-#           .with(group: "OpenProject",
-#                 user: "Darth Maul",
-#                 message: /SubAdmin/,
-#                 error_code: :failed_to_remove,
-#                 reason: /SubAdmin/,
-#                 data: { status: 200, body: remove_user_from_group_response })
-#       end
-#     end
-#   end
-# end
-# end
