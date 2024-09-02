@@ -53,11 +53,21 @@ module OpenProject::TextFormatting
       end
 
       def self.work_package_context?(context)
+        #  workPackageValue can be used in e.g. wiki and meeting notes without a work package,
+        #  relative embedding is not supported in these cases
         context[:object].is_a?(WorkPackage) || context[:object].is_a?(API::V3::WorkPackages::WorkPackageEagerLoadingWrapper)
       end
 
-      def self.relative_work_package_embed?(macro_attributes)
-        macro_attributes[:id].nil? && macro_attributes[:model] == "workPackage"
+      def self.work_package_embed?(macro_attributes)
+        macro_attributes[:model] == "workPackage"
+      end
+
+      def self.project_embed?(macro_attributes)
+        macro_attributes[:model] == "project"
+      end
+
+      def self.relative_embed?(macro_attributes)
+        macro_attributes[:id].nil?
       end
 
       def self.process_match(match, _matched_string, context)
@@ -69,11 +79,12 @@ module OpenProject::TextFormatting
         }
         type = match[2].downcase
 
-        # If no ID is given, try to use the current work package ID if applicable
-        #  workPackageValue can be used in e.g. wiki and meeting notes without a work package,
-        #  relative embedding is not supported in these cases
-        if relative_work_package_embed?(macro_attributes) && work_package_context?(context)
-          macro_attributes[:id] = context[:object].try(:id)
+        if relative_embed?(macro_attributes)
+          if project_embed?(macro_attributes) && context[:project].present?
+            macro_attributes[:id] = context[:project].try(:id)
+          elsif work_package_embed?(macro_attributes) && work_package_context?(context)
+            macro_attributes[:id] = context[:object].try(:id)
+          end
         end
 
         ApplicationController.helpers.content_tag "opce-macro-attribute-#{type}",
