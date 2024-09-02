@@ -52,7 +52,7 @@ module PermissionSpecs
         controller_name, action_name = controller_action.split("#")
 
         it "allows calling #{controller_action} when having the permission #{permission}" do
-          controller.params = { controller: controller_name, action: action_name }
+          allow(controller).to receive_messages(controller_path: controller_name, action_name:)
 
           become_member_with_permissions(project, current_user, permission)
 
@@ -60,7 +60,7 @@ module PermissionSpecs
         end
 
         it "prevents calling #{controller_action} when not having the permission #{permission}" do
-          controller.params = { controller: controller_name, action: action_name }
+          allow(controller).to receive_messages(controller_path: controller_name, action_name:)
 
           become_member(project, current_user)
 
