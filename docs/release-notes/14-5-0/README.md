@@ -44,6 +44,13 @@ In addition to reCAPTCHA, administrators can now use [CloudFlare Turnstile](http
 
 ### Improved filter search for custom project lists
 
+Filtering and searching project lists has been improved with OpenProject 14.5: 
+
+1. A fixed search field has been added so that you can quickly enter a project name and search for it.
+2. When selecting a new filter, the project list below will immediately reload and display the selected filters.
+
+See our user guide to learn more about [project lists and how to filter them](../../user-guide/projects/project-lists/#project-lists-filters).
+
 ### PDF export of meeting agenda and meeting
 
 ### Meetings: Disable by default "Send out invitation emails upon creation"
