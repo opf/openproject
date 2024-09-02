@@ -6,8 +6,6 @@ We released OpenProject [OpenProject 14.5.0](https://community.openproject.org/v
 
 In these Release Notes, we will give an overview of important technical updates as well as important feature changes. At the end, you will find a complete list of all changes and bug fixes.
 
-## Important technical updates
-
 ## Important feature changes
 
 ### Keep and restore local versions of WYSIWYG content changes
@@ -76,6 +74,12 @@ We have renamed some of the actions in the work package dropdown menu. They shou
 
 
 <!--more-->
+
+## Breaking changes for developers
+
+In this release, the dynamic bootstrapping of Angular components has been removed. Instead, use `Angular Elements` to define it as a custom element. See our openproject-proto_plugin prototypical plug-in to see how to do that.
+
+
 
 ## Bug fixes and changes
 
