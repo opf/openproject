@@ -169,7 +169,7 @@ If you would like to report a vulnerability or help us make OpenProject more sec
 
 ## Contributions
 
-A very special thank you goes to the City of Cologne again for sponsoring features on project attributes and project lists. 
+A very special thank you goes to the City of Cologne again for sponsoring features on project lists. 
 
 Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
 Special thanks for reporting and finding bugs go to Frank Schmid, Michael Kluge, Mariusz Kamiński, Rince wind, Joris Ceelen, Michael Lathion, and Cornelius Heisse.
