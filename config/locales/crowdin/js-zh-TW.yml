@@ -400,7 +400,7 @@ zh-TW:
     label_create: "建立"
     label_create_work_package: "建立新的工作項目"
     label_created_by: "建立者："
-    label_current: "current"
+    label_current: "目前"
     label_date: "日期"
     label_date_with_format: "輸入 %{date_attribute} 使用以下格式: %{format}"
     label_deactivate: "停用"
