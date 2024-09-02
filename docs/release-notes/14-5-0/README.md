@@ -10,8 +10,23 @@ In these Release Notes, we will give an overview of important technical updates 
 
 ## Important feature changes
 
-<!-- Inform about the major features in this section -->
+### Keep and restore local versions of WYSIWYG content changes
 
+### Enable a storage for multiple projects at once
+
+### Export work packages in an updated modal with additional settings
+
+### Display custom field columns/filters in project lists also in the Community Edition
+
+### Use CloudFlare Turnstile as Captcha
+
+### Improved filter search for custom project lists
+
+### PDF export of meeting agenda and meeting
+
+### Meetings: Disable by default "Send out invitation emails upon creation"
+
+### Rename actions in work package dropdown menu
 
 <!--more-->
 
