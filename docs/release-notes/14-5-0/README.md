@@ -38,9 +38,14 @@ From time to time an Enterprise add-on is released for the free community versio
 
 ### Use CloudFlare Turnstile as Captcha
 
-In addition to reCAPTCHA, administrators can now use [CloudFlare Turnstile](https://developers.cloudflare.com/turnstile/) as Captcha. To use Cloudflare Turnstile with OpenProject, you need to configure the reCAPTCHA settings in the Cloudflare dashboard. Read more in our [system admin guide](../../system-admin-guide/authentication/recaptcha/).
+In addition to reCAPTCHA, administrators can now use [CloudFlare Turnstile](https://developers.cloudflare.com/turnstile/) as Captcha. Cloudflare Turnstile is an alternative to Recaptcha that avoids user interaction. 
+
+To use Cloudflare Turnstile with OpenProject, you need to configure the reCAPTCHA settings in the Cloudflare dashboard. Read more in our [system admin guide](../../system-admin-guide/authentication/recaptcha/).
 
 ![Screenshot showing OpenProject authentication administration with dropdown to choose CloudFlare Turnstile as Captcha](openproject-14-5-recaptcha-turnstile.png)
+
+> [!NOTE]
+> A special Thanks goes to [Aaron Dewes](https://github.com/AaronDewes), the initiator and Community contributor for this feature. It is very much appreciated! 💙
 
 ### Improved filter search for custom project lists
 
