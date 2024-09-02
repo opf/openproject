@@ -102,6 +102,10 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
 
     driver_options = options.merge(browser_options:)
 
+    # Try to set flatten:false to avoid Ferrum::NoSuchTargetError errors
+    # https://github.com/rubycdp/ferrum/issues/470
+    driver_options[:flatten] = false
+
     Capybara::Cuprite::Driver.new(app, **driver_options)
   end
 
