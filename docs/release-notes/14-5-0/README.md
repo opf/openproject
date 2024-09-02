@@ -26,7 +26,11 @@ Admins responsible for storages in OpenProject can now save time by enabling a s
 
 This feature works for all external file storages that are currently possible with OpenProject.
 
-### Export work packages in an updated modal with additional settings
+### Export work package lists in an updated modal with additional settings
+
+With OpenProject 14.5., we updated the modal for exporting work package lists. The new modal is more intuitive to use and has more options. It not only looks much better now, users can also export their work package list in form of a Gantt chart. Also, they can now select and reorder the columns to be displayed in the export directly in the modal..
+
+![Screenshot of the work package export modal for OpenProject 14.5](openproject-14-5-export-work-packages-modal.png)
 
 ### Display custom field columns/filters in project lists also in the Community Edition
 
