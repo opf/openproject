@@ -32,6 +32,7 @@ require "work_packages/create_contract"
 
 module WorkPackages
   class CopyContract < CreateContract
+    REQUIRED_PERMISSION = :copy_work_packages
     # As % Complete can be set while Work and Remaining work are not, copying is
     # a scenario where this field must be writable
     attribute :done_ratio,

@@ -30,6 +30,8 @@ require "work_packages/base_contract"
 
 module WorkPackages
   class CreateContract < BaseContract
+    REQUIRED_PERMISSION = :add_work_packages
+
     include AdminWritableTimestamps
     allow_writable_timestamps :created_at
 
@@ -40,9 +42,9 @@ module WorkPackages
               # Overriding permission from WP base contract to ignore change_work_package_status for creation,
               # because we don't require that permission for writable status during WP creation.
               # Note that nil would not override and [] would ignore the default permission, so we use the default here:
-              permission: :add_work_packages
+              permission: REQUIRED_PERMISSION
 
-    default_attribute_permission :add_work_packages
+    default_attribute_permission REQUIRED_PERMISSION
 
     validate :user_allowed_to_add
     validate :user_allowed_to_manage_file_links
@@ -50,8 +52,8 @@ module WorkPackages
     private
 
     def user_allowed_to_add
-      if (model.project && !@user.allowed_in_project?(:add_work_packages, model.project)) ||
-         !@user.allowed_in_any_project?(:add_work_packages)
+      if (model.project && !@user.allowed_in_project?(REQUIRED_PERMISSION, model.project)) ||
+         !@user.allowed_in_any_project?(REQUIRED_PERMISSION)
         errors.add(:base, :error_unauthorized)
       end
     end
