@@ -159,6 +159,9 @@ A very special thank you goes to the City of Cologne again for sponsoring featur
 Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
 Special thanks for reporting and finding bugs go to Frank Schmid, Michael Kluge, Mariusz Kamiński, Rince wind, Joris Ceelen, Michael Lathion, and Cornelius Heisse.
 
-Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight 
+Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight
+- [Phi Công Nguyễn Vũ](https://crowdin.com/profile/nguyenvuphicong), for an outstanding number of translations into Vietnamese in the past weeks.
+- [Sebvita_devinci](https://crowdin.com/profile/sebvita_devinci), who has helped us a lot by translating parts of the application into French.
+- [Alin Marcu](https://crowdin.com/profile/deconfcom), who has helped us a lot by translating parts of the application into Romanian.
 
 Would you like to help out with translations yourself? Then take a look at our [translation guide](../../development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
