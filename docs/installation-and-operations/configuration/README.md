@@ -36,6 +36,7 @@ Configuring OpenProject through environment variables is described in detail [in
 
 ### one container per process installation
 
+Create a file `docker-compose.override.yml` next to `docker-compose.yml` file. Docker Compose will automatically merge those files, for more information, see https://docs.docker.com/compose/multiple-compose-files/merge/.
 Add your custom configuration to `docker-compose.override.yml`.
 
 In the compose folder you will also find the file `docker-compose.yml` which shall **NOT** be edited.
