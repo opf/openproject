@@ -32,9 +32,13 @@ With OpenProject 14.5., we updated the modal for exporting work package lists. T
 
 ![Screenshot of the work package export modal for OpenProject 14.5](openproject-14-5-export-work-packages-modal.png)
 
-### Display custom field columns/filters in project lists also in the Community Edition
+### Release to Community: Display custom field columns/filters in project lists
+
+From time to time an Enterprise add-on is released for the free community version. We are happy to announce that with OpenProject 14.5, custom field columns/filters can be displayed in project lists in all editions. This means that also Community users can now filter and sort their project lists using custom fields in order to create the best possible overview. 
 
 ### Use CloudFlare Turnstile as Captcha
+
+
 
 ### Improved filter search for custom project lists
 
