@@ -297,7 +297,7 @@ nl:
         actions:
           label_enable_single: "Actief in dit project, klik om uit te schakelen"
           label_disable_single: "Inactief in dit project, klik om in te schakelen"
-          deactivate_for_project: "Deactivate for this project"
+          remove_from_project: "Remove from project"
           label_enable_all: "Alles inschakelen"
           label_disable_all: "Disable all"
         is_required_blank_slate:

@@ -267,8 +267,8 @@ vi:
       no_results_title_text: Không có dự án nào
       no_results_content_text: Tạo một dự án mới
       search:
-        label: Project name filter
-        placeholder: Search by project name
+        label: Bộ lọc tên dự án
+        placeholder: Tìm kiếm theo tên dự án
     lists:
       active: "Các dự án đang hoạt động"
       my: "Dự án của tôi"
@@ -302,7 +302,7 @@ vi:
         actions:
           label_enable_single: "Kích hoạt trong dự án này, nhấp để tắt"
           label_disable_single: "Không kích hoạt trong dự án này, nhấp để bật"
-          deactivate_for_project: "Vô hiệu hóa cho dự án này"
+          remove_from_project: "Remove from project"
           label_enable_all: "Bật tất cả"
           label_disable_all: "Tắt tất cả"
         is_required_blank_slate:
@@ -1035,10 +1035,10 @@ vi:
             assigned_to:
               format: "%{message}"
             done_ratio:
-              does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
-              cannot_be_set_when_work_is_zero: "cannot be set when Work is 0h"
-              must_be_set_when_remaining_work_is_set: "required when Remaining work is set."
-              must_be_set_when_work_and_remaining_work_are_set: "required when Work and Remaining work are set."
+              does_not_match_work_and_remaining_work: "không khớp với Công việc và Công việc còn lại"
+              cannot_be_set_when_work_is_zero: "không thể thiết lập khi Công việc là 0h"
+              must_be_set_when_remaining_work_is_set: "cần thiết khi công việc còn lại được thiết lập."
+              must_be_set_when_work_and_remaining_work_are_set: "cần thiết khi Công việc và Công việc còn lại được thiết lập."
               inclusion: "phải nằm trong khoảng từ 0 đến 100."
             due_date:
               not_start_date: "không phải ngày bắt đầu, mặc dù điều này là cần thiết cho các mốc quan trọng."
@@ -1068,7 +1068,7 @@ vi:
               does_not_exist: "Thể loại đã chỉ định không tồn tại."
             estimated_hours:
               not_a_number: "không phải là thời gian hợp lệ."
-              cant_be_inferior_to_remaining_work: "cannot be lower than Remaining work."
+              cant_be_inferior_to_remaining_work: "không thể thấp hơn Công việc còn lại."
               must_be_set_when_remaining_work_and_percent_complete_are_set: "required when Remaining work and % Complete are set."
             remaining_hours:
               not_a_number: "không phải là thời gian hợp lệ."
@@ -2064,7 +2064,7 @@ vi:
   label_file_plural: "Tệp"
   label_filter_add: "Thêm bộ lọc"
   label_filter: "Bộ lọc"
-  label_filter_plural: "Các bộ lọc"
+  label_filter_plural: "Bộ lọc"
   label_filters_toggle: "Hiển thị/ẩn bộ lọc"
   label_float: "Số thực"
   label_folder: "Thư mục"

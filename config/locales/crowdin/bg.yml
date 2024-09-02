@@ -300,7 +300,7 @@ bg:
         actions:
           label_enable_single: "Активен в този проект, щракнете за да деактивирате"
           label_disable_single: "Неактивен в този проект, щракнете, за да разрешите"
-          deactivate_for_project: "Деактивирайте за този проект"
+          remove_from_project: "Remove from project"
           label_enable_all: "Разрешете всички"
           label_disable_all: "Disable all"
         is_required_blank_slate:
