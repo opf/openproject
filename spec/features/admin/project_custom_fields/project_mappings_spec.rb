@@ -137,7 +137,7 @@ RSpec.describe "Project Custom Field Mappings", :js do
 
       visit project_mappings_admin_settings_project_custom_field_path(project_custom_field)
 
-      project_custom_field_mappings_page.click_menu_item_of("Deactivate for this project", project)
+      project_custom_field_mappings_page.click_menu_item_of("Remove from project", project)
 
       expect(page).to have_no_text(project.name)
 

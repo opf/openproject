@@ -92,7 +92,7 @@ backend_stuff() {
 }
 
 frontend_stuff() {
-	execute_quiet "DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile"
+	execute_quiet "OPENPROJECT_ANGULAR_BUILD=fast DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile"
 	execute_quiet "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
 }
 

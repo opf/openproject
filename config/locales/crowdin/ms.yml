@@ -299,7 +299,7 @@ ms:
         actions:
           label_enable_single: "Aktif dalam projek ini, klik untuk nyahaktifkan"
           label_disable_single: "Tidak aktif dalam projek ini, klik untuk aktifkan"
-          deactivate_for_project: "Nyahaktifkan untuk projek ini"
+          remove_from_project: "Remove from project"
           label_enable_all: "Aktifkan semua"
           label_disable_all: "Nyahaktifkan semua"
         is_required_blank_slate:
