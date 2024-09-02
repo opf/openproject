@@ -4,7 +4,7 @@ Release date: 2024-09-11
 
 We released OpenProject [OpenProject 14.5.0](https://community.openproject.org/versions/1411). The release contains several bug fixes and we recommend updating to the newest version. 
 
-In these Release Notes, we will give an overview of important technical updates as well as important feature changes. At the end, you will find a complete list of all changes and bug fixes.
+In these Release Notes, we will give an overview of important feature changes as well as breaking changes for developers. At the end, you will find a complete list of all changes and bug fixes.
 
 ## Important feature changes
 
@@ -56,7 +56,7 @@ See our user guide to learn more about [project lists and how to filter them](..
 
 ### PDF export of meeting agenda and meeting
 
-When pressing the key combination for printing – e.g. cmd + P for mac users or STRG + P for Windows users – you can create your meeting as PDF, download and print it. This has been improved with OpenProject 14.5, so that, for example, meeting buttons like + Add are not displayed in the PDF.
+When pressing the key combination for printing – e.g. **cmd + P** for mac users or **STRG + P** for Windows users – you can create your meeting as PDF, download and print it. This has been improved with OpenProject 14.5, so that, for example, meeting buttons like **+ Add** are not displayed in the PDF.
 
 ### Meetings: Disable by default "Send out invitation emails upon creation"
 
@@ -72,14 +72,11 @@ We have renamed some of the actions in the work package dropdown menu. They shou
 | 2    | Copy             | Duplicate        |
 | 3    | Copy to other project | Duplicate to other project |
 
-
 <!--more-->
 
 ## Breaking changes for developers
 
-In this release, the dynamic bootstrapping of Angular components has been removed. Instead, use `Angular Elements` to define it as a custom element. See our openproject-proto_plugin prototypical plug-in to see how to do that.
-
-
+In this release, the dynamic bootstrapping of Angular components has been removed. Instead, use `Angular Elements` to define it as a custom element. See our [openproject-proto\_plugin prototypical plug-in](https://github.com/opf/openproject-proto_plugin) to see how to do that.
 
 ## Bug fixes and changes
 
@@ -161,20 +158,14 @@ In this release, the dynamic bootstrapping of Angular components has been remove
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
-
-
-## Acknowledging Security Research
+## Acknowledging security research
 
 We thank the following security researchers for approaching us with reports, warnings, and improvements to the OpenProject software and ecosystem: 
 
 - Lukasz D. Tulikowski ([@tulik](https://github.com/tulik))
 - Iqra Aslam
 
-
-
 If you would like to report a vulnerability or help us make OpenProject more secure through other ways, please see our [Statement on Security](../../security-and-privacy/statement-on-security/) for more information.
-
-
 
 ## Contributions
 
@@ -184,8 +175,9 @@ Also a big thanks to our Community members for reporting bugs and helping us ide
 Special thanks for reporting and finding bugs go to Frank Schmid, Michael Kluge, Mariusz Kamiński, Rince wind, Joris Ceelen, Michael Lathion, and Cornelius Heisse.
 
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight
-- [Phi Công Nguyễn Vũ](https://crowdin.com/profile/nguyenvuphicong), for an outstanding number of translations into Vietnamese in the past weeks.
-- [Sebvita_devinci](https://crowdin.com/profile/sebvita_devinci), who has helped us a lot by translating parts of the application into French.
-- [Alin Marcu](https://crowdin.com/profile/deconfcom), who has helped us a lot by translating parts of the application into Romanian.
+- [Phi Công Nguyễn Vũ](https://crowdin.com/profile/nguyenvuphicong), for an outstanding number of translations into Vietnamese.
+- [daniel chou](https://crowdin.com/profile/chou0214), for an outstanding number of translations into Chinese.
+- [Sebvita_devinci](https://crowdin.com/profile/sebvita_devinci), for proof reading French translations.
+- [Alin Marcu](https://crowdin.com/profile/deconfcom), for proof reading Romanian translations.
 
 Would you like to help out with translations yourself? Then take a look at our [translation guide](../../development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
