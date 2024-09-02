@@ -409,6 +409,12 @@ class User < Principal
     @time_zone ||= (pref.time_zone.blank? ? nil : ActiveSupport::TimeZone[pref.time_zone])
   end
 
+  def reload(*)
+    @time_zone = nil
+
+    super
+  end
+
   def wants_comments_in_reverse_order?
     pref.comments_in_reverse_order?
   end
