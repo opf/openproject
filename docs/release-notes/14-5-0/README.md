@@ -53,9 +53,22 @@ See our user guide to learn more about [project lists and how to filter them](..
 
 ### PDF export of meeting agenda and meeting
 
+When pressing the key combination for printing – e.g. cmd + P for mac users or STRG + P for Windows users – you can create your meeting as PDF, download and print it. This has been improved with OpenProject 14.5, so that, for example, meeting buttons like + Add are not displayed in the PDF.
+
 ### Meetings: Disable by default "Send out invitation emails upon creation"
 
+When creating a new meeting in OpenProject, you can choose wheather you want to send out invitation emails or not. Up to now, this has been enabled by default. Due to user feedback, this option is now disabled per default.
+
 ### Rename actions in work package dropdown menu
+
+We have renamed some of the actions in the work package dropdown menu. They should now be easier to understand and more intuitive to use for new users. Here is an overview of the renaming:
+
+|      | Old name   | New name                                                     | 
+| ---- | --------------------------- | ------------------------------------------------------------ | 
+| 1    | Change project   | Move to another project | 
+| 2    | Copy             | Duplicate        |
+| 3    | Copy to other project | Duplicate to other project |
+
 
 <!--more-->
 
