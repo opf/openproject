@@ -174,6 +174,11 @@ module Storages
         expect(set_permissions).to have_received(:call).exactly(5).times
       end
 
+      it "updates the project storage with the remote folder id" do
+        expect { service.call(storage) }.to change { project_storage.reload.project_folder_id }
+                                              .from(nil).to("normal_project_id")
+      end
+
       context "when a project is renamed" do
         let(:file_ids_result) do
           ServiceResult.success(result: { "OBVIOUSLY NON RENAMED" => { "fileid" => renamed_storage.project_folder_id } })
@@ -190,6 +195,10 @@ module Storages
           expect(rename_file).to have_received(:call)
                                    .with(storage:, auth_strategy:, file_id: renamed_storage.project_folder_id,
                                          name: renamed_storage.managed_project_folder_name).once
+        end
+
+        it "does not change the project_folder_id after the rename" do
+          expect { service.call(storage) }.not_to change { renamed_storage.reload.project_folder_id }
         end
       end
 
@@ -210,25 +219,72 @@ module Storages
         end
       end
 
-      context "with a project with trailing slashes" do
-        it "replaces the offending characters"
-        it "updates the project storage with the remote folder id"
-        it "adds a new entry on historical data"
-      end
+      context "when creating a folder for a project that with trailing slashes in its name" do
+        it "replaces the offending characters" do
+          service.call(storage)
 
-      context "with a project with special characters"
+          expect(create_folder).to have_received(:call)
+                                     .with(storage:, auth_strategy:, parent_location: Peripherals::ParentFolder.new("/"),
+                                           folder_name: "/OpenProject/[Sample] Project Name | Ehüu ||| (#{project.id})/").once
+        end
+
+        it "adds a new entry on historical data" do
+          expect { service.call(storage) }.to change { LastProjectFolder.where(project_storage:).count }.by(1)
+        end
+      end
 
       context "with an archived project" do
-        it "hides the project folder"
+        it "hides the project folder" do
+          perms = build_project_folder_permissions[inactive_storage.managed_project_folder_path]
+          service.call(storage)
+
+          expect(set_permissions).to have_received(:call).with(storage:, auth_strategy:, permissions: perms,
+                                                               path: inactive_storage.managed_project_folder_path).once
+        end
       end
 
-      context "when errors happen" do
+      describe "error handling" do
+        context "when the initial fetch of remote folders fails" do
+          let(:file_ids_result) do
+            ServiceResult.failure(result: :unauthorized,
+                                  errors: storage_error(:unauthorized, "error body",
+                                                        source: Peripherals::StorageInteraction::Nextcloud::FileIdsQuery))
+          end
+
+          it "logs an error" do
+            allow(Rails.logger).to receive(:error).and_call_original
+            service.call(storage)
+            expect(Rails.logger).to have_received(:error)
+                                      .with(error_code: :unauthorized, message: "TESTING",
+                                            folder: "OpenProject", data: "error body")
+          end
+
+          it "adds to the services errors" do
+            result = service.call(storage)
+
+            expect(result.errors.size).to eq(1)
+            expect(result.errors[:base]).to contain_exactly(I18n.t("services.errors.models.nextcloud_sync_service.unauthorized"))
+          end
+
+          it "interrupts the flow" do
+            service.call(storage)
+            [group_users, add_user, create_folder, remove_user, rename_file, set_permissions].each do |command|
+              expect(command).not_to have_received(:call)
+            end
+          end
+        end
+
         it "logs the occurrence"
         it "adds the errors to the result"
       end
     end
 
     private
+
+    def storage_error(code, data, source)
+      data = StorageErrorData.new(source:, payload: data)
+      StorageError.new(code:, log_message: "TESTING", data:)
+    end
 
     def build_create_folder_result
       {
@@ -255,7 +311,7 @@ module Storages
     end
   end
 end
-# RSpec.describe Storages::NextcloudManagedFolderSyncService, :webmock do
+# RSpec.describe Storages::Nextcloud  ManagedFolderSyncService, :webmock do
 #   let(:project_with_special_characters) do
 #     create(:project, name: "[Sample] Project Name / Ehüu",
 #                      members: { multiple_projects_user => ordinary_role, single_project_user => ordinary_role })
