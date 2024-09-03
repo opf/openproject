@@ -282,8 +282,8 @@ module Costs
     end
 
     config.to_prepare do
+      Enumeration.register_subclass(TimeEntryActivity)
       OpenProject::ProjectLatestActivity.register on: "TimeEntry"
-
       Costs::Patches::MembersPatch.mixin!
 
       ##

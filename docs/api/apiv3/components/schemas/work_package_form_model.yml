@@ -1,0 +1,53 @@
+# Schema: WorkPackageFormModel
+---
+type: object
+description: |-
+  The work package creation form. This object is returned, whenever a work package form endpoint is called. It contains
+  an allowed payload definition, the full schema and any validation errors on the current request body.
+properties:
+  _type:
+    type: string
+    enum:
+      - Form
+  _embedded:
+    type: object
+    properties:
+      payload:
+        $ref: './work_package_write_model.yml'
+      schema:
+        $ref: './work_package_schema_model.yml'
+      validationErrors:
+        type: object
+        description: |-
+          All validation errors, where the key is the faulty property. The object is empty, if the request body is
+          valid.
+  _links:
+    type: object
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This form endpoint
+              
+              **Resource** : Form
+      validate:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The endpoint for validating the request bodies. Often referring to this very form endpoint.
+      previewMarkup:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Renders a markup preview for the work package form.
+      customFields:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Link to the HTML page for the custom field definitions.
+      configureForm:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Link to the HTML page for the form configuration.

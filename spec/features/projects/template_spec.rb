@@ -132,7 +132,7 @@ RSpec.describe "Project templates", :js, :with_cuprite,
       page.find("button:not([disabled])", text: "Save").click
 
       expect(page).to have_content I18n.t(:label_copy_project)
-      expect(page).to have_content I18n.t("js.job_status.generic_messages.in_queue")
+      expect(page).to have_content I18n.t("job_status_dialog.generic_messages.in_queue")
 
       # Run background jobs twice: the background job which itself enqueues the mailer job
       GoodJob.perform_inline

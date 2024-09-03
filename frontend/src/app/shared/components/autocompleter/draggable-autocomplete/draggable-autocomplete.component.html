@@ -1,6 +1,6 @@
 <div class="op-draggable-autocomplete">
   <div class="FormControl-spacingWrapper mb-3">
-    <div class="FormControl width-full" id="op-draggable-autocomplete-container">
+    <div class="FormControl width-full op-draggable-autocomplete-container" [id]="formControlId">
       <label class="FormControl-label"
              [textContent]="inputLabel"
              [attr.for]="id">
@@ -21,6 +21,9 @@
         (open)="opened()"
         (change)="select($event)"
       ></ng-select>
+      <span
+        *ngIf="inputCaption"
+        class="FormControl-caption" [textContent]="inputCaption"></span>
     </div>
   </div>
 

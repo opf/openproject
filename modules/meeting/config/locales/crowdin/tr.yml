@@ -58,7 +58,7 @@ tr:
       meeting_agenda_item: "Ajanda öğesi"
       meeting_agenda: "Ajanda"
       meeting_minutes: "Dakika"
-      meeting_section: "Section"
+      meeting_section: "Bölüm"
   activity:
     filter:
       meeting: "Toplantılar"
@@ -71,7 +71,7 @@ tr:
           updated: "changed from %{old_value} to %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
         position:
-          updated: "reordered"
+          updated: "yeniden sıralandı"
         work_package:
           updated: "changed from %{old_value} to %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
@@ -116,14 +116,14 @@ tr:
       text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
       title: "Copy meeting: %{title}"
-      attachments: "Copy attachments"
+      attachments: "Ekleri kopyala"
       attachments_text: "Copy over all attached files to the new meeting"
       agenda: "Gündemi kopyala"
       agenda_text: "Eski toplantının gündemini kopyalayın"
     email:
-      send_emails: "Send emails"
+      send_emails: "Email participants"
       send_invitation_emails: >
-        Send out an invitation email to the participants listed above. Note that unchecking this option does not affect the sending of emails after this form is submitted.
+        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Açık toplantı"
       invited:
         summary: "%{actor} size toplantı için bir davetiye gönderdi %{title}"
@@ -148,11 +148,12 @@ tr:
     empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Bildirim başarıyla gönderildi"
   notice_timezone_missing: Saat dilimi ayarlanmadı ve %{zone} kabul edildi. Saat dilimini seçmek için lütfen buraya tıklayın.
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "Toplantı oluşturma"
   permission_edit_meetings: "Toplantıları düzenleme"
   permission_delete_meetings: "Toplantıları silme"
   permission_view_meetings: "Toplantıları görüntüle"
-  permission_create_meeting_agendas: "Create meeting agendas"
+  permission_create_meeting_agendas: "Toplantı gündemleri oluşturun"
   permission_create_meeting_agendas_explanation: "Allows editing the Classic Meeting's agenda content."
   permission_manage_agendas: "Acentaları yönetme"
   permission_manage_agendas_explanation: "Allows managing the Dynamic Meeting's agenda items."
@@ -170,17 +171,18 @@ tr:
   text_meeting_agenda_open_are_you_sure: "Bu, dakikalardaki tüm değişikliklerin üzerine yazacaktır! Devam etmek istiyor musun?"
   text_meeting_minutes_for_meeting: 'toplantı için dakikalar "%{meeting}"'
   text_notificiation_invited: "Bu posta, aşağıdaki toplantı için bir ics girişi içermektedir:"
-  text_meeting_empty_heading: "Your meeting is empty"
+  text_meeting_empty_heading: "Toplantınız boş"
   text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes."
   text_meeting_empty_description_2: 'You can also add references to existing work packages. When you do, related notes will automatically be visible in the work package''s "Meetings" tab.'
-  label_meeting_empty_action: "Add agenda item"
-  label_meeting_actions: "Meeting actions"
+  label_meeting_empty_action: "Gündem maddesi ekle"
+  label_meeting_actions: "Toplantı eylemleri"
   label_meeting_edit_title: "Toplantı başlığını düzenle"
   label_meeting_delete: "Toplantıyı sil"
   label_meeting_created_by: "Oluşturan"
-  label_meeting_last_updated: "Last updated"
+  label_meeting_last_updated: "Son güncelleme"
+  label_meeting_reload: "Reload"
   label_agenda_items: "Gündem maddeleri"
-  label_agenda_items_reordered: "reordered"
+  label_agenda_items_reordered: "yeniden sıralandı"
   label_agenda_item_remove: "Remove from agenda"
   label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
   label_agenda_item_deleted_wp: "Deleted work package reference"

@@ -65,7 +65,7 @@ class NotificationsController < ApplicationController
 
   private
 
-  def split_view_base_route = notifications_path
+  def split_view_base_route = notifications_path(request.query_parameters)
 
   def default_breadcrumb; end
 

@@ -57,7 +57,7 @@ ro:
           nullify_is_not_valid_for_cost_entries: "Înregistrările de costuri nu pot fi atribuite unui proiect."
   attributes:
     comment: "Comentariu"
-    cost_type: "Tipul de cost"
+    cost_type: "Tip cost"
     costs: "Costuri"
     current_rate: "Impozit"
     hours: "Ore"
@@ -95,10 +95,10 @@ ro:
   label_display_cost_entries: "Afișarea costurilor unitare"
   label_display_time_entries: "Afișarea orelor raportate"
   label_display_types: "Tipuri de afișare"
-  label_edit: "Editare"
+  label_edit: "Editează"
   label_generic_user: "Utilizator generic"
   label_greater_or_equal: ">="
-  label_group_by: "Grupare după"
+  label_group_by: "Grupează după"
   label_group_by_add: "Adăugați un câmp de grupare"
   label_hourly_rate: "Tarif orar"
   label_include_deleted: "Includeți șters"
@@ -143,4 +143,4 @@ ro:
   text_warning_hidden_elements: "Este posibil ca unele intrări să fi fost excluse din agregare."
   week: "săptămână"
   js:
-    text_are_you_sure: "Sunteți sigur?"
+    text_are_you_sure: "Ești sigur?"

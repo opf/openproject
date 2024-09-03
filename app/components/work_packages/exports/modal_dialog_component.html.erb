@@ -1,0 +1,59 @@
+<%= render(Primer::Alpha::Dialog.new(
+  title: I18n.t('export.dialog.title'),
+  size: :xlarge,
+  id: MODAL_ID,
+  data: {
+    "application-target": "dynamic",
+    controller: "work-packages--export--dialog"
+  }
+)) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
+  <% dialog.with_body do %>
+    <% flex_layout do |modal_body| %>
+      <% modal_body.with_row do |_format| %>
+        <%= render(Primer::Beta::Text.new(tag: "legend", font_size: :normal, mb: 2, font_weight: :bold)) { I18n.t('export.dialog.format.label') } %>
+        <%= render(Primer::Alpha::SegmentedControl.new(ml: 0, "aria-label": I18n.t('export.dialog.format.label'), size: :medium)) do |component|
+          export_formats_settings.each do |format|
+            component.with_item(
+              label: format[:label], icon: format[:icon], selected: format[:selected],
+              data: {
+                "work-packages--export--dialog-format-param": format[:id],
+                action: "click:segmented-control#select click->work-packages--export--dialog#formatChanged"
+              })
+          end
+        end %>
+        <%= render OpenProject::Common::DividerComponent.new %>
+      <% end %>
+      <% export_formats_settings.each do |format| %>
+        <% modal_body.with_row(
+          classes: format[:selected] ? nil : "d-none",
+          data: { format: format[:id], "work-packages--export--dialog-target": "formatTab" }
+        ) do |_format_tabs| %>
+          <%= primer_form_with(
+                url: export_format_url(format[:id]),
+                id: "#{EXPORT_FORM_ID}-#{format[:id]}",
+                data: {
+                  "application-target": "dynamic",
+                  action: "submit->work-packages--export--form#submitForm",
+                  controller: "work-packages--export--form",
+                  "work-packages--export--form-job-status-dialog-url-value": job_status_dialog_path('_job_uuid_')
+                }
+              ) do |form| %>
+            <input type="hidden" name="query" value="<%= query_params %>">
+            <%= render(format[:component].new(query)) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% dialog.with_footer do %>
+    <%= render(Primer::ButtonComponent.new(data: { "close-dialog-id": MODAL_ID })) { I18n.t(:button_cancel) } %>
+    <%= render(Primer::ButtonComponent.new(
+      data: {
+        "close-dialog-id": MODAL_ID,
+        "work-packages--export--dialog-target": "submit"
+      },
+      scheme: :primary, type: :submit,
+      form: "#{EXPORT_FORM_ID}-#{export_formats_settings.find { |e| e[:selected] }[:id]}")) { I18n.t('export.dialog.submit') } %>
+  <% end %>
+<% end %>

@@ -44,7 +44,7 @@ class Project < ApplicationRecord
   IDENTIFIER_MAX_LENGTH = 100
 
   # reserved identifiers
-  RESERVED_IDENTIFIERS = %w[new menu queries].freeze
+  RESERVED_IDENTIFIERS = %w[new menu queries export_list_modal].freeze
 
   has_many :members, -> {
     # TODO: check whether this should

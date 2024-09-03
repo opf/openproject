@@ -40,9 +40,9 @@ RSpec.describe API::V3::FileLinks::FileLinkRepresenter, "parsing" do
   let(:current_user) { build_stubbed(:user) }
 
   before do
-    allow(Storages::Storage).to receive(:find_by)
-                                    .with(host: storage.host)
-                                    .and_return storage
+    allow(Storages::Storage).to receive(:find_by) do |args|
+      args[:host] == storage.host ? storage : nil
+    end
   end
 
   describe "parsing" do
@@ -82,6 +82,14 @@ RSpec.describe API::V3::FileLinks::FileLinkRepresenter, "parsing" do
             }
           }
         end
+
+        it "is parsed correctly" do
+          expect(parsed).to have_attributes(storage_id: storage.id)
+        end
+      end
+
+      context "if storage is configured with legacy url format (without trailing slash)" do
+        let(:storage) { build_stubbed(:nextcloud_storage, host: "https://host.without-trailing.slash") }
 
         it "is parsed correctly" do
           expect(parsed).to have_attributes(storage_id: storage.id)

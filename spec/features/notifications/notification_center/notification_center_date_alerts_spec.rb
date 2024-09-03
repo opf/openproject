@@ -90,16 +90,14 @@ RSpec.describe "Notification center date alerts", :js, :with_cuprite,
     create(:notification,
            reason: :date_alert_due_date,
            recipient: user,
-           resource: milestone_wp_future,
-           project:)
+           resource: milestone_wp_future)
   end
 
   shared_let(:notification_wp_start_past) do
     create(:notification,
            reason: :date_alert_start_date,
            recipient: user,
-           resource: wp_start_past,
-           project:)
+           resource: wp_start_past)
   end
 
   # notification created by CreateDateAlertsNotificationsJob
@@ -121,30 +119,26 @@ RSpec.describe "Notification center date alerts", :js, :with_cuprite,
     create(:notification,
            reason: :date_alert_due_date,
            recipient: user,
-           resource: wp_double_notification,
-           project:)
+           resource: wp_double_notification)
   end
 
   shared_let(:notification_wp_double_mention) do
     create(:notification,
            reason: :mentioned,
            recipient: user,
-           resource: wp_double_notification,
-           project:)
+           resource: wp_double_notification)
   end
 
   shared_let(:notification_wp_double_alerts) do
     due = create(:notification,
                  reason: :date_alert_due_date,
                  recipient: user,
-                 resource: wp_double_alert,
-                 project:)
+                 resource: wp_double_alert)
 
     start = create(:notification,
                    reason: :date_alert_start_date,
                    recipient: user,
-                   resource: wp_double_alert,
-                   project:)
+                   resource: wp_double_alert)
 
     [start, due]
   end
@@ -153,16 +147,14 @@ RSpec.describe "Notification center date alerts", :js, :with_cuprite,
     create(:notification,
            reason: :date_alert_due_date,
            recipient: user,
-           resource: wp_unset_date,
-           project:)
+           resource: wp_unset_date)
   end
 
   shared_let(:notification_wp_due_today) do
     create(:notification,
            reason: :date_alert_due_date,
            recipient: user,
-           resource: wp_due_today,
-           project:)
+           resource: wp_due_today)
   end
 
   let(:center) { Pages::Notifications::Center.new }

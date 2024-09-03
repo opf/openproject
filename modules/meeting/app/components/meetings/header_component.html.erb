@@ -1,6 +1,17 @@
 <%=
+  params = {
+      controller: "poll-for-changes",
+      poll_for_changes_reference_value: @meeting.changed_hash,
+      poll_for_changes_url_value: check_for_updates_meeting_path(@meeting),
+      poll_for_changes_interval_value: check_for_updates_interval
+  }
+
   component_wrapper do
-    render(Primer::OpenProject::PageHeader.new(state: @state)) do |header|
+    render(Primer::OpenProject::PageHeader.new(
+      test_selector: "meeting-page-header",
+      state: @state,
+      data: OpenProject::FeatureDecisions.meeting_updated_notification_active? ? params : {}
+    )) do |header|
       header.with_title do |title|
         title.with_editable_form(model: @meeting,
                                  update_path: update_title_meeting_path(@meeting),

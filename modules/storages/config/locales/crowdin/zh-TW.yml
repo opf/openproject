@@ -31,7 +31,7 @@ zh-TW:
           attributes:
             host:
               authorization_header_missing: 未完全設置。Nextcloud 實例不會收到「Authorization」標頭，這是基於 Bearer 權杖(Token)API 請求授權所必需的。請仔細檢查您的 HTTP 服務器配置。
-              cannot_be_connected_to: 無法連接。
+              cannot_be_connected_to: 無法連線。請確認主機可以連線，且已安裝 OpenProject 整合應用程式。
               minimal_nextcloud_version_unmet: 未滿足最低版本要求（必須為 Nextcloud 23 或更高版本）
               not_nextcloud_server: 不是一個 Nextcloud 的服務器
               op_application_not_installed: 似乎沒有安裝應用「OpenProject 整合套件」。請先安裝，然後重試。
@@ -317,16 +317,24 @@ zh-TW:
     notice_successful_storage_connection: |-
       儲存已成功連接！請記得在每個所需專案的專案設定
       中啟用模組和特定儲存設備，以便使用。
-    oauth_grant_nudge_modal:
+    oauth_access_granted_modal:
       access_granted: 已授權存取
-      access_granted_screen_reader: 存取權已授予。現在您可以使用 %{storage}。
-      body: 若要存取專案資料夾，您需要登入 %{storage}。
+      project_settings:
+        access_granted_screen_reader: 存取權已授予。現在您可以使用 %{storage}。
+        storage_ready: 現在您可以使用 %{storage}
+      storage_admin:
+        access_granted_screen_reader: 存取權已授予。現在您可以在專案裡增加 %{storage}。
+        storage_ready: 現在您可以在專案裡增加 %{storage}。
+    oauth_grant_nudge_modal:
       cancel_button_label: 稍後再做
-      confirm_button_aria_label: 登入到 %{storage}
-      confirm_button_label: 登入
+      heading: 需要使用 %{provider_type} 登入
+      login_button_aria_label: 登入到 %{storage}
+      login_button_label: "%{provider_type} 登入"
+      project_settings:
+        description: 若要存取專案資料夾，您需要登入 %{storage}。
       requesting_access_to: 請求存取 %{storage}
-      storage_ready: 現在您可以使用 %{storage}
-      title: 還有一步...
+      storage_admin:
+        description: 為了將專案新增至儲存裝置，您需要登入 %{provider_type}。請重新登入。
     open_project_storage_modal:
       success:
         subtitle: 您正被重新導向

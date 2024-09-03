@@ -1,10 +1,9 @@
 .op-work-package-split-view
   height: 100%
-  width: 550px
+  min-width: 550px
   justify-content: space-around
   border-left: 1px solid var(--borderColor-muted)
-  border-top: 1px solid var(--borderColor-muted)
-  border-right: 1px solid var(--borderColor-muted)
 
-  border-top-left-radius: var(--borderRadius-medium)
-  border-top-right-radius: var(--borderRadius-medium)
+  @media screen and (max-width: $breakpoint-lg)
+    // Unfortunately, we have to enforce this style via !important as the resizer writes the width directly on the element as inline style
+    min-width: unset !important

@@ -44,6 +44,11 @@ module Meetings
       @state = fetch_or_fallback(STATE_OPTIONS, state)
     end
 
+    # Define the interval so it can be overriden through tests
+    def check_for_updates_interval
+      OpenProject::FeatureDecisions.meeting_updated_notification_active? ? 10_000 : 0
+    end
+
     private
 
     def delete_enabled?

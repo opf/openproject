@@ -35,7 +35,6 @@ require_module_spec_helper
 # the Angular change detection. This is usually done by the notification polling, but we don't want to wait
 RSpec.describe "Admin lists project mappings for a storage",
                :js, :storage_server_helpers, :webmock, :with_cuprite,
-               with_flag: { enable_storage_for_multiple_projects: true },
                with_settings: { notifications_polling_interval: 1_000 } do
   shared_let(:admin) { create(:admin, preferences: { time_zone: "Etc/UTC" }) }
   shared_let(:non_admin) { create(:user) }
@@ -320,6 +319,20 @@ RSpec.describe "Admin lists project mappings for a storage",
           end
         end
       end
+
+      context "with OneDrive/Sharepoint with AMPF enabled" do
+        let(:storage) { create(:one_drive_storage_configured, :as_automatically_managed) }
+        let(:project_storage) { create(:project_storage, storage:) }
+
+        it "does not show the edit option" do
+          project_storage
+
+          visit admin_settings_storage_project_storages_path(storage)
+          project_storages_index_page.activate_menu_of(project_storage.project) do
+            expect(page).to have_no_text("Edit project folder")
+          end
+        end
+      end
     end
 
     describe "Removal of a project from a storage" do
@@ -372,6 +385,7 @@ RSpec.describe "Admin lists project mappings for a storage",
           end
         end
 
+        expect(page).to have_no_selector("dialog")
         expect(page).to have_text("Successful deletion.")
         expect(page).to have_no_text(project.name)
       end

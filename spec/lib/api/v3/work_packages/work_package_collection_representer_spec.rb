@@ -125,20 +125,20 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
           expected_query_params = query_params.merge(pageSize: 30, offset: 1)
           JSON.parse([
             {
-              href: work_packages_path({ format: "pdf" }.merge(expected_query_params)),
+              href: work_packages_path({ format: "pdf", pdf_export_type: "table" }.merge(expected_query_params)),
               type: "application/pdf",
               identifier: "pdf",
               title: I18n.t("export.format.pdf_overview_table")
             },
             {
-              href: work_packages_path({ format: "pdf", show_images: true, show_report: true }
+              href: work_packages_path({ format: "pdf", pdf_export_type: "report", show_images: true }
                                          .merge(expected_query_params)),
               identifier: "pdf-with-descriptions",
               type: "application/pdf",
               title: I18n.t("export.format.pdf_report_with_images")
             },
             {
-              href: work_packages_path({ format: "pdf", show_report: true }.merge(expected_query_params)),
+              href: work_packages_path({ format: "pdf", pdf_export_type: "report" }.merge(expected_query_params)),
               identifier: "pdf-descr",
               type: "application/pdf",
               title: I18n.t("export.format.pdf_report")
@@ -175,20 +175,21 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
           expected_query_params = query_params.merge(pageSize: 30, offset: 1)
           JSON.parse([
             {
-              href: project_work_packages_path(project, { format: "pdf" }.merge(expected_query_params)),
+              href: project_work_packages_path(project, { format: "pdf", pdf_export_type: "table" }.merge(expected_query_params)),
               type: "application/pdf",
               identifier: "pdf",
               title: I18n.t("export.format.pdf_overview_table")
             },
             {
-              href: project_work_packages_path(project, { format: "pdf", show_images: true, show_report: true }
+              href: project_work_packages_path(project, { format: "pdf", pdf_export_type: "report", show_images: true }
                                                           .merge(expected_query_params)),
               type: "application/pdf",
               identifier: "pdf-with-descriptions",
               title: I18n.t("export.format.pdf_report_with_images")
             },
             {
-              href: project_work_packages_path(project, { format: "pdf", show_report: true }.merge(expected_query_params)),
+              href: project_work_packages_path(project,
+                                               { format: "pdf", pdf_export_type: "report" }.merge(expected_query_params)),
               type: "application/pdf",
               identifier: "pdf-descr",
               title: I18n.t("export.format.pdf_report")

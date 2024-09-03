@@ -122,8 +122,8 @@ module API::V3::FileLinks
 
                           # remove all trailing slashes except the last one
                           canonical_url = "#{fragment['href'].gsub(/\/+$/, '')}/"
-                          represented.storage = ::Storages::Storage.find_by(host: canonical_url)
-                          represented.storage ||= ::Storages::Storage::InexistentStorage.new(host: canonical_url)
+                          represented.storage = find_storage_by_url(canonical_url) ||
+                            ::Storages::Storage::InexistentStorage.new(host: canonical_url)
                         }
 
     associated_resource :container,
@@ -151,6 +151,15 @@ module API::V3::FileLinks
         createdByName: model.origin_created_by_name,
         lastModifiedByName: model.origin_last_modified_by_name
       }
+    end
+
+    def find_storage_by_url(canonical_url)
+      found = ::Storages::Storage.find_by(host: canonical_url)
+      return found if found.present?
+
+      # Search for storages that are still using the legacy URL format
+      legacy_url_data = canonical_url.chomp("/")
+      ::Storages::Storage.find_by(host: legacy_url_data)
     end
 
     def parse_origin_data(origin_data)

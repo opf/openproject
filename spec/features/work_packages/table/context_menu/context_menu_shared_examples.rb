@@ -62,9 +62,9 @@ RSpec.shared_examples_for "provides a single WP context menu" do
     open_context_menu.call
     menu.expect_no_options "Add predecessor", "Add follower, Show relations"
 
-    # Duplicate to other project
+    # Duplicate in another project
     open_context_menu.call
-    menu.choose("Duplicate to other project")
+    menu.choose("Duplicate in another project")
     expect(page).to have_css("h2", text: I18n.t(:button_copy))
     expect(page).to have_css("a.work_package", text: "##{work_package.id}")
   end

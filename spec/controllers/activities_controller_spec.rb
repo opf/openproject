@@ -79,6 +79,15 @@ RSpec.describe ActivitiesController do
 
         it { expect(assigns(:events)).to be_empty }
       end
+
+      describe "for a user that sees no projects" do
+        current_user { create(:user) }
+
+        it "renders 404" do
+          get "index"
+          expect(response).to have_http_status(:not_found)
+        end
+      end
     end
 
     describe "with activated activity module" do

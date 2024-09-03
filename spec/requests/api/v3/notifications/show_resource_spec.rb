@@ -45,7 +45,6 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
   shared_let(:notification) do
     create(:notification,
            recipient:,
-           project:,
            resource:,
            journal: resource.journals.last)
   end

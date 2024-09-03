@@ -3,7 +3,7 @@ module Components
     def open_modal!
       retry_block do
         click_on "Non-working day", wait: 10
-        unless page.has_css?(".flatpickr-calendar")
+        unless page.has_css?(".flatpickr-calendar", wait: 10)
           click_on "Cancel"
           raise "Flatpickr should render a calendar"
         end

@@ -1,7 +1,7 @@
 <%=
   component_wrapper(data: wrapper_data_attributes) do
     if elements.count == 0
-      render(Primer::Beta::Text.new(color: :subtle)) { t("label_meeting_no_items") }
+      render(Primer::Beta::Text.new(color: :subtle)) { t("label_meeting_no_participants") }
     elsif elements.count <= @cutoff_limit
       flex_layout do |list|
         elements.each do |item|

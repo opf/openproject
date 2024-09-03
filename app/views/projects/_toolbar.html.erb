@@ -47,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
   </li>
   <% if @project.copy_allowed? %>
     <li class="toolbar-item hidden-for-tablet">
-      <%= link_to copy_project_path(@project), class: 'button copy', accesskey: accesskey(:copy) do %>
+      <%= link_to copy_project_path(@project), class: 'button copy', accesskey: accesskey(:copy), data: { turbo: false } do %>
         <%= op_icon('button--icon icon-copy') %>
         <span class="button--text"><%= t(:button_copy) %></span>
       <% end %>

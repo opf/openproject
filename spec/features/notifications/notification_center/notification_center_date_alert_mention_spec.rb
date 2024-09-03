@@ -18,16 +18,14 @@ RSpec.describe "Notification center date alert and mention",
            reason: :mentioned,
            recipient: user,
            resource: work_package,
-           actor:,
-           project:)
+           actor:)
   end
 
   shared_let(:notification_date_alert) do
     create(:notification,
            reason: :date_alert_due_date,
            recipient: user,
-           resource: work_package,
-           project:)
+           resource: work_package)
   end
 
   let(:center) { Pages::Notifications::Center.new }

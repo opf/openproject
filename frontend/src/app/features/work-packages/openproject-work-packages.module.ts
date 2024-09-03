@@ -270,7 +270,6 @@ import { OpWpTabsModule } from 'core-app/features/work-packages/components/wp-ta
 import {
   EditFieldControlsModule,
 } from 'core-app/shared/components/fields/edit/field-controls/edit-field-controls.module';
-import { WpTableExportModalComponent } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
 import {
   WpButtonMacroModalComponent,
 } from 'core-app/shared/components/modals/editor/macro-wp-button-modal/wp-button-macro.modal';
@@ -628,7 +627,6 @@ import {
     WpTableConfigurationTimelinesTabComponent,
     WpTableConfigurationHighlightingTabComponent,
     WpTableConfigurationRelationSelectorComponent,
-    WpTableExportModalComponent,
     QuerySharingFormComponent,
     QuerySharingModalComponent,
     SaveQueryModalComponent,

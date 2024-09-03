@@ -138,6 +138,8 @@ zh-TW:
     description_select_work_package: "選取工作項目 #%{id}"
     description_subwork_package: "子工作項目 #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "切換預覽模式"
       source_code: "切換Markdown模式"
       error_saving_failed: "保存文件失敗, 出現以下錯誤: %{error}"
@@ -274,8 +276,10 @@ zh-TW:
         warning: >
           更改可能需要一些時間才能生效。當更新完所有相關工作包時，您將收到通知。
       work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          將進度計算模式從基於狀態改為基於工作，將使<i>完成百分比</i>成為不可編輯字段，其值來自<i>工作</i>和<i>剩餘工時</i>。<i>完成百分比</i>的現有值將保留。如果沒有 "<i>工時</i>"和 "剩餘<i>工作</i>"的值，則需要這些值才能更改 "完成<i>百分比</i>"。
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           將進度計算模式從基於工時的方式改為基於狀態，將會導致所有現有的 <i>%完整的</i> 值丟失，並被與每個狀態相關的值所替代。 <i>剩餘工時</i> 的現有值也可能被重新計算，以反映這種變化。此操作不可逆轉。
     custom_actions:
@@ -334,18 +338,6 @@ zh-TW:
         years: "年"
         description: >
           選擇初始縮放級別，當自動縮放無法顯示。
-      export:
-        title: "甘特圖 PDF 選項"
-        button_export: "匯出"
-        column_widths:
-          narrow: "窄"
-          medium: "中"
-          wide: "寬"
-          very_wide: "非常寬"
-        options:
-          date_zoom: "日期縮放"
-          paper_size: "紙張大小"
-          column_widths: "列寬"
     general_text_no: "否"
     general_text_yes: "是"
     general_text_No: "否"
@@ -408,6 +400,7 @@ zh-TW:
     label_create: "建立"
     label_create_work_package: "建立新的工作項目"
     label_created_by: "建立者："
+    label_current: "目前"
     label_date: "日期"
     label_date_with_format: "輸入 %{date_attribute} 使用以下格式: %{format}"
     label_deactivate: "停用"
@@ -467,7 +460,7 @@ zh-TW:
     label_meeting_minutes: "會議記錄"
     label_menu_collapse: "收合"
     label_menu_expand: "展開"
-    label_more_than_ago: "多天前"
+    label_more_than_ago: "超過幾天"
     label_next: "下一個"
     label_no_color: "無顏色"
     label_no_data: "沒有資料可顯示"
@@ -845,7 +838,7 @@ zh-TW:
       abort: "捨棄"
     relations_autocomplete:
       placeholder: "搜尋"
-      parent_placeholder: "選擇新父級，或按 Escape 鍵來取消。"
+      parent_placeholder: "選擇新上層工作項目，或按 Escape 鍵來取消。"
     autocompleter:
       placeholder: "搜尋"
       notFoundText: "找不到任何項目"
@@ -901,7 +894,7 @@ zh-TW:
         copy: "整批複製"
         delete: "整批刪除"
       button_clear: "清除"
-      comment_added: "成功發表意見。"
+      comment_added: "留言成功"
       comment_send_failed: "發生錯誤。無法留言。"
       comment_updated: "留言已成功更新。"
       confirm_edit_cancel: "是否確定取消編輯中的工作項目"
@@ -997,7 +990,7 @@ zh-TW:
         subproject: "子專案"
         title: "標題"
         type: "類型"
-        updatedAt: "更新於"
+        updatedAt: "更新"
         versionName: "版本"
         version: "版本"
         work: "工時"
@@ -1013,7 +1006,7 @@ zh-TW:
         overdue: "逾期"
         summary: "總覽"
         shared_with_users: "分配給成員"
-        shared_with_me: "共享給我的"
+        shared_with_me: "我共用之工作項目"
       jump_marks:
         pagination: "跳轉至表格分頁"
         label_pagination: "點擊此處跳過工作項目表並轉到分頁"
@@ -1189,6 +1182,8 @@ zh-TW:
         one: "1 天"
         other: "%{count} 天"
         zero: "0 天"
+      word:
+        other: "%{count} words"
     zen_mode:
       button_activate: "啟動 zen 模式"
       button_deactivate: "停用 zen 模式"

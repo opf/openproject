@@ -41,4 +41,13 @@ RSpec.describe "Project query routes" do
     expect(delete("/project_queries/42")).to route_to("projects/queries#destroy",
                                                       id: "42")
   end
+
+  it "/project_queries/:id/destroy_confirmation_modal GET routes to projects/queries#destroy_confirmation_modal" do
+    expect(get("/project_queries/42/destroy_confirmation_modal")).to route_to("projects/queries#destroy_confirmation_modal",
+                                                                              id: "42")
+  end
+
+  it "/project_queries/:id/configure_view_modal GET routes to projects/queries#configure_view_modal" do
+    expect(get("/project_queries/configure_view_modal")).to route_to("projects/queries#configure_view_modal")
+  end
 end

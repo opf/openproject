@@ -4,7 +4,7 @@
       render(Primer::Alpha::UnderlineNav.new(align: :left, label: "Tabs", classes: "op-primer-adjustment--UnderlineNav_spaciousLeft")) do |component|
         menu_items.each do |node|
           component.with_tab(selected: @tab == node.name,
-                             href: url_for(node.url),
+                             href: helpers.url_for_with_params(**node.url),
                              test_selector: "wp-details-tab-component--tab-#{node.name}",
                              data: { turbo: true, turbo_stream: true, turbo_action: "replace" }
           ) do |c|
@@ -29,7 +29,7 @@
     flex.with_column(classes: "op-work-package-details-tab-component--action") do
       render(Primer::Beta::IconButton.new(icon: :x,
                                           tag: :a,
-                                          href: url_for(action: :close_split_view),
+                                          href: helpers.url_for_with_params(action: :close_split_view),
                                           data: { turbo: true, 'turbo-stream': true },
                                           scheme: :invisible,
                                           test_selector: "wp-details-tab-component--close",

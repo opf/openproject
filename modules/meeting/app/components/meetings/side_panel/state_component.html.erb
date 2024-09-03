@@ -26,7 +26,8 @@
               tag: :a,
               href: change_state_meeting_path(@meeting, state: 'closed'),
               classes: "hide-when-print",
-              data: { 'turbo-stream': true, 'turbo-method': 'put' }
+              data: { 'turbo-stream': true, 'turbo-method': 'put' },
+              test_selector: "close-meeting-button"
             ) do |button|
               button.with_leading_visual_icon(icon: :unlock)
               t("label_meeting_close_action")

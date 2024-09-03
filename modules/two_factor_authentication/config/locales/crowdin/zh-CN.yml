@@ -26,7 +26,7 @@ zh-CN:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "2FA 传送已禁用。"
-    notice_not_writable: "2FA Settings were provided through environment variables and cannot be overwritten."
+    notice_not_writable: "2FA 设置是通过环境变量提供的，无法覆盖。"
     error_no_device: "尽管此实例需要，但没有为该用户找到注册的 2FA 设备。"
     error_no_matching_strategy: "没有匹配的 2FA 策略可供此用户使用。请联系您的管理员。"
     error_is_enforced_not_active: "配置错误：已强制执行双因子认证，但不存在活动策略。"

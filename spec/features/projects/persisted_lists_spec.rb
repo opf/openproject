@@ -31,6 +31,7 @@ require "spec_helper"
 RSpec.describe "Persisted lists on projects index page",
                :js,
                :with_cuprite do
+  shared_let(:non_member) { create(:non_member, permissions: %i(view_project_attributes)) }
   shared_let(:admin) { create(:admin) }
   shared_let(:user) { create(:user) }
 
@@ -50,7 +51,10 @@ RSpec.describe "Persisted lists on projects index page",
                      name: "Public project",
                      identifier: "public-project",
                      public: true)
-    project.custom_field_values = { invisible_custom_field.id => "Secret CF" }
+    project.custom_field_values = {
+      invisible_custom_field.id => "Secret CF",
+      custom_field.id => "Visible CF"
+    }
     project.save
     project
   end
@@ -216,6 +220,7 @@ RSpec.describe "Persisted lists on projects index page",
     let!(:persisted_query) do
       build(:project_query, user:, name: "Persisted query")
         .where("active", "=", "t")
+        .where("cf_#{custom_field.id}", "~", ["Visible"])
         .select("name")
         .save!
     end
@@ -246,6 +251,8 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.open_filters
       projects_page.filter_by_membership("yes")
 
+      wait_for_reload # chnaging filters is still done via page reload
+
       # Since the query is static, no save button an no menu item is shown
       projects_page.expect_no_notification("Save")
       projects_page.expect_no_menu_item("Save", visible: false)
@@ -264,12 +271,16 @@ RSpec.describe "Persisted lists on projects index page",
     it "allows changing columns" do
       projects_page.set_columns("Name")
 
+      wait_for_reload # changing columns via the dialog is still done via page reload
+
       projects_page.expect_columns("Name")
       projects_page.expect_no_columns("Status", "Public")
     end
 
     it "allows saving static query as persisted list without changes" do
       projects_page.save_query_as("Active project copy")
+
+      wait_for_network_idle # Saving is done via Turbo
 
       projects_page.expect_sidebar_filter("Active project copy", selected: true)
       projects_page.expect_columns("Name", "Status")
@@ -279,6 +290,9 @@ RSpec.describe "Persisted lists on projects index page",
     it "keeps changes when cancelling save" do
       projects_page.open_filters
       projects_page.filter_by_membership("yes")
+
+      wait_for_reload # chnaging filters is still done via page reload
+
       projects_page.expect_projects_listed(project, development_project)
       projects_page.expect_projects_not_listed(public_project)
 
@@ -297,13 +311,16 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.open_filters
 
       projects_page.filter_by_membership("yes")
-      projects_page.expect_projects_listed(project, development_project)
+
       projects_page.expect_projects_not_listed(public_project)
+      projects_page.expect_projects_listed(project, development_project)
 
       projects_page.set_columns("Name")
       projects_page.expect_columns("Name")
 
       projects_page.save_query_as("My saved query")
+
+      wait_for_network_idle # Saving is done via Turbo
 
       # It will be displayed in the sidebar
       projects_page.expect_sidebar_filter("My saved query", selected: true)
@@ -339,6 +356,8 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.set_columns("Name", "Status", "Public")
       projects_page.save_query_as("My new saved query")
 
+      wait_for_network_idle
+
       projects_page.expect_sidebar_filter("Persisted query", selected: false)
       projects_page.expect_sidebar_filter("My new saved query", selected: true)
       projects_page.expect_columns("Name", "Status", "Public")
@@ -359,9 +378,9 @@ RSpec.describe "Persisted lists on projects index page",
 
       projects_page.click_more_menu_item("Rename")
       projects_page.fill_in_the_name("My renamed query")
-      # Can't open filter changing interface
-      expect(projects_page.filters_toggle).to be_disabled
       projects_page.click_on "Save"
+
+      wait_for_network_idle
 
       projects_page.expect_no_sidebar_filter("Persisted query")
       projects_page.expect_sidebar_filter("My renamed query", selected: true)
@@ -370,6 +389,9 @@ RSpec.describe "Persisted lists on projects index page",
 
       projects_page.open_filters
       projects_page.filter_by_membership("yes")
+
+      wait_for_reload # chnaging filters is still done via page reload
+
       # Rename menu item is now shown after applying filters
       projects_page.expect_no_menu_item("Rename", visible: false)
     end
@@ -397,6 +419,13 @@ RSpec.describe "Persisted lists on projects index page",
 
       projects_page.unmark_query_favorite
       projects_page.expect_sidebar_filter("Persisted query", selected: true, favored: false)
+    end
+
+    it "loads the query with a custom field filter (Regression#57298)" do
+      projects_page.set_sidebar_filter("Persisted query")
+
+      projects_page.expect_filters_container_hidden
+      projects_page.expect_filter_set "cf_#{custom_field.id}"
     end
   end
 

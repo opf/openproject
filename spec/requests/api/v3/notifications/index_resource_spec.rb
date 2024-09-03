@@ -41,15 +41,13 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
     create(:notification,
            recipient:,
            resource: work_package,
-           project: work_package.project,
            journal: work_package.journals.first)
   end
   shared_let(:date_alert_notification) do
     create(:notification,
            recipient:,
            reason: :date_alert_start_date,
-           resource: work_package,
-           project: work_package.project)
+           resource: work_package)
   end
 
   let(:filters) { nil }
@@ -104,7 +102,6 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
       shared_let(:other_resource_notification) do
         create(:notification,
                recipient:,
-               project: work_package.project,
                resource: other_work_package)
       end
 
@@ -139,8 +136,7 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
       shared_let(:other_project_notification) do
         create(:notification,
                recipient:,
-               resource: other_work_package,
-               project: other_project)
+               resource: other_work_package)
       end
 
       let(:filters) do
@@ -165,7 +161,6 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
                reason: :assigned,
                recipient:,
                resource: work_package,
-               project: work_package.project,
                journal: work_package.journals.first)
       end
       shared_let(:responsible_notification) do
@@ -173,7 +168,6 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
                reason: :responsible,
                recipient:,
                resource: work_package,
-               project: work_package.project,
                journal: work_package.journals.first)
       end
 
@@ -245,7 +239,6 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
                read_ian: nil,
                recipient:,
                resource: wiki_page,
-               project: wiki_page.wiki.project,
                journal: wiki_page.journals.first)
       end
 
@@ -260,7 +253,6 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
                recipient:,
                reason: :responsible,
                resource: work_package,
-               project: work_package.project,
                journal: work_package.journals.first)
       end
 
@@ -268,8 +260,7 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
         create(:notification,
                recipient:,
                reason: :date_alert_due_date,
-               resource: work_package,
-               project: work_package.project)
+               resource: work_package)
       end
 
       let(:send_request) do
@@ -305,7 +296,6 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
       shared_let(:other_project_notification) do
         create(:notification,
                resource: work_package2,
-               project: other_project,
                recipient:,
                reason: :responsible,
                journal: work_package2.journals.first)

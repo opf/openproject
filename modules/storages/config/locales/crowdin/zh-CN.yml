@@ -31,7 +31,7 @@ zh-CN:
           attributes:
             host:
               authorization_header_missing: 未完全设置。Nextcloud 实例不会收到“Authorization”标头，这是基于 Bearer 令牌的 API 请求授权所必需的。请仔细检查您的 HTTP 服务器配置。
-              cannot_be_connected_to: 无法连接。
+              cannot_be_connected_to: 无法访问。请确保主机可以访问，并安装了 OpenProject 集成应用程序。
               minimal_nextcloud_version_unmet: 不满足最低版本要求（必须为 Nextcloud 23 或更高版本）
               not_nextcloud_server: 不是 Nextcloud 服务器
               op_application_not_installed: 似乎没有安装应用“OpenProject 集成”。请先安装，然后重试。
@@ -316,16 +316,24 @@ zh-CN:
     no_results: 尚未设置存储设备。
     notice_successful_storage_connection: |-
       存储连接成功！请记住，在每个所需项目的项目设置中激活模块和特定存储，以进行使用。
-    oauth_grant_nudge_modal:
+    oauth_access_granted_modal:
       access_granted: 已授予访问权限
-      access_granted_screen_reader: 已经授予访问权限。您现在可以使用%{storage}了。
-      body: 要获取对项目文件夹的访问权限，您需要登录 %{storage}。
+      project_settings:
+        access_granted_screen_reader: 已授予访问权限。您现在可以使用 %{storage} 了。
+        storage_ready: 现在您可以使用 %{storage} 了
+      storage_admin:
+        access_granted_screen_reader: 已授予访问权限。现在您可以将项目添加到 %{storage} 了
+        storage_ready: 现在您可以将项目添加到 %{storage} 了
+    oauth_grant_nudge_modal:
       cancel_button_label: 稍后再操作
-      confirm_button_aria_label: 登录到 %{storage}
-      confirm_button_label: 登录
+      heading: 需要登录 %{provider_type}
+      login_button_aria_label: 登录到 %{storage}
+      login_button_label: "%{provider_type} 登录"
+      project_settings:
+        description: 要获取对项目文件夹的访问权限，您需要登录 %{storage} 。
       requesting_access_to: 请求访问 %{storage}
-      storage_ready: 您现在已准备就绪，可以使用 %{storage} 了
-      title: 还有一步…
+      storage_admin:
+        description: 要将项目添加到此存储空间，您需要登录 %{provider_type}。请登录后再试一次。
     open_project_storage_modal:
       success:
         subtitle: 正在将您重定向

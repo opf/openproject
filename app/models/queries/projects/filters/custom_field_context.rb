@@ -52,9 +52,9 @@ module Queries::Projects::Filters::CustomFieldContext
       SQL
     end
 
-    def where_subselect_conditions(_custom_field, context)
+    def where_subselect_conditions
       # Allow searching projects only with :view_project_attributes permission
-      allowed_project_ids = Project.allowed_to(context.user, :view_project_attributes)
+      allowed_project_ids = Project.allowed_to(User.current, :view_project_attributes)
                                    .select(:id)
       <<~SQL.squish
         #{project_db_table}.id IN (#{allowed_project_ids.to_sql})

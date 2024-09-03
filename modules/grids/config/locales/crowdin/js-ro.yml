@@ -17,7 +17,7 @@ ro:
         members:
           title: 'Membri'
           no_results: 'Nu există membri vizibili.'
-          view_all_members: 'Vizualizare toți participanții'
+          view_all_members: 'Vezi toți membrii'
           add: 'Membru'
           too_many: 'Afișarea a %{count} din %{total} membri.'
         news:
@@ -34,7 +34,7 @@ ro:
           title: 'Stare proiect'
           not_started: 'Neînceput'
           on_track: 'În lucru'
-          off_track: 'Deraiat'
+          off_track: 'Întârziat'
           at_risk: 'În pericol'
           not_set: 'Nesetat'
           finished: 'Finalizat'
@@ -66,5 +66,5 @@ ro:
         work_packages_calendar:
           title: 'Calendar'
         work_packages_overview:
-          title: 'Prezentare generală a pachetelor de lucru'
+          title: 'Prezentare generală pachete de lucru'
           placeholder: 'Dă clic pentru a edita acest meniu.'

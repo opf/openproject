@@ -166,8 +166,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
   end
 
   def existing_folder_tuples
-    Storages::Peripherals::StorageInteraction::OneDrive::Util.using_admin_token(storage) do |http|
-      response = http.get("/v1.0/drives/#{storage.drive_id}/root/children?$select=name,id,folder")
+    Storages::Peripherals::StorageInteraction::Authentication[auth_strategy].call(storage:) do |http|
+      url = Storages::UrlBuilder.url(storage.uri, "/v1.0/drives", storage.drive_id, "/root/children")
+      response = http.get("#{url}?$select=name,id,folder")
 
       response.json(symbolize_keys: true).fetch(:value, []).filter_map do |item|
         next unless item.key?(:folder)

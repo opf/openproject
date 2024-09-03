@@ -111,6 +111,20 @@ class Meeting < ApplicationRecord
   }
 
   ##
+  # Cache key for detecting changes to be shown to the user
+  def changed_hash
+    parts = Meeting
+      .unscoped
+      .where(id:)
+      .left_joins(:agenda_items, :sections)
+      .pick(MeetingAgendaItem.arel_table[:updated_at].maximum, MeetingSection.arel_table[:updated_at].maximum)
+
+    parts << lock_version
+
+    OpenProject::Cache::CacheKey.expand(parts)
+  end
+
+  ##
   # Return the computed start_time when changed
   def start_time
     if parse_start_time?

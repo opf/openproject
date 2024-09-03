@@ -55,6 +55,13 @@ module Queries
         initialized_filters.select(&:available?)
       end
 
+      def available_advanced_filters
+        available_filters.reject do |filter|
+          # Skip the name filter as we have it present as a permanent filter with a text input.
+          filter.is_a?(::Queries::Projects::Filters::NameAndIdentifierFilter)
+        end
+      end
+
       def filter_for(key, no_memoization: false)
         filter = get_initialized_filter(key, no_memoization)
 

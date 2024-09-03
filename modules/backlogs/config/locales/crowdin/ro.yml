@@ -26,7 +26,7 @@ ro:
   activerecord:
     attributes:
       work_package:
-        position: "Poziţie"
+        position: "Poziție"
         story_points: "Puncte"
         backlogs_work_package_type: "Tipul de restante"
     errors:
@@ -61,7 +61,7 @@ ro:
     points: "Puncte"
     positions_could_not_be_rebuilt: "Pozițiile nu au putut fi reconstruite."
     positions_rebuilt_successfully: "Toate elementele au fost șterse cu succes"
-    properties: "Proprietăţi"
+    properties: "Proprietăți"
     rebuild: "Reconstruiți"
     rebuild_positions: "Reconstruiți"
     remaining_hours: "Muncă rămasă"
@@ -75,7 +75,7 @@ ro:
     unassigned: "Neasociate"
     x_more: "%{count} mai mult..."
   backlogs_active: "activ"
-  backlogs_any: "Oricare"
+  backlogs_any: "oricare"
   backlogs_inactive: "Proiectul nu prezintă nicio activitate"
   backlogs_points_burn_direction: "Arderea punctelor în sus/jos"
   backlogs_product_backlog: "Fișa produsului"
@@ -154,5 +154,5 @@ ro:
   todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Coloană în backlog"
   version_settings_display_option_left: "stanga"
-  version_settings_display_option_none: "niciunul"
+  version_settings_display_option_none: "niciuna"
   version_settings_display_option_right: "dreapta"

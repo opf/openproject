@@ -143,7 +143,7 @@ class BackupJob < ApplicationJob
         upsert_status(
           status: :success,
           message: I18n.t("export.succeeded"),
-          payload: download_payload(download_url)
+          payload: download_payload(download_url, "application/zip")
         )
       end
 

@@ -39,14 +39,12 @@ body.router--work-packages-partitioned-split-view-new
     padding: 0
 
     // Will eventually be overridden by the resizer
-    flex-basis: 580px
+    flex-basis: var(--split-screen-width)
 
 .work-packages--details
   height: 100%
   position: relative
   width: 100%
-  // Min-width is actually 530px but the border already needs 2px
-  min-width: 528px
 
   @media only screen and (max-width: $breakpoint-xl)
     @at-root
@@ -83,6 +81,12 @@ body.router--work-packages-partitioned-split-view-new
   &_no-tabs
     top: 0
 
+    .work-package-details-tab,
+    .work-packages--details-header
+      // With the primerized tabs we need a different alignment
+      padding-right: 16px
+      padding-left: 16px
+
   &.-create-mode
     padding: 0 5px 10px 20px
 
@@ -110,7 +114,6 @@ body.router--work-packages-partitioned-split-view-new
 .work-packages--details-header-left
   display: flex
   flex-direction: column
-  margin-right: 4px
   max-width: 100%
   flex-basis: 100%
   flex-shrink: 1
