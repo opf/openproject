@@ -29,7 +29,7 @@
 #++
 
 module Storages
-  class NextcloudGroupFolderPropertiesSyncService < BaseService
+  class NextcloudManagedFolderSyncService < BaseService
     using Peripherals::ServiceResultRefinements
 
     PERMISSIONS_MAP = { read_files: 1, write_files: 2, create_files: 4, delete_files: 8, share_files: 16 }.freeze
@@ -44,11 +44,15 @@ module Storages
     def self.i18n_key = "NextcloudSyncService"
 
     def self.call(storage)
-      new(storage).call
+      if storage.is_a? NextcloudStorage
+        new(storage).call
+      else
+        raise ArgumentError, "Expected Storages::NextcloudStorage but got #{storage.class}"
+      end
     end
 
-    def initialize(storage, **)
-      super(**)
+    def initialize(storage, **deps)
+      super(**deps)
       @storage = storage
     end
 
@@ -232,7 +236,7 @@ module Storages
         return add_error(:create_folder, service_result.errors, options: { folder_name:, parent_location: })
       end.result
 
-      last_project_folder = LastProjectFolder.find_by(
+      last_project_folder = LastProjectFolder.find_or_initialize_by(
         project_storage_id: project_storage.id, mode: project_storage.project_folder_mode
       )
 

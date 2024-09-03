@@ -59,7 +59,7 @@ module Storages
 
       sync_result = case storage.short_provider_type
                     when "nextcloud"
-                      NextcloudGroupFolderPropertiesSyncService.call(storage)
+                      NextcloudManagedFolderSyncService.call(storage)
                     when "one_drive"
                       OneDriveManagedFolderSyncService.call(storage)
                     else
