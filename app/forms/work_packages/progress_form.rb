@@ -197,10 +197,9 @@ class WorkPackages::ProgressForm < ApplicationForm
   end
 
   def default_field_options(name)
-    action = name == :status_id ? "change" : "input"
     data = { "work-packages--progress--preview-progress-target": "progressInput",
              "work-packages--progress--touched-field-marker-target": "progressInput",
-             action: "#{action}->work-packages--progress--touched-field-marker#markFieldAsTouched" }
+             action: "work-packages--progress--touched-field-marker#markFieldAsTouched" }
 
     if @focused_field == name
       data[:"work-packages--progress--focus-field-target"] = "fieldToFocus"
