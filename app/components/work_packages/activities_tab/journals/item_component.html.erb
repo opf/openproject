@@ -55,7 +55,10 @@
                 end
               end
             end
-            border_box_component.with_body(classes: "work-packages-activities-tab-journals-item-component--journal-notes-body") do
+            border_box_component.with_body(
+              classes: "work-packages-activities-tab-journals-item-component--journal-notes-body",
+              data: { "test_selector": "op-journal-notes-body" }
+            ) do
               content
             end
           end

@@ -703,11 +703,11 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
           activity_tab.expect_journal_notes(text: "First comment by admin edited")
         end
 
-        # cannot edit other user's comment
-        # the edit button should not be shown
+        # can edit other user's comments due to the permission
+        activity_tab.edit_comment(first_comment_by_member, text: "First comment by member edited")
+
         activity_tab.within_journal_entry(first_comment_by_member) do
-          page.find_test_selector("op-wp-journal-#{first_comment_by_member.id}-action-menu").click
-          expect(page).not_to have_test_selector("op-wp-journal-#{first_comment_by_member.id}-edit")
+          activity_tab.expect_journal_notes(text: "First comment by member edited")
         end
       end
     end
@@ -787,7 +787,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
       # wait for the stimulus component to be mounted, TODO: get rid of static sleep
       sleep 1
       # open the editor
-      page.find_by_id("open-work-package-journal-form").click
+      page.find_test_selector("op-open-work-package-journal-form-trigger").click
 
       # expect the editor content to be empty
       within_test_selector("op-work-package-journal-form-element") do
@@ -813,7 +813,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
       # wait for the stimulus component to be mounted, TODO: get rid of static sleep
       sleep 1
       # open the editor
-      page.find_by_id("open-work-package-journal-form").click
+      page.find_test_selector("op-open-work-package-journal-form-trigger").click
 
       # expect the editor content to be empty
       within_test_selector("op-work-package-journal-form-element") do

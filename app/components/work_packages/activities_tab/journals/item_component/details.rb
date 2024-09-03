@@ -68,7 +68,8 @@ module WorkPackages
         def render_header_start(header_container)
           header_container.with_column(
             flex_layout: true,
-            classes: "work-packages-activities-tab-journals-item-component-details--journal-details-header"
+            classes: "work-packages-activities-tab-journals-item-component-details--journal-details-header",
+            data: { "test-selector": "op-journal-details-header" }
           ) do |header_start_container|
             render_timeline_icon(header_start_container)
             render_user_avatar(header_start_container)
@@ -185,7 +186,8 @@ module WorkPackages
         def render_detail_description(container, detail)
           container.with_column(pl: 1, font_size: :small) do
             render(Primer::Beta::Text.new(
-                     classes: "work-packages-activities-tab-journals-item-component-details--journal-detail-description"
+                     classes: "work-packages-activities-tab-journals-item-component-details--journal-detail-description",
+                     data: { "test-selector": "op-journal-detail-description" }
                    )) do
               journal.render_detail(detail)
             end

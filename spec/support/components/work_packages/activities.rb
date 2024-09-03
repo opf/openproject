@@ -68,23 +68,23 @@ module Components
       end
 
       def expect_journal_changed_attribute(text:)
-        expect(page).to have_css(".journal-detail-description", text:)
+        expect(page).to have_test_selector("op-journal-detail-description", text:)
       end
 
       def expect_no_journal_changed_attribute(text: nil)
-        expect(page).to have_no_css(".journal-detail-description", text:)
+        expect(page).not_to have_test_selector("op-journal-detail-description", text:)
       end
 
       def expect_no_journal_notes(text: nil)
-        expect(page).to have_no_css(".journal-notes-body", text:)
+        expect(page).not_to have_test_selector("op-journal-notes-body", text:)
       end
 
       def expect_journal_details_header(text: nil)
-        expect(page).to have_css(".journal-details-header", text:)
+        expect(page).to have_test_selector("op-journal-details-header", text:)
       end
 
       def expect_no_journal_details_header(text: nil)
-        expect(page).to have_no_css(".journal-details-header", text:)
+        expect(page).not_to have_test_selector("op-journal-details-header", text:)
       end
 
       def expect_journal_notes_header(text: nil)
@@ -92,11 +92,11 @@ module Components
       end
 
       def expect_no_journal_notes_header(text: nil)
-        expect(page).to have_test_selector("op-journal-notes-header", text:)
+        expect(page).not_to have_test_selector("op-journal-notes-header", text:)
       end
 
       def expect_journal_notes(text: nil)
-        expect(page).to have_css(".journal-notes-body", text:)
+        expect(page).to have_test_selector("op-journal-notes-body", text:)
       end
 
       def expect_notification_bubble
@@ -153,8 +153,8 @@ module Components
           expect(page).to have_test_selector("op-work-package-journal-form-element")
         end
 
-        within_test_selector("op-work-package-journal-form-element") do
-          FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form").set_value(text)
+        page.within_test_selector("op-work-package-journal-form-element") do
+          FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form-element").set_value(text)
           page.find_test_selector("op-submit-work-package-journal-form").click if save
         end
 
@@ -170,8 +170,8 @@ module Components
           page.find_test_selector("op-wp-journal-#{journal.id}-action-menu").click
           page.find_test_selector("op-wp-journal-#{journal.id}-edit").click
 
-          within_test_selector("op-work-package-journal-form-element") do
-            FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form").set_value(text)
+          page.within_test_selector("op-work-package-journal-form-element") do
+            FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form-element").set_value(text)
             page.find_test_selector("op-submit-work-package-journal-form").click
           end
 
@@ -190,7 +190,7 @@ module Components
 
         expect(page).to have_test_selector("op-work-package-journal-form-element")
 
-        within_test_selector("op-work-package-journal-form-element") do
+        page.within_test_selector("op-work-package-journal-form-element") do
           page.find_test_selector("op-submit-work-package-journal-form").click
         end
       end
