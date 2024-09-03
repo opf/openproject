@@ -27,6 +27,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
+<% html_title t(:label_administration), t(:project_module_storages), t(:label_project_mappings) %>
+
 <%= render(Storages::Admin::EditFormHeaderComponent.new(storage: @storage, selected: :project_storages)) %>
 
 <%=

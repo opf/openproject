@@ -120,7 +120,7 @@ vi:
       agenda: "Sao chép chương trình nghị sự"
       agenda_text: "Sao chép chương trình nghị sự của cuộc họp cũ"
     email:
-      send_emails: "Gửi email"
+      send_emails: "Email participants"
       send_invitation_emails: >
         Gửi lời mời qua email ngay lập tức đến những người tham gia được chọn ở trên. Bạn cũng có thể thực hiện thủ công bất kỳ lúc nào sau đó.
       open_meeting_link: "Mở cuộc họp"

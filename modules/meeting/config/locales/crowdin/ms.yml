@@ -120,7 +120,7 @@ ms:
       agenda: "Salin agenda"
       agenda_text: "Salin agenda mesyuarat lama"
     email:
-      send_emails: "Hantar e-mel"
+      send_emails: "Email participants"
       send_invitation_emails: >
         Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Buka mesyuarat"

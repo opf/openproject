@@ -123,7 +123,7 @@ cs:
       agenda: "Kopírovat program"
       agenda_text: "Zkopírujte program staré schůzky"
     email:
-      send_emails: "Odeslat e-maily"
+      send_emails: "Email participants"
       send_invitation_emails: >
         Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Otevřít schůzku"
