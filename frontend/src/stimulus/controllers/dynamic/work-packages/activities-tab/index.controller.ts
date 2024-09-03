@@ -175,7 +175,7 @@ export default class IndexController extends Controller {
   }
 
   private getInputContainer():HTMLElement | null {
-    return this.element.querySelector('#input-container');
+    return this.element.querySelector('#work-package-journal-form-element');
   }
 
   // TODO: get rid of static width value and reach for a more CSS based solution
@@ -242,7 +242,6 @@ export default class IndexController extends Controller {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (!editor.ui.focusTracker.isFocused) {
             this.hideEditorIfEmpty();
-            if (this.isMobile()) { this.scrollInputContainerIntoView(300); }
           }
         }, 0);
       },
@@ -261,7 +260,7 @@ export default class IndexController extends Controller {
     // we have to handle different scrollable containers for different viewports in order to idenfity if the user is at the bottom of the journals
     // seems way to hacky for me, but I couldn't find a better solution
     if (this.isSmViewPort()) {
-      atBottom = (window.scrollY + window.outerHeight) >= document.body.scrollHeight;
+      atBottom = (window.scrollY + window.outerHeight + 10) >= document.body.scrollHeight;
     } else if (this.isMdViewPort()) {
       const scrollableContainer = document.querySelector('#content-body') as HTMLElement;
 
@@ -360,6 +359,8 @@ export default class IndexController extends Controller {
         this.journalsContainerTarget.classList.add('work-packages-activities-tab-index-component--journals-container_with-initial-input-compensation');
         this.journalsContainerTarget.classList.remove('work-packages-activities-tab-index-component--journals-container_with-input-compensation');
       }
+
+      if (this.isMobile()) { this.scrollInputContainerIntoView(300); }
     }
   }
 
