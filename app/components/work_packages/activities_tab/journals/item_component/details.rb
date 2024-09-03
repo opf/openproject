@@ -74,7 +74,7 @@ module WorkPackages
             render_timeline_icon(header_start_container)
             render_user_avatar(header_start_container)
             render_user_name_and_time(header_start_container)
-            render_created_or_changed_on_text(header_start_container)
+            # render_created_or_changed_on_text(header_start_container)
             render_updated_time(header_start_container)
           end
         end
