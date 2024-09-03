@@ -332,12 +332,12 @@ class WorkPackage < ApplicationRecord
     write_attribute :done_ratio, convert_value_to_percentage(value)
   end
 
-  def derived_progress_hints=(hints)
-    @derived_progress_hints = hints
+  def set_derived_progress_hint(field_name, hint, **params)
+    derived_progress_hints[field_name] = ProgressHint.new("#{field_name}.#{hint}", params)
   end
 
-  def derived_progress_hints
-    @derived_progress_hints ||= {}
+  def derived_progress_hint(field_name)
+    derived_progress_hints[field_name]
   end
 
   def duration_in_hours
@@ -552,6 +552,10 @@ class WorkPackage < ApplicationRecord
   end
 
   private
+
+  def derived_progress_hints
+    @derived_progress_hints ||= {}
+  end
 
   def add_time_entry_for(user, attributes)
     return if time_entry_blank?(attributes)

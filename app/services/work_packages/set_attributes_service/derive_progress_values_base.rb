@@ -157,8 +157,8 @@ class WorkPackages::SetAttributesService
 
     private
 
-    def set_hint(field, hint)
-      work_package.derived_progress_hints[field] = hint
+    def set_hint(field, hint, **params)
+      work_package.set_derived_progress_hint(field, hint, **params)
     end
 
     def round_progress_values

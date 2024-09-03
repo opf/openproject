@@ -183,10 +183,7 @@ class WorkPackages::ProgressForm < ApplicationForm
   end
 
   def field_hint_message(field_name)
-    hint = work_package.derived_progress_hints[field_name]
-    return if hint.nil?
-
-    I18n.t("work_package.progress.derivation_hints.#{field_name}.#{hint}")
+    work_package.derived_progress_hint(field_name)&.message
   end
 
   def validation_message(name)
