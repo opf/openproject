@@ -43,11 +43,15 @@ RSpec.describe "work package export" do
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
   let(:export_sub_type) { nil }
-  let(:expected_params) { {} }
+  let(:default_expected_params) do
+    { title: "My custom query title" }
+  end
+  let(:expected_params) do
+    {}
+  end
   let(:expected_mime_type) { anything }
-  let(:query) { create(:query, user: current_user, project:) }
+  let(:query) { create(:query, user: current_user, project:, name: "My custom query title") }
   let(:expected_columns) { query.displayable_columns.map { |c| c.name.to_s } - ["bcf_thumbnail"] }
-  let(:default_params) { {} }
   let(:cf_text_a) do
     create(
       :work_package_custom_field,
@@ -125,15 +129,16 @@ RSpec.describe "work package export" do
           :query, user: current_user, project:,
                   display_sums: true,
                   include_subprojects: true,
-                  show_hierarchies: true
+                  show_hierarchies: true,
+                  name: "My custom query title"
         )
       end
       let(:expected_params) do
-        {
-          showSums: "true",
-          includeSubprojects: "true",
-          showHierarchies: "true"
-        }
+        default_expected_params.merge({
+                                        showSums: "true",
+                                        includeSubprojects: "true",
+                                        showHierarchies: "true"
+                                      })
       end
 
       it "starts an export with looped through values" do
@@ -142,8 +147,8 @@ RSpec.describe "work package export" do
     end
 
     context "with grouping" do
-      let(:query) { create(:query, user: current_user, project:, group_by: "project") }
-      let(:expected_params) { { groupBy: "project" } }
+      let(:query) { create(:query, user: current_user, project:, group_by: "project", name: "My custom query title") }
+      let(:expected_params) { default_expected_params.merge({ groupBy: "project" }) }
 
       it "starts an export grouped" do
         export!
@@ -154,7 +159,7 @@ RSpec.describe "work package export" do
   context "with CSV export", :js do
     let(:export_type) { I18n.t("export.dialog.format.options.csv.label") }
     let(:expected_mime_type) { :csv }
-    let(:expected_params) { default_params }
+    let(:expected_params) { default_expected_params }
 
     before do
       open_export_dialog!
@@ -171,10 +176,11 @@ RSpec.describe "work package export" do
 
     before do
       open_export_dialog!
+      sleep 1
     end
 
     context "with relations" do
-      let(:expected_params) { default_params.merge({ show_relations: "true" }) }
+      let(:expected_params) { default_expected_params.merge({ show_relations: "true" }) }
 
       it "exports a xls" do
         check I18n.t("export.dialog.xls.include_relations.label")
@@ -183,7 +189,7 @@ RSpec.describe "work package export" do
     end
 
     context "without relations" do
-      let(:expected_params) { default_params.merge({ show_relations: "false" }) }
+      let(:expected_params) { default_expected_params.merge({ show_relations: "false" }) }
 
       it "exports a xls" do
         uncheck I18n.t("export.dialog.xls.include_relations.label")
@@ -192,7 +198,7 @@ RSpec.describe "work package export" do
     end
 
     context "with descriptions" do
-      let(:expected_params) { default_params.merge({ show_descriptions: "true" }) }
+      let(:expected_params) { default_expected_params.merge({ show_descriptions: "true" }) }
 
       it "exports a xls" do
         check I18n.t("export.dialog.xls.include_descriptions.label")
@@ -201,7 +207,7 @@ RSpec.describe "work package export" do
     end
 
     context "without descriptions" do
-      let(:expected_params) { default_params.merge({ show_descriptions: "false" }) }
+      let(:expected_params) { default_expected_params.merge({ show_descriptions: "false" }) }
 
       it "exports a xls" do
         uncheck I18n.t("export.dialog.xls.include_descriptions.label")
@@ -222,7 +228,7 @@ RSpec.describe "work package export" do
     context "as table" do
       let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
       let(:export_sub_type) { I18n.t("export.dialog.pdf.export_type.options.table.label") }
-      let(:expected_params) { default_params.merge({ pdf_export_type: "table" }) }
+      let(:expected_params) { default_expected_params.merge({ pdf_export_type: "table" }) }
 
       it "exports a pdf table" do
         choose export_sub_type
@@ -233,7 +239,7 @@ RSpec.describe "work package export" do
     context "as report" do
       let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
       let(:export_sub_type) { I18n.t("export.dialog.pdf.export_type.options.report.label") }
-      let(:default_params_report) { default_params.merge({ pdf_export_type: "report" }) }
+      let(:default_params_report) { default_expected_params.merge({ pdf_export_type: "report" }) }
 
       context "with long text fields" do
         let(:expected_params) { default_params_report.merge({ long_text_fields: "description 42 43" }) }
@@ -292,7 +298,7 @@ RSpec.describe "work package export" do
       end
 
       context "with EE active", with_ee: %i[gantt_pdf_export] do
-        let(:expected_params) { default_params.merge({ pdf_export_type: "gantt" }) }
+        let(:expected_params) { default_expected_params.merge({ pdf_export_type: "gantt" }) }
 
         before do
           choose export_sub_type
@@ -303,7 +309,7 @@ RSpec.describe "work package export" do
         end
 
         context "with zoom level" do
-          let(:expected_params) { default_params.merge({ pdf_export_type: "gantt", gantt_mode: "week" }) }
+          let(:expected_params) { default_expected_params.merge({ pdf_export_type: "gantt", gantt_mode: "week" }) }
 
           it "exports a pdf gantt chart by weeks" do
             select I18n.t("export.dialog.pdf.gantt_zoom_levels.options.weeks"), from: "gantt_mode"
@@ -312,7 +318,7 @@ RSpec.describe "work package export" do
         end
 
         context "with column width" do
-          let(:expected_params) { default_params.merge({ pdf_export_type: "gantt", gantt_width: "very_wide" }) }
+          let(:expected_params) { default_expected_params.merge({ pdf_export_type: "gantt", gantt_width: "very_wide" }) }
 
           it "exports a pdf gantt chart by column width" do
             select I18n.t("export.dialog.pdf.column_width.options.very_wide"), from: "gantt_width"
@@ -321,7 +327,7 @@ RSpec.describe "work package export" do
         end
 
         context "with paper size" do
-          let(:expected_params) { default_params.merge({ pdf_export_type: "gantt", paper_size: "A1" }) }
+          let(:expected_params) { default_expected_params.merge({ pdf_export_type: "gantt", paper_size: "A1" }) }
 
           it "exports a pdf gantt chart in A1" do
             select "A1", from: "paper_size"
