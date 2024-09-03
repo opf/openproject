@@ -1,11 +1,11 @@
 # /api/v3/statuses
 ---
 get:
-  summary: List the collection of all status
-  operationId: list_status
+  summary: List the collection of all statuses
+  operationId: list_statuses
   tags:
     - Statuses
-  description: Returns a collection of all work package status.
+  description: Returns a collection of all work package statuses.
   responses:
     '200':
       description: OK

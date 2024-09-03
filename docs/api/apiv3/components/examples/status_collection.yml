@@ -1,5 +1,5 @@
 description: |-
-  A standard, unpaginated collection of status.
+  A standard, unpaginated collection of statuses.
 value:
   _type: Collection
   count: 6
