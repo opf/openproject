@@ -121,9 +121,9 @@ eu:
       agenda: "Copy agenda"
       agenda_text: "Copy the agenda of the old meeting"
     email:
-      send_emails: "Send emails"
+      send_emails: "Email participants"
       send_invitation_emails: >
-        Send out an invitation email to the participants listed above. Note that unchecking this option does not affect the sending of emails after this form is submitted.
+        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Open meeting"
       invited:
         summary: "%{actor} has sent you an invitation for the meeting %{title}"
@@ -148,6 +148,7 @@ eu:
     empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Jakinarazpena ondo bidali da"
   notice_timezone_missing: Ez da ordu-eremurik zehaztu eta %{zone} hartu da ontzat. Ordu-eremua aukeratzeko klikatu hemen, mesedez.
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "Sortu hitzordua"
   permission_edit_meetings: "Aldatu hitzorduak"
   permission_delete_meetings: "Ezabatu hitzorduak"
@@ -179,6 +180,7 @@ eu:
   label_meeting_delete: "Delete meeting"
   label_meeting_created_by: "Created by"
   label_meeting_last_updated: "Last updated"
+  label_meeting_reload: "Reload"
   label_agenda_items: "Agenda items"
   label_agenda_items_reordered: "reordered"
   label_agenda_item_remove: "Remove from agenda"

@@ -3,3 +3,19 @@ zh-CN:
   plugin_openproject_job_status:
     name: "OpenProject 作业状态"
     description: "后台作业的列表和状态。"
+  job_status_dialog:
+    download_starts: '下载会自动开始。'
+    link_to_download: '或者，%{link} 以下载。'
+    click_here: '点击此处'
+    title: '后台作业状态'
+    redirect: '正在将您重定向。'
+    redirect_link: '请点击此处继续。'
+    redirect_errors: '由于这些错误，您将不会被自动重定向。'
+    errors: '出错了'
+    generic_messages:
+      not_found: '找不到此项作业。'
+      in_queue: '作业已排队，将很快处理。'
+      in_process: '作业正在处理中。'
+      error: '作业未能完成。'
+      cancelled: '作业因错误被取消。'
+      success: '作业已成功完成。'

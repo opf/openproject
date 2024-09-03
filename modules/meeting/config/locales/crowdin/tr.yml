@@ -121,9 +121,9 @@ tr:
       agenda: "Gündemi kopyala"
       agenda_text: "Eski toplantının gündemini kopyalayın"
     email:
-      send_emails: "E-posta gönder"
+      send_emails: "Email participants"
       send_invitation_emails: >
-        Send out an invitation email to the participants listed above. Note that unchecking this option does not affect the sending of emails after this form is submitted.
+        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Açık toplantı"
       invited:
         summary: "%{actor} size toplantı için bir davetiye gönderdi %{title}"
@@ -148,6 +148,7 @@ tr:
     empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Bildirim başarıyla gönderildi"
   notice_timezone_missing: Saat dilimi ayarlanmadı ve %{zone} kabul edildi. Saat dilimini seçmek için lütfen buraya tıklayın.
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "Toplantı oluşturma"
   permission_edit_meetings: "Toplantıları düzenleme"
   permission_delete_meetings: "Toplantıları silme"
@@ -179,6 +180,7 @@ tr:
   label_meeting_delete: "Toplantıyı sil"
   label_meeting_created_by: "Oluşturan"
   label_meeting_last_updated: "Son güncelleme"
+  label_meeting_reload: "Reload"
   label_agenda_items: "Gündem maddeleri"
   label_agenda_items_reordered: "yeniden sıralandı"
   label_agenda_item_remove: "Remove from agenda"

@@ -79,6 +79,19 @@ RSpec.describe ChronicDuration do
         it "raises with ChronicDuration::DurationParseError" do
           expect { described_class.parse("23 gobblygoos") }.to raise_error(ChronicDuration::DurationParseError)
         end
+
+        context "when passing `raise_exceptions: false` as an option" do
+          it "overrides @@raise_exception and returns nil" do
+            expect(described_class.parse("gobblygoos", raise_exceptions: false)).to be_nil
+          end
+        end
+      end
+
+      context "when passing `raise_exceptions: true` as an option" do
+        it "overrides @@raise_exception and raises with ChronicDuration::DurationParseError" do
+          expect { described_class.parse("23 gobblygoos", raise_exceptions: true) }
+            .to raise_error(ChronicDuration::DurationParseError)
+        end
       end
     end
 

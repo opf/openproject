@@ -138,7 +138,7 @@ A form:
 * contains a *schema* describing the properties of the work package as well as listing the available values for those referencing other resources. E.g. the projects in which work packages can be created (read in which the user has the permission to create work packages) are listed.
 * notes the current *errors* in the payload. E.g. a work package cannot be created outside of a project so a project reference needs to be provided.
 
-The API documentation offers detailed information [on forms in general](../forms) and on the [work package create form](../endpoints/work-packages/#work-package-create-form-for-project) in particular.
+The API documentation offers detailed information [on forms in general](../forms) and on the [work package create form](../endpoints/work-packages/#form-for-creating-work-packages-in-a-project) in particular.
 
 We will first fetch the empty form:
 

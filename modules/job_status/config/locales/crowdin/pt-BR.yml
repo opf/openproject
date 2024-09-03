@@ -3,3 +3,19 @@ pt-BR:
   plugin_openproject_job_status:
     name: "Situação do trabalho OpenProject"
     description: "Listagem e situação dos trabalhos em segundo plano."
+  job_status_dialog:
+    download_starts: 'O download deve iniciar automaticamente.'
+    link_to_download: 'Ou, %{link} para baixar.'
+    click_here: 'clique aqui'
+    title: 'Status do trabalho em segundo plano'
+    redirect: 'Você está sendo redirecionado.'
+    redirect_link: 'Por favor, clique aqui para continuar.'
+    redirect_errors: 'Devido a esses erros, você não será redirecionado automaticamente.'
+    errors: 'Algo deu errado'
+    generic_messages:
+      not_found: 'Este trabalho não pôde ser encontrado.'
+      in_queue: 'O trabalho foi colocado na fila e será processado em breve.'
+      in_process: 'O trabalho está sendo processado.'
+      error: 'O trabalho não pôde ser finalizado.'
+      cancelled: 'O trabalho foi cancelado devido a um erro.'
+      success: 'Trabalho concluído com sucesso.'

@@ -153,7 +153,7 @@ class CustomStylesController < ApplicationController
   end
 
   def show_local_breadcrumb
-    true
+    false
   end
 
   private

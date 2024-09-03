@@ -83,6 +83,31 @@ module WorkPackages::Progress::SqlCommands
     SQL
   end
 
+  def fix_remaining_work_set_with_100p_complete
+    execute(<<~SQL.squish)
+      UPDATE temp_wp_progress_values
+      SET estimated_hours = remaining_hours,
+          remaining_hours = 0
+      WHERE estimated_hours IS NULL
+        AND remaining_hours IS NOT NULL
+        AND done_ratio = 100
+    SQL
+  end
+
+  def derive_unset_work_from_remaining_work_and_p_complete
+    execute(<<~SQL.squish)
+      UPDATE temp_wp_progress_values
+      SET estimated_hours =
+        CASE done_ratio
+          WHEN 0 THEN remaining_hours
+          ELSE ROUND((remaining_hours * 100 / (100 - done_ratio))::numeric, 2)
+        END
+      WHERE estimated_hours IS NULL
+        AND remaining_hours IS NOT NULL
+        AND done_ratio IS NOT NULL
+    SQL
+  end
+
   # Computes total work, total remaining work and total % complete for all work
   # packages having children.
   def update_totals

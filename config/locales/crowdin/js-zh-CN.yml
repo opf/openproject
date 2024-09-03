@@ -138,6 +138,8 @@ zh-CN:
     description_select_work_package: "选择工作包 #%{id}"
     description_subwork_package: "子工作包 #%{id}"
     editor:
+      revisions: "显示本地修改"
+      no_revisions: "未找到本地修改"
       preview: "切换预览模式"
       source_code: "切换 Markdown 模式"
       error_saving_failed: "保存文档失败，出现以下错误：%{error}"
@@ -275,8 +277,10 @@ zh-CN:
         warning: >
           更改可能需要一些时间才能生效。当更新完所有相关工作包时，您将收到通知。
       work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          将进度计算模式从基于状态改为基于工时，将使<i>完成 %</i>变为不可编辑字段，其值来自<i>工时</i>和<i>剩余工时</i>。<i>完成 %</i>现有值将保留。如果没有 <i>工时</i>和<i>剩余工时</i>的值，则需要这些值才能更改 <i>完成 %</i>。
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          将进度计算模式从基于状态改为基于工作，将使<i>完成百分比</i>成为不可编辑字段，其值来自<i>工作</i>和<i>剩余工时</i>。<i>完成百分比</i>的现有值将保留。如果没有 "<i>工时</i>"和 "剩余<i>工作</i>"的值，则需要这些值才能更改 "完成<i>百分比</i>"。
+          将进度计算模式从基于状态改为基于工时，将使<i>完成 %</i>字段可自由编辑。如果您选择输入<i>工时</i>或<i>剩余工时</i>的值，它们也将与<i>完成 %</i>相关联。更改<i>剩余工时</i>就可以更新<i>完成 %</i>。
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           将进度计算模式从基于工时的方式改为基于状态，将会导致所有现有的 <i>%完整的</i> 值丢失，并被与每个状态相关的值所替代。 <i>剩余工时</i> 的现有值也可能被重新计算，以反映这种变化。此操作不可逆转。
     custom_actions:
@@ -335,18 +339,6 @@ zh-CN:
         years: "年"
         description: >
           选择自动缩放不可用时应显示的初始缩放级别。
-      export:
-        title: "甘特图 PDF 选项"
-        button_export: "导出"
-        column_widths:
-          narrow: "窄"
-          medium: "正常"
-          wide: "宽"
-          very_wide: "非常宽"
-        options:
-          date_zoom: "日期缩放"
-          paper_size: "纸张大小"
-          column_widths: "列宽"
     general_text_no: "否"
     general_text_yes: "是"
     general_text_No: "否"
@@ -409,6 +401,7 @@ zh-CN:
     label_create: "创建"
     label_create_work_package: "创建新工作包"
     label_created_by: "创建自"
+    label_current: "当前"
     label_date: "日期"
     label_date_with_format: "以%{format} 的格式输入 %{date_attribute}"
     label_deactivate: "停用"
@@ -1190,6 +1183,8 @@ zh-CN:
         one: "1 天"
         other: "%{count} 天"
         zero: "0 天"
+      word:
+        other: " %{count} 个单词"
     zen_mode:
       button_activate: "激活 zen 模式"
       button_deactivate: "取消激活 zen 模式"

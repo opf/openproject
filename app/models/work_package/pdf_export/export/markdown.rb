@@ -96,8 +96,8 @@ module WorkPackage::PDFExport::Export::Markdown
     end
   end
 
-  def write_markdown!(work_package, markdown, styling_yml)
-    md2pdf = MD2PDFExport.new(styling_yml, pdf)
+  def write_markdown!(work_package, markdown)
+    md2pdf = MD2PDF.new(styles.wp_markdown_styling_yml, pdf)
     md2pdf.draw_markdown(markdown, pdf, ->(src) {
       with_images? ? attachment_image_filepath(work_package, src) : nil
     })

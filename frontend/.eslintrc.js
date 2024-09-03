@@ -115,6 +115,9 @@ module.exports = {
         "indent": "off",
         "@typescript-eslint/indent": "off",
 
+        // Allow namespaces, they are generated into flat functions and we don't care about modules for helpers
+        "@typescript-eslint/no-namespace": "off",
+
         /*
         // Disable use before define, as irrelevant for TS interfaces
         "no-use-before-define": "off",

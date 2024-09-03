@@ -117,6 +117,8 @@ RSpec.describe "backup", :js do
 
     click_on I18n.t("backup.label_delete_token")
 
+    page.driver.browser.switch_to.alert.accept
+
     expect(page).to have_content I18n.t("backup.text_token_deleted")
 
     token = Token::Backup.find_by(user: current_user)

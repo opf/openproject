@@ -47,6 +47,14 @@ module Components
       )
     end
 
+    def trigger_autosave
+      textarea = container.find(".op-ckeditor-source-element", visible: :all)
+      page.execute_script(
+        'jQuery(arguments[0]).trigger("op:ckeditor:autosave")',
+        textarea.native
+      )
+    end
+
     def expect_button(label)
       expect(container).to have_css(".ck-button", visible: :all, text: label)
     end

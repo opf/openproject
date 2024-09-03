@@ -31,7 +31,7 @@ nl:
           attributes:
             host:
               authorization_header_missing: is niet volledig ingesteld. De Nextcloud instantie ontvangt geen "Autorisatie" header, wat nodig is voor een Bearer token gebaseerd op API verzoeken. Controleer de configuratie van uw HTTP-server.
-              cannot_be_connected_to: kan niet mee verbonden worden.
+              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
               minimal_nextcloud_version_unmet: voldoet niet aan minimale versie vereisten (moet Nextcloud 23 of hoger zijn)
               not_nextcloud_server: is geen Nextcloud server
               op_application_not_installed: lijkt de app "OpenProject integratie" niet te hebben geïnstalleerd. Installeer het eerst en probeer het dan opnieuw.

@@ -138,6 +138,8 @@ pl:
     description_select_work_package: "Zaznacz zestaw Zadań #%{id}"
     description_subwork_package: "Otwórz zadanie-dziecko #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "Przełącz tryb podglądu"
       source_code: "Przełącz tryb źródła Markdown"
       error_saving_failed: "Zapisywanie dokumentu nie powiodło się, błąd: %{error}"
@@ -276,8 +278,10 @@ pl:
           Zmiany mogą wejść w życie po pewnym czasie. Gdy wszystkie odpowiednie pakiety robocze zostaną zaktualizowane, otrzymasz powiadomienie.
           Czy na pewno chcesz kontynuować?
       work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Zmiana trybu obliczania postępu z opartego na statusie na oparty na pracy sprawi, że atrybut <i>%  ukończenia</i> będzie nieedytowalnym polem, którego wartość pochodzi z atrybutów <i>Praca</i> i <i>Pozostała praca</i>. Istniejące wartości atrybutu <i>% ukończenia</i> zostaną zachowane. Jeśli wartości atrybutów <i>Praca</i> i <i>Pozostała praca</i> nie były obecne, będą one wymagane w celu zmiany wartości <i>%  ukończenia</i>.
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Zmiana trybu obliczania postępu z opartego na pracy na oparty na statusie spowoduje, że wszystkie istniejące wartości <i>% ukończenia</i> zostaną utracone i zastąpione wartościami powiązanymi z poszczególnymi statusami. Istniejące wartości <i>Pozostała praca</i> mogą również zostać obliczone ponownie w celu odzwierciedlenia tej zmiany. Działanie to jest nieodwracalne.
     custom_actions:
@@ -336,18 +340,6 @@ pl:
         years: "Lata"
         description: >
           Wybierz początkowy poziom powiększenia, który ma być wyświetlany, gdy tryb autopowiększenia jest niedostępny.
-      export:
-        title: "Opcje PDF wykresu Gantta"
-        button_export: "Eksportuj"
-        column_widths:
-          narrow: "Wąskie"
-          medium: "Średnie"
-          wide: "Szerokie"
-          very_wide: "Bardzo szerokie"
-        options:
-          date_zoom: "Powiększenie daty"
-          paper_size: "Rozmiar papieru"
-          column_widths: "Szerokość kolumn"
     general_text_no: "nie"
     general_text_yes: "tak"
     general_text_No: "Nie"
@@ -410,6 +402,7 @@ pl:
     label_create: "Utwórz"
     label_create_work_package: "Utwórz nowy pakiet roboczy"
     label_created_by: "Utworzony przez"
+    label_current: "current"
     label_date: "Data"
     label_date_with_format: "Wprowadź %{date_attribute} w następującym formacie: %{format}"
     label_deactivate: "Wyłącz"
@@ -1200,6 +1193,11 @@ pl:
         one: "1 dzień"
         other: "%{count} dni"
         zero: "0 dni"
+      word:
+        one: "1 word"
+        few: "%{count} words"
+        many: "%{count} words"
+        other: "%{count} words"
     zen_mode:
       button_activate: "Włącz tryb zen"
       button_deactivate: "Wyłącz tryb zen"

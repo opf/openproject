@@ -33,7 +33,7 @@ module WorkPackage::Validations
     validates :subject, :priority, :project, :type, :author, :status, presence: true
 
     validates :subject, length: { maximum: 255 }
-    validates :done_ratio, inclusion: { in: 0..100 }, allow_nil: true
+    validates :done_ratio, inclusion: { in: 0..100 }, numericality: true, allow_nil: true
     validates :estimated_hours, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }
     validates :remaining_hours, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }
     validates :derived_remaining_hours, numericality: { allow_nil: true, greater_than_or_equal_to: 0 }

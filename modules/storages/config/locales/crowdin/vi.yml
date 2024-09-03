@@ -31,7 +31,7 @@ vi:
           attributes:
             host:
               authorization_header_missing: không được cấu hình đầy đủ. Phiên bản Nextcloud không nhận được tiêu đề "Authorization", điều này cần thiết cho xác thực Bearer token của các yêu cầu API. Vui lòng kiểm tra lại cấu hình máy chủ HTTP của bạn.
-              cannot_be_connected_to: không thể kết nối.
+              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
               minimal_nextcloud_version_unmet: không đáp ứng yêu cầu phiên bản tối thiểu (phải là Nextcloud 23 trở lên)
               not_nextcloud_server: không phải là máy chủ Nextcloud
               op_application_not_installed: có vẻ như chưa cài đặt ứng dụng "Tích hợp OpenProject". Vui lòng cài đặt ứng dụng này trước và sau đó thử lại.

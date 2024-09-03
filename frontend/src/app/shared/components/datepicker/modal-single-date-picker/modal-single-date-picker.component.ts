@@ -241,6 +241,7 @@ export class OpModalSingleDatePickerComponent implements ControlValueAccessor, O
         inline: true,
         onReady: (_date:Date[], _datestr:string, instance:flatpickr.Instance) => {
           instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
+          this.cdRef.detectChanges();
         },
         onChange: (dates:Date[]) => {
           if (dates.length > 0) {
@@ -263,7 +264,6 @@ export class OpModalSingleDatePickerComponent implements ControlValueAccessor, O
       },
       this.flatpickrTarget.nativeElement as HTMLElement,
     );
-    this.cdRef.detectChanges();
   }
 
   writeWorkingValue(value:string):void {

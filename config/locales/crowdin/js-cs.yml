@@ -138,6 +138,8 @@ cs:
     description_select_work_package: "Vyberte pracovní balíček #%{id}"
     description_subwork_package: "Podřazený pracovního balíčku #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "Přepnout režim náhledu"
       source_code: "Přepnout zdrojový mód Markdown"
       error_saving_failed: "Uložení dokumentu se nezdařilo s následující chybou: %{error}"
@@ -275,8 +277,10 @@ cs:
         warning: >
 
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
           Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
@@ -335,18 +339,6 @@ cs:
         years: "Roky"
         description: >
           Vyberte počáteční úroveň přiblížení, která by se měla zobrazit, pokud není autozoom dostupný.
-      export:
-        title: "Možnosti Ganttova diagramu PDF"
-        button_export: "Export"
-        column_widths:
-          narrow: "Úzké"
-          medium: "Střední"
-          wide: "Široké"
-          very_wide: "Velmi široký"
-        options:
-          date_zoom: "Přiblížení data"
-          paper_size: "Velikost papíru"
-          column_widths: "Šířka sloupce"
     general_text_no: "ne"
     general_text_yes: "ano"
     general_text_No: "Ne"
@@ -409,6 +401,7 @@ cs:
     label_create: "Vytvořit"
     label_create_work_package: "Vytvořit nový pracovní balíček"
     label_created_by: "Vytvořil(a)"
+    label_current: "current"
     label_date: "Datum"
     label_date_with_format: "Zadejte %{date_attribute} v následujícím formátu: %{format}"
     label_deactivate: "Deaktivovat"
@@ -1199,6 +1192,11 @@ cs:
         one: "1 den"
         other: "%{count} dní"
         zero: "0 dní"
+      word:
+        one: "1 word"
+        few: "%{count} words"
+        many: "%{count} words"
+        other: "%{count} words"
     zen_mode:
       button_activate: "Aktivovat zen režim"
       button_deactivate: "Deaktivovat zen režim"

@@ -31,7 +31,7 @@ ko:
           attributes:
             host:
               authorization_header_missing: 완전히 설정되지 않았습니다. Nextcloud 인스턴스는 API 요청에 대한 Bearer 토큰 기반 인증에 필요한 "Authorization" 헤더를 수신하지 않습니다. HTTP 서버 구성을 다시 확인하세요.
-              cannot_be_connected_to: '- 연결할 수 없습니다.'
+              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
               minimal_nextcloud_version_unmet: '- 최소 버전 요구 사항을 충족하지 않습니다(Nextcloud 23 이상이어야 함).'
               not_nextcloud_server: '- Nextcloud 서버가 아닙니다.'
               op_application_not_installed: '"OpenProject Integration" 앱이 설치되지 않은 것 같습니다. 먼저 설치한 후 다시 시도하세요.'

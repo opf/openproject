@@ -138,6 +138,8 @@ de:
     description_select_work_package: "Arbeitspaket #%{id} auswählen"
     description_subwork_package: "Kind von Arbeitspaket #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "Vorschau-Modus ein/aus"
       source_code: "Wechseln zwischen Markdown-Source und WYSIWYG"
       error_saving_failed: "Fehler beim Speichern des Dokuments: %{error}"
@@ -275,8 +277,10 @@ de:
           Es kann einige Zeit dauern, bis die Änderungen wirksam werden. Sie werden benachrichtigt, wenn alle relevanten Arbeitspakete aktualisiert worden sind.
           Sind Sie sicher, dass Sie fortfahren möchten?
       work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Wenn Sie den Modus der Fortschrittsberechnung von statusbezogen auf aufwandsbezogen ändern, wird <i>% Abgeschlossen</i> zu einem nicht editierbaren Feld, dessen Wert von <i>Aufwand</i> und <i>Verbleibender Aufwand</i> abgeleitet wird. Vorhandene Werte für <i>% Abgeschlossen</i> werden beibehalten. Wenn die Werte für <i>Aufwand</i> und Verbleibender <i>Aufwand</i> nicht vorhanden waren, werden sie benötigt, um <i>% Abgeschlossen</i> zu ändern.
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Wenn Sie den Modus der Fortschrittsberechnung von aufwandsbezogen auf statusbezogen ändern, gehen alle bestehenden Werte für <i>% Fertigstellung</i> verloren und werden durch Werte ersetzt, die mit dem jeweiligen Status verbunden sind. Bestehende Werte für <i>Verbleibender Aufwand</i> können ebenfalls neu berechnet werden, um diese Änderung widerzuspiegeln. Diese Aktion ist nicht umkehrbar.
     custom_actions:
@@ -335,18 +339,6 @@ de:
         years: "Jahre"
         description: >
           Wählen Sie die Zoomstufe für das Gantt-Diagramm aus, wenn kein Autozoom aktiviert ist.
-      export:
-        title: "Gantt-Diagramm PDF-Optionen"
-        button_export: "Exportieren"
-        column_widths:
-          narrow: "Schmal"
-          medium: "Mittel"
-          wide: "Breit"
-          very_wide: "Sehr breit"
-        options:
-          date_zoom: "Datumszoom"
-          paper_size: "Papierformat"
-          column_widths: "Spaltenbreite"
     general_text_no: "nein"
     general_text_yes: "ja"
     general_text_No: "Nein"
@@ -409,6 +401,7 @@ de:
     label_create: "Erstellen"
     label_create_work_package: "Erstelle neues Arbeitspaket"
     label_created_by: "Erstellt von"
+    label_current: "current"
     label_date: "Datum"
     label_date_with_format: "Die %{date_attribute} im folgenden Format eingeben: %{format}"
     label_deactivate: "Deaktiviere"
@@ -1193,6 +1186,9 @@ de:
         one: "1 Tag"
         other: "%{count} Tage"
         zero: "0 Tage"
+      word:
+        one: "1 word"
+        other: "%{count} words"
     zen_mode:
       button_activate: "Zen-Modus aktivieren"
       button_deactivate: "Zen-Modus deaktivieren"

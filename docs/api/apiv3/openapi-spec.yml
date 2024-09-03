@@ -527,6 +527,10 @@ components:
       $ref: "./components/examples/relation_response.yml"
     RelationUpdateRequest:
       $ref: "./components/examples/relation_update_request.yml"
+    StatusCollection:
+      $ref: "./components/examples/status_collection.yml"
+    StatusResponse:
+      $ref: "./components/examples/status_response.yml"
     StorageNextcloudResponse:
       $ref: "./components/examples/storage-nextcloud-response.yml"
     StorageNextcloudResponseForCreation:
@@ -537,16 +541,14 @@ components:
       $ref: "./components/examples/storage-one-drive-incomplete-response.yml"
     StorageOneDriveResponse:
       $ref: "./components/examples/storage-one-drive-response.yml"
+    StoragesSimpleCollectionModel:
+      $ref: "./components/examples/storages-simple-collection-response.yml"
     QueriesModel:
       $ref: "./components/examples/queries.yml"
     QueryModel:
       $ref: "./components/examples/query.yml"
     QuerySchemaModel:
       $ref: "./components/examples/query_schema.yml"
-    StatusCollection:
-      $ref: "./components/examples/status_collection.yml"
-    StoragesSimpleCollectionModel:
-      $ref: "./components/examples/storages-simple-collection-response.yml"
     UserResponse:
       $ref: "./components/examples/user-response.yml"
     ValuesPropertyStartDateSchema:
@@ -567,6 +569,12 @@ components:
       $ref: "./components/examples/view_work_packages_table.yml"
     ViewTeamPlanner:
       $ref: "./components/examples/view_team_planner.yml"
+    WorkPackageCreateOnlySubject:
+      $ref: "./components/examples/work_package_create_only_subject.yml"
+    WorkPackageCreateValid:
+      $ref: "./components/examples/work_package_create_valid.yml"
+    WorkPackageEditSubject:
+      $ref: "./components/examples/work_package_edit_subject.yml"
 
   responses:
     InvalidQuery:
@@ -867,16 +875,20 @@ components:
       "$ref": "./components/schemas/week_day_write_model.yml"
     Wiki_PageModel:
       "$ref": "./components/schemas/wiki_page_model.yml"
-    Work_PackageModel:
+    WorkPackageModel:
       "$ref": "./components/schemas/work_package_model.yml"
-    Work_Package_SchemasModel:
-      "$ref": "./components/schemas/work_package_schemas_model.yml"
+    WorkPackageFormModel:
+      "$ref": "./components/schemas/work_package_form_model.yml"
+    WorkPackagePatchModel:
+      "$ref": "./components/schemas/work_package_patch_model.yml"
+    WorkPackageSchemaModel:
+      "$ref": "./components/schemas/work_package_schema_model.yml"
+    WorkPackageWriteModel:
+      "$ref": "./components/schemas/work_package_write_model.yml"
     Work_Package_activitiesModel:
       "$ref": "./components/schemas/work_package_activities_model.yml"
     Work_PackagesModel:
       "$ref": "./components/schemas/work_packages_model.yml"
-    WorkPackagePatchModel:
-      "$ref": "./components/schemas/work_package_patch_model.yml"
   securitySchemes:
     BasicAuth:
       type: http

@@ -73,7 +73,11 @@ class EditField
 
   def clear(with_backspace: false)
     if with_backspace
-      input_element.set(" ", fill_options: { clear: :backspace })
+      if using_cuprite?
+        clear_input_field_contents(input_element)
+      else
+        input_element.set(" ", fill_options: { clear: :backspace })
+      end
     else
       input_element.native.clear
     end

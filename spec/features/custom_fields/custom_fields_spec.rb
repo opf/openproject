@@ -176,7 +176,7 @@ RSpec.describe "custom fields", :js, :with_cuprite do
       click_on "Create a new custom field"
       wait_for_reload
 
-      page.within_test_selector("op-breadcrumb") do
+      page.within_test_selector("custom-fields--page-header") do
         expect(page).to have_css(".breadcrumb-item", text: type)
         expect(page).to have_css(".breadcrumb-item.breadcrumb-item-selected", text: "New custom field")
       end
@@ -273,7 +273,7 @@ RSpec.describe "custom fields", :js, :with_cuprite do
     end
 
     it "shows the correct breadcrumbs" do
-      page.within_test_selector("op-breadcrumb") do
+      page.within_test_selector("custom-fields--page-header") do
         expect(page).to have_css(".breadcrumb-item", text: "Work packages")
         expect(page).to have_css(".breadcrumb-item.breadcrumb-item-selected", text: "Platform")
       end

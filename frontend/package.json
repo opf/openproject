@@ -99,7 +99,7 @@
     "@ngneat/content-loader": "^7.0.0",
     "@ngx-formly/core": "^6.1.4",
     "@openproject/octicons-angular": "^19.18.0",
-    "@openproject/primer-view-components": "^0.43.0",
+    "@openproject/primer-view-components": "^0.43.1",
     "@openproject/reactivestates": "^3.0.1",
     "@primer/css": "^21.3.3",
     "@types/hotwired__turbo": "^8.0.1",
@@ -162,8 +162,7 @@
   },
   "scripts": {
     "analyze": "ng build --configuration production --stats-json && webpack-bundle-analyzer -h 0.0.0.0 -p 9999 ../public/assets/frontend/stats.json",
-    "build:ci": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --configuration ci",
-    "build:fast": "OPENPROJECT_ANGULAR_UGLIFY=false node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --configuration fastprod",
+    "build:fast": "OPENPROJECT_ANGULAR_BUILD=fast node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --configuration production",
     "build": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --configuration production --named-chunks --source-map",
     "build:watch": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --watch --named-chunks",
     "tokens:generate": "theo src/app/spot/styles/tokens/tokens.yml --transform web --format sass,json --dest src/app/spot/styles/tokens/dist",
@@ -177,6 +176,6 @@
     "generate-typings": "tsc -d -p src/tsconfig.app.json"
   },
   "overrides": {
-    "@primer/view-components": "npm:@openproject/primer-view-components@^0.43.0"
+    "@primer/view-components": "npm:@openproject/primer-view-components@^0.43.1"
   }
 }
