@@ -449,12 +449,12 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         progress_popover.open
         progress_popover.set_values(work: "12")
         progress_popover.expect_values(remaining_work: "6h")
-        progress_popover.expect_hints(remaining_work: { increased_like_work: { delta: 2 } },
+        progress_popover.expect_hints(remaining_work: { increased_by_delta_like_work: { delta: 2 } },
                                       percent_complete: :derived)
 
         progress_popover.set_values(work: "14")
         progress_popover.expect_values(remaining_work: "8h")
-        progress_popover.expect_hints(remaining_work: { increased_like_work: { delta: 4 } },
+        progress_popover.expect_hints(remaining_work: { increased_by_delta_like_work: { delta: 4 } },
                                       percent_complete: :derived)
       end
 
@@ -467,12 +467,12 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         progress_popover.open
         progress_popover.set_values(work: "2")
         progress_popover.expect_values(remaining_work: "0h")
-        progress_popover.expect_hints(remaining_work: { decreased_like_work: { delta: -8 } },
+        progress_popover.expect_hints(remaining_work: { decreased_by_delta_like_work: { delta: -8 } },
                                       percent_complete: :derived)
 
         progress_popover.set_values(work: "12")
         progress_popover.expect_values(remaining_work: "6h")
-        progress_popover.expect_hints(remaining_work: { increased_like_work: { delta: 2 } },
+        progress_popover.expect_hints(remaining_work: { increased_by_delta_like_work: { delta: 2 } },
                                       percent_complete: :derived)
       end
 

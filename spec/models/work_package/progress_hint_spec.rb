@@ -41,32 +41,32 @@ RSpec.describe WorkPackage::ProgressHint, :aggreagate_failures do
     end
 
     it "converts parameter values to hours formatted according to setting" do
-      hint = described_class.new("remaining_hours.increased_like_work", { delta: 2 })
+      hint = described_class.new("remaining_hours.increased_by_delta_like_work", { delta: 2 })
       expect(hint.message).to eq("Increased by 2h, matching the increase in Work.")
 
-      hint = described_class.new("remaining_hours.increased_like_work", { delta: 15.5 })
+      hint = described_class.new("remaining_hours.increased_by_delta_like_work", { delta: 15.5 })
       expect(hint.message).to eq("Increased by 15.5h, matching the increase in Work.")
 
-      hint = described_class.new("remaining_hours.decreased_like_work", { delta: -24 })
+      hint = described_class.new("remaining_hours.decreased_by_delta_like_work", { delta: -24 })
       expect(hint.message).to eq("Decreased by 24h, matching the reduction in Work.")
 
       with_settings(duration_format: "days_and_hours") do
-        hint = described_class.new("remaining_hours.increased_like_work", { delta: 2 })
+        hint = described_class.new("remaining_hours.increased_by_delta_like_work", { delta: 2 })
         expect(hint.message).to eq("Increased by 2h, matching the increase in Work.")
 
-        hint = described_class.new("remaining_hours.increased_like_work", { delta: 15.5 })
+        hint = described_class.new("remaining_hours.increased_by_delta_like_work", { delta: 15.5 })
         expect(hint.message).to eq("Increased by 1d 7.5h, matching the increase in Work.")
 
-        hint = described_class.new("remaining_hours.decreased_like_work", { delta: -24 })
+        hint = described_class.new("remaining_hours.decreased_by_delta_like_work", { delta: -24 })
         expect(hint.message).to eq("Decreased by 3d, matching the reduction in Work.")
       end
     end
 
     it "rounds parameter values to 2 decimals" do
-      hint = described_class.new("remaining_hours.increased_like_work", { delta: 0.995 })
+      hint = described_class.new("remaining_hours.increased_by_delta_like_work", { delta: 0.995 })
       expect(hint.message).to eq("Increased by 1h, matching the increase in Work.")
 
-      hint = described_class.new("remaining_hours.decreased_like_work", { delta: -100.004 })
+      hint = described_class.new("remaining_hours.decreased_by_delta_like_work", { delta: -100.004 })
       expect(hint.message).to eq("Decreased by 100h, matching the reduction in Work.")
     end
   end
