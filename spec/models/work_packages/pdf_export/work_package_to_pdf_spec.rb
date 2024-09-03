@@ -244,6 +244,20 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       end
     end
 
+    describe "with a faulty image" do
+      before do
+        # simulate a null pointer exception
+        # https://appsignal.com/openproject-gmbh/sites/62a6d833d2a5e482c1ef825d/exceptions/incidents/2326/samples/62a6d833d2a5e482c1ef825d-848752493603098719217252846401
+        # where attachment data is in the database but the file is missing, corrupted or not accessible
+        allow(image_attachment).to receive(:file)
+                                     .and_return(nil)
+      end
+
+      it "still finishes the export" do
+        expect(pdf[:images].length).to eq(0)
+      end
+    end
+
     describe "with embedded work package attributes" do
       let(:supported_work_package_embeds) do
         [
