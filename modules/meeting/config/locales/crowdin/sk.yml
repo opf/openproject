@@ -123,7 +123,7 @@ sk:
       agenda: "Copy agenda"
       agenda_text: "Copy the agenda of the old meeting"
     email:
-      send_emails: "Send emails"
+      send_emails: "Email participants"
       send_invitation_emails: >
         Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Open meeting"

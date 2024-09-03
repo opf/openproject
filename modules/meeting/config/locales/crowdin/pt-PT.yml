@@ -121,7 +121,7 @@ pt-PT:
       agenda: "Copiar agenda"
       agenda_text: "Copiar agenda da reunião anterior"
     email:
-      send_emails: "Enviar e-mails"
+      send_emails: "Email participants"
       send_invitation_emails: >
         Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Entrar na Reunião"

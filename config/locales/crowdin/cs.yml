@@ -265,8 +265,8 @@ cs:
       no_results_title_text: V současné době nejsou žádné projekty
       no_results_content_text: Vytvořit nový projekt
       search:
-        label: Project name filter
-        placeholder: Search by project name
+        label: Filtr názvu projektu
+        placeholder: Hledat podle názvu projektu
     lists:
       active: "Aktivní projekty"
       my: "Moje projekty"
@@ -638,7 +638,7 @@ cs:
         possible_values: "Možné hodnoty"
         regexp: "Regulární výraz"
         searchable: "Vyhledávatelné"
-        admin_only: "Admin-only"
+        admin_only: "Pouze pro správce"
       custom_value:
         value: "Hodnota"
       doorkeeper/application:
@@ -708,7 +708,7 @@ cs:
         versions: "Verze"
         work_packages: "Pracovní balíčky"
       project_custom_field:
-        is_required: "Required for all projects"
+        is_required: "Vyžadováno pro všechny projekty"
         custom_field_section: Sekce
       query:
         column_names: "Sloupce"
@@ -1021,7 +1021,7 @@ cs:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "musí být mezi 0 a 100."
           readonly_default_exlusive: "nelze aktivovat pro stavy, které jsou označeny jako výchozí."
         time_entry:
           attributes:
@@ -1055,10 +1055,10 @@ cs:
               format: "%{message}"
             done_ratio:
               does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
-              cannot_be_set_when_work_is_zero: "cannot be set when Work is 0h"
+              cannot_be_set_when_work_is_zero: "nelze nastavit, když je práce 0h"
               must_be_set_when_remaining_work_is_set: "required when Remaining work is set."
               must_be_set_when_work_and_remaining_work_are_set: "required when Work and Remaining work are set."
-              inclusion: "must be between 0 and 100."
+              inclusion: "musí být mezi 0 a 100."
             due_date:
               not_start_date: "není v počátečním datu, i když je to nutné pro milníky."
               cannot_be_null: "nelze nastavit na null, protože datum zahájení a trvání je známo "
@@ -1418,7 +1418,7 @@ cs:
   button_view_shared_work_packages: "Zobrazit všechny sdílené pracovní balíčky"
   button_manage_roles: "Správa rolí"
   button_remove_member: "Odebrat člena"
-  button_remove_member_and_shares: "Remove member and shares"
+  button_remove_member_and_shares: "Odstranění člena a sdílení"
   button_revoke_work_package_shares: "Zrušit sdílení pracovních balíčků"
   button_revoke_access: "Odebrat přístup"
   button_revoke_all: "Zrušit vše"
@@ -1677,7 +1677,7 @@ cs:
   error_pdf_failed_to_export: "PDF export nelze uložit: %{error}"
   error_token_authenticity: "Nelze ověřit token Cross-Site Request Forgy. Pokusili jste se odeslat data na více prohlížečích nebo kartách? Prosím zavřete všechny panely a zkuste to znovu."
   error_work_package_not_found_in_project: "Pracovný balíček nebyl nalezen, nebo nepatří k tomuto projektu"
-  error_work_package_id_not_found: "The work package was not found."
+  error_work_package_id_not_found: "Pracovní balíček nebyl nalezen."
   error_must_be_project_member: "musí být členem projektu"
   error_migrations_are_pending: "Vaše instalace OpenProject čeká na migraci databáze. Pravděpodobně jste při poslední aktualizaci zmeškali migrace. Pro správnou aktualizaci vaší instalace prosím zkontrolujte průvodce aktualizací."
   error_migrations_visit_upgrade_guides: "Navštivte prosím naši dokumentaci průvodce aktualizací"
@@ -1732,7 +1732,7 @@ cs:
           xls:
             label: "XLS"
       columns:
-        input_label_report: "Add columns to attribute table"
+        input_label_report: "Přidat sloupce do tabulky atributů"
         input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
         input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
       pdf:
@@ -1762,12 +1762,12 @@ cs:
         column_width:
           label: "Table column width"
           options:
-            narrow: "Narrow"
-            medium: "Medium"
-            wide: "Wide"
-            very_wide: "Very wide"
+            narrow: "Úzký"
+            medium: "Střední"
+            wide: "Široký"
+            very_wide: "Velmi široký"
         paper_size:
-          label: "Paper size"
+          label: "Velikost papíru"
           caption: "Depending on the chart size more than one page might be exported."
         long_text_fields:
           input_caption: "By default all long text fields are selected."
@@ -1776,10 +1776,10 @@ cs:
           drag_area_label: "Manage long text fields"
       xls:
         include_relations:
-          label: "Include relations"
+          label: "Zahrnout vztahy"
           caption: "This option will create a duplicate of each work package for every relation this has with another work package."
         include_descriptions:
-          label: "Include descriptions"
+          label: "Zahrnout popisy"
           caption: "This option will add a description column in raw format."
     your_work_packages_export: "Work packages are being exported"
     succeeded: "Export completed"
