@@ -1,0 +1,16 @@
+description: A standard status resource response.
+value:
+  _type: Status
+  id: 13
+  name: Waiting for Darth-approval
+  isClosed: false
+  color: '#FE005D'
+  isDefault: false
+  isReadonly: false
+  excludedFromTotals: false
+  defaultDoneRatio: 66
+  position: 4
+  _links:
+    self:
+      href: '/api/v3/statuses/13'
+      title: Waiting for Darth-approval
