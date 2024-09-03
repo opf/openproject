@@ -25,39 +25,24 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+require "rails_helper"
 
-# This components renders a dialog to confirm the deletion of a project from a storage.
-module Storages::ProjectStorages
-  class DestroyConfirmationDialogComponent < ApplicationComponent
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+RSpec.describe Projects::RowComponent, type: :component do
+  describe "#name" do
+    it "renders the project name as a link" do
+      project = build_stubbed(:project, name: "My Project No. 1", identifier: "myproject_no_1")
 
-    def initialize(storage:, project_storage:)
-      super
+      table = instance_double(Projects::TableComponent, columns: [Queries::Projects::Selects::Default.new(:name)],
+                                                        favored_project_ids: [])
+      component = described_class.new(row: [project, 0], table:)
 
-      @storage = storage
-      @project_storage = project_storage
-    end
+      render_inline(component)
 
-    def id
-      "project-storage-#{@project_storage.id}-destroy-confirmation-dialog"
-    end
-
-    def heading
-      I18n.t("project_storages.remove_project.dialog.heading_text", storage: @storage.name)
-    end
-
-    def text
-      text = I18n.t("project_storages.remove_project.dialog.text")
-      if @project_storage.project_folder_mode == "automatic"
-        text << " "
-        text << I18n.t("project_storages.remove_project.dialog.automatically_managed_appendix")
-      end
-      text
-    end
-
-    def confirmation_text
-      I18n.t("project_storages.remove_project.dialog.confirmation_text")
+      expect(page).to have_css(
+        "a[data-turbo='false'][href='/projects/myproject_no_1']",
+        text: "My Project No. 1"
+      )
     end
   end
 end

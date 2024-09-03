@@ -19,7 +19,7 @@ To edit a workflow:
 
 1. Select the **role** from the dropdown menu for which you want to edit the workflow.
 2. Select the **work package type** from the dropdown menu for which you want to edit the workflow.
-3. Check if you **only want the statuses that are used by this type** to be displayed (this option is selected automatically, but you can always uncheck it).
+3. Check if you **only want the statuses that are used by this type** to be displayed (this option is disabled per default, but you can always activate it).
    **Note**: If you have created a [new status](../work-package-status) and want to add it to a workflow of a certain work package type, you need to deselect this option. Only this way also status that are not (yet) used by this type will appear in the list and can be added to a workflow.
 4. Click the **Edit** button.
 
