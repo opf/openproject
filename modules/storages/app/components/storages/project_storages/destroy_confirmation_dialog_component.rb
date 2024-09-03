@@ -44,7 +44,7 @@ module Storages::ProjectStorages
     end
 
     def heading
-      I18n.t("project_storages.remove_project.dialog.heading", storage: @storage.name)
+      I18n.t("project_storages.remove_project.dialog.heading_text", storage: @storage.name)
     end
 
     def text
