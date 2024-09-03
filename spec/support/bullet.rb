@@ -24,18 +24,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
 
-if defined?(Bullet)
-  Rails.application.configure do
-    config.after_initialize do
-      Bullet.enable = true
-      Bullet.alert = false # Does not work with CSP
-      Bullet.add_footer = Rails.env.development?
-      Bullet.bullet_logger = false
-      Bullet.console = true
-      Bullet.rails_logger = true
-      Bullet.raise = Rails.env.test?
+RSpec.configure do |config|
+  if Bullet.enable?
+    config.before do
+      Bullet.start_request
+    end
+
+    config.after do
+      Bullet.perform_out_of_channel_notifications if Bullet.notification?
+      Bullet.end_request
     end
   end
 end
