@@ -2,9 +2,9 @@
 ro:
   js:
     team_planner:
-      add_existing: 'Adăugați existent'
+      add_existing: 'Adaugă existent'
       add_existing_title: 'Adăugarea pachetelor de lucru existente'
-      create_label: 'Planificator de echipă'
+      create_label: 'Planificator echipă'
       create_title: 'Creați un nou planificator de echipă'
       unsaved_title: 'Planificator de echipă nenumit'
       no_data: 'Adăugați persoane desemnate pentru a vă configura planificatorul echipei.'

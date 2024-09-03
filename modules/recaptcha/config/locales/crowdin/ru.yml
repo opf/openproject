@@ -9,7 +9,7 @@ ru:
     verify_account: "Подтвердить учетную запись"
     error_captcha: "Невозможно подтвердить учетную запись. Пожалуйста, свяжитесь с администратором."
     settings:
-      website_key: 'Website key (May also be called "Site key")'
+      website_key: 'Ключ веб-сайта (может также называться "Ключ сайта")'
       response_limit: 'Ограничение ответа для HCaptcha'
       response_limit_text: 'Максимальное количество символов, при котором ответ HCaptcha считается действительным.'
       website_key_text: 'Введите ключ веб-сайта, который вы создали на консоли администратора reCAPTCHA для этого домена.'

@@ -154,5 +154,5 @@ ro:
   todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Coloană în backlog"
   version_settings_display_option_left: "stanga"
-  version_settings_display_option_none: "niciunul"
+  version_settings_display_option_none: "niciuna"
   version_settings_display_option_right: "dreapta"
