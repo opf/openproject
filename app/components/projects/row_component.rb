@@ -116,7 +116,7 @@ module Projects
       end
 
       content << " "
-      content << helpers.link_to_project(project, {}, {}, false)
+      content << helpers.link_to_project(project, {}, { data: { turbo: false } }, false)
       content
     end
 
