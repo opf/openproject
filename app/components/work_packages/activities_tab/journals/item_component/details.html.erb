@@ -2,7 +2,7 @@
   case filter
   when :only_comments
     flex_layout(my: 0, border: :left, classes: "work-packages-activities-tab-journals-item-component-details--journal-details-container") do |details_container|
-      render_empty_line(details_container) unless journal.initial?
+      render_empty_line(details_container) unless journal.notes.blank?
     end
   when :only_changes
     if journal.details.any?
