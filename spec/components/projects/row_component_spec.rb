@@ -31,18 +31,17 @@ require "rails_helper"
 RSpec.describe Projects::RowComponent, type: :component do
   describe "#name" do
     it "renders the project name as a link" do
-      project = build_stubbed(:project, name: "My Project No. 1")
+      project = build_stubbed(:project, name: "My Project No. 1", identifier: "myproject_no_1")
 
-      table = instance_double(Projects::TableComponent, columns: [], favored_project_ids: [])
+      table = instance_double(Projects::TableComponent, columns: [Queries::Projects::Selects::Default.new(:name)],
+                                                        favored_project_ids: [])
       component = described_class.new(row: [project, 0], table:)
 
       render_inline(component)
 
-      expect(component.name).to eq(
-        <<~HTML.squish
-          <i class="projects-table--hierarchy-icon"></i>
-          <a data-turbo="false" href="/projects/myproject_no_1">My Project No. 1</a>
-        HTML
+      expect(page).to have_css(
+        "a[data-turbo='false'][href='/projects/myproject_no_1']",
+        text: "My Project No. 1"
       )
     end
   end
