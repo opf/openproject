@@ -43,8 +43,8 @@ module Pages::StructuredMeeting
 
     def trigger_change_poll
       script = <<~JS
-        var target = document.querySelector('[data-test-selector="meeting-page-header"]');
-        var controller = window.Stimulus.getControllerForElementAndIdentifier(target, 'poll-for-changes')
+        const target = document.querySelector('[data-test-selector="meeting-page-header"]');
+        const controller = window.Stimulus.getControllerForElementAndIdentifier(target, 'poll-for-changes')
         controller.triggerTurboStream();
       JS
 
