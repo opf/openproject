@@ -75,7 +75,3 @@ module WorkPackage::PDFExport::Common::Attachments
     work_package.attachments.detect { |a| api_url_helpers.attachment_content(a.id) == src }
   end
 end
-
-
-
-
