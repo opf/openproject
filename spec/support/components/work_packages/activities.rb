@@ -88,11 +88,11 @@ module Components
       end
 
       def expect_journal_notes_header(text: nil)
-        expect(page).to have_css(".journal-notes-header", text:)
+        expect(page).to have_test_selector("op-journal-notes-header", text:)
       end
 
       def expect_no_journal_notes_header(text: nil)
-        expect(page).to have_no_css(".journal-notes-header", text:)
+        expect(page).to have_test_selector("op-journal-notes-header", text:)
       end
 
       def expect_journal_notes(text: nil)
@@ -147,13 +147,13 @@ module Components
         # TODO: get rid of static sleep
         sleep 1 # otherwise the stimulus component is not mounted yet and the click does not work
 
-        if page.has_css?("#open-work-package-journal-form")
-          page.find_by_id("open-work-package-journal-form").click
+        if page.find_test_selector("op-open-work-package-journal-form-trigger")
+          page.find_test_selector("op-open-work-package-journal-form-trigger").click
         else
-          expect(page).to have_css("#work-package-journal-form")
+          expect(page).to have_test_selector("op-work-package-journal-form-element")
         end
 
-        within("#work-package-journal-form") do
+        within_test_selector("op-work-package-journal-form-element") do
           FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form").set_value(text)
           page.find_test_selector("op-submit-work-package-journal-form").click if save
         end
@@ -170,7 +170,7 @@ module Components
           page.find_test_selector("op-wp-journal-#{journal.id}-action-menu").click
           page.find_test_selector("op-wp-journal-#{journal.id}-edit").click
 
-          within("#work-package-journal-form") do
+          within_test_selector("op-work-package-journal-form-element") do
             FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form").set_value(text)
             page.find_test_selector("op-submit-work-package-journal-form").click
           end
@@ -188,15 +188,15 @@ module Components
           page.find_test_selector("op-wp-journal-#{journal.id}-quote").click
         end
 
-        expect(page).to have_css("#work-package-journal-form")
+        expect(page).to have_test_selector("op-work-package-journal-form-element")
 
-        within("#work-package-journal-form") do
+        within_test_selector("op-work-package-journal-form-element") do
           page.find_test_selector("op-submit-work-package-journal-form").click
         end
       end
 
       def get_all_comments_as_arrary
-        page.all(".journal-notes-body").map(&:text)
+        page.all(".work-packages-activities-tab-journals-item-component--journal-notes-body").map(&:text)
       end
 
       def filter_journals(filter)

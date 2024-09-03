@@ -1,27 +1,20 @@
-#work-packages-activities-tab-index-component
-    #journals-container
+.work-packages-activities-tab-index-component
+    &--journals-container
         z-index: 10
         padding-top: 3px
         overflow-y: auto
-        &.with-initial-input-compensation
+
+        &_with-initial-input-compensation
             margin-bottom: 65px // initial margin-bottom, will be increased by stimulus when opening ckeditor
             @media screen and (max-width: $breakpoint-xl)
                 margin-bottom: -16px
-        &.with-input-compensation
+
+        &_with-input-compensation
             margin-bottom: 180px
             @media screen and (max-width: $breakpoint-xl)
                 margin-bottom: -16px
-    #stem-connection
-        @media screen and (min-width: $breakpoint-xl)
-            position: absolute
-            z-index: 9
-            border-left: var(--borderWidth-thin, 1px) solid var(--borderColor-default)
-            margin-left: 19px
-            margin-top: 20px
-            height: 100vh
-        @media screen and (max-width: $breakpoint-xl)
-            display: none
-    #input-container
+                
+    &--input-container
         z-index: 10
         @media screen and (min-width: $breakpoint-xl)
             position: absolute
@@ -29,6 +22,7 @@
             bottom: 0
             left: 0
             right: 0
-        @media screen and (max-width: $breakpoint-xl)
-            &.sort-desc
+
+        &_sort-desc
+            @media screen and (max-width: $breakpoint-xl)
                 order: -1

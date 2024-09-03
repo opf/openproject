@@ -2,14 +2,14 @@
   component_wrapper(class: "work-packages-activities-tab-journals-item-component-edit") do
     render(Primer::Box.new(my: 3)) do
       primer_form_with(
-        id: "work-package-journal-form",
+        id: "work-package-journal-form", # required for specs
         model: journal,
         method: :put,
         data: { turbo: true, turbo_stream: true },
         url: work_package_activity_path(work_package_id: work_package.id, id: journal.id, filter:),
       ) do |f|
         flex_layout do |form_container|
-          form_container.with_row do
+          form_container.with_row(id: "ck-editor-adjustment-container") do
             render(WorkPackages::ActivitiesTab::Journals::NotesForm.new(f))
           end
           form_container.with_row(flex_layout: true, mt: 3, justify_content: :flex_end) do |submit_container|

@@ -54,17 +54,22 @@ module WorkPackages
         end
 
         def render_details_header(details_container)
-          details_container.with_row(flex_layout: true,
-                                     justify_content: :space_between,
-                                     classes: "journal-details-header-container",
-                                     id: "activity-#{journal.version}") do |header_container|
+          details_container.with_row(
+            flex_layout: true,
+            justify_content: :space_between,
+            classes: "work-packages-activities-tab-journals-item-component-details--journal-details-header-container",
+            id: "activity-#{journal.version}"
+          ) do |header_container|
             render_header_start(header_container)
             render_header_end(header_container)
           end
         end
 
         def render_header_start(header_container)
-          header_container.with_column(flex_layout: true, classes: "journal-details-header") do |header_start_container|
+          header_container.with_column(
+            flex_layout: true,
+            classes: "work-packages-activities-tab-journals-item-component-details--journal-details-header"
+          ) do |header_start_container|
             render_timeline_icon(header_start_container)
             render_user_avatar(header_start_container)
             render_user_name_and_time(header_start_container)
@@ -74,7 +79,7 @@ module WorkPackages
         end
 
         def render_timeline_icon(container)
-          container.with_column(mr: 2, classes: "timeline-icon") do
+          container.with_column(mr: 2, classes: "work-packages-activities-tab-journals-item-component-details--timeline-icon") do
             icon_name = journal.initial? ? "diff-added" : "diff-modified"
             render Primer::Beta::Octicon.new(icon: icon_name, size: :small, "aria-label": icon_aria_label, color: :subtle)
           end
@@ -120,7 +125,8 @@ module WorkPackages
         end
 
         def render_notification_bubble(container)
-          container.with_column(mr: 2, classes: "bubble-container") do
+          container.with_column(mr: 2,
+                                classes: "work-packages-activities-tab-journals-item-component-details--bubble-container") do
             bubble_html
           end
         end
@@ -173,12 +179,16 @@ module WorkPackages
         end
 
         def render_stem_line(container)
-          container.with_column(classes: "journal-detail-stem-line")
+          container.with_column(classes: "work-packages-activities-tab-journals-item-component-details--journal-detail-stem-line")
         end
 
         def render_detail_description(container, detail)
           container.with_column(pl: 1, font_size: :small) do
-            render(Primer::Beta::Text.new(classes: "journal-detail-description")) { journal.render_detail(detail) }
+            render(Primer::Beta::Text.new(
+                     classes: "work-packages-activities-tab-journals-item-component-details--journal-detail-description"
+                   )) do
+              journal.render_detail(detail)
+            end
           end
         end
 

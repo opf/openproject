@@ -761,8 +761,8 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
       page.find("li[data-tab-id=\"activity\"]").click
 
       # expect the editor content to be rescued on the client side
-      within("#work-package-journal-form") do
-        editor = FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form")
+      within_test_selector("op-work-package-journal-form-element") do
+        editor = FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form-element")
         editor.expect_value("First comment by admin")
         # save the comment, which was rescued on the client side
         page.find_test_selector("op-submit-work-package-journal-form").click
@@ -790,8 +790,8 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
       page.find_by_id("open-work-package-journal-form").click
 
       # expect the editor content to be empty
-      within("#work-package-journal-form") do
-        editor = FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form")
+      within_test_selector("op-work-package-journal-form-element") do
+        editor = FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form-element")
         editor.expect_value("")
       end
     end
@@ -816,8 +816,8 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
       page.find_by_id("open-work-package-journal-form").click
 
       # expect the editor content to be empty
-      within("#work-package-journal-form") do
-        editor = FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form")
+      within_test_selector("op-work-package-journal-form-element") do
+        editor = FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form-element")
         editor.expect_value("")
       end
 
@@ -832,8 +832,8 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
       sleep 1
 
       # expect the editor to be opened and content to be rescued for the correct user
-      within("#work-package-journal-form") do
-        editor = FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form")
+      within_test_selector("op-work-package-journal-form-element") do
+        editor = FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form-element")
         editor.expect_value("First comment by admin")
       end
     end

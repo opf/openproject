@@ -1,12 +1,12 @@
 .work-packages-activities-tab-journals-item-component-details
-    .journal-details-container
+    &--journal-details-container
         margin-left: 19px
         min-height: 20px
-    .journal-details-container--empty--last--asc
+    &--journal-details-container--empty--last--asc
         display: none!important
-    .journal-details-header-container
+    &--journal-details-header-container
         margin-left: -14px
-    .timeline-icon
+    &--timeline-icon
         background-color: var(--bgColor-muted)
         border-radius: 50%
         width: 28px
@@ -14,13 +14,13 @@
         text-align: center
         padding-top: 3px
         margin-top: -2px
-    .empty-line
+    &--empty-line
         margin-top: 0px!important
         margin-bottom: 0px!important
-    .journal-detail-stem-line
+    &--journal-detail-stem-line
         position: relative
         width: 20px
-    .journal-detail-stem-line::before
+    &--journal-detail-stem-line::before
         content: ""
         position: absolute
         top: 10px
@@ -29,10 +29,10 @@
         height: var(--borderWidth-thin, 1px)
         background-color: var(--borderColor-default)
         transform: translateY(-50%)
-    .journal-detail-description
+    &--journal-detail-description
         // quick hack to adapt the current detail rendering to desired primerised design
         i
             font-style: normal
             color: var(--fgColor-muted, var(--color-fg-subtle))
-    .bubble-container
+    &--bubble-container
         padding-top: 2px

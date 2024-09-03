@@ -1,18 +1,18 @@
 <%= component_wrapper(class: "work-packages-activities-tab-journals-item-component-details") do
   case filter
   when :only_comments
-    flex_layout(my: 0, border: :left, classes: "journal-details-container") do |details_container|
+    flex_layout(my: 0, border: :left, classes: "work-packages-activities-tab-journals-item-component-details--journal-details-container") do |details_container|
       render_empty_line(details_container) unless journal.initial?
     end
   when :only_changes
     if journal.details.any?
-      flex_layout(my: 0, border: :left, classes: "journal-details-container") do |details_container|
+      flex_layout(my: 0, border: :left, classes: "work-packages-activities-tab-journals-item-component-details--journal-details-container") do |details_container|
         render_details_header(details_container)
         render_details(details_container)
       end
     end
   else # :all or any other state
-    flex_layout(my: 0, border: :left, classes: "journal-details-container") do |details_container|
+    flex_layout(my: 0, border: :left, classes: "work-packages-activities-tab-journals-item-component-details--journal-details-container") do |details_container|
       if journal.details.any?
         if journal.notes.present?
           render_details(details_container)

@@ -296,7 +296,7 @@ export default class IndexController extends Controller {
 
     this.buttonRowTarget.classList.add('d-none');
     this.formRowTarget.classList.remove('d-none');
-    this.journalsContainerTarget?.classList.add('with-input-compensation');
+    this.journalsContainerTarget?.classList.add('work-packages-activities-tab-index-component--journals-container_with-input-compensation');
 
     this.addEventListenersToCkEditorInstance();
 
@@ -357,8 +357,8 @@ export default class IndexController extends Controller {
 
       if (this.journalsContainerTarget) {
         this.journalsContainerTarget.style.marginBottom = '';
-        this.journalsContainerTarget.classList.add('with-initial-input-compensation');
-        this.journalsContainerTarget.classList.remove('with-input-compensation');
+        this.journalsContainerTarget.classList.add('work-packages-activities-tab-index-component--journals-container_with-initial-input-compensation');
+        this.journalsContainerTarget.classList.remove('work-packages-activities-tab-index-component--journals-container_with-input-compensation');
       }
     }
   }
@@ -389,7 +389,7 @@ export default class IndexController extends Controller {
         }
         if (this.journalsContainerTarget) {
           this.journalsContainerTarget.style.marginBottom = '';
-          this.journalsContainerTarget.classList.add('with-input-compensation');
+          this.journalsContainerTarget.classList.add('work-packages-activities-tab-index-component--journals-container_with-input-compensation');
         }
         setTimeout(() => {
           this.scrollJournalContainer(
