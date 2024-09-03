@@ -121,7 +121,7 @@ de:
       agenda: "Tagesordnung kopieren"
       agenda_text: "Tagesordnung der alten Besprechung kopieren"
     email:
-      send_emails: "E-Mails senden"
+      send_emails: "Email participants"
       send_invitation_emails: >
         Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Besprechung öffnen"

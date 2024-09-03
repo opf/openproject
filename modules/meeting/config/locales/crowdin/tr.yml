@@ -121,7 +121,7 @@ tr:
       agenda: "Gündemi kopyala"
       agenda_text: "Eski toplantının gündemini kopyalayın"
     email:
-      send_emails: "E-posta gönder"
+      send_emails: "Email participants"
       send_invitation_emails: >
         Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Açık toplantı"

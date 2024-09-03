@@ -30,7 +30,8 @@ class ActivitiesController < ApplicationController
   include Layout
 
   menu_item :activity
-  before_action :load_and_authorize_in_optional_project,
+  before_action :warn_if_no_projects_visible,
+                :load_and_authorize_in_optional_project,
                 :verify_activities_module_activated,
                 :determine_subprojects,
                 :determine_author,
@@ -142,5 +143,11 @@ class ActivitiesController < ApplicationController
   def set_session
     session[:activity] = { scope: @activity.scope,
                            with_subprojects: @with_subprojects }
+  end
+
+  def warn_if_no_projects_visible
+    unless current_user.allowed_in_any_project?(:view_project_activity)
+      render_404(message: I18n.t("homescreen.additional.no_visible_projects"))
+    end
   end
 end
