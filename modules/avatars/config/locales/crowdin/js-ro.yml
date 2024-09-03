@@ -1,8 +1,8 @@
 #English strings go here
 ro:
   js:
-    label_preview: 'Previzualizare'
-    button_update: 'Actualizare'
+    label_preview: 'Previzualizează'
+    button_update: 'Actualizează'
     avatars:
       label_choose_avatar: "Alegeți Avatar din fișier"
       uploading_avatar: "Se încarcă avatarul tău."

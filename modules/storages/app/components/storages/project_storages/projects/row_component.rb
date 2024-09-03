@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,31 +33,67 @@ module Storages::ProjectStorages::Projects
     include OpTurbo::Streamable
 
     def project_folder_type
-      project_folder_mode = table.project_storages[project.id].project_folder_mode
+      project_folder_mode = project_storage.project_folder_mode
       I18n.t("project_storages.project_folder_mode.#{project_folder_mode}")
     end
 
     def more_menu_items
-      @more_menu_items ||= [more_menu_detach_project].compact
+      return [] unless can_view_more_menu_items?
+
+      @more_menu_items ||= [more_menu_edit_project_storage, more_menu_detach_project].compact
     end
 
     private
 
-    def more_menu_detach_project
-      project = model.first
-      if User.current.admin && project.active?
+    def more_menu_edit_project_storage
+      if can_edit?
         {
-          scheme: :danger,
-          icon: :trash,
-          label: I18n.t("project_storages.remove_project.label"),
-          href: destroy_confirmation_dialog_admin_settings_storage_project_storage_path(
-            id: table.project_storages[project.id].id
+          scheme: :default,
+          icon: :pencil,
+          label: I18n.t("project_storages.edit_project_folder.label"),
+          href: edit_admin_settings_storage_project_storage_path(
+            storage_id: project_storage.storage.id,
+            id: project_storage.id
           ),
           data: {
             controller: "async-dialog"
           }
         }
       end
+    end
+
+    def more_menu_detach_project
+      {
+        scheme: :danger,
+        icon: :trash,
+        label: I18n.t("project_storages.remove_project.label"),
+        href: destroy_confirmation_dialog_admin_settings_storage_project_storage_path(
+          id: project_storage.id
+        ),
+        data: {
+          controller: "async-dialog"
+        }
+      }
+    end
+
+    def can_view_more_menu_items?
+      User.current.admin && project.active?
+    end
+
+    def can_edit?
+      !one_drive_storage_ampf_enabled?
+    end
+
+    def one_drive_storage_ampf_enabled?
+      project_storage.storage.provider_type_one_drive? && project_storage.storage.automatic_management_enabled?
+    end
+
+    def project_storage
+      table.project_storages[project.id]
+    end
+
+    def project
+      model.first
     end
   end
 end

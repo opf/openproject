@@ -9,7 +9,7 @@ cs:
     verify_account: "Ověřte svůj účet"
     error_captcha: "Váš účet nemohl být ověřen. Kontaktujte prosím administrátora."
     settings:
-      website_key: 'Klíč webové stránky'
+      website_key: 'Website key (May also be called "Site key")'
       response_limit: 'Limit odpovědi pro HCaptcha'
       response_limit_text: 'Maximální počet znaků, které chcete považovat HCaptcha za platný.'
       website_key_text: 'Zadejte webový klíč vytvořený v reCAPTCHA admin konzoli pro tuto doménu.'
@@ -20,5 +20,6 @@ cs:
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       type_hcaptcha: 'HCaptcha'
-      recaptcha_description_html: >
-        reCAPTCHA je bezplatná služba Google, která může být povolena pro vaši instanci OpenProject . Je-li povoleno, bude při přihlášení vykreslen captcha formulář pro všechny uživatele, kteří ještě neověřili captchu. <br/> Více informací o reCAPTCHA a jejich verzích naleznete v následujícím odkazu, a jak vytvořit webové stránky a tajné klíče: %{recaptcha_link} <br/> HCaptcha je bez Googlu alternativa, kterou můžete použít, pokud nechcete používat reCAPTCHA. Viz tento odkaz pro více informací: %{hcaptcha_link}
+      type_turnstile: 'Cloudflare Turnstile™'
+      captcha_description_html: >
+        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link} <br/> Cloudflare Turnstile™ is another alternative that is more convenient for users while still providing the same level of security. See this link for more information: %{turnstile_link}

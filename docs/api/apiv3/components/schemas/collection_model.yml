@@ -20,14 +20,4 @@ properties:
     description: Actual amount of elements in this response.
     minimum: 0
   _links:
-    type: object
-    required:
-      - self
-    properties:
-      self:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              This collection resource.
-              
-              **Resource**: Collection
+    $ref: './collection_links.yml'

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -123,8 +123,9 @@ lt:
       agenda: "Kopijuoti dienotvarkę"
       agenda_text: "Kopijuoti seno susitikimo darbotvarkę"
     email:
-      send_emails: "Siųsti laiškus"
-      send_invitation_emails: "Send out invitation emails for all participants."
+      send_emails: "Email participants"
+      send_invitation_emails: >
+        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Atverti susitikimą"
       invited:
         summary: "%{actor} atsiuntė jums pakvietimą į susitikimą %{title}"
@@ -149,6 +150,7 @@ lt:
     empty_text: "Tempkite elementus čia arba sukurtkite naują"
   notice_successful_notification: "Pranešimas sėkmingai išsiųstas"
   notice_timezone_missing: Laiko zona nenustatyta ir %{zone} zona yra rekomenduojama. Kad pasirinktumėte laiko zoną, paspauskite čia.
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "Sukurti pasitarimus"
   permission_edit_meetings: "Redaguoti pasitarimus"
   permission_delete_meetings: "Šalinti pasitarimus"
@@ -180,6 +182,7 @@ lt:
   label_meeting_delete: "Trinti susitikimą"
   label_meeting_created_by: "Sukūrė"
   label_meeting_last_updated: "Atnaujinta"
+  label_meeting_reload: "Reload"
   label_agenda_items: "Darbotvarkės klausimai"
   label_agenda_items_reordered: "perrikiuota"
   label_agenda_item_remove: "Išimti iš plano"

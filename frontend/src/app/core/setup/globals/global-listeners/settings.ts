@@ -31,9 +31,10 @@ export function listenToSettingChanges() {
     const self = jQuery(select);
     const id:string = self.attr('id') || '';
     const settingName = id.replace('lang-for-', '');
-    const newLang = self.val();
+    const newLang = self.val() as string;
     const textArea = jQuery(`#settings-${settingName}`);
-    const editor = textArea.siblings('ckeditor-augmented-textarea').data('editor');
+    /* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */
+    const editor = textArea.siblings('opce-ckeditor-augmented-textarea').data('editor');
 
     return {
       id, settingName, newLang, textArea, editor,

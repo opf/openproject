@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), t(:label_custom_style) %>
 
-<%= toolbar title: t(:label_custom_style) %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_custom_style) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             t(:label_custom_style)])
+  end
+%>
 
 <%= error_messages_for 'custom_style' %>
 
@@ -156,10 +162,10 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
 <% custom_export_expanded = @custom_style.id && (@custom_style.export_logo.present? || @custom_style.export_cover.present? || @custom_style.export_cover_text_color.present?) %>
-<collapsible-section-augment initially-expanded="<%= custom_export_expanded %>"
+<opce-collapsible-section-augment initially-expanded="<%= custom_export_expanded %>"
                              section-title="<%= I18n.t(:label_custom_pdf_export_settings) %>">
-</collapsible-section-augment>
-<div class="collapsible-section-augment--body" hidden>
+</opce-collapsible-section-augment>
+<div class="opce-collapsible-section-augment--body" hidden>
 
   <%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
     <section class="form--section">

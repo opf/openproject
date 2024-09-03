@@ -26,6 +26,7 @@ zh-TW:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "2FA 發送已被禁用。"
+    notice_not_writable: "2FA 設定是透過系統環境設定的，無法覆寫。"
     error_no_device: "未為該使用者找到已註冊的2FA 設備, 儘管此實例是必需的。"
     error_no_matching_strategy: "沒有匹配的2FA 策略可供此使用者使用。請聯繫您的系統管理員。"
     error_is_enforced_not_active: "配置錯誤: 已強制執行兩階段驗證, 但無規則可套用。"
@@ -116,10 +117,10 @@ zh-TW:
       2fa_from_webauthn: 請提供支援「 WebAuthn」裝置 <strong>%{device_name}</strong>. 如果是USB設備，請確定插入以及觸碰驗證後，再點選登入按鈕。
       webauthn:
         title: "WebAuthn"
-        description: 使用 Web 身份驗證註冊 FIDO2 設備(如 YubiKey) 或使用移動設備的安全隔區作為第二要素。
+        description: 註冊 FIDO2 設備(如 YubiKey)或行動裝置的安全區域。
         further_steps: 選擇名稱後，可以點擊“繼續”按鈕。瀏覽器將提示您出示 WebAuthn 設備。完成後，設備註冊即告完成。
       totp:
-        title: "使用您的APP驗證器"
+        title: "基於應用程式的身份驗證器"
         provisioning_uri: "分配的URI"
         secret_key: "密鑰"
         time_based: "基於時間"
@@ -132,13 +133,13 @@ zh-TW:
         text_cannot_scan: |
           如果無法掃描代碼，您可以使用下列詳細資訊手動輸入項目：
         description: |
-          註冊一個APP驗證器。 常見 Google 驗證器或 Authy。
+          使用由 Authy 或 Google Authenticator 等身份驗證器產生的一次性程式碼。
       sms:
-        title: "使用您的手機"
+        title: "行動裝置"
         redacted_identifier: "行動裝置 (%{redacted_number})"
         request_2fa_identifier: "%{redacted_identifier}, 我們經由 %{delivery_channel} 向您發送了驗證碼"
         description: |
-          註冊您的行動電話號碼，以便傳送 OpenProject 一次性密碼。
+          每次登入時，您都會透過手機簡訊接收 2FA 代碼。
     sns:
       delivery_failed: "SNS 傳送失敗："
     message_bird:

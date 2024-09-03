@@ -1,0 +1,23 @@
+<%= render(Primer::Alpha::Dialog.new(
+  title: I18n.t('job_status_dialog.title'),
+  visually_hide_title: true,
+  size: :large,
+  id: MODAL_ID,
+  data: {
+    "application-target": "dynamic",
+    controller: 'job-status-polling',
+    "job-status-polling-back-on-close-value": back_on_close
+  }
+)) do |dialog| %>
+  <% dialog.with_body do %>
+    <div class="op-loading-indicator" data-job-status-polling-target="indicator">
+      <div></div>
+      <div></div>
+    </div>
+    <%= turbo_frame_tag("job_status_modal",
+                        src: job_status_dialog_body_path(job_uuid: job_uuid),
+                        data: {
+                          "job-status-polling-target": "frame"
+                        }) %>
+  <% end %>
+<% end %>

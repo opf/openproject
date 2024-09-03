@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -156,44 +156,49 @@ RSpec.describe WorkflowsController do
       end
     end
 
-    context "with role and type params" do
+    context "with role and type params, and only used statuses" do
+      before do
+        get :edit, params: { role_id: role.id.to_s, type_id: type.id.to_s, used_statuses_only: "1" }
+      end
+
+      it "responds with the used statuses", :aggregate_failures do
+        expect(response)
+          .to have_http_status(:ok)
+        expect(response)
+          .to render_template :edit
+        expect(assigns[:role])
+          .to eq role
+        expect(assigns[:type])
+          .to eq type
+        expect(assigns[:roles])
+          .to eq [role]
+        expect(assigns[:types])
+          .to eq [type]
+        expect(assigns[:statuses])
+          .to eq type.statuses
+      end
+    end
+
+    context "with role and type params, and no statuses filter" do
       before do
         get :edit, params: { role_id: role.id.to_s, type_id: type.id.to_s }
       end
 
-      it "is successful" do
+      it "responds with all statuses", :aggregate_failures do
         expect(response)
           .to have_http_status(:ok)
-      end
-
-      it "renders the edit template" do
         expect(response)
           .to render_template :edit
-      end
-
-      it "assigns role" do
         expect(assigns[:role])
           .to eq role
-      end
-
-      it "assign type" do
         expect(assigns[:type])
           .to eq type
-      end
-
-      it "assigns roles" do
         expect(assigns[:roles])
           .to eq [role]
-      end
-
-      it "assigns types" do
         expect(assigns[:types])
           .to eq [type]
-      end
-
-      it "assigns statuses" do
         expect(assigns[:statuses])
-          .to eq type.statuses
+          .to eq Status.all
       end
     end
 

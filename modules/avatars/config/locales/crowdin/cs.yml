@@ -11,7 +11,6 @@ cs:
   message_avatar_uploaded: "Avatar byl úspěšně změněn."
   error_image_upload: "Chyba při ukládání obrázku."
   error_image_size: "Obrázek je příliš velký."
-  button_change_avatar: "Změnit avatar"
   are_you_sure_delete_avatar: "Jste si jisti, že chcete odstranit váš avatar?"
   avatar_deleted: "Avatar byl úspěšně odstraněn."
   unable_to_delete_avatar: "Avatar nelze odstranit."

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -116,7 +116,7 @@ RSpec.describe "Work display", :js do
     include_examples "work display", expected_text: "0h·Σ 3h"
   end
 
-  context "with just total work (parent work unset)" do
+  context "with just total work (parent work empty)" do
     let_work_packages(<<~TABLE)
       hierarchy   | work |
       parent      |      |

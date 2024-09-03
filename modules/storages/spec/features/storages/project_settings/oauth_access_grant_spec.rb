@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -80,8 +80,8 @@ RSpec.describe "OAuth Access Grant Nudge upon adding a storage to a project",
 
     within_test_selector("oauth-access-grant-nudge-modal") do
       expect(page).to be_axe_clean
-      expect(page).to have_text("One more step...")
-      click_on("Login")
+      expect(page).to have_text("Login to Nextcloud required")
+      click_on("Nextcloud log in")
       wait_for(page).to have_current_path("/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
                                           "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
     end
@@ -98,8 +98,8 @@ RSpec.describe "OAuth Access Grant Nudge upon adding a storage to a project",
 
     within_test_selector("oauth-access-grant-nudge-modal") do
       expect(page).to be_axe_clean
-      expect(page).to have_text("One more step...")
-      click_on("Login")
+      expect(page).to have_text("Login to Nextcloud required")
+      click_on("Nextcloud log in")
       wait_for(page).to have_current_path("/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
                                           "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
     end

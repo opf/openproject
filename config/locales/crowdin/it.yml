@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -209,10 +209,12 @@ it:
     reorder_confirmation: "Attenzione: l'ordine corrente dei valori disponibili sarà perso. Continuare?"
     instructions:
       is_required: "Contrassegna il campo personalizzato come obbligatorio. Ciò renderà obbligatorio compilare il campo durante la creazione di nuove risorse o l'aggiornamento di risorse esistenti."
+      is_required_for_project: "Spunta la casella per abilitare questo attributo e renderlo necessario in tutti i progetti. Non può essere disattivato per i singoli progetti."
       is_for_all: "Contrassegna il campo personalizzato come disponibile in tutti i progetti esistenti e nuovi."
       searchable: "Includi i valori dei campi quando si utilizza la funzionalità di ricerca globale."
+      searchable_for_project: "Spunta la casella per rendere questo attributo disponibile come filtro negli elenchi dei progetti."
       editable: "Consenti che il campo sia modificabile dagli utenti stessi."
-      visible: "Rendi il campo visibile a tutti gli utenti (non amministratori) nella panoramica del progetto e visualizzato nel widget dei dettagli del progetto nella Panoramica del progetto."
+      admin_only: "Spunta la casella per rendere questo attributo visibile solo agli amministratori. Gli utenti senza diritti di amministratore non saranno in grado di visualizzarlo o modificarlo."
       is_filter: >
         Consenti l'utilizzo del campo personalizzato in un filtro nelle visualizzazioni delle macro-attività. Tieni presente che solo con l'opzione "Per tutti i progetti" selezionata, il campo personalizzato verrà visualizzato nelle visualizzazioni globali.
     tab:
@@ -259,6 +261,9 @@ it:
       open_as_gantt: "Apri come vista Gantt"
       no_results_title_text: Al momento non esistono progetti
       no_results_content_text: Crea un nuovo progetto
+      search:
+        label: Project name filter
+        placeholder: Search by project name
     lists:
       active: "Progetti attivi"
       my: "I miei progetti"
@@ -292,7 +297,7 @@ it:
         actions:
           label_enable_single: "Attivo in questo progetto, clicca per disattivarlo"
           label_disable_single: "Non attivo in questo progetto, clicca per attivarlo"
-          deactivate_for_project: "Disattiva per questo progetto"
+          remove_from_project: "Remove from project"
           label_enable_all: "Abilita tutti"
           label_disable_all: "Disabilita tutti"
         is_required_blank_slate:
@@ -616,7 +621,7 @@ it:
         possible_values: "Valori possibili"
         regexp: "Espressione regolare"
         searchable: "Ricercabile"
-        visible: "Visibile"
+        admin_only: "Solo amministratore"
       custom_value:
         value: "Valore"
       doorkeeper/application:
@@ -686,6 +691,7 @@ it:
         versions: "Versioni"
         work_packages: "Macro-attività"
       project_custom_field:
+        is_required: "Richiesto per tutti i progetti"
         custom_field_section: Sezione
       query:
         column_names: "Colonne"
@@ -1030,6 +1036,12 @@ it:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when Work is 0h"
+              must_be_set_when_remaining_work_is_set: "required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "required when Work and Remaining work are set."
+              inclusion: "deve essere compresa tra 0 e 100."
             due_date:
               not_start_date: "non è sulla data di inizio, nonostante sia obbligatorio per i traguardi."
               cannot_be_null: "non può essere impostato a nulla poiché la data d'inizio e la durata sono note."
@@ -1058,15 +1070,17 @@ it:
               does_not_exist: "La categoria specificata non esiste."
             estimated_hours:
               not_a_number: "non è una durata valida."
-              cant_be_inferior_to_remaining_work: "Non può essere inferiore al Lavoro residuo."
-              must_be_set_when_remaining_work_is_set: "Obbligatorio quando si imposta Lavoro residuo."
-              only_values_greater_or_equal_zeroes_allowed: "Deve essere >=0."
-              format: "%{message}"
+              cant_be_inferior_to_remaining_work: "cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "required when Remaining work and % Complete are set."
             remaining_hours:
               not_a_number: "non è una durata valida."
-              cant_exceed_work: "Non può essere superiore a Lavoro."
-              must_be_set_when_work_is_set: "Obbligatorio quando è impostato Lavoro."
-              format: "%{message}"
+              cant_exceed_work: "cannot be higher than Work."
+              must_be_set_when_work_is_set: "required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "required when Work and % Complete are set."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                must be 0h when Work is set and % Complete is 100%.
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                must be empty when Work is empty and % Complete is 100%.
           readonly_status: "La macro-attività è in uno stato di sola lettura perciò i suoi attributi non possono essere modificati."
         type:
           attributes:
@@ -1590,6 +1604,7 @@ it:
   error_pdf_failed_to_export: "L'esportazione del PDF non può essere salvata: %{error}"
   error_token_authenticity: "Impossibile verificare il token di richiesta. Forse hai provato a inviare i dati da più browser o schede? Chiudi tutte le schede e riprova."
   error_work_package_not_found_in_project: "La macro-attività non è stata trovata o non appartiene a questo progetto"
+  error_work_package_id_not_found: "Impossibile trovare la macro-attività."
   error_must_be_project_member: "deve essere membro del progetto"
   error_migrations_are_pending: "L'installazione di OpenProject ha migrazioni di database in sospeso. Probabilmente non hai effettuato le migrazioni durante l'ultimo aggiornamento. Controlla la documentazione sull'aggiornamento per aggiornare correttamente l'installazione."
   error_migrations_visit_upgrade_guides: "Visita la nostra documentazione sull'aggiornamento"
@@ -1631,9 +1646,71 @@ it:
       project: "Progetto: %{name}"
       subproject: "Sottoprogetto: %{name}"
   export:
-    your_work_packages_export: "Esportazione macro-attività"
-    succeeded: "L’esportazione si è conclusa con successo."
-    failed: "L'esportazione non è riuscita: %{message}"
+    dialog:
+      title: "Export"
+      submit: "Export"
+      format:
+        label: "File format"
+        options:
+          csv:
+            label: "CSV"
+          pdf:
+            label: "PDF"
+          xls:
+            label: "XLS"
+      columns:
+        input_label_report: "Add columns to attribute table"
+        input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
+        input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
+      pdf:
+        export_type:
+          label: "PDF export type"
+          options:
+            table:
+              label: "Table"
+              caption: "Export the work packages list in a table with the desired columns."
+            report:
+              label: "Report"
+              caption: "Export the work package on a detailed report of all work packages in the list."
+            gantt:
+              label: "Gantt chart"
+              caption: "Export the work packages list in a Gantt diagram view."
+        include_images:
+          label: "Include images"
+          caption: "Exclude images to reduce the size of the PDF export."
+        gantt_zoom_levels:
+          label: "Zoom levels"
+          caption: "Select what is the zoom level for dates displayed in the chart."
+          options:
+            days: "Days"
+            weeks: "Weeks"
+            months: "Months"
+            quarters: "Quarters"
+        column_width:
+          label: "Table column width"
+          options:
+            narrow: "Narrow"
+            medium: "Medium"
+            wide: "Wide"
+            very_wide: "Very wide"
+        paper_size:
+          label: "Paper size"
+          caption: "Depending on the chart size more than one page might be exported."
+        long_text_fields:
+          input_caption: "By default all long text fields are selected."
+          input_label: "Add long text fields"
+          input_placeholder: "Search for long text fields"
+          drag_area_label: "Manage long text fields"
+      xls:
+        include_relations:
+          label: "Include relations"
+          caption: "This option will create a duplicate of each work package for every relation this has with another work package."
+        include_descriptions:
+          label: "Include descriptions"
+          caption: "This option will add a description column in raw format."
+    your_work_packages_export: "Work packages are being exported"
+    succeeded: "Export completed"
+    failed: "An error has occurred while trying to export the work packages: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1794,6 +1871,11 @@ it:
       responsible: "Responsabile"
       shared: "Condiviso"
       watched: "Osservatore"
+    facets:
+      unread: "Non letta"
+      unread_title: "Mostra non lette"
+      all: "Tutte"
+      all_title: "Mostra tutto"
     menu:
       by_project: "Non letto per progetto"
       by_reason: "Motivo"
@@ -2153,6 +2235,8 @@ it:
   label_next_week: "Prossima settimana"
   label_no_change_option: "(Nessuna modifica)"
   label_no_data: "Nessun dato da visualizzare"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Nessuna pagina genitore"
   label_nothing_display: "Niente da visualizzare"
   label_nobody: "nessuno"
@@ -3033,8 +3117,10 @@ it:
   setting_work_package_done_ratio: "Calcolo dei progressi"
   setting_work_package_done_ratio_field: "Basato sul lavoro"
   setting_work_package_done_ratio_status: "Basato sullo stato"
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
-    Nella modalità <b>basata sul lavoro</b>, la % di completamento viene calcolata in base alla quantità di lavoro svolto rispetto al lavoro totale. Nella modalità <b>basata sullo stato</b>, a ogni stato è associato un valore di % completamento. La modifica dello stato cambierà la % completamento.
+    In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Proprietà della macro-attività"
   setting_work_package_startdate_is_adddate: "Usa la data corrente come data di inizio per le nuove macro-attività"
   setting_work_packages_projects_export_limit: "Limite di esportazione di macro-attività/progetti"
@@ -3417,9 +3503,26 @@ it:
     progress:
       label_note: "Nota:"
       modal:
-        work_based_help_text: "La % completamento viene ricavata automaticamente dal lavoro e dal lavoro residuo."
+        work_based_help_text: "Each field is automatically calculated from the two others when possible."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "La % completamento è stabilita dallo stato della macro-attività."
         migration_warning_text: "Nella modalità di calcolo basata sul lavoro, la % completamento non può essere impostata manualmente ed è legata al lavoro. Il valore esistente è stato mantenuto ma non può essere modificato. Specifica prima il lavoro."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          cleared_because_work_is_0h: "Cleared because Work is 0h."
+          derived: "Derived from Work and Remaining work."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          derived: "Derived from Remaining work and % Complete."
+          same_as_remaining_work: "Set to same value as Remaining work."
+        remaining_hours:
+          cleared_because_work_is_empty: "Cleared because Work is empty."
+          cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
+          decreased_like_work: "Decreased by the same amount as Work."
+          derived: "Derived from Work and % Complete."
+          increased_like_work: "Increased by the same amount as Work."
+          same_as_work: "Set to same value as Work."
     permissions:
       comment: "Commentare"
       comment_description: "Può visualizzare e commentare questa macro-attività."

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -74,7 +74,7 @@ body[class*="router--"]
     background: var(--bgColor-neutral-muted) !important
 
     &.-checked
-      background-color: hsl(from var(--selection-bgColor) h calc(s - 30) l) !important
+      background-color: hsl(from var(--codeMirror-selection-bgColor) h calc(s - 30) l) !important
 
 // Left part of the split view
 // == flex container for (table|timeline)
@@ -125,7 +125,7 @@ body[class*="router--"]
 // TIMELINE half of the tabletimeline flexbox
 .work-packages-tabletimeline--timeline-side
   border-left: 3px solid var(--borderColor-default)
-  flex-basis: 50%
+  flex-basis: var(--gantt-split-width)
   // Show the horizontal scrollbar _always_ (same as table)
   overflow-x: scroll
   // Show the vertical scrollbar when necessary

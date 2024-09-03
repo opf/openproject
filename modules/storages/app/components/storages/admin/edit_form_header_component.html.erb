@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -26,27 +26,32 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title(test_selector: 'storage-new-page-header--title') do
-      render OpTurbo::FrameComponent.new(@storage, context: :edit_storage_header) do
-        label_storage_name_with_provider_label
+
+<%= primer_form_with(
+      model: @storage,
+      url: confirm_destroy_admin_settings_storage_path(@storage),
+      method: :get
+    ) do %>
+  <%=
+    render(Primer::OpenProject::PageHeader.new) do |header|
+      header.with_title(test_selector: 'storage-new-page-header--title') do
+        render OpTurbo::FrameComponent.new(@storage, context: :edit_storage_header) do
+          label_storage_name_with_provider_label
+        end
       end
-    end
 
-    header.with_breadcrumbs(breadcrumbs_items)
+      header.with_breadcrumbs(breadcrumbs_items)
 
-    header.with_action_button(scheme: :danger,
-                              mobile_icon: :trash,
-                              mobile_label: I18n.t("button_delete"),
-                              type: :submit,
-                              aria: { label: I18n.t("storages.label_delete_storage") },
-                              test_selector: "storage-delete-button") do |button|
-      button.with_leading_visual_icon(icon: :trash)
-      I18n.t("button_delete")
-    end
+      header.with_action_button(scheme: :danger,
+                                mobile_icon: :trash,
+                                mobile_label: I18n.t("button_delete"),
+                                type: :submit,
+                                aria: { label: I18n.t("storages.label_delete_storage") },
+                                test_selector: "storage-delete-button") do |button|
+        button.with_leading_visual_icon(icon: :trash)
+        I18n.t("button_delete")
+      end
 
-    if OpenProject::FeatureDecisions.enable_storage_for_multiple_projects_active?
       header.with_tab_nav(label: nil, test_selector: :storage_detail_header) do |tab_nav|
         tab_nav.with_tab(
           selected: tab_selected?(:edit),
@@ -62,5 +67,5 @@ See COPYRIGHT and LICENSE files for more details.
         end
       end
     end
-  end
-%>
+  %>
+<% end %>

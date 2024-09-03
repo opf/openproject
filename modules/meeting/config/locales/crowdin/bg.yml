@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -121,8 +121,9 @@ bg:
       agenda: "Копиране на дневния ред"
       agenda_text: "Копиране на дневния ред от старата среща"
     email:
-      send_emails: "Изпрати имейли"
-      send_invitation_emails: "Send out invitation emails for all participants."
+      send_emails: "Email participants"
+      send_invitation_emails: >
+        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Отворена среща"
       invited:
         summary: "%{actor} ви е изпратил покана за срещата %{title}"
@@ -147,6 +148,7 @@ bg:
     empty_text: "Завлечете елементите тук, или създайте нов елемент"
   notice_successful_notification: "Notification sent successfully"
   notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "Create meetings"
   permission_edit_meetings: "Edit meetings"
   permission_delete_meetings: "Delete meetings"
@@ -178,6 +180,7 @@ bg:
   label_meeting_delete: "Delete meeting"
   label_meeting_created_by: "Created by"
   label_meeting_last_updated: "Last updated"
+  label_meeting_reload: "Reload"
   label_agenda_items: "Agenda items"
   label_agenda_items_reordered: "пренаредени"
   label_agenda_item_remove: "Remove from agenda"

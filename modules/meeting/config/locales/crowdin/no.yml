@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -121,8 +121,9 @@
       agenda: "Kopier saksliste"
       agenda_text: "Kopier sakslisten fra det forrige møtet"
     email:
-      send_emails: "Send e-post"
-      send_invitation_emails: "Send ut invitasjons-e-post for alle deltakere."
+      send_emails: "Email participants"
+      send_invitation_emails: >
+        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Åpent møte"
       invited:
         summary: "%{actor} har sendt deg en invitasjon til møtet %{title}"
@@ -147,6 +148,7 @@
     empty_text: "Dra punkter hit eller opprett et nytt"
   notice_successful_notification: "Påminning sendt"
   notice_timezone_missing: Ingen tidssone angis og %{zone} antas. Vennligst klikk her for å velge egen tidssone.
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "Opprett møter"
   permission_edit_meetings: "Rediger møter"
   permission_delete_meetings: "Slett møter"
@@ -178,6 +180,7 @@
   label_meeting_delete: "Slett møte"
   label_meeting_created_by: "Opprettet av"
   label_meeting_last_updated: "Sist oppdatert"
+  label_meeting_reload: "Reload"
   label_agenda_items: "Dagsordenens poster"
   label_agenda_items_reordered: "omsortert"
   label_agenda_item_remove: "Fjern fra dagsorden"

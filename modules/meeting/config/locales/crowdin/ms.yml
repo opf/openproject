@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -120,8 +120,9 @@ ms:
       agenda: "Salin agenda"
       agenda_text: "Salin agenda mesyuarat lama"
     email:
-      send_emails: "Hantar e-mel"
-      send_invitation_emails: "Send out invitation emails for all participants."
+      send_emails: "Email participants"
+      send_invitation_emails: >
+        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Buka mesyuarat"
       invited:
         summary: "%{actor} telah menghantar anda jemputan ke mesyuarat %{title}"
@@ -146,6 +147,7 @@ ms:
     empty_text: "Tarik item ke sini atau cipta yang baharu"
   notice_successful_notification: "Pemberitahuan berjaya dihantar"
   notice_timezone_missing: Tiada zon waktu yang ditetapkan dan %{zone} adalah diandaikan. Untuk pilih zon waktu anda, sila klik sini.
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "Cipta mesyuarat"
   permission_edit_meetings: "Edit mesyuarat"
   permission_delete_meetings: "Padam mesyuarat"
@@ -177,6 +179,7 @@ ms:
   label_meeting_delete: "Padam mesyuarat"
   label_meeting_created_by: "Dicipta oleh"
   label_meeting_last_updated: "Kemas kini terakhir"
+  label_meeting_reload: "Reload"
   label_agenda_items: "Item-item agenda"
   label_agenda_items_reordered: "disusun semula"
   label_agenda_item_remove: "Keluarkan daripada agenda"

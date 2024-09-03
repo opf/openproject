@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -93,7 +93,7 @@ FactoryBot.define do
     sequence(:host) { |n| "https://host#{n}.example.com/" }
 
     trait :as_automatically_managed do
-      automatically_managed { true }
+      automatic_management_enabled { true }
       username { "OpenProject" }
       password { "Password123" }
     end
@@ -144,8 +144,10 @@ FactoryBot.define do
                                       "MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_REFRESH_TOKEN"),
              token_type: "bearer")
 
-      create(:remote_identity, oauth_client: storage.oauth_client, user: evaluator.oauth_client_token_user,
-                               origin_user_id: evaluator.origin_user_id)
+      create(:remote_identity,
+             oauth_client: storage.oauth_client,
+             user: evaluator.oauth_client_token_user,
+             origin_user_id: evaluator.origin_user_id)
     end
   end
 
@@ -170,6 +172,13 @@ FactoryBot.define do
 
     trait :as_automatically_managed do
       automatically_managed { true }
+    end
+  end
+
+  factory :one_drive_storage_configured, parent: :one_drive_storage do
+    after(:create) do |storage, _evaluator|
+      create(:oauth_client, integration: storage)
+      create(:oauth_application, integration: storage)
     end
   end
 
@@ -199,8 +208,9 @@ FactoryBot.define do
                                      "MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN"),
              refresh_token: ENV.fetch("ONE_DRIVE_TEST_OAUTH_CLIENT_REFRESH_TOKEN",
                                       "MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_REFRESH_TOKEN"),
-             token_type: "bearer",
-             origin_user_id: "33db2c84-275d-46af-afb0-c26eb786b194")
+             token_type: "bearer")
+      create(:remote_identity, oauth_client: storage.oauth_client, user: evaluator.oauth_client_token_user,
+                               origin_user_id: "33db2c84-275d-46af-afb0-c26eb786b194")
     end
   end
 end

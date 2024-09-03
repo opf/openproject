@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ class DigestMailerPreview < ActionMailer::Preview
   # Preview emails at http://localhost:3000/rails/mailers/digest_mailer
 
   def work_packages
-    notifications = Notification.where(resource_type: "WorkPackage")
+    notifications = Notification.where(resource_type: "WorkPackage").limit(10)
     DigestMailer.work_packages(notifications.first.recipient_id, [notifications.ids])
   end
 end

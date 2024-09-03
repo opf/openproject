@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -92,7 +92,7 @@ a.button
   &.-active
     @include button-style(var(--button-default-bgColor-active), var(--button-default-bgColor-active), var(--button-default-fgColor-rest))
     border-color: var(--button--active-border-color)
-    box-shadow: 0 0 3px var(--button--active-border-color) inset
+    box-shadow: 0 0 3px 1px var(--bgColor-neutral-muted) inset
 
 
   &.-transparent

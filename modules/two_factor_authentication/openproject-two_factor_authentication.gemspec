@@ -14,6 +14,6 @@ Gem::Specification.new do |s|
   s.add_dependency "rotp", "~> 6.1"
   s.add_dependency "webauthn", "~> 3.0"
 
-  s.add_dependency "aws-sdk-sns", "~> 1.80.0"
+  s.add_dependency "aws-sdk-sns", "~> 1.82.0"
   s.metadata["rubygems_mfa_required"] = "true"
 end

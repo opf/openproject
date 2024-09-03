@@ -1,0 +1,67 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<%= breadcrumb_toolbar(@user.name) do %>
+  <li class="toolbar-item">
+    <%= link_to user_path(@user), class: 'button' do %>
+      <%= op_icon('button--icon icon-user') %>
+      <span class="button--text"><%= t(:label_profile) %></span>
+    <% end %>
+  </li>
+  <% if current_user.allowed_globally?(:create_user) && current_user.id != @user.id %>
+    <li class="toolbar-item hidden-for-tablet">
+      <%= form_for(@user,
+                   url: { action: :resend_invitation },
+                   method: :post) do |_form| %>
+        <button class="button" title="<%= t(:tooltip_resend_invitation) %>">
+          <%= op_icon('button--icon icon-mail1') %>
+          <span class="button--text"><%= t(:label_send_invitation) %></span>
+        </button>
+      <% end %>
+    </li>
+  <% end %>
+  <% if current_user.admin? %>
+    <% unless current_user.id == @user.id %>
+      <li class="toolbar-item">
+        <%= form_for @user,
+                     :url => { :action => :change_status },
+                     :method => :post do %>
+            <%= change_user_status_buttons(@user) %>
+        <% end %>
+      </li>
+    <% end %>
+    <% if Setting.users_deletable_by_admins? %>
+      <li class="toolbar-item">
+        <%= link_to deletion_info_user_path(@user), class: 'button' do %>
+          <%= op_icon('button--icon icon-delete') %>
+          <span class="button--text"><%= t(:button_delete) %></span>
+        <% end %>
+      </li>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,19 +34,21 @@ RSpec.describe API::V3::Notifications::NotificationCollectionRepresenter do
   let(:notification_list) { build_stubbed_list(:notification, 3) }
   let(:notifications) do
     notification_list.tap do |items|
-      allow(items)
+      without_partial_double_verification do
+        allow(items)
         .to receive(:limit)
               .with(page_size)
               .and_return(items)
 
-      allow(items)
-        .to receive(:offset)
-              .with(page - 1)
-              .and_return(items)
+        allow(items)
+          .to receive(:offset)
+                .with(page - 1)
+                .and_return(items)
 
-      allow(items)
-        .to receive(:count)
-              .and_return(total)
+        allow(items)
+          .to receive(:count)
+                .and_return(total)
+      end
     end
   end
   let(:current_user) { build_stubbed(:user) }

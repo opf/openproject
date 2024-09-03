@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,19 +28,15 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package relations tab", :js, :selenium do
+RSpec.shared_examples "Work package relations tab", :js, :selenium do
   include_context "ng-select-autocomplete helpers"
 
   let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
-  let(:work_packages_page) { Pages::SplitWorkPackage.new(work_package) }
   let(:full_wp) { Pages::FullWorkPackage.new(work_package) }
   let(:relations) { Components::WorkPackages::Relations.new(work_package) }
-  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
-
-  let(:relations_tab) { find(".op-tab-row--link_selected", text: "RELATIONS") }
 
   let(:visit) { true }
 
@@ -198,7 +194,7 @@ RSpec.describe "Work package relations tab", :js, :selenium do
         tabs.expect_counter(relations_tab, 1)
 
         # Switch to full view
-        find(".work-packages--details-fullscreen-icon").click
+        work_packages_page.switch_to_fullscreen
 
         # Expect to have row
         relations.hover_action(relatable, :delete)
@@ -277,4 +273,21 @@ RSpec.describe "Work package relations tab", :js, :selenium do
       end
     end
   end
+end
+
+RSpec.context "within a split screen" do
+  let(:work_packages_page) { Pages::SplitWorkPackage.new(work_package) }
+  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
+
+  let(:relations_tab) { find(".op-tab-row--link_selected", text: "RELATIONS") }
+
+  it_behaves_like "Work package relations tab"
+end
+
+RSpec.context "within a primerized split screen" do
+  let(:work_packages_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
+  let(:tabs) { Components::WorkPackages::PrimerizedTabs.new }
+  let(:relations_tab) { "relations" }
+
+  it_behaves_like "Work package relations tab"
 end

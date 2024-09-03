@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -54,7 +54,7 @@ ro:
   caption_labor: "Muncă"
   caption_labor_costs: "Costurile reale ale forței de muncă"
   caption_material_costs: "Costuri unitare reale"
-  budgets_title: "Bugetele"
+  budgets_title: "Bugete"
   events:
     budget: "Buget editat"
   help_click_to_edit: "Câmpul %s este gol. Click aici pentru a-l edita."
@@ -62,7 +62,7 @@ ro:
   help_override_rate: "Introduceți o valoare aici pentru a înlocui rata implicită."
   label_budget: "Buget"
   label_budget_new: "Buget nou"
-  label_budget_plural: "Bugetele"
+  label_budget_plural: "Bugete"
   label_budget_id: "Buget #%{id}"
   label_deliverable: "Buget"
   label_example_placeholder: 'de exemplu, %{decimal}'
@@ -72,7 +72,7 @@ ro:
   notice_no_budgets_available: "Nu există bugete disponibile."
   permission_edit_budgets: "Editare bugete"
   permission_view_budgets: "Vezi bugete"
-  project_module_budgets: "Bugetele"
+  project_module_budgets: "Bugete"
   text_budget_reassign_to: "Reatribuiți-le acestui buget:"
   text_budget_delete: "Ștergeți bugetul din toate pachetele de lucru"
   text_budget_destroy_assigned_wp: "Există %{count} pachete de lucru alocate acestui buget. Ce doriți să faceți?"

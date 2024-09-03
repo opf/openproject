@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,23 +31,34 @@
 class Projects::IndexPageHeaderComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
   include Primer::FetchOrFallbackHelper
+  include OpTurbo::Streamable
 
   attr_accessor :current_user,
                 :query,
                 :state,
                 :params
 
-  STATE_OPTIONS = %i[show edit rename].freeze
+  STATE_DEFAULT = :show
+  STATE_EDIT = :edit
 
   delegate :projects_query_params, to: :helpers
 
-  def initialize(current_user:, query:, params:, state: :show)
+  def initialize(current_user:, query:, params:, state: STATE_DEFAULT)
     super
 
     self.current_user = current_user
     self.query = query
-    self.state = fetch_or_fallback(STATE_OPTIONS, state)
+    self.state = case state
+                 when :edit, :rename
+                   STATE_EDIT
+                 else
+                   STATE_DEFAULT
+                 end
     self.params = params
+  end
+
+  def self.wrapper_key
+    "projects-index-page-header"
   end
 
   def gantt_portfolio_query_link
@@ -59,9 +70,8 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     @gantt_portfolio_project_ids ||= @query
                                      .results
                                      .where(active: true)
-                                     .select(:id)
-                                     .uniq
                                      .pluck(:id)
+                                     .uniq
   end
 
   def page_title
@@ -132,7 +142,8 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
       mobile_icon: nil, # Do not show on mobile as it is already part of the menu
       mobile_label: nil,
       href:,
-      data: { method: }
+      data: { "turbo-stream": true, method: },
+      target: ""
     ) do
       render(
         Primer::Beta::Octicon.new(
@@ -150,7 +161,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
       label:,
       href:,
       content_arguments: {
-        data: { method: }
+        data: { "turbo-stream": true, method: }
       }
     ) do |item|
       item.with_leading_visual_icon(icon: :"op-save")

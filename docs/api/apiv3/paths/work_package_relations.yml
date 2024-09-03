@@ -1,88 +1,85 @@
 # /api/v3/work_packages/{id}/relations
 ---
-get:
-  parameters:
-  - description: Work package id
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
-  responses:
-    '302':
-      content:
-        text/plain:
-          schema:
-            type: string
-          examples:
-            response:
-              value: 'You are being redirected to /api/v3/relations?involved={work_package_id}'
-      description: Found
-      headers:
-        Location:
-          schema:
-            type: string
-  tags:
-  - Work Packages
-  description: Lists all relations this work package is involved in.
-  operationId: List_relations
-  summary: List relations
 post:
+  summary: Create relation
+  operationId: create_relation
+  tags:
+    - Relations
+  description: |-
+    Create a work package relation on the given work package. A successful creation will result in a relation between
+    two work packages, thus appearing on both involved work package resources.
   parameters:
-  - description: Work package id
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - name: id
+      description: Work package id
+      example: '1'
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/relation_write_model.yml'
+        examples:
+          request:
+            $ref: '../components/examples/relation_create_request.yml'
   responses:
     '201':
       description: Created
-      headers: {}
-    '400':
-      $ref: "../components/responses/invalid_request_body.yml"
-    '403':
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
+            $ref: '../components/schemas/relation_read_model.yml'
+          examples:
+            'Simple response':
+              $ref: '../components/examples/relation_response.yml'
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** manage work package relations
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
           examples:
             response:
               value:
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
                 message: You are not allowed to create a relation.
-      description: |-
-        Returned if the client does not have sufficient permissions.
-
-        **Required permission:** manage work package relations
-      headers: {}
     '409':
+      description: |-
+        Returned if there already exists a relation between the given work packages of **any** type
+        or if the relation is not allowed.
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
+            $ref: '../components/schemas/error_response.yml'
           examples:
             response:
               value:
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:UpdateConflict
                 message: Couldn't update the resource because of conflicting modifications.
-      description: |-
-        Returned if there already exists a relation between the given work packages of **any** type
-        or if the relation is not allowed.
-      headers: {}
     '406':
-      $ref: "../components/responses/missing_content_type.yml"
+      $ref: '../components/responses/missing_content_type.yml'
     '415':
-      $ref: "../components/responses/unsupported_media_type.yml"
+      $ref: '../components/responses/unsupported_media_type.yml'
     '422':
+      description: |-
+        Returned if:
+
+        - the client tries to write a read-only property (`PropertyIsReadOnly`)
+        - a constraint for a property was violated (`PropertyConstraintViolation`)
+        - the client provides a link to an invalid resource (`ResourceTypeMismatch`)
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
+            $ref: '../components/schemas/error_response.yml'
           examples:
             response:
               value:
@@ -92,20 +89,3 @@ post:
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
                 message: Lag must be a number greater than or equal to 0
-      description: |-
-        Returned if:
-
-        * the client tries to write a read-only property (`PropertyIsReadOnly`)
-
-        * a constraint for a property was violated (`PropertyConstraintViolation`)
-
-        * the client provides a link to an invalid resource (`ResourceTypeMismatch`)
-      headers: {}
-  tags:
-  - Work Packages
-  description: |-
-    When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
-    The required fields of a Relation can be found in its schema, which is embedded in the respective form.
-    Note that it is only allowed to provide properties or links supporting the write operation.
-  operationId: Create_Relation
-  summary: Create Relation

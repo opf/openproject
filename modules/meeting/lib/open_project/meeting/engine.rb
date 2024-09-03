@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ module OpenProject::Meeting
              bundled: true do
       project_module :meetings do
         permission :view_meetings,
-                   { meetings: %i[index show download_ics participants_dialog history],
+                   { meetings: %i[index show check_for_updates download_ics participants_dialog history],
                      meeting_agendas: %i[history show diff],
                      meeting_minutes: %i[history show diff],
                      "meetings/menus": %i[show],
@@ -123,6 +123,18 @@ module OpenProject::Meeting
            :meetings_query_select, { controller: "/meetings", action: "index" },
            parent: :meetings,
            partial: "meetings/menus/menu"
+
+      menu :work_package_split_view,
+           :meetings,
+           { tab: :meetings },
+           skip_permissions_check: true,
+           if: ->(_project) {
+             User.current.allowed_in_any_project?(:view_meetings)
+           },
+           badge: ->(work_package:, **) {
+             work_package.meetings.where(meetings: { start_time: Time.zone.today.beginning_of_day.. }).count
+           },
+           caption: :label_meeting_plural
 
       should_render_global_menu_item = Proc.new do
         (User.current.logged? || !Setting.login_required?) &&

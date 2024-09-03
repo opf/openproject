@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,55 +28,68 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  primer_form_with(
-    model: @project_storage,
-    url: admin_settings_storage_project_storage_path(id: @project_storage),
-    data: {
-      turbo: true,
-      controller: 'disable-when-checked',
-      'disable-when-checked-reversed-value': true
-    },
-    method: :delete
-  ) do |form|
-    render(Primer::Alpha::Dialog.new(
-      id: id,
-      title: nil,
-      test_selector: id,
-      size: :large
-    )) do |dialog|
-      dialog.with_body do
-        flex_layout do |layout|
-          layout.with_row(mb: 3) do
-            render(Primer::Beta::Heading.new(tag: :h1, text_align: :center)) do
-              render(Primer::Beta::Octicon.new(icon: :alert, color: :danger, size: :medium))
+  component_wrapper do
+    primer_form_with(
+      model: @project_storage,
+      url: admin_settings_storage_project_storage_path(id: @project_storage),
+      data: {
+        turbo: true,
+        controller: 'disable-when-checked',
+        'disable-when-checked-reversed-value': true
+      },
+      method: :delete
+    ) do |form|
+      render(Primer::Alpha::Dialog.new(
+        id: id,
+        title: nil,
+        test_selector: id,
+        size: :large
+      )) do |dialog|
+        dialog.with_body do
+          flex_layout do |layout|
+            layout.with_row(mb: 3) do
+              render(Primer::Beta::Heading.new(tag: :h1, text_align: :center)) do
+                render(Primer::Beta::Octicon.new(icon: :alert, color: :danger, size: :medium))
+              end
             end
-          end
-          layout.with_row(mb: 1) do
-            render(Primer::Beta::Heading.new(tag: :h2, color: :default, text_align: :center)) do
-              heading
+
+            layout.with_row(mb: 1) do
+              render(Primer::Beta::Heading.new(tag: :h2, color: :default, text_align: :center)) do
+                heading
+              end
             end
-          end
-          layout.with_row(mb: 2) do
-            render(Primer::Beta::Text.new(tag: :p, color: :subtle, text_align: :center)) do
-              text
+
+            layout.with_row(mb: 2) do
+              render(Primer::Beta::Text.new(tag: :p, color: :subtle, text_align: :center)) do
+                text
+              end
             end
-          end
-          layout.with_row do
-            render(Primer::Alpha::CheckBox.new(
-              name: "confirm_delete",
-              label: confirmation_text,
-              data: { 'disable-when-checked-target': 'cause' }
-            ))
+
+            layout.with_row do
+              render(Primer::Alpha::CheckBox.new(
+                name: "confirm_delete",
+                label: confirmation_text,
+                data: { 'disable-when-checked-target': 'cause' }
+              ))
+            end
           end
         end
-      end
-      dialog.with_footer do
-        component_collection do |footer|
-          footer.with_component(Primer::ButtonComponent.new(data: { 'close-dialog-id': id })) do
-            I18n.t("button_close")
-          end
-          footer.with_component(Primer::ButtonComponent.new(scheme: :danger, type: :submit, test_selector: "remove-project-storage-button", disabled: true, data: { 'disable-when-checked-target': 'effect' })) do
-            I18n.t("button_remove")
+
+        dialog.with_footer do
+          component_collection do |footer|
+            footer.with_component(Primer::ButtonComponent.new(data: { "close-dialog-id": id })) do
+              I18n.t("button_close")
+            end
+
+            footer.with_component(
+              Primer::ButtonComponent.new(scheme: :danger, type: :submit,
+                                          test_selector: "remove-project-storage-button",
+                                          disabled: true,
+                                          data: {
+                                            "disable-when-checked-target": "effect",
+                                            "close-dialog-id": id
+                                          })
+            ) { I18n.t("button_remove") }
           end
         end
       end

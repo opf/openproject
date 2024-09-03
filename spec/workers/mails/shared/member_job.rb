@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -67,23 +67,25 @@ RSpec.shared_examples "member job" do
     build_stubbed(:group).tap do |g|
       scope = group_user_members
 
-      allow(Member)
-        .to receive(:of_project)
-              .with(project)
-              .and_return(scope)
+      without_partial_double_verification do
+        allow(Member)
+          .to receive(:of_project)
+                .with(project)
+                .and_return(scope)
 
-      allow(scope)
-        .to receive(:where)
-              .with(principal: group_users)
-              .and_return(scope)
+        allow(scope)
+          .to receive(:where)
+                .with(principal: group_users)
+                .and_return(scope)
 
-      allow(scope)
-        .to receive(:includes)
-              .and_return(scope)
+        allow(scope)
+          .to receive(:includes)
+                .and_return(scope)
 
-      allow(g)
-        .to receive(:users)
-              .and_return(group_users)
+        allow(g)
+          .to receive(:users)
+                .and_return(group_users)
+      end
     end
   end
   let(:group_user_members) { [] }

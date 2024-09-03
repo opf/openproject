@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,6 +49,7 @@ class MeetingsController < ApplicationController
   include SortHelper
 
   include OpTurbo::ComponentStream
+  include OpTurbo::FlashStreamHelper
   include ApplicationComponentStreams
   include Meetings::AgendaComponentStreams
   include MetaTagsHelper
@@ -71,6 +72,14 @@ class MeetingsController < ApplicationController
       render(Meetings::ShowComponent.new(meeting: @meeting, project: @project))
     elsif @meeting.agenda.present? && @meeting.agenda.locked?
       params[:tab] ||= "minutes"
+    end
+  end
+
+  def check_for_updates
+    if params[:reference] == @meeting.changed_hash
+      head :no_content
+    else
+      respond_with_flash(Meetings::UpdateFlashComponent.new(meeting: @meeting))
     end
   end
 

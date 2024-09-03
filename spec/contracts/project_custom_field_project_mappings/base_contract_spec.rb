@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,7 +49,7 @@ RSpec.describe ProjectCustomFieldProjectMappings::BaseContract do
   end
 
   context "with non-visible custom field and admin user" do
-    let(:project_custom_field) { build_stubbed(:project_custom_field, visible: false) }
+    let(:project_custom_field) { build_stubbed(:project_custom_field, admin_only: true) }
 
     before do
       allow(ProjectCustomField).to receive(:all).and_return([project_custom_field])
@@ -60,7 +60,7 @@ RSpec.describe ProjectCustomFieldProjectMappings::BaseContract do
 
   context "with non-visible custom field and non-admin user" do
     let(:user) { build_stubbed(:user) }
-    let(:project_custom_field) { build_stubbed(:project_custom_field, visible: false) }
+    let(:project_custom_field) { build_stubbed(:project_custom_field, admin_only: true) }
 
     before do
       allow(ProjectCustomField).to receive(:visible).and_return([project_custom_field])

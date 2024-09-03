@@ -1,14 +1,12 @@
 # .git-blame-ignore-revs
-# lint with rubocop --autocorrect (safe cops only)
-48a4f1b6adb1e847a90a61f2ab277f28bcd77608
-# Update copyright information for 2023
-21a696ef9b170e14ad2daf53364a4c2113822c2f
-# Update copyright information for 2024
-c795874f7f281297bbd3bad2fdb58b24cb4ce624
 # rubocop autocorrections
+48a4f1b6adb1e847a90a61f2ab277f28bcd77608
 f3c99ee5dded81ad55f2b6f3706216d5fa765677
 5c72ea0046a6b5230bf456f55a296ed6fd579535
 9e4934cd0a468f46d8f0fc0f11ebc2d4216f789c
 6678cab48d443b5782fa93b171d62093819ee4fc
 fa5d03eae00bc8931f99598a74ffd76e0cbca3da
 b10e6d718cc49e3574837d97fab268e3ecb3fcbd
+# accidental merge
+7787e457a37d8d1ef5b6d0c2e326bdc42338ac7b
+3b2121f7333f0ce7f3515b29c760c0580c31a245

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,6 @@
 //++
 
 import { Injectable } from "@angular/core";
-import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 
 @Injectable()
 export class CostSubformAugmentService {
@@ -60,11 +59,6 @@ export class CostSubformAugmentService {
         container.append(row);
         rowIndex += 1;
 
-        window.OpenProject.getPluginContext()
-          .then((pluginContext:OpenProjectPluginContext) => {
-            pluginContext.bootstrap(row[0]);
-          });
-
         setTimeout(() => container.find('.subform-row:last-child input:first').focus(), 10)
 
         return false;
@@ -72,5 +66,3 @@ export class CostSubformAugmentService {
     });
   }
 }
-
-

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,8 @@ module Storages
     module StorageInteraction
       module Nextcloud
         class CopyTemplateFolderCommand
+          include TaggedLogging
+
           using ServiceResultRefinements
 
           def self.call(auth_strategy:, storage:, source_path:, destination_path:)
@@ -43,24 +45,25 @@ module Storages
           end
 
           def call(auth_strategy:, source_path:, destination_path:)
-            valid_input_result = validate_inputs(source_path, destination_path).on_failure { |failure| return failure }
+            with_tagged_logger do
+              valid_input_result = validate_inputs(source_path, destination_path).on_failure { return _1 }
 
-            remote_urls = build_origin_urls(**valid_input_result.result)
+              remote_urls = build_origin_urls(**valid_input_result.result)
 
-            ensure_remote_folder_does_not_exist(auth_strategy, remote_urls[:destination_url]).on_failure do |failure|
-              return failure
+              ensure_remote_folder_does_not_exist(auth_strategy, remote_urls[:destination_url]).on_failure { return _1 }
+
+              copy_folder(auth_strategy, **remote_urls).on_failure { return _1 }
+
+              get_folder_id(valid_input_result.result[:destination_path])
             end
-
-            copy_folder(auth_strategy, **remote_urls).on_failure { |failure| return failure }
-
-            get_folder_id(valid_input_result.result[:destination_path])
           end
 
           private
 
           def validate_inputs(source_path, destination_path)
+            info "Validating #{source_path} and #{destination_path}"
             if source_path.blank? || destination_path.blank?
-              return Util.error(:error, "Source and destination paths must be present.")
+              return Util.error(:missing_paths, "Source and destination paths must be present.")
             end
 
             ServiceResult.success(result: { source_path:, destination_path: })
@@ -74,27 +77,29 @@ module Storages
           end
 
           def ensure_remote_folder_does_not_exist(auth_strategy, destination_url)
+            info "Checking if #{destination_url} does not already exists."
             response = Authentication[auth_strategy].call(storage: @storage) { |http| http.head(destination_url) }
 
             case response
             in { status: 200..299 }
               ServiceResult.failure(result: :conflict,
                                     errors: Util.storage_error(
-                                      response:, code: :conflict, source: self.class,
+                                      response:, code: :conflict, source:,
                                       log_message: "The copy would overwrite an already existing folder"
                                     ))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
-                                    errors: Util.storage_error(response:, code: :unauthorized, source: self.class))
+                                    errors: Util.storage_error(response:, code: :unauthorized, source:))
             in { status: 404 }
               ServiceResult.success
             else
               ServiceResult.failure(result: :error,
-                                    errors: Util.storage_error(response:, code: :error, source: self.class))
+                                    errors: Util.storage_error(response:, code: :error, source:))
             end
           end
 
           def copy_folder(auth_strategy, source_url:, destination_url:)
+            info "Copying #{source_url} to #{destination_url}"
             response = Authentication[auth_strategy].call(storage: @storage) do |http|
               http.request("COPY", source_url, headers: { "Destination" => destination_url, "Depth" => "infinity" })
             end
@@ -102,9 +107,8 @@ module Storages
             handle_response(response)
           end
 
+          # rubocop:disable Metrics/AbcSize
           def handle_response(response)
-            source = self.class
-
             case response
             in { status: 200..299 }
               ServiceResult.success(message: "Folder was successfully copied")
@@ -129,6 +133,7 @@ module Storages
                                     errors: Util.storage_error(response:, code: :error, source:))
             end
           end
+          # rubocop:enable Metrics/AbcSize
 
           def get_folder_id(destination_path)
             call = Registry
@@ -137,6 +142,8 @@ module Storages
 
             call.map { |result| @data.with(id: result[destination_path]["fileid"]) }
           end
+
+          def source = self.class
         end
       end
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,7 +50,7 @@ RSpec.describe "Attribute help texts", :js, :with_cuprite do
       end
 
       it "can upload an image" do
-        find(".attribute-help-texts--create-button").click
+        page.find_test_selector("attribute-help-texts--create-button").click
         select "Status", from: "attribute_help_text_attribute_name"
 
         editor.set_markdown("My attribute help text")
@@ -72,7 +72,7 @@ RSpec.describe "Attribute help texts", :js, :with_cuprite do
 
         # Create help text
         # -> new
-        find(".attribute-help-texts--create-button").click
+        page.find_test_selector("attribute-help-texts--create-button").click
 
         # Set attributes
         # -> create
@@ -138,7 +138,7 @@ RSpec.describe "Attribute help texts", :js, :with_cuprite do
         visit attribute_help_texts_path
 
         # Create new, status is now blocked
-        find(".attribute-help-texts--create-button").click
+        page.find_test_selector("attribute-help-texts--create-button").click
         expect(page).to have_css("#attribute_help_text_attribute_name option", text: "Assignee")
         expect(page).to have_no_css("#attribute_help_text_attribute_name option", text: "Status")
         visit attribute_help_texts_path

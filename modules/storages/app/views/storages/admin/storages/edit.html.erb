@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,20 +27,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t("project_module_storages"), t('label_edit_x', x: @storage.name) %>
+<% html_title t(:label_administration), t(:project_module_storages), t(:label_edit_x, x: @storage.name) %>
 
-<%= primer_form_with(
-      model: @storage,
-      url: confirm_destroy_admin_settings_storage_path(@storage),
-      method: :get
-    ) do %>
-  <%=
-    render(Storages::Admin::EditFormHeaderComponent.new(
-      storage: @storage,
-      selected: :edit
-    ))
-  %>
-<% end %>
+<%= render(Storages::Admin::EditFormHeaderComponent.new(
+    storage: @storage,
+    selected: :edit
+  ))
+%>
 
 <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |component| %>
   <% component.with_main do %>

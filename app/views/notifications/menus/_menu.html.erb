@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "notifications_sidemenu",
-                    src: notifications_menu_path(**params.permit(:filter, :name)),
+                    src: notifications_menu_path(**params.slice(:filter, :name).permit!),
                     target: '_top',
                     data: { turbo: false },
                     loading: :lazy %>

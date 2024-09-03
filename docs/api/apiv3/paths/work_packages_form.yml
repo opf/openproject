@@ -1,12 +1,36 @@
 # /api/v3/work_packages/form
 ---
 post:
+  summary: Form for creating a Work Package
+  operationId: form_create_work_package
+  tags:
+    - Work Packages
+  description: |-
+    When calling this endpoint, the client provides a single object containing the properties and links to be
+    created, in the body. The input is validated and a schema response is returned. If the validation errors of the
+    response is empty, the same payload can be used to create a work package.
+
+    Only the properties of the work package write model are allowed to set on a work package on creation.
+
+    When setting start date, finish date, and duration together, their correctness will be checked and a validation
+    error will be returned if one value does not match with the two others. You can make the server compute a value:
+    set only two values in the request and the third one will be computed and returned in the response. For instance,
+    when sending `{ "startDate": "2022-08-23", duration: "P2D" }`, the response will
+    include `{ "dueDate": "2022-08-24" }`.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/work_package_write_model.yml'
+        examples:
+          'Valid creation':
+            $ref: '../components/examples/work_package_create_valid.yml'
   responses:
     '200':
       description: OK
-      headers: {}
-  tags:
-  - Work Packages
-  description: ''
-  operationId: Work_Package_Create_Form
-  summary: Work Package Create Form
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/work_package_form_model.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'

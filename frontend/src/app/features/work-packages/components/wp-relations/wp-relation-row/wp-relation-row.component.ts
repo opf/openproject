@@ -197,6 +197,8 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
           .cache
           .updateWorkPackage(this.relatedWorkPackage);
 
+        this.wpRelations.updateCounter(this.workPackage);
+
         this.notificationService.showSave(this.relatedWorkPackage);
       })
       .catch((err:any) => this.notificationService.handleRawError(err,

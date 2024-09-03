@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,7 +51,11 @@ RSpec.describe "bim/ifc_models/ifc_models/index" do
   before do
     assign(:project, project)
     ifc_models = [ifc_model]
-    allow(ifc_models).to receive(:defaults).and_return(ifc_models)
+
+    without_partial_double_verification do
+      allow(ifc_models).to receive(:defaults).and_return(ifc_models)
+    end
+
     assign(:ifc_models, ifc_models)
 
     controller.request.path_parameters[:project_id] = project.id

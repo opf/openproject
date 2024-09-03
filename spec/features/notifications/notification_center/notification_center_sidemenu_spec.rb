@@ -139,7 +139,7 @@ RSpec.describe "Notification center sidemenu",
     # Empty filter sets have a separate message
     side_menu.click_item "Watcher"
     side_menu.finished_loading
-    expect(page).to have_text "Looks like you are all caught up for Watcher filter"
+    expect(page).to have_text "Looks like you are all caught up for this filter"
 
     # Marking all as read
     side_menu.click_item "Inbox"

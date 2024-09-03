@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,6 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_title { t(:label_deploy_target_new) }
     header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
                              { href: deploy_targets_path, text: t(:label_github_integration) },
-                             { href: deploy_targets_path, text: t(:label_deploy_target_plural) },
                              t(:label_deploy_target_new)])
   end
 %>

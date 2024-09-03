@@ -3,3 +3,19 @@ zh-TW:
   plugin_openproject_job_status:
     name: "OpenProject 工作狀態"
     description: "背景工作列表及狀態"
+  job_status_dialog:
+    download_starts: '將自動開始下載'
+    link_to_download: '或 %{link} 下載。'
+    click_here: '點選此處'
+    title: '背景工作狀態'
+    redirect: '正在重新導向。'
+    redirect_link: '請點擊此處繼續。'
+    redirect_errors: '由於這些錯誤，您將不會被自動重新導向。'
+    errors: '出了點問題'
+    generic_messages:
+      not_found: '無法找到此工作。'
+      in_queue: '該工作已加入排程，並將很快處理。'
+      in_process: '該工作正在處理中。'
+      error: '該工作未能完成。'
+      cancelled: '此工作由於發生錯誤而被取消。'
+      success: '此工作成功完成。'

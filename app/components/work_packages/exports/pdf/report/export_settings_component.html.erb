@@ -1,0 +1,39 @@
+<%= flex_layout do |container| %>
+  <% container.with_row do |_columns| %>
+    <%= render WorkPackages::Exports::ColumnSelectionComponent.new(
+      query,
+      "columns-select-export-pdf-report",
+      I18n.t("export.dialog.columns.input_caption_report"),
+      I18n.t("export.dialog.columns.input_label_report")
+    ) %>
+  <% end %>
+  <% container.with_row do |_columns| %>
+    <%= render OpenProject::Common::DividerComponent.new(mt: 2) %>
+    <%= helpers.angular_component_tag "opce-draggable-autocompleter",
+                                      inputs: {
+                                        id: "ltf-select-export-pdf-report",
+                                        name: 'long_text_fields',
+                                        dragAreaName: "ltf-select-export-pdf-report_dragarea",
+                                        formControlId: "ltf-select-export-pdf-report_autocompleter",
+                                        appendToComponent: true,
+                                        options: available_long_text_fields,
+                                        selected: selected_long_text_fields,
+                                        protected: protected_long_text_fields,
+                                        inputLabel: I18n.t(:"export.dialog.pdf.long_text_fields.input_label"),
+                                        inputCaption: I18n.t(:"export.dialog.pdf.long_text_fields.input_caption"),
+                                        inputPlaceholder: I18n.t(:"export.dialog.pdf.long_text_fields.input_placeholder"),
+                                        dragAreaLabel: I18n.t(:"export.dialog.pdf.long_text_fields.drag_area_label"),
+                                      }
+    %>
+  <% end %>
+  <%= container.with_row do |_pdf_report_images| %>
+    <%= render OpenProject::Common::DividerComponent.new(mt: 2) %>
+    <%= render(Primer::Alpha::CheckBox.new(name: 'show_images',
+                                           checked: true,
+                                           value: "true",
+                                           unchecked_value: "false",
+                                           label: I18n.t("export.dialog.pdf.include_images.label"),
+                                           caption: I18n.t("export.dialog.pdf.include_images.caption"),
+                                           visually_hide_label: false)) %>
+  <% end %>
+<% end %>

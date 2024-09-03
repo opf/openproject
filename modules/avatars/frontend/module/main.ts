@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,8 @@
 
 import { Injector, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HookService } from 'core-app/features/plugins/hook-service';
 import { AvatarUploadFormComponent } from './avatar-upload-form/avatar-upload-form.component';
+import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-elements.helper';
 
 @NgModule({
   imports: [
@@ -39,9 +39,6 @@ import { AvatarUploadFormComponent } from './avatar-upload-form/avatar-upload-fo
 })
 export class PluginModule {
   constructor(injector:Injector) {
-    const hookService = injector.get(HookService);
-    hookService.register('openProjectAngularBootstrap', () => [
-      { selector: 'avatar-upload-form', cls: AvatarUploadFormComponent },
-    ]);
+    registerCustomElement('opce-avatar-upload-form', AvatarUploadFormComponent, { injector });
   }
 }

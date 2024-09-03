@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,33 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
   def up
     get_missing_journals.each do |journable_type, relation|
       Rails.logger.debug { "Cleaning up journals on #{journable_type}" }
+
+      if unmigratable_journal_classes.key?(journable_type) && relation.count > 0
+        raise <<~ERROR
+          We have found missing journal entries for the #{journable_type} model.
+
+          Unfortunately, you cannot update directly to OpenProject #{OpenProject::VERSION.to_semver},
+          as subsequent migrations are not yet processed for this model.
+
+          To fix this issue, please try one of these options:
+
+          Upgrade first to Openproject 13.0.0, and then to this version.
+
+          ----
+
+          Skip this migration by connecting to the database, and running the following SQL command:
+
+          INSERT INTO schema_migrations (version) VALUES (20220818074159);
+
+          Then, run this migration step again. It will skip this migration.
+
+          Once migrated, remove this migration entry again by running this SQL command:
+
+          DELETE FROM schema_migrations WHERE version='20220818074159';
+
+          Then, run this migration step again. Only this skipped migration will be performed.
+        ERROR
+      end
 
       relation.find_each { |journal| fix_journal_data(journal) }
 
@@ -116,9 +143,7 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
     Journal
       .pluck("DISTINCT(journable_type)")
       .to_h do |journable_type|
-      journal_class = journable_type.constantize.journal_class
-      table_name = journal_class.table_name
-
+      journal_class, table_name = lookup_journal_class_table(journable_type)
       relation = Journal
         .joins("LEFT OUTER JOIN #{table_name} ON journals.data_type = '#{journal_class}' AND #{table_name}.id = journals.data_id")
         .where("#{table_name}.id IS NULL")
@@ -129,6 +154,20 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
 
       [journable_type, relation]
     end
+  end
+
+  # Lookup table for items that were already deleted
+  def lookup_journal_class_table(journable_type)
+    unmigratable_journal_classes.fetch(journable_type) do
+      journal_class = journable_type.constantize.journal_class
+      [journal_class.to_s, journal_class.table_name]
+    end
+  end
+
+  def unmigratable_journal_classes
+    {
+      "WikiContent" => %w[Journal::WikiContentJournal wiki_content_journals]
+    }
   end
 
   def take_over_from_successor(journal)

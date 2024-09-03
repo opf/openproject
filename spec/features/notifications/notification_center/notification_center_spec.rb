@@ -102,9 +102,13 @@ RSpec.describe "Notification center", :js, :with_cuprite,
     context "with more than 100 notifications" do
       let(:notifications) do
         attributes = { recipient:, resource: work_package }
+        attributes_project2 = { recipient:, resource: work_package2 }
 
+        # rubocop:disable FactoryBot/ExcessiveCreateList
         create_list(:notification, 100, attributes.merge(reason: :mentioned)) +
-        create_list(:notification, 105, attributes.merge(reason: :watched))
+        create_list(:notification, 105, attributes.merge(reason: :watched)) +
+        create_list(:notification, 50, attributes_project2.merge(reason: :assigned))
+        # rubocop:enable FactoryBot/ExcessiveCreateList
       end
 
       it "can dismiss all notifications of the currently selected filter" do
@@ -113,8 +117,8 @@ RSpec.describe "Notification center", :js, :with_cuprite,
         center.expect_bell_count "99+"
         center.open
 
-        # side menu items show full count of notifications (inbox has one more due to the "Created" notification)
-        side_menu.expect_item_with_count "Inbox", 206
+        # side menu items show full count of notifications (inbox has two more due to the "Created" notification)
+        side_menu.expect_item_with_count "Inbox", 257
         side_menu.expect_item_with_count "Mentioned", 100
         side_menu.expect_item_with_count "Watcher", 105
 
@@ -125,9 +129,20 @@ RSpec.describe "Notification center", :js, :with_cuprite,
         wait_for_network_idle
 
         center.expect_bell_count "99+"
-        side_menu.expect_item_with_count "Inbox", 101
+        side_menu.expect_item_with_count "Inbox", 152
         side_menu.expect_item_with_count "Mentioned", 100
         side_menu.expect_item_with_no_count "Watcher"
+
+        # select a project and mark all as read
+        side_menu.click_item project2.name
+        side_menu.finished_loading
+        center.mark_all_read
+        wait_for_network_idle
+
+        center.expect_bell_count "99+"
+        side_menu.expect_item_with_count "Inbox", 101
+        side_menu.expect_item_with_count "Mentioned", 100
+        side_menu.expect_no_item project2.name
 
         # select inbox and mark all as read
         side_menu.click_item "Inbox"
@@ -150,9 +165,14 @@ RSpec.describe "Notification center", :js, :with_cuprite,
 
       center.click_item notification
       split_screen.expect_open
+      center.expect_item_selected notification
 
       center.expect_item_not_read notification
       center.expect_work_package_item notification2
+
+      center.click_item notification2
+      split_screen2.expect_open
+      center.expect_item_selected notification2
 
       center.mark_notification_as_read notification
       wait_for_network_idle
@@ -420,13 +440,13 @@ RSpec.describe "Notification center", :js, :with_cuprite,
 
   describe "logging into deep link", with_settings: { login_required: true } do
     it "redirects to the notification deep link" do
-      visit notifications_center_path(state: "details/#{work_package.id}/activity")
+      visit details_notifications_path(work_package.id, tab: :activity)
 
       expect(page).to have_current_path /login/
 
       login_with recipient.login, "adminADMIN!", visit_signin_path: false
 
-      expect(page).to have_current_path /notifications\/details\/#{work_package.id}\/activity/
+      expect(page).to have_current_path /notifications\/details\/#{work_package.id}/
     end
   end
 end

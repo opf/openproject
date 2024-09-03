@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,7 +59,7 @@ RSpec.describe Storages::Peripherals::NextcloudConnectionValidator do
   end
 
   context "if request returns a capabilities response" do
-    let(:storage) { create(:nextcloud_storage_configured) }
+    let(:storage) { create(:nextcloud_storage_configured, :as_automatically_managed) }
     let(:app_enabled) { true }
     let(:app_version) { Storages::SemanticVersion.parse("2.6.3") }
     let(:group_folder_enabled) { true }
@@ -110,6 +110,15 @@ RSpec.describe Storages::Peripherals::NextcloudConnectionValidator do
           expect(subject.description).to eq("A required dependency is missing on the file storage. " \
                                             "Please add the following dependency: Group folders.")
         end
+
+        context "if storage is not automatically_managed" do
+          let(:storage) { create(:nextcloud_storage_configured) }
+
+          it "does not check group_folder app" do
+            expect(subject.type).to eq(:healthy)
+            expect(subject.error_code).to eq(:none)
+          end
+        end
       end
 
       context "with outdated group folder app" do
@@ -120,6 +129,15 @@ RSpec.describe Storages::Peripherals::NextcloudConnectionValidator do
           expect(subject.error_code).to eq(:err_unexpected_version)
           expect(subject.description)
             .to eq("The Group Folder version is not supported. Please update your Nextcloud server.")
+        end
+
+        context "if storage is not automatically_managed" do
+          let(:storage) { create(:nextcloud_storage_configured) }
+
+          it "does not check group_folder app" do
+            expect(subject.type).to eq(:healthy)
+            expect(subject.error_code).to eq(:none)
+          end
         end
       end
     end

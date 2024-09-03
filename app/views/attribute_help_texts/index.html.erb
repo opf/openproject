@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -38,21 +38,24 @@ See COPYRIGHT and LICENSE files for more details.
     name: 'Project',
     partial: 'attribute_help_texts/tab',
     path: attribute_help_texts_path(tab: 'Project'),
-    label: Project.model_name.human
+    label: :label_project
   }
 ] %>
 
+<%= render AttributeHelpTexts::IndexPageHeaderComponent.new(tabs: tabs) %>
 
-<%= toolbar title: t(:'attribute_help_texts.label_plural') do %>
-  <li class="toolbar-item">
-    <%= link_to new_attribute_help_text_path(name: selected_tab(tabs)[:name]),
-                { class: 'attribute-help-texts--create-button button -primary',
-                  aria: {label: t(:'attribute_help_texts.add_new')},
-                  title: t(:'attribute_help_texts.add_new')} do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= t('activerecord.models.attribute_help_text') %></span>
-    <% end %>
-  </li>
-<% end %>
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(scheme: :primary,
+                                 aria: { label: I18n.t("attribute_help_texts.add_new") },
+                                 title: I18n.t("attribute_help_texts.add_new"),
+                                 tag: :a,
+                                 href: new_attribute_help_text_path(name: selected_tab(tabs)[:name]),
+                                 test_selector: "attribute-help-texts--create-button") do |button|
+      button.with_leading_visual_icon(icon: :plus)
+      t("activerecord.models.attribute_help_text")
+    end
+  end
+%>
 
-<%= render_tabs tabs %>
+<%= render_tabs tabs, with_tab_nav: false %>

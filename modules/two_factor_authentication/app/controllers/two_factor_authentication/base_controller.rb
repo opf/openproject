@@ -18,7 +18,6 @@ module ::TwoFactorAuthentication
       if params[:type]
         @device_type = params[:type].to_sym
         @device = new_device_type! @device_type
-
         render "two_factor_authentication/two_factor_devices/new"
       else
         @available_devices = available_devices

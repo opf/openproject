@@ -521,8 +521,12 @@ components:
       $ref: "./components/examples/project_collection.yml"
     RelationCollectionResponse:
       $ref: "./components/examples/relation_collection_response.yml"
+    RelationCreateRequest:
+      $ref: "./components/examples/relation_create_request.yml"
     RelationResponse:
       $ref: "./components/examples/relation_response.yml"
+    RelationUpdateRequest:
+      $ref: "./components/examples/relation_update_request.yml"
     StorageNextcloudResponse:
       $ref: "./components/examples/storage-nextcloud-response.yml"
     StorageNextcloudResponseForCreation:
@@ -563,6 +567,12 @@ components:
       $ref: "./components/examples/view_work_packages_table.yml"
     ViewTeamPlanner:
       $ref: "./components/examples/view_team_planner.yml"
+    WorkPackageCreateOnlySubject:
+      $ref: "./components/examples/work_package_create_only_subject.yml"
+    WorkPackageCreateValid:
+      $ref: "./components/examples/work_package_create_valid.yml"
+    WorkPackageEditSubject:
+      $ref: "./components/examples/work_package_edit_subject.yml"
 
   responses:
     InvalidQuery:
@@ -603,6 +613,8 @@ components:
       "$ref": "./components/schemas/categories_by_project_model.yml"
     CategoryModel:
       "$ref": "./components/schemas/category_model.yml"
+    CollectionLinks:
+      "$ref": "./components/schemas/collection_links.yml"
     CollectionModel:
       "$ref": "./components/schemas/collection_model.yml"
     ConfigurationModel:
@@ -703,6 +715,10 @@ components:
       "$ref": "./components/schemas/oauth_client_credentials_read_model.yml"
     OAuthClientCredentialsWriteModel:
       "$ref": "./components/schemas/oauth_client_credentials_write_model.yml"
+    OffsetPaginatedCollectionLinks:
+      "$ref": "./components/schemas/offset_paginated_collection_links.yml"
+    OffsetPaginatedCollectionModel:
+      "$ref": "./components/schemas/offset_paginated_collection_model.yml"
     PaginatedCollectionModel:
       "$ref": "./components/schemas/paginated_collection_model.yml"
     PlaceholderUserCollectionModel:
@@ -757,8 +773,10 @@ components:
       "$ref": "./components/schemas/query_update_form.yml"
     RelationCollectionModel:
       "$ref": "./components/schemas/relation_collection_model.yml"
-    RelationModel:
-      "$ref": "./components/schemas/relation_model.yml"
+    RelationReadModel:
+      "$ref": "./components/schemas/relation_read_model.yml"
+    RelationWriteModel:
+      "$ref": "./components/schemas/relation_write_model.yml"
     RevisionModel:
       "$ref": "./components/schemas/revision_model.yml"
     RevisionsModel:
@@ -855,16 +873,20 @@ components:
       "$ref": "./components/schemas/week_day_write_model.yml"
     Wiki_PageModel:
       "$ref": "./components/schemas/wiki_page_model.yml"
-    Work_PackageModel:
+    WorkPackageModel:
       "$ref": "./components/schemas/work_package_model.yml"
-    Work_Package_SchemasModel:
-      "$ref": "./components/schemas/work_package_schemas_model.yml"
+    WorkPackageFormModel:
+      "$ref": "./components/schemas/work_package_form_model.yml"
+    WorkPackagePatchModel:
+      "$ref": "./components/schemas/work_package_patch_model.yml"
+    WorkPackageSchemaModel:
+      "$ref": "./components/schemas/work_package_schema_model.yml"
+    WorkPackageWriteModel:
+      "$ref": "./components/schemas/work_package_write_model.yml"
     Work_Package_activitiesModel:
       "$ref": "./components/schemas/work_package_activities_model.yml"
     Work_PackagesModel:
       "$ref": "./components/schemas/work_packages_model.yml"
-    WorkPackagePatchModel:
-      "$ref": "./components/schemas/work_package_patch_model.yml"
   securitySchemes:
     BasicAuth:
       type: http
