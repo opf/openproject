@@ -87,7 +87,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def export_dialog
-    respond_with_dialog WorkPackages::Exports::ModalDialogComponent.new(query: @query, project: @project)
+    respond_with_dialog WorkPackages::Exports::ModalDialogComponent.new(query: @query, project: @project, title: params[:title])
   end
 
   protected
