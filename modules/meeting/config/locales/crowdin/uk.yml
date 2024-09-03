@@ -123,7 +123,7 @@ uk:
       agenda: "Копіювати порядок денний"
       agenda_text: "Копіювати порядок денний старої наради"
     email:
-      send_emails: "Надсилати листи"
+      send_emails: "Email participants"
       send_invitation_emails: >
         Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Відкрити зустріч"

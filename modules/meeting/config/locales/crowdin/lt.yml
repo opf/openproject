@@ -123,7 +123,7 @@ lt:
       agenda: "Kopijuoti dienotvarkę"
       agenda_text: "Kopijuoti seno susitikimo darbotvarkę"
     email:
-      send_emails: "Siųsti laiškus"
+      send_emails: "Email participants"
       send_invitation_emails: >
         Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Atverti susitikimą"
