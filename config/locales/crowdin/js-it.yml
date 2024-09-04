@@ -74,7 +74,7 @@ it:
     button_copy: "Copia"
     button_copy_to_clipboard: "Copia negli appunti"
     button_copy_link_to_clipboard: "Copia link negli appunti"
-    button_copy_to_other_project: "Duplicate to other project"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Campo personalizzato"
     button_delete: "Cancella"
     button_delete_watcher: "Elimina osservatore"

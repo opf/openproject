@@ -74,7 +74,7 @@ uk:
     button_copy: "Копіювати"
     button_copy_to_clipboard: "Копіювати в буфер обміну"
     button_copy_link_to_clipboard: "Копіювати посилання в буфер обміну"
-    button_copy_to_other_project: "Duplicate to other project"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Індивідуальні поля"
     button_delete: "Видалити"
     button_delete_watcher: "Видалити спостерігача"

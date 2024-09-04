@@ -74,7 +74,7 @@ fr:
     button_copy: "Copier"
     button_copy_to_clipboard: "Copier dans le presse-papier"
     button_copy_link_to_clipboard: "Copier le lien dans le presse-papiers"
-    button_copy_to_other_project: "Dupliquer dans un autre projet"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Champs personnalisés"
     button_delete: "Supprimer"
     button_delete_watcher: "Supprimer observateur"

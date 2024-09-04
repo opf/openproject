@@ -70,7 +70,7 @@ it:
       dialog:
         automatically_managed_appendix: 'Inoltre, in questo caso l''archivio ha una cartella di progetto gestita automaticamente: questa e i suoi file verranno eliminati per sempre.'
         confirmation_text: Conferma di aver compreso e di voler rimuovere questo archivio di file da questo progetto
-        heading: Rimuovi il progetto da %{storage_type}
+        heading_text: Remove project from %{storage}
         text: Questa azione è irreversibile e rimuoverà tutti i collegamenti dalle macro-attività di questo progetto ai file e alle cartelle di tale archivio.
       label: Rimuovi il progetto
   services:

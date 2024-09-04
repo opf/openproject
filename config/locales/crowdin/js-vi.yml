@@ -74,7 +74,7 @@ vi:
     button_copy: "Sao chép"
     button_copy_to_clipboard: "Sao chép vào clipboard"
     button_copy_link_to_clipboard: "Sao chép liên kết vào clipboard"
-    button_copy_to_other_project: "Nhân đôi sang dự án khác"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Trường tùy chỉnh"
     button_delete: "Xóa"
     button_delete_watcher: "Xóa người theo dõi"

@@ -74,7 +74,7 @@ de:
     button_copy: "Kopieren"
     button_copy_to_clipboard: "In Zwischenablage kopieren"
     button_copy_link_to_clipboard: "Link in Zwischenablage kopieren"
-    button_copy_to_other_project: "In ein anderes Projekt duplizieren"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Benutzerdefinierte Felder"
     button_delete: "Löschen"
     button_delete_watcher: "Beobachter löschen"

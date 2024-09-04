@@ -70,7 +70,7 @@ vi:
       dialog:
         automatically_managed_appendix: Ngoài ra, trong trường hợp này, bộ lưu trữ này có một thư mục dự án được quản lý tự động, thư mục này và các tệp trong đó sẽ bị xóa vĩnh viễn.
         confirmation_text: Vui lòng xác nhận bạn hiểu và muốn xóa bộ lưu trữ tệp này khỏi dự án này
-        heading: Xóa dự án khỏi %{storage_type}
+        heading_text: Remove project from %{storage}
         text: Hành động này là không thể đảo ngược và sẽ xóa tất cả các liên kết từ các gói công việc của dự án này tới các tệp và thư mục của bộ lưu trữ đó.
       label: Xóa dự án
   services:

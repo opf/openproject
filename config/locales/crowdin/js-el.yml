@@ -74,7 +74,7 @@ el:
     button_copy: "Αντιγραφή"
     button_copy_to_clipboard: "Αντιγραφή στο πρόχειρο"
     button_copy_link_to_clipboard: "Copy link to clipboard"
-    button_copy_to_other_project: "Duplicate to other project"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Προσαρμοσμένα πεδία"
     button_delete: "Διαγραφή"
     button_delete_watcher: "Διαγραφή παρατηρητή"

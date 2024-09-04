@@ -74,7 +74,7 @@ zh-TW:
     button_copy: "複製"
     button_copy_to_clipboard: "複製到剪貼簿"
     button_copy_link_to_clipboard: "複製到剪貼簿"
-    button_copy_to_other_project: "複製到其它專案"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "客製欄位"
     button_delete: "删除"
     button_delete_watcher: "刪除監看者"

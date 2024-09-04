@@ -70,7 +70,7 @@ de:
       dialog:
         automatically_managed_appendix: Falls dieser Speicher einen automatisch verwalteten Projektordner enthält, werden dieser und seine Dateien für immer gelöscht.
         confirmation_text: Bitte bestätigen Sie die Entfernung des Dateispeichers aus diesem Projekt
-        heading: Projekt von %{storage_type} entfernen
+        heading_text: Remove project from %{storage}
         text: Diese Aktion ist unumkehrbar und entfernt alle Verknüpfungen von Arbeitspaketen dieses Projekts zu Dateien und Ordnern dieses Speichers.
       label: Projekt entfernen
   services:

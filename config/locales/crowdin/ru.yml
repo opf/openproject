@@ -299,7 +299,7 @@ ru:
         actions:
           label_enable_single: "Активно в этом проекте, нажмите для отключения"
           label_disable_single: "Неактивно в этом проекте, нажмите для включения"
-          remove_from_project: "Remove from project"
+          remove_from_project: "Удалить из проекта"
           label_enable_all: "Включить всё"
           label_disable_all: "Выключить всё"
         is_required_blank_slate:
@@ -403,8 +403,8 @@ ru:
   my:
     access_token:
       create_dialog:
-        header: The %{type} token has been generated
-        warning: Note that this is the only time you will see this token, make sure to copy it now.
+        header: Токен %{type} создан
+        warning: Обратите внимание, что это единственный раз, когда Вы увидите этот токен, поэтому обязательно скопируйте его сейчас.
       errors:
         token_name_blank: "Пожалуйста, укажите имя токена API"
         token_name_in_use: "Это имя токена API уже используется, пожалуйста, выберите другое"
@@ -495,7 +495,7 @@ ru:
         is_readonly: "Только для чтения"
         excluded_from_totals: "Исключен из итогов"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Темный (бета)"
     light: "Светлая"
     light_high_contrast: "Светлый высокий контраст"
   types:
@@ -546,9 +546,9 @@ ru:
       no_common_statuses_exists: "Статус не доступен для всех выбранных пакетов работ. Их статус изменен быть не может."
       unsupported_for_multiple_projects: "Массовое перемещение/копирование не поддерживается при работе с пакетами из нескольких проектов"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Текущий тип пакета работ не включен в целевой проект. Пожалуйста, включите этот тип в целевом проекте, если хотите, чтобы он остался без изменений. В противном случае выберите из списка доступный тип в целевом проекте.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Текущие типы пакетов работ не включены в целевой проект. Включите типы в целевом проекте, если хотите, чтобы они остались неизменными. В противном случае выберите из списка доступный тип в целевом проекте.
     sharing:
       missing_workflow_warning:
         title: "Отсутствует рабочий процесс для совместного использования пакета работ"
@@ -1193,7 +1193,7 @@ ru:
         one: Access token
         few: Access tokens
         many: Access tokens
-        other: Access tokens
+        other: Токены доступа
       type: "Тип"
       user: "Пользователь"
       version: "Этапы"
@@ -1732,8 +1732,8 @@ ru:
             label: "XLS"
       columns:
         input_label_report: "Добавить столбцы в таблицу атрибутов"
-        input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
-        input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
+        input_caption_report: "По умолчанию выбраны все атрибуты, добавленные в качестве колонок в список пакетов работ. Длинные текстовые поля недоступны в таблице атрибутов, но могут быть отображены под ней."
+        input_caption_table: "По умолчанию выбраны все атрибуты, добавленные в список пакетов работ. Длинные текстовые поля не доступны в экспорте на основе таблиц."
       pdf:
         export_type:
           label: "Тип экспорта PDF"
@@ -1752,37 +1752,37 @@ ru:
           caption: "Исключить изображения для уменьшения размера PDF."
         gantt_zoom_levels:
           label: "Уровни масштабирования"
-          caption: "Select what is the zoom level for dates displayed in the chart."
+          caption: "Выберите уровень масштабирования для дат, отображаемых на графике."
           options:
-            days: "Days"
-            weeks: "Weeks"
-            months: "Months"
-            quarters: "Quarters"
+            days: "Дни"
+            weeks: "Недели"
+            months: "Месяцы"
+            quarters: "Кварталы"
         column_width:
-          label: "Table column width"
+          label: "Ширина столбцов таблицы"
           options:
-            narrow: "Narrow"
-            medium: "Medium"
-            wide: "Wide"
-            very_wide: "Very wide"
+            narrow: "Узкий"
+            medium: "Средний"
+            wide: "Широкий"
+            very_wide: "Очень широкий"
         paper_size:
-          label: "Paper size"
-          caption: "Depending on the chart size more than one page might be exported."
+          label: "Размер бумаги"
+          caption: "В зависимости от размера диаграммы может быть экспортировано более одной страницы."
         long_text_fields:
-          input_caption: "By default all long text fields are selected."
-          input_label: "Add long text fields"
-          input_placeholder: "Search for long text fields"
-          drag_area_label: "Manage long text fields"
+          input_caption: "По умолчанию выбраны все длинные текстовые поля."
+          input_label: "Добавить длинные текстовые поля"
+          input_placeholder: "Поиск в длинных текстовых полях"
+          drag_area_label: "Управление длинными текстовыми полями"
       xls:
         include_relations:
-          label: "Include relations"
-          caption: "This option will create a duplicate of each work package for every relation this has with another work package."
+          label: "Включить отношения"
+          caption: "Эта опция создаст дубликат каждого пакета работ для каждого отношения, которое он имеет с другим пакетом работ."
         include_descriptions:
-          label: "Include descriptions"
-          caption: "This option will add a description column in raw format."
-    your_work_packages_export: "Work packages are being exported"
-    succeeded: "Export completed"
-    failed: "An error has occurred while trying to export the work packages: %{message}"
+          label: "Включить описания"
+          caption: "Эта опция добавит колонку описания в необработанном формате."
+    your_work_packages_export: "Пакеты работ экспортируются"
+    succeeded: "Экспорт завершен"
+    failed: "Произошла ошибка при попытке экспортировать пакеты работ: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -2012,7 +2012,7 @@ ru:
   label_ldap_auth_source_plural: "Соединения LDAP"
   label_attribute_expand_text: "Полный текст для '%{attribute}'"
   label_authentication: "Аутентификация"
-  label_authentication_settings: "Authentication settings"
+  label_authentication_settings: "Параметры аутентификации"
   label_available_global_roles: "Доступные глобальные роли"
   label_available_project_attributes: "Доступные атрибуты проекта"
   label_available_project_forums: "Доступные форумы"
@@ -2307,8 +2307,8 @@ ru:
   label_next_week: "На следующей неделе"
   label_no_change_option: "(Без изменений)"
   label_no_data: "Нет данных для отображения"
-  label_no_due_date: "no finish date"
-  label_no_start_date: "no start date"
+  label_no_due_date: "нет даты окончания"
+  label_no_start_date: "нет даты начала"
   label_no_parent_page: "Без родительской страницы"
   label_nothing_display: "Нет данных для отображения"
   label_nobody: "никто"
@@ -3191,9 +3191,9 @@ ru:
   setting_work_package_done_ratio_field: "На основе трудозатрат"
   setting_work_package_done_ratio_status: "На основе статуса"
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    В режиме <b>На основе трудозатрат</b>, % Завершения рассчитывается на основе того, сколько работы выполнено по отношению к общему объему работ. В режиме <b>На основе статуса</b>, каждый статус имеет связанное с ним значение % Завершения. Изменение статуса изменит % Завершения.
   setting_work_package_done_ratio_explanation_html: >
-    In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    В режиме <b>На основе трудозатрат</b> для параметра % Завершения можно свободно установить любое значение. Если вы дополнительно введете значение «Работа», «Оставшаяся работа» будет получена автоматически. В режиме <b>На основе статуса</b> с каждым статусом связано значение % Завершения. Изменение статуса приведет к изменению % Завершения.
   setting_work_package_properties: "Свойства пакета работ"
   setting_work_package_startdate_is_adddate: "Использовать текущую дату как дату начала для новых пакетов работ"
   setting_work_packages_projects_export_limit: "Ограничение экспорта пакетов работ / проектов"
@@ -3577,26 +3577,26 @@ ru:
     progress:
       label_note: "Примечание:"
       modal:
-        work_based_help_text: "Each field is automatically calculated from the two others when possible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
+        work_based_help_text: "Каждое поле автоматически рассчитывается от двух других, когда это возможно."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Завершения автоматически выводится из Работы и Оставшейся работы."
         status_based_help_text: "% Выполнения определяется статусом пакета работ."
         migration_warning_text: "В режиме расчета прогресса \"На основе трудозатрат\" процент завершения невозможно установить вручную, он привязан к трудозатратам. Существующее значение сохранено, но его нельзя изменить. Пожалуйста, сначала введите трудозатраты."
       derivation_hints:
         done_ratio:
-          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
-          cleared_because_work_is_0h: "Cleared because Work is 0h."
-          derived: "Derived from Work and Remaining work."
+          cleared_because_remaining_work_is_empty: "Очищено, потому что Оставшаяся работа пуста."
+          cleared_because_work_is_0h: "Очищено, потому что Работа равна 0h."
+          derived: "Получено из Работы и Оставшейся работы."
         estimated_hours:
-          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
-          derived: "Derived from Remaining work and % Complete."
-          same_as_remaining_work: "Set to same value as Remaining work."
+          cleared_because_remaining_work_is_empty: "Очищено, потому что оставшаяся работа пуста."
+          derived: "Получено из Оставшейся работы и % Завершения."
+          same_as_remaining_work: "Установите то же значение, что и Оставшаяся работа."
         remaining_hours:
-          cleared_because_work_is_empty: "Cleared because Work is empty."
-          cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
-          derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
-          same_as_work: "Set to same value as Work."
+          cleared_because_work_is_empty: "Очищено, потому что Работа пуста."
+          cleared_because_percent_complete_is_empty: "Очищено, потому что % Завершения пуст."
+          decreased_like_work: "Уменьшается на ту же величину, что и Работа."
+          derived: "Получено из Работы и % Завершения."
+          increased_like_work: "Увеличивается на ту же величину, что и Работа."
+          same_as_work: "Установите то же значение, что и для Работы."
     permissions:
       comment: "Комментировать"
       comment_description: "Может просматривать и комментировать этот пакет работ."

@@ -70,7 +70,7 @@ ms:
       dialog:
         automatically_managed_appendix: Dalam kes ini juga, storan ini mempunyai folder projek yang diuruskan secara automatik, dan fail yang termasuk akan dipadam selamanya.
         confirmation_text: Sila sahkan bahawa anda faham dan ingin memadam storan fail ini daripada projek ini
-        heading: Keluarkan projek daripada %{storage_type}
+        heading_text: Remove project from %{storage}
         text: Aksi ini tidak dapat dipulihkan dan akan padamkan semua pautan daripada pakej kerja projek ini ke fail dan folder storan itu.
       label: Keluarkan projek
   services:
