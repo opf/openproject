@@ -36,7 +36,7 @@ RSpec.describe Admin::Settings::WorkPackagesGeneralController do
 
   current_user { user }
 
-  require_admin_and_render_template("work_packages_general")
+  include_examples "GET #show requires admin permission and renders template", path: "work_packages_general"
 
   context "when changing progress calculation from work-based to status-based" do
     shared_let(:status) { create(:status, default_done_ratio: 42) }
