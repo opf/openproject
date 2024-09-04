@@ -91,7 +91,7 @@ Navigate to your administration settings page by clicking on *your avatar in the
 
 Click on **+ Storage** to add a new file storage.
 
-![File storages in the Administration settings](admin-file-storages.png)
+![File storages in the Administration settings](openproject_system_guide_admin-file-storages.png)
 
 A new page titled **New storage** will appear, where you will be able to configure your new Nextcloud storage.
 
@@ -134,7 +134,7 @@ Much like in the previous step, you will need to copy these two generated values
 
 ![Nextcloud also generates OAuth values that need to be copied to OpenProject](openproject_system_guide_nextcloud_integration_setup_step_5.png)
 
-Navigate back to your OpenProject tab and click on the **Done. Continue** button on the screen you previously left it at. You will now see a screen where you will be able to enter the Nextcloud values.
+Navigate back to your OpenProject tab and click on the **Done, continue** button on the screen you previously left it at. You will now see a screen where you will be able to enter the Nextcloud values.
 
 ![OpenProject_NC_OAuth_values](openproject_system_guide_nextcloud_integration_setup_step_6.png)
 
@@ -167,7 +167,7 @@ The integration is now complete, and your OpenProject and Nextcloud instances ar
 
 Additional settings on this page also allow you, as an administrator, to define default settings for options that are available to each user. These can of course be overridden by a user to their liking:
 
-![Admin settings to configure default settings for all users](NC_admin-defaults-user-options.png)
+![Admin settings to configure default settings for all users](openproject-system_guide_admin-defaults-user-options.png)
 
 - **Enable navigation link** displays a link to the OpenProject instance in the Nextcloud header
 - **Enable unified search for tickets** allows users to search for OpenProject work packages via the universal search bar in Nextcloud
@@ -178,7 +178,7 @@ Now that the integration is set up, the next step is to make the Nextcloud file 
 
 To add a Nextcloud to a specific project on a project level, navigate to any existing project in your OpenProject instance and click on **Project settings** -> **Files** and follow the instructions in the [Project settings user guide](../../../user-guide/projects/project-settings/files/).
 
-To add a Nextcloud storage one or multiple projects on an instance level, click on a file storage under *Administration -> Files -> External file storages* and select **Enabled in projects** tab. If the file storage setup was not completed properly, you will see a respective message. 
+To add a Nextcloud storage to one or multiple projects on an instance level, click on a file storage under *Administration -> Files -> External file storages* and select **Enabled in projects** tab. If the file storage setup was not completed properly, you will see a respective message. 
 
 ![Storage setup incomplete message in OprnProject file storages administration](openproject_system_guide_nextcloud_integration_setup_incomplete_message.png)
 
@@ -192,33 +192,33 @@ You can you use the search bar to select either one or multiple projects and hav
 
 You can always edit project folders or remove file storage from projects by selecting the respective option. 
 
-![](openproject_system_guide_nextcloud_edit_remove_in_projects.png)
+![Remove Nextcloud file storage from a project in OpenProject administration](openproject_system_guide_nextcloud_edit_remove_in_projects.png)
 
 > [!NOTE]
 > For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../user-guide/file-management/nextcloud-integration/).
 
 ## Reset OAuth values
 
-If you wish to reset OAuth values for any reason, you can do so on either side by clicking on the **Reset OAuth values** button (in Nextcloud settings) or the **Replace OAuth values** button (in OpenProject admin settings).
+If you wish to reset OAuth values for any reason, you can do so on either side by clicking on the **Reset OAuth values** button (in Nextcloud settings or in OpenProject admin settings) or the **Replace OAuth values** button (in OpenProject admin settings).
 
 > [!IMPORTANT]
 > When you reset/replace these values, you will need to update the configuration with the new OAuth credentials from the side you are resetting. This will also require all users to re-authorize OpenProject to access their Nextcloud account by logging in again.
 
-![A dialogue asking the user to confirm they want to replace OpenProject OAuth values](3_2_06-NC_OP_OAuth_Replace.png)
+![A dialogue asking the user to confirm they want to replace OpenProject OAuth values](openproject_system_guide_nextcloud_reset.png)
 
-![A dialogue asking the user to confirm they want to replace OpenProject OAuth values](3_4_03-OP_Replace_Alert.png)
+![A dialogue asking the user to confirm they want to replace OpenProject OAuth values](openproject_system_guide_nextcloud_setup_oaut_replace_alert.png)
 
 ## Delete a Nextcloud file storage
 
 You can delete a Nextcloud file storage either at a project level or at an instance-level.
 
-Deleting a file storage at a project level simply makes it unavailable to that particular project, without affecting the integration for other projects. Project admins can do so by navigating to *Project settings → File storages* and clicking the **delete** icon next to the file storage you would like to remove.
+Deleting a file storage at a project level simply makes it unavailable to that particular project, without affecting the integration for other projects. Project admins can do so by navigating to *Project settings → Files* and clicking the **delete** icon next to the file storage you would like to remove.
 
-![Click on the delete icon next to the file storage in the project settings to remove it from the project](file-storage-list-project.png)
+![Click on the delete icon next to the file storage in the project settings to remove it from the project](openproject_system_guide_nextcloud_setup_delete_storage_icon.png)
 
-Deleting a file storage at an instance level deletes the Nextcloud integration completely and make it unaccessible to all projects in that instance. Should an instance administrator nevertheless want to do so, they navigate to *Administration → File storages* and clicking the **delete** icon next to the file storage they would like to remove.
+Deleting a file storage at an instance level deletes the Nextcloud integration completely and makes it inaccessible to all projects in that instance. Should an instance administrator nevertheless want to do so, they should navigate to *Administration → File storages*, select the file storage and click the **delete** button in the upper right corner.
 
-![Click on the delete icon next to the file storage in administration settings to delete it from this instance](file-storage-list-admin.png)
+![Click on the delete icon next to the file storage in administration settings to delete it from this instance](openproject_system_guide_nextcloud_setup_delete_storage_button.png)
 
 > [!IMPORTANT]
 > Deleting a file storage as an instance administrator will also delete all settings and links between work packages and Nextcloud files/folders. This means that should you want to reconnect your Nextcloud instance with OpenProject, will need complete the entire setup process once again.
