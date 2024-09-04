@@ -103,7 +103,7 @@ RSpec.describe "Project Custom Field Mappings", :js do
       subproject = create(:project, parent: project)
       click_on "Add projects"
 
-      within_test_selector("settings--new-project-custom-field-mapping-component") do
+      within_test_selector("new-custom-field-projects-modal") do
         autocompleter = page.find(".op-project-autocompleter")
         autocompleter.fill_in with: project.name
 

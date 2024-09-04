@@ -26,21 +26,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  module ProjectCustomFields
-    module ProjectCustomFieldMapping
-      class NewProjectMappingComponent < Admin::CustomFields::CustomFieldProjects::NewCustomFieldProjectsModalComponent
-        def render?
-          !custom_field.required?
+module Admin
+  module CustomFields
+    module CustomFieldProjects
+      class NewCustomFieldProjectsFormModalComponent < ApplicationComponent
+        include OpTurbo::Streamable
+
+        DIALOG_ID = "new-custom-field-projects-modal".freeze
+        DIALOG_BODY_ID = "new-custom-field-projects-modal-body".freeze
+
+        def initialize(custom_field_project_mapping:, custom_field:, **)
+          @custom_field_project_mapping = custom_field_project_mapping
+          @custom_field = custom_field
+
+          super(@custom_field_project_mapping, **)
         end
 
         private
 
-        def form_modal_component
-          Settings::ProjectCustomFields::ProjectCustomFieldMapping::NewProjectMappingFormComponent.new(
-            custom_field_project_mapping:,
-            custom_field:
-          )
+        def url
+          url_helpers.custom_field_projects_path(@custom_field)
+        end
+
+        def dialog_id = DIALOG_ID
+        def dialog_body_id = DIALOG_BODY_ID
+
+        attr_reader :custom_field_project_mapping, :custom_field
+
+        def title
+          I18n.t(:label_add_projects)
+        end
+
+        def cancel_button_text
+          I18n.t("button_cancel")
+        end
+
+        def submit_button_text
+          I18n.t("button_add")
         end
       end
     end

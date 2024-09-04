@@ -26,20 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  module ProjectCustomFields
-    module ProjectCustomFieldMapping
-      class NewProjectMappingComponent < Admin::CustomFields::CustomFieldProjects::NewCustomFieldProjectsModalComponent
+module Admin
+  module CustomFields
+    module CustomFieldProjects
+      class NewCustomFieldProjectsModalComponent < ApplicationComponent
+        include OpTurbo::Streamable
+
+        def initialize(custom_field_project_mapping:, custom_field:, **)
+          @custom_field_project_mapping = custom_field_project_mapping
+          @custom_field = custom_field
+          super(@custom_field_project_mapping, **)
+        end
+
         def render?
-          !custom_field.required?
+          !custom_field.is_for_all?
         end
 
         private
 
+        attr_reader :custom_field_project_mapping, :custom_field
+
+        def dialog_id = NewCustomFieldProjectsFormModalComponent::DIALOG_ID
+        def dialog_body_id = NewCustomFieldProjectsFormModalComponent::DIALOG_BODY_ID
+
+        def title
+          I18n.t(:label_add_projects)
+        end
+
         def form_modal_component
-          Settings::ProjectCustomFields::ProjectCustomFieldMapping::NewProjectMappingFormComponent.new(
-            custom_field_project_mapping:,
-            custom_field:
+          Admin::CustomFields::CustomFieldProjects::NewCustomFieldProjectsFormModalComponent.new(
+            custom_field_project_mapping:, custom_field:
           )
         end
       end

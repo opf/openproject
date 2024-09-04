@@ -73,10 +73,14 @@ module Projects::CustomFields
     end
 
     def projects_with_custom_field_mapping
-      ProjectCustomFieldProjectMapping
+      join_table
         .where(custom_field_id: @project_mapping.custom_field_id)
         .pluck(:project_id)
         .to_h { |id| [id, id] }
+    end
+
+    def join_table
+      @project_mapping.class
     end
   end
 end
