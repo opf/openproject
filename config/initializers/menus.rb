@@ -324,6 +324,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :admin_work_packages,
             html: { class: "statuses" }
 
+  menu.push :progress_tracking,
+            { controller: "/admin/settings/progress_tracking_settings", action: :show },
+            if: Proc.new { OpenProject::FeatureDecisions.percent_complete_edition_active? && User.current.admin? },
+            caption: :label_progress_tracking,
+            parent: :admin_work_packages
+
   menu.push :workflows,
             { controller: "/workflows", action: "edit" },
             if: Proc.new { User.current.admin? },
