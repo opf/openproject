@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,15 +24,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
+#++
 
-require "spec_helper"
-
-RSpec.describe Admin::Settings::WorkPackagesGeneralController do
-  shared_let(:user) { create(:admin) }
-
-  current_user { user }
-
-  include_examples "GET #show requires admin permission and renders template", path: "work_packages_general"
+module Admin::Settings
+  class ProgressTrackingController < ::Admin::SettingsController
+    current_menu_item :show do
+      :progress_tracking
+    end
+  end
 end

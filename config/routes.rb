@@ -491,6 +491,7 @@ Rails.application.routes.draw do
       # It is important to have this named something else than "work_packages".
       # Otherwise the angular ui-router will also recognize that as a WorkPackage page and apply according classes.
       resource :work_packages_general, controller: "/admin/settings/work_packages_general", only: %i[show update]
+      resource :progress_tracking, controller: "/admin/settings/progress_tracking", only: %i[show update]
       resource :projects, controller: "/admin/settings/projects_settings", only: %i[show update]
       resource :new_project, controller: "/admin/settings/new_project_settings", only: %i[show update]
       resources :project_custom_fields, controller: "/admin/settings/project_custom_fields" do

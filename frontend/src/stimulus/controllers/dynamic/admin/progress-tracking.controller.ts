@@ -30,7 +30,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-export default class WorkPackagesSettingsController extends Controller {
+export default class ProgressTrackingController extends Controller {
   static values = {
     percentCompleteEditionActive: Boolean,
   };

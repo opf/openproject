@@ -323,6 +323,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_status,
             parent: :admin_work_packages
 
+  menu.push :progress_tracking,
+            { controller: "/admin/settings/progress_tracking", action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_progress_tracking,
+            parent: :admin_work_packages
+
   menu.push :workflows,
             { controller: "/workflows", action: "edit" },
             if: Proc.new { User.current.admin? },
