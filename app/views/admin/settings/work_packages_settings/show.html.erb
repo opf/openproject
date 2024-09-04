@@ -26,18 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
-<% html_title t(:label_administration), t(:label_work_packages_settings) -%>
-
+<% html_title t(:label_administration), t(:label_general) -%>
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { t(:label_work_packages_settings) }
+    header.with_title { t(:label_general) }
     header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
                              { href: admin_settings_work_package_tracking_path, text: t(:label_work_package_plural) },
-                             t(:label_work_packages_settings)])
+                             t(:label_general)])
   end
 %>
-
 <%= styled_form_tag({ action: :update }, method: :patch) do %>
   <section class="form--section"
            data-application-target="dynamic"
@@ -96,11 +93,9 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
     <% end %>
   </section>
-
   <section class="form--section">
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= t(:setting_column_options) %></legend>
-
       <div class="form--field -full-width">
         <div class="form--field-container">
           <div class="form--text-field-container -xwide">
@@ -120,6 +115,5 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
     </fieldset>
   </section>
-
   <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
 <% end %>
