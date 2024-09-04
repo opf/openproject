@@ -926,21 +926,30 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
         activity_tab.expect_journal_container_at_top
       end
     end
+  end
 
-    # describe "scrolling to the bottom when sorting set to asc" do
-    #   it "scrolls to the bottom when the oldest journal entry is on top", :aggregate_failures do
-    #     # add a comment
-    #     activity_tab.add_comment(text: "First comment by admin")
+  describe "retracted journal entries" do
+    let(:work_package) { create(:work_package, project:, author: admin) }
+    let!(:first_comment_by_admin) do
+      create(:work_package_journal, user: admin, notes: "First comment by admin", journable: work_package, version: 2)
+    end
+    let!(:second_comment_by_admin) do
+      create(:work_package_journal, user: admin, notes: "Second comment by admin", journable: work_package, version: 3)
+    end
 
-    #     # scroll to the top
-    #     page.execute_script("document.querySelector('.op-wp-journals-container').scrollTop = 0")
+    current_user { admin }
 
-    #     # add another comment
-    #     activity_tab.add_comment(text: "Second comment by admin")
+    before do
+      second_comment_by_admin.update!(notes: "")
 
-    #     # expect the oldest comment to be at the bottom
-    #     activity_tab.expect_journal_notes(text: "First comment by admin")
-    #   end
-    # end
+      wp_page.visit!
+      wp_page.wait_for_activity_tab
+    end
+
+    it "shows rectracted journal entries", :aggregate_failures do
+      activity_tab.within_journal_entry(second_comment_by_admin) do
+        expect(page).to have_text(I18n.t(:"journals.changes_retracted"))
+      end
+    end
   end
 end
