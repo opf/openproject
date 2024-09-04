@@ -29,7 +29,7 @@
 module Admin::Settings
   class WorkPackagesSettingsController < ::Admin::SettingsController
     current_menu_item :show do
-      :work_packages_setting
+      :admin_work_packages_general
     end
   end
 end
