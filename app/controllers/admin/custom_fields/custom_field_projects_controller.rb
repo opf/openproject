@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,40 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  module Admin
-    class EditFormHeaderComponent < ApplicationComponent
-      TAB_NAVS = %i[
-        edit
-        project_storages
-      ].freeze
+class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
+  layout "admin"
 
-      def initialize(storage:, selected:)
-        super
-        @storage = storage
-        @selected = selected
-      end
+  model_object CustomField
 
-      def tab_selected?(tab_name)
-        TAB_NAVS.include?(tab_name) &&
-          tab_name == @selected
-      end
+  before_action :require_admin
+  before_action :find_model_object
 
-      def label_storage_name_with_provider_label
-        "#{h(@storage.name)} #{label_storage_provider_part}".html_safe # rubocop:disable Rails/OutputSafety
-      end
+  menu_item :custom_fields
 
-      def label_storage_provider_part
-        render(Primer::Beta::Text.new(tag: :span, font_weight: :light, color: :muted)) do
-          "(#{I18n.t("storages.provider_types.#{h(@storage.short_provider_type)}.name")})"
-        end
-      end
+  def index; end
 
-      def breadcrumbs_items
-        [{ href: admin_index_path, text: t("label_administration") },
-         { href: admin_settings_storages_path, text: t("project_module_storages") },
-         @storage.name]
-      end
-    end
+  private
+
+  def find_model_object(object_id = :custom_field_id)
+    super
+    @custom_field = @object
   end
 end

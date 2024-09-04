@@ -28,15 +28,20 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% html_title t(:label_administration), "#{t(:label_edit)} #{CustomField.model_name.human} #{h @custom_field.name}" %>
-<%=
-  render(Primer::OpenProject::PageHeader.new(test_selector: "custom-fields--page-header")) do |header|
-    header.with_title { @custom_field.name }
-    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
-                             { href: custom_fields_path, text: t(:label_custom_field_plural) },
-                             { href: custom_fields_path(tab: @custom_field.type), text: I18n.t(@custom_field.type_name) },
-                             @custom_field.name])
-  end
-%>
+
+<% if OpenProject::FeatureDecisions.enable_custom_field_for_multiple_projects_active? %>
+  <%= render(Admin::CustomFields::EditFormHeaderComponent.new(custom_field: @custom_field, selected: :edit)) %>
+<% else %>
+  <%=
+    render(Primer::OpenProject::PageHeader.new(test_selector: "custom-fields--page-header")) do |header|
+      header.with_title { @custom_field.name }
+      header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                              { href: custom_fields_path, text: t(:label_custom_field_plural) },
+                              { href: custom_fields_path(tab: @custom_field.type), text: I18n.t(@custom_field.type_name) },
+                              @custom_field.name])
+    end
+  %>
+<% end %>
 
 <%= error_messages_for 'custom_field' %>
 
