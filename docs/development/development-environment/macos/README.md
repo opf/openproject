@@ -75,10 +75,11 @@ steps.
 
 ```shell
 # Install postgres database
-$ brew install postgres
+$ brew install postgresql
 
-# Create the database instance
-$ postgres -D /usr/local/var/postgres
+# Confirm that postgres has created a default database cluster if you see
+This formula has created a default database cluster with:
+  initdb --locale=C -E UTF-8 /opt/homebrew/var/postgresql@14 # /usr/local for Intel Macs
 ```
 
 Then, create the OpenProject database user and accompanied database.
