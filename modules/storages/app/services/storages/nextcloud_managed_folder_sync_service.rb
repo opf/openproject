@@ -136,7 +136,9 @@ module Storages
         { user_id: identity.origin_user_id, permissions: }
       end
 
-      permissions = system_user + admin_permissions + users_permissions
+      group_permissions = [{ group_id: @storage.group, permissions: [] }]
+
+      permissions = system_user + admin_permissions + users_permissions + group_permissions
       project_folder_id = project_storage.project_folder_id
 
       build_set_permissions_input_data(project_folder_id, permissions)
@@ -156,7 +158,7 @@ module Storages
     def project_remote_identities(project_storage)
       remote_identities = remote_identities_scope.where.not(id: admin_remote_identities_scope).order(:id)
 
-      if project_storage.project.public? && ProjectRole.non_member.permissions.intersect?(PERMISSIONS_KEYS)
+      if project_storage.project.public? && ProjectRole.non_member.permissions.intersect?(FILE_PERMISSIONS)
         remote_identities
       else
         remote_identities.where(user: project_storage.project.users)
