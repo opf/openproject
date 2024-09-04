@@ -100,9 +100,9 @@ class WorkPackages::SetAttributesService
       elsif work_changed? && work_set? && remaining_work_set? && percent_complete_not_provided_by_user?
         delta = work - work_was
         if delta.positive?
-          set_hint(:remaining_hours, :increased_like_work)
+          set_hint(:remaining_hours, :increased_by_delta_like_work, delta:)
         elsif delta.negative?
-          set_hint(:remaining_hours, :decreased_like_work)
+          set_hint(:remaining_hours, :decreased_by_delta_like_work, delta:)
         end
         self.remaining_work = (remaining_work + delta).clamp(0.0, work)
       elsif work_empty?
@@ -159,14 +159,6 @@ class WorkPackages::SetAttributesService
     def work_from_percent_complete_and_remaining_work
       remaining_percent_complete = 1.0 - (percent_complete / 100.0)
       remaining_work / remaining_percent_complete
-    end
-
-    def work_invalid?
-      !work_valid?
-    end
-
-    def remaining_work_invalid?
-      !remaining_work_valid?
     end
 
     def percent_complete_unparsable?

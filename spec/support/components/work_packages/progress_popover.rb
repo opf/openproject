@@ -111,7 +111,7 @@ module Components
       end
 
       def expect_read_only(field_name)
-        field(field_name).expect_read_only_modal_field
+        field(field_name).expect_modal_field_read_only
       end
 
       def expect_select_with_options(field_name, *options)
@@ -135,8 +135,17 @@ module Components
       end
 
       def expect_hint(field_name, hint)
-        expected_caption = hint && I18n.t("work_package.progress.derivation_hints.#{wp_field_name(field_name)}.#{hint}")
-        field(field_name).expect_caption(expected_caption)
+        progress_hint =
+          case hint
+          when nil
+            nil
+          when Symbol
+            WorkPackage::ProgressHint.new("#{wp_field_name(field_name)}.#{hint}")
+          when Hash
+            hint, params = hint.first
+            WorkPackage::ProgressHint.new("#{wp_field_name(field_name)}.#{hint}", params)
+          end
+        field(field_name).expect_caption(progress_hint&.message)
       end
 
       def expect_hints(**field_hint_pairs)

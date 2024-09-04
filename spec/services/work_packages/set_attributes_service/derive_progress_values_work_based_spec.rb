@@ -123,7 +123,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       include_examples "update progress values",
                        description: "remaining work is increased by the same amount, and % complete is derived",
                        expected_hints: {
-                         remaining_work: :increased_like_work,
+                         remaining_work: { increased_by_delta_like_work: { delta: 10 } },
                          percent_complete: :derived
                        }
     end
@@ -137,7 +137,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       include_examples "update progress values",
                        description: "remaining work is set to 0h and % Complete is cleared",
                        expected_hints: {
-                         remaining_work: :decreased_like_work,
+                         remaining_work: { decreased_by_delta_like_work: { delta: -10 } },
                          percent_complete: :cleared_because_work_is_0h
                        }
     end
@@ -151,7 +151,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       include_examples "update progress values",
                        description: "work and remaining work are set to 0h (rounded) and % Complete is cleared",
                        expected_hints: {
-                         remaining_work: :decreased_like_work,
+                         remaining_work: { decreased_by_delta_like_work: { delta: -9.9951 } },
                          percent_complete: :cleared_because_work_is_0h
                        }
     end
@@ -190,7 +190,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       include_examples "update progress values",
                        description: "remaining work is decreased by the same amount, and % complete is derived",
                        expected_hints: {
-                         remaining_work: :decreased_like_work,
+                         remaining_work: { decreased_by_delta_like_work: { delta: -2 } },
                          percent_complete: :derived
                        }
     end
@@ -205,7 +205,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       include_examples "update progress values",
                        description: "remaining work becomes 0h, and % complete becomes 100%",
                        expected_hints: {
-                         remaining_work: :decreased_like_work,
+                         remaining_work: { decreased_by_delta_like_work: { delta: -8 } },
                          percent_complete: :derived
                        }
     end
@@ -710,7 +710,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       include_examples "update progress values",
                        description: "remaining work is increased like work, and % complete is set to 0%",
                        expected_hints: {
-                         remaining_hours: :increased_like_work,
+                         remaining_hours: { increased_by_delta_like_work: { delta: 5 } },
                          percent_complete: :derived
                        }
     end

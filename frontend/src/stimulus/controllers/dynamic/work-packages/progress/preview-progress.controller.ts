@@ -61,7 +61,11 @@ export default class PreviewProgressController extends Controller {
     };
 
     this.progressInputTargets.forEach((target) => {
-      target.addEventListener('input', this.debouncedPreview);
+      if (target.tagName.toLowerCase() === 'select') {
+        target.addEventListener('change', this.debouncedPreview);
+      } else {
+        target.addEventListener('input', this.debouncedPreview);
+      }
       target.addEventListener('blur', this.debouncedPreview);
     });
 
