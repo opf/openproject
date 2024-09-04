@@ -27,7 +27,6 @@
 //++
 
 import { Injectable } from "@angular/core";
-import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 
 @Injectable()
 export class CostSubformAugmentService {
@@ -60,11 +59,6 @@ export class CostSubformAugmentService {
         container.append(row);
         rowIndex += 1;
 
-        window.OpenProject.getPluginContext()
-          .then((pluginContext:OpenProjectPluginContext) => {
-            pluginContext.bootstrap(row[0]);
-          });
-
         setTimeout(() => container.find('.subform-row:last-child input:first').focus(), 10)
 
         return false;
@@ -72,5 +66,3 @@ export class CostSubformAugmentService {
     });
   }
 }
-
-

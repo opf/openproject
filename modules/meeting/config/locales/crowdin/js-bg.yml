@@ -21,4 +21,7 @@
 #++
 bg:
   js:
-    label_meetings: 'Meetings'
+    label_meetings: 'Срещи'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

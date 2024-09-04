@@ -116,7 +116,7 @@ module Projects
       end
 
       content << " "
-      content << helpers.link_to_project(project, {}, {}, false)
+      content << helpers.link_to_project(project, {}, { data: { turbo: false } }, false)
       content
     end
 
@@ -342,7 +342,8 @@ module Projects
           scheme: :default,
           icon: :copy,
           label: I18n.t(:button_copy),
-          href: copy_project_path(project)
+          href: copy_project_path(project),
+          data: { turbo: false }
         }
       end
     end

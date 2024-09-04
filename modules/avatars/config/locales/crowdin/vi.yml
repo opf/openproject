@@ -1,9 +1,9 @@
 #English strings go here
 vi:
   plugin_openproject_avatars:
-    name: "Các hình đại diện"
+    name: "Ảnh đại diện"
     description: >-
-      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+      Plugin này cho phép người dùng OpenProject tải lên một bức ảnh để sử dụng làm ảnh đại diện hoặc sử dụng các hình ảnh đã đăng ký từ Gravatar.
   label_avatar: "Hình đại diện"
   label_avatar_plural: "Các hình đại diện"
   label_current_avatar: "Hình đại diện hiện tại"
@@ -11,14 +11,13 @@ vi:
   message_avatar_uploaded: "Hình đại diện đã thay đổi thành công"
   error_image_upload: "Lỗi khi lưu ảnh!"
   error_image_size: "Ảnh quá lớn"
-  button_change_avatar: "Đổi ảnh đại diện"
   are_you_sure_delete_avatar: "Bạn có chắc muốn xóa hình đại diện của bạn ?"
   avatar_deleted: "Hình đại diện đã xóa thành công"
   unable_to_delete_avatar: "Hình đại diện không thể bị xóa"
   wrong_file_format: "Định dạng ảnh được chấp nhận: jpg, png, gif"
   empty_file_error: "Xin hãy tải lên hình ảnh đúng định dạng(jpg, png, gif)"
   avatars:
-    label_avatar: "Hình đại diện"
+    label_avatar: "Ảnh đại diện"
     label_gravatar: 'Nhóm ảnh đại diện'
     label_current_avatar: 'Hình đại diện hiện tại'
     label_local_avatar: 'Tùy chỉnh hình đại diện'

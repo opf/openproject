@@ -13,14 +13,14 @@ bg:
         item_2:
           name: Висок
         item_3:
-          name: Critical
+          name: Критичен
       statuses:
         item_0:
           name: Нов
         item_1:
           name: В изпълнение
         item_2:
-          name: Resolved
+          name: Разрешен
         item_3:
           name: Затворен
       time_entry_activities:
@@ -40,14 +40,14 @@ bg:
         item_3:
           name: Проблем
         item_4:
-          name: Remark
+          name: Бележки
         item_5:
-          name: Request
+          name: Заявка
         item_6:
-          name: Clash
+          name: Сблъсък
       global_queries:
         item_0:
-          name: 'Embedded table: Children'
+          name: 'Вградена таблица: Деца'
       type_configuration:
         item_0:
           form_configuration:
@@ -55,23 +55,23 @@ bg:
               group_name: Деца
       groups:
         item_0:
-          name: Architects
+          name: Архитекти
         item_1:
-          name: BIM Coordinators
+          name: БИМ Кординатори
         item_2:
-          name: BIM Managers
+          name: Бим Мениджъри
         item_3:
-          name: BIM Modellers
+          name: БИМ Моделисти
         item_4:
-          name: Lead BIM Coordinators
+          name: Водещи БИМ координатори
         item_5:
-          name: MEP Engineers
+          name: МЕП инженери
         item_6:
-          name: Planners
+          name: Планьри
         item_7:
-          name: Structural Engineers
+          name: Структурни инженери
       welcome:
-        title: Welcome to OpenProject BIM edition!
+        title: Добре дошли в изданието OpenProject БИМ!
         text: |
           Checkout the demo projects to get started with some examples.
 
@@ -101,21 +101,21 @@ bg:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: План на проекта
             item_1:
-              name: Milestones
+              name: Етап
             item_2:
-              name: Tasks
+              name: Задачи
             item_3:
               name: Екипен плановик
           boards:
             bcf:
-              name: Simple drag'n drop workflow
+              name: Прост работен процес с плъзгане и пускане
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Добре дошли
               item_1:
                 options:
                   name: Първи стъпки
@@ -147,34 +147,34 @@ bg:
                   name: Работни пакети
               item_6:
                 options:
-                  name: Milestones
+                  name: Етапи
         demo-planning-constructing-project:
-          name: "(Demo) Planning & constructing"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          name: "(Демо) Планиране и конструиране"
+          status_explanation: Всички задачи са по график. Участниците си знаят задачите. Системата е напълно настроена.
+          description: Това е кратко резюме на целите на този демонстрационен проект за планиране и конструиране.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Добре дошли във вашия демонстрационен проект
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Радваме се, че се присъединихте.
+                В този модул можете да съобщавате новини за проекта на членовете на вашия екип.
+              description: Актуалните новини
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Категория 1 (да се промени в настройките на проекта)
           queries:
             item_0:
-              name: Project plan
+              name: План на проекта
             item_1:
-              name: Milestones
+              name: Етапи
             item_2:
-              name: Tasks
+              name: Задачи
             item_3:
               name: Екипен плановик
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Добре дошли
               item_1:
                 options:
                   name: Първи стъпки
@@ -202,20 +202,20 @@ bg:
                   name: Работни пакети
               item_6:
                 options:
-                  name: Milestones
+                  name: Етапи
           work_packages:
             item_0:
-              subject: Project kick off construction project
+              subject: Проект за стартиране на строителен проект
               description: |-
                 The project kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
 
                 The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Basic evaluation
+              subject: Основна оценка
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Gathering first project information
+                  subject: Събиране на първа информация за проекта
                   description: |-
                     ## Goal
 
@@ -228,7 +228,7 @@ bg:
                     *   Each need shall represent a task with its corresponding work packages
                     *   Derive the cost estimation and time frame
                 item_1:
-                  subject: Summarize the results
+                  subject: Обобщете резултатите
                   description: |-
                     ## Goal
 

@@ -49,3 +49,6 @@ ru:
           draft: 'составлен'
           merged: 'объединен'
           ready_for_review: 'отмечен как готовый к просмотру'
+    work_packages:
+      tabs:
+        github: "GitHub"

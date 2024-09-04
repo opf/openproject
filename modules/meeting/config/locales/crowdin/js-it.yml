@@ -22,3 +22,6 @@
 it:
   js:
     label_meetings: 'Riunioni'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

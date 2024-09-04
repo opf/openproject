@@ -23,9 +23,10 @@
                                 container_class: '-middle' %>
         </div>
         <div class="form--field-instructions">
-          <%= I18n.t('recaptcha.settings.recaptcha_description_html',
+          <%= I18n.t('recaptcha.settings.captcha_description_html',
                      hcaptcha_link: link_to('https://docs.hcaptcha.com/switch/', 'https://docs.hcaptcha.com/switch/', target: '_blank'),
-                     recaptcha_link: link_to('https://www.google.com/recaptcha', 'https://www.google.com/recaptcha', target: '_blank')).html_safe %>
+                     recaptcha_link: link_to('https://www.google.com/recaptcha', 'https://www.google.com/recaptcha', target: '_blank'),
+                     turnstile_link: link_to('https://developers.cloudflare.com/turnstile/', 'https://developers.cloudflare.com/turnstile/', target: '_blank')).html_safe %>
         </div>
       </div>
       <div class="form--field">

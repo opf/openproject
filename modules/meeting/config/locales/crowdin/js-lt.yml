@@ -22,3 +22,6 @@
 lt:
   js:
     label_meetings: 'Susitikimai'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

@@ -269,7 +269,8 @@ module API
         def representation_format_pdf
           representation_format "pdf",
                                 i18n_key: "pdf_overview_table",
-                                mime_type: "application/pdf"
+                                mime_type: "application/pdf",
+                                url_query_extras: "pdf_export_type=table"
         end
 
         def representation_format_pdf_report_with_images
@@ -277,7 +278,7 @@ module API
                                 format: "pdf",
                                 i18n_key: "pdf_report_with_images",
                                 mime_type: "application/pdf",
-                                url_query_extras: "show_images=true&show_report=true"
+                                url_query_extras: "pdf_export_type=report&show_images=true"
         end
 
         def representation_format_pdf_report
@@ -285,7 +286,7 @@ module API
                                 format: "pdf",
                                 i18n_key: "pdf_report",
                                 mime_type: "application/pdf",
-                                url_query_extras: "show_report=true"
+                                url_query_extras: "pdf_export_type=report"
         end
 
         def representation_format_pdf_gantt
@@ -295,7 +296,7 @@ module API
                                 format: "pdf",
                                 i18n_key: "pdf_gantt",
                                 mime_type: "application/pdf",
-                                url_query_extras: "gantt=true"
+                                url_query_extras: "pdf_export_type=gantt"
         end
 
         def representation_format_xls

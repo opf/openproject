@@ -20,7 +20,7 @@ ro:
         unlock_version: 'Versiunea de deblocare'
         edit_version: 'Editați versiunea'
         show_version: 'Arată versiunea'
-        locked: 'Închis'
+        locked: 'Blocat'
         closed: 'Închis'
       new_board: 'Bord nou'
       add_list: 'Adăugați lista la bord'

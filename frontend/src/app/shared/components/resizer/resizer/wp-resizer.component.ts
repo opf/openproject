@@ -29,7 +29,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { TransitionService } from '@uirouter/core';
-import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ResizeDelta } from 'core-app/shared/components/resizer/resizer.component';
 import { fromEvent } from 'rxjs';
@@ -56,7 +55,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
 
   @Input() localStorageKey:string;
 
-  @Input() resizeStyle:'flexBasis'|'width' = 'flexBasis';
+  @Input() variableName:string = '--split-screen-width';
 
   private resizingElement:HTMLElement;
 
@@ -67,16 +66,17 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   private resizer:HTMLElement;
 
   // Min-width this element is allowed to have
-  private elementMinWidth = 530;
+  private elementMinWidth = 550;
 
   public moving = false;
 
   public resizerClass = 'work-packages--resizer icon-resizer-vertical-lines';
 
-  constructor(readonly toggleService:MainMenuToggleService,
+  constructor(
+    readonly toggleService:MainMenuToggleService,
     private elementRef:ElementRef,
     readonly $transitions:TransitionService,
-    readonly browserDetector:BrowserDetector) {
+  ) {
     super();
   }
 
@@ -104,7 +104,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
       this.elementWidth = this.resizingElement.parentElement.offsetWidth / 2;
     }
 
-    this.resizingElement.style[this.resizeStyle] = `${this.elementWidth}px`;
+    this.setWidthVariable(this.elementWidth);
 
     // Add event listener
     this.element = this.elementRef.nativeElement;
@@ -138,10 +138,6 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
 
   ngOnDestroy() {
     super.ngOnDestroy();
-    // Reset the style when killing this directive, otherwise the style remains
-    if (this.resizingElement) {
-      this.resizingElement.style[this.resizeStyle] = '';
-    }
   }
 
   resizeStart() {
@@ -191,7 +187,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
     this.applyColumnLayout();
 
     // Set new width
-    this.resizingElement.style[this.resizeStyle] = `${newValue}px`;
+    this.setWidthVariable(newValue);
   }
 
   private parseLocalStorageValue():number|undefined {
@@ -219,5 +215,9 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
     if (!shouldBePresent && this.resizer.classList.contains('-error-font')) {
       this.resizer.classList.remove('-error-font');
     }
+  }
+
+  private setWidthVariable(value:number):void {
+    document.documentElement.style.setProperty(this.variableName, `${value}px`);
   }
 }

@@ -31,7 +31,6 @@ module Notifications
     attribute :recipient
     attribute :subject
     attribute :reason
-    attribute :project
     attribute :actor
     attribute :resource
     attribute :journal

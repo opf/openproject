@@ -38,12 +38,11 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-
-
 <%= styled_form_tag({ action: :update }, method: :patch) do %>
   <section class="form--section"
            data-application-target="dynamic"
-           data-controller="admin--work-packages-settings">
+           data-controller="admin--work-packages-settings"
+           data-admin--work-packages-settings-percent-complete-edition-active-value="<%= OpenProject::FeatureDecisions.percent_complete_edition_active? %>">
     <div class="form--field"><%= setting_check_box :cross_project_work_package_relations %></div>
     <div class="form--field"><%= setting_check_box :display_subprojects_work_packages %></div>
     <div class="form--field"><%= setting_check_box :work_package_startdate_is_adddate %></div>
@@ -53,7 +52,14 @@ See COPYRIGHT and LICENSE files for more details.
                          container_class: "-middle",
                          data: { admin__work_packages_settings_target: "progressCalculationModeSelect",
                                  action: "change->admin--work-packages-settings#displayWarning" } %>
-      <div class="form--field-instructions"><%= t("setting_work_package_done_ratio_explanation_html") %></div>
+      <div class="form--field-instructions"><%=
+        if OpenProject::FeatureDecisions.percent_complete_edition_active?
+          t("setting_work_package_done_ratio_explanation_html")
+        else
+          # This condition branch to be removed in 15.0 with :percent_complete_edition feature flag removal
+          t("setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html")
+        end
+                                            %></div>
     </div>
     <div class="op-toast -warning -with-bottom-spacing"
          hidden
@@ -76,7 +82,7 @@ See COPYRIGHT and LICENSE files for more details.
                    ee_feature: :conditional_highlighting,
                    explanation: t("js.work_packages.table_configuration.upsale.attribute_highlighting"),
                    link_out: {
-                     href: "https://www.openproject.org/enterprise-edition/?op_edtion=community-edition&op_referrer=settings-wp-attribute-highlighting#attribute-highlighting",
+                     href: "https://www.openproject.org/enterprise-edition/?op_edition=community-edition&op_referrer=settings-wp-attribute-highlighting#attribute-highlighting",
                      caption: t("js.work_packages.table_configuration.upsale.check_out_link")
                    }
                  } %>

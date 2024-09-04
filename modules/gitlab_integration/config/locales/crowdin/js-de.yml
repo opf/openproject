@@ -48,3 +48,6 @@ de:
         empty: 'Es sind noch keine Merge Requests verlinkt. Verknüpfen Sie einen bestehenden MR, indem Sie den Code <code>OP#%{wp_id}</code> (oder <code>PP#%{wp_id}</code> für private Links) im MR-Titel/der MR-Beschreibung verwenden, oder erstellen Sie einen neuen MR.'
       gitlab_pipelines: Pipelines
       updated_on: Aktualisiert am
+    work_packages:
+      tabs:
+        gitlab: "GitLab"

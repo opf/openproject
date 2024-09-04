@@ -27,6 +27,8 @@
 #++
 
 class Enumeration < ApplicationRecord
+  include SubclassRegistry
+
   default_scope { order("#{Enumeration.table_name}.position ASC") }
 
   belongs_to :project, optional: true

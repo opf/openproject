@@ -26,23 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Injectable,
-  Injector,
-} from '@angular/core';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpParams,
-} from '@angular/common/http';
-import {
-  catchError,
-  map,
-} from 'rxjs/operators';
-import {
-  Observable,
-  throwError,
-} from 'rxjs';
+import { Injectable, Injector } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 import * as Pako from 'pako';
@@ -54,15 +41,9 @@ import {
   HTTPClientParamMap,
   HTTPSupportedMethods,
 } from 'core-app/features/hal/http/http.interfaces';
-import {
-  HalLink,
-  HalLinkInterface,
-} from 'core-app/features/hal/hal-link/hal-link';
+import { HalLink, HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
 import { URLParamsEncoder } from 'core-app/features/hal/services/url-params-encoder';
-import {
-  HalResource,
-  HalResourceClass,
-} from 'core-app/features/hal/resources/hal-resource';
+import { HalResource, HalResourceClass } from 'core-app/features/hal/resources/hal-resource';
 import { initializeHalProperties } from '../helpers/hal-resource-builder';
 import { HalError } from 'core-app/features/hal/services/hal-error';
 import { getPaginatedCollections } from 'core-app/core/apiv3/helpers/get-paginated-results';
@@ -289,6 +270,7 @@ export class HalResourceService {
   }
 
   /**
+   *
    * Get a linked resource from its HalLink with the correct type.
    */
   public createLinkedResource<T extends HalResource = HalResource>(halResource:T, linkName:string, link:HalLinkInterface) {
@@ -327,6 +309,7 @@ export class HalResourceService {
 
   protected toEprops(params:unknown):{ eprops:string } {
     const deflatedArray = Pako.deflate(JSON.stringify(params));
+
     const compressed = base64.bytesToBase64(deflatedArray);
 
     return { eprops: compressed };

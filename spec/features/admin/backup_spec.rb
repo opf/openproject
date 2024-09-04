@@ -56,7 +56,7 @@ RSpec.describe "backup", :js do
     fill_in "backupToken", with: backup_token.plain_value
     click_on "Request backup"
 
-    expect(page).to have_content I18n.t("js.job_status.generic_messages.in_queue"), wait: 10
+    expect(page).to have_content I18n.t("job_status_dialog.generic_messages.in_queue"), wait: 10
 
     begin
       perform_enqueued_jobs
@@ -64,7 +64,7 @@ RSpec.describe "backup", :js do
       # nothing
     end
 
-    expect(page).to have_text "The export has completed successfully"
+    expect(page).to have_text I18n.t("export.succeeded"), wait: 10
     expect(subject).to end_with ".zip"
   end
 
@@ -116,6 +116,8 @@ RSpec.describe "backup", :js do
     expect(page).to have_content /#{I18n.t('js.backup.title')}/i
 
     click_on I18n.t("backup.label_delete_token")
+
+    page.driver.browser.switch_to.alert.accept
 
     expect(page).to have_content I18n.t("backup.text_token_deleted")
 

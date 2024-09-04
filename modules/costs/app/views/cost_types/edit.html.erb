@@ -66,11 +66,11 @@ See COPYRIGHT and LICENSE files for more details.
   <h3><%= t :caption_rate_history %></h3>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
-      <table class="generic-table">
+      <table class="generic-table" data-controller="table-highlighting">
         <colgroup>
-          <col opHighlightCol>
-          <col opHighlightCol>
           <col>
+          <col>
+          <col data-highlight="false">
         </colgroup>
         <thead>
           <tr>

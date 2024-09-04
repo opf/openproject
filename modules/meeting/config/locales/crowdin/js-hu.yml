@@ -22,3 +22,6 @@
 hu:
   js:
     label_meetings: 'Megbeszélések'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

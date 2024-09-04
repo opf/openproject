@@ -2,365 +2,382 @@ vi:
   activerecord:
     attributes:
       storages/file_link:
-        origin_id: Origin Id
+        origin_id: ID Nguồn
       storages/storage:
-        creator: Creator
-        drive: Drive ID
+        creator: Người tạo
+        drive: ID Ổ đĩa
         host: Máy chủ
         name: Tên
-        provider_type: Provider type
-        tenant: Directory (tenant) ID
+        provider_type: Loại nhà cung cấp
+        tenant: ID Thư mục (người thuê)
     errors:
       messages:
-        invalid_host_url: is not a valid URL.
-        not_linked_to_project: is not linked to project.
+        invalid_host_url: không phải là URL hợp lệ.
+        not_linked_to_project: không được liên kết với dự án.
       models:
         storages/file_link:
           attributes:
             origin_id:
-              only_numeric_or_uuid: can only be numeric or uuid.
+              only_numeric_or_uuid: chỉ có thể là số hoặc uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Vui lòng chọn một thư mục.
             project_folder_mode:
-              mode_unavailable: is not available for this storage.
+              mode_unavailable: không khả dụng cho lưu trữ này.
             project_ids:
-              blank: Please select a project.
+              blank: Vui lòng chọn một dự án.
         storages/storage:
           attributes:
             host:
-              authorization_header_missing: is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
-              cannot_be_connected_to: can not be connected to.
-              minimal_nextcloud_version_unmet: does not meet minimal version requirements (must be Nextcloud 23 or higher)
-              not_nextcloud_server: is not a Nextcloud server
-              op_application_not_installed: appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
+              authorization_header_missing: không được cấu hình đầy đủ. Phiên bản Nextcloud không nhận được tiêu đề "Authorization", điều này cần thiết cho xác thực Bearer token của các yêu cầu API. Vui lòng kiểm tra lại cấu hình máy chủ HTTP của bạn.
+              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
+              minimal_nextcloud_version_unmet: không đáp ứng yêu cầu phiên bản tối thiểu (phải là Nextcloud 23 trở lên)
+              not_nextcloud_server: không phải là máy chủ Nextcloud
+              op_application_not_installed: có vẻ như chưa cài đặt ứng dụng "Tích hợp OpenProject". Vui lòng cài đặt ứng dụng này trước và sau đó thử lại.
             password:
-              invalid_password: is not valid.
-              unknown_error: could not be validated. Please check your storage connection and try again.
+              invalid_password: không hợp lệ.
+              unknown_error: không thể xác thực. Vui lòng kiểm tra kết nối lưu trữ của bạn và thử lại.
     models:
       file_link: Tệp
-      storages/storage: Storage
+      storages/storage: Lưu trữ
   api_v3:
     errors:
-      too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.
-  external_file_storages: External file storages
-  permission_create_files: 'Automatically managed project folders: Create files'
-  permission_create_files_explanation: This permission is only available for Nextcloud storages
-  permission_delete_files: 'Automatically managed project folders: Delete files'
-  permission_delete_files_explanation: This permission is only available for Nextcloud storages
-  permission_header_for_project_module_storages: Automatically managed project folders
-  permission_manage_file_links: Manage file links
-  permission_manage_files_in_project: Manage files in project
-  permission_read_files: 'Automatically managed project folders: Read files'
-  permission_share_files: 'Automatically managed project folders: Share files'
-  permission_share_files_explanation: This permission is only available for Nextcloud storages
-  permission_view_file_links: View file links
-  permission_write_files: 'Automatically managed project folders: Write files'
-  project_module_storages: Files
+      too_many_elements_created_at_once: Tạo quá nhiều phần tử cùng một lúc. Mong đợi tối đa %{max}, nhưng nhận được %{actual}.
+  external_file_storages: Lưu trữ tệp bên ngoài
+  permission_create_files: 'Thư mục dự án được quản lý tự động: Tạo tệp'
+  permission_create_files_explanation: Quyền này chỉ có sẵn cho các lưu trữ Nextcloud
+  permission_delete_files: 'Thư mục dự án được quản lý tự động: Xóa tệp'
+  permission_delete_files_explanation: Quyền này chỉ có sẵn cho các lưu trữ Nextcloud
+  permission_header_for_project_module_storages: Thư mục dự án được quản lý tự động
+  permission_manage_file_links: Quản lý liên kết tệp
+  permission_manage_files_in_project: Quản lý tệp trong dự án
+  permission_read_files: 'Thư mục dự án được quản lý tự động: Đọc tệp'
+  permission_share_files: 'Thư mục dự án được quản lý tự động: Chia sẻ tệp'
+  permission_share_files_explanation: Quyền này chỉ có sẵn cho các lưu trữ Nextcloud
+  permission_view_file_links: Xem liên kết tệp
+  permission_write_files: 'Thư mục dự án được quản lý tự động: Ghi tệp'
+  project_module_storages: Tệp
   project_storages:
+    edit_project_folder:
+      label: Sửa thư mục dự án
     project_folder_mode:
-      automatic: Automatically managed
-      inactive: No specific folder
-      manual: Existing folder manually managed
+      automatic: Được quản lý tự động
+      inactive: Không có thư mục cụ thể
+      manual: Thư mục hiện có được quản lý thủ công
     remove_project:
+      deletion_failure_flash: Không thể xóa dự án khỏi bộ lưu trữ. %{error}
       dialog:
-        automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
-        confirmation_text: Please, confirm you understand and want to remove this file storage from this project
-        heading: Remove project from %{storage_type}
-        text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
-      label: Remove project
+        automatically_managed_appendix: Ngoài ra, trong trường hợp này, bộ lưu trữ này có một thư mục dự án được quản lý tự động, thư mục này và các tệp trong đó sẽ bị xóa vĩnh viễn.
+        confirmation_text: Vui lòng xác nhận bạn hiểu và muốn xóa bộ lưu trữ tệp này khỏi dự án này
+        heading_text: Remove project from %{storage}
+        text: Hành động này là không thể đảo ngược và sẽ xóa tất cả các liên kết từ các gói công việc của dự án này tới các tệp và thư mục của bộ lưu trữ đó.
+      label: Xóa dự án
   services:
     attributes:
       nextcloud_sync_service:
-        add_user_to_group: 'Add User to Group:'
-        create_folder: 'Managed Project Folder Creation:'
-        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
-        hide_inactive_folders: 'Hide Inactive Folders Step:'
-        remote_folders: 'Read contents of the group folder:'
-        remove_user_from_group: 'Remove User from Group:'
-        rename_project_folder: 'Rename managed project Folder:'
+        add_user_to_group: 'Thêm người dùng vào nhóm:'
+        create_folder: 'Tạo thư mục dự án được quản lý:'
+        ensure_root_folder_permissions: 'Thiết lập quyền cho thư mục cơ sở:'
+        hide_inactive_folders: 'Ẩn bước các thư mục không hoạt động:'
+        remote_folders: 'Đọc nội dung của thư mục nhóm:'
+        remove_user_from_group: 'Xóa người dùng khỏi nhóm:'
+        rename_project_folder: 'Đổi tên thư mục dự án được quản lý:'
       one_drive_sync_service:
-        create_folder: 'Managed Project Folder Creation:'
-        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
-        hide_inactive_folders: 'Hide Inactive Folders Step:'
-        remote_folders: 'Read contents of the group folder:'
-        rename_project_folder: 'Rename managed project Folder:'
+        create_folder: 'Tạo thư mục dự án được quản lý:'
+        ensure_root_folder_permissions: 'Thiết lập quyền cho thư mục cơ sở:'
+        hide_inactive_folders: 'Ẩn bước các thư mục không hoạt động:'
+        remote_folders: 'Đọc nội dung của thư mục nhóm:'
+        rename_project_folder: 'Đổi tên thư mục dự án được quản lý:'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: Thư mục %{destination_path} đã tồn tại. Đang tạm dừng quá trình để tránh ghi đè.
+          error: Đã xảy ra lỗi không mong muốn. Vui lòng kiểm tra nhật ký OpenProject để biết thêm thông tin hoặc liên hệ với quản trị viên
+          forbidden: OpenProject không thể truy cập thư mục nguồn. Vui lòng kiểm tra cấu hình quyền của bạn trên Nhà cung cấp lưu trữ
+          not_found: Không tìm thấy vị trí mẫu nguồn %{source_path}.
+          unauthorized: OpenProject không thể xác thực với Nhà cung cấp lưu trữ. Vui lòng kiểm tra cấu hình lưu trữ của bạn
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
-              conflict: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
-              failed_to_add: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+              conflict: 'Không thể thêm người dùng %{user} vào nhóm %{group} vì lý do sau: %{reason}'
+              failed_to_add: 'Không thể thêm người dùng %{user} vào nhóm %{group} vì lý do sau: %{reason}'
             create_folder:
-              conflict: The %{folder_name} already exists on %{parent_location}.
-              not_found: "%{parent_location} wasn't found."
+              conflict: '%{folder_name} đã tồn tại ở %{parent_location}.'
+              not_found: "Không tìm thấy %{parent_location}."
             ensure_root_folder_permissions:
-              not_found: "%{group_folder} wasn't found. Please check your Nextcloud Group Folder setup."
-              permission_not_set: could not set permissions on %{group_folder}.
+              not_found: "Không tìm thấy %{group_folder}. Vui lòng kiểm tra thiết lập Thư mục nhóm Nextcloud của bạn."
+              permission_not_set: không thể thiết lập quyền trên %{group_folder}.
             hide_inactive_folders:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: không thể thiết lập quyền trên %{path}.
             remote_folders:
-              not_allowed: The %{username} doesn't have access to the %{group_folder}. Please check the folder permissions on Nextcloud.
-              not_found: "%{group_folder} wasn't found. Please check your Nextcloud setup."
+              not_allowed: '%{username} không có quyền truy cập vào %{group_folder}. Vui lòng kiểm tra quyền thư mục trên Nextcloud.'
+              not_found: "Không tìm thấy %{group_folder}. Vui lòng kiểm tra thiết lập Nextcloud của bạn."
             remove_user_from_group:
-              conflict: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
-              failed_to_remove: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
+              conflict: 'Không thể xóa người dùng %{user} khỏi nhóm %{group} vì lý do sau: %{reason}'
+              failed_to_remove: 'Không thể xóa người dùng %{user} khỏi nhóm %{group} vì lý do sau: %{reason}'
             rename_project_folder:
-              forbidden: OpenProject user does not have access to %{current_path} folder.
-              not_found: "%{current_path} wasn't found."
+              forbidden: Người dùng OpenProject không có quyền truy cập vào thư mục %{current_path}.
+              not_found: "Không tìm thấy %{current_path}."
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
-          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
-          group_does_not_exist: "%{group} does not exit. Check your Nextcloud instance configuration."
-          insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
-          not_allowed: Nextcloud block the request.
-          unauthorized: OpenProject could not sync with Nextcloud. Please check you storage and Nextcloud configuration.
-          user_does_not_exist: "%{user} does not exist in Nextcloud."
+              permission_not_set: không thể thiết lập quyền trên %{path}.
+          error: Đã xảy ra lỗi không mong muốn. Vui lòng đảm bảo rằng phiên bản Nextcloud của bạn có thể truy cập được và kiểm tra nhật ký công nhân OpenProject để biết thêm thông tin
+          group_does_not_exist: "%{group} không tồn tại. Kiểm tra cấu hình phiên bản Nextcloud của bạn."
+          insufficient_privileges: OpenProject không có đủ quyền để thêm %{user} vào %{group}. Kiểm tra cài đặt nhóm của bạn trong Nextcloud.
+          not_allowed: Nextcloud chặn yêu cầu.
+          unauthorized: OpenProject không thể đồng bộ với Nextcloud. Vui lòng kiểm tra bộ nhớ và cấu hình Nextcloud của bạn.
+          user_does_not_exist: "%{user} không tồn tại trong Nextcloud."
         one_drive_sync_service:
           attributes:
             create_folder:
-              conflict: The %{folder_name} already exists on %{parent_location}.
-              not_found: "%{parent_location} wasn't found."
+              conflict: '%{folder_name} đã tồn tại ở %{parent_location}.'
+              not_found: "Không tìm thấy %{parent_location}."
             hide_inactive_folders:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: không thể thiết lập quyền trên %{path}.
             remote_folders:
-              request_error: OpenProject could not access your drive %{drive_id}. Please check if your storage configuration is correct.
+              request_error: OpenProject không thể truy cập ổ đĩa %{drive_id} của bạn. Vui lòng kiểm tra xem cấu hình lưu trữ của bạn có đúng không.
             rename_project_folder:
-              conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists
-              forbidden: OpenProject does not have access to %{current_path} in order to rename it.
-              not_found: "%{current_path} wasn't found."
+              conflict: OpenProject không thể đổi tên thư mục %{current_path} thành %{project_folder_name} vì đã có một thư mục có cùng tên
+              forbidden: OpenProject không có quyền truy cập vào %{current_path} để đổi tên nó.
+              not_found: "Không tìm thấy %{current_path}."
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
-          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
-          not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
-          unauthorized: OpenProject could not sync with OneDrive. Please check you storage and Azure Application configuration.
-          user_does_not_exist: "%{user} does not exist in Nextcloud."
+              permission_not_set: không thể thiết lập quyền trên %{path}.
+          error: Đã xảy ra lỗi không mong muốn. Vui lòng đảm bảo rằng phiên bản Nextcloud của bạn có thể truy cập được và kiểm tra nhật ký công nhân OpenProject để biết thêm thông tin
+          not_allowed: OpenProject không được phép truy cập ổ đĩa OneDrive của bạn. Vui lòng kiểm tra các quyền được thiết lập trên Ứng dụng Azure.
+          unauthorized: OpenProject không thể đồng bộ với OneDrive. Vui lòng kiểm tra cấu hình lưu trữ và ứng dụng Azure của bạn.
+          user_does_not_exist: "%{user} không tồn tại trong Nextcloud."
   storages:
     buttons:
-      complete_without_setup: Complete without it
-      done_complete_setup: Done, complete setup
-      done_continue: Done, continue
-      replace_oauth_application: Replace OpenProject OAuth
-      replace_oauth_client: Replace %{provider_type} OAuth
-      save_and_continue: Save and continue
-      select_folder: Select folder
+      complete_without_setup: Hoàn tất mà không cần cấu hình
+      done_complete_setup: Hoàn tất, hoàn tất cấu hình
+      done_continue: Hoàn tất, tiếp tục
+      open_storage: Mở lưu trữ tập tin
+      replace_oauth_application: Thay thế OAuth OpenProject
+      replace_oauth_client: Thay thế OAuth %{provider_type}
+      save_and_continue: Lưu và tiếp tục
+      select_folder: Chọn thư mục
     configuration_checks:
       oauth_client_incomplete:
-        nextcloud: Allow OpenProject to access Nextcloud data using OAuth.
-        one_drive: Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint.
+        nextcloud: Cho phép OpenProject truy cập dữ liệu Nextcloud bằng OAuth.
+        one_drive: Cho phép OpenProject truy cập dữ liệu Azure bằng OAuth để kết nối OneDrive/Sharepoint.
       redirect_uri_incomplete:
-        one_drive: Complete the setup with the correct URI redirection.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
-    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
+        one_drive: Hoàn tất cấu hình với URI chuyển hướng chính xác.
+    confirm_replace_oauth_application: Hành động này sẽ đặt lại các thông tin xác thực OAuth hiện tại. Sau khi xác nhận, bạn sẽ phải nhập lại thông tin xác thực tại nhà cung cấp lưu trữ và tất cả người dùng từ xa sẽ phải xác thực lại với OpenProject. Bạn có chắc chắn muốn tiếp tục không?
+    confirm_replace_oauth_client: Hành động này sẽ đặt lại các thông tin xác thực OAuth hiện tại. Sau khi xác nhận, bạn sẽ phải nhập thông tin mới từ nhà cung cấp lưu trữ và tất cả người dùng sẽ phải xác thực lại với %{provider_type}. Bạn có chắc chắn muốn tiếp tục không?
     delete_warning:
-      input_delete_confirmation: Enter the file storage name %{file_storage} to confirm deletion.
-      irreversible_notice: Deleting a file storage is an irreversible action.
-      project_storage: 'Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:'
-      project_storage_delete_result_1: Remove all links from work packages of this project to files and folders of that storage.
-      project_storage_delete_result_2: In case this storage has an automatically managed project folder, this and its files will be deleted forever.
-      storage: 'Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:'
-      storage_delete_result_1: Remove all storage setups for all projects using this storage.
-      storage_delete_result_2: Remove all links from work packages of all projects to files and folders of that storage.
-      storage_delete_result_3: In case this storage has automatically managed project folders, those and their contained files will be deleted forever.
+      input_delete_confirmation: Nhập tên lưu trữ tệp %{file_storage} để xác nhận xóa.
+      irreversible_notice: Xóa một lưu trữ tệp là hành động không thể khôi phục.
+      project_storage: 'Bạn có chắc chắn muốn xóa %{file_storage} khỏi dự án này không? Để xác nhận hành động này, vui lòng nhập tên lưu trữ vào trường dưới đây, hành động này sẽ:'
+      project_storage_delete_result_1: Xóa tất cả liên kết từ các gói công việc của dự án này đến các tệp và thư mục của lưu trữ đó.
+      project_storage_delete_result_2: Trong trường hợp lưu trữ này có thư mục dự án được quản lý tự động, thư mục này và các tệp của nó sẽ bị xóa vĩnh viễn.
+      storage: 'Bạn có chắc chắn muốn xóa %{file_storage} không? Để xác nhận hành động này, vui lòng nhập tên lưu trữ vào trường dưới đây, hành động này sẽ:'
+      storage_delete_result_1: Xóa tất cả cấu hình lưu trữ cho tất cả các dự án sử dụng lưu trữ này.
+      storage_delete_result_2: Xóa tất cả liên kết từ các gói công việc của tất cả các dự án đến các tệp và thư mục của lưu trữ đó.
+      storage_delete_result_3: Trong trường hợp lưu trữ này có các thư mục dự án được quản lý tự động, các thư mục này và các tệp chứa bên trong sẽ bị xóa vĩnh viễn.
     dependencies:
       nextcloud:
-        group_folders_app: Group folders
-        integration_app: Integration OpenProject
+        group_folders_app: Nhóm thư mục
+        integration_app: Tích hợp OpenProject
     enabled_in_projects:
-      setup_incomplete_description: This storage has an incomplete setup. Please, complete the setup before enabling it in multiple projects.
-      setup_incomplete_header: Storage setup incomplete
-    error_invalid_provider_type: Please select a valid storage provider.
+      setup_incomplete_description: Bộ lưu trữ này có thiết lập chưa hoàn chỉnh. Vui lòng hoàn tất thiết lập trước khi bật nó trong nhiều dự án.
+      setup_incomplete_header: Thiết lập lưu trữ chưa hoàn tất
+    error_invalid_provider_type: Vui lòng chọn một nhà cung cấp lưu trữ hợp lệ.
     file_storage_view:
       access_management:
-        automatic_management: Automatically managed access and folders
-        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
-        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
-        manual_management: Manually managed access and folders
-        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
-        setup_incomplete: Select the type of management of user access and folder creation.
-        subtitle: Access management
-        title: Access and project folders
-      automatically_managed_folders: Automatically managed folders
-      general_information: General information
+        automatic_management: Quản lý và thư mục tự động
+        automatic_management_description: Để OpenProject tạo thư mục cho từng dự án tự động và quản lý quyền truy cập của người dùng. Điều này được khuyến nghị vì nó đảm bảo rằng mỗi thành viên trong nhóm luôn có quyền truy cập đúng.
+        description: Chọn loại quản lý quyền truy cập của người dùng và tạo thư mục. Chúng tôi khuyến nghị sử dụng quản lý tự động để có cấu trúc tổ chức hơn và đảm bảo quyền truy cập cho tất cả người dùng liên quan.
+        manual_management: Quản lý và thư mục thủ công
+        manual_management_description: Tạo và quản lý thư mục cho từng dự án thủ công. Bạn sẽ cần phải đảm bảo rằng các người dùng liên quan có quyền truy cập.
+        setup_incomplete: Chọn loại quản lý quyền truy cập và tạo thư mục.
+        subtitle: Quản lý quyền truy cập
+        title: Quyền truy cập và thư mục dự án
+      automatically_managed_folders: Thư mục được quản lý tự động
+      general_information: Thông tin chung
       nextcloud_oauth: Nextcloud OAuth
-      oauth_applications: Các ứng dụng OAuth
+      oauth_applications: Ứng dụng OAuth
       one_drive_oauth: Azure OAuth
       openproject_oauth: OpenProject OAuth
-      project_folders: Project folders
-      redirect_uri: URI đổi hướng
-      storage_provider: Storage provider
+      project_folders: Thư mục dự án
+      redirect_uri: URI chuyển hướng
+      storage_provider: Nhà cung cấp lưu trữ
     health:
-      checked: Last checked %{datetime}
+      checked: Đã kiểm tra lần cuối vào %{datetime}
       connection_validation:
-        action: Recheck connection
-        app_version_mismatch: The Integration OpenProject app version is not supported. Please update your Nextcloud server.
-        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
-        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
-        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
-        group_folder_version_mismatch: The Group Folder version is not supported. Please update your Nextcloud server.
-        host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
-        missing_dependencies: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
-        not_configured: The connection could not be validated. Please finish configuration first.
-        placeholder: Check your connection against the server.
-        subtitle: Connection validation
-        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
-        unexpected_content: Unexpected content found in the drive.
-        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
+        action: Kiểm tra lại kết nối
+        app_version_mismatch: Phiên bản ứng dụng Integration OpenProject không được hỗ trợ. Vui lòng cập nhật máy chủ Nextcloud của bạn.
+        client_id_wrong: ID khách hàng OAuth 2 cấu hình không hợp lệ. Vui lòng kiểm tra cấu hình.
+        client_secret_wrong: Bí mật khách hàng OAuth 2 cấu hình không hợp lệ. Vui lòng kiểm tra cấu hình.
+        drive_id_wrong: ID ổ đĩa cấu hình không tìm thấy. Vui lòng kiểm tra cấu hình.
+        group_folder_version_mismatch: Phiên bản Thư mục nhóm không được hỗ trợ. Vui lòng cập nhật máy chủ Nextcloud của bạn.
+        host_not_found: Không tìm thấy máy chủ Nextcloud tại url máy chủ được cấu hình. Vui lòng kiểm tra cấu hình.
+        missing_dependencies: 'Thiếu sự phụ thuộc bắt buộc vào bộ lưu trữ tệp. Vui lòng thêm sự phụ thuộc sau: %{dependency}.'
+        not_configured: Kết nối không thể được xác thực. Vui lòng hoàn tất cấu hình trước.
+        placeholder: Kiểm tra kết nối của bạn với máy chủ.
+        subtitle: Xác thực kết nối
+        tenant_id_wrong: ID thư mục (người thuê) cấu hình không hợp lệ. Vui lòng kiểm tra cấu hình.
+        unexpected_content: Nội dung không mong đợi được tìm thấy trong ổ đĩa.
+        unknown_error: Kết nối không thể được xác thực. Đã xảy ra lỗi không xác định. Vui lòng kiểm tra nhật ký máy chủ để biết thêm thông tin.
       label_error: Lỗi
-      label_healthy: Healthy
-      label_pending: Pending
-      label_warning: Warning
+      label_healthy: Khỏe
+      label_pending: Đang chờ
+      label_warning: Cảnh báo
       project_folders:
-        subtitle: Automatically managed project folders
-      since: since %{datetime}
-      title: Health status
+        subtitle: Thư mục dự án được quản lý tự động
+      since: kể từ %{datetime}
+      title: Tình trạng sức khỏe
     health_email_notifications:
-      description_subscribed: All administrators receive health status email notifications for this storage.
-      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
-      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
-      subscribe: Subscribe
+      description_subscribed: Tất cả các quản trị viên nhận thông báo email về tình trạng sức khỏe cho lưu trữ này.
+      description_unsubscribed: Thông báo email về tình trạng sức khỏe cho lưu trữ này đã bị tắt cho tất cả các quản trị viên.
+      error_could_not_be_saved: Cài đặt thông báo qua email không thể được lưu. Vui lòng thử lại.
+      subscribe: Đăng ký
       title: Thông báo qua email
-      unsubscribe: Unsubscribe
+      unsubscribe: Hủy đăng ký
     help_texts:
-      project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
-      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
+      project_folder: Thư mục dự án là thư mục mặc định để tải lên tệp cho dự án này. Người dùng vẫn có thể tải lên tệp đến các vị trí khác.
+      project_folder_bulk: Thư mục dự án là thư mục mặc định để tải tệp lên cho tất cả các dự án đã chọn. Bạn có thể sửa đổi thư mục này riêng lẻ trong từng cài đặt dự án. Tuy nhiên, người dùng vẫn có thể tải tệp lên các vị trí khác.
     instructions:
-      all_available_storages_already_added: All available storages are already added to the project.
-      automatic_folder: This will automatically create a root folder for this project and manage the access permissions for each project member.
-      empty_project_folder_validation: Selecting a folder is mandatory to proceed.
-      existing_manual_folder: You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
-      host: Please add the host address of your storage including the https://. It should not be longer than 255 characters.
-      managed_project_folders_application_password_caption: 'Enable automatic managed folders by copying this value from: %{provider_type_link}.'
-      name: Give your storage a name so that users can differentiate between multiple storages.
-      new_storage: Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information.
+      all_available_storages_already_added: Tất cả các lưu trữ có sẵn đã được thêm vào dự án.
+      automatic_folder: Điều này sẽ tự động tạo một thư mục gốc cho dự án này và quản lý quyền truy cập cho từng thành viên của dự án.
+      empty_project_folder_validation: Việc chọn một thư mục là bắt buộc để tiếp tục.
+      existing_manual_folder: Bạn có thể chỉ định một thư mục hiện có làm thư mục gốc cho dự án này. Tuy nhiên, quyền truy cập không được quản lý tự động, quản trị viên cần đảm bảo rằng các người dùng liên quan có quyền truy cập. Thư mục đã chọn có thể được sử dụng bởi nhiều dự án.
+      host: Vui lòng thêm địa chỉ máy chủ lưu trữ của bạn bao gồm https://. Địa chỉ không nên dài quá 255 ký tự.
+      managed_project_folders_application_password_caption: 'Kích hoạt các thư mục được quản lý tự động bằng cách sao chép giá trị này từ: %{provider_type_link}.'
+      name: Đặt tên cho lưu trữ của bạn để người dùng có thể phân biệt giữa nhiều lưu trữ.
+      new_storage: Đọc tài liệu của chúng tôi về <a target='_blank' href='%{provider_link}'>cài đặt tích hợp lưu trữ tệp %{provider_name}</a> để biết thêm thông tin.
       nextcloud:
-        application_link_text: application “Integration OpenProject”
-        integration: Nextcloud Administration / OpenProject
-        oauth_configuration: Copy these values from %{application_link_text}.
-        provider_configuration: Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup.
-      no_specific_folder: By default, each user will start at their own home folder when they upload a file.
-      no_storage_set_up: There are no file storages set up yet.
-      not_logged_into_storage: To select a project folder, please first login
-      oauth_application_details: The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}.
-      oauth_application_details_link_text: Nextcloud OpenProject Integration settings
+        application_link_text: ứng dụng “Tích hợp OpenProject”
+        integration: Quản trị Nextcloud / OpenProject
+        oauth_configuration: Sao chép các giá trị này từ %{application_link_text}.
+        provider_configuration: Vui lòng đảm bảo bạn có quyền quản trị trong phiên bản Nextcloud của bạn và ứng dụng %{application_link_text} đã được cài đặt trước khi thực hiện cấu hình.
+      no_specific_folder: Theo mặc định, mỗi người dùng sẽ bắt đầu tại thư mục cá nhân của họ khi tải lên tệp.
+      no_storage_set_up: Chưa có lưu trữ tệp nào được thiết lập.
+      not_logged_into_storage: Để chọn thư mục dự án, vui lòng đăng nhập trước
+      oauth_application_details: Giá trị bí mật khách hàng sẽ không còn khả dụng sau khi bạn đóng cửa sổ này. Vui lòng sao chép các giá trị này vào %{oauth_application_details_link}.
+      oauth_application_details_link_text: Cài đặt Tích hợp OpenProject Nextcloud
       one_drive:
-        application_link_text: Azure portal
-        copy_redirect_uri: Copy redirect URI
-        documentation_link_text: OneDrive/SharePoint file storages documentation
-        drive_id: Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}.
+        application_link_text: cổng thông tin Azure
+        copy_redirect_uri: Sao chép URI chuyển hướng
+        documentation_link_text: Tài liệu lưu trữ tệp OneDrive/SharePoint
+        drive_id: Vui lòng sao chép ID từ ổ đĩa mong muốn bằng cách làm theo các bước trong %{drive_id_link_text}.
         integration: OneDrive/SharePoint
-        missing_client_id_for_redirect_uri: Please fill the OAuth values to generate a URI
-        oauth_client_redirect_uri: Please copy this value to a new Web redirect URI under Redirect URIs.
-        oauth_client_secret: In case there is no application client secret under Client credentials, please create a new one.
-        oauth_configuration: Copy these values from the desired application in the %{application_link_text}.
-        provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
-        tenant_id: Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
-        tenant_id_placeholder: Name or UUID
-      setting_up_additional_storages: For setting up additional file storages, please visit
-      setting_up_additional_storages_non_admin: Administrators can set up additional file storages in Administration / File Storages.
-      setting_up_storages: For setting up file storages, please visit
-      setting_up_storages_non_admin: Administrators can set up file storages in Administration / File Storages.
-      type: 'Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:'
-      type_link_text: "“Integration OpenProject”"
+        missing_client_id_for_redirect_uri: Vui lòng điền các giá trị OAuth để tạo một URI
+        oauth_client_redirect_uri: Vui lòng sao chép giá trị này vào một URI chuyển hướng Web mới dưới Redirect URIs.
+        oauth_client_secret: Trong trường hợp không có bí mật khách hàng ứng dụng dưới Client credentials, vui lòng tạo một cái mới.
+        oauth_configuration: Sao chép các giá trị này từ ứng dụng mong muốn trong %{application_link_text}.
+        provider_configuration: Vui lòng đảm bảo bạn có quyền quản trị trong %{application_link_text} hoặc liên hệ với quản trị viên Microsoft của bạn trước khi thực hiện cấu hình. Trong cổng thông tin, bạn cũng cần đăng ký một ứng dụng Azure hoặc sử dụng một cái hiện có để xác thực.
+        tenant_id: Vui lòng sao chép ID Thư mục (người thuê) từ ứng dụng mong muốn và Đăng ký ứng dụng trong %{application_link_text}.
+        tenant_id_placeholder: Tên hoặc UUID
+      setting_up_additional_storages: Để thiết lập các lưu trữ tệp bổ sung, vui lòng truy cập
+      setting_up_additional_storages_non_admin: Các quản trị viên có thể thiết lập các lưu trữ tệp bổ sung trong Quản trị / Lưu trữ tệp.
+      setting_up_storages: Để thiết lập lưu trữ tệp, vui lòng truy cập
+      setting_up_storages_non_admin: Các quản trị viên có thể thiết lập lưu trữ tệp trong Quản trị / Lưu trữ tệp.
+      type: 'Vui lòng đảm bảo bạn có quyền quản trị trong phiên bản Nextcloud của bạn và đã cài đặt ứng dụng sau đây trước khi thực hiện cấu hình:'
+      type_link_text: "“Tích hợp OpenProject”"
     label_active: Đang hoạt động
-    label_add_new_storage: Add new storage
-    label_automatic_folder: New folder with automatically managed permissions
-    label_completed: Đã Hoàn tất
-    label_creation_time: Creation time
-    label_creator: Creator
-    label_delete_storage: Delete storage
-    label_edit_storage: Edit storage
-    label_edit_storage_access_management: Edit storage access management
-    label_edit_storage_automatically_managed_folders: Edit storage automatically managed folders
-    label_edit_storage_host: Edit storage host
-    label_existing_manual_folder: Existing folder with manually managed permissions
-    label_file_storage: File storage
-    label_host: Host URL
+    label_add_new_storage: Thêm lưu trữ mới
+    label_automatic_folder: Thư mục mới với quyền quản lý tự động
+    label_completed: Đã hoàn tất
+    label_creation_time: Thời gian tạo
+    label_creator: Người tạo
+    label_delete_storage: Xóa lưu trữ
+    label_edit_storage: Chỉnh sửa lưu trữ
+    label_edit_storage_access_management: Chỉnh sửa quản lý quyền truy cập lưu trữ
+    label_edit_storage_automatically_managed_folders: Chỉnh sửa thư mục được quản lý tự động của lưu trữ
+    label_edit_storage_host: Chỉnh sửa máy chủ lưu trữ
+    label_existing_manual_folder: Thư mục hiện có với quyền quản lý thủ công
+    label_file_storage: Lưu trữ tệp
+    label_host: URL máy chủ
     label_inactive: Không hoạt động
-    label_incomplete: Incomplete
+    label_incomplete: Chưa hoàn tất
     label_managed_project_folders:
-      application_password: Application password
-      automatically_managed_folders: Automatically managed folders
+      application_password: Mật khẩu ứng dụng
+      automatically_managed_folders: Thư mục được quản lý tự động
     label_name: Tên
-    label_new_file_storage: New %{provider} storage
-    label_new_storage: New storage
-    label_no_selected_folder: No selected folder
-    label_no_specific_folder: No specific folder
-    label_oauth_client_id: OAuth Client ID
-    label_openproject_oauth_application_id: OpenProject OAuth Client ID
-    label_openproject_oauth_application_secret: OpenProject OAuth Client Secret
-    label_project_folder: Project folder
-    label_provider: Provider
-    label_redirect_uri: URI đổi hướng
-    label_show_storage_redirect_uri: Show redirect URI
+    label_new_file_storage: Lưu trữ tệp %{provider} mới
+    label_new_storage: Lưu trữ mới
+    label_no_selected_folder: Không có thư mục được chọn
+    label_no_specific_folder: Không có thư mục cụ thể
+    label_oauth_client_id: ID Khách hàng OAuth
+    label_openproject_oauth_application_id: ID Khách hàng OAuth OpenProject
+    label_openproject_oauth_application_secret: Bí mật khách hàng OAuth OpenProject
+    label_project_folder: Thư mục dự án
+    label_provider: Nhà cung cấp
+    label_redirect_uri: URI chuyển hướng
+    label_show_storage_redirect_uri: Hiển thị URI chuyển hướng
     label_status: Trạng thái
-    label_storage: Storage
+    label_storage: Lưu trữ
     label_uri: URI
     member_connection_status:
-      connected: Connected
-      connected_no_permissions: User role has no storages permissions
-      not_connected: Not connected. The user should login to the storage via the following %{link}.
-    members_no_results: No members to display.
-    no_results: No storages set up yet.
+      connected: Đã kết nối
+      connected_no_permissions: Vai trò người dùng không có quyền lưu trữ
+      not_connected: Chưa kết nối. Người dùng nên đăng nhập vào lưu trữ qua %{link}.
+    members_no_results: Không có thành viên nào để hiển thị.
+    no_results: Chưa có lưu trữ nào được thiết lập.
     notice_successful_storage_connection: |-
-      Storage connected successfully! Remember to activate the module and the specific storage in the project settings
-      of each desired project to use it.
+      Lưu trữ đã được kết nối thành công! Hãy nhớ kích hoạt module và lưu trữ cụ thể trong cài đặt dự án của từng dự án mong muốn để sử dụng.
+    oauth_access_granted_modal:
+      access_granted: Đã cấp quyền truy cập
+      project_settings:
+        access_granted_screen_reader: Đã cấp quyền truy cập. Bây giờ bạn đã sẵn sàng sử dụng %{storage}
+        storage_ready: Bây giờ bạn đã sẵn sàng sử dụng %{storage}
+      storage_admin:
+        access_granted_screen_reader: Đã cấp quyền truy cập. Bây giờ bạn đã sẵn sàng để thêm các dự án vào %{storage}
+        storage_ready: Bây giờ bạn đã sẵn sàng để thêm dự án vào %{storage}
     oauth_grant_nudge_modal:
-      access_granted: Access granted
-      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
-      body: To get access to the project folder you need to login to %{storage}.
-      cancel_button_label: I will do it later
-      confirm_button_aria_label: Login to %{storage}
-      confirm_button_label: Đăng nhập
-      requesting_access_to: Requesting access to %{storage}
-      storage_ready: You are now ready to use %{storage}
-      title: One more step...
+      cancel_button_label: Tôi sẽ làm việc đó sau
+      heading: Cần phải đăng nhập vào %{provider_type}
+      login_button_aria_label: Đăng nhập vào %{storage}
+      login_button_label: "%{provider_type} đăng nhập"
+      project_settings:
+        description: Để truy cập vào thư mục dự án, bạn cần đăng nhập vào %{storage}.
+      requesting_access_to: Đang yêu cầu quyền truy cập vào %{storage}
+      storage_admin:
+        description: Để thêm dự án vào kho lưu trữ này, bạn cần phải đăng nhập vào %{provider_type}. Vui lòng đăng nhập và thử lại.
     open_project_storage_modal:
       success:
-        subtitle: You are being redirected
-        title: Integration setup completed
+        subtitle: Bạn đang được chuyển hướng
+        title: Cấu hình tích hợp đã hoàn tất
       waiting:
-        subtitle: One moment please, this might take some time...
-        title: We are setting up your permissions on the project folder.
+        subtitle: Một chút thời gian, điều này có thể mất một chút thời gian...
+        title: Chúng tôi đang thiết lập quyền của bạn trên thư mục dự án.
     page_titles:
       file_storages:
-        delete: Delete file storage
-        subtitle: Add an external file storage in order to upload, link and manage files in work packages.
+        delete: Xóa lưu trữ tệp
+        subtitle: Thêm một lưu trữ tệp bên ngoài để tải lên, liên kết và quản lý tệp trong các gói công việc.
       managed_project_folders:
         subtitle: |-
-          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team
-          member always has the correct access permissions.
-        subtitle_short: Let OpenProject create folders per project automatically.
-        title: Automatically managed project folders
+          Để OpenProject tạo các thư mục theo dự án tự động. Điều này được khuyến nghị vì nó đảm bảo rằng mọi thành viên trong nhóm luôn có quyền truy cập chính xác.
+        subtitle_short: Để OpenProject tạo các thư mục theo dự án tự động.
+        title: Các thư mục dự án được quản lý tự động
       project_settings:
-        delete: Delete file storage
-        edit: Edit the file storage to this project
-        members_connection_status: Members connection status
-        new: Add a file storage to this project
+        delete: Xóa lưu trữ tệp
+        edit: Chỉnh sửa lưu trữ tệp cho dự án này
+        members_connection_status: Trạng thái kết nối của các thành viên
+        new: Thêm một lưu trữ tệp vào dự án này
       project_storage_members:
-        subtitle: Check the connection status for the storage %{storage_name_link} of all project members.
-        title: Members connection status
-    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
+        subtitle: Kiểm tra trạng thái kết nối của lưu trữ %{storage_name_link} đối với tất cả các thành viên dự án.
+        title: Trạng thái kết nối của các thành viên
+    permission_header_explanation: 'Quyền trên các lưu trữ bên ngoài chỉ được áp dụng cho các thư mục và tệp trong các thư mục dự án được quản lý tự động. Lưu ý rằng không phải tất cả các quyền tệp đều được hỗ trợ bởi tất cả các nhà cung cấp lưu trữ. Vui lòng kiểm tra tài liệu về <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>quyền lưu trữ tệp</a> để biết thêm thông tin.'
     provider_types:
-      label: Provider type
+      label: Loại nhà cung cấp
       nextcloud:
-        label_oauth_client_id: Nextcloud OAuth Client ID
-        label_oauth_client_secret: Nextcloud OAuth Client Secret
+        label_oauth_client_id: ID Khách hàng OAuth Nextcloud
+        label_oauth_client_secret: Bí mật khách hàng OAuth Nextcloud
         name: Nextcloud
-        name_placeholder: e.g. Nextcloud
+        name_placeholder: 'ví dụ: Nextcloud'
       one_drive:
-        label_oauth_client_id: Azure OAuth Application (client) ID
-        label_oauth_client_secret: Azure OAuth Client Secret Value
+        label_oauth_client_id: ID Ứng dụng OAuth Azure (khách hàng)
+        label_oauth_client_secret: Giá trị Bí mật khách hàng OAuth Azure
         name: OneDrive/SharePoint
-        name_placeholder: e.g. OneDrive
+        name_placeholder: 'ví dụ: OneDrive'
     show_attachments_toggle:
-      description: 'Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage. '
-      label: Show attachments in the work packages files tab
+      description: 'Việc tắt tùy chọn này sẽ ẩn danh sách tệp đính kèm trên tab tệp các gói công việc. Các tệp đính kèm trong mô tả của một gói công việc sẽ vẫn được tải lên lưu trữ đính kèm nội bộ.'
+      label: Hiển thị tệp đính kèm trong tab tệp các gói công việc
     storage_list_blank_slate:
-      description: Add a storage to see them here.
-      heading: You don't have any storages yet.
+      description: Thêm một lưu trữ để thấy chúng ở đây.
+      heading: Bạn chưa có lưu trữ nào.
     upsale:
       description: |-
-        Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to
-        work packages in a project.
-      title: OneDrive/SharePoint integration
+        Tích hợp OneDrive/SharePoint của bạn như một lưu trữ tệp với OpenProject. Tải lên các tệp và liên kết chúng trực tiếp đến các gói công việc trong một dự án.
+      title: Tích hợp OneDrive/SharePoint

@@ -61,18 +61,18 @@ RSpec.describe Storages::AutomaticallyManagedStorageSyncJob, type: :job do
     it "only runs for automatically managed storages" do
       unmanaged_nextcloud = create(:nextcloud_storage_configured, :as_not_automatically_managed)
 
-      allow(Storages::NextcloudGroupFolderPropertiesSyncService)
+      allow(Storages::NextcloudManagedFolderSyncService)
         .to receive(:call).with(managed_nextcloud).and_return(ServiceResult.success)
 
       job_instance.perform(managed_nextcloud)
       job_instance.perform(unmanaged_nextcloud)
 
-      expect(Storages::NextcloudGroupFolderPropertiesSyncService).to have_received(:call).with(managed_nextcloud)
-      expect(Storages::NextcloudGroupFolderPropertiesSyncService).not_to have_received(:call).with(unmanaged_nextcloud)
+      expect(Storages::NextcloudManagedFolderSyncService).to have_received(:call).with(managed_nextcloud)
+      expect(Storages::NextcloudManagedFolderSyncService).not_to have_received(:call).with(unmanaged_nextcloud)
     end
 
     it "marks storage as healthy if sync was successful" do
-      allow(Storages::NextcloudGroupFolderPropertiesSyncService)
+      allow(Storages::NextcloudManagedFolderSyncService)
         .to receive(:call).with(managed_nextcloud).and_return(ServiceResult.success)
 
       Timecop.freeze("2023-03-14T15:17:00Z") do
@@ -91,13 +91,13 @@ RSpec.describe Storages::AutomaticallyManagedStorageSyncJob, type: :job do
       allow(Storages::HealthStatusMailerJob).to receive(:set).and_return(job)
       allow(job).to receive(:perform_later)
 
-      errors = ActiveModel::Errors.new(Storages::NextcloudGroupFolderPropertiesSyncService.new(managed_nextcloud))
+      errors = ActiveModel::Errors.new(Storages::NextcloudManagedFolderSyncService.new(managed_nextcloud))
       errors.add(:remote_folders, :not_found, group_folder: managed_nextcloud.group_folder)
 
-      allow(Storages::NextcloudGroupFolderPropertiesSyncService)
+      allow(Storages::NextcloudManagedFolderSyncService)
         .to receive(:call)
-              .with(managed_nextcloud)
-              .and_return(ServiceResult.failure(errors:))
+        .with(managed_nextcloud)
+        .and_return(ServiceResult.failure(errors:))
 
       Timecop.freeze("2023-03-14T15:17:00Z") do
         expect do
@@ -113,10 +113,10 @@ RSpec.describe Storages::AutomaticallyManagedStorageSyncJob, type: :job do
 
     context "when Storages::Errors::IntegrationJobError is raised" do
       before do
-        errors = ActiveModel::Errors.new(Storages::NextcloudGroupFolderPropertiesSyncService.new(managed_nextcloud))
+        errors = ActiveModel::Errors.new(Storages::NextcloudManagedFolderSyncService.new(managed_nextcloud))
         errors.add(:base, :error)
 
-        allow(Storages::NextcloudGroupFolderPropertiesSyncService)
+        allow(Storages::NextcloudManagedFolderSyncService)
           .to receive(:call).with(managed_nextcloud)
                             .and_return(ServiceResult.failure(errors:))
 

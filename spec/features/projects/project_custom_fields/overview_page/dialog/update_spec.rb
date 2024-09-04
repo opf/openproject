@@ -659,7 +659,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
       let(:field) { FormFields::Primerized::InputField.new(custom_field) }
 
       before do
-        all_fields.without(string_project_custom_field).each { |cf| cf.update(visible: false) }
+        all_fields.without(string_project_custom_field).each { |cf| cf.update(admin_only: true) }
       end
 
       it "does not clears them after a project admin updates" do

@@ -7,6 +7,7 @@
   [attachments]="attachments$ | async"
   [collectionKey]="collectionKey"
   [showTimestamp]="showTimestamp"
+  (attachmentRemoved)="attachmentRemoved.emit()"
 ></op-attachment-list>
 
 <input
@@ -54,7 +55,7 @@
 
 <div
   *ngIf="allowUploading && resource.canAddAttachments"
-  class="op-file-section--actions"
+  class="op-file-section--actions hide-when-print"
 >
   <button
     *ngIf="!externalUploadButton"

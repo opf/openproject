@@ -12,7 +12,7 @@ ko:
         tenant: 디렉터리(테넌트) ID
     errors:
       messages:
-        invalid_host_url: is not a valid URL.
+        invalid_host_url: '- 올바른 URL이 아닙니다.'
         not_linked_to_project: '- 프로젝트에 연결되지 않았습니다.'
       models:
         storages/file_link:
@@ -21,15 +21,17 @@ ko:
               only_numeric_or_uuid: '- 숫자 또는 uuid만 가능합니다.'
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: '- 이 저장소에 사용할 수 없습니다.'
             project_ids:
-              blank: Please select a project.
+              blank: 프로젝트를 선택하세요.
         storages/storage:
           attributes:
             host:
               authorization_header_missing: 완전히 설정되지 않았습니다. Nextcloud 인스턴스는 API 요청에 대한 Bearer 토큰 기반 인증에 필요한 "Authorization" 헤더를 수신하지 않습니다. HTTP 서버 구성을 다시 확인하세요.
-              cannot_be_connected_to: '- 연결할 수 없습니다.'
+              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
               minimal_nextcloud_version_unmet: '- 최소 버전 요구 사항을 충족하지 않습니다(Nextcloud 23 이상이어야 함).'
               not_nextcloud_server: '- Nextcloud 서버가 아닙니다.'
               op_application_not_installed: '"OpenProject Integration" 앱이 설치되지 않은 것 같습니다. 먼저 설치한 후 다시 시도하세요.'
@@ -57,89 +59,99 @@ ko:
   permission_write_files: '자동으로 관리되는 프로젝트 폴더: 파일 쓰기'
   project_module_storages: 파일
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: 자동으로 관리됨
       inactive: 특정 폴더 없음
       manual: 수동으로 관리되는 기존 폴더
     remove_project:
+      deletion_failure_flash: Failed to remove the project from the storage. %{error}
       dialog:
-        automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
-        confirmation_text: Please, confirm you understand and want to remove this file storage from this project
-        heading: Remove project from %{storage_type}
-        text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
-      label: Remove project
+        automatically_managed_appendix: 또한 이 경우에는 해당 저장소에 자동으로 관리되는 프로젝트 폴더가 있는 경우 이 폴더와 해당 파일이 영구적으로 삭제됩니다.
+        confirmation_text: 해당 사항을 이해하며 이 프로젝트에서 이 파일 저장소를 제거할 것인지 확인해 주세요
+        heading_text: Remove project from %{storage}
+        text: 이 작업은 되돌릴 수 없으며 이 프로젝트의 작업 패키지에서 해당 저장소의 파일 및 폴더에 대한 모든 링크를 제거합니다.
+      label: 프로젝트 제거
   services:
     attributes:
       nextcloud_sync_service:
-        add_user_to_group: 'Add User to Group:'
-        create_folder: 'Managed Project Folder Creation:'
-        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
-        hide_inactive_folders: 'Hide Inactive Folders Step:'
-        remote_folders: 'Read contents of the group folder:'
-        remove_user_from_group: 'Remove User from Group:'
-        rename_project_folder: 'Rename managed project Folder:'
+        add_user_to_group: '그룹에 사용자 추가:'
+        create_folder: '관리되는 프로젝트 폴더 생성:'
+        ensure_root_folder_permissions: '기본 폴더 권한 설정:'
+        hide_inactive_folders: '비활성 폴더 숨기기 단계:'
+        remote_folders: '그룹 폴더의 콘텐츠 읽기:'
+        remove_user_from_group: '그룹에서 사용자 제거:'
+        rename_project_folder: '관리되는 프로젝트 폴더의 이름 바꾸기:'
       one_drive_sync_service:
-        create_folder: 'Managed Project Folder Creation:'
-        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
-        hide_inactive_folders: 'Hide Inactive Folders Step:'
-        remote_folders: 'Read contents of the group folder:'
-        rename_project_folder: 'Rename managed project Folder:'
+        create_folder: '관리되는 프로젝트 폴더 생성:'
+        ensure_root_folder_permissions: '기본 폴더 권한 설정:'
+        hide_inactive_folders: '비활성 폴더 숨기기 단계:'
+        remote_folders: '그룹 폴더의 콘텐츠 읽기:'
+        rename_project_folder: '관리되는 프로젝트 폴더의 이름 바꾸기:'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: '%{destination_path} 폴더가 이미 존재합니다. 덮어쓰기를 방지하기 위해 프로세스가 중단됩니다.'
+          error: 예기치 않은 오류가 발생했습니다. OpenProject 로그에서 자세한 내용을 확인하거나 관리자에게 문의하세요
+          forbidden: OpenProject가 소스 폴더에 액세스할 수 없습니다. 저장소 공급자의 권한 구성을 확인하세요.
+          not_found: 소스 템플릿 위치 %{source_path}을(를) 찾을 수 없습니다.
+          unauthorized: OpenProject가 저장소 공급자를 인증할 수 없습니다. 저장소 구성을 확인하세요
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
-              conflict: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
-              failed_to_add: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+              conflict: '다음과 같은 이유로 %{user} 사용자를 %{group} 그룹에 추가할 수 없습니다: %{reason}'
+              failed_to_add: '다음과 같은 이유로 %{user} 사용자를 %{group} 그룹에 추가할 수 없습니다: %{reason}'
             create_folder:
-              conflict: The %{folder_name} already exists on %{parent_location}.
-              not_found: "%{parent_location} wasn't found."
+              conflict: '%{folder_name}은(는) 이미 %{parent_location}에 있습니다.'
+              not_found: "%{parent_location}을(를) 찾을 수 없습니다."
             ensure_root_folder_permissions:
-              not_found: "%{group_folder} wasn't found. Please check your Nextcloud Group Folder setup."
-              permission_not_set: could not set permissions on %{group_folder}.
+              not_found: "%{group_folder}을(를) 찾을 수 없습니다. Nextcloud 그룹 폴더 설정을 확인하세요."
+              permission_not_set: '- %{group_folder}에 대한 권한을 설정할 수 없습니다.'
             hide_inactive_folders:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: '- %{path}에 대한 권한을 설정할 수 없습니다.'
             remote_folders:
-              not_allowed: The %{username} doesn't have access to the %{group_folder}. Please check the folder permissions on Nextcloud.
-              not_found: "%{group_folder} wasn't found. Please check your Nextcloud setup."
+              not_allowed: '%{username}에게는 %{group_folder}에 대한 액세스 권한이 없습니다. Nextcloud의 폴더 권한을 확인하세요.'
+              not_found: "%{group_folder}을(를) 찾을 수 없습니다. Nextcloud 설정을 확인하세요."
             remove_user_from_group:
-              conflict: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
-              failed_to_remove: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
+              conflict: '다음과 같은 이유로 %{user} 사용자를 %{group} 그룹에서 제거할 수 없습니다: %{reason}'
+              failed_to_remove: '다음과 같은 이유로 %{user} 사용자를 %{group} 그룹에서 제거할 수 없습니다: %{reason}'
             rename_project_folder:
-              forbidden: OpenProject user does not have access to %{current_path} folder.
-              not_found: "%{current_path} wasn't found."
+              forbidden: OpenProject 사용자에게 %{current_path} 폴더에 대한 액세스 권한이 없습니다.
+              not_found: "%{current_path}을(를) 찾을 수 없습니다."
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
-          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
-          group_does_not_exist: "%{group} does not exit. Check your Nextcloud instance configuration."
-          insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
-          not_allowed: Nextcloud block the request.
-          unauthorized: OpenProject could not sync with Nextcloud. Please check you storage and Nextcloud configuration.
-          user_does_not_exist: "%{user} does not exist in Nextcloud."
+              permission_not_set: '- %{path}에 대한 권한을 설정할 수 없습니다.'
+          error: 예기치 않은 오류가 발생했습니다. Nextcloud 인스턴스에 연결할 수 있는지 확인하고 OpenProject 작업자 로그에서 자세한 내용을 확인하세요
+          group_does_not_exist: "%{group}이(가) 없습니다. Nextcloud 인스턴스 구성을 확인하세요."
+          insufficient_privileges: OpenProject에는 %{user}을(를) %{group}에 추가할 수 있는 권한이 충분하지 않습니다. Nextcloud에서 그룹 설정을 확인하세요.
+          not_allowed: Nextcloud가 요청을 차단합니다.
+          unauthorized: OpenProject가 Nextcloud와 동기화할 수 없습니다. 저장소 및 Nextcloud 구성을 확인하세요.
+          user_does_not_exist: "%{user}이(가) Nextcloud에 없습니다."
         one_drive_sync_service:
           attributes:
             create_folder:
-              conflict: The %{folder_name} already exists on %{parent_location}.
-              not_found: "%{parent_location} wasn't found."
+              conflict: '%{folder_name}은(는) 이미 %{parent_location}에 있습니다.'
+              not_found: "%{parent_location}을(를) 찾을 수 없습니다."
             hide_inactive_folders:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: '- %{path}에 대한 권한을 설정할 수 없습니다.'
             remote_folders:
-              request_error: OpenProject could not access your drive %{drive_id}. Please check if your storage configuration is correct.
+              request_error: OpenProject가 드라이브 %{drive_id}에 액세스할 수 없습니다. 저장소 구성이 올바른지 확인하세요.
             rename_project_folder:
-              conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists
-              forbidden: OpenProject does not have access to %{current_path} in order to rename it.
-              not_found: "%{current_path} wasn't found."
+              conflict: 같은 이름의 폴더가 이미 있으므로 OpenProject에서 %{current_path} 폴더의 이름을 %{project_folder_name}(으)로 바꿀 수 없습니다.
+              forbidden: OpenProject에는 이름을 바꾸기 위한 %{current_path} 폴더에 대한 액세스 권한이 없습니다.
+              not_found: "%{current_path}을(를) 찾을 수 없습니다."
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
-          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
-          not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
-          unauthorized: OpenProject could not sync with OneDrive. Please check you storage and Azure Application configuration.
-          user_does_not_exist: "%{user} does not exist in Nextcloud."
+              permission_not_set: '- %{path}에 대한 권한을 설정할 수 없습니다.'
+          error: 예기치 않은 오류가 발생했습니다. Nextcloud 인스턴스에 연결할 수 있는지 확인하고 OpenProject 작업자 로그에서 자세한 내용을 확인하세요
+          not_allowed: OpenProject가 OneDrive 드라이브에 액세스하도록 허용되지 않았습니다. Azure 애플리케이션에 설정된 권한을 확인하세요.
+          unauthorized: OpenProject가 OneDrive와 동기화할 수 없습니다. 저장소 및 Azure 애플리케이션 구성을 확인하세요.
+          user_does_not_exist: "%{user}이(가) Nextcloud에 없습니다."
   storages:
     buttons:
       complete_without_setup: 이것 없이 완료
       done_complete_setup: 완료, 설정 완료
       done_continue: 완료, 계속
+      open_storage: 파일 저장소 열기
       replace_oauth_application: OpenProject OAuth 바꾸기
       replace_oauth_client: '%{provider_type} OAuth 바꾸기'
       save_and_continue: 저장 및 계속
@@ -164,11 +176,11 @@ ko:
       storage_delete_result_3: 이 저장소에 자동으로 관리되는 프로젝트 폴더가 있는 경우 이 폴더와 포함된 해당 파일이 영구적으로 삭제됩니다.
     dependencies:
       nextcloud:
-        group_folders_app: Group folders
+        group_folders_app: 그룹 폴더
         integration_app: Integration OpenProject
     enabled_in_projects:
-      setup_incomplete_description: This storage has an incomplete setup. Please, complete the setup before enabling it in multiple projects.
-      setup_incomplete_header: Storage setup incomplete
+      setup_incomplete_description: 이 저장소의 설정이 완료되지 않았습니다. 여러 프로젝트에서 활성화하기 전에 설정을 완료하세요.
+      setup_incomplete_header: 저장소 설정 미완료
     error_invalid_provider_type: 유효한 저장소 공급자를 선택하세요.
     file_storage_view:
       access_management:
@@ -193,13 +205,13 @@ ko:
       checked: '마지막 확인: %{datetime}'
       connection_validation:
         action: 연결 다시 확인
-        app_version_mismatch: The Integration OpenProject app version is not supported. Please update your Nextcloud server.
+        app_version_mismatch: Integration OpenProject 앱 버전은 지원되지 않습니다. Nextcloud 서버를 업데이트하세요.
         client_id_wrong: 구성된 OAuth 2 클라이언트 ID가 잘못되었습니다. 구성을 확인하세요.
         client_secret_wrong: 구성된 OAuth 2 클라이언트 비밀번호가 잘못되었습니다. 구성을 확인하세요.
         drive_id_wrong: 구성된 Drive ID를 찾을 수 없습니다. 구성을 확인하세요.
-        group_folder_version_mismatch: The Group Folder version is not supported. Please update your Nextcloud server.
-        host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
-        missing_dependencies: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
+        group_folder_version_mismatch: 그룹 폴더 버전은 지원되지 않습니다. Nextcloud 서버를 업데이트하세요.
+        host_not_found: 구성된 호스트 URL에서 Nextcloud 서버를 찾을 수 없습니다. 구성을 확인하세요.
+        missing_dependencies: '파일 저장소에 필수 종속성이 누락되었습니다. 다음 종속성을 추가하세요: %{dependency}.'
         not_configured: 연결에 대한 유효성 검사를 할 수 없습니다. 먼저 구성을 완료하세요.
         placeholder: 서버에 대한 연결을 확인하세요.
         subtitle: 연결 유효성 검사
@@ -223,7 +235,7 @@ ko:
       unsubscribe: 구독 취소
     help_texts:
       project_folder: 프로젝트 폴더는 이 프로젝트에 대한 파일 업로드의 기본 폴더입니다. 사용자는 다른 위치에 파일을 계속 업로드할 수 있습니다.
-      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
+      project_folder_bulk: 프로젝트 폴더는 선택된 모든 프로젝트의 파일 업로드를 위한 기본 폴더입니다. 각 프로젝트 설정에서 이 폴더를 개별적으로 수정할 수 있습니다. 그렇지만 사용자는 다른 위치에 파일을 계속 업로드할 수 있습니다.
     instructions:
       all_available_storages_already_added: 사용 가능한 모든 저장소가 이미 프로젝트에 추가되었습니다.
       automatic_folder: 이렇게 하면 이 프로젝트의 루트 폴더가 자동으로 생성되고 각 프로젝트 멤버의 액세스 권한이 관리됩니다.
@@ -304,16 +316,24 @@ ko:
     no_results: 아직 저장소가 설정되지 않았습니다.
     notice_successful_storage_connection: |-
       저장소가 연결되었습니다! 이 저장소를 사용하려면 원하는 각 프로젝트의 프로젝트 설정에서 모듈과 특정 저장소를 활성화해야 합니다.
+    oauth_access_granted_modal:
+      access_granted: Access granted
+      project_settings:
+        access_granted_screen_reader: Access granted. You are now ready to use %{storage}
+        storage_ready: You are now ready to use %{storage}
+      storage_admin:
+        access_granted_screen_reader: Access granted. You are now ready to add projects to %{storage}
+        storage_ready: You are now ready to add projects to %{storage}
     oauth_grant_nudge_modal:
-      access_granted: 액세스 승인됨
-      access_granted_screen_reader: 액세스 권한이 부여되었습니다. 이제 %{storage} 사용 준비가 완료되었습니다.
-      body: 프로젝트 폴더에 액세스하려면 %{storage}에 로그인해야 합니다.
       cancel_button_label: 나중에 하겠습니다
-      confirm_button_aria_label: '%{storage}에 로그인'
-      confirm_button_label: 로그인
+      heading: Login to %{provider_type} required
+      login_button_aria_label: Login to %{storage}
+      login_button_label: "%{provider_type} log in"
+      project_settings:
+        description: To get access to the project folder you need to login to %{storage}.
       requesting_access_to: '%{storage}에 대한 액세스 요청'
-      storage_ready: 이제 %{storage}을(를) 사용할 준비가 되었습니다
-      title: 한 단계 더...
+      storage_admin:
+        description: In order to add projects to this storage you need to be logged into %{provider_type}. Please, log in and try again.
     open_project_storage_modal:
       success:
         subtitle: 리디렉션 중입니다

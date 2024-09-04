@@ -49,3 +49,6 @@ nl:
           draft: 'drafted'
           merged: 'samengevoegd'
           ready_for_review: 'gemarkeerd als klaar voor review'
+    work_packages:
+      tabs:
+        github: "GitHub"

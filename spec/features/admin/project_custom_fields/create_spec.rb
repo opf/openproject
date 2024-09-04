@@ -62,6 +62,7 @@ RSpec.describe "Create project custom fields", :js do
 
       fill_in("custom_field_name", with: "New custom field")
       select(section_for_select_fields.name, from: "custom_field_custom_field_section_id")
+      check "Admin-only"
 
       click_on("Save")
 
@@ -74,6 +75,7 @@ RSpec.describe "Create project custom fields", :js do
       latest_custom_field = ProjectCustomField.reorder(created_at: :asc).last
 
       expect(latest_custom_field.name).to eq("New custom field")
+      expect(latest_custom_field.admin_only).to be(true)
       expect(latest_custom_field.project_custom_field_section).to eq(section_for_select_fields)
     end
 

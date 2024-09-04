@@ -49,3 +49,6 @@ pt-BR:
           draft: 'redigido'
           merged: 'mesclado'
           ready_for_review: 'marcado como pronto para revisão'
+    work_packages:
+      tabs:
+        github: "GitHub"

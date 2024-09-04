@@ -49,3 +49,6 @@ id:
           draft: 'terancang'
           merged: 'tergabung'
           ready_for_review: 'ditandai siap untuk ditinjau'
+    work_packages:
+      tabs:
+        github: "GitHub"

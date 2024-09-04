@@ -22,3 +22,6 @@
 el:
   js:
     label_meetings: 'Συναντήσεις'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

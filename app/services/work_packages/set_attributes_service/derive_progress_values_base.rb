@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +30,6 @@ class WorkPackages::SetAttributesService
   class DeriveProgressValuesBase
     attr_reader :work_package
 
-    PROGRESS_ATTRIBUTES = %i[work remaining_work percent_complete].freeze
-
     def initialize(work_package)
       @work_package = work_package
     end
@@ -57,11 +55,11 @@ class WorkPackages::SetAttributesService
       work.present?
     end
 
-    def work_unset?
+    def work_empty?
       work.nil?
     end
 
-    def work_was_unset?
+    def work_was_empty?
       work_package.estimated_hours_was.nil?
     end
 
@@ -77,6 +75,14 @@ class WorkPackages::SetAttributesService
       !work_came_from_user?
     end
 
+    def work_valid?
+      DurationConverter.valid?(work_package.estimated_hours_before_type_cast)
+    end
+
+    def work_invalid?
+      !work_valid?
+    end
+
     def remaining_work
       work_package.remaining_hours
     end
@@ -89,11 +95,11 @@ class WorkPackages::SetAttributesService
       remaining_work.present?
     end
 
-    def remaining_work_unset?
+    def remaining_work_empty?
       remaining_work.nil?
     end
 
-    def remaining_work_was_unset?
+    def remaining_work_was_empty?
       work_package.remaining_hours_was.nil?
     end
 
@@ -109,6 +115,14 @@ class WorkPackages::SetAttributesService
       !remaining_work_came_from_user?
     end
 
+    def remaining_work_valid?
+      DurationConverter.valid?(work_package.remaining_hours_before_type_cast)
+    end
+
+    def remaining_work_invalid?
+      !remaining_work_valid?
+    end
+
     def percent_complete
       work_package.done_ratio
     end
@@ -121,11 +135,11 @@ class WorkPackages::SetAttributesService
       percent_complete.present?
     end
 
-    def percent_complete_unset?
+    def percent_complete_empty?
       percent_complete.nil?
     end
 
-    def percent_complete_was_unset?
+    def percent_complete_was_empty?
       work_package.done_ratio_was.nil?
     end
 
@@ -143,24 +157,26 @@ class WorkPackages::SetAttributesService
 
     private
 
+    def set_hint(field, hint, **params)
+      work_package.set_derived_progress_hint(field, hint, **params)
+    end
+
     def round_progress_values
       # The values are set only when rounding returns a different value. Doing
       # otherwise would modify the values returned by `xxx_before_type_cast` and
       # prevent the numericality validator from working when setting the field
       # to a string value.
       rounded = work&.round(2)
-      if rounded != work
+      if rounded != work && work_valid?
         self.work = rounded
       end
       rounded = remaining_work&.round(2)
-      if rounded != remaining_work
+      if rounded != remaining_work && remaining_work_valid?
         self.remaining_work = rounded
       end
     end
 
     def remaining_work_from_percent_complete_and_work
-      return nil if work_unset? || percent_complete_unset?
-
       completed_work = work * percent_complete / 100.0
       remaining_work = (work - completed_work).round(2)
       remaining_work.clamp(0.0, work)

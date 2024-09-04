@@ -142,7 +142,7 @@ RSpec.describe "my", :js, :with_cuprite do
       end
 
       context "when API access is enabled via global settings", with_settings: { rest_api_enabled: true } do
-        it "API tokens can generated and revoked" do
+        it "API tokens can be generated and revoked" do
           visit my_access_token_path
 
           expect(page).to have_no_content("API tokens are not enabled by the administrator.")
@@ -158,7 +158,11 @@ RSpec.describe "my", :js, :with_cuprite do
           fill_in "token_api[token_name]", with: "Testing Token"
           find_test_selector("create-api-token-button").click
 
-          expect(page).to have_content "A new API token has been generated. Your access token is"
+          within("dialog#access-token-created-dialog") do
+            expect(page).to have_content "The API token has been generated"
+            click_on "Close"
+          end
+          expect(page).to have_content("Testing Token")
 
           User.current.reload
           visit my_access_token_path

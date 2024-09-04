@@ -34,12 +34,12 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="grid-block -visible-overflow wrap">
       <div class="grid-content -visible-overflow small-12 large-10">
         <% if EnterpriseToken.show_banners? %>
-          <%= angular_component_tag 'op-no-results',
+          <%= angular_component_tag 'opce-no-results',
                                     inputs: {
                                       title: t('text_form_configuration') + t('text_custom_field_hint_activate_per_project'),
                                     }
           %>
-          <%= angular_component_tag 'op-enterprise-banner',
+          <%= angular_component_tag 'opce-enterprise-banner',
                                     inputs: {
                                       collapsible: true,
                                       opReferrer: 'form-configuration',
@@ -55,7 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
 
         <% no_filter_query = ::API::V3::Queries::QueryParamsRepresenter.new(Query.new_default.tap { |q| q.filters = [] }).to_json %>
         <%= f.hidden_field :attribute_groups, value: '', class: 'admin-type-form--hidden-field'  %>
-        <%= content_tag('admin-type-form-configuration',
+        <%= content_tag('opce-admin-type-form-configuration',
                         '',
                         data: {
                             'active-groups': form_attributes[:actives],

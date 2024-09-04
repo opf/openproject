@@ -66,7 +66,7 @@ fa:
     button_back_to_list_view: "برگشت به نمایش لیستی"
     button_cancel: "لغو"
     button_close: "Close"
-    button_change_project: "Change project"
+    button_change_project: "Move to another project"
     button_check_all: "بررسی همه"
     button_configure-form: "تنظیمات فرم"
     button_confirm: "تایید"
@@ -74,7 +74,7 @@ fa:
     button_copy: "کپی"
     button_copy_to_clipboard: "Copy to clipboard"
     button_copy_link_to_clipboard: "Copy link to clipboard"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Custom fields"
     button_delete: "حذف"
     button_delete_watcher: "حذف ناظر"
@@ -138,6 +138,8 @@ fa:
     description_select_work_package: "Select work package #%{id}"
     description_subwork_package: "Child of work package #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "Toggle preview mode"
       source_code: "Toggle Markdown source mode"
       error_saving_failed: "ذخیره سازی مستند، ناموفق بود، خطا: %{error}"
@@ -276,8 +278,10 @@ fa:
           The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
           Are you sure you want to continue?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
           Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
@@ -336,18 +340,6 @@ fa:
         years: "Years"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
-      export:
-        title: "Gantt chart PDF options"
-        button_export: "Export"
-        column_widths:
-          narrow: "Narrow"
-          medium: "Medium"
-          wide: "Wide"
-          very_wide: "Very wide"
-        options:
-          date_zoom: "Date zoom"
-          paper_size: "Paper size"
-          column_widths: "Column widths"
     general_text_no: "no"
     general_text_yes: "yes"
     general_text_No: "نه"
@@ -366,10 +358,10 @@ fa:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_3":
+          "14_4":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share project lists and turn them public (Enterprise add-on)</li> <li>Mark project lists as favorites</li> <li>Connection validation for OneDrive/SharePoint storages (Enterprise add-on)</li> <li>New look with Primer for the user profile page</li> <li>Gantt chart PDF export: Additional date zoom based on calendar weeks</li> <li>Searchbar to submenu component (project lists and Gantt and Boards modules)</li> <li>Choose between progress reporting displayed in hours only or days and hours</li> <li>Unselect projects from the project selector</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -410,6 +402,7 @@ fa:
     label_create: "ایجاد"
     label_create_work_package: "Create new work package"
     label_created_by: "ایجاد شده توسط"
+    label_current: "current"
     label_date: "تاریخ"
     label_date_with_format: "%{date_attribute} را با این فرمت وارد کنید: %{format}"
     label_deactivate: "غیر فعال کردن"
@@ -465,7 +458,7 @@ fa:
     label_mail_notification: "اعلان های ایمیل"
     label_manage_columns: "Manage and reorder columns"
     label_me: "me"
-    label_meeting_agenda: "Agenda"
+    label_meeting_agenda: "دستور کار"
     label_meeting_minutes: "دقیقه ها"
     label_menu_collapse: "جمع کردن"
     label_menu_expand: "باز کردن"
@@ -499,7 +492,7 @@ fa:
     label_remove_column: "حذف ستون"
     label_remove_columns: "Remove selected columns"
     label_remove_row: "حذف سطر"
-    label_report: "Report"
+    label_report: "گزارش"
     label_repository_plural: "Repositories"
     label_save_as: "ذخیره به عنوان"
     label_search_columns: "Search a column"
@@ -520,7 +513,7 @@ fa:
     label_sum: "Sum"
     label_sum_for: "مبلغ برای"
     label_total_sum: "Total sum"
-    label_subject: "Subject"
+    label_subject: "موضوع"
     label_this_week: "this week"
     label_today: "Today"
     label_time_entry_plural: "زمان صرف شده"
@@ -536,7 +529,7 @@ fa:
     label_warning: "Warning"
     label_work_package: "بسته کاری"
     label_work_package_parent: "Parent work package"
-    label_work_package_plural: "Work packages"
+    label_work_package_plural: "بسته های کاری"
     label_watch: "نگاه کردن"
     label_watch_work_package: "دیدن پکیج وظیفه"
     label_watcher_added_successfully: "ناظر با موفقیت اضافه شد!"
@@ -617,12 +610,12 @@ fa:
       no_unread: "اطلاعیه خوانده نشده‌ای وجود ندارد"
       reasons:
         mentioned: "Mentioned"
-        watched: "Watcher"
-        assigned: "Assignee"
+        watched: "ناظر"
+        assigned: "نماینده"
         accountable: "Accountable"
-        created: "Created"
+        created: "ایجاد شد"
         scheduled: "Scheduled"
-        commented: "Commented"
+        commented: "دارای اظهار نظر"
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
@@ -648,7 +641,7 @@ fa:
           with_current_filter: "There are no notifications in this view at the moment"
         mark_all_read: "Mark all as read"
         mark_as_read: "Mark as read"
-        text_update_date: "%{date} by"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you are all caught up."
@@ -893,7 +886,7 @@ fa:
       wiki_link: "Link to a Wiki page"
       image: "Image"
     sharing:
-      share: "Share"
+      share: "به اشتراک گذاری"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"
@@ -996,7 +989,7 @@ fa:
         responsible: "مسئول"
         startDate: "Start date"
         status: "وضعیت"
-        subject: "Subject"
+        subject: "موضوع"
         subproject: "زیر پروژه"
         title: "عنوان"
         type: "نوع"
@@ -1194,6 +1187,9 @@ fa:
         one: "1 day"
         other: "%{count} روز"
         zero: "0 days"
+      word:
+        one: "1 word"
+        other: "%{count} words"
     zen_mode:
       button_activate: "Activate zen mode"
       button_deactivate: "Deactivate zen mode"

@@ -48,3 +48,6 @@ es:
         empty: 'Aún no hay ninguna solicitud de fusión vinculada. Enlace una MR existente utilizando el código <code>OP#%{wp_id}</code> (o <code>PP#%{wp_id}</code> para enlaces privados) en el título/descripción de la MR o cree una nueva MR.'
       gitlab_pipelines: Tuberías
       updated_on: Actualizado el
+    work_packages:
+      tabs:
+        gitlab: "GitLab"

@@ -58,16 +58,10 @@ class CustomFieldsController < ApplicationController
 
   protected
 
-  def default_breadcrumb
-    if action_name == "index"
-      t("label_custom_field_plural")
-    else
-      ActionController::Base.helpers.link_to(t("label_custom_field_plural"), custom_fields_path)
-    end
-  end
+  def default_breadcrumb; end
 
   def show_local_breadcrumb
-    true
+    false
   end
 
   def find_custom_field

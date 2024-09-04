@@ -49,13 +49,26 @@ module Queries::Storages::ProjectStorages::Filter
     end
 
     def where
-      operator_strategy.sql_for_field(unescape_hosts(values), Storages::Storage.table_name, "host")
+      operator_strategy.sql_for_field(prepare_host_values(values), Storages::Storage.table_name, "host")
     end
 
     private
 
-    def unescape_hosts(hosts)
-      hosts.map { |host| CGI.unescape(host).gsub(/\/+$/, "") }
+    # Host values are valid with or without a trailing slash and they match either case.
+    # Example: If the host is either "https://example.com" or "https://example.com/",
+    # both of the following values are valid:
+    # - "https://example.com"
+    # - "https://example.com/"
+    def prepare_host_values(hosts)
+      nested_host_values = hosts.map do |host|
+        host_value = CGI.unescape(host)
+        possible_host_values = [host_value]
+        possible_host_values << "#{host_value}/" unless host_value.ends_with?("/")
+        possible_host_values << host_value.chomp("/") if host_value.ends_with?("/")
+        possible_host_values
+      end
+
+      nested_host_values.flatten
     end
   end
 end

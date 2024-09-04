@@ -43,7 +43,7 @@ module Queries::Storages::WorkPackages::Filter
     end
 
     def where_values
-      unescape_hosts(values)
+      prepare_host_values(values)
     end
 
     def joins

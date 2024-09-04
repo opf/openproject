@@ -5,7 +5,7 @@ bg:
     description: "Provides board views."
   permission_show_board_views: "View boards"
   permission_manage_board_views: "Manage boards"
-  project_module_board_view: "Boards"
+  project_module_board_view: "Табла"
   boards:
     label_board: "Board"
     label_boards: "Табла"

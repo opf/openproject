@@ -6,11 +6,10 @@ FactoryBot.define do
     mail_alert_sent { false }
     reason { :mentioned }
     recipient factory: :user
-    project
-    resource { association :work_package, project: }
+    resource { association :work_package }
 
     trait :for_milestone do
-      resource { association :work_package, :is_milestone, project: }
+      resource { association :work_package, :is_milestone }
     end
     # journal and actor are not listed by intend.
     # They will be set in the after_build callback.

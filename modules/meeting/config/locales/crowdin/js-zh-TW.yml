@@ -22,3 +22,6 @@
 zh-TW:
   js:
     label_meetings: '會議'
+    work_packages:
+      tabs:
+        meetings: '會議'

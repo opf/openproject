@@ -67,7 +67,7 @@ module Projects
       if user.admin?
         model.available_custom_fields
       else
-        model.available_custom_fields.select(&:visible?)
+        model.available_custom_fields.reject(&:admin_only?)
       end
     end
 

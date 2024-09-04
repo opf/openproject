@@ -2,7 +2,7 @@
   component_wrapper do
     grid_layout('op-meeting-agenda-item', tag: :div, id: "item-#{@meeting_agenda_item.id}") do |grid|
       if drag_and_drop_enabled?
-        grid.with_area(:'drag-handle', tag: :div) do
+        grid.with_area(:'drag-handle', tag: :div, classes: "hide-when-print") do
           render(Primer::OpenProject::DragHandle.new(classes: 'handle'))
         end
       end
@@ -61,7 +61,7 @@
         end
       end
 
-      grid.with_area(:actions, tag: :div, justify_self: :end) do
+      grid.with_area(:actions, tag: :div, justify_self: :end, classes: "hide-when-print") do
         if edit_enabled?
           render(Primer::Alpha::ActionMenu.new) do |menu|
             menu.with_show_button(icon: "kebab-horizontal",
@@ -72,7 +72,7 @@
             edit_action_item(menu) if @meeting_agenda_item.editable?
             add_note_action_item(menu) if @meeting_agenda_item.editable? && @meeting_agenda_item.notes.blank?
             unless first? && last?
-              menu.with_divider 
+              menu.with_divider
               move_actions(menu)
             end
             menu.with_divider

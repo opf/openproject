@@ -250,7 +250,7 @@ jobs:
       - name: Merge digests
         uses: actions/upload-artifact/merge@v4
         with:
-          pattern: digests-*
+          pattern: "digests-${{ matrix.target }}-*"
           overwrite: true
           name: "merged-digests-${{ matrix.target }}-${{ github.run_number }}-${{ github.run_attempt }}"
       - name: Download digests

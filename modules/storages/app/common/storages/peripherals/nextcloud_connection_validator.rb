@@ -83,7 +83,7 @@ module Storages
 
         capabilities = query.result
 
-        if !capabilities.app_enabled? || !capabilities.group_folder_enabled?
+        if !capabilities.app_enabled? || (@storage.automatically_managed? && !capabilities.group_folder_enabled?)
           app_name = if capabilities.app_enabled?
                        I18n.t("storages.dependencies.nextcloud.group_folders_app")
                      else
@@ -109,32 +109,31 @@ module Storages
       def version_mismatch
         return None() if query.failure?
 
-        min_app_version = SemanticVersion.parse(NextcloudIntegration::MIN_APP_VERSION)
-        min_group_folder_version = SemanticVersion.parse(NextcloudIntegration::MIN_GROUP_FOLDER_VERSION)
+        config = YAML.load_file(path_to_config).deep_stringify_keys!
+        min_app_version = SemanticVersion.parse(config.dig("dependencies", "integration_app", "min_version"))
+        min_group_folder_version = SemanticVersion.parse(config.dig("dependencies", "group_folders_app", "min_version"))
 
         capabilities = query.result
-        fetched_app_version = capabilities.app_version
-        fetched_group_folder_version = capabilities.group_folder_version
 
-        if fetched_app_version < min_app_version
+        if capabilities.app_version < min_app_version
           Some(
             ConnectionValidation.new(
               type: :error,
               error_code: :err_unexpected_version,
               timestamp: Time.current,
               description: I18n.t("storages.health.connection_validation.app_version_mismatch",
-                                  found: fetched_app_version.to_s,
+                                  found: capabilities.app_version.to_s,
                                   expected: min_app_version.to_s)
             )
           )
-        elsif fetched_group_folder_version < min_group_folder_version
+        elsif @storage.automatically_managed? && capabilities.group_folder_version < min_group_folder_version
           Some(
             ConnectionValidation.new(
               type: :error,
               error_code: :err_unexpected_version,
               timestamp: Time.current,
               description: I18n.t("storages.health.connection_validation.group_folder_version_mismatch",
-                                  found: fetched_group_folder_version.to_s,
+                                  found: capabilities.group_folder_version.to_s,
                                   expected: min_group_folder_version.to_s)
             )
           )
@@ -160,6 +159,10 @@ module Storages
       end
 
       def auth_strategy = StorageInteraction::AuthenticationStrategies::Noop.strategy
+
+      def path_to_config
+        Rails.root.join("modules/storages/config/nextcloud_dependencies.yml")
+      end
     end
   end
 end

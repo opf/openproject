@@ -22,3 +22,6 @@
 sk:
   js:
     label_meetings: 'Stretnutia'
+    work_packages:
+      tabs:
+        meetings: 'Meetings'

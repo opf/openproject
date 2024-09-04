@@ -37,7 +37,6 @@ RSpec.describe Notifications::CreateContract do
     end
   end
 
-  let(:notification_context) { build_stubbed(:project) }
   let(:notification_resource) { build_stubbed(:journal) }
   let(:notification_recipient) { build_stubbed(:user) }
   let(:notification_subject) { "Some text" }
@@ -46,8 +45,7 @@ RSpec.describe Notifications::CreateContract do
   let(:notification_mail_reminder_sent) { false }
 
   let(:notification) do
-    Notification.new(project: notification_context,
-                     recipient: notification_recipient,
+    Notification.new(recipient: notification_recipient,
                      subject: notification_subject,
                      reason: notification_reason,
                      resource: notification_resource,

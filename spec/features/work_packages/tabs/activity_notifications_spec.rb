@@ -21,7 +21,6 @@ RSpec.describe "Activity tab notifications", :js, :selenium do
     shared_let(:notification) do
       create(:notification,
              recipient: admin,
-             project:,
              resource: work_package,
              journal: work_package.journals.last)
     end

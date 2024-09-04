@@ -72,7 +72,7 @@ module OpenProject::GithubIntegration
                    },
                    permissible_on: :global,
                    require: :loggedin,
-                   enabled: -> { OpenProject::FeatureDecisions.deploy_targets_active? } # can only be enable at start-time
+                   visible: -> { OpenProject::FeatureDecisions.deploy_targets_active? }
       end
 
       menu :work_package_split_view,
@@ -81,9 +81,11 @@ module OpenProject::GithubIntegration
            if: ->(project) {
              User.current.allowed_in_project?(:show_github_content, project)
            },
-           parent: :admin_github_integration,
-           caption: :label_deploy_target_plural,
-           icon: "cloud"
+           skip_permissions_check: true,
+           badge: ->(work_package:, **) {
+             work_package.github_pull_requests.count
+           },
+           caption: :project_module_github
     end
 
     initializer "github.register_hook" do

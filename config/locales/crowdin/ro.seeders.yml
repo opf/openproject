@@ -95,7 +95,7 @@ ro:
             item_0:
               name: Project plan
             item_1:
-              name: Milestones
+              name: Etape
             item_2:
               name: Tasks
             item_3:
@@ -107,11 +107,11 @@ ro:
               name: Tablă de bază
               lists:
                 item_0:
-                  name: Wish list
+                  name: Listă dorințe
                 item_1:
-                  name: Short list
+                  name: Listă scurtă
                 item_2:
-                  name: Priority list for today
+                  name: Listă priorități pentru astăzi
                 item_3:
                   name: Niciodată
             parent_child:
@@ -123,7 +123,7 @@ ro:
                   name: Welcome
               item_1:
                 options:
-                  name: Noţiuni de bază
+                  name: Începe
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -145,7 +145,7 @@ ro:
                   name: Pachete de lucru
               item_6:
                 options:
-                  name: Milestones
+                  name: Etape
           work_packages:
             item_0:
               subject: Start of project

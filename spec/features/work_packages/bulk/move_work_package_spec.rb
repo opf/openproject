@@ -78,7 +78,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
         expect(child_wp.project_id).to eq(project.id)
 
         context_menu.open_for work_package
-        context_menu.choose "Change project"
+        context_menu.choose "Move to another project"
 
         # On work packages move page
         expect(page).to have_css("#new_project_id")
@@ -98,14 +98,25 @@ RSpec.describe "Moving a work package through Rails view", :js do
         it "copies them in the background and shows a status page", :with_cuprite do
           click_on "Move and follow"
           wait_for_reload
-          page.find_test_selector("job-status--header")
 
-          expect(page).to have_text "The job has been queued and will be processed shortly."
+          expect(page).to have_text("The job has been queued and will be processed shortly.", wait: 10)
 
           perform_enqueued_jobs
 
           work_package.reload
           expect(work_package.project_id).to eq(project2.id)
+
+          # Page displays the background job status dialog, then the job
+          # finishes and the dialog updates to "Successful update." with a
+          # redirect link. After 2 seconds it automatically clicks the link
+          # which navigates to /work_packages/:id which finally redirects to
+          # /projects/:project_identifier/work_packages/:id/activity
+          #
+          # The following lines wait for this job status dialog to be discarded.
+          expect(page).to have_text "Successful update."
+          # Clicking the link directly would save 2 seconds, but there is a bug
+          # which redirects back. Sleep 2 seconds instead until it's fixed
+          sleep 2 # TODO replace with: click_on(I18n.t("job_status_dialog.redirect_link"))
 
           expect(page).to have_current_path "/projects/#{project2.identifier}/work_packages/#{work_package.id}/activity"
           page.find_by_id("projects-menu", text: "Target")
@@ -179,7 +190,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
 
       it "does not allow to move" do
         context_menu.open_for work_package
-        context_menu.expect_no_options "Change project"
+        context_menu.expect_no_options "Move to another project"
       end
     end
   end

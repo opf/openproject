@@ -288,6 +288,10 @@ export class PathHelperService {
     return `${this.workPackagePath(workPackageId)}/progress/edit`;
   }
 
+  public workPackageUpdateCounterPath(workPackageId:string|number, counter:string) {
+    return `${this.workPackagePath(workPackageId)}/split_view/update_counter?counter=${counter}`;
+  }
+
   // Work Package Bulk paths
 
   public workPackagesBulkEditPath() {
@@ -308,5 +312,9 @@ export class PathHelperService {
 
   public textFormattingHelp() {
     return `${this.staticBase}/help/text_formatting`;
+  }
+
+  public jobStatusModalPath(jobId:string) {
+    return `${this.staticBase}/job_statuses/${jobId}/dialog`;
   }
 }

@@ -10,8 +10,8 @@ export class TurboRequestsService {
 
   }
 
-  public request(url:string):Promise<unknown> {
-    return fetch(url)
+  public request(url:string, init:RequestInit = {}):Promise<unknown> {
+    return fetch(url, init)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -21,5 +21,13 @@ export class TurboRequestsService {
       })
       .then((html) => renderStreamMessage(html))
       .catch((error) => this.toast.addError(error as string));
+  }
+
+  public requestStream(url:string):Promise<unknown> {
+    return this.request(url, {
+      method: 'GET',
+      headers: { Accept: 'text/vnd.turbo-stream.html' },
+      credentials: 'same-origin',
+    });
   }
 }

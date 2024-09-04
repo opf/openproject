@@ -49,3 +49,6 @@ uk:
           draft: 'складено'
           merged: 'об’єднано'
           ready_for_review: 'позначено як готовий до перегляду'
+    work_packages:
+      tabs:
+        github: "GitHub"

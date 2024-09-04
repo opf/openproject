@@ -12,7 +12,6 @@ RSpec.describe "Notification center navigation", :js, :with_cuprite do
   shared_let(:notification) do
     create(:notification,
            recipient:,
-           project:,
            resource: work_package,
            journal: work_package.journals.last)
   end
@@ -20,7 +19,6 @@ RSpec.describe "Notification center navigation", :js, :with_cuprite do
   shared_let(:second_notification) do
     create(:notification,
            recipient:,
-           project:,
            resource: second_work_package,
            journal: second_work_package.journals.last)
   end
@@ -57,6 +55,30 @@ RSpec.describe "Notification center navigation", :js, :with_cuprite do
       # Close the split screen
       split_screen.close
       expect(page).to have_current_path "/notifications"
+    end
+  end
+
+  context "when filtering for notifications" do
+    it "keeps the state when opening and closing notifications (Regression #57067)" do
+      visit notifications_path
+
+      within_test_selector("op-submenu") do
+        click_link_or_button "Mentioned"
+      end
+      expect(page).to have_current_path "/notifications?filter=reason&name=mentioned"
+
+      # Details view of WP opens with activity tab
+      center.click_item notification
+      split_screen.expect_open
+      expect(page).to have_current_path "/notifications/details/#{work_package.id}/activity?filter=reason&name=mentioned"
+
+      # Switch to the relations tab
+      split_screen.switch_to_tab tab: "Relations"
+      expect(page).to have_current_path "/notifications/details/#{work_package.id}/relations?filter=reason&name=mentioned"
+
+      # Close the split screen
+      split_screen.close
+      expect(page).to have_current_path "/notifications?filter=reason&name=mentioned"
     end
   end
 

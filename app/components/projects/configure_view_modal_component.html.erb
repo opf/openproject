@@ -10,13 +10,14 @@
     <%= primer_form_with(
           url: projects_path,
           id: QUERY_FORM_ID,
+          data: { "turbo-stream" => false },
           method: :get
         ) do |form| %>
       <% helpers.projects_query_params.except(:columns, :sortBy).each do |name, value| %>
         <%= hidden_field_tag name, value %>
       <% end %>
       <%= render(Primer::Alpha::TabPanels.new(label: "label")) do |tab_panel| %>
-        <% tab_panel.with_tab(selected: true, id: "tab-selects") do |tab| %>
+        <% tab_panel.with_tab(selected: true, id: "tab-selects--columns") do |tab| %>
           <% tab.with_text { I18n.t("label_columns") } %>
           <% tab.with_panel do %>
             <%= helpers.angular_component_tag 'opce-draggable-autocompleter',
@@ -33,7 +34,7 @@
                                           }%>
           <% end %>
         <% end %>
-        <% tab_panel.with_tab(id: "tab-selects") do |tab| %>
+        <% tab_panel.with_tab(id: "tab-selects--sorting") do |tab| %>
           <% tab.with_text { I18n.t("label_sort") }%>
           <% tab.with_panel do %>
             <%= render(Queries::SortByComponent.new(query: query, selectable_columns:)) %>

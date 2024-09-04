@@ -332,7 +332,7 @@ RSpec.describe "Projects custom fields mapping via project settings", :js, :with
       let!(:visible_project_custom_field) do
         create(:project_custom_field,
                name: "Normal field",
-               visible: true,
+               admin_only: false,
                projects: [project],
                project_custom_field_section: section_with_invisible_fields)
       end
@@ -340,7 +340,7 @@ RSpec.describe "Projects custom fields mapping via project settings", :js, :with
       let!(:invisible_project_custom_field) do
         create(:project_custom_field,
                name: "Admin only field",
-               visible: false,
+               admin_only: true,
                projects: [project],
                project_custom_field_section: section_with_invisible_fields)
       end

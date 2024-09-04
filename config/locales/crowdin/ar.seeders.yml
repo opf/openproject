@@ -95,7 +95,7 @@ ar:
             item_0:
               name: Project plan
             item_1:
-              name: Milestones
+              name: الأحداث الرئيسية
             item_2:
               name: Tasks
             item_3:
@@ -145,7 +145,7 @@ ar:
                   name: مجموعات العمل
               item_6:
                 options:
-                  name: Milestones
+                  name: الأحداث الرئيسية
           work_packages:
             item_0:
               subject: Start of project
@@ -472,7 +472,7 @@ ar:
         item_6:
           name: خلَل
       welcome:
-        title: Welcome to OpenProject!
+        title: مرحبًا بك في OpenProject!
         text: |
           OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
 

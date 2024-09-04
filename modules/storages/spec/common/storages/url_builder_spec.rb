@@ -54,8 +54,8 @@ RSpec.describe Storages::UrlBuilder do
           expect(described_class.url(storage.uri, "path", "//with-double-slash/"))
             .to eq("https://example.com/path/with-double-slash")
 
-          expect(described_class.url(storage.uri, "path", "new folder/stærforge"))
-            .to eq("https://example.com/path/new%20folder/st%C3%A6rforge")
+          expect(described_class.url(storage.uri, "path", "new folder/my+stærforge"))
+            .to eq("https://example.com/path/new%20folder/my%2Bst%C3%A6rforge")
         end
       end
 
@@ -120,6 +120,9 @@ RSpec.describe Storages::UrlBuilder do
 
   describe "path" do
     it "returns a correct path concatenation" do
+      expect(described_class.path("")).to eq("/")
+      expect(described_class.path("/")).to eq("/")
+
       expect(described_class.path("path")).to eq("/path")
       expect(described_class.path("path/")).to eq("/path")
       expect(described_class.path("/path")).to eq("/path")

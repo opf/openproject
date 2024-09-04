@@ -50,7 +50,7 @@ import { BackRoutingService } from 'core-app/features/work-packages/components/b
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 import { CommentService } from 'core-app/features/work-packages/components/wp-activity/comment-service';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
-import { UrlParamsService } from 'core-app/core/url-params/url-params.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import {
   WorkPackageTabsService,
 } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
@@ -74,6 +74,8 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   @Input() workPackageId:string;
   @Input() showTabs = true;
   @Input() activeTab?:string;
+
+  @Input() resizerClass = 'work-packages-partitioned-page--content-right';
 
   constructor(
     public injector:Injector,

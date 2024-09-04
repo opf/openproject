@@ -209,10 +209,12 @@ pl:
     reorder_confirmation: "Ostrzeżenie: Bieżąca kolejność dostępnych wartości zostanie utracona. Kontynuować?"
     instructions:
       is_required: "Oznacz pole niestandardowe jako wymagane. To spowoduje obowiązkowe wypełnianie pola podczas tworzenia nowych lub aktualizacji istniejących zasobów."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Zaznacz pole niestandardowe jako dostępne we wszystkich istniejących i nowych projektach."
       searchable: "Uwzględnij wartości pól podczas korzystania z funkcji wyszukiwania globalnego."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Zezwól na edycję pola przez samych użytkowników."
-      visible: "Ustaw pole jako widoczne dla wszystkich użytkowników (niebędących administratorami) w przeglądzie projektu i wyświetlane w widżecie szczegółów projektu w przeglądzie projektu."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Zezwól na użycie pola niestandardowego w filtrze w widokach pakietów roboczych. Pamiętaj, że pole niestandardowe będzie wyświetlane w widokach globalnych dopiero po zaznaczeniu opcji „Dla wszystkich projektów”.
     tab:
@@ -259,6 +261,9 @@ pl:
       open_as_gantt: "Otwórz jako widok wykresu Gantta"
       no_results_title_text: Nie ma jeszcze żadnego projektu
       no_results_content_text: Utwórz nowy projekt
+      search:
+        label: Project name filter
+        placeholder: Search by project name
     lists:
       active: "Aktywne projekty"
       my: "Moje projekty"
@@ -292,7 +297,7 @@ pl:
         actions:
           label_enable_single: "Aktywne w tym projekcie, kliknij, aby wyłączyć"
           label_disable_single: "Nieaktywne w tym projekcie, kliknij, aby włączyć"
-          deactivate_for_project: "Dezaktywuj dla tego projektu"
+          remove_from_project: "Remove from project"
           label_enable_all: "Włącz wszystkie"
           label_disable_all: "Wyłącz wszystkie"
         is_required_blank_slate:
@@ -395,6 +400,9 @@ pl:
       will_revoke_access_to_all: "To działanie unieważni jego dostęp do nich wszystkich."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Podaj nazwę tokena API"
         token_name_in_use: "Ta nazwa tokena API jest już używana, wybierz inną"
@@ -485,7 +493,7 @@ pl:
         is_readonly: "Tylko do odczytu"
         excluded_from_totals: "Wyłączono z sum"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Ciemny (beta)"
     light: "Jasny"
     light_high_contrast: "Jasny, wysoki kontrast"
   types:
@@ -536,9 +544,9 @@ pl:
       no_common_statuses_exists: "Brak stanu dostępnego dla wszystkich wybranych pakietów roboczych. Ich stanu nie można zmienić."
       unsupported_for_multiple_projects: "Hurtowe przenoszenie / kopiowanie nie jest obsługiwane dla Zestawu zadań z różnych projektów"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Bieżący typ pakietu roboczego nie jest włączony w projekcie docelowym. Włącz ten typ w projekcie docelowym, jeśli chcesz, aby pozostał niezmieniony. W przeciwnym razie wybierz z listy typ dostępny w projekcie docelowym.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Bieżące typy pakietów roboczych nie są włączone w projekcie docelowym. Włącz typy w projekcie docelowym, jeśli chcesz, aby pozostały niezmienione. W przeciwnym razie wybierz z listy typ dostępny w projekcie docelowym.
     sharing:
       missing_workflow_warning:
         title: "Brak przepływu pracy udostępniania pakietu roboczego"
@@ -627,7 +635,7 @@ pl:
         possible_values: "Możliwe wartości"
         regexp: "Wyrażenie regularne"
         searchable: "Wyszukiwalne"
-        visible: "Widoczne"
+        admin_only: "Admin-only"
       custom_value:
         value: "Wartość"
       doorkeeper/application:
@@ -697,6 +705,7 @@ pl:
         versions: "Wersje"
         work_packages: "Zadania"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: Sekcja
       query:
         column_names: "Kolumny"
@@ -717,7 +726,7 @@ pl:
         is_closed: "Zadanie zamknięte"
         is_readonly: "Pakiet roboczy tylko do odczytu"
         excluded_from_totals: "Wyłącz z obliczania sum w hierarchii"
-        default_done_ratio: "% Complete"
+        default_done_ratio: "% ukończenia"
       time_entry:
         activity: "Działanie"
         hours: "Godziny"
@@ -1009,7 +1018,7 @@ pl:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "musi wynosić od 0 do 100."
           readonly_default_exlusive: "nie można aktywować dla statusów, które są oznaczone jako domyślne."
         time_entry:
           attributes:
@@ -1042,11 +1051,11 @@ pl:
             assigned_to:
               format: "%{message}"
             done_ratio:
-              does_not_match_work_and_remaining_work: "does not match work and remaining work"
-              cannot_be_set_when_work_is_zero: "cannot be set when work is zero"
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              must_be_set_when_work_and_remaining_work_are_set: "Required when Work and Remaining work are set."
-              inclusion: "must be between 0 and 100."
+              does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when Work is 0h"
+              must_be_set_when_remaining_work_is_set: "required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "required when Work and Remaining work are set."
+              inclusion: "musi wynosić od 0 do 100."
             due_date:
               not_start_date: "nie jest w dniu rozpoczęcia, chociaż jest to wymagane dla Kamieni Milowych."
               cannot_be_null: "nie można ustawić na wartość zero, ponieważ data rozpoczęcia i czas trwania są znane."
@@ -1075,15 +1084,17 @@ pl:
               does_not_exist: "Podana kategoria nie istnieje."
             estimated_hours:
               not_a_number: "nie jest prawidłowym czasem trwania."
-              cant_be_inferior_to_remaining_work: "Nie może być mniejsza niż wartość pozostałej pracy."
-              must_be_set_when_remaining_work_and_percent_complete_are_set: "Required when Remaining work and % Complete are set."
-              format: "%{message}"
+              cant_be_inferior_to_remaining_work: "cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "required when Remaining work and % Complete are set."
             remaining_hours:
               not_a_number: "nie jest prawidłowym czasem trwania."
-              cant_exceed_work: "Nie może być wyższa niż wartość pracy."
-              must_be_set_when_work_is_set: "Wymagane, gdy ustawiona jest opcja Praca."
-              must_be_set_when_work_and_percent_complete_are_set: "Required when Work and % Complete are set."
-              format: "%{message}"
+              cant_exceed_work: "cannot be higher than Work."
+              must_be_set_when_work_is_set: "required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "required when Work and % Complete are set."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                must be 0h when Work is set and % Complete is 100%.
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                must be empty when Work is empty and % Complete is 100%.
           readonly_status: "Pakiet roboczy ma status tylko do odczytu, więc jego atrybutów nie można zmienić."
         type:
           attributes:
@@ -1102,7 +1113,7 @@ pl:
               confirmation: "Powtórzone hasło różni się od wprowadzonego hasła!"
               format: "%{message}"
             password:
-              weak: "Musi zawierać znaki z następujących klas (co najmniej %{min_count} z %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "małe litery (np. 'a')"
               uppercase: "wielkie litery (np. 'A')"
               numeric: "liczbowe (np. 1)"
@@ -1176,6 +1187,11 @@ pl:
         many: "Rol"
         other: "Rol"
       status: "Status pakietu roboczego"
+      token/api:
+        one: Access token
+        few: Access tokens
+        many: Access tokens
+        other: Access tokens
       type: "Typ"
       user: "Użytkownik"
       version: "Wersja"
@@ -1658,7 +1674,7 @@ pl:
   error_pdf_failed_to_export: "Nie można było zapisać eksportu PDF: %{error}"
   error_token_authenticity: "Nie można zweryfikować tokenu Cross-Site Request Forgery. Czy podjęto próbę przesłania danych w wielu przeglądarkach lub z wielu kart? Zamknij wszystkie karty i spróbuj ponownie."
   error_work_package_not_found_in_project: "Pakiet roboczy nie został znaleziony lub nie należy do tego projektu"
-  error_work_package_id_not_found: "The work package was not found."
+  error_work_package_id_not_found: "Nie znaleziono pakietu roboczego."
   error_must_be_project_member: "musi być członkiem projektu"
   error_migrations_are_pending: "Ta instalacja OpenProject oczekuje na migracje baz danych. Prawdopodobnie pominięto uruchomienie migracji przy ostatnim uaktualnieniu. Sprawdź instrukcję uaktualniania, aby prawidłowo uaktualnić tę instalację."
   error_migrations_visit_upgrade_guides: "Przejdź do naszej dokumentacji instrukcji uaktualniania"
@@ -1700,9 +1716,71 @@ pl:
       project: "Projekt: %{name}"
       subproject: "Podprojekt: %{name}"
   export:
-    your_work_packages_export: "Eksport Twoich pakietów roboczych"
-    succeeded: "Eksport został wykonany."
-    failed: "Eksport nie powiódł się: %{message}"
+    dialog:
+      title: "Export"
+      submit: "Export"
+      format:
+        label: "File format"
+        options:
+          csv:
+            label: "CSV"
+          pdf:
+            label: "PDF"
+          xls:
+            label: "XLS"
+      columns:
+        input_label_report: "Add columns to attribute table"
+        input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
+        input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
+      pdf:
+        export_type:
+          label: "PDF export type"
+          options:
+            table:
+              label: "Table"
+              caption: "Export the work packages list in a table with the desired columns."
+            report:
+              label: "Report"
+              caption: "Export the work package on a detailed report of all work packages in the list."
+            gantt:
+              label: "Gantt chart"
+              caption: "Export the work packages list in a Gantt diagram view."
+        include_images:
+          label: "Include images"
+          caption: "Exclude images to reduce the size of the PDF export."
+        gantt_zoom_levels:
+          label: "Zoom levels"
+          caption: "Select what is the zoom level for dates displayed in the chart."
+          options:
+            days: "Days"
+            weeks: "Weeks"
+            months: "Months"
+            quarters: "Quarters"
+        column_width:
+          label: "Table column width"
+          options:
+            narrow: "Narrow"
+            medium: "Medium"
+            wide: "Wide"
+            very_wide: "Very wide"
+        paper_size:
+          label: "Paper size"
+          caption: "Depending on the chart size more than one page might be exported."
+        long_text_fields:
+          input_caption: "By default all long text fields are selected."
+          input_label: "Add long text fields"
+          input_placeholder: "Search for long text fields"
+          drag_area_label: "Manage long text fields"
+      xls:
+        include_relations:
+          label: "Include relations"
+          caption: "This option will create a duplicate of each work package for every relation this has with another work package."
+        include_descriptions:
+          label: "Include descriptions"
+          caption: "This option will add a description column in raw format."
+    your_work_packages_export: "Work packages are being exported"
+    succeeded: "Export completed"
+    failed: "An error has occurred while trying to export the work packages: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1864,10 +1942,10 @@ pl:
       shared: "Udostępniono"
       watched: "Obserwator"
     facets:
-      unread: "Unread"
-      unread_title: "Show unread"
-      all: "All"
-      all_title: "Show all"
+      unread: "Nieprzeczytane"
+      unread_title: "Pokaż nieprzeczytane"
+      all: "Wszystkie"
+      all_title: "Pokaż wszystkie"
     menu:
       by_project: "Nieprzeczytane wg projektu"
       by_reason: "Powód"
@@ -1932,7 +2010,7 @@ pl:
   label_ldap_auth_source_plural: "Połączenia LDAP"
   label_attribute_expand_text: "Pełny tekst atrybutu „%{attribute}”"
   label_authentication: "Uwierzytelnianie"
-  label_authentication_settings: "Authentication settings"
+  label_authentication_settings: "Ustawienia uwierzytelniania"
   label_available_global_roles: "Dostępne role globalne"
   label_available_project_attributes: "Dostępne atrybuty projektu"
   label_available_project_forums: "Dostępne fora"
@@ -2119,7 +2197,7 @@ pl:
   label_inactive: "Nieaktywny"
   label_incoming_emails: "Przychodzące e-maile"
   label_includes: "obejmuje"
-  label_include_sub_projects: Include sub-projects
+  label_include_sub_projects: Uwzględnij podprojekty
   label_index_by_date: "Indeks wg daty"
   label_index_by_title: "Indeks tytułów"
   label_information: "Informacje"
@@ -2227,6 +2305,8 @@ pl:
   label_next_week: "Następny tydzień"
   label_no_change_option: "(Bez zmian)"
   label_no_data: "Brak danych do pokazania"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Bez strony nadrzędnej"
   label_nothing_display: "Brak danych do pokazania"
   label_nobody: "nikt"
@@ -2352,7 +2432,7 @@ pl:
   label_role_search: "Przydziel role nowemu członkowi"
   label_scm: "SCM"
   label_search: "Szukaj"
-  label_search_by_name: "Search by name"
+  label_search_by_name: "Wyszukaj według nazwy"
   label_send_information: "Wyślij nowe poświadczenia do użytkownika"
   label_send_test_email: "Wyślij wiadomość testową"
   label_session: "Sesja"
@@ -2465,7 +2545,7 @@ pl:
   label_work_package_new: "Nowy pakiet roboczy"
   label_work_package_edit: "Edytuj pakiet roboczy %{name}"
   label_work_package_plural: "Pakiety robocze"
-  label_work_packages_settings: "Work packages settings"
+  label_work_packages_settings: "Ustawienia pakietu roboczego"
   label_work_package_status: "Status pakietu roboczego"
   label_work_package_status_new: "Nowy status"
   label_work_package_status_plural: "Statusy pakietów roboczych"
@@ -2473,7 +2553,7 @@ pl:
   label_work_package_tracking: "Śledzenie pakietów roboczych"
   label_work_package_view_all: "Pokaż wszystkie pakiety robocze"
   label_workflow: "Przepływ pracy"
-  label_workflow_copy: "Copy workflow"
+  label_workflow_copy: "Skopiuj przepływ pracy"
   label_workflow_plural: "Przepływ zadań"
   label_workflow_summary: "Podsumowanie"
   label_working_days_and_hours: "Dni i godziny pracy"
@@ -2811,7 +2891,7 @@ pl:
   permission_edit_own_messages: "Edycja własnych wiadomości"
   permission_edit_own_time_entries: "Edycja własnych wpisów dziennika"
   permission_edit_project: "Edycja projektu"
-  permission_edit_project_attributes: "Edit project attributes"
+  permission_edit_project_attributes: "Edytuj atrybuty projektu"
   permission_edit_reportings: "Edycja raportów"
   permission_edit_time_entries: "Edycja dzienników czasu pracy dla innych użytkowników"
   permission_edit_timelines: "Edycja osi czasu"
@@ -2862,7 +2942,7 @@ pl:
   permission_work_package_assigned: "Zostań osobą przypisaną/odpowiedzialną"
   permission_work_package_assigned_explanation: "Pakiety robocze mogą być przypisane do użytkowników i grup znajdujących się w posiadaniu tej roli w odpowiednim projekcie"
   permission_view_project_activity: "Wyświetl aktywność projektu"
-  permission_view_project_attributes: "View project attributes"
+  permission_view_project_attributes: "Wyświetl atrybuty projektu"
   permission_save_bcf_queries: "Zapisz zapytania BCF"
   permission_manage_public_bcf_queries: "Zarządzanie publicznymi zapytaniami BCF"
   permission_edit_attribute_help_texts: "Edytuj teksty pomocy dotyczące atrybutów"
@@ -3108,8 +3188,10 @@ pl:
   setting_work_package_done_ratio: "Obliczenie postępu"
   setting_work_package_done_ratio_field: "Oparte na pracy"
   setting_work_package_done_ratio_status: "Oparte na statusie"
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
-    W trybie <b>opartym na pracy</b> % ukończenia jest obliczany na podstawie ilości wykonanej pracy w stosunku do pracy całkowitej. W trybie <b>opartym na statusie</b> każdy status ma powiązaną wartość % ukończenia. Zmiana statusu spowoduje zmianę % ukończenia.
+    In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Właściwości pakietu roboczego"
   setting_work_package_startdate_is_adddate: "Użyj bieżącej daty jako daty początkowej dla nowych pakietów roboczych"
   setting_work_packages_projects_export_limit: "Limit eksportu pakietów roboczych / projektów"
@@ -3494,9 +3576,26 @@ pl:
     progress:
       label_note: "Uwaga:"
       modal:
-        work_based_help_text: "% ukończenia jest automatycznie wyprowadzany z wartości Praca i Pozostała praca."
+        work_based_help_text: "Each field is automatically calculated from the two others when possible."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% ukończenia jest ustawiany na podstawie statusu pakietu roboczego."
         migration_warning_text: "W trybie obliczania postępu na podstawie pracy wartości % ukończenia nie można ustawić ręcznie i jest ona powiązana z wartością Praca. Istniejąca wartość została zachowana, ale nie można jej edytować. Najpierw wprowadź wartość Praca."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          cleared_because_work_is_0h: "Cleared because Work is 0h."
+          derived: "Derived from Work and Remaining work."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          derived: "Derived from Remaining work and % Complete."
+          same_as_remaining_work: "Set to same value as Remaining work."
+        remaining_hours:
+          cleared_because_work_is_empty: "Cleared because Work is empty."
+          cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
+          decreased_like_work: "Decreased by the same amount as Work."
+          derived: "Derived from Work and % Complete."
+          increased_like_work: "Increased by the same amount as Work."
+          same_as_work: "Set to same value as Work."
     permissions:
       comment: "Komentarz"
       comment_description: "Może wyświetlać i komentować ten pakiet roboczy."
