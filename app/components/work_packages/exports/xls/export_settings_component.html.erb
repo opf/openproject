@@ -8,20 +8,24 @@
   <% end %>
   <%= container.with_row do |_xls_include_relations| %>
     <%= render OpenProject::Common::DividerComponent.new(mt: 2) %>
-    <%= render(Primer::Alpha::CheckBox.new(name: "show_relations",
-                                           value: "true",
-                                           unchecked_value: "false",
-                                           label: I18n.t("export.dialog.xls.include_relations.label"),
-                                           caption: I18n.t("export.dialog.xls.include_relations.caption"),
-                                           visually_hide_label: false)) %>
+    <%= render(Primer::Alpha::CheckBox.new(
+      id: "show_relations_xls",
+      name: "show_relations",
+      value: "true",
+      unchecked_value: "false",
+      label: I18n.t("export.dialog.xls.include_relations.label"),
+      caption: I18n.t("export.dialog.xls.include_relations.caption"),
+      visually_hide_label: false)) %>
   <% end %>
   <%= container.with_row do |_xls_include_description| %>
     <%= render OpenProject::Common::DividerComponent.new %>
-    <%= render(Primer::Alpha::CheckBox.new(name: "show_descriptions",
-                                           value: "true",
-                                           unchecked_value: "false",
-                                           label: I18n.t("export.dialog.xls.include_descriptions.label"),
-                                           caption: I18n.t("export.dialog.xls.include_descriptions.caption"),
-                                           visually_hide_label: false)) %>
+    <%= render(Primer::Alpha::CheckBox.new(
+      id: "show_descriptions_xls",
+      name: "show_descriptions",
+      value: "true",
+      unchecked_value: "false",
+      label: I18n.t("export.dialog.xls.include_descriptions.label"),
+      caption: I18n.t("export.dialog.xls.include_descriptions.caption"),
+      visually_hide_label: false)) %>
   <% end %>
 <% end %>
