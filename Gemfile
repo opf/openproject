@@ -61,7 +61,7 @@ gem "friendly_id", "~> 5.5.0"
 
 gem "acts_as_list", "~> 1.2.0"
 gem "acts_as_tree", "~> 2.9.0"
-gem "awesome_nested_set", "~> 3.6.0"
+gem "awesome_nested_set", "~> 3.7.0"
 gem "closure_tree", "~> 7.4.0"
 gem "rubytree", "~> 2.1.0"
 # Only used in down migrations now.
@@ -348,7 +348,7 @@ group :development, :test do
   gem "erblint-github", require: false
 
   # Brakeman scanner
-  gem "brakeman", "~> 6.1.0"
+  gem "brakeman", "~> 6.2.0"
 
   # i18n-tasks helps find and manage missing and unused translations.
   gem "i18n-tasks", "~> 1.0.13", require: false
