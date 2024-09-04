@@ -10,6 +10,7 @@ export default class JobStatusPollingController extends Controller<HTMLElement> 
   declare readonly frameTarget:FrameElement;
 
   interval:ReturnType<typeof setInterval>;
+  userInteraction:boolean = false;
 
   connect() {
     this.interval = setInterval(() => this.frameTarget.reload(), 2000);
@@ -17,7 +18,7 @@ export default class JobStatusPollingController extends Controller<HTMLElement> 
 
   disconnect() {
     this.stopPolling();
-    if (this.backOnCloseValue) {
+    if (this.backOnCloseValue && !this.userInteraction) {
       window.history.back();
     }
   }
@@ -39,7 +40,14 @@ export default class JobStatusPollingController extends Controller<HTMLElement> 
     setTimeout(() => element.click(), 50);
   }
 
+  redirectClick(_:Event) {
+    this.userInteraction = true;
+  }
+
   redirectTargetConnected(element:HTMLLinkElement) {
-    setTimeout(() => { window.location.href = element.href; }, 2000);
+    setTimeout(() => {
+      this.userInteraction = true;
+      window.location.href = element.href;
+    }, 2000);
   }
 }
