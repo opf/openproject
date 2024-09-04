@@ -40,6 +40,9 @@ en:
     custom_styles:
       color_theme: "Color theme"
       color_theme_custom: "(Custom)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
         accent-color: "Accent"
