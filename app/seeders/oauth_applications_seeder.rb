@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,6 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 class OAuthApplicationsSeeder < Seeder
+  OPENPROJECT_MOBILE_APP_UID = "DgJZ7Rat23xHZbcq_nxPg5RUuxljonLCN7V7N7GoBAA"
+
   def seed_data!
     call = create_app
     unless call.success?
@@ -37,11 +41,11 @@ class OAuthApplicationsSeeder < Seeder
   end
 
   def applicable?
-    Doorkeeper::Application.where(builtin: true).empty?
+    Doorkeeper::Application.find_by(id: OPENPROJECT_MOBILE_APP_UID).nil?
   end
 
   def not_applicable_message
-    "No need to seed oauth appplications as they are already present."
+    "No need to seed oauth applications as they are already present."
   end
 
   def create_app
@@ -53,7 +57,7 @@ class OAuthApplicationsSeeder < Seeder
         redirect_uri: "openprojectapp://oauth-callback",
         builtin: true,
         confidential: false,
-        uid: "DgJZ7Rat23xHZbcq_nxPg5RUuxljonLCN7V7N7GoBAA"
+        uid: OPENPROJECT_MOBILE_APP_UID
       )
   end
 end

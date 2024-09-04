@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,11 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-require "services/base_services/behaves_like_delete_service"
+module OAuth
+  module Applications
+    class IndexComponent < ApplicationComponent
+      include ApplicationHelper
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-RSpec.describe OAuth::Applications::DeleteService, type: :model do # rubocop:disable RSpec/SpecFilePathFormat
-  it_behaves_like "BaseServices delete service" do
-    let(:factory) { :oauth_application }
+      def initialize(oauth_applications:)
+        @built_in_applications = oauth_applications.select(&:builtin?)
+        @other_applications = oauth_applications.reject(&:builtin?)
+
+        super
+      end
+    end
   end
 end

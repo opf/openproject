@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe OAuth::Applications::SetAttributesService, type: :model do
+RSpec.describe OAuth::Applications::SetAttributesService, type: :model do # rubocop:disable RSpec/SpecFilePathFormat
   let(:current_user) { build_stubbed(:admin) }
 
   let(:contract_instance) do

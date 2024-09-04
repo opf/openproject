@@ -95,7 +95,7 @@ RSpec.describe "OAuth applications management", :js, :with_cuprite do
 
   context "with a seeded application" do
     before do
-      ::OAuthApplicationsSeeder.new.seed_data!
+      OAuthApplicationsSeeder.new.seed_data!
     end
 
     it "does not allow editing or deleting the seeded application" do
@@ -105,14 +105,14 @@ RSpec.describe "OAuth applications management", :js, :with_cuprite do
       expect(page).to have_css("td.builtin .icon-checkmark")
       expect(page).to have_css("td.enabled .icon-checkmark")
 
-      expect(page).not_to have_css("td.buttons", text: "Edit")
-      expect(page).not_to have_css("td.buttons", text: "Delete")
+      expect(page).to have_no_css("td.buttons", text: "Edit")
+      expect(page).to have_no_css("td.buttons", text: "Delete")
 
       expect(page).to have_css("td.buttons", text: "Deactivate")
       click_link_or_button "Deactivate"
 
       expect(page).to have_css("td.builtin .icon-checkmark")
-      expect(page).not_to have_css("td.enabled .icon-checkmark")
+      expect(page).to have_no_css("td.enabled .icon-checkmark")
 
       app = Doorkeeper::Application.last
       expect(app).to be_builtin

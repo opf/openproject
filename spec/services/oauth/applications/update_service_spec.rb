@@ -31,7 +31,7 @@
 require "spec_helper"
 require "services/base_services/behaves_like_update_service"
 
-RSpec.describe OAuth::Applications::UpdateService, type: :model do
+RSpec.describe OAuth::Applications::UpdateService, type: :model do # rubocop:disable RSpec/SpecFilePathFormat
   it_behaves_like "BaseServices update service" do
     let(:factory) { :oauth_application }
   end

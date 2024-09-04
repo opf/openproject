@@ -53,13 +53,14 @@ module OAuth
     def create
       call = ::OAuth::Applications::CreateService.new(user: current_user)
                                                  .call(permitted_params.oauth_application)
+      result = call.result
 
       if call.success?
         flash[:notice] = t(:notice_successful_create)
-        flash[:_application_secret] = call.result.plaintext_secret
-        redirect_to action: :show, id: call.result.id
+        flash[:_application_secret] = result.plaintext_secret
+        redirect_to action: :show, id: result.id
       else
-        @application = call.result
+        @application = result
         render action: :new
       end
     end

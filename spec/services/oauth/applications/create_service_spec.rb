@@ -31,9 +31,9 @@
 require "spec_helper"
 require "services/base_services/behaves_like_create_service"
 
-RSpec.describe OAuth::Applications::CreateService, type: :model do
+RSpec.describe OAuth::Applications::CreateService, type: :model do # rubocop:disable RSpec/SpecFilePathFormat
   it_behaves_like "BaseServices create service" do
-    let(:factory) { :oauth_application }
     let(:model_class) { Doorkeeper::Application }
+    let(:factory) { :oauth_application }
   end
 end

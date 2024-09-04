@@ -51,16 +51,14 @@ module OAuth
       private
 
       def validate_admin_only
-        unless user.active_admin?
-          errors.add :base, :error_unauthorized
-        end
+        errors.add :base, :error_unauthorized unless user.admin?
       end
 
       def validate_integration
-        if (model.integration_id.nil? && model.integration_type.present?) ||
-          (model.integration_id.present? && model.integration_type.nil?)
-          errors.add :integration, :invalid
-        end
+        both = model.integration_id.present? && model.integration_type.present?
+        none = model.integration_id.nil? && model.integration_type.nil?
+
+        errors.add :integration, :invalid unless both || none
       end
 
       def validate_client_credential_user
