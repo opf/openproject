@@ -35,6 +35,8 @@ class OpenProject::JournalFormatter::FileLink < JournalFormatter::Base
     id = key.to_s.sub("file_links_", "").to_i
     label, old_value, value, storage = format_details(id, values)
 
+    return if old_value && value
+
     if options[:html]
       label, old_value, value = format_html_details(label, old_value, value)
       value = format_html_file_link_detail(id, value)
@@ -57,11 +59,10 @@ class OpenProject::JournalFormatter::FileLink < JournalFormatter::Base
 
   def storage(id, old, current)
     non_nil_value = [old, current].compact.first
-    file_link = file_link_for(id, non_nil_value)
 
-    non_nil_value["storage_name"] ||
-    file_link&.storage&.name ||
-    I18n.t("unknown_storage", scope: "my_account.access_tokens.storages")
+    storage_name(id, non_nil_value) ||
+      non_nil_value["storage_name"] ||
+      I18n.t("unknown_storage", scope: "my_account.access_tokens.storages")
   end
 
   def render_file_link_detail_text(label, value, old_value, storage)
@@ -75,8 +76,12 @@ class OpenProject::JournalFormatter::FileLink < JournalFormatter::Base
   # Based this off the Attachment formatter. Not sure if it is the best approach
   def label(_key) = I18n.t("activerecord.models.file_link")
 
+  def storage_name(id, value)
+    file_link_for(id, value)&.storage&.name
+  end
+
   def file_link_for(key, value)
-    value.present? && ::Storages::FileLink.find_by(id: key)
+    value.present? && ::Storages::FileLink.includes(:storage).find_by(id: key)
   end
 
   def format_html_file_link_detail(key, value)
