@@ -74,7 +74,7 @@ RSpec.describe Projects::Exports::CSV, "integration" do
       it "does not render project custom fields in the header" do
         expect(parsed.size).to eq 2
 
-        expect(header).to eq ["id", "Identifier", "Name", "Description", "Status", "Public"]
+        expect(header).to eq ["\xEF\xBB\xBFid", "Identifier", "Name", "Description", "Status", "Public"]
       end
 
       it "does not render the custom field values in the rows if enabled for a project" do
@@ -93,7 +93,7 @@ RSpec.describe Projects::Exports::CSV, "integration" do
         expect(cf_names).not_to include(not_used_string_cf.name)
         expect(cf_names).not_to include(hidden_cf.name)
 
-        expect(header).to eq ["id", "Identifier", "Name", "Description", "Status", "Public", *cf_names]
+        expect(header).to eq ["\xEF\xBB\xBFid", "Identifier", "Name", "Description", "Status", "Public", *cf_names]
       end
 
       it "renders the custom field values in the rows if enabled for a project" do
@@ -126,7 +126,7 @@ RSpec.describe Projects::Exports::CSV, "integration" do
         expect(cf_names).to include(not_used_string_cf.name)
         expect(cf_names).to include(hidden_cf.name)
 
-        expect(header).to eq ["id", "Identifier", "Name", "Description", "Status", "Public", *cf_names]
+        expect(header).to eq ["\xEF\xBB\xBFid", "Identifier", "Name", "Description", "Status", "Public", *cf_names]
       end
 
       it "renders the custom field values in the rows if enabled for a project" do

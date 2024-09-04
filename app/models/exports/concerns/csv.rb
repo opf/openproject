@@ -53,7 +53,7 @@ module Exports
         ::Exports::Result
           .new format: :csv,
                title: csv_export_filename,
-               content: serialized,
+               content: "\xEF\xBB\xBF#{serialized}", # Make Excel open CSV happy by append UTF8 BOM
                mime_type: "text/csv"
       end
 
