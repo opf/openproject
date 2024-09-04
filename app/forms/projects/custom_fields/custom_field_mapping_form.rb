@@ -44,7 +44,7 @@ module Projects::CustomFields
             multiple: true,
             dropdownPosition: "bottom",
             disabledProjects: projects_with_custom_field_mapping,
-            inputName: "project_custom_field_project_mapping[project_ids]"
+            inputName: "#{input_name}[project_ids]"
           }
         )
 
@@ -81,6 +81,10 @@ module Projects::CustomFields
 
     def join_table
       @project_mapping.class
+    end
+
+    def input_name
+      join_table.model_name.singular
     end
   end
 end

@@ -957,6 +957,10 @@ en:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) only one value is allowed."
           empty: "(%{name}) value can't be empty."
