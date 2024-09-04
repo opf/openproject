@@ -29,7 +29,7 @@
 require "spec_helper"
 require File.expand_path("../support/permission_specs", __dir__)
 
-RSpec.describe WorkPackages::ActivitiesTabController, "edit_work_package_notes permission", type: :controller do
+RSpec.describe WorkPackages::ActivitiesTabController, "edit_work_package_notes permission", type: :controller do # rubocop:disable RSpec/EmptyExampleGroup
   include PermissionSpecs
 
   check_permission_required_for("work_packages/activities_tab#edit", :edit_work_package_notes)

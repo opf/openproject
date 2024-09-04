@@ -29,14 +29,14 @@
 require "spec_helper"
 require File.expand_path("../support/permission_specs", __dir__)
 
-RSpec.describe WorkPackagesController, "view_work_packages permission", type: :controller do
+RSpec.describe WorkPackagesController, "view_work_packages permission", type: :controller do # rubocop:disable RSpec/EmptyExampleGroup,RSpec/MultipleDescribes
   include PermissionSpecs
 
   check_permission_required_for("work_packages#show", :view_work_packages)
   check_permission_required_for("work_packages#index", :view_work_packages)
 end
 
-RSpec.describe WorkPackages::ActivitiesTabController, "view_work_packages permission", type: :controller do
+RSpec.describe WorkPackages::ActivitiesTabController, "view_work_packages permission", type: :controller do # rubocop:disable RSpec/EmptyExampleGroup
   include PermissionSpecs
 
   check_permission_required_for("work_packages/activities_tab#index", :view_work_packages)
