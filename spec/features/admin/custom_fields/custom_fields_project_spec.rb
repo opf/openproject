@@ -80,7 +80,7 @@ RSpec.describe "Custom Fields Multi-Project Activation", :js do
       end
     end
 
-    context "and the project custom field is required" do
+    context "and the project custom field is for all projects" do
       shared_let(:custom_field) { create(:user_custom_field, is_for_all: true) }
 
       it "renders a blank slate" do
