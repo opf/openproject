@@ -58,7 +58,7 @@ module WorkPackages
             flex_layout: true,
             justify_content: :space_between,
             classes: "work-packages-activities-tab-journals-item-component-details--journal-details-header-container",
-            id: "activity-#{journal.version}"
+            id: "activity-anchor-#{journal.version}"
           ) do |header_container|
             render_header_start(header_container)
             render_header_end(header_container)
@@ -135,11 +135,12 @@ module WorkPackages
         def render_activity_link(container)
           container.with_column(pr: 3) do
             render(Primer::Beta::Link.new(
-                     href: activity_anchor,
+                     href: "#",
                      scheme: :secondary,
                      underline: false,
                      font_size: :small,
-                     data: { turbo: false }
+                     data: { turbo: false, action: "click->work-packages--activities-tab--index#setAnchor:prevent",
+                             "work-packages--activities-tab--index-id-param": journal.version }
                    )) do
               "##{journal.version}"
             end
@@ -205,10 +206,6 @@ module WorkPackages
             data-test-selector=\"user-activity-bubble\"
           ></span>
           ".html_safe # rubocop:disable Rails/OutputSafety
-        end
-
-        def activity_anchor
-          "#activity-#{journal.version}"
         end
 
         def journal_sorting

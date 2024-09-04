@@ -5,6 +5,12 @@ import {
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 
+interface CustomEventWithIdParam extends Event {
+  params:{
+    id:string;
+  };
+}
+
 export default class IndexController extends Controller {
   static values = {
     updateStreamsUrl: String,
@@ -144,30 +150,41 @@ export default class IndexController extends Controller {
 
   private handleInitialScroll() {
     if (window.location.hash.includes('#activity-')) {
-      this.scrollToActivity();
+      const activityId = window.location.hash.replace('#activity-', '');
+      this.scrollToActivity(activityId);
     } else if (this.sortingValue === 'asc') {
       this.scrollToBottom();
     }
   }
 
-  private scrollToActivity() {
-    const activityId = window.location.hash.replace('#activity-', '');
-    const activityElement = document.getElementById(`activity-${activityId}`);
-    activityElement?.scrollIntoView({ behavior: 'smooth' });
+  private scrollToActivity(activityId:string) {
+    const scrollableContainer = jQuery(this.element).scrollParent()[0];
+    const activityElement = document.getElementById(`activity-anchor-${activityId}`);
+
+    if (activityElement && scrollableContainer) {
+      scrollableContainer.scrollTop = activityElement.offsetTop-70;
+    }
   }
 
   private scrollToBottom() {
     const scrollableContainer = jQuery(this.element).scrollParent()[0];
     if (scrollableContainer) {
-      setTimeout(() => {
-        scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
-      }, 400);
+      scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
     }
   }
 
   setFilterToOnlyComments() { this.filterValue = 'only_comments'; }
   setFilterToOnlyChanges() { this.filterValue = 'only_changes'; }
   unsetFilter() { this.filterValue = ''; }
+
+  setAnchor(event:CustomEventWithIdParam) {
+    // native anchor scroll is causing positioning issues
+    event.preventDefault();
+    const activityId = event.params.id;
+
+    this.scrollToActivity(activityId);
+    window.location.hash = `#activity-${activityId}`;
+  }
 
   private getCkEditorInstance():ICKEditorInstance | null {
     const AngularCkEditorElement = this.element.querySelector('opce-ckeditor-augmented-textarea');

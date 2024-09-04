@@ -4,7 +4,7 @@
       if show_comment_container?
         journal_container.with_row do
           render(border_box_container(
-            id: "activity-#{journal.version}",
+            id: "activity-anchor-#{journal.version}",
             padding: :condensed
           )) do |border_box_component|
             border_box_component.with_header(px: 2, py: 1, data: { test_selector: "op-journal-notes-header" }) do
@@ -33,11 +33,15 @@
                   end
                   header_end_container.with_column do
                     render(Primer::Beta::Link.new(
-                      href: activity_anchor,
+                      href: "#",
                       scheme: :secondary,
                       underline: false, 
                       font_size: :small,
-                      data: { turbo: false }
+                      data: {
+                        turbo: false, 
+                        action: "click->work-packages--activities-tab--index#setAnchor:prevent", 
+                        "work-packages--activities-tab--index-id-param": journal.version  
+                      }
                     )) do
                       "##{journal.version}"
                     end
