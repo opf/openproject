@@ -427,6 +427,8 @@ Rails.application.routes.draw do
     delete "design/favicon" => "custom_styles#favicon_delete", as: "custom_style_favicon_delete"
     delete "design/touch_icon" => "custom_styles#touch_icon_delete", as: "custom_style_touch_icon_delete"
     get "design/upsale" => "custom_styles#upsale", as: "custom_style_upsale"
+    get "design/branding" => "custom_styles#branding", as: "custom_style_branding"
+    get "design/pdf_export_styles" => "custom_styles#pdf_export_styles", as: "custom_style_pdf_export_styles"
     post "design/colors" => "custom_styles#update_colors", as: "update_design_colors"
     post "design/themes" => "custom_styles#update_themes", as: "update_design_themes"
     post "design/export_cover_text_color" => "custom_styles#update_export_cover_text_color",

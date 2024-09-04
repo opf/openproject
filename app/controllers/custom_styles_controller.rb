@@ -52,6 +52,18 @@ class CustomStylesController < ApplicationController
 
   def upsale; end
 
+  def branding
+    @custom_style = CustomStyle.current || CustomStyle.new
+    @current_theme = @custom_style.theme
+    @theme_options = options_for_theme_select
+  end
+
+  def pdf_export_styles
+    @custom_style = CustomStyle.current || CustomStyle.new
+    @current_theme = @custom_style.theme
+    @theme_options = options_for_theme_select
+  end
+
   def create
     @custom_style = CustomStyle.create(custom_style_params)
     if @custom_style.valid?
@@ -105,6 +117,7 @@ class CustomStylesController < ApplicationController
   end
 
   def logo_delete
+    #branding
     file_delete(:remove_logo)
   end
 
@@ -117,14 +130,17 @@ class CustomStylesController < ApplicationController
   end
 
   def favicon_delete
+    #branding
     file_delete(:remove_favicon)
   end
 
   def touch_icon_delete
+    #branding
     file_delete(:remove_touch_icon)
   end
 
   def update_colors
+    #interface
     variable_params = params[:design_colors].first
 
     ::Design::UpdateDesignService
