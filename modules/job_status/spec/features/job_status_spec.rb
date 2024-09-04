@@ -88,5 +88,13 @@ RSpec.describe "Job status", :js do
       expect(page).to have_content "Some error"
       expect(page).to have_css("a[href='#{home_url}']", text: "Please click here to continue")
     end
+
+    it "does not navigate back after user clicked the redirect" do
+      visit "/projects"
+      visit "/job_statuses/#{status.job_id}"
+      click_on I18n.t('job_status_dialog.redirect_link')
+
+      expect(page).to have_current_path(home_path, wait: 10)
+    end
   end
 end
