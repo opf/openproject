@@ -1,16 +1,22 @@
 ---
 sidebar_navigation:
-  title: Copy, move, delete work packages
+  title: Duplicate, move, delete work packages
   priority: 960
-description: How to copy, change project or delete a work package.
-keywords: copy work package, delete work package, move work package
+description: How to duplicate, move to another project or delete a work package.
+keywords: copy work package,duplicate work package, delete work package, move work package
 ---
 
-# Copy, change project or delete a work package
+# Duplicate, move to another project or delete a work package
 
-If you right-click in a work package table, editing options will be displayed. Here, you can change project, copy the work package, or copy its URL to the clipboard, delete it or move it to another project.
+> [!TIP] 
+>
+> In OpenProject 14.5 the term *Copy a work package* was replaced by *Duplicate a work package*.
+>
+> *Change project* was replaced by *Move to another project*.
 
-![change copy delete work package](openproject_user_guide_copy_move_delete_wptableview.png)
+If you right-click in a work package table, editing options will be displayed. Here, you can move a work package to another project, duplicate a work package, or copy its URL to the clipboard, delete it or duplicate it to another project.
+
+![Work package editing options in a work package table view in OpenProject](openproject_user_guide_copy_move_delete_wptableview.png)
 
 You can also access these features by using the three dots at the far right of a row to access the menu.
 
@@ -20,11 +26,11 @@ Alternatively, open the work packages details view by double clicking the respec
 
 ![User guide copy change project delete](openproject_user_guide_copy_move_delete_detailed_view.png)
 
-To copy, move or delete multiple work packages at once please refer to the documentation for [bulk edit](../edit-work-package/#bulk-edit-work-packages).
+To duplicate, move or delete multiple work packages at once please refer to the documentation for [bulk edit](../edit-work-package/#bulk-edit-work-packages).
 
-## Copy a work package
+## Duplicate a work package
 
-When copying a work package, a work package form with the pre-set values of the original work package is shown.
+When duplicating (or copying) a work package, a work package form with the pre-set values of the original work package is shown.
 
 Copying a work package allows to easily create and adjust new work packages based on existing one’s.
 
@@ -34,7 +40,7 @@ This option copies a short link to the work package to your clipboard  so you ca
 
 ## Move a work package to a different project
 
-The *change project* option moves a work package to another project or subproject. Select the project into which the work package is to be moved, check whether further adjustments are necessary and confirm by clicking on *Move*.
+The *Move to another project* option moves a work package to another project or subproject. Select the project into which the work package is to be moved, check whether further adjustments are necessary and confirm by clicking on *Move*.
 
 > [!NOTE]
 > You can only move a work package into projects that you are a member of and for which you are authorized to carry out this function.
