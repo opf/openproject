@@ -39,10 +39,10 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
   menu_item :custom_fields
 
   def index
-    @available_project_custom_fields_query = ProjectQuery.new(
+    @available_custom_fields_projects_query = ProjectQuery.new(
       name: "custom-fields-projects-#{@custom_field.id}"
     ) do |query|
-      query.where(:available_project_custom_fields, "=", [@custom_field.id])
+      query.where(:available_custom_fields_projects, "=", [@custom_field.id])
       query.select(:name)
       query.order("lft" => "asc")
     end

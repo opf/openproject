@@ -29,9 +29,9 @@
 # ++
 #
 
-class Queries::Projects::Filters::AvailableProjectCustomFieldsFilter < Queries::Projects::Filters::Base
+class Queries::Projects::Filters::AvailableCustomFieldsProjectsFilter < Queries::Projects::Filters::Base
   def self.key
-    :available_project_custom_fields
+    :available_custom_fields_projects
   end
 
   def type
@@ -65,6 +65,6 @@ class Queries::Projects::Filters::AvailableProjectCustomFieldsFilter < Queries::
   end
 
   def human_name
-    I18n.t(:label_available_project_custom_fields)
+    I18n.t(:label_available_custom_fields_projects)
   end
 end

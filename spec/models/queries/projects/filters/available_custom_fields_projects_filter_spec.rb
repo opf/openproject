@@ -28,11 +28,11 @@
 
 require "spec_helper"
 
-RSpec.describe Queries::Projects::Filters::AvailableProjectCustomFieldsFilter do
+RSpec.describe Queries::Projects::Filters::AvailableCustomFieldsProjectsFilter do
   it_behaves_like "basic query filter" do
-    let(:class_key) { :available_project_custom_fields }
+    let(:class_key) { :available_custom_fields_projects }
     let(:type) { :list }
-    let(:human_name) { "Available project custom fields" }
+    let(:human_name) { "Available custom fields projects" }
   end
 
   it_behaves_like "list query filter", scope: false do
@@ -44,7 +44,7 @@ RSpec.describe Queries::Projects::Filters::AvailableProjectCustomFieldsFilter do
     let(:valid_values) do
       [custom_field_project1.custom_field_id.to_s, custom_field_project2.custom_field_id.to_s]
     end
-    let(:name) { "Available project attributes" }
+    let(:name) { "Available custom fields projects" }
 
     describe "#apply_to" do
       let(:values) { valid_values }
