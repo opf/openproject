@@ -1097,7 +1097,7 @@ vi:
               confirmation: "Xác nhận mật khẩu không khớp với mật khẩu."
               format: "%{message}"
             password:
-              weak: "Phải chứa các ký tự thuộc các lớp sau (ít nhất %{min_count} trong số %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "chữ thường (ví dụ như 'a')"
               uppercase: "chữ hoa (ví dụ như ' A')"
               numeric: "số (ví dụ như ' 1')"

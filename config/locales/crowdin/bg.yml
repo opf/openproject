@@ -1102,7 +1102,7 @@ bg:
               confirmation: "Потвърждението на паролата не съвпада с паролата."
               format: "%{message}"
             password:
-              weak: "Трябва да съдържа знаци от следните класове (най-малко %{min_count} на %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "малки букви (например \"а\")"
               uppercase: "главни (например \"А\")"
               numeric: "цифрова (например ' 1')"

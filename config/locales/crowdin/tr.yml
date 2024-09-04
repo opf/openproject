@@ -1101,7 +1101,7 @@ tr:
               confirmation: "Parola onayı parolayla eşleşmiyor."
               format: "%{message}"
             password:
-              weak: "Aşağıdaki sınıfların karakterlerini içermelidir (en az% {min_count} /% {all_count}):% {rules}. %{min_count} %{all_count} %{rules} "
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "küçük harf (örneğin 'a')"
               uppercase: "büyük harf (örneğin 'A')"
               numeric: "rakam (örneğin '1')"

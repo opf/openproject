@@ -1102,7 +1102,7 @@ fil:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "Dapat naglalaman ng mga karakter sa mga sumusunod na klase (kahit na %{min_count} sa %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "lowercase (e.g. 'a')"
               uppercase: "uppercase (e.g 'A')"
               numeric: "numeric (e.g.'1')"

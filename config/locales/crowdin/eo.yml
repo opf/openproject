@@ -1102,7 +1102,7 @@ eo:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "minuskle (Ekz. 'a')"
               uppercase: "majuskle (Ekz. 'A')"
               numeric: "nombra (ekz. '1')"

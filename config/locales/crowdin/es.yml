@@ -1099,7 +1099,7 @@ es:
               confirmation: "La confirmación de contraseña no coincide con la contraseña."
               format: "%{message}"
             password:
-              weak: "Debe contener caracteres de las siguientes tipos (como mínimo %{min_count} de %{all_count}):%{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "en minúsculas (por ejemplo 'a')"
               uppercase: "en mayúsculas (por ejemplo ' A')"
               numeric: "numérico (por ejemplo, ' 1')"

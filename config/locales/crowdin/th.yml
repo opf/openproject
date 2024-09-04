@@ -1095,7 +1095,7 @@ th:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "ตัวพิมพ์เล็ก (เช่น 'a')"
               uppercase: "ตัวพิมพ์ใหญ่ (เช่น ' A')"
               numeric: "ตัวเลข (เช่น ' 1')"

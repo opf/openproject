@@ -1091,7 +1091,7 @@ ja:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "次の文字の種類が含まれるようにしてください (%{all_count} つのうちに %{min_count} つ以上)：%{rules}。"
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "アルファベット小文字 (例: 'a')"
               uppercase: "アルファベット大文字 (例: ' A')"
               numeric: "数値 (例: '1')"

@@ -1109,7 +1109,7 @@ hr:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "Mora sadržavati znakove sljedećih klasa (najamanje %{min_count} od %{all_count}: %{rules})."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "mala slova (npr. 'a')"
               uppercase: "velika slova (npr. ' A')"
               numeric: "numerički (npr. ' 1')"

@@ -1093,7 +1093,7 @@ ms:
               confirmation: "Pengesahan kata laluan tidak sepadan dengan kata laluan."
               format: "%{message}"
             password:
-              weak: "Perlu mengandungi karakter-karakter kelas berikut (sekurang-kurangnya %{min_count} dari %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "huruf kecil (cth. 'a')"
               uppercase: "huruf besar (cth. 'A')"
               numeric: "angka (cth. '1')"

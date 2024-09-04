@@ -74,7 +74,7 @@ et:
     button_copy: "Kopeeri"
     button_copy_to_clipboard: "Copy to clipboard"
     button_copy_link_to_clipboard: "Copy link to clipboard"
-    button_copy_to_other_project: "Duplicate to other project"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Lisaväljad"
     button_delete: "Kustuta"
     button_delete_watcher: "Kustuta jäligja"

@@ -1091,7 +1091,7 @@ zh-CN:
               confirmation: "确认密码与密码不一致。"
               format: "%{message}"
             password:
-              weak: "必须包含以下类字符 (至少 %{min_count} %{all_count}): %{rules}。"
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "小写字母 （如 'a')"
               uppercase: "大写字母 (如 'A')"
               numeric: "数值 （例如 ' 1')"

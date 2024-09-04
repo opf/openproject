@@ -70,7 +70,7 @@ es:
       dialog:
         automatically_managed_appendix: Además, en este caso este almacenamiento tiene una carpeta de proyecto administrada automáticamente, se eliminarán sus archivos para siempre.
         confirmation_text: Confirme que entiende y desea eliminar este almacenamiento de archivos de este proyecto
-        heading: Eliminar proyecto de %{storage_type}
+        heading_text: Remove project from %{storage}
         text: Esta acción es irreversible y eliminará todos los enlaces en los paquetes de trabajo de este proyecto a archivos y carpetas de ese almacenamiento.
       label: Eliminar proyecto
   services:

@@ -1094,7 +1094,7 @@ ko:
               confirmation: "비밀번호와 비밀번호 확인이 일치하지 않습니다."
               format: "%{message}"
             password:
-              weak: "다음과 같은 문자를 포함 해야 합니다 (최소 %{all_count} 중 %{min_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "소문자(예: 'a')"
               uppercase: "대문자(예: 'A')"
               numeric: "숫자 (예: ' 1')"

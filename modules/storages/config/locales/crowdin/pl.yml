@@ -70,7 +70,7 @@ pl:
       dialog:
         automatically_managed_appendix: Ponadto w przypadku, gdy ten magazyn zawiera automatycznie zarządzany folder projektu, folder ten i jego pliki zostaną bezpowrotnie usunięte.
         confirmation_text: Potwierdź, że rozumiesz i chcesz usunąć ten magazyn plików z tego projektu.
-        heading: Usuń projekt z %{storage_type}
+        heading_text: Remove project from %{storage}
         text: To działanie jest nieodwracalne i spowoduje usunięcie wszystkich linków do plików i folderów tego magazynu z pakietów roboczych tego projektu.
       label: Usuń projekt
   services:

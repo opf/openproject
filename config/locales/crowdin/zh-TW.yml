@@ -1093,7 +1093,7 @@ zh-TW:
               confirmation: "密碼不符"
               format: "%{message}"
             password:
-              weak: "必須包含以下的字元 (至少 %{all_count} 個中的 %{min_count} 個): %{rules}"
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "小寫（例如：「a」）"
               uppercase: "大寫（例如：「Ａ」）"
               numeric: "數字（例如：「1」）"

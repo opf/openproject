@@ -70,7 +70,7 @@ fr:
       dialog:
         automatically_managed_appendix: En outre, dans ce cas, cet espace de stockage comporte un dossier de projet géré automatiquement qui sera supprimé définitivement, ainsi que ses fichiers.
         confirmation_text: Veuillez confirmer que vous avez compris et que vous souhaitez supprimer cet espace de stockage de fichiers de ce projet.
-        heading: Supprimer le projet de %{storage_type}
+        heading_text: Remove project from %{storage}
         text: Cette action est irréversible et supprimera tous les liens des lots de travaux de ce projet vers les fichiers et dossiers de cet espace de stockage.
       label: Supprimer le projet
   services:

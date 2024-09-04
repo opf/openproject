@@ -70,7 +70,7 @@ pt-PT:
       dialog:
         automatically_managed_appendix: Além disso, no caso de este armazenamento ter uma pasta de projeto gerida automaticamente, esta e os seus ficheiros serão eliminados para sempre.
         confirmation_text: Confirme que compreende e pretende remover este armazenamento de ficheiros deste projeto
-        heading: Remover projeto de %{storage_type}
+        heading_text: Remove project from %{storage}
         text: Esta ação é irreversível e irá remover todas as ligações dos pacotes de trabalho deste projeto aos ficheiros e pastas desse armazenamento.
       label: Remover projeto
   services:

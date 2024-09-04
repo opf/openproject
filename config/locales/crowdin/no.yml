@@ -1101,7 +1101,7 @@
               confirmation: "Passordbekreftelsen samsvarer ikke med passordet."
               format: "%{message}"
             password:
-              weak: "Må inneholde tegn fra de følgende klassene (minst %{min_count} av %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "små bokstaver (f.eks. \"a\")"
               uppercase: "store bokstaver (f.eks. \"A\")"
               numeric: "numerisk (f.eks. \"1\")"

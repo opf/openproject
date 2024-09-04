@@ -1113,7 +1113,7 @@ sl:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "Vsebovati mora znake naslednjih razredov (vsaj %{min_count} od %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "mala črka (npr. \"a\")"
               uppercase: "velika črka (npr. \"A\")"
               numeric: "številke (npr. '1')"

@@ -1102,7 +1102,7 @@ fi:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "On sisällettävä merkkejä seuraavista luokista (ainakin %{min_count} %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "pieniä kirjaimia (esim. \"a\")"
               uppercase: "isoja kirjaimia (esim. A)"
               numeric: "numeerinen (esim. 1)"

@@ -1116,7 +1116,7 @@ cs:
               confirmation: "Hesla se neshodují!"
               format: "%{message}"
             password:
-              weak: "Musí obsahovat znaky z následujících tříd (alespoň %{min_count} z %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "malá písmena (například 'a')"
               uppercase: "velká písmena (například ' A')"
               numeric: "číselné (např. 1)"

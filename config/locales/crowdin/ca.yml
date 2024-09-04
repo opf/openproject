@@ -1098,7 +1098,7 @@ ca:
               confirmation: "La confirmació de la contrasenya no coincideix."
               format: "%{message}"
             password:
-              weak: "Ha de contenir caràcters de les següents classes (com a mínim %{min_count} de %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "minúscules (ex. \"a\")"
               uppercase: "majúscules (p. ex. ' A')"
               numeric: "numèric (p. ex. \"1\")"

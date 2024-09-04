@@ -1109,7 +1109,7 @@ lv:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "Jāsatur rakstzīmes no šādām klasēm (vismaz %{min_count} no %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "mazaie burti (piemēram 'a')"
               uppercase: "lielaie burti (piemēram, ' A')"
               numeric: "cipari (piemēram, \"1\")"

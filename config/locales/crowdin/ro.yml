@@ -1109,7 +1109,7 @@ ro:
               confirmation: "Confirmarea parolei nu se potrivește cu parola."
               format: "%{message}"
             password:
-              weak: "Trebuie să conțină caractere din următoarele clase (cel puțin %{min_count} din %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "litere mici (ex. 'a')"
               uppercase: "litere mari (ex. 'A')"
               numeric: "cifre (ex. ' 1')"

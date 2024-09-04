@@ -1100,7 +1100,7 @@ pt-BR:
               confirmation: "A confirmação da senha não corresponde à senha!"
               format: "%{message}"
             password:
-              weak: "Deve conter caracteres das seguintes classes (pelo menos %{min_count} de %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "minúscula (ex.: 'a')"
               uppercase: "maiúscula (ex.: 'A')"
               numeric: "número (ex.: '1')"

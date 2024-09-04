@@ -1102,7 +1102,7 @@ ne:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "lowercase (e.g. 'a')"
               uppercase: "uppercase (e.g. 'A')"
               numeric: "numeric (e.g. '1')"
