@@ -1099,7 +1099,7 @@ it:
               confirmation: "Le password non corrispondono."
               format: "%{message}"
             password:
-              weak: "Deve contenere caratteri delle seguenti classi (almeno %{min_count} di %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "minuscolo (es. 'a')"
               uppercase: "maiuscolo (es. 'A')"
               numeric: "numerico (es. '1')"

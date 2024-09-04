@@ -1099,7 +1099,7 @@ nl:
               confirmation: "Wachtwoordbevestiging komt niet overeen met wachtwoord."
               format: "%{message}"
             password:
-              weak: "Moet karakters bevatten van de volgende klassen (ten minste %{min_count} van %{all_count}):%{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "kleine letters (bijvoorbeeld 'a')"
               uppercase: "hoofdletters (bijvoorbeeld ' A')"
               numeric: "numerieke (bijvoorbeeld ' 1')"

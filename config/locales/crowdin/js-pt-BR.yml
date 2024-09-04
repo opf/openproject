@@ -74,7 +74,7 @@ pt-BR:
     button_copy: "Copiar"
     button_copy_to_clipboard: "Copiar para a área de transferência"
     button_copy_link_to_clipboard: "Copiar link para área de transferência"
-    button_copy_to_other_project: "Duplicate to other project"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Campos personalizados"
     button_delete: "Excluir"
     button_delete_watcher: "Excluir observador"

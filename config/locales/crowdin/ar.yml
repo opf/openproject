@@ -1130,7 +1130,7 @@ ar:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "يجب أن تحتوي على أحرف الفئات التالية (على الأقل %{min_count} %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "أحرف صغيرة (مثل 'a')"
               uppercase: "أحرف كبيرة (على سبيل المثال، 'A')"
               numeric: "رقمية (على سبيل المثال، '1')"

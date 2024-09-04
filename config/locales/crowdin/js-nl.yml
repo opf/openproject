@@ -74,7 +74,7 @@ nl:
     button_copy: "Kopieer"
     button_copy_to_clipboard: "Kopiëren naar het klembord"
     button_copy_link_to_clipboard: "Link naar klembord kopiëren"
-    button_copy_to_other_project: "Duplicate to other project"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Aangepaste velden"
     button_delete: "Verwijderen"
     button_delete_watcher: "Kijkers verwijderen"

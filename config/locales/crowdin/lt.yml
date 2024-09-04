@@ -1113,7 +1113,7 @@ lt:
               confirmation: "Slaptažodžio patvirtinimas nesutampa su įvestu slaptažodžiu."
               format: "%{message}"
             password:
-              weak: "Turi turėti simbolius iš šitų klasių (mažiausiai %{min_count} iš %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "mažosios raidės (pvz., „a“)"
               uppercase: "didžiosios raidės (pvz., „A“)"
               numeric: "skaitinė reikšmė (pvz., „1“)"

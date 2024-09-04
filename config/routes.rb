@@ -169,6 +169,14 @@ Rails.application.routes.draw do
 
       post :reorder_alphabetical
     end
+
+    scope module: :admin do
+      scope module: :custom_fields do
+        resources :projects,
+                  controller: "/admin/custom_fields/custom_field_projects",
+                  only: %i[index]
+      end
+    end
   end
 
   get "(projects/:project_id)/search" => "search#index", as: "search"

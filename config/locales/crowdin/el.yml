@@ -1098,7 +1098,7 @@ el:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "Πρέπει να περιέχει χαρακτήρες από τις ακόλουθες κλάσεις (τουλάχιστον %{min_count} από %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "πεζά γράμματα (π.χ. 'α')"
               uppercase: "κεφαλαία γράμματα (π.χ. 'Α')"
               numeric: "αριθμητικό (π.χ. '1')"

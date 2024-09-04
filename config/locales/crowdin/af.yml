@@ -1102,7 +1102,7 @@ af:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "kleinletter (bv. 'a')"
               uppercase: "grootletter (bv. 'A')"
               numeric: "numeries (bv. ' 1')"

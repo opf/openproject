@@ -1101,7 +1101,7 @@ fr:
               confirmation: "La confirmation du mot de passe ne correspond pas au mot de passe."
               format: "%{message}"
             password:
-              weak: "Doit contenir des caractères des classes suivantes (au moins %{min_count} sur %{all_count}) : %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "minuscules (par exemple, « a »)"
               uppercase: "majuscule (e.g. « A »)"
               numeric: "numérique (e.g. « 1 »)"

@@ -1102,7 +1102,7 @@ si:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "පහත සඳහන් පංතිවල අක්ෂර අඩංගු විය යුතුය (අවම වශයෙන් %{min_count} හි %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "සිම්පල් නඩුව (උදා: 'a')"
               uppercase: "ඉහළ (උදා: 'ඒ')"
               numeric: "සංඛ්යාත්මක (උදා: '1')"

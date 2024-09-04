@@ -1099,7 +1099,7 @@ hu:
               confirmation: "A két jelszó nem egyezik!"
               format: "%{message}\n"
             password:
-              weak: "Az alábbi karakter típusokból tartalmaznia kell karaktert (legalább %{min_count} a %{all_count} típusból): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "Kisbetű (pl. 'a')"
               uppercase: "Nagybetű (pl. 'A')"
               numeric: "Szám (pl. '1')"

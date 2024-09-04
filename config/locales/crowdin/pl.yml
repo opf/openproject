@@ -1113,7 +1113,7 @@ pl:
               confirmation: "Powtórzone hasło różni się od wprowadzonego hasła!"
               format: "%{message}"
             password:
-              weak: "Musi zawierać znaki z następujących klas (co najmniej %{min_count} z %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "małe litery (np. 'a')"
               uppercase: "wielkie litery (np. 'A')"
               numeric: "liczbowe (np. 1)"

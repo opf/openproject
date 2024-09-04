@@ -1110,7 +1110,7 @@ uk:
               confirmation: "Підтвердження пароля та пароль не збігаються."
               format: "%{message}"
             password:
-              weak: "Має містити символи наступних класів (принаймні %{min_count} з %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "нижній реєстр шрифту (наприклад, 'a')"
               uppercase: "верхній реєстр шрифту (наприклад, 'А')"
               numeric: "числовий (наприклад, '1')"

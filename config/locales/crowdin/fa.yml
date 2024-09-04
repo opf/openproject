@@ -1102,7 +1102,7 @@ fa:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "بايد كاراكترهايي از اين گروهها داشته باشد: حداقل  %{min_count} كاراكتر %{all_count}: %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "حروف كوچك"
               uppercase: "حروف بزرگ"
               numeric: "عدد"

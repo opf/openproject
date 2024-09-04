@@ -1100,7 +1100,7 @@ da:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "Skal indeholde tegn fra følgende klasser (minimum %{min_count} af %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "små bogstaver (f.eks. \"a\")"
               uppercase: "store bogstaver (f.eks. \"A\")"
               numeric: "tal (fx \"1\")"

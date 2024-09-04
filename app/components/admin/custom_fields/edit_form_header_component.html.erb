@@ -27,6 +27,26 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= component_wrapper(tag: "div", data: { turbo: true }) do %>
-  <%= render_parent %>
-<% end %>
+<%=
+  render(Primer::OpenProject::PageHeader.new(test_selector: "custom-fields--page-header")) do |header|
+    header.with_title { @custom_field.name }
+
+    header.with_breadcrumbs(breadcrumbs_items)
+
+    header.with_tab_nav(label: nil, test_selector: :custom_field_detail_header) do |tab_nav|
+      tab_nav.with_tab(
+        selected: tab_selected?(:edit),
+        href: edit_custom_field_path(@custom_field)
+      ) do |tab|
+        tab.with_text { t(:label_details) }
+      end
+
+      tab_nav.with_tab(
+        selected: tab_selected?(:custom_field_projects),
+        href: custom_field_projects_path(@custom_field)
+      ) do |tab|
+        tab.with_text { t(:label_project_plural) }
+      end
+    end
+  end
+%>

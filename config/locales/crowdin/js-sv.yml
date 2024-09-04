@@ -74,7 +74,7 @@ sv:
     button_copy: "Kopiera"
     button_copy_to_clipboard: "Kopiera till Urklipp"
     button_copy_link_to_clipboard: "Kopiera länk till urklipp"
-    button_copy_to_other_project: "Duplicate to other project"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Anpassade fält"
     button_delete: "Radera"
     button_delete_watcher: "Ta bort bevakare"

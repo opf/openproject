@@ -44,8 +44,7 @@ module Storages::ProjectStorages
     end
 
     def heading
-      I18n.t("project_storages.remove_project.dialog.heading",
-             storage_type: I18n.t("storages.provider_types.#{@storage.short_provider_type}.name"))
+      I18n.t("project_storages.remove_project.dialog.heading_text", storage: @storage.name)
     end
 
     def text

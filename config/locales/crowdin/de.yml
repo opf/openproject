@@ -1096,7 +1096,7 @@ de:
               confirmation: "Passwort und Bestätigung stimmt nicht überein."
               format: "%{message}"
             password:
-              weak: "Muss Zeichen aus folgenden Klassen beinhalten (mindestens %{min_count} von %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "Kleinbuchstaben (z.B. 'a')"
               uppercase: "Großbuchstaben (z.B. 'A')"
               numeric: "Ziffern (z.B. '1')"

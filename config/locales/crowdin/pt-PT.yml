@@ -1100,7 +1100,7 @@ pt-PT:
               confirmation: "A confirmação da palavra-passe não coincide com a palavra-passe."
               format: "%{message}"
             password:
-              weak: "Deve conter carateres das seguintes classes (pelo menos %{min_count} de %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "minúsculas (exemplo, 'a')"
               uppercase: "maiúsculas (exemplo, 'A')"
               numeric: "numérico (exemplo, '1')"

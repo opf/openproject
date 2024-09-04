@@ -120,7 +120,7 @@ zh-CN:
       agenda: "复制议程"
       agenda_text: "复制之前会议的议程"
     email:
-      send_emails: "Email participants"
+      send_emails: "电子邮件参与者"
       send_invitation_emails: >
         立即向上面选定的参加者发送电子邮件邀请。您也可以在之后随时手动发送。
       open_meeting_link: "打开会议"

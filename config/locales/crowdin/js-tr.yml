@@ -74,7 +74,7 @@ tr:
     button_copy: "Kopyalamak"
     button_copy_to_clipboard: "Panoya kopyala"
     button_copy_link_to_clipboard: "Copy link to clipboard"
-    button_copy_to_other_project: "Duplicate to other project"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Özel Alanlar"
     button_delete: "silmek"
     button_delete_watcher: "Takipçi sil"

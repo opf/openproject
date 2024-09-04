@@ -27,6 +27,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= component_wrapper(tag: "div", data: { turbo: true }) do %>
-  <%= render_parent %>
-<% end %>
+<% html_title t(:label_administration), "#{CustomField.model_name.human} #{h @custom_field.name}", t(:label_project_plural) %>
+
+<%=
+  render(Admin::CustomFields::EditFormHeaderComponent.new(custom_field: @custom_field,
+                                                          selected: :custom_field_projects))
+%>

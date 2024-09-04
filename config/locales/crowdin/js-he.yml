@@ -74,7 +74,7 @@ he:
     button_copy: "העתק"
     button_copy_to_clipboard: "Copy to clipboard"
     button_copy_link_to_clipboard: "Copy link to clipboard"
-    button_copy_to_other_project: "Duplicate to other project"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "שדות מותאמים אישית"
     button_delete: "מחק"
     button_delete_watcher: "הסרת צופה"
