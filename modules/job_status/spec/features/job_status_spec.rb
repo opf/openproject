@@ -92,7 +92,7 @@ RSpec.describe "Job status", :js do
     it "does not navigate back after user clicked the redirect" do
       visit "/projects"
       visit "/job_statuses/#{status.job_id}"
-      click_on I18n.t('job_status_dialog.redirect_link')
+      click_on I18n.t("job_status_dialog.redirect_link")
 
       expect(page).to have_current_path(home_path, wait: 10)
     end
