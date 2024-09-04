@@ -102,13 +102,12 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
         expect(data.size).to eq(2)
         expect(data.last).to include(work_package.type.name)
         expect(data.last).to include(work_package.subject)
-        expect(data.last).to_not include(work_package.description)
+        expect(data.last).not_to include(work_package.description)
         expect(data.last).to include(user.name)
         expect(data.last).to include(work_package.updated_at.localtime.strftime("%m/%d/%Y %I:%M %p"))
         expect(data.last).to include("· Σ 15h")
       end
     end
-
   end
 
   context "when the query is grouped" do
