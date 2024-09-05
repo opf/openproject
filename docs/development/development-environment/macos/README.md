@@ -194,6 +194,20 @@ To configure the environment variables such as the number of web server threads 
 the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be
 automatically loaded to the application's environment.
 
+### Install other requirements
+
+Some operations in OpenProject require additional software. These include PDF exports and interaction with an
+LDAP server.
+
+In order to have OpenProject behave correctly, you need to install `imagemagick` and `java`.
+
+```shell
+brew install imagemagick java
+```
+
+As of writing, you need to manually create a symlink to OpenJDK for the Java installation to take effect. Homebrew will
+tell you how.
+
 ### Finish the Installation of OpenProject
 
 Install code dependencies, link plugin modules and export translation files.
