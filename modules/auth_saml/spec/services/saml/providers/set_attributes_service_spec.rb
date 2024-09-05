@@ -85,7 +85,7 @@ RSpec.describe Saml::Providers::SetAttributesService, type: :model do
     describe "SLO URL" do
       let(:options) do
         {
-          idp_slo_service_url: idp_slo_service_url
+          idp_slo_service_url:
         }
       end
 
