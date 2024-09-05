@@ -6,7 +6,7 @@ en:
         identifier: Identifier
         secret: Secret
         scope: Scope
-        assertion_consumer_service_url: Assertion consumer service URL
+        assertion_consumer_service_url: ACS (Assertion consumer service) URL
         limit_self_registration: Limit self registration
         sp_entity_id: Service entity ID
         metadata_url: Identity provider metadata URL
@@ -70,7 +70,9 @@ en:
         description: Connect OpenProject to a SAML identity provider
       request_attributes:
         title: 'Requested attributes'
-        legend: 'These attributes are added to the SAML XML metadata to signify to the identify provider which attributes OpenProject requires.'
+        legend: > 
+          These attributes are added to the SAML XML metadata to signify to the identify provider which attributes OpenProject requires.
+          You may still need to explicitly configure your identity provider to send these attributes. Please refer to your IdP's documentation.
         name: 'Requested attribute key'
         format: 'Attribute format'
       section_headers:
@@ -79,7 +81,7 @@ en:
       section_texts:
         display_name: "Configure the display name of the SAML provider."
         metadata: "Pre-fill configuration using a metadata URL or by pasting metadata XML"
-        metadata_form: "If your identity provider has a metadata endpoint or XML download, add it below to pre-fill configuration."
+        metadata_form: "If your identity provider has a metadata endpoint or XML download, add it below to pre-fill the configuration."
         metadata_form_banner: "Editing the metadata may override existing values in other sections. "
         configuration: "Configure the endpoint URLs for the identity provider, certificates, and further SAML options."
         configuration_metadata: "This information has been pre-filled using the supplied metadata. In most cases, they do not require editing."
@@ -106,7 +108,7 @@ en:
       limit_self_registration: >
         If enabled users can only register using this provider if the self registration setting allows for it.
       sp_entity_id: >
-        The entity ID of the service provider. This is the unique client identifier of the OpenProject instance.
+        The entity ID of the service provider (SP). Sometimes also referred to as Audience. This is the unique client identifier of the OpenProject instance.
       idp_sso_service_url: >
         The URL of the identity provider login endpoint.
       idp_slo_service_url: >
