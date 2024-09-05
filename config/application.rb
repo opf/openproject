@@ -113,6 +113,9 @@ module OpenProject
     # http://stackoverflow.com/questions/4590229
     config.middleware.use Rack::TempfileReaper
 
+    # Move secure_headers middleware to after the ShowExceptions
+    config.middleware.move_after ActionDispatch::ShowExceptions, SecureHeaders::Middleware
+
     # Add lookbook preview paths when enabled
     if OpenProject::Configuration.lookbook_enabled?
       config.paths.add Primer::ViewComponents::Engine.root.join("app/components").to_s, eager_load: true
