@@ -1091,7 +1091,7 @@ zh-CN:
               confirmation: "确认密码与密码不一致。"
               format: "%{message}"
             password:
-              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
+              weak: "必须包含以下字符 (至少 %{all_count} 中的 %{min_count} 个)：%{rules}。"
               lowercase: "小写字母 （如 'a')"
               uppercase: "大写字母 (如 'A')"
               numeric: "数值 （例如 ' 1')"
@@ -3473,9 +3473,9 @@ zh-CN:
         remaining_hours:
           cleared_because_work_is_empty: "已清空，因为 \"工时 \"为空。"
           cleared_because_percent_complete_is_empty: "已清空，因为“完成 %”为空。"
-          decreased_like_work: "减少与 \"工时 \"相同的数额。"
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "由“工时”和“完成 %”得出"
-          increased_like_work: "增加与 \"工时 \"相同的数额。"
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "设置为与 \"工时 \"相同的值。"
     permissions:
       comment: "评论"

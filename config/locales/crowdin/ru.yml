@@ -1115,7 +1115,7 @@ ru:
               confirmation: "Подтверждение пароля не совпадает с паролем."
               format: "%{message}"
             password:
-              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
+              weak: "Должен содержать символы следующих классов (как минимум %{min_count}\nиз %{all_count}): %{rules}"
               lowercase: "нижний регистр (например «а»)"
               uppercase: "прописные буквы (например, \"A\")"
               numeric: "цифры (например \"1\")"
@@ -3593,9 +3593,9 @@ ru:
         remaining_hours:
           cleared_because_work_is_empty: "Очищено, потому что Работа пуста."
           cleared_because_percent_complete_is_empty: "Очищено, потому что % Завершения пуст."
-          decreased_like_work: "Уменьшается на ту же величину, что и Работа."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Получено из Работы и % Завершения."
-          increased_like_work: "Увеличивается на ту же величину, что и Работа."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Установите то же значение, что и для Работы."
     permissions:
       comment: "Комментировать"

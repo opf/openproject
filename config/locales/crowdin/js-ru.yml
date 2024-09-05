@@ -74,7 +74,7 @@ ru:
     button_copy: "Копировать"
     button_copy_to_clipboard: "Копировать в буфер обмена"
     button_copy_link_to_clipboard: "Копировать ссылку в буфер обмена"
-    button_copy_to_other_project: "Duplicate in another project"
+    button_copy_to_other_project: "Дублировать в другой проект"
     button_custom-fields: "Настраиваемые поля"
     button_delete: "Удалить"
     button_delete_watcher: "Удалить наблюдателя"

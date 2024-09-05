@@ -64,6 +64,6 @@ hu:
     push_single_commit_comment: >
       **Frissítés az MR-ben:** [%{gitlab_user}](%{gitlab_user_url}) frissítette a következőkkel: [%{commit_number}](%{commit_url}) a(z) [%{repository}](%{repository_url}) ekkor: %{commit_timestamp}, üzenet: %{commit_note}
     push_single_commit_comment_with_ref: >
-      **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
+      **Frissítés itt: %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) frissítette a következőkkel: [%{commit_number}](%{commit_url}), itt [%{repository}](%{repository_url}), ekkor: %{commit_timestamp}, üzenet: %{commit_note}
     push_multiple_commits_comment: >
       **Frissítés az MR-ben:** [%{gitlab_user}](%{gitlab_user_url}) frissítette a következőkkel: [%{commit_number}](%{commit_url}) a(z) [%{repository}](%{repository_url}) ekkor: %{commit_timestamp}, üzenet: %{commit_note}
