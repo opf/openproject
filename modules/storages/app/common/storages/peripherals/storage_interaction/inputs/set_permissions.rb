@@ -33,7 +33,8 @@ module Storages
     module StorageInteraction
       module Inputs
         # user_permissions - A list of user specific file permissions.
-        # IMPORTANT: the user ids are considered to be the ids of the remote identities.
+        # IMPORTANT: the user ids are considered to be the ids of the remote identities. If user permissions should be
+        # set via a group, a `group_id` must be provided instead of a `user_id`.
         #   Example:
         #     [
         #       {user_id: "d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [ :read_files,
@@ -41,7 +42,8 @@ module Storages
         #                                                                        :create_files,
         #                                                                        :delete_files,
         #                                                                        :share_files ]},
-        #       {user_id: "f6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [:read_files, :write_files]}
+        #       {user_id: "f6e00f6d-1ae7-43e6-b0af-15d99a56d4ce", permissions: [:read_files, :write_files]},
+        #       {group_id: "fee9cd49-17e2-4430-9235-2060e7372568", permissions: [:read_files]},
         #     ]
         SetPermissions = Data.define(:file_id, :user_permissions) do
           private_class_method :new

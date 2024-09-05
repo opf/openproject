@@ -55,7 +55,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
 
   it_behaves_like "set_permissions_command: basic command setup"
 
-  context "if file does not exists", vcr: "one_drive/set_permissions_not_found_folder" do
+  context "if folder does not exists", vcr: "one_drive/set_permissions_not_found_folder" do
     let(:error_source) { described_class }
     let(:input_data) { permission_input_data("THIS_IS_NOT_THE_FOLDER_YOURE_LOOKING_FOR", []) }
 
