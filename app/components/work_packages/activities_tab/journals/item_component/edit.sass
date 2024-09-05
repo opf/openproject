@@ -1,21 +1,5 @@
 .work-packages-activities-tab-journals-item-component-edit
-    // prototypical primer style adoptions, using ID in order to get higher priority, needs refactoring
-    #ck-editor-adjustment-container
-        .ck-toolbar
-            border-radius: var(--borderRadius-medium) var(--borderRadius-medium) 0px 0px
-        .document-editor__editable-container
-            background: var(--bgColor-default)
-            border-radius: 0px 0px var(--borderRadius-medium) var(--borderRadius-medium)
-        .ck-content
-            background: var(--bgColor-default)
-            overflow-y: auto
-            border-radius: var(--borderRadius-medium)
-            margin: 5px
-        .CodeMirror
-            border-radius: 0px 0px var(--borderRadius-medium) var(--borderRadius-medium)
-        .ck-editor__preview
-            border-radius: 0px 0px var(--borderRadius-medium) var(--borderRadius-medium)
+    &--ck-editor-adjustments
         // overwrites margin bottom defined in _ckeditor.sass:13
         opce-ckeditor-augmented-textarea .op-ckeditor--wrapper
             margin-bottom: 0px
-

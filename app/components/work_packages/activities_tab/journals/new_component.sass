@@ -8,26 +8,11 @@
                 display: block
     &--ck-editor-column
         width: calc(100% - 40px)
-    // prototypical primer style adoptions, using ID in order to get higher priority, needs refactoring
-    #ck-editor-adjustment-container
-        .ck-toolbar
-            border-radius: var(--borderRadius-medium) var(--borderRadius-medium) 0px 0px
-        .document-editor__editable-container
-            background: var(--bgColor-default)
-            border-radius: 0px 0px var(--borderRadius-medium) var(--borderRadius-medium)
+        // specific ck editor adjustments
         .ck-content
-            background: var(--bgColor-default)
             max-height: 30vh
-            overflow-y: auto
-            border-radius: var(--borderRadius-medium)
-            margin: 5px
-        .ck-editor__source
-            max-height: 30vh
-        .CodeMirror
-            border-radius: 0px 0px var(--borderRadius-medium) var(--borderRadius-medium)
         .ck-editor__preview
             max-height: 30vh
-            border-radius: 0px 0px var(--borderRadius-medium) var(--borderRadius-medium)
         // overwrites margin bottom defined in _ckeditor.sass:13
         opce-ckeditor-augmented-textarea .op-ckeditor--wrapper
             margin-bottom: 0px

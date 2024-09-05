@@ -31,6 +31,7 @@ module WorkPackages::ActivitiesTab::Journals
 
     form do |notes_form|
       notes_form.rich_text_area(
+        classes: "ck-editor-primer-adjusted",
         name: :notes,
         label: nil,
         rich_text_options: {

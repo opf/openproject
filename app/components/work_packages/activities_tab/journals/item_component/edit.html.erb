@@ -9,7 +9,7 @@
         url: work_package_activity_path(work_package_id: work_package.id, id: journal.id, filter:),
       ) do |f|
         flex_layout do |form_container|
-          form_container.with_row(id: "ck-editor-adjustment-container") do
+          form_container.with_row(classes: "work-packages-activities-tab-journals-item-component-edit--ck-editor-adjustments") do
             render(WorkPackages::ActivitiesTab::Journals::NotesForm.new(f))
           end
           form_container.with_row(flex_layout: true, mt: 3, justify_content: :flex_end) do |submit_container|
