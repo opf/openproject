@@ -10,7 +10,7 @@ keywords: development setup macos
 
 To develop OpenProject a setup similar to that for using OpenProject in production is needed.
 
-This guide assumes that you have a macOS (used to be called Mac OS X) installation with administrative rights.
+This guide assumes that you have a macOS installation with administrative rights.
 OpenProject will be installed with a PostgreSQL database.
 
 **Please note**: This guide is NOT suitable for a production setup, but only for developing with it!
@@ -199,7 +199,7 @@ automatically loaded to the application's environment.
 Some operations in OpenProject require additional software. These include PDF exports and interaction with an
 LDAP server.
 
-In order to have OpenProject behave correctly, you need to install `imagemagick` and `java`.
+In order to develop OpenProject in these areas, you need to install `imagemagick` and `java`.
 
 ```shell
 brew install imagemagick java
