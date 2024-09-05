@@ -35,3 +35,9 @@ See COPYRIGHT and LICENSE files for more details.
                              t(:label_progress_tracking)])
     end
 %>
+<%= primer_form_with(
+  url: admin_settings_progress_tracking_path,
+  method: :patch,
+) do |f| %>
+  <%= render(Admin::Settings::ProgressTrackingSettingsForm.new(f)) %>
+<% end %>

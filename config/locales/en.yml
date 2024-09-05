@@ -1300,6 +1300,13 @@ en:
       wiki_edit: "Wiki"
       work_package: "Work packages"
 
+  admin:
+    settings:
+      progress_tracking_settings_form:
+        progress_calculation_section:
+          group_label: "Progress calculation mode"
+          work_based_caption: "% Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived."
+          status_based_caption: "Each status has a % Complete value associated with it. Changing status will change % Complete."
   # common attributes of all models
   attributes:
     active: "Active"
@@ -2508,6 +2515,7 @@ en:
   label_start_to_start: "start to start"
   label_statistics: "Statistics"
   label_status: "Status"
+  label_status_based: "Status-based"
   label_storage_free_space: "Remaining disk space"
   label_storage_used_space: "Used disk space"
   label_storage_group: "Storage filesystem %{identifier}"
@@ -2593,6 +2601,7 @@ en:
   label_wiki_show_submenu_item: "Show as submenu item of "
   label_wiki_start: "Start page"
   label_work: "Work"
+  label_work_based: "Work-based"
   label_work_package: "Work package"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "New category"
