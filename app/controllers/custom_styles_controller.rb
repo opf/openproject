@@ -160,7 +160,6 @@ class CustomStylesController < ApplicationController
     call.on_failure do
       flash[:error] = call.message
     end
-
     redirect_back(fallback_location: root_path)
   end
 
