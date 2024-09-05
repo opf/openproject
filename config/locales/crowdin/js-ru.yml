@@ -74,7 +74,7 @@ ru:
     button_copy: "Копировать"
     button_copy_to_clipboard: "Копировать в буфер обмена"
     button_copy_link_to_clipboard: "Копировать ссылку в буфер обмена"
-    button_copy_to_other_project: "Duplicate in another project"
+    button_copy_to_other_project: "Дублировать в другой проект"
     button_custom-fields: "Настраиваемые поля"
     button_delete: "Удалить"
     button_delete_watcher: "Удалить наблюдателя"
@@ -357,10 +357,10 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                Выпуск содержит различные новые функции и улучшения, такие как: <br> <ul class="%{list_styling_class}"> <li>Опция темного режима в персональных настройках</li> <li>Раздельные разрешения на просмотр и редактирование атрибутов проекта</li> <li>Улучшенные отчеты о проделанной работе на основе статуса</li> <li>Проверка соединений для хранилищ Nextcloud</li> <li>Больше опций фильтрации для списков проектов</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Keep and restore local versions of WYSIWYG content changes.</li> <li>Enable a storage for multiple projects at once.</li> <li>Export work packages in an updated modal with additional settings.</li> <li>Display custom field columns/filters in project lists also in the Community Edition.</li> <li>Support CloudFlare Turnstile as Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Подписаться на календарь"
       inital_setup_error_message: "Произошла ошибка при получении данных."
