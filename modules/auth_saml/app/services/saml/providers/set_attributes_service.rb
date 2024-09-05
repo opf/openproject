@@ -54,7 +54,7 @@ module Saml
         options
           .select { |key, _| Saml::Provider.stored_attributes[:options].include?(key.to_s) }
           .each do |key, value|
-          model.public_send(:"#{key}=", value)
+            model.public_send(:"#{key}=", value)
         end
       end
 

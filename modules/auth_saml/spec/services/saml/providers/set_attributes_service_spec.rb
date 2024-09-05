@@ -82,6 +82,67 @@ RSpec.describe Saml::Providers::SetAttributesService, type: :model do
       end
     end
 
+    describe "SLO URL" do
+      let(:options) do
+        {
+          idp_slo_service_url: idp_slo_service_url
+        }
+      end
+
+      context "when nil" do
+        let(:idp_slo_service_url) { nil }
+
+        it "is valid" do
+          expect(call).to be_success
+          expect(call.errors).to be_empty
+
+          expect(subject.idp_slo_service_url).to be_nil
+        end
+      end
+
+      context "when blank" do
+        let(:idp_slo_service_url) { "" }
+
+        it "is valid" do
+          expect(call).to be_success
+          expect(call.errors).to be_empty
+
+          expect(subject.idp_slo_service_url).to eq ""
+        end
+      end
+
+      context "when not a URL" do
+        let(:idp_slo_service_url) { "foo!" }
+
+        it "is valid" do
+          expect(call).not_to be_success
+          expect(call.errors.details[:idp_slo_service_url])
+            .to contain_exactly({ error: :url, value: idp_slo_service_url })
+        end
+      end
+
+      context "when invalid scheme" do
+        let(:idp_slo_service_url) { "urn:some:info" }
+
+        it "is valid" do
+          expect(call).not_to be_success
+          expect(call.errors.details[:idp_slo_service_url])
+            .to contain_exactly({ error: :url, value: idp_slo_service_url })
+        end
+      end
+
+      context "when valid" do
+        let(:idp_slo_service_url) { "https://foobar.example.com/slo" }
+
+        it "is valid" do
+          expect(call).to be_success
+          expect(call.errors).to be_empty
+
+          expect(subject.idp_slo_service_url).to eq idp_slo_service_url
+        end
+      end
+    end
+
     describe "IDP certificate" do
       let(:options) do
         {
