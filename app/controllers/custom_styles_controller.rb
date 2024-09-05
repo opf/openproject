@@ -67,7 +67,7 @@ class CustomStylesController < ApplicationController
   def create
     @custom_style = CustomStyle.create(custom_style_params)
     if @custom_style.valid?
-      redirect_to custom_style_path
+      redirect_back(fallback_location: root_path)
     else
       flash[:error] = @custom_style.errors.full_messages
       render action: :show
@@ -77,7 +77,7 @@ class CustomStylesController < ApplicationController
   def update
     @custom_style = get_or_create_custom_style
     if @custom_style.update(custom_style_params)
-      redirect_to custom_style_path
+      redirect_back(fallback_location: root_path)
     else
       flash[:error] = @custom_style.errors.full_messages
       render action: :show
@@ -93,7 +93,7 @@ class CustomStylesController < ApplicationController
       @custom_style.export_cover_text_color = color
       @custom_style.save
     end
-    redirect_to custom_style_path
+    redirect_back(fallback_location: root_path)
   end
 
   def logo_download
@@ -117,7 +117,6 @@ class CustomStylesController < ApplicationController
   end
 
   def logo_delete
-    #branding
     file_delete(:remove_logo)
   end
 
@@ -130,17 +129,14 @@ class CustomStylesController < ApplicationController
   end
 
   def favicon_delete
-    #branding
     file_delete(:remove_favicon)
   end
 
   def touch_icon_delete
-    #branding
     file_delete(:remove_touch_icon)
   end
 
   def update_colors
-    #interface
     variable_params = params[:design_colors].first
 
     ::Design::UpdateDesignService
@@ -165,7 +161,7 @@ class CustomStylesController < ApplicationController
       flash[:error] = call.message
     end
 
-    redirect_to action: :show
+    redirect_back(fallback_location: root_path)
   end
 
   private
@@ -216,6 +212,6 @@ class CustomStylesController < ApplicationController
     end
 
     @custom_style.send(remove_method)
-    redirect_to custom_style_path
+    redirect_back(fallback_location: root_path)
   end
 end
