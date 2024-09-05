@@ -15,7 +15,7 @@
             href: update_filter_work_package_activities_path(work_package),
             content_arguments: {
               data: { 
-                "turbo-stream": true, "action": "click->work-packages--activities-tab--index#unsetFilter",
+                turbo_stream: true, "action": "click->work-packages--activities-tab--index#unsetFilter",
                 "test_selector": "op-wp-journals-filter-show-all"
               }
             },
@@ -26,7 +26,7 @@
             href: update_filter_work_package_activities_path(work_package, filter: :only_changes),
             content_arguments: {
               data: { 
-                "turbo-stream": true, "action": "click->work-packages--activities-tab--index#setFilterToOnlyChanges",
+                turbo_stream: true, "action": "click->work-packages--activities-tab--index#setFilterToOnlyChanges",
                 "test_selector": "op-wp-journals-filter-show-only-changes"
               }
             },
@@ -37,7 +37,7 @@
             href: update_filter_work_package_activities_path(work_package, filter: :only_comments),
             content_arguments: {
               data: { 
-                "turbo-stream": true, "action": "click->work-packages--activities-tab--index#setFilterToOnlyComments",
+                turbo_stream: true, "action": "click->work-packages--activities-tab--index#setFilterToOnlyComments",
                 "test_selector": "op-wp-journals-filter-show-only-comments"
               }
             },
@@ -55,7 +55,7 @@
             href: update_sorting_work_package_activities_path(work_package, sorting: :desc, filter:),
             form_arguments: { method: :put },
             content_arguments: {
-              data: { "turbo-stream": true, "test_selector": "op-wp-journals-sorting-desc" }
+              data: { turbo_stream: true, "test_selector": "op-wp-journals-sorting-desc" }
             },
             active: desc_sorting?
           )
@@ -64,7 +64,7 @@
             href: update_sorting_work_package_activities_path(work_package, sorting: :asc, filter:),
             form_arguments: { method: :put },
             content_arguments: {
-              data: { "turbo-stream": true, "test_selector": "op-wp-journals-sorting-asc" }
+              data: { turbo_stream: true, "test_selector": "op-wp-journals-sorting-asc" }
             },
             active: asc_sorting?
           )

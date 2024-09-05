@@ -19,7 +19,7 @@
                      size: :medium,
                      tag: :a,
                      href: cancel_edit_work_package_activity_path(work_package.id, id: journal.id, filter:),
-                     data: { "turbo-stream": true }
+                     data: { turbo_stream: true }
                    )) do
               t("button_cancel")
             end

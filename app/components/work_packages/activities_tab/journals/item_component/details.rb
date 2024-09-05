@@ -126,9 +126,8 @@ module WorkPackages
         end
 
         def render_notification_bubble(container)
-          container.with_column(mr: 2,
-                                classes: "work-packages-activities-tab-journals-item-component-details--bubble-container") do
-            bubble_html
+          container.with_column(mr: 2) do
+            render(Primer::Beta::Octicon.new(:"dot-fill", color: :accent, size: :medium))
           end
         end
 
@@ -197,15 +196,6 @@ module WorkPackages
 
         def render_empty_line(details_container)
           details_container.with_row(my: 1, font_size: :small, classes: "empty-line")
-        end
-
-        def bubble_html
-          "
-          <span
-            class=\"comments-number--bubble op-bubble op-bubble_mini\"
-            data-test-selector=\"user-activity-bubble\"
-          ></span>
-          ".html_safe # rubocop:disable Rails/OutputSafety
         end
 
         def journal_sorting

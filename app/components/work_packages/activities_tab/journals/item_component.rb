@@ -43,25 +43,12 @@ module WorkPackages
           @filter = filter
         end
 
-        def content
-          case state
-          when :show
-            render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Show.new(**child_component_params))
-          when :edit
-            render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Edit.new(**child_component_params))
-          end
-        end
-
         private
 
         attr_reader :journal, :state, :filter
 
         def wrapper_uniq_by
           journal.id
-        end
-
-        def child_component_params
-          { journal:, filter: }.compact
         end
 
         def wrapper_data_attributes
@@ -126,7 +113,7 @@ module WorkPackages
           menu.with_item(label: t("js.label_edit_comment"),
                          href: edit_work_package_activity_path(journal.journable, journal, filter:),
                          content_arguments: {
-                           data: { "turbo-stream": true, test_selector: "op-wp-journal-#{journal.id}-edit" }
+                           data: { turbo_stream: true, test_selector: "op-wp-journal-#{journal.id}-edit" }
                          }) do |item|
             item.with_leading_visual_icon(icon: :pencil)
           end
@@ -145,15 +132,6 @@ module WorkPackages
                          }) do |item|
             item.with_leading_visual_icon(icon: :quote)
           end
-        end
-
-        def bubble_html
-          "
-          <span
-            class=\"comments-number--bubble op-bubble op-bubble_mini\"
-            data-test-selector=\"user-activity-bubble\"
-          ></span>
-          ".html_safe # rubocop:disable Rails/OutputSafety
         end
       end
     end
