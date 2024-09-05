@@ -30,8 +30,7 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::ProjectStorages::NotificationsService do
-  let(:storage) { build_stubbed(:nextcloud_storage) }
-  let(:project_storage) { build_stubbed(:project_storage, storage:) }
+  shared_let(:project_storage) { create(:project_storage, :as_automatically_managed) }
 
   before do
     allow(OpenProject::Notifications).to receive(:send)
@@ -46,22 +45,30 @@ RSpec.describe Storages::ProjectStorages::NotificationsService do
     end
   end
 
-  describe ".broadcast_project_storage_created" do
-    before { described_class.broadcast_project_storage_created(project_storage:) }
+  %i[created destroyed].each do |event|
+    describe ".broadcast_project_storage_#{event}" do
+      before { described_class.public_send(:"broadcast_project_storage_#{event}", project_storage:) }
 
-    it_behaves_like "broadcasts the project storage event", OpenProject::Events::PROJECT_STORAGE_CREATED
+      it_behaves_like "broadcasts the project storage event",
+                      OpenProject::Events.const_get("PROJECT_STORAGE_#{event.to_s.upcase}")
+    end
   end
 
   describe ".broadcast_project_storage_updated" do
-    before { described_class.broadcast_project_storage_updated(project_storage:) }
+    before do
+      project_storage.update(project_folder_mode: "inactive")
+      described_class.broadcast_project_storage_updated(project_storage:)
+    end
 
-    it_behaves_like "broadcasts the project storage event", OpenProject::Events::PROJECT_STORAGE_UPDATED
-  end
+    after { project_storage.update(project_folder_mode: :automatic) }
 
-  describe ".broadcast_project_storage_destroyed" do
-    before { described_class.broadcast_project_storage_destroyed(project_storage:) }
-
-    it_behaves_like "broadcasts the project storage event", OpenProject::Events::PROJECT_STORAGE_DESTROYED
+    it "broadcasts the project storage event" do
+      expect(OpenProject::Notifications).to have_received(:send)
+        .with(OpenProject::Events::PROJECT_STORAGE_UPDATED,
+              project_folder_mode: :inactive,
+              project_folder_mode_previously_was: :automatic,
+              storage: project_storage.storage)
+    end
   end
 
   describe ".automatic_folder_mode_broadcast?" do
