@@ -46,14 +46,9 @@ action-menu
       margin-left: 0
 
 .UnderlineNav
-  @include styled-scroll-bar
+  @include no-visible-scroll-bar
+  scroll-behavior: smooth
   margin-bottom: 12px
-
-  &-body
-    margin-left: 12px
-
-  &.op-primer-adjustment--UnderlineNav_spaciousLeft
-    padding-left: 8px
 
 /* Remove margin-left: 2rem from Breadcrumbs */
 #breadcrumb,
