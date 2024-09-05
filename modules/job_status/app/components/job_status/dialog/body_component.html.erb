@@ -19,6 +19,7 @@
           flex.with_row { render(Primer::Beta::Link.new(
             href: redirect_url,
             data: {
+              action: 'job-status-polling#redirectClick',
               "job-status-polling-target": job_errors.present? ? nil : "redirect"
             }
           )) { I18n.t('job_status_dialog.redirect_link') } }

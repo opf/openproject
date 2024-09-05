@@ -74,6 +74,8 @@ export default class FiltersFormController extends Controller {
   declare readonly singleDayTargets:HTMLInputElement[];
   declare readonly simpleValueTargets:HTMLInputElement[];
 
+  autoReloadTargets:HTMLElement[];
+
   static values = {
     displayFilters: { type: Boolean, default: false },
     outputFormat: { type: String, default: 'params' },
@@ -89,6 +91,14 @@ export default class FiltersFormController extends Controller {
   initialize() {
     // Initialize runs anytime an element with a controller connected to the DOM for the first time
     this.sendForm = debounce(this.sendForm.bind(this), 300);
+    this.autoReloadTargets = [
+      ...this.simpleValueTargets,
+      ...this.operatorTargets,
+      ...this.filterValueContainerTargets,
+      ...this.filterValueSelectTargets,
+      ...this.daysTargets,
+      ...this.singleDayTargets,
+    ];
   }
 
   connect() {
@@ -101,28 +111,12 @@ export default class FiltersFormController extends Controller {
     // Auto-register change event listeners for all fields
     // to keep DOM cleaner.
     if (this.performTurboRequestsValue) {
-      this.simpleValueTargets.forEach((simpleValue) => {
-        simpleValue.addEventListener('input', this.sendForm.bind(this));
-      });
-
-      this.operatorTargets.forEach((operator) => {
-        operator.addEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.filterValueSelectTargets.forEach((select) => {
-        select.addEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.filterValueContainerTargets.forEach((container) => {
-        container.addEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.singleDayTargets.forEach((singleDay) => {
-        singleDay.addEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.daysTargets.forEach((days) => {
-        days.addEventListener('change', this.sendForm.bind(this));
+      this.autoReloadTargets.forEach((target) => {
+        if (target instanceof HTMLInputElement) {
+          target.addEventListener('input', this.sendForm.bind(this));
+        } else {
+          target.addEventListener('change', this.sendForm.bind(this));
+        }
       });
     }
   }
@@ -134,28 +128,12 @@ export default class FiltersFormController extends Controller {
     // Auto-deregister change event listeners for all fields
     // to keep DOM cleaner.
     if (this.performTurboRequestsValue) {
-      this.simpleValueTargets.forEach((simpleValue) => {
-        simpleValue.removeEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.operatorTargets.forEach((operator) => {
-        operator.removeEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.filterValueSelectTargets.forEach((select) => {
-        select.removeEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.filterValueContainerTargets.forEach((container) => {
-        container.removeEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.singleDayTargets.forEach((singleDay) => {
-        singleDay.removeEventListener('change', this.sendForm.bind(this));
-      });
-
-      this.daysTargets.forEach((days) => {
-        days.removeEventListener('change', this.sendForm.bind(this));
+      this.autoReloadTargets.forEach((target) => {
+        if (target instanceof HTMLInputElement) {
+          target.removeEventListener('input', this.sendForm.bind(this));
+        } else {
+          target.removeEventListener('change', this.sendForm.bind(this));
+        }
       });
     }
   }
@@ -182,9 +160,9 @@ export default class FiltersFormController extends Controller {
   }
 
   toggleMultiSelect({ params: { filterName } }:{ params:{ filterName:string } }) {
-    const valueContainer = this.filterValueContainerTargets.find((filterValueContainer) => filterValueContainer.getAttribute('data-filter-name') === filterName);
-    const singleSelect = this.filterValueSelectTargets.find((selectField) => !selectField.multiple && selectField.getAttribute('data-filter-name') === filterName);
-    const multiSelect = this.filterValueSelectTargets.find((selectField) => selectField.multiple && selectField.getAttribute('data-filter-name') === filterName);
+    const valueContainer = this.findTargetByName(filterName, this.filterValueContainerTargets);
+    const singleSelect = this.findTargetByName<HTMLSelectElement>(filterName, this.filterValueSelectTargets, (selectField) => !selectField.multiple);
+    const multiSelect = this.findTargetByName<HTMLSelectElement>(filterName, this.filterValueSelectTargets, (selectField) => selectField.multiple);
     if (valueContainer && singleSelect && multiSelect) {
       if (valueContainer.classList.contains('multi-value')) {
         const valueToSelect = this.getValueToSelect(multiSelect);
@@ -208,13 +186,13 @@ export default class FiltersFormController extends Controller {
   }
 
   addFilter(event:Event) {
-    const selectedFilterName = (event.target as HTMLSelectElement).value;
-    const selectedFilter = this.filterTargets.find((filter) => filter.getAttribute('data-filter-name') === selectedFilterName);
+    const filterName = (event.target as HTMLSelectElement).value;
+    const selectedFilter = this.findTargetByName(filterName, this.filterTargets);
     if (selectedFilter) {
       selectedFilter.classList.remove('hidden');
     }
-    this.disableSelection();
-    this.reselectPlaceholderOption();
+    this.addFilterSelectTarget.selectedOptions[0].disabled = true;
+    this.addFilterSelectTarget.selectedIndex = 0;
     this.setSpacerVisibility();
 
     if (this.performTurboRequestsValue) {
@@ -222,16 +200,8 @@ export default class FiltersFormController extends Controller {
     }
   }
 
-  private disableSelection() {
-    this.addFilterSelectTarget.selectedOptions[0].setAttribute('disabled', 'disabled');
-  }
-
-  private reselectPlaceholderOption() {
-    this.addFilterSelectTarget.options[0].setAttribute('selected', 'selected');
-  }
-
   removeFilter({ params: { filterName } }:{ params:{ filterName:string } }) {
-    const filterToRemove = this.filterTargets.find((filter) => filter.getAttribute('data-filter-name') === filterName);
+    const filterToRemove = this.findTargetByName(filterName, this.filterTargets);
     filterToRemove?.classList.add('hidden');
 
     const selectOptions = Array.from(this.addFilterSelectTarget.options);
@@ -278,7 +248,7 @@ export default class FiltersFormController extends Controller {
 
   setValueVisibility({ target, params: { filterName } }:{ target:HTMLSelectElement, params:{ filterName:string } }) {
     const selectedOperator = target.value;
-    const valueContainer = this.filterValueContainerTargets.find((filterValueContainer) => filterValueContainer.getAttribute('data-filter-name') === filterName);
+    const valueContainer = this.findTargetByName(filterName, this.filterValueContainerTargets);
     if (valueContainer) {
       if (this.noValueOperators.includes(selectedOperator)) {
         valueContainer.classList.add('hidden');
@@ -382,10 +352,10 @@ export default class FiltersFormController extends Controller {
     const filters:InternalFilterValue[] = [];
 
     advancedFilters.forEach((filter) => {
-      const filterName = filter.getAttribute('data-filter-name');
+      const filterName = filter.getAttribute('data-filter-name') as string;
       const filterType = filter.getAttribute('data-filter-type');
-      const parsedOperator = this.operatorTargets.find((operator) => operator.getAttribute('data-filter-name') === filterName)?.value;
-      const valueContainer = this.filterValueContainerTargets.find((filterValueContainer) => filterValueContainer.getAttribute('data-filter-name') === filterName);
+      const parsedOperator = this.findTargetByName(filterName, this.operatorTargets)?.value;
+      const valueContainer = this.findTargetByName(filterName, this.filterValueContainerTargets);
 
       if (valueContainer && filterName && filterType && parsedOperator) {
         const parsedValue = this.parseFilterValue(valueContainer, filterName, filterType, parsedOperator) as string[]|null;
@@ -426,13 +396,12 @@ export default class FiltersFormController extends Controller {
 
   private parseFilterValue(valueContainer:HTMLElement, filterName:string, filterType:string, operator:string) {
     const checkbox = valueContainer.querySelector('input[type="checkbox"]') as HTMLInputElement;
-    const isAutocomplete = valueContainer.dataset.filterAutocomplete === 'true';
 
     if (checkbox) {
       return [checkbox.checked ? 't' : 'f'];
     }
 
-    if (isAutocomplete) {
+    if (valueContainer.dataset.filterAutocomplete === 'true') {
       return (valueContainer.querySelector('input[name="value"]') as HTMLInputElement)?.value.split(',');
     }
 
@@ -448,7 +417,7 @@ export default class FiltersFormController extends Controller {
       return this.parseDateFilterValue(valueContainer, filterName);
     }
 
-    const value = this.simpleValueTargets.find((simpleValueInput) => simpleValueInput.getAttribute('data-filter-name') === filterName)?.value;
+    const value = this.findTargetByName(filterName, this.simpleValueTargets)?.value;
 
     if (value && value.length > 0) {
       return [value];
@@ -478,16 +447,16 @@ export default class FiltersFormController extends Controller {
     let value;
 
     if (valueContainer.classList.contains('days')) {
-      const dateValue = this.daysTargets.find((daysField) => daysField.getAttribute('data-filter-name') === filterName)?.value;
+      const dateValue = this.findTargetByName(filterName, this.daysTargets)?.value;
 
       value = _.without([dateValue], '');
     } else if (valueContainer.classList.contains('on-date')) {
-      const dateValue = this.singleDayTargets.find((dateInput) => dateInput.id === `on-date-value-${filterName}`)?.value;
+      const dateValue = this.findTargetById(`on-date-value-${filterName}`, this.singleDayTargets)?.value;
 
       value = _.without([dateValue], '');
     } else if (valueContainer.classList.contains('between-dates')) {
-      const fromValue = this.singleDayTargets.find((dateInput) => dateInput.id === `between-dates-from-value-${filterName}`)?.value;
-      const toValue = this.singleDayTargets.find((dateInput) => dateInput.id === `between-dates-to-value-${filterName}`)?.value;
+      const fromValue = this.findTargetById(`between-dates-from-value-${filterName}`, this.singleDayTargets)?.value;
+      const toValue = this.findTargetById(`between-dates-to-value-${filterName}`, this.singleDayTargets)?.value;
 
       value = [fromValue, toValue];
     }
@@ -495,5 +464,37 @@ export default class FiltersFormController extends Controller {
       return value;
     }
     return null;
+  }
+
+  private findTargetByName<T extends HTMLElement>(
+    filterName:string,
+    targets:T[],
+    targetFilter?:(target:T) => boolean,
+  ):T | undefined {
+    return this.findTargetBy(
+      filterName,
+      (target:T) => target.getAttribute('data-filter-name'),
+      targets,
+      targetFilter,
+    );
+  }
+
+  private findTargetById<T extends HTMLElement>(
+    filterName:string,
+    targets:T[],
+    targetFilter?:(target:T) => boolean,
+  ):T | undefined {
+    return this.findTargetBy(filterName, (target:T) => target.id, targets, targetFilter);
+  }
+
+  private findTargetBy<T extends HTMLElement>(
+    attributeValue:string,
+    attributeGetter:(target:T) => string | null,
+    targets:T[],
+    targetFilter?:(target:T) => boolean,
+  ):T | undefined {
+    return targets.find((target) => {
+      return attributeGetter(target) === attributeValue && (!targetFilter || targetFilter(target));
+    });
   }
 }
