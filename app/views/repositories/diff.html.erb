@@ -51,10 +51,10 @@ See COPYRIGHT and LICENSE files for more details.
   <% unidiff_link = f.link_to 'Diff', url: permitted_params.repository_diff.to_h, caption: 'Unified diff' %>
   <% if !@path.blank? %>
     <% unidiff_link.gsub!('?', '&amp;') %>
+    <% wrong_url = /\/diff\/.*\.diff/ %>
+    <% good_url = '/diff.diff'.concat('?repo_path=', CGI.escape(without_leading_slash(@path)).gsub('&', '%26')) %>
+    <% unidiff_link.gsub!(wrong_url, good_url) %>
   <% end %>
-  <% wrong_url = CGI::escapeHTML(CGI.escape(with_leading_slash(@path))).concat('.diff') %>
-  <% good_url = '.diff'.concat('?repo_path=', CGI.escape(without_leading_slash(@path)).gsub('&', '%26')) %>
-  <% unidiff_link.gsub!(wrong_url, good_url) %>
   <%= unidiff_link.html_safe %>
 <% end %>
 
