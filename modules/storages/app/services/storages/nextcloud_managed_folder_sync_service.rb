@@ -141,16 +141,15 @@ module Storages
       permissions = system_user + admin_permissions + users_permissions + group_permissions
       project_folder_id = project_storage.project_folder_id
 
-      build_set_permissions_input_data(project_folder_id, permissions)
-        .either(
-          ->(input_data) do
-            set_permissions.call(storage: @storage, auth_strategy:, input_data:).on_failure do |service_result|
-              log_storage_error(service_result.errors, folder: project_folder_id)
-              add_error(:set_folder_permission, service_result.errors, options: { folder: project_folder_id })
-            end
-          end,
-          ->(failure) { log_validation_error(failure, project_folder_id:, permissions:) }
-        )
+      input_data = build_set_permissions_input_data(project_folder_id, permissions).value_or do |failure|
+        log_validation_error(failure, project_folder_id:, permissions:)
+        return # rubocop:disable Lint/NonLocalExitFromIterator
+      end
+
+      set_permissions.call(storage: @storage, auth_strategy:, input_data:).on_failure do |service_result|
+        log_storage_error(service_result.errors, folder: project_folder_id)
+        add_error(:set_folder_permission, service_result.errors, options: { folder: project_folder_id })
+      end
     end
 
     # rubocop:enable Metrics/AbcSize
@@ -181,16 +180,15 @@ module Storages
           { group_id: @storage.group, permissions: [] }
         ]
 
-        build_set_permissions_input_data(folder_id, permissions)
-          .either(
-            ->(input_data) do
-              set_permissions.call(storage: @storage, auth_strategy:, input_data:).on_failure do |service_result|
-                log_storage_error(service_result.errors, folder_id:, context: "hide_folder")
-                add_error(:hide_inactive_folders, service_result.errors, options: { folder_id: })
-              end
-            end,
-            ->(failure) { log_validation_error(failure, folder_id:, permissions:) }
-          )
+        input_data = build_set_permissions_input_data(folder_id, permissions).value_or do |failure|
+          log_validation_error(failure, folder_id:, permissions:)
+          return # rubocop:disable Lint/NonLocalExitFromIterator
+        end
+
+        set_permissions.call(storage: @storage, auth_strategy:, input_data:).on_failure do |service_result|
+          log_storage_error(service_result.errors, folder_id:, context: "hide_folder")
+          add_error(:hide_inactive_folders, service_result.errors, options: { folder_id: })
+        end
       end
     end
 
@@ -270,19 +268,15 @@ module Storages
         { group_id: group, permissions: [:read_files] }
       ]
 
-      build_set_permissions_input_data(root_folder_id, permissions)
-        .either(
-          ->(input_data) do
-            set_permissions.call(storage: @storage, auth_strategy:, input_data:).on_failure do |service_result|
-              log_storage_error(service_result.errors, folder: "root", root_folder_id:)
-              add_error(:ensure_root_folder_permissions, service_result.errors, options: { group:, username: }).fail!
-            end
-          end,
-          ->(failure) do
-            log_validation_error(failure, root_folder_id:, permissions:)
-            ServiceResult.failure(result: failure.errors.to_h) # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
-          end
-        )
+      input_data = build_set_permissions_input_data(root_folder_id, permissions).value_or do |failure|
+        log_validation_error(failure, root_folder_id:, permissions:)
+        return ServiceResult.failure(result: failure.errors.to_h) # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
+      end
+
+      set_permissions.call(storage: @storage, auth_strategy:, input_data:).on_failure do |service_result|
+        log_storage_error(service_result.errors, folder: "root", root_folder_id:)
+        add_error(:ensure_root_folder_permissions, service_result.errors, options: { group:, username: }).fail!
+      end
     end
 
     # rubocop:enable Metrics/AbcSize
