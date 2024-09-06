@@ -149,7 +149,7 @@ module Storages
         Some(ConnectionValidation.new(type: :warning,
                                       error_code: :wrn_unexpected_content,
                                       timestamp: Time.current,
-                                      description: I18n.t("storages.health.connection_validation.unexpected_content")))
+                                      description: I18n.t("storages.health.connection_validation.unexpected_content.one_drive")))
       end
 
       # rubocop:enable Metrics/AbcSize

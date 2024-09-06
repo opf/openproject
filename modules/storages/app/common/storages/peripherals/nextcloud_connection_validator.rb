@@ -161,9 +161,9 @@ module Storages
 
         Rails.logger.error(
           "Connection validation failed with unknown error:\n\t" \
-            "storage: ##{@storage.id} #{@storage.name}\n\t" \
-            "status: #{query.result}\n\t" \
-            "response: #{query.error_payload}"
+          "storage: ##{@storage.id} #{@storage.name}\n\t" \
+          "status: #{query.result}\n\t" \
+          "response: #{query.error_payload}"
         )
 
         Some(ConnectionValidation.new(type: :error,
@@ -184,10 +184,14 @@ module Storages
         unexpected_files = files.result.files.reject { |file| expected_folder_ids.include?(file.id) }
         return None() if unexpected_files.empty?
 
-        Some(ConnectionValidation.new(type: :warning,
-                                      error_code: :wrn_unexpected_content,
-                                      timestamp: Time.current,
-                                      description: I18n.t("storages.health.connection_validation.unexpected_content")))
+        Some(
+          ConnectionValidation.new(
+            type: :warning,
+            error_code: :wrn_unexpected_content,
+            timestamp: Time.current,
+            description: I18n.t("storages.health.connection_validation.unexpected_content.nextcloud")
+          )
+        )
       end
 
       # rubocop:enable Metrics/AbcSize

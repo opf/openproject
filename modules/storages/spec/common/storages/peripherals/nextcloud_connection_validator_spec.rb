@@ -31,7 +31,8 @@ require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::NextcloudConnectionValidator do
   before do
-    Storages::Peripherals::Registry.stub("#{storage.short_provider_type}.queries.capabilities", ->(_) { response })
+    Storages::Peripherals::Registry.stub("#{storage.short_provider_type}.queries.capabilities", ->(_) { capabilities_response })
+    Storages::Peripherals::Registry.stub("#{storage.short_provider_type}.queries.files", ->(_) { files_response })
   end
 
   subject { described_class.new(storage:).validate }
@@ -48,7 +49,7 @@ RSpec.describe Storages::Peripherals::NextcloudConnectionValidator do
 
   context "if nextcloud host url could not be found" do
     let(:storage) { create(:nextcloud_storage_configured) }
-    let(:response) { build_failure(code: :not_found, payload: nil) }
+    let(:capabilities_response) { build_failure(code: :not_found, payload: nil) }
 
     it "returns a validation failure" do
       expect(subject.type).to eq(:error)
@@ -64,12 +65,20 @@ RSpec.describe Storages::Peripherals::NextcloudConnectionValidator do
     let(:app_version) { Storages::SemanticVersion.parse("2.6.3") }
     let(:group_folder_enabled) { true }
     let(:group_folder_version) { Storages::SemanticVersion.parse("17.0.1") }
-    let(:response) do
+    let(:project_folder_id) { "1337" }
+    let(:capabilities_response) do
       ServiceResult.success(result: Storages::NextcloudCapabilities.new(
         app_enabled?: app_enabled,
         app_version:,
         group_folder_enabled?: group_folder_enabled,
         group_folder_version:
+      ))
+    end
+    let(:files_response) do
+      ServiceResult.success(result: Storages::StorageFiles.new(
+        [],
+        Storages::StorageFile.new(id: "root", name: "root"),
+        []
       ))
     end
 
@@ -141,11 +150,42 @@ RSpec.describe Storages::Peripherals::NextcloudConnectionValidator do
         end
       end
     end
+
+    context "if the request returns unexpected files" do
+      let(:storage) { create(:nextcloud_storage_configured, :as_automatically_managed) }
+      let(:project_storage) do
+        create(:project_storage,
+               :as_automatically_managed,
+               project_folder_id:,
+               storage:,
+               project: create(:project))
+      end
+      let(:files_response) do
+        ServiceResult.success(result: Storages::StorageFiles.new(
+          [
+            Storages::StorageFile.new(id: project_folder_id, name: "I am your father"),
+            Storages::StorageFile.new(id: "noooooooooo", name: "testimony_of_luke_skywalker.md")
+          ],
+          Storages::StorageFile.new(id: "root", name: "root"),
+          []
+        ))
+      end
+
+      before do
+        project_storage
+      end
+
+      it "returns a validation failure" do
+        expect(subject.type).to eq(:warning)
+        expect(subject.error_code).to eq(:wrn_unexpected_content)
+        expect(subject.description).to eq("Unexpected content found in the managed folder.")
+      end
+    end
   end
 
   context "if query returns an unhandled error" do
     let(:storage) { create(:nextcloud_storage_configured) }
-    let(:response) { build_failure(code: :error, payload: nil) }
+    let(:capabilities_response) { build_failure(code: :error, payload: nil) }
 
     before do
       allow(Rails.logger).to receive(:error)
