@@ -29,6 +29,13 @@
 module OAuth
   module Applications
     class UpdateContract < BaseContract
+      validate :application_is_not_builtin
+
+      def application_is_not_builtin
+        if model.builtin?
+          errors.add(:base, :unchangeable)
+        end
+      end
     end
   end
 end

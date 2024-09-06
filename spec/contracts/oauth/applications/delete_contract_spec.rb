@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OAuth
-  module Applications
-    class DeleteContract < ::DeleteContract
-      delete_permission -> { !model.builtin? && user.admin? }
-    end
+require "spec_helper"
+require_relative "shared_examples"
+
+RSpec.describe OAuth::Applications::DeleteContract, type: :model do # rubocop:disable RSpec/SpecFilePathFormat
+  subject { described_class.new(application, user).validate }
+
+  context "if oauth application is builtin" do
+    let(:user) { create(:admin) }
+    let(:application) { create(:oauth_application, builtin: true) }
+
+    it_behaves_like "oauth application contract is invalid"
+  end
+
+  context "if user is no admin" do
+    let(:user) { create(:user) }
+    let(:application) { create(:oauth_application) }
+
+    it_behaves_like "oauth application contract is invalid"
   end
 end

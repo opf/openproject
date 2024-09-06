@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OAuth
-  module Applications
-    class DeleteContract < ::DeleteContract
-      delete_permission -> { !model.builtin? && user.admin? }
-    end
-  end
+RSpec.shared_examples_for "oauth application contract is invalid" do
+  it { expect(subject).to be_falsey }
+end
+
+RSpec.shared_examples_for "oauth application contract is valid" do
+  it { expect(subject).to be_truthy }
 end
