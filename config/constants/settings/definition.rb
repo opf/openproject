@@ -231,6 +231,11 @@ module Settings
         default: nil,
         writable: false
       },
+      total_percent_complete_mode: {
+        description: "Mode in which the total % Complete for work packages in a hierarchy is calculated",
+        default: "work_weighted_average",
+        allowed: %w[work_weighted_average simple_average]
+      },
       commit_fix_keywords: {
         description: "Keywords to look for in commit for fixing work packages",
         default: "fixes,closes"
