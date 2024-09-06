@@ -49,10 +49,10 @@ module CustomFields
 
       private
 
-      def validate_permissions
+      def validate_permissions(permission: :select_custom_fields)
         return ServiceResult.failure(errors: I18n.t(:label_not_found)) if incoming_projects.empty?
 
-        if @user.allowed_in_project?(:select_custom_fields, incoming_projects)
+        if @user.allowed_in_project?(permission, incoming_projects)
           ServiceResult.success
         else
           ServiceResult.failure(errors: I18n.t("activerecord.errors.messages.error_unauthorized"))
@@ -117,15 +117,8 @@ module CustomFields
         custom_field_project_mapping_class.new(params)
       end
 
-      def attributes_service_class
-        custom_field_project_mapping_module::SetAttributesService
-      end
-
-      def default_contract_class
-        custom_field_project_mapping_module::UpdateContract
-      end
-
-      def custom_field_project_mapping_module = CustomFields::CustomFieldProjects
+      def attributes_service_class = CustomFields::CustomFieldProjects::SetAttributesService
+      def default_contract_class = CustomFields::CustomFieldProjects::UpdateContract
       def custom_field_project_mapping_class = CustomFieldsProject
     end
   end
