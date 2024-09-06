@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -28,25 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-require_module_spec_helper
+module Storages::ProjectStorages::NotificationsService
+  module_function
 
-RSpec.shared_examples "an event gun" do |event|
-  %i[automatic manual inactive].each do |mode|
-    context "when project_folder mode is #{mode}" do
-      it "fires an appropriate event" do
-        allow(OpenProject::Notifications).to(receive(:send))
-        model_instance.project_folder_mode = mode
-
-        subject
-
-        expect(OpenProject::Notifications).to(
-          have_received(:send)
-          .with(event, project_folder_mode: mode,
-                       project_folder_mode_previously_was: model_instance.project_folder_mode_previously_was,
-                       storage: model_instance.storage)
-        )
-      end
+  %i[created updated destroyed].each do |event|
+    define_method :"broadcast_project_storage_#{event}" do |project_storage:|
+      broadcast(event:, project_storage:)
     end
+  end
+
+  def broadcast(event:, project_storage:)
+    broadcast_raw event:, project_folder_mode: project_storage.project_folder_mode.to_sym,
+                  project_folder_mode_previously_was: project_storage.project_folder_mode_previously_was&.to_sym,
+                  storage: project_storage.storage
+  end
+
+  def broadcast_raw(event:, project_folder_mode:, project_folder_mode_previously_was:, storage:)
+    OpenProject::Notifications.send(
+      "OpenProject::Events::PROJECT_STORAGE_#{event.to_s.upcase}".constantize,
+      project_folder_mode:,
+      project_folder_mode_previously_was:,
+      storage:
+    )
+  end
+
+  def automatic_folder_mode_broadcast?(broadcasted_payload)
+    folder_modes = broadcasted_payload.values_at(:project_folder_mode, :project_folder_mode_previously_was).compact
+    folder_modes.map { |mode| mode&.to_sym }.any?(:automatic)
   end
 end
