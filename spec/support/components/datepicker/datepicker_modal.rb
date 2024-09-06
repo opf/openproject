@@ -12,5 +12,9 @@ module Components
         raise "Expected date to equal #{date}, but got #{input.value}" unless input.value == date.iso8601
       end
     end
+
+    def has_day_selected?(value)
+      flatpickr_container.has_css?(".flatpickr-day.selected", text: value, wait: 1)
+    end
   end
 end

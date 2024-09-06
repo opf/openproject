@@ -191,6 +191,7 @@ RSpec.describe "Working Days", :js, :with_cuprite do
 
       # Check if a date is correctly highlighted after selecting it in different time zones
       datepicker.select_day 5
+      expect(datepicker).to have_day_selected("5")
 
       # It can cancel and reopen
       within_test_selector("op-datepicker-modal") do
