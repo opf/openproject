@@ -197,9 +197,9 @@ automatically loaded to the application's environment.
 > [!TIP]
 > Instead of using the `gssencmode` flag in `config/database.yml`, you can add `export PGGSSENCMODE="disable"` to your
 > Shell profile (`~/.zprofile` by default). This will prevent Ruby crashes for *all* of your projects.
->
-> However, some users report Ruby crashes despite having set this flag to disable.
-> If this happens on your machine, try adding `export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=yes` to your Shell profile.
+
+Some users report Ruby crashes despite having set this flag to disable. If this is the case for you as well,
+try adding `export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=yes` to your Shell profile.
 
 ### Install other requirements
 
