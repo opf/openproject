@@ -2399,6 +2399,8 @@ ro:
   label_role_plural: "Roluri"
   label_role_search: "Atribuirea rolului noilor membri"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Căutare"
   label_search_by_name: "Caută după nume"
   label_send_information: "Send new credentials to the user"

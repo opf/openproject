@@ -2431,6 +2431,8 @@ pl:
   label_role_plural: "Role"
   label_role_search: "Przydziel role nowemu członkowi"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Szukaj"
   label_search_by_name: "Wyszukaj według nazwy"
   label_send_information: "Wyślij nowe poświadczenia do użytkownika"

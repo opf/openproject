@@ -2428,6 +2428,8 @@ uk:
   label_role_plural: "Роль"
   label_role_search: "Призначити роль для нових членів"
   label_scm: "Тип сховища"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Пошук"
   label_search_by_name: "Пошук за назвою"
   label_send_information: "Надіслати нові облікові дані користувачу"

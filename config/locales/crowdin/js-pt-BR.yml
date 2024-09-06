@@ -357,10 +357,10 @@ pt-BR:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                A versão contém vários novos recursos e aprimoramentos, como: <br> <ul class="%{list_styling_class}"> <li>Opção de modo escuro nas configurações pessoais</li> <li>Permissões separadas para visualização e edição dos atributos do projeto</li> <li>Relatórios de progresso baseados em status aprimorados</li> <li>Validação de conexão para armazenamentos Nextcloud</li> <li>Mais opções de filtro para listas de projetos</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Keep and restore local versions of WYSIWYG content changes.</li> <li>Enable a storage for multiple projects at once.</li> <li>Export work packages in an updated modal with additional settings.</li> <li>Display custom field columns/filters in project lists also in the Community Edition.</li> <li>Support CloudFlare Turnstile as Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."

@@ -2361,6 +2361,8 @@ nl:
   label_role_plural: "Rollen"
   label_role_search: "Rol toewijzen aan nieuwe leden"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Zoeken"
   label_search_by_name: "Zoeken op naam"
   label_send_information: "Send new credentials to the user"

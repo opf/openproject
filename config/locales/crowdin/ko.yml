@@ -2328,6 +2328,8 @@ ko:
   label_role_plural: "역할"
   label_role_search: "새 멤버에게 역할 할당"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "검색"
   label_search_by_name: "이름별 검색"
   label_send_information: "사용자에게 새 자격 증명 보내기"

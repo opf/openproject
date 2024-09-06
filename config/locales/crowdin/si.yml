@@ -2364,6 +2364,8 @@ si:
   label_role_plural: "භූමිකාවන්"
   label_role_search: "නව සාමාජිකයින්ට කාර්යභාරය පැවරීම"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "සොයන්න"
   label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"

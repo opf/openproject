@@ -2361,6 +2361,8 @@ it:
   label_role_plural: "Ruoli"
   label_role_search: "Assegna ruolo ai nuovi membri"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Cerca"
   label_search_by_name: "Cerca per nome"
   label_send_information: "Invia nuove credenziali all'utente"

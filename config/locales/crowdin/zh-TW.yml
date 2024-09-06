@@ -2327,6 +2327,8 @@ zh-TW:
   label_role_plural: "角色"
   label_role_search: "為新成員分配角色"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "搜尋"
   label_search_by_name: "以名稱搜尋"
   label_send_information: "寄送密碼給使用者"
@@ -3479,9 +3481,9 @@ zh-TW:
         remaining_hours:
           cleared_because_work_is_empty: "已清除，因為無工時。"
           cleared_because_percent_complete_is_empty: "已清除，因為無完成度。"
-          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
+          decreased_by_delta_like_work: "因 %{delta} 減少，符合工時減少。"
           derived: "源自工時和完成百分比。"
-          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
+          increased_by_delta_like_work: "因 %{delta} 減少，符合工時增加。"
           same_as_work: "設定與工時相同值。"
     permissions:
       comment: "留言"

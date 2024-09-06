@@ -2434,6 +2434,8 @@ cs:
   label_role_plural: "Role"
   label_role_search: "Přiřadit roli novým členům"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Vyhledávání"
   label_search_by_name: "Hledat podle názvu"
   label_send_information: "Poslat nové přihlašovací údaje uživateli"

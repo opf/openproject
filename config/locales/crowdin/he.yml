@@ -2434,6 +2434,8 @@ he:
   label_role_plural: "תפקידים"
   label_role_search: "Assign role to new members"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "חיפוש"
   label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"

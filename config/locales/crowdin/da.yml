@@ -2362,6 +2362,8 @@ da:
   label_role_plural: "Rollee"
   label_role_search: "Assign role to new members"
   label_scm: "Versionskontrolsystem"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Søg"
   label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"

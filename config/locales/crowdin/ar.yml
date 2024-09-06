@@ -2504,6 +2504,8 @@ ar:
   label_role_plural: "دور"
   label_role_search: "تعيين دور للأعضاء الجدد"
   label_scm: "اختصاراً لِ:\"Supply Chain Management\" إدارة سلسة الإمداد"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "البحث"
   label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"

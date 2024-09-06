@@ -2325,6 +2325,8 @@ ja:
   label_role_plural: "ロール"
   label_role_search: "新しいメンバーに役割を割り当てる"
   label_scm: "バージョン管理システム"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "検索"
   label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
