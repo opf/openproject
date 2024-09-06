@@ -29,8 +29,6 @@
 module CustomFields
   module CustomFieldProjects
     class BaseContract < ::ModelContract
-      include RequiresAdminGuard
-
       attribute :project_id
       attribute :custom_field_id
 
@@ -47,7 +45,7 @@ module CustomFields
         # Only mappings of custom fields which are not enabled for all projects can be manipulated by the user
         return if model.custom_field.nil? || !model.custom_field.is_for_all?
 
-        errors.add :custom_field_id, :cannot_delete_mapping
+        errors.add :custom_field_id, :is_for_all_cannot_modify
       end
     end
   end

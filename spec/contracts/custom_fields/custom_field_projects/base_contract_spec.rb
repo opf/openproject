@@ -42,13 +42,25 @@ RSpec.describe CustomFields::CustomFieldProjects::BaseContract do
     let(:custom_field) { build_stubbed(:custom_field, is_for_all: true) }
     let(:custom_field_project) { build_stubbed(:custom_fields_project, custom_field:) }
 
-    it_behaves_like "contract is invalid"
+    it_behaves_like "contract is invalid", custom_field_id: :is_for_all_cannot_modify
   end
 
-  context "with non-admin user" do
+  context "with authorised user" do
     let(:user) { build_stubbed(:user) }
 
-    it_behaves_like "contract is invalid", base: %i[error_unauthorized error_unauthorized]
+    before do
+      mock_permissions_for(user) do |mock|
+        mock.allow_in_project(:select_custom_fields, project: custom_field_project.project)
+      end
+    end
+
+    it_behaves_like "contract is valid"
+  end
+
+  context "with unauthorised user" do
+    let(:user) { build_stubbed(:user) }
+
+    it_behaves_like "contract is invalid", base: :error_unauthorized
   end
 
   include_examples "contract reuses the model errors"
