@@ -38,7 +38,21 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
 
   menu_item :custom_fields
 
-  def index; end
+  def index
+    @available_custom_fields_projects_query = ProjectQuery.new(
+      name: "custom-fields-projects-#{@custom_field.id}"
+    ) do |query|
+      query.where(:available_custom_fields_projects, "=", [@custom_field.id])
+      query.select(:name)
+      query.order("lft" => "asc")
+    end
+  end
+
+  def default_breadcrumb; end
+
+  def show_local_breadcrumb
+    false
+  end
 
   private
 

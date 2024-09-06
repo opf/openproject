@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,45 +24,22 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
+#++
 
-class Queries::Projects::Filters::AvailableProjectAttributesFilter < Queries::Projects::Filters::Base
-  def self.key
-    :available_project_attributes
-  end
+module Admin
+  module CustomFields
+    module CustomFieldProjects
+      class RowComponent < Projects::RowComponent
+        include OpTurbo::Streamable
 
-  def type
-    :list
-  end
+        def wrapper_uniq_by
+          "project-#{project.id}"
+        end
 
-  def allowed_values
-    @allowed_values ||= ProjectCustomFieldProjectMapping
-      .includes(:project_custom_field)
-      .distinct
-      .pluck(:name, :custom_field_id)
-  end
-
-  def available?
-    User.current.admin?
-  end
-
-  def apply_to(_query_scope)
-    case operator
-    when "="
-      super.with_available_project_custom_fields(values)
-    when "!"
-      super.without_available_project_custom_fields(values)
-    else
-      raise "unsupported operator"
+        def more_menu_items
+          []
+        end
+      end
     end
-  end
-
-  def where
-    nil
-  end
-
-  def human_name
-    I18n.t(:label_available_project_attributes)
   end
 end
