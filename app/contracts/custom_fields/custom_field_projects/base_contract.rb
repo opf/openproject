@@ -29,13 +29,13 @@
 module CustomFields
   module CustomFieldProjects
     class BaseContract < ::ModelContract
+      include RequiresAdminGuard
+
       attribute :project_id
       attribute :custom_field_id
 
       validate :select_custom_fields_permission
       validate :not_for_all
-      # FIXME: Confirm whether visible context is relevant
-      # validate :visible_to_user
 
       def select_custom_fields_permission
         return if user.allowed_in_project?(:select_custom_fields, model.project)
@@ -48,15 +48,6 @@ module CustomFields
         return if model.custom_field.nil? || !model.custom_field.is_for_all?
 
         errors.add :custom_field_id, :cannot_delete_mapping
-      end
-
-      def visible_to_user
-        # "invisible" custom fields can only be seen and edited by admins
-        # using visible scope to check if the custom field is actually visible to the user
-        return if model.custom_field.nil? ||
-                  CustomField.visible(user).pluck(:id).include?(model.custom_field.id)
-
-        errors.add :custom_field_id, :invalid
       end
     end
   end

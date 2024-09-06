@@ -36,39 +36,19 @@ RSpec.describe CustomFields::CustomFieldProjects::BaseContract do
 
   let(:contract) { described_class.new(custom_field_project, user) }
   let(:user) { build_stubbed(:admin) }
-  let(:project) { build_stubbed(:project) }
-  let(:custom_field) { build_stubbed(:custom_field) }
-  let(:custom_field_project) { build_stubbed(:custom_fields_project, project:, custom_field:) }
-
-  before { User.current = user }
+  let(:custom_field_project) { build_stubbed(:custom_fields_project) }
 
   context "when the custom field is for all" do
     let(:custom_field) { build_stubbed(:custom_field, is_for_all: true) }
+    let(:custom_field_project) { build_stubbed(:custom_fields_project, custom_field:) }
 
     it_behaves_like "contract is invalid"
   end
 
-  context "with non-visible custom field and admin user" do
-    pending "FIXME: Confirm whether visible context is relevant"
-    let(:custom_field) { build_stubbed(:custom_field, admin_only: true) }
-
-    before do
-      allow(CustomField).to receive(:all).and_return([custom_field])
-    end
-
-    it_behaves_like "contract is valid"
-  end
-
-  context "with non-visible custom field and non-admin user" do
-    pending "FIXME: Confirm whether visible context is relevant"
+  context "with non-admin user" do
     let(:user) { build_stubbed(:user) }
-    let(:custom_field) { build_stubbed(:custom_field, admin_only: true) }
 
-    # before do
-    #   allow(CustomField).to receive(:visible).and_return([custom_field])
-    # end
-
-    it_behaves_like "contract is invalid"
+    it_behaves_like "contract is invalid", base: %i[error_unauthorized error_unauthorized]
   end
 
   include_examples "contract reuses the model errors"
