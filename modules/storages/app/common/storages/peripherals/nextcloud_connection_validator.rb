@@ -45,6 +45,7 @@ module Storages
           .or { missing_dependencies }
           .or { version_mismatch }
           .or { request_failed_with_unknown_error }
+          .or { with_unexpected_content }
           .value_or(ConnectionValidation.new(type: :healthy,
                                              error_code: :none,
                                              timestamp: Time.current,
@@ -57,6 +58,17 @@ module Storages
         @query ||= Peripherals::Registry
                      .resolve("#{@storage.short_provider_type}.queries.capabilities")
                      .call(storage: @storage, auth_strategy:)
+      end
+
+      def files
+        @files ||= Peripherals::Registry
+                     .resolve("#{@storage.short_provider_type}.queries.files")
+                     .call(
+                       storage: @storage,
+                       auth_strategy: Peripherals::Registry
+                                        .resolve("#{@storage.short_provider_type}.authentication.userless").call,
+                       folder: ParentFolder.new(@storage.group_folder)
+                     )
       end
 
       def maybe_is_not_configured
@@ -147,16 +159,38 @@ module Storages
       def request_failed_with_unknown_error
         return None() if query.success?
 
-        Rails.logger.error("Connection validation failed with unknown error:\n\t" \
-                           "storage: ##{@storage.id} #{@storage.name}\n\t" \
-                           "status: #{query.result}\n\t" \
-                           "response: #{query.error_payload}")
+        Rails.logger.error(
+          "Connection validation failed with unknown error:\n\t" \
+            "storage: ##{@storage.id} #{@storage.name}\n\t" \
+            "status: #{query.result}\n\t" \
+            "response: #{query.error_payload}"
+        )
 
         Some(ConnectionValidation.new(type: :error,
                                       error_code: :err_unknown,
                                       timestamp: Time.current,
                                       description: I18n.t("storages.health.connection_validation.unknown_error")))
       end
+
+      # rubocop:disable Metrics/AbcSize
+      def with_unexpected_content
+        return None() unless @storage.automatic_management_enabled?
+        return None() if files.failure?
+
+        expected_folder_ids = @storage.project_storages
+                                      .where(project_folder_mode: "automatic")
+                                      .map(&:project_folder_id)
+
+        unexpected_files = files.result.files.reject { |file| expected_folder_ids.include?(file.id) }
+        return None() if unexpected_files.empty?
+
+        Some(ConnectionValidation.new(type: :warning,
+                                      error_code: :wrn_unexpected_content,
+                                      timestamp: Time.current,
+                                      description: I18n.t("storages.health.connection_validation.unexpected_content")))
+      end
+
+      # rubocop:enable Metrics/AbcSize
 
       def auth_strategy = StorageInteraction::AuthenticationStrategies::Noop.strategy
 
