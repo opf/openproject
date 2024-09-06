@@ -85,6 +85,11 @@ module Components
           .first(".flatpickr-days .flatpickr-day:not(.nextMonthDay):not(.prevMonthDay)",
                  text: value)
           .click
+
+        # safeguard
+        unless flatpickr_container.has_css?(".flatpickr-day.selected", text: value, wait: 1)
+          raise "Expected #{value} to be selected"
+        end
       end
     end
 
