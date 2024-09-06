@@ -130,6 +130,7 @@ RSpec.describe "Custom Fields Multi-Project Activation", :js do
 
       it "renders a blank slate" do
         expect(page).to have_text("For all projects")
+        expect(page).not_to have_test_selector("add-projects-sub-header")
       end
     end
   end

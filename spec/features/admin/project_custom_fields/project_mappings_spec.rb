@@ -159,6 +159,7 @@ RSpec.describe "Project Custom Field Mappings", :js do
 
       it "renders a blank slate" do
         expect(page).to have_text("Required in all projects")
+        expect(page).not_to have_test_selector("add-projects-sub-header")
       end
     end
   end
