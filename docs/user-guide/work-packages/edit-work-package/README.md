@@ -33,6 +33,12 @@ The green message on top of the work package indicates a successful update.
 
 ![Successful update message in OpenProject work package](openproject_user_guide_wp_update_message.png)
 
+> [!TIP] 
+>
+> Changes you made are saved locally. If you navigated away from page or could not save your changes due to a technical difficulty, you can access latest changes via the editor toolbar.
+
+![Restore local backups in text editor in OpenProject](openproject_user_guide_wp_autosave_icon.png)
+
 All changes of a work package are documented in the work package tab [Activity](../../../getting-started/work-packages-introduction/#activity-of-work-packages).
 
 > [!NOTE]
