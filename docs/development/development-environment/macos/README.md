@@ -6,11 +6,11 @@ description: OpenProject development setup on Mac OS
 keywords: development setup macos
 ---
 
-# OpenProject development setup on Mac OS X
+# OpenProject development setup on macOS
 
 To develop OpenProject a setup similar to that for using OpenProject in production is needed.
 
-This guide assumes that you have a Mac OS X installation with administrative rights.
+This guide assumes that you have a macOS installation with administrative rights.
 OpenProject will be installed with a PostgreSQL database.
 
 **Please note**: This guide is NOT suitable for a production setup, but only for developing with it!
@@ -75,10 +75,11 @@ steps.
 
 ```shell
 # Install postgres database
-$ brew install postgres
+$ brew install postgresql
 
-# Create the database instance
-$ postgres -D /usr/local/var/postgres
+# Confirm that postgres has created a default database cluster if you see
+This formula has created a default database cluster with:
+  initdb --locale=C -E UTF-8 /opt/homebrew/var/postgresql@14 # /usr/local for Intel Macs
 ```
 
 Then, create the OpenProject database user and accompanied database.
@@ -172,6 +173,10 @@ It should look like this (just with your database name, username, and password):
 default: &default
   adapter: postgresql
   encoding: unicode
+  # Socket encryption must be disabled on macOS. There is an old bug in which forked processes cause problems on a Mac.
+  # TL;DR: set this flag, otherwise Ruby will crash whenever a route is accessed.
+  # Visit https://github.com/ged/ruby-pg/issues/311 to enter the rabbit hole.
+  gssencmode: disable
   host: localhost
   username: openproject
   password: openproject-dev-password
@@ -188,6 +193,27 @@ test:
 To configure the environment variables such as the number of web server threads `OPENPROJECT_WEB_WORKERS`, copy
 the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be
 automatically loaded to the application's environment.
+
+> [!TIP]
+> Instead of using the `gssencmode` flag in `config/database.yml`, you can add `export PGGSSENCMODE="disable"` to your
+> Shell profile (`~/.zprofile` by default). This will prevent Ruby crashes for *all* of your projects.
+
+Some users report Ruby crashes despite having set this flag to disable. If this is the case for you as well,
+try adding `export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=yes` to your Shell profile.
+
+### Install other requirements
+
+Some operations in OpenProject require additional software. These include PDF exports and interaction with an
+LDAP server.
+
+In order to develop OpenProject in these areas, you need to install `imagemagick` and `java`.
+
+```shell
+brew install imagemagick java
+```
+
+As of writing, you need to manually create a symlink to OpenJDK for the Java installation to take effect. Homebrew will
+tell you how.
 
 ### Finish the Installation of OpenProject
 
