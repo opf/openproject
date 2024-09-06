@@ -32,10 +32,16 @@ module Meetings
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:)
+    def initialize(meeting:, message:, full: false, icon: "info", scheme: :default, button: false, button_message: nil)
       super
 
       @meeting = meeting
+      @message = message
+      @full = full
+      @icon = icon
+      @scheme = scheme
+      @button = button
+      @button_message = button_message
     end
   end
 end

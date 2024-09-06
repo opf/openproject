@@ -79,7 +79,12 @@ class MeetingsController < ApplicationController
     if params[:reference] == @meeting.changed_hash
       head :no_content
     else
-      respond_with_flash(Meetings::UpdateFlashComponent.new(meeting: @meeting))
+      respond_with_flash(Meetings::UpdateFlashComponent.new(
+                           meeting: @meeting,
+                           message: I18n.t("notice_meeting_updated"),
+                           button: true,
+                           button_message: I18n.t("label_meeting_reload")
+                         ))
     end
   end
 
