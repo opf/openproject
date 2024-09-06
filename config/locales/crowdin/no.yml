@@ -2363,6 +2363,8 @@
   label_role_plural: "Rolle"
   label_role_search: "Tilordne rolle til nye medlemmer"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Søk"
   label_search_by_name: "Søk på navn"
   label_send_information: "Send nye opplysninger til brukeren"

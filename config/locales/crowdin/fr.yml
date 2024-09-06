@@ -2363,6 +2363,8 @@ fr:
   label_role_plural: "Rôles"
   label_role_search: "Assigner un rôle aux nouveaux membres"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Recherche"
   label_search_by_name: "Rechercher par nom"
   label_send_information: "Envoyer de nouveaux identifiants à l'utilisateur"

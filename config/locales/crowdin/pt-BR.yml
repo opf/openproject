@@ -2362,6 +2362,8 @@ pt-BR:
   label_role_plural: "Papéis"
   label_role_search: "Atribuir papéis aos novos membros"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Pesquisar"
   label_search_by_name: "Pesquisar por nome"
   label_send_information: "Enviar novas credenciais ao usuário"

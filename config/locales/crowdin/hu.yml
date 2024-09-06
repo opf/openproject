@@ -2361,6 +2361,8 @@ hu:
   label_role_plural: "Szerepkörök"
   label_role_search: "Szerep hozzárendelése az új tagokhoz"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Keresés"
   label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"

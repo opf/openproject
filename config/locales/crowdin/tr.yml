@@ -2363,6 +2363,8 @@ tr:
   label_role_plural: "Yetkiler"
   label_role_search: "Yeni üyelere rol atama"
   label_scm: "YKM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Ara"
   label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"

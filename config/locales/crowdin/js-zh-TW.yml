@@ -359,7 +359,7 @@ zh-TW:
           "14_5":
             standard:
               new_features_html: >
-                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Keep and restore local versions of WYSIWYG content changes.</li> <li>Enable a storage for multiple projects at once.</li> <li>Export work packages in an updated modal with additional settings.</li> <li>Display custom field columns/filters in project lists also in the Community Edition.</li> <li>Support CloudFlare Turnstile as Captcha.</li> </ul>
+                該版本包含多種新功能和改進，例如： <br> <ul class="%{list_styling_class}"> <li>保留並還原所見及所得內容變更之單機版本。</li> <li>一次啟用多個專案的儲存空間。</li> <li>以更新的模組匯出工作項目，並提供額外的設定。</li> <li>在專案清單中顯示自訂欄位列/篩選器，也適用於社群版。</li> <li>支援 CloudFlare Turnstile 作為 Captcha。</li> </ul>
     ical_sharing_modal:
       title: "訂閱日曆"
       inital_setup_error_message: "更新資料時發生錯誤"

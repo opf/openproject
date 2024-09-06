@@ -2360,6 +2360,8 @@ ca:
   label_role_plural: "Rols"
   label_role_search: "Assignar rols als nous membres"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Cercar"
   label_search_by_name: "Search by name"
   label_send_information: "Envia noves credencials a l'usuari"

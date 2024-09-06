@@ -2358,6 +2358,8 @@ de:
   label_role_plural: "Rollen"
   label_role_search: "Rolle für neue Mitglieder zuweisen"
   label_scm: "Versionskontrollsystem"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Suche"
   label_search_by_name: "Nach Name suchen"
   label_send_information: "Neue Anmeldeinformationen an den Benutzer senden"

@@ -66,7 +66,7 @@ es:
     button_back_to_list_view: "Volver a la lista"
     button_cancel: "Cancelar"
     button_close: "Cerrar"
-    button_change_project: "Move to another project"
+    button_change_project: "Mover a otro proyecto"
     button_check_all: "Seleccionar todos"
     button_configure-form: "Configurar formulario"
     button_confirm: "Confirmar"
@@ -74,7 +74,7 @@ es:
     button_copy: "Copiar"
     button_copy_to_clipboard: "Copiar en el portapapeles"
     button_copy_link_to_clipboard: "Copiar enlace al portapapeles"
-    button_copy_to_other_project: "Duplicate in another project"
+    button_copy_to_other_project: "Duplicar en otro proyecto"
     button_custom-fields: "Campos personalizados"
     button_delete: "Eliminar"
     button_delete_watcher: "Eliminar observador"
@@ -138,8 +138,8 @@ es:
     description_select_work_package: "Seleccione el paquete de trabajo #%{id}"
     description_subwork_package: "Seleccione el paquete de trabajo #%{id}"
     editor:
-      revisions: "Show local modifications"
-      no_revisions: "No local modifications found"
+      revisions: "Mostrar modificaciones locales"
+      no_revisions: "No se han encontrado modificaciones locales"
       preview: "Activar modo de vista previa"
       source_code: "Activar modo de visualización Markdown"
       error_saving_failed: "No se pudo guardar el documento debido al siguiente error: %{error}"
@@ -279,9 +279,9 @@ es:
           ¿Está seguro de que desea continuar?
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+          Cambiar el modo de cálculo del progreso de basado en el estado a basado en el trabajo hará que <i>% completado</i> sea un campo no editable cuyo valor se deriva de <i>Trabajo</i> y <i>Trabajo restante</i>. Los valores existentes para <i>% completado</i> se conservan. Si los valores para <i>Trabajo</i> y <i>Trabajo restante</i> no estaban presentes, serán necesarios para cambiar <i>% completado</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
+          Cambiar el modo de cálculo del progreso de basado en el estado a basado en el trabajo hará que el campo <i>% completado</i> se pueda editar libremente. Si introduce opcionalmente valores para <i>Trabajo</i> o <i>Trabajo restante</i>, también se vincularán a <i>% completado</i>. Cambiar <i>Trabajo restante</i> puede entonces actualizar <i>% completado</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           El cambio del modo de cálculo del progreso de basado en el trabajo a basado en el estado hará que todos los valores existentes de <i>% completado</i> se pierdan y se sustituyan por valores asociados a cada estado. Los valores existentes para <i>Trabajo restante</i> también pueden recalcularse para reflejar este cambio. Esta acción no es reversible.
     custom_actions:
@@ -361,7 +361,7 @@ es:
           "14_5":
             standard:
               new_features_html: >
-                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Keep and restore local versions of WYSIWYG content changes.</li> <li>Enable a storage for multiple projects at once.</li> <li>Export work packages in an updated modal with additional settings.</li> <li>Display custom field columns/filters in project lists also in the Community Edition.</li> <li>Support CloudFlare Turnstile as Captcha.</li> </ul>
+                La versión contiene varias características nuevas y mejoras, como: <br> <ul class="%{list_styling_class}"> <li>Mantener y restaurar las versiones locales de los cambios de contenido WYSIWYG.</li> <li>Habilitar un almacenamiento para múltiples proyectos a la vez.</li> <li>Exportar paquetes de trabajo en un modal actualizado con ajustes adicionales.</li> <li>Mostrar columnas/filtros de campos personalizados en las listas de proyectos también en la edición Community.</li> <li>Admitir CloudFlare Turnstile como Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."
@@ -402,7 +402,7 @@ es:
     label_create: "Crear"
     label_create_work_package: "Crear un nuevo paquete de trabajo"
     label_created_by: "Creado por"
-    label_current: "current"
+    label_current: "actual"
     label_date: "Fecha"
     label_date_with_format: "Introduzca el %{date_attribute} usando el siguiente formato: %{format}"
     label_deactivate: "Desactivar"
@@ -641,7 +641,7 @@ es:
           with_current_filter: "No hay notificaciones en esta vista actualmente"
         mark_all_read: "Marcar todas como leídas"
         mark_as_read: "Marcar como leída"
-        text_update_date_by: "%{date} by"
+        text_update_date_by: "%{date} por"
         total_count_warning: "Mostrando las %{newest_count} notificaciones más recientes. %{more_count} más no se muestran."
         empty_state:
           no_notification: "Parece que ya estás al día."
@@ -1188,8 +1188,8 @@ es:
         other: "%{count} días"
         zero: "0 días"
       word:
-        one: "1 word"
-        other: "%{count} words"
+        one: "1 palabra"
+        other: "%{count} palabras"
     zen_mode:
       button_activate: "Activar modo zen"
       button_deactivate: "Desactivar modo zen"
