@@ -406,7 +406,7 @@ class User < Principal
   end
 
   def time_zone
-    @time_zone ||= (pref.time_zone.blank? ? nil : ActiveSupport::TimeZone[pref.time_zone])
+    @time_zone ||= ActiveSupport::TimeZone[pref.time_zone] || ActiveSupport::TimeZone["Etc/UTC"]
   end
 
   def reload(*)
