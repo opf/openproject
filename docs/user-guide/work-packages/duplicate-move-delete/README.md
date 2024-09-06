@@ -14,7 +14,7 @@ keywords: copy work package,duplicate work package, delete work package, move wo
 >
 > *Change project* was replaced by *Move to another project*.
 
-If you right-click in a work package table, editing options will be displayed. Here, you can move a work package to another project, duplicate a work package, or copy its URL to the clipboard, delete it or duplicate it to another project.
+If you right-click in a work package table, editing options will be displayed. Here, you can move a work package to another project, duplicate a work package, or copy its URL to the clipboard, delete it or duplicate it in another project.
 
 ![Work package editing options in a work package table view in OpenProject](openproject_user_guide_copy_move_delete_wptableview.png)
 
