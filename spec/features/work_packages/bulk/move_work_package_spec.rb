@@ -114,9 +114,8 @@ RSpec.describe "Moving a work package through Rails view", :js do
           #
           # The following lines wait for this job status dialog to be discarded.
           expect(page).to have_text "Successful update."
-          # Clicking the link directly would save 2 seconds, but there is a bug
-          # which redirects back. Sleep 2 seconds instead until it's fixed
-          sleep 2 # TODO replace with: click_on(I18n.t("job_status_dialog.redirect_link"))
+          # Clicking the link directly to save the 2 seconds of auto-click
+          click_on(I18n.t("job_status_dialog.redirect_link"))
 
           expect(page).to have_current_path "/projects/#{project2.identifier}/work_packages/#{work_package.id}/activity"
           page.find_by_id("projects-menu", text: "Target")
