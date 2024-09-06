@@ -39,18 +39,7 @@ module WorkPackages
                  underline: false,
                  font_weight: :bold
                )) do
-          component_collection do |collection|
-            collection.with_component(Primer::Beta::Truncate.new(classes: "hidden-for-mobile")) do |component|
-              component.with_item(max_width: 180) do
-                user.name
-              end
-            end
-            collection.with_component(Primer::Beta::Truncate.new(classes: "hidden-for-desktop")) do |component|
-              component.with_item(max_width: 220) do
-                user.name
-              end
-            end
-          end
+          user.name
         end
       end
     end

@@ -68,13 +68,13 @@ module WorkPackages
         def render_header_start(header_container)
           header_container.with_column(
             flex_layout: true,
-            classes: "work-packages-activities-tab-journals-item-component-details--journal-details-header",
+            classes: "work-packages-activities-tab-journals-item-component-details--journal-details-header ellipsis",
             data: { "test-selector": "op-journal-details-header" }
           ) do |header_start_container|
             render_timeline_icon(header_start_container)
             render_user_avatar(header_start_container)
-            render_user_name_and_time(header_start_container)
-            # render_created_or_changed_on_text(header_start_container)
+            render_user_name_for_desktop(header_start_container)
+            render_user_name_and_time_for_mobile(header_start_container)
             render_updated_time(header_start_container)
           end
         end
@@ -92,23 +92,24 @@ module WorkPackages
           end
         end
 
-        def render_user_name_and_time(container)
-          container.with_column(mr: 1, flex_layout: true) do |user_name_container|
-            user_name_container.with_row { truncated_user_name(journal.user) }
-            user_name_container.with_row(classes: "hidden-for-desktop") do
-              render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) { format_time(journal.created_at) }
-            end
+        def render_user_name_for_desktop(container)
+          container.with_column(mr: 1,
+                                classes: "work-packages-activities-tab-journals-item-component-details--user-name ellipsis hidden-for-mobile") do
+            truncated_user_name(journal.user)
           end
         end
 
-        def render_created_or_changed_on_text(container)
-          container.with_column(mr: 1, classes: "hidden-for-mobile") do
-            text_key = if journal.initial?
-                         "activities.work_packages.activity_tab.created_on"
-                       else
-                         "activities.work_packages.activity_tab.changed_on"
-                       end
-            render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) { t(text_key) }
+        def render_user_name_and_time_for_mobile(container)
+          container.with_column(
+            mr: 1, classes: "work-packages-activities-tab-journals-item-component-details--user-name-container hidden-for-desktop",
+            flex_layout: true
+          ) do |user_name_and_time_container|
+            user_name_and_time_container.with_row(classes: "work-packages-activities-tab-journals-item-component-details--user-name ellipsis") do
+              truncated_user_name(journal.user)
+            end
+            user_name_and_time_container.with_row do
+              render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) { format_time(journal.updated_at) }
+            end
           end
         end
 

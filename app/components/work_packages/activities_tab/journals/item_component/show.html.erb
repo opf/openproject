@@ -1,12 +1,10 @@
 <%=
   component_wrapper do
-    if journal.notes.present? || (journal.details.any? && !journal.initial?)
+    if journal.notes.present?
       flex_layout do |journal_container|
-        if journal.notes.present?
-          journal_container.with_row do
-            render(Primer::Box.new(mt: 1)) do
-              format_text(journal, :notes)
-            end
+        journal_container.with_row do
+          render(Primer::Box.new(mt: 1)) do
+            format_text(journal, :notes)
           end
         end
       end
