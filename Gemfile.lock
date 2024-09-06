@@ -1130,7 +1130,7 @@ GEM
       rails (>= 5.0.4)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2024.1)
+    tzinfo-data (1.2024.2)
       tzinfo (>= 1.0.0)
     uber (0.1.0)
     unicode-display_width (2.5.0)
