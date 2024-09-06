@@ -194,6 +194,13 @@ To configure the environment variables such as the number of web server threads 
 the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be
 automatically loaded to the application's environment.
 
+> [!TIP]
+> Instead of using the `gssencmode` flag in `config/database.yml`, you can add `export PGGSSENCMODE="disable"` to your
+> Shell profile (`~/.zprofile` by default). This will prevent Ruby crashes for *all* of your projects.
+>
+> However, some users report Ruby crashes despite having setting this flag to disable.
+> If this happens on your machine, try adding `export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=yes` to your Shell profile.
+
 ### Install other requirements
 
 Some operations in OpenProject require additional software. These include PDF exports and interaction with an
