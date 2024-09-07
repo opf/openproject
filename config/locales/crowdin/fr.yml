@@ -300,7 +300,7 @@ fr:
         actions:
           label_enable_single: "Actif dans ce projet, cliquez pour le désactiver"
           label_disable_single: "Inactif dans ce projet, cliquez pour l'activer"
-          remove_from_project: "Remove from project"
+          remove_from_project: "Supprimer du projet"
           label_enable_all: "Activer tout"
           label_disable_all: "Désactiver tout"
         is_required_blank_slate:
@@ -1673,46 +1673,46 @@ fr:
               caption: "Exporter la liste des lots de travaux dans une table avec les colonnes souhaitées."
             report:
               label: "Rapport"
-              caption: "Export the work package on a detailed report of all work packages in the list."
+              caption: "Exportez le lot de travaux dans un rapport détaillé de tous les lots de travaux de la liste."
             gantt:
-              label: "Gantt chart"
-              caption: "Export the work packages list in a Gantt diagram view."
+              label: "Diagramme de Gantt"
+              caption: "Exportez la liste des lots de travaux dans un diagramme de Gantt."
         include_images:
-          label: "Include images"
-          caption: "Exclude images to reduce the size of the PDF export."
+          label: "Inclure des images"
+          caption: "Excluez les images pour réduire la taille de l'exportation PDF."
         gantt_zoom_levels:
-          label: "Zoom levels"
-          caption: "Select what is the zoom level for dates displayed in the chart."
+          label: "Niveaux de zoom"
+          caption: "Sélectionnez le niveau de zoom pour les dates affichées dans le graphique."
           options:
-            days: "Days"
-            weeks: "Weeks"
-            months: "Months"
-            quarters: "Quarters"
+            days: "Jours"
+            weeks: "Semaines"
+            months: "Mois"
+            quarters: "Trimestres"
         column_width:
-          label: "Table column width"
+          label: "Largeur des colonnes du tableau"
           options:
-            narrow: "Narrow"
-            medium: "Medium"
-            wide: "Wide"
-            very_wide: "Very wide"
+            narrow: "Étroite"
+            medium: "Moyenne"
+            wide: "Large"
+            very_wide: "Très large"
         paper_size:
-          label: "Paper size"
-          caption: "Depending on the chart size more than one page might be exported."
+          label: "Format du papier"
+          caption: "Plusieurs pages peuvent être exportées en fonction de la taille de la carte."
         long_text_fields:
-          input_caption: "By default all long text fields are selected."
-          input_label: "Add long text fields"
-          input_placeholder: "Search for long text fields"
-          drag_area_label: "Manage long text fields"
+          input_caption: "Par défaut, tous les champs de texte long sont sélectionnés."
+          input_label: "Ajouter des champs de texte longs"
+          input_placeholder: "Recherche de champs de texte longs"
+          drag_area_label: "Gérer les champs de texte longs"
       xls:
         include_relations:
-          label: "Include relations"
-          caption: "This option will create a duplicate of each work package for every relation this has with another work package."
+          label: "Inclure les relations"
+          caption: "Cette option crée un double de chaque lot de travaux pour chaque relation qu'il a avec un autre lot de travaux."
         include_descriptions:
-          label: "Include descriptions"
-          caption: "This option will add a description column in raw format."
-    your_work_packages_export: "Work packages are being exported"
-    succeeded: "Export completed"
-    failed: "An error has occurred while trying to export the work packages: %{message}"
+          label: "Inclure des descriptions"
+          caption: "Cette option permet d'ajouter une colonne de description au format brut."
+    your_work_packages_export: "Les lots de travaux sont exportés"
+    succeeded: "Exportation terminée"
+    failed: "Une erreur s'est produite lors de l'exportation des lots de travaux : %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -2363,8 +2363,8 @@ fr:
   label_role_plural: "Rôles"
   label_role_search: "Assigner un rôle aux nouveaux membres"
   label_scm: "SCM"
-  label_scroll_left: "Scroll left"
-  label_scroll_right: "Scroll right"
+  label_scroll_left: "Défilement vers la gauche"
+  label_scroll_right: "Défilement vers la droite"
   label_search: "Recherche"
   label_search_by_name: "Rechercher par nom"
   label_send_information: "Envoyer de nouveaux identifiants à l'utilisateur"
@@ -3122,9 +3122,9 @@ fr:
   setting_work_package_done_ratio_field: "Basé sur le travail"
   setting_work_package_done_ratio_status: "Basé sur le statut"
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    En mode <b>Basé sur le travail</b>, le % d'achèvement est calculé à partir de la quantité de travail effectuée par rapport au total du travail. En mode <b>Basé sur le statut</b>, chaque état a une valeur de % d'achèvement associée. Le changement de statut changera la valeur de % d'achèvement.
   setting_work_package_done_ratio_explanation_html: >
-    In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    En mode <b>Basé sur le travail</b>, le % d'achèvement peut être librement défini sur n'importe quelle valeur. Si vous saisissez une valeur pour le travail, le travail restant sera automatiquement dérivé. En mode <b>Basé sur le statut</b>, chaque état a une valeur de % d'achèvement associée. Le changement de statut changera la valeur de % d'achèvement.
   setting_work_package_properties: "Propriétés du Lot de Travaux"
   setting_work_package_startdate_is_adddate: "Utiliser la date actuelle comme date de début des nouveaux lots de travaux"
   setting_work_packages_projects_export_limit: "Limite d'exportation des lots de travaux/projets"
@@ -3506,26 +3506,26 @@ fr:
     progress:
       label_note: "Note :"
       modal:
-        work_based_help_text: "Each field is automatically calculated from the two others when possible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
+        work_based_help_text: "Chaque champ est calculé automatiquement à partir des deux autres lorsque cela est possible."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "Le % d'achèvement est automatiquement dérivé du travail et du travail restant."
         status_based_help_text: "Le % réalisé est défini par le statut du lot de travaux."
         migration_warning_text: "Dans le mode de calcul de la progression basé sur le travail, le % réalisé ne peut pas être défini manuellement et est lié au travail. La valeur existante a été conservée mais ne peut pas être modifiée. Veuillez d'abord renseigner Travail."
       derivation_hints:
         done_ratio:
-          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
-          cleared_because_work_is_0h: "Cleared because Work is 0h."
-          derived: "Derived from Work and Remaining work."
+          cleared_because_remaining_work_is_empty: "Effacé parce que le travail restant est vide."
+          cleared_because_work_is_0h: "Effacé parce que le travail est de 0 h."
+          derived: "Dérivé du travail et du travail restant."
         estimated_hours:
-          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
-          derived: "Derived from Remaining work and % Complete."
-          same_as_remaining_work: "Set to same value as Remaining work."
+          cleared_because_remaining_work_is_empty: "Effacé parce que le travail restant est vide."
+          derived: "Dérivé du travail restant et du % d'achèvement."
+          same_as_remaining_work: "Régler à la même valeur que le travail restant."
         remaining_hours:
-          cleared_because_work_is_empty: "Cleared because Work is empty."
-          cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
-          derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
-          same_as_work: "Set to same value as Work."
+          cleared_because_work_is_empty: "Effacé parce que le travail est vide."
+          cleared_because_percent_complete_is_empty: "Effacé parce que le % d'achèvement est vide."
+          decreased_like_work: "Diminué du même montant que le travail."
+          derived: "Dérivé du travail et du % d'achèvement."
+          increased_like_work: "Augmenté du même montant que le travail."
+          same_as_work: "Régler à la même valeur que le travail."
     permissions:
       comment: "Commentaire"
       comment_description: "Peut consulter et commenter ce lot de travaux."
