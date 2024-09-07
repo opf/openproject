@@ -121,9 +121,9 @@ pt-PT:
       agenda: "Copiar agenda"
       agenda_text: "Copiar agenda da reunião anterior"
     email:
-      send_emails: "Email participants"
+      send_emails: "Enviar um e-mail aos participantes"
       send_invitation_emails: >
-        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
+        Envie imediatamente um convite por e-mail aos participantes selecionados acima. Também pode fazê-lo manualmente em qualquer altura.
       open_meeting_link: "Entrar na Reunião"
       invited:
         summary: "%{actor} enviou-lhe um convite para a reunião %{title}"
@@ -148,7 +148,7 @@ pt-PT:
     empty_text: "Arraste itens para aqui ou crie um novo"
   notice_successful_notification: "Notificação enviada com sucesso"
   notice_timezone_missing: Sem fuso horário definido, presume-se %{zone}. Para escolher o seu fuso horário, por favor clique aqui.
-  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
+  notice_meeting_updated: "Esta página foi atualizada por outra pessoa. Recarregue para ver as alterações."
   permission_create_meetings: "Criar reuniões"
   permission_edit_meetings: "Editar reuniões"
   permission_delete_meetings: "Apagar reuniões"
@@ -180,7 +180,7 @@ pt-PT:
   label_meeting_delete: "Apagar reunião"
   label_meeting_created_by: "Criado por"
   label_meeting_last_updated: "Ultima atualização"
-  label_meeting_reload: "Reload"
+  label_meeting_reload: "Recarregar"
   label_agenda_items: "Pontos da ordem de trabalhos"
   label_agenda_items_reordered: "reordenados"
   label_agenda_item_remove: "Remover da ordem de trabalhos"

@@ -197,6 +197,11 @@ uk:
       title: "Власні дії"
       description: "Користувацькі дії – це ярлики набору попередньо визначених дій, які ви можете включати в певні пакети робіт залежно від статусу, ролі, типу або проєкту."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Щоб додати нові користувальницькі поля до проекту, спочатку потрібно створити їх, перш ніж ви зможете додати їх до цього проекту.
     is_enabled_globally: "Увімкнено у всьому світі"
@@ -2008,6 +2013,7 @@ uk:
   label_attribute_expand_text: "Повний текст для атрибута «%{attribute}»"
   label_authentication: "Автентифікація"
   label_authentication_settings: "Налаштування автентифікації"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Доступні глобальні ролі"
   label_available_project_attributes: "Доступні атрибути проєкту"
   label_available_project_forums: "Доступні форуми"

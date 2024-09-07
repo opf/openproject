@@ -202,6 +202,11 @@ si:
       title: "අභිරුචි ක්‍රියාමාර්ග"
       description: "Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       ව්යාපෘතියකට නව අභිරුචි ක්ෂේත්ර එකතු කිරීම සඳහා ඔබ මුලින්ම මෙම ව්යාපෘතියට එකතු කිරීමට පෙර ඒවා නිර්මාණය කළ යුතුය.
     is_enabled_globally: "ගෝලීයව සබල කර ඇත"
@@ -1944,6 +1949,7 @@ si:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "සත්යාපන"
   label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "පවතින සංසද"

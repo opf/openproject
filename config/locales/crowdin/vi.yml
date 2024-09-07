@@ -204,6 +204,11 @@ vi:
       title: "Hành động tùy chỉnh"
       description: "Hành động tùy chỉnh là các phím tắt một lần để thực hiện một tập hợp các hành động đã được định trước mà bạn có thể làm cho sẵn có trên các gói công việc nhất định dựa trên trạng thái, vai trò, loại hoặc dự án."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Để thêm các trường tùy chỉnh mới vào một dự án, trước tiên bạn cần tạo chúng trước khi có thể thêm vào dự án này.
     is_enabled_globally: "Được bật toàn cầu"
@@ -1911,6 +1916,7 @@ vi:
   label_attribute_expand_text: "Văn bản đầy đủ cho '%{attribute}'"
   label_authentication: "Xác thực"
   label_authentication_settings: "Cài đặt xác thực"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Các vai trò toàn cầu có sẵn"
   label_available_project_attributes: "Các thuộc tính dự án có sẵn"
   label_available_project_forums: "Các diễn đàn dự án có sẵn"

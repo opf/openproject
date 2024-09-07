@@ -199,6 +199,11 @@ de:
       title: "Benutzerdefinierte Aktionen"
       description: "Benutzerdefinierte Aktionen sind Ein-Klick-Verknüpfungen zu einer Reihe vordefinierter Aktionen, die Sie für bestimmte Arbeitspakete verfügbar machen können, basierend auf Status, Rolle, Typ oder Projekt."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Um neue benutzerdefinierte Felder einem Projekt zuzuweisen, müssen Sie diese erst global erstellen, um Sie dann an dieser Stelle aktivieren zu können.
     is_enabled_globally: "Für alle Projekte aktiviert"
@@ -297,7 +302,7 @@ de:
         actions:
           label_enable_single: "In diesem Projekt aktiv, zum Deaktivieren anklicken"
           label_disable_single: "In diesem Projekt inaktiv, zum Aktivieren anklicken"
-          remove_from_project: "Remove from project"
+          remove_from_project: "Aus dem Projekt entfernen"
           label_enable_all: "Alles aktivieren"
           label_disable_all: "Alles deaktivieren"
         is_required_blank_slate:
@@ -1679,23 +1684,23 @@ de:
           label: "Zoom levels"
           caption: "Select what is the zoom level for dates displayed in the chart."
           options:
-            days: "Days"
-            weeks: "Weeks"
-            months: "Months"
-            quarters: "Quarters"
+            days: "Tage"
+            weeks: "Wochen"
+            months: "Monate"
+            quarters: "Quartale"
         column_width:
-          label: "Table column width"
+          label: "Breite der Tabellenspalten"
           options:
-            narrow: "Narrow"
-            medium: "Medium"
-            wide: "Wide"
-            very_wide: "Very wide"
+            narrow: "Schmal"
+            medium: "Mittel"
+            wide: "Breit"
+            very_wide: "Sehr breit"
         paper_size:
-          label: "Paper size"
-          caption: "Depending on the chart size more than one page might be exported."
+          label: "Papierformat"
+          caption: "Je nach Größe des Diagramms besteht der Export aus einer oder auch aus mehreren Seiten."
         long_text_fields:
-          input_caption: "By default all long text fields are selected."
-          input_label: "Add long text fields"
+          input_caption: "Standardmäßig sind alle Langtextfelder ausgewählt."
+          input_label: "Langtextfelder hinzufügen"
           input_placeholder: "Search for long text fields"
           drag_area_label: "Manage long text fields"
       xls:
@@ -1938,6 +1943,7 @@ de:
   label_attribute_expand_text: "Der vollständige Text für '%{attribute}'"
   label_authentication: "Authentifizierung"
   label_authentication_settings: "Authentifizierungseinstellungen"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Verfügbare globale Rollen"
   label_available_project_attributes: "Verfügbare Projektattribute"
   label_available_project_forums: "Verfügbare Foren"

@@ -202,6 +202,11 @@ ro:
       title: "Acțiuni personalizate"
       description: "Acțiunile personalizate sunt comenzi rapide cu un singur clic către un set de acțiuni predefinite pe care le puteți face disponibile pentru anumite pachete de lucru în funcție de statut, rol, tip sau proiect."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Dacă doriți să adăugați noi câmpuri personalizate în cadrul unui proiect va trebui, mai întâi, să le creați.
     is_enabled_globally: "Este activat/ă la nivel global"
@@ -1979,6 +1984,7 @@ ro:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autentificare"
   label_authentication_settings: "Setări autentificare"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Roluri globale disponibile"
   label_available_project_attributes: "Atribute proiect disponibile"
   label_available_project_forums: "Forumuri disponibile"

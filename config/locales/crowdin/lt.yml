@@ -199,6 +199,11 @@ lt:
       title: "Pasirinktiniai veiksmai"
       description: "Savo veiksmai yra vieno paspaudimo kombinacijos, leidžiančios nustatyti veiksmus, kuriuos galite padaryti preinamais kai kuriuose darbo paketuose pagal jų būseną, rolę, tipą ar projektą."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Norėdami pridėti naujus pritaikytus laukelius prie projekto, pirmiausia reikia juos sukurti. Tik tada yra galimybė juos pridėti prie šio projekto.
     is_enabled_globally: "Yra įgalintas globaliai"
@@ -2011,6 +2016,7 @@ lt:
   label_attribute_expand_text: "Pilnas tekstas, skirtas „%{attribute}“"
   label_authentication: "Autentifikacija"
   label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Galimi globalūs vaidmenys"
   label_available_project_attributes: "Galimi projekto atributai"
   label_available_project_forums: "Galimi forumai"

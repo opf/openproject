@@ -201,6 +201,11 @@ ru:
       title: "Настраиваемые действия"
       description: "Пользовательские действия сводятся к одному клику по кнопке для совершения заранее определенных действий, которые вы можете сделать доступными для пакетов работ на основании статуса, роли, типа или проекта."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Прежде чем добавлять настраиваемые поля в проект, нужно создать их.
     is_enabled_globally: "Разрешено в глобальном масштабе"
@@ -2013,6 +2018,7 @@ ru:
   label_attribute_expand_text: "Полный текст для '%{attribute}'"
   label_authentication: "Аутентификация"
   label_authentication_settings: "Параметры аутентификации"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Доступные глобальные роли"
   label_available_project_attributes: "Доступные атрибуты проекта"
   label_available_project_forums: "Доступные форумы"
@@ -2433,8 +2439,8 @@ ru:
   label_role_plural: "Роли"
   label_role_search: "Назначить роль для новых участников"
   label_scm: "SCM"
-  label_scroll_left: "Scroll left"
-  label_scroll_right: "Scroll right"
+  label_scroll_left: "Прокрутить влево"
+  label_scroll_right: "Прокрутить вправо"
   label_search: "Поиск"
   label_search_by_name: "Поиск по имени"
   label_send_information: "Отправить новые учетные данные пользователю"
@@ -3595,9 +3601,9 @@ ru:
         remaining_hours:
           cleared_because_work_is_empty: "Очищено, потому что Работа пуста."
           cleared_because_percent_complete_is_empty: "Очищено, потому что % Завершения пуст."
-          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
+          decreased_by_delta_like_work: "Уменьшилось на %{delta}, в соответствии с уменьшением объема работ."
           derived: "Получено из Работы и % Завершения."
-          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
+          increased_by_delta_like_work: "Увеличилось на %{delta}, в соответствии с увеличением объема работ."
           same_as_work: "Установите то же значение, что и для Работы."
     permissions:
       comment: "Комментировать"
