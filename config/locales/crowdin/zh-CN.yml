@@ -202,8 +202,8 @@ zh-CN:
     admin:
       custom_field_projects:
         is_for_all_blank_slate:
-          heading: For all projects
-          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: 适用于所有项目
+          description: 由于选中了 "适用于所有项目 "选项，因此所有项目都启用了该自定义字段。单个项目无法停用。
     text_add_new_custom_field: >
       要向项目添加新的自定义字段，您需要先创建字段，然后才能将其添加到此项目中。
     is_enabled_globally: "已全局启用"
@@ -1910,7 +1910,7 @@ zh-CN:
   label_attribute_expand_text: "%{attribute}的完整文本"
   label_authentication: "身份验证"
   label_authentication_settings: "验证设置"
-  label_available_custom_fields_projects: "Available custom fields projects"
+  label_available_custom_fields_projects: "可用的自定义字段项目"
   label_available_global_roles: "可用的全局角色"
   label_available_project_attributes: "可用的项目属性"
   label_available_project_forums: "可用论坛"
