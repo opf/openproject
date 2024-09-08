@@ -37,11 +37,18 @@ The work packages are listed in order of freshness. The work packages on top of 
 
 ## Manage notifications
 
-Click on a notification to open the Activity tab of this work package in split screen. If you double click on a notification, it will open the full view of a work package. The Activity tab will auto-scroll to the last event that generated a notification.
+Click on a notification to open the Activity tab of this work package in split screen. If you double click on a notification, it will open the full view of a work package. 
 
-> **Info:** Not all work package activity generate notifications. For example, if you received a notification because you were mentioned, there might be other activities on that work package after that, even though the *Activity* tab will auto-scroll to highlight the mention when you click on the notification, since the mention was originally what triggered the notification.
+> [!TIP]
+>
+> You can adjust the split screen by moving the resizer on the left side of the split screen, it will be stored locally and used for other split screen layouts.
 
-![The different sections of Notification center highlighted with numbers 1 through 5](NotificationCenter-12.4-splitScreenView-structure.png)
+The Activity tab will auto-scroll to the last event that generated a notification. Badges next to the tabs  indicate number of content, e.g. number 1 next to the tab *Relations* indicates that current work package is related to one more work package. 
+
+> [!TIP]
+> Not all work package activity generate notifications. For example, if you received a notification because you were mentioned, there might be other activities on that work package after that, even though the *Activity* tab will auto-scroll to highlight the mention when you click on the notification, since the mention was originally what triggered the notification.
+
+![OpenProject notification center split screen view explained](openproject_user_guide_notification_center_split_screen.png)
 
 You can filter or group notifications by using the two sets of predefined filters on the left-hand menu:
 
@@ -54,7 +61,8 @@ You can filter or group notifications by using the two sets of predefined filter
 - You can also choose to view either only **Unread** notification or **All**, which will also display notifications previously marked as read.
 - You can also **Mark all as read** if you want to clean your notification inbox in one click.
 
-> **Info:** The **Mark all as read** button clears all _visible_ notification rows. If you have a very large number unread notifications, the oldest ones might not be visible on the page. In this case, you might have to click the button multiple times to clear your inbox completely.
+> [!TIP]
+> The **Mark all as read** button clears all _visible_ notification rows. If you have a very large number unread notifications, the oldest ones might not be visible on the page. In this case, you might have to click the button multiple times to clear your inbox completely.
 
 (Area 4) If you would like to view your current notification preferences or modify them, click on the [Notification settings](./notification-settings) button. You can also access your settings via your Avatar in the top right corner > *My account* > *Notification settings*.
 
@@ -64,22 +72,19 @@ In addition to the in-app notifications, you will also get a once-a-day summary 
 
 ## Mark notifications as read
 
-Click on the **Mark as read** button represented by the envelope icon on the right side of the notification row. This will mark all the notifications for that work package (indicated by the number on the blue badge) as read.
+Click on the **Mark as read** button represented by the envelope icon on the right side of the notification row. This will mark all the notifications for that work package (indicated by the number on the blue badge) as read. You can also use the **Mark as Read** button at the bottom of the split-screen view of a work package to achieve the same result.
 
-![mark-as-read](mark-as-read.png)
+![Mark notifications as read in OpenProject noticification center](openproject_user_guide_notification_center_mark_read_envelope.png)
 
-- You can also use the **Mark as Read** button at the bottom of the split-screen view of a work package to achieve the same result.
+Additionally, you can mark notifications as read in the work package full screen view by clicking on the envelope icon in the upper right corner of the details view.
 
-  ![notifications-bottom-bar](notifications-bottom-bar-4292960.png)
-
-- Additionally, you can mark notifications as read in the work package full screen view by clicking on the envelope icon in the upper right corner of the details view.
-
-![notification-full-screen-view-work-package](notification-full-screen-view-work-package.png)
+![Mark notifications as read in a full-screen work package view in OpenProject](openproject_user_guide_notification_center_mark_read_envelope_splitscreen_mode.png)
 
 ## Notifications outside of Notification Center
 
 In-app notifications are also visible directly on work packages, in both full screen and in split-screen views. If there are unread notifications related to the currently-open work package, a small blue badge next to the Activity tab will display indicate this, along with the number of unread notifications.
 
-![notifications-activity-tab](notifications-activity-tab.png)
+![Notifications in the activity tab of work package in OpenProject](openproject_user_guide_notification_activity_tab.png)
 
-> **Info:** This number does not include notifications concerning **Date alerts**.
+> [!NOTE]
+> This number does not include notifications concerning **Date alerts**.
