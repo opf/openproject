@@ -47,8 +47,10 @@ action-menu
 
 .UnderlineNav
   @include no-visible-scroll-bar
-  scroll-behavior: smooth
   margin-bottom: 12px
+
+  @media screen and (min-width: $breakpoint-sm)
+    scroll-behavior: smooth
 
 /* Remove margin-left: 2rem from Breadcrumbs */
 #breadcrumb,
