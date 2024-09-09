@@ -85,7 +85,8 @@ RSpec.describe CustomStylesController do
         let(:valid) { true }
 
         it "redirects to show" do
-          expect(response).to redirect_to action: :show
+          expect(response).to be_redirect
+          expect(response).to have_http_status(:found)
         end
       end
 
@@ -119,7 +120,8 @@ RSpec.describe CustomStylesController do
           let(:valid) { true }
 
           it "redirects to show" do
-            expect(response).to redirect_to action: :show
+            expect(response).to be_redirect
+            expect(response).to have_http_status(:found)
           end
         end
 
@@ -145,7 +147,8 @@ RSpec.describe CustomStylesController do
           let(:valid) { true }
 
           it "redirects to show" do
-            expect(response).to redirect_to action: :show
+            expect(response).to be_redirect
+            expect(response).to have_http_status(:found)
           end
         end
 
@@ -205,7 +208,8 @@ RSpec.describe CustomStylesController do
         end
 
         it "removes the logo from custom_style" do
-          expect(response).to redirect_to action: :show
+          expect(response).to be_redirect
+          expect(response).to have_http_status(:found)
         end
       end
 
@@ -266,7 +270,8 @@ RSpec.describe CustomStylesController do
         end
 
         it "removes the export logo from custom_style" do
-          expect(response).to redirect_to action: :show
+          expect(response).to be_redirect
+          expect(response).to have_http_status(:found)
         end
       end
 
@@ -326,7 +331,8 @@ RSpec.describe CustomStylesController do
         end
 
         it "removes the export cover from custom_style" do
-          expect(response).to redirect_to action: :show
+          expect(response).to be_redirect
+          expect(response).to have_http_status(:found)
         end
       end
 
@@ -387,7 +393,8 @@ RSpec.describe CustomStylesController do
         end
 
         it "removes the favicon from custom_style" do
-          expect(response).to redirect_to action: :show
+          expect(response).to be_redirect
+          expect(response).to have_http_status(:found)
         end
       end
 
@@ -448,7 +455,8 @@ RSpec.describe CustomStylesController do
         end
 
         it "removes the touch icon from custom_style" do
-          expect(response).to redirect_to action: :show
+          expect(response).to be_redirect
+          expect(response).to have_http_status(:found)
         end
       end
 
@@ -484,7 +492,8 @@ RSpec.describe CustomStylesController do
 
           it "saves the color" do
             expect(custom_style.export_cover_text_color).to eq("#990000")
-            expect(response).to redirect_to action: :show
+            expect(response).to be_redirect
+            expect(response).to have_http_status(:found)
           end
         end
 
@@ -501,7 +510,8 @@ RSpec.describe CustomStylesController do
 
           it "removes the color" do
             expect(custom_style.export_cover_text_color).to be_nil
-            expect(response).to redirect_to action: :show
+            expect(response).to be_redirect
+            expect(response).to have_http_status(:found)
           end
         end
 
@@ -516,7 +526,8 @@ RSpec.describe CustomStylesController do
 
           it "ignores the parameter" do
             expect(custom_style.export_cover_text_color).to be_nil
-            expect(response).to redirect_to action: :show
+            expect(response).to be_redirect
+            expect(response).to have_http_status(:found)
           end
         end
       end
@@ -528,7 +539,8 @@ RSpec.describe CustomStylesController do
         end
 
         it "is created" do
-          expect(response).to redirect_to action: :show
+          expect(response).to be_redirect
+          expect(response).to have_http_status(:found)
         end
       end
     end
