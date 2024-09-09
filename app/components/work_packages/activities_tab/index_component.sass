@@ -1,4 +1,12 @@
 .work-packages-activities-tab-index-component
+    &--errors
+        position: absolute
+        width: calc(100% - 22px)
+        z-index: 11
+        @media screen and (max-width: $breakpoint-xl)
+            position: fixed
+            bottom: 20px
+            width: calc(100% - 30px)
     &--journals-container
         z-index: 10
         padding-top: 3px

@@ -51,10 +51,10 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     if params[:last_update_timestamp].present?
       generate_time_based_update_streams(params[:last_update_timestamp])
     else
-      status = :bad_request
+      @turbo_status = :bad_request
     end
 
-    respond_with_turbo_streams(status: status || :ok)
+    respond_with_turbo_streams
   end
 
   def update_filter
@@ -85,13 +85,13 @@ class WorkPackages::ActivitiesTabController < ApplicationController
         # we need to call replace in order to properly re-init the index stimulus component
         replace_whole_tab
       else
-        status = :bad_request
+        @turbo_status = :bad_request
       end
     else
-      status = :bad_request
+      @turbo_status = :bad_request
     end
 
-    respond_with_turbo_streams(status: status || :ok)
+    respond_with_turbo_streams
   end
 
   def edit
@@ -104,10 +104,10 @@ class WorkPackages::ActivitiesTabController < ApplicationController
         )
       )
     else
-      status = :forbidden
+      @turbo_status = :forbidden
     end
 
-    respond_with_turbo_streams(status: status || :ok)
+    respond_with_turbo_streams
   end
 
   def cancel_edit
@@ -120,10 +120,10 @@ class WorkPackages::ActivitiesTabController < ApplicationController
         )
       )
     else
-      status = :forbidden
+      @turbo_status = :forbidden
     end
 
-    respond_with_turbo_streams(status: status || :ok)
+    respond_with_turbo_streams
   end
 
   def create
@@ -133,44 +133,72 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       handle_successful_create_call(call)
     else
       handle_failed_create_call(call) # errors should be rendered in the form
-      status = :bad_request
+      @turbo_status = :bad_request
     end
 
-    respond_with_turbo_streams(status: status || :created)
+    respond_with_turbo_streams
   end
 
   def update
-    if journal_params[:notes].present?
-      call = Journals::UpdateService.new(model: @journal, user: User.current).call(
-        notes: journal_params[:notes]
-      )
+    call = Journals::UpdateService.new(model: @journal, user: User.current).call(
+      notes: journal_params[:notes]
+    )
 
-      if call.success? && call.result
-        update_item_component(call.result, state: :show)
-      else
-        status = handle_failed_update_call(call)
-      end
+    if call.success? && call.result
+      update_item_component(call.result, state: :show)
     else
-      # disallow empty notes
-      status = :bad_request
-      update_item_component(@journal, state: :edit) # rerender form with initial values
+      handle_failed_update_call(call)
     end
 
-    respond_with_turbo_streams(status: status || :ok)
+    respond_with_turbo_streams
   end
 
   private
 
+  def respond_with_error(error_message)
+    respond_to do |format|
+      # turbo_frame requests (tab is initially rendered and an error occured) are handled below
+      format.html do
+        render(
+          WorkPackages::ActivitiesTab::ErrorFrameComponent.new(
+            error_message:
+          ),
+          layout: false,
+          status: :not_found
+        )
+      end
+      # turbo_stream requests (tab is already rendered and an error occured in subsequent requests) are handled below
+      format.turbo_stream do
+        @turbo_status = :not_found
+        render_error_banner_via_turbo_stream(error_message)
+      end
+    end
+  end
+
+  def render_error_banner_via_turbo_stream(error_message)
+    update_via_turbo_stream(
+      component: WorkPackages::ActivitiesTab::ErrorStreamComponent.new(
+        error_message:
+      )
+    )
+  end
+
   def find_work_package
     @work_package = WorkPackage.find(params[:work_package_id])
+  rescue ActiveRecord::RecordNotFound
+    respond_with_error(I18n.t("label_not_found"))
   end
 
   def find_project
     @project = @work_package.project
+  rescue ActiveRecord::RecordNotFound
+    respond_with_error(I18n.t("label_not_found"))
   end
 
   def find_journal
     @journal = Journal.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    respond_with_error(I18n.t("label_not_found"))
   end
 
   def set_filter
@@ -219,14 +247,11 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def handle_failed_update_call(call)
-    status = if call.errors&.first&.type == :error_unauthorized
-               :forbidden
-             else
-               :bad_request
-             end
-    update_item_component(call.result, state: :edit) # errors should be rendered in the form
-
-    status
+    @turbo_status = if call.errors&.first&.type == :error_unauthorized
+                      :forbidden
+                    else
+                      :bad_request
+                    end
   end
 
   def replace_whole_tab
