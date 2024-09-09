@@ -62,7 +62,7 @@
     flex.with_column(classes: "op-work-package-details-tab-component--action") do
       render(Primer::Beta::IconButton.new(icon: :x,
                                           tag: :a,
-                                          href: helpers.split_view_base_route,
+                                          href: base_route,
                                           data: { turbo: true, target: "_top", turbo_action: "advance" },
                                           scheme: :invisible,
                                           test_selector: "wp-details-tab-component--close",
