@@ -133,7 +133,7 @@ You can now click on "Certificates & secret".
 
 ![Azure Active Directory Certificates](06-certificates.png)
 
-Then click on "New client secret", set the description to "client_secret", and the expiration to "never". Then click on "Add".
+Then click on "New client secret", set the description to "client_secret", and the expiration to "730 days (24 months)". Then click on "Add".
 
 ![Azure Active Directory New Client Secret](07-client-secret.png)
 
