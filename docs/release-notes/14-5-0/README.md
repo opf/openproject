@@ -22,7 +22,7 @@ Admins responsible for storages in OpenProject can now save time by enabling a s
 
 ![Example screenshot of the admin page of a Nextcloud file storage, showing the 'Enabled in projects' tab](openproject-14-5-multiple-projects-to-storage.png)
 
-This feature works for all external file storages that are currently possible with OpenProject.
+This feature works for all [external file storages](../../system-admin-guide/files/external-file-storages/) that are currently possible with OpenProject.
 
 ### Export work package lists in an updated modal with additional settings
 
