@@ -34,9 +34,14 @@ module Storages
 
     FILE_PERMISSIONS = OpenProject::Storages::Engine.external_file_permissions
 
-    include Injector["nextcloud.commands.create_folder", "nextcloud.commands.rename_file", "nextcloud.commands.set_permissions",
-                     "nextcloud.queries.group_users", "nextcloud.queries.file_ids", "nextcloud.authentication.userless",
-                     "nextcloud.commands.add_user_to_group", "nextcloud.commands.remove_user_from_group"]
+    include Injector["nextcloud.commands.create_folder",
+                     "nextcloud.commands.rename_file",
+                     "nextcloud.commands.set_permissions",
+                     "nextcloud.queries.group_users",
+                     "nextcloud.queries.file_path_to_id_map",
+                     "nextcloud.authentication.userless",
+                     "nextcloud.commands.add_user_to_group",
+                     "nextcloud.commands.remove_user_from_group"]
 
     def self.i18n_key = "NextcloudSyncService"
 
@@ -283,7 +288,11 @@ module Storages
 
     def remote_root_folder_map(group_folder)
       info "Retrieving already existing folders under #{group_folder}"
-      file_ids.call(storage: @storage, path: group_folder).on_failure do |service_result|
+      file_path_to_id_map.call(storage: @storage,
+                               auth_strategy:,
+                               folder: Peripherals::ParentFolder.new(group_folder),
+                               depth: 1)
+                         .on_failure do |service_result|
         log_storage_error(service_result.errors, { folder: group_folder })
         add_error(:remote_folders, service_result.errors, options: { group_folder:, username: @storage.username }).fail!
       end
