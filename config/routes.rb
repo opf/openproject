@@ -717,9 +717,6 @@ Rails.application.routes.draw do
         defaults: { tab: :overview },
         as: :details,
         work_package_split_view: true
-
-    get "/:work_package_id/close",
-        action: :close_split_view
   end
 
   resources :notifications, only: :index do
@@ -748,9 +745,6 @@ Rails.application.routes.draw do
   end
 
   if OpenProject::Configuration.lookbook_enabled?
-    # Dummy route for the split screen controller
-    get :close_split_view, controller: "homescreen"
-
     mount Lookbook::Engine, at: "/lookbook"
   end
 

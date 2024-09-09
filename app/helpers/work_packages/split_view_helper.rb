@@ -10,6 +10,6 @@ module WorkPackages::SplitViewHelper
   def split_view_instance
     WorkPackages::SplitViewComponent.new(id: params[:work_package_id],
                                          tab: params[:tab],
-                                         base_route: params[:base_route] || work_packages_path)
+                                         base_route: split_view_base_route)
   end
 end

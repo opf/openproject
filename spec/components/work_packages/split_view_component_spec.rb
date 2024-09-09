@@ -9,8 +9,10 @@ RSpec.describe WorkPackages::SplitViewComponent, type: :component do
   let(:work_package) { create(:work_package, project:) }
 
   subject do
-    with_request_url("/notifications/details/:work_package_id") do
-      render_inline(described_class.new(id: work_package.id, base_route: notifications_path))
+    with_controller_class(NotificationsController) do
+      with_request_url("/notifications/details/:work_package_id") do
+        render_inline(described_class.new(id: work_package.id, base_route: notifications_path))
+      end
     end
   end
 
