@@ -15,7 +15,7 @@ module Saml
 
       def name
         concat render(Primer::Beta::Link.new(
-                        scheme: :primary,
+                        font_weight: :bold,
                         href: url_for(action: :show, id: provider.id)
                       )) { provider.display_name || provider.name }
 
