@@ -42,6 +42,12 @@ With OpenProject 14.5., we updated the modal for exporting work package lists. T
 
 From time to time an Enterprise add-on is released for the free community version. We are happy to announce that with OpenProject 14.5, custom field columns/filters can be displayed in project lists in all editions. This means that also Community users can now filter and sort their project lists using custom fields in order to create the best possible overview. 
 
+### Updated user experience in the notification center
+
+We did some design changes in the notification center, to improve your user experience. For example, the buttons **Unread**, **All** and **Mark all as read** are now placed on the left side, above your list of notifications.
+
+![alt text](openproject-14-5-notification-center.png)
+
 ### Use CloudFlare Turnstile as Captcha
 
 In addition to reCAPTCHA, administrators can now use [CloudFlare Turnstile](https://developers.cloudflare.com/turnstile/) as Captcha. Cloudflare Turnstile is an alternative to Recaptcha that avoids user interaction. 
@@ -74,11 +80,13 @@ When creating a new meeting in OpenProject, you can choose wheather you want to 
 
 We have renamed some of the actions in the work package dropdown menu. They should now be easier to understand and more intuitive to use for new users. Here is an overview of the renaming:
 
-|      | Old name   | New name                                                     | 
-| ---- | --------------------------- | ------------------------------------------------------------ | 
-| 1    | Change project   | Move to another project | 
-| 2    | Copy             | Duplicate        |
-| 3    | Copy to other project | Duplicate to other project |
+ Old name   | New name                                                     | 
+ --------------------------- | ------------------------------------------------------------ | 
+ Change project   | Move to another project | 
+ Copy             | Duplicate        |
+ Copy to other project | Duplicate in another project |
+
+![Dropdown menu with highlighted new terms](openproject_user_guide_copy_move_delete_detailed_view-570939f2.png)
 
 <!--more-->
 
