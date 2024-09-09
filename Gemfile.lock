@@ -972,8 +972,7 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     retriable (3.1.2)
-    rexml (3.3.6)
-      strscan
+    rexml (3.3.7)
     rinku (2.0.6)
     roar (1.2.0)
       representable (~> 3.1)
@@ -1095,7 +1094,6 @@ GEM
       activerecord (>= 6.1)
     stringex (2.8.6)
     stringio (3.1.1)
-    strscan (3.1.0)
     structured_warnings (0.4.0)
     svg-graph (2.2.2)
     swd (2.0.3)
