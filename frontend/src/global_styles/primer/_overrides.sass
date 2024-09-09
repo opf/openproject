@@ -38,7 +38,7 @@
   label
     margin-bottom: 0
   input
-    border-radius: 6px
+    border-radius: var(--borderRadius-medium)
 
 action-menu
   anchored-position
@@ -80,6 +80,11 @@ sub-header,
     .FormControl-horizontalGroup
       flex-direction: column
       row-gap: 1rem
+
+// Todo: Fix this as soon as possible in the primer repo!
+.SubHeader-leftPane
+  [class*="FormControl-input-width--"]:not(.FormControl-input-width--auto)
+    width: 100vw
 
 .Button.op-app-header--primer-button,
 .Button.op-app-header--primer-button .Button-visual
