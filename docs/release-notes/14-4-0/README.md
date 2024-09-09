@@ -38,7 +38,7 @@ For more details, see https://community.openproject.org/wp/56861.
 
 ### Personal settings: Dark mode
 
-Dark mode for OpenProject is finally here! In the '[My account](../../getting-started/my-account/#profile-settings)' section under 'Settings', there is an **option labeled 'Mode' where users can now select 'Dark (Beta).'** – as an alternative to the light mode. When the dark mode is selected, the change applies only to that user, not to the entire instance. 
+Dark mode for OpenProject is finally here! In the '[My account](../../user-guide/my-account/#profile-settings)' section under 'Settings', there is an **option labeled 'Mode' where users can now select 'Dark (Beta).'** – as an alternative to the light mode. When the dark mode is selected, the change applies only to that user, not to the entire instance. 
 
 ![News setting for dark mode in OpenProject, displayed in dark mode](openproject-14-4-dark-mode.png)
 

@@ -47,8 +47,8 @@ This user will then have to be **added to each project** with a role that allows
 Once the user is created you need to generate an OpenProject API token for this user (you will need it on the GitLab side). For this you have to:
 
 1. Login as the newly created user
-2. Go to [My Account](../../../getting-started/my-account/) (click on the Avatar in the top right corner and select *My account*)
-3. Go to [*Access Tokens*](../../../getting-started/my-account/#access-tokens)
+2. Go to [My Account](../../../user-guide/my-account/) (click on the Avatar in the top right corner and select *My account*)
+3. Go to [*Access Tokens*](../../../user-guide/my-account/#access-tokens)
 4. Click on **+ API token**
 
 > Make sure you copy the generated key and securely save it, as you will not be able to retrieve it later.
