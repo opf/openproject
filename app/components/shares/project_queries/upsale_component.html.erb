@@ -1,7 +1,6 @@
 <%=
   modal_content.with_row(data: { 'test-selector': 'op-share-dialog-upsale-block' }) do
-    render Primer::Beta::Blankslate.new(border: true) do |component|
-      component.with_visual_icon(icon: :'op-enterprise-addons', classes: 'upsale-colored')
+    render Primer::OpenProject::FeedbackMessage.new(icon_arguments: { icon: :"op-enterprise-addons", classes: "upsale-colored" }, border: true) do |component|
       component.with_heading(tag: :h2, classes: 'upsale-colored').with_content(I18n.t(:label_enterprise_addon))
       component.with_description { I18n.t('sharing.project_queries.upsale.message') }
 
