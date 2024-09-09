@@ -1,7 +1,8 @@
 {
   "name": "openproject",
   "version": "0.1.0",
-  "scripts": {
+ "scripts": {
+  "build": "webpack --config webpack.config.js",
     "postinstall": "cd frontend && npm install",
     "test": "cd frontend && npm test && cd ..",
     "tslint_typechecks": "cd frontend && npm run tslint_typechecks && cd ..",
