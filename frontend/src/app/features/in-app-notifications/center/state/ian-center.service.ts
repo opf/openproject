@@ -198,8 +198,8 @@ export class IanCenterService extends UntilDestroyedMixin {
     super();
     this.reload.subscribe();
 
-    this.selectedWorkPackage$.subscribe(() => {
-      this.updateSelectedNotification();
+    this.selectedWorkPackage$.subscribe((id:string) => {
+      this.updateSelectedNotification(id);
     });
   }
 
@@ -353,7 +353,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     return promise;
   }
 
-  private updateSelectedNotification() {
+  private updateSelectedNotification(selected:string) {
     void this
       .notifications$
       .pipe(
@@ -362,8 +362,7 @@ export class IanCenterService extends UntilDestroyedMixin {
       .subscribe(
         (notifications:INotification[][]) => {
           for (let i = 0; i < notifications.length; ++i) {
-            if (notifications[i][0]._links.resource
-              && idFromLink(notifications[i][0]._links.resource.href) === this.urlParams.pathMatching(/\/details\/(\d+)/)) {
+            if (notifications[i][0]._links.resource && idFromLink(notifications[i][0]._links.resource.href) === selected) {
               this.selectedNotificationIndex = i;
               [this.selectedNotification] = notifications[i];
               return;
