@@ -1,3 +1,11 @@
+---
+title: OpenProject 14.5.0
+sidebar_navigation:
+    title: 14.5.0
+release_version: 14.5.0
+release_date: 2024-09-11
+---
+
 # OpenProject 14.5.0
 
 Release date: 2024-09-11
