@@ -6,6 +6,7 @@ $meeting-agenda-item--presenter-width: 300px
   display: grid
   grid-template-columns: 20px auto 1fr fit-content($meeting-agenda-item--presenter-width) fit-content(40px)
   grid-template-areas: "drag-handle content duration presenter actions" ".notes notes notes notes"
+  align-items: center
 
   &--drag-handle,
   &--duration,
@@ -24,7 +25,7 @@ $meeting-agenda-item--presenter-width: 300px
     white-space: nowrap
 
   &--content
-    @include text-shortener
+    word-break: break-word
 
   @media screen and (max-width: $breakpoint-lg)
     grid-template-columns: 20px auto 1fr calc($meeting-agenda-item--presenter-width - 50px) 50px

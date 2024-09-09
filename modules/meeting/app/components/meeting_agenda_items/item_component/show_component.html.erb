@@ -10,7 +10,7 @@
       grid.with_area(:content, tag: :span) do
         if @meeting_agenda_item.visible_work_package?
           flex_layout(align_items: :center) do |flex|
-            flex.with_column(mr: 2, flex: 1, classes: 'ellipsis') do
+            flex.with_column(mr: 2, flex: 1) do
               render(Primer::Beta::Link.new(href: work_package_path(@meeting_agenda_item.work_package), underline: false,
                                             test_selector: 'op-meeting-agenda-title',
                                             font_size: :normal, font_weight: :bold, target: "_blank")) do
