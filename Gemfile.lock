@@ -714,7 +714,7 @@ GEM
       omniauth (~> 1.1)
       omniauth-openid-connect (>= 0.2.1)
       rails (>= 3.2.21)
-    logger (1.6.0)
+    logger (1.6.1)
     lograge (0.14.0)
       actionpack (>= 4)
       activesupport (>= 4)
