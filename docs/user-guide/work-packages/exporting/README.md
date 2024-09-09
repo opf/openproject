@@ -57,7 +57,7 @@ With PDF Reports you can export detailed up to date work plans for your project 
 
 ![Define a PDF report for OpenProject work packages export](openproject_pdf_export_report_options.png)
 
-For each work package a table of attributes is included, where attributes correspond to the columns you specified for the export. For a [single work package export](#/export-single-work-packages), attributes are displayed according to the work package form configuration.
+For each work package a table of attributes is included, where attributes correspond to the columns you specified for the export. For a [single work package export](#export-single-work-packages), attributes are displayed according to the work package form configuration.
 
 Table of attributes is followed by the work package description and if necessary custom long text fields, which support [embedded work package and project attributes](../../wysiwyg/#attributes).
 
