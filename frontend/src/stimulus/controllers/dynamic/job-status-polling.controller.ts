@@ -41,6 +41,7 @@ export default class JobStatusPollingController extends Controller<HTMLElement> 
   }
 
   redirectClick(event:PointerEvent) {
+    event.preventDefault();
     this.followLink(event.target as HTMLLinkElement);
   }
 
