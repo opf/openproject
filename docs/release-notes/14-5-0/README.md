@@ -60,7 +60,7 @@ When pressing the key combination for printing – e.g. **cmd + P** for mac user
 
 ### Meetings: Disable by default "Send out invitation emails upon creation"
 
-When creating a new meeting in OpenProject, you can choose wheather you want to send out invitation emails or not. Up to now, this has been enabled by default. Due to user feedback, this option is now disabled per default.
+When creating a new meeting in OpenProject, you can choose wheather you want to send out invitation emails or not. Up until now, this has been enabled by default. Due to user feedback, this option is now disabled per default.
 
 ### Rename actions in work package dropdown menu
 
