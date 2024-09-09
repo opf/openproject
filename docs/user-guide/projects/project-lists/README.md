@@ -35,14 +35,11 @@ Alternatively, you can use the [**Global modules menu**](../../home/global-modul
 
 You will then get a list of all your active projects in OpenProject.
 
-![A list of all projects in OpenProject](projects-list.png)
+![A list of all projects in OpenProject](openproject_user_guide_project_lists.png)
 
 ### Project lists view explained
 
 You can use the Project overview page to **create a multi-project status dashboard** if you include your own [project attributes](../../../system-admin-guide/projects/project-attributes), e.g. custom status options, project duration or any relevant project information.
-
-> [!NOTE]
-> Project attributes are an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
 
 Each project is displayed in a single line, starting with the **Favorite** column, marking favorite projects. For the the fields where the text is too long to be displayed completely, please use the **Expand** icon.
 
@@ -110,7 +107,13 @@ Favorite project lists will additionally be marked by a yellow star icon next to
 
 ![Filters for project lists in OpenProject](projects-lists-default-filters.png)
 
-To adjust the project lists view use the **Filters** button, select the filtering criteria you require and click the blue **Apply** button.
+You can also use the search bar directly displayed next to **Filters** button and search for projects by project name. The list will be updated automatically as you enter the search words. 
+
+![Filter project lists by project name in OpenProject](openproject_project_list_search_bar.png)
+
+
+
+To adjust the project lists view use the **Filters** button, select the filtering criteria you require and click the **Apply** button.
 
 If you want to save this filtered list use the **Save as** link next to the information message in the page header or alternatively click on the menu (three dots) and click **Save as**.
 
@@ -137,7 +140,7 @@ To **display the work packages** of all your projects **in a Gantt chart** click
 
 The Gantt chart view can be configured in the [System settings](../../../system-admin-guide/projects/project-lists) in the Administration.
 
-![display all work packages](display-all-workpackages.png)
+![Display project lists in a Gantt view](open-as-gantt-view.png)
 
 Alternatively you can also select the [Gantt charts from the global modules menu](../../home/global-modules/#gantt-charts) and adjust it further.
 
