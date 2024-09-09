@@ -45,7 +45,7 @@ OpenProject has multiple options of exporting work packages in PDF format. These
 
 PDF Table exports the work package table displaying work packages as single rows with the selected columns for the work package table. Work packages IDs are linked to the respective work packages. Clicking on a work package ID will lead you directly to the work package in OpenProject.
 
-![OpenProject PDF Table export](openpRoject_pdf_table_export.png)
+![OpenProject PDF Table export](openproject_pdf_table_export.png)
 
 > [!TIP]
 >
@@ -57,7 +57,7 @@ With PDF Reports you can export detailed up to date work plans for your project 
 
 ![Define a PDF report for OpenProject work packages export](openproject_pdf_export_report_options.png)
 
-For each work package a table of attributes is included, where attributes correspond to the columns you specified for the export. For a [single work package export](/export-single-work-packages), attributes are displayed according to the work package form configuration.
+For each work package a table of attributes is included, where attributes correspond to the columns you specified for the export. For a [single work package export](#/export-single-work-packages), attributes are displayed according to the work package form configuration.
 
 Table of attributes is followed by the work package description and if necessary custom long text fields, which support [embedded work package and project attributes](../../wysiwyg/#attributes).
 
@@ -69,9 +69,9 @@ Table of attributes is followed by the work package description and if necessary
 > [!TIP]
 > If ["display sums" is activated](../work-package-table-configuration/) in the work package table, then the sum table is included between table of contents and work packages description in an Overview section.
 
-![OpenProject_work_package_table_sum](Openproject_wp_table_total_sum.png)
+![OpenProject_work_package_table_sum](openproject_wp_table_total_sum.png)
 
-![OpenProject_pdf_report_sum](openproject_wP_report_total_sum.png)
+![OpenProject_pdf_report_sum](openproject_wp_report_total_sum.png)
 
 ### PDF Report with images
 
@@ -87,7 +87,7 @@ If you select the **Include images** option, your PDF Report will include the im
 ### Gantt chart PDF
 
 > [!NOTE]
-> Gantt chart PDF export is an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide). An upgrade from the free Community edition is easy and helps support OpenProject.
+> Gantt chart PDF export is an Enterprise add-on and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide). An upgrade from the free Community edition is easy and helps support OpenProject.
 
 You can export Gantt charts directly from the work packages module by selecting the respective option, or from the Gantt charts module by doing the same. 
 
