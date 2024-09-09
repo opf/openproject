@@ -13,10 +13,11 @@ Note: This feature is available for the Enterprise on-premises only, for OpenPro
 In OpenProject Enterprise on-premises, you can synchronize LDAP group memberships defined through the [groupOfNames](https://tools.ietf.org/html/rfc4519#section-3.5) LDAP object class. This guide assumes that you:
 
 - have at least one group defined in OpenProject (See the “[Managing groups](../../../users-permissions/groups/)” guide for more information on how to create and edit groups),
-- have set up your LDAP authentication source (See the “[Manage LDAP authentication](../../ldap-authentication/)” guide)
+- have set up your LDAP authentication source (See the “[Manage LDAP authentication](../../ldap-connections/)” guide)
 - have at least one LDAP entry with a *groupOfNames* object class and members of that group to contain the *`memberOf: <DN of the group>`* attribute to determine the members of a group entry. Right now we do not support LDAP instances that only have *member* attributes, but not the inverse *memberOf* property.
 
-> **Please note**: OpenProject does not support other attributes other than the `memberOf` property to define groups. Please make sure that user objects have the `memberOf` property for the synchronization to work.
+> [!NOTE]
+> OpenProject does not support other attributes other than the `memberOf` property to define groups. Please make sure that user objects have the `memberOf` property for the synchronization to work.
 
 For the sake of simplicity, we assume that in this guide, your LDAP structure looks like the following:
 
@@ -38,7 +39,7 @@ Instead of manually synchronizing groups from a given DN, you can also create fi
 
 When the synchronization task is executed, the filter is being queried against the LDAP and resulting group objects will be created as synchronized groups *and* as OpenProject groups.
 
-![LDAP synchronized filter form](ldap-groups-filter.png)
+![LDAP synchronized filter form in OpenProject administration](openproject_system_guide_add_ldap_filter.png)
 
 ### Create a synchronized filter
 
@@ -53,7 +54,8 @@ To create a new synchronized filter, use the button on the top right of the inde
 
 Click on *Create* to finish the creation of the synchronized  filter. This filter is being executed hourly as part of the background job before the actual group synchronization runs.
 
-**Note:** If you manually create a synchronized group that is also found by a filter, its properties (such as the *Sync users* setting) is being overridden by the filter setting.
+> [!NOTE]
+> If you manually create a synchronized group that is also found by a filter, its properties (such as the *Sync users* setting) is being overridden by the filter setting.
 
 ## Configure synchronized LDAP groups
 
@@ -63,7 +65,7 @@ In order to get to the LDAP group sync administration pane, expand the LDAP auth
 
 In order for the LDAP groups plugin to locate your group entries, you first need to set the *group key* to **cn** (the identifying attribute of the group entries) and *group base* to **ou=groups,ou=example,ou=com** as shown in the following screenshot.
 
-![LDAP group synchronization settings](ldap-group-form.png)
+![LDAP group synchronization settings in OpenProject administration](openproject_system_guide_add_ldap_group.png)
 
 ### Create a synchronized group
 

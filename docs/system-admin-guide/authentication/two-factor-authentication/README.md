@@ -17,7 +17,7 @@ From the GUI you are able to configure the following options:
 2. **Remember 2FA login** for a given number of days, e.g. 30 days.
 3. Press the **Apply** button to save your changes.
 
-![Sys-admin-authentication-two-factor-authentication](Sys-admin-authentication-two-factor-authentication.png)
+![Two factor authentication in OpenProject administration](openproject_system_admin_guide_two_factor_authentication.png)
 
 > [!NOTE]
 > These options will not be shown in the administration if 2FA settings are configured through [environment variables](../../../installation-and-operations/configuration/environment/).
