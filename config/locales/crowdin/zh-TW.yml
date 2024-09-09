@@ -204,8 +204,8 @@ zh-TW:
     admin:
       custom_field_projects:
         is_for_all_blank_slate:
-          heading: For all projects
-          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: 對所有的專案
+          description: 由於已勾選「適用於所有專案」選項，因此所有專案都會啟用此自訂欄位。個別專案無法停用。
     text_add_new_custom_field: >
       要加入客製欄位至一個專案，您必須先建立欄位才能將它們加入至此專案。
     is_enabled_globally: "已全域啟用"
@@ -1912,7 +1912,7 @@ zh-TW:
   label_attribute_expand_text: "%{attribute} 的完整文本"
   label_authentication: "身份驗證"
   label_authentication_settings: "認證設定"
-  label_available_custom_fields_projects: "Available custom fields projects"
+  label_available_custom_fields_projects: "可用的專案自訂欄位"
   label_available_global_roles: "可用的角色"
   label_available_project_attributes: "可使用的專案屬性"
   label_available_project_forums: "可用的討論區"
@@ -2333,8 +2333,8 @@ zh-TW:
   label_role_plural: "角色"
   label_role_search: "為新成員分配角色"
   label_scm: "SCM"
-  label_scroll_left: "Scroll left"
-  label_scroll_right: "Scroll right"
+  label_scroll_left: "向左捲動"
+  label_scroll_right: "向右捲動"
   label_search: "搜尋"
   label_search_by_name: "以名稱搜尋"
   label_send_information: "寄送密碼給使用者"
