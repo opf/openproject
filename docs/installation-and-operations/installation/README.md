@@ -22,5 +22,5 @@ OpenProject can be setup in three different ways:
 
 ### Do you have a step-by-step guide to installing OpenProject Enterprise on-premises under Active Directory?
 
-We have a guide on [how to use OpenProject with your Active Directory](../../system-admin-guide/authentication/ldap-authentication/).
-In addition, with the Enterprise on-premises edition it is also possible to [link LDAP groups with groups in OpenProject](../../system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/).
+We have a guide on [how to use OpenProject with your Active Directory](../../system-admin-guide/authentication/ldap-connections/).
+In addition, with the Enterprise on-premises edition it is also possible to [link LDAP groups with groups in OpenProject](../../system-admin-guide/authentication/ldap-connections/ldap-group-synchronization/).

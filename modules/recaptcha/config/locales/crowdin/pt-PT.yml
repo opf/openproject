@@ -9,7 +9,7 @@ pt-PT:
     verify_account: "Verifique a sua Conta"
     error_captcha: "Não foi possível verificar a sua conta. Por favor contate um administrador."
     settings:
-      website_key: 'Website key (May also be called "Site key")'
+      website_key: 'Chave do website (também pode ser designada por "Chave do site")'
       response_limit: 'Limite de resposta para HCaptcha'
       response_limit_text: 'O número máximo de caracteres para tratar a resposta HCaptcha como válida.'
       website_key_text: 'Digite a chave do site que criou na consola de administração reCAPTCHA para este domínio.'
@@ -22,4 +22,4 @@ pt-PT:
       type_hcaptcha: 'HCaptcha'
       type_turnstile: 'Cloudflare Turnstile™'
       captcha_description_html: >
-        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link} <br/> Cloudflare Turnstile™ is another alternative that is more convenient for users while still providing the same level of security. See this link for more information: %{turnstile_link}
+        reCAPTCHA é um serviço gratuito do Google que pode ser ativado para a sua instância do OpenProject. Se estiver ativado, será apresentado um formulário captcha no início de sessão para todos os utilizadores que ainda não tenham verificado um captcha. <br/> Aceda à seguinte hiperligação para obter mais informações sobre o reCAPTCHA e as suas versões, bem como sobre como criar o site e as chaves secretas: %{recaptcha_link} <br/> HCaptcha é uma alternativa gratuita do Google que pode ser usada se não quiser usar o reCAPTCHA. Aceda a esta hiperligação para mais informações: %{hcaptcha_link} <br/> Cloudflare Turnstile™ é outra alternativa que é mais conveniente para os utilizadores, além de oferecer o mesmo nível de segurança. Para mais informações, consulte este link: %{turnstile_link}

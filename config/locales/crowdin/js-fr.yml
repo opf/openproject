@@ -74,7 +74,7 @@ fr:
     button_copy: "Copier"
     button_copy_to_clipboard: "Copier dans le presse-papier"
     button_copy_link_to_clipboard: "Copier le lien dans le presse-papiers"
-    button_copy_to_other_project: "Duplicate in another project"
+    button_copy_to_other_project: "Dupliquer dans un autre projet"
     button_custom-fields: "Champs personnalisés"
     button_delete: "Supprimer"
     button_delete_watcher: "Supprimer observateur"
@@ -361,7 +361,7 @@ fr:
           "14_5":
             standard:
               new_features_html: >
-                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Keep and restore local versions of WYSIWYG content changes.</li> <li>Enable a storage for multiple projects at once.</li> <li>Export work packages in an updated modal with additional settings.</li> <li>Display custom field columns/filters in project lists also in the Community Edition.</li> <li>Support CloudFlare Turnstile as Captcha.</li> </ul>
+                Cette version contient plusieurs nouvelles fonctionnalités et améliorations, telles que <br> <ul class="%{list_styling_class}"> <li>Conservation et restauration des versions locales des changements de contenu WYSIWYG.</li> <li>Activation d'un stockage pour plusieurs projets à la fois.</li> <li>Exportation des lots de travaux dans une fenêtre modale mise à jour avec des paramètres supplémentaires.</li> <li>Affichage des colonnes/filtres de champs personnalisés dans les listes de projets, y compris dans l'édition Community.</li> <li>Prise en charge de Turnstile de CloudFlare comme Captcha.</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -1188,7 +1188,7 @@ fr:
         other: "%{count} jours"
         zero: "0 jour"
       word:
-        one: "1 word"
+        one: "1 mot"
         other: "%{count} mots"
     zen_mode:
       button_activate: "Activer le mode zen"

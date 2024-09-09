@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: LDAP authentication
+  title: LDAP connections
   priority: 500
 description: Manage LDAP Authentication in OpenProject.
 keywords: ldap authentication
@@ -8,7 +8,8 @@ keywords: ldap authentication
 
 # Manage LDAP connections
 
-> **Note**: In order to be able to access the administration panel and manage LDAP authentication you need to be a system admin.
+> [!NOTE]
+> In order to be able to access the administration panel and manage LDAP authentication you need to be a system admin.
 
 To see the list of all available LDAP (Lightweight Directory Access  Protocol) authentications navigate to - > *Administration* and select *-> Authentication* -> *LDAP connections* from the menu on the left. You will see the list of all available connections already created.
 
@@ -16,7 +17,7 @@ To see the list of all available LDAP (Lightweight Directory Access  Protocol) a
 
 To create a new LDAP connection, click on the respective icon.
 
-![Sys-admin_ldap-authentication](Sys-admin_ldap-authentication.png)
+![LDAP connections in OpenProject administration](openproject_system_guide_ldap_connections.png)
 
 You will then be able to specify the LDAP configuration. This can be  any directory service compatible with the LDAPv3 standard, such as  Microsoft Active Directory or openLDAP. The configuration depends on the specific database/applications, through which the authentication with  OpenProject is intended.
 
@@ -24,7 +25,7 @@ The following screenshots contain an exemplary configuration for a  new LDAP aut
 
 ### LDAP connection details and security
 
-![Adding a new LDAP authentication server](ldap-host-and-security.png)
+![Adding a new LDAP authentication server in OpenProject administration](openproject_system_guide_ldap_connections_new_host_security.png)
 
 In the upper section, you have to specify the connection details of your LDAP server as well as the connection encryption to use.
 
@@ -45,7 +46,7 @@ In the upper section, you have to specify the connection details of your LDAP se
 
 ### LDAP system user credentials
 
-![Defining the system user of the connection](ldap-system-user.png)
+![Defining the system user of the LDAP connection in OpenProject administration](openproject_system_guide_ldap_connections_new_system_account_credentials.png)
 
 Next, you will need to enter a system user that has READ access to the users for identification and synchronization purposes. Note that most operations to the LDAP during authentication will not be using these credentials, but the user-provided credentials in the login form in order to perform a regular user bind to the LDAP.
 
@@ -54,7 +55,7 @@ Next, you will need to enter a system user that has READ access to the users for
 
 ### LDAP details
 
-![Defining the details of the connection](ldap-details.png)
+![Defining the details of the LDAP connection in OpenProject administration](openproject_system_guide_ldap_connections_new_system_ldap_details.png)
 
 Next you can define what sections OpenProject will look for in the LDAP and also if users should be created automatically in OpenProject when they are accessing it. Let's look at the available options:
 
@@ -70,7 +71,7 @@ Next you can define what sections OpenProject will look for in the LDAP and also
 
 ### Attribute mapping
 
-![Defining the attribute map for users](ldap-attribute-mapping.png)
+![Defining the attribute map for users in OpenProject administration](openproject_system_guide_ldap_connections_new_attribute_mapping.png)
 
 The attribute mapping is used to identify attributes of OpenProject with attributes of the LDAP directory. At least the *login* attribute is required to create DNs from the login credentials.
 
@@ -80,9 +81,9 @@ The attribute mapping is used to identify attributes of OpenProject with attribu
 - **Email:** The attribute name in the LDAP that maps to the user’s mail address. This will usually be *mail.* If left empty, user will be prompted to enter upon registration if **automatic user creation** is true.
 - **Admin:** Specify an attribute that if it has a truthy value, results in the user in OpenProject becoming an admin account.  Leave empty to never set admin status from LDAP attributes.
 
-Lastly, click on *Create* to save the LDAP authentication  mode. You will be redirected to the index page with the created  authentication mode. Click the *test*  button to create a test connection using the system user’s bind credentials.
+Lastly, click on *Create* to save the LDAP authentication  mode. You will be redirected to the index page with the created  LDAP connection. Click the *test*  button to create a test connection using the system user’s bind credentials.
 
-![LDAP authentication mode created](ldap-index-page.png)
+![New LDAP connection created in OpenProject administration](openproject_system_guide_ldap_connections_new_created.png)
 
 With the [OpenProject Enterprise edition](https://www.openproject.org/enterprise-edition/) it is possible to [synchronize LDAP and OpenProject groups](./ldap-group-synchronization).
 

@@ -56,7 +56,7 @@ In OpenProject, authentication is an important element to guarantee a data prote
 - [See answers to frequently asked questions (FAQ) for authentication](../system-admin-guide/authentication/authentication-faq/)
 - [See our blog post on multi-factor authentication to improve data security](https://www.openproject.org/blog/multi-factor-authentication-for-data-security/)
 - [Read more about Two-factor authentication (2FA) in OpenProject](../system-admin-guide/authentication/two-factor-authentication/)
-- [Read more about LDAP Authentication in OpenProject](../system-admin-guide/authentication/ldap-authentication/)
+- [Read more about LDAP Authentication in OpenProject](../system-admin-guide/authentication/ldap-connections/)
 
 ## B
 
