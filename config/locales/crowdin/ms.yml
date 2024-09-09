@@ -2327,6 +2327,8 @@ ms:
   label_role_plural: "Peranan\n"
   label_role_search: "Tetapkan peranan ke ahli baharu"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Cari"
   label_search_by_name: "Search by name"
   label_send_information: "Hantar kelayakan baharu ke pengguna tersebut"

@@ -1,7 +1,7 @@
 <%=
   component_wrapper do
     flex_layout(justify_content: :space_between, align_items: :center) do |flex|
-      flex.with_column do
+      flex.with_column(flex: 1) do
         render(Primer::Beta::Text.new(color: :subtle)) { t("text_add_work_package_to_meeting_description") }
       end
       if allowed_to_add_to_meeting?

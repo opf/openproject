@@ -70,7 +70,7 @@ eu:
       dialog:
         automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
         confirmation_text: Please, confirm you understand and want to remove this file storage from this project
-        heading: Remove project from %{storage_type}
+        heading_text: Remove project from %{storage}
         text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
       label: Remove project
   services:

@@ -2325,6 +2325,8 @@ zh-CN:
   label_role_plural: "角色"
   label_role_search: "将角色分配给新成员"
   label_scm: "SCM"
+  label_scroll_left: "向左滚动"
+  label_scroll_right: "向右滚动"
   label_search: "搜索"
   label_search_by_name: "按名称搜索"
   label_send_information: "向用户发送新的凭据"

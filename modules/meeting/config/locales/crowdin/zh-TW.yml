@@ -120,7 +120,7 @@ zh-TW:
       agenda: "複製議程"
       agenda_text: "複製舊會議之議程"
     email:
-      send_emails: "Email participants"
+      send_emails: "寄發參與者"
       send_invitation_emails: >
         立即發送電子郵件邀請函給上述選定的與會者。您也可以稍後隨時手動執行。
       open_meeting_link: "打開會議連結"

@@ -130,7 +130,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
     delete_service.on_success do
       update_flash_message_via_turbo_stream(
         message: I18n.t(:notice_successful_delete),
-        full: true, dismiss_scheme: :hide, scheme: :default
+        full: true, dismiss_scheme: :hide, scheme: :success
       )
       update_project_list_via_turbo_stream(url_for_action: :index)
     end

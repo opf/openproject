@@ -355,7 +355,7 @@ RSpec.describe "Admin lists project mappings for a storage",
         project_storages_index_page.click_menu_item_of("Remove project", project)
 
         page.within("dialog") do
-          expect(page).to have_text("Remove project from Nextcloud")
+          expect(page).to have_text("Remove project from #{storage.name}")
           expect(page).to have_text("this storage has an automatically managed project folder")
           click_on "Close"
         end

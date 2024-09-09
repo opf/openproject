@@ -297,7 +297,7 @@ de:
         actions:
           label_enable_single: "In diesem Projekt aktiv, zum Deaktivieren anklicken"
           label_disable_single: "In diesem Projekt inaktiv, zum Aktivieren anklicken"
-          remove_from_project: "Remove from project"
+          remove_from_project: "Aus dem Projekt entfernen"
           label_enable_all: "Alles aktivieren"
           label_disable_all: "Alles deaktivieren"
         is_required_blank_slate:
@@ -1679,23 +1679,23 @@ de:
           label: "Zoom levels"
           caption: "Select what is the zoom level for dates displayed in the chart."
           options:
-            days: "Days"
-            weeks: "Weeks"
-            months: "Months"
-            quarters: "Quarters"
+            days: "Tage"
+            weeks: "Wochen"
+            months: "Monate"
+            quarters: "Quartale"
         column_width:
-          label: "Table column width"
+          label: "Breite der Tabellenspalten"
           options:
-            narrow: "Narrow"
-            medium: "Medium"
-            wide: "Wide"
-            very_wide: "Very wide"
+            narrow: "Schmal"
+            medium: "Mittel"
+            wide: "Breit"
+            very_wide: "Sehr breit"
         paper_size:
-          label: "Paper size"
-          caption: "Depending on the chart size more than one page might be exported."
+          label: "Papierformat"
+          caption: "Je nach Größe des Diagramms besteht der Export aus einer oder auch aus mehreren Seiten."
         long_text_fields:
-          input_caption: "By default all long text fields are selected."
-          input_label: "Add long text fields"
+          input_caption: "Standardmäßig sind alle Langtextfelder ausgewählt."
+          input_label: "Langtextfelder hinzufügen"
           input_placeholder: "Search for long text fields"
           drag_area_label: "Manage long text fields"
       xls:
@@ -2358,6 +2358,8 @@ de:
   label_role_plural: "Rollen"
   label_role_search: "Rolle für neue Mitglieder zuweisen"
   label_scm: "Versionskontrollsystem"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Suche"
   label_search_by_name: "Nach Name suchen"
   label_send_information: "Neue Anmeldeinformationen an den Benutzer senden"
@@ -3515,9 +3517,9 @@ de:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_like_work: "Verringert um den gleichen Betrag wie Aufwand."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_like_work: "Erhöht um den gleichen Betrag wie Aufwand."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "Kommentar"

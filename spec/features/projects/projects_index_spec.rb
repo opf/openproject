@@ -507,6 +507,16 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       projects_page.remove_filter("name_and_identifier")
       projects_page.expect_projects_listed(project, development_project, public_project)
 
+      # Filter on model attribute 'name' triggered by keyboard input event instead of change
+      projects_page.filter_by_name_and_identifier("Plain", send_keys: true)
+      wait_for_reload
+
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(development_project, public_project)
+
+      projects_page.remove_filter("name_and_identifier")
+      projects_page.expect_projects_listed(project, development_project, public_project)
+
       # Filter on model attribute 'identifier'
       projects_page.filter_by_name_and_identifier("plain-project")
       wait_for_reload
@@ -789,6 +799,18 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           expect(page).to have_text(project_created_on_today.name)
           expect(page).to have_no_text(project_created_on_fixed_date.name)
 
+          # created on 'less than days ago' triggered by an input event
+          projects_page.remove_filter("created_at")
+          projects_page.set_filter("created_at",
+                                   "Created on",
+                                   "less than days ago",
+                                   ["1"],
+                                   send_keys: true)
+          wait_for_reload
+
+          expect(page).to have_text(project_created_on_today.name)
+          expect(page).to have_no_text(project_created_on_fixed_date.name)
+
           # created on 'more than days ago'
           projects_page.remove_filter("created_at")
 
@@ -796,6 +818,19 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                    "Created on",
                                    "more than days ago",
                                    ["1"])
+          wait_for_reload
+
+          expect(page).to have_text(project_created_on_fixed_date.name)
+          expect(page).to have_no_text(project_created_on_today.name)
+
+          # created on 'more than days ago'
+          projects_page.remove_filter("created_at")
+
+          projects_page.set_filter("created_at",
+                                   "Created on",
+                                   "more than days ago",
+                                   ["1"],
+                                   send_keys: true)
           wait_for_reload
 
           expect(page).to have_text(project_created_on_fixed_date.name)

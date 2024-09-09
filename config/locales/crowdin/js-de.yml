@@ -74,7 +74,7 @@ de:
     button_copy: "Kopieren"
     button_copy_to_clipboard: "In Zwischenablage kopieren"
     button_copy_link_to_clipboard: "Link in Zwischenablage kopieren"
-    button_copy_to_other_project: "In ein anderes Projekt duplizieren"
+    button_copy_to_other_project: "In anderes Projekt duplizieren"
     button_custom-fields: "Benutzerdefinierte Felder"
     button_delete: "Löschen"
     button_delete_watcher: "Beobachter löschen"
@@ -138,8 +138,8 @@ de:
     description_select_work_package: "Arbeitspaket #%{id} auswählen"
     description_subwork_package: "Kind von Arbeitspaket #%{id}"
     editor:
-      revisions: "Show local modifications"
-      no_revisions: "No local modifications found"
+      revisions: "Lokale Änderungen anzeigen"
+      no_revisions: "Keine lokalen Änderungen gefunden"
       preview: "Vorschau-Modus ein/aus"
       source_code: "Wechseln zwischen Markdown-Source und WYSIWYG"
       error_saving_failed: "Fehler beim Speichern des Dokuments: %{error}"
@@ -357,10 +357,10 @@ de:
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                Diese Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Dark Mode wählbar in den persönlichen Einstellungen</li> <li>Getrennte Berechtigungen für die Anzeige und Bearbeitung von Projektattributen</li> <li>Verbesserungen für Fortschrittsberichte auf Basis des Status</li> <li>Verbindungsüberprüfung für Nextcloud-Speicher</li> <li>Mehr Filteroptionen für Projektlisten</li> </ul>
+                Die Version enthält verschiedene neue Funktionen und Verbesserungen, wie z.B.: <br> <ul class="%{list_styling_class}"> <li>Wiederherstellen lokaler Versionen von WYSIWYG-Inhaltsänderungen.</li> <li>Aktivieren Sie eine Speicherung für mehrere Projekte auf einmal.</li> <li>Exportieren Sie Arbeitspakete in einem aktualisierten Modal mit zusätzlichen Einstellungen.</li> <li>Anzeige von benutzerdefinierten Feldspalten & Filtern in Projektlisten auch in der Community Edition.</li> <li>Unterstützung von CloudFlare Turnstile als Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
@@ -401,7 +401,7 @@ de:
     label_create: "Erstellen"
     label_create_work_package: "Erstelle neues Arbeitspaket"
     label_created_by: "Erstellt von"
-    label_current: "current"
+    label_current: "aktuell"
     label_date: "Datum"
     label_date_with_format: "Die %{date_attribute} im folgenden Format eingeben: %{format}"
     label_deactivate: "Deaktiviere"
@@ -1187,8 +1187,8 @@ de:
         other: "%{count} Tage"
         zero: "0 Tage"
       word:
-        one: "1 word"
-        other: "%{count} words"
+        one: "1 Wort"
+        other: "%{count} Wörter"
     zen_mode:
       button_activate: "Zen-Modus aktivieren"
       button_deactivate: "Zen-Modus deaktivieren"
