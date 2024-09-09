@@ -28,29 +28,34 @@
 
 require "spec_helper"
 
-RSpec.describe "custom_styles/show" do
-  let(:user) { build(:admin) }
+RSpec.describe "custom_styles/pdf_export_styles" do
+  shared_let(:admin) { create(:admin) }
 
   before do
-    login_as user
-    allow(view).to receive(:options_for_select).and_return("")
-    render
+    login_as admin
   end
 
-  context "interface tab" do
+  context "no custom logo yet" do
     before do
+      assign(:custom_style, CustomStyle.new)
       allow(view).to receive(:options_for_select).and_return("")
       render
     end
 
-    it "doesn't show an upload button" do
-      expect(rendered).not_to include "Upload"
+    it "shows an upload button" do
+      expect(rendered).to include "Upload"
+      expect(rendered).to have_text I18n.t(:label_custom_export_cover_overlay)
     end
-    it "doesn't show a replace button" do
-      expect(rendered).not_to include "Replace"
+  end
+  context "with existing custom logo" do
+    before do
+      assign(:custom_style, build(:custom_style_with_export_logo))
+      allow(view).to receive(:options_for_select).and_return("")
+      render
     end
-    it "shows advanced settings" do
-      expect(rendered).to have_text I18n.t(:label_advanced_settings)
+
+    it "shows a replace button" do
+      expect(rendered).to include "Replace"
     end
   end
 end
