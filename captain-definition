@@ -1,0 +1,12 @@
+{
+    "schemaVersion": 2,
+    "dockerfileLines": [
+        "FROM node:22.2.0-bookworm as build",
+        "COPY . /app",
+        "WORKDIR /app",
+        "RUN npm i",
+        "RUN npm run build",
+        "FROM nginx:mainline-alpine-slim",
+        "COPY --from=build /app/dist /usr/share/nginx/html"
+    ]
+}
