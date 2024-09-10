@@ -50,7 +50,7 @@ RSpec.describe "custom_styles/show" do
       expect(rendered).not_to include "Replace"
     end
     it "shows advanced settings" do
-      expect(rendered).to have_text I18n.t(:label_advanced_settings)
+      expect(rendered).to have_text I18n.t(:label_interface_colours)
     end
   end
 end
