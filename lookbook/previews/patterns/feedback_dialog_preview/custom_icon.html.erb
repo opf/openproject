@@ -1,0 +1,8 @@
+<%=
+  render(Primer::OpenProject::FeedbackDialog.new(open: true)) do |dialog|
+    dialog.with_feedback_message(icon_arguments: { icon: :"x-circle", color: :danger }) do |message|
+      message.with_heading(tag: :h2) { "Ups, something went wrong" }
+      message.with_description { "Please try again or contact your administrator if the issue persists." }
+    end
+  end
+%>
