@@ -354,7 +354,8 @@ module Projects
           scheme: :danger,
           icon: :trash,
           label: I18n.t(:button_delete),
-          href: confirm_destroy_project_path(project)
+          href: confirm_destroy_project_path(project),
+          data: { turbo: false }
         }
       end
     end
