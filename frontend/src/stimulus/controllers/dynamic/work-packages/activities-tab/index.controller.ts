@@ -359,6 +359,16 @@ export default class IndexController extends Controller {
 
   async onSubmit(event:Event | null = null) {
     event?.preventDefault();
+
+    const formData = this.prepareFormData();
+    const response = await this.submitForm(formData);
+
+    if (!response.ok) return;
+
+    await this.handleSuccessfulSubmission(response);
+  }
+
+  private prepareFormData():FormData {
     const ckEditorInstance = this.getCkEditorInstance();
     const data = ckEditorInstance ? ckEditorInstance.getData({ trim: false }) : '';
 
@@ -367,35 +377,48 @@ export default class IndexController extends Controller {
     formData.append('filter', this.filterValue);
     formData.append('journal[notes]', data);
 
-    const response = await this.fetchWithCSRF(this.formTarget.action, 'POST', formData);
+    return formData;
+  }
 
-    if (response.ok) {
-      this.setLastUpdateTimestamp();
-      const text = await response.text();
-      Turbo.renderStreamMessage(text);
+  private async submitForm(formData:FormData):Promise<Response> {
+    return this.fetchWithCSRF(this.formTarget.action, 'POST', formData);
+  }
 
-      if (this.journalsContainerTarget) {
-        this.clearEditor();
-        if (this.isMobile()) {
-          this.hideEditorIfEmpty();
-        } else {
-          this.focusEditor();
-        }
-        if (this.journalsContainerTarget) {
-          this.journalsContainerTarget.style.marginBottom = '';
-          this.journalsContainerTarget.classList.add('work-packages-activities-tab-index-component--journals-container_with-input-compensation');
-        }
-        setTimeout(() => {
-          this.scrollJournalContainer(
-            this.journalsContainerTarget,
-            this.sortingValue === 'asc',
-          );
-          if (this.isMobile()) {
-            this.scrollInputContainerIntoView(300);
-          }
-        }, 10);
+  private async handleSuccessfulSubmission(response:Response):Promise<void> {
+    this.setLastUpdateTimestamp();
+    const text = await response.text();
+    Turbo.renderStreamMessage(text);
+
+    if (!this.journalsContainerTarget) return;
+
+    this.clearEditor();
+    this.handleEditorVisibility();
+    this.adjustJournalsContainer();
+
+    setTimeout(() => {
+      this.scrollJournalContainer(
+        this.journalsContainerTarget,
+        this.sortingValue === 'asc',
+      );
+      if (this.isMobile()) {
+        this.scrollInputContainerIntoView(300);
       }
+    }, 10);
+  }
+
+  private handleEditorVisibility():void {
+    if (this.isMobile()) {
+      this.hideEditorIfEmpty();
+    } else {
+      this.focusEditor();
     }
+  }
+
+  private adjustJournalsContainer():void {
+    if (!this.journalsContainerTarget) return;
+
+    this.journalsContainerTarget.style.marginBottom = '';
+    this.journalsContainerTarget.classList.add('work-packages-activities-tab-index-component--journals-container_with-input-compensation');
   }
 
   private async fetchWithCSRF(url:string | URL, method:string, body?:FormData) {
