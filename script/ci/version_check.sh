@@ -56,7 +56,7 @@ if [ "$HTTP_STATUS" -ne 200 ]; then
   exit 0
 fi
 
-VERSION_FROM_API=$(jq -r '._links.version.title // empty' response.json)
+VERSION_FROM_API=$(jq -r '._links.version.title // "not set"' response.json)
 if [ -z "$VERSION_FROM_API" ]; then
   echo "::warning::Failed to extract version from API response."
   exit 0
@@ -73,11 +73,10 @@ echo "Version from file: $VERSION_FROM_FILE"
 if [[ "$VERSION_FROM_API" != "$VERSION_FROM_FILE" ]]; then
   echo "Version mismatch detected."
 
-
-  echo "version_mismatch=true" >> $GITHUB_OUTPUT
-  echo "wp_url=${WP_URL}" >> $GITHUB_OUTPUT
-  echo "wp_version=${VERSION_FROM_API}" >> $GITHUB_OUTPUT
-  echo "core_version=${VERSION_FROM_FILE}" >> $GITHUB_OUTPUT
+  echo "version_mismatch=true" >> "$GITHUB_OUTPUT"
+  echo "wp_url='${WP_URL}'" >> "$GITHUB_OUTPUT"
+  echo "wp_version='${VERSION_FROM_API}'" >> "$GITHUB_OUTPUT"
+  echo "core_version='${VERSION_FROM_FILE}'" >> "$GITHUB_OUTPUT"
 else
   echo "Version from the work package ${WORK_PACKAGE_ID} matches the version in the version file this PR targets."
 fi
