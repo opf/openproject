@@ -28,7 +28,8 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
+RSpec.describe WorkPackages::UpdateAncestorsService,
+               type: :model do
   shared_association_default(:author, factory_name: :user) { create(:user) }
   shared_association_default(:project_with_types) { create(:project_with_types) }
   shared_association_default(:priority) { create(:priority) }
@@ -790,6 +791,190 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           hierarchy | status | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
           parent    | Open   |  10h |    12h |             1h |               8h |        90% |          33%
             child   | Open   |   2h |        |             7h |                  |        29% |
+        TABLE
+      end
+    end
+  end
+
+  describe "simple average mode for total % complete calculation",
+           with_settings: { total_percent_complete_mode: "simple_average" } do
+    subject(:call_result) do
+      described_class.new(user:, work_package: parent)
+                      .call(%i(remaining_hours))
+    end
+
+    context "with parent and all children all values set" do
+      let_work_packages(<<~TABLE)
+        hierarchy | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+        parent    | 10h  |   40h  |          7.5h  |           22.5h  |      25%   |
+          child1  | 15h  |        |           10h  |                  |      33%   |
+          child2  |  5h  |        |          2.5h  |                  |      50%   |
+          child3  | 10h  |        |          2.5h  |                  |      75%   |
+      TABLE
+
+      it "sets the total % complete solely based on % complete values of children and parent" do
+        expect(call_result).to be_success
+        updated_work_packages = call_result.all_results
+        expect_work_packages(updated_work_packages, <<~TABLE)
+          subject | total % complete
+          parent  |              46%
+        TABLE
+      end
+    end
+
+    context "with parent having no values and children having all values set" do
+      let_work_packages(<<~TABLE)
+        hierarchy | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+        parent    |      |    30h |                |            15h   |            |
+          child1  | 15h  |        |            10h |                  |      33%   |
+          child2  |  5h  |        |           2.5h |                  |      50%   |
+          child3  | 10h  |        |           2.5h |                  |      75%   |
+      TABLE
+
+      it "sets the total % complete solely based on % complete values of children" do
+        expect(call_result).to be_success
+        updated_work_packages = call_result.all_results
+        expect_work_packages(updated_work_packages, <<~TABLE)
+          subject | total % complete
+          parent  |              53%
+        TABLE
+      end
+    end
+
+    context "with parent having no values set " \
+            "and some children having work and remaining work set " \
+            "and all children having % complete set" do
+      let_work_packages(<<~TABLE)
+        hierarchy | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+        parent    |      |    25h |                |           12.5h  |            |
+          child1  | 15h  |        |            10h |                  |      33%   |
+          child2  |      |        |                |                  |      75%   |
+          child3  | 10h  |        |           2.5h |                  |      75%   |
+      TABLE
+
+      it "sets the total % complete solely based on % complete values of children" do
+        expect(call_result).to be_success
+        updated_work_packages = call_result.all_results
+        expect_work_packages(updated_work_packages, <<~TABLE)
+          subject | total % complete
+          parent  |              61%
+        TABLE
+      end
+    end
+
+    context "with parent having no values set " \
+            "and no children having work and remaining work set " \
+            "and all children having % complete set" do
+      let_work_packages(<<~TABLE)
+        hierarchy | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+        parent    |      |        |                |                  |            |
+          child1  |      |        |                |                  |       100% |
+          child2  |      |        |                |                  |       100% |
+          child3  |      |        |                |                  |        75% |
+      TABLE
+
+      it "sets the total % complete solely based on % complete values of children" do
+        expect(call_result).to be_success
+        updated_work_packages = call_result.all_results
+        expect_work_packages(updated_work_packages, <<~TABLE)
+          subject | total % complete
+          parent  |              92%
+        TABLE
+      end
+    end
+
+    context "with parent having no values set " \
+            "and no children having work and remaining work set " \
+            "and some children having % complete set" do
+      let_work_packages(<<~TABLE)
+        hierarchy | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+        parent    |      |        |                |                  |            |
+          child1  |      |        |                |                  |       100% |
+          child2  |      |        |                |                  |            |
+          child3  |      |        |                |                  |        75% |
+      TABLE
+
+      it "sets the total % complete solely based on % complete values of children " \
+         "and accounts unset values in children as 0" do
+        expect(call_result).to be_success
+        updated_work_packages = call_result.all_results
+        expect_work_packages(updated_work_packages, <<~TABLE)
+          subject | total % complete
+          parent  |              58%
+        TABLE
+      end
+    end
+
+    context "with parent having % complete set " \
+            "and no children having work and remaining work set " \
+            "and some children having % complete set" do
+      let_work_packages(<<~TABLE)
+        hierarchy | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+        parent    |      |        |                |                  |        10% |
+          child1  |      |        |                |                  |       100% |
+          child2  |      |        |                |                  |            |
+          child3  |      |        |                |                  |        75% |
+      TABLE
+
+      it "sets the total % complete based on % complete values of children and parent " \
+         "and accounts unset values in children as 0" do
+        expect(call_result).to be_success
+        updated_work_packages = call_result.all_results
+        expect_work_packages(updated_work_packages, <<~TABLE)
+          subject | total % complete
+          parent  |              46%
+        TABLE
+      end
+    end
+
+    context "with parent having no values set " \
+            "and a multi-level children hierarchy with all values set" do
+      let_work_packages(<<~TABLE)
+        hierarchy       | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+        parent          |      |    44h |                |             21h  |            |         52%
+          child1        | 15h  |    23h |           10h  |             14h  |      33%   |         43%
+            grandchild1 |  5h  |        |            3h  |                  |      40%   |
+            grandchild2 |  3h  |        |            1h  |                  |      67%   |
+          child2        |  5h  |     7h |          2.5h  |            3.5h  |      50%   |         50%
+            grandchild3 |  2h  |        |            1h  |                  |      50%   |
+          child3        | 10h  |    14h |          2.5h  |            3.5h  |      75%   |         75%
+            grandchild4 |  4h  |        |            1h  |                  |      75%   |
+      TABLE
+
+      it "sets the total % complete solely based on % complete values of direct children" do
+        expect(call_result).to be_success
+        updated_work_packages = call_result.all_results
+        expect_work_packages(updated_work_packages, <<~TABLE)
+          subject | total % complete
+          parent  |              53%
+        TABLE
+      end
+    end
+  end
+
+  describe "work weighted average mode for total % complete calculation",
+           with_settings: { total_percent_complete_mode: "work_weighted_average" } do
+    subject(:call_result) do
+      described_class.new(user:, work_package: parent)
+                      .call(%i(remaining_hours))
+    end
+
+    context "with parent and all children all values set" do
+      let_work_packages(<<~TABLE)
+        hierarchy | work | remaining work    | % complete
+        parent    | 10h  |           7.5h    |      25%
+          child1  | 15h  |            10h    |      33%
+          child2  |  5h  |           2.5h    |      50%
+          child3  | 10h  |           2.5h    |      75%
+      TABLE
+
+      it "sets the total % complete accounting for work values as weights" do
+        pending "TODO"
+        expect(call_result).to be_success
+        updated_work_packages = call_result.all_results
+        expect_work_packages(updated_work_packages, <<~TABLE)
+          subject | total % complete
+          parent  |              46%
         TABLE
       end
     end

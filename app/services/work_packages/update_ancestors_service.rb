@@ -120,13 +120,27 @@ class WorkPackages::UpdateAncestorsService
   end
 
   def compute_derived_done_ratio(work_package, loader)
-    return if work_package.derived_estimated_hours.nil? || work_package.derived_remaining_hours.nil?
-    return if work_package.derived_estimated_hours.zero?
     return if no_children?(work_package, loader)
 
-    work_done = (work_package.derived_estimated_hours - work_package.derived_remaining_hours)
-    progress = (work_done.to_f / work_package.derived_estimated_hours) * 100
-    progress.round
+    if Setting.total_percent_complete_mode == "work_weighted_average"
+      return if work_package.derived_estimated_hours.nil? || work_package.derived_remaining_hours.nil?
+      return if work_package.derived_estimated_hours.zero?
+
+      work_done = (work_package.derived_estimated_hours - work_package.derived_remaining_hours)
+      progress = (work_done.to_f / work_package.derived_estimated_hours) * 100
+      progress.round
+    elsif Setting.total_percent_complete_mode == "simple_average"
+      all_done_ratios = loader
+        .children_of(work_package)
+        .map { |child| child.done_ratio || 0 }
+
+      if work_package.done_ratio.present?
+        all_done_ratios << work_package.done_ratio
+      end
+
+      progress = all_done_ratios.sum.to_f / all_done_ratios.count
+      progress.round
+    end
   end
 
   # Sets the ignore_non_working_days to true if any descendant has its value set to true.
