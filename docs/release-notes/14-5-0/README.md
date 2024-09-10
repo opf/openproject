@@ -14,6 +14,14 @@ We released OpenProject [OpenProject 14.5.0](https://community.openproject.org/v
 
 In these Release Notes, we will give an overview of important feature changes as well as breaking changes for developers. At the end, you will find a complete list of all changes and bug fixes.
 
+## Important updates for Docker compose
+
+The installation repository for Docker Compose has been moved to https://github.com/opf/openproject-docker-compose
+
+When updating, you will note that the repository now only contains the Docker compose setup, and the legacy Kubernetes deployment option has been removed. This means the folder structure has been changed slightly. No other changes are necessary. As we introduced a new local image starting in 14.4., the command to install and upgrade the Docker compose setup has been changed. Please double-check the [Docker compose installation guide](../../installation-and-operations/installation/docker/) on how to upgrade your installation.
+
+If you are looking for an option to install OpenProject on Kubernetes, please use our [OpenProject Helm chart](../../installation-and-operations/installation/helm-chart/).
+
 ## Important feature changes
 
 ### Keep and restore local versions of WYSIWYG content changes
