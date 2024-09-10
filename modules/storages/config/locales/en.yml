@@ -91,10 +91,14 @@ en:
         remote_folders: 'Read contents of the group folder:'
         rename_project_folder: 'Rename managed project Folder:'
     errors:
+      messages:
+        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
       models:
+        upload_link_service:
+          not_found: The destination folder %{folder} could not be found on %{storage_name}.
         copy_project_folders_service:
           conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
-          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
           forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
           not_found: The source template location %{source_path} wasn't found.
           unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,5 +29,19 @@
 #++
 
 module Storages
-  UploadData = Data.define(:folder_id, :file_name)
+  module Peripherals
+    module StorageInteraction
+      module Inputs
+        UploadData = Data.define(:folder_id, :file_name) do
+          private_class_method :new
+
+          def self.build(folder_id:, file_name:, contract: UploadDataContract.new)
+            contract.call(folder_id:, file_name:).to_monad.fmap do |result|
+              new(file_name: result[:file_name], folder_id: ParentFolder.new(result[:folder_id]))
+            end
+          end
+        end
+      end
+    end
+  end
 end
