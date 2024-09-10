@@ -81,7 +81,7 @@ module Storages
       remote_folders = remote_root_folder_map(@storage.group_folder).on_failure { return _1 }.result
       info "Found #{remote_folders.count} remote folders"
 
-      ensure_root_folder_permissions(remote_folders["/#{@storage.group_folder}/"]["fileid"]).on_failure { return _1 }
+      ensure_root_folder_permissions(remote_folders["/#{@storage.group_folder}"].id).on_failure { return _1 }
 
       ensure_folders_exist(remote_folders).on_success { hide_inactive_folders(remote_folders) }
     end
@@ -174,8 +174,8 @@ module Storages
       info "Hiding folders related to inactive projects"
       project_folder_ids = active_project_storages_scope.pluck(:project_folder_id).compact
 
-      remote_folders.except("/#{@storage.group_folder}/").each do |(path, attrs)|
-        folder_id = attrs["fileid"]
+      remote_folders.except("/#{@storage.group_folder}").each do |(path, file)|
+        folder_id = file.id
 
         next if project_folder_ids.include?(folder_id)
 
@@ -201,7 +201,7 @@ module Storages
 
     def ensure_folders_exist(remote_folders)
       info "Ensuring that automatically managed project folders exist and are correctly named."
-      id_folder_map = remote_folders.to_h { |folder, properties| [properties["fileid"], folder] }
+      id_folder_map = remote_folders.to_h { |path, file| [file.id, path] }
 
       active_project_storages_scope.includes(:project).map do |project_storage|
         unless id_folder_map.key?(project_storage.project_folder_id)
@@ -220,7 +220,7 @@ module Storages
     # @param current_path [String] current name of the remote project storage folder
     # @return [ServiceResult, nil]
     def rename_folder(project_storage, current_path)
-      return if current_path == project_storage.managed_project_folder_path
+      return if UrlBuilder.path(current_path) == UrlBuilder.path(project_storage.managed_project_folder_path)
 
       name = project_storage.managed_project_folder_name
       file_id = project_storage.project_folder_id
