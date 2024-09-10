@@ -1748,7 +1748,7 @@ en:
     Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item
     with the existing menu item "%{existing_caption}" (%{existing_identifier}).
 
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
 
   events:

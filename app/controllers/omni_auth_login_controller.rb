@@ -55,11 +55,21 @@ class OmniAuthLoginController < ApplicationController
   end
 
   def failure
-    logger.warn(params[:message]) if params[:message]
-    show_error I18n.t(:error_external_authentication_failed)
+    log_omniauth_failure
+    show_error I18n.t(:error_external_authentication_failed, message: omniauth_error)
   end
 
   private
+
+  def log_omniauth_failure
+    type = request.env["omniauth.error.type"] || "internal"
+    logger.warn "OmniAuth authentication failed (Error #{type}): #{omniauth_error}"
+  end
+
+  def omniauth_error
+    message = request.env["omniauth.error"] || request.env["omniauth.error.type"] || request.env["omniauth.error.message"]
+    message&.to_s || "Unknown error"
+  end
 
   def redirect_omniauth_register_modal(user, auth_hash)
     # Store a timestamp so we can later make sure that authentication information can

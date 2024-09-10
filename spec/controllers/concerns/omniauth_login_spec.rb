@@ -484,9 +484,10 @@ RSpec.describe OmniAuthLoginController, :skip_2fa_stage do # rubocop:disable RSp
 
       it "logs a warn message" do
         allow(Rails.logger).to receive(:warn)
-        post :failure, params: { message: "invalid_credentials" }
+        request.env["omniauth.error"] = "invalid_credentials"
+        post :failure
 
-        expect(Rails.logger).to have_received(:warn).with("invalid_credentials")
+        expect(Rails.logger).to have_received(:warn).with(/invalid_credentials/)
       end
     end
   end
