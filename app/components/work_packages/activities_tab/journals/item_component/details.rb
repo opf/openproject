@@ -93,18 +93,23 @@ module WorkPackages
         end
 
         def render_user_name_for_desktop(container)
-          container.with_column(mr: 1,
-                                classes: "work-packages-activities-tab-journals-item-component-details--user-name ellipsis hidden-for-mobile") do
+          container.with_column(
+            mr: 1,
+            classes: "work-packages-activities-tab-journals-item-component-details--user-name ellipsis hidden-for-mobile"
+          ) do
             truncated_user_name(journal.user)
           end
         end
 
         def render_user_name_and_time_for_mobile(container)
           container.with_column(
-            mr: 1, classes: "work-packages-activities-tab-journals-item-component-details--user-name-container hidden-for-desktop",
+            mr: 1,
+            classes: "work-packages-activities-tab-journals-item-component-details--user-name-container hidden-for-desktop",
             flex_layout: true
           ) do |user_name_and_time_container|
-            user_name_and_time_container.with_row(classes: "work-packages-activities-tab-journals-item-component-details--user-name ellipsis") do
+            user_name_and_time_container.with_row(
+              classes: "work-packages-activities-tab-journals-item-component-details--user-name ellipsis"
+            ) do
               truncated_user_name(journal.user)
             end
             user_name_and_time_container.with_row do
