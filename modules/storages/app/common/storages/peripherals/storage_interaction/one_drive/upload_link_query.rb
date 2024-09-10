@@ -46,6 +46,7 @@ module Storages
           def call(auth_strategy:, upload_data:)
             with_tagged_logger do
               Authentication[auth_strategy].call(storage: @storage) do |http|
+                info "Requesting an upload link on folder #{upload_data.folder_id}"
                 handle_response http.post(url(upload_data.folder_id, upload_data.file_name),
                                           json: payload(upload_data.file_name))
               end
@@ -67,6 +68,7 @@ module Storages
             case response
             in { status: 200..299 }
               upload_url = response.json(symbolize_keys: true)[:uploadUrl]
+              info "Upload link generated successfully."
               ServiceResult.success(result: UploadLink.new(URI(upload_url), :put))
             in { status: 404 | 400 } # not existent parent folder in request url is responded with 400
               info "The parent folder was not found."

@@ -36,7 +36,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
   let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
 
   let(:auth_strategy) do
-    Storages::Peripherals::Registry["one_drive.authentication.userbound"].call(user:)
+    Storages::Peripherals::Registry["one_drive.authentication.user_bound"].call(user:)
   end
 
   it_behaves_like "file_info_query: basic query setup"

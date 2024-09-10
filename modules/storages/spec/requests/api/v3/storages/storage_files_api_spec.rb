@@ -291,7 +291,13 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
       describe "due to internal error" do
         let(:error) { :error }
 
-        it { expect(last_response).to have_http_status(:internal_server_error) }
+        it "fails with an internal error" do
+          expect(last_response).to have_http_status(:internal_server_error)
+
+          body = MultiJson.load(last_response.body, symbolize_keys: true)
+          expect(body[:message]).to eq(I18n.t("services.errors.messages.error"))
+          expect(body[:errorIdentifier]).to eq("urn:openproject-org:api:v3:errors:InternalServerError")
+        end
       end
 
       describe "due to not found" do

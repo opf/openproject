@@ -37,22 +37,22 @@ module Storages::Peripherals
       fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
     end
 
-    # rubocop:disable Metrics/AbcSize
     def handle_base_errors(errors)
       base_errors = errors.symbols_for(:base)
+      message = errors.full_messages_for(:base)&.first
+
       if base_errors.include? :not_found
-        fail API::Errors::OutboundRequestNotFound.new(errors.full_messages_for(:base).first)
+        fail API::Errors::OutboundRequestNotFound.new(message)
       elsif base_errors.include? :unauthorized
-        fail ::API::Errors::Unauthenticated.new(errors.full_messages_for(:base).first)
+        fail ::API::Errors::Unauthenticated.new(message)
       elsif base_errors.include? :forbidden
-        fail API::Errors::OutboundRequestForbidden.new(errors.full_messages_for(:base).first)
+        fail API::Errors::OutboundRequestForbidden.new(message)
       elsif base_errors.include? :error
-        fail API::Errors::InternalError.new(errors.full_messages)
+        fail API::Errors::InternalError.new(message)
       else
         base_errors
       end
     end
-    # rubocop:enable Metrics/AbcSize
 
     def raise_error(error)
       Rails.logger.error(error)

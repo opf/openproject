@@ -59,7 +59,7 @@ module API::V3::StorageFiles
 
       def auth_strategy
         Storages::Peripherals::Registry
-          .resolve("#{@storage.short_provider_type}.authentication.userbound")
+          .resolve("#{@storage.short_provider_type}.authentication.user_bound")
           .call(user: current_user)
       end
     end

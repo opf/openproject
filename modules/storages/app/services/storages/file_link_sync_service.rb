@@ -39,6 +39,8 @@ module Storages
 
     def call(file_links)
       with_tagged_logger do
+        info "Starting File Link remote synchronization"
+
         resulting_file_links = file_links
                                .group_by(&:storage_id)
                                .map { |storage_id, storage_file_links| sync_storage_data(storage_id, storage_file_links) }
@@ -49,17 +51,21 @@ module Storages
           )
         end
 
-        ServiceResult.success(result: resulting_file_links)
+        @result.result = resulting_file_links
+        info "File Link Synchronization successful"
+        @result
       end
     end
 
     private
 
     def sync_storage_data(storage_id, file_links)
-      storage = ::Storages::Storage.find(storage_id)
-      ::Storages::Peripherals::Registry
-        .resolve("#{storage.short_provider_type}.queries.files_info")
-        .call(storage:, auth_strategy:, file_ids: file_links.map(&:origin_id))
+      storage = Storage.find(storage_id)
+
+      info "Retrieving file link information from #{storage.name}"
+      Peripherals::Registry
+        .resolve("#{storage}.queries.files_info")
+        .call(storage:, auth_strategy: strategy(storage), file_ids: file_links.map(&:origin_id))
         .map { |file_infos| to_hash(file_infos) }
         .match(
           on_success: set_file_link_status(file_links),
@@ -72,10 +78,8 @@ module Storages
         )
     end
 
-    def auth_strategy
-      Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
-        .strategy
-        .with_user(@user)
+    def strategy(storage)
+      Peripherals::Registry.resolve("#{storage}.authentication.user_bound").call(user: @user)
     end
 
     def to_hash(file_infos)
@@ -83,24 +87,24 @@ module Storages
     end
 
     def set_file_link_status(file_links)
+      info "Updating file link status..."
       lambda do |file_infos|
         resulting_file_links = []
 
         file_links.each do |file_link|
           file_info = file_infos[file_link.origin_id]
 
-          case file_info.status_code
-          when 200
-            update_file_link(file_link, file_info)
-
-            file_link.origin_status = :view_allowed
-          when 403
-            file_link.origin_status = :view_not_allowed
-          when 404
-            file_link.origin_status = :not_found
-          else
-            file_link.origin_status = :error
-          end
+          file_link.origin_status = case file_info.status_code
+                                    when 200
+                                      update_file_link(file_link, file_info)
+                                      :view_allowed
+                                    when 403
+                                      :view_not_allowed
+                                    when 404
+                                      :not_found
+                                    else
+                                      :error
+                                    end
 
           resulting_file_links << file_link
           file_link.save
