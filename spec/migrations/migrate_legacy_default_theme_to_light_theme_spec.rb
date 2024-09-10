@@ -35,10 +35,12 @@ RSpec.describe MigrateLegacyDefaultThemeToLightTheme, type: :model do
   # Silencing migration logs, since we are not interested in that during testing
   subject(:run_migration) { ActiveRecord::Migration.suppress_messages { described_class.new.up } }
 
-  shared_let(:user_with_default_theme) { create(:user, preferences: { settings: { theme: "default" } }) }
-  shared_let(:user_with_light_theme) { create(:user, preferences: { settings: { theme: "light" } }) }
-  shared_let(:user_with_light_high_contrast_theme) { create(:user, preferences: { settings: { theme: "light_high_contrast" } }) }
-  shared_let(:user_with_dark_theme) { create(:user, preferences: { settings: { theme: "dark" } }) }
+  shared_let(:user_with_default_theme) { create(:user, preferences: { settings: { theme: "default", foo: "bar" } }) }
+  shared_let(:user_with_light_theme) { create(:user, preferences: { settings: { theme: "light", foo: "bar" } }) }
+  shared_let(:user_with_light_high_contrast_theme) do
+    create(:user, preferences: { settings: { theme: "light_high_contrast", foo: "bar" } })
+  end
+  shared_let(:user_with_dark_theme) { create(:user, preferences: { settings: { theme: "dark", foo: "bar" } }) }
 
   it "sets the theme to light for users with the 'default' theme" do
     expect { run_migration }

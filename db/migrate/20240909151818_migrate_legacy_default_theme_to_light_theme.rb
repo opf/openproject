@@ -29,29 +29,29 @@
 #++
 
 class MigrateLegacyDefaultThemeToLightTheme < ActiveRecord::Migration[7.1]
-  class MigrationUserPreference < ActiveRecord::Base
-    self.table_name = "user_preferences"
-  end
-
   # Migrate legacy `default` theme to `light` theme
   #
   # Moving from:
   # {
   #   "settings": {
-  #     "theme": "default"
+  #     "theme": "default",
+  #     "foo": "bar"
   #   }
   # }
   #
   # To:
   # {
   #   "settings": {
-  #     "theme": "light" # current default theme
+  #     "theme": "light", # current default theme
+  #     "foo": "bar"
   #   }
   # }
   def up
-    MigrationUserPreference
-      .where(settings: { theme: "default" })
-      .update_all(settings: { theme: "light" })
+    execute <<-SQL.squish
+      UPDATE user_preferences
+      SET settings = jsonb_set(settings, '{theme}', '"light"')
+      WHERE settings->>'theme' = 'default';
+    SQL
   end
 
   # no-op
