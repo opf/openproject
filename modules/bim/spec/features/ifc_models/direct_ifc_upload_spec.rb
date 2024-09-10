@@ -40,6 +40,9 @@ RSpec.describe "direct IFC upload", :js, with_config: { edition: "bim" }, with_d
 
         page.attach_file("file", ifc_fixture.path, visible: :all)
 
+        expected_validation_message = I18n.t("activerecord.errors.messages.file_too_large", count: 1024)
+        expect(page).to have_field(type: "file", validation_message: expected_validation_message)
+
         form_validity = page.evaluate_script <<~JS
           document
             .querySelector('#new_bim_ifc_models_ifc_model')
