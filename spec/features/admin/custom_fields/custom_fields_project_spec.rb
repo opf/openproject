@@ -40,6 +40,8 @@ RSpec.describe "Custom Fields Multi-Project Activation", :js do
     create(:custom_fields_project, custom_field:, project: archived_project)
   end
 
+  let(:custom_field_projects_page) { Pages::Admin::CustomFields::CustomFieldsProjects::CustomFieldProjectsIndex.new }
+
   context "with insufficient permissions" do
     it "is not accessible" do
       login_as(non_admin)
@@ -120,6 +122,27 @@ RSpec.describe "Custom Fields Multi-Project Activation", :js do
           pagination_links.each do |pagination_link|
             uri = URI.parse(pagination_link["href"])
             expect(uri.path).to eq(custom_field_projects_path(custom_field))
+          end
+        end
+      end
+    end
+
+    it "allows unlinking a project from a custom field" do
+      project = create(:project)
+      create(:custom_fields_project, custom_field:, project:)
+
+      custom_field_projects_page.click_menu_item_of("Remove from project", project)
+
+      expect(page).to have_no_text(project.name)
+
+      aggregate_failures "pagination links maintain the correct url after unlinking is done" do
+        within ".op-pagination" do
+          pagination_links = page.all(".op-pagination--item-link")
+          expect(pagination_links.size).to be_positive
+
+          pagination_links.each do |pagination_link|
+            uri = URI.parse(pagination_link["href"])
+            expect(uri.path).to eq(custom_field_projects(custom_field))
           end
         end
       end

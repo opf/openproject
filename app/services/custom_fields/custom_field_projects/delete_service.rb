@@ -26,43 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module CustomFields
-    module CustomFieldProjects
-      class RowComponent < Projects::RowComponent
-        include OpTurbo::Streamable
-
-        def wrapper_uniq_by
-          "project-#{project.id}"
+module CustomFields
+  module CustomFieldProjects
+    class DeleteService < ::BaseServices::Delete
+      def destroy(custom_field_project)
+        CustomFieldsProject.transaction do
+          # `custom_fields_projects` table has no `id` column, hence no primary key. #destroy method would not work
+          # Note: `delete_all` does not trigger callbacks
+          CustomFieldsProject.where(custom_field_id: custom_field_project.custom_field_id,
+                                    project_id: custom_field_project.project_id).delete_all
         end
-
-        def more_menu_items
-          @more_menu_items ||= [more_menu_detach_project].compact
-        end
-
-        private
-
-        def more_menu_detach_project
-          if User.current.admin && project.active?
-            {
-              scheme: :default,
-              icon: nil,
-              label: I18n.t("projects.settings.project_custom_fields.actions.remove_from_project"),
-              href: detach_from_project_url,
-              data: { turbo_method: :delete }
-            }
-          end
-        end
-
-        def detach_from_project_url
-          url_helpers.custom_field_project_path(
-            custom_field_id: @table.params[:custom_field].id,
-            custom_fields_project: { project_id: project.id }
-          )
-        end
-
-        def project = model.first
       end
+
+      # Mappings have custom deletion rules that are similar to the update rules all derived from the base contract
+      # Reuse the update contract to ensure that the deletion rules are consistent with the update rules
+      def default_contract_class = CustomFields::CustomFieldProjects::UpdateContract
     end
   end
 end

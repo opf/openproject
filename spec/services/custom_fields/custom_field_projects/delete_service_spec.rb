@@ -26,43 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module CustomFields
-    module CustomFieldProjects
-      class RowComponent < Projects::RowComponent
-        include OpTurbo::Streamable
+require "spec_helper"
+require "services/base_services/behaves_like_delete_service"
 
-        def wrapper_uniq_by
-          "project-#{project.id}"
-        end
+RSpec.describe CustomFields::CustomFieldProjects::DeleteService do
+  it_behaves_like "BaseServices delete service" do
+    let(:factory) { :custom_fields_project }
 
-        def more_menu_items
-          @more_menu_items ||= [more_menu_detach_project].compact
-        end
-
-        private
-
-        def more_menu_detach_project
-          if User.current.admin && project.active?
-            {
-              scheme: :default,
-              icon: nil,
-              label: I18n.t("projects.settings.project_custom_fields.actions.remove_from_project"),
-              href: detach_from_project_url,
-              data: { turbo_method: :delete }
-            }
-          end
-        end
-
-        def detach_from_project_url
-          url_helpers.custom_field_project_path(
-            custom_field_id: @table.params[:custom_field].id,
-            custom_fields_project: { project_id: project.id }
-          )
-        end
-
-        def project = model.first
-      end
+    let(:contract_class) do
+      "#{namespace}::UpdateContract".constantize
     end
   end
 end
