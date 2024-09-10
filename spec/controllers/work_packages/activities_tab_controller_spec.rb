@@ -30,6 +30,7 @@ require "spec_helper"
 
 RSpec.describe WorkPackages::ActivitiesTabController do
   let(:project) { create(:project) }
+  let(:other_project) { create(:project) }
   let(:viewer_role) do
     create(:project_role,
            permissions: [:view_work_packages])
@@ -37,6 +38,10 @@ RSpec.describe WorkPackages::ActivitiesTabController do
   let(:viewer) do
     create(:user,
            member_with_roles: { project => viewer_role })
+  end
+  let(:viewer_with_no_access_to_project) do
+    create(:user,
+           member_with_roles: { other_project => viewer_role })
   end
   let(:commenter_role) do
     create(:project_role,
@@ -46,6 +51,10 @@ RSpec.describe WorkPackages::ActivitiesTabController do
     create(:user,
            member_with_roles: { project => commenter_role })
   end
+  let(:commenter_with_no_access_to_project) do
+    create(:user,
+           member_with_roles: { other_project => commenter_role })
+  end
   let(:full_privileges_role) do
     create(:project_role,
            permissions: %i[view_work_packages edit_work_packages add_work_package_notes edit_own_work_package_notes
@@ -54,6 +63,10 @@ RSpec.describe WorkPackages::ActivitiesTabController do
   let(:user_with_full_privileges) do
     create(:user,
            member_with_roles: { project => full_privileges_role })
+  end
+  let(:user_with_full_privileges_with_no_access_to_project) do
+    create(:user,
+           member_with_roles: { other_project => full_privileges_role })
   end
   let(:work_package) do
     create(:work_package,
@@ -207,6 +220,32 @@ RSpec.describe WorkPackages::ActivitiesTabController do
     end
   end
 
+  shared_examples_for "does not grant access for users with no access to the project" do
+    context "when a viewer is logged in who has no access to the project" do
+      let(:user) { viewer_with_no_access_to_project }
+
+      subject { response }
+
+      it { is_expected.to be_forbidden }
+    end
+
+    context "when a commenter is logged in who has no access to the project" do
+      let(:user) { commenter_with_no_access_to_project }
+
+      subject { response }
+
+      it { is_expected.to be_forbidden }
+    end
+
+    context "when a user with full privileges is logged in who has no access to the project" do
+      let(:user) { user_with_full_privileges_with_no_access_to_project }
+
+      subject { response }
+
+      it { is_expected.to be_forbidden }
+    end
+  end
+
   before do
     allow(User).to receive(:current).and_return user
 
@@ -250,6 +289,8 @@ RSpec.describe WorkPackages::ActivitiesTabController do
       # end
     end
 
+    it_behaves_like "does not grant access for users with no access to the project"
+
     context "when a viewer is logged in" do
       let(:user) { viewer }
 
@@ -283,6 +324,8 @@ RSpec.describe WorkPackages::ActivitiesTabController do
     end
 
     it_behaves_like "does not grant access for anonymous users unless project is public and no login required"
+
+    it_behaves_like "does not grant access for users with no access to the project"
 
     context "when a viewer is logged in" do
       let(:user) { viewer }
@@ -332,6 +375,8 @@ RSpec.describe WorkPackages::ActivitiesTabController do
 
     it_behaves_like "does not grant access for anonymous users unless project is public and no login required"
 
+    it_behaves_like "does not grant access for users with no access to the project"
+
     context "when a viewer is logged in" do
       let(:user) { viewer }
 
@@ -362,6 +407,12 @@ RSpec.describe WorkPackages::ActivitiesTabController do
       put :update_sorting,
           params: { work_package_id: work_package.id, project_id: project.id, sorting: },
           format: :turbo_stream
+    end
+
+    context "when no access to the project" do
+      let(:sorting) { "asc" }
+
+      it_behaves_like "does not grant access for users with no access to the project"
     end
 
     context "when a viewer is logged in" do
@@ -408,6 +459,8 @@ RSpec.describe WorkPackages::ActivitiesTabController do
     end
 
     it_behaves_like "does not grant access for anonymous users in all cases"
+
+    it_behaves_like "does not grant access for users with no access to the project"
 
     context "when a viewer is logged in" do
       let(:user) { viewer }
@@ -464,6 +517,8 @@ RSpec.describe WorkPackages::ActivitiesTabController do
     end
 
     it_behaves_like "does not grant access for anonymous users in all cases"
+
+    it_behaves_like "does not grant access for users with no access to the project"
 
     context "when a viewer is logged in" do
       let(:user) { viewer }
@@ -525,6 +580,8 @@ RSpec.describe WorkPackages::ActivitiesTabController do
     end
 
     it_behaves_like "does not grant access for anonymous users in all cases"
+
+    it_behaves_like "does not grant access for users with no access to the project"
 
     context "when a viewer is logged in" do
       let(:user) { viewer }
