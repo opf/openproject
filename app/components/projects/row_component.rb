@@ -107,6 +107,20 @@ module Projects
       number_to_human_size(project.required_disk_space, precision: 2)
     end
 
+    def id
+      content = "".html_safe
+
+      content << project.id.to_s
+      content
+    end
+
+    def identifier
+      content = "".html_safe
+
+      content << project.identifier
+      content
+    end
+
     def name
       content = content_tag(:i, "", class: "projects-table--hierarchy-icon")
 
