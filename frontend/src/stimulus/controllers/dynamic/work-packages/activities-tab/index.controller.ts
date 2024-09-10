@@ -3,7 +3,6 @@ import { Controller } from '@hotwired/stimulus';
 import {
   ICKEditorInstance,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
-import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 
 interface CustomEventWithIdParam extends Event {
   params:{
@@ -42,6 +41,10 @@ export default class IndexController extends Controller {
   private handleVisibilityChangeBound:EventListener;
   private rescueEditorContentBound:EventListener;
 
+  private onSubmitBound:EventListener;
+  private adjustMarginBound:EventListener;
+  private hideEditorBound:EventListener;
+
   connect() {
     this.setLocalStorageKey();
     this.setLastUpdateTimestamp();
@@ -64,9 +67,9 @@ export default class IndexController extends Controller {
   }
 
   private setupEventListeners() {
-    this.handleWorkPackageUpdateBound = this.handleWorkPackageUpdate.bind(this);
-    this.handleVisibilityChangeBound = this.handleVisibilityChange.bind(this);
-    this.rescueEditorContentBound = this.rescueEditorContent.bind(this);
+    this.handleWorkPackageUpdateBound = () => { void this.handleWorkPackageUpdate(); };
+    this.handleVisibilityChangeBound = () => { void this.handleVisibilityChange(); };
+    this.rescueEditorContentBound = () => { void this.rescueEditorContent(); };
 
     document.addEventListener('work-package-updated', this.handleWorkPackageUpdateBound);
     document.addEventListener('visibilitychange', this.handleVisibilityChangeBound);
@@ -101,7 +104,7 @@ export default class IndexController extends Controller {
     return window.setInterval(() => this.updateActivitiesList(), this.pollingIntervalInMsValue);
   }
 
-  handleWorkPackageUpdate(_event:Event):void {
+  handleWorkPackageUpdate(_event?:Event):void {
     setTimeout(() => this.updateActivitiesList(), 2000);
   }
 
@@ -186,8 +189,12 @@ export default class IndexController extends Controller {
     window.location.hash = `#activity-${activityId}`;
   }
 
+  private getCkEditorElement():HTMLElement | null {
+    return this.element.querySelector('opce-ckeditor-augmented-textarea');
+  }
+
   private getCkEditorInstance():ICKEditorInstance | null {
-    const AngularCkEditorElement = this.element.querySelector('opce-ckeditor-augmented-textarea');
+    const AngularCkEditorElement = this.getCkEditorElement();
     return AngularCkEditorElement ? jQuery(AngularCkEditorElement).data('editor') as ICKEditorInstance : null;
   }
 
@@ -211,59 +218,25 @@ export default class IndexController extends Controller {
   }
 
   private addEventListenersToCkEditorInstance() {
-    const editor = this.getCkEditorInstance();
-    if (editor) {
-      this.addKeydownListener(editor);
-      this.addKeyupListener(editor);
-      this.addBlurListener(editor);
+    this.onSubmitBound = () => { void this.onSubmit(); };
+    this.adjustMarginBound = () => { void this.adjustJournalContainerMargin(); };
+    this.hideEditorBound = () => { void this.hideEditorIfEmpty(); };
+
+    const editorElement = this.getCkEditorElement();
+    if (editorElement) {
+      editorElement.addEventListener('saveRequested', this.onSubmitBound);
+      editorElement.addEventListener('editorKeyup', this.adjustMarginBound);
+      editorElement.addEventListener('editorBlur', this.hideEditorBound);
     }
   }
 
-  private addKeydownListener(editor:ICKEditorInstance) {
-    editor.listenTo(
-      editor.editing.view.document,
-      'keydown',
-      (event, data) => {
-        // taken from op-ck-editor.component.ts
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
-        if ((data.ctrlKey || data.metaKey) && data.keyCode === KeyCodes.ENTER) {
-          void this.onSubmit();
-          event.stop();
-        }
-      },
-      { priority: 'highest' },
-    );
-  }
-
-  private addKeyupListener(editor:ICKEditorInstance) {
-    editor.listenTo(
-      editor.editing.view.document,
-      'keyup',
-      (event) => {
-        this.adjustJournalContainerMargin();
-        event.stop();
-      },
-      { priority: 'highest' },
-    );
-  }
-
-  private addBlurListener(editor:ICKEditorInstance) {
-    editor.listenTo(
-      editor.editing.view.document,
-      'change:isFocused',
-      () => {
-        // without the timeout `isFocused` is still true even if the editor was blurred
-        // current limitation:
-        // clicking on empty toolbar space and the somewhere else on the page does not trigger the blur anymore
-        setTimeout(() => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          if (!editor.ui.focusTracker.isFocused) {
-            this.hideEditorIfEmpty();
-          }
-        }, 0);
-      },
-      { priority: 'highest' },
-    );
+  private removeEventListenersFromCkEditorInstance() {
+    const editorElement = this.getCkEditorElement();
+    if (editorElement) {
+      editorElement.removeEventListener('saveRequested', this.onSubmitBound);
+      editorElement.removeEventListener('editorKeyup', this.adjustMarginBound);
+      editorElement.removeEventListener('editorBlur', this.hideEditorBound);
+    }
   }
 
   private adjustJournalContainerMargin() {
@@ -367,7 +340,10 @@ export default class IndexController extends Controller {
 
   hideEditorIfEmpty() {
     const ckEditorInstance = this.getCkEditorInstance();
+
     if (ckEditorInstance && ckEditorInstance.getData({ trim: false }).length === 0) {
+      this.clearEditor(); // remove potentially empty lines
+      this.removeEventListenersFromCkEditorInstance();
       this.buttonRowTarget.classList.remove('d-none');
       this.formRowTarget.classList.add('d-none');
 
