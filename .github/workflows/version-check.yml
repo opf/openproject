@@ -22,7 +22,7 @@ jobs:
 
       - name: Verify linked version matches core version
         id: version-check
-        run: ./script/ci/version_check.sh ${{ github.event.pull_request.body }}
+        run: ./script/ci/version_check.sh "${{ github.event.pull_request.body }}"
 
       - name: Add comment if versions differ
         if: steps.version-check.outputs.version_mismatch == 'true'

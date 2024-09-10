@@ -31,10 +31,10 @@ set -e
 
 # script/ci/version_check
 
-PR_BODY="$1"
+PR_BODY="$@"
 
 # Extract URL from PR description
-WP_URL=$(echo "${PR_BODY}" | grep -oE 'https://community.openproject.org/(wp|work_packages|projects/[^/]+/work_packages)/[0-9]+')
+WP_URL=$(echo "$PR_BODY" | grep -oE 'https://community.openproject.org/(wp|work_packages|projects/[^/]+/work_packages)/[0-9]+' || true)
 
 if [ -z "$WP_URL" ]; then
   echo "::warning::PR description does not contain a valid URL to an OpenProject ticket."
@@ -74,9 +74,9 @@ if [[ "$VERSION_FROM_API" != "$VERSION_FROM_FILE" ]]; then
   echo "Version mismatch detected."
 
   echo "version_mismatch=true" >> "$GITHUB_OUTPUT"
-  echo "wp_url='${WP_URL}'" >> "$GITHUB_OUTPUT"
-  echo "wp_version='${VERSION_FROM_API}'" >> "$GITHUB_OUTPUT"
-  echo "core_version='${VERSION_FROM_FILE}'" >> "$GITHUB_OUTPUT"
+  echo "wp_url=${WP_URL}" >> "$GITHUB_OUTPUT"
+  echo "wp_version=${VERSION_FROM_API}" >> "$GITHUB_OUTPUT"
+  echo "core_version=${VERSION_FROM_FILE}" >> "$GITHUB_OUTPUT"
 else
   echo "Version from the work package ${WORK_PACKAGE_ID} matches the version in the version file this PR targets."
 fi
