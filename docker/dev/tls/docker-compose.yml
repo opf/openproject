@@ -35,10 +35,10 @@ services:
     networks:
       external:
         aliases:
-          - traefik.local
+          - traefik.internal
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.local`)"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.internal`)"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.entrypoints=websecure"
 

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: mkcol
-    uri: https://nextcloud.local/remote.php/dav/files/admin/F%C3%B6lder%20CreatedBy%20%C3%87ommand
+    uri: https://nextcloud.internal/remote.php/dav/files/admin/F%C3%B6lder%20CreatedBy%20%C3%87ommand
     body:
       encoding: US-ASCII
       string: ''
@@ -77,7 +77,7 @@ http_interactions:
   recorded_at: Tue, 23 Apr 2024 11:22:31 GMT
 - request:
     method: propfind
-    uri: https://nextcloud.local/remote.php/dav/files/admin/F%C3%B6lder%20CreatedBy%20%C3%87ommand
+    uri: https://nextcloud.internal/remote.php/dav/files/admin/F%C3%B6lder%20CreatedBy%20%C3%87ommand
     body:
       encoding: UTF-8
       string: |
@@ -174,7 +174,7 @@ http_interactions:
   recorded_at: Tue, 23 Apr 2024 11:22:32 GMT
 - request:
     method: delete
-    uri: https://nextcloud.local/remote.php/dav/files/admin/F%C3%B6lder%20CreatedBy%20%C3%87ommand
+    uri: https://nextcloud.internal/remote.php/dav/files/admin/F%C3%B6lder%20CreatedBy%20%C3%87ommand
     body:
       encoding: US-ASCII
       string: ''

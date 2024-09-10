@@ -236,7 +236,7 @@ At the end you will be running two separate docker-compose stacks:
 2. the stack defined in `docker/dev/tls` that runs the CA and reverse proxy.
 
 If the setup is successful, you will be able to access the local OpenProject application
-under `https://openproject.local`. Of course, the host name is replaceable.
+under `https://openproject.internal`. Of course, the host name is replaceable.
 
 ### Resolving host names
 
@@ -246,8 +246,8 @@ and `443` and redirect those requests to the specific container. To make it happ
 define for your services to your `/etc/hosts`.
 
 ```shell
-127.0.0.1   openproject.local traefik.local
-::1         openproject.local traefik.local
+127.0.0.1   openproject.internal traefik.internal
+::1         openproject.internal traefik.internal
 ```
 
 #### DNS? Where are you?
@@ -375,7 +375,7 @@ In addition, we need to alter the environmental variables used in the new overri
 like that:
 
 ```shell
-OPENPROJECT_DEV_HOST=openproject.local
+OPENPROJECT_DEV_HOST=openproject.internal
 OPENPROJECT_DEV_URL=https://${OPENPROJECT_DEV_HOST}
 ```
 
@@ -397,7 +397,7 @@ to have Nextcloud running to test the Nextcloud-OpenProject integration. To do t
 
 ### Troubleshooting
 
-After this setup you should be able to access your OpenProject development instance at `https://openproject.local`. If
+After this setup you should be able to access your OpenProject development instance at `https://openproject.internal`. If
 something went wrong, check if your problem is listed here.
 
 #### Certificate invalid
@@ -415,7 +415,7 @@ docker compose --project-directory docker/dev/tls up -d
 
 Within `docker/dev/gitlab` a compose file is provided for running local Gitlab instance with TLS support. This provides
 a production like environment for testing the OpenProject GitLab integration against a community edition GitLab instance
-accessible on `https://gitlab.local`.
+accessible on `https://gitlab.internal`.
 
 > NOTE: Configure [TLS Support](#tls-support) first before starting the GitLab service
 
@@ -446,10 +446,10 @@ docker compose --project-directory docker/dev/gitlab exec -it gitlab gitlab-rake
 
 ## Keycloak Service
 
-> NOTE: OpenID connect is an enterprise feature in OpenProject. So, to be able to use this feature for development setup, we need to have an `Enterprise Edition Token` which is restricted to the domain `openproject.local`
+> NOTE: OpenID connect is an enterprise feature in OpenProject. So, to be able to use this feature for development setup, we need to have an `Enterprise Edition Token` which is restricted to the domain `openproject.internal`
 
 Within `docker/dev/keycloak` a compose file is provided for running local keycloak instance with TLS support. This provides
-a production like environment for testing the OpenProject Keycloak integration against a keycloak instance accessible on `https://keycloak.local`.
+a production like environment for testing the OpenProject Keycloak integration against a keycloak instance accessible on `https://keycloak.internal`.
 
 > NOTE: Configure [TLS Support](#tls-support) first before starting the Keycloak service
 
@@ -461,7 +461,7 @@ Start up the docker compose service for Keycloak as follows:
 docker compose --project-directory docker/dev/keycloak up -d
 ```
 
-Once the keycloak service is started and running, you can access the keycloak instance on `https://keycloak.local` 
+Once the keycloak service is started and running, you can access the keycloak instance on `https://keycloak.internal` 
 and login with initial username and password as `admin`.
 
 Keycloak being an OpenID connect provider, we need to setup an OIDC integration for OpenProject.

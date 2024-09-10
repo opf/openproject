@@ -59,7 +59,7 @@ value:
       href: urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
       title: Authorization failed
     authorize:
-      href: https://nextcloud25.local/index.php/apps/oauth2/authorize?client_id=fnrIeJZqqAKGQlejuDaGhSQfCAVtoayHLACWCYcPJ0w17Pp6daPPUktkM9QaGxca&redirect_uri=https://openproject.local/oauth_clients/fnrIeJZqqAKGQlejuDaGhSQfCAVtoayHLACWCYcPJ0w17Pp6daPPUktkM9QaGxca/callback&response_type=code
+      href: https://nextcloud25.internal/index.php/apps/oauth2/authorize?client_id=fnrIeJZqqAKGQlejuDaGhSQfCAVtoayHLACWCYcPJ0w17Pp6daPPUktkM9QaGxca&redirect_uri=https://openproject.internal/oauth_clients/fnrIeJZqqAKGQlejuDaGhSQfCAVtoayHLACWCYcPJ0w17Pp6daPPUktkM9QaGxca/callback&response_type=code
       title: Authorize
     projectStorages:
       href: /api/v3/project_storages?filters=[{"storageId":{"operator":"=","values":["1337"]}}]

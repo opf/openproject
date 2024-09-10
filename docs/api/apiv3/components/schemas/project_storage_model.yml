@@ -113,4 +113,4 @@ example:
     open:
       href: '/api/v3/storages/81/open'
     openWithConnectionEnsured:
-      href: '/oauth_clients/123/ensure_connection?destination_url=https%3A%2F%2Fopenproject.local%2Fprojects%2Fdeath-star%2Fproject_storages%2F23%2Fopen&storage_id=81'
+      href: '/oauth_clients/123/ensure_connection?destination_url=https%3A%2F%2Fopenproject.internal%2Fprojects%2Fdeath-star%2Fproject_storages%2F23%2Fopen&storage_id=81'

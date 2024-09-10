@@ -105,7 +105,7 @@ RSpec.describe "API v3 storages resource", :webmock, content_type: :json do
 
   describe "POST /api/v3/storages" do
     let(:path) { api_v3_paths.storages }
-    let(:host) { "https://example.nextcloud.local" }
+    let(:host) { "https://example.nextcloud.internal" }
     let(:name) { "APIStorage" }
     let(:type) { "urn:openproject-org:api:v3:storages:Nextcloud" }
     let(:params) do

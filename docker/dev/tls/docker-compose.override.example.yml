@@ -7,7 +7,7 @@ services:
           # The reason to do this is that step-ca tries to validate the domains
           # by connecting to them, and we'd like it to go through traefik, instead
           # of calling the service containers directly.
-          - openproject.local
-          - nextcloud.local
-          - gitlab.local
-          - keycloak.local
+          - openproject.internal
+          - nextcloud.internal
+          - gitlab.internal
+          - keycloak.internal

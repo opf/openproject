@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://nextcloud.local/ocs/v1.php/apps/integration_openproject/filesinfo
+    uri: https://nextcloud.internal/ocs/v1.php/apps/integration_openproject/filesinfo
     body:
       encoding: UTF-8
       string: '{"fileIds":["1234"]}'

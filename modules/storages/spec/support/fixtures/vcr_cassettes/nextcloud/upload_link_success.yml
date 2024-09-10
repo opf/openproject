@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://nextcloud.local/index.php/apps/integration_openproject/direct-upload-token
+    uri: https://nextcloud.internal/index.php/apps/integration_openproject/direct-upload-token
     body:
       encoding: UTF-8
       string: '{"folder_id":"169"}'

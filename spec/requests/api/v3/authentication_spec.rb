@@ -374,30 +374,97 @@ RSpec.describe "API V3 Authentication" do
         "providers" => {
           "keycloak" => {
             "display_name" => "Keycloak",
-            "identifier" => "https://openproject.local",
+            "identifier" => "https://openproject.internal",
             "secret" => "9AWjVC3A4U1HLrZuSP4xiwHfw6zmgECn",
-            "host" => "keycloak.local",
-            "issuer" => "https://keycloak.local/realms/master",
+            "host" => "keycloak.internal",
+            "issuer" => "https://keycloak.internal/realms/master",
             "authorization_endpoint" => "/realms/master/protocol/openid-connect/auth",
             "token_endpoint" => "/realms/master/protocol/openid-connect/token",
             "userinfo_endpoint" => "/realms/master/protocol/openid-connect/userinfo",
-            "end_session_endpoint" => "https://keycloak.local/realms/master/protocol/openid-connect/logout",
-            "jwks_uri" => "https://keycloak.local/realms/master/protocol/openid-connect/certs"
+            "end_session_endpoint" => "https://keycloak.internal/realms/master/protocol/openid-connect/logout",
+            "jwks_uri" => "https://keycloak.internal/realms/master/protocol/openid-connect/certs"
           }
         }
       }
     }
   ) do
-    let(:rsa_signed_access_token_without_aud) do
-      "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI5N0FteXZvUzhCRkZSZm01ODVHUGdBMTZHMUgyVjIyRWR4eHVBWVV1b0trIn0.eyJleHAiOjE3MjEyODM0MzAsImlhdCI6MTcyMTI4MzM3MCwianRpIjoiYzUyNmI0MzUtOTkxZi00NzRhLWFkMWItYzM3MTQ1NmQxZmQwIiwiaXNzIjoiaHR0cHM6Ly9rZXljbG9hay5sb2NhbC9yZWFsbXMvbWFzdGVyIiwiYXVkIjpbIm1hc3Rlci1yZWFsbSIsImFjY291bnQiXSwic3ViIjoiYjcwZTJmYmYtZWE2OC00MjBjLWE3YTUtMGEyODdjYjY4OWM2IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiaHR0cHM6Ly9vcGVucHJvamVjdC5sb2NhbCIsInNlc3Npb25fc3RhdGUiOiJlYjIzNTI0MC0wYjQ3LTQ4ZmEtOGIzZS1mM2IzMTBkMzUyZTMiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHBzOi8vb3BlbnByb2plY3QubG9jYWwiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImNyZWF0ZS1yZWFsbSIsImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJhZG1pbiIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsibWFzdGVyLXJlYWxtIjp7InJvbGVzIjpbInZpZXctcmVhbG0iLCJ2aWV3LWlkZW50aXR5LXByb3ZpZGVycyIsIm1hbmFnZS1pZGVudGl0eS1wcm92aWRlcnMiLCJpbXBlcnNvbmF0aW9uIiwiY3JlYXRlLWNsaWVudCIsIm1hbmFnZS11c2VycyIsInF1ZXJ5LXJlYWxtcyIsInZpZXctYXV0aG9yaXphdGlvbiIsInF1ZXJ5LWNsaWVudHMiLCJxdWVyeS11c2VycyIsIm1hbmFnZS1ldmVudHMiLCJtYW5hZ2UtcmVhbG0iLCJ2aWV3LWV2ZW50cyIsInZpZXctdXNlcnMiLCJ2aWV3LWNsaWVudHMiLCJtYW5hZ2UtYXV0aG9yaXphdGlvbiIsIm1hbmFnZS1jbGllbnRzIiwicXVlcnktZ3JvdXBzIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJzaWQiOiJlYjIzNTI0MC0wYjQ3LTQ4ZmEtOGIzZS1mM2IzMTBkMzUyZTMiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.cLgbN9kygRwthUx0R0FazPfIUeEUVnw4HnDgN-Hsnm9oXVr6MqmfTRKEI-6n62dlnVKsdadF_tWf3jp26d6neLj1zlR-vojwaHm8A08S9m6IeMr9e0CGiYVHjrJtEeTgq6P9cJJfe7uuhSSvlG3ltFPDxaAe14Dz3BjhLO3iaCRkWfAZjKmnW-IMzzzHfGH-7of7qCAlF5ObEax38mf1Q0OmsPA4_5po-FFtw7H7FfDjsr6EXgtdwloDePkk2XIHs2XsIo0YugVHC9GqCWgBA8MBvCirFivqM53paZMnjhpQH-xgTpYGWlw3WNbG2Rny2GoEwIxdYOUO2amDQ_zkrQ"
+    let(:expected_message) { "You did not provide the correct credentials." }
+    let(:token) do
+      JWT.encode(token_payload, rsa_private, "RS256", kid: jwk[:kid])
     end
-    let(:rsa_signed_access_token_with_aud) do
-      "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI5N0FteXZvUzhCRkZSZm01ODVHUGdBMTZHMUgyVjIyRWR4eHVBWVV1b0trIn0.eyJleHAiOjE3MjEyODQ3NjksImlhdCI6MTcyMTI4NDcwOSwianRpIjoiNjhiYzNmZTMtNDFhZi00MGUwLTg4NGEtNDgxNTM1MTU3NjIyIiwiaXNzIjoiaHR0cHM6Ly9rZXljbG9hay5sb2NhbC9yZWFsbXMvbWFzdGVyIiwiYXVkIjpbImh0dHBzOi8vb3BlbnByb2plY3QubG9jYWwiLCJtYXN0ZXItcmVhbG0iLCJhY2NvdW50Il0sInN1YiI6ImI3MGUyZmJmLWVhNjgtNDIwYy1hN2E1LTBhMjg3Y2I2ODljNiIsInR5cCI6IkJlYXJlciIsImF6cCI6Imh0dHBzOi8vb3BlbnByb2plY3QubG9jYWwiLCJzZXNzaW9uX3N0YXRlIjoiNWI5OWM3M2EtY2QwNS00N2MwLTgwZTctODRjYTNiYTI0MDQ1IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL29wZW5wcm9qZWN0LmxvY2FsIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJjcmVhdGUtcmVhbG0iLCJkZWZhdWx0LXJvbGVzLW1hc3RlciIsIm9mZmxpbmVfYWNjZXNzIiwiYWRtaW4iLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7Im1hc3Rlci1yZWFsbSI6eyJyb2xlcyI6WyJ2aWV3LXJlYWxtIiwidmlldy1pZGVudGl0eS1wcm92aWRlcnMiLCJtYW5hZ2UtaWRlbnRpdHktcHJvdmlkZXJzIiwiaW1wZXJzb25hdGlvbiIsImNyZWF0ZS1jbGllbnQiLCJtYW5hZ2UtdXNlcnMiLCJxdWVyeS1yZWFsbXMiLCJ2aWV3LWF1dGhvcml6YXRpb24iLCJxdWVyeS1jbGllbnRzIiwicXVlcnktdXNlcnMiLCJtYW5hZ2UtZXZlbnRzIiwibWFuYWdlLXJlYWxtIiwidmlldy1ldmVudHMiLCJ2aWV3LXVzZXJzIiwidmlldy1jbGllbnRzIiwibWFuYWdlLWF1dGhvcml6YXRpb24iLCJtYW5hZ2UtY2xpZW50cyIsInF1ZXJ5LWdyb3VwcyJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiNWI5OWM3M2EtY2QwNS00N2MwLTgwZTctODRjYTNiYTI0MDQ1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.WS2TWDHFU2Amglj6j4LYhsUY5oyw3J7PhllGf0MH3Kz_ETT7GZCR6MvtvY1EuOb11t_YKrQ6M8LBHhh5j9mrFNrg-vTXMaYmXwXCQxfKtHvTVbo4coEPpnW_8NEVBG8dvduLRVK_o7BbNhZH9FCe5sb_7EbA18E7evHNLWi9co4nLsSBQSeBoHRSJqD28Yr2Xj1u618bVz_grAlm0DiwhJhGzkv-JJtUGa1xQyIkNeogPWalnLpzspa2Q2i5LeLB02aoPDlQ_PkUF6Tn6IGY2for8HQQlYkjBvhxL_wMBDoNRKlFycqkCBSedsPx2m6NdmBK8ppLgaMfKe0uVGvaTg"
+    let(:token_payload) do
+      { "exp" => 1721283430,
+        "iat" => 1721283370,
+        "jti" => "c526b435-991f-474a-ad1b-c371456d1fd0",
+        "iss" => token_iss,
+        "aud" => token_aud,
+        "sub" => "b70e2fbf-ea68-420c-a7a5-0a287cb689c6",
+        "typ" => "Bearer",
+        "azp" => "https://openproject.internal",
+        "session_state" => "eb235240-0b47-48fa-8b3e-f3b310d352e3",
+        "acr" => "1",
+        "allowed-origins" => ["https://openproject.internal"],
+        "realm_access" => { "roles" => ["create-realm", "default-roles-master", "offline_access", "admin",
+                                        "uma_authorization"] },
+        "resource_access" =>
+        { "master-realm" =>
+          { "roles" =>
+            ["view-realm",
+             "view-identity-providers",
+             "manage-identity-providers",
+             "impersonation",
+             "create-client",
+             "manage-users",
+             "query-realms",
+             "view-authorization",
+             "query-clients",
+             "query-users",
+             "manage-events",
+             "manage-realm",
+             "view-events",
+             "view-users",
+             "view-clients",
+             "manage-authorization",
+             "manage-clients",
+             "query-groups"] },
+          "account" => { "roles" => ["manage-account", "manage-account-links", "view-profile"] } },
+        "scope" => "email profile",
+        "sid" => "eb235240-0b47-48fa-8b3e-f3b310d352e3",
+        "email_verified" => false,
+        "preferred_username" => "admin" }
     end
+    let(:token_aud) { ["master-realm", "account"] }
     let(:token_exp) { Time.zone.at(JWT.decode(token, nil, false)[0]["exp"]) }
     let(:token_sub) { JWT.decode(token, nil, false)[0]["sub"] }
-    let(:expected_message) { "You did not provide the correct credentials." }
-    let(:keys_request_stub) { nil }
+    let(:token_iss) { "https://keycloak.internal/realms/master" }
+    let(:keys_request_stub) do
+      stub_request(:get, "https://keycloak.internal/realms/master/protocol/openid-connect/certs")
+        .with(
+          headers: {
+            "Accept" => "*/*",
+            "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+            "User-Agent" => "JSON::JWK::Set::Fetcher 2.7.2"
+          }
+        ).to_return(status: 200, body: keys_hash.to_json, headers: {})
+    end
+    let(:keys_hash) do
+      { "keys" =>
+        [{ "kid" => "CANAG6lJUPKqKDoWxxXL5wAHf2U18BAzm_LJm7RPTGk",
+           "kty" => "RSA",
+           "alg" => "RSA-OAEP",
+           "use" => "enc",
+           "n" =>
+           "nqJexS6n-SxKSDUxXp_dsNwDW6cZ4Rtgqq9ut_lp1CNSph5wTnLG3aQQsTEvx5o3-SZ-pHjJ0gtEpg7clAz-w-YQyZoAXkFtQqmZJxsmdS4K0yILxO3WUNdJQlutjmq-Ri50Senn5IV7yEYWLo8St1qzUqWZhp0HKudyty24triC9UJTK03W3_Tr5c1X8vKL8duAjvLB7p_sYUOrnLq5pD5lqwxVSAiN8qS5zVNZMrhGV5aN1vN_vue_tw8c2SVOCLLTrUh3441rYaeo-UwQZF7ZTm30xflqAIfe8qMoB20wtWYAXR0D5iqkkdEH4XanCYVm5vdUFIPPvXZhRDWoNQ",
+           "e" => "AQAB",
+           "x5c" =>
+           ["MIICmzCCAYMCBgGQupeGPzANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZtYXN0ZXIwHhcNMjQwNzE2MDgwODMwWhcNMzQwNzE2MDgxMDEwWjARMQ8wDQYDVQQDDAZtYXN0ZXIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCeol7FLqf5LEpINTFen92w3ANbpxnhG2Cqr263+WnUI1KmHnBOcsbdpBCxMS/Hmjf5Jn6keMnSC0SmDtyUDP7D5hDJmgBeQW1CqZknGyZ1LgrTIgvE7dZQ10lCW62Oar5GLnRJ6efkhXvIRhYujxK3WrNSpZmGnQcq53K3Lbi2uIL1QlMrTdbf9OvlzVfy8ovx24CO8sHun+xhQ6ucurmkPmWrDFVICI3ypLnNU1kyuEZXlo3W83++57+3DxzZJU4IstOtSHfjjWthp6j5TBBkXtlObfTF+WoAh97yoygHbTC1ZgBdHQPmKqSR0QfhdqcJhWbm91QUg8+9dmFENag1AgMBAAEwDQYJKoZIhvcNAQELBQADggEBAB/AGvP0gviPoJszj/oQgBsMpPGRHLpnTmrXnTaa7Xk2sgExAb4zUAwxGjtR347t697cpiKQYBkR2ndswnt93Sx/Ot+yn5BdYcNvZuEh5jb5bkH2V4h6/LrYljTymby+XPBEf+XLhBOjoI3SKtNJk4pEqVNwLuKKbObqJcE3G3VBVSdzRUcIrjZr7yAQeLnhczS3hJ0Ct6Y7S5Q6DK+/PU1+AvlW+7GfzpRMqVfLcqhNpRwdCVGlJYKaUJfIe1vav10D94xA0U1sKex3iA1S+1HlS2BCWx/0rXwgcquMpUZlOAKiT0K6SIFxBFFnM9eQbF97Dz7Bzw+jyqStGUcH9YA="],
+           "x5t" => "TuBfrOL00KXDrOWTv3jw7Uxx3hA",
+           "x5t#S256" => "7su5lOXF5qcMuvp44ynsoyk3B0l9Sr_bOVlg768shpY" },
+         jwk] }
+    end
+    let(:jwk) { JWT::JWK.create_from(rsa_public).export }
+    let(:rsa_private) { OpenSSL::PKey::RSA.generate(2048) }
+    let(:rsa_public) { rsa_private.public_key }
 
     before do
       create(:user, identity_url: "keycloak:#{token_sub}")
@@ -407,9 +474,7 @@ RSpec.describe "API V3 Authentication" do
     end
 
     context "when token is issued by provider not configured in OP" do
-      let(:token) do
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJpc3MiOiJpc3N1ZXIuY29tIn0.C9gEPaqdNSEZ4dZHz0z51VCylScIEqRLnwMCkNXuz6g"
-      end
+      let(:token_iss) { "https://unk.asd" }
 
       it do
         get resource
@@ -421,9 +486,7 @@ RSpec.describe "API V3 Authentication" do
 
     context "when token is issued by provider configured in OP" do
       context "when token signature algorithm is not supported" do
-        let(:token) do
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJpc3MiOiJodHRwczovL2tleWNsb2FrLmxvY2FsL3JlYWxtcy9tYXN0ZXIifQ.Pwod8ZJqq3jWsbnrGw4ZU1-aLS2bSicb8PgiF78JHUc"
-        end
+        let(:token) { JWT.encode(token_payload, "hmac_secret", "HS256") }
 
         it do
           get resource
@@ -433,87 +496,60 @@ RSpec.describe "API V3 Authentication" do
         end
       end
 
-      context "when kid is present" do
-        let(:keys_request_stub) do
-          stub_request(:get, "https://keycloak.local/realms/master/protocol/openid-connect/certs")
-            .with(
-              headers: {
-                "Accept" => "*/*",
-                "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-                "User-Agent" => "JSON::JWK::Set::Fetcher 2.7.2"
-              }
-            )
-            .to_return(status: 200, body: '{"keys":[{"kid":"CANAG6lJUPKqKDoWxxXL5wAHf2U18BAzm_LJm7RPTGk","kty":"RSA","alg":"RSA-OAEP","use":"enc","n":"nqJexS6n-SxKSDUxXp_dsNwDW6cZ4Rtgqq9ut_lp1CNSph5wTnLG3aQQsTEvx5o3-SZ-pHjJ0gtEpg7clAz-w-YQyZoAXkFtQqmZJxsmdS4K0yILxO3WUNdJQlutjmq-Ri50Senn5IV7yEYWLo8St1qzUqWZhp0HKudyty24triC9UJTK03W3_Tr5c1X8vKL8duAjvLB7p_sYUOrnLq5pD5lqwxVSAiN8qS5zVNZMrhGV5aN1vN_vue_tw8c2SVOCLLTrUh3441rYaeo-UwQZF7ZTm30xflqAIfe8qMoB20wtWYAXR0D5iqkkdEH4XanCYVm5vdUFIPPvXZhRDWoNQ","e":"AQAB","x5c":["MIICmzCCAYMCBgGQupeGPzANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZtYXN0ZXIwHhcNMjQwNzE2MDgwODMwWhcNMzQwNzE2MDgxMDEwWjARMQ8wDQYDVQQDDAZtYXN0ZXIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCeol7FLqf5LEpINTFen92w3ANbpxnhG2Cqr263+WnUI1KmHnBOcsbdpBCxMS/Hmjf5Jn6keMnSC0SmDtyUDP7D5hDJmgBeQW1CqZknGyZ1LgrTIgvE7dZQ10lCW62Oar5GLnRJ6efkhXvIRhYujxK3WrNSpZmGnQcq53K3Lbi2uIL1QlMrTdbf9OvlzVfy8ovx24CO8sHun+xhQ6ucurmkPmWrDFVICI3ypLnNU1kyuEZXlo3W83++57+3DxzZJU4IstOtSHfjjWthp6j5TBBkXtlObfTF+WoAh97yoygHbTC1ZgBdHQPmKqSR0QfhdqcJhWbm91QUg8+9dmFENag1AgMBAAEwDQYJKoZIhvcNAQELBQADggEBAB/AGvP0gviPoJszj/oQgBsMpPGRHLpnTmrXnTaa7Xk2sgExAb4zUAwxGjtR347t697cpiKQYBkR2ndswnt93Sx/Ot+yn5BdYcNvZuEh5jb5bkH2V4h6/LrYljTymby+XPBEf+XLhBOjoI3SKtNJk4pEqVNwLuKKbObqJcE3G3VBVSdzRUcIrjZr7yAQeLnhczS3hJ0Ct6Y7S5Q6DK+/PU1+AvlW+7GfzpRMqVfLcqhNpRwdCVGlJYKaUJfIe1vav10D94xA0U1sKex3iA1S+1HlS2BCWx/0rXwgcquMpUZlOAKiT0K6SIFxBFFnM9eQbF97Dz7Bzw+jyqStGUcH9YA="],"x5t":"TuBfrOL00KXDrOWTv3jw7Uxx3hA","x5t#S256":"7su5lOXF5qcMuvp44ynsoyk3B0l9Sr_bOVlg768shpY"},{"kid":"97AmyvoS8BFFRfm585GPgA16G1H2V22EdxxuAYUuoKk","kty":"RSA","alg":"RS256","use":"sig","n":"jMB2r7BG4QJzLnA2_fgG1mxlh2RX_MSx0lc2lrPIVFGYBuAu8irwRLSexX5aQdD_AtnxLD4g9jiG6VEDwmWopEe0fr-QMl0IiES5tJuQMrjhajOkzr8xTYu6zl-knL0tu99iRbmKNYzEcv0TAgY_95n4gD5tPhYvY4gXuHrFKqYkJQPsSgoThlH7hAtfzsDt6yp3P2lQUESGg3pzc_J_NKnQkkggcNB06Hlz4DmcHxhWXK51P1V9cE7qh4PrhsJ-SOH5grcN9PtOZi6f2VlWdFdyisT-YehNklfVqBtdCLm7Ocghhl0HSgLuV-9dHCdwBLUpABsdsd0L3LRCUgRfjQ","e":"AQAB","x5c":["MIICmzCCAYMCBgGQupeFFTANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZtYXN0ZXIwHhcNMjQwNzE2MDgwODMwWhcNMzQwNzE2MDgxMDEwWjARMQ8wDQYDVQQDDAZtYXN0ZXIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCMwHavsEbhAnMucDb9+AbWbGWHZFf8xLHSVzaWs8hUUZgG4C7yKvBEtJ7FflpB0P8C2fEsPiD2OIbpUQPCZaikR7R+v5AyXQiIRLm0m5AyuOFqM6TOvzFNi7rOX6ScvS2732JFuYo1jMRy/RMCBj/3mfiAPm0+Fi9jiBe4esUqpiQlA+xKChOGUfuEC1/OwO3rKnc/aVBQRIaDenNz8n80qdCSSCBw0HToeXPgOZwfGFZcrnU/VX1wTuqHg+uGwn5I4fmCtw30+05mLp/ZWVZ0V3KKxP5h6E2SV9WoG10Iubs5yCGGXQdKAu5X710cJ3AEtSkAGx2x3QvctEJSBF+NAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAIoBCsOO0bXiVspoXkqdOts4+3sULbbp5aEwQscmLX017Zvv5jxdkZxUYk8L08lNB+WlC1ES4VlmtE06D0cWYErGpArJzVBKgYSA3CkA9veBEugHviMqfwg3suNc8S+GtaRBvpbVZtXydjjqA8GZ4eKhPoJLHHCX6X2Ad33Cdt0/ftucjTqAKVzzzgWZejy+ZKP6ybAqYJ+EZoPUXlyWT3uwcpGEJ3nzOYYGTfxOSmAwnH2v5Z/JWr9ex5o/+QBuBhFcg0z8NcHa3Z0E6ZC9GGxV7XztBqYicO+nONHTLCctoJmyXvLM4j8qIG2UQgPIiwIL0Jkz6xQAYyXvsb+LhM8="],"x5t":"BFrni6MoX-CJwtMT4vzij1HBSTI","x5t#S256":"-Ge3y4JRezxhGTDfbkNoz7prkokzYtbKQ9ardPtfcz4"}]}', headers: {})
-        end
-
-        context "when access token has not expired yet" do
-          context "when aud does not contain client_id" do
-            let(:token) { rsa_signed_access_token_without_aud }
-
-            it do
-              Timecop.freeze(token_exp - 20.seconds) do
-                get resource
-              end
-              expect(last_response).to have_http_status :unauthorized
-              expect(last_response.header["WWW-Authenticate"]).to eq('Bearer realm="OpenProject API" error="invalid_token" error_description="The access token audience claim is wrong"')
-              expect(JSON.parse(last_response.body)).to eq(error_response_body)
-            end
-          end
-
-          context "when aud contains client_id" do
-            let(:token) { rsa_signed_access_token_with_aud }
-
-            it do
-              Timecop.freeze(token_exp - 20.seconds) do
-                get resource
-              end
-              expect(last_response).to have_http_status :ok
-            end
-          end
-        end
-
-        context "when access token has expired already" do
-          let(:token) { rsa_signed_access_token_without_aud }
-
+      context "when access token has not expired yet" do
+        context "when aud does not contain client_id" do
           it do
-            Timecop.freeze(token_exp + 20.seconds) do
+            Timecop.freeze(token_exp - 20.seconds) do
               get resource
             end
-
             expect(last_response).to have_http_status :unauthorized
-            expect(last_response.header["WWW-Authenticate"]).to eq('Bearer realm="OpenProject API" error="invalid_token" error_description="The access token expired"')
+            expect(last_response.header["WWW-Authenticate"]).to eq('Bearer realm="OpenProject API" error="invalid_token" error_description="The access token audience claim is wrong"')
             expect(JSON.parse(last_response.body)).to eq(error_response_body)
           end
+        end
 
-          it "caches keys request to keycloak" do
-            Timecop.freeze(token_exp + 20.seconds) do
+        context "when aud contains client_id" do
+          let(:token_aud) { ["master-realm", "account", "https://openproject.internal"] }
+
+          it do
+            Timecop.freeze(token_exp - 20.seconds) do
               get resource
             end
-            expect(last_response).to have_http_status :unauthorized
-
-            Timecop.freeze(token_exp + 20.seconds) do
-              get resource
-            end
-            expect(last_response).to have_http_status :unauthorized
-
-            expect(keys_request_stub).to have_been_made.once
+            expect(last_response).to have_http_status :ok
           end
         end
       end
 
-      context "when kid is absent in keycloak keys response" do
-        let(:keys_request_stub) do
-          stub_request(:get, "https://keycloak.local/realms/master/protocol/openid-connect/certs")
-            .with(
-              headers: {
-                "Accept" => "*/*",
-                "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-                "User-Agent" => "JSON::JWK::Set::Fetcher 2.7.2"
-              }
-            )
-            .to_return(status: 200, body: '{"keys":[{"kid":"CANAG6lJUPKqKDoWxxXL5wAHf2U18BAzm_LJm7RPTGk","kty":"RSA","alg":"RSA-OAEP","use":"enc","n":"nqJexS6n-SxKSDUxXp_dsNwDW6cZ4Rtgqq9ut_lp1CNSph5wTnLG3aQQsTEvx5o3-SZ-pHjJ0gtEpg7clAz-w-YQyZoAXkFtQqmZJxsmdS4K0yILxO3WUNdJQlutjmq-Ri50Senn5IV7yEYWLo8St1qzUqWZhp0HKudyty24triC9UJTK03W3_Tr5c1X8vKL8duAjvLB7p_sYUOrnLq5pD5lqwxVSAiN8qS5zVNZMrhGV5aN1vN_vue_tw8c2SVOCLLTrUh3441rYaeo-UwQZF7ZTm30xflqAIfe8qMoB20wtWYAXR0D5iqkkdEH4XanCYVm5vdUFIPPvXZhRDWoNQ","e":"AQAB","x5c":["MIICmzCCAYMCBgGQupeGPzANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZtYXN0ZXIwHhcNMjQwNzE2MDgwODMwWhcNMzQwNzE2MDgxMDEwWjARMQ8wDQYDVQQDDAZtYXN0ZXIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCeol7FLqf5LEpINTFen92w3ANbpxnhG2Cqr263+WnUI1KmHnBOcsbdpBCxMS/Hmjf5Jn6keMnSC0SmDtyUDP7D5hDJmgBeQW1CqZknGyZ1LgrTIgvE7dZQ10lCW62Oar5GLnRJ6efkhXvIRhYujxK3WrNSpZmGnQcq53K3Lbi2uIL1QlMrTdbf9OvlzVfy8ovx24CO8sHun+xhQ6ucurmkPmWrDFVICI3ypLnNU1kyuEZXlo3W83++57+3DxzZJU4IstOtSHfjjWthp6j5TBBkXtlObfTF+WoAh97yoygHbTC1ZgBdHQPmKqSR0QfhdqcJhWbm91QUg8+9dmFENag1AgMBAAEwDQYJKoZIhvcNAQELBQADggEBAB/AGvP0gviPoJszj/oQgBsMpPGRHLpnTmrXnTaa7Xk2sgExAb4zUAwxGjtR347t697cpiKQYBkR2ndswnt93Sx/Ot+yn5BdYcNvZuEh5jb5bkH2V4h6/LrYljTymby+XPBEf+XLhBOjoI3SKtNJk4pEqVNwLuKKbObqJcE3G3VBVSdzRUcIrjZr7yAQeLnhczS3hJ0Ct6Y7S5Q6DK+/PU1+AvlW+7GfzpRMqVfLcqhNpRwdCVGlJYKaUJfIe1vav10D94xA0U1sKex3iA1S+1HlS2BCWx/0rXwgcquMpUZlOAKiT0K6SIFxBFFnM9eQbF97Dz7Bzw+jyqStGUcH9YA="],"x5t":"TuBfrOL00KXDrOWTv3jw7Uxx3hA","x5t#S256":"7su5lOXF5qcMuvp44ynsoyk3B0l9Sr_bOVlg768shpY"},{"kid":"9755555S8BFFRfm585GPgA16G1H2V22EdxxuAYUuoKk","kty":"RSA","alg":"RS256","use":"sig","n":"jMB2r7BG4QJzLnA2_fgG1mxlh2RX_MSx0lc2lrPIVFGYBuAu8irwRLSexX5aQdD_AtnxLD4g9jiG6VEDwmWopEe0fr-QMl0IiES5tJuQMrjhajOkzr8xTYu6zl-knL0tu99iRbmKNYzEcv0TAgY_95n4gD5tPhYvY4gXuHrFKqYkJQPsSgoThlH7hAtfzsDt6yp3P2lQUESGg3pzc_J_NKnQkkggcNB06Hlz4DmcHxhWXK51P1V9cE7qh4PrhsJ-SOH5grcN9PtOZi6f2VlWdFdyisT-YehNklfVqBtdCLm7Ocghhl0HSgLuV-9dHCdwBLUpABsdsd0L3LRCUgRfjQ","e":"AQAB","x5c":["MIICmzCCAYMCBgGQupeFFTANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZtYXN0ZXIwHhcNMjQwNzE2MDgwODMwWhcNMzQwNzE2MDgxMDEwWjARMQ8wDQYDVQQDDAZtYXN0ZXIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCMwHavsEbhAnMucDb9+AbWbGWHZFf8xLHSVzaWs8hUUZgG4C7yKvBEtJ7FflpB0P8C2fEsPiD2OIbpUQPCZaikR7R+v5AyXQiIRLm0m5AyuOFqM6TOvzFNi7rOX6ScvS2732JFuYo1jMRy/RMCBj/3mfiAPm0+Fi9jiBe4esUqpiQlA+xKChOGUfuEC1/OwO3rKnc/aVBQRIaDenNz8n80qdCSSCBw0HToeXPgOZwfGFZcrnU/VX1wTuqHg+uGwn5I4fmCtw30+05mLp/ZWVZ0V3KKxP5h6E2SV9WoG10Iubs5yCGGXQdKAu5X710cJ3AEtSkAGx2x3QvctEJSBF+NAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAIoBCsOO0bXiVspoXkqdOts4+3sULbbp5aEwQscmLX017Zvv5jxdkZxUYk8L08lNB+WlC1ES4VlmtE06D0cWYErGpArJzVBKgYSA3CkA9veBEugHviMqfwg3suNc8S+GtaRBvpbVZtXydjjqA8GZ4eKhPoJLHHCX6X2Ad33Cdt0/ftucjTqAKVzzzgWZejy+ZKP6ybAqYJ+EZoPUXlyWT3uwcpGEJ3nzOYYGTfxOSmAwnH2v5Z/JWr9ex5o/+QBuBhFcg0z8NcHa3Z0E6ZC9GGxV7XztBqYicO+nONHTLCctoJmyXvLM4j8qIG2UQgPIiwIL0Jkz6xQAYyXvsb+LhM8="],"x5t":"BFrni6MoX-CJwtMT4vzij1HBSTI","x5t#S256":"-Ge3y4JRezxhGTDfbkNoz7prkokzYtbKQ9ardPtfcz4"}]}', headers: {})
+      context "when access token has expired already" do
+        it do
+          Timecop.freeze(token_exp + 20.seconds) do
+            get resource
+          end
+
+          expect(last_response).to have_http_status :unauthorized
+          expect(last_response.header["WWW-Authenticate"]).to eq('Bearer realm="OpenProject API" error="invalid_token" error_description="The access token expired"')
+          expect(JSON.parse(last_response.body)).to eq(error_response_body)
         end
-        let(:token) { rsa_signed_access_token_with_aud }
+
+        it "caches keys request to keycloak" do
+          Timecop.freeze(token_exp + 20.seconds) do
+            get resource
+          end
+          expect(last_response).to have_http_status :unauthorized
+
+          Timecop.freeze(token_exp + 20.seconds) do
+            get resource
+          end
+          expect(last_response).to have_http_status :unauthorized
+
+          expect(keys_request_stub).to have_been_made.once
+        end
+      end
+
+      context "when kid is absent in keycloak keys response" do
+        let(:keys_hash) do
+          { "keys" => [] }
+        end
 
         it do
           Timecop.freeze(token_exp - 20.seconds) do

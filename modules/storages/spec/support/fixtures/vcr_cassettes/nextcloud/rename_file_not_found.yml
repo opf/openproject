@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://nextcloud.local/ocs/v1.php/apps/integration_openproject/fileinfo/sith_have_yellow_light_sabers
+    uri: https://nextcloud.internal/ocs/v1.php/apps/integration_openproject/fileinfo/sith_have_yellow_light_sabers
     body:
       encoding: US-ASCII
       string: ''

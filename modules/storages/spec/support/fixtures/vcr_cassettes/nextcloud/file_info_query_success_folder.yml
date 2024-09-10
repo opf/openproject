@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://nextcloud.local/ocs/v1.php/apps/integration_openproject/fileinfo/350
+    uri: https://nextcloud.internal/ocs/v1.php/apps/integration_openproject/fileinfo/350
     body:
       encoding: US-ASCII
       string: ''

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://nextcloud.local/ocs/v2.php/cloud/capabilities
+    uri: https://nextcloud.internal/ocs/v2.php/cloud/capabilities
     body:
       encoding: US-ASCII
       string: ''
@@ -71,6 +71,6 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"ocs":{"meta":{"status":"ok","statuscode":200,"message":"OK"},"data":{"version":{"major":28,"minor":0,"micro":7,"string":"28.0.7","edition":"","extendedSupport":false},"capabilities":{"bruteforce":{"delay":0,"allow-listed":false},"integration_openproject":{"app_version":"2.6.3","groupfolder_version":"16.0.7","groupfolders_enabled":true},"theming":{"name":"Nextcloud","url":"https:\/\/nextcloud.com","slogan":"a
-        safe home for all your data","color":"#00679e","color-text":"#ffffff","color-element":"#00679e","color-element-bright":"#00679e","color-element-dark":"#00679e","logo":"https:\/\/nextcloud.local\/core\/img\/logo\/logo.svg?v=0","background":"#00679e","background-plain":true,"background-default":true,"logoheader":"https:\/\/nextcloud.local\/core\/img\/logo\/logo.svg?v=0","favicon":"https:\/\/nextcloud.local\/core\/img\/logo\/logo.svg?v=0"}}}}}'
+        safe home for all your data","color":"#00679e","color-text":"#ffffff","color-element":"#00679e","color-element-bright":"#00679e","color-element-dark":"#00679e","logo":"https:\/\/nextcloud.internal\/core\/img\/logo\/logo.svg?v=0","background":"#00679e","background-plain":true,"background-default":true,"logoheader":"https:\/\/nextcloud.internal\/core\/img\/logo\/logo.svg?v=0","favicon":"https:\/\/nextcloud.internal\/core\/img\/logo\/logo.svg?v=0"}}}}}'
   recorded_at: Thu, 18 Jul 2024 08:57:07 GMT
 recorded_with: VCR 6.2.0

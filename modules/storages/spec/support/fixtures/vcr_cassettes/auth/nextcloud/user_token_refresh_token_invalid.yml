@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://nextcloud.local/ocs/v1.php/cloud/user
+    uri: https://nextcloud.internal/ocs/v1.php/cloud/user
     body:
       encoding: US-ASCII
       string: ''
@@ -81,7 +81,7 @@ http_interactions:
   recorded_at: Fri, 08 Mar 2024 09:21:35 GMT
 - request:
     method: post
-    uri: https://nextcloud.local/index.php/apps/oauth2/api/v1/token
+    uri: https://nextcloud.internal/index.php/apps/oauth2/api/v1/token
     body:
       encoding: ASCII-8BIT
       string: grant_type=refresh_token&scope=&client_id=7fj7lpG0GOqwOGhHAyfGwd1oEgtbTto7mctu0IaSN3SE79o9Xs0q8k3kDiEwXDrM&client_secret=j7RoyauWeIpMc7cYdY3lewCGKxdgiAowonpGzmAuj9iRSvYBAGXhP7hvz9Hp7skR&refresh_token=<ACCESS_TOKEN>

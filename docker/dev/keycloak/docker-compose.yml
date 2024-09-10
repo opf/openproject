@@ -18,7 +18,7 @@ services:
     networks:
       - external
     extra_hosts:
-      - "openproject.local:host-gateway"
+      - "openproject.internal:host-gateway"
     environment:
       - KC_DB=postgres
       - KC_DB_USERNAME=keycloak
@@ -27,7 +27,7 @@ services:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
       - KC_DB_SCHEMA=public
-      - KC_HOSTNAME=keycloak.local
+      - KC_HOSTNAME=keycloak.internal
       - KC_FEATURES=token-exchange
       - KC_TRANSACTION_XA_ENABLED=false
     volumes:
@@ -35,7 +35,7 @@ services:
       - keycloak-data:/opt/keycloak/data/
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.keycloak-sub-secure.rule=Host(`keycloak.local`)"
+      - "traefik.http.routers.keycloak-sub-secure.rule=Host(`keycloak.internal`)"
       - "traefik.http.routers.keycloak-sub-secure.entrypoints=websecure"
       - "traefik.http.routers.keycloak-sub-secure.tls=true"
       - "traefik.http.routers.keycloak-sub-secure.tls.certresolver=step"
