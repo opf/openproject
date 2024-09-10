@@ -1080,7 +1080,7 @@ GEM
       spring (>= 0.9.1)
     spring-commands-rubocop (0.4.0)
       spring (>= 1.0)
-    sprockets (3.7.3)
+    sprockets (3.7.4)
       base64
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
