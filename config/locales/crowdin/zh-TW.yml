@@ -250,7 +250,7 @@ zh-TW:
       work_package_attachments: "工作項目：附件"
       work_package_categories: "工作項目：類別"
       work_package_file_links: "工作項目：檔案連結"
-      work_package_shares: "共用之工作項目"
+      work_package_shares: "工作項目：共用"
     delete:
       scheduled: "已經安排背景執行刪除任務。你將會收到結果通知。"
       schedule_failed: "專案無法刪除: %{errors}"
@@ -357,10 +357,10 @@ zh-TW:
       remove_work_packages_shared_with_user_too: "已移除專案成員的使用者仍可存取共用工作項目。您也想移除共用嗎？"
       remove_work_packages_shared_with_group_too: "已移除成員身份的群組仍可存取共用工作套件。您也想移除共用嗎？"
       will_not_affect_inherited_shares: "(這不會影響與其小組共用的工作項目)。"
-      can_remove_direct_but_not_shared_roles: "您可以刪除該用戶的直接項目成員身份，但他們所在的組也是該項目的成員，因此他們將繼續通過組成為成員。"
+      can_remove_direct_but_not_shared_roles: "您可以直接刪除該用戶的專案成員身份，但他們所在的群組也是該專案成員，因此他們將繼續通過群組成為成員。"
       also_work_packages_shared_with_user_html:
         other: "此外，還與該用戶共用了 %{shared_work_packages_link}。"
-      remove_project_membership_or_work_package_shares_too: "您只想刪除作為直接成員的用戶(保留共用)，還是也刪除工作包共享？"
+      remove_project_membership_or_work_package_shares_too: "您想直接刪除用戶成員(保留共用)，或連同共用也刪除？"
       will_remove_all_user_access_priveleges: "刪除該成員將移除該專案所有存取權限。但使用者部分專案資料仍然存在。"
       will_remove_all_group_access_priveleges: "刪除該成員將刪除該組對項目的所有訪問權限。該組仍將作為實例的一部分存在。"
       cannot_delete_inherited_membership: "您不能刪除此成員，因為他們所屬的組本身就是此項目的成員。"
@@ -369,19 +369,19 @@ zh-TW:
     delete_work_package_shares_dialog:
       title: "撤銷已共用的工作項目"
       shared_with_this_user_html:
-        other: "%{all_shared_work_packages_link} 已與該用戶共享。"
+        other: "%{all_shared_work_packages_link} 已與該用戶共用。"
       shared_with_this_group_html:
-        other: "%{all_shared_work_packages_link} 已與該組共享。"
+        other: "%{all_shared_work_packages_link} 已與該組共用。"
       shared_with_permission_html:
-        other: "只有 %{shared_work_packages_link} 共享了 %{shared_role_name} 權限。"
+        other: "只有 %{shared_work_packages_link} 共用 %{shared_role_name} 權限。"
       revoke_all_or_with_role: "您想撤銷對所有共用工作項目的存取權限，還是只撤銷 %{shared_role_name} 的相關權限？"
-      will_not_affect_inherited_shares: "(這不會影響與其群組共用的工作包)。"
-      cannot_remove_inherited: "無法刪除通過群組共享的工作包共享。"
-      cannot_remove_inherited_with_role: "與角色 %{shared_role_name} 共享的工作包是通過群組共享的，不能刪除。"
+      will_not_affect_inherited_shares: "(這不會影響與其群組共用的工作項目)。"
+      cannot_remove_inherited: "無法刪除通過群組共享的工作項目。"
+      cannot_remove_inherited_with_role: "與角色 %{shared_role_name} 共用的工作項目是通過群組共用的，不能刪除。"
       cannot_remove_inherited_note_admin_html: "您可以在 %{administration_settings_link} 中撤銷群組中的共享，或從群組中刪除該特定成員。"
-      cannot_remove_inherited_note_non_admin: "您可以撤銷對該群組的共享，或者聯繫管理員將該特定成員從群組中刪除。"
-      will_revoke_directly_granted_access: "此操作將取消他們對所有工作包的訪問權限，但會取消他們對某個群組共享的工作包的訪問權限。"
-      will_revoke_access_to_all: "此操作將撤銷他們對所有這些系統的訪問權限。"
+      cannot_remove_inherited_note_non_admin: "您可以撤銷對該群組的共用，或者聯繫管理員將該特定成員從群組中刪除。"
+      will_revoke_directly_granted_access: "此操作將取消他們對所有工作項目的訪問權限，但會取消他們對某個群組共用的工作項目存取權限。"
+      will_revoke_access_to_all: "此操作將撤銷他們對所有這些系統的存取權限。"
   my:
     access_token:
       create_dialog:
@@ -774,7 +774,7 @@ zh-TW:
         readonly: "唯讀"
         remaining_hours: "剩餘工作"
         remaining_time: "剩餘工作"
-        shared_with_users: "參與成員"
+        shared_with_users: "協作成員（共用）"
         schedule_manually: "手動排程"
         spent_hours: "耗時"
         spent_time: "耗時"
@@ -2103,7 +2103,7 @@ zh-TW:
   label_internal: "內部"
   label_introduction_video: "簡介影片"
   label_invite_user: "邀請使用者"
-  label_share: "分享"
+  label_share: "共用"
   label_share_project_list: "共用專案清單"
   label_share_work_package: "共用工作項目"
   label_show_hide: "顯示/隱藏"
@@ -2548,11 +2548,11 @@ zh-TW:
         allowed_actions: "您擁有這個工作項目的 %{allowed_actions} 權限. 這些權限將隨著您的角色不同而更改."
         create_account: "要訪問此工作包，您需要創建一個 %{instance} 帳戶。"
         open_work_package: "開啟工作項目"
-        subject: "有個工作項目 #%{id} 分享給您"
+        subject: "有個工作項目 #%{id} 與您共用"
         enterprise_text: "與不是專案成員的使用者共用工作項目。"
         summary:
-          user: "%{user} 分享一個工作項目給您，權限：%{role_rights}\""
-          group: "%{user} 分享一個工作項目給您所在的群組： %{group}"
+          user: "%{user} 將一個工作項目與您共用，權限：%{role_rights}\""
+          group: "%{user} 將一個工作項目與您之群組共用： %{group}"
     storages:
       health:
         plaintext:
@@ -2812,7 +2812,7 @@ zh-TW:
   permission_select_custom_fields: "選擇客製欄位"
   permission_select_project_custom_fields: "選擇專案屬性"
   permission_select_project_modules: "選擇專案的模組"
-  permission_share_work_packages: "分享工作項目"
+  permission_share_work_packages: "共用工作項目"
   permission_manage_types: "選擇類型"
   permission_view_project: "檢視專案"
   permission_view_changesets: "在 OpenProject 檢視版本庫修訂"
@@ -3511,7 +3511,7 @@ zh-TW:
     label_search_placeholder: "以帳號或電子郵件搜尋"
     label_toggle_all: "切換到「所有共用的」"
     remove: "刪除"
-    share: "分享"
+    share: "共用"
     text_empty_search_description: "沒有符合當前過濾條件的用戶。"
     text_empty_search_header: "我們找不到任何匹配結果。"
     text_empty_state_description: "%{entity} 尚未與任何人共用。"
@@ -3531,7 +3531,7 @@ zh-TW:
       invite_resent: "已重傳邀請"
       not_project_member: "非專案的成員"
       project_group: "小組成員可能擁有額外權限(作為項目成員)"
-      not_project_group: "組 (與所有成員共用)"
+      not_project_group: "群組 (與所有成員共用)"
       additional_privileges_project: "可能有額外的權限(作為項目成員)"
       additional_privileges_group: "可能有額外的權限(作為組成員)"
       additional_privileges_project_or_group: "可能有額外的權限(作為項目成員或組成員)"
@@ -3540,7 +3540,7 @@ zh-TW:
       access_warning: "用戶只能看到他們有權訪問的專案。共用專案列表不會影響單一專案的權限。"
       user_details:
         owner: "列表所有者"
-        can_view_because_public: "已經可以查看，因為列表與所有人共用"
+        can_view_because_public: "因專案清單公開，已經可以查看"
         can_manage_public_lists: "可根據全域權限進行編輯"
       public_flag:
         label: "通過 %{instance_name} 與大家分享"
@@ -3551,7 +3551,7 @@ zh-TW:
           description: "每個人都可以查看此項目列表。您也可以添加具有額外權限的個別用戶。"
         private:
           header: "不共用：私有"
-          description: "此專案列表尚未與任何人共用。只有您可以訪問此列表。"
+          description: "此專案列表尚未與任何人共用。只有您可以存取此列表。"
       permissions:
         view: "檢視"
         view_description: "可以查看此項目列表。"
