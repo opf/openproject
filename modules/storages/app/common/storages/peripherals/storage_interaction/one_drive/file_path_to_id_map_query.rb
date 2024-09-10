@@ -36,8 +36,8 @@ module Storages
           CHILDREN_FIELDS = %w[id name file folder parentReference].freeze
           FOLDER_FIELDS = %w[id name parentReference].freeze
 
-          def self.call(storage:, auth_strategy:, folder:)
-            new(storage).call(auth_strategy:, folder:)
+          def self.call(storage:, auth_strategy:, folder:, depth: Float::INFINITY)
+            new(storage).call(auth_strategy:, folder:, depth:)
           end
 
           def initialize(storage)
@@ -46,15 +46,18 @@ module Storages
             @drive_item_query = Internal::DriveItemQuery.new(storage)
           end
 
-          def call(auth_strategy:, folder:)
+          # rubocop:disable Metrics/AbcSize
+          def call(auth_strategy:, folder:, depth:)
             Authentication[auth_strategy].call(storage: @storage) do |http|
-              fetch_result = fetch_folder(http, folder)
-              return fetch_result if fetch_result.failure?
+              fetched_folder = fetch_folder(http, folder)
+                                 .on_failure { return _1 }
+                                 .result
 
-              file_ids_dictionary = fetch_result.result
+              file_ids_dictionary = fetched_folder
               queue = [folder]
+              level = 0
 
-              while queue.any?
+              while queue.any? && level < depth
                 dir = queue.shift
 
                 visit = visit(http, dir)
@@ -63,11 +66,14 @@ module Storages
                 entry, to_queue = visit.result.values_at(:entry, :to_queue)
                 file_ids_dictionary = file_ids_dictionary.merge(entry)
                 queue.concat(to_queue)
+                level += 1
               end
 
               ServiceResult.success(result: file_ids_dictionary)
             end
           end
+
+          # rubocop:enable Metrics/AbcSize
 
           private
 

@@ -34,9 +34,14 @@ module Storages
 
     FILE_PERMISSIONS = OpenProject::Storages::Engine.external_file_permissions
 
-    include Injector["nextcloud.commands.create_folder", "nextcloud.commands.rename_file", "nextcloud.commands.set_permissions",
-                     "nextcloud.queries.group_users", "nextcloud.queries.file_ids", "nextcloud.authentication.userless",
-                     "nextcloud.commands.add_user_to_group", "nextcloud.commands.remove_user_from_group"]
+    include Injector["nextcloud.commands.create_folder",
+                     "nextcloud.commands.rename_file",
+                     "nextcloud.commands.set_permissions",
+                     "nextcloud.queries.group_users",
+                     "nextcloud.queries.file_path_to_id_map",
+                     "nextcloud.authentication.userless",
+                     "nextcloud.commands.add_user_to_group",
+                     "nextcloud.commands.remove_user_from_group"]
 
     def self.i18n_key = "NextcloudSyncService"
 
@@ -76,7 +81,7 @@ module Storages
       remote_folders = remote_root_folder_map(@storage.group_folder).on_failure { return _1 }.result
       info "Found #{remote_folders.count} remote folders"
 
-      ensure_root_folder_permissions(remote_folders["/#{@storage.group_folder}/"]["fileid"]).on_failure { return _1 }
+      ensure_root_folder_permissions(remote_folders["/#{@storage.group_folder}"].id).on_failure { return _1 }
 
       ensure_folders_exist(remote_folders).on_success { hide_inactive_folders(remote_folders) }
     end
@@ -169,8 +174,8 @@ module Storages
       info "Hiding folders related to inactive projects"
       project_folder_ids = active_project_storages_scope.pluck(:project_folder_id).compact
 
-      remote_folders.except("/#{@storage.group_folder}/").each do |(path, attrs)|
-        folder_id = attrs["fileid"]
+      remote_folders.except("/#{@storage.group_folder}").each do |(path, file)|
+        folder_id = file.id
 
         next if project_folder_ids.include?(folder_id)
 
@@ -196,7 +201,7 @@ module Storages
 
     def ensure_folders_exist(remote_folders)
       info "Ensuring that automatically managed project folders exist and are correctly named."
-      id_folder_map = remote_folders.to_h { |folder, properties| [properties["fileid"], folder] }
+      id_folder_map = remote_folders.to_h { |path, file| [file.id, path] }
 
       active_project_storages_scope.includes(:project).map do |project_storage|
         unless id_folder_map.key?(project_storage.project_folder_id)
@@ -215,7 +220,7 @@ module Storages
     # @param current_path [String] current name of the remote project storage folder
     # @return [ServiceResult, nil]
     def rename_folder(project_storage, current_path)
-      return if current_path == project_storage.managed_project_folder_path
+      return if UrlBuilder.path(current_path) == UrlBuilder.path(project_storage.managed_project_folder_path)
 
       name = project_storage.managed_project_folder_name
       file_id = project_storage.project_folder_id
@@ -283,7 +288,11 @@ module Storages
 
     def remote_root_folder_map(group_folder)
       info "Retrieving already existing folders under #{group_folder}"
-      file_ids.call(storage: @storage, path: group_folder).on_failure do |service_result|
+      file_path_to_id_map.call(storage: @storage,
+                               auth_strategy:,
+                               folder: Peripherals::ParentFolder.new(group_folder),
+                               depth: 1)
+                         .on_failure do |service_result|
         log_storage_error(service_result.errors, { folder: group_folder })
         add_error(:remote_folders, service_result.errors, options: { group_folder:, username: @storage.username }).fail!
       end
