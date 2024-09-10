@@ -204,8 +204,8 @@ ru:
     admin:
       custom_field_projects:
         is_for_all_blank_slate:
-          heading: For all projects
-          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: Для всех проектов
+          description: Это пользовательское поле включено во всех проектах, так как отмечена опция «Для всех проектов». Его нельзя отключить для отдельных проектов.
     text_add_new_custom_field: >
       Прежде чем добавлять настраиваемые поля в проект, нужно создать их.
     is_enabled_globally: "Разрешено в глобальном масштабе"
@@ -2018,7 +2018,7 @@ ru:
   label_attribute_expand_text: "Полный текст для '%{attribute}'"
   label_authentication: "Аутентификация"
   label_authentication_settings: "Параметры аутентификации"
-  label_available_custom_fields_projects: "Available custom fields projects"
+  label_available_custom_fields_projects: "Доступные пользовательские поля проектов"
   label_available_global_roles: "Доступные глобальные роли"
   label_available_project_attributes: "Доступные атрибуты проекта"
   label_available_project_forums: "Доступные форумы"

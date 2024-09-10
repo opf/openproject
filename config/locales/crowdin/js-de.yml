@@ -278,7 +278,7 @@ de:
           Sind Sie sicher, dass Sie fortfahren möchten?
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+          Wenn Sie den Modus der Fortschrittsberechnung von statusbezogen auf aufwandsbezogen ändern, wird <i>% Abgeschlossen</i> zu einem nicht editierbaren Feld, dessen Wert von <i>Aufwand</i> und <i>Verbleibender Aufwand</i> abgeleitet wird. Vorhandene Werte für <i>% Abgeschlossen</i> werden beibehalten. Wenn die Werte für <i>Aufwand</i> und Verbleibender <i>Aufwand</i> nicht vorhanden waren, werden sie benötigt, um <i>% Abgeschlossen</i> zu ändern.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
           Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
