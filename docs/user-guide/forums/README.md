@@ -46,10 +46,10 @@ Enter a name and description for the new forum. Press the **Create** button so s
 
 ## Manage forums
 
-If you want to change the order of the forums in your project, want to edit a forum, or delete a form, go to the Forums overview list in your project.
+If you want to change the order of the forums in your project, want to edit a forum, or delete a forum, go to the Forums overview list in your project.
 
 1. Click the **arrows (up or down) to change the order** of the forums and sort them differently in the forum list in your project.
-2. Click the **edit icon to change the name or description** of your form.
+2. Click the **edit icon to change the name or description** of your forum.
 3. Click the delete icon to **delete a forum** from your project.
 
 ![Manage forums in OpenProject](openproject_user_guide_forums_manage.png)
@@ -72,7 +72,7 @@ Enter a description which will then appears next to the message title in the for
 
 Click the **Create** button to create the new message for this forum.
 
-![New forum message form in OpenProject](openproject_user_guide_forums_new_message.png)
+![New forum message forum in OpenProject](openproject_user_guide_forums_new_message.png)
 
 The **new forum message has been created**.
 
