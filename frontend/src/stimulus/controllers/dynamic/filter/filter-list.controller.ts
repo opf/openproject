@@ -69,7 +69,7 @@ export default class FilterListController extends Controller {
         item.classList.remove('d-none');
         showNoResultsText = false;
       } else {
-        (item as HTMLElement).classList.add('d-none');
+        item.classList.add('d-none');
       }
     });
 
@@ -82,7 +82,7 @@ export default class FilterListController extends Controller {
 
   resetFilterViaClearButton() {
     this.searchItemTargets.forEach((item) => {
-      (item as HTMLElement).classList.remove('d-none');
+      item.classList.remove('d-none');
     });
   }
 }
