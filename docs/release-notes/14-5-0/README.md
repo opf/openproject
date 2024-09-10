@@ -16,7 +16,7 @@ In these Release Notes, we will give an overview of important feature changes as
 
 ## Important updates for Docker compose
 
-The installation repository for Docker Compose has been moved to https://github.com/opf/openproject-docker-compose
+The installation repository for Docker Compose has been moved to [https://github.com/opf/openproject-docker-compose](https://github.com/opf/openproject-docker-compose).
 
 When updating, you will note that the repository now only contains the Docker compose setup, and the legacy Kubernetes deployment option has been removed. This means the folder structure has been changed slightly. No other changes are necessary. As we introduced a new local image starting in 14.4., the command to install and upgrade the Docker compose setup has been changed. Please double-check the [Docker compose installation guide](../../installation-and-operations/installation/docker/) on how to upgrade your installation.
 
