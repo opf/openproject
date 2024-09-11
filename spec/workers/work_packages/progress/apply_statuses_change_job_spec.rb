@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,8 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
+RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob,
+               with_flag: { percent_complete_edition: true } do
   shared_let(:author) { create(:user) }
   shared_let(:priority) { create(:priority, name: "Normal") }
   shared_let(:project) { create(:project, name: "Main project") }
@@ -89,6 +90,27 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
             wp 0%       | To do (0%)  |        55%
             wp 40%      | Doing (40%) |        55%
             wp 100%     | Done (100%) |        55%
+          TABLE
+        )
+      end
+    end
+
+    context "when some work packages have work set to 0h and a % complete value being set" do
+      it "clears the % complete valuedoes not change any of their progress values" do
+        expect_performing_job_changes(
+          from: <<~TABLE,
+            hierarchy    | status      | work | remaining work | % complete
+            wp 10h 40%   | To do (0%)  |  10h |             6h |        40%
+            wp 0h 0%     | To do (0%)  |   0h |             0h |         0%
+            wp 0h 40%    | Doing (40%) |   0h |             0h |        40%
+            wp 0h 100%   | Done (100%) |   0h |             0h |       100%
+          TABLE
+          to: <<~TABLE
+            subject      | status      | work | remaining work | % complete
+            wp 10h 40%   | To do (0%)  |  10h |             6h |        40%
+            wp 0h 0%     | To do (0%)  |   0h |             0h |
+            wp 0h 40%    | Doing (40%) |   0h |             0h |
+            wp 0h 100%   | Done (100%) |   0h |             0h |
           TABLE
         )
       end
@@ -217,6 +239,31 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
             wp 0%       | To do (0%)  |  10h |            10h |         0%
             wp 40%      | Doing (40%) |  10h |             6h |        40%
             wp 100%     | Done (100%) |  10h |             0h |       100%
+          TABLE
+        )
+      end
+    end
+
+    context "when work packages have empty work and non-empty remaining work values" do
+      it "updates the work packages work along with the % complete value from the status" do
+        expect_performing_job_changes(
+          from: <<~TABLE,
+            subject     | status      | work | remaining work | % complete
+            wp          | Doing (40%) |      |            12h |
+            wp 0%       | To do (0%)  |      |            12h |        50%
+            wp 40%      | Doing (40%) |      |            12h |        50%
+            wp 40% 0h   | Doing (40%) |      |             0h |        50%
+            wp 100%     | Done (100%) |      |            12h |        50%
+            wp 100% 0h  | Done (100%) |      |             0h |        50%
+          TABLE
+          to: <<~TABLE
+            subject     | status      | work | remaining work | % complete
+            wp          | Doing (40%) |  20h |            12h |        40%
+            wp 0%       | To do (0%)  |  12h |            12h |         0%
+            wp 40%      | Doing (40%) |  20h |            12h |        40%
+            wp 40% 0h   | Doing (40%) |   0h |             0h |        40%
+            wp 100%     | Done (100%) |  12h |             0h |       100%
+            wp 100% 0h  | Done (100%) |   0h |             0h |       100%
           TABLE
         )
       end

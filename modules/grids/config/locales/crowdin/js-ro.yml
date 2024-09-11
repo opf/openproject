@@ -34,7 +34,7 @@ ro:
           title: 'Stare proiect'
           not_started: 'Neînceput'
           on_track: 'În lucru'
-          off_track: 'Deraiat'
+          off_track: 'Întârziat'
           at_risk: 'În pericol'
           not_set: 'Nesetat'
           finished: 'Finalizat'

@@ -3,14 +3,13 @@ import {
   IOPFormlyFieldSettings,
   IOPFormlyTemplateOptions,
 } from 'core-app/shared/components/dynamic-forms/typings';
-import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { Component, OnInit } from '@angular/core';
+import { JobStatusModalService } from 'core-app/features/job-status/job-status-modal.service';
 
 
 @Component({
@@ -38,7 +37,7 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
     private apiV3Service:ApiV3Service,
     private currentProjectService:CurrentProjectService,
     private pathHelperService:PathHelperService,
-    private modalService:OpModalService,
+    private jobStatusModalService:JobStatusModalService,
     private I18n:I18nService,
   ) {
     super();
@@ -59,7 +58,7 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
   }
 
   onSubmitted(response:HalSource) {
-    this.modalService.show(JobStatusModalComponent, 'global', { jobId: response.jobId });
+    this.jobStatusModalService.show(response.jobId as string);
   }
 
   private isHiddenField(key:string|undefined):boolean {

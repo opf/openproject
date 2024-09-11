@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,7 +55,7 @@ RSpec.describe "API v3 Project resource show", content_type: :json do
                        customized: project)
   end
   let(:invisible_custom_field) do
-    create(:text_project_custom_field, visible: false)
+    create(:text_project_custom_field, admin_only: true)
   end
   let(:invisible_custom_value) do
     CustomValue.create(custom_field: invisible_custom_field,

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,13 +39,15 @@ RSpec.describe Projects::DeleteService, type: :model do
   context "if authorized" do
     context "when destroy succeeds" do
       it "destroys the projects" do
-        allow(project).to receive(:archive)
-        allow(Projects::DeleteProjectJob).to receive(:new)
+        without_partial_double_verification do
+          allow(project).to receive(:archive)
+          allow(Projects::DeleteProjectJob).to receive(:new)
 
-        expect { subject }.to change(Project, :count).by(-1)
-        expect(project).not_to have_received(:archive)
-        expect(Projects::DeleteProjectJob)
-          .not_to have_received(:new)
+          expect { subject }.to change(Project, :count).by(-1)
+          expect(project).not_to have_received(:archive)
+          expect(Projects::DeleteProjectJob)
+            .not_to have_received(:new)
+        end
       end
 
       context "when the file storages are involved", :webmock do

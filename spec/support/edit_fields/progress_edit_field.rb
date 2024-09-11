@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,6 +38,12 @@ class ProgressEditField < EditField
     "percentageDone" => :done_ratio,
     "statusWithinProgressModal" => :status_id
   }.freeze
+  HUMAN_FIELD_NAME_MAP = {
+    "estimatedTime" => "work",
+    "remainingTime" => "remaining work",
+    "percentageDone" => "% complete",
+    "statusWithinProgressModal" => "status"
+  }.freeze
 
   def initialize(context,
                  property_name,
@@ -46,7 +52,12 @@ class ProgressEditField < EditField
     super
 
     @field_name = "work_package_#{FIELD_NAME_MAP.fetch(@property_name)}"
+    @human_field_name = HUMAN_FIELD_NAME_MAP.fetch(@property_name)
     @trigger_selector = "input[id$=inline-edit--field-#{@property_name}]"
+  end
+
+  def visible_on_create_form?
+    false
   end
 
   def update(value, save: true, expect_failure: false)
@@ -71,13 +82,44 @@ class ProgressEditField < EditField
     page.has_selector?(MODAL_SELECTOR, wait: 1)
   end
 
+  def clear
+    super(with_backspace: true)
+  end
+
   def set_value(value)
-    page.fill_in field_name, with: value
-    sleep 1
+    if value == ""
+      clear
+    else
+      page.fill_in field_name, with: value
+    end
+    wait_for_preview_to_complete
+  end
+
+  def focus
+    return if focused?
+
+    input_element.click
+    wait_for_preview_to_complete
+  end
+
+  # Wait for the popover preview to be refreshed.
+  # Preview occurs on field blur or change.
+  def wait_for_preview_to_complete
+    sleep 0.110 # the preview on popover has a debounce of 100ms
+    if using_cuprite?
+      wait_for_network_idle # Wait for preview to finish
+    end
   end
 
   def input_element
     modal_element.find_field(field_name)
+  end
+
+  def input_caption_element
+    input_element["aria-describedby"]
+      .split
+      .find { _1.start_with?("caption-") }
+      &.then { |caption_id| find(id: caption_id) }
   end
 
   def trigger_element
@@ -128,6 +170,10 @@ class ProgressEditField < EditField
   # If they are the same, it means the modal field is in focus.
   # @return [Boolean] true if the modal field is in focus, false otherwise.
   def expect_modal_field_in_focus
+    expect(focused?).to be(true)
+  end
+
+  def focused?
     input_element == page.evaluate_script("document.activeElement")
   end
 
@@ -136,6 +182,10 @@ class ProgressEditField < EditField
   # If they are the same, it means the cursor is at the end of the input.
   # @return [Boolean] true if the cursor is at the end of the input, false otherwise.
   def expect_cursor_at_end_of_input
+    expect(cursor_at_end_of_input?).to be(true)
+  end
+
+  def cursor_at_end_of_input?
     input_element.evaluate_script("this.selectionStart == this.value.length;")
   end
 
@@ -156,10 +206,23 @@ class ProgressEditField < EditField
       if @property_name == "percentageDone" && value.to_s == "-"
         expect(page).to have_field(field_name, readonly:, placeholder: value.to_s)
       elsif @property_name == "statusWithinProgressModal"
-        expect(page).to have_select(field_name, disabled:, with_selected: value.to_s)
+        if value == :empty_without_any_options
+          expect(page).to have_select(field_name, disabled:, options: [])
+        else
+          expect(page).to have_select(field_name, disabled:, with_selected: value.to_s)
+        end
       else
         expect(page).to have_field(field_name, disabled:, readonly:, with: value.to_s)
       end
+    end
+  end
+
+  def expect_caption(expected_caption)
+    if expected_caption.nil?
+      expect(input_caption_element).to be_nil, "Expected no caption for #{@human_field_name} field, " \
+                                               "got \"#{input_caption_element&.text}\""
+    else
+      expect(input_caption_element).to have_text(expected_caption)
     end
   end
 
@@ -177,6 +240,7 @@ class ProgressEditField < EditField
     end
   end
 
+  # to be removed in 15.0 with :percent_complete_edition feature flag removal
   def expect_migration_warning_banner(should_render: true)
     within modal_element do
       if should_render

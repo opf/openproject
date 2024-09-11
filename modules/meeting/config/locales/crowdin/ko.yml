@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -120,8 +120,9 @@ ko:
       agenda: "의제 복사"
       agenda_text: "이전 미팅의 의제 복사"
     email:
-      send_emails: "이메일 보내기"
-      send_invitation_emails: "모든 참가자에게 초대 이메일을 보냅니다."
+      send_emails: "참가자에게 이메일 보내기"
+      send_invitation_emails: >
+        위에서 선택한 참가자에게 즉시 이메일 초대를 보내세요. 나중에 언제든지 수동으로 할 수도 있습니다.
       open_meeting_link: "미팅 열기"
       invited:
         summary: "%{actor} 님이 %{title} 미팅 초대장을 귀하에게 보냈습니다"
@@ -146,6 +147,7 @@ ko:
     empty_text: "항목을 여기에 끌어오거나 새로 만들기"
   notice_successful_notification: "알림이 전송됨"
   notice_timezone_missing: 표준 시간대가 설정되지 않았으며 %{zone}(으)로 간주됩니다. 해당 표준 시간대를 선택하려면 여기를 클릭하세요.
+  notice_meeting_updated: "이 페이지는 다른 사람이 업데이트했습니다. 변경 사항을 보려면 다시 로드하세요."
   permission_create_meetings: "미팅 생성"
   permission_edit_meetings: "미팅 편집"
   permission_delete_meetings: "미팅 삭제"
@@ -177,6 +179,7 @@ ko:
   label_meeting_delete: "미팅 삭제"
   label_meeting_created_by: "작성자"
   label_meeting_last_updated: "마지막 업데이트"
+  label_meeting_reload: "다시 로드"
   label_agenda_items: "의제 항목"
   label_agenda_items_reordered: "재정렬됨"
   label_agenda_item_remove: "의제에서 제거"

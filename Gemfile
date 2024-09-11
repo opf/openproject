@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,7 +63,7 @@ gem "acts_as_list", "~> 1.2.0"
 gem "acts_as_tree", "~> 2.9.0"
 gem "awesome_nested_set", "~> 3.6.0"
 gem "closure_tree", "~> 7.4.0"
-gem "rubytree", "~> 2.0.0"
+gem "rubytree", "~> 2.1.0"
 # Only used in down migrations now.
 # Is to be removed once the referencing migrations have been squashed.
 gem "typed_dag", "~> 2.0.2", require: false
@@ -165,7 +165,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.2"
 
-gem "meta-tags", "~> 2.21.0"
+gem "meta-tags", "~> 2.22.0"
 
 gem "paper_trail", "~> 15.1.0"
 
@@ -204,7 +204,7 @@ gem "plaintext", "~> 0.3.2"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 
-gem "mini_magick", "~> 4.13.0", require: false
+gem "mini_magick", "~> 5.0.1", require: false
 
 gem "validate_url"
 
@@ -212,6 +212,7 @@ gem "validate_url"
 gem "dry-auto_inject"
 gem "dry-container"
 gem "dry-monads"
+gem "dry-validation"
 
 # ActiveRecord extension which adds typecasting to store accessors
 gem "store_attribute", "~> 1.0"
@@ -240,7 +241,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem "test-prof", "~> 1.3.0"
+  gem "test-prof", "~> 1.4.0"
   gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"
@@ -274,7 +275,7 @@ group :test do
   gem "selenium-devtools"
   gem "selenium-webdriver", "~> 4.20"
 
-  gem "fuubar", "~> 2.5.0"
+  gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"
 
   # Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.
@@ -321,6 +322,9 @@ group :development, :test do
   gem "ruby-prof", require: false
   gem "stackprof", require: false
 
+  # Output a stack trace anytime, useful when a process is stuck
+  gem "rbtrace"
+
   # REPL with debug commands
   gem "debug"
 
@@ -347,7 +351,7 @@ group :development, :test do
   gem "brakeman", "~> 6.1.0"
 
   # i18n-tasks helps find and manage missing and unused translations.
-  gem "i18n-tasks", "~> 1.0.13"
+  gem "i18n-tasks", "~> 1.0.13", require: false
 end
 
 gem "bootsnap", "~> 1.18.0", require: false
@@ -392,6 +396,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.17.0"
-gem "openproject-octicons_helper", "~>19.17.0"
-gem "openproject-primer_view_components", "~>0.40.0"
+gem "openproject-octicons", "~>19.18.0"
+gem "openproject-octicons_helper", "~>19.18.0"
+gem "openproject-primer_view_components", "~>0.43.1"

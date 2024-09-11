@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ nl:
     button_back_to_list_view: "Terug naar het overzicht"
     button_cancel: "Annuleren"
     button_close: "Sluiten"
-    button_change_project: "Project wisselen"
+    button_change_project: "Move to another project"
     button_check_all: "Selecteer alles"
     button_configure-form: "Formulier configureren"
     button_confirm: "Accepteren"
@@ -74,7 +74,7 @@ nl:
     button_copy: "Kopieer"
     button_copy_to_clipboard: "Kopiëren naar het klembord"
     button_copy_link_to_clipboard: "Link naar klembord kopiëren"
-    button_copy_to_other_project: "Kopiëren naar een ander project"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Aangepaste velden"
     button_delete: "Verwijderen"
     button_delete_watcher: "Kijkers verwijderen"
@@ -138,6 +138,8 @@ nl:
     description_select_work_package: "Selecteer werk pakket #%{id}"
     description_subwork_package: "Kind van werkpakket #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "Voorbeeld modus wijzigen"
       source_code: "Wissel Markdown bronmodus"
       error_saving_failed: "Het opslaan van het document is mislukt met de volgende foutmelding:%{error}"
@@ -276,8 +278,10 @@ nl:
           The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
           Are you sure you want to continue?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
           Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
@@ -336,18 +340,6 @@ nl:
         years: "Jaren"
         description: >
           Selecteer het oorspronkelijke zoomniveau dat moet worden weergegeven wanneer autozoom niet beschikbaar is.
-      export:
-        title: "Gantt chart PDF options"
-        button_export: "Export"
-        column_widths:
-          narrow: "Narrow"
-          medium: "Medium"
-          wide: "Wide"
-          very_wide: "Zeer breed"
-        options:
-          date_zoom: "Date zoom"
-          paper_size: "Papierformaat"
-          column_widths: "Kolombreedten"
     general_text_no: "Nee"
     general_text_yes: "Ja"
     general_text_No: "Nee"
@@ -366,10 +358,10 @@ nl:
           learn_about: "Meer informatie over de nieuwe functies"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Keep and restore local versions of WYSIWYG content changes.</li> <li>Enable a storage for multiple projects at once.</li> <li>Export work packages in an updated modal with additional settings.</li> <li>Display custom field columns/filters in project lists also in the Community Edition.</li> <li>Support CloudFlare Turnstile as Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Abonneren op agenda"
       inital_setup_error_message: "Er is een fout opgetreden tijdens het ophalen van gegevens."
@@ -410,6 +402,7 @@ nl:
     label_create: "Maken"
     label_create_work_package: "Nieuw werkpakket maken"
     label_created_by: "Gemaakt door"
+    label_current: "current"
     label_date: "Datum"
     label_date_with_format: "Geef de %{date_attribute} met gebruik van volgend formaat: %{format}"
     label_deactivate: "Deactiveren"
@@ -638,11 +631,6 @@ nl:
         upsale:
           title: "Date alerts"
           description: "Met datummeldingen wordt u op de hoogte gebracht van de start- of einddatum, zodat u nooit een belangrijke deadline mist of vergeet."
-      facets:
-        unread: "Ongelezen"
-        unread_title: "Toon ongelezen"
-        all: "Alle"
-        all_title: "Alles weergeven"
       center:
         label_actor_and: "en"
         and_more_users:
@@ -653,12 +641,13 @@ nl:
           with_current_filter: "Er zijn geen meldingen in deze weergave op dit moment"
         mark_all_read: "Alles als gelezen markeren"
         mark_as_read: "Als gelezen markeren"
-        text_update_date: "%{date} door"
+        text_update_date_by: "%{date} by"
         total_count_warning: "De %{newest_count} meest recente meldingen weergeven. %{more_count} meer worden niet weergegeven."
         empty_state:
           no_notification: "Het lijkt erop dat u helemaal bij bent."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Het lijkt erop dat je allemaal bij bent met %{filter} filter."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Klik op een melding om alle activiteit details te bekijken."
         new_notifications:
           message: "Er zijn nieuwe meldingen."
@@ -1198,6 +1187,9 @@ nl:
         one: "1 dag"
         other: "%{count} dagen"
         zero: "0 dagen"
+      word:
+        one: "1 word"
+        other: "%{count} words"
     zen_mode:
       button_activate: "Zen-modus activeren"
       button_deactivate: "Deactiveren van zen modus"

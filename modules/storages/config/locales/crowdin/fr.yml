@@ -21,6 +21,8 @@ fr:
               only_numeric_or_uuid: ne peut être que numérique ou un uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Veuillez sélectionner un dossier.
             project_folder_mode:
               mode_unavailable: n'est pas disponible pour cet espace de stockage.
             project_ids:
@@ -29,7 +31,7 @@ fr:
           attributes:
             host:
               authorization_header_missing: n'est pas entièrement configuré. L'instance Nextcloud ne reçoit pas l'en-tête "Authorization", ce qui est nécessaire pour une autorisation basée sur un jeton Bearer des requêtes API. Veuillez vérifier la configuration de votre serveur HTTP.
-              cannot_be_connected_to: ne peut pas être connecté.
+              cannot_be_connected_to: n'a pas pu être atteint. Veuillez vous assurer que l'hôte est joignable et que l'application d'intégration OpenProject est installée.
               minimal_nextcloud_version_unmet: ne répond pas aux exigences minimales de version (doit être Nextcloud 23 ou supérieur)
               not_nextcloud_server: n'est pas un serveur Nextcloud
               op_application_not_installed: semble ne pas avoir installé l'application "Intégration OpenProject" . Veuillez d'abord l'installer puis réessayer.
@@ -57,15 +59,18 @@ fr:
   permission_write_files: 'Gestion automatique des dossiers de projet : Écrire des fichiers'
   project_module_storages: Fichiers
   project_storages:
+    edit_project_folder:
+      label: Modifier le dossier du projet
     project_folder_mode:
       automatic: Géré automatiquement
       inactive: Aucun dossier spécifique
       manual: Dossier existant géré manuellement
     remove_project:
+      deletion_failure_flash: Impossible de supprimer le projet du stockage. %{error}
       dialog:
         automatically_managed_appendix: En outre, dans ce cas, cet espace de stockage comporte un dossier de projet géré automatiquement qui sera supprimé définitivement, ainsi que ses fichiers.
         confirmation_text: Veuillez confirmer que vous avez compris et que vous souhaitez supprimer cet espace de stockage de fichiers de ce projet.
-        heading: Supprimer le projet de %{storage_type}
+        heading_text: Supprimer le projet de %{storage}
         text: Cette action est irréversible et supprimera tous les liens des lots de travaux de ce projet vers les fichiers et dossiers de cet espace de stockage.
       label: Supprimer le projet
   services:
@@ -86,6 +91,12 @@ fr:
         rename_project_folder: 'Renommer le dossier du projet géré :'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: Le dossier %{destination_path} existe déjà. Interruption du processus pour éviter les écrasements.
+          error: Une erreur inattendue s'est produite. Veuillez vérifier les logs OpenProject pour plus d'informations ou contacter un administrateur
+          forbidden: OpenProject n'a pas pu accéder au dossier source. Veuillez vérifier la configuration de vos permissions sur le fournisseur de stockage
+          not_found: L'emplacement du modèle source %{source_path} n'a pas été trouvé.
+          unauthorized: OpenProject n'a pas pu s'authentifier avec le fournisseur de stockage. Veuillez vérifier votre configuration de stockage
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -167,6 +178,9 @@ fr:
       nextcloud:
         group_folders_app: Dossiers de groupe
         integration_app: Intégration OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: La configuration de cet espace de stockage est incomplète. Veuillez compléter la configuration avant de l'activer dans plusieurs projets.
+      setup_incomplete_header: La configuration du stockage est incomplète
     error_invalid_provider_type: Veuillez sélectionner un fournisseur de stockage valide.
     file_storage_view:
       access_management:
@@ -302,16 +316,24 @@ fr:
     no_results: Aucun espace de stockage n'est configuré pour le moment.
     notice_successful_storage_connection: |-
       Stockage connecté avec succès ! N'oubliez pas d'activer le module et le stockage spécifique dans les paramètres de chaque projet où vous souhaitez l'utiliser.
-    oauth_grant_nudge_modal:
+    oauth_access_granted_modal:
       access_granted: Accès accordé
-      access_granted_screen_reader: Accès accordé. Vous êtes maintenant prêt à utiliser %{storage}.
-      body: Pour accéder au dossier du projet, vous devez vous connecter à %{storage}.
+      project_settings:
+        access_granted_screen_reader: Accès accordé. Vous êtes maintenant prêt à utiliser %{storage}
+        storage_ready: Vous êtes maintenant prêt à utiliser %{storage}
+      storage_admin:
+        access_granted_screen_reader: Accès accordé. Vous êtes maintenant prêt à ajouter des projets à %{storage}
+        storage_ready: Vous êtes maintenant prêt à ajouter des projets à %{storage}
+    oauth_grant_nudge_modal:
       cancel_button_label: Je le ferai plus tard
-      confirm_button_aria_label: Connexion à %{storage}
-      confirm_button_label: Connexion
+      heading: Connexion à %{provider_type} requise
+      login_button_aria_label: Connexion à %{storage}
+      login_button_label: "Connexion à %{provider_type}"
+      project_settings:
+        description: Pour accéder au dossier du projet, vous devez vous connecter à %{storage}.
       requesting_access_to: Demande d'accès à %{storage}
-      storage_ready: Vous êtes maintenant prêt à utiliser %{storage}
-      title: Encore une étape...
+      storage_admin:
+        description: Pour ajouter des projets à ce stockage, vous devez être connecté à %{provider_type}. Veuillez vous connecter et réessayer.
     open_project_storage_modal:
       success:
         subtitle: Vous allez être redirigé

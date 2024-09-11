@@ -31,7 +31,7 @@ RSpec.describe "Password change with OTP", :js, with_settings: {
     end
     # rubocop:enable RSpec/AnyInstance
 
-    expect(page).to have_css("h2", text: I18n.t(:button_change_password))
+    expect(page).to have_test_selector("change_password_header_title", text: I18n.t(:button_change_password))
     within("#content") do
       SeleniumHubWaiter.wait
       fill_in("password", with: user_password)

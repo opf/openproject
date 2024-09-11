@@ -176,6 +176,8 @@ module.exports = {
 
         // It's common in Angular to wrap even pure functions in classes for injection purposes
         "class-methods-use-this": "off",
+
+        "spaced-comment": "off",
       },
     },
     {

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= toolbar title: t(:label_custom_field_plural) do %>
-  <li class="toolbar-item">
-    <%= link_to new_custom_field_path(type: selected_tab(custom_fields_tabs)[:name]),
-                { class: 'button -primary',
-                  aria: {label: t(:label_custom_field_new)},
-                  title: t(:label_custom_field_new)} do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= t('activerecord.models.custom_field') %></span>
-    <% end %>
-  </li>
-<% end %>
 
-<%= render_tabs custom_fields_tabs %>
 
 <% html_title(t(:label_administration), t(:label_custom_field_plural)) -%>
+
+<%= render CustomFields::IndexPageHeaderComponent.new(tabs: custom_fields_tabs) %>
+
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(scheme: :primary,
+                                 aria: { label: I18n.t(:label_custom_field_new) },
+                                 title: I18n.t(:label_custom_field_new),
+                                 tag: :a,
+                                 href: new_custom_field_path(type: selected_tab(custom_fields_tabs)[:name])) do |button|
+      button.with_leading_visual_icon(icon: :plus)
+      t("activerecord.models.custom_field")
+    end
+  end
+%>
+
+<%= render_tabs custom_fields_tabs, with_tab_nav: false %>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -105,12 +105,22 @@ module WorkPackage::PDFExport::Markdown
 
   private
 
+  def attachment_image_local_file(attachment)
+    attachment.file.local_file
+  rescue StandardError => e
+    Rails.logger.error "Failed to access attachment #{attachment.id} file: #{e}"
+    nil # return nil as if the id was wrong and the attachment obj has not been found
+  end
+
   def attachment_image_filepath(work_package, src)
     # images are embedded into markup with the api-path as img.src
     attachment = attachment_by_api_content_src(work_package, src)
-    return nil if attachment.nil? || attachment.file.local_file.nil? || !pdf_embeddable?(attachment.content_type)
+    return nil if attachment.nil? || !pdf_embeddable?(attachment.content_type)
 
-    resize_image(attachment.file.local_file.path)
+    local_file = attachment_image_local_file(attachment)
+    return nil if local_file.nil?
+
+    resize_image(local_file.path)
   end
 
   def attachment_by_api_content_src(work_package, src)

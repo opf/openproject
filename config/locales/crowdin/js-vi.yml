@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ vi:
     button_back_to_list_view: "Quay lại chế độ xem danh sách"
     button_cancel: "Hủy"
     button_close: "Đóng"
-    button_change_project: "Thay đổi dự án"
+    button_change_project: "Chuyển sang dự án khác"
     button_check_all: "Chọn tất cả"
     button_configure-form: "Cấu hình biểu mẫu"
     button_confirm: "Xác nhận"
@@ -74,7 +74,7 @@ vi:
     button_copy: "Sao chép"
     button_copy_to_clipboard: "Sao chép vào clipboard"
     button_copy_link_to_clipboard: "Sao chép liên kết vào clipboard"
-    button_copy_to_other_project: "Sao chép vào dự án khác"
+    button_copy_to_other_project: "Sao chép trong một dự án khác"
     button_custom-fields: "Trường tùy chỉnh"
     button_delete: "Xóa"
     button_delete_watcher: "Xóa người theo dõi"
@@ -138,6 +138,8 @@ vi:
     description_select_work_package: "Chọn công việc #%{id}"
     description_subwork_package: "Con của công việc #%{id}"
     editor:
+      revisions: "Hiển thị các sửa đổi cục bộ"
+      no_revisions: "Không tìm thấy sửa đổi cục bộ"
       preview: "Chuyển đổi chế độ xem trước"
       source_code: "Chuyển đổi chế độ mã Markdown"
       error_saving_failed: "Lưu tài liệu không thành công với lỗi sau: %{error}"
@@ -276,8 +278,10 @@ vi:
           Các thay đổi có thể mất một thời gian để có hiệu lực. Bạn sẽ được thông báo khi tất cả các công việc liên quan đã được cập nhật.
           Bạn có chắc chắn muốn tiếp tục không?
       work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          Thay đổi chế độ tính toán tiến độ từ dựa trên trạng thái sang dựa trên công việc sẽ biến <i>% Hoàn thành</i> thành trường không thể chỉnh sửa có giá trị được lấy từ <i>Công việc</i> và <i>Công việc còn lại</i>. Các giá trị hiện tại cho <i>% Hoàn thành</i> được giữ nguyên. Nếu các giá trị cho <i>Công việc</i> và <i>Công việc còn lại</i> không có, chúng sẽ được yêu cầu để thay đổi <i>% Hoàn thành</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Thay đổi chế độ tính toán tiến độ từ dựa trên trạng thái sang dựa trên công việc sẽ làm cho <i>% Hoàn thành</i> trở thành trường không thể chỉnh sửa, giá trị của nó được lấy từ <i>Công việc</i> và <i>Công việc còn lại</i>. Các giá trị hiện tại cho <i>% Hoàn thành</i> sẽ được giữ lại. Nếu các giá trị cho <i>Công việc</i> và <i>Công việc còn lại</i> không có, chúng sẽ được yêu cầu để thay đổi <i>% Hoàn thành</i>.
+          Thay đổi chế độ tính toán tiến độ từ dựa trên trạng thái sang dựa trên công việc sẽ làm cho trường <i>% Hoàn thành</i> có thể chỉnh sửa tự do. Nếu bạn tùy ý nhập giá trị cho <i>Công việc</i> hoặc <i>Công việc còn lại</i>, chúng cũng sẽ được liên kết với <i>% Hoàn thành</i>. Thay đổi <i>Công việc còn lại</i> sau đó có thể cập nhật <i>% Hoàn thành</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Thay đổi chế độ tính toán tiến độ từ dựa trên công việc sang dựa trên trạng thái sẽ dẫn đến việc tất cả các giá trị hiện tại của <i>% Hoàn thành</i> bị mất và thay thế bằng các giá trị liên kết với từng trạng thái. Các giá trị hiện tại cho <i>Công việc còn lại</i> cũng có thể được tính lại để phản ánh sự thay đổi này. Hành động này không thể hoàn tác.
     custom_actions:
@@ -336,18 +340,6 @@ vi:
         years: "Năm"
         description: >
           Chọn mức độ phóng to ban đầu sẽ được hiển thị khi tự động phóng to không khả dụng.
-      export:
-        title: "Tùy chọn PDF biểu đồ Gantt"
-        button_export: "Xuất"
-        column_widths:
-          narrow: "Hẹp"
-          medium: "Vừa phải"
-          wide: "Rộng"
-          very_wide: "Rất rộng"
-        options:
-          date_zoom: "Phóng to theo ngày"
-          paper_size: "Kích thước giấy"
-          column_widths: "Chiều rộng cột"
     general_text_no: "không"
     general_text_yes: "có"
     general_text_No: "Không"
@@ -366,10 +358,10 @@ vi:
           learn_about: "Tìm hiểu thêm về các tính năng mới"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                Bản phát hành bao gồm nhiều tính năng và cải tiến mới, chẳng hạn như: <br> <ul class="%{list_styling_class}"> <li>Tùy chọn chế độ tối trong cài đặt cá nhân</li> <li>Quyền riêng biệt để xem và chỉnh sửa trên các thuộc tính của dự án</li> <li>Cải thiện báo cáo tiến độ dựa trên trạng thái</li> <li>Xác thực kết nối cho kho lưu trữ Nextcloud</li> <li>Nhiều tùy chọn bộ lọc hơn cho danh sách dự án</li> </ul>
+                Bản phát hành bao gồm nhiều tính năng và cải tiến mới, chẳng hạn như: <br> <ul class="%{list_styling_class}"> <li>Lưu giữ và khôi phục các phiên bản cục bộ của các thay đổi nội dung WYSIWYG.</li> <li>Cho phép lưu trữ nhiều dự án cùng lúc.</li> <li>Xuất các gói công việc trong một hộp thoại được cập nhật với các cài đặt bổ sung.</li> <li>Hiển thị các cột/bộ lọc trường tùy chỉnh trong danh sách dự án ngay cả trong Phiên bản cộng đồng.</li> <li>Hỗ trợ CloudFlare Turnstile dưới dạng Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Đăng ký lịch"
       inital_setup_error_message: "Đã xảy ra lỗi khi lấy dữ liệu."
@@ -410,6 +402,7 @@ vi:
     label_create: "Tạo"
     label_create_work_package: "Tạo gói công việc mới"
     label_created_by: "Được tạo bởi"
+    label_current: "hiện tại"
     label_date: "Ngày"
     label_date_with_format: "Nhập %{date_attribute} theo định dạng sau: %{format}"
     label_deactivate: "Hủy kích hoạt"
@@ -638,11 +631,6 @@ vi:
         upsale:
           title: "Cảnh báo ngày"
           description: "Với cảnh báo ngày, bạn sẽ được thông báo về các ngày bắt đầu hoặc kết thúc sắp tới để không bao giờ bỏ lỡ hoặc quên hạn chót quan trọng."
-      facets:
-        unread: "Chưa đọc"
-        unread_title: "Hiển thị chưa đọc"
-        all: "Tất cả"
-        all_title: "Hiển thị tất cả"
       center:
         label_actor_and: "và"
         and_more_users:
@@ -652,12 +640,13 @@ vi:
           with_current_filter: "Hiện không có thông báo trong chế độ xem này"
         mark_all_read: "Đánh dấu tất cả là đã đọc"
         mark_as_read: "Đánh dấu là đã đọc"
-        text_update_date: "%{date} bởi"
+        text_update_date_by: "%{date} bởi"
         total_count_warning: "Hiển thị %{newest_count} thông báo gần đây nhất. %{more_count} thông báo khác chưa được hiển thị."
         empty_state:
           no_notification: "Có vẻ như bạn đã đọc hết các thông báo."
           no_notification_with_current_project_filter: "Có vẻ như bạn đã đọc hết các thông báo của dự án đã chọn."
           no_notification_with_current_filter: "Có vẻ như bạn đã đọc hết thông báo cho bộ lọc %{filter}."
+          no_notification_for_filter: "Có vẻ như bạn đã hiểu hết về bộ lọc này."
           no_selection: "Nhấp vào thông báo để xem tất cả chi tiết hoạt động."
         new_notifications:
           message: "Có thông báo mới."
@@ -1195,6 +1184,8 @@ vi:
         one: "1 ngày"
         other: "%{count} ngày"
         zero: "0 ngày"
+      word:
+        other: "%{count} từ"
     zen_mode:
       button_activate: "Kích hoạt chế độ Zen"
       button_deactivate: "Tắt chế độ Zen"

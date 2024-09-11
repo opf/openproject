@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -120,8 +120,9 @@ zh-CN:
       agenda: "复制议程"
       agenda_text: "复制之前会议的议程"
     email:
-      send_emails: "发送电子邮件"
-      send_invitation_emails: "向所有参与者发送邀请邮件。"
+      send_emails: "电子邮件参与者"
+      send_invitation_emails: >
+        立即向上面选定的参加者发送电子邮件邀请。您也可以在之后随时手动发送。
       open_meeting_link: "打开会议"
       invited:
         summary: "%{actor} 已经向您发送了一个 %{title} 会议邀请"
@@ -146,6 +147,7 @@ zh-CN:
     empty_text: "拖动项目到此处或创建一个新项目"
   notice_successful_notification: "通知发送成功"
   notice_timezone_missing: 没有设定时区，预设时区为 %{zone}。要选择您的时区，请单击此处。
+  notice_meeting_updated: "此页面已被其他人更新。重新加载以查看更改。"
   permission_create_meetings: "创建会议"
   permission_edit_meetings: "编辑会议"
   permission_delete_meetings: "删除会议"
@@ -177,6 +179,7 @@ zh-CN:
   label_meeting_delete: "删除会议"
   label_meeting_created_by: "创建者:"
   label_meeting_last_updated: "最后更新"
+  label_meeting_reload: "重新加载"
   label_agenda_items: "议程项目"
   label_agenda_items_reordered: "重新排序"
   label_agenda_item_remove: "从议程中移除"

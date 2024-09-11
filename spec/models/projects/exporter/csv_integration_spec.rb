@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,98 +63,90 @@ RSpec.describe Projects::Exports::CSV, "integration" do
       %w[name description project_status public] + global_project_custom_fields.map(&:column_name)
     end
 
-    context "when ee enabled", with_ee: %i[custom_fields_in_projects_list] do
-      before do
-        project # re-evaluate project to ensure it is created within the desired user context
-        parsed
+    before do
+      project # re-evaluate project to ensure it is created within the desired user context
+      parsed
+    end
+
+    context "without view_project_attributes permission" do
+      let(:permissions) { %i(view_projects) }
+
+      it "does not render project custom fields in the header" do
+        expect(parsed.size).to eq 2
+
+        expect(header).to eq ["id", "Identifier", "Name", "Description", "Status", "Public"]
       end
 
-      context "without view_project_attributes permission" do
-        let(:permissions) { %i(view_projects) }
-
-        it "does not render project custom fields in the header" do
-          expect(parsed.size).to eq 2
-
-          expect(header).to eq ["id", "Identifier", "Name", "Description", "Status", "Public"]
-        end
-
-        it "does not render the custom field values in the rows if enabled for a project" do
-          expect(rows.first)
-            .to eq [project.id.to_s, project.identifier, project.name,
-                    project.description, "Off track", "false"]
-        end
-      end
-
-      context "with view_project_attributes permission" do
-        it "renders available project custom fields in the header if enabled in any project" do
-          expect(parsed.size).to eq 2
-
-          cf_names = global_project_custom_fields.map(&:name)
-
-          expect(cf_names).not_to include(not_used_string_cf.name)
-          expect(cf_names).not_to include(hidden_cf.name)
-
-          expect(header).to eq ["id", "Identifier", "Name", "Description", "Status", "Public", *cf_names]
-        end
-
-        it "renders the custom field values in the rows if enabled for a project" do
-          custom_values = global_project_custom_fields.map do |cf|
-            case cf
-            when bool_cf
-              "true"
-            when text_cf
-              project.typed_custom_value_for(cf)
-            when not_used_string_cf
-              ""
-            else
-              project.formatted_custom_value_for(cf)
-            end
-          end
-          expect(rows.first)
-            .to eq [project.id.to_s, project.identifier, project.name,
-                    project.description, "Off track", "false", *custom_values]
-        end
-      end
-
-      context "with admin permission" do
-        let(:current_user) { create(:admin) }
-
-        it "renders all globally available project custom fields including hidden ones in the header" do
-          expect(parsed.size).to eq 3
-
-          cf_names = global_project_custom_fields.map(&:name)
-
-          expect(cf_names).to include(not_used_string_cf.name)
-          expect(cf_names).to include(hidden_cf.name)
-
-          expect(header).to eq ["id", "Identifier", "Name", "Description", "Status", "Public", *cf_names]
-        end
-
-        it "renders the custom field values in the rows if enabled for a project" do
-          custom_values = global_project_custom_fields.map do |cf|
-            case cf
-            when bool_cf
-              "true"
-            when hidden_cf
-              "hidden"
-            when not_used_string_cf
-              ""
-            when text_cf
-              project.typed_custom_value_for(cf)
-            else
-              project.formatted_custom_value_for(cf)
-            end
-          end
-          expect(rows.first)
-            .to eq [project.id.to_s, project.identifier, project.name,
-                    project.description, "Off track", "false", *custom_values]
-        end
+      it "does not render the custom field values in the rows if enabled for a project" do
+        expect(rows.first)
+          .to eq [project.id.to_s, project.identifier, project.name,
+                  project.description, "Off track", "false"]
       end
     end
 
-    context "when ee not enabled" do
-      it "renders only the default columns" do
-        expect(header).to eq %w[id Identifier Name Description Status Public]
+    context "with view_project_attributes permission" do
+      it "renders available project custom fields in the header if enabled in any project" do
+        expect(parsed.size).to eq 2
+
+        cf_names = global_project_custom_fields.map(&:name)
+
+        expect(cf_names).not_to include(not_used_string_cf.name)
+        expect(cf_names).not_to include(hidden_cf.name)
+
+        expect(header).to eq ["id", "Identifier", "Name", "Description", "Status", "Public", *cf_names]
+      end
+
+      it "renders the custom field values in the rows if enabled for a project" do
+        custom_values = global_project_custom_fields.map do |cf|
+          case cf
+          when bool_cf
+            "true"
+          when text_cf
+            project.typed_custom_value_for(cf)
+          when not_used_string_cf
+            ""
+          else
+            project.formatted_custom_value_for(cf)
+          end
+        end
+        expect(rows.first)
+          .to eq [project.id.to_s, project.identifier, project.name,
+                  project.description, "Off track", "false", *custom_values]
+      end
+    end
+
+    context "with admin permission" do
+      let(:current_user) { create(:admin) }
+
+      it "renders all globally available project custom fields including hidden ones in the header" do
+        expect(parsed.size).to eq 3
+
+        cf_names = global_project_custom_fields.map(&:name)
+
+        expect(cf_names).to include(not_used_string_cf.name)
+        expect(cf_names).to include(hidden_cf.name)
+
+        expect(header).to eq ["id", "Identifier", "Name", "Description", "Status", "Public", *cf_names]
+      end
+
+      it "renders the custom field values in the rows if enabled for a project" do
+        custom_values = global_project_custom_fields.map do |cf|
+          case cf
+          when bool_cf
+            "true"
+          when hidden_cf
+            "hidden"
+          when not_used_string_cf
+            ""
+          when text_cf
+            project.typed_custom_value_for(cf)
+          else
+            project.formatted_custom_value_for(cf)
+          end
+        end
+        expect(rows.first)
+          .to eq [project.id.to_s, project.identifier, project.name,
+                  project.description, "Off track", "false", *custom_values]
       end
     end
   end

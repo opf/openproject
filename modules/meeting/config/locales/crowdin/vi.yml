@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -120,8 +120,9 @@ vi:
       agenda: "Sao chép chương trình nghị sự"
       agenda_text: "Sao chép chương trình nghị sự của cuộc họp cũ"
     email:
-      send_emails: "Gửi email"
-      send_invitation_emails: "Gửi email mời khi tạo"
+      send_emails: "Gửi email cho người tham gia"
+      send_invitation_emails: >
+        Gửi lời mời qua email ngay lập tức đến những người tham gia được chọn ở trên. Bạn cũng có thể thực hiện thủ công bất kỳ lúc nào sau đó.
       open_meeting_link: "Mở cuộc họp"
       invited:
         summary: "%{actor} đã gửi cho bạn một lời mời tham gia cuộc họp %{title}"
@@ -146,6 +147,7 @@ vi:
     empty_text: "Kéo các mục vào đây hoặc tạo một cái mới"
   notice_successful_notification: "Đã gửi thông báo thành công"
   notice_timezone_missing: Chưa đặt múi giờ và %{zone} đã được chọn. Để chọn múi giowf của bạn, nhấn vào đây.
+  notice_meeting_updated: "Trang này đã được người khác cập nhật. Tải lại để xem thay đổi."
   permission_create_meetings: "Tạo cuộc họp"
   permission_edit_meetings: "Chỉnh sửa cuộc họp"
   permission_delete_meetings: "Xóa cuộc họp"
@@ -177,6 +179,7 @@ vi:
   label_meeting_delete: "Xóa cuộc họp"
   label_meeting_created_by: "Được tạo bởi"
   label_meeting_last_updated: "Cập nhật lần cuối"
+  label_meeting_reload: "Tải lại"
   label_agenda_items: "Các mục chương trình nghị sự"
   label_agenda_items_reordered: "đã sắp xếp lại"
   label_agenda_item_remove: "Gỡ bỏ khỏi chương trình nghị sự"

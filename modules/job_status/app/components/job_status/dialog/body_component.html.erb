@@ -1,0 +1,60 @@
+<%= turbo_frame_tag "job_status_modal" do %>
+  <% unless pending? %>
+    <%= content_tag :div, "", data: { "job-status-polling-target": "finished" } %>
+  <% end %>
+  <%= render Primer::Beta::Blankslate.new do |component|
+    component.with_visual_icon(icon: icon[:icon], color: icon[:color], size: :medium) unless icon.nil?
+    component.with_heading(tag: :h2).with_content(title)
+    component.with_description do
+      flex_layout do |flex|
+        if message.present?
+          flex.with_row { render(Primer::Beta::Text.new) { message } }
+        end
+        if job_errors?
+          job_errors.each do |message|
+            flex.with_row { render(Primer::Beta::Text.new) { message } }
+          end
+        end
+        if redirect_url.present?
+          flex.with_row { render(Primer::Beta::Link.new(
+            href: redirect_url,
+            data: {
+              action: 'job-status-polling#redirectClick',
+              "job-status-polling-target": job_errors.present? ? nil : "redirect"
+            }
+          )) { I18n.t('job_status_dialog.redirect_link') } }
+        end
+        if download_url.present?
+          flex.with_row { render(Primer::Beta::Text.new) { I18n.t('job_status_dialog.download_starts') } }
+          flex.with_row { render(Primer::Beta::Text.new) {
+            I18n.t('job_status_dialog.link_to_download',
+                   link: (render(Primer::Beta::Link.new(
+                     href: download_url,
+                     target: "_blank",
+                     type: mime_type,
+                     # omit download attribute for PDF,
+                     # so they open in a tab - if supported and activated in the browser
+                     download: mime_type_pdf? ? nil : "download",
+                     data: {
+                       "job-status-polling-target": "download"
+                     }
+                   )) { I18n.t('job_status_dialog.click_here') })
+            ).html_safe
+          } }
+        end
+        if job_html.present?
+          flex.with_row(text_align: :left) { job_html.html_safe }
+        end
+      end
+    end
+  end %>
+  <% unless pending? %>
+    <%= flex_layout(justify_content: :flex_end) do |flex| %>
+      <% flex.with_column do %>
+        <%= render(Primer::Beta::Button.new(data: {
+          "close-dialog-id": JobStatus::Dialog::DialogComponent::MODAL_ID
+        })) { I18n.t(:button_close) } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

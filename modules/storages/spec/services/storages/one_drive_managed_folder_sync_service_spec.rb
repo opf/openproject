@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -130,11 +130,11 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
       it "updates the project folder id for all active automatically managed projects",
          vcr: "one_drive/sync_service_create_folder" do
         expect { service.call }.to change { disallowed_chars_project_storage.reload.project_folder_id }
-          .from(nil).to(String)
-          .and(change { project_storage.reload.project_folder_id }.from(nil).to(String))
-          .and(change { public_project_storage.reload.project_folder_id }.from(nil).to(String))
-          .and(not_change { inactive_project_storage.reload.project_folder_id })
-          .and(not_change { unmanaged_project_storage.reload.project_folder_id })
+                                     .from(nil).to(String)
+                                     .and(change { project_storage.reload.project_folder_id }.from(nil).to(String))
+                                     .and(change { public_project_storage.reload.project_folder_id }.from(nil).to(String))
+                                     .and(not_change { inactive_project_storage.reload.project_folder_id })
+                                     .and(not_change { unmanaged_project_storage.reload.project_folder_id })
       end
 
       it "adds a record to the LastProjectFolder for each new folder",
@@ -142,7 +142,7 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
         scope = ->(project_storage) { Storages::LastProjectFolder.where(project_storage:).last }
 
         expect { service.call }.to not_change { scope[unmanaged_project_storage].reload.origin_folder_id }
-          .and(not_change { scope[inactive_project_storage].reload.origin_folder_id })
+                                     .and(not_change { scope[inactive_project_storage].reload.origin_folder_id })
 
         expect(scope[project_storage].origin_folder_id).to eq(project_storage.reload.project_folder_id)
         expect(scope[public_project_storage].origin_folder_id).to eq(public_project_storage.reload.project_folder_id)
@@ -190,8 +190,9 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
       inactive_project_storage.update(project_folder_id: original_folder.result.id)
 
       set_permissions_on(original_folder.result.id,
-                         { read: ["2ff33b8f-2843-40c1-9a17-d786bca17fba"],
-                           write: %w[33db2c84-275d-46af-afb0-c26eb786b194 248aeb72-b231-4e71-a466-67fa7df2a285] })
+                         [{ user_id: "2ff33b8f-2843-40c1-9a17-d786bca17fba", permissions: [:read_files] },
+                          { user_id: "248aeb72-b231-4e71-a466-67fa7df2a285", permissions: [:write_files] },
+                          { user_id: "33db2c84-275d-46af-afb0-c26eb786b194", permissions: [:write_files] }])
 
       expect(permissions_for(inactive_project_storage))
         .to eq({ read: ["2ff33b8f-2843-40c1-9a17-d786bca17fba"],
@@ -259,7 +260,7 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
 
           expect(Rails.logger)
             .to have_received(:error)
-            .with(error_code: :request_error, drive_id: storage.drive_id, message: nil, data: /drive id/)
+                  .with(error_code: :request_error, drive_id: storage.drive_id, message: nil, data: /drive id/)
         end
       end
 
@@ -270,9 +271,9 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
 
         expect(Rails.logger)
           .to have_received(:error)
-          .with(command: described_class,
-                message: nil,
-                data: { body: /timed out while waiting on select/, status: nil })
+                .with(command: described_class,
+                      message: nil,
+                      data: { body: /timed out while waiting on select/, status: nil })
       end
 
       context "when folder creation fails" do
@@ -296,10 +297,10 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
 
           expect(Rails.logger)
             .to have_received(:error)
-            .with(folder_name: "[Sample] Project Name _ Ehuu (#{project.id})",
-                  error_code: :conflict,
-                  message: nil,
-                  data: /nameAlreadyExists/)
+                  .with(folder_name: "[Sample] Project Name _ Ehuu (#{project.id})",
+                        error_code: :conflict,
+                        message: nil,
+                        data: /nameAlreadyExists/)
         ensure
           delete_folder(already_existing_folder.id)
         end
@@ -336,9 +337,9 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
           service.call
           expect(Rails.logger)
             .to have_received(:error)
-            .with(error_code: :bad_request,
-                  message: nil,
-                  data: /noResolvedUsers/).twice
+                  .with(error_code: :bad_request,
+                        message: nil,
+                        data: /noResolvedUsers/).twice
         end
       end
     end
@@ -349,8 +350,13 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
   def permissions_for(project_storage)
     return if project_folder_info(project_storage).failure?
 
-    Storages::Peripherals::StorageInteraction::OneDrive::Util.using_admin_token(storage) do |http|
-      response = http.get("/v1.0/drives/#{storage.drive_id}/items/#{project_storage.project_folder_id}/permissions")
+    Storages::Peripherals::StorageInteraction::Authentication[auth_strategy].call(storage:) do |http|
+      response = http.get(Storages::UrlBuilder.url(storage.uri,
+                                                   "/v1.0/drives",
+                                                   storage.drive_id,
+                                                   "/items",
+                                                   project_storage.project_folder_id,
+                                                   "/permissions"))
       response.json(symbolize_keys: true).fetch(:value, []).each_with_object({}) do |grant, hash|
         next if grant[:roles].member?("owner")
 
@@ -387,9 +393,13 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
                                          parent_location:)
   end
 
-  def set_permissions_on(item_id, permissions)
+  def set_permissions_on(file_id, user_permissions)
+    input_data = Storages::Peripherals::StorageInteraction::Inputs::SetPermissions
+                   .build(file_id:, user_permissions:)
+                   .value!
     Storages::Peripherals::Registry.resolve("one_drive.commands.set_permissions")
-                                   .call(storage:, path: item_id, permissions:, auth_strategy:).on_failure { p _1.inspect }
+                                   .call(storage:, auth_strategy:, input_data:)
+                                   .on_failure { p _1.inspect }
   end
 
   def delete_created_folders

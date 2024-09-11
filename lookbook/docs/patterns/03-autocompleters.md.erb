@@ -26,6 +26,10 @@ Here are the most common options you'd pass to the autocompleter:
   like `[name: searchKey, operator: '**', values: [searchText]]`.
 - **appendTo**: A globally unique css selector to append the ng-select dropdown element to. Relevant for overlaying
   dropdowns over other elements.
+  -
+
+**Note:** If you use an autocompleter within a primer dialog, you need to set the `appendTo` option to the ID of the dialog itself.
+This is due to the dialog opening in a `top-layer` of the page, and will override all other positioning rules.
 
 In case you are using the `form.autocompleter` helper, you can pass the same options as you would to the `ng-select`
 component
@@ -75,6 +79,12 @@ For project autocompletion, you can use the same field, but with a different con
 Keep in mind that this component uses the live projects API, so results will depend on whether you are logged in.
 
 <%= embed OpenProject::Common::AutocompletePreview, :project, panels: %i[source] %>
+
+#### Project autocompletion with search icon
+
+There is also an flag for a search icon within the select:
+
+<%= embed OpenProject::Common::AutocompletePreview, :project_with_search_icon, panels: %i[source] %>
 
 ### Outside primer
 

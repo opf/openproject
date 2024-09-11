@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -67,7 +67,7 @@ ja:
     button_back_to_list_view: "リスト表示に戻る"
     button_cancel: "キャンセル"
     button_close: "閉じる"
-    button_change_project: "プロジェクトの変更"
+    button_change_project: "Move to another project"
     button_check_all: "全てを選択"
     button_configure-form: "フォームを設定"
     button_confirm: "確認"
@@ -75,7 +75,7 @@ ja:
     button_copy: "コピー"
     button_copy_to_clipboard: "クリップボードにコピー"
     button_copy_link_to_clipboard: "クリップボードにリンクをコピー"
-    button_copy_to_other_project: "他のプロジェクトにコピー"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "カスタムフィールド"
     button_delete: "削除"
     button_delete_watcher: "ウォッチャーを削除"
@@ -139,6 +139,8 @@ ja:
     description_select_work_package: "作業項目を選択 #%{id}"
     description_subwork_package: "作業項目の子 #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "プレビューモードの切り替え"
       source_code: "Markdown ソースモードの切り替え"
       error_saving_failed: "次のエラーで文書を保存するのに失敗しました: %{error}"
@@ -277,8 +279,10 @@ ja:
           The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
           Are you sure you want to continue?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
           Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
@@ -337,18 +341,6 @@ ja:
         years: " 年"
         description: >
           オートズームが使用できない場合に表示される初期ズームレベルを選択します。
-      export:
-        title: "Gantt chart PDF options"
-        button_export: "外部出力"
-        column_widths:
-          narrow: "Narrow"
-          medium: "Medium"
-          wide: "Wide"
-          very_wide: "Very wide"
-        options:
-          date_zoom: "Date zoom"
-          paper_size: "Paper size"
-          column_widths: "Column widths"
     general_text_no: "いいえ"
     general_text_yes: "はい"
     general_text_No: "いいえ"
@@ -367,10 +359,10 @@ ja:
           learn_about: "新機能の詳細はこちら"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Keep and restore local versions of WYSIWYG content changes.</li> <li>Enable a storage for multiple projects at once.</li> <li>Export work packages in an updated modal with additional settings.</li> <li>Display custom field columns/filters in project lists also in the Community Edition.</li> <li>Support CloudFlare Turnstile as Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -411,6 +403,7 @@ ja:
     label_create: "作成"
     label_create_work_package: "新しいワークパッケージを作成"
     label_created_by: "作成者："
+    label_current: "current"
     label_date: "日付"
     label_date_with_format: "次の形式を使用して %{date_attribute} を入力してください: %{format}"
     label_deactivate: "無効"
@@ -639,11 +632,6 @@ ja:
         upsale:
           title: "Date alerts"
           description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
-      facets:
-        unread: "Unread"
-        unread_title: "Show unread"
-        all: "全て"
-        all_title: "全てを表示"
       center:
         label_actor_and: "及び"
         and_more_users:
@@ -653,12 +641,13 @@ ja:
           with_current_filter: "There are no notifications in this view at the moment"
         mark_all_read: "Mark all as read"
         mark_as_read: "Mark as read"
-        text_update_date: "%{date} by"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you are all caught up."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."
@@ -1196,6 +1185,8 @@ ja:
         one: "1 day"
         other: "%{count}日間"
         zero: "0 days"
+      word:
+        other: "%{count} words"
     zen_mode:
       button_activate: "マナーモードをアクティブにする"
       button_deactivate: "マナーモードを非アクティブにする"

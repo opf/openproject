@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -109,6 +109,20 @@ class Meeting < ApplicationRecord
     open: 0, # 0 -> default, leave values for future states between open and closed
     closed: 5
   }
+
+  ##
+  # Cache key for detecting changes to be shown to the user
+  def changed_hash
+    parts = Meeting
+      .unscoped
+      .where(id:)
+      .left_joins(:agenda_items, :sections)
+      .pick(MeetingAgendaItem.arel_table[:updated_at].maximum, MeetingSection.arel_table[:updated_at].maximum)
+
+    parts << lock_version
+
+    OpenProject::Cache::CacheKey.expand(parts)
+  end
 
   ##
   # Return the computed start_time when changed

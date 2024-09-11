@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -211,10 +211,12 @@ pt-BR:
     reorder_confirmation: "Aviso: A ordem atual dos valores disponíveis será perdida. Continuar?"
     instructions:
       is_required: "Marcar o campo personalizado como obrigatório. Isto tornará obrigatório o preenchimento do campo ao criar novos recursos ou ao atualizar recursos existentes."
+      is_required_for_project: "Marque esta opção para ativar este atributo e torná-lo obrigatório em todos os projetos. Este atributo não pode ser desativado em projetos individuais."
       is_for_all: "Marcar o campo personalizado como disponível em todos os projetos existentes e novos."
       searchable: "Incluir os valores dos campos ao utilizar a funcionalidade de busca global."
+      searchable_for_project: "Marque esta opção para disponibilizar este atributo como um filtro nas listas de projetos."
       editable: "Permita que o campo seja editável pelos próprios usuários."
-      visible: "Torne o campo visível para todos os usuários (não-administradores) na visão geral do projeto e exibido no widget de detalhes do projeto na Visão geral do projeto."
+      admin_only: "Marque esta opção para tornar este atributo visível apenas para os administradores. Os usuários sem permissões de administrador não poderão vê-lo ou editá-lo."
       is_filter: >
         Permita que o campo personalizado seja utilizado num filtro nas visualizações do pacote de trabalho. Note que apenas com a opção "Para todos os projetos" selecionada, o campo personalizado irá aparecer nas visualizações globais.
     tab:
@@ -261,6 +263,9 @@ pt-BR:
       open_as_gantt: "Abrir como visualização Gantt"
       no_results_title_text: Atualmente, não existem projetos
       no_results_content_text: Criar um novo projeto
+      search:
+        label: Filtro de nome de projeto
+        placeholder: Pesquisar por nome de projeto
     lists:
       active: "Projetos ativos"
       my: "Meus projetos"
@@ -294,7 +299,7 @@ pt-BR:
         actions:
           label_enable_single: "Ativo neste projeto, clique para desativar"
           label_disable_single: "Inativo neste projeto, clique para ativar"
-          deactivate_for_project: "Desativar para este projeto"
+          remove_from_project: "Remover do projeto"
           label_enable_all: "Ativar tudo"
           label_disable_all: "Desativar tudo"
         is_required_blank_slate:
@@ -386,8 +391,8 @@ pt-BR:
   my:
     access_token:
       create_dialog:
-        header: The %{type} token has been generated
-        warning: Note that this is the only time you will see this token, make sure to copy it now.
+        header: O token %{type} foi gerado
+        warning: Note que esta é a única vez que você verá esse token, certifique-se de copiá-lo agora.
       errors:
         token_name_blank: "Forneça um nome para o token de API."
         token_name_in_use: "Este nome de token de API já está em uso, escolha outro."
@@ -617,7 +622,7 @@ pt-BR:
         possible_values: "Valores possíveis"
         regexp: "Expressão regular"
         searchable: "Pesquisável"
-        visible: "Visível"
+        admin_only: "Somente administrador"
       custom_value:
         value: "Valor"
       doorkeeper/application:
@@ -687,6 +692,7 @@ pt-BR:
         versions: "Versões"
         work_packages: "Pacotes de Trabalho"
       project_custom_field:
+        is_required: "Obrigatório para todos os projetos"
         custom_field_section: Seção
       query:
         column_names: "Colunas"
@@ -707,13 +713,13 @@ pt-BR:
         is_closed: "Pacote de trabalho fechado"
         is_readonly: "Pacote de trabalho somente leitura"
         excluded_from_totals: "Excluir do cálculo de totais na hierarquia"
-        default_done_ratio: "% concluído"
+        default_done_ratio: "% de conclusão"
       time_entry:
         activity: "Atividade"
         hours: "horas"
         spent_on: "Data"
         type: "Tipo"
-        ongoing: "Em curso"
+        ongoing: "Em andamento"
       type:
         description: "Texto padrão para descrição"
         attribute_groups: ""
@@ -1031,6 +1037,12 @@ pt-BR:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "não corresponde ao trabalho e ao trabalho restante"
+              cannot_be_set_when_work_is_zero: "não pode ser definido quando o trabalho é 0h"
+              must_be_set_when_remaining_work_is_set: "necessário quando o Trabalho restante for definido."
+              must_be_set_when_work_and_remaining_work_are_set: "necessário quando o Trabalho e o Trabalho restante são definidos."
+              inclusion: "deve estar entre 0 e 100."
             due_date:
               not_start_date: "não é na data de início, embora isso seja necessário para os marcos."
               cannot_be_null: "não pode ser definido como nulo já que a data de início e a duração são conhecidas. "
@@ -1059,15 +1071,17 @@ pt-BR:
               does_not_exist: "Categoria especificada não existe."
             estimated_hours:
               not_a_number: "não é uma duração válida."
-              cant_be_inferior_to_remaining_work: "Não pode ser menor do que o Trabalho restante."
-              must_be_set_when_remaining_work_is_set: "Necessário quando o Trabalho restante for definido."
-              only_values_greater_or_equal_zeroes_allowed: "Deve ser >= 0."
-              format: "%{message}"
+              cant_be_inferior_to_remaining_work: "não pode ser menor que o Trabalho restante."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "necessário quando o Trabalho restante e o % concluído são definidos."
             remaining_hours:
               not_a_number: "não é uma duração válida."
-              cant_exceed_work: "Não pode ser maior do que o Trabalho."
-              must_be_set_when_work_is_set: "Necessário quando o Trabalho for definido."
-              format: "%{message}"
+              cant_exceed_work: "não pode ser maior que o Trabalho."
+              must_be_set_when_work_is_set: "necessário quando o Trabalho for definido."
+              must_be_set_when_work_and_percent_complete_are_set: "necessário quando Trabalho e % concluído são definidos."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                deve ser 0h quando o trabalho é definido e % concluído é de 100%.
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                deve ficar vazio quando o Trabalho estiver vazio e % de conclusão for 100%.
           readonly_status: "O pacote de trabalho está em estado somente leitura, então seus atributos não podem ser alterados."
         type:
           attributes:
@@ -1151,8 +1165,8 @@ pt-BR:
         other: "Papéis"
       status: "Situação do pacote de trabalho"
       token/api:
-        one: Access token
-        other: Access tokens
+        one: Token de acesso
+        other: Tokens de acesso
       type: "Tipo"
       user: "Usuário"
       version: "Versão"
@@ -1591,6 +1605,7 @@ pt-BR:
   error_pdf_failed_to_export: "Não foi possível salvar a exportação do PDF: %{error}"
   error_token_authenticity: "Não foi possível verificar o token de Falsificação de Solicitação Entre Sites. Você tentou enviar dados em vários navegadores ou abas? Por favor, feche todas as abas e tente novamente."
   error_work_package_not_found_in_project: "O pacote de trabalho não foi encontrado ou não pertence a este projeto"
+  error_work_package_id_not_found: "O pacote de trabalho não foi encontrado."
   error_must_be_project_member: "deve ser membro do projeto"
   error_migrations_are_pending: "Sua instalação do OpenProject possui migrações de banco de dados pendentes. Você provavelmente esqueceu de executar as migrações em sua última atualização. Por favor, verifique o guia de atualização para atualizar adequadamente sua instalação."
   error_migrations_visit_upgrade_guides: "Por favor, visite nossa documentação do guia de atualização"
@@ -1632,9 +1647,71 @@ pt-BR:
       project: "Projeto: %{name}"
       subproject: "Subprojeto: %{name}"
   export:
-    your_work_packages_export: "Exportação de seus pacotes de trabalho"
-    succeeded: "A exportação foi completada com sucesso."
-    failed: "A exportação falhou: %{message}"
+    dialog:
+      title: "Exportar"
+      submit: "Exportar"
+      format:
+        label: "Formato do arquivo"
+        options:
+          csv:
+            label: "CSV"
+          pdf:
+            label: "PDF"
+          xls:
+            label: "XLS"
+      columns:
+        input_label_report: "Adicionar colunas à tabela de atributos"
+        input_caption_report: "Por padrão, todos os atributos adicionados como colunas na lista de pacotes de trabalho são selecionados. Embora os campos de texto longo não estejam disponíveis na tabela de atributos, eles podem ser visualizados logo abaixo."
+        input_caption_table: "Por padrão, todos os atributos adicionados como colunas na lista de pacotes de trabalho são selecionados. Os campos de texto longo não estão disponíveis nas exportações em formato de tabela."
+      pdf:
+        export_type:
+          label: "Formato de exportação de PDF"
+          options:
+            table:
+              label: "Tabela"
+              caption: "Exporte a lista de pacotes de trabalho em uma tabela com as colunas desejadas."
+            report:
+              label: "Relatório"
+              caption: "Exporte o pacote de trabalho em um relatório detalhado que inclua todos os pacotes de trabalho da lista."
+            gantt:
+              label: "Gráfico de Gantt"
+              caption: "Exportar a lista de pacotes de trabalho em uma visualização de diagrama de Gantt."
+        include_images:
+          label: "Incluir imagens"
+          caption: "Excluir imagens para reduzir o tamanho da exportação do PDF."
+        gantt_zoom_levels:
+          label: "Níveis de ampliação"
+          caption: "Selecione qual é o nível de ampliação para as datas exibidas no gráfico."
+          options:
+            days: "Dias"
+            weeks: "Semanas"
+            months: "Meses"
+            quarters: "Trimestres"
+        column_width:
+          label: "Largura da coluna da tabela"
+          options:
+            narrow: "Estreito"
+            medium: "Médio"
+            wide: "Amplo"
+            very_wide: "Muito amplo"
+        paper_size:
+          label: "Tamanho do papel"
+          caption: "Dependendo do tamanho do gráfico, pode ser necessário exportar mais de uma página."
+        long_text_fields:
+          input_caption: "Por padrão, todos os campos de texto longos são selecionados."
+          input_label: "Adicionar campos de texto longos"
+          input_placeholder: "Pesquisar campos de texto longos"
+          drag_area_label: "Gerenciar campos de texto longos"
+      xls:
+        include_relations:
+          label: "Incluir relações"
+          caption: "Esta opção criará uma cópia de cada pacote de trabalho para cada relação que ele tenha com outros pacotes de trabalho."
+        include_descriptions:
+          label: "Incluir descrições"
+          caption: "Esta opção adicionará uma coluna de descrição em formato bruto."
+    your_work_packages_export: "Os pacotes de trabalho estão sendo exportados"
+    succeeded: "Exportação concluída"
+    failed: "Ocorreu um erro ao tentar exportar os pacotes de trabalho: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1795,6 +1872,11 @@ pt-BR:
       responsible: "Responsável"
       shared: "Compartilhado"
       watched: "Observador"
+    facets:
+      unread: "Não lido"
+      unread_title: "Exibir não lidos"
+      all: "Todos"
+      all_title: "Mostrar todos"
     menu:
       by_project: "Não lido por projeto"
       by_reason: "Motivo"
@@ -2154,6 +2236,8 @@ pt-BR:
   label_next_week: "Próxima semana"
   label_no_change_option: "(Sem alteração)"
   label_no_data: "Sem dados para exibir"
+  label_no_due_date: "sem data de conclusão"
+  label_no_start_date: "nenhuma data de início"
   label_no_parent_page: "Nenhuma página pai"
   label_nothing_display: "Nada para exibir"
   label_nobody: "ninguém"
@@ -2278,6 +2362,8 @@ pt-BR:
   label_role_plural: "Papéis"
   label_role_search: "Atribuir papéis aos novos membros"
   label_scm: "SCM"
+  label_scroll_left: "Rolar para a esquerda"
+  label_scroll_right: "Rolar para a direita"
   label_search: "Pesquisar"
   label_search_by_name: "Pesquisar por nome"
   label_send_information: "Enviar novas credenciais ao usuário"
@@ -3032,8 +3118,10 @@ pt-BR:
   setting_work_package_done_ratio: "Cálculo de progresso"
   setting_work_package_done_ratio_field: "Com base no trabalho"
   setting_work_package_done_ratio_status: "Com base no estado"
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    No modo <b>com base no trabalho</b>, a % de conclusão é calculada com base na quantidade de trabalho realizado em relação ao total de trabalho. Já no modo <b>com base no estado</b>, cada estado possui um valor de % de conclusão associado a ele. Alterar o estado resultará em uma mudança na % de conclusão.
   setting_work_package_done_ratio_explanation_html: >
-    No modo <b>com base no trabalho</b>, a % de conclusão é calculada com base na quantidade de trabalho realizado em relação ao total de trabalho. Já no modo <b>com base no estado</b>, cada estado possui um valor de % de conclusão associado a ele. Alterar o estado resultará em uma mudança na % de conclusão.
+    No modo <b>baseado em trabalho</b>, você pode definir o % de conclusão para qualquer valor desejado. Se você inserir um valor para o Trabalho, o Trabalho restante será calculado automaticamente. No modo <b>baseado em status</b>, cada status está associado a um valor de % de conclusão. Alterar o status irá atualizar o % de conclusão correspondente.
   setting_work_package_properties: "Propriedades do pacote de trabalho"
   setting_work_package_startdate_is_adddate: "Usar a data atual como data para início dos novos pacotes de trabalho"
   setting_work_packages_projects_export_limit: "Limite de exportação de pacote de trabalho / projetos"
@@ -3415,9 +3503,26 @@ pt-BR:
     progress:
       label_note: "Obs.:"
       modal:
-        work_based_help_text: "% de conclusão é automaticamente calculada com base no trabalho total e no trabalho restante."
+        work_based_help_text: "Cada campo é calculado automaticamente a partir dos outros dois, sempre que possível."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "% de conclusão é automaticamente calculada com base no trabalho total e no trabalho restante."
         status_based_help_text: "A % de conclusão é definida pelo estado do pacote de trabalho."
         migration_warning_text: "No modo de cálculo de progresso com base no trabalho, a % conclusão não pode ser definida manualmente e está vinculada ao Trabalho. O valor existente foi mantido, mas não pode ser editado. Favor inserir o Trabalho primeiro."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Removido porque o campo \"Trabalho restante\" está vazio."
+          cleared_because_work_is_0h: "Removido porque o Trabalho está 0h."
+          derived: "Derivado de Trabalho e Trabalho restante."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Removido porque o campo \"Trabalho restante\" está vazio."
+          derived: "Derivado de Trabalho restante e % de conclusão."
+          same_as_remaining_work: "Defina o mesmo valor que o Trabalho restante."
+        remaining_hours:
+          cleared_because_work_is_empty: "Removido porque o Trabalho está vazio."
+          cleared_because_percent_complete_is_empty: "Removido porque % de conclusão está vazio."
+          decreased_like_work: "Diminuído pela mesma quantidade que o Trabalho."
+          derived: "Derivado de Trabalho e % de conclusão."
+          increased_like_work: "Aumentado pela mesma quantidade que o Trabalho."
+          same_as_work: "Defina para o mesmo valor que o Trabalho."
     permissions:
       comment: "Comentário"
       comment_description: "Pode visualizar e comentar neste pacote de trabalho."

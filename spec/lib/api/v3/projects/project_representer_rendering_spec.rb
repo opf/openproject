@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,8 +53,8 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, "rendering" do
     end
   end
 
-  let(:int_custom_field) { build_stubbed(:integer_project_custom_field, visible: false) }
-  let(:version_custom_field) { build_stubbed(:version_project_custom_field, visible: true) }
+  let(:int_custom_field) { build_stubbed(:integer_project_custom_field, admin_only: true) }
+  let(:version_custom_field) { build_stubbed(:version_project_custom_field, admin_only: false) }
   let(:int_custom_value) do
     CustomValue.new(custom_field: int_custom_field,
                     value: "1234",
@@ -164,7 +164,7 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, "rendering" do
 
       context "if the user is no admin and the field is visible" do
         before do
-          int_custom_field.visible = true
+          int_custom_field.admin_only = false
         end
 
         it "has a property for the int custom field" do
@@ -177,7 +177,7 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, "rendering" do
         let(:permissions) { [] }
 
         before do
-          int_custom_field.visible = true
+          int_custom_field.admin_only = false
         end
 
         it "has no property for the int custom field" do
@@ -512,7 +512,7 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, "rendering" do
             .to receive(:admin?)
                   .and_return(true)
 
-          version_custom_field.visible = false
+          version_custom_field.admin_only = true
         end
 
         it "links custom fields" do
@@ -523,7 +523,7 @@ RSpec.describe API::V3::Projects::ProjectRepresenter, "rendering" do
 
       context "if the user is no admin and the field is invisible" do
         before do
-          version_custom_field.visible = false
+          version_custom_field.admin_only = true
         end
 
         it "does not link the custom field" do

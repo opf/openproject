@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -172,9 +172,21 @@ module ApplicationHelper
   end
 
   def html_hours(text)
-    text.gsub(%r{(\d+)\.(\d+)},
-              '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
-      .html_safe
+    html_safe_gsub(text,
+                   %r{(\d+)\.(\d+)},
+                   '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
+  end
+
+  def html_safe_gsub(string, *gsub_args, &)
+    html_safe = string.html_safe?
+    string.gsub(*gsub_args, &)
+
+    # We only mark the string as safe if the previous string was already safe
+    if html_safe
+      string.html_safe # rubocop:disable Rails/OutputSafety
+    else
+      string
+    end
   end
 
   def authoring(created, author, options = {})
@@ -252,19 +264,18 @@ module ApplicationHelper
 
   # Same as Rails' simple_format helper without using paragraphs
   def simple_format_without_paragraph(text)
-    text.to_s
-      .gsub(/\r\n?/, "\n")                    # \r\n and \r -> \n
-      .gsub(/\n\n+/, "<br /><br />")          # 2+ newline  -> 2 br
-      .gsub(/([^\n]\n)(?=[^\n])/, '\1<br />') # 1 newline   -> br
-      .html_safe
+    html_safe_gsub(text.to_s, /\r\n?/, "\n")
+      .then { |res| html_safe_gsub(res, /\n\n+/, "<br /><br />") }
+      .then { |res| html_safe_gsub(res, /([^\n]\n)(?=[^\n])/, '\1<br />') }
   end
 
   def lang_options_for_select(blank = true)
-    auto = if blank && (valid_languages - all_languages) == (all_languages - valid_languages)
-             [["(auto)", ""]]
-           else
-             []
-           end
+    auto =
+      if blank && (valid_languages - all_languages) == (all_languages - valid_languages)
+        [["(auto)", ""]]
+      else
+        []
+      end
 
     mapped_languages = valid_languages.map { |lang| translate_language(lang) }
 
@@ -344,10 +355,10 @@ module ApplicationHelper
   #   A hash containing the following keys:
   #   * width: (default '100px') the css-width for the progress bar
   #   * legend: (default: '') the text displayed alond with the progress bar
-  def progress_bar(pcts, options = {})
+  def progress_bar(pcts, options = {}) # rubocop:disable Metrics/AbcSize
     pcts = Array(pcts).map(&:round)
     closed = pcts[0]
-    done   = pcts[1] || 0
+    done = pcts[1] || 0
     width = options[:width] || "100px;"
     legend = options[:legend] || ""
     total_progress = options[:hide_total_progress] ? "" : t(:total_progress)
@@ -356,7 +367,7 @@ module ApplicationHelper
     content_tag :span do
       progress = content_tag :span, class: "progress-bar", style: "width: #{width}" do
         concat content_tag(:span, "", class: "inner-progress closed", style: "width: #{closed}%")
-        concat content_tag(:span, "", class: "inner-progress done",   style: "width: #{done}%")
+        concat content_tag(:span, "", class: "inner-progress done", style: "width: #{done}%")
       end
       progress + content_tag(:span, "#{legend}#{percent_sign} #{total_progress}", class: "progress-bar-legend")
     end
@@ -369,8 +380,10 @@ module ApplicationHelper
   end
 
   def calendar_for(*_args)
-    ActiveSupport::Deprecation.warn "calendar_for has been removed. Please use the op-basic-single-date-picker angular component instead",
-                                    caller
+    ActiveSupport::Deprecation.warn(
+      "calendar_for has been removed. Please use the opce-basic-single-date-picker angular component instead",
+      caller
+    )
   end
 
   def locale_first_day_of_week
@@ -435,7 +448,7 @@ module ApplicationHelper
   def translate_language(lang_code)
     # rename in-context translation language name for the language select box
     if lang_code.to_sym == Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE &&
-       ::I18n.locale != Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE
+      ::I18n.locale != Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE
       [Redmine::I18n::IN_CONTEXT_TRANSLATION_NAME, lang_code.to_s]
     else
       [I18n.t("cldr.language_name", locale: lang_code), lang_code.to_s]

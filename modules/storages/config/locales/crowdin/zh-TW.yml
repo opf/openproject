@@ -21,6 +21,8 @@ zh-TW:
               only_numeric_or_uuid: 只能是數字或 uuid。
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: 請選擇一個資料夾。
             project_folder_mode:
               mode_unavailable: 不可用於此儲存空間。
             project_ids:
@@ -29,7 +31,7 @@ zh-TW:
           attributes:
             host:
               authorization_header_missing: 未完全設置。Nextcloud 實例不會收到「Authorization」標頭，這是基於 Bearer 權杖(Token)API 請求授權所必需的。請仔細檢查您的 HTTP 服務器配置。
-              cannot_be_connected_to: 無法連接。
+              cannot_be_connected_to: 無法連線。請確認主機可以連線，且已安裝 OpenProject 整合應用程式。
               minimal_nextcloud_version_unmet: 未滿足最低版本要求（必須為 Nextcloud 23 或更高版本）
               not_nextcloud_server: 不是一個 Nextcloud 的服務器
               op_application_not_installed: 似乎沒有安裝應用「OpenProject 整合套件」。請先安裝，然後重試。
@@ -57,15 +59,18 @@ zh-TW:
   permission_write_files: '自動管理專案資料夾 : 寫入檔案'
   project_module_storages: 檔案
   project_storages:
+    edit_project_folder:
+      label: 編輯專案資料夾
     project_folder_mode:
       automatic: 自動管理
       inactive: 未指定文件夾
       manual: 手動管理現有資料夾
     remove_project:
+      deletion_failure_flash: 從儲存裝置移除專案失敗. %{error}
       dialog:
         automatically_managed_appendix: 此外，在這種情況下，此儲存空間有一個自動管理的專案資料夾，此資料夾及其檔案將永遠刪除。
         confirmation_text: 請確認您瞭解並希望從本專案中移除此檔案儲存空間
-        heading: 從 %{storage_type} 移除專案
+        heading_text: 從 %{storage} 移除專案
         text: 此動作是不可逆轉的，並會移除此專案的工作項目到該儲存的檔案和資料夾的所有連結。
       label: 移除專案
   services:
@@ -86,6 +91,12 @@ zh-TW:
         rename_project_folder: '重新命名託管的專案資料夾：'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: 資料夾 %{destination_path} 已經存在。中斷程序以避免覆寫。
+          error: 發生意外錯誤。請檢查 OpenProject 記錄以獲得更多資訊，或聯絡管理員
+          forbidden: OpenProject 無法存取來源資料夾。請檢查您在儲存提供者上的權限設定
+          not_found: 未找到來源範本位置 %{source_path}。
+          unauthorized: OpenProject 無法與儲存提供者驗證。請檢查您的儲存設定
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -167,6 +178,9 @@ zh-TW:
       nextcloud:
         group_folders_app: 群組資料夾
         integration_app: 整合 OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: 此儲存的設定不完整。請先完成設定，再於多個專案中啟用。
+      setup_incomplete_header: 儲存設定不完整
     error_invalid_provider_type: 請選擇有效的儲存空間提供者。
     file_storage_view:
       access_management:
@@ -303,16 +317,24 @@ zh-TW:
     notice_successful_storage_connection: |-
       儲存已成功連接！請記得在每個所需專案的專案設定
       中啟用模組和特定儲存設備，以便使用。
-    oauth_grant_nudge_modal:
+    oauth_access_granted_modal:
       access_granted: 已授權存取
-      access_granted_screen_reader: 存取權已授予。現在您可以使用 %{storage}。
-      body: 若要存取專案資料夾，您需要登入 %{storage}。
+      project_settings:
+        access_granted_screen_reader: 存取權已授予。現在您可以使用 %{storage}。
+        storage_ready: 現在您可以使用 %{storage}
+      storage_admin:
+        access_granted_screen_reader: 存取權已授予。現在您可以在專案裡增加 %{storage}。
+        storage_ready: 現在您可以在專案裡增加 %{storage}。
+    oauth_grant_nudge_modal:
       cancel_button_label: 稍後再做
-      confirm_button_aria_label: 登入到 %{storage}
-      confirm_button_label: 登入
+      heading: 需要使用 %{provider_type} 登入
+      login_button_aria_label: 登入到 %{storage}
+      login_button_label: "%{provider_type} 登入"
+      project_settings:
+        description: 若要存取專案資料夾，您需要登入 %{storage}。
       requesting_access_to: 請求存取 %{storage}
-      storage_ready: 現在您可以使用 %{storage}
-      title: 還有一步...
+      storage_admin:
+        description: 為了將專案新增至儲存裝置，您需要登入 %{provider_type}。請重新登入。
     open_project_storage_modal:
       success:
         subtitle: 您正被重新導向

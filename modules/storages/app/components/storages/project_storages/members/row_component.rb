@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,9 +46,7 @@ module Storages::ProjectStorages::Members
     end
 
     def name
-      icon = helpers.avatar principal, size: :mini
-
-      icon + principal_link
+      helpers.avatar principal, hide_name: false, size: :mini
     end
 
     def status
@@ -74,10 +72,6 @@ module Storages::ProjectStorages::Members
     private
 
     delegate :storage, to: :table
-
-    def principal_link
-      link_to principal.name, principal_show_path
-    end
 
     def principal_class_name
       principal.model_name.singular

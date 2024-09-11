@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -212,10 +212,12 @@ fr:
     reorder_confirmation: "Attention : l'ordre actuel des valeurs disponibles sera perdu. Continuer ?"
     instructions:
       is_required: "Marquer le champ personnalisé comme requis. Cela rendra obligatoire de remplir le champ lors de la création ou de la mise à jour des ressources existantes."
+      is_required_for_project: "Cocher pour activer cet attribut et le rendre nécessaire dans tous les projets. Il ne peut pas être désactivé pour certains projets."
       is_for_all: "Marquer le champ personnalisé comme disponible dans tous les projets existants et nouveaux."
       searchable: "Inclure les valeurs des champs lors de l'utilisation de la fonctionnalité de recherche globale."
+      searchable_for_project: "Cocher pour rendre cet attribut disponible en tant que filtre dans les listes de projets."
       editable: "Autoriser les utilisateurs à modifier eux-mêmes le champ"
-      visible: "Rendre le champ visible pour tous les utilisateurs (non-administrateurs) et l'afficher dans le widget des détails du projet dans la vue d'ensemble du projet."
+      admin_only: "Cocher pour rendre cet attribut visible uniquement par les administrateurs. Les utilisateurs sans droits d'administration ne seront pas en mesure de le voir ou de l'éditer."
       is_filter: >
         Permet au champ personnalisé d'être utilisé dans un filtre dans les vues des lots de travaux. Notez que le champ personnalisé n'apparaîtra dans les vues globales que si l'option "Pour tous les projets" est sélectionnée.
     tab:
@@ -262,6 +264,9 @@ fr:
       open_as_gantt: "Ouvrir comme vue Gantt"
       no_results_title_text: Aucun projet pour le moment
       no_results_content_text: Créer un nouveau projet
+      search:
+        label: Filtre sur le nom du projet
+        placeholder: Recherche par nom de projet
     lists:
       active: "Projets actifs"
       my: "Mes projets"
@@ -295,7 +300,7 @@ fr:
         actions:
           label_enable_single: "Actif dans ce projet, cliquez pour le désactiver"
           label_disable_single: "Inactif dans ce projet, cliquez pour l'activer"
-          deactivate_for_project: "Désactiver pour ce projet"
+          remove_from_project: "Supprimer du projet"
           label_enable_all: "Activer tout"
           label_disable_all: "Désactiver tout"
         is_required_blank_slate:
@@ -618,7 +623,7 @@ fr:
         possible_values: "Valeurs possibles"
         regexp: "Expression régulière"
         searchable: "Recherchable"
-        visible: "Visible"
+        admin_only: "Administrateurs uniquement"
       custom_value:
         value: "Valeur"
       doorkeeper/application:
@@ -688,6 +693,7 @@ fr:
         versions: "Versions"
         work_packages: "Lots de Travaux"
       project_custom_field:
+        is_required: "Requis pour tous les projets"
         custom_field_section: Section
       query:
         column_names: "Colonnes"
@@ -1032,6 +1038,12 @@ fr:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "ne correspond pas au Travail et au Travail restant"
+              cannot_be_set_when_work_is_zero: "ne peut pas être défini lorsque le Travail est nul"
+              must_be_set_when_remaining_work_is_set: "requis lorsque le Travail restant est défini."
+              must_be_set_when_work_and_remaining_work_are_set: "requis lorsque le Travail et le Travail restant sont définis."
+              inclusion: "doit être compris entre 0 et 100."
             due_date:
               not_start_date: "n'est pas identique à la date de début, bien que cela soit requis pour les jalons."
               cannot_be_null: "ne peut pas être définie à NULL car la date de début et la durée sont connues."
@@ -1060,15 +1072,17 @@ fr:
               does_not_exist: "La catégorie spécifiée n'existe pas."
             estimated_hours:
               not_a_number: "n'est pas une durée valide."
-              cant_be_inferior_to_remaining_work: "Ne peut être inférieur au Travail restant."
-              must_be_set_when_remaining_work_is_set: "Requis lorsque le Travail restant est défini."
-              only_values_greater_or_equal_zeroes_allowed: "Doit être >= 0."
-              format: "%{message}"
+              cant_be_inferior_to_remaining_work: "ne peut être inférieur au travail restant."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "requis lorsque le Travail et le % Complété sont définis."
             remaining_hours:
               not_a_number: "n'est pas une durée valide."
-              cant_exceed_work: "Ne peut être supérieur au Travail."
-              must_be_set_when_work_is_set: "Requis lorsque le Travail est défini."
-              format: "%{message}"
+              cant_exceed_work: "ne peut être supérieur à Travail."
+              must_be_set_when_work_is_set: "requis lorsque le Travail est défini."
+              must_be_set_when_work_and_percent_complete_are_set: "requis lorsque le Travail et le % Complété sont définis."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                doit être 0h lorsque le travail est défini et % Complété est de 100 %.
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                doit être vide lorsque le Travail est vide et le % Complété est de 100 %.
           readonly_status: "Le lot de travaux est en lecture seule, ses attributs ne peuvent donc pas être changés."
         type:
           attributes:
@@ -1592,6 +1606,7 @@ fr:
   error_pdf_failed_to_export: "L'export PDF n'a pas pu être enregistré: %{error}"
   error_token_authenticity: "Impossible de vérifier le jeton de Cross-Site Request Forgery. Avez-vous essayé d'envoyer des données sur plusieurs navigateurs ou onglets ? Veuillez fermer tous les onglets et réessayer."
   error_work_package_not_found_in_project: "Le Lot de Travaux n'a pas été trouvé ou n'appartient pas à ce projet"
+  error_work_package_id_not_found: "Le lot de travaux n'a pas été trouvé."
   error_must_be_project_member: "doit être membre du projet"
   error_migrations_are_pending: "Votre installation OpenProject a des migrations de base de données en attente. Vous n'avez probablement pas exécuté les migrations lors de votre dernière mise à jour. Veuillez consulter le guide de mise à jour afin de mettre votre installation correctement à jour."
   error_migrations_visit_upgrade_guides: "Veuillez consulter notre documentation du guide de mise à jour"
@@ -1633,9 +1648,71 @@ fr:
       project: "Projet : %{name}"
       subproject: "Sous-projet : %{name}"
   export:
-    your_work_packages_export: "Exportation de vos lots de travaux"
-    succeeded: "Export terminé avec succès"
-    failed: "L'export a échoué : %{message}"
+    dialog:
+      title: "Exporter"
+      submit: "Exporter"
+      format:
+        label: "Format de fichier"
+        options:
+          csv:
+            label: "CSV"
+          pdf:
+            label: "PDF"
+          xls:
+            label: "XLS"
+      columns:
+        input_label_report: "Ajouter des colonnes à la table d'attributs"
+        input_caption_report: "Par défaut, tous les attributs ajoutés en tant que colonnes dans la liste des lots de travaux sont sélectionnés. Les champs de type texte long ne sont pas disponibles dans la table des attributs, mais peuvent être affichés en dessous."
+        input_caption_table: "Par défaut, tous les attributs ajoutés en tant que colonnes dans la liste des lots de travaux sont sélectionnés. Les champs de type texte long ne sont pas disponibles dans les exports basés sur la table."
+      pdf:
+        export_type:
+          label: "Type d'export PDF"
+          options:
+            table:
+              label: "Table"
+              caption: "Exporter la liste des lots de travaux dans une table avec les colonnes souhaitées."
+            report:
+              label: "Rapport"
+              caption: "Exportez le lot de travaux dans un rapport détaillé de tous les lots de travaux de la liste."
+            gantt:
+              label: "Diagramme de Gantt"
+              caption: "Exportez la liste des lots de travaux dans un diagramme de Gantt."
+        include_images:
+          label: "Inclure des images"
+          caption: "Excluez les images pour réduire la taille de l'exportation PDF."
+        gantt_zoom_levels:
+          label: "Niveaux de zoom"
+          caption: "Sélectionnez le niveau de zoom pour les dates affichées dans le graphique."
+          options:
+            days: "Jours"
+            weeks: "Semaines"
+            months: "Mois"
+            quarters: "Trimestres"
+        column_width:
+          label: "Largeur des colonnes du tableau"
+          options:
+            narrow: "Étroite"
+            medium: "Moyenne"
+            wide: "Large"
+            very_wide: "Très large"
+        paper_size:
+          label: "Format du papier"
+          caption: "Plusieurs pages peuvent être exportées en fonction de la taille de la carte."
+        long_text_fields:
+          input_caption: "Par défaut, tous les champs de texte long sont sélectionnés."
+          input_label: "Ajouter des champs de texte longs"
+          input_placeholder: "Recherche de champs de texte longs"
+          drag_area_label: "Gérer les champs de texte longs"
+      xls:
+        include_relations:
+          label: "Inclure les relations"
+          caption: "Cette option crée un double de chaque lot de travaux pour chaque relation qu'il a avec un autre lot de travaux."
+        include_descriptions:
+          label: "Inclure des descriptions"
+          caption: "Cette option permet d'ajouter une colonne de description au format brut."
+    your_work_packages_export: "Les lots de travaux sont exportés"
+    succeeded: "Exportation terminée"
+    failed: "Une erreur s'est produite lors de l'exportation des lots de travaux : %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1796,6 +1873,11 @@ fr:
       responsible: "Responsable"
       shared: "Partagé"
       watched: "Observateur"
+    facets:
+      unread: "Non lu"
+      unread_title: "Afficher les messages non lus"
+      all: "Tout"
+      all_title: "Afficher tout"
     menu:
       by_project: "Non lu par le projet"
       by_reason: "Raison"
@@ -2155,6 +2237,8 @@ fr:
   label_next_week: "Semaine suivante"
   label_no_change_option: "(Aucun changement)"
   label_no_data: "Aucune donnée à afficher"
+  label_no_due_date: "pas de date de fin"
+  label_no_start_date: "pas de date de début"
   label_no_parent_page: "Aucune page parente"
   label_nothing_display: "Rien à afficher"
   label_nobody: "personne"
@@ -2279,6 +2363,8 @@ fr:
   label_role_plural: "Rôles"
   label_role_search: "Assigner un rôle aux nouveaux membres"
   label_scm: "SCM"
+  label_scroll_left: "Défilement vers la gauche"
+  label_scroll_right: "Défilement vers la droite"
   label_search: "Recherche"
   label_search_by_name: "Rechercher par nom"
   label_send_information: "Envoyer de nouveaux identifiants à l'utilisateur"
@@ -3035,8 +3121,10 @@ fr:
   setting_work_package_done_ratio: "Calcul de la progression"
   setting_work_package_done_ratio_field: "Basé sur le travail"
   setting_work_package_done_ratio_status: "Basé sur le statut"
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    En mode <b>Basé sur le travail</b>, le % d'achèvement est calculé à partir de la quantité de travail effectuée par rapport au total du travail. En mode <b>Basé sur le statut</b>, chaque état a une valeur de % d'achèvement associée. Le changement de statut changera la valeur de % d'achèvement.
   setting_work_package_done_ratio_explanation_html: >
-    En mode <b>Basé sur le travail</b>, le % réalisé est calculé à partir de la quantité de travail effectuée par rapport au travail total. En mode <b>Basé sur le statut</b>, chaque statut est associé à une valeur de % réalisé. La modification du statut entraîne une modification du % réalisé.
+    En mode <b>Basé sur le travail</b>, le % d'achèvement peut être librement défini sur n'importe quelle valeur. Si vous saisissez une valeur pour le travail, le travail restant sera automatiquement dérivé. En mode <b>Basé sur le statut</b>, chaque état a une valeur de % d'achèvement associée. Le changement de statut changera la valeur de % d'achèvement.
   setting_work_package_properties: "Propriétés du Lot de Travaux"
   setting_work_package_startdate_is_adddate: "Utiliser la date actuelle comme date de début des nouveaux lots de travaux"
   setting_work_packages_projects_export_limit: "Limite d'exportation des lots de travaux/projets"
@@ -3418,9 +3506,26 @@ fr:
     progress:
       label_note: "Note :"
       modal:
-        work_based_help_text: "Le % réalisé est automatiquement dérivé de Travail et Travail restant."
+        work_based_help_text: "Chaque champ est calculé automatiquement à partir des deux autres lorsque cela est possible."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "Le % d'achèvement est automatiquement dérivé du travail et du travail restant."
         status_based_help_text: "Le % réalisé est défini par le statut du lot de travaux."
         migration_warning_text: "Dans le mode de calcul de la progression basé sur le travail, le % réalisé ne peut pas être défini manuellement et est lié au travail. La valeur existante a été conservée mais ne peut pas être modifiée. Veuillez d'abord renseigner Travail."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Effacé parce que le travail restant est vide."
+          cleared_because_work_is_0h: "Effacé parce que le travail est de 0 h."
+          derived: "Dérivé du travail et du travail restant."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Effacé parce que le travail restant est vide."
+          derived: "Dérivé du travail restant et du % d'achèvement."
+          same_as_remaining_work: "Régler à la même valeur que le travail restant."
+        remaining_hours:
+          cleared_because_work_is_empty: "Effacé parce que le travail est vide."
+          cleared_because_percent_complete_is_empty: "Effacé parce que le % d'achèvement est vide."
+          decreased_like_work: "Diminué du même montant que le travail."
+          derived: "Dérivé du travail et du % d'achèvement."
+          increased_like_work: "Augmenté du même montant que le travail."
+          same_as_work: "Régler à la même valeur que le travail."
     permissions:
       comment: "Commentaire"
       comment_description: "Peut consulter et commenter ce lot de travaux."

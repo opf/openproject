@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -113,16 +113,17 @@ hu:
   label_start_date: "Kezdési dátum"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
+      text: "A csatolt fájlok az ülés valamennyi résztvevője számára elérhetők. Ezeket a napirendi pontok jegyzeteibe is behúzhatja."
     copy:
-      title: "Copy meeting: %{title}"
-      attachments: "Copy attachments"
-      attachments_text: "Copy over all attached files to the new meeting"
+      title: "%{title} megbeszélés másolása"
+      attachments: "Mellékletek másolása"
+      attachments_text: "Másolja át az összes csatolt fájlt az új megbeszélésre"
       agenda: "Napirend másolása"
       agenda_text: "A régi megbeszélés napirendjének másolása"
     email:
-      send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails for all participants."
+      send_emails: "Email participants"
+      send_invitation_emails: >
+        Azonnal küldjön e-mail meghívót a fent kiválasztott résztvevőknek. Ezt később bármikor manuálisan is megteheti.
       open_meeting_link: "Nyitott megbeszélés"
       invited:
         summary: "%{actor} meghívott a következő megbeszélésre: %{title}"
@@ -144,9 +145,10 @@ hu:
     untitled_title: "Untitled section"
     delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
     placeholder_title: "New section"
-    empty_text: "Drag items here or create a new one"
+    empty_text: "Húzza ide az elemeket, vagy hozzon létre egy újat"
   notice_successful_notification: "Értesítés sikeresen kiküldve"
   notice_timezone_missing: Nincs időzóna beállítva, %{zone} a feltételezett. Időzóna beállításához kattintson ide.
+  notice_meeting_updated: "Ezt az oldalt valaki más frissítette. A változások megtekintéséhez töltse újra."
   permission_create_meetings: "Megbeszélések létrehozása"
   permission_edit_meetings: "Megbeszélések szerkesztése"
   permission_delete_meetings: "Megbeszélések törlése"
@@ -178,9 +180,10 @@ hu:
   label_meeting_delete: "Megbeszélés törlése"
   label_meeting_created_by: "Létrehozta"
   label_meeting_last_updated: "Utoljára frissítve"
-  label_agenda_items: "Agenda items"
+  label_meeting_reload: "Újratöltés"
+  label_agenda_items: "Napirendi pontok"
   label_agenda_items_reordered: "Átrakva"
-  label_agenda_item_remove: "Remove from agenda"
+  label_agenda_item_remove: "Levétel a napirendről"
   label_agenda_item_undisclosed_wp: "Munkacsomag #%{id} nem látható"
   label_agenda_item_deleted_wp: "Törölt munkacsomag-hivatkozás"
   label_agenda_item_actions: "A napirendi pontok intézkedései"
@@ -189,18 +192,18 @@ hu:
   label_agenda_item_move_up: "Mozgatás felfelé"
   label_agenda_item_move_down: "Mozgás lefelé"
   label_agenda_item_add_notes: "Megjegyzések hozzáadása"
-  label_agenda_item_work_package: "Agenda item work package"
-  text_agenda_item_title: 'Agenda item "%{title}"'
-  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
-  text_deleted_agenda_item: 'Deleted agenda item'
+  label_agenda_item_work_package: "Napirendi ponthoz kapcsolódó feladatcsoport"
+  text_agenda_item_title: 'Napirendi pont "%{title}"'
+  text_agenda_work_package_deleted: 'A törölt feladatcsoporthoz tartozó napirendi pont'
+  text_deleted_agenda_item: 'Törölt napirendi pont'
   label_initial_meeting_details: "Megbeszélés"
   label_meeting_details: "A megbeszélés részletei"
   label_meeting_details_edit: "Megbeszélés részleteinek szerkesztése"
-  label_meeting_state: "Meeting status"
+  label_meeting_state: "A megbeszélés státusza"
   label_meeting_state_open: "Open"
-  label_meeting_state_open_html: "<i>Open</i>"
+  label_meeting_state_open_html: "<i>Nyitva</i>"
   label_meeting_state_closed: "Lezárva"
-  label_meeting_state_closed_html: "<i>Closed</i>"
+  label_meeting_state_closed_html: "<i>Lezárva</i>"
   label_meeting_reopen_action: "A megbeszélés újranyitása"
   label_meeting_close_action: "Megbeszélés lezárása"
   text_meeting_open_description: "Ez a megbeszélés nyitott. A napirendi pontokat tetszés szerint hozzáadhatja/eltávolíthatja és szerkesztheti. A megbeszélés végeztével zárja be, hogy archíválja azt."

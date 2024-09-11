@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -542,12 +542,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: Proc.new { User.current.admin? },
             caption: :label_backlogs,
             icon: "op-backlogs"
-
-  menu.push :backlogs_settings,
-            { controller: "/backlogs_settings", action: :show },
-            if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
-            parent: :admin_backlogs
 end
 
 Redmine::MenuManager.map :project_menu do |menu|
@@ -639,4 +633,47 @@ Redmine::MenuManager.map :project_menu do |menu|
               caption:,
               parent: :settings
   end
+end
+
+Redmine::MenuManager.map :work_package_split_view do |menu|
+  menu.push :overview,
+            { tab: :overview },
+            skip_permissions_check: true,
+            caption: :"js.work_packages.tabs.overview"
+  menu.push :activity,
+            { tab: :activity },
+            skip_permissions_check: true,
+            badge: ->(work_package:, **) {
+                     Notification.where(recipient: User.current,
+                                        read_ian: false,
+                                        resource: work_package)
+                                 .where.not(reason: %i[date_alert_start_date date_alert_due_date])
+                                 .count
+                   },
+            caption: :"js.work_packages.tabs.activity"
+  menu.push :files,
+            { tab: :files },
+            skip_permissions_check: true,
+            badge: ->(work_package:, **) {
+              count = Storages::FileLink.where(container_type: "WorkPackage", container_id: work_package).count
+              unless work_package.hide_attachments?
+                count += work_package.attachments.count
+              end
+              count
+            },
+            caption: :"js.work_packages.tabs.files"
+  menu.push :relations,
+            { tab: :relations },
+            skip_permissions_check: true,
+            badge: ->(work_package:, **) {
+              work_package.relations.count + work_package.children.count
+            },
+            caption: :"js.work_packages.tabs.relations"
+  menu.push :watchers,
+            { tab: :watchers },
+            skip_permissions_check: true,
+            badge: ->(work_package:, **) {
+              work_package.watchers.count
+            },
+            caption: :"js.work_packages.tabs.watchers"
 end

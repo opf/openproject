@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -208,33 +208,6 @@ $scrollbar-size: 10px
     background: transparent
     visibility: hidden
 
-@mixin two-column-layout
-  column-count: 2
-  column-gap: 3rem
-
-  .attributes-key-value.-column-start
-    column-break-before: always !important
-    break-before: column
-
-  @supports (column-span: all)
-        // Let some elements still span both columns
-        .attributes-key-value.-span-all-columns
-          column-span: all
-          .attributes-key-value--key
-            flex-basis: calc(22.5% - (4rem / 6))
-          .attributes-key-value--value-container
-            flex-basis: calc(77.5% + (4rem / 6))
-            max-width: calc(77.5% + (4rem / 6))
-
-  .attributes-key-value
-    -webkit-column-break-inside: avoid
-    page-break-inside: avoid
-    break-inside: avoid
-    // For some reason chrome seems to treat a two column layout
-    // as if it would result in showing the backside of this element.
-    // This leads to input and select elements not showing their values.
-    backface-visibility: visible
-
 @mixin overlay-background
   position: absolute
   top: 0
@@ -262,6 +235,7 @@ $scrollbar-size: 10px
       margin-left: 20px
 
 @mixin extended-content--right
+  #content-bodyRight,
   #content-body,
   #content-header
     padding-right: 0
@@ -300,6 +274,9 @@ $scrollbar-size: 10px
   font: inherit
   text-align: inherit
 
+@mixin hide-button-texts
+  .button--text:not(.button--text_without_icon)
+    display: none
 
 @mixin board-header-editable-toolbar-title
   line-height: normal !important

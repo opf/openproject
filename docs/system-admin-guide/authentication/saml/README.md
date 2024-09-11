@@ -1,21 +1,22 @@
 ---
 sidebar_navigation:
   title: SAML single sign-on
-  priority: 800
+  priority: 100
 description: How to set up SAML integration for SSO with OpenProject.
 keywords: SAML, SSO, single sign-on, authentication
 ---
 # SAML
 
-> **NOTE**: This documentation is valid for the OpenProject Enterprise edition only.
+> [!NOTE]
+> This documentation is valid for the OpenProject Enterprise edition only.
 
 You can integrate your active directory or other SAML compliant identity provider in your OpenProject Enterprise edition.
 
 ## Enterprise cloud
 
 For the moment in the Enterprise cloud OpenProject DevOps team has to apply the configuration for you. The configuration has to be provided in a support ticket, e.g. as an ENV environment file.
-Experience shows that configuring this can be tricky, though. So it may take a bit until the correct configuration is finished with your SAML provider.
-If you have the chance to test the SAML configuration on an Enterprise on-premises installation this might speed things up. But we can make it work either way.
+Experience shows that configuring this can be tricky. So it may require some time until the correct configuration is finished with your SAML provider.
+If you have the chance to test the SAML configuration on an Enterprise on-premises installation this might speed up the process. But we can make it work either way.
 
 ## Enterprise on-premises
 
@@ -156,7 +157,8 @@ Setting.plugin_openproject_auth_saml = Hash(Setting.plugin_openproject_auth_saml
 
 #### 1.3 config/configuration.yml file
 
-> **NOTE**: ONLY for OpenProject version 11 and older
+> [!IMPORTANT]
+> ONLY for OpenProject version 11 and older
 
 In your OpenProject packaged installation, you can modify the `/opt/openproject/config/configuration.yml` file.
 Edit the file in your favorite editor
@@ -266,7 +268,8 @@ Setting.plugin_openproject_auth_saml = Hash(Setting.plugin_openproject_auth_saml
 
 **b) Attribute mapping example for configuration.yml**
 
-> **NOTE**: ONLY for OpenProject version 11 and older
+> [!IMPORTANT]
+> ONLY for OpenProject version 11 and older
 
 ```yaml
 default:
@@ -292,7 +295,8 @@ That means the response should contain attribute names 'mail', etc. as configure
 
 If you have URN or OID attribute identifiers, you can modify the request as follows:
 
-> **NOTE**: Example is ONLY for OpenProject version 11 and older and needs to be redesigned for ENV configuration
+> [!IMPORTANT]
+> Example is ONLY for OpenProject version 11 and older and needs to be redesigned for ENV configuration
 
 ```yaml
 default:
@@ -327,7 +331,8 @@ Your identity provider may optionally encrypt the assertion response, however no
 
 To configure assertion encryption, you need to provide the certificate to send in the request and private key to decrypt the response:
 
-> **NOTE**: Example is ONLY for OpenProject version 11 and older and needs to be redesigned for ENV configuration
+> [!IMPORTANT]
+> Example is ONLY for OpenProject version 11 and older and needs to be redesigned for ENV configuration
 
 ```yaml
 default:
@@ -342,7 +347,8 @@ Request signing means that the service provider (OpenProject in this case) uses 
 
 To enable request signing, enable the following flag:
 
-> **NOTE**: Example is ONLY for OpenProject version 11 and older and needs to be redesigned for ENV configuration
+> [!IMPORTANT]
+> Example is ONLY for OpenProject version 11 and older and needs to be redesigned for ENV configuration
 
 ```yaml
 default:

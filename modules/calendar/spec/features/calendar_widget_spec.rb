@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,7 +50,7 @@ RSpec.describe "Calendar Widget", :js, :with_cuprite, with_settings: { start_of_
   let(:wp_full_view) { Pages::FullWorkPackage.new(work_package, project) }
   let(:calendar) { Pages::Calendar.new project }
 
-  current_user do
+  shared_let(:current_user) do
     create(:user,
            member_with_permissions: {
              project => %w[view_work_packages view_meetings edit_work_packages view_calendar manage_overview]
@@ -58,7 +58,11 @@ RSpec.describe "Calendar Widget", :js, :with_cuprite, with_settings: { start_of_
   end
 
   before do
+    login_as(current_user)
     overview_page.visit!
+
+    wait_for_network_idle if RSpec.current_example.metadata[:with_cuprite]
+
     # within top-left area, add an additional widget
     overview_page.add_widget(1, 1, :row, "Calendar")
 
@@ -67,9 +71,31 @@ RSpec.describe "Calendar Widget", :js, :with_cuprite, with_settings: { start_of_
 
   it "shows the meeting" do
     expect(page).to have_css(".fc-event", text: "Weekly", visible: :all)
+
     page.find(".fc-event", text: "Weekly", visible: :all).click
 
     expect(page).to have_current_path /meetings\/#{meeting.id}/
+  end
+
+  context "as a user in a different timezone" do
+    shared_let(:current_user) do
+      create(:user,
+             preferences: { time_zone: "Asia/Tokyo" },
+             member_with_permissions: {
+               project => %w[view_work_packages view_meetings edit_work_packages view_calendar manage_overview]
+             })
+    end
+
+    it "shows the meeting in the correct timezone" do
+      expect(page).to have_css(".fc-event", text: "Weekly", visible: :all)
+
+      start_time = Time.use_zone(current_user.time_zone) { meeting.start_time.strftime("%-l:%M%P") }
+      end_time = Time.use_zone(current_user.time_zone) { (meeting.start_time + 1.hour).strftime("%-l:%M%P") }
+      expect(page).to have_css(".fc-event-time", text: "#{start_time} - #{end_time}", visible: :all, exact_text: false)
+
+      page.find(".fc-event", text: "Weekly", visible: :all).click
+      expect(page).to have_current_path /meetings\/#{meeting.id}/
+    end
   end
 
   it "opens the work package full view when clicking a calendar entry" do

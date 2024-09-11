@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -116,7 +116,7 @@ module Projects
       end
 
       content << " "
-      content << helpers.link_to_project(project, {}, {}, false)
+      content << helpers.link_to_project(project, {}, { data: { turbo: false } }, false)
       content
     end
 
@@ -342,7 +342,8 @@ module Projects
           scheme: :default,
           icon: :copy,
           label: I18n.t(:button_copy),
-          href: copy_project_path(project)
+          href: copy_project_path(project),
+          data: { turbo: false }
         }
       end
     end

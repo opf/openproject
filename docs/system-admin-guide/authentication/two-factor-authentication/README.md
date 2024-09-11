@@ -13,11 +13,15 @@ To activate and **configure two-factor authentication** for OpenProject, navigat
 
 From the GUI you are able to configure the following options:
 
-1. **Enforce 2FA** (two-factor authentication) for every user. All users will be forced to [register a 2FA device](../../../getting-started/my-account/#two-factor-authentication) on their next login.
+1. **Enforce 2FA** (two-factor authentication) for every user. All users will be forced to [register a 2FA device](../../../user-guide/my-account/#two-factor-authentication) on their next login.
 2. **Remember 2FA login** for a given number of days, e.g. 30 days.
 3. Press the **Apply** button to save your changes.
 
-![Sys-admin-authentication-two-factor-authentication](Sys-admin-authentication-two-factor-authentication.png)
+![Two factor authentication in OpenProject administration](openproject_system_admin_guide_two_factor_authentication.png)
+
+> [!NOTE]
+> These options will not be shown in the administration if 2FA settings are configured through [environment variables](../../../installation-and-operations/configuration/environment/).
+
 
 Usually with another device device like a mobile phone or a tablet, you are able to use a TOTP Application in order to generate the token that is needed as an extra layer of security on top of your password. Here are some applications that work for OpenProject 2FA.
 

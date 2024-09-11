@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ ru:
     button_back_to_list_view: "Вернуться к просмотру списка"
     button_cancel: "Отмена"
     button_close: "Закрыть"
-    button_change_project: "Изменить проект"
+    button_change_project: "Переместить в другой проект"
     button_check_all: "Отметить все"
     button_configure-form: "Настроить форму"
     button_confirm: "Подтвердить"
@@ -74,7 +74,7 @@ ru:
     button_copy: "Копировать"
     button_copy_to_clipboard: "Копировать в буфер обмена"
     button_copy_link_to_clipboard: "Копировать ссылку в буфер обмена"
-    button_copy_to_other_project: "Копировать в другой проект"
+    button_copy_to_other_project: "Дублировать в другой проект"
     button_custom-fields: "Настраиваемые поля"
     button_delete: "Удалить"
     button_delete_watcher: "Удалить наблюдателя"
@@ -138,6 +138,8 @@ ru:
     description_select_work_package: "Выберите пакет работ #%{id}"
     description_subwork_package: "Дочерний пакет работ #%{id}"
     editor:
+      revisions: "Показать локальные изменения"
+      no_revisions: "Локальные изменения не найдены"
       preview: "Переключить режим предварительного просмотра"
       source_code: "В режим просмотра исходного кода "
       error_saving_failed: "Не удалось сохранить документ по следующей причине: %{error}"
@@ -275,8 +277,10 @@ ru:
           Для вступления изменений в силу может потребоваться некоторое время. Вы будете уведомлены, когда все соответствующие пакеты работ будут обновлены.
           Хотите продолжить?
       work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          При изменении расчета прогресса с режима "На основе статуса" на режим "На основе трудозатрат" поле <i>% Завершения</i> станет нередактируемым, его значение будет получено из значений <i>Работа</i> и <i>Оставшаяся работа</i>. Существующие значения для <i>% Завершения</i> сохраняются. Если значения для <i>Работа</i> и <i>Оставшаяся работа</i> отсутствуют, они потребуются для изменения <i>% Завершения</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          При изменении расчета прогресса с режима на основе статуса на режим на основе трудозатрат поле <i>% Завершения</i> станет нередактируемым, его значение будет получено из значений <i>Работа</i> и <i>Оставшаяся работа</i>. Существующие значения для <i>% Завершения</i> сохраняются. Если значения для <i>Работа</i> и <i>Оставшаяся работа</i> отсутствуют, они потребуются для изменения <i>% Завершения</i>.
+          При изменении расчета прогресса с режима "На основе статуса" на режим "На основе трудозатрат" поле <i>% Завершения</i> станет редактируемым. Если Вы дополнительно введете значения для <i>Работы</i> или <i>Оставшейся работы</i>, они также будут связаны с <i>% Завершения</i>. Изменение значения <i>Оставшейся работы</i> может привести к обновлению <i>% Завершения</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           При изменении расчета прогресса с режима на основе трудозатрат на режим на основе статуса все существующие значения <i>% Завершения</i> будут потеряны и заменены значениями, связанными с каждым статусом. Существующие значения параметра <i>Оставшаяся работа</i> также могут быть пересчитаны с учетом этого изменения. Это действие необратимо.
     custom_actions:
@@ -335,18 +339,6 @@ ru:
         years: "Лет"
         description: >
           Выберите начальный уровень масштаба, который должен быть показан, когда автозум недоступен.
-      export:
-        title: "Параметры диаграммы Гантта в PDF"
-        button_export: "Экспорт"
-        column_widths:
-          narrow: "Узкий"
-          medium: "Средний"
-          wide: "Широкий"
-          very_wide: "Очень широкий"
-        options:
-          date_zoom: "Изменение даты"
-          paper_size: "Размер бумаги"
-          column_widths: "Ширина столбца"
     general_text_no: "нет"
     general_text_yes: "Да"
     general_text_No: "Нет"
@@ -365,10 +357,10 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
+                Этот выпуск содержит различные новые функции и улучшения, такие как: <br> <ul class="%{list_styling_class}"> <li>Сохранение и восстановление локальных версий изменений содержимого WYSIWYG.</li> <li>Включение хранилища для нескольких проектов одновременно.</li> <li>Экспорт пакетов работ в обновленном модальном окне с дополнительными настройками.</li> <li>Отображение столбцов/фильтров настраиваемых полей в списках проектов.</li> <li>Поддержка CloudFlare Turnstile в качестве Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Подписаться на календарь"
       inital_setup_error_message: "Произошла ошибка при получении данных."
@@ -409,6 +401,7 @@ ru:
     label_create: "Создать"
     label_create_work_package: "Создать новый пакет работ"
     label_created_by: "Автор"
+    label_current: "текущий"
     label_date: "Дата"
     label_date_with_format: "Введите %{date_attribute}, используя следующий формат: %{format}"
     label_deactivate: "Деактивировать"
@@ -637,11 +630,6 @@ ru:
         upsale:
           title: "Дата оповещения"
           description: "С датой оповещения вы будете получать уведомления о предстоящих датах начала или окончания, чтобы никогда не пропустить или не забыть важный сроки."
-      facets:
-        unread: "Непрочтено"
-        unread_title: "Показать непрочитанные"
-        all: "Bсе"
-        all_title: "Показать все"
       center:
         label_actor_and: "и"
         and_more_users:
@@ -654,12 +642,13 @@ ru:
           with_current_filter: "На данный момент в этом представлении нет уведомлений"
         mark_all_read: "Отметить всё как прочитанное"
         mark_as_read: "Отметить как прочитанное"
-        text_update_date: "%{date} от"
+        text_update_date_by: "по %{date}"
         total_count_warning: "Показаны %{newest_count} самые последние уведомления. Ещё %{more_count} не отображаются."
         empty_state:
           no_notification: "Похоже, вы все сделали."
           no_notification_with_current_project_filter: "Похоже, в выбранном проекте вы все сделали."
           no_notification_with_current_filter: "Похоже, в отфильтрованном вы все сделали %{filter}."
+          no_notification_for_filter: "Похоже, что для этого фильтра у Вас уже все готово."
           no_selection: "Нажмите на уведомление, чтобы просмотреть все детали."
         new_notifications:
           message: "Есть новые уведомления."
@@ -1203,6 +1192,11 @@ ru:
         one: "1 день"
         other: "%{count} дней"
         zero: "0 дней"
+      word:
+        one: "1 слово"
+        few: "%{count} words"
+        many: "%{count} words"
+        other: "%{count} слов"
     zen_mode:
       button_activate: "Включить полноэкранный режим"
       button_deactivate: "Отключить полноэкранный режим"

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -214,10 +214,12 @@ vi:
     reorder_confirmation: "Cảnh báo: Thứ tự hiện tại của các giá trị sẽ bị mất. Tiếp tục?"
     instructions:
       is_required: "Đánh dấu trường tùy chỉnh là bắt buộc. Điều này sẽ làm cho việc điền vào trường là bắt buộc khi tạo mới hoặc cập nhật tài nguyên hiện có."
+      is_required_for_project: "Tích để bật thuộc tính này và yêu cầu nó trong tất cả các dự án. Không thể hủy kích hoạt nó cho từng dự án."
       is_for_all: "Đánh dấu trường tùy chỉnh là khả dụng trong tất cả các dự án hiện có và mới."
       searchable: "Bao gồm giá trị trường khi sử dụng chức năng tìm kiếm toàn cầu."
+      searchable_for_project: "Bao gồm giá trị trường khi sử dụng chức năng tìm kiếm toàn cầu."
       editable: "Cho phép trường có thể chỉnh sửa bởi người dùng tự mình."
-      visible: "Làm cho trường hiển thị cho tất cả người dùng (không phải quản trị viên) trong tổng quan dự án và hiển thị trong tiện ích chi tiết dự án trên Tổng quan dự án."
+      admin_only: "Tích để chỉ hiển thị thuộc tính này cho người quản trị. Người dùng không có quyền quản trị sẽ không thể xem hoặc chỉnh sửa thuộc tính này."
       is_filter: >
         Cho phép trường tùy chỉnh được sử dụng trong bộ lọc trong chế độ xem gói công việc. Lưu ý rằng chỉ khi 'Cho tất cả các dự án' được chọn, trường tùy chỉnh mới xuất hiện trong các chế độ xem toàn cầu.
     tab:
@@ -264,6 +266,9 @@ vi:
       open_as_gantt: "Mở dưới dạng chế độ xem Gantt"
       no_results_title_text: Không có dự án nào
       no_results_content_text: Tạo một dự án mới
+      search:
+        label: Bộ lọc tên dự án
+        placeholder: Tìm kiếm theo tên dự án
     lists:
       active: "Các dự án đang hoạt động"
       my: "Dự án của tôi"
@@ -297,7 +302,7 @@ vi:
         actions:
           label_enable_single: "Kích hoạt trong dự án này, nhấp để tắt"
           label_disable_single: "Không kích hoạt trong dự án này, nhấp để bật"
-          deactivate_for_project: "Vô hiệu hóa cho dự án này"
+          remove_from_project: "Xóa khỏi dự án"
           label_enable_all: "Bật tất cả"
           label_disable_all: "Tắt tất cả"
         is_required_blank_slate:
@@ -614,7 +619,7 @@ vi:
         possible_values: "Giá trị có thể"
         regexp: "Biểu thức chính quy"
         searchable: "Có thể tìm kiếm được"
-        visible: "Hiển thị"
+        admin_only: "Chỉ dành cho quản trị viên"
       custom_value:
         value: "Giá trị"
       doorkeeper/application:
@@ -684,6 +689,7 @@ vi:
         versions: "Các phiên bản"
         work_packages: "Work Packages"
       project_custom_field:
+        is_required: "Yêu cầu cho tất cả các dự án"
         custom_field_section: Mục tùy chỉnh
       query:
         column_names: "Cột"
@@ -1028,6 +1034,12 @@ vi:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "không khớp với Công việc và Công việc còn lại"
+              cannot_be_set_when_work_is_zero: "không thể thiết lập khi Công việc là 0h"
+              must_be_set_when_remaining_work_is_set: "cần thiết khi công việc còn lại được thiết lập."
+              must_be_set_when_work_and_remaining_work_are_set: "cần thiết khi Công việc và Công việc còn lại được thiết lập."
+              inclusion: "phải nằm trong khoảng từ 0 đến 100."
             due_date:
               not_start_date: "không phải ngày bắt đầu, mặc dù điều này là cần thiết cho các mốc quan trọng."
               cannot_be_null: "không thể được đặt thành null vì ngày bắt đầu và thời gian là đã biết."
@@ -1056,15 +1068,17 @@ vi:
               does_not_exist: "Thể loại đã chỉ định không tồn tại."
             estimated_hours:
               not_a_number: "không phải là thời gian hợp lệ."
-              cant_be_inferior_to_remaining_work: "Không thể thấp hơn Công việc còn lại."
-              must_be_set_when_remaining_work_is_set: "Yêu cầu khi Công việc còn lại được đặt."
-              only_values_greater_or_equal_zeroes_allowed: "Phải lớn hơn hoặc bằng 0."
-              format: "%{message}"
+              cant_be_inferior_to_remaining_work: "không thể thấp hơn Công việc còn lại."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "bắt buộc khi thiết lập Công việc còn lại và % Hoàn thành."
             remaining_hours:
               not_a_number: "không phải là thời gian hợp lệ."
-              cant_exceed_work: "Không thể cao hơn Công việc."
-              must_be_set_when_work_is_set: "Yêu cầu khi Công việc được đặt."
-              format: "%{message}"
+              cant_exceed_work: "không thể cao hơn Công việc."
+              must_be_set_when_work_is_set: "cần thiết khi Công việc được thiết lập."
+              must_be_set_when_work_and_percent_complete_are_set: "bắt buộc khi Công việc và % Hoàn thành được thiết lập."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                phải là 0h khi Công việc được thiết lập và % Hoàn thành là 100%.
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                phải trống khi Công việc trống và % Hoàn thành là 100%.
           readonly_status: "Gói công việc đang ở trạng thái chỉ đọc nên các thuộc tính của nó không thể bị thay đổi."
         type:
           attributes:
@@ -1560,6 +1574,7 @@ vi:
   error_pdf_failed_to_export: "Xuất PDF không thể được lưu: %{error}"
   error_token_authenticity: "Không thể xác minh token Cross-Site Request Forgery. Bạn có cố gắng gửi dữ liệu trên nhiều trình duyệt hoặc tab không? Vui lòng đóng tất cả các tab và thử lại."
   error_work_package_not_found_in_project: "Work package không được tìm thấy hoặc không thuộc về dự án này"
+  error_work_package_id_not_found: "Không tìm thấy gói công việc."
   error_must_be_project_member: "phải là thành viên dự án"
   error_migrations_are_pending: "Cài đặt OpenProject của bạn có các di trú cơ sở dữ liệu đang chờ xử lý. Có thể bạn đã bỏ lỡ việc chạy các di trú trong lần nâng cấp gần nhất. Vui lòng kiểm tra hướng dẫn nâng cấp để nâng cấp cài đặt của bạn đúng cách."
   error_migrations_visit_upgrade_guides: "Vui lòng truy cập hướng dẫn nâng cấp của chúng tôi"
@@ -1601,9 +1616,71 @@ vi:
       project: "Dự án: %{name}"
       subproject: "Dự án con: %{name}"
   export:
-    your_work_packages_export: "Xuất gói công việc của bạn"
-    succeeded: "Xuất khẩu đã hoàn tất thành công."
-    failed: "Xuất khẩu đã thất bại: %{message}"
+    dialog:
+      title: "Xuất"
+      submit: "Xuất"
+      format:
+        label: "Định dạng tệp tin"
+        options:
+          csv:
+            label: "CSV"
+          pdf:
+            label: "PDF"
+          xls:
+            label: "XLS"
+      columns:
+        input_label_report: "Thêm cột vào bảng thuộc tính"
+        input_caption_report: "Theo mặc định, tất cả các thuộc tính được thêm vào dưới dạng cột trong danh sách gói công việc đều được chọn. Các trường văn bản dài không có trong bảng thuộc tính, nhưng có thể được hiển thị bên dưới."
+        input_caption_table: "Theo mặc định, tất cả các thuộc tính được thêm vào dưới dạng cột trong danh sách gói công việc đều được chọn. Các trường văn bản dài không khả dụng trong xuất dựa trên bảng."
+      pdf:
+        export_type:
+          label: "Loại xuất PDF"
+          options:
+            table:
+              label: "Bảng"
+              caption: "Xuất danh sách các gói công việc thành một bảng có các cột mong muốn."
+            report:
+              label: "Báo cáo"
+              caption: "Xuất gói công việc thành báo cáo chi tiết về tất cả các gói công việc trong danh sách."
+            gantt:
+              label: "Biểu đồ Gantt"
+              caption: "Xuất danh sách các gói công việc theo dạng biểu đồ Gantt."
+        include_images:
+          label: "Bao gồm hình ảnh"
+          caption: "Loại trừ hình ảnh để giảm kích thước của tệp PDF xuất ra."
+        gantt_zoom_levels:
+          label: "Mức độ thu phóng"
+          caption: "Chọn mức độ thu phóng cho các ngày hiển thị trên biểu đồ."
+          options:
+            days: "Ngày"
+            weeks: "Tuần"
+            months: "Tháng"
+            quarters: "Quý"
+        column_width:
+          label: "Chiều rộng cột bảng"
+          options:
+            narrow: "Hẹp"
+            medium: "Vừa"
+            wide: "Rộng"
+            very_wide: "Rất rộng"
+        paper_size:
+          label: "Khổ giấy"
+          caption: "Tùy thuộc vào kích thước biểu đồ, có thể xuất nhiều hơn một trang."
+        long_text_fields:
+          input_caption: "Theo mặc định, tất cả các trường văn bản dài đều được chọn."
+          input_label: "Thêm các trường văn bản dài"
+          input_placeholder: "Tìm kiếm các trường văn bản dài"
+          drag_area_label: "Quản lý các trường văn bản dài"
+      xls:
+        include_relations:
+          label: "Bao gồm các mối quan hệ"
+          caption: "Tùy chọn này sẽ tạo bản sao của mỗi gói công việc cho mọi mối quan hệ mà nó có với một gói công việc khác."
+        include_descriptions:
+          label: "Bao gồm mô tả"
+          caption: "Tùy chọn này sẽ thêm cột mô tả ở định dạng thô."
+    your_work_packages_export: "Các gói công việc đang được xuất khẩu"
+    succeeded: "Xuất hoàn tất"
+    failed: "Đã xảy ra lỗi khi cố gắng xuất các gói công việc: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1764,6 +1841,11 @@ vi:
       responsible: "Có trách nhiệm"
       shared: "Được chia sẻ"
       watched: "Quan sát viên"
+    facets:
+      unread: "Chưa đọc"
+      unread_title: "Hiện chưa đọc"
+      all: "Tất cả"
+      all_title: "Hiện tất cả"
     menu:
       by_project: "Chưa đọc theo dự án"
       by_reason: "Lý do"
@@ -2123,6 +2205,8 @@ vi:
   label_next_week: "Tuần tới"
   label_no_change_option: "(không đổi)"
   label_no_data: "Không có dữ liệu để hiển thị"
+  label_no_due_date: "không có ngày kết thúc"
+  label_no_start_date: "không có ngày bắt đầu"
   label_no_parent_page: "Không có trang quan hệ"
   label_nothing_display: "Không có gì để hiển thị"
   label_nobody: "không ai"
@@ -2247,6 +2331,8 @@ vi:
   label_role_plural: "Vai trò"
   label_role_search: "Chỉ định vai trò cho các thành viên mới"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Tìm kiếm"
   label_search_by_name: "Tìm kiếm theo tên"
   label_send_information: "Gửi thông tin đăng nhập mới cho người dùng"
@@ -3001,8 +3087,10 @@ vi:
   setting_work_package_done_ratio: "Tính toán tiến độ"
   setting_work_package_done_ratio_field: "Dựa trên công việc"
   setting_work_package_done_ratio_status: "Dựa trên trạng thái"
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    Ở chế độ <b>dựa trên công việc</b>, % Hoàn thành được tính từ lượng công việc đã hoàn thành so với tổng công việc. Ở chế độ <b>dựa trên trạng thái</b>, mỗi trạng thái có giá trị % Hoàn thành liên quan đến nó. Thay đổi trạng thái sẽ thay đổi % Hoàn thành.
   setting_work_package_done_ratio_explanation_html: >
-    Trong chế độ <b>dựa trên công việc</b>, % Hoàn thành được tính từ mức độ công việc đã thực hiện so với tổng công việc. Trong chế độ <b>dựa trên trạng thái</b>, mỗi trạng thái có một giá trị % Hoàn thành liên kết. Thay đổi trạng thái sẽ thay đổi % Hoàn thành.
+    Ở chế độ <b>dựa trên công việc</b>, % Hoàn thành có thể được tự do thiết lập thành bất kỳ giá trị nào. Nếu bạn tùy ý nhập giá trị cho Công việc, Công việc còn lại sẽ tự động được suy ra. Ở chế độ <b>dựa trên trạng thái</b>, mỗi trạng thái có giá trị % Hoàn thành được liên kết với nó. Thay đổi trạng thái sẽ thay đổi % Hoàn thành.
   setting_work_package_properties: "Thuộc tính gói công việc"
   setting_work_package_startdate_is_adddate: "Sử dụng ngày hiện tại làm ngày bắt đầu cho các gói công việc mới"
   setting_work_packages_projects_export_limit: "Giới hạn xuất gói công việc / Dự án"
@@ -3383,9 +3471,26 @@ vi:
     progress:
       label_note: "Ghi chú:"
       modal:
-        work_based_help_text: "% Hoàn thành được tự động lấy từ Công việc và Công việc còn lại."
+        work_based_help_text: "Mỗi trường sẽ được tự động tính toán dựa trên hai trường còn lại khi có thể."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Hoàn thành được tự động lấy từ Công việc và Công việc còn lại."
         status_based_help_text: "% Hoàn thành được thiết lập theo trạng thái của gói công việc."
         migration_warning_text: "Trong chế độ tính toán tiến độ dựa trên công việc, % Hoàn thành không thể được đặt thủ công và liên kết với Công việc. Giá trị hiện tại đã được giữ nhưng không thể chỉnh sửa. Vui lòng nhập Công việc trước."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Đã xóa vì công việc còn lại đang trống."
+          cleared_because_work_is_0h: "Đã xóa vì Công việc là 0h."
+          derived: "Được suy ra từ Công và Công còn lại."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Đã xóa vì công việc còn lại đang trống."
+          derived: "Được lấy từ Công việc còn lại và % Hoàn thành."
+          same_as_remaining_work: "Đặt thành giá trị giống với Công việc còn lại."
+        remaining_hours:
+          cleared_because_work_is_empty: "Đã xóa vì Công việc đang trống."
+          cleared_because_percent_complete_is_empty: "Đã xóa vì % Hoàn thành đang trống."
+          decreased_like_work: "Giảm cùng lượng với Công việc."
+          derived: "Được lấy từ Công việc và % Hoàn thành."
+          increased_like_work: "Tăng cùng lượng với Công việc."
+          same_as_work: "Đặt thành giá trị giống như Work."
     permissions:
       comment: "Nhận xét"
       comment_description: "Có thể xem và nhận xét gói công việc này."

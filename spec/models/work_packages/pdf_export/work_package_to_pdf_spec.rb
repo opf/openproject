@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   let(:project_custom_field_string) do
     create(:project_custom_field, :string,
            name: "Secret string", default_value: "admin eyes only",
-           visible: false)
+           admin_only: true)
   end
   let(:project_custom_field_long_text) do
     create(:project_custom_field, :text,
@@ -241,6 +241,20 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
         expect(result.join(" ")).to eq(expected_result.join(" "))
         expect(result.join(" ")).not_to include("DisabledCustomField")
         expect(pdf[:images].length).to eq(2)
+      end
+    end
+
+    describe "with a faulty image" do
+      before do
+        # simulate a null pointer exception
+        # https://appsignal.com/openproject-gmbh/sites/62a6d833d2a5e482c1ef825d/exceptions/incidents/2326/samples/62a6d833d2a5e482c1ef825d-848752493603098719217252846401
+        # where attachment data is in the database but the file is missing, corrupted or not accessible
+        allow(image_attachment).to receive(:file)
+                                     .and_return(nil)
+      end
+
+      it "still finishes the export" do
+        expect(pdf[:images].length).to eq(0)
       end
     end
 

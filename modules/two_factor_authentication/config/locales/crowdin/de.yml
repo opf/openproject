@@ -26,6 +26,7 @@ de:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "Zwei-Faktor-Authentifizierung ist deaktiviert."
+    notice_not_writable: "2FA-Einstellungen wurden über Umgebungsvariablen bereitgestellt und können nicht über die Oberfläche geschrieben werden."
     error_no_device: "Kein registriertes 2FA-Gerät für diesen Nutzer gefunden, obwohl Zwei-Faktor-Authentifizierung für diese Instanz erforderlich ist."
     error_no_matching_strategy: "Keine passende 2FA-Zustellungsmechanismus für diesen Nutzer. Bitte kontaktieren Sie Ihren Administrator."
     error_is_enforced_not_active: "Konfigurationsfehler: Zwei-Faktor-Authentifizierung wird erzwungen, aber keine aktive Strategie wurde konfiguriert."
@@ -116,10 +117,10 @@ de:
       2fa_from_webauthn: Bitte geben Sie das WebAuthn-Gerät <strong>%{device_name}</strong> an. Wenn es sich um ein USB-Gerät handelt, schließen Sie es bitte an und berühren Sie es. Klicken Sie anschließend auf die Schaltfläche zum Anmelden.
       webauthn:
         title: "WebAuthn"
-        description: Verwenden Sie die Web-Authentifizierung, um ein FIDO2-Gerät (wie einen YubiKey) oder die sichere Enklave Ihres Mobilgeräts als zweiten Faktor zu registrieren.
+        description: Registrieren Sie ein FIDO2-Gerät (wie z.B. YubiKey) oder ein Passkey Ihres mobilen Geräts.
         further_steps: Nachdem Sie einen Namen ausgewählt haben, können Sie auf die Schaltfläche Weiter klicken. Ihr Browser wird Sie auffordern, Ihr WebAuthn-Gerät anzugeben. Sobald Sie dies getan haben, ist die Registrierung des Geräts abgeschlossen.
       totp:
-        title: "Verwenden Sie einen App-basierten Authenticator"
+        title: "App-basierter Authentifikator"
         provisioning_uri: "Bereitstellungs-URI"
         secret_key: "Geheimer Schlüssel"
         time_based: "Zeitbasiert"
@@ -131,14 +132,13 @@ de:
         text_cannot_scan: |
           Wenn Sie den QR-Code nicht einscannen können, können Sie das Gerät auch händisch über die folgende URI registrieren:
         description: |
-          Registrieren Sie einen App-basierten Authenticator für die Zwei-Faktor-Authentifizierung in OpenProject mittels des zeitbasierten Einmalpasswort Standard (TOTP).
-          Kompatible Anwendungen sind unter anderem Google Authenticator oder Authy.
+          Nutzen Sie einmalige Codes für zweiten Faktor, der von Authentifikator-Apps wie Authy oder Google Authenticator generiert wird.
       sms:
-        title: "Verwenden Sie Ihr Mobiltelefon"
+        title: "Mobile Endgeräte"
         redacted_identifier: "Mobiltelefon (%{redacted_number})"
         request_2fa_identifier: "%{redacted_identifier}, es wurde ein Einmalpasswort über %{delivery_channel} zugestellt"
         description: |
-          Registrieren Sie Ihr Mobiltelefon für die Zwei-Faktor-Authentifizierung in OpenProject. Einmalpasswörter werden an Ihre Handy-Nummer versendet.
+          Sie erhalten bei jeder Anmeldung einen Code per Textnachricht auf Ihr Telefon.
     sns:
       delivery_failed: "Zustellung über Amazon SNS fehlgeschlagen:"
     message_bird:

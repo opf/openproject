@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -204,6 +204,14 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::Journalized
   prepend Journable::Timestamps
 
+  def self.status_based_mode?
+    Setting.work_package_done_ratio == "status"
+  end
+
+  def self.work_based_mode?
+    Setting.work_package_done_ratio == "field"
+  end
+
   def self.use_status_for_done_ratio?
     Setting.work_package_done_ratio == "status"
   end
@@ -318,6 +326,18 @@ class WorkPackage < ApplicationRecord
 
   def remaining_hours=(hours)
     write_attribute :remaining_hours, convert_duration_to_hours(hours)
+  end
+
+  def done_ratio=(value)
+    write_attribute :done_ratio, convert_value_to_percentage(value)
+  end
+
+  def derived_progress_hints=(hints)
+    @derived_progress_hints = hints
+  end
+
+  def derived_progress_hints
+    @derived_progress_hints ||= {}
   end
 
   def duration_in_hours
@@ -545,10 +565,17 @@ class WorkPackage < ApplicationRecord
   def convert_duration_to_hours(value)
     if value.is_a?(String)
       begin
-        value = value.blank? ? nil : DurationConverter.parse(value)
+        value = DurationConverter.parse(value)
       rescue ChronicDuration::DurationParseError
         # keep invalid value, error shall be caught by numericality validator
       end
+    end
+    value
+  end
+
+  def convert_value_to_percentage(value)
+    if value.is_a?(String) && PercentageConverter.valid?(value)
+      value = PercentageConverter.parse(value)
     end
     value
   end

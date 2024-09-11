@@ -21,6 +21,8 @@ uk:
               only_numeric_or_uuid: '– може бути тільки числом або ідентифікатором uuid.'
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Виберіть папку.
             project_folder_mode:
               mode_unavailable: '– недоступно для цього сховища.'
             project_ids:
@@ -29,7 +31,7 @@ uk:
           attributes:
             host:
               authorization_header_missing: налаштовано не повністю. Екземпляр Nextcloud не отримує заголовка «Authorization», який необхідний для авторизації запитів API на основі маркерів власника. Перевірте свою конфігурацію сервера HTTP.
-              cannot_be_connected_to: '– не можна підключитися.'
+              cannot_be_connected_to: недоступний. Переконайтеся, що до нього можна підключитися й додаток OpenProject Integration установлено.
               minimal_nextcloud_version_unmet: '– не відповідає мінімальним вимогам до версії (Nextcloud 23 або новішої версії)'
               not_nextcloud_server: '– не є сервером Nextcloud.'
               op_application_not_installed: схоже, у вас не встановлено додаток OpenProject integration. Спочатку встановіть його, а потім спробуйте знову.
@@ -57,15 +59,18 @@ uk:
   permission_write_files: 'Папки проєкту з автоматичним керуванням: записування файлів'
   project_module_storages: Файли
   project_storages:
+    edit_project_folder:
+      label: Редагувати папку проєкту
     project_folder_mode:
       automatic: Автоматичне керування
       inactive: Немає визначеної папки
       manual: Наявна папка має ручне керування
     remove_project:
+      deletion_failure_flash: Не вдалося вилучити проєкт зі сховища. %{error}
       dialog:
         automatically_managed_appendix: Крім того, якщо це сховище містить папку проєкту з автоматичним керуванням, цю папку й усі її файли буде остаточно видалено.
         confirmation_text: Підтвердьте, що ви розумієте наслідки й хочете вилучити цей проєкт із файлового сховища
-        heading: Вилучити проєкт із %{storage_type}
+        heading_text: Вилучити проєкт із %{storage}
         text: Буде вилучено всі посилання з пакетів робіт цього проєкту на файли й папки, що зберігаються в цьому сховищі. Це незворотна дія.
       label: Вилучити проєкт
   services:
@@ -86,6 +91,12 @@ uk:
         rename_project_folder: 'Перейменування папки керованого проекту:'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: Папка %{destination_path} уже існує. Перериваємо процес, щоб уникнути перезапису.
+          error: Сталася неочікувана помилка. Щоб дізнатися більше, перегляньте журнали OpenProject або зверніться до адміністратора.
+          forbidden: OpenProject не вдалось отримати доступ до вихідної папки. Перевірте конфігурацію дозволів на доступ до сховища.
+          not_found: Розташування вихідного шаблону %{source_path} не знайдено.
+          unauthorized: OpenProject не вдалося пройти автентифікацію в постачальника сховища. Перевірте конфігурацію сховища.
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -111,7 +122,7 @@ uk:
             set_folders_permissions:
               permission_not_set: не вдалося встановити дозволи за шляхом %{path}.
           error: Сталася неочікувана помилка. Щоб дізнатися більше, переконайтеся, що маєте доступ до свого екземпляра Nextcloud, і перевірте журнали працівників OpenProject.
-          group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
+          group_does_not_exist: "Групи «%{group}» не існує. Перевірте конфігурацію свого екземпляра Nextcloud."
           insufficient_privileges: OpenProject не має достатніх привілеїв, щоб додати користувача %{user} в групу «%{group}». Перевірте налаштування своєї групи в Nextcloud.
           not_allowed: Nextcloud блокує запит.
           unauthorized: Не вдалося синхронізувати OpenProject із Nextcloud. Перевірте своє сховище й конфігурацію Nextcloud.
@@ -140,7 +151,7 @@ uk:
       complete_without_setup: Завершити без налаштування
       done_complete_setup: Готово – завершити налаштування
       done_continue: Виконано, продовжити
-      open_storage: Open file storage
+      open_storage: Відкрити файлове сховище
       replace_oauth_application: Замінити OpenProject OAuth
       replace_oauth_client: Замінити %{provider_type} OAuth
       save_and_continue: Зберегти та продовжити
@@ -167,6 +178,9 @@ uk:
       nextcloud:
         group_folders_app: Папки груп
         integration_app: Інтеграція OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: Це сховище ще не налаштоване. Завершіть налаштування, перш ніж вмикати його в кількох проєктах.
+      setup_incomplete_header: Налаштування сховища не завершено
     error_invalid_provider_type: Виберіть дійсного постачальника сховища.
     file_storage_view:
       access_management:
@@ -303,16 +317,24 @@ uk:
     notice_successful_storage_connection: |-
       Сховище підключено. Щоб користуватися ним, активуйте модуль і визначене сховище в налаштуваннях
       кожного потрібного проєкту.
-    oauth_grant_nudge_modal:
+    oauth_access_granted_modal:
       access_granted: Доступ надано
-      access_granted_screen_reader: Доступ надано. Тепер %{storage} готове до використання.
-      body: Щоб отримати доступ до папки проєкту, потрібно ввійти в %{storage}.
+      project_settings:
+        access_granted_screen_reader: Доступ надано. Тепер сховище %{storage} готове до використання.
+        storage_ready: Тепер ви можете використовувати сховище %{storage}
+      storage_admin:
+        access_granted_screen_reader: Доступ надано. Тепер ви можете додати проєкти в сховище %{storage}.
+        storage_ready: Тепер ви можете додати проєкти в сховище %{storage}
+    oauth_grant_nudge_modal:
       cancel_button_label: Я зроблю це пізніше
-      confirm_button_aria_label: Увійти в %{storage}
-      confirm_button_label: Увійти
+      heading: Потрібно ввійти в %{provider_type}
+      login_button_aria_label: Увійти в %{storage}
+      login_button_label: "Увійти в %{provider_type}"
+      project_settings:
+        description: Щоб отримати доступ до папки проєкту, потрібно ввійти в %{storage}.
       requesting_access_to: Надсилаємо запит на доступ до %{storage}
-      storage_ready: Тепер ви можете використовувати сховище %{storage}
-      title: Ще один крок...
+      storage_admin:
+        description: Щоб додавати проєкти в це сховище, потрібно ввійти в %{provider_type}. Увійдіть і повторіть спробу.
     open_project_storage_modal:
       success:
         subtitle: Виконується переспрямування

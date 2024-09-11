@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ ko:
     button_back_to_list_view: "목록으로 돌아가기"
     button_cancel: "취소"
     button_close: "닫기"
-    button_change_project: "프로젝트 변경"
+    button_change_project: "다른 프로젝트로 이동"
     button_check_all: "모두 선택"
     button_configure-form: "구성 양식"
     button_confirm: "확인"
@@ -74,7 +74,7 @@ ko:
     button_copy: "복사"
     button_copy_to_clipboard: "클립보드 복사"
     button_copy_link_to_clipboard: "클립보드에 링크 복사"
-    button_copy_to_other_project: "다른 프로젝트에 복사"
+    button_copy_to_other_project: "다른 프로젝트에 복제"
     button_custom-fields: "사용자 정의 필드"
     button_delete: "삭제"
     button_delete_watcher: "주시자 삭제"
@@ -138,6 +138,8 @@ ko:
     description_select_work_package: "작업 패키지 #%{id} 선택"
     description_subwork_package: "작업 패키지 #%{id}의 자식"
     editor:
+      revisions: "로컬 수정 사항 표시"
+      no_revisions: "로컬 수정 사항 찾지 못함"
       preview: "미리 보기 모드 토글"
       source_code: "Markdown 소스 모드 토글"
       error_saving_failed: "다음 오류로 인해 문서를 저장하지 못했습니다: %{error}"
@@ -276,8 +278,10 @@ ko:
           변경 사항이 적용되는 데 시간이 걸릴 수 있습니다. 모든 관련 작업 패키지가 업데이트되면 알림이 전송됩니다.
           계속하시겠습니까?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
           진행률 계산 모드를 상태 기반에서 작업 기반으로 변경하면 <i>완료 %</i>가 편집할 수 없는 필드가 되며 해당 값은 <i>작업</i> 및 <i>남은 작업</i>에서 파생됩니다. <i>완료 %</i>의 기존 값은 유지됩니다. <i>작업</i> 및 <i>남은 작업</i>의 값이 없는 경우, <i>완료 %</i>를 변경하려면 해당 값이 필요합니다.
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          진행률 계산 모드를 상태 기반에서 작업 기반으로 변경하면 <i>완료 %</i> 필드를 자유롭게 편집할 수 있습니다. 선택적으로 <i>작업</i> 또는 <i>남은 작업</i>에 대한 값을 입력하면 해당 값도 <i>완료 %</i>에 링크됩니다. <i>남은 작업</i>을 변경하면 <i>완료 %</i>가 업데이트될 수 있습니다.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           진행률 계산 모드를 작업 기반에서 상태 기반으로 변경하면 기존의 모든 <i>완료 %</i> 값이 손실되고 각 상태와 관련된 값으로 대체됩니다. <i>남은 작업</i>의 기존 값도 이 변경 사항을 반영하기 위해 다시 계산될 수 있습니다. 이 작업은 되돌릴 수 없습니다.
     custom_actions:
@@ -336,18 +340,6 @@ ko:
         years: "년"
         description: >
           자동 확대/축소를 사용할 수 없는 경우 표시되어야 하는 초기 확대/축소 수준을 선택하세요.
-      export:
-        title: "Gantt 차트 PDF 옵션"
-        button_export: "내보내기"
-        column_widths:
-          narrow: "좁음"
-          medium: "보통"
-          wide: "넓음"
-          very_wide: "매우 넓음"
-        options:
-          date_zoom: "날짜 확대/축소"
-          paper_size: "용지 크기"
-          column_widths: "열 너비"
     general_text_no: "아니요"
     general_text_yes: "예"
     general_text_No: "아니요"
@@ -366,10 +358,10 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
+                이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>로컬 버전의 WYSIWYG 콘텐츠 변경 사항을 유지하고 복원합니다.</li> <li>한 번에 여러 프로젝트의 저장소를 활성화합니다.</li> <li>추가 설정이 포함된 업데이트된 모달로 작업 패키지를 내보냅니다.</li> <li>Community Edition에서도 프로젝트 목록에 사용자 지정 필드 열/필터를 표시합니다.</li> <li>캡차로 CloudFlare Turnstile을 지원합니다.</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."
@@ -410,6 +402,7 @@ ko:
     label_create: "만들기"
     label_create_work_package: "새 작업 패키지 만들기"
     label_created_by: "작성자"
+    label_current: "현재"
     label_date: "날짜"
     label_date_with_format: "%{date_attribute} 는 %{format} 과 같이 입력되어야 합니다."
     label_deactivate: "비활성화"
@@ -638,11 +631,6 @@ ko:
         upsale:
           title: "날짜 경보"
           description: "날짜 경보를 사용하면, 중요 마감일을 놓치거나 잊지 않도록 향후 시작 날짜 또는 종료 날짜에 대한 알림을 받게 됩니다."
-      facets:
-        unread: "읽지 않음"
-        unread_title: "읽지 않은 항목 표시"
-        all: "모두"
-        all_title: "모두 표시"
       center:
         label_actor_and: "및"
         and_more_users:
@@ -652,12 +640,13 @@ ko:
           with_current_filter: "현재 이 보기에는 알림이 없습니다."
         mark_all_read: "모두 읽은 상태로 표시"
         mark_as_read: "읽음으로 표시"
-        text_update_date: "%{date} -"
+        text_update_date_by: "%{date} -"
         total_count_warning: "%{newest_count} 개의 가장 최근 알림을 표시합니다. %{more_count} 개의 알림은 표시되지 않습니다."
         empty_state:
           no_notification: "모두 확인하신 것 같습니다."
           no_notification_with_current_project_filter: "선택한 프로젝트에 대한 모든 알림을 본 것 같습니다."
           no_notification_with_current_filter: "%{filter} 필터에 대한 모든 알림을 본 것 같습니다."
+          no_notification_for_filter: "이 필터에 대한 모든 알림을 본 것 같습니다."
           no_selection: "모든 활동 세부 정보를 보려면 알림을 클릭하세요."
         new_notifications:
           message: "새 알림이 있습니다."
@@ -1195,6 +1184,8 @@ ko:
         one: "1일"
         other: "%{count}일"
         zero: "0일"
+      word:
+        other: "단어 %{count}개"
     zen_mode:
       button_activate: "Zen 모드 활성화"
       button_deactivate: "Zen 모드 비활성화"

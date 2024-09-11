@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,25 +26,23 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { Transition } from '@uirouter/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit } from '@angular/core';
+import { UIRouterGlobals } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageWatchersService } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
+import {
+  WorkPackageWatchersService,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { trackByHref } from 'core-app/shared/helpers/angular/tracking-functions';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import {
+  WorkPackageNotificationService,
+} from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 
 @Component({
   templateUrl: './watchers-tab.html',
@@ -82,22 +80,26 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
     },
   };
 
-  public constructor(readonly I18n:I18nService,
+  public constructor(
+    readonly I18n:I18nService,
     readonly elementRef:ElementRef,
     readonly wpWatchersService:WorkPackageWatchersService,
-    readonly $transition:Transition,
+    readonly uiRouterGlobals:UIRouterGlobals,
     readonly notificationService:WorkPackageNotificationService,
     readonly loadingIndicator:LoadingIndicatorService,
     readonly cdRef:ChangeDetectorRef,
     readonly pathHelper:PathHelperService,
-    readonly apiV3Service:ApiV3Service) {
+    readonly apiV3Service:ApiV3Service,
+    readonly turboRequests:TurboRequestsService,
+  ) {
     super();
   }
 
   public ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
+    const { workPackageId } = this.uiRouterGlobals.params as unknown as { workPackageId:string };
+    this.workPackageId = (this.workPackage.id as string) || workPackageId;
 
-    this.workPackageId = this.$transition.params('to').workPackageId;
     this
       .apiV3Service
       .work_packages
@@ -151,6 +153,8 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
           .id(this.workPackage)
           .refresh();
 
+        this.updateCounter();
+
         this.cdRef.detectChanges();
       })
       .catch((error:any) => this.notificationService.showError(error, this.workPackage));
@@ -169,8 +173,16 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
           .work_packages
           .id(this.workPackage)
           .refresh();
+
+        this.updateCounter();
+
         this.cdRef.detectChanges();
       })
       .catch((error:any) => this.notificationService.showError(error, this.workPackage));
+  }
+
+  public updateCounter() {
+    const url = this.pathHelper.workPackageUpdateCounterPath(this.workPackageId, 'watchers');
+    void this.turboRequests.request(url);
   }
 }

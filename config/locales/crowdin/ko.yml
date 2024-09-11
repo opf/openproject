@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -212,10 +212,12 @@ ko:
     reorder_confirmation: "경고: 사용 가능한 값의 현재 순서가 손실됩니다. 계속하시겠습니까?"
     instructions:
       is_required: "사용자 지정 필드를 필수로 표시합니다. 이렇게 하면 새 리소스를 생성하거나 기존 리소스를 업데이트할 때 이 필드를 반드시 입력해야 합니다."
+      is_required_for_project: "이 특성을 활성화하려면 선택하고 모든 프로젝트에서 필수로 지정하세요. 개별 프로젝트에 대해 비활성화할 수는 없습니다."
       is_for_all: "모든 기존 프로젝트와 새 프로젝트에서 사용자 지정 필드를 사용 가능으로 표시합니다."
       searchable: "글로벌 검색 기능을 사용할 때 필드 값을 포함합니다."
+      searchable_for_project: "프로젝트 목록에서 이 특성을 필터로 사용 가능하게 설정하려면 선택하세요."
       editable: "사용자가 필드를 편집할 수 있도록 허용합니다."
-      visible: "프로젝트 개요의 모든 사용자(비관리자)에 대해 필드가 표시되고 프로젝트 개요의 프로젝트 세부 정보 위젯에 표시되게 합니다."
+      admin_only: "이 특성을 관리자에게만 표시하려면 선택하세요. 관리자 권한이 없는 사용자는 이 특성을 보거나 편집할 수 없습니다."
       is_filter: >
         작업 패키지 보기의 필터에서 사용자 지정 필드를 사용할 수 있도록 허용합니다. '모든 프로젝트용'을 선택한 경우에만 사용자 지정 필드가 글로벌 보기에 표시됩니다.
     tab:
@@ -262,6 +264,9 @@ ko:
       open_as_gantt: "Gantt 보기로 열기"
       no_results_title_text: 프로젝트가 없습니다.
       no_results_content_text: 새 프로젝트 생성
+      search:
+        label: 프로젝트 이름 필터
+        placeholder: 프로젝트 이름으로 검색
     lists:
       active: "활성 프로젝트"
       my: "내 프로젝트"
@@ -295,7 +300,7 @@ ko:
         actions:
           label_enable_single: "이 프로젝트에서 활성화되어 있습니다. 비활성화하려면 클릭하세요."
           label_disable_single: "이 프로젝트에서 비활성화되어 있습니다. 활성화하려면 클릭하세요."
-          deactivate_for_project: "이 프로젝트에 대해 비활성화"
+          remove_from_project: "프로젝트에서 제거"
           label_enable_all: "모두 활성화"
           label_disable_all: "모두 비활성화"
         is_required_blank_slate:
@@ -381,8 +386,8 @@ ko:
   my:
     access_token:
       create_dialog:
-        header: The %{type} token has been generated
-        warning: Note that this is the only time you will see this token, make sure to copy it now.
+        header: '%{type} 토큰이 생성되었습니다.'
+        warning: 이번에만 이 토큰이 표시됩니다. 지금 이 토큰을 복사해야 합니다.
       errors:
         token_name_blank: "API 토큰 이름을 입력하세요"
         token_name_in_use: "이 API 토큰 이름은 이미 사용 중입니다. 다른 이름을 선택하세요."
@@ -611,7 +616,7 @@ ko:
         possible_values: "가능한 값"
         regexp: "정규 표현식"
         searchable: "검색가능한"
-        visible: "표시"
+        admin_only: "관리자 전용"
       custom_value:
         value: "값"
       doorkeeper/application:
@@ -681,6 +686,7 @@ ko:
         versions: "버전"
         work_packages: "작업 패키지"
       project_custom_field:
+        is_required: "모든 프로젝트에 필수"
         custom_field_section: 섹션
       query:
         column_names: "컬럼"
@@ -1025,6 +1031,12 @@ ko:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "- 작업과 남은 작업이 일치하지 않습니다"
+              cannot_be_set_when_work_is_zero: "- 작업이 0시간인 경우 설정할 수 없습니다"
+              must_be_set_when_remaining_work_is_set: "- 남은 작업이 설정된 경우 필수입니다."
+              must_be_set_when_work_and_remaining_work_are_set: "- 작업 및 남은 작업이 설정된 경우 필수입니다."
+              inclusion: "- 0에서 100 사이여야 합니다."
             due_date:
               not_start_date: "마일스톤에서 요구하지만, 시작 날짜가 없음"
               cannot_be_null: "시작 날짜와 기간을 알고 있으므로 null로 설정할 수 없습니다."
@@ -1053,15 +1065,17 @@ ko:
               does_not_exist: "지정한 카테고리가 존재하지 않습니다."
             estimated_hours:
               not_a_number: "- 유효한 기간이 아닙니다."
-              cant_be_inferior_to_remaining_work: "남은 작업보다 낮을 수 없습니다."
-              must_be_set_when_remaining_work_is_set: "'남은 작업'이 설정된 경우 필수입니다."
-              only_values_greater_or_equal_zeroes_allowed: "0 이상이어야 합니다."
-              format: "%{message}"
+              cant_be_inferior_to_remaining_work: "- 남은 작업보다 낮을 수 없습니다."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "- 남은 작업 및 완료 %가 설정된 경우 필수입니다."
             remaining_hours:
               not_a_number: "- 유효한 기간이 아닙니다."
-              cant_exceed_work: "작업보다 높을 수 없습니다."
-              must_be_set_when_work_is_set: "작업이 설정된 경우 필수입니다."
-              format: "%{message}"
+              cant_exceed_work: "- 작업보다 높을 수 없습니다."
+              must_be_set_when_work_is_set: "- 작업이 설정된 경우 필수입니다."
+              must_be_set_when_work_and_percent_complete_are_set: "- 작업 및 완료 %가 설정된 경우 필수입니다."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                - 작업이 설정되고 완료 %가 100%인 경우 0시간이어야 합니다.
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                - 작업이 비어 있고 완료 %가 100%인 경우 비어 있어야 합니다.
           readonly_status: "작업 패키지가 읽기 전용 상태이므로 해당 속성을 변경할 수 없습니다."
         type:
           attributes:
@@ -1140,7 +1154,7 @@ ko:
         other: "역할"
       status: "작업 패키지 상태"
       token/api:
-        other: Access tokens
+        other: 액세스 토큰
       type: "타입"
       user: "사용자"
       version: "버전"
@@ -1557,6 +1571,7 @@ ko:
   error_pdf_failed_to_export: "PDF 내보내기를 저장할 수 없습니다: %{error}"
   error_token_authenticity: "교차 사이트 요청 위조 토큰을 확인할 수 없습니다. 여러 브라우저나 탭에서 데이터 제출을 시도하셨습니까? 모든 탭을 닫고 다시 시도하세요."
   error_work_package_not_found_in_project: "작업 패키지가 없거나 이 프로젝트에 속하지 않습니다."
+  error_work_package_id_not_found: "작업 패키지를 찾을 수 없습니다."
   error_must_be_project_member: "은(는) 프로젝트 멤버여야 합니다."
   error_migrations_are_pending: "OpenProject 설치에 보류 중인 데이터베이스 마이그레이션이 있습니다. 지난 업그레이드에서 마이그레이션을 실행하지 않았을 가능성이 있습니다. 업그레이드 가이드를 확인하여 제대로 설치를 업그레이드하세요."
   error_migrations_visit_upgrade_guides: "업그레이드 가이드 문서를 참조하십시오."
@@ -1598,9 +1613,71 @@ ko:
       project: "프로젝트: %{name}"
       subproject: "하위 프로젝트: %{name}"
   export:
-    your_work_packages_export: "내 작업 패키지 내보내기"
-    succeeded: "내보내기가 성공적으로 완료되었습니다."
-    failed: "내보내기가 실패했습니다: %{message}"
+    dialog:
+      title: "내보내기"
+      submit: "내보내기"
+      format:
+        label: "파일 형식"
+        options:
+          csv:
+            label: "CSV"
+          pdf:
+            label: "PDF"
+          xls:
+            label: "XLS"
+      columns:
+        input_label_report: "특성 테이블에 열 추가"
+        input_caption_report: "기본적으로 작업 패키지 목록에 열로 추가된 모든 특성이 선택되어 있습니다. 긴 텍스트 필드는 특성 테이블에서 사용할 수 없지만 그 아래에 표시될 수 있습니다."
+        input_caption_table: "기본적으로 작업 패키지 목록에 열로 추가된 모든 특성이 선택되어 있습니다. 긴 텍스트 필드는 테이블 기반 내보내기에서 사용할 수 없습니다."
+      pdf:
+        export_type:
+          label: "PDF 내보내기 유형"
+          options:
+            table:
+              label: "테이블"
+              caption: "원하는 열이 포함된 테이블로 작업 패키지 목록을 내보냅니다."
+            report:
+              label: "보고서"
+              caption: "목록에 있는 모든 작업 패키지의 상세 보고서로 작업 패키지를 내보냅니다."
+            gantt:
+              label: "Gantt 차트"
+              caption: "Gantt 다이어그램 보기로 작업 패키지 목록을 내보냅니다."
+        include_images:
+          label: "이미지 포함"
+          caption: "PDF 내보내기 크기를 줄이려면 이미지를 제외합니다."
+        gantt_zoom_levels:
+          label: "확대/축소 수준"
+          caption: "차트에 표시되는 날짜의 확대/축소 수준을 선택합니다."
+          options:
+            days: "일"
+            weeks: "주"
+            months: "개월"
+            quarters: "분기"
+        column_width:
+          label: "테이블 열 너비"
+          options:
+            narrow: "좁음"
+            medium: "보통"
+            wide: "넓음"
+            very_wide: "매우 넓음"
+        paper_size:
+          label: "용지 크기"
+          caption: "차트 크기에 따라 두 페이지 이상 내보낼 수 있습니다."
+        long_text_fields:
+          input_caption: "기본적으로 모든 긴 텍스트 필드가 선택되어 있습니다."
+          input_label: "긴 텍스트 필드 추가"
+          input_placeholder: "긴 텍스트 필드 검색"
+          drag_area_label: "긴 텍스트 필드 관리"
+      xls:
+        include_relations:
+          label: "관계 포함"
+          caption: "이 옵션은 다른 작업 패키지와의 각 관계에 대해 작업 패키지 각각의 복제본을 만듭니다."
+        include_descriptions:
+          label: "설명 포함"
+          caption: "이 옵션은 원시 형식으로 설명 열을 추가합니다."
+    your_work_packages_export: "작업 패키지를 내보내는 중입니다."
+    succeeded: "내보내기 완료"
+    failed: "작업 패키지를 내보내려는 중에 오류가 발생했습니다: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1761,6 +1838,11 @@ ko:
       responsible: "담당"
       shared: "공유됨"
       watched: "주시자"
+    facets:
+      unread: "읽지 않음"
+      unread_title: "읽지 않은 항목 표시"
+      all: "모두"
+      all_title: "모두 표시"
     menu:
       by_project: "프로젝트 기준 읽지 않음"
       by_reason: "이유"
@@ -2120,6 +2202,8 @@ ko:
   label_next_week: "다음 주"
   label_no_change_option: "(변경 없음)"
   label_no_data: "표시할 데이터가 없습니다."
+  label_no_due_date: "완료 날짜 없음"
+  label_no_start_date: "시작 날짜 없음"
   label_no_parent_page: "부모 페이지 없음"
   label_nothing_display: "표시할 것이 없음"
   label_nobody: "아무도 없음"
@@ -2244,6 +2328,8 @@ ko:
   label_role_plural: "역할"
   label_role_search: "새 멤버에게 역할 할당"
   label_scm: "SCM"
+  label_scroll_left: "왼쪽으로 스크롤"
+  label_scroll_right: "오른쪽으로 스크롤"
   label_search: "검색"
   label_search_by_name: "이름별 검색"
   label_send_information: "사용자에게 새 자격 증명 보내기"
@@ -2995,8 +3081,10 @@ ko:
   setting_work_package_done_ratio: "진행률 계산"
   setting_work_package_done_ratio_field: "작업 기반"
   setting_work_package_done_ratio_status: "상태 기반"
-  setting_work_package_done_ratio_explanation_html: >
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     <b>작업 기반</b> 모드에서 완료 %는 총 작업 대비 완료된 작업을 기준으로 계산됩니다. <b>상태 기반</b> 모드에서는 각 상태에 완료 % 값이 연결되어 있습니다. 상태를 변경하면 완료 %도 변경됩니다.
+  setting_work_package_done_ratio_explanation_html: >
+    <b>작업 기반</b> 모드에서 완료 %는 어떤 값으로든 자유롭게 설정할 수 있습니다. 선택적으로 작업에 대한 값을 입력하면 남은 작업이 자동으로 파생됩니다. <b>상태 기반</b> 모드에서는 각 상태에 완료 % 값이 연결되어 있습니다. 상태를 변경하면 완료 %도 변경됩니다.
   setting_work_package_properties: "작업 패키지 속성"
   setting_work_package_startdate_is_adddate: "새 작업 패키지에 대한 시작 날짜로 현재 날짜 사용"
   setting_work_packages_projects_export_limit: "작업 패키지/프로젝트 내보내기 제한"
@@ -3378,9 +3466,26 @@ ko:
     progress:
       label_note: "참고:"
       modal:
-        work_based_help_text: "완료 %는 작업 및 남은 작업에서 자동으로 파생됩니다."
+        work_based_help_text: "가능한 경우 각 필드는 다른 두 필드에서 자동으로 계산됩니다."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "완료 %는 작업 및 남은 작업에서 자동으로 파생됩니다."
         status_based_help_text: "완료 %는 작업 패키지 상태에 따라 설정됩니다."
         migration_warning_text: "작업 기반 진행률 계산 모드에서 완료 %는 수동으로 설정할 수 없으며 작업에 연결됩니다. 기존 값은 유지되지만 편집할 수 없습니다. 먼저 작업을 입력하세요."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "남은 작업이 비어 있으므로 지워졌습니다."
+          cleared_because_work_is_0h: "작업이 0시간이므로 지워졌습니다."
+          derived: "작업 및 남은 작업에서 파생되었습니다."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "남은 작업이 비어 있으므로 지워졌습니다."
+          derived: "남은 작업 및 완료 %에서 파생되었습니다."
+          same_as_remaining_work: "남은 작업과 동일한 값으로 설정합니다."
+        remaining_hours:
+          cleared_because_work_is_empty: "작업이 비어 있으므로 지워졌습니다."
+          cleared_because_percent_complete_is_empty: "완료 %가 비어 있으므로 지워졌습니다."
+          decreased_like_work: "작업과 동일하게 감소했습니다."
+          derived: "작업 및 완료 %에서 파생되었습니다."
+          increased_like_work: "작업과 동일하게 증가했습니다."
+          same_as_work: "작업과 동일한 값으로 설정합니다."
     permissions:
       comment: "코멘트"
       comment_description: "이 작업 패키지를 보고 코멘트를 작성할 수 있습니다."

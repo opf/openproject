@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -212,10 +212,12 @@
     reorder_confirmation: "Advarsel: Gjeldende rekkefølge for tilgjengelige verdier vil gå tapt. Vil du fortsette?"
     instructions:
       is_required: "Marker det egendefinerte feltet som påkrevd. Dette vil gjøre det obligatorisk å fylle ut feltet når du oppretter nye eller oppdaterer eksisterende ressurser."
+      is_required_for_project: "Marker for å aktivere denne attributten og gjøre den påkrevd i alle prosjekter. Det kan ikke deaktiveres for enkeltprosjekter."
       is_for_all: "Merk egendefinert felt som tilgjengelig for alle eksisterende og nye prosjekter."
       searchable: "Inkluder feltverdier ved bruk av den globale søkefunksjonaliteten."
+      searchable_for_project: "Marker for å gjøre denne attributten tilgjengelig som filter i prosjektlister."
       editable: "La feltet være redigerbart av brukere selv."
-      visible: "Feltet synlig for alle brukere (ikke-administratorer) i prosjektoversikten og vises i prosjektdetalj-widgeten i Prosjektoversikten."
+      admin_only: "Marker for å gjøre denne attributten synlig kun for administratorer. Brukere uten administrative rettigheter vil ikke kunne se eller redigere den."
       is_filter: >
         Tillat at egendefinert felt brukes i filter i arbeidspakkevisninger. Merk at med 'For alle prosjekter' som er valgt, vil egendefinert felt vises i globale visninger.
     tab:
@@ -262,6 +264,9 @@
       open_as_gantt: "Åpne som Gantt-visning"
       no_results_title_text: Det er for tiden ingen prosjekter
       no_results_content_text: Opprett nytt prosjekt
+      search:
+        label: Project name filter
+        placeholder: Search by project name
     lists:
       active: "Aktive prosjekter"
       my: "Mine prosjekter"
@@ -295,7 +300,7 @@
         actions:
           label_enable_single: "Aktivert i dette prosjektet, klikk for å deaktivere"
           label_disable_single: "Deaktivert i dette prosjektet, klikk for å aktivere"
-          deactivate_for_project: "Deaktiver for dette prosjektet"
+          remove_from_project: "Remove from project"
           label_enable_all: "Aktiver alle"
           label_disable_all: "Deaktiver alle"
         is_required_blank_slate:
@@ -618,7 +623,7 @@
         possible_values: "Mulige verdier"
         regexp: "Regulære uttrykk"
         searchable: "Søkbar"
-        visible: "Synlig"
+        admin_only: "Kun administratorer"
       custom_value:
         value: "Verdi"
       doorkeeper/application:
@@ -688,6 +693,7 @@
         versions: "Versjoner"
         work_packages: "Arbeidspakker"
       project_custom_field:
+        is_required: "Påkrevd for alle prosjekter"
         custom_field_section: Seksjon
       query:
         column_names: "Kolonner"
@@ -1032,6 +1038,12 @@
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when Work is 0h"
+              must_be_set_when_remaining_work_is_set: "required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "required when Work and Remaining work are set."
+              inclusion: "må være mellom 0 og 100."
             due_date:
               not_start_date: "er ikke på startdato, selv om dette er nødvendig for milepæler."
               cannot_be_null: "kan ikke settes til null da startdato og varighet er kjent."
@@ -1060,15 +1072,17 @@
               does_not_exist: "Den angitte kategorien finnes ikke."
             estimated_hours:
               not_a_number: "is not a valid duration."
-              cant_be_inferior_to_remaining_work: "Kan ikke være lavere enn gjenstående arbeid."
-              must_be_set_when_remaining_work_is_set: "Påkrevd når gjenværende arbeid er satt."
-              only_values_greater_or_equal_zeroes_allowed: "Må være >= 0."
-              format: "%{message}"
+              cant_be_inferior_to_remaining_work: "cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "required when Remaining work and % Complete are set."
             remaining_hours:
               not_a_number: "is not a valid duration."
-              cant_exceed_work: "Kan ikke være høyere enn arbeidet."
-              must_be_set_when_work_is_set: "Påkrevet når arbeidet settes."
-              format: "%{message}"
+              cant_exceed_work: "cannot be higher than Work."
+              must_be_set_when_work_is_set: "required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "required when Work and % Complete are set."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                must be 0h when Work is set and % Complete is 100%.
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                must be empty when Work is empty and % Complete is 100%.
           readonly_status: "Arbeidspakken er i skrivebeskyttet status slik at egenskapene ikke kan endres."
         type:
           attributes:
@@ -1592,6 +1606,7 @@
   error_pdf_failed_to_export: "PDF-eksporten kunne ikke lagres: %{error}"
   error_token_authenticity: "Kan ikke bekrefte Cross-Site Request Forgery token. Har du prøvd å sende inn data i flere nettlesere eller faner? Vennligst lukk alle fanene og prøv igjen."
   error_work_package_not_found_in_project: "Arbeidspakken ble ikke funnet eller tilhører ikke dette prosjektet"
+  error_work_package_id_not_found: "Arbeidspakken ble ikke funnet."
   error_must_be_project_member: "må være prosjektmedlem"
   error_migrations_are_pending: "Din OpenProject installasjon har ventende databaseoverføringer. Du har sannsynligvis gått tilbake til overføringene på din siste oppgradering. Vennligst sjekk oppgraderings guiden for å oppgradere installasjonen din ordentlig."
   error_migrations_visit_upgrade_guides: "Vennligst besøk vår veiledning/dokumentasjon for oppgradering"
@@ -1633,9 +1648,71 @@
       project: "Prosjekt: %{name}"
       subproject: "Underprosjekt: %{name}"
   export:
-    your_work_packages_export: "Dine arbeidspakke-eksporter"
-    succeeded: "Eksporten er fullført."
-    failed: "Eksporten har feilet: %{message}"
+    dialog:
+      title: "Export"
+      submit: "Export"
+      format:
+        label: "File format"
+        options:
+          csv:
+            label: "CSV"
+          pdf:
+            label: "PDF"
+          xls:
+            label: "XLS"
+      columns:
+        input_label_report: "Add columns to attribute table"
+        input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
+        input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
+      pdf:
+        export_type:
+          label: "PDF export type"
+          options:
+            table:
+              label: "Table"
+              caption: "Export the work packages list in a table with the desired columns."
+            report:
+              label: "Report"
+              caption: "Export the work package on a detailed report of all work packages in the list."
+            gantt:
+              label: "Gantt chart"
+              caption: "Export the work packages list in a Gantt diagram view."
+        include_images:
+          label: "Include images"
+          caption: "Exclude images to reduce the size of the PDF export."
+        gantt_zoom_levels:
+          label: "Zoom levels"
+          caption: "Select what is the zoom level for dates displayed in the chart."
+          options:
+            days: "Days"
+            weeks: "Weeks"
+            months: "Months"
+            quarters: "Quarters"
+        column_width:
+          label: "Table column width"
+          options:
+            narrow: "Narrow"
+            medium: "Medium"
+            wide: "Wide"
+            very_wide: "Very wide"
+        paper_size:
+          label: "Paper size"
+          caption: "Depending on the chart size more than one page might be exported."
+        long_text_fields:
+          input_caption: "By default all long text fields are selected."
+          input_label: "Add long text fields"
+          input_placeholder: "Search for long text fields"
+          drag_area_label: "Manage long text fields"
+      xls:
+        include_relations:
+          label: "Include relations"
+          caption: "This option will create a duplicate of each work package for every relation this has with another work package."
+        include_descriptions:
+          label: "Include descriptions"
+          caption: "This option will add a description column in raw format."
+    your_work_packages_export: "Work packages are being exported"
+    succeeded: "Export completed"
+    failed: "An error has occurred while trying to export the work packages: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1796,6 +1873,11 @@
       responsible: "Ansvarlig"
       shared: "Delt"
       watched: "Overvåker"
+    facets:
+      unread: "Ulest"
+      unread_title: "Vis ulest"
+      all: "Alle"
+      all_title: "Vis alle"
     menu:
       by_project: "Ulest etter prosjekt"
       by_reason: "Grunn"
@@ -2155,6 +2237,8 @@
   label_next_week: "Neste uke"
   label_no_change_option: "(Ingen endring)"
   label_no_data: "Ingen data å vise"
+  label_no_due_date: "ingen ferdigdato"
+  label_no_start_date: "ingen startdato"
   label_no_parent_page: "Ingen overordnet side"
   label_nothing_display: "Ingenting å vise"
   label_nobody: "ingen"
@@ -2279,6 +2363,8 @@
   label_role_plural: "Rolle"
   label_role_search: "Tilordne rolle til nye medlemmer"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Søk"
   label_search_by_name: "Søk på navn"
   label_send_information: "Send nye opplysninger til brukeren"
@@ -3035,8 +3121,10 @@
   setting_work_package_done_ratio: "Beregning av fremdrift"
   setting_work_package_done_ratio_field: "Arbeidsbasert"
   setting_work_package_done_ratio_status: "Statusbasert"
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
-    I <b>arbeidsbasert</b> modus, beregnes % Ferdig ut fra hvor mye arbeid som er gjort i forhold til det totale arbeidet. I <b>-statusbasert</b> modus har hver status en % Ferdig verdi knyttet til den. Endring av status vil endre % Ferdig.
+    In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Egenskaper for arbeidspakke"
   setting_work_package_startdate_is_adddate: "Bruk gjeldende dato som startdato for nye arbeidspakker"
   setting_work_packages_projects_export_limit: "Eksportgrense for arbeidspakker/prosjekter"
@@ -3419,9 +3507,26 @@
     progress:
       label_note: "Merk:"
       modal:
-        work_based_help_text: "% Ferdig utledes automatisk fra arbeid og gjenstående arbeid."
+        work_based_help_text: "Each field is automatically calculated from the two others when possible."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Ferdig er angitt etter status på arbeidspakken."
         migration_warning_text: "I arbeidsbasert fremdriftsberegningsmodus kan % Ferdig ferdigstilt ikke settes manuelt og er knyttet til jobber. Den eksisterende verdien er lagret, men kan ikke endres. Skriv inn arbeidet først."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          cleared_because_work_is_0h: "Cleared because Work is 0h."
+          derived: "Derived from Work and Remaining work."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          derived: "Derived from Remaining work and % Complete."
+          same_as_remaining_work: "Set to same value as Remaining work."
+        remaining_hours:
+          cleared_because_work_is_empty: "Cleared because Work is empty."
+          cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
+          decreased_like_work: "Decreased by the same amount as Work."
+          derived: "Derived from Work and % Complete."
+          increased_like_work: "Increased by the same amount as Work."
+          same_as_work: "Set to same value as Work."
     permissions:
       comment: "Kommentar"
       comment_description: "Kan se og kommentere denne arbeidspakken."

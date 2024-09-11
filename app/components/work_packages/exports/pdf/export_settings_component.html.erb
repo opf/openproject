@@ -1,0 +1,35 @@
+<%=
+  flex_layout(data: {
+    "application-target": "dynamic",
+    controller: "work-packages--export--pdf--settings"
+  }) do |container| %>
+  <%= container.with_row do %>
+    <%= render(Primer::Alpha::RadioButtonGroup.new(
+      full_width: true,
+      name: "pdf_export_type",
+      label: I18n.t("export.dialog.pdf.export_type.label"))) do |component|
+      pdf_export_types.each do |entry|
+        component.radio_button(label: entry[:label],
+                               value: entry[:value],
+                               checked: current_pdf_export_type == entry[:value],
+                               disabled: entry[:disabled] ? true : nil,
+                               data: {
+                                 "work-packages--export--pdf--settings-name-param": entry[:value],
+                                 action: "work-packages--export--pdf--settings#typeChanged"
+                               },
+                               caption: entry[:caption])
+      end
+    end %>
+    <%= render OpenProject::Common::DividerComponent.new %>
+  <% end %>
+  <% pdf_export_types.reject { |entry| entry[:disabled] }.each do |entry| %>
+    <%= container.with_row(
+      classes: current_pdf_export_type == entry[:value] ? nil : "d-none",
+      data: {
+        "pdf-export-type": entry[:value],
+        "work-packages--export--pdf--settings-target": "fields"
+      }) do |_pdf_export_type| %>
+      <%= render(entry[:component].new(query)) %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ pt-BR:
     button_back_to_list_view: "Voltar à lista"
     button_cancel: "Cancelar"
     button_close: "Fechar"
-    button_change_project: "Alterar projeto"
+    button_change_project: "Mover para outro projeto"
     button_check_all: "Marcar todos"
     button_configure-form: "Configurar formulário"
     button_confirm: "Confirmar"
@@ -74,7 +74,7 @@ pt-BR:
     button_copy: "Copiar"
     button_copy_to_clipboard: "Copiar para a área de transferência"
     button_copy_link_to_clipboard: "Copiar link para área de transferência"
-    button_copy_to_other_project: "Copiar para outro projeto"
+    button_copy_to_other_project: "Duplicar em outro projeto"
     button_custom-fields: "Campos personalizados"
     button_delete: "Excluir"
     button_delete_watcher: "Excluir observador"
@@ -138,6 +138,8 @@ pt-BR:
     description_select_work_package: "Selecionar o pacote de trabalho #%{id}"
     description_subwork_package: "Filho do pacote de trabalho #%{id}"
     editor:
+      revisions: "Exibir modificações locais"
+      no_revisions: "Nenhuma modificação local encontrada"
       preview: "Alternar modo de visualização"
       source_code: "Alternar para código Markdown"
       error_saving_failed: "Não foi possível salvar o documento pelo seguinte erro: %{error}"
@@ -275,8 +277,10 @@ pt-BR:
           As alterações podem demorar algum tempo para entrar em vigor. Receberá uma notificação quando todos os pacotes de trabalho relevantes forem atualizados.
           Tem a certeza de que deseja continuar?
       work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          Alterar o modo de cálculo do progresso de "baseado em status" para "baseado em trabalho" tornará o campo <i>% de conclusão</i> não editável, com seu valor derivado de <i>Trabalho</i> e <i>Trabalho Restante</i>. Os valores existentes de <i>% de conclusão</i> serão preservados. Se os valores de <i>Trabalho</i> e <i>Trabalho Restante</i> não estiverem presentes, eles serão necessários para modificar a <i>% de conclusão</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Alterar o modo de cálculo do progresso de "baseado em status" para "baseado em trabalho" tornará o campo <i>% de conclusão</i> não editável, com seu valor derivado de <i>Trabalho</i> e <i>Trabalho Restante</i>. Os valores existentes de <i>% de conclusão</i> serão preservados. Se os valores de <i>Trabalho</i> e <i>Trabalho Restante</i> não estiverem presentes, eles serão necessários para modificar a <i>% de conclusão</i>.
+          Alterar o modo de cálculo de progresso de baseado em status para baseado em trabalho tornará o campo <i>% de conclusão</i> editável livremente. Se você optar por inserir valores para <i>Trabalho</i> ou <i>Trabalho restante</i>, eles também estarão vinculados ao <i>% de conclusão</i>. Alterar <i>Trabalho restante</i> pode, então, atualizar <i>% de conclusão</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Alterar o modo de cálculo do progresso de "baseado em trabalho" para "baseado em status" resultará na perda de todos os valores existentes de <i>% de conclusão</i>, que serão substituídos pelos valores associados a cada status. Os valores existentes de <i>Trabalho restante</i> também podem ser recalculados para refletir essa mudança. Essa ação é irreversível.
     custom_actions:
@@ -335,18 +339,6 @@ pt-BR:
         years: "Anos"
         description: >
           Selecione o nível de zoom inicial que deve ser exibido quando o zoom automático não estiver disponível.
-      export:
-        title: "Opções de PDF do gráfico de Gantt"
-        button_export: "Exportar"
-        column_widths:
-          narrow: "Estreito"
-          medium: "Médio"
-          wide: "Amplo"
-          very_wide: "Muito amplo"
-        options:
-          date_zoom: "Zoom de data"
-          paper_size: "Tamanho do papel"
-          column_widths: "Largura da coluna:"
     general_text_no: "não"
     general_text_yes: "sim"
     general_text_No: "Não"
@@ -365,10 +357,10 @@ pt-BR:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
+                A versão inclui várias novas funcionalidades e melhorias, como: <br> <ul class="%{list_styling_class}"> <li>Manter e restaurar versões locais das alterações de conteúdo WYSIWYG.</li> <li>Habilitar o armazenamento para múltiplos projetos simultaneamente.</li> <li>Exportar pacotes de trabalho em um modal atualizado com configurações adicionais.</li> <li>Exibir colunas e filtros de campos personalizados nas listas de projetos também na Edição Comunitária.</li> <li>Suporte ao CloudFlare Turnstile como Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."
@@ -409,6 +401,7 @@ pt-BR:
     label_create: "Criar"
     label_create_work_package: "Criar novo pacote de trabalho"
     label_created_by: "Criado por"
+    label_current: "atual"
     label_date: "Data"
     label_date_with_format: "Insira a %{date_attribute} usando o seguinte formato: %{format}"
     label_deactivate: "Desativado"
@@ -637,11 +630,6 @@ pt-BR:
         upsale:
           title: "Alertas de data"
           description: "Com os alertas de data, você receberá uma notificação das futuras datas de início e conclusão, assim você nunca perderá ou esquecerá prazos importante. "
-      facets:
-        unread: "Não lido"
-        unread_title: "Mostrar não lidas"
-        all: "Todos"
-        all_title: "Mostrar todas"
       center:
         label_actor_and: "e"
         and_more_users:
@@ -652,12 +640,13 @@ pt-BR:
           with_current_filter: "Não há notificações nesta visualização no momento"
         mark_all_read: "Marcar tudo como lido"
         mark_as_read: "Marcar como lido"
-        text_update_date: "%{date} por"
+        text_update_date_by: "%{date} por"
         total_count_warning: "Mostrando as %{newest_count} notificações mais recentes. Outras %{more_count} não são exibidas."
         empty_state:
           no_notification: "Parece que você já está com tudo em dia."
           no_notification_with_current_project_filter: "Parece que você já está com tudo me dia para o projeto selecionado."
           no_notification_with_current_filter: "Parece que você já está com tudo em dia para o filtro %{filter}."
+          no_notification_for_filter: "Parece que você já está com tudo em dia para este filtro."
           no_selection: "Clique em uma notificação para visualizar todos os detalhes da atividade."
         new_notifications:
           message: "Há novas notificações."
@@ -1197,6 +1186,9 @@ pt-BR:
         one: "1 dia"
         other: "%{count} dias"
         zero: "0 dias"
+      word:
+        one: "1 palavra"
+        other: "%{count} palavras"
     zen_mode:
       button_activate: "Ativar modo zen"
       button_deactivate: "Desativar modo zen"

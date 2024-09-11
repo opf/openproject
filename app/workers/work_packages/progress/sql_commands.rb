@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -80,6 +80,31 @@ module WorkPackages::Progress::SqlCommands
       SET done_ratio = statuses.default_done_ratio
       FROM statuses
       WHERE temp_wp_progress_values.status_id = statuses.id
+    SQL
+  end
+
+  def fix_remaining_work_set_with_100p_complete
+    execute(<<~SQL.squish)
+      UPDATE temp_wp_progress_values
+      SET estimated_hours = remaining_hours,
+          remaining_hours = 0
+      WHERE estimated_hours IS NULL
+        AND remaining_hours IS NOT NULL
+        AND done_ratio = 100
+    SQL
+  end
+
+  def derive_unset_work_from_remaining_work_and_p_complete
+    execute(<<~SQL.squish)
+      UPDATE temp_wp_progress_values
+      SET estimated_hours =
+        CASE done_ratio
+          WHEN 0 THEN remaining_hours
+          ELSE ROUND((remaining_hours * 100 / (100 - done_ratio))::numeric, 2)
+        END
+      WHERE estimated_hours IS NULL
+        AND remaining_hours IS NOT NULL
+        AND done_ratio IS NOT NULL
     SQL
   end
 

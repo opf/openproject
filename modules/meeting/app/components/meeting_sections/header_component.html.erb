@@ -2,7 +2,7 @@
   component_wrapper(class: "op-meeting-section-container", data: wrapper_data_attributes) do
     if @state == :show
       grid_layout('op-meeting-section', tag: :div) do |grid|
-        grid.with_area(:'drag-handle', tag: :div) do
+        grid.with_area(:'drag-handle', tag: :div, classes: "hide-when-print") do
           if editable?
             render(Primer::OpenProject::DragHandle.new(classes: 'handle'))
           end
@@ -19,7 +19,7 @@
             end
           end
         end
-        grid.with_area(:actions, tag: :div, justify_self: :end) do
+        grid.with_area(:actions, tag: :div, justify_self: :end, classes: "hide-when-print") do
           if editable?
             render(Primer::Alpha::ActionMenu.new(data: { test_selector: "meeting-section-action-menu" })) do |menu|
               menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("settings.project_attributes.label_section_actions"), scheme: :invisible)

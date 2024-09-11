@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -38,21 +38,30 @@
   label
     margin-bottom: 0
   input
-    border-radius: 6px
+    border-radius: var(--borderRadius-medium)
 
 action-menu
   anchored-position
     ul
       margin-left: 0
 
-ul.tabnav-tabs
-  margin-left: 0
+.UnderlineNav
+  @include no-visible-scroll-bar
+  margin-bottom: 12px
+
+  @media screen and (min-width: $breakpoint-sm)
+    scroll-behavior: smooth
 
 /* Remove margin-left: 2rem from Breadcrumbs */
 #breadcrumb,
-page-header
-  ol
+page-header,
+sub-header,
+.op-work-package-details-tab-component,
+.tabnav
+  ol, ul
     margin-left: 0
+
+#breadcrumb
   .breadcrumb-item.breadcrumb-item-selected
     a
       pointer-events: none
@@ -73,6 +82,11 @@ page-header
     .FormControl-horizontalGroup
       flex-direction: column
       row-gap: 1rem
+
+// Todo: Fix this as soon as possible in the primer repo!
+.SubHeader-leftPane
+  [class*="FormControl-input-width--"]:not(.FormControl-input-width--auto)
+    width: 100vw
 
 .Button.op-app-header--primer-button,
 .Button.op-app-header--primer-button .Button-visual

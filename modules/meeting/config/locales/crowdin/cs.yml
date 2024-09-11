@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -123,8 +123,9 @@ cs:
       agenda: "Kopírovat program"
       agenda_text: "Zkopírujte program staré schůzky"
     email:
-      send_emails: "Odeslat e-maily"
-      send_invitation_emails: "Send out invitation emails for all participants."
+      send_emails: "Email participants"
+      send_invitation_emails: >
+        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Otevřít schůzku"
       invited:
         summary: "%{actor} vám poslal pozvánku na schůzku %{title}"
@@ -149,6 +150,7 @@ cs:
     empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Oznámení bylo úspěšně odesláno"
   notice_timezone_missing: Není nastaveno žádné časové pásmo a předpokládá se %{zone} . Chcete-li vybrat časové pásmo, klikněte prosím zde.
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "Vytvořit schůzku\n"
   permission_edit_meetings: "Upravit schůzku"
   permission_delete_meetings: "Odstranit schůzky"
@@ -180,6 +182,7 @@ cs:
   label_meeting_delete: "Smazat schůzku"
   label_meeting_created_by: "Vytvořil"
   label_meeting_last_updated: "Naposledy aktualizováno"
+  label_meeting_reload: "Obnovit"
   label_agenda_items: "Bod programu"
   label_agenda_items_reordered: "přeřazeno"
   label_agenda_item_remove: "Odebrat z programu"

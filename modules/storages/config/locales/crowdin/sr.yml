@@ -21,6 +21,8 @@ sr:
               only_numeric_or_uuid: can only be numeric or uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: is not available for this storage.
             project_ids:
@@ -29,7 +31,7 @@ sr:
           attributes:
             host:
               authorization_header_missing: is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
-              cannot_be_connected_to: can not be connected to.
+              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
               minimal_nextcloud_version_unmet: does not meet minimal version requirements (must be Nextcloud 23 or higher)
               not_nextcloud_server: is not a Nextcloud server
               op_application_not_installed: appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
@@ -57,15 +59,18 @@ sr:
   permission_write_files: 'Automatically managed project folders: Write files'
   project_module_storages: Files
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Automatically managed
       inactive: No specific folder
       manual: Existing folder manually managed
     remove_project:
+      deletion_failure_flash: Failed to remove the project from the storage. %{error}
       dialog:
         automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
         confirmation_text: Please, confirm you understand and want to remove this file storage from this project
-        heading: Remove project from %{storage_type}
+        heading_text: Remove project from %{storage}
         text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
       label: Remove project
   services:
@@ -86,6 +91,12 @@ sr:
         rename_project_folder: 'Rename managed project Folder:'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
+          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
+          not_found: The source template location %{source_path} wasn't found.
+          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -167,6 +178,9 @@ sr:
       nextcloud:
         group_folders_app: Group folders
         integration_app: Integration OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: This storage has an incomplete setup. Please, complete the setup before enabling it in multiple projects.
+      setup_incomplete_header: Storage setup incomplete
     error_invalid_provider_type: Please select a valid storage provider.
     file_storage_view:
       access_management:
@@ -303,16 +317,24 @@ sr:
     notice_successful_storage_connection: |-
       Storage connected successfully! Remember to activate the module and the specific storage in the project settings
       of each desired project to use it.
-    oauth_grant_nudge_modal:
+    oauth_access_granted_modal:
       access_granted: Access granted
-      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
-      body: To get access to the project folder you need to login to %{storage}.
+      project_settings:
+        access_granted_screen_reader: Access granted. You are now ready to use %{storage}
+        storage_ready: You are now ready to use %{storage}
+      storage_admin:
+        access_granted_screen_reader: Access granted. You are now ready to add projects to %{storage}
+        storage_ready: You are now ready to add projects to %{storage}
+    oauth_grant_nudge_modal:
       cancel_button_label: I will do it later
-      confirm_button_aria_label: Login to %{storage}
-      confirm_button_label: Login
+      heading: Login to %{provider_type} required
+      login_button_aria_label: Login to %{storage}
+      login_button_label: "%{provider_type} log in"
+      project_settings:
+        description: To get access to the project folder you need to login to %{storage}.
       requesting_access_to: Requesting access to %{storage}
-      storage_ready: You are now ready to use %{storage}
-      title: One more step...
+      storage_admin:
+        description: In order to add projects to this storage you need to be logged into %{provider_type}. Please, log in and try again.
     open_project_storage_modal:
       success:
         subtitle: You are being redirected

@@ -3,3 +3,19 @@ vi:
   plugin_openproject_job_status:
     name: "Tình trạng công việc OpenProject"
     description: "Danh sách và trạng thái của các công việc nền."
+  job_status_dialog:
+    download_starts: 'Quá trình tải xuống sẽ tự động bắt đầu.'
+    link_to_download: 'Hoặc %{link} để tải xuống.'
+    click_here: 'nhấn vào đây'
+    title: 'Trạng thái nhiệm vụ nền'
+    redirect: 'Bạn đang được chuyển hướng.'
+    redirect_link: 'Vui lòng nhấp vào đây để tiếp tục.'
+    redirect_errors: 'Do những lỗi này, bạn sẽ không được chuyển hướng tự động.'
+    errors: 'Đã xảy ra sự cố'
+    generic_messages:
+      not_found: 'Không thể tìm thấy công việc này.'
+      in_queue: 'Công việc đã được xếp hàng đợi và sẽ sớm được xử lý.'
+      in_process: 'Công việc hiện đang được xử lý.'
+      error: 'Không thể hoàn thành công việc.'
+      cancelled: 'Công việc đã bị hủy do lỗi.'
+      success: 'Công việc đã hoàn thành.'

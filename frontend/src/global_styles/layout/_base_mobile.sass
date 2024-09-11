@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -66,9 +66,6 @@
     padding-left: 15px
     padding-right: 15px
 
-  #content-bodyRight
-    display: none
-
   #main
     grid-template-columns: auto
 
@@ -86,6 +83,17 @@
 @media screen and (max-width: $breakpoint-md)
   .hidden-for-tablet
     display: none !important
+
+@media screen and (max-width: $breakpoint-lg)
+  #content:has(#content-bodyRight > *)
+    grid-template-columns: 1fr auto
+
+  // As soon as the split screen has content (so basically when its opened), it takes the available whole space
+  #content-bodyRight:has(*)
+    grid-column: 1 / 3
+    grid-row: 1 / 3
+    background-color: var(--body-background)
+    z-index: 1
 
 @media screen and (max-width: $breakpoint-lg) and (min-width: $breakpoint-sm)
   .hidden-for-tablet-and-small-laptops

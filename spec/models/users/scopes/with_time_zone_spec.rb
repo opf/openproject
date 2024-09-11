@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -78,6 +78,7 @@ RSpec.describe Users::Scopes::WithTimeZone do
       preferences: { time_zone: "" }
     )
   end
+  shared_let(:anonymous) { User.anonymous }
 
   describe ".with_time_zone" do
     it "returns user having set a time zone in their preference matching the specified time zone(s)" do
@@ -119,7 +120,12 @@ RSpec.describe Users::Scopes::WithTimeZone do
       it "assumes Etc/UTC as default time zone",
          with_settings: { user_default_timezone: nil } do
         expect(User.with_time_zone("Etc/UTC"))
-          .to contain_exactly(user_without_preferences, user_without_time_zone, user_with_empty_time_zone)
+          .to contain_exactly(
+            user_without_preferences,
+            user_without_time_zone,
+            user_with_empty_time_zone,
+            anonymous
+          )
       end
     end
   end

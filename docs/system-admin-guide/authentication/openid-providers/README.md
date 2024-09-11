@@ -20,17 +20,26 @@ To activate and configure OpenID providers in OpenProject, navigate to *Administ
 
 To add a new OpenID provider, click the green **+ OpenID provider** button.
 
-![Sys-admin-authentication-openid-provider](Sys-admin-authentication-openid-provider.png)
+![OpenID providers in OpenProject administration](openproject_system-admin-guide_authentication_openid_provider.png)
 
 You can configure the following options.
 
 1. Choose **Google** or **Azure** to add as an OpenID provider to OpenProject.
+
 2. Optionally enter a **display name**.
+
 3. Enter the **Identifier**.
+
 4. Enter the **Secret**.
+
 5. Optionally, if you want to honor the system-wide self-registration setting, enable "Limit self registration".
-When checked, users will be created according to the [self-registration setting](../authentication-settings).
-6. Press the **create** button.
+  When checked, users will be created according to the [self-registration setting](../authentication-settings).
+
+6. Set the **tenant** of your Azure endpoint. This will control who gets access to the OpenProject instance. For more information, please see [our user guide on Azure OpenID connect](#azure-active-directory)
+
+7. Press the **create** button.
+
+   ![Add a new OpenID provider in OpenProject administration](openproject_system-admin-guide_authentication_openid_provider_new.png)
 
 ## Google Workspace
 
@@ -87,13 +96,14 @@ After pressing **CREATE** you will get a pop-up window like the following
    2. **Display Name** (e.g. **EXAMPLE.COM SSO**)
    3. **Identifier** (**Client ID** from step 2)
    4. **Secret** (**Client Secret** from step 2)
+   5. Enable **Limit self registration** option
 3. Press **Create**
 
-![g6-add-new-openid-provider-google](g6-add-new-openid-provider-google.png)
+![Add a new OpenID Gogole provider in OpenProject administration](openproject_system-admin-guide_authentication_openid_provider_new_google.png)
 
 4. The following green notification **Successful creation** should appear
 
-![g7-successful-creation-google](g7-successful-creation-google.png)
+![Successful OpenID creation message in OpenProject administration](openproject_system-admin-guide_authentication_openid_provider_new_google_successful_message.png)
 
 ## Azure Active Directory
 
@@ -133,7 +143,7 @@ You can now click on "Certificates & secret".
 
 ![Azure Active Directory Certificates](06-certificates.png)
 
-Then click on "New client secret", set the description to "client_secret", and the expiration to "never". Then click on "Add".
+Then click on "New client secret", set the description to "client_secret", and the expiration to "730 days (24 months)". Then click on "Add".
 
 ![Azure Active Directory New Client Secret](07-client-secret.png)
 

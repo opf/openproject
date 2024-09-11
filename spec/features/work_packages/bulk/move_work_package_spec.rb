@@ -78,7 +78,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
         expect(child_wp.project_id).to eq(project.id)
 
         context_menu.open_for work_package
-        context_menu.choose "Change project"
+        context_menu.choose "Move to another project"
 
         # On work packages move page
         expect(page).to have_css("#new_project_id")
@@ -98,9 +98,8 @@ RSpec.describe "Moving a work package through Rails view", :js do
         it "copies them in the background and shows a status page", :with_cuprite do
           click_on "Move and follow"
           wait_for_reload
-          page.find_test_selector("job-status--header")
 
-          expect(page).to have_text "The job has been queued and will be processed shortly."
+          expect(page).to have_text("The job has been queued and will be processed shortly.", wait: 10)
 
           perform_enqueued_jobs
 
@@ -179,7 +178,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
 
       it "does not allow to move" do
         context_menu.open_for work_package
-        context_menu.expect_no_options "Change project"
+        context_menu.expect_no_options "Move to another project"
       end
     end
   end

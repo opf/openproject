@@ -3,9 +3,9 @@
 $ian-bg-color: var(--body-background)
 $ian-bg-hover-color: var(--bgColor-neutral-muted)
 $ian-bg-read-color: var(--bgColor-muted)
-$ian-bg-read-hover-color: hsl(from $ian-bg-read-color h s calc(l - 0.07))
-$ian-bg-selected-color: var(--selection-bgColor)
-$ian-bg-selected-hover-color: hsl(from var(--selection-bgColor) h calc(s - 30) l)
+$ian-bg-read-hover-color: hsl(from var(--bgColor-neutral-muted) h s calc(l - 0.5))
+$ian-bg-selected-color: var(--codeMirror-selection-bgColor)
+$ian-bg-selected-hover-color: hsl(from var(--codeMirror-selection-bgColor) h calc(s - 30) l)
 // This needs to be set in the itemSize of
 // the virtual scroller
 $ian-height: 100px
@@ -22,6 +22,9 @@ $subject-font-size: 14px
 
   &:hover
     background: $ian-bg-hover-color
+
+  &:first-child
+    border-top: none
 
   &:last-of-type
     border-bottom: 1px solid var(--borderColor-default)
@@ -54,7 +57,7 @@ $subject-font-size: 14px
     grid-template-areas: "status wpIdLink project reason count buttons"
     grid-column-gap: 5px
     font-size: var(--body-font-size)
-    align-items: center
+    align-items: baseline
 
   &--middle-line
     grid-area: body

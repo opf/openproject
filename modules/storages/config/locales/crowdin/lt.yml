@@ -21,6 +21,8 @@ lt:
               only_numeric_or_uuid: gali būti tik skaitinis ar uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: negalimas šiai saugyklai.
             project_ids:
@@ -29,7 +31,7 @@ lt:
           attributes:
             host:
               authorization_header_missing: nėra pilnai nustatytas. Nextcloud egzempliorius negauna „Autorizacijos“ antraštės, kuri būtina Turėtojo žetonu paremtoms autorizacijos API užklausoms. Prašome patikrinti jūsų HTTP serverio konfigūraciją.
-              cannot_be_connected_to: negali būti prijungtas prie.
+              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
               minimal_nextcloud_version_unmet: neatitinka minimalių versijos reikalavimų (turi būti Nextcloud 23 ar aukštesnis)
               not_nextcloud_server: nėra Nextcloud serveris
               op_application_not_installed: panašu neturi įdiegtos „OpenProject integracijos“ aplikacijos. Prašome ją įdiegti ir bandyti dar kartą.
@@ -57,15 +59,18 @@ lt:
   permission_write_files: 'Automatiškai valdomi projekto aplankai: Rašyti failus'
   project_module_storages: Failai
   project_storages:
+    edit_project_folder:
+      label: Edit project folder
     project_folder_mode:
       automatic: Automatically managed
       inactive: Jokio konkretaus aplanko
       manual: Existing folder manually managed
     remove_project:
+      deletion_failure_flash: Failed to remove the project from the storage. %{error}
       dialog:
         automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
         confirmation_text: Please, confirm you understand and want to remove this file storage from this project
-        heading: Remove project from %{storage_type}
+        heading_text: Remove project from %{storage}
         text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
       label: Remove project
   services:
@@ -86,6 +91,12 @@ lt:
         rename_project_folder: 'Rename managed project Folder:'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
+          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
+          not_found: The source template location %{source_path} wasn't found.
+          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -167,6 +178,9 @@ lt:
       nextcloud:
         group_folders_app: Group folders
         integration_app: Integration OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: This storage has an incomplete setup. Please, complete the setup before enabling it in multiple projects.
+      setup_incomplete_header: Storage setup incomplete
     error_invalid_provider_type: Prašome pažymėti tinkamą saugyklos tiekėją.
     file_storage_view:
       access_management:
@@ -302,16 +316,24 @@ lt:
     no_results: Dar nenustatyta jokia saugykla.
     notice_successful_storage_connection: |-
       Saugykla sėkmingai prijungta! Nepamirškite aktyvuoti modulį ir konkrečią saugyklą visų projektų, kuriuose norite ją naudoti, nustatymuose.
+    oauth_access_granted_modal:
+      access_granted: Access granted
+      project_settings:
+        access_granted_screen_reader: Access granted. You are now ready to use %{storage}
+        storage_ready: You are now ready to use %{storage}
+      storage_admin:
+        access_granted_screen_reader: Access granted. You are now ready to add projects to %{storage}
+        storage_ready: You are now ready to add projects to %{storage}
     oauth_grant_nudge_modal:
-      access_granted: Prieiga suteikta
-      access_granted_screen_reader: Prieiga suteikta. Dabar galite naudotis %{storage}.
-      body: Kad gautumėte prieigą prie projekto aplanko, jums reikia prisijungti prie %{storage}.
       cancel_button_label: Aš tai padarysiu vėliau
-      confirm_button_aria_label: Prisijungti prie %{storage}
-      confirm_button_label: Prisijungti
+      heading: Login to %{provider_type} required
+      login_button_aria_label: Login to %{storage}
+      login_button_label: "%{provider_type} log in"
+      project_settings:
+        description: To get access to the project folder you need to login to %{storage}.
       requesting_access_to: Prašoma prieigos prie %{storage}
-      storage_ready: Jūs dabar pasiruošę naudoti %{storage}
-      title: Dar vienas žingsnis...
+      storage_admin:
+        description: In order to add projects to this storage you need to be logged into %{provider_type}. Please, log in and try again.
     open_project_storage_modal:
       success:
         subtitle: Jūs peradresuojami

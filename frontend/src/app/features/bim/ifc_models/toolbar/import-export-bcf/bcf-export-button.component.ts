@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -37,8 +37,9 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { StateService } from '@uirouter/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { WpTableExportModalComponent } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { JobStatusModalService } from 'core-app/features/job-status/job-status-modal.service';
 
 @Component({
   template: `
@@ -67,8 +68,10 @@ export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnI
     readonly bcfPathHelper:BcfPathHelperService,
     readonly querySpace:IsolatedQuerySpace,
     readonly queryUrlParamsHelper:UrlParamsHelperService,
-    readonly opModalService:OpModalService,
+    readonly jobStatusModalService:JobStatusModalService,
+    readonly httpClient:HttpClient,
     readonly injector:Injector,
+    readonly toastService:ToastService,
     readonly state:StateService) {
     super();
   }
@@ -92,7 +95,22 @@ export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnI
   }
 
   public showDelayedExport(event:any) {
-    this.opModalService.show(WpTableExportModalComponent, this.injector, { link: this.exportLink });
+    this.requestExport(this.exportLink);
+
     event.preventDefault();
+  }
+
+  private requestExport(url:string):void {
+    this
+      .httpClient
+      .get(url, { observe: 'body', responseType: 'json' })
+      .subscribe(
+        (json:{ job_id:string }) => this.jobStatusModalService.show(json.job_id),
+        (error:HttpErrorResponse) => this.handleError(error),
+      );
+  }
+
+  private handleError(error:HttpErrorResponse) {
+    this.toastService.addError(error.message || this.I18n.t('js.error.internal'));
   }
 }

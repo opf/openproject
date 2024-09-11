@@ -25,7 +25,9 @@
             section.with_footer_button(
               tag: :a,
               href: change_state_meeting_path(@meeting, state: 'closed'),
-              data: { 'turbo-stream': true, 'turbo-method': 'put' }
+              classes: "hide-when-print",
+              data: { 'turbo-stream': true, 'turbo-method': 'put' },
+              test_selector: "close-meeting-button"
             ) do |button|
               button.with_leading_visual_icon(icon: :unlock)
               t("label_meeting_close_action")
@@ -54,6 +56,7 @@
             section.with_footer_button(
               tag: :a,
               href: change_state_meeting_path(@meeting, state: 'open'),
+              classes: "hide-when-print",
               data: { 'turbo-stream': true, 'turbo-method': 'put' }
             ) do |button|
               button.with_leading_visual_icon(icon: :unlock)

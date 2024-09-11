@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -121,6 +121,12 @@ module Pages
         end
       end
 
+      def expect_page_link(text)
+        within ".op-pagination--pages" do
+          expect(page).to have_css("a.op-pagination--item-link", text:)
+        end
+      end
+
       def expect_filters_container_toggled
         expect(page).to have_css(".op-filters-form")
       end
@@ -130,7 +136,11 @@ module Pages
       end
 
       def expect_filter_set(filter_name)
-        expect(page).to have_css("li[filter-name='#{filter_name}']:not(.hidden)", visible: :hidden)
+        if filter_name == "name_and_identifier"
+          expect(page.find_by_id(filter_name).value).not_to be_empty
+        else
+          expect(page).to have_css("li[data-filter-name='#{filter_name}']:not(.hidden)", visible: :hidden)
+        end
       end
 
       def expect_filter_count(count)
@@ -179,40 +189,56 @@ module Pages
 
       def filter_by_active(value)
         set_filter("active", "Active", "is", [value])
-        apply_filters
+        wait_for_reload
       end
 
       def filter_by_public(value)
         set_filter("public", "Public", "is", [value])
-        apply_filters
+        wait_for_reload
       end
 
       def filter_by_favored(value)
         set_filter("favored", "Favorite", "is", [value])
-        apply_filters
+        wait_for_reload
       end
 
       def filter_by_membership(value)
         set_filter("member_of", "I am member", "is", [value])
-        apply_filters
+        wait_for_reload
       end
 
-      def set_filter(name, human_name, human_operator = nil, values = [])
-        select human_name, from: "add_filter_select"
-        selected_filter = page.find("li[filter-name='#{name}']")
+      def filter_by_name_and_identifier(value, send_keys: false)
+        set_name_and_identifier_filter([value], send_keys:)
+        wait_for_reload
+      end
 
+      def set_filter(name, human_name, human_operator = nil, values = [], send_keys: false)
+        if name == "name_and_identifier"
+          set_simple_filter(name, values, send_keys:)
+        else
+          set_advanced_filter(name, human_name, human_operator, values, send_keys:)
+        end
+      end
+
+      def set_simple_filter(_name, values, send_keys: false)
+        return unless values.any?
+
+        set_name_and_identifier_filter(values, send_keys:) # This is the only one simple filter at the moment.
+      end
+
+      def set_advanced_filter(name, human_name, human_operator = nil, values = [], send_keys: false)
+        select human_name, from: "add_filter_select"
+        selected_filter = page.find("li[data-filter-name='#{name}']")
         select(human_operator, from: "operator") unless boolean_filter?(name)
 
         within(selected_filter) do
           return unless values.any?
 
-          if name == "name_and_identifier"
-            set_name_and_identifier_filter(values)
-          elsif boolean_filter?(name)
+          if boolean_filter?(name)
             set_toggle_filter(values)
           elsif name == "created_at"
             select(human_operator, from: "operator")
-            set_created_at_filter(human_operator, values)
+            set_created_at_filter(human_operator, values, send_keys:)
           elsif /cf_\d+/.match?(name)
             select(human_operator, from: "operator")
             set_custom_field_filter(selected_filter, human_operator, values)
@@ -221,13 +247,10 @@ module Pages
       end
 
       def remove_filter(name)
-        page.find("li[filter-name='#{name}'] .filter_rem").click
-      end
-
-      def apply_filters
-        within(".advanced-filters--filters") do
-          click_on "Apply"
-          wait_for_network_idle
+        if name == "name_and_identifier"
+          page.find_by_id("name_and_identifier").find(:xpath, "following-sibling::button").click
+        else
+          page.find("li[data-filter-name='#{name}'] .filter_rem").click
         end
       end
 
@@ -246,29 +269,46 @@ module Pages
         end
       end
 
-      def set_name_and_identifier_filter(values)
-        fill_in "value", with: values.first
-      end
-
-      def set_created_at_filter(human_operator, values)
-        case human_operator
-        when "on", "less than days ago", "more than days ago", "days ago"
-          fill_in "value", with: values.first
-        when "between"
-          fill_in "from_value", with: values.first
-          fill_in "to_value", with: values.second
+      def set_name_and_identifier_filter(values, send_keys: false)
+        if send_keys
+          find_field("name_and_identifier").send_keys values.first
+        else
+          fill_in "name_and_identifier", with: values.first
         end
       end
 
-      def set_custom_field_filter(selected_filter, human_operator, values)
-        if selected_filter[:"filter-type"] == "list_optional"
+      def set_created_at_filter(human_operator, values, send_keys: false)
+        case human_operator
+        when "on", "less than days ago", "more than days ago", "days ago"
+          if send_keys
+            find_field("value").send_keys values.first
+          else
+            fill_in "value", with: values.first
+          end
+        when "between"
+          if send_keys
+            find_field("from_value").send_keysvalues.first
+            find_field("to_value").send_keys values.second
+          else
+            fill_in "from_value", with: values.first
+            fill_in "to_value", with: values.second
+          end
+        end
+      end
+
+      def set_custom_field_filter(selected_filter, human_operator, values, send_keys: false)
+        if selected_filter[:"data-filter-type"] == "list_optional"
           if values.size == 1
             value_select = find('.single-select select[name="value"]')
             value_select.select values.first
           end
-        elsif selected_filter[:"filter-type"] == "date"
+        elsif selected_filter[:"data-filter-type"] == "date"
           if human_operator == "on"
-            fill_in "value", with: values.first
+            if send_keys
+              find_field("value").send_keys values.first
+            else
+              fill_in "value", with: values.first
+            end
           end
         end
       end
@@ -276,6 +316,7 @@ module Pages
       def open_filters
         retry_block do
           toggle_filters_section
+          expect(page).to have_css(".op-filters-form.-expanded")
           page.find_field("Add filter", visible: true)
         end
       end
@@ -402,8 +443,22 @@ module Pages
         find(".generic-table--sort-header a", text: column_name.upcase).click
       end
 
+      def expect_sort_order_via_table_header(column_name, direction:)
+        raise ArgumentError, "direction should be :asc or :desc" unless %i[asc desc].include?(direction)
+
+        find(".generic-table--sort-header .#{direction} a", text: column_name.upcase)
+      end
+
       def set_page_size(size)
-        find(".op-pagination--options .op-pagination--item", text: size).click
+        within ".op-pagination--options" do
+          find(".op-pagination--item", text: size).click
+        end
+      end
+
+      def expect_page_size(size)
+        within ".op-pagination--options" do
+          expect(page).to have_css(".op-pagination--item_current", text: size)
+        end
       end
 
       def go_to_page(page_number)

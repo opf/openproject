@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,10 +53,6 @@ module Pages
     def paste_clipboard_content
       meta_key = osx? ? :command : :control
       page.send_keys(meta_key, "v")
-    end
-
-    def expect_tab_not_present
-      expect(page).to have_no_css(".op-tab-row--link", text: "GITHUB")
     end
 
     private

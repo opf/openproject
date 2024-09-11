@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -209,10 +209,12 @@ zh-CN:
     reorder_confirmation: "警告：可用值的当前顺序将丢失。是否继续？"
     instructions:
       is_required: "将自定义字段标记为必填项。这将使在创建新资源或更新现有资源时，填写该字段成为强制要求。"
+      is_required_for_project: "选中可启用此属性，并使其成为所有项目的必选项。单个项目不能停用该属性。"
       is_for_all: "将自定义字段标记为在所有现有项目和新项目中可用。"
       searchable: "使用全局搜索功能时包含字段值。"
+      searchable_for_project: "选中可将此属性作为项目列表中的过滤器。"
       editable: "允许用户自行编辑该字段。"
-      visible: "在项目概览中显示所有用户(非管理员)的字段，并显示在项目概览中的项目细节微件中。"
+      admin_only: "选中使此属性仅对管理员可见。没有管理员权限的用户将无法查看或编辑该属性。"
       is_filter: >
         允许在工作包视图中使用自定义字段。 请注意，只有选择了“所有项目”时，自定义字段才会显示在全局视图中。
     tab:
@@ -259,6 +261,9 @@ zh-CN:
       open_as_gantt: "以甘特视图打开"
       no_results_title_text: 目前没有项目。
       no_results_content_text: 创建一个新的项目
+      search:
+        label: 项目名称过滤器
+        placeholder: 按项目名称搜索
     lists:
       active: "有效项目"
       my: "我的项目"
@@ -292,7 +297,7 @@ zh-CN:
         actions:
           label_enable_single: "在此项目中处于活动状态，点击禁用"
           label_disable_single: "在此项目中未启用，点击启用"
-          deactivate_for_project: "停用此项目"
+          remove_from_project: "从项目移除"
           label_enable_all: "全部启用"
           label_disable_all: "全部禁用"
         is_required_blank_slate:
@@ -608,7 +613,7 @@ zh-CN:
         possible_values: "可能的值"
         regexp: "正则表达式"
         searchable: "可搜索"
-        visible: "可见"
+        admin_only: "仅管理员"
       custom_value:
         value: "值"
       doorkeeper/application:
@@ -678,6 +683,7 @@ zh-CN:
         versions: "版本"
         work_packages: "工作包"
       project_custom_field:
+        is_required: "在所有项目中应用"
         custom_field_section: 单元
       query:
         column_names: "列"
@@ -1022,6 +1028,12 @@ zh-CN:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "工时与剩余工时不匹配"
+              cannot_be_set_when_work_is_zero: "当工时为 0h 时无法设置"
+              must_be_set_when_remaining_work_is_set: "设置“剩余工时”时必填。"
+              must_be_set_when_work_and_remaining_work_are_set: "设置“工时”和“剩余工时”时必填。"
+              inclusion: "必须介于 0 和 100 之间。"
             due_date:
               not_start_date: "不是在开始日期开始，尽管这是必需的里程碑。"
               cannot_be_null: "无法设置为 null，因为开始日期和持续时间已知。"
@@ -1051,14 +1063,16 @@ zh-CN:
             estimated_hours:
               not_a_number: "不是有效的持续时间。"
               cant_be_inferior_to_remaining_work: "不能低于剩余工时。"
-              must_be_set_when_remaining_work_is_set: "必须在设置 \"剩余工时 \"时设置。"
-              only_values_greater_or_equal_zeroes_allowed: "必须 > = 0。"
-              format: "%{message}"
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "设置“剩余工时”和“完成%”时必填。"
             remaining_hours:
               not_a_number: "不是有效的持续时间。"
               cant_exceed_work: "不能高于工时。"
-              must_be_set_when_work_is_set: "当设置工时需要。"
-              format: "%{message}"
+              must_be_set_when_work_is_set: "设置“工时”时必填。"
+              must_be_set_when_work_and_percent_complete_are_set: "设置“工时”和“完成%”时必填。"
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                当“工时”已设置，且“完成%”为 100% 时，必须为 0h 。
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                当“工时”为空，且“完成%”为 100% 时，必须为空。
           readonly_status: "工作包处于只读状态，因此无法更改其属性。"
         type:
           attributes:
@@ -1554,6 +1568,7 @@ zh-CN:
   error_pdf_failed_to_export: "无法保存被导出的 PDF 文件：%{error}"
   error_token_authenticity: "无法验证跨站请求伪造令牌。您是否曾尝试在多个浏览器或选项卡上提交数据？请关闭所有选项卡并重试。"
   error_work_package_not_found_in_project: "工作包找不到或不属于此项目"
+  error_work_package_id_not_found: "工作包未找到"
   error_must_be_project_member: "必须是项目成员"
   error_migrations_are_pending: "您的 OpenProject 安装具有待定的数据库迁移。您可能在上次升级时错过了迁移。请查阅升级指南，正确升级您的安装。"
   error_migrations_visit_upgrade_guides: "请访问我们的升级指南文档"
@@ -1595,9 +1610,71 @@ zh-CN:
       project: "项目： %{name}"
       subproject: "子项目：%{name}"
   export:
-    your_work_packages_export: "您的工作包导出"
-    succeeded: "导出已成功完成。"
-    failed: "导出失败: %{message}"
+    dialog:
+      title: "导出"
+      submit: "导出"
+      format:
+        label: "文件格式"
+        options:
+          csv:
+            label: "CSV"
+          pdf:
+            label: "PDF"
+          xls:
+            label: "XLS"
+      columns:
+        input_label_report: "添加列到属性表"
+        input_caption_report: "默认情况下，所有添加到当前工作包列表中的列都会被选中。长文本字段在属性表中不可用，但可以显示在其下方。"
+        input_caption_table: "默认情况下，所有添加到当前工作包列表中的列都会被选中。长文本字段在基于表格的导出中不可用。"
+      pdf:
+        export_type:
+          label: "PDF 导出类型"
+          options:
+            table:
+              label: "表格"
+              caption: "将工作包列表导出为包含所需列的表格。"
+            report:
+              label: "报告"
+              caption: "以详细报告的形式导出列表中的所有工作包。"
+            gantt:
+              label: "甘特图"
+              caption: "以甘特图视图导出工作包列表。"
+        include_images:
+          label: "包含图像"
+          caption: "不包含图像以减小导出PDF的大小。"
+        gantt_zoom_levels:
+          label: "缩放级别"
+          caption: "选择图表中显示日期的缩放级别。"
+          options:
+            days: "天"
+            weeks: "周"
+            months: "月"
+            quarters: "季度"
+        column_width:
+          label: "列宽"
+          options:
+            narrow: "窄"
+            medium: "正常"
+            wide: "宽"
+            very_wide: "非常宽"
+        paper_size:
+          label: "纸张大小"
+          caption: "根据图表大小，可能会导出不止一页。"
+        long_text_fields:
+          input_caption: "默认情况下，所有长文本字段都被选中。"
+          input_label: "添加长文本字段"
+          input_placeholder: "搜索长文本字段"
+          drag_area_label: "管理长文本字段"
+      xls:
+        include_relations:
+          label: "包含关系"
+          caption: "此选项将为每个与其他工作包有关系的工作包创建一个副本。"
+        include_descriptions:
+          label: "包含描述"
+          caption: "该选项将添加原始格式的描述列。"
+    your_work_packages_export: "正在导出工作包"
+    succeeded: "导出完成"
+    failed: "在尝试导出工作包时发生错误： %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1758,6 +1835,11 @@ zh-CN:
       responsible: "负责人"
       shared: "共享"
       watched: "关注人"
+    facets:
+      unread: "未读"
+      unread_title: "显示未读信息"
+      all: "全部"
+      all_title: "显示全部"
     menu:
       by_project: "未读项目"
       by_reason: "原因"
@@ -2117,6 +2199,8 @@ zh-CN:
   label_next_week: "下周"
   label_no_change_option: "（不变）"
   label_no_data: "没有要显示的数据"
+  label_no_due_date: "没有完成日期"
+  label_no_start_date: "没有开始日期"
   label_no_parent_page: "无父级页面"
   label_nothing_display: "不显示"
   label_nobody: "没人"
@@ -2241,6 +2325,8 @@ zh-CN:
   label_role_plural: "角色"
   label_role_search: "将角色分配给新成员"
   label_scm: "SCM"
+  label_scroll_left: "向左滚动"
+  label_scroll_right: "向右滚动"
   label_search: "搜索"
   label_search_by_name: "按名称搜索"
   label_send_information: "向用户发送新的凭据"
@@ -2989,8 +3075,10 @@ zh-CN:
   setting_work_package_done_ratio: "进度计算"
   setting_work_package_done_ratio_field: "基于工时"
   setting_work_package_done_ratio_status: "基于状态"
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    在<b>基于工时</b>模式下，“完成 %”是根据已完成的工时占总工时的比例计算出来的。在<b>基于状态</b>模式下，每个状态都有一个与之相关的“完成 %”。更改状态将改变“完成 %”。
   setting_work_package_done_ratio_explanation_html: >
-    在<b>基于工时</b>模式下，完成百分比是根据已完成的工时占总工时的比例计算出来的。在<b>基于状态</b>模式下，每个状态都有一个与之相关的完成百分比。更改状态将改变完成百分比。
+    在<b>基于工作的</b>模式下，“完成 %”可以自由设置为任何值。如果选择输入 "工时 "值，则会自动得出 "剩余工时"。在<b>基于状态的</b>模式下，每个状态都有一个与之相关的“完成 %”值。更改状态将改变“完成 %”。
   setting_work_package_properties: "工作包属性"
   setting_work_package_startdate_is_adddate: "使用当前日期作为新工作包的开始日期"
   setting_work_packages_projects_export_limit: "工作包/项目导出限制"
@@ -3371,9 +3459,26 @@ zh-CN:
     progress:
       label_note: "注意："
       modal:
-        work_based_help_text: "完成百分比由 \"工时\" 和 \"剩余工时\" 自动得出。"
+        work_based_help_text: "在可能的情况下，每个字段都会根据另外两个字段自动计算。"
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "“完成 %”由 \"工时\" 和 \"剩余工时\" 自动得出。"
         status_based_help_text: "完成百分比由工作包状态设定。"
         migration_warning_text: "在基于工时的进度计算模式下，完成百分比不能手动设置，而是与工时绑定。现有值已被保留，但无法编辑。请先输入工时。"
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "已清空，因为“剩余工时”为空。"
+          cleared_because_work_is_0h: "已清空，因为 \"工时 \"为 0h。"
+          derived: "源自“工时”和“剩余工时”。"
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "已清空，因为“剩余工时”为空。"
+          derived: "由“剩余工时”和“完成 %”得出"
+          same_as_remaining_work: "设置为与“剩余工时”相同的值。"
+        remaining_hours:
+          cleared_because_work_is_empty: "已清空，因为 \"工时 \"为空。"
+          cleared_because_percent_complete_is_empty: "已清空，因为“完成 %”为空。"
+          decreased_like_work: "减少与 \"工时 \"相同的数额。"
+          derived: "由“工时”和“完成 %”得出"
+          increased_like_work: "增加与 \"工时 \"相同的数额。"
+          same_as_work: "设置为与 \"工时 \"相同的值。"
     permissions:
       comment: "评论"
       comment_description: "可以查看和评论该工作包。"

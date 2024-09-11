@@ -9,7 +9,7 @@ ms:
     verify_account: "Sahkan akaun anda"
     error_captcha: "Akaun anda tidak dapat disahkan. Sila hubungi pentadbir."
     settings:
-      website_key: 'Kekunci laman web'
+      website_key: 'Website key (May also be called "Site key")'
       response_limit: 'Had tindak balas untuk HCaptcha'
       response_limit_text: 'Bilangan maksimum aksara bagi menganggap tindak balas HCaptcha sebagai sah.'
       website_key_text: 'Masukkan kekunci laman web yang anda telah ciptakan di konsol pentadbir bagi domain ini.'
@@ -20,5 +20,6 @@ ms:
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       type_hcaptcha: 'HCaptcha'
-      recaptcha_description_html: >
-        reCAPTCHA ialah perkhidmatan percuma oleh Google yang boleh didayakan untuk contoh OpenProject anda. Jika didayakan, borang captcha akan diberikan semasa log masuk semua pengguna yang masih belum mengesahkan captcha lagi. <br/> Sila lihat pautan berikut untuk butiran lebih tentang reCAPTCHA dan versi-versi mereka, dan bagaimana untuk ciptakan laman web serta kekunci rahsia: %{recaptcha_link} <br/> HCaptcha ialah alternatif percuma dari Google yang anda boleh gunakan jika anda tidak ingin menggunakan reCAPTCHA. Lihat pautan ini untuk maklumat lanjut: %{hcaptcha_link}
+      type_turnstile: 'Cloudflare Turnstile™'
+      captcha_description_html: >
+        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link} <br/> Cloudflare Turnstile™ is another alternative that is more convenient for users while still providing the same level of security. See this link for more information: %{turnstile_link}

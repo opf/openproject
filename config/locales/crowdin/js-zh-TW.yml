@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ zh-TW:
     button_back_to_list_view: "返回清單"
     button_cancel: "取消"
     button_close: "關閉"
-    button_change_project: "切換專案"
+    button_change_project: "移動到其它專案"
     button_check_all: "勾選全部"
     button_configure-form: "表單設定"
     button_confirm: "確認"
@@ -74,7 +74,7 @@ zh-TW:
     button_copy: "複製"
     button_copy_to_clipboard: "複製到剪貼簿"
     button_copy_link_to_clipboard: "複製到剪貼簿"
-    button_copy_to_other_project: "複製到其他專案"
+    button_copy_to_other_project: "複製到其它專案"
     button_custom-fields: "客製欄位"
     button_delete: "删除"
     button_delete_watcher: "刪除監看者"
@@ -138,6 +138,8 @@ zh-TW:
     description_select_work_package: "選取工作項目 #%{id}"
     description_subwork_package: "子工作項目 #%{id}"
     editor:
+      revisions: "顯示本機修改"
+      no_revisions: "本機未修改"
       preview: "切換預覽模式"
       source_code: "切換Markdown模式"
       error_saving_failed: "保存文件失敗, 出現以下錯誤: %{error}"
@@ -274,8 +276,10 @@ zh-TW:
         warning: >
           更改可能需要一些時間才能生效。當更新完所有相關工作包時，您將收到通知。
       work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          將進度計算模式從基於狀態更改為基於工作將使<i>完成百分比</i>成為不可編輯，其值源自<i>工時</i>和<i>剩餘工時</i >。 <i>% Complete</i> 的現有值將會保留。如果<i>工時</i>和<i>剩餘工時</i>的值不存在，則需要更改它們'才能修改<i>完成百分比</i>。
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          將進度計算模式從基於狀態改為基於工作，將使<i>完成百分比</i>成為不可編輯字段，其值來自<i>工作</i>和<i>剩餘工時</i>。<i>完成百分比</i>的現有值將保留。如果沒有 "<i>工時</i>"和 "剩餘<i>工作</i>"的值，則需要這些值才能更改 "完成<i>百分比</i>"。
+          將進度計算模式從基於狀態變更為基於工作將使<i>完成百分比</i>欄位可自由編輯。如果您選擇輸入<i>工時</i>或<i>剩餘工時</i>，它們也會連結到<i>完成百分比</i>。更改<i>剩餘工作</i>可以更新<i>完成百分比</i>。
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           將進度計算模式從基於工時的方式改為基於狀態，將會導致所有現有的 <i>%完整的</i> 值丟失，並被與每個狀態相關的值所替代。 <i>剩餘工時</i> 的現有值也可能被重新計算，以反映這種變化。此操作不可逆轉。
     custom_actions:
@@ -334,18 +338,6 @@ zh-TW:
         years: "年"
         description: >
           選擇初始縮放級別，當自動縮放無法顯示。
-      export:
-        title: "甘特圖 PDF 選項"
-        button_export: "匯出"
-        column_widths:
-          narrow: "窄"
-          medium: "中"
-          wide: "寬"
-          very_wide: "非常寬"
-        options:
-          date_zoom: "日期縮放"
-          paper_size: "紙張大小"
-          column_widths: "列寬"
     general_text_no: "否"
     general_text_yes: "是"
     general_text_No: "否"
@@ -364,10 +356,10 @@ zh-TW:
           learn_about: "瞭解更多新功能的資訊"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                該版本含有各種新的功能和改進。 例如： <br> <ul class="%{list_styling_class}"> <li>個人設置中的暗色模式選項</li> <li>項目屬性的獨立查看和編輯權限</li> <li>改進基於狀態的進度報告</li> <li>Nextcloud存儲的連接驗證</li> <li>項目列表的更多過濾選項</li> </ul>
+                該版本包含多種新功能和改進，例如： <br> <ul class="%{list_styling_class}"> <li>保留並還原所見及所得內容變更之單機版本。</li> <li>一次啟用多個專案的儲存空間。</li> <li>以更新的模組匯出工作項目，並提供額外的設定。</li> <li>在專案清單中顯示自訂欄位列/篩選器，也適用於社群版。</li> <li>支援 CloudFlare Turnstile 作為 Captcha。</li> </ul>
     ical_sharing_modal:
       title: "訂閱日曆"
       inital_setup_error_message: "更新資料時發生錯誤"
@@ -408,6 +400,7 @@ zh-TW:
     label_create: "建立"
     label_create_work_package: "建立新的工作項目"
     label_created_by: "建立者："
+    label_current: "目前"
     label_date: "日期"
     label_date_with_format: "輸入 %{date_attribute} 使用以下格式: %{format}"
     label_deactivate: "停用"
@@ -636,11 +629,6 @@ zh-TW:
         upsale:
           title: "日期提醒"
           description: "透過日期提醒，您將收到相關通知，這樣您就不會錯過或忘記重要的日期。"
-      facets:
-        unread: "未讀"
-        unread_title: "顯示未讀"
-        all: "全部"
-        all_title: "顯示全部"
       center:
         label_actor_and: "和"
         and_more_users:
@@ -650,12 +638,13 @@ zh-TW:
           with_current_filter: "目前此檢視中沒有任何通知"
         mark_all_read: "全部標示為已讀"
         mark_as_read: "標記為已讀"
-        text_update_date: "%{date}，"
+        text_update_date_by: "%{date} 依"
         total_count_warning: "正在顯示 %{newest_count} 條最新通知。還有 %{more_count} 條未顯示。"
         empty_state:
           no_notification: "看起來您已查看所有通知。"
           no_notification_with_current_project_filter: "看起來您已查看所選專案的所有通知。"
           no_notification_with_current_filter: "看起來您已查看“%{filter}”篩選條件的所有通知。"
+          no_notification_for_filter: "看起來你已經處理完了這個篩選器的所有內容。"
           no_selection: "點擊通知可查看所有活動詳細信息。"
         new_notifications:
           message: "您有新的通知"
@@ -1193,6 +1182,8 @@ zh-TW:
         one: "1 天"
         other: "%{count} 天"
         zero: "0 天"
+      word:
+        other: "%{count} 字節"
     zen_mode:
       button_activate: "啟動 zen 模式"
       button_deactivate: "停用 zen 模式"

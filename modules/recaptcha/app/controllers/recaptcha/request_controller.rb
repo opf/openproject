@@ -1,4 +1,5 @@
 require "recaptcha"
+require "net/http"
 
 module ::Recaptcha
   class RequestController < ApplicationController
@@ -30,13 +31,15 @@ module ::Recaptcha
     def perform
       if OpenProject::Recaptcha::Configuration.use_hcaptcha?
         use_content_security_policy_named_append(:hcaptcha)
-      else
+      elsif OpenProject::Recaptcha::Configuration.use_turnstile?
+        use_content_security_policy_named_append(:turnstile)
+      elsif OpenProject::Recaptcha::Configuration.use_recaptcha?
         use_content_security_policy_named_append(:recaptcha)
       end
     end
 
     def verify
-      if valid_recaptcha?
+      if valid_turnstile? || valid_recaptcha?
         save_recaptcha_verification_success!
         complete_stage_redirect
       else
@@ -72,6 +75,8 @@ module ::Recaptcha
         2
       when ::OpenProject::Recaptcha::TYPE_V3
         3
+      when ::OpenProject::Recaptcha::TYPE_TURNSTILE
+        99 # Turnstile is not comparable/compatible with recaptcha
       end
     end
 
@@ -84,6 +89,29 @@ module ::Recaptcha
       end
 
       verify_recaptcha call_args
+    end
+
+    ##
+    #
+    def valid_turnstile?
+      return false unless OpenProject::Recaptcha::Configuration.use_turnstile?
+      token = params["turnstile-response"]
+      return false if token.blank?
+
+      data = {
+        "response" => token,
+        "remoteip" => request.remote_ip,
+        "secret" => recaptcha_settings["secret_key"],
+      }
+
+      data_encoded = URI.encode_www_form(data)
+
+      response = Net::HTTP.post_form(
+        URI("https://challenges.cloudflare.com/turnstile/v0/siteverify"),
+        data
+      )
+      response = JSON.parse(response.body)
+      response["success"]
     end
 
     ##

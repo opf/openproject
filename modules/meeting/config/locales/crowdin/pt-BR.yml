@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -121,8 +121,9 @@ pt-BR:
       agenda: "Copiar agenda"
       agenda_text: "Copiar a agenda da antiga reunião"
     email:
-      send_emails: "Enviar e-mails"
-      send_invitation_emails: "Envie e-mails de convite para todos os participantes."
+      send_emails: "Enviar e-mail aos participantes"
+      send_invitation_emails: >
+        Envie um convite por e-mail imediatamente para os participantes selecionados acima. Você também pode enviar convites manualmente a qualquer momento no futuro.
       open_meeting_link: "Abrir reunião"
       invited:
         summary: "%{actor} enviou a você um convite para a reunião %{title}"
@@ -147,6 +148,7 @@ pt-BR:
     empty_text: "Arraste itens para cá ou crie um novo."
   notice_successful_notification: "Notificação enviada com sucesso"
   notice_timezone_missing: Nenhum fuso horário está definido, portanto assumiu-se %{zone}. Para escolher o seu fuso horário, clique aqui.
+  notice_meeting_updated: "Esta página foi atualizada por outra pessoa. Recarregue para ver as alterações."
   permission_create_meetings: "Criar reuniões"
   permission_edit_meetings: "Editar reuniões"
   permission_delete_meetings: "Excluir reuniões"
@@ -170,7 +172,7 @@ pt-BR:
   text_meeting_minutes_for_meeting: 'ata da reunião "%{meeting}"'
   text_notificiation_invited: "Este e-mail contém uma entrada de ics para a reunião abaixo:"
   text_meeting_empty_heading: "Sua reunião está vazia"
-  text_meeting_empty_description_1: "Comece adicionando itens da agenda abaixo. Cada item pode ser tão simples quanto apenas um título, mas você também pode adicionar detalhes adicionais, como duração, anotações e uma pessoa responsável."
+  text_meeting_empty_description_1: "Comece adicionando os itens da agenda abaixo. Cada item pode ser apenas um título simples, mas você também pode incluir detalhes adicionais, como duração, anotações e um responsável."
   text_meeting_empty_description_2: 'Você também pode adicionar referências aos pacotes de trabalho existentes. Quando você fizer isso, as anotações relacionadas ficarão automaticamente visíveis na guia "Reuniões" do pacote de trabalho.'
   label_meeting_empty_action: "Adicionar item da agenda"
   label_meeting_actions: "Ações da reunião\n"
@@ -178,6 +180,7 @@ pt-BR:
   label_meeting_delete: "Excluir reunião"
   label_meeting_created_by: "Criado por"
   label_meeting_last_updated: "Última atualização"
+  label_meeting_reload: "Recarregar"
   label_agenda_items: "Itens da agenda"
   label_agenda_items_reordered: "reorganizado"
   label_agenda_item_remove: "Remover da agenda"

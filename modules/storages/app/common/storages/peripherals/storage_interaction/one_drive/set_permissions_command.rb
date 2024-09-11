@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,25 +45,35 @@ module Storages
             def update? = permission_ids.any? && user_ids.any?
           end
 
-          def self.call(storage:, path:, permissions:, auth_strategy:)
-            new(storage).call(path:, permissions:, auth_strategy:)
+          # Instantiates the command and executes it.
+          #
+          # @param storage [Storage] The storage to interact with.
+          # @param auth_strategy [AuthenticationStrategy] The authentication strategy to use.
+          # @param input_data [Inputs::SetPermissions] The data needed for setting permissions, containing the file id
+          # and the permissions for an array of users.
+          def self.call(storage:, auth_strategy:, input_data:)
+            new(storage).call(auth_strategy:, input_data:)
           end
 
           def initialize(storage)
             @storage = storage
           end
 
-          def call(auth_strategy:, path:, permissions:)
+          def call(auth_strategy:, input_data:)
             with_tagged_logger do
               Authentication[auth_strategy].call(storage: @storage) do |http|
-                item_exists?(http, path).on_failure { return _1 }
+                item = input_data.file_id
+                item_exists?(http, item).on_failure { return _1 }
 
-                current_permissions = get_current_permissions(http, path).on_failure { return _1 }.result
+                current_permissions = get_current_permissions(http, item).on_failure { return _1 }.result
                 info "Read and write permissions found: #{current_permissions}"
 
-                permissions.each_pair do |role, user_ids|
+                role_to_user_map(input_data).each_pair do |role, user_ids|
                   apply_permission_changes(
-                    PermissionUpdateData.new(role:, user_ids:, permission_ids: current_permissions[role], drive_item_id: path),
+                    PermissionUpdateData.new(role:,
+                                             user_ids:,
+                                             permission_ids: current_permissions[role],
+                                             drive_item_id: item),
                     http
                   )
                 end
@@ -74,6 +84,17 @@ module Storages
           end
 
           private
+
+          def role_to_user_map(input_data)
+            input_data.user_permissions
+                      .each_with_object({ read: [], write: [] }) do |user_permission_set, map|
+              if user_permission_set[:permissions].include?(:write_files)
+                map[:write] << user_permission_set[:user_id]
+              elsif user_permission_set[:permissions].include?(:read_files)
+                map[:read] << user_permission_set[:user_id]
+              end
+            end
+          end
 
           def item_exists?(http, item_id)
             info "Checking if folder #{item_id} exists"

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -121,8 +121,9 @@ ca:
       agenda: "Copia l'agenda"
       agenda_text: "Copia l'agenda de l'antiga reunió"
     email:
-      send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails for all participants."
+      send_emails: "Email participants"
+      send_invitation_emails: >
+        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Reunió oberta"
       invited:
         summary: "%{actor} us ha enviat una invitació per a la reunió %{title}"
@@ -147,6 +148,7 @@ ca:
     empty_text: "Arrossega els elements aquí o crea un de nou"
   notice_successful_notification: "Notificació enviada correctament"
   notice_timezone_missing: No s'ha configurat la zona horària i la %{zone} és assumida. Per seleccionar la teva zona horària, si us plau, fes clic aquí.
+  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
   permission_create_meetings: "Crea reunions"
   permission_edit_meetings: "Edita reunions"
   permission_delete_meetings: "Elimina reunions"
@@ -178,6 +180,7 @@ ca:
   label_meeting_delete: "Elimina reunió"
   label_meeting_created_by: "Creat per"
   label_meeting_last_updated: "Última actualització"
+  label_meeting_reload: "Reload"
   label_agenda_items: "Punts de l'ordre del dia"
   label_agenda_items_reordered: "reordenat"
   label_agenda_item_remove: "Suprimeix de l'agenda"

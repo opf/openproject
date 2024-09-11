@@ -11,7 +11,6 @@ sl:
   message_avatar_uploaded: "Avatar uspešno spremenjen."
   error_image_upload: "Napaka pri shranjevanju slike."
   error_image_size: "Slika je prevelika."
-  button_change_avatar: "Spremeni avatarja"
   are_you_sure_delete_avatar: "Ali ste prepričani, da želite izbrisati svojega avatarja?"
   avatar_deleted: "Avatar uspešno izbrisan."
   unable_to_delete_avatar: "Avatarja ni bilo mogoče izbrisati."

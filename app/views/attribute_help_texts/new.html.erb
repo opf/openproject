@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,15 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% html_title t(:label_administration), t(:'attribute_help_texts.add_new') %>
-<% local_assigns[:additional_breadcrumb] = t(:'attribute_help_texts.add_new') %>
-<%= breadcrumb_toolbar t(:'attribute_help_texts.add_new')
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:"attribute_help_texts.add_new") }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: attribute_help_texts_path, text: t(:"attribute_help_texts.label_plural") },
+                             { href: attribute_help_texts_path(tab: @attribute_help_text.attribute_scope), text: @attribute_help_text.type_caption },
+                             t(:"attribute_help_texts.add_new")])
+  end
 %>
 
 <%= labelled_tabular_form_for @attribute_help_text,

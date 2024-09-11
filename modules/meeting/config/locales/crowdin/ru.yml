@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -123,8 +123,9 @@ ru:
       agenda: "Копировать повестку"
       agenda_text: "Копировать повестку старой встречи"
     email:
-      send_emails: "Отправить по электронной почте"
-      send_invitation_emails: "Разошлите всем участникам приглашения по электронной почте."
+      send_emails: "Отправить email участникам"
+      send_invitation_emails: >
+        Немедленно отправьте приглашение по электронной почте участникам, выбранным выше. Вы также можете сделать это вручную в любое время позже.
       open_meeting_link: "Открыть совещание"
       invited:
         summary: "%{actor} отправил вам приглашение на совещание %{title}"
@@ -149,6 +150,7 @@ ru:
     empty_text: "Перенесите элементы сюда или создайте новые"
   notice_successful_notification: "Уведомление успешно отправленно"
   notice_timezone_missing: Не установлен часовой пояс и применена %{zone}. Чтобы выбрать часовой пояс, пожалуйста, нажмите сюда.
+  notice_meeting_updated: "Эта страница была обновлена кем-то другим. Перезагрузите страницу, чтобы просмотреть изменения."
   permission_create_meetings: "Создание совещания"
   permission_edit_meetings: "Править встречи"
   permission_delete_meetings: "Удалить встречу"
@@ -180,6 +182,7 @@ ru:
   label_meeting_delete: "Удалить совещание"
   label_meeting_created_by: "Автор"
   label_meeting_last_updated: "Последнее обновление"
+  label_meeting_reload: "Перезагрузить"
   label_agenda_items: "Пункты повестки"
   label_agenda_items_reordered: "переупорядочено"
   label_agenda_item_remove: "Удалить из повестки"

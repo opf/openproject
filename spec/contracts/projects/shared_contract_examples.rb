@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -269,8 +269,8 @@ RSpec.shared_examples_for "project contract" do
   end
 
   describe "available_custom_fields" do
-    let(:visible_custom_field) { build_stubbed(:integer_project_custom_field, visible: true) }
-    let(:invisible_custom_field) { build_stubbed(:integer_project_custom_field, visible: false) }
+    let(:visible_custom_field) { build_stubbed(:integer_project_custom_field, admin_only: false) }
+    let(:invisible_custom_field) { build_stubbed(:integer_project_custom_field, admin_only: true) }
 
     before do
       allow(project)

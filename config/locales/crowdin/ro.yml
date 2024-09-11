@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -155,7 +155,7 @@ ro:
       Următoarele câmpuri sunt legate de modul în care sunt creați utilizatorii în OpenProject din intrările LDAP și
       ce atribute LDAP sunt utilizate pentru a defini atributele unui utilizator OpenProject (cartografiere de atribute).
     tls_mode:
-      plain: "niciunul"
+      plain: "niciuna"
       simple_tls: "LDAPS"
       start_tls: "STARTTLS"
       plain_description: "Deschide o conexiune necriptată la serverul LDAP. Nu se recomandă pentru producție."
@@ -174,7 +174,7 @@ ro:
   colors:
     index:
       no_results_title_text: În acest moment nu există culori.
-      no_results_content_text: Creare culoare nouă
+      no_results_content_text: Creează o culoare nouă
       label_new_color: "Culoare nouă"
     new:
       label_new_color: "New Color"
@@ -212,10 +212,12 @@ ro:
     reorder_confirmation: "Avertisment: Ordinea curentă a valorilor disponibile se va pierde. Continuați?"
     instructions:
       is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Mark the custom field as available in all existing and new projects."
       searchable: "Include valorile câmpului atunci când utilizezi funcționalitatea globală de căutare."
+      searchable_for_project: "Bifează pentru a face acest atribut disponibil sub formă de filtru în listele de proiecte."
       editable: "Allow the field to be editable by users themselves."
-      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
@@ -261,7 +263,10 @@ ro:
     index:
       open_as_gantt: "Deschideți ca vizualizare Gantt"
       no_results_title_text: În acest moment nu există proiecte
-      no_results_content_text: Creare proiect nou
+      no_results_content_text: Creează proiect nou
+      search:
+        label: Project name filter
+        placeholder: Search by project name
     lists:
       active: "Proiecte active"
       my: "Proiectele mele"
@@ -295,7 +300,7 @@ ro:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
-          deactivate_for_project: "Deactivate for this project"
+          remove_from_project: "Remove from project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
         is_required_blank_slate:
@@ -626,7 +631,7 @@ ro:
         possible_values: "Valori posibile"
         regexp: "Expresie regulată"
         searchable: "Permite căutare"
-        visible: "Vizibil"
+        admin_only: "Admin-only"
       custom_value:
         value: "Valoare"
       doorkeeper/application:
@@ -651,9 +656,9 @@ ro:
         notes: "Mențiuni"
       ldap_auth_source:
         account: "Cont"
-        attr_firstname: "Câmp prenume"
+        attr_firstname: "Atribut prenume"
         attr_lastname: "Câmp nume"
-        attr_login: "Atributul nume de utilizator"
+        attr_login: "Atribut nume de utilizator"
         attr_mail: "Atribut e-mail"
         base_dn: "Nume domeniu de bază"
         host: "Server gazdă"
@@ -685,7 +690,7 @@ ro:
           not_started: "Neînceput"
           on_track: "În lucru"
           at_risk: "În pericol"
-          off_track: "Deraiat"
+          off_track: "Întârziat"
           finished: "Finalizat"
           discontinued: "Anulat"
         templated: "Proiect șablon"
@@ -696,6 +701,7 @@ ro:
         versions: "Versiuni"
         work_packages: "Pachete de lucru"
       project_custom_field:
+        is_required: "Required for all projects"
         custom_field_section: Secțiune
       query:
         column_names: "Coloane"
@@ -785,7 +791,7 @@ ro:
         remaining_hours: "Muncă rămasă"
         remaining_time: "Muncă rămasă"
         shared_with_users: "Partajate cu"
-        schedule_manually: "Programarea manuală"
+        schedule_manually: "Programare manuală"
         spent_hours: "Timp consumat"
         spent_time: "Timp consumat"
         subproject: "Subproiect"
@@ -950,13 +956,13 @@ ro:
             public:
               error_unauthorized: "- Utilizatorul nu are permisiunea de a crea vizualizări publice."
             group_by:
-              invalid: "Nu se poate grupa prin: %{value}"
+              invalid: "Nu pot grupa după: %{value}"
               format: "%{message}"
             column_names:
               invalid: "Coloană de interogare invalidă: %{value}"
               format: "%{message}"
             sort_criteria:
-              invalid: "Nu se poate sorta după coloană: %{value}"
+              invalid: "Nu pot sorta coloana după: %{value}"
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
@@ -1040,6 +1046,12 @@ ro:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when Work is 0h"
+              must_be_set_when_remaining_work_is_set: "required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "nu este în data de început, deși acest lucru este necesar pentru etape."
               cannot_be_null: "nu poate fi setat la null, deoarece data de începere și durata sunt cunoscute."
@@ -1068,15 +1080,17 @@ ro:
               does_not_exist: "Categoria specificată nu există."
             estimated_hours:
               not_a_number: "is not a valid duration."
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
-              format: "%{message}"
+              cant_be_inferior_to_remaining_work: "cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "required when Remaining work and % Complete are set."
             remaining_hours:
               not_a_number: "is not a valid duration."
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
-              format: "%{message}"
+              cant_exceed_work: "cannot be higher than Work."
+              must_be_set_when_work_is_set: "required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "required when Work and % Complete are set."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                must be 0h when Work is set and % Complete is 100%.
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                must be empty when Work is empty and % Complete is 100%.
           readonly_status: "Pachetul de lucru este în stare de numai citire, astfel încât atributele sale nu pot fi modificate."
         type:
           attributes:
@@ -1191,9 +1205,9 @@ ro:
       created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "creat în %{datetime}"
       created_on_time_entry: "time logged on %{datetime}"
-      updated_by_on: "actualizat de %{user} la %{datetime}"
+      updated_by_on: "actualizat de %{user} în %{datetime}"
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
-      updated_on: "actualizat la %{datetime}"
+      updated_on: "actualizat în %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
@@ -1458,7 +1472,7 @@ ro:
       #Use the strftime parameters for formats.
       #When no format has been given, it uses default.
       #You can provide other formats here if you like!
-      default: "%d-%m-%Y"
+      default: "%d. %m. %Y"
       long: "%d %B %Y"
       short: "%d %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
@@ -1468,7 +1482,7 @@ ro:
       - "Februarie"
       - "Martie"
       - "Aprilie"
-      - "mai"
+      - "Mai"
       - "Iunie"
       - "Iulie"
       - "August"
@@ -1628,6 +1642,7 @@ ro:
   error_pdf_failed_to_export: "Exportul pdf nu poate fi salvat: %{error}"
   error_token_authenticity: "Nu se poate verifica tokenul Cross-Site Request Forgery. Ați încercat să trimiteți datele pe mai multe browsere sau tab-uri? Vă rugăm să închideți toate filele și să încercați din nou."
   error_work_package_not_found_in_project: "Pachetul de lucru nu a fost găsit sau nu aparține acestui proiect"
+  error_work_package_id_not_found: "Pachetul de lucru nu a fost găsit."
   error_must_be_project_member: "trebuie să fie membru al proiectului"
   error_migrations_are_pending: "Instalarea OpenProject are migrări de baze de date în așteptare. Probabil că nu ați reușit să executați migrările la ultima actualizare. Vă rugăm să consultați ghidul de actualizare pentru a vă actualiza corect instalarea."
   error_migrations_visit_upgrade_guides: "Vă rugăm să vizitați documentația ghidului nostru de actualizare"
@@ -1656,7 +1671,7 @@ ro:
     changeset: "Set de schimbări editat"
     message: Mesaj editat
     news: Noutăţi
-    project_attributes: "Atributele proiectului editate"
+    project_attributes: "Atribute proiect editate"
     project: "Proiect editat"
     projects: "Proiect editat"
     reply: Răspuns
@@ -1669,9 +1684,71 @@ ro:
       project: "Proiect: %{name}"
       subproject: "Subproiect: %{name}"
   export:
-    your_work_packages_export: "Exportul pachetelor de lucru"
-    succeeded: "Exportul a fost finalizat cu succes."
-    failed: "Exportul a eșuat: %{message}"
+    dialog:
+      title: "Export"
+      submit: "Export"
+      format:
+        label: "File format"
+        options:
+          csv:
+            label: "CSV"
+          pdf:
+            label: "PDF"
+          xls:
+            label: "XLS"
+      columns:
+        input_label_report: "Add columns to attribute table"
+        input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
+        input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
+      pdf:
+        export_type:
+          label: "PDF export type"
+          options:
+            table:
+              label: "Table"
+              caption: "Export the work packages list in a table with the desired columns."
+            report:
+              label: "Report"
+              caption: "Export the work package on a detailed report of all work packages in the list."
+            gantt:
+              label: "Gantt chart"
+              caption: "Export the work packages list in a Gantt diagram view."
+        include_images:
+          label: "Include images"
+          caption: "Exclude images to reduce the size of the PDF export."
+        gantt_zoom_levels:
+          label: "Zoom levels"
+          caption: "Select what is the zoom level for dates displayed in the chart."
+          options:
+            days: "Days"
+            weeks: "Weeks"
+            months: "Months"
+            quarters: "Quarters"
+        column_width:
+          label: "Table column width"
+          options:
+            narrow: "Narrow"
+            medium: "Medium"
+            wide: "Wide"
+            very_wide: "Very wide"
+        paper_size:
+          label: "Paper size"
+          caption: "Depending on the chart size more than one page might be exported."
+        long_text_fields:
+          input_caption: "By default all long text fields are selected."
+          input_label: "Add long text fields"
+          input_placeholder: "Search for long text fields"
+          drag_area_label: "Manage long text fields"
+      xls:
+        include_relations:
+          label: "Include relations"
+          caption: "This option will create a duplicate of each work package for every relation this has with another work package."
+        include_descriptions:
+          label: "Include descriptions"
+          caption: "This option will add a description column in raw format."
+    your_work_packages_export: "Work packages are being exported"
+    succeeded: "Export completed"
+    failed: "An error has occurred while trying to export the work packages: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1727,7 +1804,7 @@ ro:
       postgres_migration: "Migrarea instalației dvs. către PostgreSQL"
       user_guides: "Ghiduri utilizator"
       faq: "Întrebări Frecvente"
-      impressum: "Notificare legala"
+      impressum: "Notificare legală"
       glossary: "Glosar"
       shortcuts: "Scurtături"
       blog: "Blog-ul OpenProject"
@@ -1832,6 +1909,11 @@ ro:
       responsible: "Responsabil"
       shared: "Partajat"
       watched: "Observator"
+    facets:
+      unread: "necitită"
+      unread_title: "Afișare necitite"
+      all: "Toate"
+      all_title: "Afișare toate"
     menu:
       by_project: "Necitit după proiect"
       by_reason: "Descriere"
@@ -2185,16 +2267,18 @@ ro:
   label_news_latest: "Ultimele noutăți"
   label_news_new: "Adăugare noutăți"
   label_news_edit: "Editare noutăți"
-  label_news_plural: "Noutăţi"
+  label_news_plural: "Noutăți"
   label_news_view_all: "Afișează toate știrile"
   label_next: "Înainte"
   label_next_week: "Săptămâna viitoare"
   label_no_change_option: "(Fără modificări)"
   label_no_data: "Nu există date de afișat"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Pagină părinte:"
   label_nothing_display: "Nimic de afișat"
   label_nobody: "nimeni"
-  label_not_found: "%s nu a fost găsit"
+  label_not_found: "nu a fost găsit"
   label_none: "niciunul"
   label_none_parentheses: "(nimic)"
   label_not_contains: "nu conține"
@@ -2315,6 +2399,8 @@ ro:
   label_role_plural: "Roluri"
   label_role_search: "Atribuirea rolului noilor membri"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Căutare"
   label_search_by_name: "Caută după nume"
   label_send_information: "Send new credentials to the user"
@@ -2419,7 +2505,7 @@ ro:
   label_wiki_show_menu_item: "Afișare ca meniu în navigarea proiectului"
   label_wiki_show_new_page_link: "Afișare submeniu 'Creare pagină copil'"
   label_wiki_show_submenu_item: "Afișare ca submeniu pentru "
-  label_wiki_start: "Pagină de start"
+  label_wiki_start: "Pagina de start"
   label_work: "Muncă"
   label_work_package: "Pachet de lucru"
   label_work_package_attachments: "Anexe la pachetul de lucru"
@@ -2966,7 +3052,7 @@ ro:
       not_available: "Consumul de spațiu de stocare nu este disponibil pentru acest repo."
       update_timeout: "Păstraţi informaţia referitoare la spaţiul de stocare necesar pentru un repo timp de N minute. \nDeoarece măsurarea spațiului necesar pentru un repo poate fi costisitoare, creșteți această valoare pentru a reduce impactul în performanță."
       oauth_application_details: "Valoarea secretă a clientului nu va mai fi accesibilă după ce închideți această fereastră. Vă rugăm să copiați aceste valori în setările Nextcloud OpenProject Integration:"
-      oauth_application_details_link_text: "Mergeți la pagina de setări"
+      oauth_application_details_link_text: "Mergi la pagina setări"
       setup_documentation_details: "Dacă aveți nevoie de ajutor pentru configurarea unui nou depozit de fișiere, consultați documentația: "
       setup_documentation_details_link_text: "Configurarea fișierelor de stocare"
       show_warning_details: "Pentru a utiliza acest spațiu de stocare a fișierelor, nu uitați să activați modulul și spațiul de stocare specific în setările de proiect ale fiecărui proiect dorit."
@@ -3072,8 +3158,10 @@ ro:
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
   setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Proprietăți pachet de lucru"
   setting_work_package_startdate_is_adddate: "Folosire data curentă ca dată de început pentru pachetele de lucru noi"
   setting_work_packages_projects_export_limit: "Limita de export a pachetelor de lucru / proiectelor"
@@ -3457,9 +3545,26 @@ ro:
     progress:
       label_note: "Note:"
       modal:
-        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
+        work_based_help_text: "Each field is automatically calculated from the two others when possible."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          cleared_because_work_is_0h: "Cleared because Work is 0h."
+          derived: "Derived from Work and Remaining work."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          derived: "Derived from Remaining work and % Complete."
+          same_as_remaining_work: "Set to same value as Remaining work."
+        remaining_hours:
+          cleared_because_work_is_empty: "Cleared because Work is empty."
+          cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
+          decreased_like_work: "Decreased by the same amount as Work."
+          derived: "Derived from Work and % Complete."
+          increased_like_work: "Increased by the same amount as Work."
+          same_as_work: "Set to same value as Work."
     permissions:
       comment: "Comentariu"
       comment_description: "Can view and comment this work package."
@@ -3679,7 +3784,7 @@ ro:
       api_v3_text: "Aplicația va primi acces complet de citire și scriere la OpenProject API v3 pentru a efectua acțiuni în numele dumneavoastră."
     grants:
       created_date: "Aprobat"
-      scopes: "Drepturi"
+      scopes: "Permisiuni"
       successful_application_revocation: "Revocarea cererii %{application_name} a avut succes."
       none_given: "Nu a fost acordat acces la contul dvs. de utilizator niciunei aplicații OAuth."
     x_active_tokens:

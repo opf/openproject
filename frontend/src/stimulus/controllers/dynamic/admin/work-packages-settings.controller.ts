@@ -1,7 +1,7 @@
 /*
  * -- copyright
  * OpenProject is an open source project management software.
- * Copyright (C) 2023 the OpenProject GmbH
+ * Copyright (C) the OpenProject GmbH
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 3.
@@ -31,11 +31,17 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class WorkPackagesSettingsController extends Controller {
+  static values = {
+    percentCompleteEditionActive: Boolean,
+  };
+
   static targets = [
     'progressCalculationModeSelect',
     'warningText',
     'warningToast',
   ];
+
+  declare readonly percentCompleteEditionActiveValue:boolean;
 
   declare readonly progressCalculationModeSelectTarget:HTMLSelectElement;
   declare readonly warningTextTarget:HTMLElement;
@@ -58,9 +64,19 @@ export default class WorkPackagesSettingsController extends Controller {
 
   getWarningMessageHtml():string {
     const newMode = this.progressCalculationModeSelectTarget.value;
+    if (newMode === this.initialMode) {
+      return '';
+    }
+
+    // to be removed in 15.0 with :percent_complete_edition feature flag removal
+    if (!this.percentCompleteEditionActiveValue && newMode === 'field') {
+      return I18n.t(
+        'js.admin.work_packages_settings.warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html',
+      );
+    }
+
     return I18n.t(
       `js.admin.work_packages_settings.warning_progress_calculation_mode_change_from_${this.initialMode}_to_${newMode}_html`,
-      { defaultValue: '' },
     );
   }
 }

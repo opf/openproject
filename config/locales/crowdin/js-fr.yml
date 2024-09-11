@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ fr:
     button_back_to_list_view: "Retour à la liste"
     button_cancel: "Annuler"
     button_close: "Fermer"
-    button_change_project: "Changer de projet"
+    button_change_project: "Déplacer vers un autre projet"
     button_check_all: "Tout cocher"
     button_configure-form: "Configurer le formulaire"
     button_confirm: "Confirmer"
@@ -74,7 +74,7 @@ fr:
     button_copy: "Copier"
     button_copy_to_clipboard: "Copier dans le presse-papier"
     button_copy_link_to_clipboard: "Copier le lien dans le presse-papiers"
-    button_copy_to_other_project: "Copier vers un autre projet"
+    button_copy_to_other_project: "Dupliquer dans un autre projet"
     button_custom-fields: "Champs personnalisés"
     button_delete: "Supprimer"
     button_delete_watcher: "Supprimer observateur"
@@ -138,6 +138,8 @@ fr:
     description_select_work_package: "Sélectionner le lot de travaux #%{id}"
     description_subwork_package: "Enfant du lot de travaux #%{id}"
     editor:
+      revisions: "Afficher les modifications locales"
+      no_revisions: "Aucune modification locale trouvée"
       preview: "Basculer en mode aperçu"
       source_code: "Basculer en mode source Markdown"
       error_saving_failed: "L'enregistrement du document a échoué en raison de l'erreur suivante : %{error}"
@@ -186,15 +188,15 @@ fr:
           without_type: "Créer un lot de travaux"
           with_type: "Créer un lot de travaux (Type : %{typename})"
         embedded_table:
-          button: "Intégrer le tableau du lot de travaux"
-          text: "[Placeholder] Tableau du lot de travaux intégré"
+          button: "Tableau intégré de lots de travaux"
+          text: "[Placeholder] Tableau intégré de lots de travaux"
         embedded_calendar:
           text: "[Placeholder] Calendrier embarqué"
     admin:
       type_form:
         custom_field: "Champ personnalisé"
         inactive: "Inactif"
-        drag_to_activate: "Faites glisser les champs ici pour les activer"
+        drag_to_activate: "Faire glisser les champs ici pour les activer"
         add_group: "Ajouter un groupe d’attributs"
         add_table: "Ajouter un tableau des lots de travaux associés"
         edit_query: "Modifier la requête"
@@ -228,7 +230,7 @@ fr:
           next_steps: "Prochaines étapes"
           resend_link: "Renvoyer"
           resend_success: "L'e-mail a été renvoyé. Veuillez vérifier vos e-mails et cliquer sur le lien de confirmation fourni."
-          resend_warning: "Impossible de renvoyer l'e-mail"
+          resend_warning: "Impossible de renvoyer l'e-mail."
           session_timeout: "Votre session a expiré. Veuillez rafraîchir la page ou renvoyer l'e-mail."
           status_label: "Statut :"
           status_confirmed: "confirmé"
@@ -248,7 +250,7 @@ fr:
             premium_features: "Add-ons Entreprise"
             premium_features_text: "Tableaux agiles, thème et logo personnalisés, graphiques, flux de travail intelligents avec actions personnalisées, recherche en plein texte des pièces jointes de lots de travaux et champs personnalisés à choix multiples"
             professional_support: "Support professionnel"
-            professional_support_text: "Obtenez une assitance fiable et à haut contact de la part d'ingénieurs d'assistance expérimentés qui ont une connaissance approfondie de la mise en œuvre d'OpenProject dans des environnements critiques pour l'entreprise."
+            professional_support_text: "Obtenez une assistance fiable et disponible de la part d'ingénieurs d'assistance expérimentés qui ont une connaissance approfondie de la mise en œuvre d'OpenProject dans des environnements critiques pour l'entreprise."
           button_start_trial: "Commencer l'essai gratuit"
           button_upgrade: "Mettre à niveau maintenant"
           button_contact_us: "Contactez-nous pour une démo"
@@ -276,8 +278,10 @@ fr:
           Les modifications pourraient prendre un certain temps pour être appliquées. Vous serez averti(e) lorsque tous les lots de travaux pertinents auront été mis à jour.
           Voulez-vous continuer ?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
           Passer du mode de calcul de la progression basé sur le statut au mode basé sur le travail transformera <i>% réalisé</i> en champ non modifiable dont la valeur est dérivée des champs <i>Travail</i> et <i>Travail restant</i>. Les valeurs existantes pour <i>% réalisé</i> sont conservées. Des valeurs pour <i>Travail</i> et <i>Travail restant</i> sont requises pour modifier <i>% réalisé</i>.
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Passer du mode de calcul de la progression basé sur le statut au mode basé sur le travail transformera <i>% réalisé</i> en champ librement modifiable. Si vous complétez les champs <i>Travail</i> et <i>Travail restant</i>, ils seront également liés à <i>% réalisé</i>. Changer le champ <i>Travail restant</i> peut alors changer le <i>% réalisé</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Passer du mode de calcul de la progression basé sur le travail au mode basé sur le statut entraînera la perte de toutes les valeurs de <i>% réalisé</i> existantes et leur remplacement par les valeurs associées à chaque statut. Les valeurs existantes pour <i>Travail restant</i> peuvent également être recalculées pour refléter ce changement. Cette action est irréversible.
     custom_actions:
@@ -291,13 +295,13 @@ fr:
       embedded_table_loading: "La vue intégrée n’a pas pu être chargée : %{message}"
     enumeration_activities: "Activités (suivi de temps)"
     enumeration_doc_categories: "Catégories de documents"
-    enumeration_work_package_priorities: "Priorités du Lot de Travaux"
+    enumeration_work_package_priorities: "Priorités des lots de travaux"
     filter:
       more_values_not_shown: "Il y a %{total} résultats supplémentaires, effectuez une recherche pour filtrer les résultats."
       description:
-        text_open_filter: "Ouvrir ce filtre avec les touches « ALT » et fléchées."
-        text_close_filter: "Pour sélectionner une entrée, laissez le focus par exemple en appuyant sur enter. Pour quitter sans filtre, sélectionnez la première entrée (vide)."
-      noneElement: "(none)"
+        text_open_filter: "Ouvrir ce filtre avec la touche « ALT » et les touches fléchées."
+        text_close_filter: "Pour sélectionner une entrée, laissez le focus par exemple en appuyant sur Entrée. Pour quitter sans filtre, sélectionnez la première entrée (vide)."
+      noneElement: "(aucun)"
       time_zone_converted:
         two_values: "%{from} - %{to} dans votre heure locale."
         only_start: "À partir de %{from} dans votre heure locale."
@@ -336,26 +340,14 @@ fr:
         years: "Années"
         description: >
           Sélectionnez le niveau de zoom initial qui devrait être affiché lorsque le zoom automatique n'est pas disponible.
-      export:
-        title: "Options du PDF de diagramme de Gantt"
-        button_export: "Exporter"
-        column_widths:
-          narrow: "Étroite"
-          medium: "Moyenne"
-          wide: "Large"
-          very_wide: "Très large"
-        options:
-          date_zoom: "Échelle de date"
-          paper_size: "Format du papier"
-          column_widths: "Largeur de colonnes"
     general_text_no: "non"
     general_text_yes: "oui"
     general_text_No: "Non"
     general_text_Yes: "Oui"
     hal:
       error:
-        update_conflict_refresh: "Cliquez ici pour actualiser la resource et mettre à jour vers la version la plus récente."
-        edit_prohibited: "L'édition de %{attribute} est bloquée pour cette ressource. Soit cet attribut est dérivé de relations (ex, enfants), soit autrement non configurable."
+        update_conflict_refresh: "Cliquez ici pour actualiser la ressource et mettre à jour vers la version la plus récente."
+        edit_prohibited: "La modification de %{attribute} est bloquée pour cette ressource. Soit cet attribut est dérivé de relations (ex. enfants), soit il n'est pas configurable."
         format:
           date: "%{attribute} n’est pas une date valide. Format attendu : AAAA-MM-JJ."
         general: "Une erreur s'est produite."
@@ -366,10 +358,10 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                La version contient diverses nouvelles fonctionnalités et améliorations, telles que : <br> <ul class="%{list_styling_class}"> <li>Option de mode sombre dans les paramètres personnels</li> <li>Séparation des permissions pour la visualisation et l'édition des attributs du projet</li> <li>Amélioration de l'état de progression basé sur le statut</li> <li>Validation de la connexion pour les stockages Nextcloud</li> <li>Plus d'options de filtre pour les listes de projets</li> </ul>
+                Cette version contient plusieurs nouvelles fonctionnalités et améliorations, telles que <br> <ul class="%{list_styling_class}"> <li>Conservation et restauration des versions locales des changements de contenu WYSIWYG.</li> <li>Activation d'un stockage pour plusieurs projets à la fois.</li> <li>Exportation des lots de travaux dans une fenêtre modale mise à jour avec des paramètres supplémentaires.</li> <li>Affichage des colonnes/filtres de champs personnalisés dans les listes de projets, y compris dans l'édition Community.</li> <li>Prise en charge de Turnstile de CloudFlare comme Captcha.</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -387,11 +379,11 @@ fr:
     label_add_column_before: "Ajouter une colonne avant"
     label_add_columns: "Ajouter des colonnes"
     label_add_comment: "Ajouter un commentaire"
-    label_add_comment_title: "Commentez et utilisez @ pour informer d’autres personnes."
+    label_add_comment_title: "Commentez et utilisez @ pour informer d’autres personnes"
     label_add_row_after: "Ajouter une ligne après"
     label_add_row_before: "Ajouter une ligne avant"
     label_add_selected_columns: "Ajouter les colonnes sélectionnées"
-    label_added_by: "Ajouté par"
+    label_added_by: "ajouté par"
     label_added_time_by: 'Ajouté par <a href="%{authorLink}">%{author}</a> le %{age}'
     label_ago: "il y a"
     label_all: "tous"
@@ -405,12 +397,13 @@ fr:
     label_board: "Tableau"
     label_board_locked: "Verrouillé"
     label_board_plural: "Tableaux"
-    label_board_sticky: "Epinglé"
+    label_board_sticky: "Épinglé"
     label_change: "Changer"
     label_create: "Créer"
     label_create_work_package: "Créer un nouveau lot de travaux"
     label_created_by: "Créé par"
-    label_date: "date"
+    label_current: "actuel"
+    label_date: "Date"
     label_date_with_format: "Saisissez l'attribut %{date_attribute} en utilisant le format suivant : %{format}"
     label_deactivate: "Désactiver"
     label_descending: "Décroissant"
@@ -419,20 +412,20 @@ fr:
     label_display: "Affichage"
     label_cancel_comment: "Annuler le commentaire"
     label_closed_work_packages: "clôturé"
-    label_collapse: "Regrouper"
-    label_collapsed: "regroupé"
+    label_collapse: "Replier"
+    label_collapsed: "replié"
     label_collapse_all: "Tout replier"
     label_comment: "Commentaire"
     label_committed_at: "%{committed_revision_link} le %{date}"
     label_committed_link: "révision %{revision_identifier} soumise"
     label_contains: "contenus"
     label_created_on: "créé le"
-    label_edit_comment: "Éditer ce commentaire"
+    label_edit_comment: "Modifier ce commentaire"
     label_edit_status: "Modifier le statut du lot de travaux"
-    label_email: "Courriel"
+    label_email: "Adresse e-mail"
     label_equals: "est"
-    label_expand: "développer"
-    label_expanded: "étendu"
+    label_expand: "Déplier"
+    label_expanded: "déplié"
     label_expand_all: "Tout déplier"
     label_expand_project_menu: "Déplier le menu du projet"
     label_export: "Exporter"
@@ -526,7 +519,7 @@ fr:
     label_time_entry_plural: "Temps passé"
     label_up: "Haut"
     label_user_plural: "Utilisateurs"
-    label_activity_show_only_comments: "Afficher les activités avec les commentaires seulement"
+    label_activity_show_only_comments: "Afficher les activités avec des commentaires uniquement"
     label_activity_show_all: "Afficher toutes les activités"
     label_total_progress: "%{percent}% de progression totale"
     label_total_amount: "Total : %{amount}"
@@ -551,21 +544,21 @@ fr:
     label_global_queries: "Public"
     label_custom_queries: "Privé"
     label_columns: "Colonnes"
-    label_attachments: Fichiers
+    label_attachments: Pièces jointes
     label_drop_files: "Déposez des fichiers ici pour joindre des fichiers."
     label_drop_or_click_files: "Déposez des fichiers ici ou cliquez pour joindre des fichiers."
-    label_drop_folders_hint: Vous ne pouvez pas télécharger les dossiers en pièce jointe. S’il vous plaît sélectionnez des fichiers seuls.
-    label_add_attachments: "Joindre fichiers"
+    label_drop_folders_hint: Vous ne pouvez pas déposer les dossiers en pièces jointes. Veuillez sélectionner des fichiers seuls.
+    label_add_attachments: "Joindre des fichiers"
     label_formattable_attachment_hint: "Insérer des fichiers en les glissant sur ce champ, ou en les collant depuis le presse-papiers."
     label_remove_file: "Supprimer %{fileName}"
     label_remove_watcher: "Retirer l'observateur %{name}"
     label_remove_all_files: Supprimer tous les fichiers
     label_add_description: "Ajouter une description pour %{file}"
     label_upload_notification: "Chargement des fichiers..."
-    label_work_package_upload_notification: "Transfert en cours des fichiers pour le lot de travaux #%{id}: %{subject}"
+    label_work_package_upload_notification: "Transfert en cours des fichiers pour le lot de travaux #%{id} : %{subject}"
     label_wp_id_added_by: "#%{id} ajouté par %{author}"
-    label_files_to_upload: "Ces fichiers vont être transférés:"
-    label_rejected_files: "Ces fichiers ne peuvent pas être transférés:"
+    label_files_to_upload: "Ces fichiers vont être transférés :"
+    label_rejected_files: "Ces fichiers ne peuvent pas être transférés :"
     label_rejected_files_reason: "Ces fichiers ne peuvent pas être transférés car leur taille est supérieure à %{maximumFilesize}"
     label_wait: "Veuillez patienter pendant la configuration…"
     label_upload_counter: "%{done} fichiers sur %{count} finis"
@@ -638,11 +631,6 @@ fr:
         upsale:
           title: "Alarmes"
           description: "Avec les alarmes, vous serez informé(e) à l'approche des dates de début ou de fin vous concernant afin de ne jamais manquer ou oublier une échéance importante."
-      facets:
-        unread: "Non lu"
-        unread_title: "Afficher les messages non lus"
-        all: "Toutes"
-        all_title: "Afficher tout"
       center:
         label_actor_and: "et"
         and_more_users:
@@ -653,12 +641,13 @@ fr:
           with_current_filter: "Il n'y a pas de notifications dans cette vue pour le moment"
         mark_all_read: "Tout marquer comme lu"
         mark_as_read: "Marquer comme lu"
-        text_update_date: "%{date} par"
+        text_update_date_by: "%{date} par"
         total_count_warning: "Affichage des %{newest_count} notifications les plus récentes. %{more_count} autres ne sont pas affichées."
         empty_state:
           no_notification: "Il semble que vous êtes à jour."
           no_notification_with_current_project_filter: "Il semble que vous êtes à jour dans le projet sélectionné."
           no_notification_with_current_filter: "Il semble que vous êtes à jour pour le filtre %{filter}."
+          no_notification_for_filter: "Il semble que vous êtes à jour pour ce filtre."
           no_selection: "Cliquez sur une notification pour voir tous les détails de l'activité."
         new_notifications:
           message: "Il y a de nouvelles notifications."
@@ -1198,6 +1187,9 @@ fr:
         one: "1 jour"
         other: "%{count} jours"
         zero: "0 jour"
+      word:
+        one: "1 mot"
+        other: "%{count} mots"
     zen_mode:
       button_activate: "Activer le mode zen"
       button_deactivate: "Désactiver le mode zen"

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ zh-CN:
     button_back_to_list_view: "返回列表视图"
     button_cancel: "取消"
     button_close: "关闭"
-    button_change_project: "更改项目"
+    button_change_project: "移动到另一个项目"
     button_check_all: "全选"
     button_configure-form: "配置表单"
     button_confirm: "确认"
@@ -138,6 +138,8 @@ zh-CN:
     description_select_work_package: "选择工作包 #%{id}"
     description_subwork_package: "子工作包 #%{id}"
     editor:
+      revisions: "显示本地修改"
+      no_revisions: "未找到本地修改"
       preview: "切换预览模式"
       source_code: "切换 Markdown 模式"
       error_saving_failed: "保存文档失败，出现以下错误：%{error}"
@@ -275,8 +277,10 @@ zh-CN:
         warning: >
           更改可能需要一些时间才能生效。当更新完所有相关工作包时，您将收到通知。
       work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          将进度计算模式从基于状态改为基于工时，将使<i>完成 %</i>变为不可编辑字段，其值来自<i>工时</i>和<i>剩余工时</i>。<i>完成 %</i>现有值将保留。如果没有 <i>工时</i>和<i>剩余工时</i>的值，则需要这些值才能更改 <i>完成 %</i>。
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          将进度计算模式从基于状态改为基于工作，将使<i>完成百分比</i>成为不可编辑字段，其值来自<i>工作</i>和<i>剩余工时</i>。<i>完成百分比</i>的现有值将保留。如果没有 "<i>工时</i>"和 "剩余<i>工作</i>"的值，则需要这些值才能更改 "完成<i>百分比</i>"。
+          将进度计算模式从基于状态改为基于工时，将使<i>完成 %</i>字段可自由编辑。如果您选择输入<i>工时</i>或<i>剩余工时</i>的值，它们也将与<i>完成 %</i>相关联。更改<i>剩余工时</i>就可以更新<i>完成 %</i>。
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           将进度计算模式从基于工时的方式改为基于状态，将会导致所有现有的 <i>%完整的</i> 值丢失，并被与每个状态相关的值所替代。 <i>剩余工时</i> 的现有值也可能被重新计算，以反映这种变化。此操作不可逆转。
     custom_actions:
@@ -335,18 +339,6 @@ zh-CN:
         years: "年"
         description: >
           选择自动缩放不可用时应显示的初始缩放级别。
-      export:
-        title: "甘特图 PDF 选项"
-        button_export: "导出"
-        column_widths:
-          narrow: "窄"
-          medium: "正常"
-          wide: "宽"
-          very_wide: "非常宽"
-        options:
-          date_zoom: "日期缩放"
-          paper_size: "纸张大小"
-          column_widths: "列宽"
     general_text_no: "否"
     general_text_yes: "是"
     general_text_No: "否"
@@ -365,10 +357,10 @@ zh-CN:
           learn_about: "详细了解新功能"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                该版本含有各种新的功能和改进。 例如： <br> <ul class="%{list_styling_class}"> <li>个人设置中的暗色模式选项</li> <li>项目属性的独立查看和编辑权限</li> <li>改进基于状态的进度报告</li> <li>Nextcloud存储的连接验证</li> <li>项目列表的更多过滤选项</li> </ul>
+                该版本包含各种新功能和改进，例如 <br> <ul class="%{list_styling_class}"> <li>编辑器保留和恢复所见即所得内容更改的本地版本。</li> <li>同时打开多个项目的文件存储。</li> <li>更新了导出工作包的模态对话框，并提供更多设置。</li> <li>在社区版的项目列表中显示自定义字段列/过滤器。</li> <li>支持 CloudFlare Turnstile 验证码。</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
@@ -409,6 +401,7 @@ zh-CN:
     label_create: "创建"
     label_create_work_package: "创建新工作包"
     label_created_by: "创建自"
+    label_current: "当前"
     label_date: "日期"
     label_date_with_format: "以%{format} 的格式输入 %{date_attribute}"
     label_deactivate: "停用"
@@ -637,11 +630,6 @@ zh-CN:
         upsale:
           title: "日期提醒"
           description: "借助日期提醒，您将收到即将到来的开始或结束日期的通知，以免错过或忘记重要截止日期。"
-      facets:
-        unread: "未读"
-        unread_title: "显示未读信息"
-        all: "全部"
-        all_title: "全部显示"
       center:
         label_actor_and: "和"
         and_more_users:
@@ -651,12 +639,13 @@ zh-CN:
           with_current_filter: "目前此视图中没有通知"
         mark_all_read: "全部标记为已读"
         mark_as_read: "标记为已读"
-        text_update_date: "%{date}，"
+        text_update_date_by: "%{date}，"
         total_count_warning: "正在显示 %{newest_count} 条最新通知。还有 %{more_count} 条未显示。"
         empty_state:
           no_notification: "看起来您已查看所有通知。"
           no_notification_with_current_project_filter: "看起来您已查看所选项目的所有通知。"
           no_notification_with_current_filter: "看起来您已查看“%{filter}”筛选器的所有通知。"
+          no_notification_for_filter: "看起来你已经处理完了这个筛选器的所有内容。"
           no_selection: "点击通知可查看所有活动详细信息。"
         new_notifications:
           message: "有新的通知。"
@@ -1194,6 +1183,8 @@ zh-CN:
         one: "1 天"
         other: "%{count} 天"
         zero: "0 天"
+      word:
+        other: " %{count} 个单词"
     zen_mode:
       button_activate: "激活 zen 模式"
       button_deactivate: "取消激活 zen 模式"

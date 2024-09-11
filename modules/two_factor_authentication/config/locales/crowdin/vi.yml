@@ -26,6 +26,7 @@ vi:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "Phương thức 2FA đã bị vô hiệu."
+    notice_not_writable: "Cài đặt 2FA được cung cấp thông qua các biến môi trường và không thể ghi đè."
     error_no_device: "Không có thiết bị 2FA đăng ký cho người dùng này, mặc dù được yêu cầu cho trường hợp này được tìm thấy."
     error_no_matching_strategy: "Không có chiến lược 2FA sẵn có nào phù hợp với người dùng này. Xin vui lòng liên hệ với administratior của bạn."
     error_is_enforced_not_active: "Lỗi cấu hình: xác thực 2 yếu tố đã được thi hành, nhưng không có chiến lược nào đang được sử dụng."
@@ -118,10 +119,10 @@ vi:
       2fa_from_webauthn: Vui lòng cung cấp thiết bị WebAuthn <strong>%{device_name}</strong>. Nếu thiết bị dựa trên USB, hãy đảm bảo cắm vào và chạm vào nó. Sau đó nhấp vào nút đăng nhập.
       webauthn:
         title: "WebAuthn"
-        description: Sử dụng Xác thực Web để đăng ký thiết bị FIDO2 (như YubiKey) hoặc khu vực bảo mật của thiết bị di động của bạn như là yếu tố thứ hai.
+        description: Đăng ký một thiết bị FIDO2 (như YubiKey) hoặc vùng bảo mật trong thiết bị di động của bạn.
         further_steps: Sau khi bạn chọn tên, bạn có thể nhấp vào nút Tiếp tục. Trình duyệt của bạn sẽ yêu cầu bạn xuất trình thiết bị WebAuthn của bạn. Khi bạn đã làm như vậy, bạn đã hoàn tất việc đăng ký thiết bị.
       totp:
-        title: "Sử dụng ứng dụng xác thực của bạn"
+        title: "Xác thực dựa trên ứng dụng"
         provisioning_uri: "URI cấp phát"
         secret_key: "Khóa bí mật"
         time_based: "Dựa trên thời gian"
@@ -134,14 +135,13 @@ vi:
         text_cannot_scan: |
           Nếu bạn không thể quét mã, bạn có thể nhập thông tin theo cách thủ công bằng các chi tiết sau:
         description: |
-          Đăng ký một ứng dụng xác thực để sử dụng với OpenProject bằng tiêu chuẩn xác thực mật khẩu một lần dựa trên thời gian.
-          Các ví dụ phổ biến là Google Authenticator hoặc Authy.
+          Sử dụng mã một lần được tạo bởi trình xác thực như Authy hoặc Google Authenticator.
       sms:
-        title: "Sử dụng điện thoại di động của bạn"
+        title: "Thiết bị di động"
         redacted_identifier: "Thiết bị di động (%{redacted_number})"
         request_2fa_identifier: "%{redacted_identifier}, chúng tôi đã gửi cho bạn một mã xác thực qua %{delivery_channel}"
         description: |
-          Đăng ký số điện thoại di động của bạn để nhận các mật khẩu một lần của OpenProject.
+          Nhận mã 2FA qua tin nhắn văn bản trên điện thoại mỗi khi bạn đăng nhập.
     sns:
       delivery_failed: "Chuyển tin SNS thất bại:"
     message_bird:

@@ -21,6 +21,8 @@ pt-PT:
               only_numeric_or_uuid: só pode ser numérico ou uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Selecione uma pasta.
             project_folder_mode:
               mode_unavailable: não está disponível para este armazenamento.
             project_ids:
@@ -29,7 +31,7 @@ pt-PT:
           attributes:
             host:
               authorization_header_missing: não está totalmente configurado. A instância Nextcloud não recebe o cabeçalho "Autorização", que é necessário para um token portador com base na autorização das solicitações de API. Verifique novamente a configuração do seu servidor HTTP.
-              cannot_be_connected_to: não pode ser conectado.
+              cannot_be_connected_to: não foi possível aceder. Certifique-se de que o anfitrião está acessível e que a aplicação de integração do OpenProject está instalada.
               minimal_nextcloud_version_unmet: não atende aos requisitos mínimos de versão (deve ser Nextcloud 23 ou superior)
               not_nextcloud_server: não é um servidor Nextcloud
               op_application_not_installed: parece não ter a app "OpenProject integration" instalada. Instale-a primeiro e tente novamente.
@@ -57,15 +59,18 @@ pt-PT:
   permission_write_files: 'Pastas do projeto geridas automaticamente: Escrever ficheiros'
   project_module_storages: Ficheiros
   project_storages:
+    edit_project_folder:
+      label: Editar pasta do projeto
     project_folder_mode:
       automatic: Gerido automaticamente
       inactive: Nenhuma pasta específica
       manual: Pasta existente gerida manualmente
     remove_project:
+      deletion_failure_flash: Erro ao remover o projeto do armazenamento. %{error}
       dialog:
         automatically_managed_appendix: Além disso, no caso de este armazenamento ter uma pasta de projeto gerida automaticamente, esta e os seus ficheiros serão eliminados para sempre.
         confirmation_text: Confirme que compreende e pretende remover este armazenamento de ficheiros deste projeto
-        heading: Remover projeto de %{storage_type}
+        heading_text: Remover projeto de %{storage}
         text: Esta ação é irreversível e irá remover todas as ligações dos pacotes de trabalho deste projeto aos ficheiros e pastas desse armazenamento.
       label: Remover projeto
   services:
@@ -86,6 +91,12 @@ pt-PT:
         rename_project_folder: 'Renomear pasta do projeto gerido:'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: A pasta %{destination_path} já existe. Interrompa o processo para evitar substituições.
+          error: Ocorreu um erro inesperado. Verifique os registos do OpenProject para obter mais informações ou contacte um administrador
+          forbidden: O OpenProject não conseguiu aceder à pasta de origem. Verifique a sua configuração de permissões no fornecedor de armazenamento
+          not_found: A localização do modelo de origem %{source_path} não foi encontrada.
+          unauthorized: Não foi possível autenticar o OpenProject com o fornecedor de armazenamento.Verifique a sua configuração de armazenamento
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -167,6 +178,9 @@ pt-PT:
       nextcloud:
         group_folders_app: Agrupar pastas
         integration_app: Integração do OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: Este armazenamento tem uma configuração incompleta. Conclua a configuração antes de o ativar em vários projetos.
+      setup_incomplete_header: Configuração do armazenamento incompleta
     error_invalid_provider_type: Selecione um fornecedor de armazenamento válido.
     file_storage_view:
       access_management:
@@ -302,16 +316,24 @@ pt-PT:
     no_results: Não há armazenamento configurado.
     notice_successful_storage_connection: |-
       Armazenamento ligado com sucesso! Lembre-se de ativar o módulo e o armazenamento específico nas definições do projeto de cada projeto pretendido para o utilizar.
-    oauth_grant_nudge_modal:
+    oauth_access_granted_modal:
       access_granted: Acesso garantido
-      access_granted_screen_reader: Acesso concedido. Está agora pronto para utilizar %{storage}.
-      body: Para ter acesso à pasta do projeto, tem de iniciar sessão em %{storage}.
+      project_settings:
+        access_granted_screen_reader: Acesso concedido. Está agora pronto para utilizar %{storage}
+        storage_ready: Está agora pronto para utilizar %{storage}
+      storage_admin:
+        access_granted_screen_reader: Acesso concedido. Está agora pronto para adicionar projetos a %{storage}
+        storage_ready: Está agora pronto para adicionar projetos a %{storage}
+    oauth_grant_nudge_modal:
       cancel_button_label: Farei isso mais tarde
-      confirm_button_aria_label: Iniciar sessão em %{storage}
-      confirm_button_label: Iniciar sessão
+      heading: Tem de iniciar sessão em %{provider_type}
+      login_button_aria_label: Iniciar sessão em %{storage}
+      login_button_label: "Início de sessão em %{provider_type}"
+      project_settings:
+        description: Para ter acesso à pasta do projeto, tem de iniciar sessão em %{storage}.
       requesting_access_to: Solicitando acesso a %{storage}
-      storage_ready: Está pronto para utilizar %{storage}
-      title: Mais um passo…
+      storage_admin:
+        description: Para adicionar projetos a este armazenamento, tem de iniciar sessão em %{provider_type}. Inicie sessão e tente novamente.
     open_project_storage_modal:
       success:
         subtitle: Está a ser redirecionado

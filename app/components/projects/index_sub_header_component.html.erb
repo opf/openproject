@@ -1,23 +1,35 @@
-<%= render(Primer::OpenProject::SubHeader.new(data: {
-    controller: "filter--filters-form",
-    "application-target": "dynamic",
-  })) do |subheader|
-    subheader.with_filter_component do
-      render(Filter::FilterButtonComponent.new(query: @query, disabled: @disable_buttons))
-    end
+<%= component_wrapper(tag: 'turbo-frame') do %>
+  <%= render(Primer::OpenProject::SubHeader.new(data: sub_header_data_attributes)) do |subheader|
+      subheader.with_filter_input(name: "name_and_identifier",
+                                  label: t('projects.index.search.label'),
+                                  value: filter_input_value,
+                                  placeholder: t('projects.index.search.placeholder'),
+                                  leading_visual: {
+                                    icon: :search,
+                                    size: :small
+                                  },
+                                  input_width: :medium,
+                                  show_clear_button: true,
+                                  clear_button_id: clear_button_id,
+                                  data: filter_input_data_attributes)
 
-    subheader.with_action_button(tag: :a,
-                                 href: new_project_path,
-                                 scheme: :primary,
-                                 disabled: @disable_buttons,
-                                 size: :medium,
-                                 aria: { label: I18n.t(:label_project_new) },
-                                 data: { 'test-selector': 'project-new-button' }) do |button|
-      button.with_leading_visual_icon(icon: :plus)
-      Project.model_name.human
-    end if @current_user.allowed_globally?(:add_project)
+      subheader.with_filter_component do
+        render(Projects::ProjectFilterButtonComponent.new(query: @query, disabled: @disable_buttons))
+      end
 
-    subheader.with_bottom_pane_component(mt: 0) do
-      render(Projects::ProjectsFiltersComponent.new(query: @query))
-    end
-  end %>
+      subheader.with_action_button(tag: :a,
+                                  href: new_project_path,
+                                  scheme: :primary,
+                                  disabled: @disable_buttons,
+                                  size: :medium,
+                                  aria: { label: I18n.t(:label_project_new) },
+                                  data: { 'test-selector': 'project-new-button' }) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        Project.model_name.human
+      end if @current_user.allowed_globally?(:add_project)
+
+      subheader.with_bottom_pane_component(mt: 0) do
+        render(Projects::ProjectsFiltersComponent.new(query: @query))
+      end
+    end %>
+<% end %>

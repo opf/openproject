@@ -21,6 +21,8 @@ pl:
               only_numeric_or_uuid: może być tylko wartością liczbową lub uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Wybierz folder.
             project_folder_mode:
               mode_unavailable: jest niedostępny dla tego magazynu.
             project_ids:
@@ -29,7 +31,7 @@ pl:
           attributes:
             host:
               authorization_header_missing: nie jest w pełni skonfigurowany. Instancja Nextcloud nie otrzymuje nagłówka "Autoryzacja", który jest niezbędny do autoryzacji żądań API na podstawie tokena Bearer. Sprawdź konfigurację serwera HTTP.
-              cannot_be_connected_to: nie można połączyć.
+              cannot_be_connected_to: nie można osiągnąć. Upewnij się, że host jest osiągalny i zainstalowana jest aplikacja integracji OpenProject.
               minimal_nextcloud_version_unmet: nie spełnia wymagań wersji minimalnej (konieczna Nextcloud 23 lub wyższa)
               not_nextcloud_server: nie jest serwerem Nextcloud
               op_application_not_installed: wydaje się, że aplikacja "OpenProject integration" nie jest zainstalowana. Zainstaluj ją najpierw i spróbuj ponownie.
@@ -57,15 +59,18 @@ pl:
   permission_write_files: 'Automatycznie zarządzane foldery projektu: zapis plików'
   project_module_storages: Pliki
   project_storages:
+    edit_project_folder:
+      label: Edytuj folder projektu
     project_folder_mode:
       automatic: Automatyczne zarządzanie
       inactive: Brak konkretnego folderu
       manual: Istniejący folder zarządzany ręcznie
     remove_project:
+      deletion_failure_flash: Nie można usunąć projektu z magazynu. %{error}
       dialog:
         automatically_managed_appendix: Ponadto w przypadku, gdy ten magazyn zawiera automatycznie zarządzany folder projektu, folder ten i jego pliki zostaną bezpowrotnie usunięte.
         confirmation_text: Potwierdź, że rozumiesz i chcesz usunąć ten magazyn plików z tego projektu.
-        heading: Usuń projekt z %{storage_type}
+        heading_text: Usuń projekt z %{storage}
         text: To działanie jest nieodwracalne i spowoduje usunięcie wszystkich linków do plików i folderów tego magazynu z pakietów roboczych tego projektu.
       label: Usuń projekt
   services:
@@ -86,6 +91,12 @@ pl:
         rename_project_folder: 'Zmień nazwę zarządzanego folderu projektu:'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: Folder %{destination_path} już istnieje. Przerywanie procesu, aby uniknąć zastąpień.
+          error: Wystąpił nieoczekiwany błąd. Sprawdź dzienniki OpenProject, aby uzyskać więcej informacji lub skontaktuj się z administratorem
+          forbidden: Program OpenProject nie mógł uzyskać dostępu do folderu źródłowego. Sprawdź konfigurację uprawnień do dostawcy magazynu
+          not_found: Nie znaleziono lokalizacji szablonu źródłowego %{source_path}.
+          unauthorized: Program OpenProject nie mógł uwierzytelnić się u dostawcy magazynu. Sprawdź konfigurację magazynu
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -111,7 +122,7 @@ pl:
             set_folders_permissions:
               permission_not_set: nie można ustawić uprawnień do lokalizacji %{path}.
           error: Wystąpił nieoczekiwany błąd. Upewnij się, że wystąpienie Nextcloud jest osiągalne i sprawdź dzienniki pracowników OpenProject, aby uzyskać więcej informacji
-          group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
+          group_does_not_exist: "%{group} nie istnieje. Sprawdź konfigurację wystąpienia Nextcloud."
           insufficient_privileges: OpenProject nie ma wystarczających uprawnień, aby dodać użytkownika %{user} do grupy %{group}. Sprawdź ustawienia grupy w Nextcloud.
           not_allowed: Nextcloud blokuje żądanie.
           unauthorized: OpenProject nie może zsynchronizować się z Nextcloud. Sprawdź konfigurację magazynu i Nextcloud.
@@ -140,7 +151,7 @@ pl:
       complete_without_setup: Ukończ bez tego
       done_complete_setup: Gotowe, konfiguracja ukończona
       done_continue: Gotowe, kontynuuj
-      open_storage: Open file storage
+      open_storage: Otwórz magazyn plików
       replace_oauth_application: Zastąp OpenProject OAuth
       replace_oauth_client: Zastąp %{provider_type} OAuth
       save_and_continue: Zapisz i kontynuuj
@@ -167,6 +178,9 @@ pl:
       nextcloud:
         group_folders_app: Foldery grupy
         integration_app: Integration OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: Ten magazyn ma niekompletną konfigurację. Ukończ konfigurację przed włączeniem go w wielu projektach.
+      setup_incomplete_header: Niekompletna konfiguracja magazynu
     error_invalid_provider_type: Wybierz właściwego dostawcę magazynu.
     file_storage_view:
       access_management:
@@ -302,16 +316,24 @@ pl:
     no_results: Brak skonfigurowanych magazynów.
     notice_successful_storage_connection: |-
       Magazyn został podłączony! Pamiętaj, aby aktywować moduł i konkretny magazyn w ustawieniach każdego żądanego projektu, aby móc z nich korzystać.
-    oauth_grant_nudge_modal:
+    oauth_access_granted_modal:
       access_granted: Udzielono dostępu
-      access_granted_screen_reader: Dostęp przyznany. Jesteś teraz gotowy do użycia %{storage}.
-      body: Aby uzyskać dostęp do folderu projektu, musisz zalogować się do %{storage}.
+      project_settings:
+        access_granted_screen_reader: Udzielono dostępu. Możesz już używać %{storage}
+        storage_ready: Możesz już używać %{storage}
+      storage_admin:
+        access_granted_screen_reader: Udzielono dostępu. Możesz już dodawać projekty do %{storage}
+        storage_ready: Możesz już dodawać projekty do %{storage}
+    oauth_grant_nudge_modal:
       cancel_button_label: Zrobię to później
-      confirm_button_aria_label: Zaloguj się do %{storage}
-      confirm_button_label: Zaloguj się
+      heading: Logowanie do %{provider_type} jest wymagane
+      login_button_aria_label: Zaloguj się do %{storage}
+      login_button_label: "Zaloguj się do %{provider_type}"
+      project_settings:
+        description: Aby uzyskać dostęp do folderu projektu, musisz zalogować się do %{storage}.
       requesting_access_to: Żądanie dostępu do %{storage}
-      storage_ready: Możesz już używać %{storage}
-      title: Jeszcze jeden krok...
+      storage_admin:
+        description: Aby dodać projekty do tego magazynu, musisz zalogować się do %{provider_type}. Zaloguj się i spróbuj ponownie.
     open_project_storage_modal:
       success:
         subtitle: Następuje przekierowanie

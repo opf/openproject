@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -209,10 +209,12 @@ pl:
     reorder_confirmation: "Ostrzeżenie: Bieżąca kolejność dostępnych wartości zostanie utracona. Kontynuować?"
     instructions:
       is_required: "Oznacz pole niestandardowe jako wymagane. To spowoduje obowiązkowe wypełnianie pola podczas tworzenia nowych lub aktualizacji istniejących zasobów."
+      is_required_for_project: "Zaznacz, aby włączyć ten atrybut i uczynić go wymaganym we wszystkich projektach. Nie można go wyłączyć dla poszczególnych projektów."
       is_for_all: "Zaznacz pole niestandardowe jako dostępne we wszystkich istniejących i nowych projektach."
       searchable: "Uwzględnij wartości pól podczas korzystania z funkcji wyszukiwania globalnego."
+      searchable_for_project: "Zaznacz, aby ten atrybut był dostępny jako filtr na listach projektów."
       editable: "Zezwól na edycję pola przez samych użytkowników."
-      visible: "Ustaw pole jako widoczne dla wszystkich użytkowników (niebędących administratorami) w przeglądzie projektu i wyświetlane w widżecie szczegółów projektu w przeglądzie projektu."
+      admin_only: "Zaznacz, aby ten atrybut był widoczny tylko dla administratorów. Użytkownicy bez uprawnień administratora nie będą mogli go wyświetlać ani edytować."
       is_filter: >
         Zezwól na użycie pola niestandardowego w filtrze w widokach pakietów roboczych. Pamiętaj, że pole niestandardowe będzie wyświetlane w widokach globalnych dopiero po zaznaczeniu opcji „Dla wszystkich projektów”.
     tab:
@@ -259,6 +261,9 @@ pl:
       open_as_gantt: "Otwórz jako widok wykresu Gantta"
       no_results_title_text: Nie ma jeszcze żadnego projektu
       no_results_content_text: Utwórz nowy projekt
+      search:
+        label: Filtr nazwy projektu
+        placeholder: Wyszukaj według nazwy projektu
     lists:
       active: "Aktywne projekty"
       my: "Moje projekty"
@@ -292,7 +297,7 @@ pl:
         actions:
           label_enable_single: "Aktywne w tym projekcie, kliknij, aby wyłączyć"
           label_disable_single: "Nieaktywne w tym projekcie, kliknij, aby włączyć"
-          deactivate_for_project: "Dezaktywuj dla tego projektu"
+          remove_from_project: "Usuń z projektu"
           label_enable_all: "Włącz wszystkie"
           label_disable_all: "Wyłącz wszystkie"
         is_required_blank_slate:
@@ -396,8 +401,8 @@ pl:
   my:
     access_token:
       create_dialog:
-        header: The %{type} token has been generated
-        warning: Note that this is the only time you will see this token, make sure to copy it now.
+        header: Token %{type} został wygenerowany
+        warning: 'Uwaga: jest to jedyny raz, gdy zobaczysz ten token, koniecznie skopiuj go teraz.'
       errors:
         token_name_blank: "Podaj nazwę tokena API"
         token_name_in_use: "Ta nazwa tokena API jest już używana, wybierz inną"
@@ -630,7 +635,7 @@ pl:
         possible_values: "Możliwe wartości"
         regexp: "Wyrażenie regularne"
         searchable: "Wyszukiwalne"
-        visible: "Widoczne"
+        admin_only: "Tylko dla administratorów"
       custom_value:
         value: "Wartość"
       doorkeeper/application:
@@ -700,6 +705,7 @@ pl:
         versions: "Wersje"
         work_packages: "Zadania"
       project_custom_field:
+        is_required: "Wymagane dla wszystkich projektów"
         custom_field_section: Sekcja
       query:
         column_names: "Kolumny"
@@ -1044,6 +1050,12 @@ pl:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "nie odpowiada Pracy i Pozostałej pracy"
+              cannot_be_set_when_work_is_zero: "nie można ustawić, gdy Praca wynosi zero"
+              must_be_set_when_remaining_work_is_set: "wymagane, gdy ustawiona jest opcja Pozostała praca."
+              must_be_set_when_work_and_remaining_work_are_set: "wymagane, gdy ustawione są opcje Praca i Pozostała praca."
+              inclusion: "musi wynosić od 0 do 100."
             due_date:
               not_start_date: "nie jest w dniu rozpoczęcia, chociaż jest to wymagane dla Kamieni Milowych."
               cannot_be_null: "nie można ustawić na wartość zero, ponieważ data rozpoczęcia i czas trwania są znane."
@@ -1072,15 +1084,17 @@ pl:
               does_not_exist: "Podana kategoria nie istnieje."
             estimated_hours:
               not_a_number: "nie jest prawidłowym czasem trwania."
-              cant_be_inferior_to_remaining_work: "Nie może być mniejsza niż wartość pozostałej pracy."
-              must_be_set_when_remaining_work_is_set: "Wymagane, gdy ustawiona jest opcja Pozostała praca."
-              only_values_greater_or_equal_zeroes_allowed: "Musi być >= 0."
-              format: "%{message}"
+              cant_be_inferior_to_remaining_work: "nie może być mniejsza niż Pozostała praca."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "wymagane, gdy ustawione są opcje Pozostała praca i % ukończenia."
             remaining_hours:
               not_a_number: "nie jest prawidłowym czasem trwania."
-              cant_exceed_work: "Nie może być wyższa niż wartość pracy."
-              must_be_set_when_work_is_set: "Wymagane, gdy ustawiona jest opcja Praca."
-              format: "%{message}"
+              cant_exceed_work: "nie może być wyższa niż Praca."
+              must_be_set_when_work_is_set: "wymagane, gdy ustawiona jest opcja Praca."
+              must_be_set_when_work_and_percent_complete_are_set: "wymagane, gdy ustawione są opcje Praca i % ukończenia."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                musi wynosić 0 h, gdy ustawiona jest opcja Praca, a % ukończenia wynosi 100%.
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                musi być puste, gdy Praca jest pusta, a % ukończenia wynosi 100%.
           readonly_status: "Pakiet roboczy ma status tylko do odczytu, więc jego atrybutów nie można zmienić."
         type:
           attributes:
@@ -1174,10 +1188,10 @@ pl:
         other: "Rol"
       status: "Status pakietu roboczego"
       token/api:
-        one: Access token
-        few: Access tokens
-        many: Access tokens
-        other: Access tokens
+        one: Token dostępu
+        few: Tokeny dostępu
+        many: Tokenów dostępu
+        other: Tokenu dostępu
       type: "Typ"
       user: "Użytkownik"
       version: "Wersja"
@@ -1660,6 +1674,7 @@ pl:
   error_pdf_failed_to_export: "Nie można było zapisać eksportu PDF: %{error}"
   error_token_authenticity: "Nie można zweryfikować tokenu Cross-Site Request Forgery. Czy podjęto próbę przesłania danych w wielu przeglądarkach lub z wielu kart? Zamknij wszystkie karty i spróbuj ponownie."
   error_work_package_not_found_in_project: "Pakiet roboczy nie został znaleziony lub nie należy do tego projektu"
+  error_work_package_id_not_found: "Nie znaleziono pakietu roboczego."
   error_must_be_project_member: "musi być członkiem projektu"
   error_migrations_are_pending: "Ta instalacja OpenProject oczekuje na migracje baz danych. Prawdopodobnie pominięto uruchomienie migracji przy ostatnim uaktualnieniu. Sprawdź instrukcję uaktualniania, aby prawidłowo uaktualnić tę instalację."
   error_migrations_visit_upgrade_guides: "Przejdź do naszej dokumentacji instrukcji uaktualniania"
@@ -1701,9 +1716,71 @@ pl:
       project: "Projekt: %{name}"
       subproject: "Podprojekt: %{name}"
   export:
-    your_work_packages_export: "Eksport Twoich pakietów roboczych"
-    succeeded: "Eksport został wykonany."
-    failed: "Eksport nie powiódł się: %{message}"
+    dialog:
+      title: "Eksport"
+      submit: "Eksportuj"
+      format:
+        label: "Format pliku"
+        options:
+          csv:
+            label: "CSV"
+          pdf:
+            label: "PDF"
+          xls:
+            label: "XLS"
+      columns:
+        input_label_report: "Dodaj kolumny do tabeli atrybutów"
+        input_caption_report: "Domyślnie zaznaczone są wszystkie atrybuty dodane jako kolumny na liście pakietów roboczych. Długie pola tekstowe nie są dostępne w tabeli atrybutów, ale mogą być wyświetlane pod nią."
+        input_caption_table: "Domyślnie zaznaczone są wszystkie atrybuty dodane jako kolumny na liście pakietów roboczych. Długie pola tekstowe nie są dostępne w eksportach opartych na tabelach."
+      pdf:
+        export_type:
+          label: "Typ eksportu PDF"
+          options:
+            table:
+              label: "Tabela"
+              caption: "Wyeksportuj listę pakietów roboczych w tabeli z żądanymi kolumnami."
+            report:
+              label: "Raport"
+              caption: "Wyeksportuj pakiet roboczy w szczegółowym raporcie dotyczącym wszystkich pakietów roboczych na liście."
+            gantt:
+              label: "Wykres Gantta"
+              caption: "Wyeksportuj listę pakietów roboczych w widoku diagramu Gantta."
+        include_images:
+          label: "Uwzględnij obrazy"
+          caption: "Wyklucz obrazy, aby zmniejszyć rozmiar eksportowanego pliku PDF."
+        gantt_zoom_levels:
+          label: "Poziomy powiększenia"
+          caption: "Wybierz poziom powiększenia dla dat wyświetlanych na wykresie."
+          options:
+            days: "Dni"
+            weeks: "Tygodnie"
+            months: "Miesiące"
+            quarters: "Kwartały"
+        column_width:
+          label: "Szerokość kolumny tabeli"
+          options:
+            narrow: "Wąskie"
+            medium: "Średnie"
+            wide: "Szerokie"
+            very_wide: "Bardzo szerokie"
+        paper_size:
+          label: "Rozmiar papieru"
+          caption: "W zależności od rozmiaru wykresu może zostać wyeksportowana więcej niż jedna strona."
+        long_text_fields:
+          input_caption: "Domyślnie zaznaczone są wszystkie długie pola tekstowe."
+          input_label: "Dodaj długie pola tekstowe"
+          input_placeholder: "Wyszukaj długie pola tekstowe"
+          drag_area_label: "Zarządzanie długimi polami tekstowymi"
+      xls:
+        include_relations:
+          label: "Uwzględnij relacje"
+          caption: "Ta opcja spowoduje utworzenie duplikatu każdego pakietu roboczego dla każdej relacji z innym pakietem roboczym."
+        include_descriptions:
+          label: "Uwzględnij opisy"
+          caption: "Ta opcja doda kolumnę opisu w formacie nieprzetworzonym."
+    your_work_packages_export: "Pakiety robocze są eksportowane"
+    succeeded: "Eksport ukończony"
+    failed: "Podczas próby wyeksportowania pakietów roboczych wystąpił błąd: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1864,6 +1941,11 @@ pl:
       responsible: "Osoba odpowiedzialna"
       shared: "Udostępniono"
       watched: "Obserwator"
+    facets:
+      unread: "Nieprzeczytane"
+      unread_title: "Pokaż nieprzeczytane"
+      all: "Wszystkie"
+      all_title: "Pokaż wszystkie"
     menu:
       by_project: "Nieprzeczytane wg projektu"
       by_reason: "Powód"
@@ -2223,6 +2305,8 @@ pl:
   label_next_week: "Następny tydzień"
   label_no_change_option: "(Bez zmian)"
   label_no_data: "Brak danych do pokazania"
+  label_no_due_date: "brak daty zakończenia"
+  label_no_start_date: "brak daty rozpoczęcia"
   label_no_parent_page: "Bez strony nadrzędnej"
   label_nothing_display: "Brak danych do pokazania"
   label_nobody: "nikt"
@@ -2347,6 +2431,8 @@ pl:
   label_role_plural: "Role"
   label_role_search: "Przydziel role nowemu członkowi"
   label_scm: "SCM"
+  label_scroll_left: "Przewiń w lewo"
+  label_scroll_right: "Przewiń w prawo"
   label_search: "Szukaj"
   label_search_by_name: "Wyszukaj według nazwy"
   label_send_information: "Wyślij nowe poświadczenia do użytkownika"
@@ -3104,8 +3190,10 @@ pl:
   setting_work_package_done_ratio: "Obliczenie postępu"
   setting_work_package_done_ratio_field: "Oparte na pracy"
   setting_work_package_done_ratio_status: "Oparte na statusie"
-  setting_work_package_done_ratio_explanation_html: >
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     W trybie <b>opartym na pracy</b> % ukończenia jest obliczany na podstawie ilości wykonanej pracy w stosunku do pracy całkowitej. W trybie <b>opartym na statusie</b> każdy status ma powiązaną wartość % ukończenia. Zmiana statusu spowoduje zmianę % ukończenia.
+  setting_work_package_done_ratio_explanation_html: >
+    W trybie <b>opartym na pracy</b> % ukończenia można swobodnie ustawić na dowolną wartość. Jeśli opcjonalnie wprowadzisz wartość Praca, Pozostała praca zostanie wyprowadzona automatycznie. W trybie <b>opartym na statusie</b> każdy status ma powiązaną wartość % ukończenia. Zmiana statusu spowoduje zmianę wartości % ukończenia.
   setting_work_package_properties: "Właściwości pakietu roboczego"
   setting_work_package_startdate_is_adddate: "Użyj bieżącej daty jako daty początkowej dla nowych pakietów roboczych"
   setting_work_packages_projects_export_limit: "Limit eksportu pakietów roboczych / projektów"
@@ -3490,9 +3578,26 @@ pl:
     progress:
       label_note: "Uwaga:"
       modal:
-        work_based_help_text: "% ukończenia jest automatycznie wyprowadzany z wartości Praca i Pozostała praca."
+        work_based_help_text: "Każde pole jest automatycznie obliczane na podstawie dwóch innych, jeśli to możliwe."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "% ukończenia jest automatycznie wyprowadzany z wartości Praca i Pozostała praca."
         status_based_help_text: "% ukończenia jest ustawiany na podstawie statusu pakietu roboczego."
         migration_warning_text: "W trybie obliczania postępu na podstawie pracy wartości % ukończenia nie można ustawić ręcznie i jest ona powiązana z wartością Praca. Istniejąca wartość została zachowana, ale nie można jej edytować. Najpierw wprowadź wartość Praca."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Wyczyszczono, ponieważ Pozostała praca jest pusta."
+          cleared_because_work_is_0h: "Wyczyszczono, ponieważ Praca wynosi 0 h."
+          derived: "Wartość jest wyprowadzana z wartości Praca i Pozostała praca."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Wyczyszczono, ponieważ Pozostała praca jest pusta."
+          derived: "Wartość jest wyprowadzana z wartości Pozostała praca i % ukończenia."
+          same_as_remaining_work: "Ustaw tę samą wartość, co Pozostała praca."
+        remaining_hours:
+          cleared_because_work_is_empty: "Wyczyszczono, ponieważ Praca jest pusta."
+          cleared_because_percent_complete_is_empty: "Wyczyszczono, ponieważ % ukończenia jest pusty."
+          decreased_like_work: "Zmniejszono o taką samą wartość jak pole Praca."
+          derived: "Wartość jest wyprowadzana z wartości Praca i % ukończenia."
+          increased_like_work: "Zwiększono o taką samą wartość jak pole Praca."
+          same_as_work: "Ustaw na tę samą wartość, co Praca."
     permissions:
       comment: "Komentarz"
       comment_description: "Może wyświetlać i komentować ten pakiet roboczy."

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ es:
     button_back_to_list_view: "Volver a la lista"
     button_cancel: "Cancelar"
     button_close: "Cerrar"
-    button_change_project: "Cambiar proyecto"
+    button_change_project: "Mover a otro proyecto"
     button_check_all: "Seleccionar todos"
     button_configure-form: "Configurar formulario"
     button_confirm: "Confirmar"
@@ -74,7 +74,7 @@ es:
     button_copy: "Copiar"
     button_copy_to_clipboard: "Copiar en el portapapeles"
     button_copy_link_to_clipboard: "Copiar enlace al portapapeles"
-    button_copy_to_other_project: "Copiar en otro proyecto"
+    button_copy_to_other_project: "Duplicar en otro proyecto"
     button_custom-fields: "Campos personalizados"
     button_delete: "Eliminar"
     button_delete_watcher: "Eliminar observador"
@@ -138,6 +138,8 @@ es:
     description_select_work_package: "Seleccione el paquete de trabajo #%{id}"
     description_subwork_package: "Seleccione el paquete de trabajo #%{id}"
     editor:
+      revisions: "Mostrar modificaciones locales"
+      no_revisions: "No se han encontrado modificaciones locales"
       preview: "Activar modo de vista previa"
       source_code: "Activar modo de visualización Markdown"
       error_saving_failed: "No se pudo guardar el documento debido al siguiente error: %{error}"
@@ -276,8 +278,10 @@ es:
           Los cambios pueden tardar algún tiempo en surtir efecto. Se le notificará cuando todos los paquetes de trabajo relevantes hayan sido actualizados.
           ¿Está seguro de que desea continuar?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
           Cambiar el modo de cálculo del progreso de basado en el estado a basado en el trabajo hará que <i>% completado</i> sea un campo no editable cuyo valor se deriva de <i>Trabajo</i> y <i>Trabajo restante</i>. Los valores existentes para <i>% completado</i> se conservan. Si los valores para <i>Trabajo</i> y <i>Trabajo restante</i> no estaban presentes, serán necesarios para cambiar <i>% completado</i>.
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Cambiar el modo de cálculo del progreso de basado en el estado a basado en el trabajo hará que el campo <i>% completado</i> se pueda editar libremente. Si introduce opcionalmente valores para <i>Trabajo</i> o <i>Trabajo restante</i>, también se vincularán a <i>% completado</i>. Cambiar <i>Trabajo restante</i> puede entonces actualizar <i>% completado</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           El cambio del modo de cálculo del progreso de basado en el trabajo a basado en el estado hará que todos los valores existentes de <i>% completado</i> se pierdan y se sustituyan por valores asociados a cada estado. Los valores existentes para <i>Trabajo restante</i> también pueden recalcularse para reflejar este cambio. Esta acción no es reversible.
     custom_actions:
@@ -336,18 +340,6 @@ es:
         years: "Años"
         description: >
           Seleccione el nivel de zoom inicial que debe mostrarse cuando el zoom automático no esté disponible.
-      export:
-        title: "Opciones PDF del diagrama de Gantt"
-        button_export: "Exportar"
-        column_widths:
-          narrow: "Estrecha"
-          medium: "Media"
-          wide: "Amplia"
-          very_wide: "Muy amplia"
-        options:
-          date_zoom: "Formato de fechas"
-          paper_size: "Tamaño del papel"
-          column_widths: "Anchos de columna"
     general_text_no: "no"
     general_text_yes: "sí"
     general_text_No: "No"
@@ -366,10 +358,10 @@ es:
           learn_about: "Más información sobre las nuevas funciones"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
+                La versión contiene varias características nuevas y mejoras, como: <br> <ul class="%{list_styling_class}"> <li>Mantener y restaurar las versiones locales de los cambios de contenido WYSIWYG.</li> <li>Habilitar un almacenamiento para múltiples proyectos a la vez.</li> <li>Exportar paquetes de trabajo en un modal actualizado con ajustes adicionales.</li> <li>Mostrar columnas/filtros de campos personalizados en las listas de proyectos también en la edición Community.</li> <li>Admitir CloudFlare Turnstile como Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."
@@ -410,6 +402,7 @@ es:
     label_create: "Crear"
     label_create_work_package: "Crear un nuevo paquete de trabajo"
     label_created_by: "Creado por"
+    label_current: "actual"
     label_date: "Fecha"
     label_date_with_format: "Introduzca el %{date_attribute} usando el siguiente formato: %{format}"
     label_deactivate: "Desactivar"
@@ -638,11 +631,6 @@ es:
         upsale:
           title: "Alertas de fecha"
           description: "Con las alertas de fecha, recibirá notificaciones de próximas fechas de inicio o finalización para que nunca olvide una fecha límite importante."
-      facets:
-        unread: "No leídas"
-        unread_title: "Mostrar no leídos"
-        all: "Todos"
-        all_title: "Mostrar todos"
       center:
         label_actor_and: "y"
         and_more_users:
@@ -653,12 +641,13 @@ es:
           with_current_filter: "No hay notificaciones en esta vista actualmente"
         mark_all_read: "Marcar todas como leídas"
         mark_as_read: "Marcar como leída"
-        text_update_date: "%{date} por"
+        text_update_date_by: "%{date} por"
         total_count_warning: "Mostrando las %{newest_count} notificaciones más recientes. %{more_count} más no se muestran."
         empty_state:
           no_notification: "Parece que ya estás al día."
           no_notification_with_current_project_filter: "Parece que ya está al día con el proyecto seleccionado."
           no_notification_with_current_filter: "Parece que ya está al día con el filtro %{filter}."
+          no_notification_for_filter: "Parece que ya está al día completamente para este filtro."
           no_selection: "Haga clic en una notificación para ver todos los detalles de la actividad."
         new_notifications:
           message: "Hay nuevas notificaciones."
@@ -1198,6 +1187,9 @@ es:
         one: "1 día"
         other: "%{count} días"
         zero: "0 días"
+      word:
+        one: "1 palabra"
+        other: "%{count} palabras"
     zen_mode:
       button_activate: "Activar modo zen"
       button_deactivate: "Desactivar modo zen"

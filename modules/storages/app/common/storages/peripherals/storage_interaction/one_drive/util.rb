@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,29 +40,6 @@ module Storages
               json.dig(:file, :mimeType) || (json.key?(:folder) ? "application/x-op-directory" : nil)
             end
 
-            def using_user_token(storage, user, &)
-              connection_manager = ::OAuthClients::ConnectionManager
-                                     .new(user:, configuration: storage.oauth_configuration)
-
-              connection_manager
-                .get_access_token
-                .match(
-                  on_success: ->(token) do
-                    connection_manager.request_with_token_refresh(token) { yield token }
-                  end,
-                  on_failure: ->(_) do
-                    ServiceResult.failure(
-                      result: :unauthorized,
-                      errors: StorageError.new(
-                        code: :unauthorized,
-                        data: StorageErrorData.new(source: connection_manager),
-                        log_message: "Query could not be created! No access token found!"
-                      )
-                    )
-                  end
-                )
-            end
-
             def storage_error(response:, code:, source:, log_message: nil)
               # Some errors, like timeouts, aren't json responses so we need to adapt
               payload = response.respond_to?(:json) ? response.json(symbolize_keys: true) : response.to_s
@@ -78,36 +55,6 @@ module Storages
             def json_content_type
               { headers: { "Content-Type" => "application/json" } }
             end
-
-            # rubocop:disable Metrics/AbcSize
-            def using_admin_token(storage)
-              oauth_client = storage.oauth_configuration.basic_rack_oauth_client
-
-              token_result =
-                begin
-                  Rails.cache.fetch("storage.#{storage.id}.access_token", expires_in: 50.minutes) do
-                    ServiceResult.success(result: oauth_client.access_token!(scope: "https://graph.microsoft.com/.default"))
-                  end
-                rescue Rack::OAuth2::Client::Error => e
-                  ServiceResult.failure(errors: ::Storages::StorageError.new(
-                    code: :unauthorized,
-                    data: StorageErrorData.new(source: self.class),
-                    log_message: e.message
-                  ))
-                end
-
-              token_result.match(
-                on_success: ->(token) do
-                  yield OpenProject.httpx.with(origin: storage.uri,
-                                               headers: { authorization: "Bearer #{token.access_token}",
-                                                          accept: "application/json",
-                                                          "content-type": "application/json" })
-                end,
-                on_failure: ->(errors) { ServiceResult.failure(result: :unauthorized, errors:) }
-              )
-            end
-
-            # rubocop:enable Metrics/AbcSize
 
             def extract_location(parent_reference, file_name = "")
               location = parent_reference[:path].gsub(/.*root:/, "")

@@ -21,6 +21,8 @@ ko:
               only_numeric_or_uuid: '- 숫자 또는 uuid만 가능합니다.'
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: 폴더를 선택하세요.
             project_folder_mode:
               mode_unavailable: '- 이 저장소에 사용할 수 없습니다.'
             project_ids:
@@ -29,7 +31,7 @@ ko:
           attributes:
             host:
               authorization_header_missing: 완전히 설정되지 않았습니다. Nextcloud 인스턴스는 API 요청에 대한 Bearer 토큰 기반 인증에 필요한 "Authorization" 헤더를 수신하지 않습니다. HTTP 서버 구성을 다시 확인하세요.
-              cannot_be_connected_to: '- 연결할 수 없습니다.'
+              cannot_be_connected_to: '- 연결할 수 없습니다. 호스트에 연결할 수 있고 OpenProject 통합 앱이 설치되어 있는지 확인하세요.'
               minimal_nextcloud_version_unmet: '- 최소 버전 요구 사항을 충족하지 않습니다(Nextcloud 23 이상이어야 함).'
               not_nextcloud_server: '- Nextcloud 서버가 아닙니다.'
               op_application_not_installed: '"OpenProject Integration" 앱이 설치되지 않은 것 같습니다. 먼저 설치한 후 다시 시도하세요.'
@@ -57,15 +59,18 @@ ko:
   permission_write_files: '자동으로 관리되는 프로젝트 폴더: 파일 쓰기'
   project_module_storages: 파일
   project_storages:
+    edit_project_folder:
+      label: 프로젝트 폴더 편집
     project_folder_mode:
       automatic: 자동으로 관리됨
       inactive: 특정 폴더 없음
       manual: 수동으로 관리되는 기존 폴더
     remove_project:
+      deletion_failure_flash: 저장소에서 프로젝트를 제거하지 못했습니다. %{error}
       dialog:
         automatically_managed_appendix: 또한 이 경우에는 해당 저장소에 자동으로 관리되는 프로젝트 폴더가 있는 경우 이 폴더와 해당 파일이 영구적으로 삭제됩니다.
         confirmation_text: 해당 사항을 이해하며 이 프로젝트에서 이 파일 저장소를 제거할 것인지 확인해 주세요
-        heading: '%{storage_type}에서 프로젝트 제거'
+        heading_text: '%{storage}에서 프로젝트 제거'
         text: 이 작업은 되돌릴 수 없으며 이 프로젝트의 작업 패키지에서 해당 저장소의 파일 및 폴더에 대한 모든 링크를 제거합니다.
       label: 프로젝트 제거
   services:
@@ -86,6 +91,12 @@ ko:
         rename_project_folder: '관리되는 프로젝트 폴더의 이름 바꾸기:'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: '%{destination_path} 폴더가 이미 존재합니다. 덮어쓰기를 방지하기 위해 프로세스가 중단됩니다.'
+          error: 예기치 않은 오류가 발생했습니다. OpenProject 로그에서 자세한 내용을 확인하거나 관리자에게 문의하세요
+          forbidden: OpenProject가 소스 폴더에 액세스할 수 없습니다. 저장소 공급자의 권한 구성을 확인하세요.
+          not_found: 소스 템플릿 위치 %{source_path}을(를) 찾을 수 없습니다.
+          unauthorized: OpenProject가 저장소 공급자를 인증할 수 없습니다. 저장소 구성을 확인하세요
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -167,6 +178,9 @@ ko:
       nextcloud:
         group_folders_app: 그룹 폴더
         integration_app: Integration OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: 이 저장소의 설정이 완료되지 않았습니다. 여러 프로젝트에서 활성화하기 전에 설정을 완료하세요.
+      setup_incomplete_header: 저장소 설정 미완료
     error_invalid_provider_type: 유효한 저장소 공급자를 선택하세요.
     file_storage_view:
       access_management:
@@ -302,16 +316,24 @@ ko:
     no_results: 아직 저장소가 설정되지 않았습니다.
     notice_successful_storage_connection: |-
       저장소가 연결되었습니다! 이 저장소를 사용하려면 원하는 각 프로젝트의 프로젝트 설정에서 모듈과 특정 저장소를 활성화해야 합니다.
+    oauth_access_granted_modal:
+      access_granted: 엑세스 권한 부여됨
+      project_settings:
+        access_granted_screen_reader: 액세스 권한이 부여되었습니다. 이제 %{storage} 사용 준비가 완료되었습니다.
+        storage_ready: 이제 %{storage} 사용 준비가 완료되었습니다.
+      storage_admin:
+        access_granted_screen_reader: 액세스 권한이 부여되었습니다. 이제 %{storage}에 프로젝트를 추가할 준비가 되었습니다.
+        storage_ready: 이제 %{storage}에 프로젝트를 추가할 준비가 되었습니다.
     oauth_grant_nudge_modal:
-      access_granted: 액세스 승인됨
-      access_granted_screen_reader: 액세스 권한이 부여되었습니다. 이제 %{storage} 사용 준비가 완료되었습니다.
-      body: 프로젝트 폴더에 액세스하려면 %{storage}에 로그인해야 합니다.
       cancel_button_label: 나중에 하겠습니다
-      confirm_button_aria_label: '%{storage}에 로그인'
-      confirm_button_label: 로그인
+      heading: '%{provider_type}에 로그인 필요'
+      login_button_aria_label: '%{storage}에 로그인'
+      login_button_label: "%{provider_type} 로그인"
+      project_settings:
+        description: 프로젝트 폴더에 액세스하려면 %{storage}에 로그인해야 합니다.
       requesting_access_to: '%{storage}에 대한 액세스 요청'
-      storage_ready: 이제 %{storage}을(를) 사용할 준비가 되었습니다
-      title: 한 단계 더...
+      storage_admin:
+        description: 이 저장소에 프로젝트를 추가하려면 %{provider_type}에 로그인해야 합니다. 로그인한 후 다시 시도하세요.
     open_project_storage_modal:
       success:
         subtitle: 리디렉션 중입니다

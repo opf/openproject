@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -207,10 +207,12 @@ uk:
     reorder_confirmation: "Увага! Поточний порядок доступних значень буде втрачено. Продовжити?"
     instructions:
       is_required: "Позначте користувацьке поле як обов’язкове. Так його потрібно буде заповнювати під час створення нових або оновлення наявних ресурсів."
+      is_required_for_project: "Установіть прапорець, щоб увімкнути цей атрибут і зробити його обов’язковим в усіх проєктах. Його не можна деактивувати для окремих проєктів."
       is_for_all: "Позначте користувацьке поле як доступне в усіх наявних і нових проєктах."
       searchable: "Включіть значення полів під час використання функції глобального пошуку."
+      searchable_for_project: "Установіть прапорець, щоб зробити цей атрибут доступним як фільтр у списках проєктів."
       editable: "Дозвольте користувачам самостійно редагувати це поле."
-      visible: "Зробіть поле видимим для всіх користувачів (які не належать до адміністраторів) на сторінці огляду проєкту й на віджеті з докладними даними про проєкт у розділі «Огляд проєкту»."
+      admin_only: "Установіть прапорець, щоб зробити цей атрибут видимим лише для адміністраторів. Користувачі без прав адміністратора не зможуть переглядати або редагувати його."
       is_filter: >
         Дозвольте відображати користувацьке поле у фільтрі в поданнях пакета робіт. Зверніть увагу: користувацьке поле відображатиметься в глобальних поданнях, лише якщо встановлено прапорець «Для всіх проєктів».
     tab:
@@ -257,6 +259,9 @@ uk:
       open_as_gantt: "Відкрити в поданні Ґанта"
       no_results_title_text: Наразі немає проектів
       no_results_content_text: Створіть новий проект
+      search:
+        label: Фільтр назв проєктів
+        placeholder: Пошук за назвою проєкту
     lists:
       active: "Активні проєкти"
       my: "Мої проєкти"
@@ -290,7 +295,7 @@ uk:
         actions:
           label_enable_single: "Увімкнено в цьому проєкті; натисніть, щоб вимкнути"
           label_disable_single: "Вимкнено в цьому проєкті; натисніть, щоб увімкнути"
-          deactivate_for_project: "Деактивувати для цього проєкту"
+          remove_from_project: "Вилучити з проєкту"
           label_enable_all: "Увімкнути все"
           label_disable_all: "Вимкнути все"
         is_required_blank_slate:
@@ -394,8 +399,8 @@ uk:
   my:
     access_token:
       create_dialog:
-        header: The %{type} token has been generated
-        warning: Note that this is the only time you will see this token, make sure to copy it now.
+        header: Маркер %{type} згенеровано
+        warning: Зверніть увагу, що ви більше не побачите цей маркер, тому обов’язково скопіюйте його зараз.
       errors:
         token_name_blank: "Укажіть ім’я маркера API"
         token_name_in_use: "Це ім’я маркера API уже використовується; виберіть інше"
@@ -627,7 +632,7 @@ uk:
         possible_values: "Можливі значення"
         regexp: "Регулярний вираз"
         searchable: "Доступно для пошуку"
-        visible: "Видиме"
+        admin_only: "Тільки для адміністраторів"
       custom_value:
         value: "Значення"
       doorkeeper/application:
@@ -697,6 +702,7 @@ uk:
         versions: "Версії"
         work_packages: "Пакет робіт"
       project_custom_field:
+        is_required: "Обов’язково для всіх проєктів"
         custom_field_section: Розділ
       query:
         column_names: "Стовпці"
@@ -1041,6 +1047,12 @@ uk:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "не збігається зі значеннями атрибутів «Робота» й «Залишок роботи»"
+              cannot_be_set_when_work_is_zero: "не можна встановити, коли атрибут «Робота» дорівнює 0 год"
+              must_be_set_when_remaining_work_is_set: "потрібно вказати, якщо визначено атрибут «Залишок роботи»."
+              must_be_set_when_work_and_remaining_work_are_set: "потрібно вказати, якщо визначено атрибути «Робота» й «Залишок роботи»."
+              inclusion: "має бути в діапазоні від 0 до 100."
             due_date:
               not_start_date: "не на дату початку, хоча це потрібно для етапів."
               cannot_be_null: "не може мати нульове значення, оскільки задано дату початку й тривалість."
@@ -1069,15 +1081,17 @@ uk:
               does_not_exist: "Указана категорія не існує."
             estimated_hours:
               not_a_number: "– не дійсна тривалість."
-              cant_be_inferior_to_remaining_work: "Має дорівнювати значенню «Залишок робіт» або перевищувати його."
-              must_be_set_when_remaining_work_is_set: "Потрібно вказати, якщо визначено атрибут «Залишок робіт»."
-              only_values_greater_or_equal_zeroes_allowed: "Має бути >= 0."
-              format: "%{message}"
+              cant_be_inferior_to_remaining_work: "має дорівнювати значенню «Залишок роботи» або перевищувати його."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "потрібно вказати, якщо визначено атрибути «Залишок роботи» й «% завершення»."
             remaining_hours:
               not_a_number: "– не дійсна тривалість."
-              cant_exceed_work: "Не може перевищувати значення «Робота»."
-              must_be_set_when_work_is_set: "Потрібно вказати, якщо визначено атрибут «Робота»."
-              format: "%{message}"
+              cant_exceed_work: "не може перевищувати значення атрибута «Робота»."
+              must_be_set_when_work_is_set: "потрібно вказати, якщо визначено атрибут «Робота»."
+              must_be_set_when_work_and_percent_complete_are_set: "потрібно вказати, якщо визначено атрибути «Робота» й «% завершення»."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                має дорівнювати 0 год, якщо визначено атрибути «Робота» й «% завершення».
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                має бути пустим, якщо визначено атрибути «Робота» й «% завершення».
           readonly_status: "Пакет робіт перебуває в стані лише для читання, тому його атрибути не можна змінити."
         type:
           attributes:
@@ -1171,10 +1185,10 @@ uk:
         other: "Роль"
       status: "Стан робочого пакета"
       token/api:
-        one: Access token
-        few: Access tokens
-        many: Access tokens
-        other: Access tokens
+        one: Маркер доступу
+        few: Маркери доступу
+        many: Маркери доступу
+        other: Маркери доступу
       type: "Тип"
       user: "Користувач"
       version: "Версія"
@@ -1657,6 +1671,7 @@ uk:
   error_pdf_failed_to_export: "Експорт PDF не вдалося зберегти: %{error}"
   error_token_authenticity: "Неможливо підтвердити маркер підробки для запиту між сайтами. Чи спробували ви надіслати дані для кількох веб-переглядачів або вкладок? Закрийте всі вкладки та повторіть спробу."
   error_work_package_not_found_in_project: "Робочий пакет не був знайдений або не належить до цього проекту"
+  error_work_package_id_not_found: "Пакет робіт не знайдено."
   error_must_be_project_member: "повинен бути учасником проекту"
   error_migrations_are_pending: "У вашій установці OpenProject міститься міграція бази даних. Можливо, ви пропустили міграції під час останнього оновлення. Перевірте керівництво з оновлення, щоб належним чином оновити інсталяцію."
   error_migrations_visit_upgrade_guides: "Будь ласка, відвідайте нашу документацію з оновлення"
@@ -1698,9 +1713,71 @@ uk:
       project: "Проєкт: %{name}"
       subproject: "Підпроєкт: %{name}"
   export:
-    your_work_packages_export: "Експорт ваших пакетів робіт"
-    succeeded: "Експорт успішно завершено."
-    failed: "Експорт не завершено: %{message}"
+    dialog:
+      title: "Експорт"
+      submit: "Експортувати"
+      format:
+        label: "Формат файлу"
+        options:
+          csv:
+            label: "CSV"
+          pdf:
+            label: "PDF"
+          xls:
+            label: "XLS"
+      columns:
+        input_label_report: "Додати стовпці в таблицю атрибутів"
+        input_caption_report: "За замовчуванням вибрано всі атрибути, додані як стовпці в список пакетів робіт. Довгі текстові поля недоступні в таблиці атрибутів, але можуть відображатися під нею."
+        input_caption_table: "За замовчуванням вибрано всі атрибути, додані як стовпці в список пакетів робіт. Довгі текстові поля недоступні в експортах даних таблиці."
+      pdf:
+        export_type:
+          label: "Тип експорту PDF"
+          options:
+            table:
+              label: "Таблиця"
+              caption: "Експортуйте список пакетів робіт у таблицю з потрібними стовпцями."
+            report:
+              label: "Звіт"
+              caption: "Експортуйте пакет робіт у докладний звіт про всі пакети робіт у списку."
+            gantt:
+              label: "Діаграма Ґанта"
+              caption: "Експортуйте список пакетів робіт у вигляді діаграми Ґанта."
+        include_images:
+          label: "Включити зображення"
+          caption: "Виключіть зображення, щоб зменшити розмір експорту PDF."
+        gantt_zoom_levels:
+          label: "Рівні масштабування"
+          caption: "Виберіть рівень масштабування для дат, що відображаються на діаграмі."
+          options:
+            days: "Дні"
+            weeks: "Тижні"
+            months: "Місяці"
+            quarters: "Квартали"
+        column_width:
+          label: "Ширина стовпців таблиці"
+          options:
+            narrow: "Вузькі"
+            medium: "Середні"
+            wide: "Широкі"
+            very_wide: "Дуже широкі"
+        paper_size:
+          label: "Розмір паперу"
+          caption: "Залежно від розміру діаграми може бути експортовано більше ніж одну сторінку."
+        long_text_fields:
+          input_caption: "За замовчуванням вибрано всі довгі текстові поля."
+          input_label: "Додати довгі текстові поля"
+          input_placeholder: "Пошук довгих текстових полів"
+          drag_area_label: "Керувати довгими текстовими полями"
+      xls:
+        include_relations:
+          label: "Включити зв’язки"
+          caption: "Цей параметр створює дублікат кожного пакета робіт для кожного його зв’язку з іншим пакетом робіт."
+        include_descriptions:
+          label: "Включити описи"
+          caption: "Цей параметр додає стовпець опису в необробленому форматі."
+    your_work_packages_export: "Пакет робіт експортуються"
+    succeeded: "Експорт завершено"
+    failed: "Під час спроби експортувати пакети робіт сталася помилка: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1861,6 +1938,11 @@ uk:
       responsible: "Відповідальний"
       shared: "У спільному доступі"
       watched: "Спостерігач"
+    facets:
+      unread: "Непрочитані"
+      unread_title: "Показати непрочитані"
+      all: "Усі"
+      all_title: "Показати всі"
     menu:
       by_project: "Непрочитані за проєктом"
       by_reason: "Причина"
@@ -2220,6 +2302,8 @@ uk:
   label_next_week: "Наступний тиждень"
   label_no_change_option: "(Немає змін)"
   label_no_data: "Немає даних для відображення"
+  label_no_due_date: "немає дати завершення"
+  label_no_start_date: "немає дати початку"
   label_no_parent_page: "Немає початкової сторінки"
   label_nothing_display: "Нічого не відображається"
   label_nobody: "жодні"
@@ -2344,6 +2428,8 @@ uk:
   label_role_plural: "Роль"
   label_role_search: "Призначити роль для нових членів"
   label_scm: "Тип сховища"
+  label_scroll_left: "Гортати вліво"
+  label_scroll_right: "Гортати вправо"
   label_search: "Пошук"
   label_search_by_name: "Пошук за назвою"
   label_send_information: "Надіслати нові облікові дані користувачу"
@@ -3101,8 +3187,10 @@ uk:
   setting_work_package_done_ratio: "Обчислення прогресу"
   setting_work_package_done_ratio_field: "На основі роботи"
   setting_work_package_done_ratio_status: "На основі статусу"
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    У режимі <b>на основі роботи</b> значення атрибута «% завершення» залежить від частки виконаної роботи відносно загального обсягу робіт. У режимі <b>на основі статусу</b> кожен статус має пов’язане з ним значення атрибута «% завершення». У разі змінення статусу змінюється й значення атрибута «% завершення».
   setting_work_package_done_ratio_explanation_html: >
-    У режимі <b>на основі роботи</b> значення параметра «% завершення» залежить від частки виконаної роботи відносно загального обсягу робіт. У режимі <b>на основі статусу</b> кожен статус має пов’язане з ним значення параметра «% завершення». У разі змінення статусу змінюється й значення параметра «% завершення».
+    У режимі <b>на основі роботи</b> атрибут «% завершення» може мати будь-яке значення. Якщо визначено атрибут «Робота», з нього автоматично виводиться значення атрибута «Залишок роботи». У режимі <b>на основі статусу</b> кожен статус має пов’язане з ним значення атрибута «% завершення». У разі змінення статусу змінюється й значення атрибута «% завершення».
   setting_work_package_properties: "Властивості робочого пакета"
   setting_work_package_startdate_is_adddate: "Використовувати поточну дату в якості дати початку роботи для нових пакетів"
   setting_work_packages_projects_export_limit: "Ліміт експорту пакетів робіт / проєктів"
@@ -3486,9 +3574,26 @@ uk:
     progress:
       label_note: "Примітка."
       modal:
-        work_based_help_text: "Значення параметра «% завершення» автоматично виводиться зі значень параметрів «Робота» й «Залишок роботи»."
+        work_based_help_text: "Кожне поле автоматично обчислюється на основі двох інших, коли це можливо."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "Значення атрибута «% завершення» автоматично виводиться з атрибутів «Робота» й «Залишок роботи»."
         status_based_help_text: "Значення параметра «% завершення» визначається статусом пакета робіт."
         migration_warning_text: "У режимі обчислення прогресу на основі робіт значення параметра «% завершення» не можна встановити вручну й прив’язати до значення параметра «Робота». Наявне значення збережено, але його не можна змінити. Спочатку визначте параметр «Робота»."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Очищено, оскільки атрибут «Залишок роботи» пустий."
+          cleared_because_work_is_0h: "Очищено, оскільки атрибут «Робота» дорівнює 0 год."
+          derived: "Виведено з атрибутів «Робота» й «Залишок роботи»."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Очищено, оскільки атрибут «Залишок роботи» пустий."
+          derived: "Виведено з атрибутів «Залишок роботи» й «% завершення»."
+          same_as_remaining_work: "Збігається зі значенням атрибута «Залишок роботи»."
+        remaining_hours:
+          cleared_because_work_is_empty: "Очищено, оскільки атрибут «Робота» пустий."
+          cleared_because_percent_complete_is_empty: "Очищено, оскільки атрибут «% завершення» пустий."
+          decreased_like_work: "Зменшено на ту саму величину, що й атрибут «Робота»."
+          derived: "Виведено з атрибутів «Робота» й «% завершення»."
+          increased_like_work: "Збільшено на ту саму величину, що й атрибут «Робота»."
+          same_as_work: "Збігається зі значенням атрибута «Робота»."
     permissions:
       comment: "Коментування"
       comment_description: "Може переглядати й коментувати цей пакет робіт."

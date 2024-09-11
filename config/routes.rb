@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -202,6 +202,11 @@ Rails.application.routes.draw do
     member do
       get :rename
       post :toggle_public
+      get :destroy_confirmation_modal
+    end
+
+    collection do
+      get :configure_view_modal
     end
   end
 
@@ -246,6 +251,10 @@ Rails.application.routes.draw do
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, as: "confirm_destroy"
       post :deactivate_work_package_attachments
+    end
+
+    collection do
+      get :export_list_modal
     end
 
     resources :versions, only: %i[new create] do
@@ -302,6 +311,7 @@ Rails.application.routes.draw do
         get "/report/:detail" => "work_packages/reports#report_details"
         get "/report" => "work_packages/reports#report"
         get "menu" => "work_packages/menus#show"
+        get "/export_dialog" => "work_packages#export_dialog"
       end
 
       # states managed by client-side routing on work_package#index
@@ -416,9 +426,7 @@ Rails.application.routes.draw do
 
     resource :custom_style, only: %i[update show create], path: "design"
 
-    resources :attribute_help_texts, only: %i(index new create edit update destroy) do
-      get :upsale, to: "attribute_help_texts#upsale", on: :collection, as: :upsale
-    end
+    resources :attribute_help_texts, only: %i(index new create edit update destroy)
 
     resources :groups, except: %i[show] do
       member do
@@ -560,13 +568,17 @@ Rails.application.routes.draw do
                controller: "work_packages/progress",
                as: :work_package_progress
     end
+    get "/export_dialog" => "work_packages#export_dialog", on: :collection, as: "export_dialog"
+
+    get "/split_view/update_counter" => "work_packages/split_view#update_counter",
+        on: :member
 
     # states managed by client-side (angular) routing on work_package#show
     get "/" => "work_packages#index", on: :collection, as: "index"
     get "/create_new" => "work_packages#index", on: :collection, as: "new_split"
     get "/new" => "work_packages#index", on: :collection, as: "new", state: "new"
     # We do not want to match the work package export routes
-    get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!shares).+/ }
+    get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!(shares|split_view)).+/ }
     get "/share_upsale" => "work_packages#index", on: :collection, as: "share_upsale"
     get "/edit" => "work_packages#show", on: :member, as: "edit"
   end
@@ -699,13 +711,31 @@ Rails.application.routes.draw do
 
   root to: "account#login"
 
+  concern :with_split_view do |options|
+    get "details/:work_package_id(/:tab)",
+        action: options.fetch(:action, :split_view),
+        defaults: { tab: :overview },
+        as: :details,
+        work_package_split_view: true
+  end
+
+  resources :notifications, only: :index do
+    collection do
+      concerns :with_split_view, base_route: :notifications_path
+
+      post :mark_all_read
+      resource :menu, module: :notifications, only: %i[show], as: :notifications_menu
+    end
+  end
+
   namespace :notifications do
     resource :menu, only: %i[show]
   end
+
   scope :notifications do
-    get "/share_upsale" => "angular#notifications_layout", as: "notifications_share_upsale"
-    get "/date_alerts" => "angular#notifications_layout", as: "notifications_date_alert_upsale"
-    get "(/*state)", to: "angular#notifications_layout", as: :notifications_center
+    get "/share_upsale" => "notifications#share_upsale", as: "notifications_share_upsale"
+    get "/date_alerts" => "notifications#date_alerts", as: "notifications_date_alert_upsale"
+    get "/", to: "notifications#index", as: :notifications_center
   end
 
   # OAuthClient needs a "callback" URL that Nextcloud calls with a "code" (see OAuth2 RFC)

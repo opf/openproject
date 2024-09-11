@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -212,10 +212,12 @@ cs:
     reorder_confirmation: "Varování: Aktuální pořadí dostupných hodnot bude ztraceno. Pokračovat?"
     instructions:
       is_required: "Označit vlastní pole jako povinné. Bude povinné vyplnit pole při vytváření nových nebo aktualizaci existujících zdrojů."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Označit vlastní pole jako dostupné ve všech existujících a nových projektech."
       searchable: "Zahrnout hodnoty polí při použití globální funkce vyhledávání."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Umožnit editaci pole samotnými uživateli."
-      visible: "Zviditelnit pole pro všechny uživatele (neadminy) v přehledu projektu a zobrazit ve widgetu podrobností projektu v přehledu projektu."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Povolit použití vlastního pole ve filtru v zobrazení pracovního balíčku. Všimněte si, že pouze s vybraným 'pro všechny projekty' se vlastní pole zobrazí v globálních zobrazeních.
     tab:
@@ -262,6 +264,9 @@ cs:
       open_as_gantt: "Otevřít jako Gantt diagram"
       no_results_title_text: V současné době nejsou žádné projekty
       no_results_content_text: Vytvořit nový projekt
+      search:
+        label: Filtr názvu projektu
+        placeholder: Hledat podle názvu projektu
     lists:
       active: "Aktivní projekty"
       my: "Moje projekty"
@@ -295,7 +300,7 @@ cs:
         actions:
           label_enable_single: "Aktivní v tomto projektu, kliknutím vypnete"
           label_disable_single: "Neaktivní v tomto projektu, klikněte pro povolení"
-          deactivate_for_project: "Deaktivovat pro tento projekt"
+          remove_from_project: "Remove from project"
           label_enable_all: "Povolit vše"
           label_disable_all: "Zakázat vše"
         is_required_blank_slate:
@@ -633,7 +638,7 @@ cs:
         possible_values: "Možné hodnoty"
         regexp: "Regulární výraz"
         searchable: "Vyhledávatelné"
-        visible: "Viditelný"
+        admin_only: "Pouze pro správce"
       custom_value:
         value: "Hodnota"
       doorkeeper/application:
@@ -703,6 +708,7 @@ cs:
         versions: "Verze"
         work_packages: "Pracovní balíčky"
       project_custom_field:
+        is_required: "Vyžadováno pro všechny projekty"
         custom_field_section: Sekce
       query:
         column_names: "Sloupce"
@@ -1015,7 +1021,7 @@ cs:
         status:
           attributes:
             default_done_ratio:
-              inclusion: "must be between 0 and 100."
+              inclusion: "musí být mezi 0 a 100."
           readonly_default_exlusive: "nelze aktivovat pro stavy, které jsou označeny jako výchozí."
         time_entry:
           attributes:
@@ -1047,6 +1053,12 @@ cs:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
+              cannot_be_set_when_work_is_zero: "nelze nastavit, když je práce 0h"
+              must_be_set_when_remaining_work_is_set: "required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "required when Work and Remaining work are set."
+              inclusion: "musí být mezi 0 a 100."
             due_date:
               not_start_date: "není v počátečním datu, i když je to nutné pro milníky."
               cannot_be_null: "nelze nastavit na null, protože datum zahájení a trvání je známo "
@@ -1075,15 +1087,17 @@ cs:
               does_not_exist: "Zadaná kategorie neexistuje."
             estimated_hours:
               not_a_number: "není platná doba trvání."
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Musí být >= 0."
-              format: "%{message}"
+              cant_be_inferior_to_remaining_work: "cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "required when Remaining work and % Complete are set."
             remaining_hours:
               not_a_number: "není platná doba trvání."
-              cant_exceed_work: "Nemůže být vyšší než Práce."
-              must_be_set_when_work_is_set: "Vyžadováno, když je nastavena práce."
-              format: "%{message}"
+              cant_exceed_work: "cannot be higher than Work."
+              must_be_set_when_work_is_set: "required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "required when Work and % Complete are set."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                must be 0h when Work is set and % Complete is 100%.
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                must be empty when Work is empty and % Complete is 100%.
           readonly_status: "Pracovní balíček je ve stavu jen pro čtení, takže jeho atributy nelze změnit."
         type:
           attributes:
@@ -1404,7 +1418,7 @@ cs:
   button_view_shared_work_packages: "Zobrazit všechny sdílené pracovní balíčky"
   button_manage_roles: "Správa rolí"
   button_remove_member: "Odebrat člena"
-  button_remove_member_and_shares: "Remove member and shares"
+  button_remove_member_and_shares: "Odstranění člena a sdílení"
   button_revoke_work_package_shares: "Zrušit sdílení pracovních balíčků"
   button_revoke_access: "Odebrat přístup"
   button_revoke_all: "Zrušit vše"
@@ -1663,6 +1677,7 @@ cs:
   error_pdf_failed_to_export: "PDF export nelze uložit: %{error}"
   error_token_authenticity: "Nelze ověřit token Cross-Site Request Forgy. Pokusili jste se odeslat data na více prohlížečích nebo kartách? Prosím zavřete všechny panely a zkuste to znovu."
   error_work_package_not_found_in_project: "Pracovný balíček nebyl nalezen, nebo nepatří k tomuto projektu"
+  error_work_package_id_not_found: "Pracovní balíček nebyl nalezen."
   error_must_be_project_member: "musí být členem projektu"
   error_migrations_are_pending: "Vaše instalace OpenProject čeká na migraci databáze. Pravděpodobně jste při poslední aktualizaci zmeškali migrace. Pro správnou aktualizaci vaší instalace prosím zkontrolujte průvodce aktualizací."
   error_migrations_visit_upgrade_guides: "Navštivte prosím naši dokumentaci průvodce aktualizací"
@@ -1704,9 +1719,71 @@ cs:
       project: "Projekt %{name}"
       subproject: "Podprojekt: %{name}"
   export:
-    your_work_packages_export: "Export pracovních balíčků"
-    succeeded: "Export úspěšně dokončen."
-    failed: "Export selhal: %{message}"
+    dialog:
+      title: "Export"
+      submit: "Export"
+      format:
+        label: "Formát souboru"
+        options:
+          csv:
+            label: "CSV"
+          pdf:
+            label: "PDF"
+          xls:
+            label: "XLS"
+      columns:
+        input_label_report: "Přidat sloupce do tabulky atributů"
+        input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
+        input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
+      pdf:
+        export_type:
+          label: "Typ exportu do PDF"
+          options:
+            table:
+              label: "Tabulka"
+              caption: "Export the work packages list in a table with the desired columns."
+            report:
+              label: "Report"
+              caption: "Export the work package on a detailed report of all work packages in the list."
+            gantt:
+              label: "Ganttův diagram"
+              caption: "Export the work packages list in a Gantt diagram view."
+        include_images:
+          label: "Včetně obrázků"
+          caption: "Exclude images to reduce the size of the PDF export."
+        gantt_zoom_levels:
+          label: "Úrovně přiblížení"
+          caption: "Select what is the zoom level for dates displayed in the chart."
+          options:
+            days: "Dny"
+            weeks: "Týdny"
+            months: "Měsíce"
+            quarters: "Čtvrtletí"
+        column_width:
+          label: "Table column width"
+          options:
+            narrow: "Úzký"
+            medium: "Střední"
+            wide: "Široký"
+            very_wide: "Velmi široký"
+        paper_size:
+          label: "Velikost papíru"
+          caption: "Depending on the chart size more than one page might be exported."
+        long_text_fields:
+          input_caption: "By default all long text fields are selected."
+          input_label: "Add long text fields"
+          input_placeholder: "Search for long text fields"
+          drag_area_label: "Manage long text fields"
+      xls:
+        include_relations:
+          label: "Zahrnout vztahy"
+          caption: "This option will create a duplicate of each work package for every relation this has with another work package."
+        include_descriptions:
+          label: "Zahrnout popisy"
+          caption: "This option will add a description column in raw format."
+    your_work_packages_export: "Work packages are being exported"
+    succeeded: "Export completed"
+    failed: "An error has occurred while trying to export the work packages: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1867,6 +1944,11 @@ cs:
       responsible: "Odpovědný"
       shared: "Sdíleno"
       watched: "Sledující"
+    facets:
+      unread: "Nepřečtené"
+      unread_title: "Zobrazit nepřečtené"
+      all: "Vše"
+      all_title: "Zobrazit vše"
     menu:
       by_project: "Nepřečteno dle projektu"
       by_reason: "Důvod"
@@ -2226,6 +2308,8 @@ cs:
   label_next_week: "Příští týden"
   label_no_change_option: "(Beze změny)"
   label_no_data: "Žádná data k zobrazení"
+  label_no_due_date: "žádné datum dokončení"
+  label_no_start_date: "žádné datum začátku"
   label_no_parent_page: "Žádná nadřazená stránka"
   label_nothing_display: "Nic k zobrazení"
   label_nobody: "nikdo"
@@ -2350,6 +2434,8 @@ cs:
   label_role_plural: "Role"
   label_role_search: "Přiřadit roli novým členům"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Vyhledávání"
   label_search_by_name: "Hledat podle názvu"
   label_send_information: "Poslat nové přihlašovací údaje uživateli"
@@ -3109,8 +3195,10 @@ cs:
   setting_work_package_done_ratio: "Výpočet průběhu"
   setting_work_package_done_ratio_field: "Na základě práce"
   setting_work_package_done_ratio_status: "Na základě stavu"
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Vlastnosti pracovního balíčku"
   setting_work_package_startdate_is_adddate: "Použít aktuální datum jako počáteční datum pro nové úkoly"
   setting_work_packages_projects_export_limit: "Limit exportu pracovních balíčků / projektů"
@@ -3494,9 +3582,26 @@ cs:
     progress:
       label_note: "Poznámka:"
       modal:
-        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
+        work_based_help_text: "Each field is automatically calculated from the two others when possible."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          cleared_because_work_is_0h: "Cleared because Work is 0h."
+          derived: "Derived from Work and Remaining work."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          derived: "Derived from Remaining work and % Complete."
+          same_as_remaining_work: "Set to same value as Remaining work."
+        remaining_hours:
+          cleared_because_work_is_empty: "Cleared because Work is empty."
+          cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
+          decreased_like_work: "Decreased by the same amount as Work."
+          derived: "Derived from Work and % Complete."
+          increased_like_work: "Increased by the same amount as Work."
+          same_as_work: "Set to same value as Work."
     permissions:
       comment: "Komentář"
       comment_description: "Může zobrazit a komentovat tento pracovní balíček."

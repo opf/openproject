@@ -1,0 +1,92 @@
+# Schema: WorkPackageSchemaModel
+---
+type: object
+description: |-
+  A schema for a work package. This schema defines the attributes of a work package.
+  
+  TODO: Incomplete, needs to be updated with the real behaviour of schemas (when does which attribute appear?).
+properties:
+  _type:
+    type: string
+    enum:
+      - Schema
+  _dependencies:
+    type: array
+    items:
+      type: string
+    description: TBD
+  _attributeGroups:
+    type: array
+    items:
+      type: object
+    description: TBD (WorkPackageFormAttributeGroup)
+  lockVersion:
+    $ref: './schema_property_model.yml'
+  id:
+    $ref: './schema_property_model.yml'
+  subject:
+    $ref: './schema_property_model.yml'
+  description:
+    $ref: './schema_property_model.yml'
+  duration:
+    $ref: './schema_property_model.yml'
+  scheduleManually:
+    $ref: './schema_property_model.yml'
+  ignoreNonWorkingDays:
+    $ref: './schema_property_model.yml'
+  startDate:
+    $ref: './schema_property_model.yml'
+  dueDate:
+    $ref: './schema_property_model.yml'
+  derivedStartDate:
+    $ref: './schema_property_model.yml'
+  derivedDueDate:
+    $ref: './schema_property_model.yml'
+  estimatedTime:
+    $ref: './schema_property_model.yml'
+  derivedEstimatedTime:
+    $ref: './schema_property_model.yml'
+  remainingTime:
+    $ref: './schema_property_model.yml'
+  derivedRemainingTime:
+    $ref: './schema_property_model.yml'
+  percentageDone:
+    $ref: './schema_property_model.yml'
+  derivedPercentageDone:
+    $ref: './schema_property_model.yml'
+  readonly:
+    $ref: './schema_property_model.yml'
+  createdAt:
+    $ref: './schema_property_model.yml'
+  updatedAt:
+    $ref: './schema_property_model.yml'
+  author:
+    $ref: './schema_property_model.yml'
+  project:
+    $ref: './schema_property_model.yml'
+  parent:
+    $ref: './schema_property_model.yml'
+  assignee:
+    $ref: './schema_property_model.yml'
+  responsible:
+    $ref: './schema_property_model.yml'
+  type:
+    $ref: './schema_property_model.yml'
+  status:
+    $ref: './schema_property_model.yml'
+  category:
+    $ref: './schema_property_model.yml'
+  version:
+    $ref: './schema_property_model.yml'
+  priority:
+    $ref: './schema_property_model.yml'
+  _links:
+    type: object
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This work package schema
+              
+              **Resource**: Schema

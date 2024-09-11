@@ -21,6 +21,8 @@ it:
               only_numeric_or_uuid: può essere solo numerico o uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Seleziona una cartella.
             project_folder_mode:
               mode_unavailable: non è disponibile per questo archivio.
             project_ids:
@@ -29,7 +31,7 @@ it:
           attributes:
             host:
               authorization_header_missing: non è completamente configurato. L'istanza Nextcloud non riceve l'intestazione "Authorization", che è necessaria per l'autorizzazione basata su un token Bearer delle richieste API. Controlla la configurazione del server HTTP.
-              cannot_be_connected_to: non può essere collegato.
+              cannot_be_connected_to: impossibile da raggiungere. Assicurati che l'host sia raggiungibile e che l'app di integrazione OpenProject sia installata.
               minimal_nextcloud_version_unmet: non soddisfa i requisiti minimi di versione (deve essere Nextcloud 23 o superiore)
               not_nextcloud_server: non è un server Nextcloud
               op_application_not_installed: non è installata l'app "Integrazione OpenProject". Installala e riprova.
@@ -57,15 +59,18 @@ it:
   permission_write_files: 'Cartelle di progetto gestite automaticamente: Scrivere file'
   project_module_storages: File
   project_storages:
+    edit_project_folder:
+      label: Modifica la cartella del progetto
     project_folder_mode:
       automatic: Gestione automatica
       inactive: Nessuna cartella specifica
       manual: Cartella esistente gestita manualmente
     remove_project:
+      deletion_failure_flash: Impossibile rimuovere il progetto dall'archivio. %{error}
       dialog:
         automatically_managed_appendix: 'Inoltre, in questo caso l''archivio ha una cartella di progetto gestita automaticamente: questa e i suoi file verranno eliminati per sempre.'
         confirmation_text: Conferma di aver compreso e di voler rimuovere questo archivio di file da questo progetto
-        heading: Rimuovi il progetto da %{storage_type}
+        heading_text: Rimuovi il progetto da %{storage}
         text: Questa azione è irreversibile e rimuoverà tutti i collegamenti dalle macro-attività di questo progetto ai file e alle cartelle di tale archivio.
       label: Rimuovi il progetto
   services:
@@ -86,6 +91,12 @@ it:
         rename_project_folder: 'Rinomina la cartella di progetto gestita:'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: La cartella %{destination_path} esiste già. Interrompi il processo per evitare sovrascritture.
+          error: Si è verificato un errore inatteso. Controlla i log di OpenProject per maggiori informazioni o contatta un amministratore
+          forbidden: OpenProject non ha potuto accedere alla cartella sorgente. Verifica la configurazione delle autorizzazioni sul fornitore di servizi di archiviazione
+          not_found: La posizione del modello sorgente %{source_path} non è stata trovata.
+          unauthorized: OpenProject non è riuscito ad autenticarsi con il fornitore di servizi di archiviazione. Verifica la configurazione dell'archiviazione
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -167,6 +178,9 @@ it:
       nextcloud:
         group_folders_app: Cartelle di gruppo
         integration_app: Integration OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: Questo archivio ha una configurazione incompleta. Completa la configurazione prima di abilitarlo in più progetti.
+      setup_incomplete_header: Configurazione archivio incompleta
     error_invalid_provider_type: Seleziona un fornitore di archiviazione valido.
     file_storage_view:
       access_management:
@@ -303,16 +317,24 @@ it:
     notice_successful_storage_connection: |-
       Spazio di archiviazione connesso correttamente! Ricordati di attivare il modulo e lo spazio di archiviazione specifico nelle impostazioni di progetto
       di ciascun progetto desiderato per utilizzarlo.
-    oauth_grant_nudge_modal:
+    oauth_access_granted_modal:
       access_granted: Accesso autorizzato
-      access_granted_screen_reader: Accesso consentito. Ora puoi utilizzare %{storage}.
-      body: Per accedere alla cartella del progetto è necessario accedere a %{storage}.
+      project_settings:
+        access_granted_screen_reader: Accesso consentito. Ora puoi utilizzare %{storage}
+        storage_ready: Ora è possibile usare %{storage}
+      storage_admin:
+        access_granted_screen_reader: Accesso consentito. Ora puoi aggiungere progetti a %{storage}
+        storage_ready: Ora puoi aggiungere progetti a %{storage}
+    oauth_grant_nudge_modal:
       cancel_button_label: Lo farò più tardi
-      confirm_button_aria_label: Accedi a %{storage}
-      confirm_button_label: Accedi
+      heading: È necessario effettuare il login a %{provider_type}
+      login_button_aria_label: Accedi a %{storage}
+      login_button_label: "Accesso a %{provider_type}"
+      project_settings:
+        description: Per accedere alla cartella del progetto è necessario accedere a %{storage}.
       requesting_access_to: Richiesta di accesso a %{storage}
-      storage_ready: Ora è possibile usare %{storage}
-      title: Ancora un passo...
+      storage_admin:
+        description: Per aggiungere progetti a questo archivio, devi aver effettuato l'accesso a %{provider_type}. Effettua l'accesso e riprova.
     open_project_storage_modal:
       success:
         subtitle: Stai per essere reindirizzato

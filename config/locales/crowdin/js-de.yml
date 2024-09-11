@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -74,7 +74,7 @@ de:
     button_copy: "Kopieren"
     button_copy_to_clipboard: "In Zwischenablage kopieren"
     button_copy_link_to_clipboard: "Link in Zwischenablage kopieren"
-    button_copy_to_other_project: "In anderes Projekt kopieren"
+    button_copy_to_other_project: "In anderes Projekt duplizieren"
     button_custom-fields: "Benutzerdefinierte Felder"
     button_delete: "Löschen"
     button_delete_watcher: "Beobachter löschen"
@@ -138,6 +138,8 @@ de:
     description_select_work_package: "Arbeitspaket #%{id} auswählen"
     description_subwork_package: "Kind von Arbeitspaket #%{id}"
     editor:
+      revisions: "Lokale Änderungen anzeigen"
+      no_revisions: "Keine lokalen Änderungen gefunden"
       preview: "Vorschau-Modus ein/aus"
       source_code: "Wechseln zwischen Markdown-Source und WYSIWYG"
       error_saving_failed: "Fehler beim Speichern des Dokuments: %{error}"
@@ -275,8 +277,10 @@ de:
           Es kann einige Zeit dauern, bis die Änderungen wirksam werden. Sie werden benachrichtigt, wenn alle relevanten Arbeitspakete aktualisiert worden sind.
           Sind Sie sicher, dass Sie fortfahren möchten?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
           Wenn Sie den Modus der Fortschrittsberechnung von statusbezogen auf aufwandsbezogen ändern, wird <i>% Abgeschlossen</i> zu einem nicht editierbaren Feld, dessen Wert von <i>Aufwand</i> und <i>Verbleibender Aufwand</i> abgeleitet wird. Vorhandene Werte für <i>% Abgeschlossen</i> werden beibehalten. Wenn die Werte für <i>Aufwand</i> und Verbleibender <i>Aufwand</i> nicht vorhanden waren, werden sie benötigt, um <i>% Abgeschlossen</i> zu ändern.
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Wenn Sie den Modus der Fortschrittsberechnung von aufwandsbezogen auf statusbezogen ändern, gehen alle bestehenden Werte für <i>% Fertigstellung</i> verloren und werden durch Werte ersetzt, die mit dem jeweiligen Status verbunden sind. Bestehende Werte für <i>Verbleibender Aufwand</i> können ebenfalls neu berechnet werden, um diese Änderung widerzuspiegeln. Diese Aktion ist nicht umkehrbar.
     custom_actions:
@@ -335,18 +339,6 @@ de:
         years: "Jahre"
         description: >
           Wählen Sie die Zoomstufe für das Gantt-Diagramm aus, wenn kein Autozoom aktiviert ist.
-      export:
-        title: "Gantt-Diagramm PDF-Optionen"
-        button_export: "Exportieren"
-        column_widths:
-          narrow: "Schmal"
-          medium: "Mittel"
-          wide: "Breit"
-          very_wide: "Sehr breit"
-        options:
-          date_zoom: "Datumszoom"
-          paper_size: "Papierformat"
-          column_widths: "Spaltenbreite"
     general_text_no: "nein"
     general_text_yes: "ja"
     general_text_No: "Nein"
@@ -365,10 +357,10 @@ de:
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                Diese Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Dark Mode wählbar in den persönlichen Einstellungen</li> <li>Getrennte Berechtigungen für die Anzeige und Bearbeitung von Projektattributen</li> <li>Verbesserungen für Fortschrittsberichte auf Basis des Status</li> <li>Verbindungsüberprüfung für Nextcloud-Speicher</li> <li>Mehr Filteroptionen für Projektlisten</li> </ul>
+                Die Version enthält verschiedene neue Funktionen und Verbesserungen, wie z.B.: <br> <ul class="%{list_styling_class}"> <li>Wiederherstellen lokaler Versionen von WYSIWYG-Inhaltsänderungen.</li> <li>Aktivieren Sie eine Speicherung für mehrere Projekte auf einmal.</li> <li>Exportieren Sie Arbeitspakete in einem aktualisierten Modal mit zusätzlichen Einstellungen.</li> <li>Anzeige von benutzerdefinierten Feldspalten & Filtern in Projektlisten auch in der Community Edition.</li> <li>Unterstützung von CloudFlare Turnstile als Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
@@ -409,6 +401,7 @@ de:
     label_create: "Erstellen"
     label_create_work_package: "Erstelle neues Arbeitspaket"
     label_created_by: "Erstellt von"
+    label_current: "aktuell"
     label_date: "Datum"
     label_date_with_format: "Die %{date_attribute} im folgenden Format eingeben: %{format}"
     label_deactivate: "Deaktiviere"
@@ -637,11 +630,6 @@ de:
         upsale:
           title: "Datums-Erinnerungen"
           description: "Mit Datums-Erinnerungen werden Sie über bevorstehende Start- oder Endtermine informiert, so dass Sie nie einen wichtigen Termin verpassen oder übersehen."
-      facets:
-        unread: "Ungelesen"
-        unread_title: "Ungelesene anzeigen"
-        all: "Alle"
-        all_title: "Alle anzeigen"
       center:
         label_actor_and: "und"
         and_more_users:
@@ -652,12 +640,13 @@ de:
           with_current_filter: "Es gibt derzeit keine Benachrichtigungen in dieser Ansicht"
         mark_all_read: "Alles als gelesen markieren"
         mark_as_read: "Als gelesen markieren"
-        text_update_date: "%{date} von"
+        text_update_date_by: "%{date} von"
         total_count_warning: "Zeige die %{newest_count} neuesten Benachrichtigungen. %{more_count} weitere werden nicht angezeigt."
         empty_state:
           no_notification: "Alle Benachrichtungen abgearbeitet"
           no_notification_with_current_project_filter: "Sieht so aus, als ob Sie in dem ausgewählten Projekt mit allem auf dem Laufenden sind.\n"
           no_notification_with_current_filter: "Sieht so aus, als ob Sie bei %{filter} mit allem auf dem Laufenden sind."
+          no_notification_for_filter: "Keine Benachrichtigungen für diesen Filter vorhanden."
           no_selection: "Auf eine Benachrichtigung klicken, um alle Aktivitätsdetails anzuzeigen."
         new_notifications:
           message: "Es gibt neue Benachrichtigungen."
@@ -1197,6 +1186,9 @@ de:
         one: "1 Tag"
         other: "%{count} Tage"
         zero: "0 Tage"
+      word:
+        one: "1 Wort"
+        other: "%{count} Wörter"
     zen_mode:
       button_activate: "Zen-Modus aktivieren"
       button_deactivate: "Zen-Modus deaktivieren"

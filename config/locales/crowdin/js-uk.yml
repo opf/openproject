@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ uk:
     button_back_to_list_view: "Повернутися до списку"
     button_cancel: "Скасувати"
     button_close: "Закрити"
-    button_change_project: "Змінити проект"
+    button_change_project: "Перейти до іншого проєкту"
     button_check_all: "Перевірити все"
     button_configure-form: "Налаштуйте форму"
     button_confirm: "Підтвердити"
@@ -138,6 +138,8 @@ uk:
     description_select_work_package: "Виберіть пакет робіт #%{id}"
     description_subwork_package: "Нащадок пакету робіт #%{id}"
     editor:
+      revisions: "Показати локальні зміни"
+      no_revisions: "Локальних змін не знайдено"
       preview: "Перемкнути режим попереднього перегляду"
       source_code: "Увімкнути режим вимкнення Markdown"
       error_saving_failed: "Не вдалося зберегти документ із такою помилкою: %{error}"
@@ -276,8 +278,10 @@ uk:
           Застосування змін може тривати деякий час. Ви отримаєте сповіщення, коли всі відповідні пакети робіт буде оновлено.
           Продовжити?
       work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          Якщо перейти з режиму обчислення прогресу на основі статусу на режим на основі роботи, атрибут <i>% завершення</i> стане недоступним для редагування полем, значення якого виводитиметься зі значень атрибутів <i>Робота</i> й <i>Залишок роботи</i>. Наявні значення атрибута <i>% завершення</i> буде збережено. Якщо значення атрибутів <i>Робота</i> й <i>Залишок роботи</i> не задано, їх потрібно буде задати, щоб змінити значення атрибута <i>% завершення</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Якщо перейти з режиму обчислення прогресу на основі статусу на режим на основі робіт, атрибут <i>% завершення</i> стане недоступним для редагування полем, значення якого отримуватиметься зі значень атрибутів <i>Робота</i> й <i>Залишок роботи</i>. Наявні значення атрибута <i>% завершення</i> буде збережено. Якщо значення атрибутів <i>Робота</i> й <i>Залишок роботи</i> не задано, їх потрібно буде задати, щоб змінити значення атрибута <i>% завершення</i>.
+          Якщо перейти з режиму обчислення прогресу на основі статусу на режим на основі роботи, атрибут <i>% завершення</i> стане доступним для редагування полем. Якщо визначено атрибути <i>Робота</i> й <i>Залишок роботи</i>, їх значення буде також пов’язано з атрибутом <i>% завершення</i>. Змінення значення атрибута <i>Залишок роботи</i> призводить до оновлення атрибута <i>% завершення</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Якщо перейти з режиму обчислення прогресу на основі робіт на режим на основі статусу, усі наявні значення атрибута <i>% завершення</i> буде втрачено й замінено значеннями, пов’язаними з кожним статусом. Наявні значення атрибута <i>Залишок роботи</i> може бути також переобчислено з урахуванням цієї зміни. Цю дію не можна скасувати.
     custom_actions:
@@ -336,18 +340,6 @@ uk:
         years: "Років"
         description: >
           Виберіть початкове значення масштабу, коли функція автомасштабування недоступна.
-      export:
-        title: "Параметри діаграми Ґанта (PDF)"
-        button_export: "Експорт"
-        column_widths:
-          narrow: "Вузькі"
-          medium: "Середні"
-          wide: "Широкі"
-          very_wide: "Дуже широкі"
-        options:
-          date_zoom: "Масштабування дати"
-          paper_size: "Розмір паперу"
-          column_widths: "Ширина стовпців"
     general_text_no: "ні"
     general_text_yes: "так"
     general_text_No: "Ні"
@@ -366,10 +358,10 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
+                Випуск включає такі наведені нижче функції і поліпшення. <br> <ul class="%{list_styling_class}"> <li>Зберігайте й відновлюйте локальні версії змін вмісту WYSIWYG.</li> <li>Вмикайте сховище для кількох проєктів за раз.</li> <li>Експортуйте пакети робіт в оновлено модальному вікні з додатковими параметрами.</li> <li>Відображайте стовпці / фільтри користувацьких полів у списках проєктів у версії Community Edition.</li> <li>Використовуйте CloudFlare Turnstile для перевірки CAPTCHA.</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -410,6 +402,7 @@ uk:
     label_create: "Створити"
     label_create_work_package: "Створити новий робочий пакет"
     label_created_by: "Створено"
+    label_current: "поточний"
     label_date: "Дата"
     label_date_with_format: "Введіть %{date_attribute}, використовуючи наступний формат: %{format}"
     label_deactivate: "Деактивувати"
@@ -638,11 +631,6 @@ uk:
         upsale:
           title: "Оповіщення про дати"
           description: "Завдяки оповіщенням про дати ви завжди знатимете про заплановані дати початку або завершення, тож ніколи не пропускатимете важливі терміни та не забуватимете про них."
-      facets:
-        unread: "Непрочитані"
-        unread_title: "Показати непрочитані"
-        all: "Всі"
-        all_title: "Показати всі"
       center:
         label_actor_and: "і"
         and_more_users:
@@ -655,12 +643,13 @@ uk:
           with_current_filter: "Зараз у цьому поданні немає сповіщень"
         mark_all_read: "Позначити все як прочитане"
         mark_as_read: "Позначити як прочитане"
-        text_update_date: "%{date} –"
+        text_update_date_by: "%{date} за"
         total_count_warning: "Показано стільки останніх сповіщень: %{newest_count}. Ще %{more_count} не показано."
         empty_state:
           no_notification: "Схоже, ви все переглянули."
           no_notification_with_current_project_filter: "Схоже, ви переглянули всі сповіщення для вибраного проєкту."
           no_notification_with_current_filter: "Схоже, ви переглянули всі сповіщення за фільтром «%{filter}»."
+          no_notification_for_filter: "Схоже, ви переглянули всі сповіщення за цим фільтром."
           no_selection: "Натисніть сповіщення, щоб переглянути всі дані про дію."
         new_notifications:
           message: "Немає нових сповіщень."
@@ -1204,6 +1193,11 @@ uk:
         one: "1 день"
         other: "%{count} д."
         zero: "0 днів"
+      word:
+        one: "1 слово"
+        few: "%{count} слова"
+        many: "%{count} слів"
+        other: "%{count} слова"
     zen_mode:
       button_activate: "Активуйте режим дзен"
       button_deactivate: "Деактивуйте режим дзен"

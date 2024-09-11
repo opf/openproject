@@ -55,7 +55,7 @@ To create a new meeting, click the green **+ Meeting** button in the upper right
 
 ![Create new meeting in OpenProject](openproject_userguide_create_new_meeting.png)
 
-Enter your meeting's title, type, location, start date and duration. You can also choose if you want to invite meeting participants via email after the meeting has been created (this option is activated by default). 
+Enter your meeting's title, type, location, start date and duration. You can also choose if you want to invite meeting participants via email after the meeting has been created (this option is disabled by default). 
 
 If you are creating a meeting from a global module you will first need to select a project to which the meeting is attributed. After you have selected a project, the list of potential participants (project members) will appear for you to select who to invite. After the meeting you can note who attended the meeting.
 
@@ -124,6 +124,9 @@ If you select the **Agenda item** option, you can name that item, add notes, set
 By default, when creating an agenda item, this will be pre-filled with the name of the user adding the agenda item, but it can either be removed or replaced by one of the other meeting participants.
 
 ![Add agenda item](openproject_userguide_add_agenda_item.png)
+
+> [!TIP]
+> If you need to store the agenda outside of OpenProject, you can generate an optimized PDF using the print function (Ctrl/Cmd + P).
 
 #### Link a work package to a meeting
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,7 @@ class WorkPackagesController < ApplicationController
   include PaginationHelper
   include Layout
   include WorkPackagesControllerHelper
+  include OpTurbo::DialogStreamHelper
 
   accept_key_auth :index, :show
 
@@ -38,11 +39,12 @@ class WorkPackagesController < ApplicationController
                 :project, only: :show
   before_action :load_and_authorize_in_optional_project,
                 :check_allowed_export,
-                :protect_from_unauthorized_export, only: :index
-  authorization_checked! :index, :show
+                :protect_from_unauthorized_export, only: %i[index export_dialog]
+  authorization_checked! :index, :show, :export_dialog
 
   before_action :load_and_validate_query, only: :index, unless: -> { request.format.html? }
   before_action :load_work_packages, only: :index, if: -> { request.format.atom? }
+  before_action :load_and_validate_query_for_export, only: :export_dialog
 
   def index
     respond_to do |format|
@@ -84,13 +86,21 @@ class WorkPackagesController < ApplicationController
     end
   end
 
+  def export_dialog
+    respond_with_dialog WorkPackages::Exports::ModalDialogComponent.new(query: @query, project: @project, title: params[:title])
+  end
+
   protected
+
+  def load_and_validate_query_for_export
+    load_and_validate_query
+  end
 
   def export_list(mime_type)
     job_id = WorkPackages::Exports::ScheduleService
-      .new(user: current_user)
-      .call(query: @query, mime_type:, params:)
-      .result
+               .new(user: current_user)
+               .call(query: @query, mime_type:, params:)
+               .result
 
     if request.headers["Accept"]&.include?("application/json")
       render json: { job_id: }
@@ -101,8 +111,8 @@ class WorkPackagesController < ApplicationController
 
   def export_single(mime_type)
     exporter = Exports::Register
-      .single_exporter(WorkPackage, mime_type)
-      .new(work_package, params)
+                 .single_exporter(WorkPackage, mime_type)
+                 .new(work_package, params)
 
     export = exporter.export!
     send_data(export.content, type: export.mime_type, filename: export.title)

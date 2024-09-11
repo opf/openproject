@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -34,9 +34,6 @@ import { GlobalSearchTabsComponent } from 'core-app/core/global_search/tabs/glob
 import { GlobalSearchTitleComponent } from 'core-app/core/global_search/title/global-search-title.component';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
 import {
-  GlobalSearchWorkPackagesEntryComponent,
-} from 'core-app/core/global_search/global-search-work-packages-entry.component';
-import {
   OpenprojectAutocompleterModule,
 } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { OpSharedModule } from 'core-app/shared/shared.module';
@@ -54,7 +51,6 @@ import { RecentItemsService } from 'core-app/core/recent-items.service';
   ],
   declarations: [
     GlobalSearchInputComponent,
-    GlobalSearchWorkPackagesEntryComponent,
     GlobalSearchWorkPackagesComponent,
     GlobalSearchTabsComponent,
     GlobalSearchTitleComponent,

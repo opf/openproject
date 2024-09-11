@@ -21,6 +21,8 @@ zh-CN:
               only_numeric_or_uuid: 只能是数字或 uuid。
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: 选择一个文件夹
             project_folder_mode:
               mode_unavailable: 对于此存储不可用。
             project_ids:
@@ -29,7 +31,7 @@ zh-CN:
           attributes:
             host:
               authorization_header_missing: 未完全设置。Nextcloud 实例不会收到“Authorization”标头，这是基于 Bearer 令牌的 API 请求授权所必需的。请仔细检查您的 HTTP 服务器配置。
-              cannot_be_connected_to: 无法连接。
+              cannot_be_connected_to: 无法访问。请确保主机可以访问，并安装了 OpenProject 集成应用程序。
               minimal_nextcloud_version_unmet: 不满足最低版本要求（必须为 Nextcloud 23 或更高版本）
               not_nextcloud_server: 不是 Nextcloud 服务器
               op_application_not_installed: 似乎没有安装应用“OpenProject 集成”。请先安装，然后重试。
@@ -57,15 +59,18 @@ zh-CN:
   permission_write_files: '自动管理项目文件夹：写入文件'
   project_module_storages: 文件
   project_storages:
+    edit_project_folder:
+      label: 编辑项目文件夹
     project_folder_mode:
       automatic: 自动托管
       inactive: 没有指定文件夹
       manual: 手动管理现有文件夹
     remove_project:
+      deletion_failure_flash: 无法从存储中删除此项目。 %{error}
       dialog:
         automatically_managed_appendix: 而且，在这种情况下，这个存储有一个自动托管的项目文件夹，它和它的文件将被永久删除。
         confirmation_text: 请确认您已理解并要从此项目中删除此文件存储
-        heading: 从 %{storage_type}中删除项目
+        heading_text: 从 %{storage} 中删除项目
         text: 此操作不可逆，将从此项目的工作包中删除所有链接到该存储的文件和文件夹。
       label: 删除项目
   services:
@@ -86,6 +91,12 @@ zh-CN:
         rename_project_folder: '重命名托管项目文件夹：'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: '%{destination_path} 文件夹已经存在。中断进程以避免覆盖。'
+          error: 发生意外错误。请检查 OpenProject 日志获取更多信息或联系管理员
+          forbidden: OpenProject 无法访问源文件夹。请检查您在存储提供商上的权限配置
+          not_found: 未找到源模板位置 %{source_path}。
+          unauthorized: OpenProject 无法通过存储提供商进行身份验证。请检查您的存储配置
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -167,6 +178,9 @@ zh-CN:
       nextcloud:
         group_folders_app: 组文件夹
         integration_app: 集成 OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: 这个存储设置不完整。请在多个项目中启用它之前完成设置。
+      setup_incomplete_header: 存储设置未完成
     error_invalid_provider_type: 请选择一个有效的存储源。
     file_storage_view:
       access_management:
@@ -302,16 +316,24 @@ zh-CN:
     no_results: 尚未设置存储设备。
     notice_successful_storage_connection: |-
       存储连接成功！请记住，在每个所需项目的项目设置中激活模块和特定存储，以进行使用。
-    oauth_grant_nudge_modal:
+    oauth_access_granted_modal:
       access_granted: 已授予访问权限
-      access_granted_screen_reader: 已经授予访问权限。您现在可以使用%{storage}了。
-      body: 要获取对项目文件夹的访问权限，您需要登录 %{storage}。
+      project_settings:
+        access_granted_screen_reader: 已授予访问权限。您现在可以使用 %{storage} 了。
+        storage_ready: 现在您可以使用 %{storage} 了
+      storage_admin:
+        access_granted_screen_reader: 已授予访问权限。现在您可以将项目添加到 %{storage} 了
+        storage_ready: 现在您可以将项目添加到 %{storage} 了
+    oauth_grant_nudge_modal:
       cancel_button_label: 稍后再操作
-      confirm_button_aria_label: 登录到 %{storage}
-      confirm_button_label: 登录
+      heading: 需要登录 %{provider_type}
+      login_button_aria_label: 登录到 %{storage}
+      login_button_label: "%{provider_type} 登录"
+      project_settings:
+        description: 要获取对项目文件夹的访问权限，您需要登录 %{storage} 。
       requesting_access_to: 请求访问 %{storage}
-      storage_ready: 您现在已准备就绪，可以使用 %{storage} 了
-      title: 还有一步…
+      storage_admin:
+        description: 要将项目添加到此存储空间，您需要登录 %{provider_type}。请登录后再试一次。
     open_project_storage_modal:
       success:
         subtitle: 正在将您重定向

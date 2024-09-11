@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -211,10 +211,12 @@ ru:
     reorder_confirmation: "Внимание: Текущий порядок доступных значений будет утерян. Продолжить?"
     instructions:
       is_required: ""
+      is_required_for_project: "Установите флажок, чтобы включить этот атрибут и сделать его обязательным для всех проектов. Он не может быть отключен для отдельных проектов."
       is_for_all: ""
       searchable: "Включать значения полей при использовании функции глобального поиска."
+      searchable_for_project: "Установите флажок, чтобы сделать этот атрибут доступным в качестве фильтра в списках проектов."
       editable: "Разрешить редактирование поля самими пользователями."
-      visible: "Сделать поле видимым для всех пользователей (не администраторов) в обзоре проекта и отображать его в деталях виджета проекта Обзора."
+      admin_only: "Установите флажок, чтобы сделать этот атрибут видимым только для администраторов. Пользователи без прав администратора не смогут просматривать или редактировать его."
       is_filter: >
         Разрешить использование настраиваемого поля в фильтре в представлениях рабочих пакетов. Обратите внимание, что настраиваемое поле будет отображаться в глобальных представлениях только при выборе параметра "Для всех проектов".
     tab:
@@ -261,6 +263,9 @@ ru:
       open_as_gantt: "Открыть в виде диаграммы Ганта"
       no_results_title_text: На данный момент проектов нет
       no_results_content_text: Создать новый проект
+      search:
+        label: Фильтр по названию проекта
+        placeholder: Поиск по названию проекта
     lists:
       active: "Активные проекты"
       my: "Мои проекты"
@@ -294,7 +299,7 @@ ru:
         actions:
           label_enable_single: "Активно в этом проекте, нажмите для отключения"
           label_disable_single: "Неактивно в этом проекте, нажмите для включения"
-          deactivate_for_project: "Деактивировать для этого проекта"
+          remove_from_project: "Удалить из проекта"
           label_enable_all: "Включить всё"
           label_disable_all: "Выключить всё"
         is_required_blank_slate:
@@ -346,8 +351,8 @@ ru:
       will_remove_the_users_role: "Это удалит роль пользователя из этого проекта."
       will_remove_the_groups_role: "Это удалит роль группы из этого проекта."
       however_work_packages_shared_with_user_html:
-        one: "Однако, %{shared_work_packages_link} также был предоставлен этому пользователю.\n"
-        few: "Однако, %{shared_work_packages_link} также был предоставлен этому пользователю."
+        one: "Однако, %{shared_work_packages_link} также был предоставлен этому пользователю."
+        few: "However, %{shared_work_packages_link} have also been shared with this user."
         many: "However, %{shared_work_packages_link} have also been shared with this user."
         other: "Однако, %{shared_work_packages_link} также был предоставлен этому пользователю."
       however_work_packages_shared_with_group_html:
@@ -398,8 +403,8 @@ ru:
   my:
     access_token:
       create_dialog:
-        header: The %{type} token has been generated
-        warning: Note that this is the only time you will see this token, make sure to copy it now.
+        header: Токен %{type} создан
+        warning: Обратите внимание, что это единственный раз, когда Вы увидите этот токен, поэтому обязательно скопируйте его сейчас.
       errors:
         token_name_blank: "Пожалуйста, укажите имя токена API"
         token_name_in_use: "Это имя токена API уже используется, пожалуйста, выберите другое"
@@ -490,7 +495,7 @@ ru:
         is_readonly: "Только для чтения"
         excluded_from_totals: "Исключен из итогов"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Темный (бета)"
     light: "Светлая"
     light_high_contrast: "Светлый высокий контраст"
   types:
@@ -541,9 +546,9 @@ ru:
       no_common_statuses_exists: "Статус не доступен для всех выбранных пакетов работ. Их статус изменен быть не может."
       unsupported_for_multiple_projects: "Массовое перемещение/копирование не поддерживается при работе с пакетами из нескольких проектов"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Текущий тип пакета работ не включен в целевой проект. Пожалуйста, включите этот тип в целевом проекте, если хотите, чтобы он остался без изменений. В противном случае выберите из списка доступный тип в целевом проекте.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+        Текущие типы пакетов работ не включены в целевой проект. Включите типы в целевом проекте, если хотите, чтобы они остались неизменными. В противном случае выберите из списка доступный тип в целевом проекте.
     sharing:
       missing_workflow_warning:
         title: "Отсутствует рабочий процесс для совместного использования пакета работ"
@@ -632,7 +637,7 @@ ru:
         possible_values: "Возможные значения"
         regexp: "Регулярное выражение"
         searchable: "Доступно для поиска"
-        visible: "Видимый"
+        admin_only: "Только администратор"
       custom_value:
         value: "Значение"
       doorkeeper/application:
@@ -702,6 +707,7 @@ ru:
         versions: "Этапы"
         work_packages: "Задачи"
       project_custom_field:
+        is_required: "Требуется для всех проектов"
         custom_field_section: Раздел
       query:
         column_names: "Столбцы"
@@ -1046,6 +1052,12 @@ ru:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "не соответствует Работа и Остаток работы"
+              cannot_be_set_when_work_is_zero: "невозможно установить, если значение Работа равно 0h"
+              must_be_set_when_remaining_work_is_set: "требуется, если установлен параметр Оставшаяся работа."
+              must_be_set_when_work_and_remaining_work_are_set: "требуется, когда установлены значения Работа и Остаток работы."
+              inclusion: "должно быть между 0 и 100."
             due_date:
               not_start_date: "не совпадает с датой начала, хотя это требуется для вех."
               cannot_be_null: "не может быть нулевым, поскольку известны дата начала и продолжительность."
@@ -1074,15 +1086,17 @@ ru:
               does_not_exist: "Указанная категория не существует."
             estimated_hours:
               not_a_number: "не является допустимой продолжительностью."
-              cant_be_inferior_to_remaining_work: "Не может быть меньше, чем Оставшаяся работа."
-              must_be_set_when_remaining_work_is_set: "Требуется, если установлен параметр Оставшаяся работа."
-              only_values_greater_or_equal_zeroes_allowed: "Должно быть >= 0."
-              format: "%{message}"
+              cant_be_inferior_to_remaining_work: "не может быть меньше, чем Остаток работы."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "требуется, если установлены значения Оставшаяся работа и % Завершения."
             remaining_hours:
               not_a_number: "не является допустимой продолжительностью."
-              cant_exceed_work: "Не может быть выше Работы."
-              must_be_set_when_work_is_set: "Требуется, если установлен параметр «Работа»."
-              format: "%{message}"
+              cant_exceed_work: "не может быть выше, чем Работа."
+              must_be_set_when_work_is_set: "требуется, если установлен параметр «Работа»."
+              must_be_set_when_work_and_percent_complete_are_set: "требуется, если установлены значения Работа и % Завершения."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                должно быть равно 0h, если установлено 100% для Работа и % Завершения.
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                должен быть пустым, если Работа пусто, а % Завершения равен 100%.
           readonly_status: "Пакет работ находится в статусе доступном только для чтения, поэтому его атрибуты не могут быть изменены."
         type:
           attributes:
@@ -1176,10 +1190,10 @@ ru:
         other: "Роль"
       status: "Статус пакета работ"
       token/api:
-        one: Access token
+        one: Токен доступа
         few: Access tokens
         many: Access tokens
-        other: Access tokens
+        other: Токены доступа
       type: "Тип"
       user: "Пользователь"
       version: "Этапы"
@@ -1662,6 +1676,7 @@ ru:
   error_pdf_failed_to_export: "Не удалось сохранить экспорт в PDF: %{error}"
   error_token_authenticity: "Не удалось проверить CSRF-токен. Возможно, вы попытались отправить данные сразу из нескольких браузеров или вкладок. Закройте все вкладки и попробуйте снова."
   error_work_package_not_found_in_project: "Пакет работ не найден или не принадлежит к этому проекту"
+  error_work_package_id_not_found: "Пакет работ не найден."
   error_must_be_project_member: "должен быть участник проекта"
   error_migrations_are_pending: "Ваша версия OpenProject находится в ожидании миграции базы данных. Вероятно, вы пропустили запуск миграции при во время последнего обновления. Пожалуйста, ознакомьтесь с руководством по обновлению, чтобы правильно настроить вашу новую установку."
   error_migrations_visit_upgrade_guides: "Пожалуйста, ознакомьтесь с разделом документации, содержащим наше руководство по обновлению"
@@ -1703,9 +1718,71 @@ ru:
       project: "Проект: %{name}"
       subproject: "Подпроект: %{name}"
   export:
-    your_work_packages_export: "Экспорт ваших пакетов работ"
-    succeeded: "Экспорт успешно завершен."
-    failed: "Экспорт не удался: %{message}"
+    dialog:
+      title: "Экспорт"
+      submit: "Экспорт"
+      format:
+        label: "Формат файла"
+        options:
+          csv:
+            label: "CSV"
+          pdf:
+            label: "PDF"
+          xls:
+            label: "XLS"
+      columns:
+        input_label_report: "Добавить столбцы в таблицу атрибутов"
+        input_caption_report: "По умолчанию выбраны все атрибуты, добавленные в качестве колонок в список пакетов работ. Длинные текстовые поля недоступны в таблице атрибутов, но могут быть отображены под ней."
+        input_caption_table: "По умолчанию выбраны все атрибуты, добавленные в список пакетов работ. Длинные текстовые поля не доступны в экспорте на основе таблиц."
+      pdf:
+        export_type:
+          label: "Тип экспорта PDF"
+          options:
+            table:
+              label: "Таблица"
+              caption: "Экспорт списка пакетов работ в таблицу с нужными столбцами."
+            report:
+              label: "Отчет"
+              caption: "Экспорт пакета работ в детальный отчет обо всех пакетах работ в списке."
+            gantt:
+              label: "Диаграмма Гантта"
+              caption: "Экспорт списка пакетов работ в виде диаграммы Гантта."
+        include_images:
+          label: "Включить изображения"
+          caption: "Исключить изображения для уменьшения размера PDF."
+        gantt_zoom_levels:
+          label: "Уровни масштабирования"
+          caption: "Выберите уровень масштабирования для дат, отображаемых на графике."
+          options:
+            days: "Дни"
+            weeks: "Недели"
+            months: "Месяцы"
+            quarters: "Кварталы"
+        column_width:
+          label: "Ширина столбцов таблицы"
+          options:
+            narrow: "Узкий"
+            medium: "Средний"
+            wide: "Широкий"
+            very_wide: "Очень широкий"
+        paper_size:
+          label: "Размер бумаги"
+          caption: "В зависимости от размера диаграммы может быть экспортировано более одной страницы."
+        long_text_fields:
+          input_caption: "По умолчанию выбраны все длинные текстовые поля."
+          input_label: "Добавить длинные текстовые поля"
+          input_placeholder: "Поиск в длинных текстовых полях"
+          drag_area_label: "Управление длинными текстовыми полями"
+      xls:
+        include_relations:
+          label: "Включить отношения"
+          caption: "Эта опция создаст дубликат каждого пакета работ для каждого отношения, которое он имеет с другим пакетом работ."
+        include_descriptions:
+          label: "Включить описания"
+          caption: "Эта опция добавит колонку описания в необработанном формате."
+    your_work_packages_export: "Пакеты работ экспортируются"
+    succeeded: "Экспорт завершен"
+    failed: "Произошла ошибка при попытке экспортировать пакеты работ: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1866,6 +1943,11 @@ ru:
       responsible: "Ответственный"
       shared: "Общий доступ"
       watched: "Наблюдатель"
+    facets:
+      unread: "Непрочтено"
+      unread_title: "Показать непрочитанные"
+      all: "Bсе"
+      all_title: "Показывать всё"
     menu:
       by_project: "Непрочитано по проекту"
       by_reason: "Причина"
@@ -1930,7 +2012,7 @@ ru:
   label_ldap_auth_source_plural: "Соединения LDAP"
   label_attribute_expand_text: "Полный текст для '%{attribute}'"
   label_authentication: "Аутентификация"
-  label_authentication_settings: "Authentication settings"
+  label_authentication_settings: "Параметры аутентификации"
   label_available_global_roles: "Доступные глобальные роли"
   label_available_project_attributes: "Доступные атрибуты проекта"
   label_available_project_forums: "Доступные форумы"
@@ -2225,6 +2307,8 @@ ru:
   label_next_week: "На следующей неделе"
   label_no_change_option: "(Без изменений)"
   label_no_data: "Нет данных для отображения"
+  label_no_due_date: "нет даты окончания"
+  label_no_start_date: "нет даты начала"
   label_no_parent_page: "Без родительской страницы"
   label_nothing_display: "Нет данных для отображения"
   label_nobody: "никто"
@@ -2349,6 +2433,8 @@ ru:
   label_role_plural: "Роли"
   label_role_search: "Назначить роль для новых участников"
   label_scm: "SCM"
+  label_scroll_left: "Прокрутить влево"
+  label_scroll_right: "Прокрутить вправо"
   label_search: "Поиск"
   label_search_by_name: "Поиск по имени"
   label_send_information: "Отправить новые учетные данные пользователю"
@@ -3106,8 +3192,10 @@ ru:
   setting_work_package_done_ratio: "Режим расчета прогресса"
   setting_work_package_done_ratio_field: "На основе трудозатрат"
   setting_work_package_done_ratio_status: "На основе статуса"
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    В режиме <b>На основе трудозатрат</b>, % Завершения рассчитывается на основе того, сколько работы выполнено по отношению к общему объему работ. В режиме <b>На основе статуса</b>, каждый статус имеет связанное с ним значение % Завершения. Изменение статуса изменит % Завершения.
   setting_work_package_done_ratio_explanation_html: >
-    В режиме <b>На основе трудозатрат</b>, процент завершения рассчитывается на основе того, сколько работы выполнено по отношению к общему объему работ. В режиме <b>На основе статуса</b>, каждый статус имеет связанное с ним значение процента завершения. Изменение статуса изменит процент завершения.
+    В режиме <b>На основе трудозатрат</b> для параметра % Завершения можно свободно установить любое значение. Если вы дополнительно введете значение «Работа», «Оставшаяся работа» будет получена автоматически. В режиме <b>На основе статуса</b> с каждым статусом связано значение % Завершения. Изменение статуса приведет к изменению % Завершения.
   setting_work_package_properties: "Свойства пакета работ"
   setting_work_package_startdate_is_adddate: "Использовать текущую дату как дату начала для новых пакетов работ"
   setting_work_packages_projects_export_limit: "Ограничение экспорта пакетов работ / проектов"
@@ -3491,9 +3579,26 @@ ru:
     progress:
       label_note: "Примечание:"
       modal:
-        work_based_help_text: "% Выполнения автоматически выводится из Работ и Оставшихся работ."
+        work_based_help_text: "Каждое поле автоматически рассчитывается от двух других, когда это возможно."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Завершения автоматически выводится из Работы и Оставшейся работы."
         status_based_help_text: "% Выполнения определяется статусом пакета работ."
         migration_warning_text: "В режиме расчета прогресса \"На основе трудозатрат\" процент завершения невозможно установить вручную, он привязан к трудозатратам. Существующее значение сохранено, но его нельзя изменить. Пожалуйста, сначала введите трудозатраты."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Очищено, потому что Оставшаяся работа пуста."
+          cleared_because_work_is_0h: "Очищено, потому что Работа равна 0h."
+          derived: "Получено из Работы и Оставшейся работы."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Очищено, потому что оставшаяся работа пуста."
+          derived: "Получено из Оставшейся работы и % Завершения."
+          same_as_remaining_work: "Установите то же значение, что и Оставшаяся работа."
+        remaining_hours:
+          cleared_because_work_is_empty: "Очищено, потому что Работа пуста."
+          cleared_because_percent_complete_is_empty: "Очищено, потому что % Завершения пуст."
+          decreased_like_work: "Уменьшается на ту же величину, что и Работа."
+          derived: "Получено из Работы и % Завершения."
+          increased_like_work: "Увеличивается на ту же величину, что и Работа."
+          same_as_work: "Установите то же значение, что и для Работы."
     permissions:
       comment: "Комментировать"
       comment_description: "Может просматривать и комментировать этот пакет работ."

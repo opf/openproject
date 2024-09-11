@@ -21,6 +21,8 @@ es:
               only_numeric_or_uuid: solo puede ser numérico o un UUID.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Seleccione una carpeta.
             project_folder_mode:
               mode_unavailable: no está disponible para este almacenamiento.
             project_ids:
@@ -29,7 +31,7 @@ es:
           attributes:
             host:
               authorization_header_missing: no está completamente configurado. La instancia de Nextcloud no recibe la cabecera "Autorización", que es necesaria para la autorización basada en token Bearer de solicitudes API. Por favor, compruebe la configuración de tu servidor HTTP.
-              cannot_be_connected_to: no admite conexiones.
+              cannot_be_connected_to: no se ha podido acceder. Asegúrese de que se puede acceder al host y de que la aplicación de integración de OpenProject está instalada.
               minimal_nextcloud_version_unmet: no cumple los requisitos mínimos de versión (debe ser Nextcloud 23 o posteriores)
               not_nextcloud_server: no es un servidor de Nextcloud
               op_application_not_installed: parece que no tienes la aplicación "Integración OpenProject" instalada. Por favor, instálala primero y vuelve a intentarlo.
@@ -57,15 +59,18 @@ es:
   permission_write_files: 'Carpetas de proyecto gestionadas automáticamente: Escribir archivos'
   project_module_storages: Archivos
   project_storages:
+    edit_project_folder:
+      label: Editar la carpeta del proyecto
     project_folder_mode:
       automatic: Gestionado automáticamente
       inactive: Ninguna carpeta específica
       manual: Carpeta existente gestionada manualmente
     remove_project:
+      deletion_failure_flash: Error al eliminar el proyecto del almacén. %{error}
       dialog:
         automatically_managed_appendix: Además, en este caso este almacenamiento tiene una carpeta de proyecto administrada automáticamente, se eliminarán sus archivos para siempre.
         confirmation_text: Confirme que entiende y desea eliminar este almacenamiento de archivos de este proyecto
-        heading: Eliminar proyecto de %{storage_type}
+        heading_text: Eliminar proyecto de %{storage}
         text: Esta acción es irreversible y eliminará todos los enlaces en los paquetes de trabajo de este proyecto a archivos y carpetas de ese almacenamiento.
       label: Eliminar proyecto
   services:
@@ -86,6 +91,12 @@ es:
         rename_project_folder: 'Cambiar el nombre de la carpeta del proyecto gestionado:'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: La carpeta %{destination_path} ya existe. Interrumpiendo el proceso para evitar sobreescrituras.
+          error: Se ha producido un error inesperado. Compruebe los registros de OpenProject para obtener más información o póngase en contacto con un administrador.
+          forbidden: OpenProject no ha podido acceder a la carpeta de origen. Compruebe su configuración de permisos en el proveedor de almacenamiento
+          not_found: No se ha encontrado la ubicación de la plantilla de origen %{source_path}.
+          unauthorized: OpenProject no pudo autenticarse con el proveedor de almacenamiento. Compruebe su configuración de almacenamiento
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -111,7 +122,7 @@ es:
             set_folders_permissions:
               permission_not_set: no se han podido establecer permisos en %{path}.
           error: Se ha producido un error inesperado. Asegúrese de que su instancia de Nextcloud es accesible y compruebe los registros de los trabajadores de OpenProject para obtener más información.
-          group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
+          group_does_not_exist: "%{group} no existe. Compruebe la configuración de su instancia de Nextcloud."
           insufficient_privileges: OpenProject no tiene suficientes privilegios para añadir a %{user} a %{group}. Compruebe la configuración de su grupo en Nextcloud.
           not_allowed: Nextcloud bloquea la solicitud.
           unauthorized: OpenProject no pudo sincronizarse con Nextcloud. Compruebe su almacenamiento y la configuración de Nextcloud.
@@ -140,7 +151,7 @@ es:
       complete_without_setup: Completar sin usar
       done_complete_setup: Hecho, configuración completada
       done_continue: Hecho, continuar
-      open_storage: Open file storage
+      open_storage: Abrir almacenamiento de archivos
       replace_oauth_application: Reemplazar OpenProject OAuth
       replace_oauth_client: Reemplazar %{provider_type} OAuth
       save_and_continue: Guardar y continuar
@@ -167,6 +178,9 @@ es:
       nextcloud:
         group_folders_app: Carpetas de grupo
         integration_app: Integración OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: Este almacenamiento tiene una configuración incompleta. Complete la configuración antes de habilitarlo en varios proyectos.
+      setup_incomplete_header: Configuración de almacenamiento incompleta
     error_invalid_provider_type: Por favor, seleccione un proveedor de almacenamiento válido.
     file_storage_view:
       access_management:
@@ -302,16 +316,24 @@ es:
     no_results: Aún no se han configurado almacenes de archivos.
     notice_successful_storage_connection: |-
       ¡Almacenamiento conectado con éxito! Recuerda activar el módulo y el almacenamiento específico en la configuración del proyecto de cada proyecto deseado para usarlo.
+    oauth_access_granted_modal:
+      access_granted: Acceso concedido
+      project_settings:
+        access_granted_screen_reader: Acceso concedido. Ya puede utilizar %{storage}
+        storage_ready: Ya está listo para utilizar %{storage}
+      storage_admin:
+        access_granted_screen_reader: Acceso concedido. Ya está listo para añadir proyectos a %{storage}
+        storage_ready: Ya está listo para añadir proyectos a %{storage}
     oauth_grant_nudge_modal:
-      access_granted: Acceso permitido
-      access_granted_screen_reader: Acceso concedido. Ya puede utilizar %{storage}.
-      body: Para obtener acceso a la carpeta del proyecto necesitas iniciar sesión en %{storage}.
       cancel_button_label: Lo haré más tarde
-      confirm_button_aria_label: Iniciar sesión en %{storage}
-      confirm_button_label: Iniciar sesión
+      heading: Es necesario iniciar sesión en %{provider_type}
+      login_button_aria_label: Iniciar sesión en %{storage}
+      login_button_label: "Inicio de sesión de %{provider_type}"
+      project_settings:
+        description: Para obtener acceso a la carpeta del proyecto necesitas iniciar sesión en %{storage}.
       requesting_access_to: Solicitando acceso a %{storage}
-      storage_ready: Ahora estás listo para usar %{storage}
-      title: Queda un paso más...
+      storage_admin:
+        description: Para poder añadir proyectos a este almacén necesita haber iniciado sesión en %{provider_type}. Inicie sesión e inténtelo de nuevo.
     open_project_storage_modal:
       success:
         subtitle: Se te está redirigiendo

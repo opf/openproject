@@ -21,6 +21,8 @@ de:
               only_numeric_or_uuid: kann nur numerisch oder uuid sein.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Bitte wählen Sie einen Ordner.
             project_folder_mode:
               mode_unavailable: ist für diesen Speicher nicht verfügbar.
             project_ids:
@@ -29,7 +31,7 @@ de:
           attributes:
             host:
               authorization_header_missing: ist nicht vollständig eingerichtet. Die Nextcloud-Instanz erhält nicht den HTTP "Authorization" Header. Dieser ist jedoch für eine auf Bearer-Token basierende Autorisierung von API-Anfragen notwendig. Bitte überprüfen Sie die HTTP-Server-Konfiguration Ihres Nextcloud-Servers.
-              cannot_be_connected_to: kann nicht verbunden werden.
+              cannot_be_connected_to: konnte nicht erreicht werden. Bitte stellen Sie sicher, dass der Host erreichbar ist und die OpenProject Integrations-App installiert ist.
               minimal_nextcloud_version_unmet: erfüllt nicht die minimalen Versionsanforderungen (muss Nextcloud 23 oder höher sein)
               not_nextcloud_server: ist kein Nextcloud-Server
               op_application_not_installed: scheint die App "OpenProject Integration" nicht installiert zu haben. Bitte installieren Sie diese zuerst und versuchen es danach erneut.
@@ -57,15 +59,18 @@ de:
   permission_write_files: 'Automatisch verwaltete Projektordner: Dateien schreiben'
   project_module_storages: Dateien
   project_storages:
+    edit_project_folder:
+      label: Projektordner bearbeiten
     project_folder_mode:
       automatic: Automatisch verwaltet
       inactive: Kein spezifischer Ordner
       manual: Vorhandener Ordner manuell verwaltet
     remove_project:
+      deletion_failure_flash: Das Projekt konnte nicht vom Dateispeicher entfernt werden. %{error}
       dialog:
         automatically_managed_appendix: Falls dieser Speicher einen automatisch verwalteten Projektordner enthält, werden dieser und seine Dateien für immer gelöscht.
         confirmation_text: Bitte bestätigen Sie die Entfernung des Dateispeichers aus diesem Projekt
-        heading: Projekt von %{storage_type} entfernen
+        heading_text: Projekt von %{storage} entfernen
         text: Diese Aktion ist unumkehrbar und entfernt alle Verknüpfungen von Arbeitspaketen dieses Projekts zu Dateien und Ordnern dieses Speichers.
       label: Projekt entfernen
   services:
@@ -86,6 +91,12 @@ de:
         rename_project_folder: 'Verwalteten Projektordner umbenennen:'
     errors:
       models:
+        copy_project_folders_service:
+          conflict: Der Ordner %{destination_path} existiert bereits. Unterbrechen Sie den Prozess, um Überschreibungen zu vermeiden.
+          error: Ein unerwarteter Fehler ist aufgetreten. Bitte überprüfen Sie die OpenProject Protokolle für weitere Informationen oder kontaktieren Sie einen Administrator
+          forbidden: OpenProject konnte nicht auf den Quellordner zugreifen. Bitte überprüfen Sie Ihre Berechtigungskonfiguration auf dem Speicheranbieter
+          not_found: Der Quellvorlagen-Speicherort %{source_path} wurde nicht gefunden.
+          unauthorized: OpenProject konnte sich nicht mit dem Speicheranbieter authentifizieren. Bitte überprüfen Sie Ihre Speicherkonfiguration
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -167,6 +178,9 @@ de:
       nextcloud:
         group_folders_app: Gruppenordner
         integration_app: OpenProject Integration
+    enabled_in_projects:
+      setup_incomplete_description: Dieser Speicher ist nicht vollständig eingerichtet. Bitte schließen Sie die Einrichtung ab, bevor Sie ihn in mehreren Projekten aktivieren.
+      setup_incomplete_header: Einrichtung des Speichers unvollständig
     error_invalid_provider_type: Bitte wählen Sie einen gültigen Dateispeicheranbieter aus.
     file_storage_view:
       access_management:
@@ -302,16 +316,24 @@ de:
     no_results: Noch keine Dateispeicher eingerichtet.
     notice_successful_storage_connection: |-
       Dateispeicher erfolgreich verbunden! Denken Sie daran, das Modul und den spezifischen Dateispeicher in den Projekteinstellungen jedes gewünschten Projekts zu aktivieren, um ihn zu benutzen.
-    oauth_grant_nudge_modal:
+    oauth_access_granted_modal:
       access_granted: Zugriff gewährt
-      access_granted_screen_reader: Zugriff gewährt. Sie können nun %{storage} verwenden.
-      body: Um Zugriff auf den Projektordner zu erhalten, müssen Sie sich bei %{storage} anmelden.
+      project_settings:
+        access_granted_screen_reader: Zugriff gewährt. Sie können nun %{storage} verwenden
+        storage_ready: '%{storage} kann jetzt verwendet werden'
+      storage_admin:
+        access_granted_screen_reader: Zugriff gewährt. Sie können nun Projekte zu %{storage} hinzufügen
+        storage_ready: Sie können nun Projekte zu %{storage} hinzufügen
+    oauth_grant_nudge_modal:
       cancel_button_label: Das mache ich später
-      confirm_button_aria_label: Bei %{storage} anmelden
-      confirm_button_label: Anmelden
+      heading: Anmeldung bei %{provider_type} erforderlich
+      login_button_aria_label: Bei %{storage} anmelden
+      login_button_label: "%{provider_type} anmelden"
+      project_settings:
+        description: Um Zugriff auf den Projektordner zu erhalten, müssen Sie sich bei %{storage} anmelden.
       requesting_access_to: Zugriff auf %{storage} anfordern
-      storage_ready: '%{storage} kann jetzt verwendet werden'
-      title: Ein weiterer Schritt...
+      storage_admin:
+        description: Um Projekte zu diesem Dateispeicher hinzuzufügen, müssen Sie bei %{provider_type} angemeldet sein. Bitte melden Sie sich an und versuchen Sie es erneut.
     open_project_storage_modal:
       success:
         subtitle: Sie werden weitergeleitet

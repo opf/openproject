@@ -343,7 +343,7 @@ The entire team documents possible improvements for the next release.
 
 ### 4.1 Version/Release
 
-A version is the name given to a collection of features and/or bugfixes. A release is the publicly available version of the OpenProject software. More information is provided on the [release page](../releases/).
+A version is the name given to a collection of features and/or bugfixes. A release is the publicly available version of the OpenProject software. More information is provided on the [Application architecture page](../application-architecture/#patch-and-change-management).
 
 ### 4.2 RICE Score
 

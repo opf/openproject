@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,13 +32,12 @@ require_module_spec_helper
 RSpec.describe Storages::ProjectStorages::DestroyConfirmationDialogComponent,
                type: :component do
   describe "#heading" do
-    it "contains the storage type" do
+    it "contains the storage name" do
       storage = build_stubbed(:one_drive_storage)
       project_storage = build_stubbed(:project_storage, storage:)
 
       component = described_class.new(storage:, project_storage:)
-      expect(component.heading).to include("OneDrive/SharePoint")
-      expect(component.heading).not_to include("Nextcloud")
+      expect(component.heading).to include(storage.name)
     end
   end
 

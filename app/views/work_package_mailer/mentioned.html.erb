@@ -11,7 +11,7 @@
       <%= render partial: 'mailer/mailer_header',
                  locals: {
                    summary: I18n.t(:'mail.work_packages.mentioned_by', user: @journal.user),
-                   button_href: notifications_path(@work_package.id),
+                   button_href: details_notifications_url(@work_package.id, tab: :activity),
                    button_text: I18n.t(:'mail.notification.see_in_center'),
                    user: @user,
                  } %>
