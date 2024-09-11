@@ -38,6 +38,13 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
+<%= primer_form_with(scope: :settings, action: :update, method: :patch) do |f| %>
+  <%= render Admin::Settings::ProgressTracking::ProgressCalculationModeForm.new(f) %>
+  <%=
+    render_inline_settings_form(f, &:submit)
+  %>
+<% end %>
+
 <%= styled_form_tag({ action: :update }, method: :patch) do %>
   <section class="form--section"
            data-application-target="dynamic"
