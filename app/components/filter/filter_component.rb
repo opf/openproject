@@ -38,6 +38,10 @@ module Filter
       always_visible || params[:filters].present?
     end
 
+    def show_apply?
+      true
+    end
+
     # Returns filters, active and inactive.
     # In case a filter is active, the active one will be preferred over the inactive one.
     def each_filter

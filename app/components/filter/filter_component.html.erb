@@ -15,7 +15,6 @@
       <% each_filter do |filter, filter_active, additional_options| %>
         <% filter_boolean = filter.is_a?(Queries::Filters::Shared::BooleanFilter) %>
         <% autocomplete_filter = additional_options.key?(:autocomplete_options) %>
-
         <li class="advanced-filters--filter <%= filter_active ? '' : 'hidden' %>"
             data-filter-name="<%= filter.name %>"
             data-filter-type="<%= filter.type %>"
@@ -75,10 +74,8 @@
           </div>
         </li>
       <% end %>
-
       <li class="advanced-filters--spacer <%= query.filters.blank? ? 'hidden' : '' %>"
           data-filter--filters-form-target="spacer"></li>
-
       <li class="advanced-filters--add-filter">
         <!-- Add filters -->
         <label for="add_filter_select" aria-hidden="true" class="advanced-filters--add-filter-label ng-binding">
@@ -90,7 +87,6 @@
           <%= t('js.filter.description.text_open_filter') %>
           <%= t('js.filter.description.text_close_filter') %>
         </label>
-
         <div class="advanced-filters--add-filter-value">
           <%= select_tag 'add_filter_select',
                          options_from_collection_for_select(
@@ -109,9 +105,11 @@
                          } %>
         </div>
       </li>
+      <% if show_apply? %>
       <li class="advanced-filters--controls">
         <%= submit_tag t('button_apply'), class: 'button -small -primary', name: nil %>
       </li>
+      <% end %>
     </ul>
   </fieldset>
 <% end %>

@@ -1,17 +1,13 @@
-<%= render(Primer::OpenProject::SubHeader.new) do |subheader| %>
+<%= render(Primer::OpenProject::SubHeader.new(data: sub_header_data_attributes)) do |subheader| %>
   <%=
     subheader.with_filter_component do
-      # TODO replace with FilterButtonComponent
-      render(Primer::Beta::Button.new(scheme: :secondary)) do |button|
-        button.with_trailing_visual_counter(count: 10)
-        t(:label_filter)
-      end
+      render(WorkPackages::FilterButtonComponent.new(query: @query))
     end
   %>
 
   <%=
     subheader.with_bottom_pane_component(mt: 0) do
-      # TODO render(Projects::ProjectsFiltersComponent.new(query: @query))
+      render(WorkPackages::FiltersComponent.new(query: @query))
     end
   %>
 
