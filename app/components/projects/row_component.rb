@@ -30,6 +30,7 @@
 module Projects
   class RowComponent < ::RowComponent
     delegate :favored_project_ids, to: :table
+    delegate :identifier, to: :project
 
     def project
       model.first
@@ -108,17 +109,7 @@ module Projects
     end
 
     def id
-      content = "".html_safe
-
-      content << project.id.to_s
-      content
-    end
-
-    def identifier
-      content = "".html_safe
-
-      content << project.identifier
-      content
+      project.id.to_s
     end
 
     def name
