@@ -52,7 +52,7 @@ module Storages::Storages
 
         # Small procedure to check that the current user is admin and active
         def validate_user_allowed_to_manage
-          unless user.active_admin?
+          unless user.admin? && user.active?
             errors.add :base, :error_unauthorized
           end
         end

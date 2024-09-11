@@ -56,7 +56,7 @@ class DeleteContract < ModelContract
 
     case permission
     when :admin
-      user.active_admin?
+      user.admin? && user.active?
     when Proc
       instance_exec(&permission)
     when Symbol

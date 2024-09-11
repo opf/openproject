@@ -1,5 +1,5 @@
 <%=
-  component_wrapper do
+  component_wrapper(data: { 'test-selector': "op-admin-oauth--application" }) do
     flex_layout(align_items: :center, justify_content: :space_between) do |oauth_application_container|
       oauth_application_container.with_column(flex_layout: true) do |application_information|
         application_information.with_column(mr: 2) do
@@ -32,7 +32,10 @@
         render(Primer::Alpha::ToggleSwitch.new(
           src: toggle_oauth_application_path(@application),
           csrf_token: form_authenticity_token,
-          checked: @application.enabled?
+          checked: @application.enabled?,
+          data: {
+            'test-selector': "op-admin-oauth--application-enabled-toggle-switch"
+          }
         ))
       end
     end
