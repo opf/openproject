@@ -15,20 +15,7 @@
     end
   %>
 
-  <% if can_create_work_packages? %>
-    <% subheader.with_action_component do %>
-      <%=
-        render Primer::Alpha::ActionMenu.new do |menu|
-          menu.with_show_button(scheme: :primary,
-                                aria: { label: I18n.t(:label_work_package_new) }) do |button|
-            button.with_trailing_action_icon(icon: :"triangle-down")
-            button.with_leading_visual_icon(icon: :plus)
-            I18n.t(:button_create)
-          end
-          menu.with_item(label: "TODO Subitem 1")
-          menu.with_item(label: "TODO Subitem 2")
-        end
-      %>
-    <% end %>
+  <% subheader.with_action_component do %>
+    <%= render WorkPackages::Create::WpCreateButtonComponent.new(project: @project) %>
   <% end %>
 <% end %>
