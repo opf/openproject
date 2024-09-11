@@ -1193,7 +1193,7 @@ ru:
         other: "%{count} дней"
         zero: "0 дней"
       word:
-        one: "1 word"
+        one: "1 слово"
         few: "%{count} words"
         many: "%{count} words"
         other: "%{count} слов"
