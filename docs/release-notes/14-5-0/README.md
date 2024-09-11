@@ -1,3 +1,11 @@
+---
+title: OpenProject 14.5.0
+sidebar_navigation:
+    title: 14.5.0
+release_version: 14.5.0
+release_date: 2024-09-11
+---
+
 # OpenProject 14.5.0
 
 Release date: 2024-09-11
@@ -5,6 +13,14 @@ Release date: 2024-09-11
 We released OpenProject [OpenProject 14.5.0](https://community.openproject.org/versions/1411). The release contains several bug fixes and we recommend updating to the newest version. 
 
 In these Release Notes, we will give an overview of important feature changes as well as breaking changes for developers. At the end, you will find a complete list of all changes and bug fixes.
+
+## Important updates for Docker compose
+
+The installation repository for Docker Compose has been moved to [https://github.com/opf/openproject-docker-compose](https://github.com/opf/openproject-docker-compose).
+
+When updating, you will note that the repository now only contains the Docker compose setup, and the legacy Kubernetes deployment option has been removed. This means the folder structure has been changed slightly. No other changes are necessary. As we introduced a new local image starting in 14.4., the command to install and upgrade the Docker compose setup has been changed. Please double-check the [Docker compose installation guide](../../installation-and-operations/installation/docker/) on how to upgrade your installation.
+
+If you are looking for an option to install OpenProject on Kubernetes, please use our [OpenProject Helm chart](../../installation-and-operations/installation/helm-chart/).
 
 ## Important feature changes
 
@@ -33,6 +49,12 @@ With OpenProject 14.5., we updated the modal for exporting work package lists. T
 ### Release to Community: Display custom field columns/filters in project lists
 
 From time to time an Enterprise add-on is released for the free community version. We are happy to announce that with OpenProject 14.5, custom field columns/filters can be displayed in project lists in all editions. This means that also Community users can now filter and sort their project lists using custom fields in order to create the best possible overview. 
+
+### Updated user experience in the notification center
+
+We did some design changes in the notification center, to improve your user experience. For example, the buttons **Unread**, **All** and **Mark all as read** are now placed on the left side, above your list of notifications.
+
+![alt text](openproject-14-5-notification-center.png)
 
 ### Use CloudFlare Turnstile as Captcha
 
@@ -66,11 +88,13 @@ When creating a new meeting in OpenProject, you can choose wheather you want to 
 
 We have renamed some of the actions in the work package dropdown menu. They should now be easier to understand and more intuitive to use for new users. Here is an overview of the renaming:
 
-|      | Old name   | New name                                                     | 
-| ---- | --------------------------- | ------------------------------------------------------------ | 
-| 1    | Change project   | Move to another project | 
-| 2    | Copy             | Duplicate        |
-| 3    | Copy to other project | Duplicate to other project |
+ Old name   | New name                                                     | 
+ --------------------------- | ------------------------------------------------------------ | 
+ Change project   | Move to another project | 
+ Copy             | Duplicate        |
+ Copy to other project | Duplicate in another project |
+
+![Dropdown menu with highlighted new terms](openproject_user_guide_copy_move_delete_detailed_view-570939f2.png)
 
 <!--more-->
 

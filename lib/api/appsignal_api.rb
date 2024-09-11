@@ -30,8 +30,8 @@ module API
     def self.included(base)
       base.class_eval do
         if OpenProject::Appsignal.enabled?
-          require "appsignal/integrations/grape"
-          insert_before Grape::Middleware::Error, Appsignal::Grape::Middleware
+          require "appsignal/rack/grape_middleware"
+          insert_before Grape::Middleware::Error, Appsignal::Rack::GrapeMiddleware
         end
       end
     end
