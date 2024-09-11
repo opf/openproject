@@ -202,6 +202,11 @@
       title: "Tilpassede handlinger"
       description: "Egendefinerte handlinger er snarveier med ett klikk til en rekke forhåndsdefinerte handlinger som du kan gjøre tilgjengelige på visse arbeidspakker basert på status, rolle, type eller prosjekt."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       For å legge til nye egendefinerte felt i et prosjekt må du først opprette dem før du kan legge dem til i dette prosjektet.
     is_enabled_globally: "Er aktivert globalt"
@@ -1101,7 +1106,7 @@
               confirmation: "Passordbekreftelsen samsvarer ikke med passordet."
               format: "%{message}"
             password:
-              weak: "Må inneholde tegn fra de følgende klassene (minst %{min_count} av %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "små bokstaver (f.eks. \"a\")"
               uppercase: "store bokstaver (f.eks. \"A\")"
               numeric: "numerisk (f.eks. \"1\")"
@@ -1943,6 +1948,7 @@
   label_attribute_expand_text: "Den fullstendige teksten for '%{attribute}'"
   label_authentication: "Autentisering"
   label_authentication_settings: "Autentiseringsinnstillinger"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Tilgjengelige globale roller"
   label_available_project_attributes: "Tilgjengelige prosjektegenskaper"
   label_available_project_forums: "Tilgjengelige forum"
@@ -2363,6 +2369,8 @@
   label_role_plural: "Rolle"
   label_role_search: "Tilordne rolle til nye medlemmer"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Søk"
   label_search_by_name: "Søk på navn"
   label_send_information: "Send nye opplysninger til brukeren"
@@ -3521,9 +3529,9 @@
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "Kommentar"

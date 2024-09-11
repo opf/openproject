@@ -7,14 +7,13 @@ keywords: OAuth application settings
 ---
 # OAuth applications
 
-To configure OpenProject to act as a server to an
-OAuth client applications, please navigate to *Administration* -> *Authentication* -> *OAuth applications*.
+To configure OpenProject to act as a server to an OAuth client applications, please navigate to *Administration* -> *Authentication* -> *OAuth applications*.
 
 ## Add a new authentication application for OAuth
 
-To add a new OAuth application, click the green **+ Add** button.
+To add a new OAuth application, click the green **+ OAuth application** button.
 
-![Sys-admin-authentication-OAuth-applications](Sys-admin-authentication-oauth-applications.png)
+![OAuth applications in OpenProject system administration](openproject_system_admin_guide_oauth_application_button.png)
 
 You can configure the following options to add your OAuth application:
 
@@ -40,9 +39,10 @@ You can configure the following options to add your OAuth application:
    user on whose behalf requests will be performed.
 6. Press **Create** to add your OAuth application.
 
-![add-new-oauth-application](add-new-oauth-application.png)
+![Add a new OAuth application in OpenProject administration](openproject_system_admin_guide_oauth_application_new.png)
 
-Don't forget to note down your `Client ID` and your `Client secret`
+> [!TIP]
+> Don't forget to note down your `Client ID` and your `Client secret`
 in a safe space. You will need them later.
 
 ## OAuth endpoints

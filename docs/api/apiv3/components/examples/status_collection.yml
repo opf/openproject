@@ -1,72 +1,89 @@
-# Example: Status collection
----
+description: |-
+  A standard, unpaginated collection of statuses.
 value:
-  _embedded:
-    elements:
-      - _links:
-          self:
-            href: "/api/v3/statuses/1"
-        _type: Status
-        defaultDoneRatio: 0
-        id: 1
-        isClosed: false
-        isDefault: true
-        name: New
-        position: 1
-      - _links:
-          self:
-            href: "/api/v3/statuses/3"
-        _type: Status
-        defaultDoneRatio: 75
-        id: 3
-        isClosed: false
-        isDefault: false
-        isReadonly: false
-        name: Resolved
-        position: 3
-      - _links:
-          self:
-            href: "/api/v3/statuses/4"
-        _type: Status
-        defaultDoneRatio: 25
-        id: 4
-        isClosed: false
-        isDefault: false
-        name: Feedback
-        position: 4
-      - _links:
-          self:
-            href: "/api/v3/statuses/5"
-        _type: Status
-        defaultDoneRatio: 100
-        id: 5
-        isClosed: true
-        isDefault: false
-        name: Closed
-        position: 5
-      - _links:
-          self:
-            href: "/api/v3/statuses/6"
-        _type: Status
-        defaultDoneRatio: 100
-        id: 6
-        isClosed: true
-        isDefault: false
-        name: Rejected
-        position: 6
-      - _links:
-          self:
-            href: "/api/v3/statuses/2"
-        _type: Status
-        defaultDoneRatio: 50
-        id: 2
-        isClosed: false
-        isDefault: false
-        name: In Progress
-        position: 3
-  _links:
-    self:
-      href: "/api/v3/statuses"
   _type: Collection
   count: 6
   total: 6
+  _embedded:
+    elements:
+      - _type: Status
+        id: 1
+        name: New
+        isClosed: false
+        color: '#3997AD'
+        isDefault: true
+        isReadonly: false
+        excludedFromTotals: false
+        defaultDoneRatio: 0
+        position: 1
+        _links:
+          self:
+            href: '/api/v3/statuses/1'
+      - _type: Status
+        id: 3
+        name: Resolved
+        isClosed: false
+        color: '#93D2AE'
+        isDefault: false
+        isReadonly: false
+        excludedFromTotals: false
+        defaultDoneRatio: 75
+        position: 3
+        _links:
+          self:
+            href: '/api/v3/statuses/3'
+      - _type: Status
+        id: 4
+        name: Feedback
+        isClosed: false
+        color: '#A96FFE'
+        isDefault: false
+        isReadonly: false
+        excludedFromTotals: false
+        defaultDoneRatio: 25
+        position: 4
+        _links:
+          self:
+            href: '/api/v3/statuses/4'
+      - _type: Status
+        id: 5
+        name: Closed
+        isClosed: true
+        color: '#DF6DA1'
+        isDefault: false
+        isReadonly: false
+        excludedFromTotals: false
+        defaultDoneRatio: 100
+        position: 5
+        _links:
+          self:
+            href: '/api/v3/statuses/5'
+      - _type: Status
+        id: 6
+        name: Rejected
+        isClosed: true
+        color: '#D32937'
+        isDefault: false
+        isReadonly: true
+        excludedFromTotals: true
+        defaultDoneRatio: 100
+        position: 6
+        _links:
+          self:
+            href: '/api/v3/statuses/6'
+      - _type: Status
+        id: 2
+        name: In Progress
+        isClosed: false
+        color: '#3852C6'
+        isDefault: false
+        isReadonly: false
+        excludedFromTotals: false
+        defaultDoneRatio: 50
+        position: 3
+        _links:
+          self:
+            href: '/api/v3/statuses/2'
+  _links:
+    self:
+      href: '/api/v3/statuses'

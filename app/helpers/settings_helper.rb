@@ -45,11 +45,6 @@ module SettingsHelper
         label: :label_languages
       },
       {
-        name: "projects",
-        controller: "/admin/settings/projects_settings",
-        label: :label_project_plural
-      },
-      {
         name: "repositories",
         controller: "/admin/settings/repositories_settings",
         label: :label_repository_plural

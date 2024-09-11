@@ -208,7 +208,7 @@ RSpec.describe "Progress modal", "pre 14.4 without percent complete edition", :j
         remaining_work_field = ProgressEditField.new(work_package_row, :remainingTime)
         work_field.activate!
 
-        remaining_work_field.expect_read_only_modal_field
+        remaining_work_field.expect_modal_field_read_only
       end
     end
 
@@ -356,7 +356,8 @@ RSpec.describe "Progress modal", "pre 14.4 without percent complete edition", :j
 
           work_edit_field.expect_modal_field_value("10h")
           remaining_work_edit_field.expect_modal_field_value("2.12h") # 2h 7m
-          percent_complete_edit_field.expect_modal_field_value("78", readonly: true)
+          percent_complete_edit_field.expect_modal_field_read_only
+          percent_complete_edit_field.expect_modal_field_value("78")
         end
       end
 
@@ -408,7 +409,8 @@ RSpec.describe "Progress modal", "pre 14.4 without percent complete edition", :j
 
           work_edit_field.expect_modal_field_value("")
           remaining_work_edit_field.expect_modal_field_value("", disabled: true)
-          percent_complete_edit_field.expect_modal_field_value("-", readonly: true)
+          percent_complete_edit_field.expect_modal_field_read_only
+          percent_complete_edit_field.expect_modal_field_value("-")
         end
       end
 
@@ -468,7 +470,7 @@ RSpec.describe "Progress modal", "pre 14.4 without percent complete edition", :j
 
       work_edit_field.activate!
 
-      percent_complete_edit_field.expect_read_only_modal_field
+      percent_complete_edit_field.expect_modal_field_read_only
     end
   end
 

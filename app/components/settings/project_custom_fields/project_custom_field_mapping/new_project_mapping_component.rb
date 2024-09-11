@@ -29,23 +29,18 @@
 module Settings
   module ProjectCustomFields
     module ProjectCustomFieldMapping
-      class NewProjectMappingComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-        include OpTurbo::Streamable
-
-        def initialize(project_mapping:, project_custom_field:, **)
-          @project_mapping = project_mapping
-          @project_custom_field = project_custom_field
-          super(@project_mapping, **)
-        end
-
+      class NewProjectMappingComponent < Admin::CustomFields::CustomFieldProjects::NewCustomFieldProjectsModalComponent
         def render?
-          !@project_custom_field.required?
+          !custom_field.required?
         end
 
         private
 
-        def title
-          I18n.t(:label_add_projects)
+        def form_modal_component
+          Settings::ProjectCustomFields::ProjectCustomFieldMapping::NewProjectMappingFormComponent.new(
+            custom_field_project_mapping:,
+            custom_field:
+          )
         end
       end
     end

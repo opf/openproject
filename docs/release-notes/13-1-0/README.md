@@ -54,7 +54,7 @@ With OpenProject 13.1, we released [Attribute help texts](../../system-admin-gui
 
 ## Accessibility improvements and high contrast mode
 
-We continued to work on improving accessibility of OpenProject according to the WCAG 2.1 AA. You can now select to use a high contrast mode in your [profile settings](../../getting-started/my-account/#select-the-high-contrast-color-mode), which will override the current OpenProject theme and be especially valuable for OpenProject users with visual impairments.
+We continued to work on improving accessibility of OpenProject according to the WCAG 2.1 AA. You can now select to use a high contrast mode in your [profile settings](../../user-guide/my-account/#select-the-high-contrast-color-mode), which will override the current OpenProject theme and be especially valuable for OpenProject users with visual impairments.
 
 ![High contrast mode in OpenProject](openproject_my_account_high_contrast_mode.png)
 

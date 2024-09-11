@@ -1,20 +1,21 @@
----
+name: Statuses
 description: |-
   ## Linked Properties
 
-  |  Link         | Description               | Type          | Constraints | Supported operations |
-  |:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
-  | self          | This status               | Status        | not null    | READ                 |
+  | Link | Description | Type   | Constraints | Supported operations |
+  |:----:|-------------|--------|-------------|----------------------|
+  | self | This status | Status | not null    | READ                 |
 
   ## Local Properties
 
-  | Property         | Description                                                   | Type    | Constraints   | Supported operations |
-  | :--------:       | -------------                                                 | ------- | -----------   | -------------------- |
-  | id               | Status id                                                     | Integer | x > 0         | READ                 |
-  | name             | Status name                                                   | String  |               | READ                 |
-  | position         | Sort index of the status                                      | Integer |               | READ                 |
-  | isDefault        |                                                               | Boolean |               | READ                 |
-  | isClosed         | are tickets of this status considered closed?                 | Boolean |               | READ                 |
-  | isReadonly       | are tickets of this status read only?                         | Boolean |               | READ                 |
-  | defaultDoneRatio | The percentageDone being applied when changing to this status | Integer | 0 <= x <= 100 | READ                 |
-name: Statuses
+  |      Property      | Description                                                                                                                                | Type    | Constraints   | Supported operations |
+  |:------------------:|--------------------------------------------------------------------------------------------------------------------------------------------|---------|---------------|----------------------|
+  |         id         | Status id                                                                                                                                  | Integer | x > 0         | READ                 |
+  |        name        | Status name                                                                                                                                | String  |               | READ                 |
+  |      isClosed      | Indicates, whether work package of this status are considered closed                                                                       | Boolean |               | READ                 |
+  |       color        | A Hex-coded value of the color assigned to the status.                                                                                     | String  |               | READ                 |
+  |     isDefault      | True, if this status is the default status for new work packages                                                                           | Boolean |               | READ                 |
+  |     isReadonly     | Indicates, whether work package of this status are readonly                                                                                | Boolean |               | READ                 |
+  | excludedFromTotals | Indicates, whether work package of this status are excluded from totals of<br/>`Work`, `Remaining work`, and  `% Complete` in a hierarchy. | Boolean |               | READ                 |
+  |  defaultDoneRatio  | The percentageDone being applied when changing to this status                                                                              | Integer | 0 <= x <= 100 | READ                 |
+  |      position      | Sort index of the status                                                                                                                   | Integer |               | READ                 |

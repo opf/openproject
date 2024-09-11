@@ -116,7 +116,7 @@ module Projects
       end
 
       content << " "
-      content << helpers.link_to_project(project, {}, {}, false)
+      content << helpers.link_to_project(project, {}, { data: { turbo: false } }, false)
       content
     end
 
@@ -354,7 +354,8 @@ module Projects
           scheme: :danger,
           icon: :trash,
           label: I18n.t(:button_delete),
-          href: confirm_destroy_project_path(project)
+          href: confirm_destroy_project_path(project),
+          data: { turbo: false }
         }
       end
     end

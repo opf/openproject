@@ -1,0 +1,98 @@
+---
+http_interactions:
+- request:
+    method: propfind
+    uri: https://nextcloud.local/remote.php/dav/files/admin
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+          <d:prop>
+            <oc:fileid/>
+            <nc:acl-list/>
+          </d:prop>
+        </d:propfind>
+    headers:
+      Depth:
+      - infinity
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.3.1
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml; charset=utf-8
+      Content-Length:
+      - '192'
+  response:
+    status:
+      code: 207
+      message: Multi-Status
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Mon, 09 Sep 2024 14:04:03 GMT
+      Dav:
+      - 1, 3, extended-mkcol, access-control, calendarserver-principal-property-search,
+        nextcloud-checksum-update, nc-calendar-search, nc-enable-birthday-calendar
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=71064cc5df3a5e7bd8d9179c340c4dab; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=H%2BVMPNSuNA3ELOSV68a9AG722Qq%2Fs09dgww4ZYabMV0YHZyv842kM5QuOLv6lCMEl42anma5TpUAbJHW0wrR2dc7%2BAqBKdwwFwL6rGEfXPqtbAz%2BeON8ybKhnzw0tbn7;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=71064cc5df3a5e7bd8d9179c340c4dab;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=71064cc5df3a5e7bd8d9179c340c4dab;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=71064cc5df3a5e7bd8d9179c340c4dab;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=71064cc5df3a5e7bd8d9179c340c4dab;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=71064cc5df3a5e7bd8d9179c340c4dab;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=71064cc5df3a5e7bd8d9179c340c4dab;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=71064cc5df3a5e7bd8d9179c340c4dab;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=71064cc5df3a5e7bd8d9179c340c4dab;
+        path=/; secure; HttpOnly; SameSite=Lax
+      Vary:
+      - Brief,Prefer
+      X-Content-Type-Options:
+      - nosniff
+      X-Debug-Token:
+      - tHdjNhNVN1e8HHQSUi3w
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - tHdjNhNVN1e8HHQSUi3w
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '666'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns"><d:response><d:href>/remote.php/dav/files/admin/</d:href><d:propstat><d:prop><oc:fileid>2</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/Folder%20with%20spaces/</d:href><d:propstat><d:prop><oc:fileid>165</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/Folder%20with%20spaces/New%20Requests/</d:href><d:propstat><d:prop><oc:fileid>166</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/Folder%20with%20spaces/New%20Requests/I%e2%9d%a4%ef%b8%8fyou%20death%20star.md</d:href><d:propstat><d:prop><oc:fileid>167</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/Folder%20with%20spaces/New%20Requests/request_002.md</d:href><d:propstat><d:prop><oc:fileid>168</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/Folder%20with%20spaces/%c3%9cml%c3%a4uts%20%26%20spe%c2%a2i%c3%a6l%20characters/</d:href><d:propstat><d:prop><oc:fileid>360</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/Folder%20with%20spaces/%c3%9cml%c3%a4uts%20%26%20spe%c2%a2i%c3%a6l%20characters/what_have_you_done.md</d:href><d:propstat><d:prop><oc:fileid>361</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/My%20files/</d:href><d:propstat><d:prop><oc:fileid>169</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/My%20files/android-studio-linux.tar.gz</d:href><d:propstat><d:prop><oc:fileid>267</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/My%20files/empty/</d:href><d:propstat><d:prop><oc:fileid>172</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/My%20files/%c3%9cml%c3%a6%c3%bbts/</d:href><d:propstat><d:prop><oc:fileid>350</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/My%20files/%c3%9cml%c3%a6%c3%bbts/Anr%c3%bcchiges%20deutsches%20Dokument.docx</d:href><d:propstat><d:prop><oc:fileid>351</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/Practical_guide_to_BAGGM_Digital.pdf</d:href><d:propstat><d:prop><oc:fileid>295</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/Readme.md</d:href><d:propstat><d:prop><oc:fileid>268</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/VCR/</d:href><d:propstat><d:prop><oc:fileid>773</oc:fileid><nc:acl-list><nc:acl><nc:acl-mapping-type>user</nc:acl-mapping-type><nc:acl-mapping-id>vcr</nc:acl-mapping-id><nc:acl-mapping-display-name>vcr</nc:acl-mapping-display-name><nc:acl-mask>31</nc:acl-mask><nc:acl-permissions>31</nc:acl-permissions></nc:acl></nc:acl-list></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/admin/VCR/placeholder/</d:href><d:propstat><d:prop><oc:fileid>790</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>
+  recorded_at: Mon, 09 Sep 2024 14:04:03 GMT
+recorded_with: VCR 6.3.1

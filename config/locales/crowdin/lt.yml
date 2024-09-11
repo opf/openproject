@@ -199,6 +199,11 @@ lt:
       title: "Pasirinktiniai veiksmai"
       description: "Savo veiksmai yra vieno paspaudimo kombinacijos, leidžiančios nustatyti veiksmus, kuriuos galite padaryti preinamais kai kuriuose darbo paketuose pagal jų būseną, rolę, tipą ar projektą."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Norėdami pridėti naujus pritaikytus laukelius prie projekto, pirmiausia reikia juos sukurti. Tik tada yra galimybė juos pridėti prie šio projekto.
     is_enabled_globally: "Yra įgalintas globaliai"
@@ -1113,7 +1118,7 @@ lt:
               confirmation: "Slaptažodžio patvirtinimas nesutampa su įvestu slaptažodžiu."
               format: "%{message}"
             password:
-              weak: "Turi turėti simbolius iš šitų klasių (mažiausiai %{min_count} iš %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "mažosios raidės (pvz., „a“)"
               uppercase: "didžiosios raidės (pvz., „A“)"
               numeric: "skaitinė reikšmė (pvz., „1“)"
@@ -2011,6 +2016,7 @@ lt:
   label_attribute_expand_text: "Pilnas tekstas, skirtas „%{attribute}“"
   label_authentication: "Autentifikacija"
   label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Galimi globalūs vaidmenys"
   label_available_project_attributes: "Galimi projekto atributai"
   label_available_project_forums: "Galimi forumai"
@@ -2431,6 +2437,8 @@ lt:
   label_role_plural: "Vaidmenys"
   label_role_search: "Priskirti vaidmenį naujiems nariams"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Paieška"
   label_search_by_name: "Search by name"
   label_send_information: "Siųsti naujus prisijungimo duomenis naudotojui"
@@ -3590,9 +3598,9 @@ lt:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "Komentaras"

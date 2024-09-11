@@ -62,12 +62,12 @@ RSpec.describe "Hide attachments", :js, :with_cuprite do
 
       click_on(class: "ToggleSwitch-track")
       expect(page).to have_css("toggle-switch", text: "On")
-      wait_for(page).to have_css('svg[data-target="toggle-switch.loadingSpinner"][hidden="hidden"]', visible: :hidden)
+      wait_for(page).to have_css('[data-target="toggle-switch.loadingSpinner"][hidden="hidden"] svg', visible: :hidden)
       expect(project.reload).not_to be_deactivate_work_package_attachments
 
       click_on(class: "ToggleSwitch-track")
       expect(page).to have_css("toggle-switch", text: "Off")
-      wait_for(page).to have_css('svg[data-target="toggle-switch.loadingSpinner"][hidden="hidden"]', visible: :hidden)
+      wait_for(page).to have_css('[data-target="toggle-switch.loadingSpinner"][hidden="hidden"] svg', visible: :hidden)
       expect(project.reload).to be_deactivate_work_package_attachments
     end
 

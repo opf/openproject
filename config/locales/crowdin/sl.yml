@@ -201,6 +201,11 @@ sl:
       title: "Dejanja po meri"
       description: "Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Če želite projektu dodati nova polja po meri, jih morate najprej ustvariti, preden jih lahko dodate v ta projekt.
     is_enabled_globally: "Omogočeno po vsem svetu"
@@ -1113,7 +1118,7 @@ sl:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "Vsebovati mora znake naslednjih razredov (vsaj %{min_count} od %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "mala črka (npr. \"a\")"
               uppercase: "velika črka (npr. \"A\")"
               numeric: "številke (npr. '1')"
@@ -2011,6 +2016,7 @@ sl:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Avtentikacija"
   label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Razpoložljivi forumi"
@@ -2431,6 +2437,8 @@ sl:
   label_role_plural: "Vloge"
   label_role_search: "Dodelite vlogo novim članom"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Išči"
   label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
@@ -3594,9 +3602,9 @@ sl:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "Komentar"

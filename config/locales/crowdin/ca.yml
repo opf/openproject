@@ -199,6 +199,11 @@ ca:
       title: "Accions personalitzades"
       description: "Les accions personalitzades són accessos ràpids d'un sol clic que et permeten crear accions predefinides en els paquets de treball que desitgis basat en estat, rol, estil o projecte."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Per afegir nous camps personalitzats a un projecte primer has de crear-los abans de poder-los afegir a aquest projecte.
     is_enabled_globally: "És habilitat globalment"
@@ -1098,7 +1103,7 @@ ca:
               confirmation: "La confirmació de la contrasenya no coincideix."
               format: "%{message}"
             password:
-              weak: "Ha de contenir caràcters de les següents classes (com a mínim %{min_count} de %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "minúscules (ex. \"a\")"
               uppercase: "majúscules (p. ex. ' A')"
               numeric: "numèric (p. ex. \"1\")"
@@ -1940,6 +1945,7 @@ ca:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autenticació"
   label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Fòrums disponibles"
@@ -2360,6 +2366,8 @@ ca:
   label_role_plural: "Rols"
   label_role_search: "Assignar rols als nous membres"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Cercar"
   label_search_by_name: "Search by name"
   label_send_information: "Envia noves credencials a l'usuari"
@@ -3511,9 +3519,9 @@ ca:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "Comentari"

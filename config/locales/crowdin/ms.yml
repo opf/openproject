@@ -201,6 +201,11 @@ ms:
       title: "Tindakan tersuai"
       description: "Tindakan tersuai adalah pintasan satu klik ke satu set tindakan yang telah ditetapkan yang anda boleh sediakan untuk pakej kerja tertentu berdasarkan status, peranan, jenis atau projek."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Untuk menambah ruang tersuai ke projek, anda perlu menciptanya terlebih dahulu sebelum anda boleh menambahnya ke projek ini.
     is_enabled_globally: "Adalah diaktifkan secara global"
@@ -1093,7 +1098,7 @@ ms:
               confirmation: "Pengesahan kata laluan tidak sepadan dengan kata laluan."
               format: "%{message}"
             password:
-              weak: "Perlu mengandungi karakter-karakter kelas berikut (sekurang-kurangnya %{min_count} dari %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "huruf kecil (cth. 'a')"
               uppercase: "huruf besar (cth. 'A')"
               numeric: "angka (cth. '1')"
@@ -1907,6 +1912,7 @@ ms:
   label_attribute_expand_text: "Teks yang lengkap untuk '%{attribute}'"
   label_authentication: "Pengesahan"
   label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Peranan global yang tersedia"
   label_available_project_attributes: "Atribut projek yang tersedia"
   label_available_project_forums: "Forum yang tersedia"
@@ -2327,6 +2333,8 @@ ms:
   label_role_plural: "Peranan\n"
   label_role_search: "Tetapkan peranan ke ahli baharu"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Cari"
   label_search_by_name: "Search by name"
   label_send_information: "Hantar kelayakan baharu ke pengguna tersebut"
@@ -3480,9 +3488,9 @@ ms:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "Komen"

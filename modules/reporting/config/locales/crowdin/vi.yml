@@ -23,7 +23,7 @@ vi:
   plugin_openproject_reporting:
     name: "OpenProject Reporting"
     description: "Mô-đun này cho phép tạo các báo cáo chi phí tùy chỉnh với việc lọc và nhóm dữ liệu do mô-đun Thời gian và chi phí của OpenProject tạo ra."
-  button_save_as: "Lưu báo cáo dưới dạng..."
+  button_save_report_as: "Save report as..."
   comments: "Nhận xét"
   cost_reports_title: "Thời gian và chi phí"
   label_cost_report: "Báo cáo chi phí"
