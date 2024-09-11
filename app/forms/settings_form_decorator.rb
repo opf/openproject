@@ -61,7 +61,7 @@ class SettingsFormDecorator
     form.check_box(name:, **options)
   end
 
-  def radio_button_group(name:, values:, **options)
+  def radio_button_group(name:, values:, button_options: {}, **options)
     radio_group_options = options.reverse_merge(
       label: setting_label(name)
     )
@@ -71,13 +71,14 @@ class SettingsFormDecorator
       **radio_group_options
     ) do |radio_group|
       values.each do |value|
-        button_options = options.merge(
-          value:,
-          checked: setting_value(name) == value,
-          label: setting_label(name, value),
-          caption: setting_caption_html(name, value)
+        radio_group.radio_button(
+          **button_options.reverse_merge(
+            value:,
+            checked: setting_value(name) == value,
+            label: setting_label(name, value),
+            caption: setting_caption_html(name, value)
+          )
         )
-        radio_group.radio_button(**button_options)
       end
     end
   end
