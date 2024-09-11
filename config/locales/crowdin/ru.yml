@@ -356,8 +356,8 @@ ru:
       will_remove_the_users_role: "Это удалит роль пользователя из этого проекта."
       will_remove_the_groups_role: "Это удалит роль группы из этого проекта."
       however_work_packages_shared_with_user_html:
-        one: "Однако, %{shared_work_packages_link} также был предоставлен этому пользователю.\n"
-        few: "Однако, %{shared_work_packages_link} также был предоставлен этому пользователю."
+        one: "Однако, %{shared_work_packages_link} также был предоставлен этому пользователю."
+        few: "However, %{shared_work_packages_link} have also been shared with this user."
         many: "However, %{shared_work_packages_link} have also been shared with this user."
         other: "Однако, %{shared_work_packages_link} также был предоставлен этому пользователю."
       however_work_packages_shared_with_group_html:
@@ -1195,7 +1195,7 @@ ru:
         other: "Роль"
       status: "Статус пакета работ"
       token/api:
-        one: Access token
+        one: Токен доступа
         few: Access tokens
         many: Access tokens
         other: Токены доступа
