@@ -67,7 +67,7 @@ module WorkPackages
       end
 
       def polling_interval
-        ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"] || 10000
+        ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"].presence || 10000
       end
 
       def adding_comment_allowed?

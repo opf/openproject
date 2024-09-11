@@ -46,6 +46,7 @@ export default class IndexController extends Controller {
   private hideEditorBound:EventListener;
 
   private saveInProgress:boolean;
+  private updateInProgress:boolean;
 
   connect() {
     this.setLocalStorageKey();
@@ -111,6 +112,9 @@ export default class IndexController extends Controller {
   }
 
   async updateActivitiesList() {
+    if (this.updateInProgress === true) return;
+
+    this.updateInProgress = true;
     const journalsContainerAtBottom = this.isJournalsContainerScrolledToBottom(this.journalsContainerTarget);
     const url = new URL(this.updateStreamsUrlValue);
     url.searchParams.append('last_update_timestamp', this.lastUpdateTimestamp);
@@ -133,6 +137,8 @@ export default class IndexController extends Controller {
         }
       }, 100);
     }
+
+    this.updateInProgress = false;
   }
 
   private rescueEditorContent() {
