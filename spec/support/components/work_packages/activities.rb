@@ -100,11 +100,11 @@ module Components
       end
 
       def expect_notification_bubble
-        expect(page).to have_test_selector("user-activity-bubble")
+        expect(page).to have_test_selector("op-journal-unread-notification")
       end
 
       def expect_no_notification_bubble
-        expect(page).not_to have_test_selector("user-activity-bubble")
+        expect(page).not_to have_test_selector("op-journal-unread-notification")
       end
 
       def expect_journal_container_at_bottom

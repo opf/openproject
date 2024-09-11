@@ -150,7 +150,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
         wp_page.wait_for_activity_tab
       end
 
-      it "does show comments and enable adding and quoting comments and editing own comments" do
+      it "does show comments but does NOT enable editing other users comments" do
         activity_tab.expect_journal_notes(text: "First comment by admin")
 
         activity_tab.within_journal_entry(first_comment) do
@@ -161,7 +161,9 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
           # allowed to quote other user's comments
           expect(page).to have_test_selector("op-wp-journal-#{first_comment.id}-quote")
         end
+      end
 
+      it "enable adding and quoting comments and editing OWN comments" do
         activity_tab.expect_input_field
 
         activity_tab.add_comment(text: "First comment by viewer with commenting permission")
@@ -169,9 +171,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
         second_comment = work_package.journals.reload.last
 
         activity_tab.within_journal_entry(second_comment) do
-          # for some reason only opens on the second click in the test
-          # probably due to the previous click on the first comment
-          2.times { page.find_test_selector("op-wp-journal-#{second_comment.id}-action-menu").click }
+          page.find_test_selector("op-wp-journal-#{second_comment.id}-action-menu").click
 
           expect(page).to have_test_selector("op-wp-journal-#{second_comment.id}-edit")
           expect(page).to have_test_selector("op-wp-journal-#{second_comment.id}-quote")
@@ -189,7 +189,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
         wp_page.wait_for_activity_tab
       end
 
-      it "does show comments and enable adding and quoting comments and editing own comments" do
+      it "does show comments and enable adding and quoting comments and editing of other users comments" do
         activity_tab.expect_journal_notes(text: "First comment by admin")
 
         activity_tab.within_journal_entry(first_comment) do
@@ -199,21 +199,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
           expect(page).to have_test_selector("op-wp-journal-#{first_comment.id}-edit")
           # allowed to quote other user's comments
           expect(page).to have_test_selector("op-wp-journal-#{first_comment.id}-quote")
-        end
-
-        activity_tab.expect_input_field
-
-        activity_tab.add_comment(text: "First comment by viewer with editing permission")
-
-        second_comment = work_package.journals.reload.last
-
-        activity_tab.within_journal_entry(second_comment) do
-          # for some reason only opens on the second click in the test
-          # probably due to the previous click on the first comment
-          2.times { page.find_test_selector("op-wp-journal-#{second_comment.id}-action-menu").click }
-
-          expect(page).to have_test_selector("op-wp-journal-#{second_comment.id}-edit")
-          expect(page).to have_test_selector("op-wp-journal-#{second_comment.id}-quote")
         end
       end
     end

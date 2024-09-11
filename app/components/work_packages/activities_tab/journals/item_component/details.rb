@@ -133,7 +133,10 @@ module WorkPackages
 
         def render_notification_bubble(container)
           container.with_column(mr: 2) do
-            render(Primer::Beta::Octicon.new(:"dot-fill", color: :accent, size: :medium))
+            render(Primer::Beta::Octicon.new(
+                     :"dot-fill", color: :accent, size: :medium,
+                                  data: { test_selector: "op-journal-unread-notification" }
+                   ))
           end
         end
 
@@ -161,7 +164,7 @@ module WorkPackages
 
           details_container.with_row(flex_layout: true, pt: 1, pb: 3) do |details_container_inner|
             if journal.initial?
-              render_empty_line(details_container_inner) if filter == :only_changes
+              details_container.with_row(mb: 3, font_size: :small, classes: "empty-line")
             else
               render_journal_details(details_container_inner)
             end
