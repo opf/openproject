@@ -62,8 +62,18 @@ module Design
         DesignColor.delete_all
       end
 
+
       params[:colors].each do |param_variable, param_hexcode|
+        # design_font_color = DesignColor.find_by(variable: "main-menu-font-color")
+        # contrast_color = get_contrast_color('#eeeeee')
+        #
+        # design_font_color.hexcode = contrast_color
+        # design_font_color.save
+
+        set_font_color(param_variable, param_hexcode);
         if design_color = DesignColor.find_by(variable: param_variable)
+
+
           if param_hexcode.blank?
             design_color.destroy
           elsif design_color.hexcode != param_hexcode
@@ -84,6 +94,48 @@ module Design
 
     def custom_style
       @custom_style ||= CustomStyle.current || CustomStyle.create!
+    end
+
+    def set_font_color(color_variable, color_hexcode)
+      if color_variable === "header-bg-color"
+        create_update_color("header-item-font-color", color_hexcode)
+      elsif color_variable === "header-item-bg-hover-color"
+        create_update_color("header-item-font-hover-color", color_hexcode)
+      elsif color_variable === "main-menu-bg-color"
+        create_update_color("main-menu-font-color", color_hexcode)
+      elsif color_variable === "main-menu-bg-selected-background"
+        create_update_color("main-menu-selected-font-color", color_hexcode)
+      elsif color_variable === "main-menu-bg-hover-background"
+        create_update_color("main-menu-hover-font-color", color_hexcode)
+      end
+    end
+    def create_update_color(color_variable, color_hexcode)
+      design_font_color = DesignColor.find_by(variable: color_variable)
+      contrast_color = get_contrast_color(color_hexcode)
+
+      design_font_color.hexcode = contrast_color
+      design_font_color.save
+    end
+    def get_contrast_color(hex)
+      # Convert hex to RGB
+      color = ColorConversion::Color.new(hex)
+      rgb = color.rgb
+
+      # Calculate luminance
+      luminance = calculate_luminance(rgb[:r], rgb[:g], rgb[:b])
+
+      # Return black or white depending on luminance
+      luminance > 0.5 ? '#333333' : '#FFFFFF'
+    end
+
+    def calculate_luminance(r, g, b)
+      # Normalize RGB values to the range [0, 1]
+      r_norm = r / 255.0
+      g_norm = g / 255.0
+      b_norm = b / 255.0
+
+      # Calculate luminance using the formula
+      0.2126 * r_norm + 0.7152 * g_norm + 0.0722 * b_norm
     end
   end
 end
