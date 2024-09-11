@@ -28,10 +28,24 @@
 module WorkPackages
   class PageHeaderController < ApplicationController
     before_action :load_and_authorize_in_optional_project, only: [:index]
-    # TODO before_action :load_query, only: %i[index]
+    before_action :load_query, only: %i[index]
 
     def index
       render layout: nil
+    end
+
+    private
+
+    def load_query
+      @query =
+        if params[:query_id]
+          Query.visible(current_user).find(params[:query_id])
+        else
+          # TODO: we need to parse the unsaved query
+          Query.new_default(project: @project, user: current_user)
+        end
+    rescue ActiveRecord::RecordNotFound
+      render_404
     end
   end
 end
