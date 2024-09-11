@@ -161,7 +161,7 @@ module WorkPackages
 
           details_container.with_row(flex_layout: true, pt: 1, pb: 3) do |details_container_inner|
             if journal.initial?
-              render_empty_line(details_container_inner)
+              render_empty_line(details_container_inner) if filter == :only_changes
             else
               render_journal_details(details_container_inner)
             end

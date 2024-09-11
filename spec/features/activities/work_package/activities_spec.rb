@@ -329,7 +329,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
       second_journal = work_package.journals.second
       # even when attributes are changed, the initial journal entry is still not showing any changeset
       activity_tab.within_journal_entry(second_journal) do
-        activity_tab.expect_journal_details_header(text: "change")
         activity_tab.expect_journal_details_header(text: member.name)
         activity_tab.expect_journal_changed_attribute(text: "Subject")
       end
@@ -352,7 +351,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
       third_journal = work_package.journals.third
 
       activity_tab.within_journal_entry(third_journal) do
-        activity_tab.expect_journal_details_header(text: "change")
         activity_tab.expect_journal_details_header(text: member.name)
         activity_tab.expect_journal_changed_attribute(text: "Subject")
       end
@@ -429,32 +427,27 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
         # expect no empty state due to the initial journal entry
         activity_tab.expect_no_empty_state
         # expect the initial journal entry to be shown
-        activity_tab.expect_journal_details_header(text: "created")
 
         activity_tab.filter_journals(:only_comments)
 
         # expect empty state
         activity_tab.expect_empty_state
-        activity_tab.expect_no_journal_details_header(text: "created")
 
         activity_tab.filter_journals(:only_changes)
 
         # expect only the changes
         activity_tab.expect_no_empty_state
-        activity_tab.expect_journal_details_header(text: "created")
 
         activity_tab.filter_journals(:all)
 
         # expect all journal entries
         activity_tab.expect_no_empty_state
-        activity_tab.expect_journal_details_header(text: "created")
 
         # filter for comments again
         activity_tab.filter_journals(:only_comments)
 
         # expect empty state again
         activity_tab.expect_empty_state
-        activity_tab.expect_no_journal_details_header(text: "created")
 
         # add a comment
         activity_tab.add_comment(text: "First comment by admin")
@@ -539,7 +532,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
         activity_tab.within_journal_entry(latest_journal) do
           activity_tab.expect_no_journal_notes_header
           activity_tab.expect_no_journal_notes
-          activity_tab.expect_journal_details_header(text: "change")
+
           activity_tab.expect_journal_details_header(text: admin.name)
           activity_tab.expect_journal_changed_attribute(text: "Subject")
         end

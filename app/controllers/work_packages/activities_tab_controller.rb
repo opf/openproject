@@ -230,7 +230,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
   def handle_other_filters_on_create(call)
     if call.result.initial?
-      update_item_component(call.result, state: :show)
+      update_index_component # update the whole index component to reset empty state
     else
       generate_time_based_update_streams(params[:last_update_timestamp])
     end
@@ -257,6 +257,15 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   def replace_whole_tab
     replace_via_turbo_stream(
       component: WorkPackages::ActivitiesTab::IndexComponent.new(
+        work_package: @work_package,
+        filter: @filter
+      )
+    )
+  end
+
+  def update_index_component
+    update_via_turbo_stream(
+      component: WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
         work_package: @work_package,
         filter: @filter
       )

@@ -45,6 +45,8 @@ export default class IndexController extends Controller {
   private adjustMarginBound:EventListener;
   private hideEditorBound:EventListener;
 
+  private saveInProgress:boolean;
+
   connect() {
     this.setLocalStorageKey();
     this.setLastUpdateTimestamp();
@@ -358,12 +360,19 @@ export default class IndexController extends Controller {
   }
 
   async onSubmit(event:Event | null = null) {
+    if (this.saveInProgress === true) return;
+
+    this.saveInProgress = true;
+
     event?.preventDefault();
 
     const formData = this.prepareFormData();
     const response = await this.submitForm(formData);
 
-    if (!response.ok) return;
+    if (!response.ok) {
+      this.saveInProgress = false;
+      return;
+    }
 
     await this.handleSuccessfulSubmission(response);
   }
@@ -404,6 +413,8 @@ export default class IndexController extends Controller {
         this.scrollInputContainerIntoView(300);
       }
     }, 10);
+
+    this.saveInProgress = false;
   }
 
   private handleEditorVisibility():void {
