@@ -50,6 +50,7 @@ import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-reso
 import { UIRouterGlobals } from '@uirouter/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { firstValueFrom } from 'rxjs';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;
@@ -86,6 +87,8 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   @InjectField() uiRouterGlobals:UIRouterGlobals;
 
   @InjectField() configuration:ConfigurationService;
+
+  @InjectField() pathHelper:PathHelperService;
 
   text:{ [key:string]:string } = {
     jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
@@ -130,8 +133,17 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     component: WorkPackageFilterContainerComponent,
   };
 
+  PageHeaderTurboFrameSrc:string = '';
+
   ngOnInit():void {
     super.ngOnInit();
+
+    // TODO: Limit to WP module
+    if (this.currentProject.inProjectContext) {
+      this.PageHeaderTurboFrameSrc = `${this.pathHelper.projectWorkPackagesPath(this.currentProject.identifier!)}/index_page_header`;
+    } else {
+      this.PageHeaderTurboFrameSrc = `${this.pathHelper.workPackagesPath()}/index_page_header`;
+    }
 
     this.showToolbarSaveButton = !!this.$state.params.query_props;
     this.setPartition(this.$state.current);

@@ -319,6 +319,7 @@ Rails.application.routes.draw do
         get "/report/:detail" => "work_packages/reports#report_details"
         get "/report" => "work_packages/reports#report"
         get "menu" => "work_packages/menus#show"
+        get "index_page_header" => "work_packages/page_header#index"
         get "/export_dialog" => "work_packages#export_dialog"
       end
 
@@ -549,6 +550,7 @@ Rails.application.routes.draw do
 
   namespace :work_packages do
     get "menu" => "menus#show"
+    get "index_page_header" => "page_header#index"
 
     match "auto_complete" => "auto_completes#index", via: %i[get post]
     resource :bulk, controller: "bulk", only: %i[edit update destroy]

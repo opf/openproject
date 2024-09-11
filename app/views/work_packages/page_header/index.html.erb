@@ -1,0 +1,4 @@
+<%= turbo_frame_tag "work-package-index-page-header" do %>
+  <%= render WorkPackages::IndexPageHeaderComponent.new(project: @project) %>
+  <%= render WorkPackages::IndexSubHeaderComponent.new(project: @project) %>
+<% end %>

@@ -136,6 +136,9 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
     },
   ];
 
+  // TODO
+  PageHeaderTurboFrameSrc:string = '';
+
   constructor(
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,

@@ -1,0 +1,99 @@
+<%=
+  render(Primer::OpenProject::PageHeader.new(state: :show)) do |header|
+    header.with_title do |component|
+      component.with_editable_form(update_path: "/todo", cancel_path: "/todo")
+      title
+    end
+    header.with_breadcrumbs(breadcrumb_items)
+
+    header.with_action_dialog(mobile_icon: :"op-include-projects",
+                              mobile_label: I18n.t("js.include_projects.toggle_title"),
+                              dialog_arguments: { id: "my_dialog", title: "A great dialog" },
+                              button_arguments: { button_block: project_include_button_callback, test_selector: "project-include-button" }) do |d|
+      d.with_body { "TODO" }
+    end
+
+    header.with_action_dialog(mobile_icon: :"op-baseline",
+                              mobile_label: I18n.t("js.baseline.toggle_title"),
+                              dialog_arguments: { id: "my_dialog2", title: "A great dialog" },
+                              button_arguments: { button_block: baseline_button_callback, test_selector: "baseline-button" }) do |d|
+      d.with_body { "TODO" }
+    end
+
+    header.with_action_zen_mode_button
+
+    header.with_action_menu(
+      menu_arguments: {
+        anchor_align: :end
+      },
+      button_arguments: {
+        icon: "kebab-horizontal",
+        "aria-label": t(:label_more),
+        data: { "test-selector": "project-more-dropdown-menu" }
+      }
+    ) do |menu|
+      menu.with_item(
+        tag: :a,
+        label: t(:'queries.configure_view.heading'),
+        href: "TODO",
+        content_arguments: { data: { controller: "async-dialog" }}
+      ) do |item|
+        item.with_leading_visual_icon(icon: :gear)
+      end
+
+      if can_rename?
+        menu.with_item(
+          label: t("button_rename"),
+          href: "TODO",
+          ) do |item|
+          item.with_leading_visual_icon(icon: :pencil)
+        end
+      end
+
+      if can_save?
+        menu.with_item(
+          label: t("button_save"),
+          href: "TODO",
+          content_arguments: {
+            data: { "turbo-stream": true, method: :patch }
+          }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"op-save")
+        end
+      end
+
+      if can_save_as?
+        menu.with_item(
+          label: t("button_save_as"),
+          href: "TODO",
+          content_arguments: {
+            data: { "turbo-stream": true, method: :patch }
+          }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"op-save")
+        end
+      end
+
+      menu.with_item(
+        tag: :a,
+        label: t('js.label_export'),
+        href: "TODO",
+        content_arguments: { data: { controller: "async-dialog" }, rel: "nofollow" }
+      ) do |item|
+        item.with_leading_visual_icon(icon: 'sign-out')
+      end
+
+      if can_delete?
+        menu.with_item(
+          tag: :a,
+          label: t(:button_delete),
+          scheme: :danger,
+          href: "TODO",
+          content_arguments: { data: { controller: "async-dialog" }}
+        ) do |item|
+          item.with_leading_visual_icon(icon: 'trash')
+        end
+      end
+    end
+  end
+%>

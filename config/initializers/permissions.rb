@@ -217,7 +217,8 @@ Rails.application.reloader.to_prepare do
                        work_packages: %i[show index],
                        work_packages_api: [:get],
                        "work_packages/reports": %i[report report_details],
-                       "work_packages/menus": %i[show]
+                       "work_packages/menus": %i[show],
+                       "work_packages/page_header": %i[index]
                      },
                      permissible_on: %i[work_package project],
                      contract_actions: { work_packages: %i[read] }

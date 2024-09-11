@@ -1,0 +1,34 @@
+<%= render(Primer::OpenProject::SubHeader.new) do |subheader| %>
+  <%=
+    subheader.with_filter_component do
+      # TODO replace with FilterButtonComponent
+      render(Primer::Beta::Button.new(scheme: :secondary)) do |button|
+        button.with_trailing_visual_counter(count: 10)
+        t(:label_filter)
+      end
+    end
+  %>
+
+  <%=
+    subheader.with_bottom_pane_component(mt: 0) do
+      # TODO render(Projects::ProjectsFiltersComponent.new(query: @query))
+    end
+  %>
+
+  <% if can_create_work_packages? %>
+    <% subheader.with_action_component do %>
+      <%=
+        render Primer::Alpha::ActionMenu.new do |menu|
+          menu.with_show_button(scheme: :primary,
+                                aria: { label: I18n.t(:label_work_package_new) }) do |button|
+            button.with_trailing_action_icon(icon: :"triangle-down")
+            button.with_leading_visual_icon(icon: :plus)
+            I18n.t(:button_create)
+          end
+          menu.with_item(label: "TODO Subitem 1")
+          menu.with_item(label: "TODO Subitem 2")
+        end
+      %>
+    <% end %>
+  <% end %>
+<% end %>
