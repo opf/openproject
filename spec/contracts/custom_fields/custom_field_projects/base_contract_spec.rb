@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,23 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  module ProjectCustomFields
-    module ProjectCustomFieldMapping
-      class NewProjectMappingComponent < Admin::CustomFields::CustomFieldProjects::NewCustomFieldProjectsModalComponent
-        def render?
-          !custom_field.required?
-        end
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-        private
+RSpec.describe CustomFields::CustomFieldProjects::BaseContract do
+  include_context "ModelContract shared context"
 
-        def form_modal_component
-          Settings::ProjectCustomFields::ProjectCustomFieldMapping::NewProjectMappingFormComponent.new(
-            custom_field_project_mapping:,
-            custom_field:
-          )
-        end
+  let(:contract) { described_class.new(custom_field_project, user) }
+  let(:user) { build_stubbed(:admin) }
+  let(:custom_field_project) { build_stubbed(:custom_fields_project) }
+
+  context "when the custom field is for all" do
+    let(:custom_field) { build_stubbed(:custom_field, is_for_all: true) }
+    let(:custom_field_project) { build_stubbed(:custom_fields_project, custom_field:) }
+
+    it_behaves_like "contract is invalid", custom_field_id: :is_for_all_cannot_modify
+  end
+
+  context "with authorised user" do
+    let(:user) { build_stubbed(:user) }
+
+    before do
+      mock_permissions_for(user) do |mock|
+        mock.allow_in_project(:select_custom_fields, project: custom_field_project.project)
       end
     end
+
+    it_behaves_like "contract is valid"
   end
+
+  context "with unauthorised user" do
+    let(:user) { build_stubbed(:user) }
+
+    it_behaves_like "contract is invalid", base: :error_unauthorized
+  end
+
+  include_examples "contract reuses the model errors"
 end

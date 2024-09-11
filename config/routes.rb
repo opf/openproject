@@ -174,7 +174,7 @@ Rails.application.routes.draw do
       scope module: :custom_fields do
         resources :projects,
                   controller: "/admin/custom_fields/custom_field_projects",
-                  only: %i[index]
+                  only: %i[index new create]
       end
     end
   end

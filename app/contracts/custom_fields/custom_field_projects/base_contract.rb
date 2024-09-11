@@ -26,22 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  module ProjectCustomFields
-    module ProjectCustomFieldMapping
-      class NewProjectMappingComponent < Admin::CustomFields::CustomFieldProjects::NewCustomFieldProjectsModalComponent
-        def render?
-          !custom_field.required?
-        end
+module CustomFields
+  module CustomFieldProjects
+    class BaseContract < ::ModelContract
+      attribute :project_id
+      attribute :custom_field_id
 
-        private
+      validate :select_custom_fields_permission
+      validate :not_for_all
 
-        def form_modal_component
-          Settings::ProjectCustomFields::ProjectCustomFieldMapping::NewProjectMappingFormComponent.new(
-            custom_field_project_mapping:,
-            custom_field:
-          )
-        end
+      def select_custom_fields_permission
+        return if user.allowed_in_project?(:select_custom_fields, model.project)
+
+        errors.add :base, :error_unauthorized
+      end
+
+      def not_for_all
+        # Only mappings of custom fields which are not enabled for all projects can be manipulated by the user
+        return if model.custom_field.nil? || !model.custom_field.is_for_all?
+
+        errors.add :custom_field_id, :is_for_all_cannot_modify
       end
     end
   end

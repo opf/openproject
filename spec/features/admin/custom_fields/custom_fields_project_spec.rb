@@ -80,11 +80,57 @@ RSpec.describe "Custom Fields Multi-Project Activation", :js do
       end
     end
 
+    it "shows an error in the dialog when no project is selected before adding" do
+      create(:project)
+      expect(page).to have_no_css("dialog")
+      click_on "Add projects"
+
+      page.within("dialog") do
+        click_on "Add"
+
+        expect(page).to have_text("Please select a project.")
+      end
+    end
+
+    it "allows linking a project to a custom field" do
+      project = create(:project)
+      subproject = create(:project, parent: project)
+      click_on "Add projects"
+
+      within_test_selector("new-custom-field-projects-modal") do
+        autocompleter = page.find(".op-project-autocompleter")
+        autocompleter.fill_in with: project.name
+
+        expect(page).to have_no_text(archived_project.name)
+
+        find(".ng-option-label", text: project.name).click
+        check "Include sub-projects"
+
+        click_on "Add"
+      end
+
+      expect(page).to have_text(project.name)
+      expect(page).to have_text(subproject.name)
+
+      aggregate_failures "pagination links maintain the correct url" do
+        within ".op-pagination" do
+          pagination_links = page.all(".op-pagination--item-link")
+          expect(pagination_links.size).to be_positive
+
+          pagination_links.each do |pagination_link|
+            uri = URI.parse(pagination_link["href"])
+            expect(uri.path).to eq(custom_field_projects_path(custom_field))
+          end
+        end
+      end
+    end
+
     context "and the project custom field is for all projects" do
       shared_let(:custom_field) { create(:user_custom_field, is_for_all: true) }
 
       it "renders a blank slate" do
         expect(page).to have_text("For all projects")
+        expect(page).not_to have_test_selector("add-projects-sub-header")
       end
     end
   end

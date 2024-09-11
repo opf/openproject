@@ -26,23 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  module ProjectCustomFields
-    module ProjectCustomFieldMapping
-      class NewProjectMappingComponent < Admin::CustomFields::CustomFieldProjects::NewCustomFieldProjectsModalComponent
-        def render?
-          !custom_field.required?
-        end
-
-        private
-
-        def form_modal_component
-          Settings::ProjectCustomFields::ProjectCustomFieldMapping::NewProjectMappingFormComponent.new(
-            custom_field_project_mapping:,
-            custom_field:
-          )
-        end
-      end
+module CustomFields
+  module CustomFieldProjects
+    class UpdateContract < BaseContract
     end
   end
 end
