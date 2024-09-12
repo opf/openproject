@@ -17,15 +17,15 @@ Additional elements like Banners might also be used.
 
 ## Grouping and hierarchy
 
-Form elements are related need to be grouped together. For this, use a form group. 
+Form elements that are related need to be grouped together. For this, use a [form group](https://primer-lookbook.github.com/view-components/lookbook/pages/forms/groups_layouts).
 
-If a form is particularly long, split it into different form groups and use a `Subhead` at the start of each to give it a title. When using Subheads, we recommend implementing individual Save buttons for each section (using the <em>Secondary</em> style). If a section only contains `Toggle switch` elements, a separate Save button is not necessarily (since the Toggle sends its own server request on interaction).
+If a form is particularly long, split it into different form groups and use a [`Subhead`](https://primer-lookbook.github.com/view-components/lookbook/inspect/primer/beta/subhead/default) at the start of each to give it a title. When using Subheads, we recommend implementing individual Save buttons for each section (using the <em>Secondary</em> style). If a section only contains `Toggle switch` elements, a separate Save button is not necessarily (since the Toggle sends its own server request on interaction).
 
 If a form does not use Subhead sections, then there should be a single 'Save' (using the <em>Primary</em> style) button at the end.
 
 ## Form width
 
-In Primer, form elements automatically take the width of the container. In certain cases (especially Settings pages), full-width input fields will look strange. In this case, form inputs will need to have a smaller width.
+In Primer, form elements automatically take the width of the container. In certain cases (especially Settings pages), full-width input fields will look strange. In this case, form inputs will need to have a smaller width. A good rule of thumb is to fit the size of the fields to the expected length of the user input. Date fields can for example be rather small, as they are limited in length. The name of an object on the other hand can be quite long, so the field is expected to be larger.
 
 In OpenProject, each form element has its own container. It is thus possible to define the container width for each input. This width will define both the visual width of the field but also the max width of the caption field (where the line breaks).
 
@@ -37,6 +37,9 @@ The options are:
 - <strong>:large</strong> => max-width: min(480px, 100vw - 2rem)
 - <strong>:xlarge</strong> => max-width: min(640px, 100vw - 2rem)
 - <strong>:xxlarge</strong> => max-width: min(960px, 100vw - 2rem)
+
+
+<%= embed Patterns::FormsPreview, :default, panels: %i[] %>
 
 ## Vertical spacing
 
