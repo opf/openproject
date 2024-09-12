@@ -798,7 +798,7 @@ zh-TW:
         blank: "不可空白"
         blank_nested: "需要設置屬性  '%{property}' "
         cannot_delete_mapping: "必需項，不能刪除"
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "全域使用。無法修改。"
         cant_link_a_work_package_with_a_descendant: "一個工作項目不能聯結到它的一個子項目"
         circular_dependency: "這個關係會建立一個循環依賴"
         confirmation: "不吻合 %{attribute}。"
@@ -875,7 +875,7 @@ zh-TW:
         custom_fields_project:
           attributes:
             project_ids:
-              blank: "Please select a project."
+              blank: "請選擇一個專案"
         custom_actions:
           only_one_allowed: "(%{name}) 只允許一個值。"
           empty: "(%{name}) 不可以為空值。"
