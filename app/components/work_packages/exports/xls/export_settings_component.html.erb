@@ -7,7 +7,7 @@
     ) %>
   <% end %>
   <%= container.with_row do |_xls_include_relations| %>
-    <%= render OpenProject::Common::DividerComponent.new(mt: 2) %>
+    <%= render OpenProject::Common::DividerComponent.new %>
     <%= render(Primer::Alpha::CheckBox.new(
       id: "show_relations_xls",
       name: "show_relations",
