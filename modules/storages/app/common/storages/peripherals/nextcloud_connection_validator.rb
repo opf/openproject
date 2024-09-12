@@ -54,21 +54,16 @@ module Storages
 
       private
 
-      def query
-        @query ||= Peripherals::Registry
+      def capabilities
+        @capabilities ||= Peripherals::Registry
                      .resolve("#{@storage.short_provider_type}.queries.capabilities")
-                     .call(storage: @storage, auth_strategy:)
+                     .call(storage: @storage, auth_strategy: noop)
       end
 
       def files
         @files ||= Peripherals::Registry
                      .resolve("#{@storage.short_provider_type}.queries.files")
-                     .call(
-                       storage: @storage,
-                       auth_strategy: Peripherals::Registry
-                                        .resolve("#{@storage.short_provider_type}.authentication.userless").call,
-                       folder: ParentFolder.new(@storage.group_folder)
-                     )
+                     .call(storage: @storage, auth_strategy: userless, folder: ParentFolder.new(@storage.group_folder))
       end
 
       def maybe_is_not_configured
@@ -81,7 +76,7 @@ module Storages
       end
 
       def host_url_not_found
-        return None() if query.result != :not_found
+        return None() if capabilities.result != :not_found
 
         Some(ConnectionValidation.new(type: :error,
                                       error_code: :err_host_not_found,
@@ -91,12 +86,12 @@ module Storages
 
       # rubocop:disable Metrics/AbcSize
       def missing_dependencies
-        return None() if query.failure?
+        return None() if capabilities.failure?
 
-        capabilities = query.result
+        capabilities_result = capabilities.result
 
-        if !capabilities.app_enabled? || (@storage.automatically_managed? && !capabilities.group_folder_enabled?)
-          app_name = if capabilities.app_enabled?
+        if !capabilities_result.app_enabled? || (@storage.automatically_managed? && !capabilities_result.group_folder_enabled?)
+          app_name = if capabilities_result.app_enabled?
                        I18n.t("storages.dependencies.nextcloud.group_folders_app")
                      else
                        I18n.t("storages.dependencies.nextcloud.integration_app")
@@ -119,33 +114,33 @@ module Storages
 
       # rubocop:disable Metrics/AbcSize
       def version_mismatch
-        return None() if query.failure?
+        return None() if capabilities.failure?
 
         config = YAML.load_file(path_to_config).deep_stringify_keys!
         min_app_version = SemanticVersion.parse(config.dig("dependencies", "integration_app", "min_version"))
         min_group_folder_version = SemanticVersion.parse(config.dig("dependencies", "group_folders_app", "min_version"))
 
-        capabilities = query.result
+        capabilities_result = capabilities.result
 
-        if capabilities.app_version < min_app_version
+        if capabilities_result.app_version < min_app_version
           Some(
             ConnectionValidation.new(
               type: :error,
               error_code: :err_unexpected_version,
               timestamp: Time.current,
               description: I18n.t("storages.health.connection_validation.app_version_mismatch",
-                                  found: capabilities.app_version.to_s,
+                                  found: capabilities_result.app_version.to_s,
                                   expected: min_app_version.to_s)
             )
           )
-        elsif @storage.automatically_managed? && capabilities.group_folder_version < min_group_folder_version
+        elsif @storage.automatically_managed? && capabilities_result.group_folder_version < min_group_folder_version
           Some(
             ConnectionValidation.new(
               type: :error,
               error_code: :err_unexpected_version,
               timestamp: Time.current,
               description: I18n.t("storages.health.connection_validation.group_folder_version_mismatch",
-                                  found: capabilities.group_folder_version.to_s,
+                                  found: capabilities_result.group_folder_version.to_s,
                                   expected: min_group_folder_version.to_s)
             )
           )
@@ -157,13 +152,13 @@ module Storages
       # rubocop:enable Metrics/AbcSize
 
       def request_failed_with_unknown_error
-        return None() if query.success?
+        return None() if capabilities.success?
 
         Rails.logger.error(
           "Connection validation failed with unknown error:\n\t" \
           "storage: ##{@storage.id} #{@storage.name}\n\t" \
-          "status: #{query.result}\n\t" \
-          "response: #{query.error_payload}"
+          "status: #{capabilities.result}\n\t" \
+          "response: #{capabilities.error_payload}"
         )
 
         Some(ConnectionValidation.new(type: :error,
@@ -175,7 +170,15 @@ module Storages
       # rubocop:disable Metrics/AbcSize
       def with_unexpected_content
         return None() unless @storage.automatic_management_enabled?
-        return None() if files.failure?
+
+        if files.failure?
+          return Some(
+            ConnectionValidation.new(type: :error,
+                                     error_code: :err_unknown,
+                                     timestamp: Time.current,
+                                     description: I18n.t("storages.health.connection_validation.unknown_error"))
+          )
+        end
 
         expected_folder_ids = @storage.project_storages
                                       .where(project_folder_mode: "automatic")
@@ -196,7 +199,9 @@ module Storages
 
       # rubocop:enable Metrics/AbcSize
 
-      def auth_strategy = StorageInteraction::AuthenticationStrategies::Noop.strategy
+      def noop = StorageInteraction::AuthenticationStrategies::Noop.strategy
+
+      def userless = Peripherals::Registry.resolve("#{@storage.short_provider_type}.authentication.userless").call
 
       def path_to_config
         Rails.root.join("modules/storages/config/nextcloud_dependencies.yml")

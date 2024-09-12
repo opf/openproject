@@ -218,7 +218,7 @@ en:
         subtitle: Connection validation
         tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
         unexpected_content:
-          nextcloud: Unexpected content found in the managed folder.
+          nextcloud: Unexpected content found in the managed group folder.
           one_drive: Unexpected content found in the drive.
         unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: Error

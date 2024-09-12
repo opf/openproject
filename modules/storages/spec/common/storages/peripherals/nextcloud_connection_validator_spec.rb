@@ -151,7 +151,7 @@ RSpec.describe Storages::Peripherals::NextcloudConnectionValidator do
       end
     end
 
-    context "if the request returns unexpected files" do
+    context "with configured ProjectStorage" do
       let(:storage) { create(:nextcloud_storage_configured, :as_automatically_managed) }
       let(:project_storage) do
         create(:project_storage,
@@ -160,25 +160,39 @@ RSpec.describe Storages::Peripherals::NextcloudConnectionValidator do
                storage:,
                project: create(:project))
       end
-      let(:files_response) do
-        ServiceResult.success(result: Storages::StorageFiles.new(
-          [
-            Storages::StorageFile.new(id: project_folder_id, name: "I am your father"),
-            Storages::StorageFile.new(id: "noooooooooo", name: "testimony_of_luke_skywalker.md")
-          ],
-          Storages::StorageFile.new(id: "root", name: "root"),
-          []
-        ))
+
+      before { project_storage }
+
+      context "if the request returns an error" do
+        let(:files_response) do
+          Storages::Peripherals::StorageInteraction::Nextcloud::Util.error(:error)
+        end
+
+        it "returns a validation failure" do
+          expect(subject.type).to eq(:error)
+          expect(subject.error_code).to eq(:err_unknown)
+          expect(subject.description).to eq("The connection could not be validated. An unknown error occurred. " \
+                                            "Please check the server logs for further information.")
+        end
       end
 
-      before do
-        project_storage
-      end
+      context "if the request returns unexpected files" do
+        let(:files_response) do
+          ServiceResult.success(result: Storages::StorageFiles.new(
+            [
+              Storages::StorageFile.new(id: project_folder_id, name: "I am your father"),
+              Storages::StorageFile.new(id: "noooooooooo", name: "testimony_of_luke_skywalker.md")
+            ],
+            Storages::StorageFile.new(id: "root", name: "root"),
+            []
+          ))
+        end
 
-      it "returns a validation failure" do
-        expect(subject.type).to eq(:warning)
-        expect(subject.error_code).to eq(:wrn_unexpected_content)
-        expect(subject.description).to eq("Unexpected content found in the managed folder.")
+        it "returns a validation failure" do
+          expect(subject.type).to eq(:warning)
+          expect(subject.error_code).to eq(:wrn_unexpected_content)
+          expect(subject.description).to eq("Unexpected content found in the managed group folder.")
+        end
       end
     end
   end
