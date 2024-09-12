@@ -29,20 +29,27 @@
 require "spec_helper"
 
 RSpec.describe Queries::Projects::Orders::CustomFieldOrder do
-  let!(:cf_text) { FactoryBot.create(:text_project_custom_field) }
-  let!(:cf_int) { FactoryBot.create(:integer_project_custom_field) }
+  describe "#available?" do
+    let(:instance) { described_class.new("cf_#{custom_field.id}") }
 
-  before do
-    allow(User).to receive(:current).and_return build_stubbed(:admin)
-  end
+    before do
+      allow(User).to receive(:current).and_return build_stubbed(:admin)
+    end
 
-  it "does not allow to sort by the text field" do
-    cf = described_class.new("cf_#{cf_text.id}")
-    expect(cf).not_to be_available
-  end
+    context "for int custom field" do
+      let!(:custom_field) { create(:project_custom_field, :integer) }
 
-  it "allows to sort by all other fields" do
-    cf = described_class.new("cf_#{cf_int.id}")
-    expect(cf).to be_available
+      it "allows to sort by it" do
+        expect(instance).to be_available
+      end
+    end
+
+    context "for text custom field" do
+      let!(:custom_field) { create(:project_custom_field, :text) }
+
+      it "does not allow to sort by it" do
+        expect(instance).not_to be_available
+      end
+    end
   end
 end
