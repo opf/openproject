@@ -125,7 +125,7 @@ class UsersController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = I18n.t(:notice_successful_update)
-          render action: :edit
+          redirect_to action: :edit
         end
       end
     else
@@ -136,7 +136,7 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html do
-          render action: :edit
+          render action: :edit, status: :unprocessable_entity
         end
       end
     end
