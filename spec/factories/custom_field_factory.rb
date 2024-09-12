@@ -57,6 +57,10 @@ FactoryBot.define do
       RequestStore.clear!
     end
 
+    trait :multi_value do
+      multi_value { true }
+    end
+
     trait :boolean do
       _format_name { "boolean" }
       field_format { "bool" }
@@ -136,7 +140,7 @@ FactoryBot.define do
 
     trait :multi_list do
       list
-      multi_value { true }
+      multi_value
     end
 
     trait :version do
@@ -145,7 +149,7 @@ FactoryBot.define do
 
     trait :multi_version do
       field_format { "version" }
-      multi_value { true }
+      multi_value
     end
 
     trait :user do
@@ -154,7 +158,7 @@ FactoryBot.define do
 
     trait :multi_user do
       field_format { "user" }
-      multi_value { true }
+      multi_value
     end
 
     trait :link do
