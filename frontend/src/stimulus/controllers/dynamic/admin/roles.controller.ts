@@ -54,8 +54,17 @@ export default class RolesController extends Controller {
   }
 
   globalRoleValueChanged() {
-    this.memberAttributesTarget.hidden = this.globalRoleValue;
-    this.memberPermissionsTarget.hidden = this.globalRoleValue;
-    this.globalPermissionsTarget.hidden = !this.globalRoleValue;
+    this.toggleEnabled(this.memberAttributesTarget, !this.globalRoleValue);
+    this.toggleEnabled(this.memberPermissionsTarget, !this.globalRoleValue);
+    this.toggleEnabled(this.globalPermissionsTarget, this.globalRoleValue);
+  }
+
+  toggleEnabled(target:HTMLElement, enabled:boolean) {
+    target.hidden = !enabled;
+    target
+      .querySelectorAll('input,select')
+      .forEach((input:HTMLInputElement) => {
+        input.disabled = !enabled;
+      });
   }
 }
