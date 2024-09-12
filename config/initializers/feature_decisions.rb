@@ -46,3 +46,7 @@ OpenProject::FeatureDecisions.add :percent_complete_edition,
 OpenProject::FeatureDecisions.add :meeting_updated_notification,
                                   description: "Allow flash messages to notify users about concurrent meeting edits. " \
                                                "See work package #54744 for more details."
+
+OpenProject::FeatureDecisions.add :enable_custom_field_for_multiple_projects,
+                                  description: "Allow a custom field to be enabled for multiple projects at once. " \
+                                               "See work package #56909 for more details."

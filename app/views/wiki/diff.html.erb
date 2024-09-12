@@ -44,5 +44,5 @@ See COPYRIGHT and LICENSE files for more details.
   <em>(<%= @diff.content_to.user ? link_to_user(@diff.content_to.user) : t(:label_user_anonymous) %>, <%= format_time(@diff.content_to.created_at) %>)</em>
 </p>
 <div class="text-diff">
-  <%= nl2br @html_diff %>
+  <%= @html_diff.html_safe %>
 </div>

@@ -39,12 +39,15 @@ module OpenProject
       # @param public [Boolean] when true, the permission is granted to anybody
       # having at least one role in a project, regardless of the role's
       # permissions.
+      # @param visible [true, false, Proc] When true, the permission is visible
+      # in the UI. When false, the permission is hidden. It can be dynamic by
+      # using a Proc.
       def initialize(name,
                      hash,
                      permissible_on:,
                      public: false,
                      require: nil,
-                     enabled: true,
+                     visible: true,
                      project_module: nil,
                      contract_actions: [],
                      grant_to_admin: true,
@@ -53,7 +56,8 @@ module OpenProject
         @public = public
         @require = require
         @permissible_on = Array(permissible_on)
-        @enabled = enabled
+        @enabled = true
+        @visible = visible
         @project_module = project_module
         @contract_actions = contract_actions
         @grant_to_admin = grant_to_admin
@@ -126,11 +130,19 @@ module OpenProject
       end
 
       def enabled?
-        if @enabled.respond_to?(:call)
-          @enabled.call
+        @enabled
+      end
+
+      def visible?
+        if @visible.respond_to?(:call)
+          @visible.call
         else
-          @enabled
+          @visible
         end
+      end
+
+      def hidden?
+        !visible?
       end
 
       def disable!

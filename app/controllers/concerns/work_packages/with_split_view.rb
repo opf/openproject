@@ -37,33 +37,5 @@ module WorkPackages
     def split_view_work_package_id
       params[:work_package_id].to_i
     end
-
-    def close_split_view
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: [
-            turbo_stream.remove("work-package-details-#{split_view_work_package_id}"),
-            turbo_stream.push_state(url: split_view_base_route),
-            turbo_stream.set_title(title: helpers.page_title(I18n.t("js.notifications.title")))
-          ]
-        end
-        format.html do
-          redirect_to split_view_base_route
-        end
-      end
-    end
-
-    def respond_to_with_split_view(&format_block)
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: [
-            turbo_stream.update("content-bodyRight", helpers.split_view_instance.render_in(view_context)),
-            turbo_stream.push_state(url: request.fullpath)
-          ]
-        end
-
-        yield(format) if format_block
-      end
-    end
   end
 end

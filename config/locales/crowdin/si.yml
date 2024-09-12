@@ -202,6 +202,11 @@ si:
       title: "අභිරුචි ක්‍රියාමාර්ග"
       description: "Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       ව්යාපෘතියකට නව අභිරුචි ක්ෂේත්ර එකතු කිරීම සඳහා ඔබ මුලින්ම මෙම ව්යාපෘතියට එකතු කිරීමට පෙර ඒවා නිර්මාණය කළ යුතුය.
     is_enabled_globally: "ගෝලීයව සබල කර ඇත"
@@ -802,6 +807,7 @@ si:
         blank: "හිස් විය නොහැක."
         blank_nested: "needs to have the property '%{property}' set."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "වැඩ පැකේජයක් එහි එක් උප කර්තව්යයකට සම්බන්ධ කළ නොහැක."
         circular_dependency: "මෙම සම්බන්ධතාවය චක්රලේඛය යැපීමක් නිර්මාණය කරනු ඇත."
         confirmation: "%{attribute}නොගැලපේ."
@@ -875,6 +881,10 @@ si:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "අවම වශයෙන් එක් විකල්පයක් ලබා ගත යුතුය."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) අවසර ඇත්තේ එක් අගයකට පමණි."
           empty: "(%{name}) අගය හිස් විය නොහැක."
@@ -1102,7 +1112,7 @@ si:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "පහත සඳහන් පංතිවල අක්ෂර අඩංගු විය යුතුය (අවම වශයෙන් %{min_count} හි %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "සිම්පල් නඩුව (උදා: 'a')"
               uppercase: "ඉහළ (උදා: 'ඒ')"
               numeric: "සංඛ්යාත්මක (උදා: '1')"
@@ -1944,6 +1954,7 @@ si:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "සත්යාපන"
   label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "පවතින සංසද"
@@ -2364,6 +2375,8 @@ si:
   label_role_plural: "භූමිකාවන්"
   label_role_search: "නව සාමාජිකයින්ට කාර්යභාරය පැවරීම"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "සොයන්න"
   label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
@@ -3522,9 +3535,9 @@ si:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "අදහස් දක්වන්න"

@@ -155,7 +155,7 @@ ro:
       Următoarele câmpuri sunt legate de modul în care sunt creați utilizatorii în OpenProject din intrările LDAP și
       ce atribute LDAP sunt utilizate pentru a defini atributele unui utilizator OpenProject (cartografiere de atribute).
     tls_mode:
-      plain: "niciunul"
+      plain: "niciuna"
       simple_tls: "LDAPS"
       start_tls: "STARTTLS"
       plain_description: "Deschide o conexiune necriptată la serverul LDAP. Nu se recomandă pentru producție."
@@ -174,7 +174,7 @@ ro:
   colors:
     index:
       no_results_title_text: În acest moment nu există culori.
-      no_results_content_text: Creare culoare nouă
+      no_results_content_text: Creează o culoare nouă
       label_new_color: "Culoare nouă"
     new:
       label_new_color: "New Color"
@@ -202,6 +202,11 @@ ro:
       title: "Acțiuni personalizate"
       description: "Acțiunile personalizate sunt comenzi rapide cu un singur clic către un set de acțiuni predefinite pe care le puteți face disponibile pentru anumite pachete de lucru în funcție de statut, rol, tip sau proiect."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Dacă doriți să adăugați noi câmpuri personalizate în cadrul unui proiect va trebui, mai întâi, să le creați.
     is_enabled_globally: "Este activat/ă la nivel global"
@@ -263,7 +268,7 @@ ro:
     index:
       open_as_gantt: "Deschideți ca vizualizare Gantt"
       no_results_title_text: În acest moment nu există proiecte
-      no_results_content_text: Creare proiect nou
+      no_results_content_text: Creează proiect nou
       search:
         label: Project name filter
         placeholder: Search by project name
@@ -656,9 +661,9 @@ ro:
         notes: "Mențiuni"
       ldap_auth_source:
         account: "Cont"
-        attr_firstname: "Câmp prenume"
+        attr_firstname: "Atribut prenume"
         attr_lastname: "Câmp nume"
-        attr_login: "Atributul nume de utilizator"
+        attr_login: "Atribut nume de utilizator"
         attr_mail: "Atribut e-mail"
         base_dn: "Nume domeniu de bază"
         host: "Server gazdă"
@@ -690,7 +695,7 @@ ro:
           not_started: "Neînceput"
           on_track: "În lucru"
           at_risk: "În pericol"
-          off_track: "Deraiat"
+          off_track: "Întârziat"
           finished: "Finalizat"
           discontinued: "Anulat"
         templated: "Proiect șablon"
@@ -791,7 +796,7 @@ ro:
         remaining_hours: "Muncă rămasă"
         remaining_time: "Muncă rămasă"
         shared_with_users: "Partajate cu"
-        schedule_manually: "Programarea manuală"
+        schedule_manually: "Programare manuală"
         spent_hours: "Timp consumat"
         spent_time: "Timp consumat"
         subproject: "Subproiect"
@@ -809,6 +814,7 @@ ro:
         blank: "nu poate fi gol."
         blank_nested: "trebuie să aibă setul '%{property}' al proprietății."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Un pachet de lucru nu poate fi legat de una din sub-activitățile sale."
         circular_dependency: "Această relație ar crea o dependință circulară."
         confirmation: "nu se potrivește cu %{attribute}."
@@ -882,6 +888,10 @@ ro:
               minimum: "trebuie să includeți cel puțin un filtru pentru principal, context sau id cu operatorul \"=\"."
         custom_field:
           at_least_one_custom_option: "Cel puțin o opțiune trebuie să fie disponibilă."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) este permisă doar o singură valoare."
           empty: "(%{name}) valoarea nu poate fi goală."
@@ -956,13 +966,13 @@ ro:
             public:
               error_unauthorized: "- Utilizatorul nu are permisiunea de a crea vizualizări publice."
             group_by:
-              invalid: "Nu se poate grupa prin: %{value}"
+              invalid: "Nu pot grupa după: %{value}"
               format: "%{message}"
             column_names:
               invalid: "Coloană de interogare invalidă: %{value}"
               format: "%{message}"
             sort_criteria:
-              invalid: "Nu se poate sorta după coloană: %{value}"
+              invalid: "Nu pot sorta coloana după: %{value}"
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
@@ -1109,7 +1119,7 @@ ro:
               confirmation: "Confirmarea parolei nu se potrivește cu parola."
               format: "%{message}"
             password:
-              weak: "Trebuie să conțină caractere din următoarele clase (cel puțin %{min_count} din %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "litere mici (ex. 'a')"
               uppercase: "litere mari (ex. 'A')"
               numeric: "cifre (ex. ' 1')"
@@ -1205,9 +1215,9 @@ ro:
       created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "creat în %{datetime}"
       created_on_time_entry: "time logged on %{datetime}"
-      updated_by_on: "actualizat de %{user} la %{datetime}"
+      updated_by_on: "actualizat de %{user} în %{datetime}"
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
-      updated_on: "actualizat la %{datetime}"
+      updated_on: "actualizat în %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
@@ -1472,7 +1482,7 @@ ro:
       #Use the strftime parameters for formats.
       #When no format has been given, it uses default.
       #You can provide other formats here if you like!
-      default: "%d-%m-%Y"
+      default: "%d. %m. %Y"
       long: "%d %B %Y"
       short: "%d %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
@@ -1482,7 +1492,7 @@ ro:
       - "Februarie"
       - "Martie"
       - "Aprilie"
-      - "mai"
+      - "Mai"
       - "Iunie"
       - "Iulie"
       - "August"
@@ -1671,7 +1681,7 @@ ro:
     changeset: "Set de schimbări editat"
     message: Mesaj editat
     news: Noutăţi
-    project_attributes: "Atributele proiectului editate"
+    project_attributes: "Atribute proiect editate"
     project: "Proiect editat"
     projects: "Proiect editat"
     reply: Răspuns
@@ -1804,7 +1814,7 @@ ro:
       postgres_migration: "Migrarea instalației dvs. către PostgreSQL"
       user_guides: "Ghiduri utilizator"
       faq: "Întrebări Frecvente"
-      impressum: "Notificare legala"
+      impressum: "Notificare legală"
       glossary: "Glosar"
       shortcuts: "Scurtături"
       blog: "Blog-ul OpenProject"
@@ -1979,6 +1989,7 @@ ro:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autentificare"
   label_authentication_settings: "Setări autentificare"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Roluri globale disponibile"
   label_available_project_attributes: "Atribute proiect disponibile"
   label_available_project_forums: "Forumuri disponibile"
@@ -2267,7 +2278,7 @@ ro:
   label_news_latest: "Ultimele noutăți"
   label_news_new: "Adăugare noutăți"
   label_news_edit: "Editare noutăți"
-  label_news_plural: "Noutăţi"
+  label_news_plural: "Noutăți"
   label_news_view_all: "Afișează toate știrile"
   label_next: "Înainte"
   label_next_week: "Săptămâna viitoare"
@@ -2278,7 +2289,7 @@ ro:
   label_no_parent_page: "Pagină părinte:"
   label_nothing_display: "Nimic de afișat"
   label_nobody: "nimeni"
-  label_not_found: "%s nu a fost găsit"
+  label_not_found: "nu a fost găsit"
   label_none: "niciunul"
   label_none_parentheses: "(nimic)"
   label_not_contains: "nu conține"
@@ -2399,6 +2410,8 @@ ro:
   label_role_plural: "Roluri"
   label_role_search: "Atribuirea rolului noilor membri"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Căutare"
   label_search_by_name: "Caută după nume"
   label_send_information: "Send new credentials to the user"
@@ -2503,7 +2516,7 @@ ro:
   label_wiki_show_menu_item: "Afișare ca meniu în navigarea proiectului"
   label_wiki_show_new_page_link: "Afișare submeniu 'Creare pagină copil'"
   label_wiki_show_submenu_item: "Afișare ca submeniu pentru "
-  label_wiki_start: "Pagină de start"
+  label_wiki_start: "Pagina de start"
   label_work: "Muncă"
   label_work_package: "Pachet de lucru"
   label_work_package_attachments: "Anexe la pachetul de lucru"
@@ -3050,7 +3063,7 @@ ro:
       not_available: "Consumul de spațiu de stocare nu este disponibil pentru acest repo."
       update_timeout: "Păstraţi informaţia referitoare la spaţiul de stocare necesar pentru un repo timp de N minute. \nDeoarece măsurarea spațiului necesar pentru un repo poate fi costisitoare, creșteți această valoare pentru a reduce impactul în performanță."
       oauth_application_details: "Valoarea secretă a clientului nu va mai fi accesibilă după ce închideți această fereastră. Vă rugăm să copiați aceste valori în setările Nextcloud OpenProject Integration:"
-      oauth_application_details_link_text: "Mergeți la pagina de setări"
+      oauth_application_details_link_text: "Mergi la pagina setări"
       setup_documentation_details: "Dacă aveți nevoie de ajutor pentru configurarea unui nou depozit de fișiere, consultați documentația: "
       setup_documentation_details_link_text: "Configurarea fișierelor de stocare"
       show_warning_details: "Pentru a utiliza acest spațiu de stocare a fișierelor, nu uitați să activați modulul și spațiul de stocare specific în setările de proiect ale fiecărui proiect dorit."
@@ -3559,9 +3572,9 @@ ro:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "Comentariu"
@@ -3782,7 +3795,7 @@ ro:
       api_v3_text: "Aplicația va primi acces complet de citire și scriere la OpenProject API v3 pentru a efectua acțiuni în numele dumneavoastră."
     grants:
       created_date: "Aprobat"
-      scopes: "Drepturi"
+      scopes: "Permisiuni"
       successful_application_revocation: "Revocarea cererii %{application_name} a avut succes."
       none_given: "Nu a fost acordat acces la contul dvs. de utilizator niciunei aplicații OAuth."
     x_active_tokens:

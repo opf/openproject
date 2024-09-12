@@ -85,6 +85,9 @@
     display: none !important
 
 @media screen and (max-width: $breakpoint-lg)
+  #content:has(#content-bodyRight > *)
+    grid-template-columns: 1fr auto
+
   // As soon as the split screen has content (so basically when its opened), it takes the available whole space
   #content-bodyRight:has(*)
     grid-column: 1 / 3

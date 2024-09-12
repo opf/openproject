@@ -30,21 +30,40 @@ require "spec_helper"
 
 RSpec.describe Projects::Scopes::AvailableCustomFields do
   shared_let(:project) { create(:project) }
+
+  shared_let(:custom_field) { create(:custom_field) }
   shared_let(:project_custom_field) { create(:project_custom_field) }
 
   shared_let(:project_custom_field_mapping) do
     create(:project_custom_field_project_mapping, project:, project_custom_field:)
   end
 
+  shared_let(:custom_field_mapping) do
+    create(:custom_fields_project, project:, custom_field:)
+  end
+
   describe ".with_available_custom_fields" do
     it "returns projects with the given custom fields" do
-      expect(Project.with_available_custom_fields([project_custom_field.id])).to contain_exactly(project)
+      expect(Project.with_available_custom_fields([custom_field.id])).to contain_exactly(project)
+    end
+  end
+
+  describe ".with_available_project_custom_fields" do
+    it "returns projects with the given project custom fields" do
+      expect(Project.with_available_project_custom_fields([project_custom_field.id]))
+        .to contain_exactly(project)
     end
   end
 
   describe ".without_available_custom_fields" do
     it "returns projects without the given custom fields" do
-      expect(Project.without_available_custom_fields([project_custom_field.id])).to be_empty
+      expect(Project.without_available_custom_fields([custom_field.id])).to be_empty
+    end
+  end
+
+  describe ".without_available_project_custom_fields" do
+    it "returns projects without the given project custom fields" do
+      expect(Project.without_available_project_custom_fields([project_custom_field.id])).to be_empty
     end
   end
 end

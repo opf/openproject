@@ -202,6 +202,11 @@ hi:
       title: "विशेष या कस्टम क्रियाएँ"
       description: "Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       परियोजना में नई custom fields जोडनें हेतु, पहले आपको उनका सृजन करना पडेगा, तत्पष्चात ही आप उन्हें परियोजना में जोड सकेंगे.
     is_enabled_globally: "Is enabled globally"
@@ -800,6 +805,7 @@ hi:
         blank: "can't be blank."
         blank_nested: "needs to have the property '%{property}' set."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "doesn't match %{attribute}."
@@ -873,6 +879,10 @@ hi:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) केवल एक मान की अनुमति है ।"
           empty: "(%{name}) मान रिक्त नहीं हो सकता ।"
@@ -1100,7 +1110,7 @@ hi:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "लोअरकेस (उदा. ' a ')"
               uppercase: "अपरकेस (उदा. ' A ')"
               numeric: "सांख्यिक (उदा. ' 1 ')"
@@ -1942,6 +1952,7 @@ hi:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "प्रमाणीकरण"
   label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
@@ -2362,6 +2373,8 @@ hi:
   label_role_plural: "भूमिकाएं"
   label_role_search: "Assign role to new members"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Search"
   label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
@@ -3520,9 +3533,9 @@ hi:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "टिप्पणी"

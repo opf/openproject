@@ -31,16 +31,20 @@ class NotificationsController < ApplicationController
 
   before_action :require_login
   before_action :filtered_query, only: :mark_all_read
-  no_authorization_required! :index, :split_view, :update_counter, :close_split_view, :mark_all_read, :date_alerts, :share_upsale
+  no_authorization_required! :index, :split_view, :update_counter, :mark_all_read, :date_alerts, :share_upsale
 
   def index
     render_notifications_layout
   end
 
   def split_view
-    respond_to_with_split_view do |format|
+    respond_to do |format|
       format.html do
-        render :index, layout: "notifications"
+        if turbo_frame_request?
+          render "work_packages/split_view", layout: false
+        else
+          render :index, layout: "notifications"
+        end
       end
     end
   end
@@ -65,7 +69,7 @@ class NotificationsController < ApplicationController
 
   private
 
-  def split_view_base_route = notifications_path
+  def split_view_base_route = notifications_path(request.query_parameters)
 
   def default_breadcrumb; end
 

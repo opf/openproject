@@ -57,13 +57,13 @@ export default class extends FilterListController {
 
   hideBulkActionContainers() {
     this.bulkActionContainerTargets.forEach((item) => {
-      (item as HTMLElement).classList.add('d-none');
+      this.setVisibility(item, false);
     });
   }
 
   showBulkActionContainers() {
     this.bulkActionContainerTargets.forEach((item) => {
-      (item as HTMLElement).classList.remove('d-none');
+      this.setVisibility(item, true);
     });
   }
 }

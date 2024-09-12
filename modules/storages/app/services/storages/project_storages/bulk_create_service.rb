@@ -99,9 +99,10 @@ module Storages::ProjectStorages
     end
 
     def broadcast_project_storages_created(params)
-      OpenProject::Notifications.send(
-        OpenProject::Events::PROJECT_STORAGE_CREATED,
+      ::Storages::ProjectStorages::NotificationsService.broadcast_raw(
+        event: :created,
         project_folder_mode: params[:project_folder_mode],
+        project_folder_mode_previously_was: nil,
         storage: @storage
       )
     end

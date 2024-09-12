@@ -30,6 +30,7 @@
 module Projects
   class RowComponent < ::RowComponent
     delegate :favored_project_ids, to: :table
+    delegate :identifier, to: :project
 
     def project
       model.first
@@ -107,6 +108,10 @@ module Projects
       number_to_human_size(project.required_disk_space, precision: 2)
     end
 
+    def id
+      project.id.to_s
+    end
+
     def name
       content = content_tag(:i, "", class: "projects-table--hierarchy-icon")
 
@@ -116,7 +121,7 @@ module Projects
       end
 
       content << " "
-      content << helpers.link_to_project(project, {}, {}, false)
+      content << helpers.link_to_project(project, {}, { data: { turbo: false } }, false)
       content
     end
 
@@ -354,7 +359,8 @@ module Projects
           scheme: :danger,
           icon: :trash,
           label: I18n.t(:button_delete),
-          href: confirm_destroy_project_path(project)
+          href: confirm_destroy_project_path(project),
+          data: { turbo: false }
         }
       end
     end

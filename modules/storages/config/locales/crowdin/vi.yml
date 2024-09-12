@@ -31,7 +31,7 @@ vi:
           attributes:
             host:
               authorization_header_missing: không được cấu hình đầy đủ. Phiên bản Nextcloud không nhận được tiêu đề "Authorization", điều này cần thiết cho xác thực Bearer token của các yêu cầu API. Vui lòng kiểm tra lại cấu hình máy chủ HTTP của bạn.
-              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
+              cannot_be_connected_to: không thể truy cập được. Vui lòng đảm bảo máy chủ có thể truy cập được và ứng dụng tích hợp OpenProject đã được cài đặt.
               minimal_nextcloud_version_unmet: không đáp ứng yêu cầu phiên bản tối thiểu (phải là Nextcloud 23 trở lên)
               not_nextcloud_server: không phải là máy chủ Nextcloud
               op_application_not_installed: có vẻ như chưa cài đặt ứng dụng "Tích hợp OpenProject". Vui lòng cài đặt ứng dụng này trước và sau đó thử lại.
@@ -70,7 +70,7 @@ vi:
       dialog:
         automatically_managed_appendix: Ngoài ra, trong trường hợp này, bộ lưu trữ này có một thư mục dự án được quản lý tự động, thư mục này và các tệp trong đó sẽ bị xóa vĩnh viễn.
         confirmation_text: Vui lòng xác nhận bạn hiểu và muốn xóa bộ lưu trữ tệp này khỏi dự án này
-        heading: Xóa dự án khỏi %{storage_type}
+        heading_text: Xóa dự án khỏi %{storage}
         text: Hành động này là không thể đảo ngược và sẽ xóa tất cả các liên kết từ các gói công việc của dự án này tới các tệp và thư mục của bộ lưu trữ đó.
       label: Xóa dự án
   services:

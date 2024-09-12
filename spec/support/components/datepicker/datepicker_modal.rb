@@ -1,13 +1,8 @@
 module Components
   class DatepickerModal < Datepicker
     def open_modal!
-      retry_block do
-        click_on "Non-working day", wait: 10
-        unless page.has_css?(".flatpickr-calendar")
-          click_on "Cancel"
-          raise "Flatpickr should render a calendar"
-        end
-      end
+      click_on "Non-working day"
+      expect_visible
     end
 
     def set_date_input(date)
@@ -18,23 +13,8 @@ module Components
       end
     end
 
-    ##
-    # Select day from datepicker
-    def select_day(value)
-      unless (1..31).cover?(value.to_i)
-        raise ArgumentError, "Invalid value #{value} for day, expected 1-31"
-      end
-
-      expect(flatpickr_container).to have_text(value)
-
-      retry_block do
-        flatpickr_container
-          .first(".flatpickr-days .flatpickr-day:not(.nextMonthDay):not(.prevMonthDay)",
-                 text: value)
-          .click
-
-        raise "Expected #{value} to be selected" unless flatpickr_container.has_css?(".flatpickr-day.selected", text: value)
-      end
+    def has_day_selected?(value)
+      flatpickr_container.has_css?(".flatpickr-day.selected", text: value, wait: 1)
     end
   end
 end

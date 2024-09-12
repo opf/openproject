@@ -33,7 +33,7 @@ require_relative "../../support/pages/structured_meeting/show"
 
 RSpec.describe "Structured meetings CRUD",
                :js,
-               :with_cuprite do
+               with_cuprite: false do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings work_package_tracking]) }
@@ -74,7 +74,7 @@ RSpec.describe "Structured meetings CRUD",
         show_page.trigger_change_poll
         expect(page).to have_css(flash_component, wait: 5)
         expect(page).to have_text I18n.t(:notice_meeting_updated)
-        click_link_or_button "Reload"
+        page.within(".flash") { click_on "Reload" }
       end
 
       # Expect no notification in window2
@@ -103,7 +103,7 @@ RSpec.describe "Structured meetings CRUD",
         expect(page).to have_css(flash_component, wait: 5)
         expect(page).to have_text I18n.t(:notice_meeting_updated)
 
-        click_link_or_button "Reload"
+        page.within(".flash") { click_on "Reload" }
 
         ## Add section
         show_page.add_section do
@@ -119,7 +119,7 @@ RSpec.describe "Structured meetings CRUD",
         show_page.trigger_change_poll
         expect(page).to have_css(flash_component, wait: 5)
         expect(page).to have_text I18n.t(:notice_meeting_updated)
-        click_link_or_button "Reload"
+        page.within(".flash") { click_on "Reload" }
       end
 
       # Expect no notification in window2
@@ -147,7 +147,7 @@ RSpec.describe "Structured meetings CRUD",
         show_page.trigger_change_poll
         expect(page).to have_text I18n.t(:notice_meeting_updated)
 
-        click_link_or_button "Reload"
+        page.within(".flash") { click_on "Reload" }
 
         ## Close meeting
         find_test_selector("close-meeting-button").click
@@ -158,7 +158,7 @@ RSpec.describe "Structured meetings CRUD",
         show_page.trigger_change_poll
         expect(page).to have_css(flash_component, wait: 5)
         expect(page).to have_text I18n.t(:notice_meeting_updated)
-        click_link_or_button "Reload"
+        page.within(".flash") { click_on "Reload" }
       end
 
       # Expect no notification in window2

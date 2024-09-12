@@ -87,7 +87,9 @@ class ProgressEditField < EditField
   end
 
   def set_value(value)
-    if value == ""
+    if status_field?
+      select_status(value)
+    elsif value == ""
       clear
     else
       page.fill_in field_name, with: value
@@ -95,10 +97,21 @@ class ProgressEditField < EditField
     wait_for_preview_to_complete
   end
 
+  def select_status(value)
+    value = value.name if value.is_a?(Status)
+
+    page.select(value, from: "% Complete")
+  end
+
+  def status_field?
+    field_name == "work_package_status_id"
+  end
+
   def focus
     return if focused?
 
     input_element.click
+    input_element.click if status_field? # to close the dropdown
     wait_for_preview_to_complete
   end
 
@@ -197,14 +210,14 @@ class ProgressEditField < EditField
     expect(page).to have_field(@field_name, disabled: true)
   end
 
-  def expect_read_only_modal_field
+  def expect_modal_field_read_only
     expect(input_element).to be_readonly
   end
 
-  def expect_modal_field_value(value, disabled: false, readonly: false)
+  def expect_modal_field_value(value, disabled: :all)
     within modal_element do
       if @property_name == "percentageDone" && value.to_s == "-"
-        expect(page).to have_field(field_name, readonly:, placeholder: value.to_s)
+        expect(page).to have_field(field_name, placeholder: value.to_s)
       elsif @property_name == "statusWithinProgressModal"
         if value == :empty_without_any_options
           expect(page).to have_select(field_name, disabled:, options: [])
@@ -212,7 +225,7 @@ class ProgressEditField < EditField
           expect(page).to have_select(field_name, disabled:, with_selected: value.to_s)
         end
       else
-        expect(page).to have_field(field_name, disabled:, readonly:, with: value.to_s)
+        expect(page).to have_field(field_name, disabled:, with: value.to_s)
       end
     end
   end

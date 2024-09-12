@@ -27,6 +27,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
+<% html_title t(:label_administration), t(:project_module_storages), t(:label_project_mappings) %>
+
 <%= render(Storages::Admin::EditFormHeaderComponent.new(storage: @storage, selected: :project_storages)) %>
 
 <%=
@@ -57,20 +59,11 @@ See COPYRIGHT and LICENSE files for more details.
       )
     )
   else
-    render(Primer::Beta::Blankslate.new(spacious: false, border: true)) do |component|
-      component.with_visual_icon(icon: "cloud-offline", size: :medium)
+    render(Primer::OpenProject::FeedbackMessage.new(icon_arguments: { icon: :"cloud-offline", color: :muted }, spacious: false, border: true)) do |component|
       component
         .with_heading(tag: :h2)
         .with_content(I18n.t("storages.enabled_in_projects.setup_incomplete_header"))
-      component.with_description do
-        render(Primer::OpenProject::FlexLayout.new(align_items: :center)) do |flex|
-          flex.with_row(mb: 2) do
-            render(Primer::Beta::Text.new(color: :subtle)) do
-              I18n.t("storages.enabled_in_projects.setup_incomplete_description")
-            end
-          end
-        end
-      end
+      component.with_description { I18n.t("storages.enabled_in_projects.setup_incomplete_description") }
     end
   end
 %>

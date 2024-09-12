@@ -23,7 +23,7 @@ ms:
   plugin_openproject_reporting:
     name: "Pelaporan OpenProject"
     description: "Plugin ini membenarkan untuk mencipta laporan kos tersuai dengan penyaring dan pengumpulan yang dibuat oleh plugin Masa dan kos OpenProject."
-  button_save_as: "Simpan laporan sebagai..."
+  button_save_report_as: "Save report as..."
   comments: "Komen"
   cost_reports_title: "Masa dan kos"
   label_cost_report: "Laporan kos"

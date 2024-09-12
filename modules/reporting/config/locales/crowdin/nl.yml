@@ -23,7 +23,7 @@ nl:
   plugin_openproject_reporting:
     name: "OpenProject Rapportage"
     description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
-  button_save_as: "Rapport opslaan als..."
+  button_save_report_as: "Save report as..."
   comments: "Commentaar"
   cost_reports_title: "Tijd en kosten"
   label_cost_report: "Kostenrapport"

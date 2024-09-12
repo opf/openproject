@@ -121,9 +121,9 @@ pt-BR:
       agenda: "Copiar agenda"
       agenda_text: "Copiar a agenda da antiga reunião"
     email:
-      send_emails: "Enviar e-mails"
+      send_emails: "Enviar e-mail aos participantes"
       send_invitation_emails: >
-        Enviar um convite por e-mail imediatamente para os participantes selecionados acima. Você também pode fazer isso manualmente a qualquer momento mais tarde.
+        Envie um convite por e-mail imediatamente para os participantes selecionados acima. Você também pode enviar convites manualmente a qualquer momento no futuro.
       open_meeting_link: "Abrir reunião"
       invited:
         summary: "%{actor} enviou a você um convite para a reunião %{title}"
@@ -172,7 +172,7 @@ pt-BR:
   text_meeting_minutes_for_meeting: 'ata da reunião "%{meeting}"'
   text_notificiation_invited: "Este e-mail contém uma entrada de ics para a reunião abaixo:"
   text_meeting_empty_heading: "Sua reunião está vazia"
-  text_meeting_empty_description_1: "Comece adicionando itens da agenda abaixo. Cada item pode ser tão simples quanto apenas um título, mas você também pode adicionar detalhes adicionais, como duração, anotações e uma pessoa responsável."
+  text_meeting_empty_description_1: "Comece adicionando os itens da agenda abaixo. Cada item pode ser apenas um título simples, mas você também pode incluir detalhes adicionais, como duração, anotações e um responsável."
   text_meeting_empty_description_2: 'Você também pode adicionar referências aos pacotes de trabalho existentes. Quando você fizer isso, as anotações relacionadas ficarão automaticamente visíveis na guia "Reuniões" do pacote de trabalho.'
   label_meeting_empty_action: "Adicionar item da agenda"
   label_meeting_actions: "Ações da reunião\n"

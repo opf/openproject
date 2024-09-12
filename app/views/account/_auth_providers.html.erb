@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <%
 # Remove this ugly hack when creating an authentication plugin.
 #
@@ -44,9 +43,11 @@ wclass = local_assigns[:wide] ? 'wide' : ''
 <% if auth_provider_html.strip != '' %>
   <div class="login-auth-providers <%= pclass %> <%= wclass %>">
     <% unless no_pwd %>
-      <h3 class="login-auth-providers-title"><span>
+      <h3 class="login-auth-providers-title mb-3">
+        <span>
           <%= local_assigns[:omniauth_title] || I18n.t('account.login_with_auth_provider')%>
-        </span></h3>
+        </span>
+      </h3>
     <% end %>
     <div class="login-auth-provider-list">
       <%= auth_provider_html %>

@@ -123,9 +123,9 @@ uk:
       agenda: "Копіювати порядок денний"
       agenda_text: "Копіювати порядок денний старої наради"
     email:
-      send_emails: "Надсилати листи"
+      send_emails: "Надіслати електронні листи учасникам"
       send_invitation_emails: >
-        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
+        Надішліть запрошення електронною поштою вибраним вище учасникам. Це можна будь-коли зробити вручну.
       open_meeting_link: "Відкрити зустріч"
       invited:
         summary: "%{actor} надіслав запрошення на зустріч %{title}"
@@ -150,7 +150,7 @@ uk:
     empty_text: "Перетягніть елементи сюди або створіть новий"
   notice_successful_notification: "Повідомлення успішно надіслано"
   notice_timezone_missing: Часовий пояс не встановлено і %{zone} передбачається. Щоб вибрати часовий пояс, натисніть тут.
-  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
+  notice_meeting_updated: "Цю сторінку оновив інший користувач. Перезавантажте її, щоб побачити зміни."
   permission_create_meetings: "Створюйте зустрічі"
   permission_edit_meetings: "Редагувати зустрічі"
   permission_delete_meetings: "Видалити зустрічі"
@@ -182,7 +182,7 @@ uk:
   label_meeting_delete: "Видалити зустріч"
   label_meeting_created_by: "Створено "
   label_meeting_last_updated: "Востаннє оновлено"
-  label_meeting_reload: "Reload"
+  label_meeting_reload: "Перезавантажити"
   label_agenda_items: "Пункти порядку денного"
   label_agenda_items_reordered: "перевпорядковано"
   label_agenda_item_remove: "Зняти з порядку денного"

@@ -35,6 +35,7 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesStatusBas
                with_settings: { work_package_done_ratio: "status" } do
   shared_let(:status_0_pct_complete) { create(:status, default_done_ratio: 0, name: "0% complete") }
   shared_let(:status_50_pct_complete) { create(:status, default_done_ratio: 50, name: "50% complete") }
+  shared_let(:status_50_pct_complete_other) { create(:status, default_done_ratio: 50, name: "50% complete other") }
   shared_let(:status_70_pct_complete) { create(:status, default_done_ratio: 70, name: "70% complete") }
 
   let(:user) { build_stubbed(:user) }
@@ -49,6 +50,14 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesStatusBas
       work_package.estimated_hours = 10.0
       work_package.remaining_hours = 5.0
       work_package.clear_changes_information
+    end
+
+    context "when nothing is changed" do
+      let(:set_attributes) { {} }
+      let(:expected_kept_attributes) { %w[estimated_hours remaining_hours] }
+
+      include_examples "update progress values", description: "derives remaining work",
+                                                 expected_hints: {}
     end
 
     context "when work is cleared" do
@@ -80,6 +89,24 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesStatusBas
                        expected_hints: {}
     end
 
+    context "when work is changed to an invalid value" do
+      let(:set_attributes) { { estimated_hours: "I am invalid" } }
+      let(:expected_derived_attributes) { { estimated_hours: 0.0 } }
+      let(:expected_kept_attributes) { %w[remaining_hours] }
+
+      it "keeps the original string value in the _before_type_cast method " \
+         "so that validation can detect it is invalid" do
+        work_package.attributes = set_attributes
+        instance.call
+
+        expect(work_package.estimated_hours_before_type_cast).to eq("I am invalid")
+      end
+
+      include_examples "update progress values",
+                       description: "is an error state (to be detected by contract), and remaining work is kept",
+                       expected_hints: {}
+    end
+
     context "when another status is set" do
       let(:set_attributes) { { status: status_70_pct_complete } }
       let(:expected_derived_attributes) { { remaining_hours: 3.0 } }
@@ -89,6 +116,15 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesStatusBas
                        expected_hints: {
                          remaining_work: :derived
                        }
+    end
+
+    context "when another status with same % complete is set" do
+      let(:set_attributes) { { status: status_50_pct_complete_other } }
+      let(:expected_kept_attributes) { %w[remaining_hours] }
+
+      include_examples "update progress values",
+                       description: "keeps the same remaining work value",
+                       expected_hints: {}
     end
 
     context "when floating point operations are inaccurate (2.4000000000000004h)" do

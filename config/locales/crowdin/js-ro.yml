@@ -41,8 +41,8 @@ ro:
     autocomplete_select:
       placeholder:
         multi: 'Adaugă ”%{name}”'
-        single: 'Selectaţi "%{name}"'
-      remove: "Elminaţi \"%{name}\""
+        single: 'Selectează "%{name}"'
+      remove: "Elimină ”%{name}”"
       active: "Activ %{label} %{name}"
     backup:
       attachments_disabled: Atașamentele nu pot fi incluse deoarece depășesc dimensiunea maximă permisă. Puteți schimba acest lucru prin configurare (necesită o repornire a serverului).
@@ -55,33 +55,33 @@ ro:
       title: Backup OpenProject
       options: Opțiuni
       include_attachments: Include atașamente
-      download_backup: Descarcă un backup
+      download_backup: Descarcă backup
       request_backup: Solicită backup
     close_popup_title: "Închidere pop-up"
     close_filter_title: "Închide filtrul"
     close_form_title: "Închide formularul"
-    button_add_watcher: "Adăugare observator"
-    button_add: "Adăugare"
+    button_add_watcher: "Adaugă observator"
+    button_add: "Adaugă"
     button_back: "Înapoi"
     button_back_to_list_view: "Înapoi la listă"
-    button_cancel: "Anulare"
+    button_cancel: "Anulează"
     button_close: "Închide"
     button_change_project: "Move to another project"
     button_check_all: "Selectează tot"
     button_configure-form: "Configurați formularul"
     button_confirm: "Confirmă"
-    button_continue: "Continuaţi"
+    button_continue: "Continuă"
     button_copy: "Copiază"
     button_copy_to_clipboard: "Copiză în clipboard"
     button_copy_link_to_clipboard: "Copiază link-ul în clipboard"
-    button_copy_to_other_project: "Duplicate to other project"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Câmpuri personalizate"
     button_delete: "Șterge"
     button_delete_watcher: "Șterge observator"
     button_details_view: "Vizualizare detaliată"
-    button_duplicate: "Duplicare"
-    button_edit: "Editare"
-    button_filter: "Filtrare"
+    button_duplicate: "Dublează"
+    button_edit: "Editează"
+    button_filter: "Filtrează"
     button_collapse_all: "Restrângere totală"
     button_expand_all: "Extindere totală"
     button_advanced_filter: "Filtru avansat"
@@ -134,7 +134,7 @@ ro:
       errors:
         could_not_load: "Datele pentru afișarea graficului nu au putut fi încărcate. Este posibil să nu aveți permisiunile necesare."
     description_available_columns: "Coloane disponibile"
-    description_current_position: "Sunteți aici: "
+    description_current_position: "Ești aici: "
     description_select_work_package: "Selectaţi pachetul de lucru #%{id}"
     description_subwork_package: "Fiu al pachetului de lucru #%{id}"
     editor:
@@ -227,7 +227,7 @@ ro:
           email_not_received: "Nu ați primit un e-mail? Puteți retrimite e-mailul cu ajutorul linkului din dreapta."
           try_another_email: "Sau încercați cu o altă adresă de e-mail."
           next_steps: "Etapele următoare"
-          resend_link: "Retrimitere"
+          resend_link: "Retrimite"
           resend_success: "E-mailul a fost retrimis. Vă rugăm să vă verificați e-mailurile și să faceți clic pe link-ul de confirmare furnizat."
           resend_warning: "Nu s-a putut retrimite e-mailul."
           session_timeout: "Sesiunea dvs. a expirat. Vă rugăm să încercați să reîncărcați pagina sau să retrimiteți e-mailul."
@@ -357,10 +357,10 @@ ro:
           learn_about: "Aflați mai multe despre noile caracteristici"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Keep and restore local versions of WYSIWYG content changes.</li> <li>Enable a storage for multiple projects at once.</li> <li>Export work packages in an updated modal with additional settings.</li> <li>Display custom field columns/filters in project lists also in the Community Edition.</li> <li>Support CloudFlare Turnstile as Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -1293,7 +1293,7 @@ ro:
       selected_filter:
         all: "Toate Proiectele"
         selected: "Numai selecția"
-      search_placeholder: "Căutare proiect..."
+      search_placeholder: "Caută proiect..."
       include_subprojects: "Includeți toate subproiectele"
       tooltip:
         include_all_selected: "Proiectul este deja inclus, deoarece opțiunea Includeți toate subproiectele este activată."

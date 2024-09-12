@@ -38,16 +38,22 @@ module WorkPackages
 
       attr_reader :query, :project, :query_params
 
-      def initialize(query:, project:)
+      def initialize(query:, project:, title:)
         super
 
         @query = query
         @project = project
-        @query_params = ::API::V3::Queries::QueryParamsRepresenter.new(query).to_url_query(merge_params: { columns: [] })
+        @query_params = ::API::V3::Queries::QueryParamsRepresenter.new(query).to_url_query(merge_params: { columns: [], title: })
       end
 
       def export_format_url(format)
-        @project.nil? ? index_work_packages_path(format:) : project_work_packages_path(project, format:)
+        if @project.nil?
+          index_work_packages_path(format:)
+        elsif @query.id.present?
+          project_work_packages_path(project, query_id: @query.id, format:)
+        else
+          project_work_packages_path(project, format:)
+        end
       end
 
       def export_formats_settings

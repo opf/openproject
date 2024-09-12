@@ -6,4 +6,8 @@
 
   @media screen and (max-width: $breakpoint-lg)
     // Unfortunately, we have to enforce this style via !important as the resizer writes the width directly on the element as inline style
-    width: unset !important
+    min-width: unset !important
+
+  @media screen and (max-width: $breakpoint-sm)
+    .work-packages--details-toolbar-container
+      @include hide-button-texts

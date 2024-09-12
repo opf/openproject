@@ -109,15 +109,6 @@ export class SpotDropModalComponent implements OnDestroy {
   open() {
     this._opened = true;
     this.updateAppHeight();
-    this.cdRef.detectChanges();
-
-    /*
-     * If we don't activate the body after one tick, angular will complain because
-     * it already rendered a `null` template, but then gets an update to that
-     * template in the same tick.
-     * To make it happy, we update afterwards
-     */
-    this.teleportationService.activate(this.body);
 
     this.teleportationService
       .hasRenderedFiltered$
@@ -126,6 +117,7 @@ export class SpotDropModalComponent implements OnDestroy {
         take(1),
       )
       .subscribe(() => {
+        this.cdRef.detectChanges();
         const referenceEl = this.elementRef.nativeElement as HTMLElement;
         const floatingEl = this.anchor.nativeElement as HTMLElement;
         this.cleanupFloatingUI = autoUpdate(
@@ -173,10 +165,16 @@ export class SpotDropModalComponent implements OnDestroy {
             // Index 1 because the element at index 0 is the trigger button to open the modal
             (findAllFocusableElementsWithin(document.querySelector('.spot-drop-modal-portal')!)[1])?.focus();
           }
-
-          this.cdRef.detectChanges();
         });
       });
+
+    /*
+     * If we don't activate the body after one tick, angular will complain because
+     * it already rendered a `null` template, but then gets an update to that
+     * template in the same tick.
+     * To make it happy, we update afterwards
+     */
+    this.teleportationService.activate(this.body);
   }
 
   close():void {

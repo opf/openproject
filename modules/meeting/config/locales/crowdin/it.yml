@@ -121,9 +121,9 @@ it:
       agenda: "Copia ordine del giorno"
       agenda_text: "Copia l'ordine del giorno della vecchia riunione"
     email:
-      send_emails: "Invia email"
+      send_emails: "Invia e-mail ai partecipanti"
       send_invitation_emails: >
-        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
+        Invia immediatamente un invito via e-mail ai partecipanti selezionati in precedenza. Puoi anche farlo manualmente in qualsiasi momento.
       open_meeting_link: "Apri riunione"
       invited:
         summary: "%{actor} ti ha inviato un invito per la riunione %{title}"
@@ -148,7 +148,7 @@ it:
     empty_text: "Trascina gli elementi qui o creane una nuova"
   notice_successful_notification: "Notifica inviata con successo"
   notice_timezone_missing: Nessun fuso orario è impostato e la %{zone} è un requisito necessario. Per scegliere il tuo fuso orario, fare clic qui.
-  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
+  notice_meeting_updated: "Questa pagina è stata aggiornata da qualcun altro. Ricarica per visualizzare le modifiche."
   permission_create_meetings: "Creare riunioni"
   permission_edit_meetings: "Modificare riunioni"
   permission_delete_meetings: "Annullare riunioni"
@@ -180,7 +180,7 @@ it:
   label_meeting_delete: "Annulla la riunione"
   label_meeting_created_by: "Creato da"
   label_meeting_last_updated: "Ultimo aggiornamento"
-  label_meeting_reload: "Reload"
+  label_meeting_reload: "Ricarica"
   label_agenda_items: "Punti all'ordine del giorno"
   label_agenda_items_reordered: "riordinato"
   label_agenda_item_remove: "Rimuovi dall'ordine del giorno"

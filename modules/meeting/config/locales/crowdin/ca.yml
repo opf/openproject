@@ -121,7 +121,7 @@ ca:
       agenda: "Copia l'agenda"
       agenda_text: "Copia l'agenda de l'antiga reunió"
     email:
-      send_emails: "Send emails"
+      send_emails: "Email participants"
       send_invitation_emails: >
         Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
       open_meeting_link: "Reunió oberta"

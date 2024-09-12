@@ -196,6 +196,11 @@ id:
       title: "Tindakan khusus"
       description: "Tindakan kustom adalah pintasan sekali klik ke serangkaian tindakan yang ditentukan sebelumnya yang dapat Anda sediakan pada paket kerja tertentu berdasarkan status, peran, jenis, atau proyek."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Untuk menambahkan kolom kustom baru untuk sebuah proyek, pertama-tama Anda harus membuatnya, sebelum Anda dapat menambahkannya ke proyek ini.
     is_enabled_globally: "Diaktifkan secara global"
@@ -788,6 +793,7 @@ id:
         blank: "harus di isi."
         blank_nested: "harus menyetel properti '%{property}'."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Work package tidak dapat dihubungkan dengan subtask-nya."
         circular_dependency: "Relasi ini menyebabkan dependensi circular."
         confirmation: "tidak sesuai dengan %{attribute}."
@@ -861,6 +867,10 @@ id:
               minimum: "perlu menyertakan setidaknya satu filter untuk prinsipal, konteks, atau id dengan operator '='."
         custom_field:
           at_least_one_custom_option: "Paling tidak, satu pilihan dibutuhkan untuk tersedia."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) hanya satu nilai yang diperbolehkan."
           empty: "Nilai (%{name}) tidak boleh kosong."
@@ -1088,7 +1098,7 @@ id:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "huruf kecil (spt. 'a')"
               uppercase: "huruf besar (spt. 'A')"
               numeric: "numerik (spt. ' 1')"
@@ -1902,6 +1912,7 @@ id:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Otentikasi"
   label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Forums tersedia"
@@ -2322,6 +2333,8 @@ id:
   label_role_plural: "Roles"
   label_role_search: "Menetapkan role kepada anggota baru"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Cari"
   label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
@@ -3473,9 +3486,9 @@ id:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "Komentar"

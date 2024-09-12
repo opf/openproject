@@ -9,7 +9,7 @@ ru:
     verify_account: "Подтвердить учетную запись"
     error_captcha: "Невозможно подтвердить учетную запись. Пожалуйста, свяжитесь с администратором."
     settings:
-      website_key: 'Website key (May also be called "Site key")'
+      website_key: 'Ключ веб-сайта (может также называться "Ключ сайта")'
       response_limit: 'Ограничение ответа для HCaptcha'
       response_limit_text: 'Максимальное количество символов, при котором ответ HCaptcha считается действительным.'
       website_key_text: 'Введите ключ веб-сайта, который вы создали на консоли администратора reCAPTCHA для этого домена.'
@@ -22,4 +22,4 @@ ru:
       type_hcaptcha: 'HCaptcha'
       type_turnstile: 'Cloudflare Turnstile™'
       captcha_description_html: >
-        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link} <br/> Cloudflare Turnstile™ is another alternative that is more convenient for users while still providing the same level of security. See this link for more information: %{turnstile_link}
+        reCAPTCHA - это бесплатный сервис Google, который можно подключить в OpenProject. Если эта функция включена, то при входе в систему будет выводиться форма с капчей для всех пользователей, которые еще не верифицированы. <br/> Более подробно о reCAPTCHA и их версиях, а также о том, как создать сайт и секретные ключи, читайте по следующей ссылке: %{recaptcha_link} <br/> HCaptcha - это бесплатная альтернатива Google, которую Вы можете использовать, если не хотите применять reCAPTCHA. Смотрите эту ссылку для получения дополнительной информации: %{hcaptcha_link} <br/> Cloudflare Turnstile™ - еще одна альтернатива, которая более удобна для пользователей и при этом обеспечивает тот же уровень безопасности. См. эту ссылку для получения дополнительной информации: %{turnstile_link}

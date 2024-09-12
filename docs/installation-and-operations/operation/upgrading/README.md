@@ -97,11 +97,12 @@ If you want to perform changes to your configuration or are unsure what steps ar
 Note that this still takes previous values into consideration. Values that should not change from your previous configurations can be skipped by pressing `<Return>`. This also applies for steps with passwords, which are shown as empty even though they may have a value. Skipping those steps equals to re-use the existing value.
 
 ## Compose-based installation
+> **Note**: Please make sure the git repository with the docker-compose.yml file is up-to-date. If you're using an old version of the repository, the update might fail.
 
 When using the Compose-based docker installation, you can simply do the following:
 
 ```shell
-docker-compose pull
+docker-compose pull --ignore-buildable
 docker-compose up -d
 ```
 

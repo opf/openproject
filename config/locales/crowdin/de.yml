@@ -199,6 +199,11 @@ de:
       title: "Benutzerdefinierte Aktionen"
       description: "Benutzerdefinierte Aktionen sind Ein-Klick-Verknüpfungen zu einer Reihe vordefinierter Aktionen, die Sie für bestimmte Arbeitspakete verfügbar machen können, basierend auf Status, Rolle, Typ oder Projekt."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: Für alle Projekte
+          description: Dieses Projekt-Attribut ist in allen Projekten aktiviert, da die Option "Für alle Projekte" aktiviert ist. Es kann nicht für einzelne Projekte deaktiviert werden.
     text_add_new_custom_field: >
       Um neue benutzerdefinierte Felder einem Projekt zuzuweisen, müssen Sie diese erst global erstellen, um Sie dann an dieser Stelle aktivieren zu können.
     is_enabled_globally: "Für alle Projekte aktiviert"
@@ -262,8 +267,8 @@ de:
       no_results_title_text: Es gibt aktuell keine Projekte
       no_results_content_text: Neues Projekt erstellen
       search:
-        label: Project name filter
-        placeholder: Search by project name
+        label: Filter nach Projektname
+        placeholder: Suche nach Projektname
     lists:
       active: "Aktive Projekte"
       my: "Meine Projekte"
@@ -297,7 +302,7 @@ de:
         actions:
           label_enable_single: "In diesem Projekt aktiv, zum Deaktivieren anklicken"
           label_disable_single: "In diesem Projekt inaktiv, zum Aktivieren anklicken"
-          remove_from_project: "Remove from project"
+          remove_from_project: "Aus dem Projekt entfernen"
           label_enable_all: "Alles aktivieren"
           label_disable_all: "Alles deaktivieren"
         is_required_blank_slate:
@@ -796,6 +801,7 @@ de:
         blank: "muss ausgefüllt werden."
         blank_nested: "muss die Eigenschaft '%{property}' gesetzt haben."
         cannot_delete_mapping: "ist erforderlich. Kann nicht gelöscht werden."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Ein Arbeitspaket kann nicht mit einer seiner Unteraufgaben verlinkt werden."
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen."
         confirmation: "stimmt nicht mit %{attribute} überein."
@@ -869,6 +875,10 @@ de:
               minimum: "müssen mindestens einen Filter für Principal, Kontext oder ID mit dem '=' Operator enthalten."
         custom_field:
           at_least_one_custom_option: "Mindestens ein Wert muss verfügbar sein."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) nur ein Wert ist zulässig."
           empty: "(%{name}) Wert darf nicht leer sein."
@@ -1034,10 +1044,10 @@ de:
             assigned_to:
               format: "%{message}"
             done_ratio:
-              does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
-              cannot_be_set_when_work_is_zero: "cannot be set when Work is 0h"
-              must_be_set_when_remaining_work_is_set: "required when Remaining work is set."
-              must_be_set_when_work_and_remaining_work_are_set: "required when Work and Remaining work are set."
+              does_not_match_work_and_remaining_work: "stimmt nicht mit Aufwand und Verbleibender Aufwand überein"
+              cannot_be_set_when_work_is_zero: "kann nicht eingestellt werden, wenn Aufwand gleich Null ist"
+              must_be_set_when_remaining_work_is_set: "Ist erforderlich, wenn Verbleibender Aufwand gesetzt ist."
+              must_be_set_when_work_and_remaining_work_are_set: "Ist erforderlich, wenn Aufwand und Verbleibender Aufwand gesetzt ist."
               inclusion: "muss zwischen 0 und 100 liegen."
             due_date:
               not_start_date: "ist nicht identisch mit dem Startdatum, obwohl dies bei Meilensteinen Pflicht ist."
@@ -1067,17 +1077,17 @@ de:
               does_not_exist: "Die angegebene Kategorie existiert nicht."
             estimated_hours:
               not_a_number: "ist keine gültige Dauer."
-              cant_be_inferior_to_remaining_work: "cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_and_percent_complete_are_set: "required when Remaining work and % Complete are set."
+              cant_be_inferior_to_remaining_work: "Kann nicht kleiner sein als Verbleibender Aufwand."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "ist erforderlich, wenn Verbleibender Aufwand und % abgeschlossen eingestellt sind."
             remaining_hours:
               not_a_number: "ist keine gültige Dauer."
-              cant_exceed_work: "cannot be higher than Work."
-              must_be_set_when_work_is_set: "required when Work is set."
-              must_be_set_when_work_and_percent_complete_are_set: "required when Work and % Complete are set."
+              cant_exceed_work: "Kann nicht größer als der Aufwand sein."
+              must_be_set_when_work_is_set: "Ist erforderlich, wenn Aufwand gesetzt ist."
+              must_be_set_when_work_and_percent_complete_are_set: "ist erforderlich, wenn Aufwand und % abgeschlossen eingestellt sind."
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
-                must be 0h when Work is set and % Complete is 100%.
+                muss 0h sein, wenn Aufwand gesetzt und % abgeschlossen 100% ist.
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
-                must be empty when Work is empty and % Complete is 100%.
+                muss leer bleiben, wenn Aufwand gesetzt und % abgeschlossen 100% ist.
           readonly_status: "Das Arbeitspaket befindet sich in einem schreibgeschützten Status, so dass seine Attribute nicht geändert werden können."
         type:
           attributes:
@@ -1096,7 +1106,7 @@ de:
               confirmation: "Passwort und Bestätigung stimmt nicht überein."
               format: "%{message}"
             password:
-              weak: "Muss Zeichen aus folgenden Klassen beinhalten (mindestens %{min_count} von %{all_count}): %{rules}."
+              weak: "muss Zeichen aus folgenden Klassen beinhalten (mindestens %{min_count} von %{all_count}): %{rules}."
               lowercase: "Kleinbuchstaben (z.B. 'a')"
               uppercase: "Großbuchstaben (z.B. 'A')"
               numeric: "Ziffern (z.B. '1')"
@@ -1644,10 +1654,10 @@ de:
       subproject: "Unterprojekt: %{name}"
   export:
     dialog:
-      title: "Export"
-      submit: "Export"
+      title: "Exportieren"
+      submit: "Exportieren"
       format:
-        label: "File format"
+        label: "Dateiformat"
         options:
           csv:
             label: "CSV"
@@ -1656,58 +1666,58 @@ de:
           xls:
             label: "XLS"
       columns:
-        input_label_report: "Add columns to attribute table"
+        input_label_report: "Spalten zur Attributtabelle hinzufügen"
         input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
         input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
       pdf:
         export_type:
-          label: "PDF export type"
+          label: "PDF-Exporttyp"
           options:
             table:
-              label: "Table"
+              label: "Tabelle"
               caption: "Export the work packages list in a table with the desired columns."
             report:
               label: "Report"
               caption: "Export the work package on a detailed report of all work packages in the list."
             gantt:
-              label: "Gantt chart"
+              label: "Gantt-Diagramm"
               caption: "Export the work packages list in a Gantt diagram view."
         include_images:
-          label: "Include images"
+          label: "Bilder inkludieren"
           caption: "Exclude images to reduce the size of the PDF export."
         gantt_zoom_levels:
-          label: "Zoom levels"
+          label: "Zoomstufe"
           caption: "Select what is the zoom level for dates displayed in the chart."
           options:
-            days: "Days"
-            weeks: "Weeks"
-            months: "Months"
-            quarters: "Quarters"
+            days: "Tage"
+            weeks: "Wochen"
+            months: "Monate"
+            quarters: "Quartale"
         column_width:
-          label: "Table column width"
+          label: "Breite der Tabellenspalten"
           options:
-            narrow: "Narrow"
-            medium: "Medium"
-            wide: "Wide"
-            very_wide: "Very wide"
+            narrow: "Schmal"
+            medium: "Mittel"
+            wide: "Breit"
+            very_wide: "Sehr breit"
         paper_size:
-          label: "Paper size"
-          caption: "Depending on the chart size more than one page might be exported."
+          label: "Papierformat"
+          caption: "Je nach Größe des Diagramms besteht der Export aus einer oder auch aus mehreren Seiten."
         long_text_fields:
-          input_caption: "By default all long text fields are selected."
-          input_label: "Add long text fields"
-          input_placeholder: "Search for long text fields"
-          drag_area_label: "Manage long text fields"
+          input_caption: "Standardmäßig sind alle Langtextfelder ausgewählt."
+          input_label: "Langtextfelder hinzufügen"
+          input_placeholder: "Nach Textfeldern suchen"
+          drag_area_label: "Textfelder hinzufügen"
       xls:
         include_relations:
-          label: "Include relations"
-          caption: "This option will create a duplicate of each work package for every relation this has with another work package."
+          label: "Beziehungen inkludieren"
+          caption: "Jedes Arbeitspakets, mit dem eine Beziehung mit dem exportierten Arbeitspaket besteht, als zusätzliche Zeile einfügen."
         include_descriptions:
-          label: "Include descriptions"
-          caption: "This option will add a description column in raw format."
-    your_work_packages_export: "Work packages are being exported"
-    succeeded: "Export completed"
-    failed: "An error has occurred while trying to export the work packages: %{message}"
+          label: "Beschreibungen inkludieren"
+          caption: "Mit dieser Option wird die Beschreibungs-Spalte im Rohformat hinzugefügt."
+    your_work_packages_export: "Arbeitspakete werden exportiert"
+    succeeded: "Export abgeschlossen"
+    failed: "Beim Versuch, die Arbeitspakete zu exportieren, ist ein Fehler aufgetreten: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1938,6 +1948,7 @@ de:
   label_attribute_expand_text: "Der vollständige Text für '%{attribute}'"
   label_authentication: "Authentifizierung"
   label_authentication_settings: "Authentifizierungseinstellungen"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Verfügbare globale Rollen"
   label_available_project_attributes: "Verfügbare Projektattribute"
   label_available_project_forums: "Verfügbare Foren"
@@ -2358,6 +2369,8 @@ de:
   label_role_plural: "Rollen"
   label_role_search: "Rolle für neue Mitglieder zuweisen"
   label_scm: "Versionskontrollsystem"
+  label_scroll_left: "Nach links scrollen"
+  label_scroll_right: "Nach rechts scrollen"
   label_search: "Suche"
   label_search_by_name: "Nach Name suchen"
   label_send_information: "Neue Anmeldeinformationen an den Benutzer senden"
@@ -3500,7 +3513,7 @@ de:
       label_note: "Hinweis:"
       modal:
         work_based_help_text: "Each field is automatically calculated from the two others when possible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Abgeschlossen wird automatisch aus Aufwand und Verbleibender Aufwand abgeleitet."
         status_based_help_text: "% Abgeschlossen wird durch den Status des Arbeitspakets festgelegt."
         migration_warning_text: "Im aufwandsbezogenen Modus, kann % Fertig nicht manuell eingegeben werden und ist immer an den Aufwand gebunden. Der vorhandene Wert wurde beibehalten, kann aber nicht bearbeitet werden. Bitte geben Sie zuerst den Wert für Aufwand ein."
       derivation_hints:
@@ -3515,9 +3528,9 @@ de:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "Kommentar"
