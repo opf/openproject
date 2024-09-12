@@ -33,8 +33,11 @@ module SettingsHelper
   include OpenProject::FormTagHelper
 
   def setting_select(setting, choices, options = {})
-    if blank_text = options.delete(:blank)
-      choices = [[blank_text.is_a?(Symbol) ? I18n.t(blank_text) : blank_text, ""]] + choices
+    blank_text = options.delete(:blank)
+
+    if blank_text
+      translated_blank = blank_text.is_a?(Symbol) ? I18n.t(blank_text) : blank_text
+      choices.unshift([translated_blank, ""])
     end
 
     setting_label(setting, options) +
