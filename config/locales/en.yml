@@ -2255,6 +2255,9 @@ en:
   label_home: "Home"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_hide_n_items:
+    one: "Hide %{count} item"
+    other: "Hide %{count} items"
   label_identifier: "Identifier"
   label_in: "in"
   label_in_less_than: "in less than"
@@ -2276,7 +2279,9 @@ en:
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
   label_show_hide: "Show/hide"
-  label_show_hide_n_items: "Show/hide %{count} items"
+  label_show_n_items:
+    one: "Show %{count} item"
+    other: "Show %{count} items"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
   label_journal_diff: "Description Comparison"
