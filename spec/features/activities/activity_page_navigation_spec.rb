@@ -229,7 +229,7 @@ RSpec.describe "Activity page navigation", :js, :with_cuprite do
 
       def assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
         visit(activity_page)
-        activity_page_url = page.current_url
+        activity_page_path = page.current_path
 
         ensure_project_attributes_filter_is_checked
 
@@ -243,7 +243,7 @@ RSpec.describe "Activity page navigation", :js, :with_cuprite do
         expect(page).to have_link(text: "Back")
         click_link("Back")
 
-        expect(page.current_url).to eq(activity_page_url)
+        expect(page).to have_current_path(activity_page_path)
       end
 
       it "Back button navigates to the previously seen activity page" do
@@ -264,7 +264,7 @@ RSpec.describe "Activity page navigation", :js, :with_cuprite do
 
       def assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
         visit(activity_page)
-        activity_page_url = page.current_url
+        activity_page_path = page.current_path
 
         expect(page).to have_link(text: "Details")
         expect(page.text).to include("Description changed (Details)")
@@ -274,7 +274,7 @@ RSpec.describe "Activity page navigation", :js, :with_cuprite do
         expect(page).to have_link(text: "Back")
         click_link("Back")
 
-        expect(page.current_url).to eq(activity_page_url)
+        expect(page).to have_current_path(activity_page_path)
       end
 
       it "Back button navigates to the previously seen activity page" do
