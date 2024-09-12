@@ -1350,7 +1350,7 @@ lt:
         close: "Close modal"
     open_project_storage_modal:
       waiting_title:
-        timeout: "Timeout"
+        timeout: "Skirtojo laiko pabaiga"
       waiting_subtitle:
         network_off: "Yra tinklo problema."
         network_on: "Tinklas grįžo. Mes bandome."

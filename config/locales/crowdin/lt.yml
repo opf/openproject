@@ -270,7 +270,7 @@ lt:
       favored: "Mėgstami projektai"
       archived: "Archyvuoti projektai"
       shared: "Shared project lists"
-      my_lists: "My project lists"
+      my_lists: "Mano projektų sąrašai"
       new:
         placeholder: "Naujas projektų sąrašas"
       delete_modal:
@@ -297,7 +297,7 @@ lt:
         actions:
           label_enable_single: "Aktyvus šiame projekte, spauskite, jei norite išjungti"
           label_disable_single: "Neakvyus šiame projekte, spauskite, jei norite įjungti"
-          remove_from_project: "Remove from project"
+          remove_from_project: "Pašalinti iš projekto"
           label_enable_all: "Įjungti visus"
           label_disable_all: "Išjungti visus"
         is_required_blank_slate:
@@ -493,7 +493,7 @@ lt:
         is_readonly: "Tik skaityti"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Tamsus (Beta versija)"
     light: "Šviesi"
     light_high_contrast: "Šviesi kontrastinga"
   types:
@@ -3650,7 +3650,7 @@ lt:
       publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
       user_details:
-        owner: "List owner"
+        owner: "Sąrašo savininkas"
         can_view_because_public: "Can already view because list is shared with everyone"
         can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
