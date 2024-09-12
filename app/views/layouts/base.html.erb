@@ -117,6 +117,9 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
     <div class="content-overlay"></div>
     <main id="content-wrapper" class="<%= initial_classes %>">
+      <div id="flash-container">
+        <div id="narrow" class="op-toast--wrapper"></div>
+      </div>
       <%= render_primer_banner_message %>
       <%= render_streameable_primer_banner_message %>
       <%# Banner messages are being rendered using primer %>

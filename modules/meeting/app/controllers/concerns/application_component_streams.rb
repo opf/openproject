@@ -35,7 +35,7 @@ module ApplicationComponentStreams
     end
 
     def update_flash_message_via_turbo_stream(**)
-      turbo_streams << turbo_stream.prepend("content", Meetings::UpdateFlashComponent.new(**).render_in(view_context))
+      turbo_streams << turbo_stream.prepend("flash-container", Meetings::UpdateFlashComponent.new(**).render_in(view_context))
     end
   end
 end
