@@ -26,14 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Queries::Projects::Selects::Default < Queries::Selects::Base
-  KEYS = %i[status_explanation hierarchy name public description].freeze
+require "spec_helper"
 
-  def self.key
-    /\A(#{Regexp.union(KEYS.map(&:to_s))})\z/
-  end
+RSpec.describe Queries::Projects::Selects::Default do
+  describe ".key" do
+    define_negated_matcher :not_match, :match
 
-  def self.all_available
-    KEYS.map { new(_1) }
+    let(:keys) { described_class::KEYS }
+
+    it "matches every key" do
+      expect(keys).to all(match(described_class.key))
+    end
+
+    it "doesn't match any key with prefix" do
+      expect(keys.map { "x#{_1}" }).to all(not_match(described_class.key))
+    end
+
+    it "doesn't match any key with suffix" do
+      expect(keys.map { "#{_1}x" }).to all(not_match(described_class.key))
+    end
   end
 end
