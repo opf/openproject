@@ -804,6 +804,7 @@ nl:
         blank: "mag niet leeg zijn."
         blank_nested: "moet de eigenschap '%{property}' ingesteld hebben."
         cannot_delete_mapping: "is vereist. Kan niet worden verwijderd."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Een werkpakket kan niet worden gekoppeld aan een van de bijbehorende subtaken."
         circular_dependency: "Deze relatie zou een circulaire afhankelijkheid creëren."
         confirmation: "komt niet overeen met %{attribute}."
@@ -877,6 +878,10 @@ nl:
               minimum: "moet ten minste één filter bevatten voor opdrachtgever, context of id met de '=' operator."
         custom_field:
           at_least_one_custom_option: "Ten minste één optie moet beschikbaar zijn."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) slechts één waarde is toegestaan."
           empty: "(%{name}) waarde kan niet leeg zijn."

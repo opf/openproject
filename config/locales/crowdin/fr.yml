@@ -806,6 +806,7 @@ fr:
         blank: "ne peut pas être vide."
         blank_nested: "doit avoir la propriété « %{property} » définie."
         cannot_delete_mapping: "est requis. Ne peut être supprimé."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Un lot de travaux ne peut pas être lié à l'une de ses sous-tâches."
         circular_dependency: "Cette relation créerait une dépendance circulaire."
         confirmation: "ne correspond pas à %{attribute}."
@@ -879,6 +880,10 @@ fr:
               minimum: "devez inclure au moins un filtre pour le principal, le contexte ou l'identifiant avec l'opérateur '='."
         custom_field:
           at_least_one_custom_option: "Au moins une option doit être disponible."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) seule valeur est autorisée."
           empty: "La zone (%{name}) ne peut pas être vide."

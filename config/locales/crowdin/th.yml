@@ -800,6 +800,7 @@ th:
         blank: "can't be blank."
         blank_nested: "needs to have the property '%{property}' set."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "doesn't match %{attribute}."
@@ -873,6 +874,10 @@ th:
               minimum: "ต้องมีตัวกรองอย่างน้อยหนึ่งตัวสำหรับตัวการ บริบท หรือรหัสที่มีตัวดำเนินการ '=' "
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) only one value is allowed."
           empty: "(%{name}) value can't be empty."

@@ -835,6 +835,7 @@ ar:
         blank: "لا يمكن أن يكون فارغا."
         blank_nested: "needs to have the property '%{property}' set."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "حزمة العمل لا يمكن أن تكون مرتبطة إلى واحدة من المهام الفرعية."
         circular_dependency: "ان هذه العلاقة خلق تبعية دائرية."
         confirmation: "لا يتطابق مع %{attribute}."
@@ -908,6 +909,10 @@ ar:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) مسموح بقيمة واحدة فقط."
           empty: "(%{name}) لا يمكن أن تكون القيمة فارغة."

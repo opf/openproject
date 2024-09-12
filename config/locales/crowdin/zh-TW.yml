@@ -798,6 +798,7 @@ zh-TW:
         blank: "不可空白"
         blank_nested: "需要設置屬性  '%{property}' "
         cannot_delete_mapping: "必需項，不能刪除"
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "一個工作項目不能聯結到它的一個子項目"
         circular_dependency: "這個關係會建立一個循環依賴"
         confirmation: "不吻合 %{attribute}。"
@@ -871,6 +872,10 @@ zh-TW:
               minimum: "需要為主體、上下文或 id 至少包含一個帶有“=”運算符的過濾器"
         custom_field:
           at_least_one_custom_option: "需要至少一個選項可用。"
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) 只允許一個值。"
           empty: "(%{name}) 不可以為空值。"

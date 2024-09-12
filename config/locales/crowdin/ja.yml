@@ -796,6 +796,7 @@ ja:
         blank: "は空白にすることができません。"
         blank_nested: "needs to have the property '%{property}' set."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "親子関係にあるワークパッケージ間で関係の設定はできません。"
         circular_dependency: "この関係は循環依存になります。"
         confirmation: "は%{attribute} と一致しません。"
@@ -869,6 +870,10 @@ ja:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "少なくとも 1 つオプションが有効である必要があります。"
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) 1 つの値のみ可能です。"
           empty: "(%{name}) 値を空にすることはできません。"

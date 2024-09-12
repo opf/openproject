@@ -802,6 +802,7 @@ vi:
         blank: "không được để trống"
         blank_nested: "cần có thuộc tính '%{property}' được thiết lập."
         cannot_delete_mapping: "là bắt buộc. Không thể xóa."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Một gói công việc không thể liên kết với một trong các nhiệm vụ con của nó."
         circular_dependency: "Mối quan hệ này sẽ tạo ra một sự phụ thuộc tuần hoàn."
         confirmation: "không khớp %{attribute}."
@@ -875,6 +876,10 @@ vi:
               minimum: "cần bao gồm ít nhất một bộ lọc cho principal, context hoặc id với toán tử '='."
         custom_field:
           at_least_one_custom_option: "Ít nhất một lựa chọn cần phải được cung cấp."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) chỉ có một giá trị được cho phép."
           empty: "giá trị (%{name}) không thể để trống."

@@ -806,6 +806,7 @@ sv:
         blank: "kan inte vara tomt."
         blank_nested: "needs to have the property '%{property}' set."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Ett arbetspaket kan inte kopplas till någon av dess underaktiviteter."
         circular_dependency: "Detta förhållande skulle skapa ett cirkelberoende."
         confirmation: "matchar inte %{attribute}."
@@ -879,6 +880,10 @@ sv:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Minst ett alternativ måste vara tillgängligt."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) endast ett värde är tillåtet."
           empty: "(%{name}) värdet kan inte vara tomt."

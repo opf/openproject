@@ -793,6 +793,7 @@ id:
         blank: "harus di isi."
         blank_nested: "harus menyetel properti '%{property}'."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Work package tidak dapat dihubungkan dengan subtask-nya."
         circular_dependency: "Relasi ini menyebabkan dependensi circular."
         confirmation: "tidak sesuai dengan %{attribute}."
@@ -866,6 +867,10 @@ id:
               minimum: "perlu menyertakan setidaknya satu filter untuk prinsipal, konteks, atau id dengan operator '='."
         custom_field:
           at_least_one_custom_option: "Paling tidak, satu pilihan dibutuhkan untuk tersedia."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) hanya satu nilai yang diperbolehkan."
           empty: "Nilai (%{name}) tidak boleh kosong."

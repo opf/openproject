@@ -806,6 +806,7 @@
         blank: "kan ikke være blank."
         blank_nested: "må ha egenskapen '%{property}' aktivert."
         cannot_delete_mapping: "er påkrevd. Kan ikke slettes."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "En arbeidspakke kan ikke knyttes til en av sine deloppgaver."
         circular_dependency: "En slik relasjon ville lage en sirkulær avhengighet."
         confirmation: "samsvarer ikke med %{attribute}."
@@ -879,6 +880,10 @@
               minimum: "må inkludere minst ett filter for prinsipp, kontekst eller id med '='-operatøren."
         custom_field:
           at_least_one_custom_option: "Minst ett alternativ må være tilgjengelig."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) kun tillatt med én verdi."
           empty: "(%{name}) verdi kan ikke være tom."

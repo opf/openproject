@@ -803,6 +803,7 @@ ca:
         blank: "no pot estar en blanc."
         blank_nested: "és necessari de definir la propietat  '%{property}' ."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Un paquet de treball no es pot enllaçar a una de les seves subtasques."
         circular_dependency: "Aquesta relació crearia una dependència circular."
         confirmation: "no coincideix amb el %{attribute}."
@@ -876,6 +877,10 @@ ca:
               minimum: "necessita d'incloure almenys un filtre per a principal, a context o id amb l'operador '='."
         custom_field:
           at_least_one_custom_option: "Al menys hi ha d'haver una opció disponible."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) sols és permès un valor."
           empty: "(%{name}) el valor no ser buit."

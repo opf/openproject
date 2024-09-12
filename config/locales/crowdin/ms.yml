@@ -798,6 +798,7 @@ ms:
         blank: "tidak boleh dibiarkan kosong."
         blank_nested: "perlu ada ciri-ciri '%{property}' yang ditetapkan."
         cannot_delete_mapping: "diperlukan. Tidak boleh dipadam."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Pakej kerja tidak boleh dipautkan ke salah satu subtugasnya."
         circular_dependency: "Hubungan ini akan mencipta kebergantungan bulat."
         confirmation: "tidak sepadan dengan %{attribute}."
@@ -871,6 +872,10 @@ ms:
               minimum: "perlu sertakan sekurang-kurangnya satu saringan utama, konteks, atau id dengan operator '='."
         custom_field:
           at_least_one_custom_option: "Sekurang-kurangnya satu pilihan perlu tersedia."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) hanya satu nilai yang dibenarkan."
           empty: "(%{name}) nilai tidak boleh kosong."

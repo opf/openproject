@@ -818,6 +818,7 @@ sl:
         blank: "ne sme biti prazno."
         blank_nested: "mora imeti nastavljeno lastnost '%{property}'."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Zahtevek ne more biti povezan s svojo podnalogo"
         circular_dependency: "Ta povezava bi ustvarila krožno odvisnost."
         confirmation: "se ne ujema %{attribute}"
@@ -891,6 +892,10 @@ sl:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Na voljo mora biti vsaj ena možnost."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) dovoljena je samo ena vrednost."
           empty: "(%{name}) vrednost ne more biti prazna. "
