@@ -247,8 +247,13 @@ export function initializeServices(injector:Injector) {
     injector.get(RevitAddInSettingsButtonService);
 
     topMenuService.register();
-
     PreviewTrigger.setupListener();
+
+    // Re-register on turbo:load
+    document.addEventListener('turbo:load', () => {
+      topMenuService.register();
+      PreviewTrigger.setupListener();
+    });
 
     keyboardShortcuts.register();
 
@@ -389,7 +394,7 @@ export class OpenProjectModule implements DoBootstrap {
   ngDoBootstrap(appRef:ApplicationRef) {
 
     this.runBootstrap(appRef);
-    
+
     // Connect ui router to turbo drive
     document.addEventListener('turbo:load', () => {
       this.runBootstrap(appRef);
