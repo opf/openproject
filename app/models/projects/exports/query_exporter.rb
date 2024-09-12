@@ -32,7 +32,7 @@ module Projects::Exports
     alias :query :object
 
     def columns
-      @columns ||= (forced_columns + selected_columns)
+      @columns ||= selected_columns
     end
 
     def page
@@ -50,13 +50,6 @@ module Projects::Exports
     end
 
     private
-
-    def forced_columns
-      [
-        { name: :id, caption: Project.human_attribute_name(:id) },
-        { name: :identifier, caption: Project.human_attribute_name(:identifier) }
-      ]
-    end
 
     def selected_columns
       query
