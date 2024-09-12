@@ -49,6 +49,10 @@ export default class ProgressTrackingController extends Controller {
   declare readonly warningTextTarget:HTMLElement;
   declare readonly warningToastTarget:HTMLElement;
 
+  connect() {
+    this.displayWarning();
+  }
+
   displayWarning() {
     const warningMessageHtml = this.getWarningMessageHtml();
     if (warningMessageHtml) {
