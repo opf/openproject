@@ -30,12 +30,13 @@
 
 module Admin
   class DesignHeaderComponent < ApplicationComponent
-    def initialize(title:, selected:)
-      super
-      raise "selected must 1, 2 or 3" if [1, 2, 3].exclude?(selected)
+    include OpPrimer::ComponentHelpers
+    include ApplicationHelper
+    include TabsHelper
 
-      @title = title
-      @selected = selected
+    def initialize(tabs: nil)
+      super
+      @tabs = tabs
     end
   end
 end

@@ -35,15 +35,11 @@ See COPYRIGHT and LICENSE files for more details.
                              t(:label_custom_style)])
     header.with_description { t(:label_custom_style_description) }
     header.with_tab_nav(label: nil) do |tab_nav|
-      tab_nav.with_tab(selected: @selected == 1, href: custom_style_path) do |tab|
-        tab.with_text { t(:"admin.custom_styles.tab_interface") }
+      @tabs.each do |tab|
+        tab_nav.with_tab(selected: selected_tab(@tabs) == tab, href: tab[:path]) do |t|
+          t.with_text { tab[:label] }
+        end
       end
-      tab_nav.with_tab(selected: @selected == 2, href: custom_style_branding_path) do |tab|
-        tab.with_text { t(:"admin.custom_styles.tab_branding") }
-      end
-      tab_nav.with_tab(selected: @selected == 3, href: custom_style_pdf_export_styles_path) do |tab|
-        tab.with_text { t(:"admin.custom_styles.tab_pdf_export_styles") }
-      end
-    end
+    end if @tabs.present?
   end
 %>
