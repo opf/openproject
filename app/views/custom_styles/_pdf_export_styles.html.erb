@@ -27,29 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  render(Admin::DesignHeaderComponent.new(
-    title: t(:"admin.custom_styles.tab_pdf_export_styles"),
-    selected: 3,
-    ))
-%>
-<%= error_messages_for 'custom_style' %>
-<%= form_tag update_design_themes_path, method: :post, class: "form" do %>
-  <section class="form--section">
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= I18n.t('admin.custom_styles.color_theme') %></legend>
-      <div class="form--field">
-        <div class="form--field-container">
-          <%= styled_select_tag 'theme',
-                                options_for_select(@theme_options, @current_theme),
-                                container_class: '-slim' %>
-        </div>
-      </div>
-      <%= styled_button_tag t(:button_save),
-                            data:({ confirm: t('admin.custom_styles.theme_warning') } unless @current_theme.present?) %>
-    </fieldset>
-  </section>
-<% end %>
 <%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
   <section class="form--section">
     <fieldset class="form--fieldset">

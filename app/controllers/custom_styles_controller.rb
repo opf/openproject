@@ -52,18 +52,6 @@ class CustomStylesController < ApplicationController
 
   def upsale; end
 
-  def branding
-    @custom_style = CustomStyle.current || CustomStyle.new
-    @current_theme = @custom_style.theme
-    @theme_options = options_for_theme_select
-  end
-
-  def pdf_export_styles
-    @custom_style = CustomStyle.current || CustomStyle.new
-    @current_theme = @custom_style.theme
-    @theme_options = options_for_theme_select
-  end
-
   def create
     @custom_style = CustomStyle.create(custom_style_params)
     if @custom_style.valid?
