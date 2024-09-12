@@ -39,7 +39,7 @@ class Queries::Projects::Selects::CustomField < Queries::Selects::Base
     ProjectCustomField
       .visible
       .pluck(:id)
-      .map { |cf_id| new(:"cf_#{cf_id}") }
+      .map { |id| new(:"cf_#{id}") }
   end
 
   def caption
