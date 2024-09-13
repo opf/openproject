@@ -41,8 +41,8 @@ RSpec.describe CustomStylesController do
 
       context "when active token exists", with_ee: %i[define_custom_style] do
         it "renders show" do
-          expect(subject).to be_successful
-          expect(response).to render_template "show"
+          expect(subject).to redirect_to action: :show, tab: 'interface'
+          expect(response).to be_redirect
         end
       end
 
