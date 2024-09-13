@@ -47,9 +47,11 @@ class Queries::Projects::Selects::CustomField < Queries::Selects::Base
   end
 
   def custom_field
-    @custom_field ||= ProjectCustomField
-                        .visible
-                        .find_by(id: self.class.key.match(attribute)[1])
+    return @custom_field if defined?(@custom_field)
+
+    @custom_field = ProjectCustomField
+                      .visible
+                      .find_by(id: self.class.key.match(attribute)[1])
   end
 
   def available?
