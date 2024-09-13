@@ -163,6 +163,18 @@ RSpec.describe Storages::Peripherals::NextcloudConnectionValidator do
 
       before { project_storage }
 
+      context "if the request returns not_found" do
+        let(:files_response) do
+          Storages::Peripherals::StorageInteraction::Nextcloud::Util.error(:not_found)
+        end
+
+        it "returns a validation failure" do
+          expect(subject.type).to eq(:error)
+          expect(subject.error_code).to eq(:err_group_folder_not_found)
+          expect(subject.description).to eq("The group folder could not be found.")
+        end
+      end
+
       context "if the request returns an error" do
         let(:files_response) do
           Storages::Peripherals::StorageInteraction::Nextcloud::Util.error(:error)

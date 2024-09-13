@@ -44,8 +44,9 @@ module Storages
           .or { host_url_not_found }
           .or { missing_dependencies }
           .or { version_mismatch }
-          .or { request_failed_with_unknown_error }
           .or { with_unexpected_content }
+          .or { group_folder_not_found }
+          .or { request_failed_with_unknown_error }
           .value_or(ConnectionValidation.new(type: :healthy,
                                              error_code: :none,
                                              timestamp: Time.current,
@@ -151,20 +152,13 @@ module Storages
 
       # rubocop:enable Metrics/AbcSize
 
-      def request_failed_with_unknown_error
-        return None() if capabilities.success?
-
-        Rails.logger.error(
-          "Connection validation failed with unknown error:\n\t" \
-          "storage: ##{@storage.id} #{@storage.name}\n\t" \
-          "status: #{capabilities.result}\n\t" \
-          "response: #{capabilities.error_payload}"
-        )
+      def group_folder_not_found
+        return None() if files.result != :not_found
 
         Some(ConnectionValidation.new(type: :error,
-                                      error_code: :err_unknown,
+                                      error_code: :err_group_folder_not_found,
                                       timestamp: Time.current,
-                                      description: I18n.t("storages.health.connection_validation.unknown_error")))
+                                      description: I18n.t("storages.health.connection_validation.group_folder_not_found")))
       end
 
       # rubocop:disable Metrics/AbcSize
@@ -195,6 +189,34 @@ module Storages
             description: I18n.t("storages.health.connection_validation.unexpected_content.nextcloud")
           )
         )
+      end
+
+      # rubocop:enable Metrics/AbcSize
+
+      # rubocop:disable Metrics/AbcSize
+      def request_failed_with_unknown_error
+        return None() if capabilities.success?
+
+        Rails.logger.error(
+          "Connection validation failed with unknown error:\n\t" \
+          "storage: ##{@storage.id} #{@storage.name}\n\t" \
+          "status: #{capabilities.result}\n\t" \
+          "response: #{capabilities.error_payload}"
+        )
+
+        return None() if files.success?
+
+        Rails.logger.error(
+          "Connection validation failed with unknown error:\n\t" \
+          "storage: ##{@storage.id} #{@storage.name}\n\t" \
+          "status: #{files.result}\n\t" \
+          "response: #{files.error_payload}"
+        )
+
+        Some(ConnectionValidation.new(type: :error,
+                                      error_code: :err_unknown,
+                                      timestamp: Time.current,
+                                      description: I18n.t("storages.health.connection_validation.unknown_error")))
       end
 
       # rubocop:enable Metrics/AbcSize
