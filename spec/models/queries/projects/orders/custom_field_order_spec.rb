@@ -85,4 +85,49 @@ RSpec.describe Queries::Projects::Orders::CustomFieldOrder do
       end
     end
   end
+
+  describe "#custom_field" do
+    let(:instance) { described_class.new(name) }
+    let(:name) { "cf_42" }
+    let(:id) { 42 }
+
+    before do
+      where = double
+      where_not = double
+      visible = double
+
+      allow(ProjectCustomField).to receive(:where).and_return(where)
+      allow(where).to receive(:not).with(field_format: %w[text]).and_return(where_not)
+      allow(where_not).to receive(:visible).and_return(visible)
+      allow(visible).to receive(:find_by).with(id: id.to_s).and_return(custom_field)
+    end
+
+    context "when custom field exists" do
+      let(:custom_field) { instance_double(ProjectCustomField) }
+
+      it "returns the custom field" do
+        expect(instance.custom_field).to eq(custom_field)
+      end
+
+      it "memoizes the custom field" do
+        2.times { instance.custom_field }
+
+        expect(ProjectCustomField).to have_received(:where).once
+      end
+    end
+
+    context "when custom field doesn't exist" do
+      let(:custom_field) { nil }
+
+      it "returns the custom field" do
+        expect(instance.custom_field).to be_nil
+      end
+
+      it "memoizes the custom field" do
+        2.times { instance.custom_field }
+
+        expect(ProjectCustomField).to have_received(:where).once
+      end
+    end
+  end
 end
