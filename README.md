@@ -23,6 +23,12 @@ More information and screenshots can be found on our [website](https://www.openp
 If you want to run an instance of OpenProject in production (or for evaluation), refer to our
 in-depth [installation guides](https://www.openproject.org/download-and-installation/).
 
+## Self-Hosting OpenProject
+
+### Elestio
+
+[![Deploy on Elestio](https://elest.io/images/logos/deploy-to-elestio-btn.png)](https://elest.io/open-source/openproject)
+
 ## Reporting bugs
 
 You found a bug? Please [report it](https://www.openproject.org/docs/development/report-a-bug/) to our [OpenProject community](https://community.openproject.org/projects/openproject). Thank you!
