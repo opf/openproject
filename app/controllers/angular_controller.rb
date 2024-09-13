@@ -34,7 +34,11 @@ class AngularController < ApplicationController
   def empty_layout
     # Frontend will handle rendering
     # but we will need to render with layout
-    render html: "", layout: "angular/angular"
+    respond_to do |format|
+      format.html do
+        render html: "", layout: "angular/angular"
+      end
+    end
   end
 
   def login_back_url_params
