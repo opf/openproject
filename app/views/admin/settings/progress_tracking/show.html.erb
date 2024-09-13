@@ -53,7 +53,7 @@ primer_form_with(
     form.radio_button_group(
       name: "work_package_done_ratio",
       button_options: {
-        data: { action: "admin--progress-tracking#displayWarning" }
+        data: { action: "admin--progress-tracking#updateEnabledOptions" }
       }
     )
     form.html_content do
@@ -66,7 +66,9 @@ primer_form_with(
       end
     end
     form.radio_button_group(
-      name: "percent_complete_on_status_closed"
+      name: "percent_complete_on_status_closed",
+      disabled: Setting.work_package_done_ratio == "status",
+      data: { admin__progress_tracking_target: "statusClosedRadioGroup" }
     )
     form.submit
   end

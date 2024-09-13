@@ -101,14 +101,16 @@ class SettingsFormDecorator
   # @param name [Symbol] The name of the setting
   # @param values [Array] The values for the radio buttons. Default to the
   #   setting's allowed values.
+  # @param disabled [Boolean] Force the radio button group to be disabled when
+  #  true, will be disabled if the setting is not writable when false (default)
   # @param button_options [Hash] Options for individual radio buttons
   # @param options [Hash] Additional options for the radio button group
   # @return [Object] The radio button group
-  def radio_button_group(name:, values: [], button_options: {}, **options)
+  def radio_button_group(name:, values: [], disabled: false, button_options: {}, **options)
     values = values.presence || setting_allowed_values(name)
     radio_group_options = options.reverse_merge(
       label: setting_label(name),
-      disabled: setting_disabled?(name)
+      disabled: disabled || setting_disabled?(name)
     )
     form.radio_button_group(
       name:,
