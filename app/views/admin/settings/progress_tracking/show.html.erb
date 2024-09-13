@@ -52,7 +52,6 @@ primer_form_with(
   render_inline_settings_form(f) do |form|
     form.radio_button_group(
       name: "work_package_done_ratio",
-      values: WorkPackage::DONE_RATIO_OPTIONS,
       button_options: {
         data: { action: "admin--progress-tracking#displayWarning" }
       }
@@ -66,6 +65,9 @@ primer_form_with(
         end
       end
     end
+    form.radio_button_group(
+      name: "percent_complete_on_status_closed"
+    )
     form.submit
   end
 end

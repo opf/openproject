@@ -28,9 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# Decorates a form object to provide a more convenient interface for
+# rendering settings.
+#
+# It automatically sets the label, value, and disabled properties from the
+# setting name and its definition attributes.
 class SettingsFormDecorator
   attr_reader :form
 
+  # Initializes a new SettingsFormDecorator
+  #
+  # @param form [Object] The form object to be decorated
   def initialize(form)
     @form = form
   end
@@ -43,6 +51,15 @@ class SettingsFormDecorator
     form.respond_to?(method, include_private)
   end
 
+  # Creates a text field input for a setting.
+  #
+  # The text field label is set from translating the key "setting_<name>".
+  #
+  # Any options passed to this method will override the default options.
+  #
+  # @param name [Symbol] The name of the setting
+  # @param options [Hash] Additional options for the text field
+  # @return [Object] The text field input
   def text_field(name:, **options)
     options.reverse_merge!(
       label: setting_label(name),
@@ -52,6 +69,15 @@ class SettingsFormDecorator
     form.text_field(name:, **options)
   end
 
+  # Creates a check box input for a setting.
+  #
+  # The check box label is set from translating the key "setting_<name>".
+  #
+  # Any options passed to this method will override the default options.
+  #
+  # @param name [Symbol] The name of the setting
+  # @param options [Hash] Additional options for the check box
+  # @return [Object] The check box input
   def check_box(name:, **options)
     options.reverse_merge!(
       label: setting_label(name),
@@ -61,13 +87,31 @@ class SettingsFormDecorator
     form.check_box(name:, **options)
   end
 
-  def radio_button_group(name:, values:, button_options: {}, **options)
+  # Creates a radio button group for a setting.
+  #
+  # The radio button group label is set from translating the key
+  # "setting_<name>". The radio button label are set from translating the
+  # key "setting_<name>_<value>". The caption is set from translating the
+  # key "setting_<name>_<value>_caption_html", which will be rendered as HTML,
+  # or "setting_<name>_<value>_caption", or nothing if none of the above
+  # are defined.
+  #
+  # Any options passed to this method will override the default options.
+  #
+  # @param name [Symbol] The name of the setting
+  # @param values [Array] The values for the radio buttons. Default to the
+  #   setting's allowed values.
+  # @param button_options [Hash] Options for individual radio buttons
+  # @param options [Hash] Additional options for the radio button group
+  # @return [Object] The radio button group
+  def radio_button_group(name:, values: [], button_options: {}, **options)
+    values = values.presence || setting_allowed_values(name)
     radio_group_options = options.reverse_merge(
-      label: setting_label(name)
+      label: setting_label(name),
+      disabled: setting_disabled?(name)
     )
     form.radio_button_group(
       name:,
-      disabled: setting_disabled?(name),
       **radio_group_options
     ) do |radio_group|
       values.each do |value|
@@ -76,13 +120,16 @@ class SettingsFormDecorator
             value:,
             checked: setting_value(name) == value,
             label: setting_label(name, value),
-            caption: setting_caption_html(name, value)
+            caption: setting_caption(name, value)
           )
         )
       end
     end
   end
 
+  # Creates a save button to submit the form
+  #
+  # @return [Object] The submit button
   def submit
     form.submit(name: "submit",
                 label: I18n.t("button_save"),
@@ -91,18 +138,59 @@ class SettingsFormDecorator
 
   protected
 
+  # Returns a translated string for a setting name.
+  #
+  # The translation key is "setting_<name>". Add additional names to the key
+  # to allow for translations with more context:
+  # "setting_<name>_<param2>_<param3>_...".
+  #
+  # @param names [Array<String | Symbol>] The name(s) of the setting
+  # @return [String] The translated label
   def setting_label(*names)
     I18n.t("setting_#{names.join('_')}")
   end
 
-  def setting_caption_html(*names)
-    I18n.t("setting_#{names.join('_')}_caption_html").html_safe
+  # Generates an HTML-safe caption for a setting.
+  #
+  # The translation key is "setting_<name>_caption". If not present, it will
+  # return nil.
+  #
+  # The translation will be marked as html_safe automatically if it ends with
+  # "_html", allowing to have HTML in the caption.
+  #
+  # Add additional names to the key to allow for translations with more context:
+  # "setting_<name>_<context>_caption_html" for instance.
+  #
+  # @param names [Array<Symbol>] The name(s) of the setting
+  # @return [String] The translated HTML-safe caption
+  def setting_caption(*names)
+    I18n.t("setting_#{names.join('_')}_caption_html", default: nil)&.html_safe \
+      || I18n.t("setting_#{names.join('_')}_caption", default: nil)
   end
 
+  # Retrieves the current value of a setting
+  #
+  # @param name [Symbol] The name of the setting
+  # @return [Object] The value of the setting
   def setting_value(name)
     Setting[name]
   end
 
+  # Retrieves the allowed values for a setting's definition
+  #
+  # @param name [Symbol] The name of the setting
+  # @return [Array] The allowed values for the setting
+  def setting_allowed_values(name)
+    Settings::Definition[name].allowed
+  end
+
+  # Checks if a setting is disabled.
+  #
+  # Any non-writable setting set by environment variables will be considered
+  # disabled.
+  #
+  # @param name [Symbol] The name of the setting
+  # @return [Boolean] `true` if the setting is disabled, `false` otherwise
   def setting_disabled?(name)
     !Setting.send(:"#{name}_writable?")
   end
