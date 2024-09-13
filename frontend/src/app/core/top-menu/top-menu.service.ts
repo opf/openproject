@@ -130,7 +130,7 @@ export class TopMenuService {
     }
 
     wrapper.addEventListener('click', (evt) => {
-      if (this.menuIsOpen && !this.openDropdowns()[0].contains(evt.target as HTMLElement)) {
+      if (this.menuIsOpen && !this.openDropdowns()[0]?.contains(evt.target as HTMLElement)) {
         this.close();
       }
     }, true);
