@@ -46,9 +46,9 @@ class Queries::Projects::Orders::CustomFieldOrder < Queries::Orders::Base
   end
 
   def custom_field
-    @custom_field ||= begin
-      self.class.scope.find_by(id: attribute[/\Acf_(\d+)\z/, 1])
-    end
+    return @custom_field if defined?(@custom_field)
+
+    @custom_field = self.class.scope.find_by(id: attribute[/\Acf_(\d+)\z/, 1])
   end
 
   def available?
