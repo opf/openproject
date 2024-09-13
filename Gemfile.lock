@@ -1118,7 +1118,7 @@ GEM
       openssl-signature_algorithm (~> 1.0)
     trailblazer-option (0.1.2)
     ttfunk (1.7.0)
-    turbo-rails (2.0.6)
+    turbo-rails (2.0.7)
       actionpack (>= 6.0.0)
       activejob (>= 6.0.0)
       railties (>= 6.0.0)
