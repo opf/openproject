@@ -93,7 +93,7 @@ RSpec.describe "OAuth applications management", :js, :with_cuprite do
     expect(page).to have_test_selector("op-admin-oauth--applications-placeholder")
   end
 
-  context "with a seeded application" do
+  context "with a seeded application", with_flag: { built_in_oauth_applications: true } do
     before do
       OAuthApplicationsSeeder.new.seed_data!
     end
