@@ -131,6 +131,8 @@ RSpec.describe "Custom Fields Multi-Project Activation", :js do
       project = create(:project)
       create(:custom_fields_project, custom_field:, project:)
 
+      visit custom_field_projects_path(custom_field)
+
       custom_field_projects_page.click_menu_item_of("Remove from project", project)
 
       expect(page).to have_no_text(project.name)
@@ -142,7 +144,7 @@ RSpec.describe "Custom Fields Multi-Project Activation", :js do
 
           pagination_links.each do |pagination_link|
             uri = URI.parse(pagination_link["href"])
-            expect(uri.path).to eq(custom_field_projects(custom_field))
+            expect(uri.path).to eq(custom_field_projects_path(custom_field))
           end
         end
       end
