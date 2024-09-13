@@ -129,23 +129,14 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
       respond_with_turbo_streams
     end
   rescue ActiveRecord::RecordNotFound
-    update_flash_message_via_turbo_stream message: t(:notice_project_not_found), full: true, dismiss_scheme: :hide,
-                                          scheme: :danger
-    update_project_list_via_turbo_stream
-
-    respond_with_turbo_streams
+    respond_with_project_not_found_turbo_streams
   end
 
   def find_custom_field_project_to_destroy
     @project = Project.find(params.to_unsafe_h[:custom_fields_project][:project_id])
     @custom_field_project = CustomFieldsProject.find_by!(custom_field: @custom_field, project: @project)
   rescue ActiveRecord::RecordNotFound
-    update_flash_message_via_turbo_stream(
-      message: t(:notice_project_not_found), full: true, dismiss_scheme: :hide, scheme: :danger
-    )
-    update_project_list_via_turbo_stream
-
-    respond_with_turbo_streams
+    respond_with_project_not_found_turbo_streams
   end
 
   def update_project_list_via_turbo_stream(url_for_action: action_name)
@@ -172,6 +163,14 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
                         .new(user: current_user, model: CustomFieldsProject.new, contract_class: EmptyContract)
                         .call(custom_field: @custom_field)
                         .result
+  end
+
+  def respond_with_project_not_found_turbo_streams
+    update_flash_message_via_turbo_stream message: t(:notice_project_not_found), full: true, dismiss_scheme: :hide,
+                                          scheme: :danger
+    update_project_list_via_turbo_stream
+
+    respond_with_turbo_streams
   end
 
   def include_sub_projects?
