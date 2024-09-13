@@ -44,10 +44,16 @@ class CustomStylesController < ApplicationController
                      only: UNGUARDED_ACTIONS
   no_authorization_required! *UNGUARDED_ACTIONS
 
+  def default_url_options
+    super.merge(tab: params[:tab])
+  end
   def show
     @custom_style = CustomStyle.current || CustomStyle.new
     @current_theme = @custom_style.theme
     @theme_options = options_for_theme_select
+    if params[:tab].blank?
+      redirect_to tab: 'interface'
+    end
   end
 
   def upsale; end
@@ -55,7 +61,7 @@ class CustomStylesController < ApplicationController
   def create
     @custom_style = CustomStyle.create(custom_style_params)
     if @custom_style.valid?
-      redirect_back(fallback_location: root_path)
+      redirect_to custom_style_path
     else
       flash[:error] = @custom_style.errors.full_messages
       render action: :show
@@ -65,7 +71,7 @@ class CustomStylesController < ApplicationController
   def update
     @custom_style = get_or_create_custom_style
     if @custom_style.update(custom_style_params)
-      redirect_back(fallback_location: root_path)
+      redirect_to custom_style_path
     else
       flash[:error] = @custom_style.errors.full_messages
       render action: :show
@@ -81,7 +87,7 @@ class CustomStylesController < ApplicationController
       @custom_style.export_cover_text_color = color
       @custom_style.save
     end
-    redirect_back(fallback_location: root_path)
+    redirect_to custom_style_path
   end
 
   def logo_download
@@ -148,7 +154,7 @@ class CustomStylesController < ApplicationController
     call.on_failure do
       flash[:error] = call.message
     end
-    redirect_back(fallback_location: root_path)
+    redirect_to custom_style_path
   end
 
   private
@@ -197,8 +203,7 @@ class CustomStylesController < ApplicationController
     if @custom_style.nil?
       return render_404
     end
-
     @custom_style.send(remove_method)
-    redirect_back(fallback_location: root_path)
+    redirect_to custom_style_path
   end
 end
