@@ -225,7 +225,7 @@ gem "view_component"
 gem "lookbook", "~> 2.3.0"
 
 # Require factory_bot for usage with openproject plugins testing
-gem "factory_bot", "~> 6.4.0", require: false
+gem "factory_bot", "~> 6.5.0", require: false
 # require factory_bot_rails for convenience in core development
 gem "factory_bot_rails", "~> 6.4.0", require: false
 
@@ -247,7 +247,7 @@ group :test do
   gem "rack_session_access"
   gem "rspec", "~> 3.13.0"
   # also add to development group, so 'spec' rake task gets loaded
-  gem "rspec-rails", "~> 6.1.0", group: :development
+  gem "rspec-rails", "~> 7.0.0", group: :development
 
   # Retry failures within the same environment
   gem "retriable", "~> 3.1.1"
@@ -398,4 +398,4 @@ end
 
 gem "openproject-octicons", "~>19.18.0"
 gem "openproject-octicons_helper", "~>19.18.0"
-gem "openproject-primer_view_components", "~>0.43.1"
+gem "openproject-primer_view_components", "~>0.46.1"

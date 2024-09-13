@@ -1,4 +1,4 @@
-The FeedbackDialog is used to provide the user feedback on a multi-step process (or a complex process). Unlike the `Banner`/`Flash`, the FeedbackDialog is intrusive and demands user attention. In some cases, it is the final step of a multi-step process, although it can also be triggered independently.
+The FeedbackDialog is used to provide the user feedback on any kind of process. Unlike the `Banner`/`Flash`, the FeedbackDialog is intrusive and demands user attention. In some cases, it is the final step of a multi-step process, although it can also be triggered independently.
 
 The FeedbackMessage is a sub-component (a variation of `Blankslate`) that is contained in the FeedbackDialog, but can also be used separately.
 
@@ -8,17 +8,14 @@ The FeedbackMessage is a sub-component (a variation of `Blankslate`) that is con
 
 ### Anatomy
 
-The FeedbackDialog is made up of three parts. The are variations of existing Primer components and the third is a blanket area for any additional content:
+The Feedback Dialog is a variation of a normal Primer Dialog, with two additional possible slots:
 
-- **FeedbackDialog** is the dialog modal, itself a variation of the `Dialog`
-- **FeedbackMessage** is what is contained in the dialog, itself a variation of 'Blankslate'.
-- **Additional content** can be placed below the FeedbackMessage when you need to include other important elements like a checkbox, more text or a banner.
-
-Both of these inherit all the properties of their original Primer components and as such can be adapted to a number of different use cases, as illustrated below. 
+- **Feedback Message** (mandatory) is what is contained in the dialog, itself a variation of 'Blankslate'.
+- **Additional content** (optional) can be placed below the FeedbackMessage when you need to include other important elements like a checkbox, more text or a banner.
 
 Please note that although these are OpenProject-specific variants, there is no additional spacing added to these components. The spacing is derived from the dialog's `overlayBody`, and from Blankslate, which FeedbackMessage is based on.
 
-In its default form, the FeedbackMessage contains a Blankslate with a green success icon and a heading. The description is optional, the close icon in the top right edge is visible and there is one button to close the dialog in the footer.
+In its default form, the FeedbackDialog contains a message with a green success icon and a heading. The message description is optional. The close icon in the top right edge is visible and there is one button to close the dialog in the footer.
 
 ### Options
 
@@ -36,7 +33,7 @@ If you would need or would like to use a different variant, please contact the U
 
 #### Do:
 
-- Use the FeedbackMessage to give feedback to the user as a part of a complex set of actions, whether that feedback is positive or negative.
+- Use the FeedbackDialog to give feedback to the user as a part of a complex set of actions, whether that feedback is positive or negative.
 - Use the simplest variant that will do the job, usually the default. Only choose variations or add additional elements if absolutely required.
 
 #### Don't:
@@ -54,11 +51,11 @@ The FeedbackDialog (or just the FeedbackMessage independently) is already used i
     - to ask the user to log in if the action they are trying to accomplish requires it
     - to warn the user about the consequences of removing a file storage from a project when they try to do this
 - **API Token generation** process (success or error)
-- **PDF export**, to inform the user of the status of the export job (waiting or successful)
+- **PDF export**, to inform the user of the status of the export job (loading, waiting or successful)
 
 ### Technical notes
 
-The FeedbackDialog offers a set of additional slots, which the normal Dialog does not:
+The FeedbackDialog offers a set of additional slots that the normal Dialog does not:
 
 * [`with_feedback_message`](../../inspect/primer/open_project/feedback_dialog/default)
   * it can then receive the normal slots that a `Blankslate` can receive

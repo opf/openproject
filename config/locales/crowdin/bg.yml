@@ -202,6 +202,11 @@ bg:
       title: "Персонализирани действия"
       description: "Потребителските действия са преки пътища с едно кликване до набор от предварително дефинирани действия, които можете да направите достъпни за определени работни пакети въз основа на статус, роля, тип или проект."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       За да добавите нови потребителски полета към даден проект, първо трябва да ги създадете, преди да можете да ги добавите към този проект.
     is_enabled_globally: "Активирано е глобално"
@@ -1944,6 +1949,7 @@ bg:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Оторизация"
   label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"

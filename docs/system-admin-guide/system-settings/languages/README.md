@@ -16,4 +16,4 @@ At the moment there are over 30 languages available.
 > [!NOTE]
 > Many languages are translated by the community. We highly appreciate if you want to [help translating OpenProject to your language](../../../development/translate-openproject).
 
-You can [choose your language in your user profile](../../../getting-started/my-account/#change-your-language).
+You can [choose your language in your user profile](../../../user-guide/my-account/#change-your-language).

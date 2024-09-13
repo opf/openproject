@@ -66,10 +66,27 @@ RSpec.describe "Job status", :js do
       status.update! payload: { redirect: home_url }
     end
 
-    it "does automatically redirect" do
+    it "does automatically redirect after 2 seconds" do
       visit "/job_statuses/#{status.job_id}"
+      sleep 2
 
-      expect(page).to have_current_path(home_path, wait: 10)
+      expect(page).to have_current_path(home_path)
+    end
+
+    context "when job redirect url is /work_package/:id" do
+      let(:work_package) { create(:work_package) }
+
+      before do
+        status.update! payload: { redirect: work_package_url(work_package) }
+      end
+
+      it "redirects to /projects/:identifier/work_packages/:id/activity when clicking the link without any delay" do
+        visit "/job_statuses/#{status.job_id}"
+        click_on I18n.t("job_status_dialog.redirect_link")
+
+        # should happen before the 2 seconds of autoredirect
+        expect(page).to have_current_path(project_work_package_url(work_package.project, work_package, "activity"), wait: 1)
+      end
     end
   end
 

@@ -24,4 +24,4 @@ it:
     label_meetings: 'Riunioni'
     work_packages:
       tabs:
-        meetings: 'Meetings'
+        meetings: 'Riunioni'

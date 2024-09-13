@@ -360,7 +360,7 @@ ru:
           "14_5":
             standard:
               new_features_html: >
-                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Keep and restore local versions of WYSIWYG content changes.</li> <li>Enable a storage for multiple projects at once.</li> <li>Export work packages in an updated modal with additional settings.</li> <li>Display custom field columns/filters in project lists also in the Community Edition.</li> <li>Support CloudFlare Turnstile as Captcha.</li> </ul>
+                Этот выпуск содержит различные новые функции и улучшения, такие как: <br> <ul class="%{list_styling_class}"> <li>Сохранение и восстановление локальных версий изменений содержимого WYSIWYG.</li> <li>Включение хранилища для нескольких проектов одновременно.</li> <li>Экспорт пакетов работ в обновленном модальном окне с дополнительными настройками.</li> <li>Отображение столбцов/фильтров настраиваемых полей в списках проектов.</li> <li>Поддержка CloudFlare Turnstile в качестве Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Подписаться на календарь"
       inital_setup_error_message: "Произошла ошибка при получении данных."
@@ -1193,7 +1193,7 @@ ru:
         other: "%{count} дней"
         zero: "0 дней"
       word:
-        one: "1 word"
+        one: "1 слово"
         few: "%{count} words"
         many: "%{count} words"
         other: "%{count} слов"

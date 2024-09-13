@@ -43,11 +43,12 @@ export default class FilterListController extends Controller {
 
   declare readonly filterTarget:HTMLInputElement;
   declare readonly noResultsTextTarget:HTMLInputElement;
+  declare readonly hasNoResultsTextTarget:boolean;
   declare readonly searchItemTargets:HTMLInputElement[];
   declare readonly clearButtonIdValue:string;
 
   connect():void {
-   document.getElementById(this.clearButtonIdValue)?.addEventListener('click', () => {
+    document.getElementById(this.clearButtonIdValue)?.addEventListener('click', () => {
       this.resetFilterViaClearButton();
     });
   }
@@ -66,23 +67,25 @@ export default class FilterListController extends Controller {
       const text = item.textContent?.toLowerCase();
 
       if (text?.includes(query)) {
-        (item as HTMLElement).classList.remove('d-none');
+        this.setVisibility(item, true);
         showNoResultsText = false;
       } else {
-        (item as HTMLElement).classList.add('d-none');
+        this.setVisibility(item, false);
       }
     });
 
-    if (showNoResultsText) {
-      this.noResultsTextTarget?.classList.remove('d-none');
-    } else {
-      this.noResultsTextTarget?.classList.add('d-none');
+    if (this.hasNoResultsTextTarget) {
+      this.setVisibility(this.noResultsTextTarget, showNoResultsText);
     }
   }
 
   resetFilterViaClearButton() {
     this.searchItemTargets.forEach((item) => {
-      (item as HTMLElement).classList.remove('d-none');
+      this.setVisibility(item, true);
     });
+  }
+
+  setVisibility(element:HTMLElement, visible:boolean) {
+    element.classList.toggle('d-none', !visible);
   }
 }

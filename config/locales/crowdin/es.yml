@@ -199,6 +199,11 @@ es:
       title: "Acciones personalizadas"
       description: "Las acciones personalizadas son accesos directos de un solo clic para crear conjuntos de acciones predefinidas que pueden utilizarse en ciertos paquetes de trabajo basados en el estado, rol, tipo o proyecto."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Para agregar nuevos campos personalizados a un proyecto, primero debe crearlos, y luego añadirlos a este proyecto.
     is_enabled_globally: "Está activado a nivel global"
@@ -1941,6 +1946,7 @@ es:
   label_attribute_expand_text: "El texto completo para «%{attribute}»"
   label_authentication: "Autentificación"
   label_authentication_settings: "Ajustes de autenticación"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Roles globales disponibles"
   label_available_project_attributes: "Atributos del proyecto disponibles"
   label_available_project_forums: "Foros disponibles"
