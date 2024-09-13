@@ -259,7 +259,7 @@ module API
 
         link :addChild,
              cache_if: -> { add_work_packages_allowed? } do
-          next if represented.milestone? || represented.new_record?
+          next if represented.milestone? || represented.new_record? || represented.project.nil?
 
           {
             href: api_v3_paths.work_packages_by_project(represented.project.identifier),
