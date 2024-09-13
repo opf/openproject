@@ -29,6 +29,39 @@
 require "spec_helper"
 
 RSpec.describe Queries::Projects::Orders::CustomFieldOrder do
+  describe ".key" do
+    before do
+      where = double
+      where_not = double
+      visible = double
+
+      allow(ProjectCustomField).to receive(:where).and_return(where)
+      allow(where).to receive(:not).with(field_format: %w[text]).and_return(where_not)
+      allow(where_not).to receive(:visible).and_return(visible)
+      allow(visible).to receive(:pluck).with(:id).and_return([42])
+    end
+
+    it "matches key in correct format for existing custom field" do
+      expect(described_class.key).to match("cf_42")
+    end
+
+    it "doesn't match key in correct format for not found custom field" do
+      expect(described_class.key).not_to match("cf_43")
+    end
+
+    it "doesn't match non numerical id" do
+      expect(described_class.key).not_to match("cf_cf")
+    end
+
+    it "doesn't match with prefix" do
+      expect(described_class.key).not_to match("xcf_42")
+    end
+
+    it "doesn't match with suffix" do
+      expect(described_class.key).not_to match("cf_42x")
+    end
+  end
+
   describe "#available?" do
     let(:instance) { described_class.new("cf_#{custom_field.id}") }
 

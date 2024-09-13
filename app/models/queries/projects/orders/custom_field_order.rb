@@ -36,10 +36,10 @@ class Queries::Projects::Orders::CustomFieldOrder < Queries::Orders::Base
 
   def self.key
     valid_ids = RequestStore.fetch(:custom_sortable_project_custom_fields) do
-      ProjectCustomField.where.not(field_format: EXCLUDED_CUSTOM_FIELD_TYPES).visible.pluck(:id).join("|")
+      ProjectCustomField.where.not(field_format: EXCLUDED_CUSTOM_FIELD_TYPES).visible.pluck(:id)
     end
 
-    /cf_(#{valid_ids})/
+    /\Acf_(#{valid_ids.join('|')})\z/
   end
 
   def custom_field
