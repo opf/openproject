@@ -91,7 +91,7 @@
         <% @active_devices.each do |device| %>
           <% next if device.id == @used_device.id %>
           <li>
-            <%= form_tag({ action: :retry }, method: :post) do %>
+            <%= form_tag({ action: :retry }, method: :post, data: { turbo: false }) do %>
               <%= hidden_field_tag 'use_device', device.id %>
               <%= submit_tag device.redacted_identifier, class: 'button--link' %>
             <% end %>
