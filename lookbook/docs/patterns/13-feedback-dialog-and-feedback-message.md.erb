@@ -18,7 +18,7 @@ Both of these inherit all the properties of their original Primer components and
 
 Please note that although these are OpenProject-specific variants, there is no additional spacing added to these components. The spacing is derived from the dialog's `overlayBody`, and from Blankslate, which FeedbackMessage is based on.
 
-In it's default form, the FeedbackMessage contains a Blankslate with a green success icon and a heading. The description is optional, the close icon in the top right edge is visible and there is one button to close the dialog in the footer.
+In its default form, the FeedbackMessage contains a Blankslate with a green success icon and a heading. The description is optional, the close icon in the top right edge is visible and there is one button to close the dialog in the footer.
 
 ### Options
 
@@ -58,7 +58,7 @@ The FeedbackDialog (or just the FeedbackMessage independently) is already used i
 
 ### Technical notes
 
-The FeedbackDialog offer a set of additional slots, which the normal Dialog does not have
+The FeedbackDialog offers a set of additional slots, which the normal Dialog does not:
 
 * [`with_feedback_message`](../../inspect/primer/open_project/feedback_dialog/default)
   * it can then receive the normal slots that a `Blankslate` can receive
@@ -77,7 +77,7 @@ end
 
 ### Examples
 
-Please visit the the [previews](../../inspect/primer/open_project/feedback_dialog/playground) for a detailed overview of the possible options.
+Please consult the the [previews](../../inspect/primer/open_project/feedback_dialog/playground) for a detailed overview of the possible options.
 
 #### Custom icon
 <%= embed Patterns::FeedbackDialogPreview, :custom_icon, panels: %i[source] %>
