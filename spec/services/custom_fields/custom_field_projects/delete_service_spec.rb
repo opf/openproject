@@ -36,5 +36,20 @@ RSpec.describe CustomFields::CustomFieldProjects::DeleteService do
     let(:contract_class) do
       "#{namespace}::UpdateContract".constantize
     end
+
+    before do
+      allow(CustomFieldsProject).to receive(:where).and_return(instance_double(ActiveRecord::Relation,
+                                                                               delete_all: model_destroy_result))
+    end
+
+    context "with transaction rollback" do
+      before do
+        allow(CustomFieldsProject).to receive(:where).and_raise(ActiveRecord::Rollback)
+      end
+
+      it "is unsuccessful" do
+        expect(subject).to be_failure
+      end
+    end
   end
 end

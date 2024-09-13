@@ -30,11 +30,18 @@ module CustomFields
   module CustomFieldProjects
     class DeleteService < ::BaseServices::Delete
       def destroy(custom_field_project)
+        delete_result = delete(custom_field_id: custom_field_project.custom_field_id,
+                               project_id: custom_field_project.project_id)
+        ActiveRecord::Type::Boolean.new.cast(delete_result)
+      end
+
+      # `custom_fields_projects` table has no `id` column, hence no primary key. #destroy method would not work
+      # Note: `delete_all` goes straight to the database and does not trigger callbacks
+      #
+      # @return [Integer] number of rows deleted
+      def delete(custom_field_id:, project_id:)
         CustomFieldsProject.transaction do
-          # `custom_fields_projects` table has no `id` column, hence no primary key. #destroy method would not work
-          # Note: `delete_all` does not trigger callbacks
-          CustomFieldsProject.where(custom_field_id: custom_field_project.custom_field_id,
-                                    project_id: custom_field_project.project_id).delete_all
+          CustomFieldsProject.where(custom_field_id:, project_id:).delete_all
         end
       end
 
