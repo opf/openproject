@@ -32,34 +32,15 @@
     -webkit-overflow-scrolling: touch
     height: 100%
 
-  // ------------------- BEGIN CHANGED SCROLL BEHAVIOR
-  // Change scroll behavior on mobile:
-  // Let the window be the one who scrolls.
-  // Thus we make sure, that mobile browsers (like iOS Safari) hide their toolbars on scroll.
-  html
-    overflow: auto
-  body,
-  #main
-    overflow: visible
-
-  #wrapper,
-  #content-wrapper,
-  #content-body,
-  #content-bodyRight
-    overflow: hidden
-
   #main
     margin-top: var(--header-height)
 
-    ._header-scrolled &
+  ._header-scrolled
+    #main
       margin-top: 0
-
-  #content-wrapper
-    height: 100%
-    // Take care that the wrapper has the available screen height at the least
-    // Check for example notification center on mobile before changing that
-    min-height: calc(100vh - var(--header-height))
-  // ------------------- END CHANGED SCROLL BEHAVIOR
+    #main,
+    #content-wrapper
+      height: 100dvh
 
   #content-body,
   #content-header
