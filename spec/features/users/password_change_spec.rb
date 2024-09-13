@@ -98,12 +98,15 @@ RSpec.describe "random password generation", :js, :with_cuprite do
 
       # Logout and sign in with outdated password
       visit signout_path
+
       login_with user.login, password
+      wait_for_network_idle
       expect(page).to have_content "Invalid user or password"
 
       # Logout and sign in with new_passworwd
       visit signout_path
       login_with user.login, new_password
+      wait_for_network_idle
 
       visit my_account_path
       expect(page).to have_css(".account-menu-item.selected")

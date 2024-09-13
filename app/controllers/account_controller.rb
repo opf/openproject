@@ -397,12 +397,15 @@ class AccountController < ApplicationController
                                  show_user_name: true)
         else
           flash_and_log_invalid_credentials
+          render status: :unprocessable_entity
         end
       elsif user and user.invited?
         invited_account_not_activated(user)
+        render status: :unprocessable_entity
       else
         # incorrect password
         flash_and_log_invalid_credentials
+        render status: :unprocessable_entity
       end
     elsif user.new_record?
       onthefly_creation_failed(user, login: user.login, ldap_auth_source_id: user.ldap_auth_source_id)
