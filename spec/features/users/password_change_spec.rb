@@ -90,6 +90,7 @@ RSpec.describe "random password generation", :js, :with_cuprite do
       expect(Sessions::UserSession.for_user(user.id).count).to be >= 1
 
       click_on "Save"
+      wait_for_network_idle
       expect_flash(type: :info, message: I18n.t(:notice_account_password_updated))
 
       # The old session is removed

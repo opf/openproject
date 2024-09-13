@@ -64,7 +64,9 @@ module AuthenticationHelpers
                                  num_days: I18n.t("datetime.distance_in_words.x_days", count: Setting.autologin))
         check autologin_label
       end
+
       click_button I18n.t(:button_login)
+      wait_for_network_idle
     end
   end
 
