@@ -43,7 +43,9 @@ export class OpModalWrapperAugmentService {
     @Inject(DOCUMENT) protected documentElement:Document,
     protected injector:Injector,
     protected opModalService:OpModalService,
-  ) {}
+  ) {
+    documentElement.addEventListener('turbo:before-render', () => opModalService.close());
+  }
 
   /**
    * Create initial listeners for Rails-rendered modals

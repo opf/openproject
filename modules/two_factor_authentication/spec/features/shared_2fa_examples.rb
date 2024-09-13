@@ -44,6 +44,7 @@ RSpec.shared_examples "create enforced sms device" do
     SeleniumHubWaiter.wait
     fill_in "device_phone_number", with: "invalid"
     click_on "Continue"
+    wait_for_network_idle
 
     # Expect error on invalid phone
     expect_flash(type: :error, message: "Phone number must be of format +XX XXXXXXXXX")
@@ -51,12 +52,12 @@ RSpec.shared_examples "create enforced sms device" do
     SeleniumHubWaiter.wait
     fill_in "device_phone_number", with: "+49 123456789"
     click_on "Continue"
+    wait_for_network_idle
 
     # Confirm page
     expect(page).to have_css("h2", text: I18n.t("two_factor_authentication.devices.confirm_device"))
     expect(page).to have_css("input#otp")
 
-    SeleniumHubWaiter.wait
     # Fill in wrong token
     fill_in "otp", with: "whatever"
 
