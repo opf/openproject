@@ -50,11 +50,13 @@ RSpec.describe "Authentication Stages" do
   def expect_logged_in(path = my_page_path)
     expect(page).to have_current_path(path)
     visit my_account_path
+    wait_for_network_idle
     expect(page).to have_css(".form--field-container", text: user.login)
   end
 
   def expect_not_logged_in
     visit my_account_path
+    wait_for_netowrk_idle
     expect(page).to have_no_css(".form--field-container", text: user.login)
   end
 

@@ -1,23 +1,23 @@
 def first_login_step
   visit signin_path
-  SeleniumHubWaiter.wait
   within("#login-form") do
     fill_in("username", with: user.login)
     fill_in("password", with: user_password)
     click_link_or_button I18n.t(:button_login)
   end
+  wait_for_network_idle
 end
 
 def two_factor_step(token)
   expect(page).to have_css("input#otp")
-  SeleniumHubWaiter.wait
   fill_in "otp", with: token
   click_button I18n.t(:button_login)
+  wait_for_network_idle
 end
 
 def expect_logged_in
   visit my_account_path
-  SeleniumHubWaiter.wait
+  wait_for_network_idle
   expect(page).to have_css(".form--field-container", text: user.login)
 end
 

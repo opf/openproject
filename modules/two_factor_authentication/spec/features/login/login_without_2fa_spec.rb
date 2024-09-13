@@ -1,7 +1,10 @@
 require_relative "../../spec_helper"
 require_relative "../shared_2fa_examples"
 
-RSpec.describe "Login with no required OTP", :js, with_config: { "2fa": { active_strategies: [:developer] } } do
+RSpec.describe "Login with no required OTP",
+               :js,
+               :with_cuprite,
+               with_config: { "2fa": { active_strategies: [:developer] } } do
   let(:user_password) { "bob!" * 4 }
   let(:user) do
     create(:user,
