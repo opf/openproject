@@ -60,6 +60,36 @@ This helper allows to render an anymous form instance, avoiding the need to
 create a dedicated form class. This can be useful for simple forms or when you
 don't want to pollute the form class namespace.
 
+The above example which was needing a dedicated `TextFieldAndCheckboxForm` form
+class can be rewritten like this:
+
+```erb
+<%%=
+primer_form_with(url: "/foo") do |f|
+  render_inline_form(f) do |my_form|
+    my_form.text_field(
+      name: :ultimate_answer,
+      label: "Ultimate answer",
+      required: true,
+      caption: "The answer to life, the universe, and everything"
+    )
+
+    my_form.check_box(
+      name: :enable_ipd,
+      label: "Enable the Infinite Improbability Drive",
+      caption: "Cross interstellar distances in a mere nothingth of a second."
+    )
+  end
+end
+%>
+```
+
+### `FormObject#html_content` to mix form fields and html content
+
+This helper allows to render non-form content in a form. For instance it can be
+used to render a description box inside a form, an image, or whatever makes
+sense for the form being built.
+
 ```ruby
 class TextFieldWithWarningForm < ApplicationForm
   attr_reader :warning
@@ -71,8 +101,8 @@ class TextFieldWithWarningForm < ApplicationForm
 
   form do |my_form|
     my_form.text_field(
-      name: :answer,
-      label: "answer",
+      name: :full_name,
+      label: "Full name",
       required: true
     )
 
@@ -85,21 +115,6 @@ class TextFieldWithWarningForm < ApplicationForm
     my_form.submit(name: :submit, label: "Save")
   end
 end
-```
-
-### `FormObject#html_content` to mix form fields and html content
-
-This helper allows to render non-form content in a form. For instance it can be
-used to render a description box inside a form, an image, or whatever makes
-sense for the form being built.
-
-```erb
-<%%= primer_form_with(url: "/foo") do |f| %>
-  <%%= render(TextFieldAndCheckboxForm.new(f)) %>
-  <%%= f.html_content do %>
-    <%%= render(MessageComponent.new(icon: :info, message: "This will be fine!")) %>
-  <%% end %>
-<%% end %>
 ```
 
 ## Forms for administration pages
@@ -166,8 +181,8 @@ or configuration files), the field name has to be translated and the value must
 be read from `Settings`. Entering all this information manually is tedious and
 error prone.
 
-In this case, `settings_form` can be usedinstead of `form` to get a form
-instance with knowledge about to render fields for settings.
+In this case, `settings_form` can be used instead of `form` to get a form
+instance with knowledge about how render fields for settings.
 
 The above example then becomes:
 
@@ -200,7 +215,7 @@ end
 It is easier to write and read.
 
 Under the hood, the form object is decorated with `SettingsFormDecorator`.
-That's where all the helper methods are defined. There are not much for now, but
+That's where all the helper methods are defined. There aren't many for now, but
 this is intended to grow to support more advanced form features for
 administration pages.
 

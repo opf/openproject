@@ -34,7 +34,7 @@ require "spec_helper"
 RSpec.describe Admin::Settings::AggregationSettingsController do
   shared_let(:user) { create(:admin) }
 
-  shared_current_user { user }
+  current_user { user }
 
   include_examples "GET #show requires admin permission and renders template", path: "aggregation_settings"
 end

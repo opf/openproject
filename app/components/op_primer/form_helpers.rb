@@ -51,7 +51,7 @@ module OpPrimer
     #     end
     #   end
     #
-    # @param f [Object] The form object to be used for the form.
+    # @param form_builder [Object] The form builder object to be used for the form.
     # @param blk [Proc] A block that defines the form structure.
     def render_inline_form(form_builder, &blk)
       form_class = Class.new(ApplicationForm) do
@@ -85,7 +85,7 @@ module OpPrimer
     #     end
     #   end
     #
-    # @param f [Object] The form object to be used for the form.
+    # @param form_builder [Object] The form builder object to be used for the form.
     # @param blk [Proc] A block that defines the form structure.
     def render_inline_settings_form(form_builder, &blk)
       form_class = Class.new(ApplicationForm) do
