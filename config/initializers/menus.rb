@@ -300,15 +300,15 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :users_and_permissions
 
   menu.push :admin_work_packages,
-            { controller: "/admin/settings/work_packages_settings", action: :show },
+            { controller: "/admin/settings/work_packages_general", action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_work_package_plural,
             icon: "op-view-list"
 
-  menu.push :work_packages_setting,
-            { controller: "/admin/settings/work_packages_settings", action: :show },
+  menu.push :work_packages_general,
+            { controller: "/admin/settings/work_packages_general", action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_work_packages_settings,
+            caption: :label_general,
             parent: :admin_work_packages
 
   menu.push :types,
@@ -321,8 +321,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/statuses" },
             if: Proc.new { User.current.admin? },
             caption: :label_status,
-            parent: :admin_work_packages,
-            html: { class: "statuses" }
+            parent: :admin_work_packages
+
+  menu.push :progress_tracking,
+            { controller: "/admin/settings/progress_tracking", action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_progress_tracking,
+            parent: :admin_work_packages
 
   menu.push :workflows,
             { controller: "/workflows", action: "edit" },

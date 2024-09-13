@@ -2427,6 +2427,7 @@ en:
   label_product_version: "Product version"
   label_profile: "Profile"
   label_percent_complete: "% Complete"
+  label_progress_tracking: "Progress tracking"
   label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -2612,7 +2613,6 @@ en:
   label_work_package_new: "New work package"
   label_work_package_edit: "Edit work package %{name}"
   label_work_package_plural: "Work packages"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Work package status"
   label_work_package_status_new: "New status"
   label_work_package_status_plural: "Work package statuses"
@@ -3294,9 +3294,15 @@ en:
     This defines what is considered a "day" when displaying duration in days and hours
     (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value.
+    If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it.
+    Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work.
     In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.

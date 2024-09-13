@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { @custom_action.name }
     header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
-                             { href: admin_settings_work_package_tracking_path, text: t(:label_work_package_plural) },
+                             { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
                              { href: custom_actions_path, text: t("custom_actions.plural") },
                              @custom_action.name ])
   end

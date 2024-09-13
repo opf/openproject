@@ -31,12 +31,12 @@
 
 require "spec_helper"
 
-RSpec.describe Admin::Settings::WorkPackagesSettingsController do
+RSpec.describe Admin::Settings::ProgressTrackingController do
   shared_let(:user) { create(:admin) }
 
   current_user { user }
 
-  require_admin_and_render_template("work_packages_settings")
+  include_examples "GET #show requires admin permission and renders template", path: "progress_tracking"
 
   context "when changing progress calculation from work-based to status-based" do
     shared_let(:status) { create(:status, default_done_ratio: 42) }

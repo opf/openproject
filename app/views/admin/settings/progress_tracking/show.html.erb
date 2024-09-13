@@ -27,19 +27,46 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{Status.model_name.human} #{h @status.name}" %>
+<% html_title t(:label_administration), t(:label_work_package_plural), t(:label_progress_tracking) -%>
 
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { @status.name }
+    header.with_title { t(:label_progress_tracking) }
     header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
                              { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
-                             { href: statuses_path, text: t(:label_status) },
-                             @status.name])
+                             t(:label_progress_tracking)])
   end
 %>
 
-<%= labelled_tabular_form_for(@status) do |f| %>
-  <%= render partial: 'form', locals: { f: f } %>
-  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
-<% end %>
+<%=
+primer_form_with(
+  scope: :settings, action: :update, method: :patch,
+  data: {
+    application_target: "dynamic",
+    controller: "admin--progress-tracking",
+    admin__progress_tracking_target: "progressCalculationModeRadioGroup",
+    admin__progress_tracking_percent_complete_edition_active_value: OpenProject::FeatureDecisions.percent_complete_edition_active?,
+    admin__progress_tracking_initial_mode_value: Setting.work_package_done_ratio
+  }
+) do |f|
+  render_inline_settings_form(f) do |form|
+    form.radio_button_group(
+      name: "work_package_done_ratio",
+      values: WorkPackage::DONE_RATIO_OPTIONS,
+      button_options: {
+        data: { action: "admin--progress-tracking#displayWarning" }
+      }
+    )
+    form.html_content do
+      tag.div(class: "op-toast -warning -with-bottom-spacing",
+              hidden: true,
+              data: { admin__progress_tracking_target: "warningToast" }) do
+        tag.div(class: "op-toast--content") do
+          tag.p(data: { admin__progress_tracking_target: "warningText" })
+        end
+      end
+    end
+    form.submit
+  end
+end
+%>

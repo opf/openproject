@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,41 +24,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Workflows
-  class PageHeaderComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include ApplicationHelper
-
-    def initialize(state:)
-      super
-      @state = state
-    end
-
-    def breadcrumb_items
-      base_items = [{ href: admin_index_path, text: t("label_administration") },
-                    { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
-                    title]
-
-      if @state == :edit
-        base_items
-      else
-        base_items.insert(2, { href: edit_workflows_path, text: t(:label_workflow) })
-      end
-    end
-
-    def title
-      case @state
-      when :show
-        t(:label_workflow_summary)
-      when :copy
-        t(:label_workflow_copy)
-      when :edit
-        Workflow.model_name.human
-      else
-        t(:label_workflow_plural)
-      end
+module Admin::Settings
+  class ProgressTrackingController < ::Admin::SettingsController
+    current_menu_item :show do
+      :progress_tracking
     end
   end
 end

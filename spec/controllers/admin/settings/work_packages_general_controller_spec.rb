@@ -27,40 +27,14 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
+#
 
-module Workflows
-  class PageHeaderComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include ApplicationHelper
+require "spec_helper"
 
-    def initialize(state:)
-      super
-      @state = state
-    end
+RSpec.describe Admin::Settings::WorkPackagesGeneralController do
+  shared_let(:user) { create(:admin) }
 
-    def breadcrumb_items
-      base_items = [{ href: admin_index_path, text: t("label_administration") },
-                    { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
-                    title]
+  current_user { user }
 
-      if @state == :edit
-        base_items
-      else
-        base_items.insert(2, { href: edit_workflows_path, text: t(:label_workflow) })
-      end
-    end
-
-    def title
-      case @state
-      when :show
-        t(:label_workflow_summary)
-      when :copy
-        t(:label_workflow_copy)
-      when :edit
-        Workflow.model_name.human
-      else
-        t(:label_workflow_plural)
-      end
-    end
-  end
+  include_examples "GET #show requires admin permission and renders template", path: "work_packages_general"
 end

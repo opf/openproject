@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,10 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin::Settings
-  class WorkPackagesSettingsController < ::Admin::SettingsController
-    current_menu_item :show do
-      :work_packages_setting
+class ApplicationForm < Primer::Forms::Base
+  def self.settings_form
+    form do |f|
+      f = SettingsFormDecorator.new(f)
+      yield f
     end
+  end
+
+  def url_helpers
+    Rails.application.routes.url_helpers
   end
 end
