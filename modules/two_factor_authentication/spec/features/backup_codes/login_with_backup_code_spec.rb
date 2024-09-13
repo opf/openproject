@@ -33,12 +33,7 @@ RSpec.describe "Login with 2FA backup code",
       expect(valid_backup_codes.length).to eq(10)
 
       first_login_step
-
       expect(page).to have_css("#toggle_resend_form", wait: 10)
-
-      # Wait for the frontend to be loaded and initialized
-      # On downstream configurations, this might take longer than marionette selecting the element
-      expect_angular_frontend_initialized
 
       # Open other options
       # This may fail on the first request when the assets aren't ready yet
