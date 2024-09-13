@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,32 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# The logic for creating storage was extracted from the controller and put into
-# a service: https://dev.to/joker666/ruby-on-rails-pattern-service-objects-b19
-# Purpose: create and persist a Storages::Storage record
-# Used by: Storages::Admin::StoragesController#create, could also be used by the
-# API in the future.
-# The comments here are also valid for the other *_service.rb files
-module Storages::OAuthApplications
-  class CreateService
-    attr_accessor :user, :storage
+require "spec_helper"
+require_relative "shared_examples"
 
-    def initialize(storage:, user:)
-      @storage = storage
-      @user = user
-    end
+RSpec.describe OAuth::Applications::DeleteContract, type: :model do # rubocop:disable RSpec/SpecFilePathFormat
+  subject { described_class.new(application, user).validate }
 
-    def call
-      ::OAuth::Applications::CreateService
-        .new(user:)
-        .call(
-          name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.short_provider_type}.name")})",
-          redirect_uri: File.join(storage.host, "index.php/apps/integration_openproject/oauth-redirect"),
-          scopes: "api_v3",
-          confidential: true,
-          owner: storage.creator,
-          integration: storage
-        )
-    end
+  context "if oauth application is builtin" do
+    let(:user) { create(:admin) }
+    let(:application) { create(:oauth_application, builtin: true) }
+
+    it_behaves_like "oauth application contract is invalid"
+  end
+
+  context "if user is no admin" do
+    let(:user) { create(:user) }
+    let(:application) { create(:oauth_application) }
+
+    it_behaves_like "oauth application contract is invalid"
   end
 end

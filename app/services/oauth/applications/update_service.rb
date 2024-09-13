@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,32 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# The logic for creating storage was extracted from the controller and put into
-# a service: https://dev.to/joker666/ruby-on-rails-pattern-service-objects-b19
-# Purpose: create and persist a Storages::Storage record
-# Used by: Storages::Admin::StoragesController#create, could also be used by the
-# API in the future.
-# The comments here are also valid for the other *_service.rb files
-module Storages::OAuthApplications
-  class CreateService
-    attr_accessor :user, :storage
-
-    def initialize(storage:, user:)
-      @storage = storage
-      @user = user
-    end
-
-    def call
-      ::OAuth::Applications::CreateService
-        .new(user:)
-        .call(
-          name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.short_provider_type}.name")})",
-          redirect_uri: File.join(storage.host, "index.php/apps/integration_openproject/oauth-redirect"),
-          scopes: "api_v3",
-          confidential: true,
-          owner: storage.creator,
-          integration: storage
-        )
+module OAuth
+  module Applications
+    class UpdateService < ::BaseServices::Update
     end
   end
 end

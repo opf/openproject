@@ -1,0 +1,55 @@
+<%=
+  component_wrapper do
+    flex_layout do |index_container|
+      if OpenProject::FeatureDecisions.built_in_oauth_applications_active?
+        index_container.with_row do
+          render(border_box_container(mb: 4, data: {
+            'test-selector': "op-admin-oauth--built-in-applications"
+          })) do |component|
+            component.with_header(font_weight: :bold) do
+              render(Primer::Beta::Text.new) do
+                t("oauth.header.builtin_applications")
+              end
+            end
+
+            if @built_in_applications.empty?
+              component.with_row do
+                render(Primer::Beta::Text.new(data: {
+                  'test-selector': "op-admin-oauth--built-in-applications-placeholder"
+                })) do
+                  t("oauth.empty_application_lists")
+                end
+              end
+            end
+
+            @built_in_applications.each do |application|
+              component.with_row { render(OAuth::Applications::ApplicationRowComponent.new(application:)) }
+            end
+          end
+        end
+      end
+
+      index_container.with_row do
+        render(border_box_container(mb: 4)) do |component|
+          component.with_header(font_weight: :bold) do
+            render(Primer::Beta::Text.new) do
+              t("oauth.header.other_applications")
+            end
+          end
+
+          if @other_applications.empty?
+            component.with_row do
+              render(Primer::Beta::Text.new(data: { 'test-selector': "op-admin-oauth--applications-placeholder" })) do
+                t("oauth.empty_application_lists")
+              end
+            end
+          end
+
+          @other_applications.each do |application|
+            component.with_row { render(OAuth::Applications::ApplicationRowComponent.new(application:)) }
+          end
+        end
+      end
+    end
+  end
+%>

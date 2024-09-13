@@ -30,7 +30,7 @@ require "spec_helper"
 require "work_package"
 
 RSpec.describe OAuth::ApplicationsController do
-  let(:user) { build_stubbed(:admin) }
+  shared_let(:user) { create(:admin) }
   let(:application_stub) { build_stubbed(:oauth_application, id: 1, secret: "foo") }
 
   before do
@@ -38,7 +38,7 @@ RSpec.describe OAuth::ApplicationsController do
   end
 
   context "not logged as admin" do
-    let(:user) { build_stubbed(:user) }
+    shared_let(:user) { create(:user) }
 
     it "does not grant access" do
       get :index
@@ -85,18 +85,16 @@ RSpec.describe OAuth::ApplicationsController do
   end
 
   describe "#create" do
-    before do
-      allow(Doorkeeper::Application)
-        .to receive(:new)
-        .and_return(application_stub)
-      expect(application_stub).to receive(:attributes=)
-      expect(application_stub).to receive(:save).and_return(true)
-      expect(application_stub).to receive(:plaintext_secret).and_return("secret!")
-    end
-
     it do
-      post :create, params: { application: { name: "foo" } }
-      expect(response).to redirect_to action: :show, id: application_stub.id
+      post :create, params: {
+        application: {
+          name: "foo",
+          redirect_uri: "urn:ietf:wg:oauth:2.0:oob"
+        }
+      }
+      expect(response).to be_redirect
+      app = Doorkeeper::Application.last
+      expect(app.name).to eq "foo"
     end
   end
 

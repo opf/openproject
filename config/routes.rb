@@ -465,7 +465,11 @@ Rails.application.routes.draw do
     resources :custom_actions, except: :show
 
     namespace :oauth do
-      resources :applications
+      resources :applications do
+        member do
+          post :toggle
+        end
+      end
     end
   end
 

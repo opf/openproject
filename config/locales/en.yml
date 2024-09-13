@@ -712,6 +712,8 @@ en:
         uid: "Client ID"
         secret: "Client secret"
         owner: "Owner"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Redirect URI"
         client_credentials_user_id: "Client Credentials User ID"
         scopes: "Scopes"
@@ -2148,6 +2150,7 @@ en:
   label_copy_project: "Copy project"
   label_core_version: "Core version"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Current status"
   label_current_version: "Current version"
   label_custom_field_add_no_type: "Add this field to a work package type"
@@ -4001,12 +4004,16 @@ en:
 
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth application"
       plural: "OAuth applications"
       named: "OAuth application '%{name}'"
       new: "New OAuth application"
+      non_confidential: Non confidential
       default_scopes: "(Default scopes)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "The name of your application. This will be displayed to other users upon authorization."
         redirect_uri_html: >
           The allowed URLs authorized users can be redirected to. One entry per line.
@@ -4017,6 +4024,10 @@ en:
         client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
         register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Client ID"
     client_secret_notice: >
       This is the only time we can print the client secret, please note it down and keep it secure.

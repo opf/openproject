@@ -29,7 +29,6 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title t(:label_administration), t('oauth.application.singular'), h(@application.name) -%>
 <% local_assigns[:additional_breadcrumb] = h(@application.name) %>
 
-
 <%= render OAuth::ShowPageHeaderComponent.new(application: @application) %>
 
 <%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
@@ -70,6 +69,11 @@ See COPYRIGHT and LICENSE files for more details.
   <% component.with_attribute(
     key: @application.class.human_attribute_name(:confidential),
     value: @application.confidential? ? t(:general_text_Yes) : t(:general_text_No)
+  ) %>
+
+  <% component.with_attribute(
+    key: @application.class.human_attribute_name(:enabled),
+    value: @application.enabled? ? t(:general_text_Yes) : t(:general_text_No)
   ) %>
 
   <% component.with_attribute(

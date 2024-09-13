@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,33 +27,37 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+class OAuthApplicationsSeeder < Seeder
+  OPENPROJECT_MOBILE_APP_UID = "DgJZ7Rat23xHZbcq_nxPg5RUuxljonLCN7V7N7GoBAA"
 
-# The logic for creating storage was extracted from the controller and put into
-# a service: https://dev.to/joker666/ruby-on-rails-pattern-service-objects-b19
-# Purpose: create and persist a Storages::Storage record
-# Used by: Storages::Admin::StoragesController#create, could also be used by the
-# API in the future.
-# The comments here are also valid for the other *_service.rb files
-module Storages::OAuthApplications
-  class CreateService
-    attr_accessor :user, :storage
-
-    def initialize(storage:, user:)
-      @storage = storage
-      @user = user
+  def seed_data!
+    call = create_app
+    unless call.success?
+      print_error "Seeding mobile oauth application failed:"
+      call.errors.full_messages.each do |msg|
+        print_error "  #{msg}"
+      end
     end
+  end
 
-    def call
-      ::OAuth::Applications::CreateService
-        .new(user:)
-        .call(
-          name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.short_provider_type}.name")})",
-          redirect_uri: File.join(storage.host, "index.php/apps/integration_openproject/oauth-redirect"),
-          scopes: "api_v3",
-          confidential: true,
-          owner: storage.creator,
-          integration: storage
-        )
-    end
+  def applicable?
+    Doorkeeper::Application.find_by(id: OPENPROJECT_MOBILE_APP_UID).nil?
+  end
+
+  def not_applicable_message
+    "No need to seed oauth applications as they are already present."
+  end
+
+  def create_app
+    OAuth::Applications::CreateService
+      .new(user: User.system)
+      .call(
+        enabled: true,
+        name: "OpenProject Mobile App",
+        redirect_uri: "openprojectapp://oauth-callback",
+        builtin: true,
+        confidential: false,
+        uid: OPENPROJECT_MOBILE_APP_UID
+      )
   end
 end

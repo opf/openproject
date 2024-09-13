@@ -26,32 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# The logic for creating storage was extracted from the controller and put into
-# a service: https://dev.to/joker666/ruby-on-rails-pattern-service-objects-b19
-# Purpose: create and persist a Storages::Storage record
-# Used by: Storages::Admin::StoragesController#create, could also be used by the
-# API in the future.
-# The comments here are also valid for the other *_service.rb files
-module Storages::OAuthApplications
-  class CreateService
-    attr_accessor :user, :storage
+module OAuth
+  module Applications
+    class IndexComponent < ApplicationComponent
+      include ApplicationHelper
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-    def initialize(storage:, user:)
-      @storage = storage
-      @user = user
-    end
+      def initialize(oauth_applications:)
+        @built_in_applications = oauth_applications.select(&:builtin?)
+        @other_applications = oauth_applications.reject(&:builtin?)
 
-    def call
-      ::OAuth::Applications::CreateService
-        .new(user:)
-        .call(
-          name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.short_provider_type}.name")})",
-          redirect_uri: File.join(storage.host, "index.php/apps/integration_openproject/oauth-redirect"),
-          scopes: "api_v3",
-          confidential: true,
-          owner: storage.creator,
-          integration: storage
-        )
+        super
+      end
     end
   end
 end

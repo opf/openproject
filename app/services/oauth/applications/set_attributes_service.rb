@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -30,46 +28,25 @@
 
 module OAuth
   module Applications
-    class TableComponent < ::TableComponent
-      class << self
-        def row_class
-          ::OAuth::Applications::RowComponent
+    class SetAttributesService < ::BaseServices::SetAttributes
+      private
+
+      def set_default_attributes(*)
+        model.extend(OpenProject::ChangedBySystem)
+        model.change_by_system do
+          set_secret_and_id
+          set_default_owner unless model.owner_id
         end
       end
 
-      def initial_sort
-        %i[id asc]
+      def set_secret_and_id
+        model.renew_secret if model.secret.blank?
+        model.uid = Doorkeeper::OAuth::Helpers::UniqueToken.generate if model.uid.blank?
       end
 
-      def sortable?
-        false
-      end
-
-      def columns
-        headers.map(&:first)
-      end
-
-      def inline_create_link
-        link_to new_oauth_application_path,
-                aria: { label: t("oauth.application.new") },
-                class: "wp-inline-create--add-link",
-                title: t("oauth.application.new") do
-          helpers.op_icon("icon icon-add")
-        end
-      end
-
-      def empty_row_message
-        I18n.t :no_results_title_text
-      end
-
-      def headers
-        [
-          ["name", { caption: ::Doorkeeper::Application.human_attribute_name(:name) }],
-          ["owner", { caption: ::Doorkeeper::Application.human_attribute_name(:owner) }],
-          ["client_credentials", { caption: I18n.t("oauth.client_credentials") }],
-          ["redirect_uri", { caption: ::Doorkeeper::Application.human_attribute_name(:redirect_uri) }],
-          ["confidential", { caption: ::Doorkeeper::Application.human_attribute_name(:confidential) }]
-        ]
+      def set_default_owner
+        model.owner = user
+        model.owner_type = "User"
       end
     end
   end
