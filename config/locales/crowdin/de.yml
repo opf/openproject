@@ -630,6 +630,8 @@ de:
         uid: "Client-ID"
         secret: "Clientschlüssel"
         owner: "Besitzer"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Redirect URI"
         client_credentials_user_id: "Client Credentials User-ID"
         scopes: "Geltungsbereiche"
@@ -2021,6 +2023,7 @@ de:
   label_copy_project: "Projekt kopieren"
   label_core_version: "Core Version"
   label_core_build: "Core-Buildinformation"
+  label_created_by: "Created by %{user}"
   label_current_status: "Gegenwärtiger Status"
   label_current_version: "Gegenwärtige Version"
   label_custom_field_add_no_type: "Dieses Feld zu einem Arbeitspaket-Typ hinzufügen"
@@ -2300,6 +2303,7 @@ de:
   label_product_version: "Produktversion"
   label_profile: "Profil"
   label_percent_complete: "% abgeschlossen"
+  label_progress_tracking: "Progress tracking"
   label_project: "Projekt"
   label_project_activity: "Projektaktivität"
   label_project_attribute_plural: "Projekt-Attribute"
@@ -2485,7 +2489,6 @@ de:
   label_work_package_new: "Neues Arbeitspaket"
   label_work_package_edit: "Arbeitspaket %{name} editieren"
   label_work_package_plural: "Arbeitspakete"
-  label_work_packages_settings: "Arbeitspaket-Einstellungen"
   label_work_package_status: "Arbeitspaket-Status"
   label_work_package_status_new: "Neuer Status"
   label_work_package_status_plural: "Arbeitspaket-Status"
@@ -3124,9 +3127,13 @@ de:
   setting_hours_per_day_explanation: >-
     Dies legt fest, was als "Tag" angesehen wird, wenn eine zeitliche Dauer angezeigt werden (zum Beispiel: Wenn die Länge eines Tages 8 Stunden beträgt, wird eine Eingabe von 32 Stunden als 4 Tage angezeigt).
   setting_invitation_expiration_days: "Aktivierungs-Mail läuft ab nach"
-  setting_work_package_done_ratio: "Fortschrittsberechnung"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Arbeitsbezogen"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Statusbezogen"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     Im <b>arbeitsbezogenen</b> Modus beschreibt % abgeschlossen das Verhältnis zwischen verbeibendem Aufwand und Gesamtaufwand. Im <b>statusbasierten</b> Modus ist jedem Status ein Wert für % abgeschlossen zugeordnet. Wenn Sie den Status ändern, ändert sich % abgeschlossen.
   setting_work_package_done_ratio_explanation_html: >
@@ -3722,12 +3729,16 @@ de:
     close_warning: "Diese Warnung ignorieren."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth-Anwendung"
       plural: "OAuth-Anwendungen"
       named: "OAuth-Anwendung '%{name}'"
       new: "Neue OAuth-Anwendung"
+      non_confidential: Non confidential
       default_scopes: "(Voreingestellte Geltungsbereiche)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Der Name Ihrer OAuth-Anwendung. Dieser wird anderen Benutzern bei der Autorisierung angezeigt."
         redirect_uri_html: >
           Die erlaubten URLs auf welche autorisierte Benutzer weitergeleitet werden können. Ein Eintrag pro Zeile. <br/> Wenn Sie eine Desktop-Anwendung registrieren, verwenden Sie die folgende URL.
@@ -3736,6 +3747,10 @@ de:
         client_credential_user_id: "Optionaler Nutzer, der bei der Nutzung dieser Anwendung verkörpert wird. Leer lassen, um nur öffentlichen Zugriff zu erlauben"
         register_intro: "Wenn Sie eine OAuth API-Client-Anwendung für OpenProject entwickeln, können Sie es mit diesem Formular für alle Benutzer registrieren."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Client-ID"
     client_secret_notice: >
       Dies ist das einzige Mal, dass wir das Client-Geheimnis anzeigen können. Bitte speichern Sie es ab und halten Sie es sicher. Es sollte als Passwort behandelt werden und kann später nicht mehr von OpenProject abgerufen werden.

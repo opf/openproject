@@ -631,6 +631,8 @@ vi:
         uid: "ID Khách hàng"
         secret: "Bí mật khách hàng"
         owner: "Người sở hữu"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "URI đổi hướng"
         client_credentials_user_id: "ID người dùng thông tin xác thực của khách hàng"
         scopes: "Phạm vi"
@@ -1994,6 +1996,7 @@ vi:
   label_copy_project: "Sao chép dự án"
   label_core_version: "Phiên bản lõi"
   label_core_build: "Xây dựng lõi"
+  label_created_by: "Created by %{user}"
   label_current_status: "Tình trạng hiện tại"
   label_current_version: "Phiên bản hiện tại"
   label_custom_field_add_no_type: "Thêm trường này vào một loại work package"
@@ -2273,6 +2276,7 @@ vi:
   label_product_version: "Phiên bản sản phẩm"
   label_profile: "Hồ sơ"
   label_percent_complete: "% Hoàn thành"
+  label_progress_tracking: "Progress tracking"
   label_project: "Dự án"
   label_project_activity: "Hoạt động dự án"
   label_project_attribute_plural: "Các thuộc tính dự án"
@@ -2458,7 +2462,6 @@ vi:
   label_work_package_new: "Work package mới"
   label_work_package_edit: "Chỉnh sửa work package %{name}"
   label_work_package_plural: "Work Packages"
-  label_work_packages_settings: "Cài đặt gói công việc"
   label_work_package_status: "Trạng thái gói công việc"
   label_work_package_status_new: "Trạng thái mới"
   label_work_package_status_plural: "Tình trạng work package"
@@ -3095,9 +3098,13 @@ vi:
   setting_hours_per_day_explanation: >-
     Điều này xác định cái gì được coi là một "ngày" khi hiển thị thời gian theo ngày và giờ (ví dụ, nếu một ngày là 8 giờ, 32 giờ sẽ là 4 ngày).
   setting_invitation_expiration_days: "Email kích hoạt hết hạn sau"
-  setting_work_package_done_ratio: "Tính toán tiến độ"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Dựa trên công việc"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Dựa trên trạng thái"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     Ở chế độ <b>dựa trên công việc</b>, % Hoàn thành được tính từ lượng công việc đã hoàn thành so với tổng công việc. Ở chế độ <b>dựa trên trạng thái</b>, mỗi trạng thái có giá trị % Hoàn thành liên quan đến nó. Thay đổi trạng thái sẽ thay đổi % Hoàn thành.
   setting_work_package_done_ratio_explanation_html: >
@@ -3692,12 +3699,16 @@ vi:
     close_warning: "Bỏ qua cảnh báo này."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "Ứng dụng OAuth"
       plural: "Các ứng dụng OAuth"
       named: "Ứng dụng OAuth '%{name}'"
       new: "Ứng dụng OAuth mới"
+      non_confidential: Non confidential
       default_scopes: "(Phạm vi mặc định)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Tên ứng dụng của bạn. Điều này sẽ được hiển thị cho người dùng khác khi ủy quyền."
         redirect_uri_html: >
           Các URL người dùng được ủy quyền có thể được chuyển hướng đến. Mỗi mục nhập trên một dòng. <br/> Nếu bạn đang đăng ký một ứng dụng máy tính để bàn, hãy sử dụng URL sau.
@@ -3706,6 +3717,10 @@ vi:
         client_credential_user_id: "ID người dùng tùy chọn để mạo danh khi khách hàng sử dụng ứng dụng này. Để trống để chỉ cho phép truy cập công cộng"
         register_intro: "Nếu bạn đang phát triển ứng dụng khách API OAuth cho OpenProject, bạn có thể đăng ký nó bằng cách sử dụng biểu mẫu này để tất cả người dùng sử dụng."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "ID khách hàng"
     client_secret_notice: >
       Đây là lần duy nhất chúng tôi có thể in bí mật của khách hàng, vui lòng ghi lại và giữ an toàn. Nó nên được đối xử như mật khẩu và không thể được OpenProject lấy lại sau này.

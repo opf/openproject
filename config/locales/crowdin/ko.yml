@@ -628,6 +628,8 @@ ko:
         uid: "고객 ID"
         secret: "클라이언트 비밀번호"
         owner: "소유자"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "리디렉션 URI"
         client_credentials_user_id: "클라이언트 자격 증명 사용자 ID"
         scopes: "범위"
@@ -1991,6 +1993,7 @@ ko:
   label_copy_project: "프로젝트 복사"
   label_core_version: "코어 버전"
   label_core_build: "코어 빌드"
+  label_created_by: "Created by %{user}"
   label_current_status: "현재 상태"
   label_current_version: "현재 버전"
   label_custom_field_add_no_type: "작업 패키지 유형에 이 필드 추가"
@@ -2270,6 +2273,7 @@ ko:
   label_product_version: "제품 버전"
   label_profile: "프로필"
   label_percent_complete: "완료 %"
+  label_progress_tracking: "Progress tracking"
   label_project: "프로젝트"
   label_project_activity: "프로젝트 활동"
   label_project_attribute_plural: "프로젝트 특성"
@@ -2455,7 +2459,6 @@ ko:
   label_work_package_new: "새 작업 패키지"
   label_work_package_edit: "작업 패키지 %{name} 편집"
   label_work_package_plural: "작업 패키지"
-  label_work_packages_settings: "작업 패키지 설정"
   label_work_package_status: "작업 패키지 상태"
   label_work_package_status_new: "새 상태"
   label_work_package_status_plural: "작업 패키지 상태"
@@ -3089,9 +3092,13 @@ ko:
   setting_hours_per_day_explanation: >-
     일 및 시간으로 기간을 표시할 때 "하루"로 간주되는 시간을 정의합니다(예: 하루가 8시간이면 32시간은 4일이 됩니다).
   setting_invitation_expiration_days: "활성화 이메일 만료 기간:"
-  setting_work_package_done_ratio: "진행률 계산"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "작업 기반"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "상태 기반"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     <b>작업 기반</b> 모드에서 완료 %는 총 작업 대비 완료된 작업을 기준으로 계산됩니다. <b>상태 기반</b> 모드에서는 각 상태에 완료 % 값이 연결되어 있습니다. 상태를 변경하면 완료 %도 변경됩니다.
   setting_work_package_done_ratio_explanation_html: >
@@ -3687,12 +3694,16 @@ ko:
     close_warning: "이 경고를 무시하십시오."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth 애플리케이션"
       plural: "OAuth 애플리케이션"
       named: "OAuth 애플리케이션 '%{name}'"
       new: "새로운 OAuth 애플리케이션"
+      non_confidential: Non confidential
       default_scopes: "(기본 범위)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "애플리케이션 이름입니다. 권한 부여 시 다른 사용자에게 표시됩니다."
         redirect_uri_html: >
           허용된 URL 인증 사용자로 리디렉션될 수 있습니다. 라인별로 하나의 항목이 있습니다. <br/> 데스크톱 애플리케이션을 등록하려면 다음 URL을 사용하세요.
@@ -3701,6 +3712,10 @@ ko:
         client_credential_user_id: "클라이언트가 이 애플리케이션을 사용할 때 가장하기 위한 선택적 사용자 ID입니다. 공용 액세스만 허용하려면 비워두세요."
         register_intro: "OpenProject용 OAuth API 클라이언트 애플리케이션을 개발할 경우 이 양식을 사용하여 모든 사용자가 사용할 수 있도록 등록할 수 있습니다."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "고객 ID"
     client_secret_notice: >
       클라이언트 비밀번호를 인쇄할 수 있는 유일한 순간입니다. 이 비밀번호를 기록하고 안전하게 보관하십시오. 이 비밀번호는 암호로 취급해야 하며 나중에 OpenProject로 검색할 수 없습니다.

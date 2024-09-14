@@ -650,6 +650,8 @@ cs:
         uid: "ID klienta"
         secret: "Tajný klíč klienta"
         owner: "Vlastník"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Přesměrovací URI"
         client_credentials_user_id: "Uživatelské ID klienta"
         scopes: "Rozsah"
@@ -2097,6 +2099,7 @@ cs:
   label_copy_project: "Kopírovat projekt"
   label_core_version: "Verze jádra"
   label_core_build: "Build jádra"
+  label_created_by: "Created by %{user}"
   label_current_status: "Aktuální stav"
   label_current_version: "Aktuální verze"
   label_custom_field_add_no_type: "Přidat toto pole k typu pracovního balíčku"
@@ -2376,6 +2379,7 @@ cs:
   label_product_version: "Verze produktu"
   label_profile: "Profil"
   label_percent_complete: "% Dokončeno"
+  label_progress_tracking: "Progress tracking"
   label_project: "Projekt"
   label_project_activity: "Aktivita projektu"
   label_project_attribute_plural: "Atributy projektu"
@@ -2561,7 +2565,6 @@ cs:
   label_work_package_new: "Nový pracovní balíček"
   label_work_package_edit: "Upravit pracovní balíček %{name}"
   label_work_package_plural: "Pracovní balíčky"
-  label_work_packages_settings: "Nastavení pracovních balíčků"
   label_work_package_status: "Stav pracovního balíčku"
   label_work_package_status_new: "Nový stav"
   label_work_package_status_plural: "Stav pracovního balíčku"
@@ -3203,9 +3206,13 @@ cs:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Platnost aktivačního e-mailu vyprší po"
-  setting_work_package_done_ratio: "Výpočet průběhu"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Na základě práce"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Na základě stavu"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
@@ -3803,12 +3810,16 @@ cs:
     close_warning: "Ignorovat toto upozornění."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth aplikace"
       plural: "OAuth aplikace"
       named: "OAuth aplikace '%{name}'"
       new: "Nová OAuth aplikace"
+      non_confidential: Non confidential
       default_scopes: "(Výchozí rozsahy)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Název vaší aplikace. Bude zobrazen ostatním uživatelům po autorizaci."
         redirect_uri_html: >
           Povolené adresy URL oprávněných uživatelů mohou být přesměrovány na jeden záznam na řádek. <br/> Pokud registrujete aplikaci pro stolní počítač, použijte následující URL.
@@ -3817,6 +3828,10 @@ cs:
         client_credential_user_id: "Volitelné uživatelské ID pro osobu, když klient používá tuto aplikaci. Ponechte prázdné pro povolení pouze veřejného přístupu"
         register_intro: "Pokud vytváříte klientskou aplikaci OAuth API pro OpenProject, můžete ji zaregistrovat pomocí tohoto formuláře pro všechny uživatele."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "ID klienta"
     client_secret_notice: >
       Toto je jediná doba, kdy můžeme vytisknout klientské tajemství, prosím všimněte si jej a udržte ho v bezpečí. S ním by mělo být zacházeno jako s heslem a OpenProject jej nemůže získat později.

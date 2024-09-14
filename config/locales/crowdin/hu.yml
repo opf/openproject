@@ -633,6 +633,8 @@ hu:
         uid: "Ügyfél azonosító"
         secret: "Kliens titok"
         owner: "Tulajdonos"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Átirányítás URI"
         client_credentials_user_id: "Ügyféladatok Felhasználói azonosító\n"
         scopes: "Hatáskörök"
@@ -2024,6 +2026,7 @@ hu:
   label_copy_project: "Projekt másolása"
   label_core_version: "Core verzió"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Jelenlegi állapot"
   label_current_version: "Jelenlegi verzió"
   label_custom_field_add_no_type: "Mező hozzáadása egy feladatcsoport típushoz"
@@ -2303,6 +2306,7 @@ hu:
   label_product_version: "Termékverzió"
   label_profile: "Profil"
   label_percent_complete: "%-ban kész"
+  label_progress_tracking: "Progress tracking"
   label_project: "Projekt"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Projekt attribútumok"
@@ -2488,7 +2492,6 @@ hu:
   label_work_package_new: "Új munkacsomag"
   label_work_package_edit: "Munkacsomag %{name} szerkesztése"
   label_work_package_plural: "Munkacsomagok"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Feladatcsoport állapot"
   label_work_package_status_new: "Új állapot"
   label_work_package_status_plural: "A munkacsomag állapotai"
@@ -3126,9 +3129,13 @@ hu:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Az aktivációs email lejár ekkor"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
@@ -3725,12 +3732,16 @@ hu:
     close_warning: "Figyelmeztetés figyelmen kívül hagyása."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth alkalmazás"
       plural: "OAuth alkalmazások"
       named: "OAuth-alkalmazás neve %{name}"
       new: "Új OAuth alkalmazás"
+      non_confidential: Non confidential
       default_scopes: "Alapértelmezett hatáskörök"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Az alkalmazás neve. Ez más felhasználók számára jelenik meg engedélyezéskor.\n"
         redirect_uri_html: >
           Az engedélyezett URL -címek átirányíthatók a jogosult felhasználókra. Soronként egy bejegyzés. <br/> Ha asztali alkalmazást regisztrál, használja a következő URL -t.
@@ -3739,6 +3750,10 @@ hu:
         client_credential_user_id: "Választható felhasználói azonosító, amelyet az ügyfelek az alkalmazás használatakor megszemélyesíthetnek. Üresen hagyva csak nyilvános hozzáférést engedélyez\n"
         register_intro: "Ha OAuth API kliensalkalmazást fejleszt az OpenProject számára, akkor ezen az űrlapon regisztrálhatja azt, hogy minden felhasználó használhassa."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Ügyfél azonosító"
     client_secret_notice: >
       Ez az egyetlen alkalom, amikor kinyomtathatjuk az ügyfél titkát, jegyezze fel és tartsa biztonságban. Jelszóként kell kezelni, és az OpenProject később nem tudja lekérni.

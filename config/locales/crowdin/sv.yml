@@ -635,6 +635,8 @@ sv:
         uid: "Client ID"
         secret: "Client secret"
         owner: "Ägare"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Omdirigerings-URI"
         client_credentials_user_id: "Användar-ID klientreferenser"
         scopes: "Omfattning"
@@ -2026,6 +2028,7 @@ sv:
   label_copy_project: "Kopiera projekt"
   label_core_version: "Kärnversion"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Nuvarande status"
   label_current_version: "Aktuell version"
   label_custom_field_add_no_type: "Lägg till det här fältet till en arbetspaketstyp"
@@ -2305,6 +2308,7 @@ sv:
   label_product_version: "Produktversion"
   label_profile: "Profil"
   label_percent_complete: "% Complete"
+  label_progress_tracking: "Progress tracking"
   label_project: "Projekt"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -2490,7 +2494,6 @@ sv:
   label_work_package_new: "Nytt arbetspaket"
   label_work_package_edit: "Redigera arbetspaket %{name}"
   label_work_package_plural: "Arbetspaket"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Arbetspaketstatus"
   label_work_package_status_new: "Ny status"
   label_work_package_status_plural: "Arbetspaketstatus"
@@ -3127,9 +3130,13 @@ sv:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Aktiveringsmail upphör efter"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
@@ -3725,12 +3732,16 @@ sv:
     close_warning: "Bortse från denna varning."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth-autentisering"
       plural: "OAuth applikationer"
       named: "OAuth applikationen '%{name}'"
       new: "Ny OAuth applikation"
+      non_confidential: Non confidential
       default_scopes: "(Standardomfattning)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Namnet på din applikation. Detta kommer att visas för andra användare vid auktorisering."
         redirect_uri_html: >
           De tillåtna URL: erna kan omdirigeras till. En post per rad. <br/> Om du registrerar ett skrivbordsprogram, använd följande URL.
@@ -3739,6 +3750,10 @@ sv:
         client_credential_user_id: "Valfritt användar-ID att efterlikna när klienter använder det här programmet. Lämna tomt för att endast tillåta publik åtkomst"
         register_intro: "Om du utvecklar en OAuth API-klientapplikation för OpenProject, kan du registrera den med hjälp av detta formulär för alla användare att använda."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Client ID"
     client_secret_notice: >
       Detta är den enda gången vi kan skriva ut klienten hemligt, notera det och hålla det säkert. Det bör behandlas som ett lösenord och kan inte hämtas av OpenProject vid ett senare tillfälle.
