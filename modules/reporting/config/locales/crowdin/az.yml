@@ -23,7 +23,7 @@ az:
   plugin_openproject_reporting:
     name: "OpenProject Reporting"
     description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
-  button_save_as: "Save report as..."
+  button_save_report_as: "Save report as..."
   comments: "Comment"
   cost_reports_title: "Time and costs"
   label_cost_report: "Cost report"

@@ -30,6 +30,7 @@
 module Projects
   class RowComponent < ::RowComponent
     delegate :favored_project_ids, to: :table
+    delegate :identifier, to: :project
 
     def project
       model.first
@@ -105,6 +106,10 @@ module Projects
       return "" unless project.required_disk_space.to_i > 0
 
       number_to_human_size(project.required_disk_space, precision: 2)
+    end
+
+    def id
+      project.id.to_s
     end
 
     def name
@@ -354,7 +359,8 @@ module Projects
           scheme: :danger,
           icon: :trash,
           label: I18n.t(:button_delete),
-          href: confirm_destroy_project_path(project)
+          href: confirm_destroy_project_path(project),
+          data: { turbo: false }
         }
       end
     end

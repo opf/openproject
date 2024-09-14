@@ -70,6 +70,7 @@ class RootSeeder < Seeder
     # Basic data needs be seeded before anything else.
     seed_basic_data
     seed_admin_user
+    seed_oauth_data
     seed_demo_data
     seed_development_data if seed_development_data?
     seed_plugins_data
@@ -130,6 +131,11 @@ class RootSeeder < Seeder
   def seed_admin_user
     print_status "*** Seeding admin user"
     AdminUserSeeder.new(seed_data).seed!
+  end
+
+  def seed_oauth_data
+    print_status "*** Seeding OAuth applications"
+    OAuthApplicationsSeeder.new(seed_data).seed!
   end
 
   def seed_demo_data

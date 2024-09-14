@@ -174,7 +174,7 @@ Rails.application.routes.draw do
       scope module: :custom_fields do
         resources :projects,
                   controller: "/admin/custom_fields/custom_field_projects",
-                  only: %i[index]
+                  only: %i[index new create]
       end
     end
   end
@@ -465,16 +465,20 @@ Rails.application.routes.draw do
     resources :custom_actions, except: :show
 
     namespace :oauth do
-      resources :applications
+      resources :applications do
+        member do
+          post :toggle
+        end
+      end
     end
   end
 
   namespace :admin do
     namespace :settings do
-      SettingsHelper.system_settings_tabs.each do |tab|
-        get tab[:name], controller: tab[:controller], action: :show, as: tab[:name].to_s
-        patch tab[:name], controller: tab[:controller], action: :update, as: "update_#{tab[:name]}"
-      end
+      resource :general, controller: "/admin/settings/general_settings", only: %i[show update]
+      resource :languages, controller: "/admin/settings/languages_settings", only: %i[show update]
+      resource :repositories, controller: "/admin/settings/repositories_settings", only: %i[show update]
+      resource :experimental, controller: "/admin/settings/experimental_settings", only: %i[show update]
 
       resource :authentication, controller: "/admin/settings/authentication_settings", only: %i[show update]
       resource :attachments, controller: "/admin/settings/attachments_settings", only: %i[show update]
@@ -490,7 +494,8 @@ Rails.application.routes.draw do
       resource :api, controller: "/admin/settings/api_settings", only: %i[show update]
       # It is important to have this named something else than "work_packages".
       # Otherwise the angular ui-router will also recognize that as a WorkPackage page and apply according classes.
-      resource :work_package_tracking, controller: "/admin/settings/work_packages_settings", only: %i[show update]
+      resource :work_packages_general, controller: "/admin/settings/work_packages_general", only: %i[show update]
+      resource :progress_tracking, controller: "/admin/settings/progress_tracking", only: %i[show update]
       resource :projects, controller: "/admin/settings/projects_settings", only: %i[show update]
       resource :new_project, controller: "/admin/settings/new_project_settings", only: %i[show update]
       resources :project_custom_fields, controller: "/admin/settings/project_custom_fields" do
@@ -725,9 +730,6 @@ Rails.application.routes.draw do
         defaults: { tab: :overview },
         as: :details,
         work_package_split_view: true
-
-    get "/:work_package_id/close",
-        action: :close_split_view
   end
 
   resources :notifications, only: :index do
@@ -756,9 +758,6 @@ Rails.application.routes.draw do
   end
 
   if OpenProject::Configuration.lookbook_enabled?
-    # Dummy route for the split screen controller
-    get :close_split_view, controller: "homescreen"
-
     mount Lookbook::Engine, at: "/lookbook"
   end
 

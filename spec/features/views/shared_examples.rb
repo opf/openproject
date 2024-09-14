@@ -37,6 +37,7 @@ RSpec.shared_examples "module specific query view management" do
       # Change the query
       filters.open
       filters.add_filter_by "Subject", "contains", ["Test"]
+      module_page.clear_any_toasters
       filters.expect_filter_count(initial_filter_count + 1)
 
       # Save it
@@ -48,6 +49,7 @@ RSpec.shared_examples "module specific query view management" do
 
       # Change the filter again
       filters.add_filter_by "% Complete", "is", ["25"], "percentageDone"
+      module_page.clear_any_toasters
       filters.expect_filter_count(initial_filter_count + 2)
 
       # Save as another query
@@ -61,8 +63,7 @@ RSpec.shared_examples "module specific query view management" do
       # Rename a query
       settings_menu.open_and_choose "Rename view"
       expect(page).to have_focus_on(".editable-toolbar-title--input")
-      page.driver.browser.switch_to.active_element.send_keys("My second query (renamed)")
-      page.driver.browser.switch_to.active_element.send_keys(:return)
+      find_field("Name of this view").send_keys("My second query (renamed)", :return)
       module_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
       query_title.expect_not_changed

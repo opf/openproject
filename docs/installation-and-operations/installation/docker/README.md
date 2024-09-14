@@ -1,10 +1,10 @@
 ---
 sidebar_navigation:
-  title: Docker
+  title: Docker (all-in-one)
   priority: 300
 ---
 
-# Install OpenProject with Docker
+# OpenProject on Docker all-in-one container
 
 [Docker](https://www.docker.com) is a way to distribute self-contained applications easily. We provide a Docker image for the Community edition that you can very easily
 install and upgrade on your servers. However, contrary to the manual or package-based installation, your machine needs to have the Docker Engine
@@ -12,7 +12,7 @@ installed first, which usually requires a recent operating system. Please see th
 
 ***
 
-**Supported architectures**
+## Supported architectures
 
 Starting with OpenProject 12.5.6 we publish our containers for three architectures.
 
@@ -24,75 +24,24 @@ The OpenProject **BIM Edition** is only supported on AMD64, however.
 
 ***
 
-**Limitations**
+## Limitations
 
 Note that the docker container setup does not allow for integration of repositories within OpenProject. You can reference external repositories, but cannot set them up through OpenProject itself.
 For that feature to work, you need to use the packaged installation method.
 
-**Overview**
+## Overview
 
 OpenProject's docker setup can be launched in two ways:
 
-1. Multiple containers (recommended), each with a single process inside, using a Compose file. Allows to easily choose which services you want to run, and simplifies scaling and monitoring aspects.
+### One container per process (recommend)
 
-2. One container with all the processes inside. Easy but not recommended for production. This is the legacy behavior.
+This is the recommended approach for using OpenProject with Docker, where each component has a single container inside, orchestrated using a Compose file. Allows to easily choose which services you want to run, and simplifies scaling and monitoring aspects.
 
-## One container per process (recommended)
+Please follow the [OpenProject for Docker compose](../docker-compose/) documentation for this installation method
 
-### Quick Start
+### Single docker container
 
-First, you must clone the [openproject-deploy](https://github.com/opf/openproject-deploy/tree/stable/14/compose) repository:
-
-```shell
-git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/14 openproject
-```
-
-Then, change into the compose folder, this folder will be the location where you enter all following commands:
-
-```shell
-cd openproject/compose
-```
-
-Make sure you are using the latest version of the Docker images:
-
-```shell
-docker-compose pull
-```
-
-Launch the containers:
-
-```shell
-OPENPROJECT_HTTPS=false docker-compose up -d
-```
-
-After a while, OpenProject should be up and running on `http://localhost:8080`. The default username and password is login: `admin`, and password: `admin`. You need to explicitly disable HTTPS mode on startup as OpenProject assumes it's running behind HTTPS in production by default.
-
-> **Note:** The `docker-compose.yml` file present in the repository can be adjusted to your convenience. With each pull it will be overwritten. Best practice is to use the file `docker-compose.override.yml` for that case. For instance you could mount specific configuration files, override environment variables, or switch off services you don't need. Please refer to the official [Docker Compose documentation](https://docs.docker.com/compose/extends/) for more details.
-
-You can stop the Compose stack by running:
-
-```shell
-docker-compose stop
-```
-
-You can stop and remove all containers by running:
-
-```shell
-docker-compose down
-```
-
-This will not remove your data which is persisted in named volumes, likely called `compose_opdata` (for attachments) and `compose_pgdata` (for the database). The exact name depends on the name of the directory where your `docker-compose.yml` and/or you `docker-compose.override.yml` files are stored (`compose` in this case).
-
-If you want to start from scratch and remove the existing data you will have to remove these volumes via
-`docker volume rm compose_opdata compose_pgdata`.
-
-### Configuration
-
-Please see the [advanced configuration guide's docker paragraphs](../../configuration/#docker)
-
-#### BIM edition
-
-In order to install or change to BIM inside a Docker environment, please navigate to the [Docker Installation for OpenProject BIM](../../bim-edition/#docker-installation-openproject-bim) paragraph at the BIM edition documentation.
+This guide will show you to install OpenProject in one container with all the processes inside. This allows for a very quick start but is not recommended for production as it hinders upgradability of the different components such as the database.
 
 ## All-in-one container
 

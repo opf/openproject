@@ -61,7 +61,6 @@ import { ApiV3ListFilter, ApiV3ListParameters } from 'core-app/core/apiv3/paths/
 import { FrameElement } from '@hotwired/turbo';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
-import { TurboRequestsService } from "core-app/core/turbo/turbo-requests.service";
 
 export interface INotificationPageQueryParameters {
   filter?:string|null;
@@ -193,13 +192,12 @@ export class IanCenterService extends UntilDestroyedMixin {
     readonly state:StateService,
     readonly deviceService:DeviceService,
     readonly pathHelper:PathHelperService,
-    readonly turboRequests:TurboRequestsService,
   ) {
     super();
     this.reload.subscribe();
 
-    this.selectedWorkPackage$.subscribe(() => {
-      this.updateSelectedNotification();
+    this.selectedWorkPackage$.subscribe((id:string) => {
+      this.updateSelectedNotification(id);
     });
   }
 
@@ -233,7 +231,7 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   openSplitScreen(workPackageId:string, tabIdentifier:string = 'activity'):void {
     const link = this.pathHelper.notificationsDetailsPath(workPackageId, tabIdentifier) + window.location.search;
-    void this.turboRequests.request(link);
+    Turbo.visit(link, { frame: 'content-bodyRight', action: 'advance' });
   }
 
   openFullView(workPackageId:string|null):void {
@@ -353,7 +351,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     return promise;
   }
 
-  private updateSelectedNotification() {
+  private updateSelectedNotification(selected:string) {
     void this
       .notifications$
       .pipe(
@@ -362,8 +360,7 @@ export class IanCenterService extends UntilDestroyedMixin {
       .subscribe(
         (notifications:INotification[][]) => {
           for (let i = 0; i < notifications.length; ++i) {
-            if (notifications[i][0]._links.resource
-              && idFromLink(notifications[i][0]._links.resource.href) === this.urlParams.pathMatching(/\/details\/(\d+)/)) {
+            if (notifications[i][0]._links.resource && idFromLink(notifications[i][0]._links.resource.href) === selected) {
               this.selectedNotificationIndex = i;
               [this.selectedNotification] = notifications[i];
               return;

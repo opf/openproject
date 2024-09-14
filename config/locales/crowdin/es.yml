@@ -633,6 +633,8 @@ es:
         uid: "ID de cliente"
         secret: "Clave de cliente secreta"
         owner: "Propietario"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Redireccionar URI"
         client_credentials_user_id: "ID de Usuario de Credenciales del Cliente"
         scopes: "Ámbitos"
@@ -804,6 +806,7 @@ es:
         blank: "no puede estar en blanco."
         blank_nested: "necesita tener la propiedad '%{property}' definida."
         cannot_delete_mapping: "es obligatorio. No se puede eliminar."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Un paquete de trabajo no puede ser vinculado a una de sus subtareas."
         circular_dependency: "Esta relación podría crear una dependencia circular."
         confirmation: "no coincide con %{attribute}."
@@ -877,6 +880,10 @@ es:
               minimum: "necesita incluir como mínimo un filtro de entidad de seguridad, contexto o identificador con el operador «=»."
         custom_field:
           at_least_one_custom_option: "Como mínimo, tiene que estar disponible una opción."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "Solo se permite un valor (%{name})."
           empty: "El valor (%{name}) no puede estar vacío."
@@ -2019,6 +2026,7 @@ es:
   label_copy_project: "Copiar proyecto"
   label_core_version: "Versión base"
   label_core_build: "Núcleo base"
+  label_created_by: "Created by %{user}"
   label_current_status: "Estado actual"
   label_current_version: "Version actual"
   label_custom_field_add_no_type: "Agregue este campo a un tipo de paquete de trabajo"
@@ -2298,6 +2306,7 @@ es:
   label_product_version: "Versión del producto"
   label_profile: "Perfil"
   label_percent_complete: "% compleado"
+  label_progress_tracking: "Progress tracking"
   label_project: "Proyecto"
   label_project_activity: "Actividad del proyecto"
   label_project_attribute_plural: "Atributos del proyecto"
@@ -2483,7 +2492,6 @@ es:
   label_work_package_new: "Nuevo paquete de trabajo"
   label_work_package_edit: "Editar paquete de trabajo %{name}"
   label_work_package_plural: "Paquetes de trabajo"
-  label_work_packages_settings: "Ajustes de los paquetes de trabajo"
   label_work_package_status: "Estado del paquete de trabajo"
   label_work_package_status_new: "Nuevo estatus"
   label_work_package_status_plural: "Estatus del paquete de trabajo"
@@ -3121,9 +3129,13 @@ es:
   setting_hours_per_day_explanation: >-
     Define lo que se considera un "día" cuando se muestra la duración en días y horas (por ejemplo, si un día tiene 8 horas, 32 horas serían 4 días).
   setting_invitation_expiration_days: "El correo electrónico de activación caduca después de"
-  setting_work_package_done_ratio: "Cálculo del progreso"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Basado en el trabajo"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Basado en el estado"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     En el modo <b>basado en el trabajo</b>, el % completado se calcula a partir de cuánto trabajo se ha realizado en relación con el trabajo total. En el modo <b>basado en el estado</b>, cada estado tiene asociado un valor de % completado. El cambio de estado modificará el % completado.
   setting_work_package_done_ratio_explanation_html: >
@@ -3719,12 +3731,16 @@ es:
     close_warning: "Ignore esta advertencia."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "Aplicación OAuth"
       plural: "Aplicaciones OAuth"
       named: "Aplicación OAuth '%{name}'"
       new: "Nueva aplicación OAuth"
+      non_confidential: Non confidential
       default_scopes: "(Ámbitos por defecto)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "El nombre de tu aplicación. Se mostrará a otros usuarios tras previa autorización."
         redirect_uri_html: >
           Las URLs permitidas a las que los usuarios autorizados serán redirigidos. Una entrada por línea. <br/> Si estás registrando una aplicación de escritorio, usa la siguiente URL.
@@ -3733,6 +3749,10 @@ es:
         client_credential_user_id: "ID de usuario opcional para representar a clientes que usan esta aplicación. No necesita rellenarse si permites un acceso público"
         register_intro: "Si estás desarrollando una aplicación de cliente API de OAuth para OpenProject, puedes registrarla usando este formulario para todos los usuarios."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "ID de cliente"
     client_secret_notice: >
       Esta es la única vez que podremos imprimirte la clave de cliente secreta, por favor apúntalo y mantenlo en un lugar seguro. Debe tratarse como una contraseña y no puede ser recuperado de OpenProject más adelante.

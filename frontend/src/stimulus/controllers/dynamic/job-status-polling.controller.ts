@@ -40,14 +40,19 @@ export default class JobStatusPollingController extends Controller<HTMLElement> 
     setTimeout(() => element.click(), 50);
   }
 
-  redirectClick(_:Event) {
-    this.userInteraction = true;
+  redirectClick(event:PointerEvent) {
+    event.preventDefault();
+    this.followLink(event.target as HTMLLinkElement);
   }
 
   redirectTargetConnected(element:HTMLLinkElement) {
     setTimeout(() => {
-      this.userInteraction = true;
-      window.location.href = element.href;
+      this.followLink(element);
     }, 2000);
+  }
+
+  followLink(element:HTMLLinkElement) {
+    this.userInteraction = true;
+    window.location.href = element.href;
   }
 }

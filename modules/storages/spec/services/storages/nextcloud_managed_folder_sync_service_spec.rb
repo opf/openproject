@@ -55,10 +55,14 @@ module Storages
 
       shared_let(:remote_identities) do
         [create(:remote_identity, user: admin, oauth_client: storage.oauth_client, origin_user_id: "admin"),
-         create(:remote_identity, user: multiple_projects_user, oauth_client: storage.oauth_client,
-                                  origin_user_id: "multiple_projects_user"),
-         create(:remote_identity, user: single_project_user, oauth_client: storage.oauth_client,
-                                  origin_user_id: "single_project_user")]
+         create(:remote_identity,
+                user: multiple_projects_user,
+                oauth_client: storage.oauth_client,
+                origin_user_id: "multiple_projects_user"),
+         create(:remote_identity,
+                user: single_project_user,
+                oauth_client: storage.oauth_client,
+                origin_user_id: "single_project_user")]
       end
 
       shared_let(:non_member_role) { create(:non_member, permissions: ["read_files"]) }
@@ -69,12 +73,14 @@ module Storages
         create(:project, :archived, name: "INACTIVE PROJECT", members: { multiple_projects_user => ordinary_role })
       end
       shared_let(:project) do
-        create(:project, name: "[Sample] Project Name / Ehüu ///",
-                         members: { multiple_projects_user => ordinary_role, single_project_user => ordinary_role })
+        create(:project,
+               name: "[Sample] Project Name / Ehüu ///",
+               members: { multiple_projects_user => ordinary_role, single_project_user => ordinary_role })
       end
       shared_let(:renamed_project) do
-        create(:project, name: "Renamed Project #23",
-                         members: { multiple_projects_user => ordinary_role })
+        create(:project,
+               name: "Renamed Project #23",
+               members: { multiple_projects_user => ordinary_role })
       end
 
       let!(:public_storage) { create(:project_storage, :as_automatically_managed, storage:, project: public_project) }
@@ -89,7 +95,7 @@ module Storages
                storage:, project: renamed_project, project_folder_id: "9001")
       end
 
-      let(:file_ids) { class_double(Peripherals::StorageInteraction::Nextcloud::FileIdsQuery) }
+      let(:file_path_to_id_map) { class_double(Peripherals::StorageInteraction::Nextcloud::FilePathToIdMapQuery) }
       let(:group_users) { class_double(Peripherals::StorageInteraction::Nextcloud::GroupUsersQuery) }
       let(:rename_file) { class_double(Peripherals::StorageInteraction::Nextcloud::RenameFileCommand) }
       let(:set_permissions) { class_double(Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand) }
@@ -99,12 +105,14 @@ module Storages
       let(:auth_strategy) { Peripherals::StorageInteraction::AuthenticationStrategies::Strategy.new(key: :basic_auth) }
 
       let(:root_folder_id) { "root_folder_id" }
-      let(:file_ids_result) do
+      let(:file_path_to_id_map_result) do
+        inactive_storage_path = inactive_storage.managed_project_folder_path.chomp("/")
+
         ServiceResult.success(
           result: {
-            "/OpenProject/" => { "fileid" => root_folder_id },
-            inactive_storage.managed_project_folder_path => { "fileid" => inactive_storage.project_folder_id },
-            "/OpenProject/Another Name for this Project/" => { "fileid" => renamed_storage.project_folder_id }
+            "/OpenProject" => StorageFileId.new(root_folder_id),
+            inactive_storage_path => StorageFileId.new(inactive_storage.project_folder_id),
+            "/OpenProject/Another Name for this Project" => StorageFileId.new(renamed_storage.project_folder_id)
           }
         )
       end
@@ -138,7 +146,7 @@ module Storages
       let(:create_folder_result) { build_create_folder_result }
 
       before do
-        Peripherals::Registry.stub("nextcloud.queries.file_ids", file_ids)
+        Peripherals::Registry.stub("nextcloud.queries.file_path_to_id_map", file_path_to_id_map)
         Peripherals::Registry.stub("nextcloud.queries.group_users", group_users)
         Peripherals::Registry.stub("nextcloud.commands.add_user_to_group", add_user)
         Peripherals::Registry.stub("nextcloud.commands.create_folder", create_folder)
@@ -148,7 +156,10 @@ module Storages
         Peripherals::Registry.stub("nextcloud.authentication.userless", -> { auth_strategy })
 
         # We arent using ParentFolder nor AuthStrategies on FileIds
-        allow(file_ids).to receive(:call).with(storage:, path: storage.group).and_return(file_ids_result)
+        folder = Peripherals::ParentFolder.new(storage.group)
+        allow(file_path_to_id_map).to receive(:call).with(storage:, auth_strategy:, folder:, depth: 1)
+                                                    .and_return(file_path_to_id_map_result)
+
         # Setting the Group Permissions
         allow(set_permissions).to receive(:call).with(storage:, auth_strategy:, input_data: root_permission_input)
                                                 .and_return(root_permissions_result)
@@ -191,11 +202,11 @@ module Storages
       end
 
       context "when a project is renamed" do
-        let(:file_ids_result) do
+        let(:file_path_to_id_map_result) do
           ServiceResult.success(
             result: {
-              "/OpenProject/" => { "fileid" => root_folder_id },
-              "/OpenProject/OBVIOUSLY NON RENAMED/" => { "fileid" => renamed_storage.project_folder_id }
+              "/OpenProject" => StorageFileId.new(root_folder_id),
+              "/OpenProject/OBVIOUSLY NON RENAMED" => StorageFileId.new(renamed_storage.project_folder_id)
             }
           )
         end
@@ -221,7 +232,9 @@ module Storages
       end
 
       context "with a public project" do
-        let(:file_ids_result) { ServiceResult.success(result: { "/OpenProject/" => { "fileid" => root_folder_id } }) }
+        let(:file_path_to_id_map_result) do
+          ServiceResult.success(result: { "/OpenProject" => StorageFileId.new(root_folder_id) })
+        end
 
         before { ProjectStorage.where.not(id: public_storage.id).delete_all }
 
@@ -260,8 +273,10 @@ module Storages
         let(:error_prefix) { "services.errors.models.nextcloud_sync_service" }
 
         context "when the initial fetch of remote folders fails" do
-          let(:file_ids_result) do
-            errors = storage_error(:unauthorized, "error body", Peripherals::StorageInteraction::Nextcloud::FileIdsQuery)
+          let(:file_path_to_id_map_result) do
+            errors = storage_error(:unauthorized,
+                                   "error body",
+                                   Peripherals::StorageInteraction::Nextcloud::FilePathToIdMapQuery)
             ServiceResult.failure(result: :unauthorized, errors:)
           end
 
@@ -350,7 +365,8 @@ module Storages
           end
 
           it "interrupts the flow" do
-            commands = [file_ids, set_permissions, group_users, add_user, create_folder, remove_user, rename_file]
+            commands = [file_path_to_id_map, set_permissions, group_users, add_user, create_folder, remove_user,
+                        rename_file]
             service.call(storage)
             expect(commands).to all(have_received(:call).at_least(:once))
           end
@@ -367,10 +383,12 @@ module Storages
 
     def build_create_folder_result
       {
-        public_storage.managed_project_folder_name => ServiceResult.success(result:
-          StorageFile.new(id: "public_id", name: public_storage.managed_project_folder_name)),
-        project_storage.managed_project_folder_name => ServiceResult.success(result:
-          StorageFile.new(id: "normal_project_id", name: project_storage.managed_project_folder_name))
+        public_storage.managed_project_folder_name =>
+          ServiceResult.success(result: StorageFile.new(id: "public_id",
+                                                        name: public_storage.managed_project_folder_name)),
+        project_storage.managed_project_folder_name =>
+          ServiceResult.success(result: StorageFile.new(id: "normal_project_id",
+                                                        name: project_storage.managed_project_folder_name))
       }
     end
 

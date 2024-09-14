@@ -52,7 +52,6 @@ import { debounce } from 'lodash';
 import {
   SpotDropModalTeleportationService,
 } from 'core-app/spot/components/drop-modal/drop-modal-teleportation.service';
-import { delay } from 'rxjs';
 
 // eslint-disable-next-line change-detection-strategy/on-push
 @Component({
@@ -216,9 +215,6 @@ export class OpModalSingleDatePickerComponent implements ControlValueAccessor, O
   private initializeDatepickerAfterOpen():void {
     this.spotDropModalTeleportationService
       .afterRenderOnce$(true)
-      .pipe(
-        delay(100),
-      )
       .subscribe(() => {
         this.initializeDatepicker();
       });

@@ -141,6 +141,7 @@ class DocsChecker
     @docs.push(
       { path: "#{@root_path}/api/v3/spec.json", anchors: [], links: [] },
       { path: "#{@root_path}/api/v3/spec.yml", anchors: [], links: [] },
+      { path: "#{@root_path}/installation-and-operations/installation/docker-compose", anchors: [], links: [] },
       { path: "#{@root_path}/installation-and-operations/installation/helm-chart", anchors: [], links: [] },
       { path: "#{@root_path}/development/translate-openproject/fair-language", anchors: [], links: [] }
     )
