@@ -61,7 +61,7 @@ module Storages
 
       def capabilities
         @capabilities ||= Peripherals::Registry
-                     .resolve("#{@storage.short_provider_type}.queries.capabilities")
+                     .resolve("#{@storage}.queries.capabilities")
                      .call(storage: @storage, auth_strategy: noop)
       end
 

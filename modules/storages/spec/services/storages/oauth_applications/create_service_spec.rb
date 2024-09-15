@@ -46,7 +46,7 @@ RSpec.describe Storages::OAuthApplications::CreateService, type: :model do
       expect(subject).to be_success
       expect(subject.result).to be_a Doorkeeper::Application
       expect(subject.result.name).to include storage.name
-      expect(subject.result.name).to include I18n.t("storages.provider_types.#{storage.short_provider_type}.name")
+      expect(subject.result.name).to include I18n.t("storages.provider_types.#{storage}.name")
       expect(subject.result.scopes.to_s).to eql "api_v3"
       expect(subject.result.redirect_uri).to include storage.host
       expect(subject.result.redirect_uri).to include "apps/integration_openproject/oauth-redirect"

@@ -57,7 +57,7 @@ module Storages
 
     def request_upload_link(auth_strategy, upload_data)
       Peripherals::Registry
-        .resolve("#{@storage.short_provider_type}.queries.upload_link")
+        .resolve("#{@storage}.queries.upload_link")
         .call(storage: @storage, auth_strategy:, upload_data:)
         .on_failure do |error|
         add_error(:base, error.errors, options: { storage_name: @storage.name, folder: upload_data.folder_id })
@@ -75,7 +75,7 @@ module Storages
     end
 
     def auth_strategy(user)
-      Peripherals::Registry.resolve("#{@storage.short_provider_type}.authentication.user_bound").call(user:)
+      Peripherals::Registry.resolve("#{@storage}.authentication.user_bound").call(user:)
     end
   end
 end

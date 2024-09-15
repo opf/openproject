@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -69,11 +71,11 @@ module Storages::Admin
     end
 
     def label_client_id
-      I18n.t("storages.provider_types.#{@storage.short_provider_type}.label_oauth_client_id")
+      I18n.t("storages.provider_types.#{@storage}.label_oauth_client_id")
     end
 
     def label_client_secret
-      I18n.t("storages.provider_types.#{@storage.short_provider_type}.label_oauth_client_secret")
+      I18n.t("storages.provider_types.#{@storage}.label_oauth_client_secret")
     end
   end
 end

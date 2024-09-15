@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -45,7 +47,7 @@ class Storages::ProjectStoragesController < ApplicationController
       # check if user "see" project_folder
       if @object.project_folder_id.present?
         ::Storages::Peripherals::Registry
-          .resolve("#{@storage.short_provider_type}.queries.file_info")
+          .resolve("#{@storage}.queries.file_info")
           .call(storage: @storage, auth_strategy:, file_id: @object.project_folder_id)
           .match(
             on_success: user_can_read_project_folder,

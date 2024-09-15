@@ -9,7 +9,7 @@ module Storages::Admin
     end
 
     def storage_description
-      [I18n.t("storages.provider_types.#{storage.short_provider_type}.name"),
+      [I18n.t("storages.provider_types.#{storage}.name"),
        storage.name,
        storage.host].compact.join(" - ")
     end
@@ -62,7 +62,7 @@ module Storages::Admin
       if storage.oauth_client
         "#{I18n.t('storages.label_oauth_client_id')}: #{storage.oauth_client.client_id}"
       else
-        I18n.t("storages.configuration_checks.oauth_client_incomplete.#{storage.short_provider_type}")
+        I18n.t("storages.configuration_checks.oauth_client_incomplete.#{storage}")
       end
     end
 
@@ -70,7 +70,7 @@ module Storages::Admin
       if storage.oauth_client
         "#{I18n.t('storages.label_uri')}: #{storage.oauth_client.redirect_uri}"
       else
-        I18n.t("storages.configuration_checks.redirect_uri_incomplete.#{storage.short_provider_type}")
+        I18n.t("storages.configuration_checks.redirect_uri_incomplete.#{storage}")
       end
     end
   end
