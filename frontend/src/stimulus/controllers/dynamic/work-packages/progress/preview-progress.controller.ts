@@ -74,12 +74,19 @@ export default class PreviewProgressController extends Controller {
   }
 
   disconnect() {
+    this.debouncedPreview.cancel();
     this.progressInputTargets.forEach((target) => {
-      target.removeEventListener('input', this.debouncedPreview);
+      if (target.tagName.toLowerCase() === 'select') {
+        target.removeEventListener('change', this.debouncedPreview);
+      } else {
+        target.removeEventListener('input', this.debouncedPreview);
+      }
       target.removeEventListener('blur', this.debouncedPreview);
     });
     const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
-    turboFrame.removeEventListener('turbo:before-frame-render', this.frameMorphRenderer);
+    if (turboFrame) {
+      turboFrame.removeEventListener('turbo:before-frame-render', this.frameMorphRenderer);
+    }
   }
 
   async preview(event:Event) {
