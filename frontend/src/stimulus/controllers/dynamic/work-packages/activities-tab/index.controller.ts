@@ -230,17 +230,17 @@ export default class IndexController extends Controller {
     return this.element.querySelector('#work-package-journal-form-element');
   }
 
-  // TODO: get rid of static width value and reach for a more CSS based solution
+  // Code Maintenance: Get rid of these JS based view port checks when activities are rendered in fully primierized activity tab in all contexts
   private isMobile():boolean {
     return window.innerWidth < 1279;
   }
 
-  // TODO: get rid of static width value and reach for a more CSS based solution
+  // Code Maintenance: Get rid of these JS based view port checks when activities are rendered in fully primierized activity tab in all contexts
   private isSmViewPort():boolean {
     return window.innerWidth < 543;
   }
 
-  // TODO: get rid of static width value and reach for a more CSS based solution
+  // Code Maintenance: Get rid of these JS based view port checks when activities are rendered in fully primierized activity tab in all contexts
   private isMdViewPort():boolean {
     return window.innerWidth >= 543 && window.innerWidth < 1279;
   }
