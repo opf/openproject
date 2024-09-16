@@ -627,8 +627,8 @@ zh-TW:
         uid: "用戶端 ID"
         secret: "用戶端密鑰"
         owner: "擁有者"
-        builtin: "Builtin"
-        enabled: "Active"
+        builtin: "內建"
+        enabled: "啟用"
         redirect_uri: "轉址 uri"
         client_credentials_user_id: "用戶端憑證使用者 id"
         scopes: "範圍"
@@ -1992,7 +1992,7 @@ zh-TW:
   label_copy_project: "複製專案"
   label_core_version: "核心版本"
   label_core_build: "核心編譯"
-  label_created_by: "Created by %{user}"
+  label_created_by: "由 %{user} 建立"
   label_current_status: "目前狀態"
   label_current_version: "目前版本"
   label_custom_field_add_no_type: "新增此欄位至一個工作項目類別"
@@ -2272,7 +2272,7 @@ zh-TW:
   label_product_version: "產品版本"
   label_profile: "個人資料"
   label_percent_complete: "(%)完成"
-  label_progress_tracking: "Progress tracking"
+  label_progress_tracking: "進度追蹤"
   label_project: "專案"
   label_project_activity: "專案活動"
   label_project_attribute_plural: "專案屬性"
@@ -3091,13 +3091,13 @@ zh-TW:
   setting_hours_per_day_explanation: >-
     這定義了在以天和小時為單位顯示持續時間時，什麼是一"天"(例如，如果一天是 8 小時，32 小時就是 4 天)。
   setting_invitation_expiration_days: "啟動信件在......天後過期"
-  setting_work_package_done_ratio: "Progress calculation mode"
+  setting_work_package_done_ratio: "進度計算模式"
   setting_work_package_done_ratio_field: "基於工時"
   setting_work_package_done_ratio_field_caption_html: >-
-    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
+    <i>完成百分比</i>可自由設定為任何值。如果您選擇輸入<i>工時</i>，<i>剩餘工時</i>時會自動衍生。
   setting_work_package_done_ratio_status: "基於狀態"
   setting_work_package_done_ratio_status_caption_html: >-
-    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
+    每個狀態都有一個與之相關的<i>完成百分比</i>值。變更狀態會變更<i>完成百分比</i>。
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     在<b>基於工作</b>模式下，完成百分比是根據已完成的工作量相對於總工作量來計算的。在<b>基於狀態</b>模式下，每個狀態都有一個與其關聯的完成百分比值。更改狀態將更改完成百分比。
   setting_work_package_done_ratio_explanation_html: >
@@ -3693,16 +3693,16 @@ zh-TW:
     close_warning: "忽略此警告。"
   oauth:
     application:
-      builtin: Built-in instance application
-      confidential: Confidential
+      builtin: 內建範例
+      confidential: 機密
       singular: "Oauth 應用程式"
       plural: "Oauth 應用程式"
       named: "OAuth 應用程式 '%{name}'"
       new: "新增 OAuth 應用程式"
-      non_confidential: Non confidential
+      non_confidential: 非機密
       default_scopes: "(默認範圍)"
       instructions:
-        enabled: "Enable this application, allowing users to perform authorization grants with it."
+        enabled: "啟用此應用程式，允許使用者授權執行。"
         name: "您的應用程式名稱。它將會在其他使用者認證時顯示。"
         redirect_uri_html: >
           允許的 URLs 可被授權使用者轉址。一行一個URL。<br/> 如果你視註冊一個桌面應用程式，請使用下面的URL。
@@ -3712,9 +3712,9 @@ zh-TW:
         register_intro: "如果你在開發一個 OAuth API 客戶端應用程式給 OpenProject，你可以用這個格式註冊它以便給所有使用者使用。"
         default_scopes: ""
     header:
-      builtin_applications: Built-in OAuth applications
-      other_applications: Other OAuth applications
-    empty_application_lists: No OAuth applications have been registered.
+      builtin_applications: 內建 OAuth 應用程式
+      other_applications: 其他 OAuth 應用程式
+    empty_application_lists: 尚未註冊任何 OAuth 應用程式。
     client_id: "用戶端 ID"
     client_secret_notice: >
       這是唯一顯示客戶端密鑰的機會，請記下密鑰並妥善保存。客戶端密鑰應該被視為密碼妥善保管，日後你將無法再次透過 OpenProject 取得它。
