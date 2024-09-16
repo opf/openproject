@@ -644,6 +644,8 @@ uk:
         uid: "Ідентифікатор клієнта"
         secret: "Секретний ключ клієнта"
         owner: "Власник"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Перенаправити URI (Automatic Translation)"
         client_credentials_user_id: "Ідентифікатор користувача для облікових даних клієнта"
         scopes: "Область дії"
@@ -815,6 +817,7 @@ uk:
         blank: "не може бути порожнім."
         blank_nested: "– потрібно встановити властивість «%{property}»."
         cannot_delete_mapping: "– обов’язкове. Неможливо видалити."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Робочий пакет не може бути пов'язаний з одним з підзадач."
         circular_dependency: "Це співвідношення створить кругову залежність."
         confirmation: "не збігається %{attribute}"
@@ -888,6 +891,10 @@ uk:
               minimum: "має містити принаймні один фільтр для адміністратора доступу, контексту або адміністратора з оператором «=»."
         custom_field:
           at_least_one_custom_option: "Необхідно мати принаймні один варіант."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) дозволено лише одне значення."
           empty: "(%{name})  значення не може бути порожнім."
@@ -2086,6 +2093,7 @@ uk:
   label_copy_project: "Копіювати проект"
   label_core_version: "Версія ядра"
   label_core_build: "Збірка ядра"
+  label_created_by: "Created by %{user}"
   label_current_status: "Поточний статус"
   label_current_version: "Поточна версія"
   label_custom_field_add_no_type: "Додайте це поле до типу робочого пакета"
@@ -2365,6 +2373,7 @@ uk:
   label_product_version: "Версія продукту"
   label_profile: "Профіль"
   label_percent_complete: "% завершення"
+  label_progress_tracking: "Progress tracking"
   label_project: "Проєкт"
   label_project_activity: "Дії в проєкті"
   label_project_attribute_plural: "Атрибути проєкту"
@@ -2550,7 +2559,6 @@ uk:
   label_work_package_new: "Новий пакет робіт"
   label_work_package_edit: "Редагувати робочий пакет %{name}"
   label_work_package_plural: "Пакет робіт"
-  label_work_packages_settings: "Налаштування пакетів робіт"
   label_work_package_status: "Стан робочого пакета"
   label_work_package_status_new: "Новий статус"
   label_work_package_status_plural: "Статуси робочих пакетів"
@@ -3190,9 +3198,13 @@ uk:
   setting_hours_per_day_explanation: >-
     Визначає, що вважати днем, якщо тривалість представлено в днях і годинах (наприклад, якщо день триває 8 годин, то 32 години – це 4 дні).
   setting_invitation_expiration_days: "Повідомлення про активацію закінчується"
-  setting_work_package_done_ratio: "Обчислення прогресу"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "На основі роботи"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "На основі статусу"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     У режимі <b>на основі роботи</b> значення атрибута «% завершення» залежить від частки виконаної роботи відносно загального обсягу робіт. У режимі <b>на основі статусу</b> кожен статус має пов’язане з ним значення атрибута «% завершення». У разі змінення статусу змінюється й значення атрибута «% завершення».
   setting_work_package_done_ratio_explanation_html: >
@@ -3790,12 +3802,16 @@ uk:
     close_warning: "Ігнорувати це попередження."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "Програма OAuth"
       plural: "Програми OAuth"
       named: " Програми OAuth '%{name}'"
       new: "Нова програма OAuth"
+      non_confidential: Non confidential
       default_scopes: "(Області за умовчанням)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Назва вашої програми. Це буде показано іншим користувачам після авторизації."
         redirect_uri_html: >
           Дозволені URL-адреси, дозволені користувачам, можна перенаправити. Один запис на рядок.  <br/>  Якщо ви реєструєте настільну програму, використовуйте таку URL-адресу.
@@ -3804,6 +3820,10 @@ uk:
         client_credential_user_id: "Необов'язковий ідентифікатор користувача, який видає себе, коли клієнти використовують цю програму. Залиште пустим, щоб дозволити лише загальний доступ"
         register_intro: "Якщо ви розробляєте клієнтське додаток OAuth для OpenProject, ви можете зареєструвати його, використовуючи цю форму для всіх користувачів."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Ідентифікатор клієнта"
     client_secret_notice: >
       Це єдиний раз, коли ми можемо надати клієнтську таємницю, зауважте її та збережіть її в безпеці. Він повинен розглядатися як пароль і не може бути отриманий OpenProject пізніше.

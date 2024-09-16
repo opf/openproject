@@ -465,16 +465,20 @@ Rails.application.routes.draw do
     resources :custom_actions, except: :show
 
     namespace :oauth do
-      resources :applications
+      resources :applications do
+        member do
+          post :toggle
+        end
+      end
     end
   end
 
   namespace :admin do
     namespace :settings do
-      SettingsHelper.system_settings_tabs.each do |tab|
-        get tab[:name], controller: tab[:controller], action: :show, as: tab[:name].to_s
-        patch tab[:name], controller: tab[:controller], action: :update, as: "update_#{tab[:name]}"
-      end
+      resource :general, controller: "/admin/settings/general_settings", only: %i[show update]
+      resource :languages, controller: "/admin/settings/languages_settings", only: %i[show update]
+      resource :repositories, controller: "/admin/settings/repositories_settings", only: %i[show update]
+      resource :experimental, controller: "/admin/settings/experimental_settings", only: %i[show update]
 
       resource :authentication, controller: "/admin/settings/authentication_settings", only: %i[show update]
       resource :attachments, controller: "/admin/settings/attachments_settings", only: %i[show update]
@@ -490,7 +494,8 @@ Rails.application.routes.draw do
       resource :api, controller: "/admin/settings/api_settings", only: %i[show update]
       # It is important to have this named something else than "work_packages".
       # Otherwise the angular ui-router will also recognize that as a WorkPackage page and apply according classes.
-      resource :work_package_tracking, controller: "/admin/settings/work_packages_settings", only: %i[show update]
+      resource :work_packages_general, controller: "/admin/settings/work_packages_general", only: %i[show update]
+      resource :progress_tracking, controller: "/admin/settings/progress_tracking", only: %i[show update]
       resource :projects, controller: "/admin/settings/projects_settings", only: %i[show update]
       resource :new_project, controller: "/admin/settings/new_project_settings", only: %i[show update]
       resources :project_custom_fields, controller: "/admin/settings/project_custom_fields" do

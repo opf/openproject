@@ -11,7 +11,7 @@ ro:
       login_to: "Autentificare în %{storageType}"
       no_connection: "Nu există %{storageType} conexiune"
       open_storage: "Deschide %{storageType}"
-      select_location: "Selectați locația"
+      select_location: "Selectează locația"
       choose_location: "Alege Locația"
       types:
         nextcloud: "Nextcloud"
@@ -54,8 +54,8 @@ ro:
         remove_confirmation: >
           Sigur doriți să deconectați fișierul de la acest pachet de lucru? Deconectarea nu afectează fișierul original și doar elimină conexiunea la acest pachet de lucru.
         remove_short: "Ștergeți linkul"
-        select: "Selectați fișierele"
-        select_all: "Selectați tot"
+        select: "Selectează fișiere"
+        select_all: "Selectează tot"
         selection:
           zero: "Selectaţi fişierele pentru a conecta"
           one: "Link 1 fișier"

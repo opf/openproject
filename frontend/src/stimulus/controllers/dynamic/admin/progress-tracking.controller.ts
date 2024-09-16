@@ -30,26 +30,27 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-export default class WorkPackagesSettingsController extends Controller {
+export default class ProgressTrackingController extends Controller {
   static values = {
+    initialMode: String,
     percentCompleteEditionActive: Boolean,
   };
 
   static targets = [
-    'progressCalculationModeSelect',
+    'progressCalculationModeRadioGroup',
     'warningText',
     'warningToast',
   ];
 
+  declare readonly initialModeValue:string;
   declare readonly percentCompleteEditionActiveValue:boolean;
 
-  declare readonly progressCalculationModeSelectTarget:HTMLSelectElement;
+  declare readonly progressCalculationModeRadioGroupTarget:HTMLElement;
   declare readonly warningTextTarget:HTMLElement;
   declare readonly warningToastTarget:HTMLElement;
-  private initialMode:string;
 
   connect() {
-    this.initialMode = this.progressCalculationModeSelectTarget.value;
+    this.displayWarning();
   }
 
   displayWarning() {
@@ -62,21 +63,26 @@ export default class WorkPackagesSettingsController extends Controller {
     }
   }
 
+  getSelectedMode() {
+    const checkedRadio = this.progressCalculationModeRadioGroupTarget.querySelector('input:checked') as HTMLInputElement;
+    return checkedRadio?.value || '';
+  }
+
   getWarningMessageHtml():string {
-    const newMode = this.progressCalculationModeSelectTarget.value;
-    if (newMode === this.initialMode) {
+    const selectedMode = this.getSelectedMode();
+    if (selectedMode === this.initialModeValue || !selectedMode) {
       return '';
     }
 
     // to be removed in 15.0 with :percent_complete_edition feature flag removal
-    if (!this.percentCompleteEditionActiveValue && newMode === 'field') {
+    if (!this.percentCompleteEditionActiveValue && selectedMode === 'field') {
       return I18n.t(
         'js.admin.work_packages_settings.warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html',
       );
     }
 
     return I18n.t(
-      `js.admin.work_packages_settings.warning_progress_calculation_mode_change_from_${this.initialMode}_to_${newMode}_html`,
+      `js.admin.work_packages_settings.warning_progress_calculation_mode_change_from_${this.initialModeValue}_to_${selectedMode}_html`,
     );
   }
 }

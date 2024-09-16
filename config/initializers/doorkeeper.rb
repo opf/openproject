@@ -8,6 +8,11 @@ Doorkeeper.configure do
     logged_user.presence || redirect_to(signin_path(back_url: request.fullpath))
   end
 
+  # Configure to prevent grants when the application is disabled
+  allow_grant_flow_for_client do |_grant_type, client|
+    client.enabled?
+  end
+
   # If you are planning to use Doorkeeper in Rails 5 API-only application, then you might
   # want to use API mode that will skip all the views management and change the way how
   # Doorkeeper responds to a requests.

@@ -204,8 +204,8 @@ pt-BR:
     admin:
       custom_field_projects:
         is_for_all_blank_slate:
-          heading: For all projects
-          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: Em todos os projetos
+          description: Este campo personalizado é habilitado em todos os projetos, uma vez que a opção "para todos os projetos" está marcada. Ele não pode ser desativado para projetos individuais.
     text_add_new_custom_field: >
       Para adicionar campos personalizados a um projeto é necessário criá-los primeiro para depois adicioná-los a este projeto.
     is_enabled_globally: "Está habilitado globalmente"
@@ -634,6 +634,8 @@ pt-BR:
         uid: "ID do cliente"
         secret: "Segredo do cliente"
         owner: "Proprietário"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Redirecionar URI"
         client_credentials_user_id: "ID do usuário de credenciais do cliente"
         scopes: "Escopos"
@@ -805,6 +807,7 @@ pt-BR:
         blank: "não pode ficar em branco."
         blank_nested: "precisa ter a propriedade '%{property}' definida. "
         cannot_delete_mapping: "é obrigatório. Não pode ser excluído."
+        is_for_all_cannot_modify: "é para todos. Não pode ser modificado."
         cant_link_a_work_package_with_a_descendant: "Um pacote de trabalho não pode ser vinculado a uma das suas subtarefas."
         circular_dependency: "Esta relação vai criar uma dependência circular."
         confirmation: "não coincide com %{attribute}."
@@ -878,6 +881,10 @@ pt-BR:
               minimum: "precisa incluir pelo menos um filtro para principal, contexto ou id com o operador '='."
         custom_field:
           at_least_one_custom_option: "Pelo menos uma opção precisa estar disponível."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Por favor, selecione um projeto."
         custom_actions:
           only_one_allowed: "(%{name}) apenas um valor é permitido."
           empty: "(%{name}) valor não pode ser vazio."
@@ -1947,7 +1954,7 @@ pt-BR:
   label_attribute_expand_text: "O texto concluído para '%{attribute}'"
   label_authentication: "Autenticação"
   label_authentication_settings: "Configurações de autenticação"
-  label_available_custom_fields_projects: "Available custom fields projects"
+  label_available_custom_fields_projects: "Projetos de campos personalizados disponíveis"
   label_available_global_roles: "Funções globais disponíveis"
   label_available_project_attributes: "Atributos de projeto disponíveis"
   label_available_project_forums: "Fóruns disponíveis"
@@ -2020,6 +2027,7 @@ pt-BR:
   label_copy_project: "Cópiar projeto"
   label_core_version: "Versão do núcleo"
   label_core_build: "Construção principal"
+  label_created_by: "Created by %{user}"
   label_current_status: "Situação atual"
   label_current_version: "Versão atual"
   label_custom_field_add_no_type: "Adicionar este campo a um tipo de pacote de trabalho"
@@ -2299,6 +2307,7 @@ pt-BR:
   label_product_version: "Versão do produto"
   label_profile: "Perfil"
   label_percent_complete: "% de conclusão"
+  label_progress_tracking: "Progress tracking"
   label_project: "Projeto"
   label_project_activity: "Atividade do projeto"
   label_project_attribute_plural: "Atributos do projeto"
@@ -2484,7 +2493,6 @@ pt-BR:
   label_work_package_new: "Novo pacote de trabalho"
   label_work_package_edit: "Editar pacote de trabalho %{name}"
   label_work_package_plural: "Pacotes de trabalho"
-  label_work_packages_settings: "Configurações dos pacotes de trabalho"
   label_work_package_status: "Situação do pacote de trabalho"
   label_work_package_status_new: "Nova situação"
   label_work_package_status_plural: "Situações do Pacote de Trabalho"
@@ -3121,9 +3129,13 @@ pt-BR:
   setting_hours_per_day_explanation: >-
     Isso define o que é considerado um "dia" ao exibir a duração em dias e horas (por exemplo, se um dia tem 8 horas, 32 horas serão exibidas como 4 dias).
   setting_invitation_expiration_days: "E-mail de ativação expira após"
-  setting_work_package_done_ratio: "Cálculo de progresso"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Com base no trabalho"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Com base no estado"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     No modo <b>com base no trabalho</b>, a % de conclusão é calculada com base na quantidade de trabalho realizado em relação ao total de trabalho. Já no modo <b>com base no estado</b>, cada estado possui um valor de % de conclusão associado a ele. Alterar o estado resultará em uma mudança na % de conclusão.
   setting_work_package_done_ratio_explanation_html: >
@@ -3719,12 +3731,16 @@ pt-BR:
     close_warning: "Ignorar este aviso."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "Aplicação OAuth"
       plural: "Aplicações OAuth"
       named: "Aplicação OAuth '%{name}'"
       new: "Nova aplicação OAuth"
+      non_confidential: Non confidential
       default_scopes: "(Escopos padrão)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "O nome da sua aplicação. Isto será exibido para outros usuários mediante autorização."
         redirect_uri_html: >
           Os URLs permitidos dos usuários autorizados podem ser redirecionadas para. Uma entrada por linha. <br/> Se você estiver registrando uma aplicação desktop, use o seguinte URL.
@@ -3733,6 +3749,10 @@ pt-BR:
         client_credential_user_id: "ID de usuário usado como representante quando os clientes usam esta aplicação. Deixe em branco para permitir apenas o acesso público"
         register_intro: "Se você estiver desenvolvendo uma aplicação cliente da API OAuth do OpenProject, poderá registrá-la usando este formulário para ser usada por todos os usuários."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "ID do cliente"
     client_secret_notice: >
       Esta é a única vez que podemos imprimir o segredo do cliente, por favor, anote-o e mantenha-o em local seguro. Ele deve ser tratado como uma senha e não poderá ser recuperado pelo OpenProject mais tarde.

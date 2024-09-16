@@ -625,6 +625,8 @@ zh-CN:
         uid: "客户端 ID"
         secret: "客户端密钥"
         owner: "所有者"
+        builtin: "内置"
+        enabled: "激活"
         redirect_uri: "重定向 URI"
         client_credentials_user_id: "客户端证书用户 ID"
         scopes: "范围"
@@ -796,6 +798,7 @@ zh-CN:
         blank: "不能为空。"
         blank_nested: "需要设置属性“%{property}”。"
         cannot_delete_mapping: "必需项，不能删除"
+        is_for_all_cannot_modify: "适用于全部。不可修改。"
         cant_link_a_work_package_with_a_descendant: "工作包无法链接到它的子任务之一。"
         circular_dependency: "这种关系将创建循环依赖项。"
         confirmation: "不匹配 %{attribute}。"
@@ -869,6 +872,10 @@ zh-CN:
               minimum: "需要包含至少一个采用“=”运算符的主体、上下文或 ID 筛选器。"
         custom_field:
           at_least_one_custom_option: "至少有需要一个可用选项。"
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "请选择一个项目。"
         custom_actions:
           only_one_allowed: "(%{name}) 只允许一个值。"
           empty: "(%{name}) 值不能为空。"
@@ -1983,6 +1990,7 @@ zh-CN:
   label_copy_project: "复制项目"
   label_core_version: "核心版本"
   label_core_build: "核心构建"
+  label_created_by: "由 %{user} 创建"
   label_current_status: "当前状态"
   label_current_version: "当前版本"
   label_custom_field_add_no_type: "将此字段添加到工作包类型中"
@@ -2262,6 +2270,7 @@ zh-CN:
   label_product_version: "产品版本"
   label_profile: "配置文件"
   label_percent_complete: "% 完成"
+  label_progress_tracking: "进度跟踪"
   label_project: "项目"
   label_project_activity: "项目活动"
   label_project_attribute_plural: "项目属性"
@@ -2447,7 +2456,6 @@ zh-CN:
   label_work_package_new: "新工作包"
   label_work_package_edit: "编辑工作包 %{name}"
   label_work_package_plural: "工作包"
-  label_work_packages_settings: "工作包设置"
   label_work_package_status: "工作包状态"
   label_work_package_status_new: "新状态"
   label_work_package_status_plural: "工作包状态"
@@ -3078,9 +3086,13 @@ zh-CN:
   setting_hours_per_day_explanation: >-
     这定义了在以天和小时为单位显示持续时间时，什么是一"天"（例如，如果一天是 8 小时，32 小时就是 4 天）。
   setting_invitation_expiration_days: "激活电子邮件将在此时间后过期"
-  setting_work_package_done_ratio: "进度计算"
+  setting_work_package_done_ratio: "进度计算模式"
   setting_work_package_done_ratio_field: "基于工时"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>完成 %</i> 可以自由设置为任何值。 如果您可选输入一个 <i>工时</i>, <i>剩余工时</i> 将自动生成。
   setting_work_package_done_ratio_status: "基于状态"
+  setting_work_package_done_ratio_status_caption_html: >-
+    每个状态都有一个与之相关的<i>完成%</i>值。更改状态将改变<i>完成%</i>。
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     在<b>基于工时</b>模式下，“完成 %”是根据已完成的工时占总工时的比例计算出来的。在<b>基于状态</b>模式下，每个状态都有一个与之相关的“完成 %”。更改状态将改变“完成 %”。
   setting_work_package_done_ratio_explanation_html: >
@@ -3675,12 +3687,16 @@ zh-CN:
     close_warning: "请忽略这个警告。"
   oauth:
     application:
+      builtin: 内置实例应用程序
+      confidential: 机密
       singular: "OAuth应用程序"
       plural: "OAuth应用程序"
       named: "OAuth 应用程序“%{name}”"
       new: "新的 OAuth 应用程序"
+      non_confidential: 非机密
       default_scopes: "（默认范围）"
       instructions:
+        enabled: "启用此应用程序，允许用户使用它执行授权授予。"
         name: "您的应用程序的名称。将在授权后显示给其他用户。"
         redirect_uri_html: >
           授权的用户可以重定向到的允许 URL。每行一个条目。<br/>如果您注册的是桌面应用程序，请使用以下 URL。
@@ -3689,6 +3705,10 @@ zh-CN:
         client_credential_user_id: "在客户端使用此应用程序时要冒充的可选用户 ID。留空可以仅允许公开访问"
         register_intro: "如果您正在为 OpenProject 开发 OAuth API 客户端应用程序，则可以使用此表单注册，供所有用户使用。"
         default_scopes: ""
+    header:
+      builtin_applications: 内置 OAuth 应用程序
+      other_applications: 其他 OAuth 应用程序
+    empty_application_lists: 没有注册任何OAuth应用程序。
     client_id: "客户端 ID"
     client_secret_notice: >
       这是我们唯一可以打印客户端密钥的时间，请记下密钥并保证它的安全。密钥应被视为密码，并且之后无法通过 OpenProject 检索。

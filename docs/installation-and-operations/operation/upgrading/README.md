@@ -159,7 +159,7 @@ sudo chown -R 102 /volume1/openproject/*
 ```
 
 After that it's simply a matter of launching the new container mounted with the copied `pgdata` and `assets` folders
-as described in the [installation section](../../installation/docker/#one-container-per-process-recommended).
+as described in the [installation section](../../installation/docker/).
 
 ## Upgrade notes from 9.x
 

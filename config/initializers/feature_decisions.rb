@@ -52,3 +52,6 @@ OpenProject::FeatureDecisions.add :meeting_updated_notification,
 OpenProject::FeatureDecisions.add :enable_custom_field_for_multiple_projects,
                                   description: "Allow a custom field to be enabled for multiple projects at once. " \
                                                "See work package #56909 for more details."
+
+OpenProject::FeatureDecisions.add :built_in_oauth_applications,
+                                  description: "Allows the display and use of built-in OAuth applications."

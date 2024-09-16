@@ -627,6 +627,8 @@ ms:
         uid: "ID Pelanggan"
         secret: "Rahsia pelanggan"
         owner: "Pemilik"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Ubah hala URI"
         client_credentials_user_id: "ID Pengguna Kelayakan Pelanggan"
         scopes: "Skop\n"
@@ -798,6 +800,7 @@ ms:
         blank: "tidak boleh dibiarkan kosong."
         blank_nested: "perlu ada ciri-ciri '%{property}' yang ditetapkan."
         cannot_delete_mapping: "diperlukan. Tidak boleh dipadam."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Pakej kerja tidak boleh dipautkan ke salah satu subtugasnya."
         circular_dependency: "Hubungan ini akan mencipta kebergantungan bulat."
         confirmation: "tidak sepadan dengan %{attribute}."
@@ -871,6 +874,10 @@ ms:
               minimum: "perlu sertakan sekurang-kurangnya satu saringan utama, konteks, atau id dengan operator '='."
         custom_field:
           at_least_one_custom_option: "Sekurang-kurangnya satu pilihan perlu tersedia."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) hanya satu nilai yang dibenarkan."
           empty: "(%{name}) nilai tidak boleh kosong."
@@ -1985,6 +1992,7 @@ ms:
   label_copy_project: "Salin projek"
   label_core_version: "Versi teras"
   label_core_build: "Binaan teras"
+  label_created_by: "Created by %{user}"
   label_current_status: "Status semasa"
   label_current_version: "Versi semasa"
   label_custom_field_add_no_type: "Tambah ruangan ini ke jenis pakej kerja"
@@ -2264,6 +2272,7 @@ ms:
   label_product_version: "Versi produk"
   label_profile: "Profil"
   label_percent_complete: "% Selesai"
+  label_progress_tracking: "Progress tracking"
   label_project: "Projek"
   label_project_activity: "Aktiviti projek"
   label_project_attribute_plural: "Atribut projek"
@@ -2449,7 +2458,6 @@ ms:
   label_work_package_new: "Pakej kerja baharu"
   label_work_package_edit: "Edit pakej kerja %{name}"
   label_work_package_plural: "Pakej kerja"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Status pakej kerja"
   label_work_package_status_new: "Status baharu"
   label_work_package_status_plural: "Status pakej kerja"
@@ -3084,9 +3092,13 @@ ms:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Pengaktifan e-mel tamat tempoh selepas"
-  setting_work_package_done_ratio: "Pengiraan perkembangan"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Berasaskan kerja"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Berasaskan status"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
@@ -3682,12 +3694,16 @@ ms:
     close_warning: "Abaikan amaran ini."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "Aplikasi OAuth"
       plural: "Aplikasi OAuth"
       named: "'%{name}' aplikasi OAuth"
       new: "Aplikasi OAuth baharu"
+      non_confidential: Non confidential
       default_scopes: "(Skop default)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Nama aplikasi anda. Ini akan dipaparkan ke pengguna lain selepas kebenaran."
         redirect_uri_html: >
           URL yang dibenarkan membenarkan pengguna boleh diubah hala. Satu entri setiap baris. <br/> Jika anda mendaftar aplikasi desktop, gunakan URL berikut.
@@ -3696,6 +3712,10 @@ ms:
         client_credential_user_id: "ID pengguna pilihan untuk menyamar apabila pelanggan menggunakan aplikasi ini. Tinggalkan kosong untuk benarkan akses awam sahaja."
         register_intro: "Jika anda sedang membangunkan aplikasi pelanggan API OAuth untuk OpenProject, anda boleh mendaftarkannya menggunakan borang ini untuk semua pengguna menggunakannya."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "ID pelanggan"
     client_secret_notice: >
       Ini adalah satu-satunya masa di mana kita boleh mencetak rahsia pelanggan, sila catat dan simpankan ia dengan selamat. Ia perlu diperlakukan sebagai sebuah kata laluan dan tidak boleh dipulihkan oleh OpenProject pada masa kemudian.

@@ -28,53 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OAuth
-  module Applications
-    class RowComponent < ::RowComponent
-      property :confidential
+require "spec_helper"
+require_relative "shared_examples"
 
-      def application
-        model
-      end
+RSpec.describe OAuth::Applications::UpdateContract, type: :model do # rubocop:disable RSpec/SpecFilePathFormat
+  subject { described_class.new(application, user).validate }
 
-      def name
-        link_to application.name, oauth_application_path(application)
-      end
+  context "if application is builtin" do
+    let(:user) { create(:admin) }
+    let(:application) { create(:oauth_application, builtin: true) }
 
-      def owner
-        link_to application.owner.name, user_path(application.owner)
-      end
-
-      def confidential
-        if application.confidential?
-          helpers.op_icon "icon icon-checkmark"
-        end
-      end
-
-      def redirect_uri
-        urls = application.redirect_uri.split("\n")
-        safe_join urls, "<br/>".html_safe
-      end
-
-      def client_credentials
-        if user_id = application.client_credentials_user_id
-          helpers.link_to_user User.find(user_id)
-        else
-          "-"
-        end
-      end
-
-      def edit_link
-        link_to(
-          I18n.t(:button_edit),
-          edit_oauth_application_path(application),
-          class: "oauth-application--edit-link icon icon-edit"
-        )
-      end
-
-      def button_links
-        [edit_link, helpers.delete_link(oauth_application_path(application))]
-      end
-    end
+    it_behaves_like "oauth application contract is invalid"
   end
 end

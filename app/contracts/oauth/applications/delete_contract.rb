@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin::Settings
-  class WorkPackagesSettingsController < ::Admin::SettingsController
-    current_menu_item :show do
-      :work_packages_setting
+module OAuth
+  module Applications
+    class DeleteContract < ::DeleteContract
+      delete_permission -> { !model.builtin? && user.admin? }
     end
   end
 end

@@ -275,7 +275,7 @@ lt:
       favored: "Mėgstami projektai"
       archived: "Archyvuoti projektai"
       shared: "Shared project lists"
-      my_lists: "My project lists"
+      my_lists: "Mano projektų sąrašai"
       new:
         placeholder: "Naujas projektų sąrašas"
       delete_modal:
@@ -302,7 +302,7 @@ lt:
         actions:
           label_enable_single: "Aktyvus šiame projekte, spauskite, jei norite išjungti"
           label_disable_single: "Neakvyus šiame projekte, spauskite, jei norite įjungti"
-          remove_from_project: "Remove from project"
+          remove_from_project: "Pašalinti iš projekto"
           label_enable_all: "Įjungti visus"
           label_disable_all: "Išjungti visus"
         is_required_blank_slate:
@@ -498,7 +498,7 @@ lt:
         is_readonly: "Tik skaityti"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Tamsus (Beta versija)"
     light: "Šviesi"
     light_high_contrast: "Šviesi kontrastinga"
   types:
@@ -647,6 +647,8 @@ lt:
         uid: "Kliento ID"
         secret: "Kliento paslaptis"
         owner: "Savininkas"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Peradresavimo URI"
         client_credentials_user_id: "Kliento įgaliojimų naudotojo ID"
         scopes: "Apimtys"
@@ -818,6 +820,7 @@ lt:
         blank: "negali būti tuščia."
         blank_nested: "reikalauja, kad savybė '%{property}' būtų nustatyta."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Darbų paketas negali būti susietas su viena iš savo vidinių užduočių."
         circular_dependency: "Šis ryšys sukurtų ciklinę priklausomybę."
         confirmation: "nesutampa su %{attribute}."
@@ -891,6 +894,10 @@ lt:
               minimum: "turite įtraukti bent vieną nario, konteksto ar id filtrą su „=“ operatoriumi."
         custom_field:
           at_least_one_custom_option: "Turi būti prieinama bent viena savybė."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "leidžiama (%{name}) tik viena reikšmė."
           empty: "(%{name}) reikšmė negali būti tuščia."
@@ -2089,6 +2096,7 @@ lt:
   label_copy_project: "Kopijuoti projektą"
   label_core_version: "Branduolio versija"
   label_core_build: "Branduolio versija"
+  label_created_by: "Created by %{user}"
   label_current_status: "Dabartinė būsena"
   label_current_version: "Esama versija"
   label_custom_field_add_no_type: "Pridėti šį laukelį prie darbų paketo tipo"
@@ -2368,6 +2376,7 @@ lt:
   label_product_version: "Produkto versija"
   label_profile: "Profilis"
   label_percent_complete: "% baigta"
+  label_progress_tracking: "Progress tracking"
   label_project: "Projektas"
   label_project_activity: "Projekto aktyvumas"
   label_project_attribute_plural: "Projekto atributai"
@@ -2553,7 +2562,6 @@ lt:
   label_work_package_new: "Naujas darbų paketas"
   label_work_package_edit: "Redaguoti darbų paketą %{name}"
   label_work_package_plural: "Darbų paketai"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Darbų paketo būsena"
   label_work_package_status_new: "Nauja būsena"
   label_work_package_status_plural: "Darbų paketo būsenos"
@@ -3192,9 +3200,13 @@ lt:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Aktyvavimo laiško galiojimas baigiasi po"
-  setting_work_package_done_ratio: "Eigos skaičiavimas"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Pagal-darbą"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Pagal-būseną"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
@@ -3656,7 +3668,7 @@ lt:
       publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
       user_details:
-        owner: "List owner"
+        owner: "Sąrašo savininkas"
         can_view_because_public: "Can already view because list is shared with everyone"
         can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
@@ -3792,12 +3804,16 @@ lt:
     close_warning: "Ignoruoti šį perspėjimą."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth aplikacija"
       plural: "OAuth aplikacijos"
       named: "OAuth aplikacija „%{name}“"
       new: "Nauja OAuth aplikacija"
+      non_confidential: Non confidential
       default_scopes: "(Numatytos apimtys)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Jūsų aplikacijos pavadinimas. Bus rodomas kitiems naudotojams autorizacijos metu."
         redirect_uri_html: >
           Leidžiami URL, kur gali būti peradresuojami autorizuoti naudotojai. Po vieną įrašą eilutėje. <br/> Jei jūs registruojate darbastalio aplikaciją, naudokite šį URL.
@@ -3806,6 +3822,10 @@ lt:
         client_credential_user_id: "Neprivalomas naudotojo ID, naudojamas kai klientai naudoja šią aplikaciją. Palikite tuščią, jei norite leisti tik viešą prieigą"
         register_intro: "Jei kuriate OAuth API kliento aplikaciją skirtą OpenProject, jūs galite registruoti ją visiems naudotojams naudojant šią formą."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Kliento ID"
     client_secret_notice: >
       Tai vienintelis kartas, kai mes galime atspausdinti kliento paslaptį, prašome ją užsirašyti ir laikyti saugiai. Ji turi būti saugoma kaip slaptažodis ir jos vėliau nebebus galima ištraukti iš OpenProject.

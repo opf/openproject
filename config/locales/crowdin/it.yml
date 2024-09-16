@@ -633,6 +633,8 @@ it:
         uid: "Client ID"
         secret: "Chiave segreta del client"
         owner: "Proprietario"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Reindirizzamento URI"
         client_credentials_user_id: "ID utente delle credenziali client"
         scopes: "Ambiti"
@@ -804,6 +806,7 @@ it:
         blank: "non può essere lasciato vuoto."
         blank_nested: "deve avere la proprietà '%{property}' impostata."
         cannot_delete_mapping: "è necessario. Non può essere cancellato."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Una macro-attività non può essere collegato a una delle sue sottoattività."
         circular_dependency: "Questa relazione creerebbe una dipendenza circolare."
         confirmation: "non coincide con %{attribute}."
@@ -877,6 +880,10 @@ it:
               minimum: "necessità di includere almeno un filtro per il principale, per il contesto o per l'id con l'operatore '='."
         custom_field:
           at_least_one_custom_option: "Deve essere disponibile almeno un'opzione."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) solo un valore è permesso."
           empty: "(%{name}) valore non può essere vuoto."
@@ -2019,6 +2026,7 @@ it:
   label_copy_project: "Copia progetto"
   label_core_version: "Versione core"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Stato attuale"
   label_current_version: "Versione corrente"
   label_custom_field_add_no_type: "Aggiungi questo campo a un tipo di macro-attività"
@@ -2298,6 +2306,7 @@ it:
   label_product_version: "Versione del prodotto"
   label_profile: "Profilo"
   label_percent_complete: "% completamento"
+  label_progress_tracking: "Progress tracking"
   label_project: "Progetto"
   label_project_activity: "Attività del progetto"
   label_project_attribute_plural: "Attributi del progetto"
@@ -2483,7 +2492,6 @@ it:
   label_work_package_new: "Nuova macro-attività"
   label_work_package_edit: "Modifica la macro-attività %{name}"
   label_work_package_plural: "Macro-attività"
-  label_work_packages_settings: "Impostazioni macro-attività"
   label_work_package_status: "Stato della macro-attività"
   label_work_package_status_new: "Nuovo stato"
   label_work_package_status_plural: "Stati della macro-attività"
@@ -3122,9 +3130,13 @@ it:
   setting_hours_per_day_explanation: >-
     Definisce ciò che viene considerato un "giorno" quando si visualizza la durata in giorni e ore (per esempio, se un giorno è di 8 ore, 32 ore sono 4 giorni).
   setting_invitation_expiration_days: "L'email di attivazione scade dopo"
-  setting_work_package_done_ratio: "Calcolo dei progressi"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Basato sul lavoro"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Basato sullo stato"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     Nella modalità <b>basata sul lavoro</b>, la % completamento viene calcolata in base alla quantità di lavoro svolto rispetto al lavoro totale. Nella modalità <b>basata sullo stato</b>, a ogni stato è associato un valore di % completamento. La modifica dello stato cambierà la % completamento.
   setting_work_package_done_ratio_explanation_html: >
@@ -3721,12 +3733,16 @@ it:
     close_warning: "Ignora questo avviso."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "Applicazione OAuth"
       plural: "Applicazioni OAuth"
       named: "Applicazione OAuth \"%{name}\""
       new: "Nuova Applicazione OAuth"
+      non_confidential: Non confidential
       default_scopes: "(Ambiti predefiniti)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Il nome della tua applicazione. Verrà visualizzato dagli altri utenti all'autorizzazione."
         redirect_uri_html: >
           Gli URL consentiti a cui possono essere reindirizzati gli utenti autorizzati. Una voce per riga. <br/> Se stai registrando un'applicazione desktop, usa il seguente URL.
@@ -3735,6 +3751,10 @@ it:
         client_credential_user_id: "ID utente opzionale da impersonare quando i client usano questa applicazione. Lascia vuoto per consentire solo l'accesso pubblico"
         register_intro: "Se stai sviluppando un'applicazione client OAuth API per OpenProject è possibile registrarla utilizzando questo modulo per consentirne l'uso a tutti gli utenti."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Client ID"
     client_secret_notice: >
       Questa è l'unico momento in cui possiamo stampare il segreto del client, abbi cura di annotarlo e tenerlo al sicuro. Dovrebbe essere trattato come una password e non può essere recuperato da OpenProject in un momento successivo.

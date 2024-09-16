@@ -1,0 +1,8 @@
+<%=
+  render(Primer::OpenProject::FeedbackDialog.new(open: true)) do |dialog|
+    dialog.with_feedback_message do |message|
+      message.with_heading(tag: :h2) { "Success" }
+      message.with_description { "Great! Everything worked well." }
+    end
+  end
+%>

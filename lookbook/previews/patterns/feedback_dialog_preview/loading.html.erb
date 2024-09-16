@@ -1,0 +1,8 @@
+<%=
+  render(Primer::OpenProject::FeedbackDialog.new(open: true)) do |dialog|
+    dialog.with_feedback_message(loading: true) do |message|
+      message.with_heading(tag: :h2) { "Waiting" }
+      message.with_description { "The job is currently running.." }
+    end
+  end
+%>

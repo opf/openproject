@@ -632,6 +632,8 @@ el:
         uid: "Ταυτότητα Πελάτη"
         secret: "Μυστικό πελάτη"
         owner: "Ιδιοκτήτης"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Σύνδεσμος Ανακατεύθυνσης (URI)"
         client_credentials_user_id: "Διαπιστευτήρια Πελάτη Ταυτότητα Χρήστη"
         scopes: "Φυσικά αντικείμενα"
@@ -803,6 +805,7 @@ el:
         blank: "δεν πρέπει να είναι κενό."
         blank_nested: "needs to have the property '%{property}' set."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Ένα πακέτο εργασίας δεν μπορεί να συνδεθεί με μια από τις υποεργασίες του."
         circular_dependency: "Αυτή η σχέση θα δημιουργήσει κυκλική εξάρτηση."
         confirmation: "δεν ταιριάζει με %{attribute}."
@@ -876,6 +879,10 @@ el:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Τουλάχιστον μια επιλογή πρέπει να είναι διαθέσιμη."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) μόνο μια τιμή επιτρέπεται."
           empty: "(%{name}) η τιμή δεν μπορεί να είναι άδεια."
@@ -2018,6 +2025,7 @@ el:
   label_copy_project: "Αντιγραφή έργου"
   label_core_version: "Βασική έκδοση"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Τρέχουσα κατάσταση"
   label_current_version: "Τρέχουσα έκδοση"
   label_custom_field_add_no_type: "Προσθέστε αυτό το πεδίο σε έναν τύπο πακέτου εργασίας"
@@ -2297,6 +2305,7 @@ el:
   label_product_version: "Έκδοση προϊόντος"
   label_profile: "Προφίλ"
   label_percent_complete: "% Complete"
+  label_progress_tracking: "Progress tracking"
   label_project: "Έργο"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -2482,7 +2491,6 @@ el:
   label_work_package_new: "Νέο πακέτο εργασίας"
   label_work_package_edit: "Επεξεργασία του πακέτου εργασίας %{name}"
   label_work_package_plural: "Πακέτα εργασίας"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Κατάσταση εργασίας"
   label_work_package_status_new: "Νέα κατάσταση"
   label_work_package_status_plural: "Καταστάσεις πακέτων εργασίας"
@@ -3120,9 +3128,13 @@ el:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Το μήνυμα ενεργοποίησης λήγει μετά από"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
@@ -3718,12 +3730,16 @@ el:
     close_warning: "Αγνοείστε αυτή την προειδοποίηση."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth εφαρμογή"
       plural: "OAuth εφαρμογές"
       named: "OAuth εφαρμογή '%{name}'"
       new: "Νέα OAuth εφαρμογή"
+      non_confidential: Non confidential
       default_scopes: "(Προεπιλεγμένα φυσικά αντικείμενα)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Το όνομα τις εφαρμογής. Αυτό θα εμφανίζεται στους υπόλοιπους χρήστες μόλις γίνει η εξουσιοδότηση."
         redirect_uri_html: >
           Τα επιτρεπόμενα URLs στα οποία ανακατευθύνονται οι ταυτοποιημένοι χρήστες. <br/> Αν εγγράφεστε από την εφαρμογή υπολογιστή, χρησιμοποιείστε το ακόλουθο URL.
@@ -3732,6 +3748,10 @@ el:
         client_credential_user_id: "Προαιρετική ταυτότητα χρήστη για να υποδυθεί όταν οι πελάτες χρησιμοποιούν αυτή την εφαρμογή. Αφήστε κενό για να επιτρέψετε μόνο δημόσια πρόσβαση"
         register_intro: "Αν αναπτύσσετε μια εφαρμογή πελάτη OAuth API για το OpenProject, μπορείτε να την καταχωρήσετε χρησιμοποιώντας αυτή τη φόρμα για να μπορούν να τη χρησιμοποιήσουν όλοι οι χρήστες."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Ταυτότητα Πελάτη"
     client_secret_notice: >
       Αυτή είναι η μόνη φορά που μπορούμε να τυπώσουμε το μυστικό πελάτη, παρακαλούμε σημειώστε το και κρατήστε το ασφαλές. Θα πρέπει να το χειρίζεστε ως κωδικό πρόσβασης και δεν μπορεί να ανακτηθεί από το OpenProject αργότερα.
