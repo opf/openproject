@@ -29,27 +29,132 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
+import { debounce, DebouncedFunc } from 'lodash';
+import Idiomorph from 'idiomorph/dist/idiomorph.cjs';
 
-export default class TouchedFieldMarkerController extends Controller {
+interface TurboBeforeFrameRenderEventDetail {
+  render:(currentElement:HTMLElement, newElement:HTMLElement) => void;
+}
+
+export default class PreviewController extends Controller {
   static targets = [
+    'form',
+    'progressInput',
     'initialValueInput',
     'touchedFieldInput',
-    'progressInput',
   ];
 
+  declare readonly progressInputTargets:HTMLInputElement[];
+  declare readonly formTarget:HTMLFormElement;
   declare readonly initialValueInputTargets:HTMLInputElement[];
   declare readonly touchedFieldInputTargets:HTMLInputElement[];
-  declare readonly progressInputTargets:HTMLInputElement[];
 
+  private debouncedPreview:DebouncedFunc<(event:Event) => void>;
+  private frameMorphRenderer:(event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => void;
   private targetFieldName:string;
 
-  private markFieldAsTouched(event:{ target:HTMLInputElement }) {
+  connect() {
+    this.debouncedPreview = debounce((event:Event) => { void this.preview(event); }, 100);
+    // TODO: Ideally morphing in this single controller should not be necessary.
+    // Turbo supports morphing, by adding the <turbo-frame refresh="morph"> attribute.
+    // However, it has a bug, and it doesn't morphs when reloading the frame via javascript.
+    // See https://github.com/hotwired/turbo/issues/1161 . Once the issue is solved, we can remove
+    // this code and just use <turbo-frame refresh="morph"> instead.
+    this.frameMorphRenderer = (event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => {
+      event.detail.render = (currentElement:HTMLElement, newElement:HTMLElement) => {
+        Idiomorph.morph(currentElement, newElement, { ignoreActiveValue: true });
+      };
+    };
+
+    this.progressInputTargets.forEach((target) => {
+      if (target.tagName.toLowerCase() === 'select') {
+        target.addEventListener('change', this.debouncedPreview);
+      } else {
+        target.addEventListener('input', this.debouncedPreview);
+      }
+      target.addEventListener('blur', this.debouncedPreview);
+    });
+
+    const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
+    turboFrame.addEventListener('turbo:before-frame-render', this.frameMorphRenderer);
+  }
+
+  disconnect() {
+    this.debouncedPreview.cancel();
+    this.progressInputTargets.forEach((target) => {
+      if (target.tagName.toLowerCase() === 'select') {
+        target.removeEventListener('change', this.debouncedPreview);
+      } else {
+        target.removeEventListener('input', this.debouncedPreview);
+      }
+      target.removeEventListener('blur', this.debouncedPreview);
+    });
+    const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
+    if (turboFrame) {
+      turboFrame.removeEventListener('turbo:before-frame-render', this.frameMorphRenderer);
+    }
+  }
+
+  markFieldAsTouched(event:{ target:HTMLInputElement }) {
     this.targetFieldName = event.target.name.replace(/^work_package\[([^\]]+)\]$/, '$1');
     this.markTouched(this.targetFieldName);
 
     if (this.isWorkBasedMode()) {
       this.keepWorkValue();
     }
+  }
+
+  async preview(event:Event) {
+    let field:HTMLInputElement;
+    if (event.type === 'blur') {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      field = (event as FocusEvent).relatedTarget as HTMLInputElement;
+    } else {
+      field = event.target as HTMLInputElement;
+    }
+
+    const form = this.formTarget;
+    const formData = new FormData(form) as unknown as undefined;
+    const formParams = new URLSearchParams(formData);
+    const wpParams = [
+      ['work_package[initial][estimated_hours]', formParams.get('work_package[initial][estimated_hours]') || ''],
+      ['work_package[initial][remaining_hours]', formParams.get('work_package[initial][remaining_hours]') || ''],
+      ['work_package[initial][done_ratio]', formParams.get('work_package[initial][done_ratio]') || ''],
+      ['work_package[estimated_hours]', formParams.get('work_package[estimated_hours]') || ''],
+      ['work_package[remaining_hours]', formParams.get('work_package[remaining_hours]') || ''],
+      ['work_package[done_ratio]', formParams.get('work_package[done_ratio]') || ''],
+      ['work_package[status_id]', formParams.get('work_package[status_id]') || ''],
+      ['field', field?.name ?? ''],
+    ];
+
+    this.progressInputTargets.forEach((progressInput) => {
+      const touchedInputName = progressInput.name.replace(']', '_touched]');
+      const touchedValue = formParams.get(touchedInputName) || '';
+      wpParams.push([touchedInputName, touchedValue]);
+    });
+
+    const wpPath = this.ensureValidPathname(form.action);
+    const wpAction = wpPath.endsWith('/work_packages/new/progress') ? 'new' : 'edit';
+
+    const editUrl = `${wpPath}/${wpAction}?${new URLSearchParams(wpParams).toString()}`;
+    const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
+
+    if (turboFrame) {
+      turboFrame.src = editUrl;
+    }
+  }
+
+  // Ensures that on create forms, there is an "id" for the un-persisted
+  // work package when sending requests to the edit action for previews.
+  private ensureValidPathname(formAction:string):string {
+    const wpPath = new URL(formAction);
+
+    if (wpPath.pathname.endsWith('/work_packages/progress')) {
+      // Replace /work_packages/progress with /work_packages/new/progress
+      wpPath.pathname = wpPath.pathname.replace('/work_packages/progress', '/work_packages/new/progress');
+    }
+
+    return wpPath.toString();
   }
 
   private isWorkBasedMode() {
