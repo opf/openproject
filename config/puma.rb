@@ -7,8 +7,8 @@ threads_min_count = OpenProject::Configuration.web_min_threads
 threads_max_count = OpenProject::Configuration.web_max_threads
 threads threads_min_count, [threads_min_count, threads_max_count].max
 
-# Specifies the address on which Puma will listen on to receive requests; default is 127.0.0.1.
-set_default_host ENV.fetch("HOST") { "127.0.0.1" }
+# Specifies the address on which Puma will listen on to receive requests; default is localhost.
+set_default_host ENV.fetch("HOST") { "localhost" }
 
 # Specifies the port that Puma will listen on to receive requests; default is 3000.
 port ENV.fetch("PORT") { 3000 }.to_i
