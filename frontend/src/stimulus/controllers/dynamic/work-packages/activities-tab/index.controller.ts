@@ -119,8 +119,10 @@ export default class IndexController extends Controller {
     if (this.updateInProgress) return;
     this.updateInProgress = true;
 
+    const journalsContainerAtBottom = this.isJournalsContainerScrolledToBottom(this.journalsContainerTarget);
+
     void this.performUpdateStreamsRequest(this.prepareUpdateStreamsUrl()).then(() => {
-      this.handleUpdateStreamsResponse();
+      this.handleUpdateStreamsResponse(journalsContainerAtBottom);
     }).catch((error) => {
       console.error('Error updating activities list:', error);
     }).finally(() => {
@@ -145,8 +147,7 @@ export default class IndexController extends Controller {
     });
   }
 
-  private handleUpdateStreamsResponse() {
-    const journalsContainerAtBottom = this.isJournalsContainerScrolledToBottom(this.journalsContainerTarget);
+  private handleUpdateStreamsResponse(journalsContainerAtBottom:boolean) {
     this.setLastUpdateTimestamp();
     // the timeout is require in order to give the Turb.renderStream method enough time to render the new journals
     setTimeout(() => {
@@ -227,7 +228,7 @@ export default class IndexController extends Controller {
   }
 
   private getInputContainer():HTMLElement | null {
-    return this.element.querySelector('#work-package-journal-form-element');
+    return this.element.querySelector('.work-packages-activities-tab-journals-new-component');
   }
 
   // Code Maintenance: Get rid of these JS based view port checks when activities are rendered in fully primierized activity tab in all contexts
