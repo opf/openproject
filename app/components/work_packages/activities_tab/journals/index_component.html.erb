@@ -19,7 +19,7 @@
           end
         end
       end
-      journals_index_wrapper_container.with_row(classes: "work-packages-activities-tab-journals-index-component--stem-connection") unless empty_state?
+      journals_index_wrapper_container.with_row(classes: "work-packages-activities-tab-journals-index-component--stem-connection") unless empty_state? || journal_sorting == "desc"
     end
   end
 %>
