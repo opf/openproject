@@ -27,7 +27,7 @@
 #++
 
 module Queries::Operators
-  operators = [
+  OPERATORS = [
     Queries::Operators::GreaterOrEqual,
     Queries::Operators::LessOrEqual,
     Queries::Operators::Equals,
@@ -61,7 +61,5 @@ module Queries::Operators
     Queries::Operators::Parent,
     Queries::Operators::Children,
     Queries::Operators::Child
-  ]
-
-  OPERATORS = operators.index_by { |o| o.symbol.to_s }.freeze
+  ].index_by { |o| o.symbol.to_s }.freeze
 end
