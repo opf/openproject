@@ -67,7 +67,12 @@ module WorkPackages
       end
 
       def polling_interval
-        ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"].presence || 10000
+        # Polling interval should only be adjustable in test environment
+        if Rails.env.test?
+          ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"].presence || 10000
+        else
+          10000
+        end
       end
 
       def adding_comment_allowed?
