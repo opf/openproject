@@ -946,35 +946,32 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
         updated_work_packages = call_result.all_results
         expect_work_packages(updated_work_packages, <<~TABLE)
           subject | total % complete
-          parent  |              53%
+          parent  |              56%
         TABLE
       end
     end
-  end
 
-  describe "work weighted average mode for total % complete calculation",
-           with_settings: { total_percent_complete_mode: "work_weighted_average" } do
-    subject(:call_result) do
-      described_class.new(user:, work_package: parent)
-                      .call(%i(remaining_hours))
-    end
-
-    context "with parent and all children all values set" do
+    context "with parent having % complete set " \
+            "and a multi-level children hierarchy with some % complete set" do
       let_work_packages(<<~TABLE)
-        hierarchy | work | remaining work    | % complete
-        parent    | 10h  |           7.5h    |      25%
-          child1  | 15h  |            10h    |      33%
-          child2  |  5h  |           2.5h    |      50%
-          child3  | 10h  |           2.5h    |      75%
+        hierarchy       | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+        parent          |      |    44h |                |             21h  |        10% |
+          child1        | 15h  |    23h |           10h  |             14h  |        33% |         43%
+            grandchild1 |  5h  |        |            3h  |                  |        40% |
+            grandchild2 |  3h  |        |            1h  |                  |        67% |
+          child2        |  5h  |     7h |          2.5h  |            3.5h  |        50% |         75%
+            grandchild3 |  2h  |        |            1h  |                  |       100% |
+          child3        | 10h  |    14h |          2.5h  |            3.5h  |        75% |         75%
+            grandchild4 |  4h  |        |            1h  |                  |        75% |
+          child4        |      |        |                |                  |        60% |
       TABLE
 
-      it "sets the total % complete accounting for work values as weights" do
-        pending "TODO"
+      it "sets the total % complete solely based on % complete values of direct children" do
         expect(call_result).to be_success
         updated_work_packages = call_result.all_results
         expect_work_packages(updated_work_packages, <<~TABLE)
           subject | total % complete
-          parent  |              46%
+          parent  |              53%
         TABLE
       end
     end
