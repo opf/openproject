@@ -134,8 +134,10 @@ module WorkPackages
         def render_notification_bubble(container)
           container.with_column(mr: 2) do
             render(Primer::Beta::Octicon.new(
-                     :"dot-fill", color: :accent, size: :medium,
-                                  data: { test_selector: "op-journal-unread-notification" }
+                     :"dot-fill", # color is set via CSS as requested by UI/UX Team
+                     classes: "work-packages-activities-tab-journals-item-component-details--notification-dot-icon",
+                     size: :medium,
+                     data: { test_selector: "op-journal-unread-notification" }
                    ))
           end
         end
