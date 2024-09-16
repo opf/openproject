@@ -1,8 +1,8 @@
-import * as Turbo from '@hotwired/turbo';
 import { Controller } from '@hotwired/stimulus';
 import {
   ICKEditorInstance,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
+import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 
 interface CustomEventWithIdParam extends Event {
   params:{
@@ -47,14 +47,18 @@ export default class IndexController extends Controller {
 
   private saveInProgress:boolean;
   private updateInProgress:boolean;
+  private turboRequests:TurboRequestsService;
 
-  connect() {
+  async connect() {
     this.setLocalStorageKey();
     this.setLastUpdateTimestamp();
     this.setupEventListeners();
     this.handleInitialScroll();
     this.startPolling();
     this.populateRescuedEditorContent();
+
+    const context = await window.OpenProject.getPluginContext();
+    this.turboRequests = context.services.turboRequests;
   }
 
   disconnect() {
@@ -112,33 +116,49 @@ export default class IndexController extends Controller {
   }
 
   async updateActivitiesList() {
-    if (this.updateInProgress === true) return;
-
+    if (this.updateInProgress) return;
     this.updateInProgress = true;
-    const journalsContainerAtBottom = this.isJournalsContainerScrolledToBottom(this.journalsContainerTarget);
+
+    void this.performUpdateStreamsRequest(this.prepareUpdateStreamsUrl()).then(() => {
+      this.handleUpdateStreamsResponse();
+    }).catch((error) => {
+      console.error('Error updating activities list:', error);
+    }).finally(() => {
+      this.updateInProgress = false;
+    });
+  }
+
+  private prepareUpdateStreamsUrl():string {
     const url = new URL(this.updateStreamsUrlValue);
-    url.searchParams.append('last_update_timestamp', this.lastUpdateTimestamp);
-    url.searchParams.append('filter', this.filterValue);
+    url.searchParams.set('sortBy', this.sortingValue);
+    url.searchParams.set('filter', this.filterValue);
+    url.searchParams.set('last_update_timestamp', this.lastUpdateTimestamp);
+    return url.toString();
+  }
 
-    const response = await this.fetchWithCSRF(url, 'GET');
+  private performUpdateStreamsRequest(url:string):Promise<unknown> {
+    return this.turboRequests.request(url, {
+      method: 'GET',
+      headers: {
+        'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
+      },
+    });
+  }
 
-    if (response.ok) {
-      const text = await response.text();
-      Turbo.renderStreamMessage(text);
-      this.setLastUpdateTimestamp();
-      setTimeout(() => {
-        if (this.sortingValue === 'asc' && journalsContainerAtBottom) {
-          // scroll to (new) bottom if sorting is ascending and journals container was already at bottom before a new activity was added
-          if (this.isMobile()) {
-            this.scrollInputContainerIntoView(300);
-          } else {
-            this.scrollJournalContainer(this.journalsContainerTarget, true);
-          }
+  private handleUpdateStreamsResponse() {
+    const journalsContainerAtBottom = this.isJournalsContainerScrolledToBottom(this.journalsContainerTarget);
+    this.setLastUpdateTimestamp();
+    // the timeout is require in order to give the Turb.renderStream method enough time to render the new journals
+    setTimeout(() => {
+      if (this.sortingValue === 'asc' && journalsContainerAtBottom) {
+        // scroll to (new) bottom if sorting is ascending and journals container was already at bottom before a new activity was added
+        if (this.isMobile()) {
+          this.scrollInputContainerIntoView(300);
+        } else {
+          this.scrollJournalContainer(this.journalsContainerTarget, true, true);
         }
-      }, 100);
-    }
-
-    this.updateInProgress = false;
+      }
+    }, 100);
   }
 
   private rescueEditorContent() {
@@ -272,10 +292,17 @@ export default class IndexController extends Controller {
     return atBottom;
   }
 
-  private scrollJournalContainer(journalsContainer:HTMLElement, toBottom:boolean) {
+  private scrollJournalContainer(journalsContainer:HTMLElement, toBottom:boolean, smooth:boolean = false) {
     const scrollableContainer = jQuery(journalsContainer).scrollParent()[0];
     if (scrollableContainer) {
-      scrollableContainer.scrollTop = toBottom ? scrollableContainer.scrollHeight : 0;
+      if (smooth) {
+        scrollableContainer.scrollTo({
+          top: toBottom ? scrollableContainer.scrollHeight : 0,
+        behavior: 'smooth',
+        });
+      } else {
+        scrollableContainer.scrollTop = toBottom ? scrollableContainer.scrollHeight : 0;
+      }
     }
   }
 
@@ -373,14 +400,16 @@ export default class IndexController extends Controller {
     event?.preventDefault();
 
     const formData = this.prepareFormData();
-    const response = await this.submitForm(formData);
-
-    if (!response.ok) {
-      this.saveInProgress = false;
-      return;
-    }
-
-    await this.handleSuccessfulSubmission(response);
+    void this.submitForm(formData)
+      .then(() => {
+        this.handleSuccessfulSubmission();
+      })
+      .catch((error) => {
+        console.error('Error saving activity:', error);
+      })
+      .finally(() => {
+        this.saveInProgress = false;
+      });
   }
 
   private prepareFormData():FormData {
@@ -395,14 +424,18 @@ export default class IndexController extends Controller {
     return formData;
   }
 
-  private async submitForm(formData:FormData):Promise<Response> {
-    return this.fetchWithCSRF(this.formTarget.action, 'POST', formData);
+  private async submitForm(formData:FormData):Promise<unknown> {
+    return this.turboRequests.request(this.formTarget.action, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
+      },
+    });
   }
 
-  private async handleSuccessfulSubmission(response:Response):Promise<void> {
+  private handleSuccessfulSubmission() {
     this.setLastUpdateTimestamp();
-    const text = await response.text();
-    Turbo.renderStreamMessage(text);
 
     if (!this.journalsContainerTarget) return;
 
@@ -414,6 +447,7 @@ export default class IndexController extends Controller {
       this.scrollJournalContainer(
         this.journalsContainerTarget,
         this.sortingValue === 'asc',
+        true,
       );
       if (this.isMobile()) {
         this.scrollInputContainerIntoView(300);
@@ -436,18 +470,6 @@ export default class IndexController extends Controller {
 
     this.journalsContainerTarget.style.marginBottom = '';
     this.journalsContainerTarget.classList.add('work-packages-activities-tab-index-component--journals-container_with-input-compensation');
-  }
-
-  private async fetchWithCSRF(url:string | URL, method:string, body?:FormData) {
-    return fetch(url, {
-      method,
-      body,
-      headers: {
-        'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
-        Accept: 'text/vnd.turbo-stream.html',
-      },
-      credentials: 'same-origin',
-    });
   }
 
   setLastUpdateTimestamp() {

@@ -32,6 +32,7 @@ import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 import { HttpClient } from '@angular/common/http';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -67,6 +68,7 @@ export class OpenProjectPluginContext {
     configurationService: this.injector.get<ConfigurationService>(ConfigurationService),
     attachmentsResourceService: this.injector.get(AttachmentsResourceService),
     http: this.injector.get(HttpClient),
+    turboRequests: this.injector.get(TurboRequestsService),
   };
 
   public readonly helpers = {
