@@ -525,6 +525,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
 
       it "resets an only_changes filter if a comment is added by the user", :aggregate_failures do
         activity_tab.filter_journals(:only_changes)
+        sleep 0.5 # avoid flaky test
 
         # expect only the changes
         activity_tab.expect_no_journal_notes(text: "First comment by admin")
@@ -532,6 +533,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
 
         # add a comment
         activity_tab.add_comment(text: "Third comment by admin")
+        sleep 0.5 # avoid flaky test
 
         # the only_changes filter should be reset
         activity_tab.expect_journal_notes(text: "Third comment by admin")
