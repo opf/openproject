@@ -199,6 +199,11 @@ zh-CN:
       title: "自定义操作"
       description: "自定义操作是一组预定义操作的一键式快捷方式，您可以根据状态、角色、类型或项目在某些工作包上提供这些操作。"
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: 适用于所有项目
+          description: 由于选中了 "适用于所有项目 "选项，因此所有项目都启用了该自定义字段。单个项目无法停用。
     text_add_new_custom_field: >
       要向项目添加新的自定义字段，您需要先创建字段，然后才能将其添加到此项目中。
     is_enabled_globally: "已全局启用"
@@ -791,6 +796,7 @@ zh-CN:
         blank: "不能为空。"
         blank_nested: "需要设置属性“%{property}”。"
         cannot_delete_mapping: "必需项，不能删除"
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "工作包无法链接到它的子任务之一。"
         circular_dependency: "这种关系将创建循环依赖项。"
         confirmation: "不匹配 %{attribute}。"
@@ -864,6 +870,10 @@ zh-CN:
               minimum: "需要包含至少一个采用“=”运算符的主体、上下文或 ID 筛选器。"
         custom_field:
           at_least_one_custom_option: "至少有需要一个可用选项。"
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) 只允许一个值。"
           empty: "(%{name}) 值不能为空。"
@@ -1091,7 +1101,7 @@ zh-CN:
               confirmation: "确认密码与密码不一致。"
               format: "%{message}"
             password:
-              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
+              weak: "必须包含以下字符 (至少 %{all_count} 中的 %{min_count} 个)：%{rules}。"
               lowercase: "小写字母 （如 'a')"
               uppercase: "大写字母 (如 'A')"
               numeric: "数值 （例如 ' 1')"
@@ -1905,6 +1915,7 @@ zh-CN:
   label_attribute_expand_text: "%{attribute}的完整文本"
   label_authentication: "身份验证"
   label_authentication_settings: "验证设置"
+  label_available_custom_fields_projects: "可用的自定义字段项目"
   label_available_global_roles: "可用的全局角色"
   label_available_project_attributes: "可用的项目属性"
   label_available_project_forums: "可用论坛"
@@ -2325,6 +2336,8 @@ zh-CN:
   label_role_plural: "角色"
   label_role_search: "将角色分配给新成员"
   label_scm: "SCM"
+  label_scroll_left: "向左滚动"
+  label_scroll_right: "向右滚动"
   label_search: "搜索"
   label_search_by_name: "按名称搜索"
   label_send_information: "向用户发送新的凭据"
@@ -3473,9 +3486,9 @@ zh-CN:
         remaining_hours:
           cleared_because_work_is_empty: "已清空，因为 \"工时 \"为空。"
           cleared_because_percent_complete_is_empty: "已清空，因为“完成 %”为空。"
-          decreased_like_work: "减少与 \"工时 \"相同的数额。"
+          decreased_by_delta_like_work: "减少了 %{delta}，与工作量的减少相匹配。"
           derived: "由“工时”和“完成 %”得出"
-          increased_like_work: "增加与 \"工时 \"相同的数额。"
+          increased_by_delta_like_work: "增加了 %{delta}，与工作量的增加相匹配。"
           same_as_work: "设置为与 \"工时 \"相同的值。"
     permissions:
       comment: "评论"

@@ -123,9 +123,9 @@ pl:
       agenda: "Kopiuj agendę spotkania"
       agenda_text: "Skopiuj agendę starego spotkania"
     email:
-      send_emails: "Email participants"
+      send_emails: "Wyślij wiadomość e-mail do uczestników"
       send_invitation_emails: >
-        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
+        Natychmiast wyślij zaproszenie w wiadomości e-mail do uczestników wybranych powyżej. Możesz to również zrobić ręcznie w dowolnym momencie później.
       open_meeting_link: "Spotkania otwarte"
       invited:
         summary: "Użytkownik %{actor} wysłał Ci zaproszenie na spotkanie %{title}"
@@ -150,7 +150,7 @@ pl:
     empty_text: "Przeciągnij elementy tutaj lub utwórz nowe"
   notice_successful_notification: "Powiadomienia wysłane pomyślnie"
   notice_timezone_missing: 'Została ustawiona domyślna strefa czasowa: %{zone}. Aby zmienić strefę czasową, kliknij tutaj.'
-  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
+  notice_meeting_updated: "Ta strona została zaktualizowana przez kogoś innego. Załaduj ją ponownie, aby wyświetlić zmiany."
   permission_create_meetings: "Utwórz spotkanie"
   permission_edit_meetings: "Modyfikuj spotkania"
   permission_delete_meetings: "Usuń spotkania"
@@ -182,7 +182,7 @@ pl:
   label_meeting_delete: "Usuń spotkanie"
   label_meeting_created_by: "Utworzony przez"
   label_meeting_last_updated: "Ostatnia aktualizacja"
-  label_meeting_reload: "Reload"
+  label_meeting_reload: "Załaduj ponownie"
   label_agenda_items: "Punkty planu spotkania"
   label_agenda_items_reordered: "zmieniono kolejność"
   label_agenda_item_remove: "Usuń z planu spotkania"

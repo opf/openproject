@@ -35,7 +35,6 @@ module Storages
         register(:auth_check, StorageInteraction::Nextcloud::AuthCheckQuery)
         register(:capabilities, StorageInteraction::Nextcloud::CapabilitiesQuery)
         register(:download_link, StorageInteraction::Nextcloud::DownloadLinkQuery)
-        register(:file_ids, StorageInteraction::Nextcloud::FileIdsQuery)
         register(:file_info, StorageInteraction::Nextcloud::FileInfoQuery)
         register(:files_info, StorageInteraction::Nextcloud::FilesInfoQuery)
         register(:files, StorageInteraction::Nextcloud::FilesQuery)

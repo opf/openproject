@@ -41,7 +41,7 @@ Yes, for Enterprise on-premises and Community edition there is a [configuration 
 
 We support all authentication providers that support the SAML and  OpenID Connect (OIDC) standards, such as Microsoft Entra  ID, ADFS, CAS  (with the OpenID connect overlay), Azure, Keycloak, Okta. 
 
-> [Note]
+> [!NOTE]
 > Please note  that single sign-on is an Enterprise add-on and can only be activated  for Enterprise cloud and Enterprise on-premises.
 
 ## Is it possible to use a custom SSO provider (e.g. Keycloak) with the Enterprise cloud edition?
@@ -51,7 +51,7 @@ For context: The connection of custom SSO providers is also described [here](../
 
 ## I want to connect AD and LDAP to OpenProject. Which attribute for authentication sources does OpenProject use?
 
-You can freely define the attributes that are taken from LDAP sources [in the LDAP auth source configuration screen](../ldap-authentication/).
+You can freely define the attributes that are taken from LDAP sources [in the LDAP auth source configuration screen](../ldap-connections/).
 For group synchronization, OpenProject supports the AD/LDAP standard for groups via "member / memberOf". The attribute cannot be configured at this time.
 
 ## Is there an option to mass-create users in OpenProject via the LDAP?
@@ -60,6 +60,6 @@ There's no such option at the moment. However, you can activate the on-the-fly u
 
 ## I would like to assign work packages to users from different authentication sources (AD and OpenLDAP). Is this possible without the admin creating groups manually?
 
-OpenProject supports creating groups and staffing them with users based on information found in an LDAP (or AD). This is called [LDAP group synchronization](../ldap-authentication/ldap-group-synchronization/#synchronize-ldap-and-openproject-groups-enterprise-add-on). The groups are created based on the name. So theoretically, it should be possible to have a single group that gets staffed by the information found in multiple LDAPs.  This scenario has not been tested yet. Therefore, we cannot promise that it will work for sure. There is currently no other option.
+OpenProject supports creating groups and staffing them with users based on information found in an LDAP (or AD). This is called [LDAP group synchronization](../ldap-connections/ldap-group-synchronization/#synchronize-ldap-and-openproject-groups-enterprise-add-on). The groups are created based on the name. So theoretically, it should be possible to have a single group that gets staffed by the information found in multiple LDAPs.  This scenario has not been tested yet. Therefore, we cannot promise that it will work for sure. There is currently no other option.
 
 Assigning work packages to multiple assignees is expected to be implemented in 2021. Once it is implemented, the source the user is defined in is no longer relevant.

@@ -199,6 +199,11 @@ es:
       title: "Acciones personalizadas"
       description: "Las acciones personalizadas son accesos directos de un solo clic para crear conjuntos de acciones predefinidas que pueden utilizarse en ciertos paquetes de trabajo basados en el estado, rol, tipo o proyecto."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Para agregar nuevos campos personalizados a un proyecto, primero debe crearlos, y luego añadirlos a este proyecto.
     is_enabled_globally: "Está activado a nivel global"
@@ -209,12 +214,12 @@ es:
     reorder_confirmation: "Advertencia: Se perderá el orden actual de los valores disponibles. ¿Quiere continuar?"
     instructions:
       is_required: "Marcar el campo personalizado como necesario. Esto hará obligatorio rellenar el campo cuando se creen nuevos o se actualicen los recursos existentes."
-      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
+      is_required_for_project: "Marque esta casilla para activar este atributo y hacerlo obligatorio en todos los proyectos. No puede desactivarse para proyectos individuales."
       is_for_all: "Marque el campo personalizado como disponible en todos los proyectos existentes y nuevos."
       searchable: "Incluye los valores de los campos al usar la funcionalidad de búsqueda global."
-      searchable_for_project: "Check to make this attribute available as a filter in project lists."
+      searchable_for_project: "Marque esta casilla para que este atributo esté disponible como filtro en las listas de proyectos."
       editable: "Permitir que el campo sea editable por los propios usuarios."
-      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
+      admin_only: "Marque esta casilla para que este atributo solo sea visible para los administradores. Los usuarios sin derechos de administrador no podrán verlo ni editarlo."
       is_filter: >
         Permitir que el campo personalizado se utilice como filtro en las vistas de paquetes de trabajo. Tenga en cuenta que solo 'Para todos los proyectos' seleccionados, el campo personalizado se mostrará en vistas globales.
     tab:
@@ -262,8 +267,8 @@ es:
       no_results_title_text: No hay proyectos por el momento
       no_results_content_text: Crear un nuevo proyecto
       search:
-        label: Project name filter
-        placeholder: Search by project name
+        label: Filtro de nombre de proyecto
+        placeholder: Buscar por nombre de proyecto
     lists:
       active: "Proyectos activos"
       my: "Mis proyectos"
@@ -297,7 +302,7 @@ es:
         actions:
           label_enable_single: "Activo en este proyecto, pulse para desactivarlo"
           label_disable_single: "Inactivo en este proyecto, pulse para activarlo"
-          remove_from_project: "Remove from project"
+          remove_from_project: "Quitar del proyecto"
           label_enable_all: "Activar todo"
           label_disable_all: "Desactivar todo"
         is_required_blank_slate:
@@ -389,8 +394,8 @@ es:
   my:
     access_token:
       create_dialog:
-        header: The %{type} token has been generated
-        warning: Note that this is the only time you will see this token, make sure to copy it now.
+        header: Se ha generado el token %{type}
+        warning: Tenga en cuenta que esta es la única vez que le mostraremos este token, asegúrese de copiarlo ahora.
       errors:
         token_name_blank: "Por favor, proporcione un nombre de token de API"
         token_name_in_use: "Este nombre de token de API ya está en uso, por favor seleccione uno diferente"
@@ -621,7 +626,7 @@ es:
         possible_values: "Valores posibles"
         regexp: "Expresión regular"
         searchable: "Buscable"
-        admin_only: "Admin-only"
+        admin_only: "Solo administradores"
       custom_value:
         value: "Valor"
       doorkeeper/application:
@@ -691,7 +696,7 @@ es:
         versions: "Versiones"
         work_packages: "Paquetes de trabajo"
       project_custom_field:
-        is_required: "Required for all projects"
+        is_required: "Obligatorio para todos los proyectos"
         custom_field_section: Sección
       query:
         column_names: "Columnas"
@@ -799,6 +804,7 @@ es:
         blank: "no puede estar en blanco."
         blank_nested: "necesita tener la propiedad '%{property}' definida."
         cannot_delete_mapping: "es obligatorio. No se puede eliminar."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Un paquete de trabajo no puede ser vinculado a una de sus subtareas."
         circular_dependency: "Esta relación podría crear una dependencia circular."
         confirmation: "no coincide con %{attribute}."
@@ -872,6 +878,10 @@ es:
               minimum: "necesita incluir como mínimo un filtro de entidad de seguridad, contexto o identificador con el operador «=»."
         custom_field:
           at_least_one_custom_option: "Como mínimo, tiene que estar disponible una opción."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "Solo se permite un valor (%{name})."
           empty: "El valor (%{name}) no puede estar vacío."
@@ -1037,10 +1047,10 @@ es:
             assigned_to:
               format: "%{message}"
             done_ratio:
-              does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
-              cannot_be_set_when_work_is_zero: "cannot be set when Work is 0h"
-              must_be_set_when_remaining_work_is_set: "required when Remaining work is set."
-              must_be_set_when_work_and_remaining_work_are_set: "required when Work and Remaining work are set."
+              does_not_match_work_and_remaining_work: "no coincide el trabajo y el trabajo restante"
+              cannot_be_set_when_work_is_zero: "no puede fijarse cuando el trabajo es cero"
+              must_be_set_when_remaining_work_is_set: "obligatorio cuando se fija el Trabajo restante."
+              must_be_set_when_work_and_remaining_work_are_set: "obligatorio cuando se fijan Trabajo y Trabajo restante."
               inclusion: "debe estar entre 0 y 100."
             due_date:
               not_start_date: "no es en fecha de inicio, aunque esto es necesario para hitos."
@@ -1070,17 +1080,17 @@ es:
               does_not_exist: "La categoría especificada no existe."
             estimated_hours:
               not_a_number: "no es una duración válida."
-              cant_be_inferior_to_remaining_work: "cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_and_percent_complete_are_set: "required when Remaining work and % Complete are set."
+              cant_be_inferior_to_remaining_work: "no puede ser inferior al Trabajo restante."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "obligatorio cuando se fijan Trabajo restante y % completado."
             remaining_hours:
               not_a_number: "no es una duración válida."
-              cant_exceed_work: "cannot be higher than Work."
-              must_be_set_when_work_is_set: "required when Work is set."
-              must_be_set_when_work_and_percent_complete_are_set: "required when Work and % Complete are set."
+              cant_exceed_work: "no puede ser superior a Trabajo."
+              must_be_set_when_work_is_set: "obligatorio cuando Trabajo está establecido."
+              must_be_set_when_work_and_percent_complete_are_set: "obligatorio cuando se fijan Trabajo y % completado."
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
-                must be 0h when Work is set and % Complete is 100%.
+                debe ser 0h cuando se fija el Trabajo y % completado es 100 %.
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
-                must be empty when Work is empty and % Complete is 100%.
+                debe estar vacío cuando Trabajo está vacío y % completado es 100 %.
           readonly_status: "El paquete de trabajo está en un estado de sólo lectura por lo que sus atributos no se pueden cambiar."
         type:
           attributes:
@@ -1099,7 +1109,7 @@ es:
               confirmation: "La confirmación de contraseña no coincide con la contraseña."
               format: "%{message}"
             password:
-              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
+              weak: "Debe contener caracteres de las siguientes clases (al menos %{min_count} a %{all_count}): %{rules}"
               lowercase: "en minúsculas (por ejemplo 'a')"
               uppercase: "en mayúsculas (por ejemplo ' A')"
               numeric: "numérico (por ejemplo, ' 1')"
@@ -1164,8 +1174,8 @@ es:
         other: "Roles"
       status: "Estado del paquete de trabajo"
       token/api:
-        one: Access token
-        other: Access tokens
+        one: Token de acceso
+        other: Tokens de acceso
       type: "Tipo"
       user: "Usuario"
       version: "Versión"
@@ -1647,10 +1657,10 @@ es:
       subproject: "Subproyecto: %{name}"
   export:
     dialog:
-      title: "Export"
-      submit: "Export"
+      title: "Exportar"
+      submit: "Exportar"
       format:
-        label: "File format"
+        label: "Formato del archivo"
         options:
           csv:
             label: "CSV"
@@ -1659,58 +1669,58 @@ es:
           xls:
             label: "XLS"
       columns:
-        input_label_report: "Add columns to attribute table"
-        input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
-        input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
+        input_label_report: "Añadir columnas a la tabla de atributos"
+        input_caption_report: "Por defecto se seleccionan todos los atributos añadidos como columnas en la lista de paquetes de trabajo. Los campos de texto largo no están disponibles en la tabla de atributos, pero pueden mostrarse debajo de ella."
+        input_caption_table: "Por defecto se seleccionan todos los atributos añadidos como columnas en la lista de paquetes de trabajo. Los campos de texto largo no están disponibles en las exportaciones basadas en tablas."
       pdf:
         export_type:
-          label: "PDF export type"
+          label: "Tipo de exportación PDF"
           options:
             table:
-              label: "Table"
-              caption: "Export the work packages list in a table with the desired columns."
+              label: "Tabla"
+              caption: "Exportar la lista de paquetes de trabajo en una tabla con las columnas deseadas."
             report:
-              label: "Report"
-              caption: "Export the work package on a detailed report of all work packages in the list."
+              label: "Informe"
+              caption: "Exportar el paquete de trabajo en un informe detallado de todos los paquetes de trabajo de la lista."
             gantt:
-              label: "Gantt chart"
-              caption: "Export the work packages list in a Gantt diagram view."
+              label: "Diagrama de Gantt"
+              caption: "Exportar la lista de paquetes de trabajo en una vista de diagrama de Gantt."
         include_images:
-          label: "Include images"
-          caption: "Exclude images to reduce the size of the PDF export."
+          label: "Incluir imágenes"
+          caption: "Excluir las imágenes para reducir el tamaño de la exportación a PDF."
         gantt_zoom_levels:
-          label: "Zoom levels"
-          caption: "Select what is the zoom level for dates displayed in the chart."
+          label: "Niveles de Zoom"
+          caption: "Seleccionar cuál es el nivel de zoom para las fechas que aparecen en el gráfico."
           options:
-            days: "Days"
-            weeks: "Weeks"
-            months: "Months"
-            quarters: "Quarters"
+            days: "Días"
+            weeks: "Semanas"
+            months: "Meses"
+            quarters: "Trimestres"
         column_width:
-          label: "Table column width"
+          label: "Ancho de columna de la tabla"
           options:
-            narrow: "Narrow"
-            medium: "Medium"
-            wide: "Wide"
-            very_wide: "Very wide"
+            narrow: "Estrecho"
+            medium: "Mediano"
+            wide: "Ancho"
+            very_wide: "Muy ancho"
         paper_size:
-          label: "Paper size"
-          caption: "Depending on the chart size more than one page might be exported."
+          label: "Tamaño del papel"
+          caption: "En función del tamaño del gráfico, es posible que se exporte más de una página."
         long_text_fields:
-          input_caption: "By default all long text fields are selected."
-          input_label: "Add long text fields"
-          input_placeholder: "Search for long text fields"
-          drag_area_label: "Manage long text fields"
+          input_caption: "Por defecto se seleccionan todos los campos de texto largo."
+          input_label: "Añadir campos de texto largo"
+          input_placeholder: "Buscar campos de texto largo"
+          drag_area_label: "Gestionar campos de texto largo"
       xls:
         include_relations:
-          label: "Include relations"
-          caption: "This option will create a duplicate of each work package for every relation this has with another work package."
+          label: "Incluir relaciones"
+          caption: "Esta opción creará un duplicado de cada paquete de trabajo por cada relación que este tenga con otro paquete de trabajo."
         include_descriptions:
-          label: "Include descriptions"
-          caption: "This option will add a description column in raw format."
-    your_work_packages_export: "Work packages are being exported"
-    succeeded: "Export completed"
-    failed: "An error has occurred while trying to export the work packages: %{message}"
+          label: "Incluir descripciones"
+          caption: "Esta opción añadirá una columna de descripción en formato bruto."
+    your_work_packages_export: "Se están exportando paquetes de trabajo"
+    succeeded: "Exportación completada"
+    failed: "Se ha producido un error al intentar exportar los paquetes de trabajo: %{message}"
     format:
       atom: "Atomo"
       csv: "CSV"
@@ -1941,6 +1951,7 @@ es:
   label_attribute_expand_text: "El texto completo para «%{attribute}»"
   label_authentication: "Autentificación"
   label_authentication_settings: "Ajustes de autenticación"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Roles globales disponibles"
   label_available_project_attributes: "Atributos del proyecto disponibles"
   label_available_project_forums: "Foros disponibles"
@@ -2235,8 +2246,8 @@ es:
   label_next_week: "La próxima semana"
   label_no_change_option: "(No hay cambios)"
   label_no_data: "No hay datos disponibles"
-  label_no_due_date: "no finish date"
-  label_no_start_date: "no start date"
+  label_no_due_date: "sin fecha de finalización"
+  label_no_start_date: "sin fecha de inicio"
   label_no_parent_page: "Sin página principal"
   label_nothing_display: "Nada que mostrar"
   label_nobody: "nadie"
@@ -2361,6 +2372,8 @@ es:
   label_role_plural: "Perfiles"
   label_role_search: "Asignar rol a nuevos miembros"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Buscar"
   label_search_by_name: "Buscar por nombre"
   label_send_information: "Enviar nuevas credenciales al usuario"
@@ -3117,9 +3130,9 @@ es:
   setting_work_package_done_ratio_field: "Basado en el trabajo"
   setting_work_package_done_ratio_status: "Basado en el estado"
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    En el modo <b>basado en el trabajo</b>, el % completado se calcula a partir de cuánto trabajo se ha realizado en relación con el trabajo total. En el modo <b>basado en el estado</b>, cada estado tiene asociado un valor de % completado. El cambio de estado modificará el % completado.
   setting_work_package_done_ratio_explanation_html: >
-    In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    En el modo <b>basado en trabajo</b>, el % completado puede fijarse libremente en cualquier valor. Si introduce opcionalmente un valor para Trabajo, se derivará automáticamente Trabajo restante. En el modo <b>basado en estados</b>, cada estado tiene asociado un valor de % completado. Si cambia de estado, cambiará el % completado.
   setting_work_package_properties: "Propiedades de paquete de trabajo"
   setting_work_package_startdate_is_adddate: "Usar fecha actual como fecha de inicio para nuevos paquetes de trabajo"
   setting_work_packages_projects_export_limit: "Fecha límite para exportar paquete de trabajo o proyectos"
@@ -3501,26 +3514,26 @@ es:
     progress:
       label_note: "Nota:"
       modal:
-        work_based_help_text: "Each field is automatically calculated from the two others when possible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
+        work_based_help_text: "Cada campo se calcula automáticamente a partir de los otros dos cuando es posible."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "El % completado se obtiene automáticamente a partir del Trabajo y del Trabajo restante."
         status_based_help_text: "% completado se establece por el estado del paquete de trabajo."
         migration_warning_text: "En el modo de cálculo del progreso basado en el trabajo, el % completado no puede fijarse manualmente y está vinculado al Trabajo. El valor existente se mantiene, pero no puede editarse. Introduzca primero el Trabajo."
       derivation_hints:
         done_ratio:
-          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
-          cleared_because_work_is_0h: "Cleared because Work is 0h."
-          derived: "Derived from Work and Remaining work."
+          cleared_because_remaining_work_is_empty: "Borrado porque el trabajo restante está vacío."
+          cleared_because_work_is_0h: "Borrado porque Trabajo es 0h."
+          derived: "Derivado de Trabajo y de Trabajo restante."
         estimated_hours:
-          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
-          derived: "Derived from Remaining work and % Complete."
-          same_as_remaining_work: "Set to same value as Remaining work."
+          cleared_because_remaining_work_is_empty: "Borrado porque Trabajo restante está vacío."
+          derived: "Derivado del Trabajo restante y del % completado."
+          same_as_remaining_work: "Ajustar al mismo valor que Trabajo restante."
         remaining_hours:
-          cleared_because_work_is_empty: "Cleared because Work is empty."
-          cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
-          derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
-          same_as_work: "Set to same value as Work."
+          cleared_because_work_is_empty: "Borrado porque Trabajo está vacío."
+          cleared_because_percent_complete_is_empty: "Borrado porque % completado está vacío."
+          decreased_by_delta_like_work: "Disminuido en %{delta}, igualando la reducción de Trabajo."
+          derived: "Derivado de Trabajo y % completado."
+          increased_by_delta_like_work: "Aumentado en %{delta}, igualando el aumento de Trabajo."
+          same_as_work: "Ajustar al mismo valor que Trabajo."
     permissions:
       comment: "Comentario"
       comment_description: "Puede ver y comentar este paquete de trabajo."

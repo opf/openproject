@@ -199,6 +199,11 @@ ca:
       title: "Accions personalitzades"
       description: "Les accions personalitzades són accessos ràpids d'un sol clic que et permeten crear accions predefinides en els paquets de treball que desitgis basat en estat, rol, estil o projecte."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Per afegir nous camps personalitzats a un projecte primer has de crear-los abans de poder-los afegir a aquest projecte.
     is_enabled_globally: "És habilitat globalment"
@@ -798,6 +803,7 @@ ca:
         blank: "no pot estar en blanc."
         blank_nested: "és necessari de definir la propietat  '%{property}' ."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Un paquet de treball no es pot enllaçar a una de les seves subtasques."
         circular_dependency: "Aquesta relació crearia una dependència circular."
         confirmation: "no coincideix amb el %{attribute}."
@@ -871,6 +877,10 @@ ca:
               minimum: "necessita d'incloure almenys un filtre per a principal, a context o id amb l'operador '='."
         custom_field:
           at_least_one_custom_option: "Al menys hi ha d'haver una opció disponible."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) sols és permès un valor."
           empty: "(%{name}) el valor no ser buit."
@@ -1940,6 +1950,7 @@ ca:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autenticació"
   label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Fòrums disponibles"
@@ -2360,6 +2371,8 @@ ca:
   label_role_plural: "Rols"
   label_role_search: "Assignar rols als nous membres"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Cercar"
   label_search_by_name: "Search by name"
   label_send_information: "Envia noves credencials a l'usuari"
@@ -3511,9 +3524,9 @@ ca:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "Comentari"

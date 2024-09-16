@@ -54,7 +54,7 @@ OpenProject provides means to fully erase both all identifiable information of a
 
 - Data controllers can perform the deletion [through the administration](../../../system-admin-guide/users-permissions/users/).
 
-- Depending on the configuration of your OpenProject instance, individual data subjects may perform the deletion of their own account through the [Delete Account](../../../getting-started/my-account/) page. If this is disabled, the request may be stated to the data controller.
+- Depending on the configuration of your OpenProject instance, individual data subjects may perform the deletion of their own account through the [Delete Account](../../../user-guide/my-account/) page. If this is disabled, the request may be stated to the data controller.
 
 ### Data Portability
 

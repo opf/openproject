@@ -55,10 +55,14 @@ module Storages
 
       shared_let(:remote_identities) do
         [create(:remote_identity, user: admin, oauth_client: storage.oauth_client, origin_user_id: "admin"),
-         create(:remote_identity, user: multiple_projects_user, oauth_client: storage.oauth_client,
-                                  origin_user_id: "multiple_projects_user"),
-         create(:remote_identity, user: single_project_user, oauth_client: storage.oauth_client,
-                                  origin_user_id: "single_project_user")]
+         create(:remote_identity,
+                user: multiple_projects_user,
+                oauth_client: storage.oauth_client,
+                origin_user_id: "multiple_projects_user"),
+         create(:remote_identity,
+                user: single_project_user,
+                oauth_client: storage.oauth_client,
+                origin_user_id: "single_project_user")]
       end
 
       shared_let(:non_member_role) { create(:non_member, permissions: ["read_files"]) }
@@ -69,12 +73,14 @@ module Storages
         create(:project, :archived, name: "INACTIVE PROJECT", members: { multiple_projects_user => ordinary_role })
       end
       shared_let(:project) do
-        create(:project, name: "[Sample] Project Name / Ehüu ///",
-                         members: { multiple_projects_user => ordinary_role, single_project_user => ordinary_role })
+        create(:project,
+               name: "[Sample] Project Name / Ehüu ///",
+               members: { multiple_projects_user => ordinary_role, single_project_user => ordinary_role })
       end
       shared_let(:renamed_project) do
-        create(:project, name: "Renamed Project #23",
-                         members: { multiple_projects_user => ordinary_role })
+        create(:project,
+               name: "Renamed Project #23",
+               members: { multiple_projects_user => ordinary_role })
       end
 
       let!(:public_storage) { create(:project_storage, :as_automatically_managed, storage:, project: public_project) }
@@ -89,7 +95,7 @@ module Storages
                storage:, project: renamed_project, project_folder_id: "9001")
       end
 
-      let(:file_ids) { class_double(Peripherals::StorageInteraction::Nextcloud::FileIdsQuery) }
+      let(:file_path_to_id_map) { class_double(Peripherals::StorageInteraction::Nextcloud::FilePathToIdMapQuery) }
       let(:group_users) { class_double(Peripherals::StorageInteraction::Nextcloud::GroupUsersQuery) }
       let(:rename_file) { class_double(Peripherals::StorageInteraction::Nextcloud::RenameFileCommand) }
       let(:set_permissions) { class_double(Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand) }
@@ -98,10 +104,16 @@ module Storages
       let(:remove_user) { class_double(Peripherals::StorageInteraction::Nextcloud::RemoveUserFromGroupCommand) }
       let(:auth_strategy) { Peripherals::StorageInteraction::AuthenticationStrategies::Strategy.new(key: :basic_auth) }
 
-      let(:file_ids_result) do
+      let(:root_folder_id) { "root_folder_id" }
+      let(:file_path_to_id_map_result) do
+        inactive_storage_path = inactive_storage.managed_project_folder_path.chomp("/")
+
         ServiceResult.success(
-          result: { inactive_storage.managed_project_folder_path => { "fileid" => "12345" },
-                    "/OpenProject/Another Name for this Project" => { "fileid" => "9001" } }
+          result: {
+            "/OpenProject" => StorageFileId.new(root_folder_id),
+            inactive_storage_path => StorageFileId.new(inactive_storage.project_folder_id),
+            "/OpenProject/Another Name for this Project" => StorageFileId.new(renamed_storage.project_folder_id)
+          }
         )
       end
 
@@ -109,10 +121,18 @@ module Storages
         ServiceResult.success(result: %w[OpenProject admin multiple_projects_user cookiemonster])
       end
 
-      let(:group_permissions_result) { ServiceResult.success }
-      let(:group_permissions) { { groups: { OpenProject: 1 }, users: { OpenProject: 31 } } }
+      let(:root_permissions_result) { ServiceResult.success }
+      let(:root_permission_input) do
+        build_input_data(
+          "root_folder_id",
+          [
+            { user_id: "OpenProject", permissions: OpenProject::Storages::Engine.external_file_permissions },
+            { group_id: "OpenProject", permissions: %i[read_files] }
+          ]
+        )
+      end
 
-      let(:projects_folder_permissions) { build_project_folder_permissions }
+      let(:projects_folder_permissions) { build_project_folder_permission_input }
 
       let(:rename_file_result) do
         StorageFile.new(id: renamed_storage.project_folder_id, name: renamed_storage.managed_project_folder_name,
@@ -126,7 +146,7 @@ module Storages
       let(:create_folder_result) { build_create_folder_result }
 
       before do
-        Peripherals::Registry.stub("nextcloud.queries.file_ids", file_ids)
+        Peripherals::Registry.stub("nextcloud.queries.file_path_to_id_map", file_path_to_id_map)
         Peripherals::Registry.stub("nextcloud.queries.group_users", group_users)
         Peripherals::Registry.stub("nextcloud.commands.add_user_to_group", add_user)
         Peripherals::Registry.stub("nextcloud.commands.create_folder", create_folder)
@@ -136,11 +156,13 @@ module Storages
         Peripherals::Registry.stub("nextcloud.authentication.userless", -> { auth_strategy })
 
         # We arent using ParentFolder nor AuthStrategies on FileIds
-        allow(file_ids).to receive(:call).with(storage:, path: storage.group).and_return(file_ids_result)
+        folder = Peripherals::ParentFolder.new(storage.group)
+        allow(file_path_to_id_map).to receive(:call).with(storage:, auth_strategy:, folder:, depth: 1)
+                                                    .and_return(file_path_to_id_map_result)
+
         # Setting the Group Permissions
-        allow(set_permissions)
-          .to receive(:call).with(storage:, auth_strategy:, path: storage.group,
-                                  permissions: group_permissions).and_return(group_permissions_result)
+        allow(set_permissions).to receive(:call).with(storage:, auth_strategy:, input_data: root_permission_input)
+                                                .and_return(root_permissions_result)
 
         # Creating folders
         allow(create_folder).to receive(:call).with(storage:, auth_strategy:, parent_location:,
@@ -157,8 +179,8 @@ module Storages
                                             .and_return(ServiceResult.success(result: rename_file_result))
 
         # Project Permissions + Hiding Projects
-        projects_folder_permissions.each_pair do |path, permissions|
-          allow(set_permissions).to receive(:call).with(storage:, auth_strategy:, path:, permissions:)
+        projects_folder_permissions.each do |input_data|
+          allow(set_permissions).to receive(:call).with(storage:, auth_strategy:, input_data:)
                                                   .and_return(ServiceResult.success)
         end
 
@@ -180,8 +202,13 @@ module Storages
       end
 
       context "when a project is renamed" do
-        let(:file_ids_result) do
-          ServiceResult.success(result: { "OBVIOUSLY NON RENAMED" => { "fileid" => renamed_storage.project_folder_id } })
+        let(:file_path_to_id_map_result) do
+          ServiceResult.success(
+            result: {
+              "/OpenProject" => StorageFileId.new(root_folder_id),
+              "/OpenProject/OBVIOUSLY NON RENAMED" => StorageFileId.new(renamed_storage.project_folder_id)
+            }
+          )
         end
 
         let(:group_users_result) do
@@ -193,7 +220,9 @@ module Storages
         it "requests to rename the folder to the new managed folder name" do
           service.call(storage)
           expect(rename_file).to have_received(:call)
-                                   .with(storage:, auth_strategy:, file_id: renamed_storage.project_folder_id,
+                                   .with(storage:,
+                                         auth_strategy:,
+                                         file_id: renamed_storage.project_folder_id,
                                          name: renamed_storage.managed_project_folder_name).once
         end
 
@@ -203,19 +232,17 @@ module Storages
       end
 
       context "with a public project" do
-        let(:file_ids_result) { ServiceResult.success(result: {}) }
-
-        let(:permissions) do
-          { groups: { OpenProject: 0 },
-            users: { "OpenProject" => 31, "admin" => 31, "single_project_user" => 1, "multiple_projects_user" => 1 } }
+        let(:file_path_to_id_map_result) do
+          ServiceResult.success(result: { "/OpenProject" => StorageFileId.new(root_folder_id) })
         end
 
         before { ProjectStorage.where.not(id: public_storage.id).delete_all }
 
         it "allows sets permissions to all signed-in users" do
+          input_data = build_project_folder_permission_input[1] # The permissions for the public project
+
           service.call(storage)
-          expect(set_permissions).to have_received(:call).with(storage:, auth_strategy:, permissions:,
-                                                               path: public_storage.managed_project_folder_path).once
+          expect(set_permissions).to have_received(:call).with(storage:, auth_strategy:, input_data:).once
         end
       end
 
@@ -235,11 +262,10 @@ module Storages
 
       context "with an archived project" do
         it "hides the project folder" do
-          perms = build_project_folder_permissions[inactive_storage.managed_project_folder_path]
+          input_data = build_project_folder_permission_input[0]
           service.call(storage)
 
-          expect(set_permissions).to have_received(:call).with(storage:, auth_strategy:, permissions: perms,
-                                                               path: inactive_storage.managed_project_folder_path).once
+          expect(set_permissions).to have_received(:call).with(storage:, auth_strategy:, input_data:).once
         end
       end
 
@@ -247,8 +273,10 @@ module Storages
         let(:error_prefix) { "services.errors.models.nextcloud_sync_service" }
 
         context "when the initial fetch of remote folders fails" do
-          let(:file_ids_result) do
-            errors = storage_error(:unauthorized, "error body", Peripherals::StorageInteraction::Nextcloud::FileIdsQuery)
+          let(:file_path_to_id_map_result) do
+            errors = storage_error(:unauthorized,
+                                   "error body",
+                                   Peripherals::StorageInteraction::Nextcloud::FilePathToIdMapQuery)
             ServiceResult.failure(result: :unauthorized, errors:)
           end
 
@@ -276,7 +304,7 @@ module Storages
         end
 
         context "when we fail to set the root folder permissions" do
-          let(:group_permissions_result) do
+          let(:root_permissions_result) do
             errors = storage_error(:error, "error body", Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand)
             ServiceResult.failure(result: :unauthorized, errors:)
           end
@@ -286,7 +314,11 @@ module Storages
             service.call(storage)
 
             expect(Rails.logger).to have_received(:error)
-                                      .with(error_code: :error, message: "TESTING", folder: "OpenProject", data: "error body")
+                                      .with(error_code: :error,
+                                            message: "TESTING",
+                                            folder: "root",
+                                            data: "error body",
+                                            root_folder_id: "root_folder_id")
           end
 
           it "adds to the services errors" do
@@ -333,7 +365,8 @@ module Storages
           end
 
           it "interrupts the flow" do
-            commands = [file_ids, set_permissions, group_users, add_user, create_folder, remove_user, rename_file]
+            commands = [file_path_to_id_map, set_permissions, group_users, add_user, create_folder, remove_user,
+                        rename_file]
             service.call(storage)
             expect(commands).to all(have_received(:call).at_least(:once))
           end
@@ -350,26 +383,58 @@ module Storages
 
     def build_create_folder_result
       {
-        public_storage.managed_project_folder_name => ServiceResult.success(result:
-          StorageFile.new(id: "public_id", name: public_storage.managed_project_folder_name)),
-        project_storage.managed_project_folder_name => ServiceResult.success(result:
-          StorageFile.new(id: "normal_project_id", name: project_storage.managed_project_folder_name))
+        public_storage.managed_project_folder_name =>
+          ServiceResult.success(result: StorageFile.new(id: "public_id",
+                                                        name: public_storage.managed_project_folder_name)),
+        project_storage.managed_project_folder_name =>
+          ServiceResult.success(result: StorageFile.new(id: "normal_project_id",
+                                                        name: project_storage.managed_project_folder_name))
       }
     end
 
-    def build_project_folder_permissions
-      {
-        inactive_storage.managed_project_folder_path => { groups: { OpenProject: 0 }, users: { OpenProject: 31 } },
-        public_storage.managed_project_folder_path => { groups: { OpenProject: 0 },
-                                                        users: { "OpenProject" => 31, "admin" => 31, "single_project_user" => 1,
-                                                                 "multiple_projects_user" => 1 } },
-        project_storage.managed_project_folder_path => { groups: { OpenProject: 0 },
-                                                         users: { "OpenProject" => 31, "admin" => 31,
-                                                                  "multiple_projects_user" => 3, "single_project_user" => 3 } },
-        renamed_storage.managed_project_folder_path => { groups: { OpenProject: 0 },
-                                                         users: { "OpenProject" => 31, "admin" => 31,
-                                                                  "multiple_projects_user" => 3 } }
-      }
+    def build_project_folder_permission_input
+      [
+        build_input_data(
+          inactive_storage.project_folder_id,
+          [
+            { user_id: "OpenProject", permissions: OpenProject::Storages::Engine.external_file_permissions },
+            { group_id: "OpenProject", permissions: [] }
+          ]
+        ),
+        build_input_data(
+          "public_id",
+          [
+            { user_id: "OpenProject", permissions: OpenProject::Storages::Engine.external_file_permissions },
+            { user_id: "admin", permissions: OpenProject::Storages::Engine.external_file_permissions },
+            { user_id: "multiple_projects_user", permissions: %i[read_files] },
+            { user_id: "single_project_user", permissions: %i[read_files] },
+            { group_id: "OpenProject", permissions: [] }
+          ]
+        ),
+        build_input_data(
+          "normal_project_id",
+          [
+            { user_id: "OpenProject", permissions: OpenProject::Storages::Engine.external_file_permissions },
+            { user_id: "admin", permissions: OpenProject::Storages::Engine.external_file_permissions },
+            { user_id: "multiple_projects_user", permissions: %i[read_files write_files] },
+            { user_id: "single_project_user", permissions: %i[read_files write_files] },
+            { group_id: "OpenProject", permissions: [] }
+          ]
+        ),
+        build_input_data(
+          renamed_storage.project_folder_id,
+          [
+            { user_id: "OpenProject", permissions: OpenProject::Storages::Engine.external_file_permissions },
+            { user_id: "admin", permissions: OpenProject::Storages::Engine.external_file_permissions },
+            { user_id: "multiple_projects_user", permissions: %i[read_files write_files] },
+            { group_id: "OpenProject", permissions: [] }
+          ]
+        )
+      ]
+    end
+
+    def build_input_data(file_id, user_permissions)
+      Peripherals::StorageInteraction::Inputs::SetPermissions.build(file_id:, user_permissions:).value!
     end
   end
 end

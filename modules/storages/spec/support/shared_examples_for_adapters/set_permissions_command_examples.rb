@@ -86,6 +86,24 @@ RSpec.shared_examples_for "set_permissions_command: creates new permissions" do
   end
 end
 
+RSpec.shared_examples_for "set_permissions_command: unknown remote identity" do
+  it "returns a failure" do
+    file_id = test_folder.id
+    input_data = Storages::Peripherals::StorageInteraction::Inputs::SetPermissions
+                   .build(file_id:, user_permissions:)
+                   .value!
+    result = described_class.call(storage:, auth_strategy:, input_data:)
+
+    expect(result).to be_failure
+
+    error = result.errors
+    expect(error.code).to eq(:unknown_remote_identity)
+    expect(error.data.source).to eq(error_source)
+  ensure
+    clean_up file_id
+  end
+end
+
 RSpec.shared_examples_for "set_permissions_command: not found" do
   it "returns a failure" do
     result = described_class.call(storage:, auth_strategy:, input_data:)

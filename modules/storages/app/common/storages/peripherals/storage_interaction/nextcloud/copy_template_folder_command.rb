@@ -46,15 +46,17 @@ module Storages
 
           def call(auth_strategy:, source_path:, destination_path:)
             with_tagged_logger do
-              valid_input_result = validate_inputs(source_path, destination_path).on_failure { return _1 }
+              Authentication[auth_strategy].call(storage: @storage) do |http|
+                valid_input_result = validate_inputs(source_path, destination_path).on_failure { return _1 }
 
-              remote_urls = build_origin_urls(**valid_input_result.result)
+                remote_urls = build_origin_urls(**valid_input_result.result)
 
-              ensure_remote_folder_does_not_exist(auth_strategy, remote_urls[:destination_url]).on_failure { return _1 }
+                ensure_remote_folder_does_not_exist(http, remote_urls[:destination_url]).on_failure { return _1 }
 
-              copy_folder(auth_strategy, **remote_urls).on_failure { return _1 }
+                copy_folder(http, **remote_urls).on_failure { return _1 }
 
-              get_folder_id(valid_input_result.result[:destination_path])
+                get_folder_id(auth_strategy, valid_input_result.result[:destination_path])
+              end
             end
           end
 
@@ -76,9 +78,9 @@ module Storages
             { source_url:, destination_url: }
           end
 
-          def ensure_remote_folder_does_not_exist(auth_strategy, destination_url)
+          def ensure_remote_folder_does_not_exist(http, destination_url)
             info "Checking if #{destination_url} does not already exists."
-            response = Authentication[auth_strategy].call(storage: @storage) { |http| http.head(destination_url) }
+            response = http.head(destination_url)
 
             case response
             in { status: 200..299 }
@@ -98,13 +100,11 @@ module Storages
             end
           end
 
-          def copy_folder(auth_strategy, source_url:, destination_url:)
+          def copy_folder(http, source_url:, destination_url:)
             info "Copying #{source_url} to #{destination_url}"
-            response = Authentication[auth_strategy].call(storage: @storage) do |http|
-              http.request("COPY", source_url, headers: { "Destination" => destination_url, "Depth" => "infinity" })
-            end
-
-            handle_response(response)
+            handle_response http.request("COPY",
+                                         source_url,
+                                         headers: { "Destination" => destination_url, "Depth" => "infinity" })
           end
 
           # rubocop:disable Metrics/AbcSize
@@ -133,14 +133,14 @@ module Storages
                                     errors: Util.storage_error(response:, code: :error, source:))
             end
           end
+
           # rubocop:enable Metrics/AbcSize
 
-          def get_folder_id(destination_path)
-            call = Registry
-                     .resolve("#{@storage.short_provider_type}.queries.file_ids")
-                     .call(storage: @storage, path: destination_path)
-
-            call.map { |result| @data.with(id: result[destination_path]["fileid"]) }
+          def get_folder_id(auth_strategy, destination_path)
+            Registry
+              .resolve("nextcloud.queries.file_path_to_id_map")
+              .call(storage: @storage, auth_strategy:, folder: ParentFolder.new(destination_path), depth: 0)
+              .map { |result| @data.with(id: result[destination_path].id) }
           end
 
           def source = self.class

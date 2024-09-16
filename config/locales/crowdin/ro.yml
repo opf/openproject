@@ -202,6 +202,11 @@ ro:
       title: "Acțiuni personalizate"
       description: "Acțiunile personalizate sunt comenzi rapide cu un singur clic către un set de acțiuni predefinite pe care le puteți face disponibile pentru anumite pachete de lucru în funcție de statut, rol, tip sau proiect."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Dacă doriți să adăugați noi câmpuri personalizate în cadrul unui proiect va trebui, mai întâi, să le creați.
     is_enabled_globally: "Este activat/ă la nivel global"
@@ -809,6 +814,7 @@ ro:
         blank: "nu poate fi gol."
         blank_nested: "trebuie să aibă setul '%{property}' al proprietății."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Un pachet de lucru nu poate fi legat de una din sub-activitățile sale."
         circular_dependency: "Această relație ar crea o dependință circulară."
         confirmation: "nu se potrivește cu %{attribute}."
@@ -882,6 +888,10 @@ ro:
               minimum: "trebuie să includeți cel puțin un filtru pentru principal, context sau id cu operatorul \"=\"."
         custom_field:
           at_least_one_custom_option: "Cel puțin o opțiune trebuie să fie disponibilă."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) este permisă doar o singură valoare."
           empty: "(%{name}) valoarea nu poate fi goală."
@@ -1979,6 +1989,7 @@ ro:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autentificare"
   label_authentication_settings: "Setări autentificare"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Roluri globale disponibile"
   label_available_project_attributes: "Atribute proiect disponibile"
   label_available_project_forums: "Forumuri disponibile"
@@ -2399,6 +2410,8 @@ ro:
   label_role_plural: "Roluri"
   label_role_search: "Atribuirea rolului noilor membri"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Căutare"
   label_search_by_name: "Caută după nume"
   label_send_information: "Send new credentials to the user"
@@ -3559,9 +3572,9 @@ ro:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "Comentariu"

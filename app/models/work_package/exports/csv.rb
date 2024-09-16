@@ -39,11 +39,19 @@ module WorkPackage::Exports
     end
 
     def csv_headers
+      return super unless with_descriptions
+
       super + [WorkPackage.human_attribute_name(:description)]
+    end
+
+    def with_descriptions
+      ActiveModel::Type::Boolean.new.cast(options[:show_descriptions])
     end
 
     # fetch all row values
     def csv_row(work_package)
+      return super unless with_descriptions
+
       super.tap do |row|
         if row.any?
           row << if work_package.description

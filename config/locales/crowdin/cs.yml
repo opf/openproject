@@ -202,6 +202,11 @@ cs:
       title: "Vlastní akce"
       description: "Vlastní akce jsou zkratky jedním kliknutím na sadu předem definovaných akcí, které můžete zpřístupnit na základě stavu některých pracovních balíčků. role, typ nebo projekt."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Chcete-li přidat nová vlastní pole do projektu, musíte je nejprve vytvořit, než je budete moci přidat do tohoto projektu.
     is_enabled_globally: "Globálně povoleno"
@@ -816,6 +821,7 @@ cs:
         blank: "nemůže být prázdné."
         blank_nested: "musí mít nastavenou vlastnost '%{property}'."
         cannot_delete_mapping: "je povinné. Nelze odstranit."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Pracovní balíček nemůže být propojen s jedním z jeho podúkolů."
         circular_dependency: "Tento vztah by vytvořil kruhovou závislost."
         confirmation: "neshoduje se s %{attribute}."
@@ -889,6 +895,10 @@ cs:
               minimum: "musí obsahovat alespoň jeden filtr pro hlavní, kontext nebo id operátora „=“."
         custom_field:
           at_least_one_custom_option: "Alespoň jedna možnost musí být k dispozici."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) je povolena pouze jedna hodnota."
           empty: "(%{name}) hodnota nemůže být prázdná."
@@ -2014,6 +2024,7 @@ cs:
   label_attribute_expand_text: "Úplný text pro '%{attribute}'"
   label_authentication: "Ověření"
   label_authentication_settings: "Nastavení ověření"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Dostupné globální role"
   label_available_project_attributes: "Dostupné atributy projektu"
   label_available_project_forums: "Dostupná fóra"
@@ -2434,6 +2445,8 @@ cs:
   label_role_plural: "Role"
   label_role_search: "Přiřadit roli novým členům"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Vyhledávání"
   label_search_by_name: "Hledat podle názvu"
   label_send_information: "Poslat nové přihlašovací údaje uživateli"
@@ -3596,9 +3609,9 @@ cs:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "Komentář"

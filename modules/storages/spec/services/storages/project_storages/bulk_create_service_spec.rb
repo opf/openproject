@@ -56,7 +56,8 @@ RSpec.describe Storages::ProjectStorages::BulkCreateService do
 
         aggregate_failures "broadcasts projects storages created event" do
           expect(OpenProject::Notifications).to have_received(:send)
-            .with(OpenProject::Events::PROJECT_STORAGE_CREATED, project_folder_mode:, storage:)
+            .with(OpenProject::Events::PROJECT_STORAGE_CREATED, project_folder_mode:,
+                                                                project_folder_mode_previously_was: nil, storage:)
         end
       end
     end
@@ -79,7 +80,8 @@ RSpec.describe Storages::ProjectStorages::BulkCreateService do
 
         aggregate_failures "broadcasts projects storages created event" do
           expect(OpenProject::Notifications).to have_received(:send)
-            .with(OpenProject::Events::PROJECT_STORAGE_CREATED, project_folder_mode:, storage:)
+            .with(OpenProject::Events::PROJECT_STORAGE_CREATED, project_folder_mode:,
+                                                                project_folder_mode_previously_was: nil, storage:)
         end
       end
     end
@@ -101,7 +103,8 @@ RSpec.describe Storages::ProjectStorages::BulkCreateService do
 
         aggregate_failures "broadcasts projects storages created event" do
           expect(OpenProject::Notifications).to have_received(:send)
-            .with(OpenProject::Events::PROJECT_STORAGE_CREATED, project_folder_mode:, storage:)
+            .with(OpenProject::Events::PROJECT_STORAGE_CREATED, project_folder_mode:,
+                                                                project_folder_mode_previously_was: nil, storage:)
         end
       end
     end
@@ -122,7 +125,8 @@ RSpec.describe Storages::ProjectStorages::BulkCreateService do
 
         aggregate_failures "broadcasts projects storages created event" do
           expect(OpenProject::Notifications).to have_received(:send)
-            .with(OpenProject::Events::PROJECT_STORAGE_CREATED, project_folder_mode:, storage:)
+            .with(OpenProject::Events::PROJECT_STORAGE_CREATED, project_folder_mode:,
+                                                                project_folder_mode_previously_was: nil, storage:)
         end
       end
     end
@@ -153,7 +157,8 @@ RSpec.describe Storages::ProjectStorages::BulkCreateService do
 
       aggregate_failures "broadcasts projects storages created event" do
         expect(OpenProject::Notifications).to have_received(:send)
-          .with(OpenProject::Events::PROJECT_STORAGE_CREATED, project_folder_mode:, storage:)
+          .with(OpenProject::Events::PROJECT_STORAGE_CREATED, project_folder_mode:,
+                                                              project_folder_mode_previously_was: nil, storage:)
       end
     end
   end
@@ -174,7 +179,8 @@ RSpec.describe Storages::ProjectStorages::BulkCreateService do
       expect { instance.call(project_folder_mode:) }.not_to change(Storages::ProjectStorage, :count)
       expect(instance.call).to be_failure
       expect(OpenProject::Notifications).not_to have_received(:send)
-        .with(OpenProject::Events::PROJECT_STORAGE_CREATED, project_folder_mode:, storage:)
+        .with(OpenProject::Events::PROJECT_STORAGE_CREATED, project_folder_mode:,
+                                                            project_folder_mode_previously_was: nil, storage:)
     end
   end
 
@@ -205,7 +211,8 @@ RSpec.describe Storages::ProjectStorages::BulkCreateService do
 
       aggregate_failures "broadcasts projects storages created event" do
         expect(OpenProject::Notifications).to have_received(:send)
-          .with(OpenProject::Events::PROJECT_STORAGE_CREATED, project_folder_mode:, storage:)
+          .with(OpenProject::Events::PROJECT_STORAGE_CREATED, project_folder_mode:,
+                                                              project_folder_mode_previously_was: nil, storage:)
       end
     end
   end

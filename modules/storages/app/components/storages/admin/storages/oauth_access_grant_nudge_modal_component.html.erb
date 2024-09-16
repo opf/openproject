@@ -39,16 +39,13 @@
           ) { render(Storages::OpenProjectStorageModalComponent::Body.new(:waiting, waiting_title:)) }
         )
         concat(
-          render(Primer::Beta::Blankslate.new(
-                  border: false,
-                  data: { "storages--oauth-access-grant-nudge-modal-target": "requestAccessBody" }
-                )) do |component|
-            component.with_visual_icon(icon: :"sign-in", size: :medium)
+          render(
+            Primer::OpenProject::FeedbackMessage.new(icon_arguments: {icon: :"sign-in", color: :muted},
+                                                     data: { "storages--oauth-access-grant-nudge-modal-target": "requestAccessBody" })
+          ) do |component|
+            component.with_heading(tag: :h2, aria: { hidden: true }) { heading_text }
 
-            component.with_heading(tag: :h2, aria: { hidden: true })
-                    .with_content(heading_text)
-
-            component.with_description(color: :subtle) { body_text }
+            component.with_description { body_text }
           end
         )
       end

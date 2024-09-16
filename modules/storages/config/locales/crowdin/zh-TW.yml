@@ -70,7 +70,7 @@ zh-TW:
       dialog:
         automatically_managed_appendix: 此外，在這種情況下，此儲存空間有一個自動管理的專案資料夾，此資料夾及其檔案將永遠刪除。
         confirmation_text: 請確認您瞭解並希望從本專案中移除此檔案儲存空間
-        heading_text: Remove project from %{storage}
+        heading_text: 從 %{storage} 移除專案
         text: 此動作是不可逆轉的，並會移除此專案的工作項目到該儲存的檔案和資料夾的所有連結。
       label: 移除專案
   services:

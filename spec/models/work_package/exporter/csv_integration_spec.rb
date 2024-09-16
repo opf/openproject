@@ -34,6 +34,7 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
   end
 
   let(:project) { create(:project) }
+  let(:options) { { show_descriptions: true } }
   let(:type_a) { create(:type, name: "Type A") }
   let(:type_b) { create(:type, name: "Type B") }
   let(:wp1) { create(:work_package, project:, done_ratio: 25, subject: "WP1", type: type_a, id: 1) }
@@ -45,7 +46,7 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
            member_with_permissions: { project => %i(view_work_packages) })
   end
   let(:instance) do
-    described_class.new(query)
+    described_class.new(query, options)
   end
   let(:work_packages) do
     [wp1, wp2, wp3, wp4]
@@ -74,18 +75,38 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
       )
     end
 
-    it "performs a successful export" do
-      work_package.reload
+    context "when description is included" do
+      it "performs a successful export" do
+        work_package.reload
 
-      data = CSV.parse instance.export!.content
+        data = CSV.parse instance.export!.content
 
-      expect(data.size).to eq(2)
-      expect(data.last).to include(work_package.type.name)
-      expect(data.last).to include(work_package.subject)
-      expect(data.last).to include(work_package.description)
-      expect(data.last).to include(user.name)
-      expect(data.last).to include(work_package.updated_at.localtime.strftime("%m/%d/%Y %I:%M %p"))
-      expect(data.last).to include("· Σ 15h")
+        expect(data.size).to eq(2)
+        expect(data.last).to include(work_package.type.name)
+        expect(data.last).to include(work_package.subject)
+        expect(data.last).to include(work_package.description)
+        expect(data.last).to include(user.name)
+        expect(data.last).to include(work_package.updated_at.localtime.strftime("%m/%d/%Y %I:%M %p"))
+        expect(data.last).to include("· Σ 15h")
+      end
+    end
+
+    context "when description is not included" do
+      let(:options) { { show_descriptions: false } }
+
+      it "performs a successful export" do
+        work_package.reload
+
+        data = CSV.parse instance.export!.content
+
+        expect(data.size).to eq(2)
+        expect(data.last).to include(work_package.type.name)
+        expect(data.last).to include(work_package.subject)
+        expect(data.last).not_to include(work_package.description)
+        expect(data.last).to include(user.name)
+        expect(data.last).to include(work_package.updated_at.localtime.strftime("%m/%d/%Y %I:%M %p"))
+        expect(data.last).to include("· Σ 15h")
+      end
     end
   end
 
@@ -103,7 +124,7 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
       data = CSV.parse instance.export!.content
 
       expect(data.size).to eq(5)
-      expect(data.pluck(0)).to eq ["Type", "Type A", "Type A", "Type A", "Type B"]
+      expect(data.pluck(0)).to eq ["\xEF\xBB\xBFType", "Type A", "Type A", "Type A", "Type B"]
     end
   end
 
@@ -150,7 +171,7 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
       data = CSV.parse instance.export!.content
 
       expect(data.size).to eq(5)
-      expect(data.pluck(0)).to eq %w[Subject WP4 WP2 WP1 WP3]
+      expect(data.pluck(0)).to eq %w[WP4 WP2 WP1 WP3].unshift("\xEF\xBB\xBFSubject")
     end
   end
 end

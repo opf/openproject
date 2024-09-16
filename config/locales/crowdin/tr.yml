@@ -202,6 +202,11 @@ tr:
       title: "Özel eylemler"
       description: "Özel eylemler, duruma, role, türe veya projeye göre belirli iş paketlerinde kullanıma sunabileceğiniz bir dizi önceden tanımlanmış eylemin tek tıkla kısayollarıdır."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Bir projeye yeni özel alanlar eklemeden önce onları oluşturmalısınız.
     is_enabled_globally: "Genel için etkinleştirildi"
@@ -801,6 +806,7 @@ tr:
         blank: "boş bırakılamaz."
         blank_nested: "'%{property}' özelliğinin ayarlanmış olması gerekir."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "İş paketi alt görevlerinden birine bağlanamaz."
         circular_dependency: "Bu ilişki döngüsel bağımlılık oluşturacak."
         confirmation: "%{attribute} eşleşmiyor."
@@ -874,6 +880,10 @@ tr:
               minimum: "'=' işleci ile ilke, bağlam veya kimlik için en az bir filtre içermesi gerekir."
         custom_field:
           at_least_one_custom_option: "En az bir seçeneğin uygun olması gerekir."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) yalnızca bir değer verilir."
           empty: "(%{name}) değeri boş olamaz."
@@ -1943,6 +1953,7 @@ tr:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Kimlik Doğrulaması"
   label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Mevcut forumlar"
@@ -2363,6 +2374,8 @@ tr:
   label_role_plural: "Yetkiler"
   label_role_search: "Yeni üyelere rol atama"
   label_scm: "YKM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Ara"
   label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
@@ -3517,9 +3530,9 @@ tr:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "Yorum"
