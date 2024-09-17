@@ -18,6 +18,7 @@ export default class IndexController extends Controller {
     filter: String,
     userId: Number,
     workPackageId: Number,
+    notificationCenterPathName: String,
   };
 
   static targets = ['journalsContainer', 'buttonRow', 'formRow', 'form'];
@@ -32,6 +33,7 @@ export default class IndexController extends Controller {
   declare lastUpdateTimestamp:string;
   declare intervallId:number;
   declare pollingIntervalInMsValue:number;
+  declare notificationCenterPathNameValue:string;
   declare filterValue:string;
   declare userIdValue:number;
   declare workPackageIdValue:number;
@@ -251,7 +253,7 @@ export default class IndexController extends Controller {
   }
 
   private isWithinNotificationCenter():boolean {
-    return location.pathname.includes('notifications');
+    return window.location.pathname.includes(this.notificationCenterPathNameValue);
   }
 
   private addEventListenersToCkEditorInstance() {

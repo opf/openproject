@@ -58,7 +58,8 @@ module WorkPackages
           "work-packages--activities-tab--index-filter-value": filter,
           "work-packages--activities-tab--index-user-id-value": User.current.id,
           "work-packages--activities-tab--index-work-package-id-value": work_package.id,
-          "work-packages--activities-tab--index-polling-interval-in-ms-value": polling_interval # protoypical implementation
+          "work-packages--activities-tab--index-polling-interval-in-ms-value": polling_interval,
+          "work-packages--activities-tab--index-notification-center-path-name-value": notifications_path
         }
       end
 
