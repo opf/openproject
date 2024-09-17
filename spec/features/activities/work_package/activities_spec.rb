@@ -763,8 +763,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
       wp_page.visit!
       wp_page.wait_for_activity_tab
 
-      # wait for the stimulus component to be mounted, TODO: get rid of static sleep
-      sleep 1
       # open the editor
       page.find_test_selector("op-open-work-package-journal-form-trigger").click
 
@@ -789,8 +787,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
       wp_page.visit!
       wp_page.wait_for_activity_tab
 
-      # wait for the stimulus component to be mounted, TODO: get rid of static sleep
-      sleep 1
       # open the editor
       page.find_test_selector("op-open-work-package-journal-form-trigger").click
 
@@ -806,10 +802,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
       # navigate to the same workpackage, but as a different user
       wp_page.visit!
       wp_page.wait_for_activity_tab
-
-      # wait for the stimulus component to be mounted, TODO: get rid of static sleep
-      sleep 1
-
       # expect the editor to be opened and content to be rescued for the correct user
       within_test_selector("op-work-package-journal-form-element") do
         editor = FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form-element")
