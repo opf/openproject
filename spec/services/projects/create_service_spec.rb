@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -84,7 +84,7 @@ RSpec.describe Projects::CreateService, type: :model do
         create(:list_project_custom_field, project_custom_field_section: section)
       end
       let!(:hidden_custom_field) do
-        create(:text_project_custom_field, project_custom_field_section: section, visible: false)
+        create(:text_project_custom_field, project_custom_field_section: section, admin_only: true)
       end
       let(:project) { subject.result }
       let(:project_attributes) { {} }
@@ -166,10 +166,9 @@ RSpec.describe Projects::CreateService, type: :model do
 
           it "does not activate hidden custom fields" do
             subject
-
-            expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
-              .to contain_exactly(text_custom_field.id, bool_custom_field.id)
-            expect(project.custom_value_for(hidden_custom_field)).to be_nil
+            expect(subject).not_to be_success
+            expect(subject.errors[hidden_custom_field.attribute_name])
+              .to include "was attempted to be written but is not writable."
           end
         end
       end

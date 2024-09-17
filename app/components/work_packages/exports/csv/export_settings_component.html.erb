@@ -1,0 +1,20 @@
+<%= flex_layout do |container| %>
+  <%= container.with_row do |_columns| %>
+    <%= render WorkPackages::Exports::ColumnSelectionComponent.new(
+      query,
+      "columns-select-export-csv",
+      I18n.t("export.dialog.columns.input_caption_table")
+    ) %>
+  <% end %>
+  <%= container.with_row do |_csv_include_description| %>
+    <%= render OpenProject::Common::DividerComponent.new %>
+    <%= render(Primer::Alpha::CheckBox.new(
+      id: "show_descriptions_csv",
+      name: "show_descriptions",
+      value: "true",
+      unchecked_value: "false",
+      label: I18n.t("export.dialog.xls.include_descriptions.label"),
+      caption: I18n.t("export.dialog.xls.include_descriptions.caption"),
+      visually_hide_label: false)) %>
+  <% end %>
+<% end %>

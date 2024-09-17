@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -32,7 +32,7 @@ fa:
         description: "توضیحات"
         spent: "صرف شده"
         status: "وضعیت"
-        subject: "Subject"
+        subject: "موضوع"
         type: "نوع هزینه"
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
@@ -40,7 +40,7 @@ fa:
         budget_subject: "Budget title"
     models:
       budget: "بودجه"
-      material_budget_item: "Unit"
+      material_budget_item: "واحد"
   activity:
     filter:
       budget: "بودجه ها"
@@ -51,7 +51,7 @@ fa:
   button_add_cost_type: "Add cost type"
   button_cancel_edit_budget: "Cancel editing budget"
   button_cancel_edit_costs: "Cancel editing costs"
-  caption_labor: "Labor"
+  caption_labor: "کار"
   caption_labor_costs: "Actual labor costs"
   caption_material_costs: "Actual unit costs"
   budgets_title: "بودجه ها"

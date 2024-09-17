@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +30,8 @@ module API
     def self.included(base)
       base.class_eval do
         if OpenProject::Appsignal.enabled?
-          require "appsignal/integrations/grape"
-          insert_before Grape::Middleware::Error, Appsignal::Grape::Middleware
+          require "appsignal/rack/grape_middleware"
+          insert_before Grape::Middleware::Error, Appsignal::Rack::GrapeMiddleware
         end
       end
     end

@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,25 +26,19 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Component,
-  InjectFlags,
-  OnInit,
-} from '@angular/core';
+import { Component, InjectFlags, OnInit, } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { SelectAutocompleterRegisterService } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service';
 import {
-  from,
-  Observable,
-} from 'rxjs';
-import {
-  map,
-  tap,
-} from 'rxjs/operators';
+  SelectAutocompleterRegisterService
+} from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service';
+import { from, Observable, } from 'rxjs';
+import { map, tap, } from 'rxjs/operators';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { CreateAutocompleterComponent } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
+import {
+  CreateAutocompleterComponent
+} from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
-import { StateService } from '@uirouter/core';
+import { StateService, UIRouterGlobals } from '@uirouter/core';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
@@ -67,6 +61,8 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   @InjectField() halSorting:HalResourceSortingService;
 
   @InjectField() $state:StateService;
+
+  @InjectField() uiRouterGlobals:UIRouterGlobals;
 
   @InjectField(EditFormComponent, null, InjectFlags.Optional) editFormComponent:EditFormComponent;
 
@@ -304,10 +300,12 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     // in order to keep the form changes (changeset) between route/state changes
     if (fieldName === 'type' && editMode) {
       this.handler.registerOnBeforeSubmit(() => {
-        const newType = this.value?.$source?.id;
+        const oldType = this.uiRouterGlobals.params.type as string|null;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        const newType = (this.value as HalResource)?.$source?.id as string;
 
-        if (newType) {
-          this.$state.go('.', { type: newType }, { notify: false });
+        if (oldType && newType) {
+          void this.$state.go('.', { type: newType }, { notify: false });
         }
       });
     }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -223,7 +223,7 @@ module WorkPackagesHelper
 
   def selected_work_packages_columns_options
     Setting[:work_package_list_default_columns]
-      .map { |column| work_packages_columns_options.find { |c| c[:id] == column } }
+      .filter_map { |column| work_packages_columns_options.find { |c| c[:id] == column } }
   end
 
   def protected_work_packages_columns_options

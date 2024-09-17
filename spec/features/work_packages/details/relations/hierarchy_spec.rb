@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,9 +36,6 @@ RSpec.shared_examples "work package relations tab", :js, :selenium do
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
   let(:relations) { Components::WorkPackages::Relations.new(work_package) }
-  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
-
-  let(:relations_tab) { find(".op-tab-row--link_selected", text: "RELATIONS") }
 
   let(:visit) { true }
 
@@ -266,14 +263,28 @@ RSpec.shared_examples "work package relations tab", :js, :selenium do
   end
 end
 
-RSpec.context "Split screen" do
+RSpec.context "within a split screen" do
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
+  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
+
+  let(:relations_tab) { find(".op-tab-row--link_selected", text: "RELATIONS") }
 
   it_behaves_like "work package relations tab"
 end
 
-RSpec.context "Full screen" do
+RSpec.context "within a primerized split screen" do
+  let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
+  let(:tabs) { Components::WorkPackages::PrimerizedTabs.new }
+  let(:relations_tab) { "relations" }
+
+  it_behaves_like "work package relations tab"
+end
+
+RSpec.context "within a full screen" do
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
+  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
+
+  let(:relations_tab) { find(".op-tab-row--link_selected", text: "RELATIONS") }
 
   it_behaves_like "work package relations tab"
 end

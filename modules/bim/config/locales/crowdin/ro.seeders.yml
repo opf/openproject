@@ -103,7 +103,7 @@ ro:
             item_0:
               name: Project plan
             item_1:
-              name: Milestones
+              name: Etape
             item_2:
               name: Tasks
             item_3:
@@ -118,7 +118,7 @@ ro:
                   name: Welcome
               item_1:
                 options:
-                  name: Noţiuni de bază
+                  name: Începe
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -147,7 +147,7 @@ ro:
                   name: Pachete de lucru
               item_6:
                 options:
-                  name: Milestones
+                  name: Etape
         demo-planning-constructing-project:
           name: "(Demo) Planning & constructing"
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
@@ -165,7 +165,7 @@ ro:
             item_0:
               name: Project plan
             item_1:
-              name: Milestones
+              name: Etape
             item_2:
               name: Tasks
             item_3:
@@ -202,7 +202,7 @@ ro:
                   name: Pachete de lucru
               item_6:
                 options:
-                  name: Milestones
+                  name: Etape
           work_packages:
             item_0:
               subject: Project kick off construction project
@@ -419,7 +419,7 @@ ro:
             item_0:
               name: Project plan
             item_1:
-              name: Milestones
+              name: Etape
             item_2:
               name: Tasks
             item_3:
@@ -459,7 +459,7 @@ ro:
                   name: Pachete de lucru
               item_6:
                 options:
-                  name: Milestones
+                  name: Etape
           work_packages:
             item_0:
               subject: Project kick off creating BIM model
@@ -692,7 +692,7 @@ ro:
             item_4:
               name: Project plan
             item_5:
-              name: Milestones
+              name: Etape
             item_6:
               name: Tasks
             item_7:

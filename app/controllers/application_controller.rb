@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,6 +51,7 @@ class ApplicationController < ActionController::Base
   include ::OpenProject::Authentication::SessionExpiry
   include AdditionalUrlHelpers
   include OpenProjectErrorHelper
+  include Security::DefaultUrlOptions
 
   layout "base"
 
@@ -147,13 +148,6 @@ class ApplicationController < ActionController::Base
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
   helper Redmine::MenuManager::MenuHelper
-
-  def default_url_options(_options = {})
-    {
-      layout: params["layout"],
-      protocol: Setting.protocol
-    }
-  end
 
   # set http headers so that the browser does not store any
   # data (caches) of this site

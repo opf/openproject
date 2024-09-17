@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -260,11 +260,11 @@ class WikiController < ApplicationController
   end
 
   def diff
-    if (@diff = @page.diff(params[:version], params[:version_from]))
-      @html_diff = HTMLDiff::DiffBuilder.new(
-        helpers.format_text(@diff.content_from.data.text, disable_macro_expansion: true),
-        helpers.format_text(@diff.content_to.data.text, disable_macro_expansion: true)
-      ).build
+    if (@diff = @page.diff(params[:version_to], params[:version_from]))
+      @html_diff = OpenProject::HtmlDiff.from_markdown(
+        @diff.content_from.data.text,
+        @diff.content_to.data.text
+      )
     else
       render_404
     end

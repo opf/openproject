@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,19 +40,21 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter d
   let(:placeholders) do
     placeholders = build_stubbed_list(:placeholder_user,
                                       actual_count)
-    allow(placeholders)
-      .to receive(:limit)
-      .with(page_size)
-      .and_return(placeholders)
+    without_partial_double_verification do
+      allow(placeholders)
+        .to receive(:limit)
+        .with(page_size)
+        .and_return(placeholders)
 
-    allow(placeholders)
-      .to receive(:offset)
-      .with(page - 1)
-      .and_return(placeholders)
+      allow(placeholders)
+        .to receive(:offset)
+        .with(page - 1)
+        .and_return(placeholders)
 
-    allow(placeholders)
-      .to receive(:count)
-      .and_return(total)
+      allow(placeholders)
+        .to receive(:count)
+        .and_return(total)
+    end
 
     placeholders
   end

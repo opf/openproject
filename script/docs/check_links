@@ -141,6 +141,7 @@ class DocsChecker
     @docs.push(
       { path: "#{@root_path}/api/v3/spec.json", anchors: [], links: [] },
       { path: "#{@root_path}/api/v3/spec.yml", anchors: [], links: [] },
+      { path: "#{@root_path}/installation-and-operations/installation/docker-compose", anchors: [], links: [] },
       { path: "#{@root_path}/installation-and-operations/installation/helm-chart", anchors: [], links: [] },
       { path: "#{@root_path}/development/translate-openproject/fair-language", anchors: [], links: [] }
     )
@@ -168,7 +169,8 @@ class DocsChecker
     full_path = File.expand_path(uri.path.sub("/docs", "."), @root_path)
 
     relative_url = Pathname.new(full_path).relative_path_from("#{path}/").to_s
-    "#{relative_url}/##{uri.fragment}" unless uri.fragment.nil?
+    return "#{relative_url}/##{uri.fragment}" unless uri.fragment.nil?
+
     relative_url
   end
 

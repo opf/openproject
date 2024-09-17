@@ -21,6 +21,10 @@ You can also use the grid icon in the top right corner to access the **Global mo
 
 You can also use the grid icon in the top right corner to access the **Global modules** side menu.
 
+If you navigate within a specific project, you can also return to the global modules by unselecting your project in the project selector menu. The project you are currently in will be indicated by the grey background. Click the **x** icon to unselect it and return to global modules. The module selection will be kept, i.e. if you were viewing Meetings module in the project, you will see the global Meetings module. 
+
+![Unselect a project from the project list in OpenProject](openproject_global_modules_unselect_project.png)
+
 ## Projects
 
 The **Projects** global module will display all projects in your OpenProject instance of which you are a member and/or have the right to see (for example as an administrator), including public projects.
@@ -121,7 +125,7 @@ Read more about creating and editing **Time and cost reports** [here](../../time
 
 ## Meetings
 
-**The Meetings** global module will provide a list of all upcoming and past meetings you have created, been invited to, attended or have administrative privileges to see. The default view will show the **Upcoming meetings**, in chronological order (earliest first).
+**The Meetings** global module will provide a list of all upcoming and past meetings you have created, been invited to, attended or have administrative privileges to see. The default view will show the **Upcoming invitations**, in chronological order (earliest first).
 
 ![The Meetings global module](openproject_global_modules_meetings.png)
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +31,16 @@
 # See also: row_component.rb, which contains a method
 # for every "column" defined below.
 module Storages::ProjectStorages::Projects
-  class TableComponent < Projects::TableComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class TableComponent < Projects::TableComponent
     include OpTurbo::Streamable
+
+    options :storage
+
+    def columns
+      @columns ||= query
+        .selects
+        .insert(1, ::Queries::Projects::Selects::Default.new(:project_folder_type))
+    end
 
     def sortable?
       false
@@ -40,9 +48,18 @@ module Storages::ProjectStorages::Projects
 
     # Overwritten to avoid loading data that is not needed in this context
     def projects(query)
-      query
+      @projects ||= query
         .results
         .paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
+    end
+
+    # Load the project_storages for the current paginated batch of projects grouped
+    # by project_id to fill in other columns
+    def project_storages
+      @project_storages ||= Storages::ProjectStorage
+        .where(storage_id: storage.id)
+        .where(project_id: @projects.map(&:id))
+        .index_by(&:project_id)
     end
   end
 end

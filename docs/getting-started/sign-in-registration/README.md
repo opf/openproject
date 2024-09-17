@@ -88,7 +88,7 @@ After the creation of your account you are logged into the system. You will then
 
 ![select language](20191202171349241.png)
 
-If you have already logged in before, you can [set your language in your user profile](../my-account/#profile-settings).
+If you have already logged in before, you can [set your language in your user profile](../../user-guide/my-account/#profile-settings).
 
 ## Reset your password
 

@@ -121,8 +121,7 @@ module Components
       expect(field.value.to_i).to eq(month - 1)
     end
 
-    ##
-    # Expect the selected day
+    # Expect the selected day in the input
     def expect_day(value)
       expect(flatpickr_container).to have_css(".flatpickr-day.selected", text: value)
     end
@@ -195,7 +194,7 @@ module Components
 
       if wait_for_changes_to_be_applied
         sleep 0.75 # input debounce
-        wait_for_network_idle if using_cuprite?
+        wait_for_network_idle
       end
     end
   end

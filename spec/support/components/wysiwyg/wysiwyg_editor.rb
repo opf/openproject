@@ -6,7 +6,7 @@ module Components
 
     attr_reader :context_selector, :attachments, :attachments_list
 
-    def initialize(context = "#content", attachment_list_selector = "ckeditor-augmented-textarea")
+    def initialize(context = "#content", attachment_list_selector = "opce-ckeditor-augmented-textarea")
       @context_selector = context
       @attachments = ::Components::Attachments.new
       @attachments_list = ::Components::AttachmentsList.new("#{context} #{attachment_list_selector}")
@@ -43,6 +43,14 @@ module Components
       textarea = container.find(".op-ckeditor-source-element", visible: :all)
       page.execute_script(
         'jQuery(arguments[0]).trigger("op:ckeditor:clear")',
+        textarea.native
+      )
+    end
+
+    def trigger_autosave
+      textarea = container.find(".op-ckeditor-source-element", visible: :all)
+      page.execute_script(
+        'jQuery(arguments[0]).trigger("op:ckeditor:autosave")',
         textarea.native
       )
     end

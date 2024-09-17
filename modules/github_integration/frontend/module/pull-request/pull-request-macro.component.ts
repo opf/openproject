@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -24,17 +24,12 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
-// ++    Ng1FieldControlsWrapper,
+//++    Ng1FieldControlsWrapper,
 
+import { ChangeDetectionStrategy, Component, ElementRef, Injector, Input, OnInit, } from '@angular/core';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Injector,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+  HalResourceEditingService
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { IGithubPullRequest, IGithubUserResource } from '../state/github-pull-request.model';
 import { GithubPullRequestResourceService } from '../state/github-pull-request.service';
@@ -43,10 +38,7 @@ import { map } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PullRequestState } from './pull-request-state.component';
 
-export const githubPullRequestMacroSelector = 'macro.github_pull_request';
-
 @Component({
-  selector: githubPullRequestMacroSelector,
   templateUrl: './pull-request-macro.component.html',
   styleUrls: ['./pull-request-macro.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -61,7 +53,7 @@ export class PullRequestMacroComponent implements OnInit {
 
   pullRequest$:Observable<IGithubPullRequest>;
 
-  displayText$:Observable<string>;
+  displayText$:Observable<string|null>;
 
   constructor(
     readonly elementRef:ElementRef,
@@ -84,8 +76,13 @@ export class PullRequestMacroComponent implements OnInit {
       );
   }
 
-  private buildText(pr:IGithubPullRequest):string {
+  private buildText(pr:IGithubPullRequest):string|null {
     const actor = this.deriveActor(pr) as IGithubUserResource;
+    if (!actor) {
+      return null;
+    }
+
+
     const actorLink = this.htmlLink(actor.htmlUrl, actor.login);
     const repositoryLink = this.htmlLink(pr.repositoryHtmlUrl, pr.repository);
     const prLink = this.htmlLink(pr.htmlUrl, pr.title);

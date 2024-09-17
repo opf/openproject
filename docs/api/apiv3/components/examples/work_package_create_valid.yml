@@ -1,0 +1,20 @@
+description: |-
+  A valid request body to create or edit a work package with a couple of properties.
+value:
+  subject: Install Dromund Kass planetary shield
+  description: 
+    format: markdown
+    raw: |-
+      # TODO
+      
+      The planetary shield of Dromund Kass needs to be installed to protect the planet from orbital bombardment.
+  startDate: '2877-07-21'
+  duration: P1337D
+  estimatedTime: P1Y5DT13H
+  ignoreNonWorkingDays: true
+  project:
+    href: /api/v3/projects/42
+  type:
+    href: /api/v3/types/13
+  status:
+    href: /api/v3/statuses/2

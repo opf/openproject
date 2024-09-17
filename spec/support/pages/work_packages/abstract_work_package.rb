@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,6 +51,10 @@ module Pages
 
     def expect_tab(tab)
       expect(page).to have_css(".op-tab-row--link_selected", text: tab.to_s.upcase)
+    end
+
+    def expect_no_tab(tab)
+      expect(page).to have_no_css(".op-tab-row--link", text: tab.to_s.upcase)
     end
 
     def within_active_tab(&)
@@ -223,7 +227,7 @@ module Pages
         work_package_custom_field(key, $1)
       when :date, :startDate, :dueDate, :combinedDate
         DateEditField.new container, key, is_milestone: work_package&.milestone?
-      when :estimatedTime, :remainingTime, :statusWithinProgressModal
+      when :estimatedTime, :remainingTime, :percentageDone, :statusWithinProgressModal
         ProgressEditField.new container, key, create_form: create_page?
       when :description
         TextEditorField.new container, key

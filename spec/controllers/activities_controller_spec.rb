@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -78,6 +78,25 @@ RSpec.describe ActivitiesController do
         it_behaves_like "valid index response"
 
         it { expect(assigns(:events)).to be_empty }
+      end
+
+      describe "for a user that sees no projects" do
+        current_user { create(:user) }
+
+        it "renders 404" do
+          get "index"
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+
+      describe "inactive user activity" do
+        let!(:inactive_user) { create(:user, status: User.statuses[:locked]) }
+
+        it "renders 404" do
+          get "index", params: { user_id: inactive_user.id }
+          expect(response).to have_http_status(:not_found)
+          expect(response).to render_template "common/error"
+        end
       end
     end
 

@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -114,7 +114,6 @@ RSpec.describe Queries::Projects::Factory,
     end
 
     context "without id and with ee and admin privileges",
-            with_ee: %i[custom_fields_in_projects_list],
             with_settings: { enabled_projects_columns: %w[name created_at cf_1] } do
       current_user { build_stubbed(:admin) }
 
@@ -810,7 +809,6 @@ RSpec.describe Queries::Projects::Factory,
     end
 
     context "without id, as non admin and with a non existing custom field id",
-            with_ee: %i[custom_fields_in_projects_list],
             with_settings: { enabled_projects_columns: %w[name created_at cf_1 cf_42] } do
       before do
         custom_field

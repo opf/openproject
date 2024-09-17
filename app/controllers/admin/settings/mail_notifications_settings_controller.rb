@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,14 +36,6 @@ module Admin::Settings
       @deliveries = ActionMailer::Base.perform_deliveries
 
       respond_to :html
-    end
-
-    def default_breadcrumb
-      t(:"menus.admin.mail_notification")
-    end
-
-    def show_local_breadcrumb
-      true
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ RSpec.describe "projects/:project_id/project_storages/:id/open" do
   let(:project_storage) { create(:project_storage, project:, storage:) }
   let(:route) { "projects/#{project.identifier}/project_storages/#{project_storage.id}/open" }
   let(:expected_redirect_url) do
-    "#{last_request.scheme}://#{last_request.host}#{expected_redirect_path}"
+    "#{Setting.protocol}://#{Setting.host_name}#{expected_redirect_path}"
   end
 
   shared_let(:project) { create(:project) }
@@ -75,7 +75,7 @@ RSpec.describe "projects/:project_id/project_storages/:id/open" do
                 get route, {}, { "HTTP_ACCEPT" => "text/vnd.turbo-stream.html" }
 
                 expect(last_response).to have_http_status(:ok)
-                expect(last_response.body).to eq ("<turbo-stream action=\"update\" target=\"open-project-storage-modal-body-component\">\n    <template>\n        <div data-view-component=\"true\" class=\"flex-items-center p-4 d-flex flex-column\">\n      <div data-view-component=\"true\">      <svg aria-hidden=\"true\" height=\"24\" viewBox=\"0 0 24 24\" version=\"1.1\" width=\"24\" data-view-component=\"true\" class=\"octicon octicon-check-circle color-fg-success\">\n    <path d=\"M17.28 9.28a.75.75 0 0 0-1.06-1.06l-5.97 5.97-2.47-2.47a.75.75 0 0 0-1.06 1.06l3 3a.75.75 0 0 0 1.06 0l6.5-6.5Z\"></path><path d=\"M12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1ZM2.5 12a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5A9.5 9.5 0 0 0 12 2.5 9.5 9.5 0 0 0 2.5 12Z\"></path>\n</svg>\n</div>\n      <div data-view-component=\"true\">      <h2 data-view-component=\"true\" class=\"text-center\">Integration setup completed</h2>\n</div>\n      <div data-view-component=\"true\">      <span data-view-component=\"true\" class=\"text-center color-fg-muted\">You are being redirected</span>\n</div>\n</div>\n\n\n    </template>\n</turbo-stream>\n\n")
+                expect(last_response.body).to eq("<turbo-stream action=\"update\" target=\"open-project-storage-modal-body-component\">\n    <template>\n        \n  <div class=\"blankslate-container\">\n    <div data-view-component=\"true\" class=\"FeedbackMessage blankslate\">\n      <svg aria-hidden=\"true\" height=\"24\" viewBox=\"0 0 24 24\" version=\"1.1\" width=\"24\" data-view-component=\"true\" class=\"octicon octicon-check-circle blankslate-icon color-fg-success\">\n    <path d=\"M17.28 9.28a.75.75 0 0 0-1.06-1.06l-5.97 5.97-2.47-2.47a.75.75 0 0 0-1.06 1.06l3 3a.75.75 0 0 0 1.06 0l6.5-6.5Z\"></path><path d=\"M12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1ZM2.5 12a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5A9.5 9.5 0 0 0 12 2.5 9.5 9.5 0 0 0 2.5 12Z\"></path>\n</svg>\n\n      <h2 data-view-component=\"true\" class=\"blankslate-heading\">Integration setup completed</h2>\n      <p id=\"waiting_subtitle\" data-view-component=\"true\">You are being redirected</p>\n\n</div>  </div>\n\n\n\n    </template>\n</turbo-stream>\n\n") # rubocop:disable Layout/LineLength
               end
             end
           end
@@ -101,7 +101,7 @@ RSpec.describe "projects/:project_id/project_storages/:id/open" do
 
                   expect(last_response).to have_http_status(:found)
                   expect(last_response.headers["Location"]).to eq (
-                    "http://example.org/oauth_clients/#{storage.oauth_client.client_id}/ensure_connection?destination_url=http%3A%2F%2Fexample.org%2Fprojects%2F#{project.identifier}%2Fproject_storages%2F#{project_storage.id}%2Fopen&storage_id=#{storage.id}"
+                    "http://#{Setting.host_name}/oauth_clients/#{storage.oauth_client.client_id}/ensure_connection?destination_url=http%3A%2F%2F#{CGI.escape(Setting.host_name)}%2Fprojects%2F#{project.identifier}%2Fproject_storages%2F#{project_storage.id}%2Fopen&storage_id=#{storage.id}"
                   )
                 end
               end
@@ -111,7 +111,7 @@ RSpec.describe "projects/:project_id/project_storages/:id/open" do
                   get route, {}, { "HTTP_ACCEPT" => "text/html" }
 
                   expect(last_response).to have_http_status(:found)
-                  expect(last_response.headers["Location"]).to eq ("http://example.org/projects/#{project.identifier}")
+                  expect(last_response.headers["Location"]).to eq ("http://#{Setting.host_name}/projects/#{project.identifier}")
                   expect(last_request.session["flash"]["flashes"])
                     .to eq({
                              "modal" => {
@@ -142,7 +142,7 @@ RSpec.describe "projects/:project_id/project_storages/:id/open" do
               get route, {}, { "HTTP_ACCEPT" => "text/html" }
 
               expect(last_response).to have_http_status(:found)
-              expect(last_response.headers["Location"]).to eq ("http://example.org/projects/#{project.identifier}")
+              expect(last_response.headers["Location"]).to eq ("http://#{Setting.host_name}/projects/#{project.identifier}")
               expect(last_request.session["flash"]["flashes"])
                 .to eq({
                          "modal" => {

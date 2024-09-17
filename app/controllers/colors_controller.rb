@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -102,20 +102,14 @@ class ColorsController < ApplicationController
 
   protected
 
-  def default_breadcrumb
-    if action_name == "index"
-      t(:label_color_plural)
-    else
-      ActionController::Base.helpers.link_to(t(:label_color_plural), colors_path)
-    end
+  def show_local_breadcrumb
+    false
   end
 
-  def show_local_breadcrumb
-    true
-  end
+  def default_breadcrumb; end
 
   def require_admin_unless_readonly_api_request
-    require_admin unless %w[index show].include? params[:action] and
+    require_admin unless %w[index show].include? action_name and
                          api_request?
   end
 end

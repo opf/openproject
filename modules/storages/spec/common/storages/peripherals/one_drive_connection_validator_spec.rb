@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -90,6 +90,24 @@ RSpec.describe Storages::Peripherals::OneDriveConnectionValidator do
 
   context "if the storage's drive id could not be found" do
     let(:response) { build_failure(code: :not_found, payload: nil) }
+
+    it "returns a validation failure" do
+      expect(subject.type).to eq(:error)
+      expect(subject.error_code).to eq(:err_drive_invalid)
+      expect(subject.description).to eq("The configured drive id could not be found. Please check the configuration.")
+    end
+  end
+
+  context "if the storage's drive id is malformed" do
+    let(:error_payload) do
+      {
+        error: {
+          code: "invalidRequest",
+          message: "The provided drive id appears to be malformed, or does not represent a valid drive."
+        }
+      }
+    end
+    let(:response) { build_failure(code: :error, payload: error_payload) }
 
     it "returns a validation failure" do
       expect(subject.type).to eq(:error)

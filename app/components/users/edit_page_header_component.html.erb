@@ -1,0 +1,100 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { @user.name }
+    header.with_breadcrumbs(breadcrumb_items)
+
+    header.with_action_button(tag: :a,
+                              mobile_icon: :person,
+                              mobile_label: t(:label_profile),
+                              size: :medium,
+                              href: user_path(@user),
+                              aria: { label: I18n.t(:label_profile) },
+                              title: I18n.t(:label_profile)) do |button|
+      button.with_leading_visual_icon(icon: :person)
+      t(:label_profile)
+    end
+
+    if @current_user.allowed_globally?(:create_user) && @current_user.id != @user.id
+      header.with_action_button(tag: :a,
+                                mobile_icon: :mail,
+                                mobile_label: t(:label_send_invitation),
+                                size: :medium,
+                                href: resend_invitation_user_path(@user),
+                                data: { method: :post },
+                                aria: { label: I18n.t(:label_send_invitation) },
+                                title: I18n.t(:tooltip_resend_invitation)) do |button|
+        button.with_leading_visual_icon(icon: :mail)
+        t(:label_send_invitation)
+      end
+    end
+
+    if @current_user.admin?
+      unless @current_user.id == @user.id
+        iterate_user_statusses(@user) do |title, name|
+          header.with_action_button(tag: :a,
+                                    mobile_icon: change_user_status_icons[name],
+                                    mobile_label: title,
+                                    size: :medium,
+                                    name: name,
+                                    href: change_status_user_path(@user, { name => '' }),
+                                    data: { method: :post },
+                                    aria: { label: title },
+                                    title: title) do |button|
+            button.with_leading_visual_icon(icon: change_user_status_icons[name])
+            title
+          end
+        end
+      end
+
+      if Setting.users_deletable_by_admins?
+        header.with_action_button(tag: :a,
+                                  scheme: :danger,
+                                  mobile_icon: :trash,
+                                  mobile_label: t(:button_delete),
+                                  size: :medium,
+                                  href: deletion_info_user_path(@user),
+                                  aria: { label: I18n.t(:button_delete) },
+                                  title: I18n.t(:button_delete)) do |button|
+          button.with_leading_visual_icon(icon: :trash)
+          t(:button_delete)
+        end
+      end
+    end
+
+    header.with_tab_nav(label: nil) do |tab_nav|
+      @tabs.each do |tab|
+        tab_nav.with_tab(selected: selected_tab(@tabs) == tab, href: tab[:path]) do |t|
+          t.with_text { I18n.t("js.#{tab[:label]}") }
+        end
+      end
+    end if @tabs.present?
+  end
+%>

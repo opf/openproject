@@ -3,8 +3,14 @@
   data-indicator-name="wpDetails"
   *ngIf="workPackage"
 >
-  <op-wp-tabs [workPackage]="workPackage" [view]="'split'"></op-wp-tabs>
-  <div class="work-packages--details-content work-packages-tab-view--overflow" *ngIf="workPackage">
+  <op-wp-tabs
+    *ngIf="showTabs"
+    [workPackage]="workPackage"
+    [view]="'split'"
+  ></op-wp-tabs>
+  <div class="work-packages--details-content work-packages-tab-view--overflow"
+       [class.work-packages--details-content_no-tabs]="!showTabs"
+       *ngIf="workPackage">
       <span
         class="hidden-for-sighted"
         tabindex="-1"
@@ -30,15 +36,27 @@
             [customBackMethod]="backToList.bind(this)"
           ></op-back-button>
 
-          <wp-subject class="subject-header"></wp-subject>
+          <wp-subject [workPackage]="workPackage" class="subject-header"></wp-subject>
         </div>
       </div>
 
       <div
+        *ngIf="showTabs"
         class="work-package-details-tab"
         data-notification-selector='notification-scroll-container'
         ui-view
-      ></div>
+      >
+      </div>
+      <div
+        *ngIf="!showTabs && activeTab"
+        class="work-package-details-tab"
+        data-notification-selector='notification-scroll-container'
+      >
+        <ndc-dynamic [ndcDynamicComponent]="activeTabComponent"
+                     [ndcDynamicInputs]="{ workPackage: workPackage }">
+        </ndc-dynamic>
+      </div>
+
     </edit-form>
   </div>
 
@@ -50,7 +68,7 @@
   </div>
 
   <div class="work-packages--details--resizer hidden-for-mobile hide-when-print">
-    <wp-resizer [elementClass]="'work-packages-partitioned-page--content-right'"
+    <wp-resizer [elementClass]="resizerClass"
                 [localStorageKey]="'openProject-splitViewFlexBasis'"></wp-resizer>
   </div>
 </div>

@@ -1,7 +1,6 @@
 <%=
-  component_wrapper do
-    if strategy.manageable?
-      primer_form_with(
+  component_wrapper(data_test_selector: 'invite-user-form') do
+    primer_form_with(
         model: new_share,
         url: url_for([entity, Member]),
         data: { controller: 'user-limit shares--user-selected',
@@ -17,7 +16,7 @@
           invite_form.with_area('permission') do
             render(Shares::PermissionButtonComponent.new(
               share: new_share,
-              available_roles: strategy.available_roles,
+              strategy: strategy,
               form_arguments: { builder: form, name: "role_id" },
               data: { 'test-selector': 'op-share-dialog-invite-role' })
             )
@@ -92,9 +91,6 @@
             end
           end
         end
-      end
-    else
-      render(Primer::Alpha::Banner.new(icon: :info)) { I18n.t('sharing.denied', entities: entity.model_name.human(count: 2)) }
     end
   end
 %>

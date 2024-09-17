@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,13 +40,18 @@ RSpec.shared_examples_for "file_path_to_id_map_query: basic query setup" do
     method = described_class.method(:call)
     expect(method.parameters).to contain_exactly(%i[keyreq storage],
                                                  %i[keyreq auth_strategy],
-                                                 %i[keyreq folder])
+                                                 %i[keyreq folder],
+                                                 %i[key depth])
   end
 end
 
 RSpec.shared_examples_for "file_path_to_id_map_query: successful query" do
   it "returns a map of locations to file ids" do
-    result = described_class.call(storage:, auth_strategy:, folder:)
+    result = if defined?(depth)
+               described_class.call(storage:, auth_strategy:, folder:, depth:)
+             else
+               described_class.call(storage:, auth_strategy:, folder:)
+             end
 
     expect(result).to be_success
 

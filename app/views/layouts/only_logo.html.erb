@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,10 @@ See COPYRIGHT and LICENSE files for more details.
 <head>
   <%= render partial: 'layouts/common_head' %>
 </head>
-<body>
+<body
+  class="<%= body_css_classes %>"
+  <%= user_theme_data_attributes %>
+>
   <div id="wrapper">
     <header class="op-app-header<%= ' op-app-header_development' if OpenProject::Configuration.development_highlight_enabled? %>">
       <div class="op-app-header--center op-logo">

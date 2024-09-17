@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,6 +48,10 @@ module Pages
 
     def git_actions_copy_branch_name_button
       find(".git-actions-menu .copy-button:not([disabled])", match: :first)
+    end
+
+    def git_actions_copy_commit_message_button
+      all(".git-actions-menu .copy-button:not([disabled])")[1]
     end
 
     def paste_clipboard_content

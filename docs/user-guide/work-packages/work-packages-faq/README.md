@@ -13,10 +13,10 @@ keywords: work packages FAQ, tickets, how to, task
 | [Working with work packages](#working-with-work-packages) | Work package attributes, work package form, relations        |
 | [Filters and queries](#filters-and-queries)               | Work package table, saving and changing filters and views    |
 | [Status and type](#status-and-type)                       | Work package statuses and work package types                 |
-| [Move and copy](#move-and-copy)                           | Moving and copying work packages                             |
+| [Move and duplicate](#move-and-duplicate)                 | Moving and duplicating work packages                         |
 | [Custom fields](#custom-fields)                           | Additional fields, self-defined attributes and values        |
 | [Export](#export)                                         | Exporting, printing, external saving                         |
-| [Sharing](#sharing-work-packages)               | Sharing work packages                                        |
+| [Sharing](#sharing-work-packages)                         | Sharing work packages                                        |
 | [Versions and backlog](#versions-and-backlog)             | Using versions in work packages, relations to the backlogs module |
 
 ## Working with work packages
@@ -71,7 +71,7 @@ One possible solution: If you receive this error message when trying to create a
 
 ### How can I change the order of the activities/comments in the activity tab of a work package?
 
-You can change this in your account settings. Please find out more [here](../../../getting-started/my-account/#change-the-order-to-display-comments).
+You can change this in your account settings. Please find out more [here](../../../user-guide/my-account/#change-the-order-to-display-comments).
 
 ### Why are changes on parent work packages which are triggered by making changes to a child work package not aggregated?
 
@@ -155,7 +155,13 @@ You can e.g. create a role “Marketing – Member” and select it as well as t
 Repeat this step for the other (department) roles (e.g. “IT – Member”) and select the desired status transitions. This way, you can set different status for each department (only the default status is shared (i.e. “New” by default)).
 Please keep in mind that it may not be possible for a member of a different department to update the status of a work package if it has been updated before by another department (since the workflow may not support this status transition).
 
-## Move and copy
+## Move and duplicate
+
+> [!TIP]
+>
+> In OpenProject 14.5 the term *Copy a work package* was replaced by *Duplicate a work package*.
+>
+> *Change project* was replaced by *Move to another project*.
 
 ### Which permissions are necessary to move a work package from one project to another?
 
@@ -182,9 +188,9 @@ In the following view you have the possibility to change additional attributes o
 
 ### How can I move a work package to another project?
 
-In the work package table: Right-click on the work package and choose **Change project**.  
+In the work package table: Right-click on the work package and choose **Move to another project**.  
 
-In the details view of the work package: Click on **More** (button with three dots in the upper right hand corner) and the on **Change project**.
+In the details view of the work package: Click on **More** (button with three dots in the upper right hand corner) and the on **Move to another project**.
 
 ### Can I group tasks into folders?
 

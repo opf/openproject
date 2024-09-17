@@ -1,7 +1,7 @@
 /*
  * -- copyright
  * OpenProject is an open source project management software.
- * Copyright (C) 2023 the OpenProject GmbH
+ * Copyright (C) the OpenProject GmbH
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 3.
@@ -31,14 +31,17 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class ExxpandableListController extends Controller {
-  static targets = ['showHideButton', 'hiddenElements'];
+  static targets = ['hiddenElements', 'showButton'];
   declare readonly hiddenElementsTarget:HTMLElement;
+  declare readonly showButtonTarget:HTMLElement;
 
-  showhiddenElements():void {
-    if (this.hiddenElementsTarget.classList.contains('d-none')) {
-      this.hiddenElementsTarget.classList.remove('d-none');
-    } else {
-      this.hiddenElementsTarget.classList.add('d-none');
-    }
+  showElements():void {
+    this.hiddenElementsTarget.classList.remove('d-none');
+    this.showButtonTarget.classList.add('d-none');
+  }
+
+  hideElements():void {
+    this.hiddenElementsTarget.classList.add('d-none');
+    this.showButtonTarget.classList.remove('d-none');
   }
 }

@@ -1,0 +1,58 @@
+<%=
+  table = Class.new(OpPrimer::BorderBoxTableComponent) do
+    columns :foo, :bar
+    def self.name
+      "MyTable"
+    end
+
+    ## This method is just a hack used for the preview
+    ## Create your components under your namespace like so instead
+    ## MyNamespace::TableComponent
+    ## MyNamespace::RowComponent
+    ## and the other class will be autoloaded
+    def row_class
+      @clazz ||= Class.new(OpPrimer::BorderBoxRowComponent) do
+        def self.name
+          "MyRow"
+        end
+
+        def button_links
+          [
+            edit_button,
+            delete_button
+          ]
+        end
+
+        def edit_button
+          render(Primer::Beta::Button.new(scheme: :secondary, tag: :a, href: "#")) { "Edit" }
+        end
+
+        def delete_button
+          render(Primer::Beta::IconButton.new(icon: :trash, scheme: :danger, tag: :a, href: "#", "aria-label": "Delete"))
+        end
+
+        def foo
+          concat render(Primer::Beta::Link.new(scheme: :primary, href: "#")) { "Some link" }
+          concat render(Primer::Beta::Text.new(tag: :p, font_size: :small, color: :subtle)) { "Hello there" }
+        end
+
+        def bar
+          "bar"
+        end
+      end
+    end
+
+    def has_actions?
+      true
+    end
+
+    def headers
+      [
+        [:foo, { caption: "Foo column" }],
+        [:bar, { caption: "Bar column" }],
+      ]
+    end
+  end
+
+  render(table.new(rows: [1, 2]))
+%>

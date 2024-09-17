@@ -1,0 +1,16 @@
+<%= helpers.angular_component_tag "opce-draggable-autocompleter",
+                                  inputs: {
+                                    id:,
+                                    name: 'columns',
+                                    dragAreaName: "#{id}_dragarea",
+                                    formControlId: "#{id}_autocompleter",
+                                    appendToComponent: true,
+                                    options: available_columns,
+                                    selected: selected_columns,
+                                    protected: protected_options,
+                                    inputCaption: caption,
+                                    inputLabel: label,
+                                    inputPlaceholder: I18n.t(:"queries.configure_view.columns.input_placeholder"),
+                                    dragAreaLabel: I18n.t(:"queries.configure_view.columns.drag_area_label"),
+                                  }
+%>

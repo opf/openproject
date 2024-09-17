@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,7 @@ RSpec.describe Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter do
   let(:values) { [OpenProject::Database::DB_VALUE_TRUE] }
 
   it_behaves_like "basic query filter" do
+    let(:model) { WorkPackage }
     let(:class_key) { :bcf_issue_associated }
     let(:type) { :list }
 

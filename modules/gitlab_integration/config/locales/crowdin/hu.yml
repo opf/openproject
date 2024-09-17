@@ -6,7 +6,7 @@
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 #Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
 #as published by the Free Software Foundation; either version 2
@@ -63,5 +63,7 @@ hu:
       **Kérdés újranyitva:** %{issue_number}[%{issue_title}]%{issue_url} a következőhöz: [%{repository}](%{repository_url}) újranyitva [%{gitlab_user}](%{gitlab_user_url}) által.
     push_single_commit_comment: >
       **Frissítés az MR-ben:** [%{gitlab_user}](%{gitlab_user_url}) frissítette a következőkkel: [%{commit_number}](%{commit_url}) a(z) [%{repository}](%{repository_url}) ekkor: %{commit_timestamp}, üzenet: %{commit_note}
+    push_single_commit_comment_with_ref: >
+      **Frissítés itt: %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) frissítette a következőkkel: [%{commit_number}](%{commit_url}), itt [%{repository}](%{repository_url}), ekkor: %{commit_timestamp}, üzenet: %{commit_note}
     push_multiple_commits_comment: >
       **Frissítés az MR-ben:** [%{gitlab_user}](%{gitlab_user_url}) frissítette a következőkkel: [%{commit_number}](%{commit_url}) a(z) [%{repository}](%{repository_url}) ekkor: %{commit_timestamp}, üzenet: %{commit_note}

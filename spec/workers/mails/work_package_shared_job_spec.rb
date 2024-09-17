@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -82,21 +82,23 @@ RSpec.describe Mails::WorkPackageSharedJob, type: :model do
                 .with(work_package)
                 .and_return(group_user_members)
 
-        allow(scope)
-          .to receive_messages(joins: scope, references: scope)
+        without_partial_double_verification do
+          allow(scope)
+            .to receive_messages(joins: scope, references: scope)
 
-        allow(scope)
-          .to receive(:where)
-                .with(principal: group_users)
-                .and_return(scope)
+          allow(scope)
+            .to receive(:where)
+                  .with(principal: group_users)
+                  .and_return(scope)
 
-        allow(scope)
-          .to receive_messages(group: scope, having: scope, select: group_user_members_due_an_email.map(&:id))
+          allow(scope)
+            .to receive_messages(group: scope, having: scope, select: group_user_members_due_an_email.map(&:id))
 
-        allow(Member)
-          .to receive(:where)
-                .with(id: group_user_members_due_an_email.map(&:id))
-                .and_return(group_user_members_due_an_email)
+          allow(Member)
+            .to receive(:where)
+                  .with(id: group_user_members_due_an_email.map(&:id))
+                  .and_return(group_user_members_due_an_email)
+        end
       end
     end
     let(:group_member_role) do

@@ -53,7 +53,7 @@ RSpec.describe "Watcher tab", :js, :selenium do
       login_as(user)
       wp_page.visit_tab! :watchers
       expect_angular_frontend_initialized
-      expect(page).to have_css(".op-tab-row--link_selected", text: "WATCHERS")
+      wp_page.expect_tab "Watchers"
     end
 
     it "modifying the watcher list modifies the watch button" do
@@ -113,13 +113,21 @@ RSpec.describe "Watcher tab", :js, :selenium do
     end
   end
 
-  context "split screen" do
+  context "within a split screen" do
     let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
 
     it_behaves_like "watchers tab"
   end
 
-  context "full screen" do
+  context "within a primerized split screen" do
+    let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
+    let(:tabs) { Components::WorkPackages::PrimerizedTabs.new }
+    let(:watchers_tab) { "watchers" }
+
+    it_behaves_like "watchers tab"
+  end
+
+  context "within a full screen" do
     let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
     it_behaves_like "watchers tab"

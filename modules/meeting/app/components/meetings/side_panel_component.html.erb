@@ -1,0 +1,15 @@
+<%=
+  component_wrapper do
+    render(Primer::OpenProject::SidePanel.new) do |panel|
+      panel.with_section(Meetings::SidePanel::DetailsComponent.new(meeting: @meeting))
+      panel.with_section(Meetings::SidePanel::StateComponent.new(meeting: @meeting))
+
+      desktop_grid_row_arguments = { display: [:none, nil, :"table_cell"] }
+      panel.with_section(Meetings::SidePanel::ParticipantsComponent.new(meeting: @meeting),
+                         grid_row_arguments: desktop_grid_row_arguments.merge({classes: "meetings-side-panel--participants-section"}))
+
+      panel.with_section(Meetings::SidePanel::AttachmentsComponent.new(meeting: @meeting),
+                         grid_row_arguments: desktop_grid_row_arguments)
+    end
+  end
+%>

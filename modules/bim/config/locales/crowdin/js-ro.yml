@@ -5,7 +5,7 @@ ro:
       label_bcf: 'BCF'
       import: 'Importă'
       import_bcf_xml_file: 'Importați fișierul BCF XML (BCF versiunea 2.1)'
-      export: 'Exportare'
+      export: 'Exportă'
       export_bcf_xml_file: 'Exportați fișierul BCF XML (BCF versiunea 2.1)'
       viewpoint: 'Punct de vedere'
       add_viewpoint: 'Adăugați un punct de vedere'

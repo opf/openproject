@@ -13,7 +13,7 @@
   .report
     text-align:       center
     border-collapse:  collapse
-    border:           solid 1px #ccc !important
+    border:           solid 1px var(--borderColor-default) !important
     width:            auto !important
 
     td, th
@@ -21,8 +21,8 @@
       white-space:      nowrap
 
     td
-      border: dotted 1px #ddd
-      color: #666
+      border: dotted 1px var(--borderColor-default)
+      color: var(--fgColor-muted)
       text-align: center
       padding: 0 8px 0 8px
       line-height: 2rem
@@ -33,51 +33,50 @@
       white-space: normal !important
 
     td:hover
-      color: #000
-      outline: #ccc 1px solid
+      outline: var(--borderColor-default) 1px solid
       outline-offset: 1px
 
     td.empty:hover
       outline: none
 
     th
-      border: solid 1px #ccc
-      background-color: #e3e3e3
+      border: solid 1px var(--borderColor-default)
+      background-color: var(--overlay-backdrop-bgColor)
       text-align: center
       font-size: 0.875rem
       line-height: 34px
       padding: 0 8px 0 8px
 
     .odd th.inner
-      background-color: #e8e8e8
+      background-color: var(--bgColor-neutral-muted)
 
     .even th.inner
-      background-color: #e3e3e3
+      background-color: var(--bgColor-muted)
 
     th.inner
-      border: solid 1px #ccc
-      background-color: #efefef
+      border: solid 1px var(--borderColor-default)
+      background-color: var(--bgColor-neutral-muted)
       text-align: right
 
     .odd td.inner
-      background-color: #e8e8e8
+      background-color: var(--bgColor-neutral-muted)
 
     .even td.inner
-      background-color: #e3e3e3
+      background-color: var(--bgColor-muted)
 
     tr:hover .inner,
     tr:hover .bottom,
     tr:hover .empty,
     tr:hover .right
-      background-color: #f5f5c5 !important
+      background-color: var(--highlight-neutral-bgColor) !important
 
     .top
       border-top-style: solid
-      border-top-color: #ccc
+      border-top-color: var(--borderColor-default)
 
     .bottom
       border-bottom-style: solid
-      border-bottom-color: #ccc
+      border-bottom-color: var(--borderColor-default)
 
     td.penultimate
       border-right-style: solid

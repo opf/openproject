@@ -9,7 +9,7 @@ module Components::Autocompleter
       ng_find_dropdown(element, results_selector:) if wait_dropdown_open
 
       # Wait for autocompleter options to be loaded (data fetching is debounced by 250ms after creation or typing)
-      wait_for_network_idle if using_cuprite? && wait_for_fetched_options
+      wait_for_network_idle if wait_for_fetched_options
       expect(element).to have_no_css(".ng-spinner-loader")
 
       # Insert the text to find
@@ -83,7 +83,7 @@ module Components::Autocompleter
         end
       end
 
-      wait_for_network_idle if using_cuprite? && wait_for_fetched_options
+      wait_for_network_idle if wait_for_fetched_options
     end
 
     ##

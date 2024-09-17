@@ -1,5 +1,5 @@
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -25,13 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 // ++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
 import {
@@ -65,17 +59,20 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
 
   public ckEditorContext:ICKEditorContext = {
     resource: this.change.pristineResource,
+    field: this.field.name,
     macros: 'none' as const,
     previewContext: this.previewContext,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     options: { rtl: this.schema.options && this.schema.options.rtl },
     type: 'constrained',
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
     ...this.resource.getEditorContext(this.field.name),
-  };
+  } as ICKEditorContext;
 
   ngOnInit():void {
     super.ngOnInit();
 
-    this.handler.registerOnSubmit(() => this.getCurrentValue());
+    this.handler.registerOnSubmit(() => Promise.resolve(this.getCurrentValue()));
     this.text = {
       attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
       save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
@@ -101,12 +98,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     }
   }
 
-  public getCurrentValue():Promise<void> {
-    return this.editor
-      .getTransformedContent()
-      .then((val) => {
-        this.rawValue = val;
-      });
+  public getCurrentValue():void {
+    this.rawValue = this.editor.getTransformedContent();
   }
 
   public onContentChange(value:string):void {
@@ -118,10 +111,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public handleUserSubmit():boolean {
-    this.getCurrentValue()
-      .then(() => {
-        this.handler.handleUserSubmit();
-      });
+    this.getCurrentValue();
+    void this.handler.handleUserSubmit();
 
     return false;
   }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -152,10 +152,13 @@ RSpec.describe SettingsHelper do
     before do
       allow(Setting).to receive(:host_name).at_least(:once).and_return("2")
       allow(Setting).to receive(:protocol).at_least(:once).and_return("3")
-      allow(Setting).to receive_messages(
-        host_name_writable?: true,
-        protocol_writable?: true
-      )
+
+      without_partial_double_verification do
+        allow(Setting).to receive_messages(
+          host_name_writable?: true,
+          protocol_writable?: true
+        )
+      end
     end
 
     it_behaves_like "not wrapped in container"

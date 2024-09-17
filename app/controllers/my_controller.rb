@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,7 @@ class MyController < ApplicationController
   include Accounts::UserPasswordChange
   include ActionView::Helpers::TagHelper
   include OpTurbo::ComponentStream
+  include FlashMessagesOutputSafetyHelper
 
   layout "my"
 
@@ -112,26 +113,10 @@ class MyController < ApplicationController
   end
 
   # Configure user's in app notifications
-  def notifications
-    render html: "",
-           layout: "angular/angular",
-           locals: {
-             menu_name: :my_menu,
-             component: "opce-notification-settings",
-             page_title: [I18n.t(:label_my_account), I18n.t("js.notifications.settings.title")]
-           }
-  end
+  def notifications; end
 
   # Configure user's mail reminders
-  def reminders
-    render html: "",
-           layout: "angular/angular",
-           locals: {
-             menu_name: :my_menu,
-             component: "opce-reminder-settings",
-             page_title: [I18n.t(:label_my_account), I18n.t("js.reminders.settings.title")]
-           }
-  end
+  def reminders; end
 
   # Create a new feeds key
   def generate_rss_key
@@ -163,13 +148,12 @@ class MyController < ApplicationController
     result = APITokens::CreateService.new(user: current_user).call(token_name: params[:token_api][:token_name])
 
     result.on_success do |r|
-      flash[:info] = [
-        t("my.access_token.notice_reset_token", type: "API").html_safe,
-        content_tag(:strong, r.result.plain_value),
-        t("my.access_token.token_value_warning")
-      ]
+      update_via_turbo_stream(
+        component: My::AccessToken::APITokensSectionComponent.new(api_tokens: @user.api_tokens)
+      )
 
-      redirect_to action: "access_token"
+      dialog = My::AccessToken::AccessTokenCreatedDialogComponent.new(token_value: r.result.plain_value)
+      modify_via_turbo_stream(component: dialog, action: :dialog, status: :ok)
     end
 
     result.on_failure do |r|
@@ -177,10 +161,11 @@ class MyController < ApplicationController
         component: My::AccessToken::NewAccessTokenFormComponent.new(token: r.result),
         status: :bad_request
       )
-
-      respond_with_turbo_streams
     end
+
+    respond_with_turbo_streams
   end
+
   # rubocop:enable Metrics/AbcSize
 
   # rubocop:disable Metrics/AbcSize
@@ -189,12 +174,13 @@ class MyController < ApplicationController
 
     # rubocop:disable Rails/ActionControllerFlashBeforeRender
     result.on_success do
-      flash[:info] = t("my.access_token.notice_api_token_revoked")
+      flash[:primer_banner] = { message: t("my.access_token.notice_api_token_revoked") }
     end
 
-    result.on_failure do
-      Rails.logger.error "Failed to revoke api token ##{current_user.id}: #{e}"
-      flash[:error] = t("my.access_token.failed_to_revoke_token", error: e.message)
+    result.on_failure do |r|
+      error = r.errors.map(&:message).join("; ")
+      Rails.logger.error("Failed to revoke api token ##{current_user.id}: #{error}")
+      flash[:primer_banner] = { message: t("my.access_token.failed_to_revoke_token", error:), scheme: :danger }
     end
     # rubocop:enable Rails/ActionControllerFlashBeforeRender
 

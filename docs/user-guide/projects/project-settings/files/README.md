@@ -27,7 +27,7 @@ To activate or de-activate the attachments being shown under **Files** tab in wo
 
 ![Show attachments in the work packages files tab in OpenProject](project-settings-attachments.png)
 
-
+> Please note that you need a *Manage files in project* permission to be able to activate or deactivate this work package attachment option.
 
 ## Add a new storage to a project
 

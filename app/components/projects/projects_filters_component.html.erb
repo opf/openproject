@@ -1,0 +1,109 @@
+<%= form_tag({},
+             method: :get,
+             class: "op-filters-form op-filters-form_top-margin #{show_filters_section? ? "-expanded" : ""}",
+             data: {
+               'filter--filters-form-target': 'filterForm',
+               action: 'submit->filter--filters-form#sendForm:prevent'
+             }) do %>
+  <% operators_without_values = %w[* !* t w] %>
+  <fieldset class="advanced-filters--container">
+    <a title="<%= t('js.close_form_title') %>"
+       class="advanced-filters--close icon-context icon-close"
+       data-action="filter--filters-form#toggleDisplayFilters"></a>
+    <legend><%= t(:label_filter_plural) %></legend>
+    <ul class="advanced-filters--filters">
+      <% each_filter do |filter, filter_active, additional_options| %>
+        <% filter_boolean = filter.is_a?(Queries::Filters::Shared::BooleanFilter) %>
+        <% autocomplete_filter = additional_options.key?(:autocomplete_options) %>
+        <li class="advanced-filters--filter <%= filter_active ? '' : 'hidden' %>"
+            data-filter-name="<%= filter.name %>"
+            data-filter-type="<%= filter.type %>"
+            data-filter--filters-form-target="filter">
+          <label class='advanced-filters--filter-name' for="<%= filter.name %>">
+            <%= filter.human_name %>
+          </label>
+          <% selected_operator = filter.operator || filter.default_operator.symbol %>
+          <%= content_tag :div, class: "advanced-filters--filter-operator", style: filter_boolean ? 'display:none' : '' do %>
+            <%= select_tag :operator,
+                           options_from_collection_for_select(
+                             filter.available_operators,
+                             :symbol,
+                             :human_name,
+                             selected_operator),
+                           class: 'advanced-filters--select',
+                           data: {
+                             action: 'change->filter--filters-form#setValueVisibility',
+                             'filter--filters-form-filter-name-param': filter.name,
+                             'filter--filters-form-target': 'operator',
+                             'filter-name': filter.name
+                           } %>
+          <% end %>
+          <% value_visibility = operators_without_values.include?(selected_operator) ? 'hidden' : '' %>
+          <% if autocomplete_filter %>
+            <%= render partial: 'filters/autocomplete',
+                       locals: { value_visibility: value_visibility,
+                                 filter: filter,
+                                 autocomplete_options: additional_options[:autocomplete_options] } %>
+          <% elsif filter_boolean %>
+            <%= render partial: 'filters/boolean',
+                       locals: { value_visibility: value_visibility,
+                                 filter: filter } %>
+          <% elsif %i(list list_optional list_all).include? filter.type %>
+            <%= render partial: 'filters/list/input_options',
+                       locals: { value_visibility: value_visibility,
+                                 filter: filter } %>
+          <% elsif [:datetime_past, :date].include? filter.type %>
+            <%= render partial: 'filters/date/input_options',
+                       locals: { value_visibility: value_visibility,
+                                 filter: filter,
+                                 selected_operator: selected_operator } %>
+          <% else %>
+            <%# All other simple types %>
+            <%= render partial: 'filters/text',
+                       locals: { value_visibility: value_visibility,
+                                 filter: filter } %>
+          <% end %>
+          <div class="advanced-filters--remove-filter">
+            <a href="#"
+               class="filter_rem"
+               data-action="click->filter--filters-form#removeFilter"
+              data-filter--filters-form-filter-name-param="<%= filter.name %>">
+              <%= helpers.op_icon("icon-close advanced-filters--remove-filter-icon", title: I18n.t('js.button_delete')) %>
+            </a>
+          </div>
+        </li>
+      <% end %>
+      <li class="advanced-filters--spacer <%= query.filters.blank? ? 'hidden' : '' %>"
+          data-filter--filters-form-target="spacer"></li>
+      <li class="advanced-filters--add-filter">
+        <!-- Add filters -->
+        <label for="add_filter_select" aria-hidden="true" class="advanced-filters--add-filter-label ng-binding">
+          <%= helpers.op_icon("icon-add icon4") %>
+          <%= t(:label_filter_add) %>:
+        </label>
+        <label for="add_filter_select" class="hidden-for-sighted ng-binding">
+          <%= t(:label_filter_add) %>
+          <%= t('js.filter.description.text_open_filter') %>
+          <%= t('js.filter.description.text_close_filter') %>
+        </label>
+        <div class="advanced-filters--add-filter-value">
+          <%= select_tag 'add_filter_select',
+                         options_from_collection_for_select(
+                           allowed_filters,
+                           :name,
+                           :human_name,
+                           disabled: query.filters.map(&:name)
+                         ),
+                         prompt: t(:actionview_instancetag_blank_option),
+                         class: 'advanced-filters--select',
+                         focus: "false",
+                         'aria-invalid': "false",
+                         data: {
+                           'filter--filters-form-target': 'addFilterSelect',
+                           action: 'change->filter--filters-form#addFilter:prevent'
+                         } %>
+        </div>
+      </li>
+    </ul>
+  </fieldset>
+<% end %>

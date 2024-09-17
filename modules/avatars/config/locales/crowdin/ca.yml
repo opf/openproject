@@ -11,7 +11,6 @@ ca:
   message_avatar_uploaded: "L'avatar s'ha canviat correctament."
   error_image_upload: "Error guardant la imatge."
   error_image_size: "La imatge és massa gran."
-  button_change_avatar: "Canvia l'avatar"
   are_you_sure_delete_avatar: "Segur que vols eliminar el teu avatar?"
   avatar_deleted: "L'avatar s'ha eliminat correctament."
   unable_to_delete_avatar: "No s'ha pogut suprimir l'avatar."

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,8 +64,7 @@ module Storages::Admin::Forms
     end
 
     def nextcloud_integration_link(target: "_blank")
-      href = Storages::Peripherals::StorageInteraction::Nextcloud::Util
-               .join_uri_path(storage.host, "settings/admin/openproject")
+      href = Storages::UrlBuilder.url(storage.uri, "settings/admin/openproject")
       render(Primer::Beta::Link.new(href:, target:)) { I18n.t("storages.instructions.nextcloud.integration") }
     end
 

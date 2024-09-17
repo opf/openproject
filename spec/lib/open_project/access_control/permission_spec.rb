@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -182,6 +182,41 @@ RSpec.describe OpenProject::AccessControl::Permission do
 
       it "defaults to grant-able to admin" do
         expect(permission).to be_grant_to_admin
+      end
+    end
+  end
+
+  describe "#visible?" do
+    def permission(visible:)
+      described_class.new(:perm, {}, permissible_on: :project, visible:)
+    end
+
+    context "with :visible initialization parameter being a boolean" do
+      it "returns its value" do
+        expect(permission(visible: true)).to be_visible
+        expect(permission(visible: false)).not_to be_visible
+      end
+    end
+
+    context "with :visible initialization parameter being a Proc" do
+      it "returns the value from the Proc evaluation" do
+        expect(permission(visible: -> { true })).to be_visible
+        expect(permission(visible: -> { true })).not_to be_hidden
+        expect(permission(visible: -> { false })).not_to be_visible
+        expect(permission(visible: -> { false })).to be_hidden
+      end
+
+      it "runs the Proc each time (value is not cached)" do
+        visible = false
+        proc = -> {
+          visible = !visible
+        }
+        permission = permission(visible: proc)
+
+        expect(permission).to be_visible
+        expect(permission).not_to be_visible
+        expect(permission).to be_visible
+        expect(permission).not_to be_visible
       end
     end
   end

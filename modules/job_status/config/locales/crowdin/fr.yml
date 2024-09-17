@@ -3,3 +3,19 @@ fr:
   plugin_openproject_job_status:
     name: "Statut de tâches OpenProject"
     description: "Liste et état des tâches d'arrière-plan."
+  job_status_dialog:
+    download_starts: 'Le téléchargement devrait démarrer automatiquement.'
+    link_to_download: 'Ou %{link} pour télécharger.'
+    click_here: 'cliquez ici'
+    title: 'Statut de la tâche en arrière-plan'
+    redirect: 'Vous allez être redirigé.'
+    redirect_link: 'Veuillez cliquer ici pour continuer.'
+    redirect_errors: 'En raison de ces erreurs, vous ne serez pas redirigé automatiquement.'
+    errors: 'Un problème est survenu'
+    generic_messages:
+      not_found: 'Impossible de trouver cette tâche.'
+      in_queue: 'La tâche a été mise en file d''attente et sera traitée sous peu.'
+      in_process: 'La tâche est en cours de traitement.'
+      error: 'La tâche n''a pas été terminée.'
+      cancelled: 'La tâche a été annulée en raison d''une erreur.'
+      success: 'Le travail a été effectué avec succès.'

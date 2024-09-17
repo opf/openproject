@@ -136,7 +136,7 @@ It is probably best to use READMEs of already released plugins as a template.
     Activity, Issue Tracking, Time Tracking, Forums, and Backlogs are default.
     Also, the My Project Page should only show Project Description and Tickets blocks.
 3. Create a news article about the newly released plugin and its features.
-4. Twitter with a link to the news article.
+4. Share a link to the news article on social media.
 5. If the plugin is referenced in our feature tour, add a download link to the plugin in the feature tour
 
 ## Frontend plugins [WIP]

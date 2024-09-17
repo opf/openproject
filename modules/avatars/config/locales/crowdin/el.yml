@@ -11,7 +11,6 @@ el:
   message_avatar_uploaded: "Το άβαταρ άλλαξε με επιτυχία."
   error_image_upload: "Σφάλμα κατά την αποθήκευση της εικόνας."
   error_image_size: "Η εικόνα είναι πολύ μεγάλη."
-  button_change_avatar: "Αλλαγή άβαταρ"
   are_you_sure_delete_avatar: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το άβαταρ σας;"
   avatar_deleted: "Το άβαταρ διαγράφηκε με επιτυχία."
   unable_to_delete_avatar: "Δεν ήταν δυνατή η διαγραφή του άβαταρ."

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@ module Pages
     end
 
     def expect_open
-      wait_for_reload if using_cuprite?
+      wait_for_reload
       expect(page).to have_selector(@selector)
       expect_subject
     end

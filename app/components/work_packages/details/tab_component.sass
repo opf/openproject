@@ -1,0 +1,19 @@
+.op-work-package-details-tab-component
+  align-items: flex-start
+
+  &--tabs
+    flex-grow: 1
+    overflow: auto
+
+  &--action
+    padding-top: 8px
+
+    // This is one of the ugliest hacks I ever had to write. Please remove that as soon as the actions are part of the Splitscreen header
+    padding-bottom: 7px
+    border-bottom: 1px solid var(--borderColor-muted)
+
+    &:last-of-type
+      padding-right: 10px
+
+    &:first-of-type
+      padding-left: 5px

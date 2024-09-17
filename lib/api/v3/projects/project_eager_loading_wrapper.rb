@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -67,6 +67,7 @@ module API
             ProjectCustomFieldProjectMapping
               .eager_load(:project_custom_field)
               .merge(ProjectCustomField.visible)
+              .where(project_id: Project.allowed_to(User.current, :view_project_attributes))
               .each_with_object(Hash.new { |h, k| h[k] = [] }) do |mapping, acc|
                 acc[mapping.project_id] << mapping.project_custom_field
               end

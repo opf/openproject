@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,10 +48,8 @@ module Storages::ProjectStorages
       super.tap do |deletion_result|
         if deletion_result.success?
           delete_associated_file_links
-          OpenProject::Notifications.send(
-            OpenProject::Events::PROJECT_STORAGE_DESTROYED,
-            project_folder_mode: deletion_result.result.project_folder_mode.to_sym,
-            storage: deletion_result.result.storage
+          ::Storages::ProjectStorages::NotificationsService.broadcast_project_storage_destroyed(
+            project_storage: deletion_result.result
           )
         end
       end

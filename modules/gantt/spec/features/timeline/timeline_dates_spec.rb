@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -229,25 +229,25 @@ RSpec.describe "Work package timeline date formatting",
 
       it "displays the hover bar correctly" do
         # Expect no hover bar when hovering over a non working day
-        row.hover_bar(offset_days: -1)
+        row.hover_bar(offset_days: -2)
         row.expect_no_hovered_bar
 
         # Expect timeline bar when clicking on a non working day
-        row.click_bar(offset_days: -1)
+        row.click_bar(offset_days: -2)
         row.expect_no_bar
 
         # Expect hovered bar size to equal duration
-        row.hover_bar
+        row.hover_bar(offset_days: -1)
         row.expect_hovered_bar(duration: work_package_with_non_working_days.duration)
 
         # Expect hovered bar size to equal duration + non working days
         # when the hovered bar passes through non working days
-        row.hover_bar(offset_days: 1)
+        row.hover_bar(offset_days: 0)
         row.expect_hovered_bar(duration: work_package_with_non_working_days.duration + 2)
       end
 
       describe "set the start, due date while preserving duration" do
-        subject { row.click_bar }
+        subject { row.click_bar(offset_days: -1) }
 
         it_behaves_like "sets dates, duration and displays bar" do
           let(:target_wp) { work_package_with_non_working_days }
@@ -260,7 +260,7 @@ RSpec.describe "Work package timeline date formatting",
       end
 
       describe "set the start, due date while preserving duration over the weekend" do
-        subject { row.click_bar(offset_days: 1) }
+        subject { row.click_bar }
 
         it_behaves_like "sets dates, duration and displays bar" do
           let(:target_wp) { work_package_with_non_working_days }
@@ -273,7 +273,7 @@ RSpec.describe "Work package timeline date formatting",
       end
 
       describe "sets the start, due dates while preserving duration on a drag and drop create" do
-        subject { row.drag_and_drop(days: 5) }
+        subject { row.drag_and_drop(offset_days: -1, days: 5) }
 
         it_behaves_like "sets dates, duration and displays bar" do
           let(:target_wp) { work_package_with_non_working_days }
@@ -286,7 +286,7 @@ RSpec.describe "Work package timeline date formatting",
       end
 
       describe "sets the start, due dates while preserving duration on a drag and drop create over the weekend" do
-        subject { row.drag_and_drop(offset_days: 1, days: 7) }
+        subject { row.drag_and_drop(days: 7) }
 
         it_behaves_like "sets dates, duration and displays bar" do
           let(:target_wp) { work_package_with_non_working_days }
@@ -299,7 +299,7 @@ RSpec.describe "Work package timeline date formatting",
       end
 
       describe "sets the start, due dates and duration on a drag and drop create over the weekend" do
-        subject { row.drag_and_drop(offset_days: 1, days: 8) }
+        subject { row.drag_and_drop(days: 8) }
 
         it_behaves_like "sets dates, duration and displays bar" do
           let(:target_wp) { work_package_with_non_working_days }
@@ -313,13 +313,13 @@ RSpec.describe "Work package timeline date formatting",
 
       it "cancels when the drag starts or finishes on a weekend" do
         # Finish on the weekend
-        row.drag_and_drop(offset_days: 1, days: 5)
+        row.drag_and_drop(days: 5)
 
         row.expect_no_bar
         expect { work_package_with_non_working_days.reload }.not_to change { work_package_with_non_working_days }
 
         # Start on the weekend
-        row.drag_and_drop(offset_days: -1, days: 5)
+        row.drag_and_drop(offset_days: -2, days: 5)
 
         row.expect_no_bar
         expect { work_package_with_non_working_days.reload }.not_to change { work_package_with_non_working_days }
@@ -329,7 +329,7 @@ RSpec.describe "Work package timeline date formatting",
         let(:row) { wp_timeline.timeline_row work_package_without_non_working_days.id }
 
         describe "sets the start, due dates and duration on a drag and drop create over the weekend" do
-          subject { row.drag_and_drop(offset_days: 1, days: 8) }
+          subject { row.drag_and_drop(days: 8) }
 
           it_behaves_like "sets dates, duration and displays bar" do
             let(:target_wp) { work_package_without_non_working_days }

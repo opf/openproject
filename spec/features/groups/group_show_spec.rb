@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,8 +42,8 @@ RSpec.describe "group show page" do
 
     it "I can visit the group page" do
       visit show_group_path(group)
-      expect(page).to have_css("h2", text: "Bob's Team")
-      expect(page).to have_css(".toolbar-item", text: "Edit")
+      expect(page).to have_test_selector("groups--title", text: "Bob's Team")
+      expect(page).to have_test_selector("groups--edit-group-button", text: "Edit")
       expect(page).to have_css("li", text: member.name)
     end
   end
@@ -53,8 +53,8 @@ RSpec.describe "group show page" do
 
     it "I can visit the group page" do
       visit show_group_path(group)
-      expect(page).to have_css("h2", text: "Bob's Team")
-      expect(page).to have_no_css(".toolbar-item")
+      expect(page).to have_test_selector("groups--title", text: "Bob's Team")
+      expect(page).not_to have_test_selector("groups--edit-group-button")
       expect(page).to have_no_css("li", text: member.name)
     end
   end

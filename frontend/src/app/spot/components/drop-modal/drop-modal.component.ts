@@ -17,14 +17,7 @@ import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-he
 import { SpotDropModalTeleportationService } from './drop-modal-teleportation.service';
 import { filter, take } from 'rxjs/operators';
 import { debounce } from 'lodash';
-import {
-  autoUpdate,
-  computePosition,
-  flip,
-  limitShift,
-  Placement,
-  shift,
-} from '@floating-ui/dom';
+import { autoUpdate, computePosition, flip, limitShift, Placement, shift } from '@floating-ui/dom';
 
 @Component({
   selector: 'spot-drop-modal',
@@ -116,15 +109,6 @@ export class SpotDropModalComponent implements OnDestroy {
   open() {
     this._opened = true;
     this.updateAppHeight();
-    this.cdRef.detectChanges();
-
-    /*
-     * If we don't activate the body after one tick, angular will complain because
-     * it already rendered a `null` template, but then gets an update to that
-     * template in the same tick.
-     * To make it happy, we update afterwards
-     */
-    this.teleportationService.activate(this.body);
 
     this.teleportationService
       .hasRenderedFiltered$
@@ -133,6 +117,7 @@ export class SpotDropModalComponent implements OnDestroy {
         take(1),
       )
       .subscribe(() => {
+        this.cdRef.detectChanges();
         const referenceEl = this.elementRef.nativeElement as HTMLElement;
         const floatingEl = this.anchor.nativeElement as HTMLElement;
         this.cleanupFloatingUI = autoUpdate(
@@ -182,6 +167,14 @@ export class SpotDropModalComponent implements OnDestroy {
           }
         });
       });
+
+    /*
+     * If we don't activate the body after one tick, angular will complain because
+     * it already rendered a `null` template, but then gets an update to that
+     * template in the same tick.
+     * To make it happy, we update afterwards
+     */
+    this.teleportationService.activate(this.body);
   }
 
   close():void {

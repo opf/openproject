@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -103,6 +103,10 @@ module Storages
             Failures::Builder.call(code: :unauthorized,
                                    log_message: "Error while fetching OAuth access token.",
                                    data: Failures::ErrorData.call(response: e.response, source: self.class))
+          rescue HTTPX::TimeoutError => e
+            Failures::Builder.call(code: :unauthorized,
+                                   log_message: "Timeout while fetching OAuth token.",
+                                   data: Failures::TimeoutErrorData.call(error: e, source: self.class))
           end
 
           def build_failure(storage)

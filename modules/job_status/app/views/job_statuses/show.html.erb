@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% html_title t("js.job_status.title") -%>
-
-<%= angular_component_tag "opce-display-job-status-page", inputs: { jobId: params[:job_uuid] } %>
+<% html_title t("job_status_dialog.title") -%>
+<%= turbo_stream.dialog do %>
+<%= render ::JobStatus::Dialog::DialogComponent.new(job_uuid: params[:job_uuid], back_on_close: true) %>
+<% end %>

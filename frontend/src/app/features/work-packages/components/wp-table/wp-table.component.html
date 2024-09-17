@@ -2,15 +2,16 @@
   <div class="work-packages-tabletimeline--table-side work-package-table--container __hidden_overflow_container">
     <table
       class="keyboard-accessible-list generic-table work-package-table"
+      data-controller="table-highlighting"
       [class.op-table-baseline]="baselineEnabled"
     >
       <colgroup>
-        <col *ngIf="configuration.dragAndDropEnabled">
-        <col *ngIf="baselineEnabled">
+        <col data-highlight="false" *ngIf="configuration.dragAndDropEnabled">
+        <col data-highlight="false" *ngIf="baselineEnabled">
         <!-- Generate col elements dynamically(!) for each requested column plus one for the action menu's column. -->
-        <col opHighlightCol *ngFor="let column of [].constructor(columns.length)">
-        <col opHighlightCol *ngIf="configuration.columnMenuEnabled">
-        <col *ngIf="!configuration.columnMenuEnabled">
+        <col *ngFor="let column of [].constructor(columns.length)">
+        <col *ngIf="configuration.columnMenuEnabled">
+        <col data-highlight="false" *ngIf="!configuration.columnMenuEnabled">
       </colgroup>
       <caption class="hidden-for-sighted">
         <span>{{text.tableSummary}}</span>
@@ -89,6 +90,7 @@
        class="work-packages--tabletimeline--timeline--resizer hidden-for-mobile hide-when-print">
     <wp-resizer [elementClass]="'work-packages-tabletimeline--timeline-side'"
                 [resizeEvent]="'wp-resize.timeline'"
+                [variableName]="'--gantt-split-width'"
                 [localStorageKey]="'openProject-timelineFlexBasis'"></wp-resizer>
   </div>
 

@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -41,11 +42,10 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
-export const globalSearchTitleSelector = 'global-search-title';
-
 @Component({
-  selector: 'global-search-title',
+  selector: 'opce-global-search-title',
   templateUrl: './global-search-title.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public searchTerm:string;
@@ -65,11 +65,13 @@ export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements O
     in: this.I18n.t('js.label_in'),
   };
 
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     readonly cdRef:ChangeDetectorRef,
     readonly globalSearchService:GlobalSearchService,
     readonly I18n:I18nService,
-    readonly injector:Injector) {
+    readonly injector:Injector,
+  ) {
     super();
   }
 
@@ -85,6 +87,7 @@ export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements O
       )
       .subscribe(([newSearchTerm, newProjectScope]) => {
         this.searchTerm = newSearchTerm;
+        /* eslint-disable-next-line @typescript-eslint/no-unsafe-argument */
         this.project = this.projectText(newProjectScope);
         this.searchTitle = `${this.text.search_for} ${this.searchTerm} ${this.project === '' ? '' : this.text.in} ${this.project}`;
 

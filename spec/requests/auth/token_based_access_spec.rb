@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ RSpec.describe "Token based access", type: :rails_request, with_settings: { logi
     # work_packages of a private project
     get "/work_packages/#{work_package.id}.atom"
     expect(response)
-      .to redirect_to(signin_path(back_url: "http://www.example.com/work_packages/#{work_package.id}"))
+      .to redirect_to(signin_path(back_url: "http://#{Setting.host_name}/work_packages/#{work_package.id}"))
 
     # access is possible with a token
     get "/work_packages/#{work_package.id}.atom?key=#{rss_key}"
@@ -50,6 +50,6 @@ RSpec.describe "Token based access", type: :rails_request, with_settings: { logi
     # but for the next request, the user is not logged in
     get "/work_packages/#{work_package.id}"
     expect(response)
-      .to redirect_to(signin_path(back_url: "http://www.example.com/work_packages/#{work_package.id}"))
+      .to redirect_to(signin_path(back_url: "http://#{Setting.host_name}/work_packages/#{work_package.id}"))
   end
 end

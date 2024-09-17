@@ -39,6 +39,10 @@ class EditField
     @create_form
   end
 
+  def visible_on_create_form?
+    true
+  end
+
   def field_container
     context.find @selector
   end
@@ -52,7 +56,7 @@ class EditField
   end
 
   def display_trigger_element
-    if display_element.has_selector?(".inline-edit--display-trigger")
+    if display_element.has_selector?(".inline-edit--display-trigger", wait: 0)
       display_element.find(".inline-edit--display-trigger")
     else
       display_element
@@ -69,7 +73,11 @@ class EditField
 
   def clear(with_backspace: false)
     if with_backspace
-      input_element.set(" ", fill_options: { clear: :backspace })
+      if using_cuprite?
+        clear_input_field_contents(input_element)
+      else
+        input_element.set(" ", fill_options: { clear: :backspace })
+      end
     else
       input_element.native.clear
     end
@@ -117,7 +125,7 @@ class EditField
 
   def openSelectField
     autocomplete_selector.click
-    wait_for_network_idle if using_cuprite?
+    wait_for_network_idle
   end
 
   def set_select_field_value(value)
@@ -128,7 +136,7 @@ class EditField
   end
 
   def expect_state!(open:)
-    if open || create_form?
+    if open || (create_form? && visible_on_create_form?)
       expect_active!
     else
       expect_inactive!
@@ -252,7 +260,7 @@ class EditField
     # an attribute, which may cause an input not to open properly.
     retry_block do
       activate_edition
-      wait_for_network_idle if using_cuprite?
+      wait_for_network_idle
       set_value value
 
       # select fields are saved on change

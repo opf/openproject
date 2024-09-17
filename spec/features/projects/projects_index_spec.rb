@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,11 +35,11 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
   shared_let(:developer) { create(:project_role, name: "Developer") }
 
   shared_let(:custom_field) { create(:text_project_custom_field) }
-  shared_let(:invisible_custom_field) { create(:project_custom_field, visible: false) }
+  shared_let(:invisible_custom_field) { create(:project_custom_field, admin_only: true) }
 
   shared_let(:project) { create(:project, name: "Plain project", identifier: "plain-project") }
   shared_let(:public_project) do
-    create(:project, name: "Public project", identifier: "public-project", public: true) do |project|
+    create(:project, name: "Public Pr", identifier: "public-pr", public: true) do |project|
       project.custom_field_values = { invisible_custom_field.id => "Secret CF" }
     end
   end
@@ -56,22 +56,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     projects_page.open_filters
   end
 
-  def remove_filter(name)
-    page.find("li[filter-name='#{name}'] .filter_rem").click
-  end
-
-  def expect_project_at_place(project, place)
-    expect(page)
-      .to have_css("#project-table .project:nth-of-type(#{place}) td.name",
-                   text: project.name)
-  end
-
-  def expect_projects_in_order(*projects)
-    projects.each_with_index do |project, index|
-      expect_project_at_place(project, index + 1)
-    end
-  end
-
   describe "project visibility restriction" do
     context "for an anonymous user" do
       specify "only public projects shall be visible" do
@@ -86,7 +70,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       end
     end
 
-    context "for project members", with_ee: %i[custom_fields_in_projects_list] do
+    context "for project members" do
       shared_let(:user) do
         create(:user,
                member_with_roles: { development_project => developer },
@@ -108,9 +92,46 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
         expect(page).to have_no_text(invisible_custom_field.name.upcase)
         expect(page).to have_no_select("add_filter_select", with_options: [invisible_custom_field.name])
       end
+
+      context "with project attributes" do
+        let(:user) do
+          create(:user,
+                 member_with_roles: {
+                   development_project => create(:existing_project_role, permissions:),
+                   project => create(:existing_project_role)
+                 })
+        end
+
+        let!(:list_custom_field) do
+          create(:list_project_custom_field, multi_value: true).tap do |cf|
+            development_project.update(custom_field_values: { cf.id => [cf.value_of("A"), cf.value_of("B")] })
+            project.update(custom_field_values: { cf.id => [cf.value_of("A"), cf.value_of("B")] })
+          end
+        end
+
+        context "with view_project_attributes permission" do
+          let(:permissions) { %i(view_project_attributes) }
+
+          it "can see the project attribute field in the filter section" do
+            load_and_open_filters user
+
+            expect(page).to have_select("add_filter_select", with_options: [list_custom_field.name])
+          end
+        end
+
+        context "without view_project_attributes permission" do
+          let(:permissions) { [] }
+
+          it "cannot see the project attribute field in the filter section" do
+            load_and_open_filters user
+
+            expect(page).to have_no_select("add_filter_select", with_options: [list_custom_field.name])
+          end
+        end
+      end
     end
 
-    context "for work package members", with_ee: %i[custom_fields_in_projects_list] do
+    context "for work package members" do
       shared_let(:work_package) { create(:work_package, project: development_project) }
       shared_let(:user) do
         create(:user,
@@ -142,7 +163,28 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
           expect(page).to have_no_text(development_project.description)
           expect(page).to have_no_text(project_status_name(development_project.status_code))
           expect(page).to have_no_text(development_project.status_explanation)
-          expect(page).to have_no_text(development_project.custom_value_for(custom_field))
+          expect(page)
+            .to have_no_text(
+              development_project.custom_values_for_custom_field(
+                id: custom_field.id,
+                all: true
+              ).first.value
+            )
+        end
+      end
+
+      context "with project attributes" do
+        let!(:list_custom_field) do
+          create(:list_project_custom_field, multi_value: true).tap do |cf|
+            development_project.update(custom_field_values: { cf.id => [cf.value_of("A"), cf.value_of("B")] })
+            project.update(custom_field_values: { cf.id => [cf.value_of("A"), cf.value_of("B")] })
+          end
+        end
+
+        it "cannot see the project attribute field in the filter section" do
+          load_and_open_filters user
+
+          expect(page).to have_no_select("add_filter_select", with_options: [list_custom_field.name])
         end
       end
     end
@@ -238,20 +280,56 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
         expect(error_container["innerHTML"]).to include error_html
       end
     end
-  end
 
-  context "without valid Enterprise token" do
-    specify "CF columns and filters are not visible" do
-      load_and_open_filters admin
+    context "for project attributes" do
+      let(:user) do
+        create(:user,
+               member_with_roles: {
+                 development_project => create(:existing_project_role, permissions:),
+                 project => create(:existing_project_role)
+               })
+      end
 
-      # CF's columns are not present:
-      expect(page).to have_no_text(custom_field.name.upcase)
-      # CF's filters are not present:
-      expect(page).to have_no_select("add_filter_select", with_options: [custom_field.name])
+      let!(:list_custom_field) do
+        create(:list_project_custom_field, multi_value: true).tap do |cf|
+          development_project.update(custom_field_values: { cf.id => [cf.value_of("A"), cf.value_of("B")] })
+          project.update(custom_field_values: { cf.id => [cf.value_of("A"), cf.value_of("B")] })
+        end
+      end
+
+      before do
+        login_as(user)
+        projects_page.visit!
+      end
+
+      context "with view_project_attributes permission" do
+        let(:permissions) { %i(view_project_attributes) }
+
+        it "can see the project attribute field value in the project list" do
+          projects_page.set_columns(list_custom_field.name)
+          projects_page.expect_columns(list_custom_field.name)
+
+          projects_page.within_row(development_project) do
+            expect(page).to have_css("td.#{list_custom_field.column_name}", text: "A, B")
+          end
+
+          projects_page.within_row(project) do
+            expect(page).to have_css("td.#{list_custom_field.column_name}", text: "")
+          end
+        end
+      end
+
+      context "without view_project_attributes permission" do
+        let(:permissions) { [] }
+
+        it "cannot see the project attribute field in the table configuration" do
+          projects_page.expect_no_config_columns(list_custom_field.name)
+        end
+      end
     end
   end
 
-  context "with valid Enterprise token", with_ee: %i[custom_fields_in_projects_list] do
+  context "with valid Enterprise token" do
     shared_let(:long_text_custom_field) { create(:text_project_custom_field) }
     specify "CF columns and filters are not visible by default" do
       load_and_open_filters admin
@@ -321,17 +399,13 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     it "only shows the matching projects and filters" do
       load_and_open_filters admin
 
-      projects_page.set_filter("name_and_identifier",
-                               "Name or identifier",
-                               "contains",
-                               ["Plain"])
+      projects_page.filter_by_name_and_identifier("Plain")
 
-      click_on "Apply"
       # Filter is applied: Only the project that contains the the word "Plain" gets listed
       projects_page.expect_projects_listed(project)
       projects_page.expect_projects_not_listed(public_project)
       # Filter form is visible and the filter is still set.
-      expect(page).to have_css('li[filter-name="name_and_identifier"]')
+      expect(page).to have_field("name_and_identifier", with: "Plain")
     end
   end
 
@@ -343,25 +417,24 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     it "keeps applied filters, orders and columns" do
       load_and_open_filters admin
 
-      projects_page.set_filter("name_and_identifier",
-                               "Name or identifier",
-                               "doesn't contain",
-                               ["Plain"])
+      projects_page.filter_by_name_and_identifier("project")
 
-      click_on "Apply"
       wait_for_reload
 
       projects_page.set_columns("Name")
+      wait_for_reload
       projects_page.expect_columns("Name")
+      projects_page.expect_no_columns("Status")
 
       # Sorts ASC by name
       projects_page.sort_by_via_table_header("Name")
       wait_for_reload
+      projects_page.expect_sort_order_via_table_header("Name", direction: :asc)
 
       # Results should be filtered and ordered ASC by name and only the selected columns should be present
       projects_page.expect_projects_listed(development_project)
-      projects_page.expect_projects_not_listed(project,        # as it is filtered out
-                                               public_project) # as it is on the second page
+      projects_page.expect_projects_not_listed(public_project, # as it is filtered out
+                                               project)        # as it is on the second page
       projects_page.expect_columns("Name")
       projects_page.expect_no_columns("Status")
       expect(page).to have_text("Next") # as the result set is larger than 1
@@ -369,13 +442,19 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       # Changing the page size to 5 and back to 1 should not change the filters (which we test later on the second page)
       projects_page.set_page_size(5)
       wait_for_reload
+      projects_page.expect_page_size(5)
+
       projects_page.set_page_size(1)
       wait_for_reload
-      click_on "2" # Go to pagination page 2
+      projects_page.expect_page_size(1)
+
+      projects_page.go_to_page(2) # Go to pagination page 2
+      wait_for_reload
+      projects_page.expect_current_page_number(2)
 
       # On page 2 you should see the second page of the filtered set ordered ASC by name and only the selected columns exist
-      projects_page.expect_projects_listed(public_project)
-      projects_page.expect_projects_not_listed(project,             # Filtered out
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(public_project,      # Filtered out
                                                development_project) # Present on page 1
       projects_page.expect_columns("Name")
       projects_page.expect_no_columns("Status")
@@ -384,31 +463,31 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       # Sorts DESC by name
       projects_page.sort_by_via_table_header("Name")
       wait_for_reload
+      projects_page.expect_sort_order_via_table_header("Name", direction: :desc)
 
       # Clicking on sorting resets the page to the first one
       projects_page.expect_current_page_number(1)
 
       # The same filters should still be intact but the order should be DESC on name
-      projects_page.expect_projects_listed(public_project)
-      projects_page.expect_projects_not_listed(project, # Filtered out
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(public_project, # Filtered out
                                                development_project) # Present on page 2
 
       projects_page.expect_total_pages(2) # Filters kept active, so there is no third page.
-      expect(page).to have_css(".sort.desc", text: "NAME")
       projects_page.expect_columns("Name")
       projects_page.expect_no_columns("Status")
 
       # Sending the filter form again what implies to compose the request freshly
-      click_on "Apply"
       wait_for_reload
+
+      projects_page.expect_sort_order_via_table_header("Name", direction: :desc)
 
       # We should see page 1, resetting pagination, as it is a new filter, but keeping the DESC order on the project
       # name
-      projects_page.expect_projects_listed(public_project)
+      projects_page.expect_projects_listed(project)
       projects_page.expect_projects_not_listed(development_project, # as it is on the second page
-                                               project)             # as it filtered out
+                                               public_project)      # as it filtered out
       projects_page.expect_total_pages(2) # as the result set is larger than 1
-      expect(page).to have_css(".sort.desc", text: "NAME")
       projects_page.expect_columns("Name")
       projects_page.expect_no_columns("Status")
     end
@@ -419,26 +498,27 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       load_and_open_filters admin
 
       # Filter on model attribute 'name'
-      projects_page.set_filter("name_and_identifier",
-                               "Name or identifier",
-                               "doesn't contain",
-                               ["Plain"])
-
-      click_on "Apply"
+      projects_page.filter_by_name_and_identifier("Plain")
       wait_for_reload
 
-      projects_page.expect_projects_listed(development_project, public_project)
-      projects_page.expect_projects_not_listed(project)
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(development_project, public_project)
+
+      projects_page.remove_filter("name_and_identifier")
+      projects_page.expect_projects_listed(project, development_project, public_project)
+
+      # Filter on model attribute 'name' triggered by keyboard input event instead of change
+      projects_page.filter_by_name_and_identifier("Plain", send_keys: true)
+      wait_for_reload
+
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(development_project, public_project)
+
+      projects_page.remove_filter("name_and_identifier")
+      projects_page.expect_projects_listed(project, development_project, public_project)
 
       # Filter on model attribute 'identifier'
-      remove_filter("name_and_identifier")
-
-      projects_page.set_filter("name_and_identifier",
-                               "Name or identifier",
-                               "is",
-                               ["plain-project"])
-
-      click_on "Apply"
+      projects_page.filter_by_name_and_identifier("plain-project")
       wait_for_reload
 
       projects_page.expect_projects_listed(project)
@@ -462,7 +542,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
         load_and_open_filters admin
 
         # value selection defaults to "active"'
-        expect(page).to have_css('li[filter-name="active"]')
+        expect(page).to have_css('li[data-filter-name="active"]')
 
         projects_page.expect_projects_listed(parent_project,
                                              child_project,
@@ -568,12 +648,12 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
 
         click_link_or_button('Sort by "Status"')
 
-        expect_project_at_place(green_project, 1)
+        projects_page.expect_project_at_place(green_project, 1)
         expect(page).to have_text("(1 - 5/5)")
 
         click_link_or_button('Ascending sorted by "Status"')
 
-        expect_project_at_place(green_project, 5)
+        projects_page.expect_project_at_place(green_project, 5)
         expect(page).to have_text("(1 - 5/5)")
 
         projects_page.open_filters
@@ -582,8 +662,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                  "Project status",
                                  "is (OR)",
                                  ["On track"])
-
-        click_on "Apply"
         wait_for_reload
 
         expect(page).to have_text(green_project.name)
@@ -593,8 +671,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                  "Project status",
                                  "is not empty",
                                  [])
-
-        click_on "Apply"
         wait_for_reload
 
         expect(page).to have_text(green_project.name)
@@ -604,8 +680,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                  "Project status",
                                  "is empty",
                                  [])
-
-        click_on "Apply"
         wait_for_reload
 
         expect(page).to have_no_text(green_project.name)
@@ -615,8 +689,6 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                  "Project status",
                                  "is not",
                                  ["On track"])
-
-        click_on "Apply"
         wait_for_reload
 
         expect(page).to have_no_text(green_project.name)
@@ -624,241 +696,285 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       end
     end
 
-    describe "other filter types", with_ee: %i[custom_fields_in_projects_list] do
-      shared_let(:list_custom_field) { create(:list_project_custom_field) }
-      shared_let(:date_custom_field) { create(:date_project_custom_field) }
-      shared_let(:datetime_of_this_week) do
-        today = Date.current
-        # Ensure that the date is not today but still in the middle of the week to not run into week-start-issues here.
-        date_of_this_week = today + ((today.wday % 7) > 2 ? -1 : 1)
-        DateTime.parse("#{date_of_this_week}T11:11:11+00:00")
-      end
-      shared_let(:fixed_datetime) { DateTime.parse("2017-11-11T11:11:11+00:00") }
+    describe "other filter types" do
+      context "for admins" do
+        shared_let(:list_custom_field) { create(:list_project_custom_field) }
+        shared_let(:date_custom_field) { create(:date_project_custom_field) }
+        shared_let(:datetime_of_this_week) do
+          today = Date.current
+          # Ensure that the date is not today but still in the middle of the week to not run into week-start-issues here.
+          date_of_this_week = today + ((today.wday % 7) > 2 ? -1 : 1)
+          DateTime.parse("#{date_of_this_week}T11:11:11+00:00")
+        end
+        shared_let(:fixed_datetime) { DateTime.parse("2017-11-11T11:11:11+00:00") }
 
-      shared_let(:project_created_on_today) do
-        freeze_time
-        project = create(:project,
-                         name: "Created today project")
-        project.custom_field_values = { list_custom_field.id => list_custom_field.possible_values[2],
-                                        date_custom_field.id => "2011-11-11" }
-        project.save!
-        project
-      ensure
-        travel_back
-      end
-      shared_let(:project_created_on_this_week) do
-        travel_to(datetime_of_this_week)
-        create(:project,
-               name: "Created on this week project")
-      ensure
-        travel_back
-      end
-      shared_let(:project_created_on_six_days_ago) do
-        travel_to(DateTime.now - 6.days)
-        create(:project,
-               name: "Created on six days ago project")
-      ensure
-        travel_back
-      end
-      shared_let(:project_created_on_fixed_date) do
-        travel_to(fixed_datetime)
-        create(:project,
-               name: "Created on fixed date project")
-      ensure
-        travel_back
-      end
-      shared_let(:todays_wp) do
-        # This WP should trigger a change to the project's 'latest activity at' DateTime
-        create(:work_package,
-               updated_at: DateTime.now,
-               project: project_created_on_today)
-      end
+        shared_let(:project_created_on_today) do
+          freeze_time
+          project = create(:project,
+                           name: "Created today project")
+          project.custom_field_values = { list_custom_field.id => list_custom_field.possible_values[2],
+                                          date_custom_field.id => "2011-11-11" }
+          project.save!
+          project
+        ensure
+          travel_back
+        end
+        shared_let(:project_created_on_this_week) do
+          travel_to(datetime_of_this_week)
+          create(:project,
+                 name: "Created on this week project")
+        ensure
+          travel_back
+        end
+        shared_let(:project_created_on_six_days_ago) do
+          travel_to(DateTime.now - 6.days)
+          create(:project,
+                 name: "Created on six days ago project")
+        ensure
+          travel_back
+        end
+        shared_let(:project_created_on_fixed_date) do
+          travel_to(fixed_datetime)
+          create(:project,
+                 name: "Created on fixed date project")
+        ensure
+          travel_back
+        end
+        shared_let(:todays_wp) do
+          # This WP should trigger a change to the project's 'latest activity at' DateTime
+          create(:work_package,
+                 updated_at: DateTime.now,
+                 project: project_created_on_today)
+        end
 
-      before do
-        project_created_on_today
-        load_and_open_filters admin
-      end
+        before do
+          project_created_on_today
+          load_and_open_filters admin
+        end
 
-      specify "selecting operator" do
-        # created on 'today' shows projects that were created today
-        projects_page.set_filter("created_at",
-                                 "Created on",
-                                 "today")
+        specify "selecting operator" do
+          # created on 'today' shows projects that were created today
+          projects_page.set_filter("created_at",
+                                   "Created on",
+                                   "today")
+          wait_for_reload
+          expect(page).to have_no_text(project_created_on_this_week.name)
+          expect(page).to have_text(project_created_on_today.name)
+          expect(page).to have_no_text(project_created_on_fixed_date.name)
 
-        click_on "Apply"
-        wait_for_reload
+          # created on 'this week' shows projects that were created within the last seven days
+          projects_page.remove_filter("created_at")
 
-        expect(page).to have_text(project_created_on_today.name)
-        expect(page).to have_no_text(project_created_on_this_week.name)
-        expect(page).to have_no_text(project_created_on_fixed_date.name)
+          projects_page.set_filter("created_at",
+                                   "Created on",
+                                   "this week")
+          wait_for_reload
 
-        # created on 'this week' shows projects that were created within the last seven days
-        remove_filter("created_at")
+          expect(page).to have_no_text(project_created_on_fixed_date.name)
+          expect(page).to have_text(project_created_on_today.name)
+          expect(page).to have_text(project_created_on_this_week.name)
 
-        projects_page.set_filter("created_at",
-                                 "Created on",
-                                 "this week")
+          # created on 'on' shows projects that were created within the last seven days
+          projects_page.remove_filter("created_at")
 
-        click_on "Apply"
-        wait_for_reload
+          projects_page.set_filter("created_at",
+                                   "Created on",
+                                   "on",
+                                   ["2017-11-11"])
+          wait_for_reload
 
-        expect(page).to have_text(project_created_on_today.name)
-        expect(page).to have_text(project_created_on_this_week.name)
-        expect(page).to have_no_text(project_created_on_fixed_date.name)
+          expect(page).to have_text(project_created_on_fixed_date.name)
+          expect(page).to have_no_text(project_created_on_today.name)
+          expect(page).to have_no_text(project_created_on_this_week.name)
 
-        # created on 'on' shows projects that were created within the last seven days
-        remove_filter("created_at")
+          # created on 'less than days ago'
+          projects_page.remove_filter("created_at")
 
-        projects_page.set_filter("created_at",
-                                 "Created on",
-                                 "on",
-                                 ["2017-11-11"])
+          projects_page.set_filter("created_at",
+                                   "Created on",
+                                   "less than days ago",
+                                   ["1"])
+          wait_for_reload
 
-        click_on "Apply"
-        wait_for_reload
+          expect(page).to have_text(project_created_on_today.name)
+          expect(page).to have_no_text(project_created_on_fixed_date.name)
 
-        expect(page).to have_text(project_created_on_fixed_date.name)
-        expect(page).to have_no_text(project_created_on_today.name)
-        expect(page).to have_no_text(project_created_on_this_week.name)
+          # created on 'less than days ago' triggered by an input event
+          projects_page.remove_filter("created_at")
+          projects_page.set_filter("created_at",
+                                   "Created on",
+                                   "less than days ago",
+                                   ["1"],
+                                   send_keys: true)
+          wait_for_reload
 
-        # created on 'less than days ago'
-        remove_filter("created_at")
+          expect(page).to have_text(project_created_on_today.name)
+          expect(page).to have_no_text(project_created_on_fixed_date.name)
 
-        projects_page.set_filter("created_at",
-                                 "Created on",
-                                 "less than days ago",
-                                 ["1"])
+          # created on 'more than days ago'
+          projects_page.remove_filter("created_at")
 
-        click_on "Apply"
-        wait_for_reload
+          projects_page.set_filter("created_at",
+                                   "Created on",
+                                   "more than days ago",
+                                   ["1"])
+          wait_for_reload
 
-        expect(page).to have_text(project_created_on_today.name)
-        expect(page).to have_no_text(project_created_on_fixed_date.name)
+          expect(page).to have_text(project_created_on_fixed_date.name)
+          expect(page).to have_no_text(project_created_on_today.name)
 
-        # created on 'more than days ago'
-        remove_filter("created_at")
+          # created on 'more than days ago'
+          projects_page.remove_filter("created_at")
 
-        projects_page.set_filter("created_at",
-                                 "Created on",
-                                 "more than days ago",
-                                 ["1"])
+          projects_page.set_filter("created_at",
+                                   "Created on",
+                                   "more than days ago",
+                                   ["1"],
+                                   send_keys: true)
+          wait_for_reload
 
-        click_on "Apply"
-        wait_for_reload
+          expect(page).to have_text(project_created_on_fixed_date.name)
+          expect(page).to have_no_text(project_created_on_today.name)
 
-        expect(page).to have_text(project_created_on_fixed_date.name)
-        expect(page).to have_no_text(project_created_on_today.name)
+          # created on 'between'
+          projects_page.remove_filter("created_at")
 
-        # created on 'between'
-        remove_filter("created_at")
+          projects_page.set_filter("created_at",
+                                   "Created on",
+                                   "between",
+                                   ["2017-11-10", "2017-11-12"])
+          wait_for_reload
 
-        projects_page.set_filter("created_at",
-                                 "Created on",
-                                 "between",
-                                 ["2017-11-10", "2017-11-12"])
+          expect(page).to have_text(project_created_on_fixed_date.name)
+          expect(page).to have_no_text(project_created_on_today.name)
 
-        click_on "Apply"
-        wait_for_reload
+          # Latest activity at 'today'. This spot check would fail if the data does not get collected from multiple tables
+          projects_page.remove_filter("created_at")
 
-        expect(page).to have_text(project_created_on_fixed_date.name)
-        expect(page).to have_no_text(project_created_on_today.name)
+          projects_page.set_filter("latest_activity_at",
+                                   "Latest activity at",
+                                   "today")
+          wait_for_reload
 
-        # Latest activity at 'today'. This spot check would fail if the data does not get collected from multiple tables
-        remove_filter("created_at")
+          expect(page).to have_no_text(project_created_on_fixed_date.name)
+          expect(page).to have_text(project_created_on_today.name)
 
-        projects_page.set_filter("latest_activity_at",
-                                 "Latest activity at",
-                                 "today")
+          # CF List
+          projects_page.remove_filter("latest_activity_at")
 
-        click_on "Apply"
-        wait_for_reload
+          projects_page.set_filter(list_custom_field.column_name,
+                                   list_custom_field.name,
+                                   "is (OR)",
+                                   [list_custom_field.possible_values[2].value])
+          wait_for_reload
 
-        expect(page).to have_text(project_created_on_today.name)
-        expect(page).to have_no_text(project_created_on_fixed_date.name)
+          expect(page).to have_no_text(project_created_on_fixed_date.name)
+          expect(page).to have_text(project_created_on_today.name)
 
-        # CF List
-        remove_filter("latest_activity_at")
-
-        projects_page.set_filter(list_custom_field.column_name,
-                                 list_custom_field.name,
-                                 "is (OR)",
-                                 [list_custom_field.possible_values[2].value])
-
-        click_on "Apply"
-        wait_for_reload
-
-        expect(page).to have_text(project_created_on_today.name)
-        expect(page).to have_no_text(project_created_on_fixed_date.name)
-
-        # switching to multiselect keeps the current selection
-        cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
-        within(cf_filter) do
-          # Initial filter is a 'single select'
-          expect(cf_filter.find(:select, "value")).not_to be_multiple
-          click_on "Toggle multiselect"
           # switching to multiselect keeps the current selection
-          expect(cf_filter.find(:select, "value")).to be_multiple
-          expect(cf_filter).to have_select("value", selected: list_custom_field.possible_values[2].value)
+          cf_filter = page.find("li[data-filter-name='#{list_custom_field.column_name}']")
+          within(cf_filter) do
+            # Initial filter is a 'single select'
+            expect(cf_filter.find(:select, "value")).not_to be_multiple
+            click_on "Toggle multiselect"
+            # switching to multiselect keeps the current selection
+            expect(cf_filter.find(:select, "value")).to be_multiple
+            expect(cf_filter).to have_select("value", selected: list_custom_field.possible_values[2].value)
 
-          select list_custom_field.possible_values[3].value, from: "value"
+            select list_custom_field.possible_values[3].value, from: "value"
+          end
+          wait_for_reload
+
+          cf_filter = page.find("li[data-filter-name='#{list_custom_field.column_name}']")
+          within(cf_filter) do
+            # Query has two values for that filter, so it should show a 'multi select'.
+            expect(cf_filter.find(:select, "value")).to be_multiple
+            expect(cf_filter)
+              .to have_select("value",
+                              selected: [list_custom_field.possible_values[2].value,
+                                         list_custom_field.possible_values[3].value])
+
+            # switching to single select keeps the first selection
+            select list_custom_field.possible_values[1].value, from: "value"
+            unselect list_custom_field.possible_values[2].value, from: "value"
+
+            click_on "Toggle multiselect"
+            expect(cf_filter.find(:select, "value")).not_to be_multiple
+            expect(cf_filter).to have_select("value", selected: list_custom_field.possible_values[1].value)
+            expect(cf_filter).to have_no_select("value", selected: list_custom_field.possible_values[3].value)
+          end
+          wait_for_reload
+
+          cf_filter = page.find("li[data-filter-name='#{list_custom_field.column_name}']")
+          within(cf_filter) do
+            # Query has one value for that filter, so it should show a 'single select'.
+            expect(cf_filter.find(:select, "value")).not_to be_multiple
+          end
+
+          # CF date filter work (at least for one operator)
+          projects_page.remove_filter(list_custom_field.column_name)
+
+          projects_page.set_filter(date_custom_field.column_name,
+                                   date_custom_field.name,
+                                   "on",
+                                   ["2011-11-11"])
+          wait_for_reload
+
+          expect(page).to have_no_text(project_created_on_fixed_date.name)
+          expect(page).to have_text(project_created_on_today.name)
+
+          # Disabling a CF in the project should remove the project from results
+
+          project_created_on_today.project_custom_field_project_mappings.destroy_all
+
+          # refresh the page
+          page.driver.refresh
+          wait_for_reload
+
+          expect(page).to have_no_text(project_created_on_today.name)
+          expect(page).to have_no_text(project_created_on_fixed_date.name)
         end
 
-        click_on "Apply"
-        wait_for_reload
-
-        cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
-        within(cf_filter) do
-          # Query has two values for that filter, so it should show a 'multi select'.
-          expect(cf_filter.find(:select, "value")).to be_multiple
-          expect(cf_filter)
-            .to have_select("value",
-                            selected: [list_custom_field.possible_values[2].value,
-                                       list_custom_field.possible_values[3].value])
-
-          # switching to single select keeps the first selection
-          select list_custom_field.possible_values[1].value, from: "value"
-          unselect list_custom_field.possible_values[2].value, from: "value"
-
-          click_on "Toggle multiselect"
-          expect(cf_filter.find(:select, "value")).not_to be_multiple
-          expect(cf_filter).to have_select("value", selected: list_custom_field.possible_values[1].value)
-          expect(cf_filter).to have_no_select("value", selected: list_custom_field.possible_values[3].value)
-        end
-
-        click_on "Apply"
-        wait_for_reload
-
-        cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
-        within(cf_filter) do
-          # Query has one value for that filter, so it should show a 'single select'.
-          expect(cf_filter.find(:select, "value")).not_to be_multiple
-        end
-
-        # CF date filter work (at least for one operator)
-        remove_filter(list_custom_field.column_name)
-
-        projects_page.set_filter(date_custom_field.column_name,
-                                 date_custom_field.name,
-                                 "on",
-                                 ["2011-11-11"])
-
-        click_on "Apply"
-        wait_for_reload
-
-        expect(page).to have_text(project_created_on_today.name)
-        expect(page).to have_no_text(project_created_on_fixed_date.name)
-
-        # Disabling a CF in the project should remove the project from results
-
-        project_created_on_today.project_custom_field_project_mappings.destroy_all
-        click_on "Apply"
-        wait_for_reload
-
-        expect(page).to have_no_text(project_created_on_today.name, wait: 1)
-        expect(page).to have_no_text(project_created_on_fixed_date.name)
+        pending "NOT WORKING YET: Date vs. DateTime issue: Selecting same date for from and to value shows projects of that date"
       end
 
-      pending "NOT WORKING YET: Date vs. DateTime issue: Selecting same date for from and to value shows projects of that date"
+      context "for non-admins" do
+        let(:user) do
+          create(:user,
+                 member_with_roles: {
+                   development_project => create(:existing_project_role, permissions:),
+                   project => create(:existing_project_role)
+                 })
+        end
+
+        let!(:list_custom_field) do
+          create(:list_project_custom_field,
+                 multi_value: true,
+                 possible_values: ["Option 1", "Option 2", "Option 3"]).tap do |cf|
+            development_project.update(custom_field_values: { cf.id => [cf.value_of("Option 1")] })
+            project.update(custom_field_values: { cf.id => [cf.value_of("Option 1")] })
+          end
+        end
+
+        context "with view_project_attributes permission" do
+          let(:permissions) { %i(view_project_attributes) }
+
+          it "can find projects filtered by the project attribute" do
+            load_and_open_filters user
+
+            projects_page.set_filter(list_custom_field.column_name,
+                                     list_custom_field.name,
+                                     "is (OR)",
+                                     ["Option 1"])
+
+            # Filter is applied: Only projects with view_project_attributes permission are returned
+            projects_page.expect_projects_listed(development_project)
+            projects_page.expect_projects_not_listed(project)
+            # Filter form is visible and the filter is still set.
+            expect(page).to have_css("li[data-filter-name=\"#{list_custom_field.column_name}\"]")
+          end
+        end
+      end
     end
 
     describe "public filter" do
@@ -970,7 +1086,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     end
   end
 
-  describe "order", with_ee: %i[custom_fields_in_projects_list] do
+  describe "order" do
     shared_let(:integer_custom_field) { create(:integer_project_custom_field) }
     # order is important here as the implementation uses lft
     # first but then reorders in ruby
@@ -1091,63 +1207,68 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       Setting.enabled_projects_columns += [integer_custom_field.column_name]
 
       # initially, ordered by name asc on each hierarchical level
-      expect_projects_in_order(development_project,
-                               project,
-                               child_project_a,
-                               child_project_m,
-                               child_project_z,
-                               public_project)
+      projects_page
+        .expect_projects_in_order(development_project,
+                                  project,
+                                  child_project_a,
+                                  child_project_m,
+                                  child_project_z,
+                                  public_project)
 
       click_link_or_button("Name")
       wait_for_reload
 
       # Projects ordered by name asc
-      expect_projects_in_order(child_project_a,
-                               development_project,
-                               child_project_m,
-                               project,
-                               public_project,
-                               child_project_z)
+      projects_page
+        .expect_projects_in_order(child_project_a,
+                                  development_project,
+                                  child_project_m,
+                                  project,
+                                  public_project,
+                                  child_project_z)
 
       click_link_or_button("Name")
       wait_for_reload
 
       # Projects ordered by name desc
-      expect_projects_in_order(child_project_z,
-                               public_project,
-                               project,
-                               child_project_m,
-                               development_project,
-                               child_project_a)
+      projects_page
+        .expect_projects_in_order(child_project_z,
+                                  public_project,
+                                  project,
+                                  child_project_m,
+                                  development_project,
+                                  child_project_a)
 
       click_link_or_button(integer_custom_field.name)
       wait_for_reload
 
       # Projects ordered by cf asc first then project name desc
-      expect_projects_in_order(project,
-                               development_project,
-                               public_project,
-                               child_project_z,
-                               child_project_m,
-                               child_project_a)
+      projects_page
+        .expect_projects_in_order(project,
+                                  development_project,
+                                  public_project,
+                                  child_project_z,
+                                  child_project_m,
+                                  child_project_a)
 
       click_link_or_button('Sort by "Project hierarchy"')
       wait_for_reload
 
       # again ordered by name asc on each hierarchical level
-      expect_projects_in_order(development_project,
-                               project,
-                               child_project_a,
-                               child_project_m,
-                               child_project_z,
-                               public_project)
+      projects_page
+        .expect_projects_in_order(development_project,
+                                  project,
+                                  child_project_a,
+                                  child_project_m,
+                                  child_project_z,
+                                  public_project)
     end
 
     it "sorts projects by latest_activity_at" do
       click_link_or_button('Sort by "Latest activity at"')
       wait_for_reload
 
-      expect_project_at_place(project, 1)
+      projects_page.expect_project_at_place(project, 1)
     end
   end
 
@@ -1161,17 +1282,16 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     end
   end
 
-  describe "column selection",
-           with_ee: %i[custom_fields_in_projects_list], with_settings: { enabled_projects_columns: %w[name created_at] } do
+  describe "column selection", with_settings: { enabled_projects_columns: %w[name created_at] } do
     # Will still receive the :view_project permission
     shared_let(:user) do
-      create(:user, member_with_permissions: { project => [],
-                                               development_project => [] })
+      create(:user, member_with_permissions: { project => %i(view_project_attributes),
+                                               development_project => %i(view_project_attributes) })
     end
 
     shared_let(:integer_custom_field) { create(:integer_project_custom_field) }
 
-    shared_let(:non_member) { create(:non_member) }
+    shared_let(:non_member) { create(:non_member, permissions: %i(view_project_attributes)) }
 
     current_user { user }
 
@@ -1230,15 +1350,14 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     end
   end
 
-  context "with a multi-value custom field", with_ee: %i[custom_fields_in_projects_list] do
-    let!(:list_custom_field) { create(:list_project_custom_field, multi_value: true) }
+  context "with a multi-value custom field" do
+    let!(:list_custom_field) do
+      create(:list_project_custom_field, multi_value: true).tap do |cf|
+        project.update(custom_field_values: { cf.id => [cf.value_of("A"), cf.value_of("B")] })
+      end
+    end
 
     before do
-      project.custom_values << CustomValue.new(custom_field: list_custom_field, value: list_custom_field.value_of("A"))
-      project.custom_values << CustomValue.new(custom_field: list_custom_field, value: list_custom_field.value_of("B"))
-
-      project.save!
-
       allow(Setting)
         .to receive(:enabled_projects_columns)
         .and_return [list_custom_field.column_name]

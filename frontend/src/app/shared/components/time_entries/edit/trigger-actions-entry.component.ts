@@ -1,26 +1,17 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Injector,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector } from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import {
+  HalResourceEditingService,
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
-import {
-  Observable,
-  switchMap,
-} from 'rxjs';
-
-export const triggerActionsEntryComponentSelector = 'time-entry--trigger-actions-entry';
+import { Observable, switchMap } from 'rxjs';
 
 @Component({
-  selector: triggerActionsEntryComponentSelector,
+  selector: 'opce-time-entry-trigger-actions',
   template: `
     <a (click)="editTimeEntry()"
        [title]="text.edit"

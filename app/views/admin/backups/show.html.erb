@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,40 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), t(:label_backup) -%>
 
-<%= toolbar title: t('label_backup') do %>
-  <li class="toolbar-item">
-    <% label_action = @backup_token.present? ? 'reset' : 'create' %>
-    <% label = t("backup.label_#{label_action}_token") %>
-    <%=
-      link_to(
-        { action: 'reset_token' },
-        class: 'button -primary',
-        aria: {label: label},
-        title: label
-      ) do
-    %>
-      <%= op_icon("button--icon icon-#{@backup_token.present? ? 'reload' : 'add'}") %>
-      <span class="button--text"><%= t('backup.label_backup_token') %></span>
-    <% end %>
-  </li>
-  <% if @backup_token.present? %>
-  <li class="toolbar-item">
-    <% label = t("backup.label_delete_token") %>
-    <%=
-      link_to(
-        { action: 'delete_token' },
-        method: :post,
-        class: 'button -primary',
-        aria: {label: label},
-        title: label
-      ) do
-    %>
-      <%= op_icon("button--icon icon-delete") %>
-      <span class="button--text"><%= t('backup.label_backup_token') %></span>
-    <% end %>
-  </li>
-  <% end %>
-<% end %>
+<%= render Admin::Backups::ShowPageHeaderComponent.new(backup_token: @backup_token) %>
 
 <p>
 <%= t("backup.reset_token.info") %>
@@ -90,7 +57,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
 <% if @backup_token.present? %>
-<%= tag :backup, data: {
+<%= angular_component_tag "opce-backup", data: {
   'job-status-id': @job_status_id,
   'last-backup-date': @last_backup_date,
   'last-backup-attachment-id': @last_backup_attachment_id,

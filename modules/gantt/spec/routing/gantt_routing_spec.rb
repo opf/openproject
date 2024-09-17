@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,8 +44,7 @@ RSpec.describe "Gantt routing" do
                      state: "create_new")
     end
 
-    it "connects GET /projects/:project_id/gantt/details/:id/:state" +
-         " to gantt#index" do
+    it "connects GET /projects/:project_id/gantt/details/:id/:state to gantt#index" do
       expect(get("/projects/1/gantt/details/2/overview"))
         .to route_to(controller: "gantt/gantt",
                      action: "index",

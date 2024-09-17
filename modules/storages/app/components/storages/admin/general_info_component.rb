@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,15 +27,25 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-module Storages::Admin
-  class GeneralInfoComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
-    include StorageViewInformation
 
-    alias_method :storage, :model
+module Storages
+  module Admin
+    class GeneralInfoComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
+      include StorageViewInformation
 
-    def self.wrapper_key = :storage_general_info_section
+      alias_method :storage, :model
+
+      def self.wrapper_key = :storage_general_info_section
+
+      def open_href
+        OpenStorageLinks.static_link(storage)
+      end
+
+      def can_show_open_link?
+        OpenStorageLinks.can_generate_static_link?(storage)
+      end
+    end
   end
 end

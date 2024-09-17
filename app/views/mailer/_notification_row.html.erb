@@ -1,5 +1,5 @@
 <a style="text-decoration: none;display: block;"
-   href="<%= local_assigns[:notification_url] || notifications_path(work_package.id) %>"
+   href="<%= local_assigns[:notification_url] || details_notifications_url(work_package.id, tab: :activity) %>"
    target="_blank">
   <%= render layout: 'mailer/border_table' do %>
     <tr>
@@ -104,7 +104,7 @@
 </table>
 
 <a style="margin-left: 12px;"
-   href="<%= defined?(open_in_browser_path) ? open_in_browser_path : notifications_path(work_package.id) %>"
+   href="<%= defined?(open_in_browser_path) ? open_in_browser_path : details_notifications_url(work_package.id, tab: :activity) %>"
    target="_blank"
    rel="noopener noreferrer">
   <%= I18n.t('mail.work_packages.open_in_browser') %>

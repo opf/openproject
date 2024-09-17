@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -104,6 +104,21 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
         gitlab_system_user,
         comment
       )
+    end
+
+    context "when no description is given in the payload" do
+      before do
+        payload["object_attributes"]["description"] = nil
+      end
+
+      it "does not raise (Bugfix)" do
+        expect { process }.not_to raise_error
+        expect(handler_instance).to have_received(:comment_on_referenced_work_packages).with(
+          [],
+          gitlab_system_user,
+          comment
+        )
+      end
     end
   end
 

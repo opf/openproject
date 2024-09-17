@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,13 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Injector,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { EnterpriseTrialModalComponent } from 'core-app/features/enterprise/enterprise-modal/enterprise-trial.modal';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
@@ -43,14 +37,13 @@ import { HttpClient } from '@angular/common/http';
 import { GonService } from 'core-app/core/gon/gon.service';
 import { IEnterpriseData } from 'core-app/features/enterprise/enterprise-trial.model';
 
-export const freeTrialButtonSelector = 'free-trial-button';
-
 export interface EETrialKey {
   created:string;
   value:string;
 }
+
 @Component({
-  selector: freeTrialButtonSelector,
+  selector: 'opce-free-trial-button',
   templateUrl: './free-trial-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -67,14 +60,16 @@ export class FreeTrialButtonComponent implements OnInit {
     }),
   };
 
-  constructor(protected I18n:I18nService,
+  constructor(
+    protected I18n:I18nService,
     protected opModalService:OpModalService,
     readonly injector:Injector,
     readonly http:HttpClient,
     readonly cdRef:ChangeDetectorRef,
     readonly Gon:GonService,
     public eeTrialService:EnterpriseTrialService,
-    readonly timezoneService:TimezoneService) {
+    readonly timezoneService:TimezoneService,
+  ) {
   }
 
   ngOnInit():void {

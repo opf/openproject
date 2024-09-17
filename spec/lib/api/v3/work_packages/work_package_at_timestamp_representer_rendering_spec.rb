@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -89,11 +89,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
               .with(:wrapped?)
               .and_return(true)
       allow(wp)
-        .to receive(:available_custom_fields)
-        .and_return(available_custom_fields)
-      allow(wp)
-        .to receive(:custom_field_values)
-        .and_return([custom_value])
+        .to receive_messages(available_custom_fields:, custom_field_values: [custom_value])
     end
   end
   let(:timestamp) { Timestamp.new(1.day.ago) }
@@ -107,24 +103,14 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
   let(:model) do
     work_package.tap do |model|
       # Mimicking the eager loading wrapper
-      allow(model)
-        .to receive(:timestamp)
-              .and_return(timestamp)
-      allow(model)
-        .to receive(:attributes_changed_to_baseline)
-              .and_return(attributes_changed_to_baseline)
-      allow(model)
-        .to receive(:exists_at_timestamp?)
-              .and_return(exists_at_timestamp)
-      allow(model)
-        .to receive(:with_query?)
-              .and_return(with_query)
-      allow(model)
-        .to receive(:matches_filters_at_timestamp?)
-              .and_return(matches_filters_at_timestamp)
-      allow(model)
-        .to receive(:exists_at_current_timestamp?)
-              .and_return(exists_at_current_timestamp)
+      without_partial_double_verification do
+        allow(model)
+          .to receive_messages(timestamp:, attributes_changed_to_baseline:,
+                               exists_at_timestamp?: exists_at_timestamp,
+                               with_query?: with_query,
+                               matches_filters_at_timestamp?: matches_filters_at_timestamp,
+                               exists_at_current_timestamp?: exists_at_current_timestamp)
+      end
     end
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -86,9 +86,9 @@ RSpec.describe "Calendars", "index", :with_cuprite do
 
     context "with the modules menu" do
       before do
-        find("a[title='Modules']").click
+        page.find_test_selector("op-app-header--modules-menu-button").click
 
-        within "#more-menu" do
+        within "#op-app-header--modules-menu-list" do
           click_on "Calendars"
         end
       end

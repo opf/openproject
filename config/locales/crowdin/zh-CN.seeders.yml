@@ -77,86 +77,11 @@ zh-CN:
           name: 高
         item_3:
           name: 立即
-      statuses:
-        item_0:
-          name: 新增
-        item_1:
-          name: 正在确定技术规范
-        item_2:
-          name: 已指定
-        item_3:
-          name: 已确认
-        item_4:
-          name: 待计划
-        item_5:
-          name: 已计划
-        item_6:
-          name: 正在处理
-        item_7:
-          name: 已开发
-        item_8:
-          name: 正在测试
-        item_9:
-          name: 已测试
-        item_10:
-          name: 测试失败
-        item_11:
-          name: 已关闭
-        item_12:
-          name: 暂停
-        item_13:
-          name: 已拒绝
-      time_entry_activities:
-        item_0:
-          name: 管理
-        item_1:
-          name: 技术规范
-        item_2:
-          name: 开发
-        item_3:
-          name: 测试
-        item_4:
-          name: 支持
-        item_5:
-          name: 其他
-      types:
-        item_0:
-          name: 任务
-        item_1:
-          name: 里程碑
-        item_2:
-          name: 阶段
-        item_3:
-          name: 功能
-        item_4:
-          name: 史诗
-        item_5:
-          name: 用户故事
-        item_6:
-          name: 缺陷
-      welcome:
-        title: 欢迎使用 OpenProject！
-        text: |
-          OpenProject是领先的开源项目管理软件。它支持经典、敏捷和混合型项目管理，并由您完全掌握自己的数据。
-
-          核心功能和用例：
-
-          * [项目组合管理](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [项目规划和调度](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [任务管理和问题跟踪](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [敏捷看板（Scrum和Kanban）](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [需求管理和发布计划](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [时间和成本跟踪/预算](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [团队协作和文档](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-          欢迎来到项目管理的未来。
-
-          对于管理员：您可以[在此]({{opSetting:base_url}}/admin/settings/general)更改此欢迎文本。
       projects:
         demo-project:
           name: 演示项目
           status_explanation: 所有任务都按计划进行。相关人员均知晓各自任务。系统已完全建立。
-          description: 这是对此演示 Scrum 项目目标的简短摘要。
+          description: 这是对此演示项目目标的简短摘要。
           news:
             item_0:
               title: 欢迎来到您的演示项目
@@ -274,7 +199,7 @@ zh-CN:
         scrum-project:
           name: Scrum 项目
           status_explanation: 所有任务都按计划进行。相关人员均知晓各自任务。系统已完全建立。
-          description: 这是对此演示 Scrum 项目目标的简短摘要。
+          description: 这是对此演示Scrum项目目标的简短摘要。
           news:
             item_0:
               title: 欢迎来到您的 Scrum 演示项目
@@ -488,3 +413,78 @@ zh-CN:
             * 时间盒(3 h)。
             * 冲刺评论后，将由敏捷教练主持。
             * 团队讨论：情况良好。 为了提高下一次冲刺的生产力，需要改进的是什么，甚至有更多的趣味。
+      statuses:
+        item_0:
+          name: 新增
+        item_1:
+          name: 正在确定技术规范
+        item_2:
+          name: 已指定
+        item_3:
+          name: 已确认
+        item_4:
+          name: 待计划
+        item_5:
+          name: 已计划
+        item_6:
+          name: 正在处理
+        item_7:
+          name: 已开发
+        item_8:
+          name: 正在测试
+        item_9:
+          name: 已测试
+        item_10:
+          name: 测试失败
+        item_11:
+          name: 已关闭
+        item_12:
+          name: 暂停
+        item_13:
+          name: 已拒绝
+      time_entry_activities:
+        item_0:
+          name: 管理
+        item_1:
+          name: 技术规范
+        item_2:
+          name: 开发
+        item_3:
+          name: 测试
+        item_4:
+          name: 支持
+        item_5:
+          name: 其他
+      types:
+        item_0:
+          name: 任务
+        item_1:
+          name: 里程碑
+        item_2:
+          name: 阶段
+        item_3:
+          name: 功能
+        item_4:
+          name: 史诗
+        item_5:
+          name: 用户故事
+        item_6:
+          name: 缺陷
+      welcome:
+        title: 欢迎使用 OpenProject！
+        text: |
+          OpenProject是领先的开源项目管理软件。它支持经典、敏捷和混合型项目管理，并由您完全掌握自己的数据。
+
+          核心功能和用例：
+
+          * [项目组合管理](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [项目规划和调度](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [任务管理和问题跟踪](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [敏捷看板（Scrum和Kanban）](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [需求管理和发布计划](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [时间和成本跟踪/预算](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [团队协作和文档](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+
+          欢迎来到项目管理的未来。
+
+          对于管理员：您可以[在此]({{opSetting:base_url}}/admin/settings/general)更改此欢迎文本。

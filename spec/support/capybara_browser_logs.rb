@@ -41,7 +41,7 @@ module Capybara::BrowserLogs
 
     attr_reader :output
 
-    EXCLUDE_PATTERN = /Angular is running in development mode./
+    EXCLUDE_PATTERN = /(Angular is running in development mode|\[DEBUG\]|"details:" Object|DEPRECATED)/
 
     def initialize(output)
       @output = output

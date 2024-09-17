@@ -1,0 +1,64 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title(test_selector: "groups--title") {  @group.name }
+    header.with_breadcrumbs(breadcrumb_items)
+
+    if @current_user.admin?
+      header.with_action_button(tag: :a,
+                                mobile_icon: :pencil,
+                                mobile_label: t(:button_edit),
+                                size: :medium,
+                                href: edit_group_path(@group),
+                                aria: { label: I18n.t(:button_edit) },
+                                data: { "test-selector": "groups--edit-group-button" },
+                                title: I18n.t(:button_edit)) do |button|
+        button.with_leading_visual_icon(icon: :pencil)
+        t(:button_edit)
+      end
+
+      header.with_action_button(tag: :a,
+                                scheme: :danger,
+                                mobile_icon: :trash,
+                                mobile_label: t(:button_delete),
+                                size: :medium,
+                                href: group_path(@group),
+                                aria: { label: I18n.t(:button_delete) },
+                                data: {
+                                  confirm: t(:text_are_you_sure),
+                                  method: :delete,
+                                },
+                                title: I18n.t(:button_delete)) do |button|
+        button.with_leading_visual_icon(icon: :trash)
+        t(:button_delete)
+      end
+    end
+  end
+%>

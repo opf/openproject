@@ -1,0 +1,66 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_administration), "#{CustomField.model_name.human} #{h @custom_field.name}", t(:label_project_plural) %>
+
+<%=
+  render(Admin::CustomFields::EditFormHeaderComponent.new(custom_field: @custom_field,
+                                                          selected: :custom_field_projects))
+%>
+
+<%=
+  render(Primer::OpenProject::SubHeader.new(test_selector: "add-projects-sub-header")) do |component|
+    component.with_action_component do
+      render(Primer::Beta::Button.new(
+        scheme: :primary,
+        tag: :a,
+        href: new_custom_field_project_path(@custom_field),
+        data: { controller: "async-dialog" }
+      )) do |button|
+        button.with_leading_visual_icon(icon: 'op-include-projects')
+        I18n.t(:label_add_projects)
+      end
+    end
+  end unless @custom_field.is_for_all?
+%>
+
+<%=
+  if @custom_field.is_for_all?
+    render Primer::Beta::Blankslate.new(border: true) do |component|
+      component.with_visual_icon(icon: :checklist)
+      component.with_heading(tag: :h2).with_content(I18n.t("custom_fields.admin.custom_field_projects.is_for_all_blank_slate.heading"))
+      component.with_description { I18n.t("custom_fields.admin.custom_field_projects.is_for_all_blank_slate.description") }
+    end
+  else
+    render(Admin::CustomFields::CustomFieldProjects::TableComponent.new(
+      query: @available_custom_fields_projects_query,
+      params: params.merge({ custom_field: @custom_field }))
+    )
+  end
+%>

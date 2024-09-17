@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -62,12 +62,12 @@ RSpec.describe "Hide attachments", :js, :with_cuprite do
 
       click_on(class: "ToggleSwitch-track")
       expect(page).to have_css("toggle-switch", text: "On")
-      wait_for(page).to have_css('svg[data-target="toggle-switch.loadingSpinner"][hidden="hidden"]', visible: :hidden)
+      wait_for(page).to have_css('[data-target="toggle-switch.loadingSpinner"][hidden="hidden"] svg', visible: :hidden)
       expect(project.reload).not_to be_deactivate_work_package_attachments
 
       click_on(class: "ToggleSwitch-track")
       expect(page).to have_css("toggle-switch", text: "Off")
-      wait_for(page).to have_css('svg[data-target="toggle-switch.loadingSpinner"][hidden="hidden"]', visible: :hidden)
+      wait_for(page).to have_css('[data-target="toggle-switch.loadingSpinner"][hidden="hidden"] svg', visible: :hidden)
       expect(project.reload).to be_deactivate_work_package_attachments
     end
 

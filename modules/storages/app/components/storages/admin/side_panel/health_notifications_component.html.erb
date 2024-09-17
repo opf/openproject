@@ -1,0 +1,65 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  component_wrapper(data: { turbo: true }) do
+    render(Primer::OpenProject::SidePanel::Section.new) do |section|
+      section.with_title { t("storages.health_email_notifications.title") }
+
+      flex_layout do |notifications_container|
+        notifications_container.with_row(mt: 2) do
+          form_for(@storage, method: :patch,
+                   url: change_health_notifications_enabled_admin_settings_storage_path(@storage),
+                   data: { turbo_stream: true }) do |f|
+            flex_layout do |notification_status_actions|
+              notification_status_actions.with_row do
+                f.hidden_field :health_notifications_enabled, value: (@storage.health_notifications_should_be_sent? ? "0" : "1")
+              end
+
+              notification_status_actions.with_row(test_selector: "storage-health-notifications-button") do
+                render(Primer::Beta::Button.new(
+                  scheme: :default,
+                  block: :true,
+                  type: :submit
+                )) do |button|
+                  button.with_leading_visual_icon(icon: notification_status[:icon])
+                  notification_status[:label]
+                end
+              end
+            end
+          end
+        end
+
+        notifications_container.with_row(mt: 3, test_selector: "storage-health-notifications-description") do
+          render(Primer::Beta::Text.new(color: :subtle)) { notification_status[:description] }
+        end
+      end
+    end
+  end
+%>

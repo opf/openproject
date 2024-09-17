@@ -1,4 +1,5 @@
 ---
+name: Users
 description: |-
   ## Actions
 
@@ -7,37 +8,37 @@ description: |-
   | lock                | Restrict the user from logging in and performing any actions         | not locked; **Permission**: Administrator                        |
   | show                | Link to the OpenProject user page (HTML)                             |                                                                  |
   | unlock              | Allow a locked user to login and act again                           | locked; **Permission**: Administrator                            |
-  | updateImmediately   | Updates the user's attributes.                                       | **Permission**: Administrator, manage_user global permission       |
+  | updateImmediately   | Updates the user's attributes.                                       | **Permission**: Administrator, manage_user global permission     |
   | delete              | Permanently remove a user from the instance                          | **Permission**: Administrator, self-delete                       |
 
   ## Linked Properties
 
   |  Link       | Description                                                                                                                                                          | Type              | Constraints           | Supported operations | Condition                                                     |
-  |:-----------:|--------------------------------------------------------------                                                                                                        | -------------     | --------------------- | -------------------- | -----------------------------------------                     |
+  |:-----------:|--------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | --------------------- | -------------------- | -----------------------------------------                     |
   | self        | This user                                                                                                                                                            | User              | not null              | READ                 |                                                               |
-  | auth_source | Link to the user's auth source (endpoint not yet implemented)                                                                                                        | LdapAuthSource        |                       | READ / WRITE         | **Permission**: Administrator                                 |
+  | auth_source | Link to the user's auth source (endpoint not yet implemented)                                                                                                        | LdapAuthSource    |                       | READ / WRITE         | **Permission**: Administrator                                 |
   | members     | Link to collection of all the user's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions. | MemberCollection  |                       | READ                 | **Permission**: view members or manage members in any project |
 
   Depending on custom fields defined for users, additional links might exist.
 
   ## Local Properties
 
-  | Property     | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                                             |
-  | :----------: | --------------------------------------------------------- | -------- | ---------------------------------------------------- | -------------------- | -----------------------------------------------------------                           |
-  | id           | User's id                                                 | Integer  | x > 0                                                | READ                 |                                                                                       |
+  | Property     | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                                               |
+  | :----------: | --------------------------------------------------------- | -------- | ---------------------------------------------------- | -------------------- | -----------------------------------------------------------                             |
+  | id           | User's id                                                 | Integer  | x > 0                                                | READ                 |                                                                                         |
   | login        | User's login name                                         | String   | unique, 256 max length                               | READ / WRITE         | **Permission**: Administrator, manage_user global permission                            |
   | firstName    | User's first name                                         | String   | 30 max length                                        | READ / WRITE         | **Permission**: Administrator, manage_user global permission                            |
   | lastName     | User's last name                                          | String   | 30 max length                                        | READ / WRITE         | **Permission**: Administrator, manage_user global permission                            |
-  | name         | User's full name, formatting depends on instance settings | String   |                                                      | READ                 |                                                                                       |
+  | name         | User's full name, formatting depends on instance settings | String   |                                                      | READ                 |                                                                                         |
   | email        | User's email address                                      | String   | unique, 60 max length                                | READ / WRITE         | E-Mail address not hidden, **Permission**: Administrator, manage_user global permission |
-  | admin        | Flag indicating whether or not the user is an admin       | Boolean  | in: [true, false]                                    | READ / WRITE         | **Permission**: Administrator                                                         |
-  | avatar       | URL to user's avatar                                      | Url      |                                                      | READ                 |                                                                                       |
-  | status       | The current activation status of the user (see below)     | String   | in: ["active", "registered", "locked", "invited"]    | READ                 |                                                                                       |
+  | admin        | Flag indicating whether or not the user is an admin       | Boolean  | in: [true, false]                                    | READ / WRITE         | **Permission**: Administrator                                                           |
+  | avatar       | URL to user's avatar                                      | Url      |                                                      | READ                 |                                                                                         |
+  | status       | The current activation status of the user (see below)     | String   | in: ["active", "registered", "locked", "invited"]    | READ                 |                                                                                         |
   | language     | User's language                                           | String   | ISO 639-1                                            | READ / WRITE         | **Permission**: Administrator, manage_user global permission                            |
-  | password     | User's password for the default password authentication   | String   |                                                      | WRITE                | **Permission**: Administrator                                                         |
-  | identity_url | User's identity_url for OmniAuth authentication           | String   |                                                      | READ / WRITE         | **Permission**: Administrator                                                         |
-  | createdAt    | Time of creation                                          | DateTime |                                                      | READ                 |                                                                                       |
-  | updatedAt    | Time of the most recent change to the user                | DateTime |                                                      | READ                 |                                                                                       |
+  | password     | User's password for the default password authentication   | String   |                                                      | WRITE                | **Permission**: Administrator                                                           |
+  | identity_url | User's identity_url for OmniAuth authentication           | String   |                                                      | READ / WRITE         | **Permission**: Administrator                                                           |
+  | createdAt    | Time of creation                                          | DateTime |                                                      | READ                 |                                                                                         |
+  | updatedAt    | Time of the most recent change to the user                | DateTime |                                                      | READ                 |                                                                                         |
 
   Depending on custom fields defined for users, additional properties might exist.
 
@@ -65,4 +66,3 @@ description: |-
   users except for admins or the user themselves.
 
   Please note that custom fields are not yet supported by the api although the backend supports them.
-name: Users

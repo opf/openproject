@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,8 +46,12 @@ module WorkPackage::PDFExport::WorkPackageDetail
 
   def write_work_package_detail_content!(work_package)
     write_attributes_table! work_package
-    write_description! work_package
-    write_custom_fields! work_package
+    if options[:long_text_fields].nil?
+      write_description! work_package
+      write_custom_fields! work_package
+    else
+      write_long_text_fields! work_package
+    end
   end
 
   private
@@ -58,7 +62,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
       link_target_at_current_y(work_package.id)
       level_string_width = write_work_package_level!(level_path, text_style)
       title = get_column_value work_package, :subject
-      @pdf.indent(level_string_width) do
+      pdf.indent(level_string_width) do
         pdf.formatted_text([text_style.merge({ text: title })])
       end
     end
@@ -69,7 +73,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
 
     level_string = "#{level_path.join('.')}. "
     level_string_width = measure_text_width(level_string, text_style)
-    @pdf.float { @pdf.formatted_text([text_style.merge({ text: level_string })]) }
+    pdf.float { pdf.formatted_text([text_style.merge({ text: level_string })]) }
     level_string_width
   end
 
@@ -178,8 +182,30 @@ module WorkPackage::PDFExport::WorkPackageDetail
     ]
   end
 
+  def write_long_text_fields!(work_package)
+    selected_long_text_fields.each do |field_id_or_desc|
+      if field_id_or_desc == "description"
+        write_description!(work_package)
+      else
+        write_long_text_field!(work_package, field_id_or_desc.to_i)
+      end
+    end
+  end
+
+  def selected_long_text_fields
+    @selected_long_text_fields ||= (options[:long_text_fields] || "").split
+  end
+
   def write_description!(work_package)
     write_markdown_field!(work_package, work_package.description, WorkPackage.human_attribute_name(:description))
+  end
+
+  def write_long_text_field!(work_package, field_id)
+    custom_value = work_package.custom_field_values
+                .find { |cv| cv.custom_field.id == field_id && cv.custom_field.formattable? }
+    if custom_value&.value
+      write_markdown_field!(work_package, custom_value.value, custom_value.custom_field.name)
+    end
   end
 
   def write_custom_fields!(work_package)

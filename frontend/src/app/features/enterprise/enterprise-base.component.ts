@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,18 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Injector } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { EnterpriseTrialModalComponent } from 'core-app/features/enterprise/enterprise-modal/enterprise-trial.modal';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
 
-export const enterpriseBaseSelector = 'enterprise-base';
-
 @Component({
-  selector: enterpriseBaseSelector,
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'enterprise-base',
   templateUrl: './enterprise-base.component.html',
   styleUrls: ['./enterprise-base.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EnterpriseBaseComponent {
   public text = {
@@ -52,10 +52,12 @@ export class EnterpriseBaseComponent {
     try_another_email: this.I18n.t('js.admin.enterprise.trial.try_another_email'),
   };
 
-  constructor(protected I18n:I18nService,
+  constructor(
+    protected I18n:I18nService,
     protected opModalService:OpModalService,
     readonly injector:Injector,
-    public eeTrialService:EnterpriseTrialService) {
+    public eeTrialService:EnterpriseTrialService,
+  ) {
   }
 
   public openTrialModal() {

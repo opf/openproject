@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -327,7 +327,7 @@ export class WorkPackagesListService {
 
   public async createOrSave(query:QueryResource):Promise<unknown> {
     if (!isPersistedResource(query)) {
-      return this.create(query, 'New manually sorted query');
+      return this.create(query, this.I18n.t('js.work_packages.default_queries.manually_sorted'));
     }
     return this.save(query);
   }

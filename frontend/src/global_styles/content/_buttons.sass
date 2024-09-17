@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -55,6 +55,9 @@ a.button
   transition-duration: 0.25s
   transition-timing-function: ease-out
 
+  &:hover, &:focus
+    text-decoration: none
+
   &:disabled,
   &.-disabled
     @include button-disabled
@@ -76,7 +79,7 @@ a.button
   &.-primary
     @include button-style(var(--button--primary-background-color), var(--button--primary-background-hover-color), var(--button--primary-font-color))
     @include button-style(var(--button--primary-background-color), var(--button--primary-background-hover-color), var(--button--primary-font-color))
-    border-color: var(--button--primary-background-color)
+    border-color: var(--button--primary-border-color)
 
     &:hover, &:focus
       border-color: var(--button--primary-background-hover-color)
@@ -89,7 +92,7 @@ a.button
   &.-active
     @include button-style(var(--button-default-bgColor-active), var(--button-default-bgColor-active), var(--button-default-fgColor-rest))
     border-color: var(--button--active-border-color)
-    box-shadow: 0 0 3px var(--button--active-border-color) inset
+    box-shadow: 0 0 3px 1px var(--bgColor-neutral-muted) inset
 
 
   &.-transparent
@@ -190,3 +193,8 @@ html.-browser-windows.-browser-chrome
     cursor: not-allowed
     background: none
     color: var(--fgColor-muted)
+
+input::file-selector-button
+  background: var(--button--background-color)
+  color: var(--button--font-color)
+  border: 1px solid var(--button-default-borderColor-rest)

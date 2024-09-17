@@ -6,7 +6,7 @@ sidebar_navigation:
 
 # Set up a development LDAP server
 
-**Note:** This guide is targeted only at development with OpenProject. For the LDAP configuration guide, please see this [here](../../system-admin-guide/authentication/ldap-authentication/)
+**Note:** This guide is targeted only at development with OpenProject. For the LDAP configuration guide, please see this [here](../../system-admin-guide/authentication/ldap-connections/)
 
 OpenProject comes with a built-in LDAP server for development purposes. This server uses [ladle gem](https://github.com/NUBIC/ladle)
 to run an underlying apacheDS server.

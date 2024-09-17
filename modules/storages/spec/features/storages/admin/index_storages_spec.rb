@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,7 +54,10 @@ RSpec.describe "Admin List File storages",
     end
 
     it "renders content that is accessible" do
-      expect(page).to be_axe_clean.within("#content")
+      expect(page)
+        .to be_axe_clean
+              .within("#content")
+              .excluding("opce-principal")
     end
   end
 

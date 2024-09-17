@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -198,15 +198,28 @@ module PaginationHelper
     def previous_or_next_page(page, text, class_suffix)
       if page
         tag(:li,
-            link(text, page, { class: "op-pagination--item-link op-pagination--item-link_" + class_suffix }),
-            class: "op-pagination--item op-pagination--item_" + class_suffix)
+            link(text, page, { class: "op-pagination--item-link op-pagination--item-link_#{class_suffix}" }),
+            class: "op-pagination--item op-pagination--item_#{class_suffix}")
       else
         ""
       end
     end
 
+    private
+
+    def link(text, target, attributes)
+      new_attributes = attributes.dup
+      new_attributes["data-turbo-stream"] = true if turbo?
+
+      super(text, target, new_attributes)
+    end
+
     def allowed_params
       @options[:allowed_params] # rubocop:disable Rails/HelperInstanceVariable
+    end
+
+    def turbo?
+      @options[:turbo] # rubocop:disable Rails/HelperInstanceVariable
     end
   end
 

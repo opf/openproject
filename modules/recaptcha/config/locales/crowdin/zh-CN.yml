@@ -9,7 +9,7 @@ zh-CN:
     verify_account: "验证您的帐户"
     error_captcha: "您的帐户无法验证。请联系管理员。"
     settings:
-      website_key: '网站密钥'
+      website_key: '网站密钥(也可称为“站点密钥”)'
       response_limit: 'HCaptcha响应限制'
       response_limit_text: '将 HCaptcha 响应视为有效的最大字符数。'
       website_key_text: '输入您在 reCAPTCHA 管理控制台上为此域创建的网站密钥。'
@@ -20,5 +20,6 @@ zh-CN:
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       type_hcaptcha: 'HCaptcha'
-      recaptcha_description_html: >
-        reCAPTCHA 是由 Google 提供的免费服务，可以在您的 OpenProject 实例中启用。如果启用了 reCAPTCHA，未经过验证码验证的用户在登录时将看到一个验证码表单。<br/> 请查看以下链接，了解有关 reCAPTCHA 及其版本的更多详细信息，以及如何创建网站密钥和秘密密钥：%{recaptcha_link}。<br/> HCaptcha 是一个无需使用 reCAPTCHA 的 Google 免费替代方案。如果您不想使用 reCAPTCHA，可以使用 HCaptcha。请参阅此链接以获取更多信息：%{hcaptcha_link}。
+      type_turnstile: 'Cloudflare Turnstile™'
+      captcha_description_html: >
+        reCAPTCHA 是由 Google 提供的免费服务，可以在您的 OpenProject 实例中启用。如果启用了 reCAPTCHA，未经过验证码验证的用户在登录时将看到一个验证码表单。<br/> 请查看以下链接，了解有关 reCAPTCHA 及其版本的更多详细信息，以及如何创建网站密钥和私密密钥：%{recaptcha_link}。<br/> HCaptcha 是一个无需使用 reCAPTCHA 的 Google 免费替代方案。如果您不想使用 reCAPTCHA，可以使用 HCaptcha。请参阅此链接以获取更多信息：%{hcaptcha_link}。 <br/> Cloudflare Turnstile™ 是另一种替代方案，它对用户来说更方便，同时仍提供相同级别的安全性。请参阅此链接以获取更多信息： %{turnstile_link}

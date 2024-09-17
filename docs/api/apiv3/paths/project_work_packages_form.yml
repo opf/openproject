@@ -1,20 +1,38 @@
 # /api/v3/projects/{id}/work_packages/form
 ---
 post:
+  summary: Form for creating Work Packages in a Project
+  operationId: form_create_work_package_in_project
+  tags:
+    - Work Packages
+  description: |-
+    This endpoint allows you to validation a new work package creation body in a specific project. It works similarly
+    to the `/api/v3/work_packages/form` endpoint, but already specifies the work package's project in the path, so that
+    it does not have to be defined in the request body.
   parameters:
-  - description: ID of the project in which the work package will be created
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - name: id
+      description: ID of the project in which the work package will be created
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: '1'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/work_package_write_model.yml'
+        examples:
+          'Minimal example':
+            $ref: '../components/examples/work_package_create_only_subject.yml'
+          'Valid example':
+            $ref: '../components/examples/work_package_create_valid.yml'
   responses:
     '200':
       description: OK
-      headers: {}
-  tags:
-  - Work Packages
-  description: ''
-  operationId: Work_Package_Create_Form_For_Project
-  summary: Work Package Create Form For Project
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/work_package_form_model.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'

@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,8 @@
 
 module Shares
   class ShareRowComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    VIRTUAL_SHARE_ID = "virtual-share-id"
+
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers

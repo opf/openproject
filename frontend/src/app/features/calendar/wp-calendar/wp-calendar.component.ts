@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -90,6 +90,7 @@ import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter
 import allLocales from '@fullcalendar/core/locales-all';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { MeetingResource } from 'core-app/features/hal/resources/meeting-resource';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
   templateUrl: './wp-calendar.template.html',
@@ -146,6 +147,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     readonly dayService:DayResourceService,
     readonly apiV3Service:ApiV3Service,
     readonly pathHelper:PathHelperService,
+    readonly timezoneService:TimezoneService,
   ) {
     super();
   }
@@ -217,19 +219,19 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       .filtered(filters, { pageSize: '-1' })
       .get()
       .subscribe((meetings) => {
-        const events = meetings.elements.map((meeting:MeetingResource) => {
+        const events:EventInput[] = meetings.elements.map((meeting:MeetingResource) => {
           const sameProject = this.currentProject.id === meeting.project.id;
           const title:string = sameProject ? meeting.title : `${meeting.project.name}: ${meeting.title}`;
           return {
             title,
-            start: Date.parse(meeting.startTime),
-            end: Date.parse(meeting.endTime),
+            start: this.timezoneService.parseDatetime(meeting.startTime as string).format(),
+            end: this.timezoneService.parseDatetime(meeting.endTime as string).format(),
             editable: false,
             durationEditable: false,
             allDay: false,
             className: 'fc-event-clickable op-wp-calendar--meeting-resource',
             meeting,
-          };
+          } as EventInput;
         });
 
         successCallback(events);

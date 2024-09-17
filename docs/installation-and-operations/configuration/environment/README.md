@@ -73,7 +73,7 @@ Example: `{!ruby/symbol key: !ruby/symbol value}` will be parsed as `{ key: :val
 
 Please note: The Configuration is a HashWithIndifferentAccess and thus it should be irrelevant for hashes to use symbol keys.
 
-Important: If you pass in entire hashes in the ENV, you need to ensure that the values are YAML-parseable.
+Important: If you pass in entire hashes in the ENV, you need to ensure that the values are YAML-parsable.
 In some cases, this might mean wrapping strings into `!!str "*test"`, as it will be parsed as an alias otherwise.
 
 Here an Example:

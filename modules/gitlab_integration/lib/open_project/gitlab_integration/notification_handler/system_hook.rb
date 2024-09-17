@@ -8,7 +8,7 @@
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 # Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -34,13 +34,15 @@ module OpenProject::GitlabIntegration
     class SystemHook
       include OpenProject::GitlabIntegration::NotificationHandler::Helper
 
-      def process(payload_params)
+      def process(payload_params) # rubocop:disable Metrics/AbcSize
         @payload = wrap_payload(payload_params)
         return nil unless payload.object_kind == "push"
 
         payload.commits.each do |commit|
           user = User.find_by_id(payload.open_project_user_id)
-          text = commit["title"] + " - " + commit["message"]
+          text = [commit["title"], commit["message"]]
+            .select(&:present?)
+            .join(" - ")
           work_packages = find_mentioned_work_packages(text, user)
           notes = generate_notes(commit, payload)
           comment_on_referenced_work_packages(work_packages, user, notes)
@@ -55,7 +57,7 @@ module OpenProject::GitlabIntegration
         commit_id = commit["id"]
         I18n.t("gitlab_integration.push_single_commit_comment",
                commit_number: commit_id[0, 8],
-               commit_note: commit["message"],
+               commit_note: commit["message"].presence || commit["title"],
                commit_url: commit["url"],
                commit_timestamp: commit["timestamp"],
                repository: payload.repository.name,
