@@ -56,7 +56,7 @@ class OmniAuthLoginController < ApplicationController
 
   def failure
     log_omniauth_failure
-    show_error I18n.t(:error_external_authentication_failed, message: omniauth_error)
+    show_error I18n.t(:error_external_authentication_failed_message, message: omniauth_error)
   end
 
   private

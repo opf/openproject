@@ -29,7 +29,7 @@
 require "spec_helper"
 
 # Concern is included into AccountController and depends on methods available there
-RSpec.describe OmniAuthLoginController, :skip_2fa_stage do # rubocop:disable RSpec/SpecFilePathFormat
+RSpec.describe OmniAuthLoginController, :skip_2fa_stage do
   let(:omniauth_strategy) { double("Google Strategy", name: "google") } # rubocop:disable RSpec/VerifiedDoubles
   let(:omniauth_hash) do
     OmniAuth::AuthHash.new(
@@ -477,9 +477,12 @@ RSpec.describe OmniAuthLoginController, :skip_2fa_stage do # rubocop:disable RSp
     end
 
     describe "Error occurs during authentication" do
-      it "redirects to login page" do
+      it "display the error" do
+        request.env["omniauth.error"] = "invalid_credentials"
         post :failure
+
         expect(response).to redirect_to signin_path
+        expect(flash[:error]).to include "invalid_credentials"
       end
 
       it "logs a warn message" do
