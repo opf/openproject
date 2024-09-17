@@ -202,6 +202,11 @@ bg:
       title: "Персонализирани действия"
       description: "Потребителските действия са преки пътища с едно кликване до набор от предварително дефинирани действия, които можете да направите достъпни за определени работни пакети въз основа на статус, роля, тип или проект."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       За да добавите нови потребителски полета към даден проект, първо трябва да ги създадете, преди да можете да ги добавите към този проект.
     is_enabled_globally: "Активирано е глобално"
@@ -631,6 +636,8 @@ bg:
         uid: "№ на клиент"
         secret: "Тайна на клиента"
         owner: "Собственик"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Пренасочване на URI"
         client_credentials_user_id: "Клиентски идентификационни данни Потребителски ИД"
         scopes: "Обхвати"
@@ -802,6 +809,7 @@ bg:
         blank: "не може да бъде празно."
         blank_nested: "трябва да бъде зададено свойството '%{property}'."
         cannot_delete_mapping: "е необходимо. Не може да бъде изтрит."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Работния пакет не може да бъде свързан с една от неговите подзадачи."
         circular_dependency: "Тази връзка ще доведе до циклична зависимост."
         confirmation: "не съвпада с %{attribute}."
@@ -875,6 +883,10 @@ bg:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) only one value is allowed."
           empty: "(%{name}) value can't be empty."
@@ -1102,7 +1114,7 @@ bg:
               confirmation: "Потвърждението на паролата не съвпада с паролата."
               format: "%{message}"
             password:
-              weak: "Трябва да съдържа знаци от следните класове (най-малко %{min_count} на %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "малки букви (например \"а\")"
               uppercase: "главни (например \"А\")"
               numeric: "цифрова (например ' 1')"
@@ -1944,6 +1956,7 @@ bg:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Оторизация"
   label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
@@ -2016,6 +2029,7 @@ bg:
   label_copy_project: "Копирай проекта"
   label_core_version: "Версия на ядрото"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Текущо състояние"
   label_current_version: "Настояща версия"
   label_custom_field_add_no_type: "Add this field to a work package type"
@@ -2143,9 +2157,9 @@ bg:
   label_share: "Споделяне"
   label_share_project_list: "Споделяне на списък с проекти"
   label_share_work_package: "Share work package"
-  label_show_hide: "Покажи/Скрий"
-  label_show_hide_n_items: "Показване/скриване елементите на %{count}"
   label_show_all_registered_users: "Показване на всички регистрирани потребители"
+  label_show_n_more: "Show %{count} more"
+  label_show_less: "Show less"
   label_journal: "Дневник"
   label_journal_diff: "Сравнение на описание"
   label_language: "Език"
@@ -2295,6 +2309,7 @@ bg:
   label_product_version: "Версия на продукта"
   label_profile: "Профил"
   label_percent_complete: "% Завършено"
+  label_progress_tracking: "Progress tracking"
   label_project: "Проект"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Атрибути на проекта"
@@ -2364,6 +2379,8 @@ bg:
   label_role_plural: "Роли"
   label_role_search: "Assign role to new members"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Търсене"
   label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
@@ -2478,7 +2495,6 @@ bg:
   label_work_package_new: "Нов работен пакет"
   label_work_package_edit: "Редактиране на работен пакет %{name}"
   label_work_package_plural: "Работни пакети"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Статус на работен пакет"
   label_work_package_status_new: "Ново състояние"
   label_work_package_status_plural: "Статуси на работни пакети"
@@ -3117,9 +3133,13 @@ bg:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Имейлът за активиране изтича след"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
@@ -3522,9 +3542,9 @@ bg:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "Коментар"
@@ -3716,12 +3736,16 @@ bg:
     close_warning: "Игнориране на това предупреждение."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth application"
       plural: "OAuth applications"
       named: "OAuth application '%{name}'"
       new: "New OAuth application"
+      non_confidential: Non confidential
       default_scopes: "(Default scopes)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "The name of your application. This will be displayed to other users upon authorization."
         redirect_uri_html: >
           The allowed URLs authorized users can be redirected to. One entry per line. <br/> If you're registering a desktop application, use the following URL.
@@ -3730,6 +3754,10 @@ bg:
         client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
         register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "№ на клиент"
     client_secret_notice: >
       This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.

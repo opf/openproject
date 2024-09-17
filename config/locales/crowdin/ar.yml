@@ -202,6 +202,11 @@ ar:
       title: "إجراءات مخصصة"
       description: "Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before you can add them to this project.
     is_enabled_globally: "Is enabled globally"
@@ -659,6 +664,8 @@ ar:
         uid: "Client ID"
         secret: "Client secret"
         owner: "Owner"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Redirect URI"
         client_credentials_user_id: "Client Credentials User ID"
         scopes: "Scopes"
@@ -830,6 +837,7 @@ ar:
         blank: "لا يمكن أن يكون فارغا."
         blank_nested: "needs to have the property '%{property}' set."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "حزمة العمل لا يمكن أن تكون مرتبطة إلى واحدة من المهام الفرعية."
         circular_dependency: "ان هذه العلاقة خلق تبعية دائرية."
         confirmation: "لا يتطابق مع %{attribute}."
@@ -903,6 +911,10 @@ ar:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) مسموح بقيمة واحدة فقط."
           empty: "(%{name}) لا يمكن أن تكون القيمة فارغة."
@@ -1130,7 +1142,7 @@ ar:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "يجب أن تحتوي على أحرف الفئات التالية (على الأقل %{min_count} %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "أحرف صغيرة (مثل 'a')"
               uppercase: "أحرف كبيرة (على سبيل المثال، 'A')"
               numeric: "رقمية (على سبيل المثال، '1')"
@@ -2084,6 +2096,7 @@ ar:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "المصادقة"
   label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
@@ -2156,6 +2169,7 @@ ar:
   label_copy_project: "نسخ المشروع"
   label_core_version: "النسخة الأساسية"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "الحالة الحالية"
   label_current_version: "النسخة الحالية"
   label_custom_field_add_no_type: "Add this field to a work package type"
@@ -2283,9 +2297,9 @@ ar:
   label_share: "شارك"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
-  label_show_hide: "إظهار / إخفاء"
-  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Show all registered users"
+  label_show_n_more: "Show %{count} more"
+  label_show_less: "Show less"
   label_journal: "يوميات"
   label_journal_diff: "مقارنة التوصيف"
   label_language: "اللغة"
@@ -2435,6 +2449,7 @@ ar:
   label_product_version: "إصدار المنتج"
   label_profile: "الصفحة الشخصية"
   label_percent_complete: "% Complete"
+  label_progress_tracking: "Progress tracking"
   label_project: "مشروع"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -2504,6 +2519,8 @@ ar:
   label_role_plural: "دور"
   label_role_search: "تعيين دور للأعضاء الجدد"
   label_scm: "اختصاراً لِ:\"Supply Chain Management\" إدارة سلسة الإمداد"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "البحث"
   label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
@@ -2618,7 +2635,6 @@ ar:
   label_work_package_new: "مجموعة عمل جديدة"
   label_work_package_edit: "تعديل مجموعة العمل %{name}"
   label_work_package_plural: "مجموعات العمل"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "حالة مجموعة العمل"
   label_work_package_status_new: "حالة جديدة"
   label_work_package_status_plural: "حالات مجموعة العمل"
@@ -3263,9 +3279,13 @@ ar:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
@@ -3672,9 +3692,9 @@ ar:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "تعليق"
@@ -3866,12 +3886,16 @@ ar:
     close_warning: "تجاهل هذا التحذير."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth application"
       plural: "OAuth applications"
       named: "OAuth application '%{name}'"
       new: "New OAuth application"
+      non_confidential: Non confidential
       default_scopes: "(Default scopes)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "The name of your application. This will be displayed to other users upon authorization."
         redirect_uri_html: >
           The allowed URLs authorized users can be redirected to. One entry per line. <br/> If you're registering a desktop application, use the following URL.
@@ -3880,6 +3904,10 @@ ar:
         client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
         register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Client ID"
     client_secret_notice: >
       This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.

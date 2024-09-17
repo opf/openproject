@@ -78,7 +78,7 @@ ro:
   caption_set_rate: "Setați rata curentă"
   caption_show_locked: "Afișați tipurile blocate"
   description_date_for_new_rate: "Data pentru noua rată"
-  group_by_others: "Selectați ce tipuri de grup este permis acest tip de profil. (Lăsați toate marcate pentru a permite crearea oricărui tip de grup.)"
+  group_by_others: "nici într-un grup"
   label_between: "între"
   label_cost_filter_add: "Adăugați un filtru de intrare a costurilor"
   label_costlog: "Costuri unitare înregistrate"

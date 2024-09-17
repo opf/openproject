@@ -151,6 +151,7 @@ class WorkPackages::ProgressForm < ApplicationForm
       name:,
       value: field_value(name),
       label:,
+      caption: field_hint_message(name),
       readonly: true,
       classes: "input--readonly",
       placeholder: ("-" if placeholder)
@@ -182,10 +183,7 @@ class WorkPackages::ProgressForm < ApplicationForm
   end
 
   def field_hint_message(field_name)
-    hint = work_package.derived_progress_hints[field_name]
-    return if hint.nil?
-
-    I18n.t("work_package.progress.derivation_hints.#{field_name}.#{hint}")
+    work_package.derived_progress_hint(field_name)&.message
   end
 
   def validation_message(name)
@@ -201,7 +199,7 @@ class WorkPackages::ProgressForm < ApplicationForm
   def default_field_options(name)
     data = { "work-packages--progress--preview-progress-target": "progressInput",
              "work-packages--progress--touched-field-marker-target": "progressInput",
-             action: "input->work-packages--progress--touched-field-marker#markFieldAsTouched" }
+             action: "work-packages--progress--touched-field-marker#markFieldAsTouched" }
 
     if @focused_field == name
       data[:"work-packages--progress--focus-field-target"] = "fieldToFocus"

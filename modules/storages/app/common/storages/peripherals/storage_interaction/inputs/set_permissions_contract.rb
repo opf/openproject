@@ -36,9 +36,18 @@ module Storages
           params do
             required(:file_id).filled(:string)
             required(:user_permissions).array(:hash) do
-              required(:user_id).filled(:string)
-              required(:permissions).array(:symbol, included_in?: OpenProject::Storages::Engine.permissions)
+              optional(:user_id).filled(:string)
+              optional(:group_id).filled(:string)
+              required(:permissions)
+                .array(:symbol, included_in?: OpenProject::Storages::Engine.external_file_permissions)
             end
+          end
+
+          rule(:user_permissions).each do
+            both = value.key?(:user_id) && value.key?(:group_id)
+            none = !value.key?(:user_id) && !value.key?(:group_id)
+
+            key.failure("must have either user_id or group_id") if both || none
           end
         end
       end

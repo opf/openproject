@@ -330,7 +330,7 @@ flowchart LR
 
 * Centralized identity and access management
 * Single sign on and single sign out ([OIDC](../../system-admin-guide/authentication/openid-providers/), [SAML](../../system-admin-guide/authentication/saml/))
-* [Syncing LDAP groups with OpenProject groups](../../system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/)  
+* [Syncing LDAP groups with OpenProject groups](../../system-admin-guide/authentication/ldap-connections/ldap-group-synchronization/)  
 
 #### Processed data
 

@@ -9,7 +9,7 @@ keywords: authentication
 
 Configure **authentication** settings and authentication providers in OpenProject.  To adapt these authentication settings, navigate to your user name and select -> *Administration* -> *Authentication*.
 
-![Sys-admin-authentication](Sys-admin-authentication-1579787715984.png)
+![Authentication settings in OpenProject system administration](openproject_system_guide_authentication_settings.png)
 
 ## Overview
 
@@ -20,5 +20,5 @@ Configure **authentication** settings and authentication providers in OpenProjec
 | [OpenID providers](openid-providers)                                         | How to configure OpenID providers in OpenProject.                                     |
 | [Two-factor authentication](two-factor-authentication)                       | Set up and manage two-factor authentication (2FA) in OpenProject.                     |
 | [reCAPTCHA](recaptcha)                                                       | How to activate reCAPTCHA in OpenProject.                                             |
-| [LDAP authentication](ldap-authentication)                                   | How to set up LDAP authentication in OpenProject.                                     |
-| [LDAP group synchronization](ldap-authentication/ldap-group-synchronization) | How to configure LDAP group synchronization in OpenProject. (Enterprise add-on)         |
+| [LDAP authentication](ldap-connections)                                      | How to set up LDAP authentication in OpenProject.                                     |
+| [LDAP group synchronization](ldap-connections/ldap-group-synchronization) | How to configure LDAP group synchronization in OpenProject. (Enterprise add-on)         |

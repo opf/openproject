@@ -2,8 +2,7 @@
   <% unless pending? %>
     <%= content_tag :div, "", data: { "job-status-polling-target": "finished" } %>
   <% end %>
-  <%= render Primer::Beta::Blankslate.new do |component|
-    component.with_visual_icon(icon: icon[:icon], color: icon[:color], size: :medium) unless icon.nil?
+  <%= render Primer::OpenProject::FeedbackMessage.new(icon_arguments: icon) do |component|
     component.with_heading(tag: :h2).with_content(title)
     component.with_description do
       flex_layout do |flex|
@@ -19,6 +18,7 @@
           flex.with_row { render(Primer::Beta::Link.new(
             href: redirect_url,
             data: {
+              action: 'job-status-polling#redirectClick',
               "job-status-polling-target": job_errors.present? ? nil : "redirect"
             }
           )) { I18n.t('job_status_dialog.redirect_link') } }
@@ -47,13 +47,4 @@
       end
     end
   end %>
-  <% unless pending? %>
-    <%= flex_layout(justify_content: :flex_end) do |flex| %>
-      <% flex.with_column do %>
-        <%= render(Primer::Beta::Button.new(data: {
-          "close-dialog-id": JobStatus::Dialog::DialogComponent::MODAL_ID
-        })) { I18n.t(:button_close) } %>
-      <% end %>
-    <% end %>
-  <% end %>
 <% end %>

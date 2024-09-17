@@ -198,6 +198,11 @@ el:
       title: "Προσαρμοσμένες ενέργειες"
       description: "Οι προσαρμοσμένες ενέργειες είναι συντομεύσεις με ένα κλικ προς ένα σύνολο προκαθορισμένων ενεργειών που μπορείτε να διαθέσετε σε συγκεκριμένα πακέτα εργασίας με βάση την κατάσταση, ρόλος, τύπος ή έργο."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Για να προσθέσετε νέα προσαρμοσμένα πεδία σε ένα έργο, πρέπει πρώτα να τα δημιουργήσετε για να τα προσθέσετε σε αυτό το έργο.
     is_enabled_globally: "Είναι ενεργοποιημένο σε όλο το σύστημα"
@@ -627,6 +632,8 @@ el:
         uid: "Ταυτότητα Πελάτη"
         secret: "Μυστικό πελάτη"
         owner: "Ιδιοκτήτης"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Σύνδεσμος Ανακατεύθυνσης (URI)"
         client_credentials_user_id: "Διαπιστευτήρια Πελάτη Ταυτότητα Χρήστη"
         scopes: "Φυσικά αντικείμενα"
@@ -798,6 +805,7 @@ el:
         blank: "δεν πρέπει να είναι κενό."
         blank_nested: "needs to have the property '%{property}' set."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Ένα πακέτο εργασίας δεν μπορεί να συνδεθεί με μια από τις υποεργασίες του."
         circular_dependency: "Αυτή η σχέση θα δημιουργήσει κυκλική εξάρτηση."
         confirmation: "δεν ταιριάζει με %{attribute}."
@@ -871,6 +879,10 @@ el:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Τουλάχιστον μια επιλογή πρέπει να είναι διαθέσιμη."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) μόνο μια τιμή επιτρέπεται."
           empty: "(%{name}) η τιμή δεν μπορεί να είναι άδεια."
@@ -1098,7 +1110,7 @@ el:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "Πρέπει να περιέχει χαρακτήρες από τις ακόλουθες κλάσεις (τουλάχιστον %{min_count} από %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "πεζά γράμματα (π.χ. 'α')"
               uppercase: "κεφαλαία γράμματα (π.χ. 'Α')"
               numeric: "αριθμητικό (π.χ. '1')"
@@ -1940,6 +1952,7 @@ el:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Ταυτοποίηση"
   label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Διαθέσιμα φόρουμ"
@@ -2012,6 +2025,7 @@ el:
   label_copy_project: "Αντιγραφή έργου"
   label_core_version: "Βασική έκδοση"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Τρέχουσα κατάσταση"
   label_current_version: "Τρέχουσα έκδοση"
   label_custom_field_add_no_type: "Προσθέστε αυτό το πεδίο σε έναν τύπο πακέτου εργασίας"
@@ -2139,9 +2153,9 @@ el:
   label_share: "Share"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
-  label_show_hide: "Εμφάνιση/απόκρυψη"
-  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Εμφάνιση όλων των εγγεγραμμένων χρηστών"
+  label_show_n_more: "Show %{count} more"
+  label_show_less: "Show less"
   label_journal: "Ημερολόγιο"
   label_journal_diff: "Σύγκριση Περιγραφών"
   label_language: "Γλώσσα"
@@ -2291,6 +2305,7 @@ el:
   label_product_version: "Έκδοση προϊόντος"
   label_profile: "Προφίλ"
   label_percent_complete: "% Complete"
+  label_progress_tracking: "Progress tracking"
   label_project: "Έργο"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -2360,6 +2375,8 @@ el:
   label_role_plural: "Ρόλοι"
   label_role_search: "Ανάθεση ρόλων σε νέα μέλη"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Αναζήτηση"
   label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
@@ -2474,7 +2491,6 @@ el:
   label_work_package_new: "Νέο πακέτο εργασίας"
   label_work_package_edit: "Επεξεργασία του πακέτου εργασίας %{name}"
   label_work_package_plural: "Πακέτα εργασίας"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Κατάσταση εργασίας"
   label_work_package_status_new: "Νέα κατάσταση"
   label_work_package_status_plural: "Καταστάσεις πακέτων εργασίας"
@@ -3112,9 +3128,13 @@ el:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Το μήνυμα ενεργοποίησης λήγει μετά από"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
@@ -3516,9 +3536,9 @@ el:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "Σχόλιο"
@@ -3710,12 +3730,16 @@ el:
     close_warning: "Αγνοείστε αυτή την προειδοποίηση."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth εφαρμογή"
       plural: "OAuth εφαρμογές"
       named: "OAuth εφαρμογή '%{name}'"
       new: "Νέα OAuth εφαρμογή"
+      non_confidential: Non confidential
       default_scopes: "(Προεπιλεγμένα φυσικά αντικείμενα)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Το όνομα τις εφαρμογής. Αυτό θα εμφανίζεται στους υπόλοιπους χρήστες μόλις γίνει η εξουσιοδότηση."
         redirect_uri_html: >
           Τα επιτρεπόμενα URLs στα οποία ανακατευθύνονται οι ταυτοποιημένοι χρήστες. <br/> Αν εγγράφεστε από την εφαρμογή υπολογιστή, χρησιμοποιείστε το ακόλουθο URL.
@@ -3724,6 +3748,10 @@ el:
         client_credential_user_id: "Προαιρετική ταυτότητα χρήστη για να υποδυθεί όταν οι πελάτες χρησιμοποιούν αυτή την εφαρμογή. Αφήστε κενό για να επιτρέψετε μόνο δημόσια πρόσβαση"
         register_intro: "Αν αναπτύσσετε μια εφαρμογή πελάτη OAuth API για το OpenProject, μπορείτε να την καταχωρήσετε χρησιμοποιώντας αυτή τη φόρμα για να μπορούν να τη χρησιμοποιήσουν όλοι οι χρήστες."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Ταυτότητα Πελάτη"
     client_secret_notice: >
       Αυτή είναι η μόνη φορά που μπορούμε να τυπώσουμε το μυστικό πελάτη, παρακαλούμε σημειώστε το και κρατήστε το ασφαλές. Θα πρέπει να το χειρίζεστε ως κωδικό πρόσβασης και δεν μπορεί να ανακτηθεί από το OpenProject αργότερα.

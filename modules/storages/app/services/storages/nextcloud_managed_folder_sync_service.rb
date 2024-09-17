@@ -32,14 +32,16 @@ module Storages
   class NextcloudManagedFolderSyncService < BaseService
     using Peripherals::ServiceResultRefinements
 
-    PERMISSIONS_MAP = { read_files: 1, write_files: 2, create_files: 4, delete_files: 8, share_files: 16 }.freeze
-    PERMISSIONS_KEYS = PERMISSIONS_MAP.keys.freeze
-    ALL_PERMISSIONS = PERMISSIONS_MAP.values.sum
-    NO_PERMISSIONS = 0
+    FILE_PERMISSIONS = OpenProject::Storages::Engine.external_file_permissions
 
-    include Injector["nextcloud.commands.create_folder", "nextcloud.commands.rename_file", "nextcloud.commands.set_permissions",
-                     "nextcloud.queries.group_users", "nextcloud.queries.file_ids", "nextcloud.authentication.userless",
-                     "nextcloud.commands.add_user_to_group", "nextcloud.commands.remove_user_from_group"]
+    include Injector["nextcloud.commands.create_folder",
+                     "nextcloud.commands.rename_file",
+                     "nextcloud.commands.set_permissions",
+                     "nextcloud.queries.group_users",
+                     "nextcloud.queries.file_path_to_id_map",
+                     "nextcloud.authentication.userless",
+                     "nextcloud.commands.add_user_to_group",
+                     "nextcloud.commands.remove_user_from_group"]
 
     def self.i18n_key = "NextcloudSyncService"
 
@@ -79,7 +81,7 @@ module Storages
       remote_folders = remote_root_folder_map(@storage.group_folder).on_failure { return _1 }.result
       info "Found #{remote_folders.count} remote folders"
 
-      ensure_root_folder_permissions(@storage.group_folder, @storage.group, @storage.username).on_failure { return _1 }
+      ensure_root_folder_permissions(remote_folders["/#{@storage.group_folder}"].id).on_failure { return _1 }
 
       ensure_folders_exist(remote_folders).on_success { hide_inactive_folders(remote_folders) }
     end
@@ -89,7 +91,7 @@ module Storages
       remote_admins = admin_remote_identities_scope.pluck(:origin_user_id)
 
       active_project_storages_scope.where.not(project_folder_id: nil).find_each do |project_storage|
-        set_folders_permissions(remote_admins, project_storage)
+        set_folder_permissions(remote_admins, project_storage)
       end
 
       info "Updating user access on automatically managed project folders"
@@ -129,38 +131,38 @@ module Storages
     end
 
     # rubocop:disable Metrics/AbcSize
-    def set_folders_permissions(remote_admins, project_storage)
-      admin_permissions = remote_admins.to_set.map do |username|
-        [username, ALL_PERMISSIONS]
-      end.unshift([@storage.username, ALL_PERMISSIONS])
+    def set_folder_permissions(remote_admins, project_storage)
+      system_user = [{ user_id: @storage.username, permissions: FILE_PERMISSIONS }]
 
-      users_permissions = project_remote_identities(project_storage).each_with_object({}) do |identity, hash|
-        permissions = identity.user.all_permissions_for(project_storage.project)
+      admin_permissions = remote_admins.to_set.map { |username| { user_id: username, permissions: FILE_PERMISSIONS } }
 
-        hash[identity.origin_user_id] = PERMISSIONS_MAP.values_at(*(PERMISSIONS_KEYS & permissions)).sum
+      users_permissions = project_remote_identities(project_storage).map do |identity|
+        permissions = identity.user.all_permissions_for(project_storage.project) & FILE_PERMISSIONS
+        { user_id: identity.origin_user_id, permissions: }
       end
 
-      folder = project_storage.managed_project_folder_path
+      group_permissions = [{ group_id: @storage.group, permissions: [] }]
 
-      command_params = {
-        path: folder,
-        permissions: {
-          users: admin_permissions.to_h.merge(users_permissions),
-          groups: { "#{@storage.group}": NO_PERMISSIONS }
-        }
-      }
+      permissions = system_user + admin_permissions + users_permissions + group_permissions
+      project_folder_id = project_storage.project_folder_id
 
-      set_permissions.call(storage: @storage, auth_strategy:, **command_params).on_failure do |service_result|
-        log_storage_error(service_result.errors, folder:)
-        add_error(:set_folder_permission, service_result.errors, options: { folder: })
+      input_data = build_set_permissions_input_data(project_folder_id, permissions).value_or do |failure|
+        log_validation_error(failure, project_folder_id:, permissions:)
+        return # rubocop:disable Lint/NonLocalExitFromIterator
+      end
+
+      set_permissions.call(storage: @storage, auth_strategy:, input_data:).on_failure do |service_result|
+        log_storage_error(service_result.errors, folder: project_folder_id)
+        add_error(:set_folder_permission, service_result.errors, options: { folder: project_folder_id })
       end
     end
+
     # rubocop:enable Metrics/AbcSize
 
     def project_remote_identities(project_storage)
       remote_identities = remote_identities_scope.where.not(id: admin_remote_identities_scope).order(:id)
 
-      if project_storage.project.public? && ProjectRole.non_member.permissions.intersect?(PERMISSIONS_KEYS)
+      if project_storage.project.public? && ProjectRole.non_member.permissions.intersect?(FILE_PERMISSIONS)
         remote_identities
       else
         remote_identities.where(user: project_storage.project.users)
@@ -172,27 +174,34 @@ module Storages
       info "Hiding folders related to inactive projects"
       project_folder_ids = active_project_storages_scope.pluck(:project_folder_id).compact
 
-      remote_folders.except("/#{@storage.group_folder}/").each do |(path, attrs)|
-        next if project_folder_ids.include?(attrs["fileid"])
+      remote_folders.except("/#{@storage.group_folder}").each do |(path, file)|
+        folder_id = file.id
 
-        info "Hiding folder #{path} as it does not belong to any active project"
-        command_params = { path:,
-                           permissions: {
-                             users: { "#{@storage.username}": ALL_PERMISSIONS },
-                             groups: { "#{@storage.group}": NO_PERMISSIONS }
-                           } }
+        next if project_folder_ids.include?(folder_id)
 
-        set_permissions.call(storage: @storage, auth_strategy:, **command_params).on_failure do |service_result|
-          log_storage_error(service_result.errors, folder: path, context: "hide_folder")
-          add_error(:hide_inactive_folders, service_result.errors, options: { path: })
+        info "Hiding folder #{folder_id} (#{path}) as it does not belong to any active project"
+        permissions = [
+          { user_id: @storage.username, permissions: FILE_PERMISSIONS },
+          { group_id: @storage.group, permissions: [] }
+        ]
+
+        input_data = build_set_permissions_input_data(folder_id, permissions).value_or do |failure|
+          log_validation_error(failure, folder_id:, permissions:)
+          return # rubocop:disable Lint/NonLocalExitFromIterator
+        end
+
+        set_permissions.call(storage: @storage, auth_strategy:, input_data:).on_failure do |service_result|
+          log_storage_error(service_result.errors, folder_id:, context: "hide_folder")
+          add_error(:hide_inactive_folders, service_result.errors, options: { folder_id: })
         end
       end
     end
+
     # rubocop:enable Metrics/AbcSize
 
     def ensure_folders_exist(remote_folders)
       info "Ensuring that automatically managed project folders exist and are correctly named."
-      id_folder_map = remote_folders.to_h { |folder, properties| [properties["fileid"], folder] }
+      id_folder_map = remote_folders.to_h { |path, file| [file.id, path] }
 
       active_project_storages_scope.includes(:project).map do |project_storage|
         unless id_folder_map.key?(project_storage.project_folder_id)
@@ -211,7 +220,7 @@ module Storages
     # @param current_path [String] current name of the remote project storage folder
     # @return [ServiceResult, nil]
     def rename_folder(project_storage, current_path)
-      return if current_path == project_storage.managed_project_folder_path
+      return if UrlBuilder.path(current_path) == UrlBuilder.path(project_storage.managed_project_folder_path)
 
       name = project_storage.managed_project_folder_name
       file_id = project_storage.project_folder_id
@@ -246,39 +255,51 @@ module Storages
     def audit_last_project_folder(last_project_folder, project_folder_id)
       ApplicationRecord.transaction do
         success = last_project_folder.update(origin_folder_id: project_folder_id) &&
-                  last_project_folder.project_storage.update(project_folder_id:)
+          last_project_folder.project_storage.update(project_folder_id:)
 
         raise ActiveRecord::Rollback unless success
       end
     end
 
-    # @param group_folder [string] name of the Group Folder in Nextcloud.
-    # @param username [String] username for the integration user
-    # @param group [String] group that the user should be part of
+    # rubocop:disable Metrics/AbcSize
+    # @param root_folder_id [String] the id of the root folder
     # @return [ServiceResult]
-    def ensure_root_folder_permissions(group_folder, username, group)
-      info "Setting needed permissions for user #{username} and group #{group} on #{group_folder} group folder"
+    def ensure_root_folder_permissions(root_folder_id)
+      username = @storage.username
+      group = @storage.group
+      info "Setting needed permissions for user #{username} and group #{group} on the root group folder."
+      permissions = [
+        { user_id: username, permissions: FILE_PERMISSIONS },
+        { group_id: group, permissions: [:read_files] }
+      ]
 
-      command_params = {
-        path: group_folder,
-        permissions: {
-          users: { username.to_sym => ALL_PERMISSIONS },
-          groups: { group.to_sym => PERMISSIONS_MAP[:read_files] }
-        }
-      }
+      input_data = build_set_permissions_input_data(root_folder_id, permissions).value_or do |failure|
+        log_validation_error(failure, root_folder_id:, permissions:)
+        return ServiceResult.failure(result: failure.errors.to_h) # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
+      end
 
-      set_permissions.call(storage: @storage, auth_strategy:, **command_params).on_failure do |service_result|
-        log_storage_error(service_result.errors, { folder: group_folder })
+      set_permissions.call(storage: @storage, auth_strategy:, input_data:).on_failure do |service_result|
+        log_storage_error(service_result.errors, folder: "root", root_folder_id:)
         add_error(:ensure_root_folder_permissions, service_result.errors, options: { group:, username: }).fail!
       end
     end
 
+    # rubocop:enable Metrics/AbcSize
+
     def remote_root_folder_map(group_folder)
       info "Retrieving already existing folders under #{group_folder}"
-      file_ids.call(storage: @storage, path: group_folder).on_failure do |service_result|
+      file_path_to_id_map.call(storage: @storage,
+                               auth_strategy:,
+                               folder: Peripherals::ParentFolder.new(group_folder),
+                               depth: 1)
+                         .on_failure do |service_result|
         log_storage_error(service_result.errors, { folder: group_folder })
         add_error(:remote_folders, service_result.errors, options: { group_folder:, username: @storage.username }).fail!
       end
+    end
+
+    def build_set_permissions_input_data(file_id, user_permissions)
+      Peripherals::StorageInteraction::Inputs::SetPermissions.build(file_id:, user_permissions:)
     end
 
     def remote_group_users

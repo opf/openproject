@@ -44,7 +44,7 @@ You will then be asked to type in the placeholder user name to confirm the delet
 
 ![Delete a placeholder user in OpenProject administration](openproject_system_guide_delete_placeholder_user.png)
 
-> [!NOTE]
+> [!CAUTION]
 > Deleting a placeholder user account is an irreversible action and cannot be revoked. The previous activities from this user will still be displayed in the system but reassigned to **Deleted user**.
 
 ## Create placeholder users

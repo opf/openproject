@@ -20,4 +20,10 @@
                           "job-status-polling-target": "frame"
                         }) %>
   <% end %>
+
+  <% dialog.with_footer do %>
+    <%= render(Primer::Beta::Button.new(data: {
+      "close-dialog-id": MODAL_ID
+    })) { I18n.t(:button_close) } %>
+  <% end %>
 <% end %>

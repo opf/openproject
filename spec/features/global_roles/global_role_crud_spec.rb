@@ -62,4 +62,18 @@ RSpec.describe "Global role: Global role CRUD", :js, :with_cuprite do
     # Then I should see "Successful creation."
     expect(page).to have_text "Successful creation."
   end
+
+  context "with a non-member using dependent project permissions" do
+    let!(:non_member) { create(:non_member, permissions: %i[view_project_attributes]) }
+
+    it "can still create it (Regression #57906)" do
+      # When I go to the new page of "Role"
+      visit new_role_path
+      check "Global role"
+      fill_in "Name", with: "Manager"
+      click_on "Create"
+      # Then I should see "Successful creation."
+      expect(page).to have_text "Successful creation."
+    end
+  end
 end

@@ -168,11 +168,11 @@ On the **Global roles** tab, select or de-select the global role(s) for this use
 
 ### Notification settings
 
-Under **Notification settings** tab you can edit the [notification settings](../../../user-guide/notifications/notification-settings/) for the user. Each user can adjust these settings under [My account](../../../getting-started/my-account) on their own.
+Under **Notification settings** tab you can edit the [notification settings](../../../user-guide/notifications/notification-settings/) for the user. Each user can adjust these settings under [My account](../../../user-guide/my-account) on their own.
 
 ### Email reminders
 
-Under **Email reminders** tab you can edit the [email reminders settings](../../../getting-started/my-account/#email-reminders). Each user can adjust these settings under [My account](../../../getting-started/my-account) on their own.
+Under **Email reminders** tab you can edit the [email reminders settings](../../../user-guide/my-account/#email-reminders). Each user can adjust these settings under [My account](../../../user-guide/my-account) on their own.
 
 ### Rate history
 

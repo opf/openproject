@@ -110,7 +110,7 @@ To subscribe to a calendar:
 
 1. Click on the **\[⋮\] (more) button** on the toolbar and select **Subscribe to calendar**.
 2. In the modal that appears, give this calendar a unique name (you can only use it once). We recommend naming it based on where you will be subscribing to this calendar from ("personal phone" or "work tablet" for example).  
-3. Click on **Copy URL**. This creates the a [calendar token](../../getting-started/my-account/#access-tokens) and copies the calendar URL to your clipboard.
+3. Click on **Copy URL**. This creates the a [calendar token](../../user-guide/my-account/#access-tokens) and copies the calendar URL to your clipboard.
 4. Paste this URL in your desired calendar client to subscribe.
 
 ![Subscribe to calendar modal](subscribeToCalendar-modal.png)

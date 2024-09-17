@@ -79,7 +79,8 @@ See COPYRIGHT and LICENSE files for more details.
     <li class="toolbar-item">
       <%= link_to confirm_destroy_project_path(@project),
                   class: 'button delete',
-                  title: t(:label_delete_project) do %>
+                  title: t(:label_delete_project),
+                  data: { turbo: false } do %>
         <%= op_icon('button--icon icon-delete') %>
         <span class="button--text"><%= t(:button_delete) %></span>
       <% end %>
