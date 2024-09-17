@@ -52,8 +52,17 @@ export default class PreviewController extends Controller {
   private debouncedPreview:DebouncedFunc<(event:Event) => void>;
   private frameMorphRenderer:(event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => void;
   private targetFieldName:string;
+  private touchedFields:Set<string>;
 
   connect() {
+    this.touchedFields = new Set();
+    this.touchedFieldInputTargets.forEach((input) => {
+      const fieldName = input.dataset.referrerField;
+      if (fieldName && input.value === 'true') {
+        this.touchedFields.add(fieldName);
+      }
+    });
+
     this.debouncedPreview = debounce((event:Event) => { void this.preview(event); }, 100);
     // TODO: Ideally morphing in this single controller should not be necessary.
     // Turbo supports morphing, by adding the <turbo-frame refresh="morph"> attribute.
@@ -116,22 +125,10 @@ export default class PreviewController extends Controller {
     const form = this.formTarget;
     const formData = new FormData(form) as unknown as undefined;
     const formParams = new URLSearchParams(formData);
-    const wpParams = [
-      ['work_package[initial][estimated_hours]', formParams.get('work_package[initial][estimated_hours]') || ''],
-      ['work_package[initial][remaining_hours]', formParams.get('work_package[initial][remaining_hours]') || ''],
-      ['work_package[initial][done_ratio]', formParams.get('work_package[initial][done_ratio]') || ''],
-      ['work_package[estimated_hours]', formParams.get('work_package[estimated_hours]') || ''],
-      ['work_package[remaining_hours]', formParams.get('work_package[remaining_hours]') || ''],
-      ['work_package[done_ratio]', formParams.get('work_package[done_ratio]') || ''],
-      ['work_package[status_id]', formParams.get('work_package[status_id]') || ''],
-      ['field', field?.name ?? ''],
-    ];
 
-    this.progressInputTargets.forEach((progressInput) => {
-      const touchedInputName = progressInput.name.replace(']', '_touched]');
-      const touchedValue = formParams.get(touchedInputName) || '';
-      wpParams.push([touchedInputName, touchedValue]);
-    });
+    const wpParams = Array.from(formParams.entries())
+      .filter(([key, _]) => key.startsWith('work_package'));
+    wpParams.push(['field', field?.name ?? '']);
 
     const wpPath = this.ensureValidPathname(form.action);
     const wpAction = wpPath.endsWith('/work_packages/new/progress') ? 'new' : 'edit';
@@ -227,16 +224,7 @@ export default class PreviewController extends Controller {
   // before being set by the user or derived.
   private findInitialValueInput(fieldName:string):HTMLInputElement|undefined {
     return this.initialValueInputTargets.find((input) =>
-      (input.dataset.referrerField === fieldName) || (input.dataset.referrerField === `work_package[${fieldName}]`));
-  }
-
-  // Finds the touched field input based on a field name.
-  //
-  // The touched input field is used to mark a field as touched by the user so
-  // that the backend keeps the value instead of deriving it.
-  private findTouchedInput(fieldName:string):HTMLInputElement|undefined {
-    return this.touchedFieldInputTargets.find((input) =>
-      (input.dataset.referrerField === fieldName) || (input.dataset.referrerField === `work_package[${fieldName}]`));
+      (input.dataset.referrerField === fieldName));
   }
 
   // Finds the value field input based on a field name.
@@ -252,8 +240,7 @@ export default class PreviewController extends Controller {
   }
 
   private isTouched(fieldName:string) {
-    const touchedInput = this.findTouchedInput(fieldName);
-    return touchedInput?.value === 'true';
+    return this.touchedFields.has(fieldName);
   }
 
   private isInitialValueEmpty(fieldName:string) {
@@ -272,16 +259,21 @@ export default class PreviewController extends Controller {
   }
 
   private markTouched(fieldName:string) {
-    const touchedInput = this.findTouchedInput(fieldName);
-    if (touchedInput) {
-      touchedInput.value = 'true';
-    }
+    this.touchedFields.add(fieldName);
+    this.updateTouchedFieldHiddenInputs();
   }
 
   private markUntouched(fieldName:string) {
-    const touchedInput = this.findTouchedInput(fieldName);
-    if (touchedInput) {
-      touchedInput.value = 'false';
-    }
+    this.touchedFields.delete(fieldName);
+    this.updateTouchedFieldHiddenInputs();
+  }
+
+  private updateTouchedFieldHiddenInputs() {
+    this.touchedFieldInputTargets.forEach((input) => {
+      const fieldName = input.dataset.referrerField;
+      if (fieldName) {
+        input.value = this.isTouched(fieldName) ? 'true' : 'false';
+      }
+    });
   }
 }

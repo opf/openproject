@@ -129,10 +129,11 @@ class ProgressEditField < EditField
   end
 
   def input_caption_element
-    input_element["aria-describedby"]
-      .split
-      .find { _1.start_with?("caption-") }
-      &.then { |caption_id| find(id: caption_id) }
+    input_aria_related_element(describedby: "caption")
+  end
+
+  def input_validation_element
+    input_aria_related_element(describedby: "validation")
   end
 
   def trigger_element
@@ -239,6 +240,15 @@ class ProgressEditField < EditField
     end
   end
 
+  def expect_error(expected_error)
+    if expected_error.nil?
+      expect(input_validation_element).to be_nil, "Expected no error message for #{@human_field_name} field, " \
+                                                  "got \"#{input_validation_element&.text}\""
+    else
+      expect(input_validation_element).to have_text(expected_error)
+    end
+  end
+
   def expect_select_field_with_options(*expected_options)
     within modal_element do
       expect(page).to have_select(field_name, with_options: expected_options)
@@ -272,5 +282,12 @@ class ProgressEditField < EditField
 
   def modal_element
     page.find(MODAL_SELECTOR)
+  end
+
+  def input_aria_related_element(describedby:)
+    input_element["aria-describedby"]
+      .split
+      .find { _1.start_with?("#{describedby}-") }
+      &.then { |id| find(id:) }
   end
 end

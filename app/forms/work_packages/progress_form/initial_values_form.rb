@@ -58,7 +58,7 @@ class WorkPackages::ProgressForm
       form.hidden(name:,
                   value: work_package.public_send(:"#{name}_was"),
                   data: { "work-packages--progress--preview-target": "initialValueInput",
-                          "referrer-field": "work_package[#{name}]" })
+                          "referrer-field": name })
     end
   end
 end

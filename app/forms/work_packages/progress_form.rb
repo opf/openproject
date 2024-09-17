@@ -164,7 +164,7 @@ class WorkPackages::ProgressForm < ApplicationForm
     group.hidden(name: :"#{name}_touched",
                  value: touched(name),
                  data: { "work-packages--progress--preview-target": "touchedFieldInput",
-                         "referrer-field": "work_package[#{name}]" })
+                         "referrer-field": name })
   end
 
   def touched(name)
