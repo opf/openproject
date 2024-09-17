@@ -133,10 +133,11 @@ class AdminController < ApplicationController
   end
 
   def jemalloc_libs_active?
-    Open3.capture2e({'MALLOC_CONF' => 'true'}, "ruby", "-e", "exit").first.include?("jemalloc")
+    Open3.capture2e({"MALLOC_CONF" => "true"}, "ruby", "-e", "exit").first.include?("jemalloc")
   rescue StandardError
     false
   end
+
   def image_conversion_libs_available?
     Open3.capture2e("convert", "-version").first.include?("ImageMagick")
   rescue StandardError
