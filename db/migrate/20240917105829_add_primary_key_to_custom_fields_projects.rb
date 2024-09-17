@@ -26,12 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  module CustomFieldProjects
-    class DeleteService < ::BaseServices::Delete
-      # Mappings have custom deletion rules that are similar to the update rules all derived from the base contract
-      # Reuse the update contract to ensure that the deletion rules are consistent with the update rules
-      def default_contract_class = CustomFields::CustomFieldProjects::UpdateContract
+class AddPrimaryKeyToCustomFieldsProjects < ActiveRecord::Migration[7.1]
+  def change
+    add_column :custom_fields_projects, :id, :primary_key # rubocop:disable Rails/DangerousColumnNames
+
+    reversible do |dir|
+      dir.up do
+        # Backfill the id column for existing rows
+        execute <<-SQL.squish
+          WITH cte AS (
+            SELECT row_number() OVER () AS row_num, project_id, custom_field_id
+            FROM custom_fields_projects
+          )
+          UPDATE custom_fields_projects
+          SET id = cte.row_num
+          FROM cte
+          WHERE custom_fields_projects.project_id = cte.project_id
+            AND custom_fields_projects.custom_field_id = cte.custom_field_id;
+        SQL
+      end
     end
   end
 end
