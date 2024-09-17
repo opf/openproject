@@ -635,6 +635,8 @@
         uid: "Klient ID"
         secret: "Klient hemmlighet"
         owner: "Eier"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Omdiriger URI"
         client_credentials_user_id: "Klientens bruker-ID"
         scopes: "Omfang"
@@ -2026,6 +2028,7 @@
   label_copy_project: "Kopier prosjekt"
   label_core_version: "Kildeversjon"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Gjeldende status"
   label_current_version: "Gjeldende versjon"
   label_custom_field_add_no_type: "Legg dette feltet til en arbeidspakketype"
@@ -2153,9 +2156,9 @@
   label_share: "Del"
   label_share_project_list: "Del prosjektliste"
   label_share_work_package: "Del arbeidspakke"
-  label_show_hide: "Vis/Skjul"
-  label_show_hide_n_items: "Vis/skjul %{count} elementer"
   label_show_all_registered_users: "Vis alle registrerte brukere"
+  label_show_n_more: "Show %{count} more"
+  label_show_less: "Show less"
   label_journal: "Journal"
   label_journal_diff: "Sammenligning av beskrivelse"
   label_language: "Språk"
@@ -2305,6 +2308,7 @@
   label_product_version: "Produktversjon"
   label_profile: "Profil"
   label_percent_complete: "% Ferdig"
+  label_progress_tracking: "Progress tracking"
   label_project: "Prosjekt"
   label_project_activity: "Aktivitet i prosjektet"
   label_project_attribute_plural: "Prosjekt egenskaper"
@@ -2490,7 +2494,6 @@
   label_work_package_new: "Ny arbeidspakke"
   label_work_package_edit: "Rediger arbeidspakke %{name}"
   label_work_package_plural: "Arbeidspakker"
-  label_work_packages_settings: "Innstillinger for arbeidspakker"
   label_work_package_status: "Status for arbeidspakke"
   label_work_package_status_new: "Ny status"
   label_work_package_status_plural: "Statuser for arbeidspakke"
@@ -3129,9 +3132,13 @@
   setting_hours_per_day_explanation: >-
     Dette vil definere hva som anses som en "dag" når varigheten vises i dager og timer (for eksempel hvis dagen er 8 timer, vil 32 timer være 4 dager).
   setting_invitation_expiration_days: "Aktiverings e-post utløper etter"
-  setting_work_package_done_ratio: "Beregning av fremdrift"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Arbeidsbasert"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Statusbasert"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
@@ -3728,12 +3735,16 @@
     close_warning: "Ignorer denne advarselen."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth program"
       plural: "OAuth programmer"
       named: "OAuth program '%{name}'"
       new: "Ny OAuth-app"
+      non_confidential: Non confidential
       default_scopes: "(Standard omfang)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Navnet på søknaden. Dette vises til andre brukere etter autorisasjon."
         redirect_uri_html: >
           De tillatte nettadresser autoriserte brukere kan bli omdirigert til. Én oppføring per linje. <br/> Hvis du registrerer et skrivebordsprogram, bruk følgende URL.
@@ -3742,6 +3753,10 @@
         client_credential_user_id: "Valgfri bruker-ID å gi seg selv når klienter bruker dette programmet. La stå tomt for å kun tillate offentlig tilgang"
         register_intro: "Hvis du utvikler en OAuth API-klient-app for OpenProject, kan du registrere den ved hjelp av dette skjemaet for alle brukere."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Klient ID"
     client_secret_notice: >
       Dette er eneste gang vi kan skrive ut klientens hemmelighet, merk den ned og hold den sikker. Den skal behandles som et passord og kan ikke hentes av OpenProject på et senere tidspunkt.

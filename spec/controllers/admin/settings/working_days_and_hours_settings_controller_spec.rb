@@ -33,7 +33,7 @@ RSpec.describe Admin::Settings::WorkingDaysAndHoursSettingsController do
 
   current_user { user }
 
-  require_admin_and_render_template("working_days_and_hours_settings")
+  include_examples "GET #show requires admin permission and renders template", path: "working_days_and_hours_settings"
 
   describe "update" do
     let(:working_days) { [*"1".."7"] }

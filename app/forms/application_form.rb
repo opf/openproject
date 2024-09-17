@@ -28,49 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OAuth
-  module Applications
-    class TableComponent < ::TableComponent
-      class << self
-        def row_class
-          ::OAuth::Applications::RowComponent
-        end
-      end
-
-      def initial_sort
-        %i[id asc]
-      end
-
-      def sortable?
-        false
-      end
-
-      def columns
-        headers.map(&:first)
-      end
-
-      def inline_create_link
-        link_to new_oauth_application_path,
-                aria: { label: t("oauth.application.new") },
-                class: "wp-inline-create--add-link",
-                title: t("oauth.application.new") do
-          helpers.op_icon("icon icon-add")
-        end
-      end
-
-      def empty_row_message
-        I18n.t :no_results_title_text
-      end
-
-      def headers
-        [
-          ["name", { caption: ::Doorkeeper::Application.human_attribute_name(:name) }],
-          ["owner", { caption: ::Doorkeeper::Application.human_attribute_name(:owner) }],
-          ["client_credentials", { caption: I18n.t("oauth.client_credentials") }],
-          ["redirect_uri", { caption: ::Doorkeeper::Application.human_attribute_name(:redirect_uri) }],
-          ["confidential", { caption: ::Doorkeeper::Application.human_attribute_name(:confidential) }]
-        ]
-      end
+class ApplicationForm < Primer::Forms::Base
+  def self.settings_form
+    form do |f|
+      f = SettingsFormDecorator.new(f)
+      yield f
     end
+  end
+
+  def url_helpers
+    Rails.application.routes.url_helpers
   end
 end

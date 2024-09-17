@@ -636,6 +636,8 @@ eo:
         uid: "ID de la kliento"
         secret: "Sekreto de la kliento"
         owner: "Posedanto"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Alidirekti URI"
         client_credentials_user_id: "Client Credentials User ID"
         scopes: "Scopes"
@@ -2027,6 +2029,7 @@ eo:
   label_copy_project: "Kopii projekton"
   label_core_version: "Kerna versio"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Nuna stato"
   label_current_version: "Nuna versio"
   label_custom_field_add_no_type: "Aldoni tiun ĉi kampon al la laborpakaĵa tipo"
@@ -2154,9 +2157,9 @@ eo:
   label_share: "Share"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
-  label_show_hide: "Vidigi/kaŝi"
-  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Vidigi ĉiujn registritajn uzantojn"
+  label_show_n_more: "Show %{count} more"
+  label_show_less: "Show less"
   label_journal: "Protokolo"
   label_journal_diff: "Komparo de la priskribo"
   label_language: "Lingvo"
@@ -2306,6 +2309,7 @@ eo:
   label_product_version: "Versio de la produkto"
   label_profile: "Profilo"
   label_percent_complete: "% Complete"
+  label_progress_tracking: "Progress tracking"
   label_project: "Projekto"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -2491,7 +2495,6 @@ eo:
   label_work_package_new: "New work package"
   label_work_package_edit: "Redakti laborpakaĵon %{name}"
   label_work_package_plural: "Laborpakaĵoj"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Stato de la laborpakaĵo"
   label_work_package_status_new: "Nova stato"
   label_work_package_status_plural: "Laborpakaĵa stato"
@@ -3130,9 +3133,13 @@ eo:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
@@ -3729,12 +3736,16 @@ eo:
     close_warning: "Ignore this warning."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth aplikaĵo"
       plural: "OAuth applications"
       named: "OAuth application '%{name}'"
       new: "New OAuth application"
+      non_confidential: Non confidential
       default_scopes: "(Default scopes)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "The name of your application. This will be displayed to other users upon authorization."
         redirect_uri_html: >
           The allowed URLs authorized users can be redirected to. One entry per line. <br/> If you're registering a desktop application, use the following URL.
@@ -3743,6 +3754,10 @@ eo:
         client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
         register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "ID de la kliento"
     client_secret_notice: >
       This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.

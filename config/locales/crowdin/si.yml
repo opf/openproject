@@ -636,6 +636,8 @@ si:
         uid: "සේවාලාභියා හැඳුනුම්පත"
         secret: "සේවාලාභියා රහස්"
         owner: "හිමිකරු"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "නැවත හරවා යැවීමේ URI"
         client_credentials_user_id: "සේවාලාභියා අක්තපත්ර පරිශීලක හැඳුනුම්පත"
         scopes: "විෂය පථ"
@@ -2027,6 +2029,7 @@ si:
   label_copy_project: "ව්යාපෘතිය පිටපත් කරන්න"
   label_core_version: "ප්රධාන අනුවාදය"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "වත්මන් තත්ත්වය"
   label_current_version: "වත්මන් අනුවාදය"
   label_custom_field_add_no_type: "වැඩ පැකේජ වර්ගයකට මෙම ක්ෂේත්රය එක් කරන්න"
@@ -2154,9 +2157,9 @@ si:
   label_share: "Share"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
-  label_show_hide: "පෙන්වන්න/සඟවන්න"
-  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "සියලුම ලියාපදිංචි පරිශීලකයන් පෙන්වන්න"
+  label_show_n_more: "Show %{count} more"
+  label_show_less: "Show less"
   label_journal: "ජර්නල්"
   label_journal_diff: "විස්තරය සංසන්දනය"
   label_language: " "
@@ -2306,6 +2309,7 @@ si:
   label_product_version: "නිෂ්පාදන අනුවාදය"
   label_profile: "පැතිකඩ"
   label_percent_complete: "% Complete"
+  label_progress_tracking: "Progress tracking"
   label_project: "ව්යාපෘති"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -2491,7 +2495,6 @@ si:
   label_work_package_new: "නව වැඩ පැකේජය"
   label_work_package_edit: "වැඩ පැකේජය සංස්කරණය කරන්න %{name}"
   label_work_package_plural: "වැඩ පැකේජ"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "වැඩ පැකේජ තත්ත්වය"
   label_work_package_status_new: "නව තත්ත්වය"
   label_work_package_status_plural: "වැඩ පැකේජ තත්වයන්"
@@ -3130,9 +3133,13 @@ si:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "සක්රිය කිරීමේ විද්යුත් තැපෑල කල් ඉකුත් වේ"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
@@ -3729,12 +3736,16 @@ si:
     close_warning: "මෙම අනතුරු ඇඟවීම නොසලකා."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAUTH අයදුම්"
       plural: "OAUTH අයදුම්පත්"
       named: "OAUTH යෙදුම '%{name}'"
       new: "නව OAUTH අයදුම්"
+      non_confidential: Non confidential
       default_scopes: "(පෙරනිමි විෂය පථ)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "ඔබගේ අයදුම්පතේ නම. අවසරය මත මෙය වෙනත් පරිශීලකයින්ට පෙන්වනු ඇත."
         redirect_uri_html: >
           අවසර ලත් URL බලයලත් පරිශීලකයින්ට නැවත යොමු කළ හැකිය. එක් පේළියකට එක් ප්රවේශයක්. <br/> ඔබ ඩෙස්ක්ටොප් යෙදුමක් ලියාපදිංචි කරන්නේ නම්, පහත සඳහන් URL එක භාවිතා කරන්න.
@@ -3743,6 +3754,10 @@ si:
         client_credential_user_id: "සේවාදායකයින් මෙම යෙදුම භාවිතා කරන විට පෙනී සිටීම සඳහා විකල්ප පරිශීලක ID. පොදු ප්රවේශයට පමණක් ඉඩ දීම සඳහා හිස්ව තබන්න"
         register_intro: "ඔබ OpenProject සඳහා OAUTH API සේවාදායක යෙදුමක් සංවර්ධනය කරන්නේ නම්, සියලුම පරිශීලකයින්ට භාවිතා කිරීමට මෙම පෝරමය භාවිතා කර එය ලියාපදිංචි කළ හැකිය."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "සේවාලාභියා හැඳුනුම්පත"
     client_secret_notice: >
       සේවාදායකයා රහසිගතව මුද්රණය කළ හැකි එකම අවස්ථාව මෙයයි, කරුණාකර එය සටහන් කර එය ආරක්ෂිතව තබා ගන්න. එය මුරපදයක් ලෙස සැලකිය යුතු අතර පසු කාලයකදී OpenProject මගින් නැවත ලබා ගත නොහැක.

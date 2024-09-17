@@ -647,6 +647,8 @@ pl:
         uid: "Numer klienta"
         secret: "Hasło klienta"
         owner: "Właściciel"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Identyfikator URI przekerowania"
         client_credentials_user_id: "Identyfikator użytkownika poświadczeń klienta"
         scopes: "Zakresy"
@@ -2094,6 +2096,7 @@ pl:
   label_copy_project: "Kopiuj projekt"
   label_core_version: "Wersja bazowa"
   label_core_build: "Kompilacja bazowa"
+  label_created_by: "Created by %{user}"
   label_current_status: "Aktualny stan"
   label_current_version: "Aktualna wersja"
   label_custom_field_add_no_type: "Dodaj to pole do typu zadania"
@@ -2221,9 +2224,9 @@ pl:
   label_share: "Udostępnij"
   label_share_project_list: "Udostępnij listę projektów"
   label_share_work_package: "Udostępnij pakiet roboczy"
-  label_show_hide: "Pokaż/Ukryj"
-  label_show_hide_n_items: "Pokaż/ukryj elementy (%{count})"
   label_show_all_registered_users: "Pokaż wszystkich zarejestrowanych użytkowników"
+  label_show_n_more: "Show %{count} more"
+  label_show_less: "Show less"
   label_journal: "Dziennik"
   label_journal_diff: "Opis porównania"
   label_language: "Język"
@@ -2373,6 +2376,7 @@ pl:
   label_product_version: "Wersja produktu"
   label_profile: "Profil"
   label_percent_complete: "% ukończenia"
+  label_progress_tracking: "Progress tracking"
   label_project: "Projekt"
   label_project_activity: "Aktywność projektu"
   label_project_attribute_plural: "Cechy projektu"
@@ -2558,7 +2562,6 @@ pl:
   label_work_package_new: "Nowy pakiet roboczy"
   label_work_package_edit: "Edytuj pakiet roboczy %{name}"
   label_work_package_plural: "Pakiety robocze"
-  label_work_packages_settings: "Ustawienia pakietu roboczego"
   label_work_package_status: "Status pakietu roboczego"
   label_work_package_status_new: "Nowy status"
   label_work_package_status_plural: "Statusy pakietów roboczych"
@@ -3198,9 +3201,13 @@ pl:
   setting_hours_per_day_explanation: >-
     To definiuje, co jest uważane za „dzień” podczas wyświetlania czasu trwania w dniach i godzinach (na przykład, jeśli dzień ma 8 godzin, 32 godziny będą 4 dniami).
   setting_invitation_expiration_days: "Ważność aktywacyjnej waidomości e-mail wygasa po"
-  setting_work_package_done_ratio: "Obliczenie postępu"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Oparte na pracy"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Oparte na statusie"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     W trybie <b>opartym na pracy</b> % ukończenia jest obliczany na podstawie ilości wykonanej pracy w stosunku do pracy całkowitej. W trybie <b>opartym na statusie</b> każdy status ma powiązaną wartość % ukończenia. Zmiana statusu spowoduje zmianę % ukończenia.
   setting_work_package_done_ratio_explanation_html: >
@@ -3799,12 +3806,16 @@ pl:
     close_warning: "Zignoruj to ostrzeżenie."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "Aplikacje OAuth"
       plural: "Aplikacje OAuth"
       named: "Aplikacja OAuth „%{name}”"
       new: "Nowa aplikacja OAuth"
+      non_confidential: Non confidential
       default_scopes: "(Zakresy domyślne)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Nazwa aplikacji. Będzie wyświetlana innym użytkownikom po autoryzacji."
         redirect_uri_html: >
           Dozwolone adresy URL, do których mogą być przekierowywani autoryzowani użytkownicy. Jeden wpis w każdym wierszu. <br/> Jeśli rejestrujesz aplikację komputerową, użyj następującego adresu URL.
@@ -3813,6 +3824,10 @@ pl:
         client_credential_user_id: "Opcjonalny identyfikator użytkownika, umożliwiający klientom korzystanie z tej aplikacji. Pozostaw pusty, aby umożliwić jedynie dostęp publiczny"
         register_intro: "Jeśli tworzysz aplikację kliencką interfejsu API OAuth do OpenProject, możesz zarejestrować ją za pomocą tego formularza do użytku wszystkich użytkowników."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Numer klienta"
     client_secret_notice: >
       Jest to jedyny moment, w którym możemy wydrukować tajne hasło klienta, zanotuj je i przechowuj w bezpiecznym miejscu. Należy je traktować jak hasło i nie można go później odzyskać przez OpenProject.

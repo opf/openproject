@@ -38,12 +38,8 @@ module CustomField::OrderStatements
       else
         [select_custom_option_position]
       end
-    when "string", "text", "date", "bool", "link"
-      if multi_value?
-        [select_custom_values_as_group]
-      else
-        [coalesce_select_custom_value_as_string]
-      end
+    when "string", "date", "bool", "link"
+      [coalesce_select_custom_value_as_string]
     when "int", "float"
       # Make the database cast values into numeric
       # Postgresql will raise an error if a value can not be casted!

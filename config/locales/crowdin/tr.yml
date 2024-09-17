@@ -635,6 +635,8 @@ tr:
         uid: "Müşteri Kimliği"
         secret: "Müşteri gizliliği"
         owner: "Ürün Sahibi"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Yönlendirme URI'si"
         client_credentials_user_id: "Müşteri Kimlik Bilgileri ve Kullanıcı Kimliği gereklidir"
         scopes: "Kapsamlar"
@@ -2026,6 +2028,7 @@ tr:
   label_copy_project: "Projeyi kopyala"
   label_core_version: "Çekirdek sürümü"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Mevcut durum"
   label_current_version: "Mevcut sürüm"
   label_custom_field_add_no_type: "Bu alanı bir iş paketi türüne ekleyin"
@@ -2153,9 +2156,9 @@ tr:
   label_share: "Paylaş"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
-  label_show_hide: "Göster/gizle"
-  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Tüm kayıtlı kullanıcıları göster"
+  label_show_n_more: "Show %{count} more"
+  label_show_less: "Show less"
   label_journal: "Günlük"
   label_journal_diff: "Açıklama Karşılaştırması"
   label_language: "Dil"
@@ -2305,6 +2308,7 @@ tr:
   label_product_version: "Ürün sürümü"
   label_profile: "Profil"
   label_percent_complete: "% Complete"
+  label_progress_tracking: "Progress tracking"
   label_project: "Proje"
   label_project_activity: "Proje etkinliği"
   label_project_attribute_plural: "Proje öznitelikleri"
@@ -2490,7 +2494,6 @@ tr:
   label_work_package_new: "Yeni iş paketi"
   label_work_package_edit: "%{name} iş paketini düzenle"
   label_work_package_plural: "İş paketleri"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "İş paketi durumu"
   label_work_package_status_new: "Yeni durum"
   label_work_package_status_plural: "İş paketi durumları"
@@ -3126,9 +3129,13 @@ tr:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Etkinleştirme e-postasının süresi doluyor"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
@@ -3724,12 +3731,16 @@ tr:
     close_warning: "Bu uyarıyı yoksay."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth uygulaması"
       plural: "OAuth uygulamaları"
       named: "Oauth uygulaması %{name}"
       new: "Yeni OAuth uygulaması"
+      non_confidential: Non confidential
       default_scopes: "(Varsayılan kapsamlar)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Uygulamanızın adı. Bu, yetkilendirildikten sonra diğer kullanıcılara gösterilecektir."
         redirect_uri_html: >
           İzin verilen URL'ler yetkili kullanıcılar adresine yönlendirilebilir. Her satıra bir giriş. <br/> Bir masaüstü uygulamasına kaydoluyorsanız, aşağıdaki URL'yi kullanın.
@@ -3738,6 +3749,10 @@ tr:
         client_credential_user_id: "İstemciler bu uygulamayı kullandıklarında kimliğe bürünmek için isteğe bağlı kullanıcı kimliği. Yalnızca genel erişime izin vermek için boş bırakın"
         register_intro: "OpenProject için bir OAuth API istemci uygulaması geliştiriyorsanız, tüm kullanıcıların kullanması için bu formu kullanarak kayıt olabilirsiniz."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Müşteri Kimliği"
     client_secret_notice: >
       Müşterinin sırrını basabileceğimiz tek zaman bu, lütfen not edin ve güvende tutun. Parola olarak değerlendirilmeli ve daha sonra OpenProject tarafından alınamaz.

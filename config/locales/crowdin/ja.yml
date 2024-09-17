@@ -625,6 +625,8 @@ ja:
         uid: "クライアントID"
         secret: "秘密鍵"
         owner: "所有者"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "リダイレクトURI"
         client_credentials_user_id: "クライアント資格情報ユーザーID"
         scopes: "範囲"
@@ -1988,6 +1990,7 @@ ja:
   label_copy_project: "プロジェクトをコピー"
   label_core_version: "メインのバージョン"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "現在のステータス"
   label_current_version: "最新版"
   label_custom_field_add_no_type: "このフィールドをワークパッケージタイプに追加"
@@ -2115,9 +2118,9 @@ ja:
   label_share: "共有"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
-  label_show_hide: "表示/非表示"
-  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "すべての登録ユーザーを表示"
+  label_show_n_more: "Show %{count} more"
+  label_show_less: "Show less"
   label_journal: "履歴記述"
   label_journal_diff: "説明の比較"
   label_language: "言語"
@@ -2267,6 +2270,7 @@ ja:
   label_product_version: "製品バージョ​​ン"
   label_profile: "プロファイル"
   label_percent_complete: "% Complete"
+  label_progress_tracking: "Progress tracking"
   label_project: "プロジェクト"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -2452,7 +2456,6 @@ ja:
   label_work_package_new: "新しいワークパッケージ"
   label_work_package_edit: "ワークパッケージ %{name} を編集"
   label_work_package_plural: "ワークパッケージ"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "ステータス名"
   label_work_package_status_new: "新規ステータス"
   label_work_package_status_plural: "ステータスの種類"
@@ -3089,9 +3092,13 @@ ja:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "アクティベーションのメールは次で有効期限切れ"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
@@ -3686,12 +3693,16 @@ ja:
     close_warning: "この警告を無視する。"
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuthアプリケーション"
       plural: "OAuthアプリケーション"
       named: "OAuthアプリケーション '%{name}'"
       new: "新しいOAuthアプリケーション"
+      non_confidential: Non confidential
       default_scopes: "(既定の範囲)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "アプリケーションの名前。これは承認時に他のユーザーに表示されます。"
         redirect_uri_html: >
           許可されたURLで承認されたユーザーにリダイレクトできます。 1行に1エントリ。<br/>デスクトップアプリケーションを登録する場合は、次のURLを使用してください。
@@ -3700,6 +3711,10 @@ ja:
         client_credential_user_id: "クライアントがこのアプリケーションを使用するときに偽装するためのオプションのユーザーIDです。 パブリックアクセスのみを許可するには空のままにします"
         register_intro: "OpenProject用のOAuth APIクライアントアプリケーションを開発している場合は、このフォームを使用してすべてのユーザーが使用できるように登録できます。"
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "クライアントID"
     client_secret_notice: >
       クライアントシークレットを表示できる唯一の瞬間です。書き留めて安全に保管してください。 これはパスワードとして扱われるべきであり、後でOpenProjectによって検索することはできません。

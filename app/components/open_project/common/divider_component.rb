@@ -33,8 +33,8 @@ module OpenProject
     class DividerComponent < Primer::BaseComponent
       def initialize(**system_arguments)
         system_arguments[:tag] = :hr
-        system_arguments[:mt] = system_arguments.fetch(:mt, 4)
-        system_arguments[:mb] = system_arguments.fetch(:mb, 4)
+        system_arguments[:mt] = system_arguments.fetch(:mt, 3)
+        system_arguments[:mb] = system_arguments.fetch(:mb, 3)
         super(**system_arguments) # rubocop:disable Style/SuperArguments
       end
     end

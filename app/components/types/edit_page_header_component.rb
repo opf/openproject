@@ -42,7 +42,7 @@ module Types
 
     def breadcrumb_items
       [{ href: admin_index_path, text: t("label_administration") },
-       { href: admin_settings_work_package_tracking_path, text: t(:label_work_package_plural) },
+       { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
        { href: types_path, text: t(:label_type_plural) },
        @type.name]
     end

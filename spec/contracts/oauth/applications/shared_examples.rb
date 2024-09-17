@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,41 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OAuth
-  class PersistApplicationService
-    include Contracted
+RSpec.shared_examples_for "oauth application contract is invalid" do
+  it { expect(subject).to be_falsey }
+end
 
-    attr_reader :application, :current_user
-
-    def initialize(model, user:)
-      @application = model
-      @current_user = user
-
-      self.contract_class = OAuth::ApplicationContract
-    end
-
-    def call(attributes)
-      set_defaults
-      application.attributes = attributes
-      set_secret_and_id
-
-      result, errors = validate_and_save(application, current_user)
-      ServiceResult.new success: result, errors:, result: application
-    end
-
-    def set_defaults
-      return if application.owner_id
-
-      application.owner = current_user
-      application.owner_type = "User"
-    end
-
-    def set_secret_and_id
-      application.extend(OpenProject::ChangedBySystem)
-      application.change_by_system do
-        application.renew_secret if application.secret.blank?
-        application.uid = Doorkeeper::OAuth::Helpers::UniqueToken.generate if application.uid.blank?
-      end
-    end
-  end
+RSpec.shared_examples_for "oauth application contract is valid" do
+  it { expect(subject).to be_truthy }
 end

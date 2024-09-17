@@ -632,6 +632,8 @@ ca:
         uid: "ID de Client"
         secret: "Clau secreta del Client"
         owner: "Propietari"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "URI de redirecció"
         client_credentials_user_id: "ID d'Usuari Credencials de Client"
         scopes: "Àmbits"
@@ -2023,6 +2025,7 @@ ca:
   label_copy_project: "Copiar projecte"
   label_core_version: "Versió base"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Estat actual"
   label_current_version: "Versió actual"
   label_custom_field_add_no_type: "Afegeix aquest camp a una classe de paquet de treball"
@@ -2150,9 +2153,9 @@ ca:
   label_share: "Compartir"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
-  label_show_hide: "Mostrae/ocultar"
-  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Mostra tots els usuaris registrats"
+  label_show_n_more: "Show %{count} more"
+  label_show_less: "Show less"
   label_journal: "Diari"
   label_journal_diff: "Descripció de comparació"
   label_language: "Idioma"
@@ -2302,6 +2305,7 @@ ca:
   label_product_version: "Versió del producte"
   label_profile: "Perfil"
   label_percent_complete: "% Complet"
+  label_progress_tracking: "Progress tracking"
   label_project: "Projecte"
   label_project_activity: "Activitat del projecte"
   label_project_attribute_plural: "Atributs de projecte"
@@ -2487,7 +2491,6 @@ ca:
   label_work_package_new: "Paquet de treball nou"
   label_work_package_edit: "Editar paquet de treball %{name}"
   label_work_package_plural: "Paquets de treball"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Estat del paquet de treball"
   label_work_package_status_new: "Nou estat"
   label_work_package_status_plural: "Estats de paquet de treball"
@@ -3119,9 +3122,13 @@ ca:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "L'activació de correu electrònic caduca després de"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
@@ -3718,12 +3725,16 @@ ca:
     close_warning: "Ignora aquesta advertència."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "Aplicació OAuth"
       plural: "Aplicacions OAuth"
       named: "Aplicació OAuth \"%{name}\"."
       new: "Nova aplicació OAuth"
+      non_confidential: Non confidential
       default_scopes: "(Àmbit per defecte)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "El nom de la teva aplicació. Aquest serà mostrat a altres usuaris després d'autoritzar-ho."
         redirect_uri_html: >
           Les URLs permeses en les que usuaris autoritzats poden ser redirigits. Una entrada per línia. <br/> Si estàs registrant una aplicació d'escriptori, utilitza l'URL següent.
@@ -3732,6 +3743,10 @@ ca:
         client_credential_user_id: "ID d'usuari opcional per personificar quan clients utilitzen l'aplicació. Deixa-ho buit per permetre només accés públic"
         register_intro: "Si estàs desenvolupant una aplicació OAuth API per OpenProject, pots registrar-la utilitzant aquest formulari per a tots els usuaris per utilitzar-la."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "ID de client"
     client_secret_notice: >
       Aquesta és l'única vegada que pots imprimir la clau de client secreta, si us plau, anota-la i guarda-la en un lloc segur. S'ha de tractar com una contrasenya i no pot ser regenerada més tard per OpenProject.

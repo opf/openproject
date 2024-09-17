@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-def require_admin_and_render_template(path)
+RSpec.shared_examples "GET #show requires admin permission and renders template" do |path:|
   describe "GET #show" do
     subject { get "show" }
 

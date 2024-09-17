@@ -58,7 +58,7 @@ class Budgets::ActualLaborBudgetItemsComponent < ApplicationComponent
   end
 
   def entry_user(entry)
-    helpers.avatar(entry.principal, hide_name: false, size: :mini)
+    helpers.avatar(entry.user, hide_name: false, size: :mini)
   end
 
   def entry_costs(entry)

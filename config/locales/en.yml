@@ -712,6 +712,8 @@ en:
         uid: "Client ID"
         secret: "Client secret"
         owner: "Owner"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Redirect URI"
         client_credentials_user_id: "Client Credentials User ID"
         scopes: "Scopes"
@@ -2148,6 +2150,7 @@ en:
   label_copy_project: "Copy project"
   label_core_version: "Core version"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Current status"
   label_current_version: "Current version"
   label_custom_field_add_no_type: "Add this field to a work package type"
@@ -2275,9 +2278,9 @@ en:
   label_share: "Share"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
-  label_show_hide: "Show/hide"
-  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Show all registered users"
+  label_show_n_more: "Show %{count} more"
+  label_show_less: "Show less"
   label_journal: "Journal"
   label_journal_diff: "Description Comparison"
   label_language: "Language"
@@ -2427,6 +2430,7 @@ en:
   label_product_version: "Product version"
   label_profile: "Profile"
   label_percent_complete: "% Complete"
+  label_progress_tracking: "Progress tracking"
   label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -2612,7 +2616,6 @@ en:
   label_work_package_new: "New work package"
   label_work_package_edit: "Edit work package %{name}"
   label_work_package_plural: "Work packages"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Work package status"
   label_work_package_status_new: "New status"
   label_work_package_status_plural: "Work package statuses"
@@ -3294,9 +3297,15 @@ en:
     This defines what is considered a "day" when displaying duration in days and hours
     (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value.
+    If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it.
+    Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work.
     In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
@@ -3995,12 +4004,16 @@ en:
 
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth application"
       plural: "OAuth applications"
       named: "OAuth application '%{name}'"
       new: "New OAuth application"
+      non_confidential: Non confidential
       default_scopes: "(Default scopes)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "The name of your application. This will be displayed to other users upon authorization."
         redirect_uri_html: >
           The allowed URLs authorized users can be redirected to. One entry per line.
@@ -4011,6 +4024,10 @@ en:
         client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
         register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Client ID"
     client_secret_notice: >
       This is the only time we can print the client secret, please note it down and keep it secure.
