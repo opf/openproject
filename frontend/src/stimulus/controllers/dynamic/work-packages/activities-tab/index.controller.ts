@@ -241,19 +241,13 @@ export default class IndexController extends Controller {
     return this.element.querySelector('.work-packages-activities-tab-journals-new-component');
   }
 
-  // Code Maintenance: Get rid of these JS based view port checks when activities are rendered in fully primierized activity tab in all contexts
+  // Code Maintenance: Get rid of this JS based view port checks when activities are rendered in fully primierized activity tab in all contexts
   private isMobile():boolean {
     return window.innerWidth < 1279;
   }
 
-  // Code Maintenance: Get rid of these JS based view port checks when activities are rendered in fully primierized activity tab in all contexts
-  private isSmViewPort():boolean {
-    return window.innerWidth < 543;
-  }
-
-  // Code Maintenance: Get rid of these JS based view port checks when activities are rendered in fully primierized activity tab in all contexts
-  private isMdViewPort():boolean {
-    return window.innerWidth >= 543 && window.innerWidth < 1279;
+  private isWithinNotificationCenter():boolean {
+    return location.pathname.includes('notifications');
   }
 
   private addEventListenersToCkEditorInstance() {
@@ -281,16 +275,15 @@ export default class IndexController extends Controller {
   private adjustJournalContainerMargin() {
     // don't do this on mobile screens
     if (this.isMobile()) { return; }
-    this.journalsContainerTarget.style.marginBottom = `${this.formRowTarget.clientHeight + 33}px`;
+    this.journalsContainerTarget.style.marginBottom = `${this.formRowTarget.clientHeight + 29}px`;
   }
 
   private isJournalsContainerScrolledToBottom(journalsContainer:HTMLElement) {
     let atBottom = false;
-    // we have to handle different scrollable containers for different viewports in order to idenfity if the user is at the bottom of the journals
+    // we have to handle different scrollable containers for different viewports/pages in order to idenfity if the user is at the bottom of the journals
+    // DOM structure different for notification center and workpackage detail view as well
     // seems way to hacky for me, but I couldn't find a better solution
-    if (this.isSmViewPort()) {
-      atBottom = (window.scrollY + window.outerHeight + 10) >= document.body.scrollHeight;
-    } else if (this.isMdViewPort()) {
+    if (this.isMobile() && !this.isWithinNotificationCenter()) {
       const scrollableContainer = document.querySelector('#content-body') as HTMLElement;
 
       atBottom = (scrollableContainer.scrollTop + scrollableContainer.clientHeight + 10) >= scrollableContainer.scrollHeight;
