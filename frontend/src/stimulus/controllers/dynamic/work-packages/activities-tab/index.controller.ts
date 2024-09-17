@@ -131,8 +131,8 @@ export default class IndexController extends Controller {
 
     const journalsContainerAtBottom = this.isJournalsContainerScrolledToBottom(this.journalsContainerTarget);
 
-    void this.performUpdateStreamsRequest(this.prepareUpdateStreamsUrl()).then(() => {
-      this.handleUpdateStreamsResponse(journalsContainerAtBottom);
+    void this.performUpdateStreamsRequest(this.prepareUpdateStreamsUrl()).then((html) => {
+      this.handleUpdateStreamsResponse(html as string, journalsContainerAtBottom);
     }).catch((error) => {
       console.error('Error updating activities list:', error);
     }).finally(() => {
@@ -157,8 +157,12 @@ export default class IndexController extends Controller {
     });
   }
 
-  private handleUpdateStreamsResponse(journalsContainerAtBottom:boolean) {
+  private handleUpdateStreamsResponse(html:string, journalsContainerAtBottom:boolean) {
     this.setLastUpdateTimestamp();
+    // only process append and prepend actions
+    if (!(html.includes('action="append"') || html.includes('action="prepend"'))) {
+      return;
+    }
     // the timeout is require in order to give the Turb.renderStream method enough time to render the new journals
     setTimeout(() => {
       if (this.sortingValue === 'asc' && journalsContainerAtBottom) {
