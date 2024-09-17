@@ -1,0 +1,18 @@
+<%=
+  render(
+    Primer::Alpha::Dialog.new(
+      id: dialog_id,
+      title:,
+      test_selector: dialog_id,
+      size: :xlarge
+    )
+  ) do |dialog|
+    dialog.with_header(
+      show_divider: false,
+      visually_hide_title: false,
+      variant: :large
+    )
+
+    render(::Storages::Admin::Storages::ProjectsStorageFormModalComponent.new(project_storage:, last_project_folders:))
+  end
+%>

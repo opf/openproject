@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,20 +31,6 @@ require "spec_helper"
 RSpec.describe "Omniauth authentication" do
   # Load ViewAccountLoginAuthProvider to have this spec passing
   OpenProject::Hooks::ViewAccountLoginAuthProvider
-
-  # Running the tests inside docker changes the hostname. To accommodate that we changed
-  # the Capybara app_host, however this change was not being reflected in the Rails host,
-  # causing the redirect checks to fail below.
-  def self.default_url_options
-    host =
-      if Capybara.app_host
-        Capybara.app_host.sub(/https?\/\//, "")
-      else
-        "www.example.com"
-      end
-
-    { host: }
-  end
 
   let(:user) do
     create(:user,

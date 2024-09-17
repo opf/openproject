@@ -1,7 +1,7 @@
 <label class="advanced-filters--filter-value"
        data-filter--filters-form-target="filterValueContainer"
        data-filter-name="<%= filter.name %>">
-  <%= angular_component_tag 'spot-switch',
+  <%= angular_component_tag 'opce-spot-switch',
                             inputs: {
                               name: "v-" + filter.class.key.to_s,
                               checked: filter.values.first != 'f',

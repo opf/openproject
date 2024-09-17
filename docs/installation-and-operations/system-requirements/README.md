@@ -83,7 +83,7 @@ The [docker-based installation](../installation/docker) requires a system with D
 
 Both the package and docker based installations will install and setup the following dependencies that are required by OpenProject to run:
 
-* __Runtime:__ [Ruby](https://www.ruby-lang.org/en/) Version = 2.7.x
+* __Runtime:__ [Ruby](https://www.ruby-lang.org/en/) Version = 3.3.x
 * __Webserver:__ [Apache](https://httpd.apache.org/)
   or [nginx](https://nginx.org/en/docs/)
 * __Application server:__ [Puma](https://puma.io/)

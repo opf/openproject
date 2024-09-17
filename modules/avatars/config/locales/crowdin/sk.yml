@@ -11,7 +11,6 @@ sk:
   message_avatar_uploaded: "Avatar changed successfully."
   error_image_upload: "Chyba pri ukladaní obrázka"
   error_image_size: "Obrázok je príliš veľký"
-  button_change_avatar: "Zmeniť avatar"
   are_you_sure_delete_avatar: "Vážne chcete zmazať váš účet?"
   avatar_deleted: "Úspešne odstránené."
   unable_to_delete_avatar: "Avatar could not be deleted."

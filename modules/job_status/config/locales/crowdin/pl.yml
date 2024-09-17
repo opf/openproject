@@ -3,3 +3,19 @@ pl:
   plugin_openproject_job_status:
     name: "Status zadania OpenProject"
     description: "Lista i status zadań w tle."
+  job_status_dialog:
+    download_starts: 'Pobieranie powinno rozpocząć się automatycznie.'
+    link_to_download: 'Lub %{link}, aby pobrać.'
+    click_here: 'kliknij tutaj'
+    title: 'Status zadania w tle'
+    redirect: 'Następuje przekierowanie.'
+    redirect_link: 'Kliknij tutaj, aby kontynuować.'
+    redirect_errors: 'Ze względu na te błędy nie nastąpi automatyczne przekierowanie.'
+    errors: 'Coś poszło nie tak'
+    generic_messages:
+      not_found: 'Nie można znaleźć tego zadania.'
+      in_queue: 'Zadanie zostało umieszczone w kolejce i zostanie wkrótce przetworzone.'
+      in_process: 'Zadanie jest w trakcie przetwarzania.'
+      error: 'Zadanie nie zostało ukończone.'
+      cancelled: 'Zadanie zostało anulowane z powodu błędu.'
+      success: 'Zadanie zostało ukończone.'

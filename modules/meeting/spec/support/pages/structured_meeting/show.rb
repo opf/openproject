@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,6 +36,23 @@ module Pages::StructuredMeeting
       expect(page).to have_no_css('[id^="meeting-agenda-items-item-component"]')
     end
 
+    def trigger_dropdown_menu_item(name)
+      click_link_or_button "op-meetings-header-action-trigger"
+      click_link_or_button name
+    end
+
+    def trigger_change_poll
+      script = <<~JS
+        // Remove flashes from the page to prevent race conditions
+        document.querySelectorAll('.op-toast--wrapper').forEach((el) => el.remove());
+        var target = document.querySelector('[data-test-selector="meeting-page-header"]');
+        var controller = window.Stimulus.getControllerForElementAndIdentifier(target, 'poll-for-changes')
+        controller.triggerTurboStream();
+      JS
+
+      page.execute_script(script)
+    end
+
     def add_agenda_item(type: MeetingAgendaItem, save: true, &)
       page.within("#meeting-agenda-items-new-button-component") do
         click_on I18n.t(:button_add)
@@ -48,11 +65,8 @@ module Pages::StructuredMeeting
       end
     end
 
-    def cancel_add_form(item)
-      page.within("#meeting-agenda-items-new-component-#{item.meeting_section_id}") do
-        click_on I18n.t(:button_cancel)
-        expect(page).to have_no_link I18n.t(:button_cancel)
-      end
+    def expect_no_add_form
+      expect(page).not_to have_test_selector("#meeting-agenda-items-form-component")
     end
 
     def add_agenda_item_to_section(section:, type: MeetingAgendaItem, save: true, &)
@@ -215,12 +229,12 @@ module Pages::StructuredMeeting
 
     def close_meeting
       click_on("Close meeting")
-      expect(page).to have_button("Reopen meeting")
+      expect(page).to have_link("Reopen meeting")
     end
 
     def reopen_meeting
       click_on("Reopen meeting")
-      expect(page).to have_button("Close meeting")
+      expect(page).to have_link("Close meeting")
     end
 
     def close_dialog
@@ -228,7 +242,7 @@ module Pages::StructuredMeeting
     end
 
     def meeting_details_container
-      find_by_id("meetings-sidebar-details-component")
+      find_by_id("meetings-side-panel-details-component")
     end
 
     def in_latest_section_form(&)

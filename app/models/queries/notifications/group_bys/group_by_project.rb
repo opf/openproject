@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,16 @@ class Queries::Notifications::GroupBys::GroupByProject < Queries::GroupBys::Base
 
   def self.key
     :project
+  end
+
+  def joins
+    # Only Notifications for work_packages are currently supported via the query.
+    # E.g. the visible statement used in the query is WorkPackage specific.
+    <<~SQL.squish
+      JOIN work_packages
+      ON notifications.resource_id = work_packages.id
+      AND notifications.resource_type = 'WorkPackage'
+    SQL
   end
 
   def name

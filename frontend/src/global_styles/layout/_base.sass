@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -60,12 +60,12 @@
 
 // The content is structured as grid and should ideally look like this
 // --------------------------------------------------------
-// |                    content-header                   |
-// --------------------------------------------------------
+// |             content-header           |               |
+// ---------------------------------------|               |
 // |                                      |               |
 // |                                      |               |
 // |                                      |               |
-// |             content-body            |   content-     |
+// |             content-body             |   content-    |
 // |                                      |   bodyRight   |
 // |                                      |               |
 // |                                      |               |
@@ -74,7 +74,7 @@
 
 // This layout is designed to show the WP split screen on any rails page.
 // Because of that, there are three things to keep in mind
-//    1. The content-bodyRight is optional. If it is not shown, the content-body should fill the available space.
+//    1. The content-bodyRight is optional. If it is not shown, the content-body and content-header should fill the available space.
 //    2. The WP split screen requires a 100% layout, meaning that the content-bodyRight needs to be
 //       "glued" to the right side and the bottom of the screen without any additional paddings or margins.
 //    3. Not all pages already follow that desired structure. Older pages render all their content inside content-body.
@@ -84,15 +84,17 @@
 // Instead the children elements have to do that themselves depending on which elements are present
 
 $top-space: 10px
-$right-space: 20px
+$right-space: 16px
 $bottom-space: 10px
-$left-space: 20px
+$left-space: 16px
+
+$left-side-min-width: 300px
 
 #content
   display: grid
-  grid-template-columns: 1fr auto
+  grid-template-columns: minmax($left-side-min-width, 1fr) auto
   grid-template-rows: auto 1fr
-  grid-template-areas: "header header" "body bodyRight"
+  grid-template-areas: "header bodyRight" "body bodyRight"
   padding: 0
   margin: 0
   width: 100%
@@ -101,6 +103,11 @@ $left-space: 20px
   @include styled-scroll-bar
   z-index: 10
   background-color: var(--body-background)
+
+  // Basically if the content-BodyRight is filled:
+  // Apply the user-defined split screen width but be able to shrink in case the screen is not wide enough
+  &:has(#content-bodyRight > *)
+    grid-template-columns: minmax($left-side-min-width, 1fr) minmax(550px, var(--split-screen-width))
 
   &.content--split
     overflow: hidden
@@ -114,12 +121,13 @@ $left-space: 20px
 #content-body
   grid-area: body
   padding-bottom: $bottom-space
+  padding-right: $right-space
   padding-left: $left-space
   // Limit the width of the body to the container around it
   overflow-x: hidden
 
   // Special rules for pages that still follow the old layout and render everything inside the content-body
-  .accessibility-helper ~ &
+  .accessibility-helper + &
     padding-top: $top-space
   &:last-child
     padding-right: $right-space
@@ -131,7 +139,6 @@ $left-space: 20px
 #content-bodyRight
   grid-area: bodyRight
   padding: 0
-  width: 580px
   overflow: auto
   @include styled-scroll-bar
 

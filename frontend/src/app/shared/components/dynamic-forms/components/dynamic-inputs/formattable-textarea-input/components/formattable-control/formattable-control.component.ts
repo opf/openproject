@@ -1,6 +1,4 @@
-import {
-  Component, forwardRef, Input, OnInit, ViewChild,
-} from '@angular/core';
+import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { FormlyTemplateOptions } from '@ngx-formly/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -9,6 +7,7 @@ import {
   ICKEditorContext,
   ICKEditorInstance,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
+import { ICKEditorType } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 
 @Component({
   selector: 'op-formattable-control',
@@ -44,7 +43,8 @@ export class FormattableControlComponent implements ControlValueAccessor, OnInit
 
   public get ckEditorContext():ICKEditorContext {
     return {
-      type: this.templateOptions.editorType,
+      type: this.templateOptions.editorType as ICKEditorType,
+      field: this.templateOptions.name as string,
       // This is a very project resource specific hack to allow macros on description and statusExplanation but
       // disable it for custom fields. As the formly based approach is currently limited to projects, and that is to be removed,
       // such a "pragmatic" approach should be ok.

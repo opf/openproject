@@ -26,6 +26,7 @@ pt-BR:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "A entrega 2FA foi desativada."
+    notice_not_writable: "As configurações de A2F foram definidas por meio de variáveis de ambiente e não podem ser alteradas."
     error_no_device: "Nenhum dispositivo 2FA registrado foi encontrado para este usuário, apesar de ser necessário para esta instância."
     error_no_matching_strategy: "Nenhuma estratégia de 2FA disponível para este usuário. Entre em contato com o administrador."
     error_is_enforced_not_active: "Erro de configuração: a autenticação de dois fatores foi implementada, mas não existe nenhuma estratégia ativa."
@@ -118,10 +119,10 @@ pt-BR:
       2fa_from_webauthn: Forneça o dispositivo WebAuthn <strong>%{device_name}</strong>. Se for do tipo USB certifique-se de conectá-lo e tocá-lo. Em seguida, clique no botão de login.
       webauthn:
         title: "WebAuthn"
-        description: Utilize a autenticação da Web para registrar um dispositivo FIDO2 (como uma YubiKey) ou o enclave seguro do seu dispositivo móvel como um segundo fator de autenticação.
+        description: Registre um dispositivo FIDO2 (como o YubiKey) ou o enclave seguro do seu dispositivo móvel.
         further_steps: Após escolher um nome, basta clicar no botão "Continuar". O navegador vai pedir para você apresentar o dispositivo WebAuthn. Depois disso, o registro do dispositivo estará concluído.
       totp:
-        title: "Use seu aplicativo de autenticação base"
+        title: "Autenticador para aplicativos"
         provisioning_uri: "Posicione o URI"
         secret_key: "Chave secreta"
         time_based: "Base de tempo"
@@ -134,14 +135,13 @@ pt-BR:
         text_cannot_scan: |
           Se você não puder escanear o código, você pode digitar a manualmente usando os seguintes detalhes:
         description: |
-          Registre uma aplicação de autenticação para usar o OpenProject usando o padrão de autenticação de senha de uso único.
-          Exemplos cotidianos são o Autenticador do Google ou Authy.
+          Utilize um código de uso único gerado por um aplicativo autenticador, como o Authy ou o Google Authenticator.
       sms:
-        title: "Use seu celular"
+        title: "Dispositivo móvel"
         redacted_identifier: "Celular (%{redacted_number})"
         request_2fa_identifier: "%{redacted_identifier}, nós enviamos a você um código de autenticação através do %{delivery_channel}"
         description: |
-          Registre seu número de celular pra enviar a senha de uso único do OpenProject.
+          Receba o código A2F por meio de uma mensagem de texto no seu telefone sempre que você fizer login.
     sns:
       delivery_failed: "Falha ao entregar o SNS:"
     message_bird:

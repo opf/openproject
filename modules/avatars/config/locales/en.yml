@@ -13,7 +13,6 @@ en:
   message_avatar_uploaded: "Avatar changed successfully."
   error_image_upload: "Error saving the image."
   error_image_size: "The image is too large."
-  button_change_avatar:  "Change avatar"
   are_you_sure_delete_avatar: "Are you sure you want to delete your avatar?"
   avatar_deleted:  "Avatar deleted successfully."
   unable_to_delete_avatar:  "Avatar could not be deleted."

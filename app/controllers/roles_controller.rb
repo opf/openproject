@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -97,7 +97,7 @@ class RolesController < ApplicationController
 
   def report
     @roles = roles_scope
-    @permissions = OpenProject::AccessControl.permissions.reject(&:public?)
+    @permissions = visible_permissions
   end
 
   def bulk_update
@@ -110,7 +110,7 @@ class RolesController < ApplicationController
       redirect_to action: "index"
     else
       @calls = calls
-      @permissions = OpenProject::AccessControl.permissions.reject(&:public?)
+      @permissions = visible_permissions
       render action: "report"
     end
   end
@@ -139,20 +139,18 @@ class RolesController < ApplicationController
     end
   end
 
+  def visible_permissions
+    OpenProject::AccessControl.permissions
+                              .reject(&:public?)
+                              .filter(&:visible?)
+  end
+
   def roles_scope
     Role.visible.ordered_by_builtin_and_position
   end
 
-  def default_breadcrumb
-    if action_name == "index"
-      t("label_role_plural")
-    else
-      ActionController::Base.helpers.link_to(t("label_role_plural"), roles_path)
-    end
-  end
-
   def show_local_breadcrumb
-    true
+    false
   end
 
   def new_params

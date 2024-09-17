@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,11 +37,7 @@ module Storages::ProjectStorages
       project_storage = service_call.result
       project_folder_mode = project_storage.project_folder_mode.to_sym
       add_historical_data(service_call) if project_folder_mode != :inactive
-      OpenProject::Notifications.send(
-        OpenProject::Events::PROJECT_STORAGE_CREATED,
-        project_folder_mode:,
-        storage: project_storage.storage
-      )
+      ::Storages::ProjectStorages::NotificationsService.broadcast_project_storage_created(project_storage:)
 
       service_call
     end

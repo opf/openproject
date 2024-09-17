@@ -3,7 +3,7 @@ require "spec_helper"
 RSpec.describe "Notification center sidemenu",
                :js,
                :with_cuprite,
-               with_ee: %i[date_alerts] do
+               with_ee: %i[date_alerts work_package_sharing] do
   shared_let(:project) { create(:project) }
   shared_let(:project2) { create(:project) }
   shared_let(:project3) { create(:project, parent: project2) }
@@ -28,7 +28,6 @@ RSpec.describe "Notification center sidemenu",
   let(:notification_watched) do
     create(:notification,
            recipient:,
-           project:,
            resource: work_package,
            reason: :watched)
   end
@@ -36,7 +35,6 @@ RSpec.describe "Notification center sidemenu",
   let(:notification_assigned) do
     create(:notification,
            recipient:,
-           project: project2,
            resource: work_package2,
            reason: :assigned)
   end
@@ -44,7 +42,6 @@ RSpec.describe "Notification center sidemenu",
   let(:notification_responsible) do
     create(:notification,
            recipient:,
-           project: project3,
            resource: work_package3,
            reason: :responsible)
   end
@@ -52,7 +49,6 @@ RSpec.describe "Notification center sidemenu",
   let(:notification_mentioned) do
     create(:notification,
            recipient:,
-           project: project3,
            resource: work_package4,
            reason: :mentioned)
   end
@@ -60,7 +56,6 @@ RSpec.describe "Notification center sidemenu",
   let(:notification_date) do
     create(:notification,
            recipient:,
-           project: project3,
            resource: work_package5,
            reason: :date_alert_start_date)
   end
@@ -68,7 +63,6 @@ RSpec.describe "Notification center sidemenu",
   let(:notification_shared) do
     create(:notification,
            recipient:,
-           project: project3,
            resource: work_package6,
            reason: :shared)
   end
@@ -79,7 +73,7 @@ RSpec.describe "Notification center sidemenu",
   end
 
   let(:center) { Pages::Notifications::Center.new }
-  let(:side_menu) { Components::Notifications::Sidemenu.new }
+  let(:side_menu) { Components::Submenu.new }
 
   before do
     notifications
@@ -138,14 +132,14 @@ RSpec.describe "Notification center sidemenu",
     side_menu.expect_item_with_no_count "Watcher"
 
     # ... and show only those projects with a notification
-    side_menu.expect_item_not_visible project.name
+    side_menu.expect_no_item project.name
     side_menu.expect_item_with_count project2.name, 1
     side_menu.expect_item_with_count "... #{project3.name}", 4
 
     # Empty filter sets have a separate message
     side_menu.click_item "Watcher"
     side_menu.finished_loading
-    expect(page).to have_text "Looks like you are all caught up for Watcher filter"
+    expect(page).to have_text "Looks like you are all caught up for this filter"
 
     # Marking all as read
     side_menu.click_item "Inbox"
@@ -159,9 +153,9 @@ RSpec.describe "Notification center sidemenu",
     side_menu.expect_item_with_no_count "Date alert"
     side_menu.expect_item_with_no_count "Shared"
 
-    side_menu.expect_item_not_visible project.name
-    side_menu.expect_item_not_visible project2.name
-    side_menu.expect_item_not_visible "... #{project3.name}"
+    side_menu.expect_no_item project.name
+    side_menu.expect_no_item project2.name
+    side_menu.expect_no_item "... #{project3.name}"
   end
 
   it "updates the content when a filter is clicked" do

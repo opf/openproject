@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -331,7 +331,6 @@ RSpec.describe "history",
 
     show_page.expect_agenda_item(title: "My agenda item")
     item = MeetingAgendaItem.find_by(title: "My agenda item")
-    show_page.cancel_add_form(item)
 
     show_page.select_action(item, "Add notes")
     editor.set_markdown "# Hello there"

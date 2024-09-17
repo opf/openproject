@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,14 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require "dry/auto_inject"
+
 module Storages
   module Peripherals
     class Registry
       extend Dry::Container::Mixin
 
       class Resolver < Dry::Container::Resolver
+        include TaggedLogging
         def call(container, key)
-          super
+          with_tagged_logger("Registry") do
+            info "Resolving #{key}"
+            super
+          end
         rescue Dry::Container::KeyError
           raise Errors.registry_error_for(key)
         end

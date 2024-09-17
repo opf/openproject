@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,8 +44,8 @@ RSpec.describe "Role creation", :js, :with_cuprite do
   it "allows creating roles and handles errors" do
     visit roles_path
 
-    within ".toolbar-item" do
-      click_link "Role"
+    within ".SubHeader" do
+      page.find_test_selector("roles--create-button").click
     end
 
     fill_in "Name", with: existing_role.name

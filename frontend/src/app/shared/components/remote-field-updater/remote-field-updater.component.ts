@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { HttpClient } from '@angular/common/http';
 
@@ -34,31 +34,33 @@ export const remoteFieldUpdaterSelector = 'remote-field-updater';
 
 @Component({
   selector: remoteFieldUpdaterSelector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: '',
 })
 export class RemoteFieldUpdaterComponent implements OnInit {
-  constructor(private elementRef:ElementRef,
-    private http:HttpClient) {
+  constructor(
+    private elementRef:ElementRef,
+    private http:HttpClient,
+  ) {
   }
 
   private url:string;
 
   private htmlMode:boolean;
 
-  private inputs:JQuery;
+  private form:HTMLFormElement;
 
-  private target:JQuery;
+  private target:HTMLElement;
 
   ngOnInit():void {
-    const $element = jQuery(this.elementRef.nativeElement);
-    const $form = $element.parent();
-    this.inputs = $form.find('.remote-field--input');
-    this.target = $form.find('.remote-field--target');
+    const element = this.elementRef.nativeElement as HTMLElement;
+    this.form = element.closest('form') as HTMLFormElement;
+    this.target = this.form.querySelector('.remote-field--target') as HTMLElement;
 
-    this.url = $element.data('url');
-    this.htmlMode = $element.data('mode') === 'html';
+    this.url = element.dataset.url as string;
+    this.htmlMode = element.dataset.mode === 'html';
 
-    this.inputs.on('keyup change', _.debounce((event:JQuery.TriggeredEvent) => {
+    const debouncedEvent = _.debounce((event:InputEvent) => {
       // This prevents an update of the result list when
       // tabbing to the result list (9),
       // pressing enter (13)
@@ -69,11 +71,14 @@ export class RemoteFieldUpdaterComponent implements OnInit {
       if (event.type === 'change' || (event.which && keyCodes.indexOf(event.which) === -1)) {
         this.updater();
       }
-    }, 500));
+    }, 500);
+
+    this.form.addEventListener('keyup', debouncedEvent);
+    this.form.addEventListener('change', debouncedEvent);
   }
 
-  private request(params:any) {
-    const headers:any = {};
+  private request(params:Record<string, string>) {
+    const headers:Record<string, string> = {};
 
     // In HTML mode, expect html response
     if (this.htmlMode) {
@@ -95,19 +100,22 @@ export class RemoteFieldUpdaterComponent implements OnInit {
   }
 
   private updater() {
-    const params:any = {};
+    const params:Record<string, string> = {};
 
     // Gather request keys
-    this.inputs.each((i, el:HTMLInputElement) => {
-      params[el.dataset.remoteFieldKey!] = el.value;
-    });
+    this
+      .form
+      .querySelectorAll('.remote-field--input')
+      .forEach((el:HTMLInputElement) => {
+        params[el.dataset.remoteFieldKey as string] = el.value;
+      });
 
     this
       .request(params)
       .subscribe((response:any) => {
         if (this.htmlMode) {
-        // Replace the given target
-          this.target.html(response);
+          // Replace the given target
+          this.target.innerHTML = response as string;
         } else {
           _.each(response, (val:string, selector:string) => {
             const element = document.getElementById(selector) as HTMLElement|HTMLInputElement;

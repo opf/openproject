@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,15 +37,22 @@ module Storages
 
       before_action :require_admin
 
-      model_object OneDriveStorage
+      model_object Storage
 
       before_action :find_model_object, only: %i[validate_connection]
 
       def validate_connection
-        @result = Peripherals::OneDriveConnectionValidator
-                    .new(storage: @storage)
-                    .validate
-        update_via_turbo_stream(component: Sidebar::ValidationResultComponent.new(result: @result))
+        case @storage.provider_type
+        when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+          validator = Peripherals::NextcloudConnectionValidator.new(storage: @storage)
+        when ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
+          validator = Peripherals::OneDriveConnectionValidator.new(storage: @storage)
+        else
+          raise "Unsupported provider type: #{@storage.provider_type}"
+        end
+
+        @result = validator.validate
+        update_via_turbo_stream(component: SidePanel::ValidationResultComponent.new(result: @result))
         respond_to_with_turbo_streams
       end
 

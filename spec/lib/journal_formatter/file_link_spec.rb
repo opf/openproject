@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,6 +41,16 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
   subject(:instance) { described_class.new(journal) }
 
   describe "#render" do
+    context "having both a predecessor and a current value" do
+      let(:old) do
+        { "link_name" => "this_is_the_old_file_name.jiff", "storage_name" => nil }
+      end
+
+      it "does not render anything" do
+        expect(instance.render(key, [old, changes])).to be_nil
+      end
+    end
+
     context "having the origin_name as nil" do
       let(:changes) { { "link_name" => file_link.origin_name, "storage_name" => nil } }
 

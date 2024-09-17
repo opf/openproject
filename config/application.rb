@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -112,6 +112,9 @@ module OpenProject
     # Ensure that tempfiles are cleared after request
     # http://stackoverflow.com/questions/4590229
     config.middleware.use Rack::TempfileReaper
+
+    # Move secure_headers middleware to after the ShowExceptions
+    config.middleware.move_after ActionDispatch::ShowExceptions, SecureHeaders::Middleware
 
     # Add lookbook preview paths when enabled
     if OpenProject::Configuration.lookbook_enabled?

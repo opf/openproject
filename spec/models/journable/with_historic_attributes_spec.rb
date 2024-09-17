@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -149,7 +149,7 @@ RSpec.describe Journable::WithHistoricAttributes,
     end
 
     context "with active record relation of work packages" do
-      let(:work_packages) { WorkPackage.all }
+      let(:work_packages) { WorkPackage.order(subject: :asc).all }
 
       it "provides access to the work-package attributes" do
         expect(subject.map(&:subject)).to eq ["The current work package 1", "The current work package 2"]
@@ -246,7 +246,7 @@ RSpec.describe Journable::WithHistoricAttributes,
     end
 
     context "with active record relation of work packages" do
-      let(:work_packages) { WorkPackage.all }
+      let(:work_packages) { WorkPackage.order(subject: :asc).all }
 
       it "provides access to the work-package attributes at timestamps" do
         expect(subject.first.attributes_by_timestamp["2022-01-01T00:00:00Z"].subject).to eq "The original work package 1"

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,8 @@ RSpec.describe "API v3 Project resource show", content_type: :json do
   let(:other_project) do
     create(:project, public: false)
   end
-  let(:role) { create(:project_role) }
+  let(:permissions) { %i(view_project_attributes) }
+  let(:role) { create(:project_role, permissions:) }
   let(:custom_field) do
     create(:text_project_custom_field)
   end
@@ -54,7 +55,7 @@ RSpec.describe "API v3 Project resource show", content_type: :json do
                        customized: project)
   end
   let(:invisible_custom_field) do
-    create(:text_project_custom_field, visible: false)
+    create(:text_project_custom_field, admin_only: true)
   end
   let(:invisible_custom_value) do
     CustomValue.create(custom_field: invisible_custom_field,
@@ -116,20 +117,46 @@ RSpec.describe "API v3 Project resource show", content_type: :json do
         .not_to have_json_path("customField#{invisible_custom_field.id}/raw")
     end
 
-    context "with admin permissions" do
-      current_user { admin }
+    describe "permissions" do
+      context "with admin permissions" do
+        current_user { admin }
 
-      it "includes invisible custom fields" do
-        custom_value
-        invisible_custom_value
+        it "includes invisible custom fields" do
+          custom_value
+          invisible_custom_value
 
-        expect(subject.body)
-          .to be_json_eql(custom_value.value.to_json)
-                .at_path("customField#{custom_field.id}/raw")
+          expect(subject.body)
+            .to be_json_eql(custom_value.value.to_json)
+                  .at_path("customField#{custom_field.id}/raw")
 
-        expect(subject.body)
-          .to be_json_eql(invisible_custom_value.value.to_json)
-                .at_path("customField#{invisible_custom_field.id}/raw")
+          expect(subject.body)
+            .to be_json_eql(invisible_custom_value.value.to_json)
+                  .at_path("customField#{invisible_custom_field.id}/raw")
+        end
+      end
+
+      context "without view_project_attributes permission" do
+        let(:permissions) { [] }
+
+        it "does not include custom fields" do
+          custom_value
+          invisible_custom_value
+
+          expect(subject.body)
+            .not_to have_json_path("customField#{custom_field.id}/raw")
+          expect(subject.body)
+            .not_to have_json_path("customField#{invisible_custom_field.id}/raw")
+        end
+      end
+
+      context "when requesting project without sufficient permissions" do
+        let(:get_path) { api_v3_paths.project other_project.id }
+
+        before do
+          response
+        end
+
+        it_behaves_like "not found"
       end
     end
 
@@ -145,16 +172,6 @@ RSpec.describe "API v3 Project resource show", content_type: :json do
 
     context "when requesting nonexistent project" do
       let(:get_path) { api_v3_paths.project 9999 }
-
-      before do
-        response
-      end
-
-      it_behaves_like "not found"
-    end
-
-    context "when requesting project without sufficient permissions" do
-      let(:get_path) { api_v3_paths.project other_project.id }
 
       before do
         response

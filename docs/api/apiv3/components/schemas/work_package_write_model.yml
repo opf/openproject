@@ -1,0 +1,118 @@
+# Schema: WorkPackageWriteModel
+---
+type: object
+description: |-
+  This model is used for creating and updating work packages. It can also be used for validation against the work
+  package form endpoints.
+properties:
+  subject:
+    type: string
+    description: Work package subject
+  description:
+    allOf:
+      - $ref: './formattable.yml'
+      - description: The work package description
+  scheduleManually:
+    type: boolean
+    description: If false (default) schedule automatically.
+  startDate:
+    type:
+      - 'string'
+      - 'null'
+    format: date
+    description: Scheduled beginning of a work package
+  dueDate:
+    type:
+      - 'string'
+      - 'null'
+    format: date
+    description: Scheduled end of a work package
+  estimatedTime:
+    type:
+      - 'string'
+      - 'null'
+    format: duration
+    description: Time a work package likely needs to be completed excluding its descendants
+  duration:
+    type:
+      - 'string'
+      - 'null'
+    format: duration
+    description: |-
+      The amount of time in hours the work package needs to be completed. This value must be bigger or equal to `P1D`,
+      and any the value will get floored to the nearest day.
+      
+      The duration has no effect, unless either a start date or a due date is set.
+      
+      Not available for milestone type of work packages.
+  ignoreNonWorkingDays:
+    type: boolean
+    description: |-
+      When scheduling, whether or not to ignore the non working days being defined.
+      A work package with the flag set to true will be allowed to be scheduled to a non working day.
+  _links:
+    type: object
+    properties:
+      category:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The category of the work package
+
+              **Resource**: Category
+      type:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The type of the work package
+
+              **Resource**: Type
+      priority:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The priority of the work package
+
+              **Resource**: Priority
+      project:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The project to which the work package belongs
+
+              **Resource**: Project
+      status:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The current status of the work package
+
+              **Resource**: Status
+      responsible:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The person that is responsible for the overall outcome
+
+              **Resource**: User
+      assignee:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The person that is intended to work on the work package
+
+              **Resource**: User
+      version:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The version associated to the work package
+
+              **Resource**: Version
+      parent:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Parent work package
+
+              **Resource**: WorkPackage

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ require_relative "shared_event_gun_examples"
 
 RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model do
   shared_examples_for "deleting project storages with project folders" do
-    let(:command_double) { double(:delete_folder_command, call: ServiceResult.success) }
+    let(:command_double) { class_double(command_class_reference, call: ServiceResult.success) }
 
     before do
       Storages::Peripherals::Registry
@@ -53,7 +53,7 @@ RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model 
       end
 
       context "if project folder deletion request fails" do
-        let(:command_double) { double(:delete_folder_command, call: ServiceResult.failure(result: 404)) }
+        let(:command_double) { class_double(command_class_reference, call: ServiceResult.failure(result: 404)) }
 
         it "tries to remove the project folder at the remote storage and still succeed with deletion" do
           expect(described_class.new(model: project_storage, user:).call).to be_success
@@ -117,12 +117,6 @@ RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model 
         "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{project_storage.project_folder_location}"
       end
 
-      before do
-        allow(Storages::Peripherals::StorageInteraction::OneDrive::Util)
-          .to receive(:using_admin_token)
-                .and_yield(HTTPX.with(origin: storage.uri))
-      end
-
       it_behaves_like "deleting project storages with project folders"
     end
   end
@@ -144,5 +138,15 @@ RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model 
     end
 
     it_behaves_like("an event gun", OpenProject::Events::PROJECT_STORAGE_DESTROYED)
+  end
+
+  private
+
+  def command_class_reference
+    if storage.provider_type_nextcloud?
+      Storages::Peripherals::StorageInteraction::Nextcloud::DeleteFolderCommand
+    else
+      Storages::Peripherals::StorageInteraction::OneDrive::DeleteFolderCommand
+    end
   end
 end

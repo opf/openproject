@@ -45,6 +45,8 @@ $user-avatar-mini-height: 20px
     // (medium height) 28 - 2(border pixels)
     line-height: 26px
     font-size: 13px
+    // Needed for Safari to avoid that the avatar is cut off
+    box-sizing: content-box
 
   // Different border styling for placeholders
   &_placeholder-user

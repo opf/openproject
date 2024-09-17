@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -80,7 +80,7 @@ class TableComponent < ApplicationComponent
     rescue NameError
       raise(
         NameError,
-        "#{mod}::RowComponent required by #{mod}::TableComponent not defined. " +
+        "#{mod}::RowComponent required by #{name} not defined. " +
         "Expected to be defined in `app/components/#{mod.underscore}/row_component.rb`."
       )
     end

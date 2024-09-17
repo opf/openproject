@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -120,6 +120,23 @@ RSpec.describe "OAuth authorization code flow", :js do
     # But we got no further
     expect(page).to have_css(".op-toast.-error",
                              text: "Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.")
+
+    # And also have no grant for this application
+    user.oauth_grants.reload
+    expect(user.oauth_grants.count).to eq 0
+  end
+
+  it "does not authenticate disabled applications" do
+    app.toggle!(:enabled)
+
+    visit oauth_path app.uid, redirect_uri
+
+    # Expect we're guided to the login screen
+    login_with user.login, "adminADMIN!", visit_signin_path: false
+
+    # But we got no further
+    expect(page).to have_css(".op-toast.-error",
+                             text: "The client is not authorized to perform this request using this method.")
 
     # And also have no grant for this application
     user.oauth_grants.reload

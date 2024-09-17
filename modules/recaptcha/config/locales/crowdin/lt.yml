@@ -9,7 +9,7 @@ lt:
     verify_account: "Patikrinkite jūsų paskyrą"
     error_captcha: "Nepavyko patikrinti jūsų paskyros. Prašome susisiekti su administratoriumi."
     settings:
-      website_key: 'Svetainės raktas'
+      website_key: 'Website key (May also be called "Site key")'
       response_limit: 'HCaptcha atsakymo apribojimas'
       response_limit_text: 'Didžiausias simbolių skaičius, su kuriuo HCaptcha atsakymas bus tinkamas.'
       website_key_text: 'Įveskite svetainės raktą, kurį sukūrėte reCAPTCHA šio domeno administratoriaus konsolėje.'
@@ -20,5 +20,6 @@ lt:
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       type_hcaptcha: 'HCaptcha'
-      recaptcha_description_html: >
-        reCAPTCHA yra nemokama Google paslauga, kurią galima įjungti jūsų OpenProject egzemplioriui. Įjungus, prisijungiant captcha forma bus rodoma visiems naudotojams, kurie dar nėra patikrinti su captcha. <br/> Daugiau informacijos apie reCAPTCHA ir jos versijas bei kaip kurti svetainę ir slaptus raktus rasite šia nuoroda: %{recaptcha_link} <br/> HCaptcha yra be-Google alternatyva, kurią jūs galite naudoti, jei nenorite naudoti reCAPTCHA. Daugiau informacijos rasite čia: %{hcaptcha_link}
+      type_turnstile: 'Cloudflare Turnstile™'
+      captcha_description_html: >
+        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link} <br/> Cloudflare Turnstile™ is another alternative that is more convenient for users while still providing the same level of security. See this link for more information: %{turnstile_link}

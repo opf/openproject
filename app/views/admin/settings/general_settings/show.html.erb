@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= toolbar title: t(:label_general) %>
 
-<%= styled_form_tag(admin_settings_update_general_path, method: :patch) do %>
+<% html_title t(:label_administration), t(:label_general) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_general) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_general_path, text: t(:label_system_settings) },
+                             t(:label_general)])
+  end
+%>
+
+
+<%= styled_form_tag(admin_settings_general_path, method: :patch) do %>
   <section class="form--section">
     <div class="form--field"><%= setting_text_field :app_title, size: 30, container_class: '-middle' %></div>
     <div class="form--field">

@@ -26,6 +26,7 @@ pl:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "Doręczanie 2FA została wyłączona (zablokowana)."
+    notice_not_writable: "Ustawienia uwierzytelniania 2FA zostały dostarczone poprzez zmienne środowiskowe i nie można ich zastąpić."
     error_no_device: "Nie znaleziono zarejestrowanego urządzenia 2FA dla tego użytkownika, mimo że jest ono wymagane dla tego wystąpienia."
     error_no_matching_strategy: "Dla tego użytkownika nie jest dostępna żadna zgodna strategia 2FA. Skontaktuj się z administratorem."
     error_is_enforced_not_active: "Błąd konfiguracji: Wymuszono uwierzytelnianie dwuskładnikowe, ale nie istnieją żadne aktywne strategie."
@@ -118,10 +119,10 @@ pl:
       2fa_from_webauthn: Podaj urządzenie WebAuthn <strong>%{device_name}</strong>. Jeśli jest to urządzenie USB, podłącz je i dotknij go. Następnie kliknij przycisk logowania.
       webauthn:
         title: "WebAuthn"
-        description: Użyj uwierzytelniania internetowego, aby zarejestrować urządzenie FIDO2 (takie jak YubiKey) lub bezpieczną enklawę urządzenia mobilnego jako drugi składnik uwierzytelniania.
+        description: Zarejestruj urządzenie FIDO2 (takie jak YubiKey) lub bezpieczną enklawę swojego urządzenia mobilnego.
         further_steps: Po wybraniu nazwy możesz kliknąć przycisk Kontynuuj. Przeglądarka wyświetli monit o przedstawienie urządzenia WebAuthn. Gdy to zrobisz, dokonasz rejestracji urządzenia.
       totp:
-        title: "Użyj uwierzytelniacza opartego na aplikacji"
+        title: "Program uwierzytelniający oparty na aplikacji"
         provisioning_uri: "Inicjowanie obsługi URI"
         secret_key: "Tajny klucz"
         time_based: "Oparte na czasie"
@@ -134,14 +135,13 @@ pl:
         text_cannot_scan: |
           Jeśli nie możesz zeskanować kodu, możesz wprowadzić wpis ręcznie, korzystając z następujących informacji:
         description: |
-          Zarejestruj aplikację uwierzytelniającą do użytku z OpenProject, korzystając z opartego na czasie standardu uwierzytelniania za pomocą hasła jednorazowego.
-          Typowymi przykładami są Google Authenticator lub Authy.
+          Użyj jednorazowego kodu wygenerowanego przez program uwierzytelniający, taki jak Authy lub Google Authenticator.
       sms:
-        title: "Użyj swojego telefonu komórkowego"
+        title: "Urządzenie mobilne"
         redacted_identifier: "Urządzenie mobilne (%{redacted_number})"
         request_2fa_identifier: "%{redacted_identifier}, wysłaliśmy Ci kod uwierzytelniający za pośrednictwem %{delivery_channel}"
         description: |
-          Zarejestruj swój numer telefonu komórkowego w celu dostarczenia jednorazowych haseł OpenProject.
+          Otrzymuj kod uwierzytelniania 2FA za pośrednictwem wiadomości tekstowej na swój telefon za każdym razem, gdy się logujesz.
     sns:
       delivery_failed: "Nie udało się dostarczyć SNS:"
     message_bird:

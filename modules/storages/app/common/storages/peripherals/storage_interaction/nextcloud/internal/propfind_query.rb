@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,8 +44,7 @@ module Storages
             #   d:getcontenttype
             #   d:resourcetype
             #   d:getcontentlength
-            #   d:permissions
-            #   d:size
+            #   oc:permissions
             #   oc:id
             #   oc:fileid
             #   oc:favorite
@@ -62,6 +61,10 @@ module Storages
             #   nc:contained-folder-count
             #   nc:contained-file-count
             #   nc:acl-list
+            #   nc:inherited-acl-list
+            #   nc:group-folder-id
+            #   nc:acl-enabled
+            #   nc:acl-can-manage
             # ].freeze
 
             def self.call(storage:, http:, username:, path:, props:)
@@ -73,7 +76,7 @@ module Storages
             end
 
             def call(http:, username:, path:, props:)
-              request_uri = Util.join_uri_path(base_uri, CGI.escapeURIComponent(username), Util.escape_path(path))
+              request_uri = UrlBuilder.url(@storage.uri, "remote.php/dav/files", username, path)
               response = http.request(:propfind, request_uri, xml: request_body(props))
 
               handle_response(response, username)
@@ -125,11 +128,9 @@ module Storages
 
             # rubocop:enable Metrics/AbcSize
 
-            def base_uri = "#{@storage.uri}remote.php/dav/files"
-
             def resource_path(section, username)
               path = CGI.unescape(section.xpath("d:href").text.strip)
-                        .gsub!(Util.join_uri_path(URI(base_uri).path, username), "")
+                        .gsub!(UrlBuilder.path(@storage.uri.path, "remote.php/dav/files", username), "")
 
               path.end_with?("/") && path.length > 1 ? path.chop : path
             end

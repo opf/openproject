@@ -1,0 +1,113 @@
+<%=
+  component_wrapper do
+    render(Primer::OpenProject::SidePanel::Section.new) do |section|
+      section.with_title { t(:label_meeting_details) }
+
+      if @meeting.editable?
+        section.with_action_icon(
+          icon: :gear,
+          scheme: :invisible,
+          tag: :a,
+          href: details_dialog_meeting_path(@meeting),
+          classes: "hide-when-print",
+          data: { controller: 'async-dialog' },
+          'aria-label': t(:label_meeting_details_edit),
+          test_selector: "edit-meeting-details-button",
+        )
+      end
+
+      flex_layout do |details|
+        details.with_row do
+          render_meeting_attribute_row(:calendar) do
+            render(Primer::Beta::Text.new) do
+              format_date(@meeting.start_time)
+            end
+          end
+        end
+
+        details.with_row(mt: 2) do
+          render_meeting_attribute_row(:clock) do
+            flex_layout(align_items: :center) do |time|
+              time.with_column do
+                render(Primer::Beta::Text.new) do
+                  "#{format_time(@meeting.start_time, false)} - #{format_time(@meeting.end_time, false)}"
+                end
+              end
+
+              time.with_column(ml: 2) do
+                render(Primer::Beta::Text.new(color: :subtle, font_size: :small)) do
+                  (User.current.time_zone || Time.zone).to_s[/\((.*?)\)/m, 1]
+                end
+              end
+            end
+          end
+        end
+
+        details.with_row(mt: 2) do
+          render_meeting_attribute_row(:stopwatch) do
+            flex_layout do |duration|
+              duration.with_column do
+                render OpenProject::Common::DurationComponent.new(@meeting.duration, :hours, abbreviated: true)
+              end
+
+              if @meeting.duration_exceeded_by_agenda_items?
+                duration.with_column(ml: 2) do
+                  render(Primer::Beta::Text.new(color: :danger, font_size: :small)) do
+                    "+ #{I18n.t('datetime.distance_in_words.x_minutes_abbreviated',
+                                count: @meeting.duration_exceeded_by_agenda_items_in_minutes.to_i)}"
+                  end
+                end
+              end
+            end
+          end
+        end
+
+        if @meeting.location.present?
+          details.with_row(mt: 2) do
+            if @meeting.location.include?("http")
+              render_meeting_attribute_row(:link) do
+                render(Primer::Beta::Link.new(href: @meeting.location, target: "_blank")) do
+                  render_truncated_location
+                end
+              end
+            else
+              render_meeting_attribute_row(:location) do
+                render(Primer::Beta::Text.new) do
+                  render_truncated_location
+                end
+              end
+            end
+          end
+        end
+
+        details.with_row(mt: 2, classes: 'meeting-detail-participants hide-when-print', display: [nil, nil, :none]) do
+          render_meeting_attribute_row(:people) do
+            flex_layout(align_items: :center) do |people|
+              people.with_column(mr: 2) do
+                render(Primer::Beta::Text.new) do
+                  Meeting.human_attribute_name(
+                    :participant,
+                    count: @meeting.invited_or_attended_participants.count
+                  )
+                end
+              end
+
+              people.with_column(mr: 2) do
+                render(Primer::Beta::Button.new(
+                  scheme: :link,
+                  underline: false,
+                  tag: :a,
+                  href: participants_dialog_meeting_path(@meeting),
+                  classes: "hide-when-print",
+                  data: { controller: 'async-dialog' }
+                )) do
+                  t("label_meeting_show_all_participants")
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+%>

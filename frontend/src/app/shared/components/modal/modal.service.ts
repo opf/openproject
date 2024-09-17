@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +26,17 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { ComponentType, PortalInjector } from '@angular/cdk/portal';
 import {
   Injectable,
   InjectionToken,
   Injector,
 } from '@angular/core';
-import { ComponentType, PortalInjector } from '@angular/cdk/portal';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { PortalOutletTarget } from 'core-app/shared/components/modal/portal-outlet-target.enum';
 
 export const OpModalLocalsToken = new InjectionToken<never>('OP_MODAL_LOCALS');
 
@@ -44,6 +45,7 @@ export interface ModalData {
   injector:Injector;
   notFullscreen:boolean;
   mobileTopPosition:boolean;
+  target:PortalOutletTarget;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -74,6 +76,7 @@ export class OpModalService {
    * @param locals A map to be injected via token into the component.
    * @param notFullscreen
    * @param mobileTopPosition
+   * @param target An optional target override for the modal portal outlet
    */
   public show<T extends OpModalComponent>(
     modal:ComponentType<T>,
@@ -81,6 +84,7 @@ export class OpModalService {
     locals:Record<string, unknown> = {},
     notFullscreen = false,
     mobileTopPosition = false,
+    target = PortalOutletTarget.Default,
   ):Observable<T> {
     this.close();
 
@@ -94,6 +98,7 @@ export class OpModalService {
       injector: this.injectorFor(injector, locals),
       notFullscreen,
       mobileTopPosition,
+      target,
     });
 
     return this.activeModalInstance$

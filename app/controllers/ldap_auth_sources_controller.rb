@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -106,16 +106,8 @@ class LdapAuthSourcesController < ApplicationController
     end
   end
 
-  def default_breadcrumb
-    if action_name == "index"
-      t(:label_ldap_auth_source_plural)
-    else
-      ActionController::Base.helpers.link_to(t(:label_ldap_auth_source_plural), ldap_auth_sources_path)
-    end
-  end
-
   def show_local_breadcrumb
-    true
+    false
   end
 
   def block_if_password_login_disabled

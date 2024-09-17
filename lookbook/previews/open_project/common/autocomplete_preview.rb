@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,6 +42,10 @@ module OpenProject
 
       # @display min_height 250px
       def project
+        render_with_template
+      end
+
+      def project_with_search_icon
         render_with_template
       end
     end

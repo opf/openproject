@@ -650,14 +650,14 @@ overview:
   table: {}
 ```
 
-| Key | Description | Data type |
-| - | - | - |
-| `group_heading` | **Overview group heading**<br/>Styling for the group lavel if grouping is activated<br/>See [Overview group heading](#overview-group-heading) | object |
-| `table` | **Overview table**<br/>See [Overview table](#overview-table) | object |
+| Key | Description                                                                                                                                   | Data type |
+| - |-----------------------------------------------------------------------------------------------------------------------------------------------| - |
+| `group_heading` | **Overview group heading**<br/>Styling for the group level if grouping is activated<br/>See [Overview group heading](#overview-group-heading) | object |
+| `table` | **Overview table**<br/>See [Overview table](#overview-table)                                                                                  | object |
 
 ## Overview group heading
 
-Styling for the group lavel if grouping is activated
+Styling for the group level if grouping is activated
 
 Key: `group_heading`
 

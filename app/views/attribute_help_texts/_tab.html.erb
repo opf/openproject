@@ -2,12 +2,12 @@
 <% if entries.any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
-      <table class="generic-table">
+      <table class="generic-table" data-controller="table-highlighting">
         <colgroup>
-          <col opHighlightCol>
-          <col opHighlightCol>
-          <col opHighlightCol>
           <col>
+          <col>
+          <col>
+          <col data-highlight="false">
         </colgroup>
         <thead>
         <tr>
@@ -42,7 +42,7 @@
                           edit_attribute_help_text_path(attribute_help_text) %>
             </td>
             <td>
-              <%= angular_component_tag 'attribute-help-text',
+              <%= angular_component_tag 'opce-attribute-help-text',
                                         inputs: {
                                           helpTextId: attribute_help_text.id,
                                           attribute: attribute_help_text.attribute_name,

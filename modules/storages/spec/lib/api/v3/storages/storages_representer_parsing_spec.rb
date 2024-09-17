@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,7 +58,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, "parsing" do
                                           provider_type: "Storages::OneDriveStorage")
 
         aggregate_failures "honors provider fields defaults" do
-          expect(parsed).not_to be_automatically_managed
+          expect(parsed).not_to be_automatic_management_enabled
           expect(parsed).to be_health_notifications_enabled
         end
       end

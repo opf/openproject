@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -377,17 +377,18 @@ class MailHandler < ActionMailer::Base
   # Returns a Hash of issue attributes extracted from keywords in the email body
   def wp_attributes_from_keywords(work_package)
     {
-      "type_id" => wp_type_from_keywords(work_package),
-      "status_id" => wp_status_from_keywords,
-      "parent_id" => wp_parent_from_keywords,
-      "priority_id" => wp_priority_from_keywords,
-      "category_id" => wp_category_from_keywords(work_package),
       "assigned_to_id" => wp_assignee_from_keywords(work_package),
-      "version_id" => wp_version_from_keywords(work_package),
-      "start_date" => wp_start_date_from_keywords,
+      "category_id" => wp_category_from_keywords(work_package),
       "due_date" => wp_due_date_from_keywords,
       "estimated_hours" => wp_estimated_hours_from_keywords,
-      "remaining_hours" => wp_remaining_hours_from_keywords
+      "parent_id" => wp_parent_from_keywords,
+      "priority_id" => wp_priority_from_keywords,
+      "remaining_hours" => wp_remaining_hours_from_keywords,
+      "responsible_id" => wp_accountable_from_keywords(work_package),
+      "start_date" => wp_start_date_from_keywords,
+      "status_id" => wp_status_from_keywords,
+      "type_id" => wp_type_from_keywords(work_package),
+      "version_id" => wp_version_from_keywords(work_package)
     }.compact_blank!
   end
 
@@ -541,8 +542,16 @@ class MailHandler < ActionMailer::Base
     lookup_case_insensitive_key(work_package.project.categories, :category)
   end
 
+  def wp_accountable_from_keywords(work_package)
+    get_assignable_principal_from_keywords(:responsible, work_package)
+  end
+
   def wp_assignee_from_keywords(work_package)
-    keyword = get_keyword(:assigned_to, override: true)
+    get_assignable_principal_from_keywords(:assigned_to, work_package)
+  end
+
+  def get_assignable_principal_from_keywords(keyword, work_package)
+    keyword = get_keyword(keyword, override: true)
 
     return nil if keyword.blank?
 

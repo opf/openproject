@@ -9,7 +9,7 @@ es:
     verify_account: "Verifique su cuenta"
     error_captcha: "No se pudo verificar su cuenta. Póngase en contacto con un administrador."
     settings:
-      website_key: 'Clave del sitio web'
+      website_key: 'Clave del sitio web (También puede denominarse «Clave del sitio»)'
       response_limit: 'Límite de respuesta para HCaptcha'
       response_limit_text: 'El número máximo de caracteres para tratar la respuesta de HCaptcha como válida.'
       website_key_text: 'Especifique la clave del sitio web que ha creado en la consola de administración de reCAPTCHA para este dominio.'
@@ -20,5 +20,6 @@ es:
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       type_hcaptcha: 'HCaptcha'
-      recaptcha_description_html: >
-        reCAPTCHA es un servicio gratuito de Google que puede ser habilitado para tu instancia de OpenProject. Si está habilitado, un formulario captcha será renderizado al iniciar sesión para todos los usuarios que aún no hayan verificado un captcha. <br/> Por favor vea el siguiente enlace para más detalles sobre reCAPTCHA y sus versiones, y cómo crear el sitio web y las claves secretas: %{recaptcha_link} <br/> HCaptcha es una alternativa libre de Google que puedes usar si no quieres usar reCAPTCHA. Ver este enlace para más información: %{hcaptcha_link}
+      type_turnstile: 'Cloudflare Turnstile™'
+      captcha_description_html: >
+        reCAPTCHA es un servicio gratuito de Google que puede habilitarse para su instancia de OpenProject. Si está habilitado, se mostrará un formulario captcha al iniciar sesión para todos los usuarios que aún no hayan verificado un captcha. <br/>Consulte el siguiente enlace para obtener más detalles sobre reCAPTCHA y sus versiones, y cómo crear el sitio web y las claves secretas: %{recaptcha_link} <br/> HCaptcha es una alternativa gratuita de Google que puede utilizar si no desea usar reCAPTCHA. Consulte este enlace para obtener más información: %{hcaptcha_link} <br/> Cloudflare Turnstile™ es otra alternativa que resulta más cómoda para los usuarios sin dejar de ofrecer el mismo nivel de seguridad. Consulte este enlace para obtener más información: %{turnstile_link}

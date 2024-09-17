@@ -1,0 +1,51 @@
+<%=
+  component_wrapper do
+    render(Primer::OpenProject::SidePanel::Section.new) do |section|
+      section.with_title { Meeting.human_attribute_name(:participants) }
+      section.with_counter(count: @meeting.invited_or_attended_participants.count)
+
+      if @meeting.editable?
+        section.with_action_icon(
+          icon: :gear,
+          scheme: :invisible,
+          tag: :a,
+          href: participants_dialog_meeting_path(@meeting),
+          classes: "hide-when-print",
+          data: { controller: 'async-dialog' },
+          'aria-label': t("label_meeting_manage_participants"),
+          test_selector: "manage-participants-button",
+        )
+      end
+
+      component_wrapper(data: wrapper_data_attributes) do
+        flex_layout do |participants_container|
+          participants_container.with_row do
+            render(OpPrimer::ExpandableListComponent.new(cutoff_limit: 5)) do |list|
+              elements.each do |item|
+                list.with_element { render_participant(item) }
+              end
+            end
+          end
+
+          if @meeting.editable?
+            participants_container.with_row(mt: 3) do
+              render(Primer::Beta::Button.new(
+                scheme: :link,
+                color: :default,
+                underline: false,
+                font_weight: :bold,
+                tag: :a,
+                href: participants_dialog_meeting_path(@meeting),
+                classes: "hide-when-print",
+                data: { controller: 'async-dialog' }
+              )) do |button|
+                button.with_leading_visual_icon(icon: "person-add")
+                t("label_meeting_add_participants")
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+%>

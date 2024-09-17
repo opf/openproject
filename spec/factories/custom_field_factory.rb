@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,7 +49,7 @@ FactoryBot.define do
     max_length { false }
     editable { true }
     possible_values { "" }
-    visible { true }
+    admin_only { false }
     field_format { "bool" }
 
     after(:create) do
@@ -217,8 +217,11 @@ FactoryBot.define do
       factory :float_wp_custom_field, traits: [:float]
       factory :date_wp_custom_field, traits: [:date]
       factory :list_wp_custom_field, traits: [:list]
+      factory :multi_list_wp_custom_field, traits: [:multi_list]
       factory :version_wp_custom_field, traits: [:version]
+      factory :multi_version_wp_custom_field, traits: [:multi_version]
       factory :user_wp_custom_field, traits: [:user]
+      factory :multi_user_wp_custom_field, traits: [:multi_user]
       factory :link_wp_custom_field, traits: [:link]
     end
 

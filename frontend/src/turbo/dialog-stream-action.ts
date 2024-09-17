@@ -3,10 +3,7 @@ import { StreamActions, StreamElement } from '@hotwired/turbo';
 export function registerDialogStreamAction() {
   StreamActions.dialog = function dialogStreamAction(this:StreamElement) {
     const content = this.templateElement.content;
-    const parent = content.firstElementChild as HTMLElement;
     const dialog = content.querySelector('dialog') as HTMLDialogElement;
-    // Set a temporary width so the dialog reflows after opening
-    dialog.style.width = '0px';
 
     document.body.append(content);
 
@@ -14,10 +11,19 @@ export function registerDialogStreamAction() {
     dialog.showModal();
 
     // Remove the element on close
-    dialog.addEventListener('close', () => parent.remove());
+    dialog.addEventListener('close', () => {
+      if (dialog.parentElement?.tagName === 'DIALOG-HELPER') {
+        dialog.parentElement.remove();
+      } else {
+        dialog.remove();
+      }
+    });
 
+    // Hack to fix the width calculation of nested elements
+    // such as the CKEditor toolbar.
     setTimeout(() => {
-      dialog.style.removeProperty('width');
-    }, 10);
+      const width = dialog.offsetWidth;
+      dialog.style.width = `${width + 1}px`;
+    }, 50);
   };
 }

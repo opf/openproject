@@ -1,11 +1,13 @@
 <% html_title(t(:label_my_account), t('two_factor_authentication.backup_codes.plural')) -%>
 
-<h1>
-  <%= t('two_factor_authentication.backup_codes.plural') %>
-  <small>
-    <%= t('two_factor_authentication.backup_codes.your_codes', login: current_user.login, app_name: Setting.app_title) %>
-  </small>
-</h1>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t('two_factor_authentication.backup_codes.plural') }
+    header.with_breadcrumbs([{ href: my_account_path, text: t(:label_my_account) },
+                             { href: my_2fa_devices_path , text: t('two_factor_authentication.label_two_factor_authentication') },
+                             t('two_factor_authentication.backup_codes.plural')])
+  end
+%>
 
 <div class="op-toast show-when-print -warning">
   <div class="op-toast--content">

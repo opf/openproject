@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       collection do
         # The menu route has to be above the state routes! Otherwise, the menu will be interpreted as another state
         get "menu" => "gantt/menus#show"
+        get "/export_dialog" => "work_packages#export_dialog"
 
         # states managed by client-side routing on work_package#index
         get "(/*state)" => "gantt/gantt#index", as: ""
@@ -14,6 +15,8 @@ Rails.application.routes.draw do
 
   resources :gantt, controller: "gantt/gantt", only: [:index] do
     collection do
+      get "/export_dialog" => "work_packages#export_dialog"
+
       # states managed by client-side routing on work_package#index
       get "details/*state" => "gantt/gantt#index", as: :details
 

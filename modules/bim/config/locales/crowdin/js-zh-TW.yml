@@ -17,13 +17,13 @@ zh-TW:
     ifc_models:
       empty_warning: "此專案沒有任何 IFC 模型"
       use_this_link_to_manage: "用此連結來上載及管理您的 IFC 模型"
-      keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
+      keyboard_input_disabled: "查看器沒有鍵盤控制。按一下檢視器可將鍵盤控制權交給檢視器。"
       models:
         ifc_models: 'IFC 模型'
       views:
         viewer: '檢視器'
-        split: 'Viewer and table'
-        split_cards: 'Viewer and cards'
+        split: '檢視器和表格'
+        split_cards: '檢視器和卡片'
     revit:
-      revit_add_in: "Revit Add-In"
-      revit_add_in_settings: "Revit Add-In settings"
+      revit_add_in: "Revit 外掛"
+      revit_add_in_settings: "Revit 外掛設定"

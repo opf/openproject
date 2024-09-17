@@ -56,7 +56,7 @@ In OpenProject, authentication is an important element to guarantee a data prote
 - [See answers to frequently asked questions (FAQ) for authentication](../system-admin-guide/authentication/authentication-faq/)
 - [See our blog post on multi-factor authentication to improve data security](https://www.openproject.org/blog/multi-factor-authentication-for-data-security/)
 - [Read more about Two-factor authentication (2FA) in OpenProject](../system-admin-guide/authentication/two-factor-authentication/)
-- [Read more about LDAP Authentication in OpenProject](../system-admin-guide/authentication/ldap-authentication/)
+- [Read more about LDAP Authentication in OpenProject](../system-admin-guide/authentication/ldap-connections/)
 
 ## B
 
@@ -83,6 +83,10 @@ A board in OpenProject is a view that allows you to see your work packages as ca
 
 ## C
 
+### CAPTCHA
+
+A CAPTCHA (Completely Automated Public Turing test to tell Computers and Humans Apart) is a security mechanism used on websites to determine whether the user is a human or a bot. OpenProject offers [reCAPTCHA](../system-admin-guide/authentication/recaptcha/) and [Cloudflare Turnstile](../system-admin-guide/authentication/recaptcha/#cloudflare-turnstile-configuration) that system administrators can configure for their instance.
+
 ### Classic project management
 
 Classic project management is a structured and sequential approach to project management. It often follows a hierarchical structure with a project manager overseeing team coordination, and is associated with methodologies like Waterfall. OpenProject supports classic project management as well as [agile project management](#agile-project-management), and works best for [hybrid project management](#hybrid-project-management).
@@ -101,6 +105,10 @@ OpenProject can be installed either [on-premises](#on-premises) (available for b
 ### Community edition
 
 Community edition is defined as the main and free-of-charge edition of OpenProject software. It is installed [on-premises](#on-premises) and therefore self-managed. Benefit from a wide range of features and data sovereignty in a free and open source project management software. The Community edition is actively maintained and is continuously being further developed. [Read more about OpenProject Community edition](https://www.openproject.org/community-edition/).
+
+### Connection validation
+
+The connection validation in OpenProject is available for the storage integrations with [Nextcloud](#nextcloud-integration) and [OneDrive/SharePoint](#onedrivesharepoint-integration). It is a manually triggered test to check the connection between OpenProject and the respective storage. [Read more about health status checks for OpenProject's external file storages](../system-admin-guide/files/external-file-storages/health-status/).
 
 ### Custom action
 
@@ -128,6 +136,10 @@ In OpenProject, a custom field is defined as an additional field which can be ad
 A custom query in OpenProject consists of saved [filters](#filters), sort criteria, and [groupings](#group) in the [work package table](#work-package-table). Custom queries can be either set to public (visible by any user who is allowed to see the project and the work package table) or to private (visible only to the person creating the query). For example, filter all work packages assigned to yourself and save this view as "assigned to me", to quickly navigate to those work packages.
 
 ## D
+
+### Dark mode
+
+The dark mode for OpenProject is a personal setting to display the application in a dark theme. Other available modes are the regular light mode and the (light) [high contrast mode](#high-contrast-mode). [Read in our documentation how to enable dark mode](../user-guide/my-account/#select-the-dark-mode).
 
 ### Dashboard
 
@@ -189,7 +201,7 @@ A Group in OpenProject is defined as a list of users which can be added as a mem
 
 ### High contrast mode
 
-OpenProject offers a high contrast mode to make it easier for visually impaired people to use the software. This mode can be selected in the personal [account settings](../getting-started/my-account/#my-account) and will only affect the individual user's experience.
+OpenProject offers a high contrast mode to make it easier for visually impaired people to use the software. This mode can be selected in the personal [account settings](../user-guide/my-account/#my-account) and will only affect the individual user's experience.
 
 ### Home page
 
@@ -448,3 +460,7 @@ Work package types are the different items a work package can represent. Each wo
 ### Work package view
 
 A list of work packages is considered a view. The containing work packages in any view can be displayed a number of different ways. Examples for most used work package views are the [table view](#work-package-table), the full screen view or the split screen view. You can also display work packages  in a card view and use them in a [board](#board) to use agile methods. [Read more about work package views in OpenProject](../user-guide/work-packages/work-package-views/#work-packages-views).
+
+### WYSIWYG editor
+
+WYSIWYG stands for 'What you see is what you get'. A WYSIWYG editor is a content editing interface that allows users to create and edit content so that it visually resembles the final result. In OpenProject, you can use WYSIWYG editors in [wikis](#wiki), [forums](#forum) and [work package](#work-package) descriptions and comments.

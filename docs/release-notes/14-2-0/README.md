@@ -28,7 +28,7 @@ For more information, see [#50954](https://community.openproject.org/wp/50954).
 
 Project managers can now exclude rejected or duplicate work packages from the calculation of total Work, total Remaining work and total % Complete for the parent / ancestors work packages. This allows them to clean up estimates and progress when rejecting child work packages or marking them as duplicates.
 
-Learn more in our [documentation about work package settings](https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-settings/).
+Learn more in our [documentation about work package settings](../../system-admin-guide/manage-work-packages/work-package-settings/).
 
 ### Warn admins about potential data loss when changing progress calculation modes
 
@@ -50,7 +50,7 @@ In the screenshot, the three-dot menu on the right is selected. With one click, 
 
 ### Avoid redundant emails in case of @mentions and email reminder
 
-With the release of OpenProject 14.2, we avoid sending redundand emails: Users who are @mentioned in a work package will still receive immediate emails based on their email reminder settings. But if an email has already been sent for an @mention (assuming the user has activated the option ‘Immediately when someone @mentions me’ in the email notifications), subsequent notifications with mentions as the primary reason will not be included in the email reminder.
+With the release of OpenProject 14.2, we avoid sending redundant emails: Users who are @mentioned in a work package will still receive immediate emails based on their email reminder settings. But if an email has already been sent for an @mention (assuming the user has activated the option ‘Immediately when someone @mentions me’ in the email notifications), subsequent notifications with mentions as the primary reason will not be included in the email reminder.
 
 ### Allow renaming persisted project lists
 
@@ -68,16 +68,16 @@ In addition to this feature, the default view for meetings module was changed to
 
 ### Embedded work package attributes in PDF export
 
-With OpenProject 14.2, [embedded attributes within a work package description](https://www.openproject.org/docs/user-guide/wysiwyg/#embedding-of-work-package-attributes-and-project-attributes) (and long text custom fields) are displayed in the PDF export as on OpenProject. This means you can reference values from work packages with placeholders, and on export these are replaced by their actual value of a project or work package attributes.
+With OpenProject 14.2, [embedded attributes within a work package description](../../user-guide/wysiwyg/#embedding-of-work-package-attributes-and-project-attributes) (and long text custom fields) are displayed in the PDF export as on OpenProject. This means you can reference values from work packages with placeholders, and on export these are replaced by their actual value of a project or work package attributes.
 
-![Two screenshos, one showing embedded work package attributes and the other the exported PDF](openproject-14-2-pdf-export-attributes.png)
+![Two screenshots, one showing embedded work package attributes and the other the exported PDF](openproject-14-2-pdf-export-attributes.png)
 
 ## Bug fixes and changes
 
 <!-- Warning: Anything within the below lines will be automatically removed by the release script -->
 <!-- BEGIN AUTOMATED SECTION -->
 
-- Bugfix: Misleading Openproject Reconfigure wizard leading to undesired removal of Apache \[[#41293](https://community.openproject.org/wp/41293)\]
+- Bugfix: Misleading OpenProject Reconfigure wizard leading to undesired removal of Apache \[[#41293](https://community.openproject.org/wp/41293)\]
 - Bugfix: Some buttons are missing on mobile screens on iOS Safari \[[#50724](https://community.openproject.org/wp/50724)\]
 - Bugfix: Different headings in permission report and role form \[[#51447](https://community.openproject.org/wp/51447)\]
 - Bugfix: Main menu resizer handle misplaced on hover \[[#52670](https://community.openproject.org/wp/52670)\]
@@ -87,7 +87,7 @@ With OpenProject 14.2, [embedded attributes within a work package description](h
 - Bugfix: Health e-mail showing storage host URL but unexpectedly linking OP \[[#55137](https://community.openproject.org/wp/55137)\]
 - Bugfix: Meetings participants toggle has the wrong color \[[#55169](https://community.openproject.org/wp/55169)\]
 - Bugfix: User icon appearing on the share work packages modal in the empty state \[[#55231](https://community.openproject.org/wp/55231)\]
-- Bugfix: Favorite colum margin is too big on project list \[[#55251](https://community.openproject.org/wp/55251)\]
+- Bugfix: Favorite column margin is too big on project list \[[#55251](https://community.openproject.org/wp/55251)\]
 - Bugfix: Notifications are sent to the author if the author is member of a @mentioned group \[[#55255](https://community.openproject.org/wp/55255)\]
 - Bugfix: New section option not i18n-ed \[[#55275](https://community.openproject.org/wp/55275)\]
 - Bugfix: Can't update from 13.1 - main language pt-BR \[[#55318](https://community.openproject.org/wp/55318)\]
@@ -125,4 +125,4 @@ A very special thank you goes to the City of Cologne for sponsoring features on 
 
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight user [aniessalam](https://crowdin.com/profile/aniessalam) who has done an outstanding number of translations for the Malay language in recent weeks.
 
-Would you like to help out with translations yourself? Then take a look at our [translation guide](https://www.openproject.org/docs/development/translate-openproject) and find out exactly how you can contribute. It is very much appreciated!
+Would you like to help out with translations yourself? Then take a look at our [translation guide](../../development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!

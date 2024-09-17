@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -93,7 +93,7 @@ RSpec.describe "Query menu items", :js, :with_cuprite do
       click_on "Save"
 
       notification.expect_success("Successful update")
-      expect(page).to have_css(".op-sidemenu--item", text: query.name)
+      expect(page).to have_css(".op-submenu--item", text: query.name)
     end
   end
 
@@ -135,7 +135,7 @@ RSpec.describe "Query menu items", :js, :with_cuprite do
     it "is renaming and reordering the list" do
       # Renaming the query should also reorder the queries.  As it is renamed
       # from zzzz to aaaa, it should now be the first query menu item.
-      expect(page).to have_css(".op-sidemenu--items li:first-child", text: new_name)
+      expect(page).to have_css(".op-submenu--items li:first-child", text: new_name)
     end
   end
 end

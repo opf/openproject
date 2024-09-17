@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -52,14 +52,14 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% if User.current.allowed_in_project?(:update_sprints, @project) %>
     <div class="editors permanent">
-      <%= angular_component_tag "op-basic-single-date-picker",
+      <%= angular_component_tag "opce-basic-single-date-picker",
                                 inputs: {
                                   value: sprint.effective_date,
                                   inputClassNames: 'effective_date editor',
                                   id: "effective_date_#{sprint.id}",
                                   name: :effective_date
                                 } %>
-      <%= angular_component_tag "op-basic-single-date-picker",
+      <%= angular_component_tag "opce-basic-single-date-picker",
                                 inputs: {
                                   value: sprint.start_date,
                                   inputClassNames: 'start_date editor',

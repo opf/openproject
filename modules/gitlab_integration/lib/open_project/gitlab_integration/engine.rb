@@ -8,7 +8,7 @@
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 # Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -48,6 +48,19 @@ module OpenProject::GitlabIntegration
                    {},
                    permissible_on: %i[work_package project])
       end
+
+      menu :work_package_split_view,
+           :gitlab,
+           { tab: :gitlab },
+           if: ->(project) {
+             User.current.allowed_in_project?(:show_gitlab_content, project)
+           },
+           skip_permissions_check: true,
+           badge: ->(work_package:, **) {
+             work_package.gitlab_merge_requests.count +
+               work_package.gitlab_issues.count
+           },
+           caption: :project_module_github
     end
 
     patches %w[WorkPackage]

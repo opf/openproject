@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,5 +27,16 @@
 #++
 
 class Queries::Notifications::Filters::ProjectFilter < Queries::Notifications::Filters::NotificationFilter
-  include Queries::Filters::Shared::ProjectFilter
+  include Queries::Filters::Shared::ProjectFilter::Optional
+
+  # This is currently work package specific same as all the other parts of the NotificationQuery
+  self.model = WorkPackage
+
+  def joins
+    <<~SQL.squish
+      JOIN #{WorkPackage.table_name}
+      ON #{WorkPackage.table_name}.id = #{Notification.table_name}.resource_id
+      AND #{Notification.table_name}.resource_type = 'WorkPackage'
+    SQL
+  end
 end

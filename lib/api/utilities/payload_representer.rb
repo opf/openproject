@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,12 +51,15 @@ module API
 
           # Note: `:writeable` is not a typo, it's used by declarative gem
           writable = property[:writeable]
+
+          # If writable is a lambda, rely on it to determine if the property should be output
+          # else if writable is explicitly false, do not output the property
+          # else rely on #writable_attributes (through UnwritablePropertyFilter) to know if the property should be output
+          next if writable.respond_to?(:call)
+
           if writable == false
             property.merge!(readable: false)
-          end
-
-          # Only filter unwritable if not a lambda
-          unless writable.respond_to?(:call)
+          else
             add_filter(property, UnwritablePropertyFilter)
           end
         end

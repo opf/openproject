@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ module Components::Autocompleter
       sleep(0.1)
       element.set(query)
 
-      wait_for_network_idle if using_cuprite?
+      wait_for_network_idle
 
       ##
       # Find the open dropdown

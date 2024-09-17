@@ -1,0 +1,15 @@
+<%= render(Primer::OpenProject::PageHeader.new) do |header|
+  header.with_title { page_title }
+  header.with_breadcrumbs(breadcrumb_items)
+
+  header.with_action_button(tag: :a,
+                            mobile_icon: :gear,
+                            mobile_label: I18n.t(:label_setting_plural),
+                            href: my_notifications_path,
+                            size: :medium,
+                            target: "_blank",
+                            aria: { label: I18n.t("js.notifications.settings.title") }) do |button|
+    button.with_leading_visual_icon(icon: :gear)
+    I18n.t(:label_setting_plural)
+  end
+end %>

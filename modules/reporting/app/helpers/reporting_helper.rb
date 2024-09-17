@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -102,7 +102,7 @@ module ReportingHelper
 
     case key.to_sym
     when :activity_id
-      mapped value, Enumeration, "<i>#{I18n.t(:caption_material_costs)}</i>"
+      mapped value, Enumeration, "<i>#{I18n.t(:caption_material_costs)}</i>".html_safe
     when :project_id
       link_to_project Project.find(value.to_i)
     when :user_id, :assigned_to_id, :author_id, :logged_by_id
@@ -159,13 +159,6 @@ module ReportingHelper
     when :spent_on                                 then value.to_date.mjd
     else strip_tags(field_representation_map(key, value))
     end
-  end
-
-  def html_safe_gsub(string, *gsub_args, &)
-    html_safe = string.html_safe?
-    string.gsub(*gsub_args, &)
-    # We only mark the string as safe if the previous string was already safe
-    string.html_safe if html_safe # rubocop:disable Rails/OutputSafety
   end
 
   def show_result(row, unit_id = self.unit_id)

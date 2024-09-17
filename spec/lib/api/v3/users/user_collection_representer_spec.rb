@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,19 +39,21 @@ RSpec.describe API::V3::Users::UserCollectionRepresenter do
   let(:users) do
     users = build_stubbed_list(:user,
                                actual_count)
-    allow(users)
-      .to receive(:limit)
-      .with(page_size)
-      .and_return(users)
+    without_partial_double_verification do
+      allow(users)
+        .to receive(:limit)
+        .with(page_size)
+        .and_return(users)
 
-    allow(users)
-      .to receive(:offset)
-      .with(page - 1)
-      .and_return(users)
+      allow(users)
+        .to receive(:offset)
+        .with(page - 1)
+        .and_return(users)
 
-    allow(users)
-      .to receive(:count)
-      .and_return(total)
+      allow(users)
+        .to receive(:count)
+        .and_return(total)
+    end
 
     users
   end

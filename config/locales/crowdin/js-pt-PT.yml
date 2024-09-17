@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ pt-PT:
     button_back_to_list_view: "Voltar à visualização de lista"
     button_cancel: "Cancelar"
     button_close: "Fechar"
-    button_change_project: "Alterar projeto"
+    button_change_project: "Mover para outro projeto"
     button_check_all: "Seleccionar Todos"
     button_configure-form: "Configurar formulário"
     button_confirm: "Confirmar"
@@ -74,7 +74,7 @@ pt-PT:
     button_copy: "Copiar"
     button_copy_to_clipboard: "Copiar para a Área de transferência"
     button_copy_link_to_clipboard: "Copiar link para a área de transferência"
-    button_copy_to_other_project: "Copiar para outro projeto"
+    button_copy_to_other_project: "Duplicar noutro projeto"
     button_custom-fields: "Campos personalizados"
     button_delete: "Eliminar"
     button_delete_watcher: "Eliminar observador"
@@ -138,6 +138,8 @@ pt-PT:
     description_select_work_package: "Selecionar pacote de trabalho #%{id}"
     description_subwork_package: "Filho de pacote de trabalho #%{id}"
     editor:
+      revisions: "Mostrar modificações locais"
+      no_revisions: "Não foram encontradas modificações locais"
       preview: "Alternar modo de pré-visualização"
       source_code: "Alternar modo de fonte do Markdown"
       error_saving_failed: "Ao guardar o documento ocorreu o seguinte erro: %{error}"
@@ -150,7 +152,7 @@ pt-PT:
         attribute_reference:
           macro_help_tooltip: "Este segmento de texto está a ser dinamicamente processado por uma macro."
           not_found: "Não foi possível encontrar o recurso solicitado"
-          nested_macro: "This macro is recursively referencing %{model} %{id}."
+          nested_macro: "Esta macro faz referência de forma recursiva a %{model} %{id}."
           invalid_attribute: "O atributo selecionado '%{name}' não existe."
         child_pages:
           button: "Links para páginas filho"
@@ -276,8 +278,10 @@ pt-PT:
           As alterações podem demorar algum tempo a entrar em vigor. Receberá uma notificação quando todos os pacotes de trabalho relevantes forem atualizados.
           Tem a certeza de que quer continuar?
       work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          Alterar o modo de cálculo do progresso de "baseado no estado" para "baseado no trabalho" fará com que a <i>% de conclusão</i> seja um campo não editável cujo valor é derivado de <i>Trabalho</i> e <i>Trabalho restante</i>. Os valores existentes para a <i>% de conclusão</i> são preservados. Se os valores para <i>Trabalho</i> e <i>Trabalho restante</i> não estiverem presentes, eles serão necessários para alterar a <i>% de conclusão</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Alterar o modo de cálculo do progresso de "baseado no estado" para "baseado no trabalho" fará com que <i>% Completo</i> seja um campo não editável cujo valor é derivado de <i>Trabalho</i> e <i>Trabalho restante</i>. Os valores existentes para <i>% Completo</i> são preservados. Se os valores para <i>Trabalho</i> e <i>Trabalho restante</i> não estiverem presentes, eles serão necessários para alterar <i>% Completo</i>.
+          Se alterar o modo de cálculo do progresso de baseado no estado para baseado no trabalho, o campo <i>% de conclusão</i> poderá ser editado livremente. Se, opcionalmente, introduzir valores para <i>Trabalho</i> ou <i>Trabalho restante</i>, estes também serão associado a <i>% de conclusão</i>. Se alterar o <i>Trabalho restante</i>, pode atualizar a <i>% de conclusão</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Se alterar o modo de cálculo do progresso de "baseado no trabalho" para "baseado no estado", todos os valores <i>% Completo</i> existentes serão perdidos e substituídos por valores associados a cada estado. Os valores existentes para <i>Trabalho restante</i> também podem ser recalculados para refletir esta alteração. Esta ação não é reversível.
     custom_actions:
@@ -336,18 +340,6 @@ pt-PT:
         years: "Anos"
         description: >
           Selecione o nível de zoom inicial que deve ser mostrado quando o zoom automático não está disponível.
-      export:
-        title: "Opções de PDF do gráfico de Gantt"
-        button_export: "Exportar"
-        column_widths:
-          narrow: "Estreito"
-          medium: "Médio"
-          wide: "Amplo"
-          very_wide: "Muito amplo"
-        options:
-          date_zoom: "Formato de datas"
-          paper_size: "Tamanho do papel"
-          column_widths: "Larguras da coluna"
     general_text_no: "não"
     general_text_yes: "sim"
     general_text_No: "Não"
@@ -366,10 +358,10 @@ pt-PT:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_5":
             standard:
               new_features_html: >
-                A versão contém várias funcionalidades e melhorias novas: <br> <ul class="%{list_styling_class}"> <li>Definir mais unidades para trabalho, trabalho restante e tempo de trabalho</li> <li>Configurar os projetos que são ativados para atributos do projeto</li> <li>Renomear listas de projetos privados</li> <li>Evitar lembretes de e-mail redundantes no caso de @menções</li> <li>Convidar participantes de reuniões por e-mail</li> <li>Mostrar atributos de pacotes de trabalho incorporados em exportações de PDF</li> </ul>
+                A versão contém várias funcionalidades novas e melhorias, tais como: <br> <ul class="%{list_styling_class}"> <li>Manter e restaurar versões locais de alterações de conteúdo WYSIWYG.</li> <li>Permitir o armazenamento de vários projetos de uma só vez.</li> <li>Exportar pacotes de trabalho num modal atualizado com definições adicionais.</li> <li>Exibir colunas/filtros de campos personalizados em listas de projetos também na Community Edition.</li> <li>Oferecer suporte ao CloudFlare Turnstile como Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Subscrever o calendário"
       inital_setup_error_message: "Ocorreu um erro ao recuperar os dados."
@@ -410,6 +402,7 @@ pt-PT:
     label_create: "Criar"
     label_create_work_package: "Criar nova tarefa"
     label_created_by: "Criado por"
+    label_current: "atual"
     label_date: "Data"
     label_date_with_format: "Digite o %{date_attribute} usando o seguinte formato: %{format}"
     label_deactivate: "Desativar"
@@ -616,17 +609,17 @@ pt-PT:
       title: "Notificações"
       no_unread: "Nenhuma notificação não lida"
       reasons:
-        mentioned: "mentionado"
-        watched: "observador"
-        assigned: "responsável"
-        responsible: "responsável"
-        created: "criado"
-        scheduled: "agendado"
-        commented: "comentado"
-        processed: "processado"
-        prioritized: "priorizado"
+        mentioned: "Mencionado"
+        watched: "Observador"
+        assigned: "Pessoa atribuída"
+        accountable: "Responsável"
+        created: "Criado"
+        scheduled: "Agendado"
+        commented: "Comentado"
+        processed: "Processado"
+        prioritized: "Priorizado"
         dateAlert: "Alerta de data"
-        shared: "partilhado"
+        shared: "Partilhado"
       date_alerts:
         milestone_date: "Data do marco"
         overdue: "Em atraso"
@@ -638,11 +631,6 @@ pt-PT:
         upsale:
           title: "Alertas de data"
           description: "Com os alertas de data, receberá uma notificação sobre as próximas datas de início e conclusão, para que não nunca perca ou esqueça prazos importantes. "
-      facets:
-        unread: "Não lida"
-        unread_title: "Mostrar não lidas"
-        all: "Todos"
-        all_title: "Mostrar tudo"
       center:
         label_actor_and: "e"
         and_more_users:
@@ -653,25 +641,17 @@ pt-PT:
           with_current_filter: "Não há notificações nesta visualização neste momento"
         mark_all_read: "Marcar tudo como lido"
         mark_as_read: "Marcar como lida"
-        text_update_date: "%{date} por"
+        text_update_date_by: "%{date} por"
         total_count_warning: "A mostrar as %{newest_count} notificações mais recentes. Mas %{more_count} não estão visíveis."
         empty_state:
           no_notification: "Parece que tem tudo em dia."
           no_notification_with_current_project_filter: "Parece que está em dia com o projeto selecionado."
           no_notification_with_current_filter: "Parece que está em dia no filtro %{filter}."
+          no_notification_for_filter: "Parece que está em dia neste filtro."
           no_selection: "Clique numa notificação para ver todos os detalhes da atividade."
         new_notifications:
           message: "Há novas notificações."
           link_text: "Clique aqui para carregá-las."
-      menu:
-        accountable: "Responsável"
-        by_project: "Não lido por projeto"
-        by_reason: "Motivo"
-        inbox: "Caixa de entrada"
-        mentioned: "Mencionou"
-        watched: "Observador"
-        date_alert: "Alerta de data"
-        shared: "Compartilhado"
       settings:
         change_notification_settings: 'Pode modificar as suas <a target="_blank" href="%{url}">definições de notificações</a> para garantir que nunca perde uma atualização importante.'
         title: "Definições das notificações"
@@ -906,10 +886,10 @@ pt-PT:
       wiki_link: "Link para uma página Wiki"
       image: "Imagem"
     sharing:
-      share: "Share"
-      selected_count: "%{count} selected"
+      share: "Partilhar"
+      selected_count: "%{count} selecionado"
       selection:
-        mixed: "Mixed"
+        mixed: "Misturado"
     work_packages:
       bulk_actions:
         move: "Mudança em massa de projeto"
@@ -1020,11 +1000,13 @@ pt-PT:
         workAlternative: "Tempo estimado"
         remainingTime: "Trabalho restante"
       default_queries:
+        manually_sorted: "Nova consulta ordenada manualmente"
         latest_activity: "Atividade mais recente"
         created_by_me: "Criado por mim"
         assigned_to_me: "Atribuído a mim"
         recently_created: "Criado recentemente"
         all_open: "Tudo aberto"
+        overdue: "Em atraso"
         summary: "Resumo"
         shared_with_users: "Partilhado com utilizadores"
         shared_with_me: "Partilhados comigo"
@@ -1205,6 +1187,9 @@ pt-PT:
         one: "1 dia"
         other: "%{count} dias"
         zero: "0 dias"
+      word:
+        one: "1 palavra"
+        other: "%{count} palavras"
     zen_mode:
       button_activate: "Ativar modo zen"
       button_deactivate: "Desativar modo zen"

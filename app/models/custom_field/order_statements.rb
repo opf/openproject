@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,12 +38,8 @@ module CustomField::OrderStatements
       else
         [select_custom_option_position]
       end
-    when "string", "text", "date", "bool"
-      if multi_value?
-        [select_custom_values_as_group]
-      else
-        [coalesce_select_custom_value_as_string]
-      end
+    when "string", "date", "bool", "link"
+      [coalesce_select_custom_value_as_string]
     when "int", "float"
       # Make the database cast values into numeric
       # Postgresql will raise an error if a value can not be casted!

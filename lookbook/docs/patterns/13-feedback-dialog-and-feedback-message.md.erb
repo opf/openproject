@@ -1,0 +1,83 @@
+The FeedbackDialog is used to provide the user feedback on any kind of process. Unlike the `Banner`/`Flash`, the FeedbackDialog is intrusive and demands user attention. In some cases, it is the final step of a multi-step process, although it can also be triggered independently.
+
+The FeedbackMessage is a sub-component (a variation of `Blankslate`) that is contained in the FeedbackDialog, but can also be used separately.
+
+### Overview
+
+<%= embed Patterns::FeedbackDialogPreview, :default, panels: %i[source] %>
+
+### Anatomy
+
+The Feedback Dialog is a variation of a normal Primer Dialog, with two additional possible slots:
+
+- **Feedback Message** (mandatory) is what is contained in the dialog, itself a variation of 'Blankslate'.
+- **Additional content** (optional) can be placed below the FeedbackMessage when you need to include other important elements like a checkbox, more text or a banner.
+
+Please note that although these are OpenProject-specific variants, there is no additional spacing added to these components. The spacing is derived from the dialog's `overlayBody`, and from Blankslate, which FeedbackMessage is based on.
+
+In its default form, the FeedbackDialog contains a message with a green success icon and a heading. The message description is optional. The close icon in the top right edge is visible and there is one button to close the dialog in the footer.
+
+### Options
+
+Whilst all options available to the `Dialog` component are available to the FeedbackMessage, we recommend limiting our use to the following variations:
+
+- **With custom icon**: you can change the icon and the colour of the icon. This simple variation can be used for example to inform the user that a feature is Enterprise-only or to indicate an error.
+- **With additional content**: This is usually just additional text but can be almost any Primer component. The most common components that can be used here are text, a checkbox, a banner and a select panel.
+- **Footer buttons**: Usually, this is just a close action but it is possible to include custom footer with different actions.
+- **With loading spinner**: It's possible to display the animated SVG loading spinner instead of an icon. 
+- **With additional actions in the Blankslate**: the options afforded by Blankslate such as a primary or secondary action in the form of a button or a link are also available to FeedbackMessage.
+
+If you would need or would like to use a different variant, please contact the UX and Front-end Primer teams.
+
+### Best practices
+
+#### Do:
+
+- Use the FeedbackDialog to give feedback to the user as a part of a complex set of actions, whether that feedback is positive or negative.
+- Use the simplest variant that will do the job, usually the default. Only choose variations or add additional elements if absolutely required.
+
+#### Don't:
+
+- Add a border to the FeedbackMessage, even if Blankslate allows this.
+- Use it for immediate feedback on a common or simple action; use the `Banner` instead for this.
+- Add additional margins or spacing to the FeedbackDialog. 
+
+### Used in
+
+The FeedbackDialog (or just the FeedbackMessage independently) is already used in a number of places:
+
+- **File storages,**
+    - to inform the user that the set-up was successful
+    - to ask the user to log in if the action they are trying to accomplish requires it
+    - to warn the user about the consequences of removing a file storage from a project when they try to do this
+- **API Token generation** process (success or error)
+- **PDF export**, to inform the user of the status of the export job (loading, waiting or successful)
+
+### Technical notes
+
+The FeedbackDialog offers a set of additional slots that the normal Dialog does not:
+
+* [`with_feedback_message`](../../inspect/primer/open_project/feedback_dialog/default)
+  * it can then receive the normal slots that a `Blankslate` can receive
+  * the only exception are the arguments for the icon which need to be passed as a hash
+
+```rb
+dialog.with_feedback_message(icon_arguments: { icon: :"x-circle", color: :danger }) do |message|
+   message.with_heading(tag: :h2) { "Ups, something went wrong" }
+   message.with_description { "Please try again or contact your administrator if the issue persists." }
+end
+```
+
+* [`with_additional_actions`](../../inspect/primer/open_project/feedback_dialog/additional_content)
+  * it is a generic slot that accepts any component inside
+
+
+### Examples
+
+Please consult the the [previews](../../inspect/primer/open_project/feedback_dialog/playground) for a detailed overview of the possible options.
+
+#### Custom icon
+<%= embed Patterns::FeedbackDialogPreview, :custom_icon, panels: %i[source] %>
+
+#### Loading
+<%= embed Patterns::FeedbackDialogPreview, :loading, panels: %i[source] %>

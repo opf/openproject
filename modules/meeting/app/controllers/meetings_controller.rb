@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,6 +49,7 @@ class MeetingsController < ApplicationController
   include SortHelper
 
   include OpTurbo::ComponentStream
+  include OpTurbo::FlashStreamHelper
   include ApplicationComponentStreams
   include Meetings::AgendaComponentStreams
   include MetaTagsHelper
@@ -71,6 +72,14 @@ class MeetingsController < ApplicationController
       render(Meetings::ShowComponent.new(meeting: @meeting, project: @project))
     elsif @meeting.agenda.present? && @meeting.agenda.locked?
       params[:tab] ||= "minutes"
+    end
+  end
+
+  def check_for_updates
+    if params[:reference] == @meeting.changed_hash
+      head :no_content
+    else
+      respond_with_flash(Meetings::UpdateFlashComponent.new(meeting: @meeting))
     end
   end
 
@@ -151,16 +160,20 @@ class MeetingsController < ApplicationController
   end
 
   def update
-    @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
-    @converted_params.delete(:send_notifications)
-    @meeting.attributes = @converted_params
-    if @meeting.save
+    call = ::Meetings::UpdateService
+      .new(user: current_user, model: @meeting)
+      .call(@converted_params)
+
+    if call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: "show", id: @meeting
     else
+      @meeting = call.result
       render action: "edit"
     end
   end
+
+  def details_dialog; end
 
   def participants_dialog; end
 
@@ -206,7 +219,7 @@ class MeetingsController < ApplicationController
   end
 
   def change_state
-    case structured_meeting_params[:state]
+    case params[:state]
     when "open"
       @meeting.open!
     when "closed"

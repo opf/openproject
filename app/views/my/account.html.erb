@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title(t(:label_my_account), t(:label_profile)) -%>
 
-<% breadcrumb_paths(t(:label_my_account), t(:label_profile)) %>
-<%= toolbar title: t(:label_profile) %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_profile) }
+    header.with_breadcrumbs([{ href: my_account_path, text: t(:label_my_account) },
+                             t(:label_profile)])
+  end
+%>
+
 <%= error_messages_for 'user' %>
 
 <%= password_confirmation_form_for @user,
@@ -54,8 +60,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%= f.text_field :firstname, required: true, container_class: '-middle', disabled: login_via_provider || login_via_ldap %>
       <% if login_via_provider %>
         <span class="form--field-instructions"><%= t('user.text_change_disabled_for_provider_login') %></span>
-      <% end %>
-      <% if login_via_ldap %>
+      <% elsif login_via_ldap %>
         <span class="form--field-instructions"><%= t('user.text_change_disabled_for_ldap_login') %></span>
       <% end %>
     </div>
@@ -63,14 +68,15 @@ See COPYRIGHT and LICENSE files for more details.
       <%= f.text_field :lastname, required: true, container_class: '-middle', disabled: login_via_provider || login_via_ldap %>
       <% if login_via_provider %>
         <span class="form--field-instructions"><%= t('user.text_change_disabled_for_provider_login') %></span>
-      <% end %>
-      <% if login_via_ldap %>
+      <% elsif login_via_ldap %>
         <span class="form--field-instructions"><%= t('user.text_change_disabled_for_ldap_login') %></span>
       <% end %>
     </div>
     <div class="form--field -required">
       <%= f.text_field :mail, required: true, container_class: '-middle', disabled: login_via_ldap %>
-      <% if login_via_ldap %>
+      <% if login_via_provider %>
+        <span class="form--field-instructions"><%= t('user.text_change_disabled_for_provider_login') %></span>
+      <% elsif login_via_ldap %>
         <span class="form--field-instructions"><%= t('user.text_change_disabled_for_ldap_login') %></span>
       <% end %>
     </div>

@@ -1,6 +1,6 @@
 <div class="between-dates">
   <span><%= t(:label_date_from) %>:</span>
-  <%= angular_component_tag 'op-basic-single-date-picker',
+  <%= angular_component_tag 'opce-basic-single-date-picker',
                             inputs: {
                               value: from_value,
                               id: "between-dates-from-value-#{filter.name}",
@@ -8,7 +8,7 @@
                             }
   %>
   <span><%= t(:label_date_to) %>:</span>
-  <%= angular_component_tag 'op-basic-single-date-picker',
+  <%= angular_component_tag 'opce-basic-single-date-picker',
                             inputs: {
                               value: to_value,
                               id: "between-dates-to-value-#{filter.name}",

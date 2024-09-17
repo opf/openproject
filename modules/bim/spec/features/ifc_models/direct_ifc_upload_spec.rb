@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,11 +36,12 @@ RSpec.describe "direct IFC upload", :js, with_config: { edition: "bim" }, with_d
 
     context "when the file size exceeds the allowed maximum", with_settings: { attachment_max_size: 1 } do
       it "invalidates the form via JavaScript preventing submission" do
-        pending "This test is currently flaky due to an unknown reason"
-
         visit new_bcf_project_ifc_model_path(project_id: project.identifier)
 
         page.attach_file("file", ifc_fixture.path, visible: :all)
+
+        expected_validation_message = I18n.t("activerecord.errors.messages.file_too_large", count: 1024)
+        expect(page).to have_field(type: "file", validation_message: expected_validation_message)
 
         form_validity = page.evaluate_script <<~JS
           document

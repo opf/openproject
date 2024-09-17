@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -201,6 +201,11 @@ hu:
       title: "Egyéni műveletek"
       description: "Az egyéni műveletek egy kattintással elérhető parancsikonok előre meghatározott műveletek csoportjához, amelyeket állapot, szerep, típus vagy projekt alapján elérhetővé tehet bizonyos munkacsomagokon."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Új egyéni mezők hozzáadásához először létre kell hozni őket, még mielőtt felvenné azokat a projekthez.
     is_enabled_globally: "Globálisan engedélyezve van"
@@ -211,10 +216,12 @@ hu:
     reorder_confirmation: "Figyelmeztetés: A rendelkezésre álló értékek jelenlegi sorrendje elveszik. Folytatni akarod?\n"
     instructions:
       is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Mark the custom field as available in all existing and new projects."
       searchable: "Include the field values when using the global search functionality."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Allow the field to be editable by users themselves."
-      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
@@ -261,14 +268,16 @@ hu:
       open_as_gantt: "Gantt nézet megnyitása"
       no_results_title_text: Jelenleg nincsenek projektek
       no_results_content_text: Új projekt létrehozása
+      search:
+        label: Project name filter
+        placeholder: Search by project name
     lists:
       active: "Aktív projektek"
       my: "Saját projekjeim"
       favored: "Favorite projects"
       archived: "Archivált projektek"
       shared: "Shared project lists"
-      public: "Public project lists"
-      my_private: "Privát projektlistáim"
+      my_lists: "My project lists"
       new:
         placeholder: "Új projektlista"
       delete_modal:
@@ -295,14 +304,12 @@ hu:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
-          deactivate_for_project: "Deactivate for this project"
+          remove_from_project: "Remove from project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
-        new_project_mapping_form:
-          include_sub_projects: Include sub-projects
       types:
         no_results_title_text: Jelenleg nincs elérhető típus.
         form:
@@ -388,14 +395,17 @@ hu:
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
         token_name_blank: "Please provide an API token name"
         token_name_in_use: "This API token name is already in use, please select a different one"
       new_access_token_dialog_title: "Create new API token"
       new_access_token_dialog_show_button_text: "API token"
       new_access_token_dialog_text_field_placeholder_text: "My API token"
-      new_access_token_dialog_text_field_label: "Name"
-      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text_field_label: "Név"
+      new_access_token_dialog_submit_button_text: "Létrehoz"
       new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
       new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Hozzáférési token helyreállítása sikertelen: %{error}"
@@ -404,7 +414,7 @@ hu:
       notice_reset_token: "Egy új %{type} token létrehozva. A hozzáférési token:"
       token_value_warning: "Megjegyzés: Ez az egyetlen alkalom, mikor ezt a tokent láthatja, győződjön meg arról, hogy most átmásolta."
       no_results_title_text: Jelenleg nincs elérhető hozzáférési kulcs.
-      notice_api_token_revoked: "Az API-token törlésre került. Új token létrehozásához kérjük, használja az API szakaszban található linket."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "Az RSS-token törlésre került. Új token létrehozásához kérjük, használja az RSS szakaszban található linket."
       notice_ical_token_revoked: 'A "%{project_name}" projekt "%{calendar_name}" naptárához tartozó "%{token_name}" iCalendar token visszavonásra került. Az ezzel a tokennel rendelkező iCalendar URL mostantól érvénytelen.'
   news:
@@ -472,12 +482,12 @@ hu:
       no_results_title_text: Jelenleg nincsenek feladatcsoport státuszok.
       no_results_content_text: Új státusz hozzáadása
       headers:
-        is_default: "Default"
-        is_closed: "Closed"
-        is_readonly: "Read-only"
+        is_default: "alapértelmezett"
+        is_closed: "Lezárva"
+        is_readonly: "Írásvédett"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (experimental)"
+    dark: "Dark (Beta)"
     light: "Világos"
     light_high_contrast: "Világos, nagy kontraszt"
   types:
@@ -525,9 +535,9 @@ hu:
       no_common_statuses_exists: "Az összes kiválasztott feladatcsoporthoz nincs elérhető állapot. Státuszuk nem változtatható meg."
       unsupported_for_multiple_projects: "Tömeges mozgatás/másolás nem támogatott a különböző projektekből származó feladatcsoportokhoz"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like them to remain unchanged. Otherwise, the work package's type will be automatically re-assigned leading to potential data loss.
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, the work packages' types will be automatically re-assigned leading to potential data loss.
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
         title: "Workflow missing for work package sharing"
@@ -595,17 +605,6 @@ hu:
       attribute_help_text:
         attribute_name: "Attribútum"
         help_text: "Súgószöveg"
-      ldap_auth_source:
-        account: "Felhasználói fiók"
-        attr_firstname: "Keresztnév attribútum"
-        attr_lastname: "Vezetéknév attribútum"
-        attr_login: "Felhasználónév attribútum"
-        attr_mail: "Email attribútum"
-        base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Automatikus felhasználó készítés"
-        port: "Port szám"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Csomagtároló"
       color:
@@ -627,9 +626,19 @@ hu:
         possible_values: "Lehetséges értékek"
         regexp: "Hagyományos kifejezések"
         searchable: "Kereshető"
-        visible: "Látható"
+        admin_only: "Admin-only"
       custom_value:
         value: "Érték"
+      doorkeeper/application:
+        uid: "Ügyfél azonosító"
+        secret: "Kliens titok"
+        owner: "Tulajdonos"
+        builtin: "Builtin"
+        enabled: "Active"
+        redirect_uri: "Átirányítás URI"
+        client_credentials_user_id: "Ügyféladatok Felhasználói azonosító\n"
+        scopes: "Hatáskörök"
+        confidential: "Bizalmas"
       enterprise_token:
         starts_at: "Érvényes"
         subscriber: "Előfizető"
@@ -640,20 +649,25 @@ hu:
         row_count: "Sorok száma"
         column_count: "Oszlopok száma"
         widgets: "Kisalkalmazások"
-      oauth_client:
-        client: "Ügyfél azonosító"
-      relation:
-        lag: "Lag"
-        from: "Feladatcsoport"
-        to: "Kapcsolódó feladatcsoport"
-      status:
-        is_closed: "Lezárt feladatcsoport"
-        is_readonly: "Munkacsomag csak olvasható"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Jegyzet"
+      ldap_auth_source:
+        account: "Felhasználói fiók"
+        attr_firstname: "Keresztnév attribútum"
+        attr_lastname: "Vezetéknév attribútum"
+        attr_login: "Felhasználónév attribútum"
+        attr_mail: "Email attribútum"
+        base_dn: "Base DN"
+        host: "Host"
+        onthefly: "Automatikus felhasználó készítés"
+        port: "Port szám"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Szerepkörök"
+      oauth_client:
+        client: "Ügyfél azonosító"
+      planning_element_type_color:
+        hexcode: Hexa kód
       project:
         active_value:
           true: "unarchived"
@@ -683,6 +697,9 @@ hu:
         types: "Típus"
         versions: "Verzió"
         work_packages: "Feladatcsoportok"
+      project_custom_field:
+        is_required: "Required for all projects"
+        custom_field_section: Szekció
       query:
         column_names: "Oszlopok"
         relations_to_type_column: "Kapcsolatok %{type}-hoz"
@@ -690,10 +707,19 @@ hu:
         group_by: "Csoport szintű eredmények"
         filters: "Szürő"
         timeline_labels: "Idővonal címkék"
+      relation:
+        lag: "Lag"
+        from: "Feladatcsoport"
+        to: "Kapcsolódó feladatcsoport"
       repository:
         url: "URL"
       role:
         permissions: "Jogosultságok"
+      status:
+        is_closed: "Lezárt feladatcsoport"
+        is_readonly: "Munkacsomag csak olvasható"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Tevékenység"
         hours: "órák"
@@ -736,10 +762,6 @@ hu:
       wiki_page:
         parent_title: "Szülő oldal"
         redirect_existing_links: "A létező link átirányítása"
-      planning_element_type_color:
-        hexcode: Hexa kód
-      project_custom_field:
-        custom_field_section: Section
       work_package:
         begin_insertion: "Beillesztés kezdete"
         begin_deletion: "Törlés kezdete"
@@ -774,14 +796,6 @@ hu:
         type: "Típus"
         version: "Verzió"
         watcher: "Megfigyelő"
-      "doorkeeper/application":
-        uid: "Ügyfél azonosító"
-        secret: "Kliens titok"
-        owner: "Tulajdonos"
-        redirect_uri: "Átirányítás URI"
-        client_credentials_user_id: "Ügyféladatok Felhasználói azonosító\n"
-        scopes: "Hatáskörök"
-        confidential: "Bizalmas"
     errors:
       messages:
         accepted: "el kell fogadni."
@@ -792,6 +806,7 @@ hu:
         blank: "nem lehet üres."
         blank_nested: "be kell állítani a '%{property}' tulajdonságot.\n"
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "A feladatcsoport nem kapcsolható saját részfeladatához."
         circular_dependency: "Ez a kapcsolat egy körkörös függőséget eredményezne."
         confirmation: "%{attribute} nem egyezik."
@@ -865,6 +880,10 @@ hu:
               minimum: "tartalmaznia kell legalább egy szűrőt a fő, kontextus vagy azonosító számára a '=' operátorral.\n"
         custom_field:
           at_least_one_custom_option: "Minimum egy opciónak elérhetőnek kell lennie."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) csak egy érték megengedett."
           empty: "(%{name}) az érték nem lehet üres."
@@ -994,6 +1013,11 @@ hu:
               hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "nem aktiválható az alapértelmezettként megjelölt állapotokhoz."
         time_entry:
           attributes:
             hours:
@@ -1024,6 +1048,12 @@ hu:
           attributes:
             assigned_to:
               format: "%{message}\n"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when Work is 0h"
+              must_be_set_when_remaining_work_is_set: "required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "nincs kezdő dátum, ez szükséges a fordulóponthoz."
               cannot_be_null: "nem állítható nullára, mivel a kezdés dátuma és időtartama ismert."
@@ -1052,15 +1082,17 @@ hu:
               does_not_exist: "A megadott kategória nem létezik."
             estimated_hours:
               not_a_number: "is not a valid duration."
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
-              format: "%{message}\n"
+              cant_be_inferior_to_remaining_work: "cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "required when Remaining work and % Complete are set."
             remaining_hours:
               not_a_number: "is not a valid duration."
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
-              format: "%{message}\n"
+              cant_exceed_work: "cannot be higher than Work."
+              must_be_set_when_work_is_set: "required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "required when Work and % Complete are set."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                must be 0h when Work is set and % Complete is 100%.
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                must be empty when Work is empty and % Complete is 100%.
           readonly_status: "A munkacsomag írásvédett, ezért a tulajdonságai nem módosíthatók."
         type:
           attributes:
@@ -1079,7 +1111,7 @@ hu:
               confirmation: "A két jelszó nem egyezik!"
               format: "%{message}\n"
             password:
-              weak: "Az alábbi karakter típusokból tartalmaznia kell karaktert (legalább %{min_count} a %{all_count} típusból): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "Kisbetű (pl. 'a')"
               uppercase: "Nagybetű (pl. 'A')"
               numeric: "Szám (pl. '1')"
@@ -1108,12 +1140,10 @@ hu:
         version:
           undeletable_archived_projects: "Nem lehet a verziót törölni amíg hozzá van rendelve munkacsomagokhoz."
           undeletable_work_packages_attached: "Nem lehet a verziót törölni amíg hozzá van rendelve munkacsomagokhoz."
-        status:
-          readonly_default_exlusive: "nem aktiválható az alapértelmezettként megjelölt állapotokhoz."
         token/api:
           attributes:
             token_name:
-              format: "%{message}"
+              format: "%{message}\n"
       template:
         body: "Kérjük, ellenőrizze az alábbi mezőket:"
         header:
@@ -1137,11 +1167,17 @@ hu:
         other: "Értesítések"
       placeholder_user: "Teszt felhasználó"
       project: "Projekt"
+      project_query:
+        one: "Project list"
+        other: "Project lists"
       query: "Egyéni lekérdezés"
       role:
         one: "Szerepkör"
         other: "Szerepkörök"
       status: "Feladatcsoport állapot"
+      token/api:
+        one: Access token
+        other: Access tokens
       type: "Típus"
       user: "Felhasználó"
       version: "Verzió"
@@ -1182,7 +1218,7 @@ hu:
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
-        updated: "changed from %{old_value} to %{value}"
+        updated: "Átállítva %{old_value}-ról/-ről %{value}-ra/-re"
         logged_for: "Logged for"
     filter:
       changeset: "Commit-ok"
@@ -1580,6 +1616,7 @@ hu:
   error_pdf_failed_to_export: "A PDF-Exportálás mentése nem sikerült: %{error}"
   error_token_authenticity: "Nem sikerült ellenőrizni a Cross-Site Request Forgery token-t. Megpróbált adatokat küldeni több böngészőn vagy lapon keresztül? Kérjük, zárja be az összes lapot, és próbálkozzon újra."
   error_work_package_not_found_in_project: "A feladatcsoport nem található, vagy nem tartozik ehhez a projekthez"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "projekt tagnak kell lennie"
   error_migrations_are_pending: "Az Openproject adatbázisainak költöztetése függőben van. Valószínűleg elmulasztotta lefuttatni az átvitelt a legutóbbi frissítéskor. Kérjük, a megfelelő frissítéshez kövesse a frissítési útmutatót."
   error_migrations_visit_upgrade_guides: "Kérjük, látogassa meg frissítési útmutatónkat"
@@ -1621,9 +1658,71 @@ hu:
       project: "Projekt: %{name}"
       subproject: "Alprojekt: %{name}"
   export:
-    your_work_packages_export: "Munkacsomagok exportálása"
-    succeeded: "Az exportálás sikeresen végetért."
-    failed: "Az exportálás meghiúsult %{message}"
+    dialog:
+      title: "Export"
+      submit: "Export"
+      format:
+        label: "File format"
+        options:
+          csv:
+            label: "CSV"
+          pdf:
+            label: "PDF"
+          xls:
+            label: "XLS"
+      columns:
+        input_label_report: "Add columns to attribute table"
+        input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
+        input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
+      pdf:
+        export_type:
+          label: "PDF export type"
+          options:
+            table:
+              label: "Table"
+              caption: "Export the work packages list in a table with the desired columns."
+            report:
+              label: "Report"
+              caption: "Export the work package on a detailed report of all work packages in the list."
+            gantt:
+              label: "Gantt chart"
+              caption: "Export the work packages list in a Gantt diagram view."
+        include_images:
+          label: "Include images"
+          caption: "Exclude images to reduce the size of the PDF export."
+        gantt_zoom_levels:
+          label: "Zoom levels"
+          caption: "Select what is the zoom level for dates displayed in the chart."
+          options:
+            days: "Days"
+            weeks: "Weeks"
+            months: "Months"
+            quarters: "Quarters"
+        column_width:
+          label: "Table column width"
+          options:
+            narrow: "Narrow"
+            medium: "Medium"
+            wide: "Wide"
+            very_wide: "Very wide"
+        paper_size:
+          label: "Paper size"
+          caption: "Depending on the chart size more than one page might be exported."
+        long_text_fields:
+          input_caption: "By default all long text fields are selected."
+          input_label: "Add long text fields"
+          input_placeholder: "Search for long text fields"
+          drag_area_label: "Manage long text fields"
+      xls:
+        include_relations:
+          label: "Include relations"
+          caption: "This option will create a duplicate of each work package for every relation this has with another work package."
+        include_descriptions:
+          label: "Include descriptions"
+          caption: "This option will add a description column in raw format."
+    your_work_packages_export: "Work packages are being exported"
+    succeeded: "Export completed"
+    failed: "An error has occurred while trying to export the work packages: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1777,6 +1876,22 @@ hu:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Megbízott"
+      dateAlert: "Date alert"
+      mentioned: "Megemlített"
+      responsible: "Felelős"
+      shared: "Megosztva"
+      watched: "Megfigyelő"
+    facets:
+      unread: "Olvasatlan"
+      unread_title: "Show unread"
+      all: "Összes"
+      all_title: "Minden megjelenítése"
+    menu:
+      by_project: "Olvasatlan projektenként"
+      by_reason: "Reason"
+      inbox: "Beérkezett üzenetek"
     send_notifications: "Értesítések küldése ehhez a művelethez\n"
     work_packages:
       subject:
@@ -1837,6 +1952,8 @@ hu:
   label_ldap_auth_source_plural: "LDAP connections"
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Hitelesítés"
+  label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Elérhető fórumok"
@@ -1909,6 +2026,7 @@ hu:
   label_copy_project: "Projekt másolása"
   label_core_version: "Core verzió"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Jelenlegi állapot"
   label_current_version: "Jelenlegi verzió"
   label_custom_field_add_no_type: "Mező hozzáadása egy feladatcsoport típushoz"
@@ -2023,6 +2141,7 @@ hu:
   label_inactive: "Inaktív"
   label_incoming_emails: "Bejövő e-mailek"
   label_includes: "tartalmazza"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Index dátum szerint"
   label_index_by_title: "Index cím szerint"
   label_information: "Információk"
@@ -2034,9 +2153,10 @@ hu:
   label_invite_user: "Felhasználó meghívása"
   label_share: "Megosztás"
   label_share_project_list: "Share project list"
-  label_show_hide: "Megjelenítés/Elrejtés"
-  label_show_hide_n_items: "Show/hide %{count} items"
+  label_share_work_package: "Share work package"
   label_show_all_registered_users: "Minden regisztrált felhasználó megjelenítése"
+  label_show_n_more: "Show %{count} more"
+  label_show_less: "Show less"
   label_journal: "Hírközlés"
   label_journal_diff: "Leírás összehasonlítás"
   label_language: "Nyelv"
@@ -2073,7 +2193,7 @@ hu:
   label_custom_touch_icon: "Egyedi \"touch-icon\""
   label_logout: "Kijelentkezés"
   label_main_menu: "Oldalsó menü"
-  label_manage: "Manage"
+  label_manage: "Kezelés"
   label_manage_groups: "Csoportok kezelése"
   label_managed_repositories_vendor: "Kezelt %{vendor} adattárak"
   label_max_size: "Maximális mérete"
@@ -2082,8 +2202,8 @@ hu:
   label_member_all_admin: "(Összes jogosultság az admin állapot végett)"
   label_member_plural: "Tagok"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Felhasználó hozzáadva"
-  lable_membership_updated: "Felhasználó frissítve"
+  label_membership_added: "Felhasználó hozzáadva"
+  label_membership_updated: "Felhasználó frissítve"
   label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "alfa előtti"
@@ -2129,6 +2249,8 @@ hu:
   label_next_week: "A jövő héten"
   label_no_change_option: "(Nincs változás)"
   label_no_data: "Nincs megjelenítendő adat"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Nincs szülő oldal"
   label_nothing_display: "Nincs megjeleníthető"
   label_nobody: "senki sem"
@@ -2184,6 +2306,8 @@ hu:
   label_product_version: "Termékverzió"
   label_profile: "Profil"
   label_percent_complete: "%-ban kész"
+  label_progress_tracking: "Progress tracking"
+  label_project: "Projekt"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Projekt attribútumok"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2252,7 +2376,10 @@ hu:
   label_role_plural: "Szerepkörök"
   label_role_search: "Szerep hozzárendelése az új tagokhoz"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Keresés"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Teszt levél küldése"
   label_session: "Munkamenet"
@@ -2372,6 +2499,7 @@ hu:
   label_work_package_tracking: "A munkacsomag nyomon követése"
   label_work_package_view_all: "Minden munkacsomag megtekintése"
   label_workflow: "Munkafolyamat"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "A munkafolyamatok"
   label_workflow_summary: "Összegzés"
   label_working_days_and_hours: "Working days and hours"
@@ -2705,6 +2833,7 @@ hu:
   permission_edit_own_messages: "Saját üzenetek szerkesztése"
   permission_edit_own_time_entries: "Rögzített eltöltött időim szerkesztése"
   permission_edit_project: "Projekt szerkesztése"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "Jelentések szerkesztése"
   permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Idővonalak szerkesztése"
@@ -2755,6 +2884,7 @@ hu:
   permission_work_package_assigned: "Legyen megbízott/felelős"
   permission_work_package_assigned_explanation: "Munkacsomagok hozzárendelhetők a szerephez tartozó felhasználókhoz és csoportokhoz az adott projektben"
   permission_view_project_activity: "View project activity"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
@@ -2999,11 +3129,17 @@ hu:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Az aktivációs email lejár ekkor"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "feladatcsoport tulajdonságok"
   setting_work_package_startdate_is_adddate: "Az aktuális dátum használata, mint kezdő dátuma az új feladatcsoportoknak"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -3113,7 +3249,7 @@ hu:
     project_attributes:
       heading: "Projekt attribútumok"
       label_new_attribute: "Project attribute"
-      label_new_section: "Section"
+      label_new_section: "Szekció "
       label_edit_section: "Edit title"
       label_section_actions: "Section actions"
       heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
@@ -3301,7 +3437,7 @@ hu:
         drag_area_label: "Manage and reorder columns"
       sort_by:
         automatic:
-          heading: "Automatic"
+          heading: "Automatikus"
           description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "További források"
@@ -3386,15 +3522,32 @@ hu:
     progress:
       label_note: "Note:"
       modal:
-        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
+        work_based_help_text: "Each field is automatically calculated from the two others when possible."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          cleared_because_work_is_0h: "Cleared because Work is 0h."
+          derived: "Derived from Work and Remaining work."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          derived: "Derived from Remaining work and % Complete."
+          same_as_remaining_work: "Set to same value as Remaining work."
+        remaining_hours:
+          cleared_because_work_is_empty: "Cleared because Work is empty."
+          cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
+          derived: "Derived from Work and % Complete."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
+          same_as_work: "Set to same value as Work."
     permissions:
-      comment: "Comment"
+      comment: "Vélemény"
       comment_description: "Can view and comment this work package."
-      edit: "Edit"
+      edit: "Szerkesztés"
       edit_description: "Can view, comment and edit this work package."
-      view: "View"
+      view: "Nézet"
       view_description: "Can view this work package."
   sharing:
     count:
@@ -3406,20 +3559,20 @@ hu:
       not_project_member: "Not project member"
       project_group: "Project group"
       not_project_group: "Not project group"
-      user: "User"
-      group: "Group"
-      role: "Role"
-      type: "Type"
+      user: "Felhasználó"
+      group: "Csoport"
+      role: "Szerepkör"
+      type: "Típus"
     denied: "You don't have permissions to share %{entities}."
     label_search: "Search for users to invite"
     label_search_placeholder: "Search by user or email address"
     label_toggle_all: "Toggle all shares"
-    remove: "Remove"
-    share: "Share"
+    remove: "Eltávolítás"
+    share: "Megosztás"
     text_empty_search_description: "There are no users with the current filter criteria."
     text_empty_search_header: "We couldn't find any matching results."
     text_empty_state_description: "The %{entity} has not been shared with anyone yet."
-    text_empty_state_header: "Not shared"
+    text_empty_state_header: "Nem megosztott"
     text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
     text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
     warning_user_limit_reached: >
@@ -3440,7 +3593,12 @@ hu:
       additional_privileges_group: "Might have additional privileges (as group member)"
       additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
     project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
       access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
+      user_details:
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
       public_flag:
         label: "Share with everyone at %{instance_name}"
         caption: "Everyone can view this project list. Those with global edit permissions can modify it."
@@ -3452,10 +3610,12 @@ hu:
           header: "Not shared: Private"
           description: "This project list has not been shared with anyone yet. Only you can access this list."
       permissions:
-        view: "View"
+        view: "Nézet"
         view_description: "Can view this project list."
-        edit: "Edit"
+        edit: "Szerkesztés"
         edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
@@ -3572,12 +3732,16 @@ hu:
     close_warning: "Figyelmeztetés figyelmen kívül hagyása."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth alkalmazás"
       plural: "OAuth alkalmazások"
       named: "OAuth-alkalmazás neve %{name}"
       new: "Új OAuth alkalmazás"
+      non_confidential: Non confidential
       default_scopes: "Alapértelmezett hatáskörök"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Az alkalmazás neve. Ez más felhasználók számára jelenik meg engedélyezéskor.\n"
         redirect_uri_html: >
           Az engedélyezett URL -címek átirányíthatók a jogosult felhasználókra. Soronként egy bejegyzés. <br/> Ha asztali alkalmazást regisztrál, használja a következő URL -t.
@@ -3586,6 +3750,10 @@ hu:
         client_credential_user_id: "Választható felhasználói azonosító, amelyet az ügyfelek az alkalmazás használatakor megszemélyesíthetnek. Üresen hagyva csak nyilvános hozzáférést engedélyez\n"
         register_intro: "Ha OAuth API kliensalkalmazást fejleszt az OpenProject számára, akkor ezen az űrlapon regisztrálhatja azt, hogy minden felhasználó használhassa."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Ügyfél azonosító"
     client_secret_notice: >
       Ez az egyetlen alkalom, amikor kinyomtathatjuk az ügyfél titkát, jegyezze fel és tartsa biztonságban. Jelszóként kell kezelni, és az OpenProject később nem tudja lekérni.

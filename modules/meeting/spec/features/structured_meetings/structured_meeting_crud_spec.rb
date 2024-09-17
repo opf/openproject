@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -77,9 +77,9 @@ RSpec.describe "Structured meetings CRUD",
     new_page.set_duration "1.5"
     new_page.invite(other_user)
 
-    if test.metadata[:unchecked]
-      expect(page).to have_checked_field "send_notifications" # rubocop:disable RSpec/ExpectInHook
-      uncheck "send_notifications"
+    if test.metadata[:checked]
+      expect(page).to have_unchecked_field "send_notifications" # rubocop:disable RSpec/ExpectInHook
+      check "send_notifications"
     end
 
     new_page.click_create
@@ -88,9 +88,9 @@ RSpec.describe "Structured meetings CRUD",
   it "can create a structured meeting and add agenda items" do
     show_page.expect_toast(message: "Successful creation")
 
-    # Can send invitation mails by default
+    # Does not send invitation mails by default
     perform_enqueued_jobs
-    expect(ActionMailer::Base.deliveries.size).to eq 2
+    expect(ActionMailer::Base.deliveries.size).to eq 0
 
     # Can add and edit a single item
     show_page.add_agenda_item do
@@ -100,9 +100,8 @@ RSpec.describe "Structured meetings CRUD",
 
     show_page.expect_agenda_item title: "My agenda item"
     item = MeetingAgendaItem.find_by(title: "My agenda item")
-    show_page.cancel_add_form(item)
 
-    # can update
+    # Can update
     show_page.edit_agenda_item(item) do
       fill_in "Title", with: "Updated title"
       click_on "Save"
@@ -119,9 +118,11 @@ RSpec.describe "Structured meetings CRUD",
     show_page.expect_agenda_item title: "Updated title"
     show_page.expect_agenda_item title: "First"
 
-    show_page.in_agenda_form do
+    # Does not add empty form after save
+    show_page.expect_no_add_form
+
+    show_page.add_agenda_item do
       fill_in "Title", with: "Second"
-      click_on "Save"
     end
 
     show_page.expect_agenda_item title: "Updated title"
@@ -147,7 +148,6 @@ RSpec.describe "Structured meetings CRUD",
     # Can remove
     show_page.remove_agenda_item first
     show_page.assert_agenda_order! "Updated title", "Second"
-    show_page.cancel_add_form(second)
 
     # Can link work packages
     show_page.add_agenda_item(type: WorkPackage) do
@@ -175,7 +175,6 @@ RSpec.describe "Structured meetings CRUD",
     end
 
     show_page.select_action(item, I18n.t(:label_sort_lowest))
-    show_page.cancel_add_form(item)
 
     show_page.add_agenda_item do
       fill_in "Title", with: "My agenda item"
@@ -260,8 +259,6 @@ RSpec.describe "Structured meetings CRUD",
     show_page.expect_agenda_item title: "My agenda item"
     item = MeetingAgendaItem.find_by!(title: "My agenda item")
 
-    show_page.cancel_add_form(item)
-
     show_page.edit_agenda_item(item) do
       # Side effect: update the item
       item.update!(title: "Updated title")
@@ -284,8 +281,6 @@ RSpec.describe "Structured meetings CRUD",
 
     show_page.expect_agenda_item title: "My agenda item"
     item = MeetingAgendaItem.find_by!(title: "My agenda item")
-
-    show_page.cancel_add_form(item)
 
     click_on("op-meetings-header-action-trigger")
     click_on "Copy"
@@ -321,9 +316,9 @@ RSpec.describe "Structured meetings CRUD",
     end
   end
 
-  it "does not send emails on creation when 'Send emails' is unchecked", :unchecked do
+  it "sends emails on creation when 'Send emails' is checked", :checked do
     perform_enqueued_jobs
-    expect(ActionMailer::Base.deliveries.size).to eq 0
+    expect(ActionMailer::Base.deliveries.size).to eq 2
   end
 
   context "with sections" do

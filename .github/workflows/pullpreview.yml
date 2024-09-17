@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Generate .env.pullpreview file
       run: |
         echo "OPENPROJECT_SEED_ADMIN_USER_PASSWORD_RESET=false" >> .env.pullpreview

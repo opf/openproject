@@ -10,6 +10,7 @@ module ::TwoFactorAuthentication
                                  :new,
                                  :confirm,
                                  :web_authn,
+                                 :webauthn_challenge,
                                  :make_default,
                                  :destroy
 

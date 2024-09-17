@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,6 @@
 module Admin::Settings
   class WorkingDaysAndHoursSettingsController < ::Admin::SettingsController
     menu_item :working_days_and_hours
-
-    def default_breadcrumb
-      t(:label_working_days_and_hours)
-    end
 
     def failure_callback(call)
       @modified_non_working_days = modified_non_working_days_for(call.result)

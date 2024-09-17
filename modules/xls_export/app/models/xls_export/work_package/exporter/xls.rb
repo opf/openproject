@@ -12,11 +12,11 @@ module XlsExport::WorkPackage::Exporter
     end
 
     def with_descriptions
-      options[:show_descriptions]
+      ActiveModel::Type::Boolean.new.cast(options[:show_descriptions])
     end
 
     def with_relations
-      options[:show_relations]
+      ActiveModel::Type::Boolean.new.cast(options[:show_relations])
     end
 
     def enable!(singleton_module)

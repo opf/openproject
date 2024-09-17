@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,6 +39,7 @@ module Storages
 
           def initialize(user)
             @user = user
+            @retried_after_stale_object_update = false
           end
 
           # rubocop:disable Metrics/AbcSize
@@ -56,6 +57,12 @@ module Storages
 
               refresh_and_retry(httpx_oauth_config, http_options, token.result, &)
             end
+          rescue ActiveRecord::StaleObjectError => e
+            raise e if @retried_after_stale_object_update
+
+            @retried_after_stale_object_update = true
+            Rails.logger.error("#{e.inspect} happend for User ##{@user.id} #{@user.name}")
+            retry
           end
 
           # rubocop:enable Metrics/AbcSize
@@ -67,11 +74,14 @@ module Storages
 
             if storage.oauth_client.blank?
               log_message = "Authorization failed. Storage has no configured oauth client credentials."
-              return Failures::Builder.call(code: :unauthorized, log_message:, data:)
+              return Failures::Builder.call(code: :error, log_message:, data:)
             end
 
-            current_token = OAuthClientToken.find_by(user: @user,
-                                                     oauth_client: storage.oauth_configuration.oauth_client)
+            # Uncached block is used here because in case of concurrent update on the second try we need a fresh token.
+            # Otherwise token ends up in an invalid state which leads to an undesired token deletion.
+            current_token = OAuthClientToken.uncached do
+              OAuthClientToken.find_by(user: @user, oauth_client: storage.oauth_configuration.oauth_client)
+            end
             if current_token.nil?
               Failures::Builder.call(code: :unauthorized,
                                      log_message: "Authorization failed. No user access token found.",
@@ -94,9 +104,9 @@ module Storages
                                         .with_access_token
                                         .with(http_options)
             rescue HTTPX::HTTPError => e
-              return Failures::Builder.call(code: :unauthorized,
-                                            log_message: "Error while refreshing OAuth token.",
-                                            data: Failures::ErrorData.call(response: e.response, source: self.class))
+              return handle_http_error_on_refresh(token, e)
+            rescue HTTPX::TimeoutError => e
+              return handle_timeout_on_refresh(token, e)
             end
 
             response = yield http_session
@@ -122,6 +132,30 @@ module Storages
             refresh_token = oauth.refresh_token
 
             token.update(access_token:, refresh_token:)
+          end
+
+          def handle_http_error_on_refresh(token, exception)
+            log_message = "Error while refreshing OAuth token."
+            data = Failures::ErrorData.call(response: exception.response, source: self.class)
+
+            Rails.logger.error("#{log_message} - Payload: #{data.payload}")
+
+            # Delete token from database to enforce new user login
+            token.destroy
+
+            Failures::Builder.call(code: :unauthorized, log_message:, data:)
+          end
+
+          def handle_timeout_on_refresh(token, exception)
+            log_message = "Timeout while refreshing OAuth token."
+            data = Failures::TimeoutErrorData.call(error: exception, source: self.class)
+
+            Rails.logger.error("#{log_message} - Payload: #{data.payload}")
+
+            # Delete token from database to enforce new user login
+            token.destroy
+
+            Failures::Builder.call(code: :unauthorized, log_message:, data:)
           end
 
           def build_failure(storage)

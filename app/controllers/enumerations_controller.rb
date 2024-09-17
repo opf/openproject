@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -102,33 +102,19 @@ class EnumerationsController < ApplicationController
 
   protected
 
-  def default_breadcrumb
-    if action_name == "index"
-      t(:label_enumerations)
-    else
-      ActionController::Base.helpers.link_to(t(:label_enumerations), enumerations_path)
-    end
+  def show_local_breadcrumb
+    false
   end
 
-  def show_local_breadcrumb
-    true
-  end
+  def default_breadcrumb; end
 
   def find_enumeration
     @enumeration = Enumeration.find(params[:id])
   end
 
   ##
-  # Find an enumeration class with the given Name
-  # this should be fail save for nonsense names or names
-  # which are no enumerations to prevent remote code execution attacks.
-  # params: type (string)
+  # Find an enumeration class with the given name
   def enumeration_class(type)
-    klass = type.to_s.constantize
-    raise NameError unless klass.ancestors.include? Enumeration
-
-    klass
-  rescue NameError
-    nil
+    Enumeration.registered_subclasses.detect { |cls| cls.name == type }
   end
 end

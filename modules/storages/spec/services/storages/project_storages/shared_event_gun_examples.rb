@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,10 @@ RSpec.shared_examples "an event gun" do |event|
         subject
 
         expect(OpenProject::Notifications).to(
-          have_received(:send).with(event, project_folder_mode: mode, storage: model_instance.storage)
+          have_received(:send)
+          .with(event, project_folder_mode: mode,
+                       project_folder_mode_previously_was: model_instance.project_folder_mode_previously_was,
+                       storage: model_instance.storage)
         )
       end
     end

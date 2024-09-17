@@ -12,7 +12,7 @@ ro:
         filter_string: 'Filtru LDAP'
         ldap_auth_source: 'Conexiune LDAP'
         group_name_attribute: "Atributul nume de grup"
-        sync_users: 'Sincronizați utilizatorii'
+        sync_users: 'Sincronizează utilizatorii'
         base_dn: "Baza de căutare DN"
     models:
       ldap_groups/synchronized_group: 'Grup LDAP sincronizat'
@@ -64,7 +64,7 @@ ro:
       plural: 'Grupuri LDAP sincronizate'
       singular: 'Grup LDAP sincronizat'
       form:
-        auth_source_text: 'Selectați ce conexiune LDAP trebuie utilizată.'
+        auth_source_text: 'Selectează ce conexiune LDAP trebuie utilizată.'
         sync_users_text: >
           Dacă activați această opțiune, utilizatorii găsiți vor fi, de asemenea, creați automat în OpenProject. Fără această opțiune, doar conturile existente în OpenProject vor fi adăugate la grupuri.
         dn_text: 'Introduceți DN-ul complet al grupului în LDAP'

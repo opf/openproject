@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,14 +44,6 @@ module Components
         within @container do
           expect(page).to have_content("created on #{work_package.created_at.strftime('%m/%d/%Y')}")
         end
-      end
-
-      def expect_notification_count(count)
-        expect(page).to have_css('[data-test-selector="tab-counter-Activity"] span', text: count)
-      end
-
-      def expect_no_notification_badge
-        expect(page).to have_no_css('[data-test-selector="tab-counter-Activity"] span')
       end
 
       def hover_action(journal_id, action)

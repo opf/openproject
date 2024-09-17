@@ -1,0 +1,25 @@
+<%= render(Primer::OpenProject::SubHeader.new) do |subheader|
+  subheader.with_filter_component do
+    render(Primer::Alpha::SegmentedControl.new("aria-label": I18n.t(:label_filter_plural))) do |control|
+      control.with_item(tag: :a,
+                        href: notifications_path(facet: nil, **current_filters),
+                        label: t("notifications.facets.unread"),
+                        title: t("notifications.facets.unread_title"),
+                        selected: @facet != "all")
+      control.with_item(tag: :a,
+                        href: notifications_path(facet: "all", **current_filters),
+                        label: t("notifications.facets.all"),
+                        title: t("notifications.facets.all_title"),
+                        selected: @facet == "all")
+    end
+  end
+
+  subheader.with_action_button(tag: :a,
+                               href: mark_all_read_notifications_path(**current_filters),
+                               data: { method: :post },
+                               size: :medium,
+                               aria: { label: I18n.t("js.notifications.center.mark_all_read") }) do |button|
+    button.with_leading_visual_icon(icon: :'op-read-all')
+    I18n.t("js.notifications.center.mark_all_read")
+  end
+end %>

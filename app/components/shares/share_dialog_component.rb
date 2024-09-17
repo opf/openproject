@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,16 +34,16 @@ module Shares
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(shares:, strategy:, errors:)
+    def initialize(strategy:, errors:, open: false)
       super
 
-      @shares = shares
       @strategy = strategy
       @errors = errors
+      @open = open
     end
 
     private
 
-    attr_reader :shares, :strategy, :errors
+    attr_reader :strategy, :errors, :open
   end
 end

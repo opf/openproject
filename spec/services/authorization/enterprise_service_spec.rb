@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,19 +29,18 @@
 require "spec_helper"
 
 RSpec.describe Authorization::EnterpriseService do
-  let(:token_object) do
-    token = OpenProject::Token.new
-    token.subscriber = "Foobar"
-    token.mail = "foo@example.org"
-    token.starts_at = Date.today
-    token.expires_at = nil
-
-    token
-  end
-  let(:token) { double("EnterpriseToken", token_object:) }
   let(:instance) { described_class.new(token) }
-  let(:result) { instance.call(action) }
-  let(:action) { :an_action }
+  let(:token) { instance_double(EnterpriseToken, token_object:, expired?: expired?) }
+  let(:token_object) { OpenProject::Token.new }
+  let(:expired?) { false }
+
+  describe "GUARDED_ACTIONS" do
+    it "is in alphabetical order" do
+      guarded_actions = described_class::GUARDED_ACTIONS
+
+      expect(guarded_actions).to eq(guarded_actions.sort)
+    end
+  end
 
   describe "#initialize" do
     it "has the token" do
@@ -49,57 +48,73 @@ RSpec.describe Authorization::EnterpriseService do
     end
   end
 
-  describe "expiry" do
-    before do
-      allow(token).to receive(:expired?).and_return(expired)
+  describe "#call" do
+    let(:result) { instance.call(action) }
+
+    shared_examples "true result" do
+      it "returns a true result" do
+        expect(result).to be_a ServiceResult
+        expect(result).to be_success
+        expect(result).to have_attributes(result: true)
+      end
     end
 
-    context "when expired" do
-      let(:expired) { true }
-
+    shared_examples "false result" do
       it "returns a false result" do
         expect(result).to be_a ServiceResult
-        expect(result.result).to be_falsey
-        expect(result.success?).to be_falsey
+        expect(result).not_to be_success
+        expect(result).to have_attributes(result: false)
       end
     end
 
-    context "when active" do
-      let(:expired) { false }
+    shared_examples "false result for any action" do
+      guarded_action = described_class::GUARDED_ACTIONS.sample
 
-      context "invalid action" do
-        it "returns false" do
-          expect(result.result).to be_falsey
-        end
+      context "for known action #{guarded_action}" do
+        let(:action) { guarded_action }
+
+        include_examples "false result"
       end
 
-      %i(baseline_comparison
-         board_view
-         conditional_highlighting
-         custom_actions
-         custom_fields_in_projects_list
-         date_alerts
-         define_custom_style
-         edit_attribute_groups
-         grid_widget_wp_graph
-         ldap_groups
-         openid_providers
-         placeholder_users
-         readonly_work_packages
-         team_planner_view
-         two_factor_authentication
-         work_package_query_relation_columns
-         work_package_sharing).each do |guarded_action|
-        context "guarded action #{guarded_action}" do
+      context "for unknown action" do
+        let(:action) { "foo" }
+
+        include_examples "false result"
+      end
+    end
+
+    context "for a valid token" do
+      described_class::GUARDED_ACTIONS.each do |guarded_action|
+        context "for known action #{guarded_action}" do
           let(:action) { guarded_action }
 
-          it "returns a true result" do
-            expect(result).to be_a ServiceResult
-            expect(result.result).to be_truthy
-            expect(result.success?).to be_truthy
-          end
+          include_examples "true result"
         end
       end
+
+      context "for unknown action" do
+        let(:action) { "foo" }
+
+        include_examples "false result"
+      end
+    end
+
+    context "for an expired token" do
+      let(:expired?) { true }
+
+      include_examples "false result for any action"
+    end
+
+    context "without a token_object" do
+      let(:token_object) { nil }
+
+      include_examples "false result for any action"
+    end
+
+    context "without a token" do
+      let(:token) { nil }
+
+      include_examples "false result for any action"
     end
   end
 end

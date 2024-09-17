@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,7 +63,7 @@ RSpec.describe Users::Profile::AttributesComponent, type: :component do
     end
 
     context "when user has a non-visible custom field with a present value" do
-      let(:custom_field) { create(:user_custom_field, :string, visible: false) }
+      let(:custom_field) { create(:user_custom_field, :string, admin_only: true) }
       let(:user) { build(:user, custom_values: [build(:custom_value, custom_field:, value: "Hello")]) }
 
       it { is_expected.to be(false) }
@@ -71,11 +71,11 @@ RSpec.describe Users::Profile::AttributesComponent, type: :component do
   end
 
   describe "Custom field" do
-    let(:custom_field) { create(:user_custom_field, :string, visible:) }
+    let(:custom_field) { create(:user_custom_field, :string, admin_only:) }
     let(:custom_values) do
       [build(:custom_value, custom_field:, value: "Hello custom field")]
     end
-    let(:visible) { true }
+    let(:admin_only) { false }
     let(:user) { build_stubbed(:user, custom_values:) }
 
     current_user { build(:admin) }
@@ -89,7 +89,7 @@ RSpec.describe Users::Profile::AttributesComponent, type: :component do
     end
 
     context "when not visible" do
-      let(:visible) { false }
+      let(:admin_only) { true }
 
       it "does not render the field" do
         expect(page).to have_no_text("Hello custom field")
@@ -97,8 +97,8 @@ RSpec.describe Users::Profile::AttributesComponent, type: :component do
     end
 
     context "with multiple custom fields" do
-      let(:list_custom_field) { create(:user_custom_field, :multi_list, visible:, name: "Ze list") }
-      let(:text_custom_field) { create(:user_custom_field, :text, visible:, name: "A portrait") }
+      let(:list_custom_field) { create(:user_custom_field, :multi_list, admin_only:, name: "Ze list") }
+      let(:text_custom_field) { create(:user_custom_field, :text, admin_only:, name: "A portrait") }
       let(:custom_values) do
         [
           build(:custom_value, custom_field: list_custom_field, value: list_custom_field.possible_values[0]),

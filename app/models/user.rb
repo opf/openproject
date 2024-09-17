@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -89,6 +89,8 @@ class User < Principal
            class_name: "ProjectQuery",
            inverse_of: :user,
            dependent: :destroy
+
+  has_many :remote_identities, dependent: :destroy
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
@@ -185,6 +187,15 @@ class User < Principal
 
   def mail=(arg)
     write_attribute(:mail, arg.to_s.strip)
+  end
+
+  def self.available_custom_fields(_user)
+    user = User.current
+    RequestStore.fetch(:"#{name.underscore}_custom_fields_#{user.id}_#{user.admin?}") do
+      scope = CustomField.where(type: "#{name}CustomField").order(:position)
+      scope = scope.where(admin_only: false) if !user.admin?
+      scope
+    end
   end
 
   def self.search_in_project(query, options)

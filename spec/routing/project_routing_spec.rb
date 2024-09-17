@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,6 +75,14 @@ RSpec.describe ProjectsController do
     it do
       expect(delete("/projects/123.xml")).to route_to(
         controller: "projects", action: "destroy", id: "123", format: "xml"
+      )
+    end
+  end
+
+  describe "export_list_modal" do
+    it do
+      expect(get("/projects/export_list_modal")).to route_to(
+        controller: "projects", action: "export_list_modal"
       )
     end
   end

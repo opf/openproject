@@ -41,7 +41,7 @@ jobs:
           - dev
           - "${{ needs.setup.outputs.latest_release_branch }}"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ matrix.branch }}
           fetch-depth: 1
@@ -65,7 +65,7 @@ jobs:
             bundle exec script/i18n/generate_seeders_i18n_source_file
           fi
       - name: "Crowdin: upload sources and download translations"
-        uses: crowdin/github-action@v1
+        uses: crowdin/github-action@v2
         with:
           # Upload current source files
           upload_sources: true

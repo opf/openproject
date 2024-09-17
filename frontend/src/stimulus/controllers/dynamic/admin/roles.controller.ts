@@ -1,7 +1,7 @@
 /*
  * -- copyright
  * OpenProject is an open source project management software.
- * Copyright (C) 2023 the OpenProject GmbH
+ * Copyright (C) the OpenProject GmbH
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 3.
@@ -54,8 +54,17 @@ export default class RolesController extends Controller {
   }
 
   globalRoleValueChanged() {
-    this.memberAttributesTarget.hidden = this.globalRoleValue;
-    this.memberPermissionsTarget.hidden = this.globalRoleValue;
-    this.globalPermissionsTarget.hidden = !this.globalRoleValue;
+    this.toggleEnabled(this.memberAttributesTarget, !this.globalRoleValue);
+    this.toggleEnabled(this.memberPermissionsTarget, !this.globalRoleValue);
+    this.toggleEnabled(this.globalPermissionsTarget, this.globalRoleValue);
+  }
+
+  toggleEnabled(target:HTMLElement, enabled:boolean) {
+    target.hidden = !enabled;
+    target
+      .querySelectorAll('input,select')
+      .forEach((input:HTMLInputElement) => {
+        input.disabled = !enabled;
+      });
   }
 }

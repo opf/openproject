@@ -246,7 +246,7 @@ You may need to create the `files` directory if it doesn't exist yet.
 
 #### 4) Start OpenProject
 
-Start the container as described in the [installation section](../../installation/docker/#one-container-per-process-recommended)
+Start the container as described in the [installation section](../../installation/docker/)
 mounting `/var/lib/openproject/pgdata` (and `/var/lib/openproject/assets/` for attachments).
 
 ## Changing the database schema from cloud to on-premises

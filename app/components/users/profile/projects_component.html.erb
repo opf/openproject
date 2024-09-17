@@ -1,44 +1,24 @@
 <%=
-  component_wrapper do
-    flex_layout(mt: 3) do |details_container|
-      details_container.with_row do
-        flex_layout(align_items: :center, justify_content: :space_between) do |heading|
-          heading.with_column(flex: 1) do
-            flex_layout(align_items: :center) do |title|
-              title.with_column(mr: 2) do
-                render(Primer::Beta::Heading.new(tag: :h4)) { t(:label_project_plural) }
-              end
+  render(Primer::OpenProject::SidePanel::Section.new) do |section|
+    section.with_title { t(:label_project_plural) }
+    section.with_counter(count: @memberships.count, scheme: :primary)
 
-              title.with_column do
-                render(Primer::Beta::Counter.new(count: @memberships.count, scheme: :primary))
-              end
-            end
-          end
+    if User.current.admin?
+      section.with_action_icon(
+        icon: :gear,
+        tag: :a,
+        "aria-label": t(:label_manage),
+        href: edit_user_path(@user, tab: :memberships)
+      )
+    end
 
-          if User.current.admin?
-            heading.with_column do
-              render(Primer::Beta::IconButton.new(
-                icon: :gear,
-                scheme: :invisible,
-                tag: :a,
-                "aria-label": t(:label_manage),
-                href: edit_user_path(@user, tab: :memberships)
-              ))
-            end
-          end
-        end
-      end
+    render(OpPrimer::ExpandableListComponent.new) do |list|
+      @memberships.each do |membership|
+        list.with_element do
+          concat helpers.link_to_project(membership.project)
 
-      details_container.with_row(mt: 2) do
-        render(OpPrimer::ExpandableListComponent.new) do |list|
-          @memberships.each do |membership|
-            list.with_element do
-              concat helpers.link_to_project(membership.project)
-
-              roles = membership.roles.sort.collect(&:to_s).join(', ')
-              concat render(Primer::Beta::Text.new(ml: 1, color: :subtle, font_size: :small)) { "(#{roles})" }
-            end
-          end
+          roles = membership.roles.sort.collect(&:to_s).join(', ')
+          concat render(Primer::Beta::Text.new(ml: 1, color: :subtle, font_size: :small)) { "(#{roles})" }
         end
       end
     end

@@ -3,3 +3,19 @@ de:
   plugin_openproject_job_status:
     name: "OpenProject Auftragsstatus"
     description: "Auflistung und Status der Hintergrundaufträge."
+  job_status_dialog:
+    download_starts: 'Der Download sollte automatisch starten.'
+    link_to_download: 'Oder %{link} zum Herunterladen.'
+    click_here: 'klicken Sie hier'
+    title: 'Status des Hintergrundauftrags'
+    redirect: 'Sie werden weitergeleitet.'
+    redirect_link: 'Bitte klicken Sie hier, um fortzufahren.'
+    redirect_errors: 'Aufgrund dieser Fehler werden Sie nicht automatisch weitergeleitet.'
+    errors: 'Es ist ein Fehler aufgetreten'
+    generic_messages:
+      not_found: 'Dieser Hintergrundauftrag konnte nicht gefunden werden.'
+      in_queue: 'Der Hintergrundauftrag wurde in die Warteschlange eingereiht und wird in Kürze bearbeitet.'
+      in_process: 'Der Hintergrundauftrag wird derzeit bearbeitet.'
+      error: 'Der Hintergrundauftrag ist fehlgeschlagen.'
+      cancelled: 'Der Hintergrundauftrag wurde aufgrund eines Fehlers abgebrochen.'
+      success: 'Der Hintergrundauftrag wurde erfolgreich abgeschlossen.'

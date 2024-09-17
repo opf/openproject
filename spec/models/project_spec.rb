@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -219,7 +219,7 @@ RSpec.describe Project do
     end
   end
 
-  include_examples "creates an audit trail on destroy" do
+  it_behaves_like "creates an audit trail on destroy" do
     subject { create(:attachment) }
   end
 
@@ -235,10 +235,6 @@ RSpec.describe Project do
       expect(project.users)
         .to eq [active_user]
     end
-  end
-
-  include_examples "creates an audit trail on destroy" do
-    subject { create(:attachment) }
   end
 
   describe "#close_completed_versions" do
@@ -405,6 +401,10 @@ RSpec.describe Project do
           .not_to change { project.reload.enabled_modules.find { |em| em.name == "work_package_tracking" }.id }
       end
     end
+  end
+
+  it_behaves_like "acts_as_favorable included" do
+    let(:instance) { project }
   end
 
   it_behaves_like "acts_as_customizable included" do

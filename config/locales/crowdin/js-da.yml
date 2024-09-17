@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ da:
     button_back_to_list_view: "Tilbage til listevisning"
     button_cancel: "Annuller"
     button_close: "Luk"
-    button_change_project: "Change project"
+    button_change_project: "Move to another project"
     button_check_all: "Vælg alt"
     button_configure-form: "Konfigurer formularen"
     button_confirm: "Bekræft"
@@ -74,7 +74,7 @@ da:
     button_copy: "Kopier"
     button_copy_to_clipboard: "Kopiér til Udklipsholder"
     button_copy_link_to_clipboard: "Copy link to clipboard"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Selvvalgte felter"
     button_delete: "Slet"
     button_delete_watcher: "Slet tilsynsførende"
@@ -138,6 +138,8 @@ da:
     description_select_work_package: "Vælg arbejds pakke #%{id}"
     description_subwork_package: "Barn af arbejds-pakke #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "Toggle forhåndsvisning"
       source_code: "Toggle Markdown kilde-visning"
       error_saving_failed: "Lagring af dokumentet mislykkedes med følgende fejl: %{error}"
@@ -275,8 +277,10 @@ da:
           The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
           Are you sure you want to continue?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
           Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
@@ -335,18 +339,6 @@ da:
         years: "År"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
-      export:
-        title: "Gantt chart PDF options"
-        button_export: "Export"
-        column_widths:
-          narrow: "Narrow"
-          medium: "Medium"
-          wide: "Wide"
-          very_wide: "Very wide"
-        options:
-          date_zoom: "Date zoom"
-          paper_size: "Paper size"
-          column_widths: "Column widths"
     general_text_no: "nej"
     general_text_yes: "ja"
     general_text_No: "Nej"
@@ -365,10 +357,10 @@ da:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_2":
+          "14_5":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Keep and restore local versions of WYSIWYG content changes.</li> <li>Enable a storage for multiple projects at once.</li> <li>Export work packages in an updated modal with additional settings.</li> <li>Display custom field columns/filters in project lists also in the Community Edition.</li> <li>Support CloudFlare Turnstile as Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -409,6 +401,7 @@ da:
     label_create: "Opret"
     label_create_work_package: "Opret ny arbejdspakke"
     label_created_by: "Created by"
+    label_current: "current"
     label_date: "Dato"
     label_date_with_format: "Enter the %{date_attribute} using the following format: %{format}"
     label_deactivate: "Deaktivér"
@@ -487,7 +480,7 @@ da:
     label_previous: "Foregående"
     label_per_page: "Per side:"
     label_please_wait: "Please wait"
-    label_project: "Prjoekt"
+    label_project: "Projekt"
     label_project_list: "Project lists"
     label_project_plural: "Projekter"
     label_visibility_settings: "Visibility settings"
@@ -615,17 +608,17 @@ da:
       title: "Notifications"
       no_unread: "No unread notifications"
       reasons:
-        mentioned: "mentioned"
-        watched: "watcher"
-        assigned: "Tildeler"
-        responsible: "accountable"
-        created: "created"
-        scheduled: "skemalagt"
-        commented: "commented"
-        processed: "processed"
-        prioritized: "prioritized"
+        mentioned: "Mentioned"
+        watched: "Tilsynsførende"
+        assigned: "Tildelt"
+        accountable: "Accountable"
+        created: "Oprettet"
+        scheduled: "Planlagt"
+        commented: "Kommenterede"
+        processed: "Processed"
+        prioritized: "Prioritized"
         dateAlert: "Date alert"
-        shared: "shared"
+        shared: "Shared"
       date_alerts:
         milestone_date: "Milestone date"
         overdue: "Overdue"
@@ -637,11 +630,6 @@ da:
         upsale:
           title: "Date alerts"
           description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
-      facets:
-        unread: "Unread"
-        unread_title: "Show unread"
-        all: "All"
-        all_title: "Vis alt"
       center:
         label_actor_and: "og"
         and_more_users:
@@ -652,25 +640,17 @@ da:
           with_current_filter: "There are no notifications in this view at the moment"
         mark_all_read: "Mark all as read"
         mark_as_read: "Mark as read"
-        text_update_date: "%{date} by"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you are all caught up."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."
           link_text: "Click here to load them."
-      menu:
-        accountable: "Accountable"
-        by_project: "Unread by project"
-        by_reason: "Reason"
-        inbox: "Inbox"
-        mentioned: "Mentioned"
-        watched: "Tilsynsførende"
-        date_alert: "Date alert"
-        shared: "Shared"
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -905,7 +885,7 @@ da:
       wiki_link: "Link til wiki-side"
       image: "Billede"
     sharing:
-      share: "Share"
+      share: "Del"
       selected_count: "%{count} selected"
       selection:
         mixed: "Mixed"
@@ -1002,7 +982,7 @@ da:
         category: "Kategori"
         percentageDone: "Procentdel udført"
         priority: "Prioritet"
-        projectName: "Prjoekt"
+        projectName: "Projekt"
         remainingWork: "Remaining work"
         remainingWorkAlternative: "Resterende timer"
         responsible: "Ansvarlig"
@@ -1019,11 +999,13 @@ da:
         workAlternative: "Anslået tid"
         remainingTime: "Remaining work"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Latest activity"
         created_by_me: "Created by me"
         assigned_to_me: "Assigned to me"
         recently_created: "Recently created"
         all_open: "All open"
+        overdue: "Overdue"
         summary: "Opsummering"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"
@@ -1204,6 +1186,9 @@ da:
         one: "1 dag"
         other: "%{count} dage"
         zero: "0 days"
+      word:
+        one: "1 word"
+        other: "%{count} words"
     zen_mode:
       button_activate: "Activate zen mode"
       button_deactivate: "Deactivate zen mode"
@@ -1233,7 +1218,7 @@ da:
         PlaceholderUser: "pladsholder bruger"
         invite_principal_to_project: "Inviter %{principal} til %{project}"
       project:
-        label: "Prjoekt"
+        label: "Projekt"
         required: "Vælg et projekt"
         lacking_permission: "Please select a different project since you lack permissions to assign users to the currently selected."
         lacking_permission_info: "You lack the permission to assign users to the project you are currently in. You need to select a different one."

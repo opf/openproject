@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ RSpec.describe Admin::Settings::DateFormatSettingsController do
   shared_let(:user) { create(:admin) }
   current_user { user }
 
-  require_admin_and_render_template("date_format_settings")
+  include_examples "GET #show requires admin permission and renders template", path: "date_format_settings"
 
   describe "PATCH #update" do
     subject { patch "update", params: }

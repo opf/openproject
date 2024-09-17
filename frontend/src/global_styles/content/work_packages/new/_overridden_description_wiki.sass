@@ -9,3 +9,9 @@
     // as its resized automatically by content (height)
     textarea
       resize: none
+
+    // As we currently do not have a fixed header in the creation page, we need to cancel out the padding of the page content.
+    // Otherwise, the scrolled content will be visible above the toolbar
+    // see: https://community.openproject.org/projects/openproject/work_packages/56921/activity
+    .document-editor__toolbar
+      top: -10px

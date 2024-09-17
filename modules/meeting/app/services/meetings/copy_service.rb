@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -77,8 +77,16 @@ module Meetings
         .merge("start_time" => meeting.start_time + 1.week)
         .merge("author" => user)
         .merge("state" => "open")
-        .merge("participants_attributes" => meeting.allowed_participants.collect(&:copy_attributes))
+        .merge("participants_attributes" => copied_participants)
         .merge(overwritten_attributes)
+    end
+
+    def copied_participants
+      if meeting.allowed_participants.empty?
+        [{ "user_id" => user.id, "invited" => true }]
+      else
+        meeting.allowed_participants.collect(&:copy_attributes)
+      end
     end
 
     def writable_meeting_attributes(meeting)

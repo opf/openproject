@@ -88,4 +88,4 @@ Once you do so, you will see a table with a column for that project and and the 
 
 ## Email reminders
 
-You can supplement these in-app notifications with email reminders, either at specific times of the day or immediately when someone mentions you. For more information, please read our guide on [Email reminders](../../../getting-started/my-account#email-reminders).
+You can supplement these in-app notifications with email reminders, either at specific times of the day or immediately when someone mentions you. For more information, please read our guide on [Email reminders](../../../user-guide/my-account#email-reminders).

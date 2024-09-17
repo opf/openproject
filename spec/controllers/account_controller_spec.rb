@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -519,8 +519,6 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
       context "with a valid token" do
         before do
-          allow(controller).to receive(:allow_lost_password_recovery).and_return(true)
-
           post :lost_password, params: { token: token.value }
         end
 
@@ -732,7 +730,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
         end
 
         it "doesn't activate the user but sends out a token instead" do
-          expect(User.find_by_login("register")).not_to be_active # rubocop:disable Rails/DynamicFindBy
+          expect(User.find_by_login("register")).not_to be_active
           token = Token::Invitation.last
           expect(token.user.mail).to eq("register@example.com")
           expect(token).not_to be_expired
@@ -778,7 +776,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
         end
 
         it "doesn't activate the user" do
-          expect(User.find_by_login("register")).not_to be_active # rubocop:disable Rails/DynamicFindBy
+          expect(User.find_by_login("register")).not_to be_active
         end
 
         it "calls the user_registered callback" do

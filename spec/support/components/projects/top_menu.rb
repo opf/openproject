@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ module Components
 
       def toggle
         page.find_by_id("projects-menu").click
-        wait_for_network_idle(timeout: 10) if using_cuprite?
+        wait_for_network_idle(timeout: 10)
       end
 
       # Ensures modal registers as #open? before proceeding

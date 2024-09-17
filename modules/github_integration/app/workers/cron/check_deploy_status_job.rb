@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,8 @@
 
 module Cron
   class CheckDeployStatusJob < ApplicationJob
+    class DeployCheckAccessTokenExpired < StandardError; end
+
     include OpenProject::GithubIntegration::NotificationHandler::Helper
 
     priority_number :low
@@ -55,7 +57,19 @@ module Cron
     def pull_requests
       GithubPullRequest
         .closed
+        .where(repository: "opf/openproject")
+        .where(merged: true)
         .where.not(merge_commit_sha: nil)
+        .where("merged_at > ?", look_back_cutoff_date)
+    end
+
+    ##
+    # These PRs have been merged but seemingly not been deployed within a month.
+    # It might be that they were merged into a different branch (not dev or release) via rebase.
+    #
+    # What ever it may be, at this point we're going to give up and not check on those anymore.
+    def look_back_cutoff_date
+      Time.zone.today - 1.month
     end
 
     def check_deploy_status(deploy_target, pull_request, core_sha)
@@ -110,6 +124,13 @@ module Cron
       user_id = plugin_settings[:github_user_id].presence
 
       user_id ? User.find(user_id) : User.system
+    end
+
+    ##
+    # With an access token configured, requests are authenticated which increases the rate limit
+    # from 60 per hour to 5000 per hour.
+    def github_access_token
+      plugin_settings[:github_access_token].presence
     end
 
     def plugin_settings
@@ -183,6 +204,9 @@ module Cron
         OpenProject.logger.error "#{error_prefix}: #{res.error}"
       elsif res.status == 404
         OpenProject.logger.error "#{error_prefix}: not found"
+      elsif res.status == 401
+        # raise so we notice this in AppSignal and can fix it
+        raise DeployCheckAccessTokenExpired, "response: #{res.body}"
       elsif res.status != 200
         OpenProject.logger.error "#{error_prefix}: #{res.body}"
       else
@@ -193,7 +217,17 @@ module Cron
     end
 
     def compare_commits_request(sha_a, sha_b)
-      OpenProject.httpx.get(compare_commits_url(sha_a, sha_b))
+      authenticated_request(OpenProject.httpx).get(compare_commits_url(sha_a, sha_b))
+    end
+
+    def authenticated_request(httpx)
+      return httpx if github_access_token.blank?
+
+      httpx.with(
+        headers: {
+          "Authorization" => "Bearer #{github_access_token}"
+        }
+      )
     end
 
     def compare_commits_url(sha_a, sha_b)
