@@ -133,8 +133,8 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
   end
 
   def find_custom_field_project_to_destroy
-    @project = Project.find(params.to_unsafe_h[:custom_fields_project][:project_id])
-    @custom_field_project = CustomFieldsProject.find_by!(custom_field: @custom_field, project: @project)
+    @custom_field_project = CustomFieldsProject.find_by!(custom_field: @custom_field,
+                                                         project: params[:custom_fields_project][:project_id])
   rescue ActiveRecord::RecordNotFound
     respond_with_project_not_found_turbo_streams
   end
