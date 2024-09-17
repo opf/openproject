@@ -46,11 +46,7 @@ module CustomField::OrderStatements
       # CustomValue validations should ensure that it doesn't occur
       [select_custom_value_as_decimal]
     when "user"
-      [
-        order_by_user_sql("lastname"),
-        order_by_user_sql("firstname"),
-        order_by_user_sql("id")
-      ]
+      [order_by_user_sql]
     when "version"
       [order_by_version_sql("name")]
     end
@@ -134,9 +130,9 @@ module CustomField::OrderStatements
     SQL
   end
 
-  def order_by_user_sql(column)
+  def order_by_user_sql
     <<-SQL
-    (SELECT #{column} user_cv_#{column} FROM #{User.table_name} cv_user
+    (SELECT ARRAY[cv_user.lastname, cv_user.firstname, cv_user.mail] FROM #{User.table_name} cv_user
      WHERE cv_user.id = #{select_custom_value_as_decimal}
      LIMIT 1)
     SQL
