@@ -39,6 +39,7 @@ module Storages
         @storage = storage
       end
 
+      # rubocop:disable Metrics/AbcSize
       def validate
         maybe_is_not_configured
           .or { host_url_not_found }
@@ -46,12 +47,15 @@ module Storages
           .or { version_mismatch }
           .or { with_unexpected_content }
           .or { group_folder_not_found }
-          .or { request_failed_with_unknown_error }
+          .or { capabilities_request_failed_with_unknown_error }
+          .or { files_request_failed_with_unknown_error }
           .value_or(ConnectionValidation.new(type: :healthy,
                                              error_code: :none,
                                              timestamp: Time.current,
                                              description: nil))
       end
+
+      # rubocop:enable Metrics/AbcSize
 
       private
 
@@ -164,15 +168,7 @@ module Storages
       # rubocop:disable Metrics/AbcSize
       def with_unexpected_content
         return None() unless @storage.automatic_management_enabled?
-
-        if files.failure?
-          return Some(
-            ConnectionValidation.new(type: :error,
-                                     error_code: :err_unknown,
-                                     timestamp: Time.current,
-                                     description: I18n.t("storages.health.connection_validation.unknown_error"))
-          )
-        end
+        return None() if files.failure?
 
         expected_folder_ids = @storage.project_storages
                                       .where(project_folder_mode: "automatic")
@@ -193,8 +189,7 @@ module Storages
 
       # rubocop:enable Metrics/AbcSize
 
-      # rubocop:disable Metrics/AbcSize
-      def request_failed_with_unknown_error
+      def capabilities_request_failed_with_unknown_error
         return None() if capabilities.success?
 
         Rails.logger.error(
@@ -204,6 +199,13 @@ module Storages
           "response: #{capabilities.error_payload}"
         )
 
+        Some(ConnectionValidation.new(type: :error,
+                                      error_code: :err_unknown,
+                                      timestamp: Time.current,
+                                      description: I18n.t("storages.health.connection_validation.unknown_error")))
+      end
+
+      def files_request_failed_with_unknown_error
         return None() if files.success?
 
         Rails.logger.error(
@@ -219,15 +221,11 @@ module Storages
                                       description: I18n.t("storages.health.connection_validation.unknown_error")))
       end
 
-      # rubocop:enable Metrics/AbcSize
-
       def noop = StorageInteraction::AuthenticationStrategies::Noop.strategy
 
       def userless = Peripherals::Registry.resolve("#{@storage.short_provider_type}.authentication.userless").call
 
-      def path_to_config
-        Rails.root.join("modules/storages/config/nextcloud_dependencies.yml")
-      end
+      def path_to_config = Rails.root.join("modules/storages/config/nextcloud_dependencies.yml")
     end
   end
 end

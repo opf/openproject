@@ -164,9 +164,7 @@ RSpec.describe Storages::Peripherals::NextcloudConnectionValidator do
       before { project_storage }
 
       context "if the request returns not_found" do
-        let(:files_response) do
-          Storages::Peripherals::StorageInteraction::Nextcloud::Util.error(:not_found)
-        end
+        let(:files_response) { build_failure(code: :not_found, payload: nil) }
 
         it "returns a validation failure" do
           expect(subject.type).to eq(:error)
@@ -212,6 +210,7 @@ RSpec.describe Storages::Peripherals::NextcloudConnectionValidator do
   context "if query returns an unhandled error" do
     let(:storage) { create(:nextcloud_storage_configured) }
     let(:capabilities_response) { build_failure(code: :error, payload: nil) }
+    let(:files_response) { build_failure(code: :error, payload: nil) }
 
     before do
       allow(Rails.logger).to receive(:error)
