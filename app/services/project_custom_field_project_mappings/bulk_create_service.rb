@@ -29,19 +29,15 @@
 #++
 
 module ProjectCustomFieldProjectMappings
-  class BulkCreateService < ::CustomFields::CustomFieldProjects::BulkCreateService
+  class BulkCreateService < ::BulkServices::ProjectMappings::BaseCreateService
     def initialize(user:, projects:, project_custom_field:, include_sub_projects: false)
-      super(user:, projects:, custom_field: project_custom_field, include_sub_projects:)
+      super(user:, projects:, model: project_custom_field, include_sub_projects:)
     end
 
     private
 
-    def validate_permissions(permission: :select_project_custom_fields)
-      super
-    end
-
-    def attributes_service_class = ProjectCustomFieldProjectMappings::SetAttributesService
-    def default_contract_class = ProjectCustomFieldProjectMappings::UpdateContract
-    def custom_field_project_mapping_class = ProjectCustomFieldProjectMapping
+    def permission = :select_project_custom_fields
+    def model_foreign_key_id = :custom_field_id
+    def mapping_model_class = ProjectCustomFieldProjectMapping
   end
 end
