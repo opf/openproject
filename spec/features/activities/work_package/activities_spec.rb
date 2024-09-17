@@ -366,7 +366,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
 
     it "shows the comment of another user without browser reload", :aggregate_failures do
       # simulate member creating a comment
-      sleep 1 # the comment needs to be created after the component is mounted
       first_journal = create(:work_package_journal, user: member, notes: "First comment by member", journable: work_package,
                                                     version: 2)
 

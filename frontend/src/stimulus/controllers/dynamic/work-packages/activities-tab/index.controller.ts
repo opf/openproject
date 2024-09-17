@@ -56,6 +56,7 @@ export default class IndexController extends Controller {
     this.handleInitialScroll();
     this.startPolling();
     this.populateRescuedEditorContent();
+    this.markAsConnected();
 
     const context = await window.OpenProject.getPluginContext();
     this.turboRequests = context.services.turboRequests;
@@ -65,6 +66,15 @@ export default class IndexController extends Controller {
     this.rescueEditorContent();
     this.removeEventListeners();
     this.stopPolling();
+    this.markAsDisconnected();
+  }
+
+  private markAsConnected() {
+    (this.element as HTMLElement).dataset.stimulusControllerConnected = 'true';
+  }
+
+  private markAsDisconnected() {
+    (this.element as HTMLElement).dataset.stimulusControllerConnected = 'false';
   }
 
   private setLocalStorageKey() {
