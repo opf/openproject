@@ -138,6 +138,28 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesStatusBas
     end
   end
 
+  context "given a work package with status and % complete not being in sync" do
+    before do
+      work_package.status = status_50_pct_complete
+      work_package.done_ratio = 0
+      work_package.estimated_hours = 10.0
+      work_package.remaining_hours = 10.0
+      work_package.clear_changes_information
+    end
+
+    context "when status is set again to the same value" do
+      let(:set_attributes) { { status: status_50_pct_complete } }
+      let(:expected_derived_attributes) { { remaining_hours: 5.0, done_ratio: 50 } }
+      let(:expected_kept_attributes) { %w[estimated_hours] }
+
+      include_examples "update progress values", description: "updates % complete value to the status default % complete value " \
+                                                              "and derives remaining work",
+                                                 expected_hints: {
+                                                   remaining_work: :derived
+                                                 }
+    end
+  end
+
   context "given a work package with work and remaining work being empty, and a status with 0% complete" do
     before do
       work_package.status = status_0_pct_complete

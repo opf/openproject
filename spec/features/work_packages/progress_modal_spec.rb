@@ -265,6 +265,25 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
           work_package_create_page.save!
           work_package_table.expect_and_dismiss_toaster(message: "Successful creation.")
         end
+
+        it "updates remaining work when status is changed" do
+          work_package_create_page.visit!
+          work_package_create_page.set_attributes({ subject: "hello" })
+
+          progress_popover.open
+          progress_popover.expect_hints(work: nil, remaining_work: nil)
+          progress_popover.set_values(work: "14h")
+          progress_popover.expect_values(remaining_work: "14h")
+          progress_popover.expect_hints(remaining_work: :derived)
+          progress_popover.save
+
+          status_field = work_package_create_page.edit_field(:status)
+          status_field.update("in progress")
+
+          progress_popover.open
+          progress_popover.expect_values(work: "14h", remaining_work: "7h")
+          progress_popover.expect_hints(remaining_work: :derived)
+        end
       end
     end
   end
