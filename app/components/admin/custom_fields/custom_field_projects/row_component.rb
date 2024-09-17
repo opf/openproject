@@ -43,7 +43,7 @@ module Admin
         private
 
         def more_menu_detach_project
-          if User.current.admin && project.active?
+          if User.current.allowed_in_project?(:select_custom_fields, project)
             {
               scheme: :default,
               icon: nil,
