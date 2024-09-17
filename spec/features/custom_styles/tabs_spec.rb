@@ -43,56 +43,62 @@ RSpec.describe "interface tab" do
   end
 
   context "with EE token", with_ee: %i[define_custom_style] do
+    let(:custom_style) { create "custom_style_with_logo" }
+
     before do
       login_as(admin)
       visit custom_style_path
     end
 
-    it "interface tab is selected when selecting design from menu" do
-      expect(page).to have_current_path(custom_style_path tab:'interface')
-    end
-
-    it "shows interface colours" do
+    it "shows interface tab" do
+      expect(page).to have_current_path(custom_style_path tab: "interface")
       expect(page).to have_text I18n.t(:label_interface_colours)
     end
 
-    it "selects a color theme" do
+    it "selects a color theme and redirect to the interface tab" do
       select("OpenProject Light", from: "theme")
-      find("[data-test-selector='change-color-theme-button']").click
+      find("[data-test-selector='color-theme-button']").click
       expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_successful_update))
-      expect(page).to have_current_path(custom_style_path tab:'interface')
+      expect(page).to have_current_path(custom_style_path tab:"interface")
     end
 
-    it "changes accent color" do
+    it "changes accent color and redirects to interface tab" do
       fill_in "design_colors[]accent-color", with: "#333333"
-      find("[data-test-selector='update-interface-colors']").click
+      find("[data-test-selector='interface-colors-button']").click
       expect(page).to have_css("#design_colors_accent-color", value: "#333333")
-      expect(page).to have_current_path(custom_style_path tab:'interface')
+      expect(page).to have_current_path(custom_style_path tab: "interface")
     end
 
     it "redirects to branding tab" do
       click_on "Branding"
-      expect(page).to have_current_path(custom_style_path tab:'branding')
+      expect(page).to have_current_path(custom_style_path tab: "branding")
 
+      # select a color theme and redirect to the branding tab
       select("OpenProject Dark", from: "theme")
-      find("[data-test-selector='change-color-theme-button']").click
+      find("[data-test-selector='color-theme-button']").click
       expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_successful_update))
-      expect(page).to have_current_path(custom_style_path tab:'branding')
+      expect(page).to have_current_path(custom_style_path tab: "branding")
+
+      # remove the logo and redirect to the branding tab
+      custom_style.send :"remove_logo"
+      expect(page).to have_current_path(custom_style_path tab: "branding")
     end
 
     it "redirects to pdf export styles tab" do
       click_on "PDF export styles"
-      expect(page).to have_current_path(custom_style_path tab:'pdf_export_styles')
+      expect(page).to have_current_path(custom_style_path tab: "pdf_export_styles")
 
+      # select a color theme and redirect to the PDF export styles tab
       select("OpenProject", from: "theme")
-      find("[data-test-selector='change-color-theme-button']").click
+      find("[data-test-selector='color-theme-button']").click
       expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_successful_update))
-      expect(page).to have_current_path(custom_style_path tab:'pdf_export_styles')
+      expect(page).to have_current_path(custom_style_path tab: "pdf_export_styles")
 
+      # change export cover text color and redirect to the PDF export styles tab
       fill_in "export_cover_text_color", with: "#333"
       find("[data-test-selector='text-color-change']").click
       expect(page).to have_css("#export_cover_text_color", value: "#333")
-      expect(page).to have_current_path(custom_style_path tab:'pdf_export_styles')
+      expect(page).to have_current_path(custom_style_path tab: "pdf_export_styles")
     end
   end
 end

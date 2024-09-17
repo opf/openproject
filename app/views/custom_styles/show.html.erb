@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
 
       <%= styled_button_tag t(:button_save),
-                            data: { test_selector: "change-color-theme-button", confirm: (t('admin.custom_styles.theme_warning') unless @current_theme.present?)}  %>
+                            data: { test_selector: "color-theme-button", confirm: (t('admin.custom_styles.theme_warning') unless @current_theme.present?)}  %>
     </fieldset>
   </section>
 <% end %>
