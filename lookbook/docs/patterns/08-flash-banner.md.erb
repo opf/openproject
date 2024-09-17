@@ -1,0 +1,36 @@
+This component defines a specific use case of the Primer `Banner` component, consisting of an overlay around it to simplify its use as a flash in OpenProject.
+
+## Overview
+
+To use a Primerised flash, the `Meetings::UpdateFlashComponent` was introduced.
+
+<%= embed OpenProject::Common::FlashPreview, :default, panels: %i[source] %>
+
+## Usage
+
+When a Primerised flash is required, this component can be used by calling `update_flash_message_via_turbo_stream()`. Under the hood, this prepends via turbo stream the `UpdateFlashComponent` in the `flash-container` div within the base layout.
+
+The icon, message, dismiss scheme, and scheme are configurable identically to the Primer `Banner` component.
+
+Two widths are supported, selectable via `full`. Depending on this value, the max width is capped or left unrestricted.
+
+A `button` is optionally possible. When enabled, a link is included in the flash banner. `button_message` and `button_path_object` are used to configure the button text and linked path.
+
+## Further Examples
+
+### Danger:
+
+As this is a common use case, the method `render_error_flash_message_via_turbo_stream()` is provided, generating a flash with `scheme: :danger` and `icon: :stop` by default.
+
+<%= embed OpenProject::Common::FlashPreview, :danger, panels: %i[source] %>
+
+<% if false %>
+### With optional button:
+
+<%= embed OpenProject::Common::FlashPreview, :button, panels: %i[source] %>
+<% end %>
+
+
+
+
+
