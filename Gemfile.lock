@@ -8,10 +8,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: 32603f09a249999a00e8ca23eb17215b46a26c0f
-  ref: 32603f09a249999a00e8ca23eb17215b46a26c0f
+  revision: fe05b4f8bae8fd46f4fa93b8e0adee6295ef7388
+  ref: fe05b4f8bae8fd46f4fa93b8e0adee6295ef7388
   specs:
-    md_to_pdf (0.1.1)
+    md_to_pdf (0.1.2)
       color_conversion (~> 0.1)
       front_matter_parser (~> 1.0)
       json-schema (~> 4.3)
@@ -560,7 +560,7 @@ GEM
       websocket-driver (~> 0.7)
     ffi (1.17.0)
     flamegraph (0.9.5)
-    fog-aws (3.26.0)
+    fog-aws (3.27.0)
       base64 (~> 0.2.0)
       fog-core (~> 2.1)
       fog-json (~> 1.1)
@@ -1019,7 +1019,7 @@ GEM
       rubocop (~> 1.61)
     rubocop-openproject (0.1.0)
       rubocop
-    rubocop-performance (1.21.1)
+    rubocop-performance (1.22.0)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-rails (2.26.1)
@@ -1131,7 +1131,7 @@ GEM
     tzinfo-data (1.2024.2)
       tzinfo (>= 1.0.0)
     uber (0.1.0)
-    unicode-display_width (2.5.0)
+    unicode-display_width (2.6.0)
     uri (0.13.1)
     validate_email (0.1.6)
       activemodel (>= 3.0)
