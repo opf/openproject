@@ -184,7 +184,12 @@ class ProgressEditField < EditField
   # If they are the same, it means the modal field is in focus.
   # @return [Boolean] true if the modal field is in focus, false otherwise.
   def expect_modal_field_in_focus
-    expect(focused?).to be(true)
+    # Use capybara `synchronize` helper to wait until the modal field is in focus
+    page.document.synchronize do
+      unless focused?
+        raise Capybara::ExpectationNotMet, "Input #{input_element} does not have focus"
+      end
+    end
   end
 
   def focused?
