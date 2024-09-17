@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,12 +37,12 @@ module Storages::Storages
       storage = service_call.result
       if storage.provider_type_nextcloud?
         application = storage.oauth_application
-        persist_service_result = ::OAuth::PersistApplicationService
-         .new(application, user:)
-         .call({
-                 name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.short_provider_type}.name")})",
-                 redirect_uri: File.join(storage.host, "index.php/apps/integration_openproject/oauth-redirect")
-               })
+        persist_service_result = ::OAuth::Applications::UpdateService
+          .new(model: application, user:)
+          .call(
+            name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.short_provider_type}.name")})",
+            redirect_uri: File.join(storage.host, "index.php/apps/integration_openproject/oauth-redirect")
+          )
         service_call.add_dependent!(persist_service_result)
       end
 

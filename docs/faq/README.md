@@ -84,7 +84,7 @@ However, if you're still using an old OpenProject subscription there may be limi
 
 ### What is the difference between Enterprise on-premises and Community edition regarding LDAP?
 
-In the Community edition and in the Enterprise on-premises edition you can use the standard LDAP authentication. However, the Enterprise on-premises edition also includes LDAP group synchronization. This allows you to synchronize group members from LDAP with groups in OpenProject. The respective documentation can be found [here](../system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/#synchronize-ldap-and-openproject-groups-enterprise-add-on).
+In the Community edition and in the Enterprise on-premises edition you can use the standard LDAP authentication. However, the Enterprise on-premises edition also includes LDAP group synchronization. This allows you to synchronize group members from LDAP with groups in OpenProject. The respective documentation can be found [here](../system-admin-guide/authentication/ldap-connections/ldap-group-synchronization/#synchronize-ldap-and-openproject-groups-enterprise-add-on).
 
 ## How to ... in OpenProject
 
@@ -151,7 +151,7 @@ Please find information on the features of OpenProject [here](https://www.openpr
 ### Is it possible to use multiple languages in OpenProject?
 
 Yes, it is possible to use OpenProject in multiple languages. We support English, German, French and a number of additional languages. Each user can select their own preferred language by signing into OpenProject, clicking on the user avatar on the upper right side and selecting "My account" from the dropdown menu.
-You can then select "Settings" from the side menu on the left side and [change the language](../getting-started/my-account/#change-your-language).
+You can then select "Settings" from the side menu on the left side and [change the language](../user-guide/my-account/#change-your-language).
 
 ### Is there an OpenProject app?
 
@@ -267,6 +267,8 @@ At the moment there are these ways to migrate:
 - our [API](../api/)
 - our [Excel sync](../system-admin-guide/integrations/excel-synchronization)
 - Using a [Markdown export app](https://marketplace.atlassian.com/apps/1221351/markdown-exporter-for-confluence) you can export pages from Confluence and paste them (via copy & paste) into OpenProject in e.g. the wiki. This should preserve at least most of the layout. Attachments would then have to be added manually.
+
+Our partners at [ALMToolbox](https://www.almtoolbox.com/)  are happy to support you with Jira or Confluence migration. 
 
 For more information please contact us.
 

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,6 +33,8 @@ module Storages
     module StorageInteraction
       module OneDrive
         class FilesQuery
+          include TaggedLogging
+
           FIELDS = "?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference"
 
           def self.call(storage:, auth_strategy:, folder:)
@@ -44,19 +46,33 @@ module Storages
           end
 
           def call(auth_strategy:, folder:)
-            Authentication[auth_strategy].call(storage: @storage) do |http|
-              call = http.get(Util.join_uri_path(@storage.uri, children_uri_path_for(folder) + FIELDS))
-              response = handle_response(call, :value)
+            with_tagged_logger do
+              info "Getting data on all files under folder '#{folder}' using #{auth_strategy.key}"
+              validate_input_data(folder).on_failure { return _1 }
 
-              if response.result.empty?
-                empty_response(http, folder)
-              else
-                response.map { |json_files| storage_files(json_files) }
+              Authentication[auth_strategy].call(storage: @storage) do |http|
+                response = handle_response(http.get(children_url_for(folder) + FIELDS), :value)
+
+                if response.result.empty?
+                  empty_response(http, folder)
+                else
+                  response.map { |json_files| storage_files(json_files) }
+                end
               end
             end
           end
 
           private
+
+          def validate_input_data(folder)
+            if folder.is_a?(ParentFolder)
+              ServiceResult.success
+            else
+              data = StorageErrorData.new(source: self.class)
+              log_message = "Folder input is not a ParentFolder object."
+              ServiceResult.failure(result: :error, errors: StorageError.new(code: :error, log_message:, data:))
+            end
+          end
 
           # rubocop:disable Metrics/AbcSize
           def handle_response(response, map_value)
@@ -64,8 +80,8 @@ module Storages
             in { status: 200..299 }
               ServiceResult.success(result: response.json(symbolize_keys: true).fetch(map_value))
             in { status: 400 }
-              ServiceResult.failure(result: :error,
-                                    errors: Util.storage_error(response:, code: :error, source: self.class))
+              ServiceResult.failure(result: :request_error,
+                                    errors: Util.storage_error(response:, code: :request_error, source: self.class))
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
                                     errors: Util.storage_error(response:, code: :not_found, source: self.class))
@@ -91,8 +107,7 @@ module Storages
           end
 
           def empty_response(http, folder)
-            response = http.get(Util.join_uri_path(@storage.uri, location_uri_path_for(folder) + FIELDS))
-            handle_response(response, :id).map do |parent_location_id|
+            handle_response(http.get(location_url_for(folder) + FIELDS), :id).map do |parent_location_id|
               empty_storage_files(folder.path, parent_location_id)
             end
           end
@@ -103,7 +118,7 @@ module Storages
               StorageFile.new(
                 id: parent_id,
                 name: path.split("/").last,
-                location: path,
+                location: UrlBuilder.path(path),
                 permissions: %i[readable writeable]
               ),
               forge_ancestors(path:)
@@ -119,7 +134,7 @@ module Storages
               StorageFile.new(
                 id: parent_reference[:id],
                 name:,
-                location: Util.extract_location(parent_reference),
+                location: UrlBuilder.path(Util.extract_location(parent_reference)),
                 permissions: %i[readable writeable]
               )
             end
@@ -134,7 +149,7 @@ module Storages
               StorageFile.new(
                 id: Digest::SHA256.hexdigest(component),
                 name: component,
-                location: "/#{component}"
+                location: UrlBuilder.path(component)
               )
             end
           end
@@ -146,20 +161,18 @@ module Storages
                             permissions: %i[readable writeable])
           end
 
-          def children_uri_path_for(folder)
-            return "/v1.0/drives/#{@storage.drive_id}/root/children" if folder.root?
+          def children_url_for(folder)
+            base_uri = Util.drive_base_uri(@storage)
+            return UrlBuilder.url(base_uri, "/root/children") if folder.root?
 
-            "/v1.0/drives/#{@storage.drive_id}/root:#{encode_path(folder.path)}:/children"
+            "#{UrlBuilder.url(base_uri, '/root')}:#{UrlBuilder.path(folder.path)}:/children"
           end
 
-          def location_uri_path_for(folder)
-            return "/v1.0/drives/#{@storage.drive_id}/root" if folder.root?
+          def location_url_for(folder)
+            base_uri = UrlBuilder.url(Util.drive_base_uri(@storage), "/root")
+            return base_uri if folder.root?
 
-            "/v1.0/drives/#{@storage.drive_id}/root:#{encode_path(folder.path)}"
-          end
-
-          def encode_path(path)
-            path.split("/").map { |fragment| URI.encode_uri_component(fragment) }.join("/")
+            "#{base_uri}:#{UrlBuilder.path(folder.path)}"
           end
         end
       end

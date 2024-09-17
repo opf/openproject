@@ -7,7 +7,7 @@ kk:
       label_unnamed_list: 'Unnamed list'
       label_board_type: 'Board type'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        teaser_text: 'Өзіңіздегі жұмыс ағымын автоматтандырғыңыз келеді ме? Жетілдірілген тақталар Enterprise қосымшасы болып келеді. Ақылы жоспарға өтуіңізді сұраймыз.'
         upgrade: 'Upgrade now'
       lists:
         delete: 'Delete list'
@@ -62,7 +62,7 @@ kk:
           status: Status
           version: Version
           subproject: Subproject
-          subtasks: Parent-child
+          subtasks: Бас-бағыныңқы
           basic: Basic
         select_attribute: "Action attribute"
       add_list_modal:

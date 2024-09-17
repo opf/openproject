@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,10 @@ module API
           # because it is a polymorphic association. That being as it is, currently only
           # work packages are assigned.
           def set_resource(notifications)
-            work_packages_by_id = WorkPackage.where(id: notifications.pluck(:resource_id).uniq).index_by(&:id)
+            work_packages_by_id = WorkPackage
+                                    .includes(:project)
+                                    .where(id: notifications.pluck(:resource_id).uniq)
+                                    .index_by(&:id)
 
             notifications.each do |notification|
               notification.resource = work_packages_by_id[notification.resource_id]

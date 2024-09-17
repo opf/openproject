@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -149,7 +149,7 @@ module Storages
         Some(ConnectionValidation.new(type: :warning,
                                       error_code: :wrn_unexpected_content,
                                       timestamp: Time.current,
-                                      description: I18n.t("storages.health.connection_validation.unexpected_content")))
+                                      description: I18n.t("storages.health.connection_validation.unexpected_content.one_drive")))
       end
 
       # rubocop:enable Metrics/AbcSize
@@ -158,7 +158,9 @@ module Storages
         return None() if query.success?
 
         Rails.logger.error("Connection validation failed with unknown error:\n\t" \
-                           "status: #{query.result}\n\tresponse: #{query.error_payload}")
+                           "storage: ##{@storage.id} #{@storage.name}\n\t" \
+                           "status: #{query.result}\n\t" \
+                           "response: #{query.error_payload}")
 
         Some(ConnectionValidation.new(type: :error,
                                       error_code: :err_unknown,

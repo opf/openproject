@@ -34,16 +34,28 @@ module WorkPackages
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(work_package:)
+        def initialize(work_package:, journal: nil, form_hidden_initially: true)
           super
 
           @work_package = work_package
+          @journal = journal
+          @form_hidden_initially = form_hidden_initially
         end
 
-        attr_reader :work_package
+        private
+
+        attr_reader :work_package, :form_hidden_initially
 
         def journal
-          Journal.new(journable: work_package)
+          @journal || Journal.new(journable: work_package)
+        end
+
+        def button_row_display_value
+          form_hidden_initially ? :block : :none
+        end
+
+        def form_row_display_value
+          form_hidden_initially ? :none : :block
         end
       end
     end

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,17 +35,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
   shared_let(:storage) { create(:sharepoint_dev_drive_storage) }
 
   shared_let(:original_folders) do
-    WebMock.enable! && VCR.turn_on!
-    VCR.use_cassette("one_drive/copy_template_folder_existing_folders") { existing_folder_tuples }
-  ensure
-    VCR.turn_off! && WebMock.disable!
+    use_storages_vcr_cassette("one_drive/copy_template_folder_existing_folders") { existing_folder_tuples }
   end
 
   shared_let(:base_template_folder) do
-    WebMock.enable! && VCR.turn_on!
-    VCR.use_cassette("one_drive/copy_template_folder_base_folder") { create_base_folder }
-  ensure
-    VCR.turn_off! && WebMock.disable!
+    use_storages_vcr_cassette("one_drive/copy_template_folder_base_folder") { create_base_folder }
   end
 
   shared_let(:source_path) { base_template_folder.id }
@@ -76,17 +70,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
   describe "#call" do
     # rubocop:disable RSpec/BeforeAfterAll
     before(:all) do
-      WebMock.enable! && VCR.turn_on!
-      VCR.use_cassette("one_drive/copy_template_folder_setup") { setup_template_folder }
-    ensure
-      VCR.turn_off! && WebMock.disable!
+      use_storages_vcr_cassette("one_drive/copy_template_folder_setup") { setup_template_folder }
     end
 
     after(:all) do
-      WebMock.enable! && VCR.turn_on!
-      VCR.use_cassette("one_drive/copy_template_folder_teardown") { delete_template_folder }
-    ensure
-      VCR.turn_off! && WebMock.disable!
+      use_storages_vcr_cassette("one_drive/copy_template_folder_teardown") { delete_template_folder }
     end
     # rubocop:enable RSpec/BeforeAfterAll
 
@@ -178,8 +166,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
   end
 
   def existing_folder_tuples
-    Storages::Peripherals::StorageInteraction::OneDrive::Util.using_admin_token(storage) do |http|
-      response = http.get("/v1.0/drives/#{storage.drive_id}/root/children?$select=name,id,folder")
+    Storages::Peripherals::StorageInteraction::Authentication[auth_strategy].call(storage:) do |http|
+      url = Storages::UrlBuilder.url(storage.uri, "/v1.0/drives", storage.drive_id, "/root/children")
+      response = http.get("#{url}?$select=name,id,folder")
 
       response.json(symbolize_keys: true).fetch(:value, []).filter_map do |item|
         next unless item.key?(:folder)

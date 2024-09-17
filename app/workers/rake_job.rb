@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 require "rake"
 
 ##
-# Invoke a rake task while safely loading the tasks only once
+# Invoke a rake task while loading the tasks on demand
 # to ensure they are only loaded once.
 module RakeJob
   attr_reader :task_name, :args
@@ -44,29 +44,26 @@ module RakeJob
   protected
 
   def invoke
-    load_tasks!
-    task.invoke *args
-  ensure
-    task&.reenable
+    if (task = load_task)
+      task.reenable
+      task.invoke *args
+    else
+      OpenProject.logger.error { "Rake task #{task_name} not found for background job." }
+    end
   end
 
   ##
-  # Load tasks if there are none. This should only be run once in an environment
-  def load_tasks!
-    Rails.application.load_rake_tasks unless tasks_loaded?
-  end
+  # Load tasks if we don't find our task
+  def load_task
+    Rails.application.load_rake_tasks unless task_loaded?
 
-  ##
-  # Reference to the task name.
-  # Will raise NameError or NoMethodError depending on what of rake is (not) loaded
-  def task
-    Rake::Task[task_name]
+    task_loaded? && Rake::Task[task_name]
   end
 
   ##
   # Returns whether any task is loaded
   # Will raise NameError or NoMethodError depending on what of rake is (not) loaded
-  def tasks_loaded?
-    !Rake::Task.tasks.empty?
+  def task_loaded?
+    Rake::Task.task_defined?(task_name)
   end
 end

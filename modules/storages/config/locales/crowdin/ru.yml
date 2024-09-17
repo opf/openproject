@@ -12,6 +12,7 @@ ru:
         tenant: ID каталога (арендатора)
     errors:
       messages:
+        invalid_host_url: не является допустимым URL-адресом.
         not_linked_to_project: не связан с проектом.
       models:
         storages/file_link:
@@ -20,13 +21,17 @@ ru:
               only_numeric_or_uuid: может быть только числовым или uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Выберите папку.
             project_folder_mode:
               mode_unavailable: не доступен для этого хранилища.
+            project_ids:
+              blank: Пожалуйста, выберите проект.
         storages/storage:
           attributes:
             host:
               authorization_header_missing: не полностью настроено. Экземпляр Nextcloud не получает заголовок "Authorization", который необходим для подтверждения запросов API на основе токена Bearer. Пожалуйста, проверьте конфигурацию HTTP сервера.
-              cannot_be_connected_to: не может быть подключен.
+              cannot_be_connected_to: не удалось подключиться. Убедитесь, что хост доступен и установлено приложение интеграции OpenProject.
               minimal_nextcloud_version_unmet: не соответствует минимальным требованиям к версии (должен быть Nextcloud 23 или выше)
               not_nextcloud_server: не является сервером Nextcloud
               op_application_not_installed: похоже, что приложение "Интеграция с OpenProject" не установлено. Сначала установите его и повторите попытку.
@@ -53,11 +58,100 @@ ru:
   permission_view_file_links: Просмотр ссылок на файл
   permission_write_files: 'Автоматически управляемые папки проекта: Запись файлов'
   project_module_storages: Файлы
+  project_storages:
+    edit_project_folder:
+      label: Изменить папку проекта
+    project_folder_mode:
+      automatic: Автоматическое управление
+      inactive: Нет определенной папки
+      manual: Существующая папка управляется вручную
+    remove_project:
+      deletion_failure_flash: Не удалось удалить проект из хранилища. %{error}
+      dialog:
+        automatically_managed_appendix: Кроме того, в данном случае в этом хранилище есть автоматически управляемая папка проекта, она и её файлы будут удалены навсегда.
+        confirmation_text: Пожалуйста, подтвердите, что Вы понимаете и хотите удалить это файловое хранилище из данного проекта
+        heading_text: Удалить проект из %{storage}
+        text: Это действие необратимо и удалит все ссылки из пакетов работ этого проекта на файлы и папки этого хранилища.
+      label: Удалить проект
+  services:
+    attributes:
+      nextcloud_sync_service:
+        add_user_to_group: 'Добавить пользователя в группу:'
+        create_folder: 'Создание управляемых папок проекта:'
+        ensure_root_folder_permissions: 'Установить разрешения для базовых папок:'
+        hide_inactive_folders: 'Скрыть неактивные папки:'
+        remote_folders: 'Чтение содержимого групповой папки:'
+        remove_user_from_group: 'Удалить пользователя из группы:'
+        rename_project_folder: 'Переименовать управляемую папку проекта:'
+      one_drive_sync_service:
+        create_folder: 'Создание управляемых папок проекта:'
+        ensure_root_folder_permissions: 'Установить разрешения для базовых папок:'
+        hide_inactive_folders: 'Скрыть неактивные папки:'
+        remote_folders: 'Чтение содержимого групповой папки:'
+        rename_project_folder: 'Переименовать управляемую папку проекта:'
+    errors:
+      models:
+        copy_project_folders_service:
+          conflict: Папка %{destination_path} уже существует. Прервите процесс, чтобы избежать перезаписи.
+          error: Произошла непредвиденная ошибка. Пожалуйста, проверьте журналы OpenProject для получения дополнительной информации или свяжитесь с администратором
+          forbidden: OpenProject не смог получить доступ к исходной папке. Пожалуйста, проверьте конфигурацию разрешений хранилища
+          not_found: Расположение исходного шаблона %{source_path} не найдено.
+          unauthorized: OpenProject не смог аутентифицироваться у поставщика хранилища. Пожалуйста, проверьте конфигурацию хранилища
+        nextcloud_sync_service:
+          attributes:
+            add_user_to_group:
+              conflict: 'Пользователь %{user} не может быть добавлен в группу %{group} по следующей причине: %{reason}'
+              failed_to_add: 'Пользователь %{user} не может быть добавлен в группу %{group} по следующей причине: %{reason}'
+            create_folder:
+              conflict: '%{folder_name} уже существует в %{parent_location}.'
+              not_found: "%{parent_location} не найден."
+            ensure_root_folder_permissions:
+              not_found: "%{group_folder} не найдена. Пожалуйста, проверьте настройки групп в Nextcloud."
+              permission_not_set: не удалось установить разрешения на %{group_folder}.
+            hide_inactive_folders:
+              permission_not_set: не удалось установить разрешения на %{path}.
+            remote_folders:
+              not_allowed: '%{username} не имеет доступа к %{group_folder}. Пожалуйста, проверьте права доступа к папкам в Nextcloud.'
+              not_found: "%{group_folder} не найдена. Пожалуйста, проверьте настройки Nextcloud."
+            remove_user_from_group:
+              conflict: 'Пользователь %{user} не может быть удален из группы %{group} по следующей причине: %{reason}'
+              failed_to_remove: 'Пользователь %{user} не может быть удален из группы %{group} по следующей причине: %{reason}'
+            rename_project_folder:
+              forbidden: Пользователь OpenProject не имеет доступа к папке %{current_path}.
+              not_found: "%{current_path} не найден."
+            set_folders_permissions:
+              permission_not_set: не удалось установить разрешения на %{path}.
+          error: Произошла непредвиденная ошибка. Пожалуйста, убедитесь, что Nextcloud доступен и проверьте журналы работы OpenProject для дополнительной информации
+          group_does_not_exist: "%{group} не существует. Проверьте конфигурацию Nextcloud."
+          insufficient_privileges: OpenProject не имеет достаточных прав для добавления %{user} в %{group}. Проверьте настройки группы в Nextcloud.
+          not_allowed: Nextcloud блокирует запрос.
+          unauthorized: OpenProject не смог синхронизироваться с Nextcloud. Пожалуйста, проверьте конфигурацию хранилища и Nextcloud.
+          user_does_not_exist: "%{user} не существует в Nextcloud."
+        one_drive_sync_service:
+          attributes:
+            create_folder:
+              conflict: '%{folder_name} уже существует в %{parent_location}.'
+              not_found: "%{parent_location} не найден."
+            hide_inactive_folders:
+              permission_not_set: не удалось установить разрешения на %{path}.
+            remote_folders:
+              request_error: OpenProject не смог получить доступ к диску %{drive_id}. Пожалуйста, проверьте правильность конфигурации хранилища.
+            rename_project_folder:
+              conflict: OpenProject не смог переименовать папку %{current_path} в %{project_folder_name}, так как папка с таким именем уже существует
+              forbidden: OpenProject не имеет доступа к %{current_path}, чтобы переименовать его.
+              not_found: "%{current_path} не найден."
+            set_folders_permissions:
+              permission_not_set: не удалось установить разрешения на %{path}.
+          error: Произошла непредвиденная ошибка. Пожалуйста, убедитесь, что Nextcloud доступен и проверьте журналы работы OpenProject для дополнительной информации
+          not_allowed: OpenProject не был разрешен доступ к OneDrive. Пожалуйста, проверьте разрешения, установленные в приложении Azure.
+          unauthorized: OpenProject не удалось синхронизировать с OneDrive. Пожалуйста, проверьте конфигурацию хранилища в приложении Azure.
+          user_does_not_exist: "%{user} не существует в Nextcloud."
   storages:
     buttons:
       complete_without_setup: Обходитесь без этого
       done_complete_setup: Готово, завершить установку
       done_continue: Готово, продолжить
+      open_storage: Открыть хранилище файлов
       replace_oauth_application: Заменить OAuth OpenProject
       replace_oauth_client: Заменить %{provider_type} OAuth
       save_and_continue: Сохранить и продолжить
@@ -80,6 +174,13 @@ ru:
       storage_delete_result_1: Удалить все настройки хранилища для всех проектов, использующих это хранилище.
       storage_delete_result_2: Удалить все ссылки из пакетов работ всех проектов в файлы и папки этого хранилища.
       storage_delete_result_3: В случае, если хранилище имеет автоматически управляемые папки проектов, они и содержащиеся в них файлы будут удалены навсегда.
+    dependencies:
+      nextcloud:
+        group_folders_app: Папки группы
+        integration_app: Интеграция OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: Это хранилище имеет незавершенную настройку. Пожалуйста, завершите настройку, прежде чем включать его в нескольких проектах.
+      setup_incomplete_header: Настройка хранилища не завершена
     error_invalid_provider_type: Пожалуйста, выберите допустимого поставщика хранилища.
     file_storage_view:
       access_management:
@@ -104,9 +205,13 @@ ru:
       checked: Последняя проверка %{datetime}
       connection_validation:
         action: Перепроверьте соединение
+        app_version_mismatch: Версия приложения "Интеграция OpenProject" не поддерживается. Пожалуйста, обновите ваш сервер Nextcloud.
         client_id_wrong: Настроенный идентификатор клиента OAuth 2 недействителен. Пожалуйста, проверьте конфигурацию.
         client_secret_wrong: Настроенный ключ клиента OAuth 2 недействителен. Пожалуйста, проверьте конфигурацию.
         drive_id_wrong: Настроенный идентификатор диска не найден. Пожалуйста, проверьте конфигурацию.
+        group_folder_version_mismatch: Версия групповой папки не поддерживается. Пожалуйста, обновите ваш сервер Nextcloud.
+        host_not_found: По настроенному адресу хоста сервер Nextcloud не найден. Пожалуйста, проверьте конфигурацию.
+        missing_dependencies: 'Для файлового хранилища отсутствует необходимая зависимость. Пожалуйста, добавьте следующую зависимость: %{dependency}.'
         not_configured: Соединение не удалось подтвердить. Пожалуйста, сначала завершите настройку.
         placeholder: Проверьте подключение к серверу.
         subtitle: Проверка соединения
@@ -130,10 +235,10 @@ ru:
       unsubscribe: Отписаться
     help_texts:
       project_folder: Папка проекта является папкой по умолчанию для загрузки файлов для этого проекта. Тем не менее, пользователи по-прежнему могут загружать файлы в другие места.
+      project_folder_bulk: Папка проекта - это папка по умолчанию для загрузки файлов для всех выбранных проектов. Вы можете изменить этот параметр в настройках каждого проекта. Тем не менее, пользователи могут загружать файлы в другие места.
     instructions:
       all_available_storages_already_added: Все доступные хранилища уже добавлены в проект.
       automatic_folder: Это автоматически создаст корневую папку для этого проекта и будет управлять правами доступа для каждого участника проекта.
-      copy_from: Скопировать это значение из
       empty_project_folder_validation: Выбор папки является обязательным для продолжения.
       existing_manual_folder: Вы можете назначить существующую папку в качестве корневой папки для этого проекта. Однако разрешения не управляются автоматически, администратору необходимо вручную обеспечить доступ соответствующим пользователям. Выбранная папка может использоваться несколькими проектами.
       host: Пожалуйста, добавьте адрес вашего хранилища, включая https://. Он не должен быть длиннее 255 символов.
@@ -211,16 +316,24 @@ ru:
     no_results: Хранилища еще не настроены.
     notice_successful_storage_connection: |-
       Хранилище подключено успешно! Не забудьте активировать модуль и конкретное хранилище в настройках проекта для его дальнейшего использования.
+    oauth_access_granted_modal:
+      access_granted: Доступ разрешен
+      project_settings:
+        access_granted_screen_reader: Доступ разрешен. Хранилище %{storage} готово к использованию.
+        storage_ready: Хранилище %{storage} готово к использованию.
+      storage_admin:
+        access_granted_screen_reader: Доступ разрешен. Теперь Вы можете добавить проекты в хранилище %{storage}
+        storage_ready: Теперь Вы можете добавить проекты в хранилище %{storage}
     oauth_grant_nudge_modal:
-      access_granted: Доступ предоставлен
-      access_granted_screen_reader: Доступ разрешен. Хранилище %{storage} готово к использованию.
-      body: Чтобы получить доступ к папке проекта, вам нужно войти в %{storage}.
       cancel_button_label: Я сделаю это позже
-      confirm_button_aria_label: Войти в %{storage}
-      confirm_button_label: Входное имя
+      heading: Требуется войти в %{provider_type}
+      login_button_aria_label: Войти в %{storage}
+      login_button_label: "%{provider_type} вошли"
+      project_settings:
+        description: Чтобы получить доступ к папке проекта, необходимо войти в %{storage}.
       requesting_access_to: Запрос доступа к %{storage}
-      storage_ready: Теперь вы готовы к использованию %{storage}
-      title: Еще один шаг...
+      storage_admin:
+        description: Для добавления проектов в это хранилище необходимо войти в %{provider_type}. Пожалуйста, войдите в систему и повторите попытку.
     open_project_storage_modal:
       success:
         subtitle: Вы будете перенаправлены

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,6 +33,8 @@ module Storages
     module StorageInteraction
       module Nextcloud
         class RenameFileCommand
+          include TaggedLogging
+
           def self.call(storage:, auth_strategy:, file_id:, name:)
             new(storage).call(auth_strategy:, file_id:, name:)
           end
@@ -41,34 +43,43 @@ module Storages
             @storage = storage
           end
 
+          # rubocop:disable Metrics/AbcSize
           def call(auth_strategy:, file_id:, name:)
             validate_input_data(file_id:, name:).on_failure { |failure| return failure }
 
-            origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
-                                 .on_failure { |failure| return failure }
-                                 .result
+            with_tagged_logger do
+              info "Validating user remote ID"
+              origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
+                                   .on_failure { |failure| return failure }
+                                   .result
 
-            info = FileInfoQuery.call(storage: @storage, auth_strategy:, file_id:)
-                                .on_failure { |failure| return failure }
-                                .result
+              info "Getting the folder information"
+              info = FileInfoQuery.call(storage: @storage, auth_strategy:, file_id:)
+                                  .on_failure { |failure| return failure }
+                                  .result
 
-            make_request(auth_strategy, origin_user_id, info, name).on_failure { |failure| return failure }
+              info "Renaming the folder #{info.location} to #{name}"
+              make_request(auth_strategy, origin_user_id, info, name).on_failure { |failure| return failure }
 
-            FileInfoQuery.call(storage: @storage, auth_strategy:, file_id:)
-                         .map { |file_info| Util.storage_file_from_file_info(file_info) }
+              info "Retrieving updated file info for the #{name} folder"
+              FileInfoQuery.call(storage: @storage, auth_strategy:, file_id:)
+                           .map { |file_info| Util.storage_file_from_file_info(file_info) }
+            end
           end
+          # rubocop:enable Metrics/AbcSize
 
           private
 
           def make_request(auth_strategy, user, file_info, name)
-            source_path = Util.join_uri_path(@storage.uri,
-                                             "remote.php/dav/files",
-                                             user,
-                                             file_info.location)
-            destination = Util.join_uri_path(@storage.uri.path,
-                                             "remote.php/dav/files",
-                                             user,
-                                             target_path(file_info, name))
+            source_path = UrlBuilder.url(@storage.uri,
+                                         "remote.php/dav/files",
+                                         user,
+                                         CGI.unescape(file_info.location))
+
+            destination = UrlBuilder.path(@storage.uri.path,
+                                          "remote.php/dav/files",
+                                          user,
+                                          CGI.unescape(target_path(file_info, name)))
 
             Authentication[auth_strategy].call(storage: @storage) do |http|
               handle_response http.request("MOVE", source_path, headers: { "Destination" => destination })
@@ -84,7 +95,7 @@ module Storages
               ServiceResult.failure(result: :error,
                                     errors: StorageError.new(code: :error,
                                                              data: StorageErrorData.new(source: self.class),
-                                                             log_message: "Invalid input data!"))
+                                                             log_message: "file_id or name is blank"))
             else
               ServiceResult.success
             end

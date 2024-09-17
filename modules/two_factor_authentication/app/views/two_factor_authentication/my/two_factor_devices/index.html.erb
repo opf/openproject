@@ -1,5 +1,37 @@
 <% html_title(t(:label_my_account), t('two_factor_authentication.label_two_factor_authentication')) -%>
 
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t('two_factor_authentication.label_two_factor_authentication') }
+    header.with_breadcrumbs([{ href: my_account_path, text: t(:label_my_account) },
+                             t('two_factor_authentication.label_two_factor_authentication')])
+  end
+%>
+
+<%= render(Primer::OpenProject::SubHeader.new) do |subheader|
+  subheader.with_action_component do
+    render(Primer::Alpha::ActionMenu.new(anchor_align: :end, size: :small)) do |menu|
+      menu.with_show_button(scheme: :primary,
+                            test_selector: "two_factor_authentication_devices_button",
+                            aria: { label: t('two_factor_authentication.label_device') }) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        button.with_trailing_action_icon(icon: :"triangle-down")
+        t('two_factor_authentication.label_device')
+      end
+
+      @available_devices.each do |key, device_class|
+        menu.with_item(
+          label: t("two_factor_authentication.devices.#{key}.title"),
+          href: url_for(action: :new, type: key),
+          test_selector: "two_factor_authentication_devices_#{key}"
+        ) do |item|
+            item.with_description.with_content(t("two_factor_authentication.devices.#{key}.description"))
+        end
+      end
+    end
+  end
+end %>
+
 <% if @has_remember_token_for_user %>
   <section class="account--section" id="two_factor_authentication_remember_cookie">
     <div class="op-toast show-when-print -info">
@@ -23,19 +55,6 @@
       </div>
     </div>
   </section>
-<% end %>
-
-<% breadcrumb_paths(t(:label_my_account), t('two_factor_authentication.label_two_factor_authentication')) -%>
-<%= toolbar title: t('two_factor_authentication.label_two_factor_authentication') do %>
-  <li class="toolbar-item">
-    <%= link_to new_my_2fa_device_path,
-          { class: 'button -primary',
-            aria: {label: t('two_factor_authentication.label_device')},
-            title: t('two_factor_authentication.devices.add_new')} do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= t('two_factor_authentication.label_device') %></span>
-    <% end %>
-  </li>
 <% end %>
 
 <section class="account--section">

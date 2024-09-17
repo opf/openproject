@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -26,83 +26,83 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
-<div class="project-list-page--table">
-  <div class="generic-table--flex-container">
-    <div class="generic-table--container <%= container_class %>">
-      <div class="generic-table--results-container">
-        <table class="generic-table" <%= table_id ? "id=\"#{table_id}\"".html_safe : '' %>>
-          <colgroup>
-            <% columns.each do |column| %>
-              <col <%= "opHighlightCol" unless column.attribute == :hierarchy %> >
-            <% end %>
-            <col>
-          </colgroup>
-          <thead class="-sticky">
-          <tr>
-            <% columns.each do |column| %>
-              <% if column.attribute == :hierarchy %>
-                <th id="project-table--hierarchy-header">
-                  <div class="generic-table--sort-header-outer generic-table--sort-header-outer_no-highlighting">
-                    <div class="generic-table--sort-header">
-                      <%= content_tag :a,
-                                      helpers.op_icon("icon-hierarchy"),
-                                      href: href_only_when_not_sort_lft,
-                                      class: "spot-link #{deactivate_class_on_lft_sort}",
-                                      title: t(:label_sort_by, value: %("#{t(:label_project_hierarchy)}")) %>
-                    </div>
-                  </div>
-                </th>
-              <% elsif sortable_column?(column) %>
-                <%= build_sort_header column.attribute,
-                                      order_options(column) %>
-              <% elsif column.attribute == :favored %>
-                <th>
-                  <div class="generic-table--header-outer">
-                    <div class="generic-table--header generic-table--header_centered generic-table--header_no-min-width">
-                      <span>
-                        <%= render(Primer::Beta::Octicon.new(icon: "star-fill", color: :subtle, "aria-label": I18n.t(:label_favorite))) %>
-                      </span>
-                    </div>
-                  </div>
-                </th>
-              <% else %>
-                <th>
-                  <div class="generic-table--sort-header-outer">
-                    <div class="generic-table--sort-header">
-                      <span>
-                          <%= column.caption %>
-                      </span>
-                    </div>
-                  </div>
-                </th>
+<%= component_wrapper(tag: 'turbo-frame') do %>
+  <div class="project-list-page--table">
+    <div class="generic-table--flex-container">
+      <div class="generic-table--container <%= container_class %>">
+        <div class="generic-table--results-container">
+          <table class="generic-table" data-controller="table-highlighting" <%= table_id ? "id=\"#{table_id}\"".html_safe : '' %>>
+            <colgroup>
+              <% columns.each do |column| %>
+                <col <%= "opHighlightCol" unless column.attribute == :hierarchy %> >
               <% end %>
-            <% end %>
-            <th>
-              <div class="generic-table--empty-header">
-              </div>
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          <% if rows.empty? %>
-            <tr class="generic-table--empty-row">
-              <td colspan="<%= columns.length + 1 %>"><%= empty_row_message %></td>
-            </tr>
+              <col>
+            </colgroup>
+            <thead class="-sticky">
+              <tr>
+                <% columns.each do |column| %>
+                  <% if column.attribute == :hierarchy %>
+                    <th id="project-table--hierarchy-header">
+                      <div class="generic-table--sort-header-outer generic-table--sort-header-outer_no-highlighting">
+                        <div class="generic-table--sort-header">
+                          <%= content_tag :a,
+                                        helpers.op_icon("icon-hierarchy"),
+                                        href: href_only_when_not_sort_lft,
+                                        class: "spot-link #{deactivate_class_on_lft_sort}",
+                                        data: { "turbo-stream": true },
+                                        title: t(:label_sort_by, value: %("#{t(:label_project_hierarchy)}")) %>
+                        </div>
+                      </div>
+                    </th>
+                  <% elsif sortable_column?(column) %>
+                    <%= build_sort_header column.attribute, order_options(column, turbo: true) %>
+                  <% elsif column.attribute == :favored %>
+                    <th>
+                      <div class="generic-table--header-outer">
+                        <div class="generic-table--header generic-table--header_centered generic-table--header_no-min-width">
+                          <span>
+                            <%= render(Primer::Beta::Octicon.new(icon: "star-fill", color: :subtle, "aria-label": I18n.t(:label_favorite))) %>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                  <% else %>
+                    <th>
+                      <div class="generic-table--sort-header-outer">
+                        <div class="generic-table--sort-header">
+                          <span>
+                            <%= column.caption %>
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                  <% end %>
+                <% end %>
+                <th>
+                  <div class="generic-table--empty-header">
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if rows.empty? %>
+                <tr class="generic-table--empty-row">
+                  <td colspan="<%= columns.length + 1 %>"><%= empty_row_message %></td>
+                </tr>
+              <% end %>
+              <%= render_collection rows %>
+            </tbody>
+          </table>
+          <% if inline_create_link && show_inline_create %>
+            <div class="wp-inline-create-button">
+              <%= inline_create_link %>
+            </div>
           <% end %>
-          <%= render_collection rows %>
-          </tbody>
-        </table>
-        <% if inline_create_link && show_inline_create %>
-          <div class="wp-inline-create-button">
-            <%= inline_create_link %>
-          </div>
-        <% end %>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
-<% if paginated? %>
-  <%= helpers.pagination_links_full model, pagination_options %>
+  <% if paginated? %>
+    <%= helpers.pagination_links_full(model, pagination_options) %>
+  <% end %>
 <% end %>

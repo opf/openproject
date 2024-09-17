@@ -1,8 +1,8 @@
 <%=
-  render(Primer::Alpha::Dialog.new(title: t(:label_share_project_list), id: 'sharing-modal', data: { 'keep-open-on-submit': true }, size: :xlarge)) do |d|
+  render(Primer::Alpha::Dialog.new(title: strategy.title, id: 'sharing-modal', data: { 'keep-open-on-submit': true }, size: :xlarge, open: open)) do |d|
     d.with_header(variant: :large, mb: 3)
     d.with_body do
-      render(Shares::ModalBodyComponent.new(strategy:, shares:, errors:))
+      render(strategy.modal_body_component(errors))
     end
   end
 %>

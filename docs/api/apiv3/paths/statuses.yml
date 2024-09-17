@@ -1,35 +1,33 @@
 # /api/v3/statuses
 ---
 get:
+  summary: List the collection of all statuses
+  operationId: list_statuses
+  tags:
+    - Statuses
+  description: Returns a collection of all work package statuses.
   responses:
     '200':
+      description: OK
       content:
         application/hal+json:
           examples:
             'simple status collection':
-              $ref: "../components/examples/status_collection.yml"
+              $ref: '../components/examples/status_collection.yml'
           schema:
-            "$ref": "../components/schemas/status_collection_model.yml"
-      description: OK
-      headers: {}
+            $ref: '../components/schemas/status_collection_model.yml'
     '403':
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** view work package (on any project)
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
+            $ref: '../components/schemas/error_response.yml'
           examples:
             response:
               value:
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
                 message: You are not allowed to see the statuses.
-      description: |-
-        Returned if the client does not have sufficient permissions.
-
-        **Required permission:** view work package (on any project)
-      headers: {}
-  tags:
-  - Statuses
-  description: ''
-  operationId: List_all_Statuses
-  summary: List all Statuses

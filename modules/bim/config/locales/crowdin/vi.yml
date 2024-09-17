@@ -1,8 +1,8 @@
 #English strings go here for Rails i18n
 vi:
   plugin_openproject_bim:
-    name: "OpenProject BIM and BCF functionality"
-    description: "This OpenProject plugin introduces BIM and BCF functionality."
+    name: "Tính năng BIM và BCF của OpenProject"
+    description: "Plugin OpenProject này giới thiệu các tính năng BIM và BCF."
   bim:
     label_bim: 'BIM'
   bcf:
@@ -18,15 +18,15 @@ vi:
       file_invalid: "Tệp BCF không hợp lệ"
     x_bcf_issues:
       zero: 'Không có vấn đề BCF'
-      one: 'One BCF issue'
-      other: '%{count} vấn đề trong BCF'
+      one: 'Một vấn đề BCF'
+      other: '%{count} vấn đề BCF'
     bcf_xml:
       xml_file: 'Tệp BCF XML'
-      import_title: 'Nhập'
-      export: 'Xuất'
+      import_title: 'Nhập khẩu'
+      export: 'Xuất khẩu'
       import_update_comment: '(Cập nhật từ file BCF)'
       import_failed: 'Không thể nhập file BCF: %{error}'
-      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
+      import_failed_unsupported_bcf_version: 'Không thể đọc tệp BCF: Phiên bản BCF không được hỗ trợ. Vui lòng đảm bảo phiên bản ít nhất là %{minimal_version} hoặc cao hơn.'
       import_successful: 'Đã nhập %{count} vấn đề'
       import_canceled: 'Nhập BCF-XML bị hủy.'
       type_not_active: "Loại vấn đề không được kích hoạt cho dự án này."
@@ -58,7 +58,7 @@ vi:
         perform_description: "Bạn có muốn nhập hoặc cập nhật các vấn đề trên?"
         replace_with_system_user: 'Đổi họ thành người dùng "Hệ thống"'
         import_as_system_user: 'Nhập họ làm người dùng "Hệ thống"'
-        what_to_do: "What do you want to do?"
+        what_to_do: "Bạn muốn làm gì?"
         work_package_has_newer_changes: "Lỗi thời! Chủ đề này không được cập nhật vì các thay đổi mới nhất trên máy chủ mới hơn \"ModifiedDate\" của chủ đề được nhập vào. Tuy nhiên, các bình luận của chủ đề vẫn được nhập vào."
         bcf_file_not_found: "Xác định tệp BCF thất bại. Hãy upload lại."
   export:
@@ -70,7 +70,7 @@ vi:
   project_module_bim: "BCF"
   permission_view_linked_issues: "Xem các vấn đề trong BCF"
   permission_manage_bcf: "Nhập và quản lý các vấn đề trong BCF"
-  permission_delete_bcf: "Delete BCF issues"
+  permission_delete_bcf: "Xóa các vấn đề BCF"
   oauth:
     scopes:
       bcf_v2_1: "Truy cập đầy đủ vào API BCF v2.1"
@@ -80,31 +80,31 @@ vi:
       bim/ifc_models/ifc_model: "Mô hình IFC"
     attributes:
       bim/ifc_models/ifc_model:
-        ifc_attachment: "Tập tin IFC"
+        ifc_attachment: "Tệp IFC"
         is_default: "Mô hình mặc định"
-        attachments: "Tập tin IFC"
+        attachments: "Tệp IFC"
     errors:
       models:
         bim/ifc_models/ifc_model:
           attributes:
             base:
-              ifc_attachment_missing: "Không có tập tin ifc đính kèm."
+              ifc_attachment_missing: "Không có tệp IFC đính kèm."
               invalid_ifc_file: "Tệp được cung cấp không phải là tệp IFC hợp lệ."
         bim/bcf/viewpoint:
-          bitmaps_not_writable: "hình ảnh không thể ghi được vì nó chưa được thực hiện."
-          index_not_integer: "chỉ số(index) không phải là một số nguyên."
-          invalid_clipping_planes: "clipping_planes không hợp lệ"
-          invalid_components: "các thành phần không hợp lệ"
-          invalid_lines: "dòng không hợp lệ."
-          invalid_orthogonal_camera: "orthogonal_camera không hợp lệ"
-          invalid_perspective_camera: "perspective_camera không hợp lệ"
-          mismatching_guid: "Hướng dẫn trong json_viewpoint không khớp với hướng dẫn của mô hình."
-          no_json: "Không phải là một json có cấu trúc tốt."
+          bitmaps_not_writable: "bitmaps không thể ghi được vì nó chưa được triển khai."
+          index_not_integer: "index không phải là số nguyên."
+          invalid_clipping_planes: "clipping_planes không hợp lệ."
+          invalid_components: "components không hợp lệ."
+          invalid_lines: "lines không hợp lệ."
+          invalid_orthogonal_camera: "orthogonal_camera không hợp lệ."
+          invalid_perspective_camera: "perspective_camera không hợp lệ."
+          mismatching_guid: "Guid trong json_viewpoint không khớp với guid của mô hình."
+          no_json: "Không phải là json được cấu trúc tốt."
           snapshot_type_unsupported: "snapshot_type cần phải là 'png' hoặc 'jpg'."
-          snapshot_data_blank: "snapshot_data không được để trống."
-          unsupported_key: "Một thuộc tính json không được hỗ trợ được bao gồm."
+          snapshot_data_blank: "snapshot_data cần phải được cung cấp."
+          unsupported_key: "Một thuộc tính json không được hỗ trợ đã được bao gồm."
         bim/bcf/issue:
-          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
+          uuid_already_taken: "Không thể nhập khẩu vấn đề BCF này vì đã có một vấn đề khác với GUID giống nhau. Có thể vấn đề BCF này đã được nhập khẩu vào một dự án khác?"
   ifc_models:
     label_ifc_models: 'Mô hình IFC'
     label_new_ifc_model: 'Mô hình IFC mới'
@@ -117,10 +117,10 @@ vi:
       check_2: 'Kiểm tra xem ít nhất một mô hình IFC được đặt thành "Mặc định".'
     no_results: "Không có mô hình IFC đã được tải lên trong dự án này."
     conversion_status:
-      label: 'Đang xử lý…'
-      pending: 'Pending'
-      processing: 'Processing'
-      completed: 'Đã Hoàn tất'
+      label: 'Đang xử lý?'
+      pending: 'Chờ xử lý'
+      processing: 'Đang xử lý'
+      completed: 'Hoàn thành'
       error: 'Lỗi'
     processing_notice:
       processing_default: 'Các mô hình IFC mặc định sau đây vẫn đang được xử lý và do đó không có sẵn:'

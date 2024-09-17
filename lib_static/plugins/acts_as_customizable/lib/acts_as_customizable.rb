@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -168,7 +168,7 @@ module Redmine
         end
 
         def visible_custom_field_values
-          custom_field_values.select(&:visible?)
+          custom_field_values.reject(&:admin_only?)
         end
 
         def custom_value_for(c)
@@ -268,22 +268,27 @@ module Redmine
 
             # In order to construct a valid changes hash, we need to find the old value if it exists.
             # Otherwise set it to nil.
-            cfv_was = custom_values.find do |cv|
-              cv.marked_for_destruction? && cv.custom_field_id == cfv.custom_field_id
-            end
+            cfv_was = custom_value_was_for(cfv)
             value_was = cfv_was&.value
+
             # Skip when the old value equals the new value (no change happened).
             next cfv_changes if value_was == cfv.value
 
             # Skip when the new value is the default value
             next cfv_changes if value_was.nil? && cfv.default?
-
-            cfv_changes.merge("custom_field_#{cfv.custom_field_id}": [value_was, cfv.value])
+            cfv_changes.merge("custom_field_#{cfv.custom_field_id}" => [value_was, cfv.value])
           end
         end
 
         def changed_with_custom_fields
           changed + custom_field_changes.keys
+        end
+
+        def custom_value_was_for(custom_value)
+          custom_values.find do |cv|
+            cv.marked_for_destruction? &&
+            cv.custom_field_id == custom_value.custom_field_id
+          end
         end
 
         def add_custom_value_errors!(custom_value)

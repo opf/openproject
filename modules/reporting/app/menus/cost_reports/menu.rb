@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,15 +46,15 @@ module CostReports
     def global_queries
       CostQuery.public(project)
         .pluck(:id, :name)
-        .map { |id, name| menu_item(name, query_params(id)) }
-        .sort_by(&:title)
+        .map { |id, name| menu_item(title: name, query_params: query_params(id)) }
+        .sort_by { |item| item.title.downcase }
     end
 
     def custom_queries
       CostQuery.private(project, User.current)
         .pluck(:id, :name)
-        .map { |id, name| menu_item(name, query_params(id)) }
-        .sort_by(&:title)
+        .map { |id, name| menu_item(title: name, query_params: query_params(id)) }
+        .sort_by { |item| item.title.downcase }
     end
 
     def selected?(query_params)

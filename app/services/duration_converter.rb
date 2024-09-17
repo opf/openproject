@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,23 +76,24 @@ class DurationConverter
 
   class << self
     def parse(duration_string)
-      # Assume the next logical unit to allow users to write
-      # durations such as "2h 1" assuming "1" is "1 minute"
-      last_unit_in_string = duration_string.scan(/[a-zA-Z]+/)
-                                           .last
-      default_unit = if last_unit_in_string
-                       last_unit_in_string
-                         .then { |last_unit| UNIT_ABBREVIATION_MAP[last_unit.downcase] }
-                         .then { |last_unit| NEXT_UNIT_MAP[last_unit] }
-                     else
-                       "hours"
-                     end
+      return nil if duration_string.blank?
 
-      ChronicDuration.raise_exceptions = true
-      ChronicDuration.parse(duration_string,
-                            keep_zero: true,
-                            default_unit:,
-                            **duration_length_options) / 3600.to_f
+      do_parse(duration_string)
+    end
+
+    def valid?(duration)
+      case duration
+      when String
+        duration.blank? || parseable?(duration)
+      when Numeric
+        duration >= 0
+      when nil
+        true
+      else
+        false
+      end
+    rescue ChronicDuration::DurationParseError
+      false
     end
 
     def output(duration_in_hours)
@@ -107,6 +108,39 @@ class DurationConverter
     end
 
     private
+
+    def parseable?(duration_string)
+      if number = Integer(duration_string, 10, exception: false) || Float(duration_string, exception: false)
+        number >= 0
+      else
+        begin
+          do_parse(duration_string)
+          true
+        rescue ChronicDuration::DurationParseError
+          false
+        end
+      end
+    end
+
+    def do_parse(duration_string)
+      # Assume the next logical unit to allow users to write
+      # durations such as "2h 1" assuming "1" is "1 minute"
+      last_unit_in_string = duration_string.scan(/[a-zA-Z]+/)
+                                           .last
+      default_unit = if last_unit_in_string
+                       last_unit_in_string
+                         .then { |last_unit| UNIT_ABBREVIATION_MAP[last_unit.downcase] }
+                         .then { |last_unit| NEXT_UNIT_MAP[last_unit] }
+                     else
+                       "hours"
+                     end
+
+      ChronicDuration.parse(duration_string,
+                            keep_zero: true,
+                            default_unit:,
+                            raise_exceptions: true,
+                            **duration_length_options) / 3600.to_f
+    end
 
     def format
       Setting.duration_format == "days_and_hours" ? :days_and_hours : :hours_only

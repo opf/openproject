@@ -59,12 +59,24 @@ module WorkPackages
           User.current.preference&.comments_sorting || "desc"
         end
 
-        def journals_grouped_by_day
-          result = work_package.journals.includes(:user, :notifications).reorder(version: journal_sorting)
+        def journals
+          work_package.journals.includes(:user, :notifications).reorder(version: journal_sorting)
+        end
 
-          result = result.where.not(notes: "") if filter == :only_comments
+        def journal_with_notes
+          journals.where.not(notes: "")
+        end
 
-          result.group_by { |journal| journal.created_at.in_time_zone(User.current.time_zone).to_date }
+        def empty_state?
+          filter == :only_comments && journal_with_notes.empty?
+        end
+
+        def inner_container_margin_bottom
+          if journal_sorting == "desc"
+            3
+          else
+            0
+          end
         end
       end
     end

@@ -10,18 +10,14 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
-} from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 export type SpotSwitchState = boolean;
 
-export const spotSwitchSelector = 'spot-switch';
-
 @Component({
-  selector: spotSwitchSelector,
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'spot-switch',
   templateUrl: './switch.component.html',
   providers: [{
     provide: NG_VALUE_ACCESSOR,
@@ -88,9 +84,11 @@ export class SpotSwitchComponent implements ControlValueAccessor {
     this.onTouched(value);
   }
 
-  onChange = (_:SpotSwitchState):void => {};
+  onChange = (_:SpotSwitchState):void => {
+  };
 
-  onTouched = (_:SpotSwitchState):void => {};
+  onTouched = (_:SpotSwitchState):void => {
+  };
 
   registerOnChange(fn:(_:SpotSwitchState) => void):void {
     this.onChange = fn;

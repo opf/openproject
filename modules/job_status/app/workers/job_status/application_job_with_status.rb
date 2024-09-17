@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -113,8 +113,8 @@ module JobStatus
 
     ##
     # Crafts a payload for a download result
-    def download_payload(path)
-      { download: path }
+    def download_payload(path, mime_type)
+      { download: path, mime_type: }
     end
   end
 end

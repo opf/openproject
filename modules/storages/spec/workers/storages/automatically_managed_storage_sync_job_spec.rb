@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,18 +61,18 @@ RSpec.describe Storages::AutomaticallyManagedStorageSyncJob, type: :job do
     it "only runs for automatically managed storages" do
       unmanaged_nextcloud = create(:nextcloud_storage_configured, :as_not_automatically_managed)
 
-      allow(Storages::NextcloudGroupFolderPropertiesSyncService)
+      allow(Storages::NextcloudManagedFolderSyncService)
         .to receive(:call).with(managed_nextcloud).and_return(ServiceResult.success)
 
       job_instance.perform(managed_nextcloud)
       job_instance.perform(unmanaged_nextcloud)
 
-      expect(Storages::NextcloudGroupFolderPropertiesSyncService).to have_received(:call).with(managed_nextcloud)
-      expect(Storages::NextcloudGroupFolderPropertiesSyncService).not_to have_received(:call).with(unmanaged_nextcloud)
+      expect(Storages::NextcloudManagedFolderSyncService).to have_received(:call).with(managed_nextcloud)
+      expect(Storages::NextcloudManagedFolderSyncService).not_to have_received(:call).with(unmanaged_nextcloud)
     end
 
     it "marks storage as healthy if sync was successful" do
-      allow(Storages::NextcloudGroupFolderPropertiesSyncService)
+      allow(Storages::NextcloudManagedFolderSyncService)
         .to receive(:call).with(managed_nextcloud).and_return(ServiceResult.success)
 
       Timecop.freeze("2023-03-14T15:17:00Z") do
@@ -91,10 +91,13 @@ RSpec.describe Storages::AutomaticallyManagedStorageSyncJob, type: :job do
       allow(Storages::HealthStatusMailerJob).to receive(:set).and_return(job)
       allow(job).to receive(:perform_later)
 
-      allow(Storages::NextcloudGroupFolderPropertiesSyncService)
+      errors = ActiveModel::Errors.new(Storages::NextcloudManagedFolderSyncService.new(managed_nextcloud))
+      errors.add(:remote_folders, :not_found, group_folder: managed_nextcloud.group_folder)
+
+      allow(Storages::NextcloudManagedFolderSyncService)
         .to receive(:call)
-              .with(managed_nextcloud)
-              .and_return(ServiceResult.failure(errors: Storages::StorageError.new(code: :not_found)))
+        .with(managed_nextcloud)
+        .and_return(ServiceResult.failure(errors:))
 
       Timecop.freeze("2023-03-14T15:17:00Z") do
         expect do
@@ -103,16 +106,19 @@ RSpec.describe Storages::AutomaticallyManagedStorageSyncJob, type: :job do
         end.to(
           change(managed_nextcloud, :health_changed_at).to(Time.now.utc)
                                               .and(change(managed_nextcloud, :health_status).from("pending").to("unhealthy"))
-                                              .and(change(managed_nextcloud, :health_reason).from(nil).to("not_found"))
+                                              .and(change(managed_nextcloud, :health_reason).from(nil).to(/wasn't found/))
         )
       end
     end
 
     context "when Storages::Errors::IntegrationJobError is raised" do
       before do
-        allow(Storages::NextcloudGroupFolderPropertiesSyncService)
+        errors = ActiveModel::Errors.new(Storages::NextcloudManagedFolderSyncService.new(managed_nextcloud))
+        errors.add(:base, :error)
+
+        allow(Storages::NextcloudManagedFolderSyncService)
           .to receive(:call).with(managed_nextcloud)
-                            .and_return(ServiceResult.failure(errors: Storages::StorageError.new(code: :custom_error)))
+                            .and_return(ServiceResult.failure(errors:))
 
         allow(OpenProject::Notifications).to receive(:send)
       end
@@ -130,7 +136,7 @@ RSpec.describe Storages::AutomaticallyManagedStorageSyncJob, type: :job do
         expect(OpenProject::Notifications).to have_received(:send).with(
           OpenProject::Events::STORAGE_TURNED_UNHEALTHY,
           storage: managed_nextcloud,
-          reason: "custom_error"
+          reason: /unexpected error occurred/
         )
       end
     end

@@ -7,10 +7,9 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
-export const opInAppNotificationBellSelector = 'op-in-app-notification-bell';
 
 @Component({
-  selector: opInAppNotificationBellSelector,
+  selector: 'opce-in-app-notification-bell',
   templateUrl: './in-app-notification-bell.component.html',
   styleUrls: ['./in-app-notification-bell.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,

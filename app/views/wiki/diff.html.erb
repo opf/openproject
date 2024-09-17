@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -44,5 +44,5 @@ See COPYRIGHT and LICENSE files for more details.
   <em>(<%= @diff.content_to.user ? link_to_user(@diff.content_to.user) : t(:label_user_anonymous) %>, <%= format_time(@diff.content_to.created_at) %>)</em>
 </p>
 <div class="text-diff">
-  <%= nl2br @html_diff %>
+  <%= @html_diff.html_safe %>
 </div>

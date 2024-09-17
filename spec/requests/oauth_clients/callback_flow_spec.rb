@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -71,9 +71,10 @@ RSpec.describe "OAuthClient callback endpoint" do
       allow(Rack::OAuth2::Client).to receive(:new).and_return(rack_oauth2_client)
       allow(rack_oauth2_client)
         .to receive(:access_token!)
-              .with(:body)
-              .and_return(Rack::OAuth2::AccessToken::Bearer.new(access_token: "xyzaccesstoken",
-                                                                refresh_token: "xyzrefreshtoken"))
+        .with(:body)
+        .and_return(Rack::OAuth2::AccessToken::Bearer.new(access_token: "xyzaccesstoken",
+                                                          refresh_token: "xyzrefreshtoken",
+                                                          user_id: "g-root"))
       allow(rack_oauth2_client).to receive(:authorization_code=)
       state_cookie = CGI.escape({ href: redirect_uri, storageId: oauth_client.integration_id }.to_json)
       set_cookie "oauth_state_asdf1234=#{state_cookie}"

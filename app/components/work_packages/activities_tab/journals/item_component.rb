@@ -31,6 +31,7 @@ module WorkPackages
     module Journals
       class ItemComponent < ApplicationComponent
         include ApplicationHelper
+        include WorkPackages::ActivitiesTab::SharedHelpers
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
@@ -42,25 +43,12 @@ module WorkPackages
           @filter = filter
         end
 
-        def content
-          case state
-          when :show
-            render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Show.new(**child_component_params))
-          when :edit
-            render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Edit.new(**child_component_params))
-          end
-        end
-
         private
 
         attr_reader :journal, :state, :filter
 
         def wrapper_uniq_by
           journal.id
-        end
-
-        def child_component_params
-          { journal:, filter: }.compact
         end
 
         def wrapper_data_attributes
@@ -72,7 +60,11 @@ module WorkPackages
         end
 
         def show_comment_container?
-          journal.notes.present? && filter != :only_changes
+          (journal.notes.present? || noop?) && filter != :only_changes
+        end
+
+        def noop?
+          journal.noop?
         end
 
         def activity_url
@@ -81,10 +73,6 @@ module WorkPackages
 
         def activity_anchor
           "#activity-#{journal.version}"
-        end
-
-        def editable?
-          journal.user == User.current
         end
 
         def updated?
@@ -99,6 +87,14 @@ module WorkPackages
 
         def notification_on_details?
           has_unread_notifications? && journal.notes.blank?
+        end
+
+        def allowed_to_edit?
+          journal.editable_by?(User.current)
+        end
+
+        def allowed_to_quote?
+          User.current.allowed_in_project?(:add_work_package_notes, journal.journable.project)
         end
 
         def copy_url_action_item(menu)
@@ -117,7 +113,7 @@ module WorkPackages
           menu.with_item(label: t("js.label_edit_comment"),
                          href: edit_work_package_activity_path(journal.journable, journal, filter:),
                          content_arguments: {
-                           data: { "turbo-stream": true }
+                           data: { turbo_stream: true, test_selector: "op-wp-journal-#{journal.id}-edit" }
                          }) do |item|
             item.with_leading_visual_icon(icon: :pencil)
           end
@@ -130,20 +126,12 @@ module WorkPackages
                            data: {
                              action: "click->work-packages--activities-tab--index#quote",
                              "content-param": journal.notes,
-                             "user-name-param": I18n.t(:text_user_wrote, value: ERB::Util.html_escape(journal.user))
+                             "user-name-param": I18n.t(:text_user_wrote, value: ERB::Util.html_escape(journal.user)),
+                             test_selector: "op-wp-journal-#{journal.id}-quote"
                            }
                          }) do |item|
             item.with_leading_visual_icon(icon: :quote)
           end
-        end
-
-        def bubble_html
-          "
-          <span
-            class=\"comments-number--bubble op-bubble op-bubble_mini\"
-            data-test-selector=\"user-activity-bubble\"
-          ></span>
-          ".html_safe
         end
       end
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -92,5 +92,6 @@ OpenProject::TextFormatting::Filters::MacroFilter.register(
   OpenProject::TextFormatting::Filters::Macros::CreateWorkPackageLink,
   OpenProject::TextFormatting::Filters::Macros::IncludeWikiPage,
   OpenProject::TextFormatting::Filters::Macros::EmbeddedTable,
-  OpenProject::TextFormatting::Filters::Macros::ChildPages
+  OpenProject::TextFormatting::Filters::Macros::ChildPages,
+  OpenProject::TextFormatting::Filters::Macros::GithubPullRequest
 )

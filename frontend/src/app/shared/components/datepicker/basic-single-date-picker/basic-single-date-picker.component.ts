@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -43,14 +43,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
-} from '@angular/forms';
-import {
-  onDayCreate,
-  validDate,
-} from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { onDayCreate, validDate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
@@ -58,10 +52,9 @@ import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from '../../dataset-inputs';
 import { DeviceService } from 'core-app/core/browser/device.service';
 
-export const opBasicSingleDatePickerSelector = 'op-basic-single-date-picker';
 
 @Component({
-  selector: opBasicSingleDatePickerSelector,
+  selector: 'op-basic-single-date-picker',
   templateUrl: './basic-single-date-picker.component.html',
   styleUrls: ['../styles/datepicker.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,

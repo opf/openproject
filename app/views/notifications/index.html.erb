@@ -1,0 +1,21 @@
+<% html_title t("js.notifications.title") %>
+
+<% content_for :content_header do %>
+  <%= render(Notifications::IndexPageHeaderComponent.new) %>
+  <%= render(Notifications::IndexSubHeaderComponent.new(
+    facet: params[:facet],
+    filter_name: params[:name],
+    filter_type: params[:filter]
+  )) %>
+<% end %>
+
+<% content_for :content_body do %>
+  <%= angular_component_tag "opce-notification-center" %>
+dd
+<% end %>
+
+<% content_for :content_body_right do %>
+  <%# When we update the split screen from a turbo frame requset, the title is not correctly updated (Hack for #57705) %>
+  <%= turbo_stream.set_title(title: page_title(*html_title_parts)) if turbo_frame_request? %>
+  <%= render(split_view_instance) if render_work_package_split_view? %>
+<% end %>

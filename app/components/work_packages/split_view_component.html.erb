@@ -1,0 +1,28 @@
+<%=
+  component_wrapper(class: "op-work-package-split-view") do
+    flex_layout(h: :full) do |flex|
+      if @work_package.nil?
+        flex.with_row do
+          render(Primer::Beta::Blankslate.new(spacious: true)) do |component|
+            component.with_visual_icon(icon: :inbox)
+            component.with_heading(tag: :h2).with_content(
+              I18n.t(:error_work_package_id_not_found)
+            )
+          end
+        end
+      else
+        flex.with_row do
+          render(WorkPackages::Details::TabComponent.new(work_package: @work_package, tab: @tab, base_route: @base_route))
+        end
+        flex.with_row(flex: 1) do
+          helpers.angular_component_tag "opce-wp-split-view",
+                                        inputs: {
+                                          work_package_id: @id,
+                                          resizerClass: "op-work-package-split-view",
+                                          activeTab: @tab
+                                        }
+        end
+      end
+    end
+  end
+%>

@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,7 +55,8 @@ class Shares::CreateService < BaseServices::Create
   end
 
   def send_notification(share)
-    # TODO: We should select what sort of notification is sent out based on the shared entity
+    return unless share.entity.is_a?(WorkPackage)
+
     OpenProject::Notifications.send(OpenProject::Events::WORK_PACKAGE_SHARED,
                                     work_package_member: share,
                                     send_notifications: true)

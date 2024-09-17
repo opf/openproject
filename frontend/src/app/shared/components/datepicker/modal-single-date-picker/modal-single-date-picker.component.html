@@ -1,7 +1,7 @@
 <spot-drop-modal
   [opened]="opened"
   (closed)="opened = false"
-  data-test-selector="op-modal-single-date-picker"
+  data-test-selector="opce-modal-single-date-picker"
 >
   <ng-content
     slot="trigger"
@@ -13,7 +13,7 @@
       class="spot-input"
       [attr.data-value]="value"
       [id]="id"
-      [(ngModel)]="value"
+      [ngModel]="value"
       (ngModelChange)="changeValueFromInputDebounced($event)"
       (click)="onInputClick($event)"
       (focus)="opened = true"

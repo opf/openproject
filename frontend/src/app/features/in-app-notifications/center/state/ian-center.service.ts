@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,26 +27,9 @@
 //++
 
 import { Injectable, Injector } from '@angular/core';
-import {
-  debounceTime,
-  defaultIfEmpty,
-  distinctUntilChanged,
-  map,
-  mapTo,
-  pluck,
-  shareReplay,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs/operators';
-import {
-  forkJoin,
-  from,
-  Observable,
-  Subject,
-} from 'rxjs';
+import { debounceTime, defaultIfEmpty, distinctUntilChanged, map, mapTo, switchMap, take, tap } from 'rxjs/operators';
+import { forkJoin, from, Observable, Subject } from 'rxjs';
 import { ID, Query } from '@datorama/akita';
-import { UIRouterGlobals } from '@uirouter/core';
 import { StateService } from '@uirouter/angular';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -54,7 +37,6 @@ import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.s
 import {
   centerUpdatedInPlace,
   markNotificationsAsRead,
-  markNotificationsAsReadByFilters,
   notificationCountIncreased,
   notificationsMarkedRead,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
@@ -67,7 +49,6 @@ import {
   InAppNotificationsResourceService,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { mapHALCollectionToIDCollection } from 'core-app/core/state/resource-store';
-import { INotificationPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
 import {
   IAN_FACET_FILTERS,
   IanCenterStore,
@@ -77,8 +58,16 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { ApiV3ListFilter, ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { FrameElement } from '@hotwired/turbo';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
-@Injectable()
+export interface INotificationPageQueryParameters {
+  filter?:string|null;
+  name?:string|null;
+}
+
+@Injectable({ providedIn: 'root' })
 @EffectHandler
 export class IanCenterService extends UntilDestroyedMixin {
   readonly id = 'ian-center';
@@ -93,19 +82,7 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   activeCollection$ = this.query.select('activeCollection');
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  activeReason$:Observable<string|null> = this.uiRouterGlobals.params$!.pipe(
-    this.untilDestroyed(),
-    distinctUntilChanged(),
-    map((params) => {
-      if (params.filter === 'reason') {
-        return params.name as string;
-      }
-
-      return null;
-    }),
-    shareReplay(1),
-  );
+  menuFrame = document.getElementById('notifications_sidemenu') as FrameElement;
 
   loading$:Observable<boolean> = this.query.selectLoading();
 
@@ -202,13 +179,7 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   public selectedNotification:INotification;
 
-  stateChanged$ = this.uiRouterGlobals.params$?.pipe(
-    this.untilDestroyed(),
-    pluck('workPackageId'),
-    distinctUntilChanged(),
-    map((workPackageId:string) => (workPackageId ? this.apiV3Service.work_packages.id(workPackageId).path : undefined)),
-    shareReplay(),
-  );
+  selectedWorkPackage$ = this.urlParams.pathMatching$(/\/details\/(\d+)/);
 
   constructor(
     readonly I18n:I18nService,
@@ -217,18 +188,17 @@ export class IanCenterService extends UntilDestroyedMixin {
     readonly actions$:ActionsService,
     readonly apiV3Service:ApiV3Service,
     readonly toastService:ToastService,
-    readonly uiRouterGlobals:UIRouterGlobals,
+    readonly urlParams:UrlParamsService,
     readonly state:StateService,
     readonly deviceService:DeviceService,
+    readonly pathHelper:PathHelperService,
   ) {
     super();
     this.reload.subscribe();
 
-    if (this.stateChanged$) {
-      this.stateChanged$.subscribe(() => {
-        this.updateSelectedNotification();
-      });
-    }
+    this.selectedWorkPackage$.subscribe((id:string) => {
+      this.updateSelectedNotification(id);
+    });
   }
 
   setFilters(filters:INotificationPageQueryParameters):void {
@@ -259,24 +229,9 @@ export class IanCenterService extends UntilDestroyedMixin {
     );
   }
 
-  markAllAsRead():void {
-    const filters = this.params.filters;
-    if (filters === undefined) {
-      return;
-    }
-
-    this.actions$.dispatch(
-      markNotificationsAsReadByFilters({ origin: this.id, filters }),
-    );
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  openSplitScreen(workPackageId:string|null, tabIdentifier:string = 'activity'):void {
-    void this.state.go(
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
-      `${this.state.current.data.baseRoute}.details.tabs`,
-      { workPackageId, tabIdentifier },
-    );
+  openSplitScreen(workPackageId:string, tabIdentifier:string = 'activity'):void {
+    const link = this.pathHelper.notificationsDetailsPath(workPackageId, tabIdentifier) + window.location.search;
+    Turbo.visit(link, { frame: 'content-bodyRight', action: 'advance' });
   }
 
   openFullView(workPackageId:string|null):void {
@@ -294,10 +249,7 @@ export class IanCenterService extends UntilDestroyedMixin {
       .pipe(take(1))
       .subscribe((notifications:INotification[][]) => {
         if (notifications.length <= 0) {
-          void this.state.go(
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
-            `${this.state.current.data.baseRoute}`,
-          );
+          window.location.href = this.pathHelper.notificationsPath();
           return;
         }
         if (notifications[0][0]._links.resource || notifications[this.selectedNotificationIndex][0]._links.resource) {
@@ -352,6 +304,10 @@ export class IanCenterService extends UntilDestroyedMixin {
   private reloadOnNotificationRead(action:ReturnType<typeof notificationsMarkedRead>) {
     if (action.all) {
       this.store.update({ activeCollection: { ids: [] }, activeFacet: 'unread' });
+
+      // Reload the sidemenu frame
+      void this.menuFrame.reload();
+
       return;
     }
 
@@ -362,9 +318,12 @@ export class IanCenterService extends UntilDestroyedMixin {
       },
     });
 
-    if (!this.deviceService.isMobile && this.state.includes('**.details.*')) {
+    if (!this.deviceService.isMobile && window.location.href.includes('details')) {
       this.showNextNotification();
     }
+
+    // Reload the sidemenu frame
+    void this.menuFrame.reload();
   }
 
   private sideLoadInvolvedWorkPackages(elements:INotification[]):Promise<unknown> {
@@ -392,8 +351,8 @@ export class IanCenterService extends UntilDestroyedMixin {
     return promise;
   }
 
-  private updateSelectedNotification() {
-    this
+  private updateSelectedNotification(selected:string) {
+    void this
       .notifications$
       .pipe(
         take(1),
@@ -401,8 +360,7 @@ export class IanCenterService extends UntilDestroyedMixin {
       .subscribe(
         (notifications:INotification[][]) => {
           for (let i = 0; i < notifications.length; ++i) {
-            if (notifications[i][0]._links.resource
-              && idFromLink(notifications[i][0]._links.resource.href) === this.uiRouterGlobals.params.workPackageId) {
+            if (notifications[i][0]._links.resource && idFromLink(notifications[i][0]._links.resource.href) === selected) {
               this.selectedNotificationIndex = i;
               [this.selectedNotification] = notifications[i];
               return;

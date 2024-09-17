@@ -43,9 +43,9 @@ ko:
           name: 기타
       project_query_roles:
         item_0:
-          name: Project query viewer
+          name: 프로젝트 쿼리 뷰어
         item_1:
-          name: Project query editor
+          name: 프로젝트 쿼리 편집기
       work_package_roles:
         item_0:
           name: 작업 패키지 편집자
@@ -77,81 +77,6 @@ ko:
           name: 높음
         item_3:
           name: 즉시
-      statuses:
-        item_0:
-          name: 새로 만들기
-        item_1:
-          name: 사양 내
-        item_2:
-          name: 지정됨
-        item_3:
-          name: 확인됨
-        item_4:
-          name: 계획 예정
-        item_5:
-          name: 예약됨
-        item_6:
-          name: 진행 중
-        item_7:
-          name: 개발됨
-        item_8:
-          name: 테스트 중
-        item_9:
-          name: 테스트됨
-        item_10:
-          name: 테스트 실패
-        item_11:
-          name: 닫음
-        item_12:
-          name: 보류 중
-        item_13:
-          name: 거부됨
-      time_entry_activities:
-        item_0:
-          name: 관리
-        item_1:
-          name: 사양
-        item_2:
-          name: 개발
-        item_3:
-          name: 테스팅
-        item_4:
-          name: 지원
-        item_5:
-          name: 기타
-      types:
-        item_0:
-          name: 일감
-        item_1:
-          name: 마일스톤
-        item_2:
-          name: 단계
-        item_3:
-          name: 기능
-        item_4:
-          name: 에픽
-        item_5:
-          name: 사용자 이야기
-        item_6:
-          name: 버그
-      welcome:
-        title: OpenProject에 오신 것을 환영합니다!
-        text: |
-          OpenProject는 최고의 오픈 소스 프로젝트 관리 소프트웨어입니다. 기존의 민첩한 프로젝트 관리뿐만 아니라 하이브리드 프로젝트 관리를 지원하고 데이터를 완벽하게 제어할 수 있게 합니다.
-
-          핵심 기능 및 사용 사례:
-
-          * [프로젝트 포트폴리오 관리](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [프로젝트 계획 및 스케줄링](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [작업 관리 및 이슈 추적](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [애자일 보드(스크럼 및 Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [요구 사항 관리 및 릴리스 계획](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [시간 및 비용 추적, 예산](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [팀 협업 및 문서](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-          프로젝트 관리의 미래에 오신 것을 환영합니다.
-
-          관리자용: 이 환영 텍스트는 [여기에서]({{opSetting:base_url}}/admin/settings/general) 변경할 수 있습니다.
       projects:
         demo-project:
           name: 데모 프로젝트
@@ -489,3 +414,78 @@ ko:
             * 타임 박스(3시간).
             * 스프린트 검토 후, 스크럼 마스터가 알맞게 조정합니다.
             * 무엇이 잘 되었는지, 다음 스프린트를 위해 생산성을 높이거나, 더 재미있게 하기 위해 개선해야 할 사항은 무엇인지 등 스프린트에 대해 팀이 논의합니다.
+      statuses:
+        item_0:
+          name: 새로 만들기
+        item_1:
+          name: 사양 내
+        item_2:
+          name: 지정됨
+        item_3:
+          name: 확인됨
+        item_4:
+          name: 계획 예정
+        item_5:
+          name: 예약됨
+        item_6:
+          name: 진행 중
+        item_7:
+          name: 개발됨
+        item_8:
+          name: 테스트 중
+        item_9:
+          name: 테스트됨
+        item_10:
+          name: 테스트 실패
+        item_11:
+          name: 닫음
+        item_12:
+          name: 보류 중
+        item_13:
+          name: 거부됨
+      time_entry_activities:
+        item_0:
+          name: 관리
+        item_1:
+          name: 사양
+        item_2:
+          name: 개발
+        item_3:
+          name: 테스팅
+        item_4:
+          name: 지원
+        item_5:
+          name: 기타
+      types:
+        item_0:
+          name: 일감
+        item_1:
+          name: 마일스톤
+        item_2:
+          name: 단계
+        item_3:
+          name: 기능
+        item_4:
+          name: 에픽
+        item_5:
+          name: 사용자 이야기
+        item_6:
+          name: 버그
+      welcome:
+        title: OpenProject에 오신 것을 환영합니다!
+        text: |
+          OpenProject는 최고의 오픈 소스 프로젝트 관리 소프트웨어입니다. 기존의 민첩한 프로젝트 관리뿐만 아니라 하이브리드 프로젝트 관리를 지원하고 데이터를 완벽하게 제어할 수 있게 합니다.
+
+          핵심 기능 및 사용 사례:
+
+          * [프로젝트 포트폴리오 관리](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [프로젝트 계획 및 스케줄링](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [작업 관리 및 이슈 추적](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [애자일 보드(스크럼 및 Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [요구 사항 관리 및 릴리스 계획](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [시간 및 비용 추적, 예산](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [팀 협업 및 문서](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+
+          프로젝트 관리의 미래에 오신 것을 환영합니다.
+
+          관리자용: 이 환영 텍스트는 [여기에서]({{opSetting:base_url}}/admin/settings/general) 변경할 수 있습니다.

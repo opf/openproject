@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -137,6 +137,14 @@ RSpec.describe "API v3 work packages resource with filters for the linkable to s
 
       it_behaves_like "API V3 collection response", 4, 4, "WorkPackage", "WorkPackageCollection" do
         let(:elements) { [work_package1, work_package2, work_package3, work_package4] }
+      end
+
+      context "if storage url is missing the trailing slash" do
+        let(:storage_url) { CGI.escape(storage.host.chomp("/")) }
+
+        it_behaves_like "API V3 collection response", 4, 4, "WorkPackage", "WorkPackageCollection" do
+          let(:elements) { [work_package1, work_package2, work_package3, work_package4] }
+        end
       end
 
       context "if user has no sufficient permissions in one project" do

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,15 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <div class="generic-table--container">
   <div class="generic-table--results-container">
-    <table class="generic-table" data-repository-navigation-target="repoBrowser">
+    <table class="generic-table" data-controller="table-highlighting" data-repository-navigation-target="repoBrowser">
       <colgroup>
-        <col opHighlightCol>
         <col>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
+        <col data-highlight="false">
+        <col>
+        <col>
+        <col>
+        <col>
+        <col>
       </colgroup>
       <thead>
         <tr id="root">

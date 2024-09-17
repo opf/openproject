@@ -23,9 +23,9 @@ zh-TW:
         live_data_error: "取得文件詳細資訊時出錯"
         live_data_error_description: >
           無法取得某些 %{storageType} 資料。 請嘗試重新載入此頁面或聯絡您的 %{storageType} 管理員。
-        no_file_links: "為了將文件連結到此工作包，請透過 %{storageType} 進行。"
+        no_file_links: "為了將文件連結到此工作項目，請透過 %{storageType} 進行。"
         not_logged_in: >
-          若要新增連結、檢視或上傳與此工作包相關的文件，請登入 %{storageType}。
+          若要新增連結、檢視或上傳與此工作項目相關的文件，請登入 %{storageType}。
       files:
         already_existing_header: "此檔案已存在"
         already_existing_body: >
@@ -46,13 +46,13 @@ zh-TW:
         upload_replace: "取代"
       file_links:
         empty: >
-          目前沒有指向此工作包的連結檔案。 使用以下操作或從 %{storageType} 內開始連結檔案。
+          目前沒有指向此工作項目的連結檔案。 使用以下操作或從 %{storageType} 內開始連結檔案。
         download: "下載 %{fileName}"
         open: "開啟儲存區檔案"
         open_location: "打開文件"
         remove: "移除檔案連結"
         remove_confirmation: >
-          您確定要取消該文件與此工作包的連結嗎？ 取消連結不會影響原始文件，只會刪除與此工作包的連線
+          您確定要取消該文件與此工作項目的連結嗎？ 取消連結不會影響原始文件，只會刪除與此工作包的連線
         remove_short: "移除連結"
         select: "選擇檔案"
         select_all: "全選"
@@ -74,10 +74,10 @@ zh-TW:
             nextcloud: >
               請檢查是否安裝了最新版本的 Nextcloud 應用程式“OpenProject Integration”，並聯絡您的管理員以取得更多資訊。
         link_uploaded_file_error: >
-          將最近上傳的檔案「%{fileName}」連結到工作包 %{workPackageId} 時發生錯誤。
+          將最近上傳的檔案「%{fileName}」連結到工作項目 %{workPackageId} 時發生錯誤。
         tooltip:
           not_logged_in: "請登入儲存空間來存取該文件。"
           view_not_allowed: "您無權查看此文件。"
           not_found: "找不到檔案。"
-        already_linked_file: "該文件已連結到該工作包。"
+        already_linked_file: "該文件已連結到該工作項目。"
         already_linked_directory: "該目錄已連結到該工作包。"

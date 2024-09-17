@@ -7,7 +7,7 @@ keywords: work package settings, work package configuration
 ---
 # Work package settings
 
-To change basic settings for work package tracking in OpenProject, navigate to **Administration → Work packages → Settings**.
+To change basic settings for work package tracking in OpenProject, navigate to **Administration → Work packages → Work packages settings**.
 
 ![work-package-settings-administration](openproject_system_guide_work_package_settings.png)
 
@@ -24,7 +24,8 @@ You can adjust the following:
 
   - **Status-based**: you will have to define fixed %&nbsp;Complete values for each [work package status](../work-package-status), which will update automatically when team members update the status of their work packages.
 
-    > **Note**:  When switching progress calculation mode from one to another, you will see a warning message.
+    > [!NOTE]
+    > When switching progress calculation mode from one to another, you will see a warning message.
     >
     > - Changing progress calculation mode from work-based to status-based will result in all existing *% Complete* values to be lost and replaced with values associated with each status. Existing values for *Remaining work* may also be recalculated to reflect this change. This action is not reversible.
     >

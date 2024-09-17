@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ require "spec_helper"
 require_relative "../support/pages/team_planner"
 require_relative "../../../../spec/features/views/shared_examples"
 
-RSpec.describe "Team planner query handling", :js, with_ee: %i[team_planner_view] do
+RSpec.describe "Team planner query handling", :js, :with_cuprite, with_ee: %i[team_planner_view] do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:project) do
@@ -97,7 +97,7 @@ RSpec.describe "Team planner query handling", :js, with_ee: %i[team_planner_view
     filters.open
 
     filters.add_filter_by("Type", "is (OR)", [type_bug.name])
-
+    team_planner.clear_any_toasters
     filters.expect_filter_count("2")
 
     team_planner.within_lane(user) do
@@ -120,6 +120,7 @@ RSpec.describe "Team planner query handling", :js, with_ee: %i[team_planner_view
     # Change filter
     filters.open
     filters.add_filter_by("Type", "is (OR)", [type_bug.name])
+    team_planner.clear_any_toasters
     filters.expect_filter_count("2")
 
     # Save current filters

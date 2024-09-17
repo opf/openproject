@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,13 +39,14 @@ module API
     error_representer ::API::V3::Errors::ErrorRepresenter, "application/hal+json; charset=utf-8"
     authentication_scope OpenProject::Authentication::Scope::API_V3
 
-    OpenProject::Authentication.handle_failure(scope: API_V3) do |warden, _opts|
-      e = grape_error_for warden.env, self
+    OpenProject::Authentication.handle_failure(scope: API_V3) do |warden, opts|
+      e = grape_error_for(warden.env, self)
       error_message = I18n.t("api_v3.errors.code_401_wrong_credentials")
-      api_error = ::API::Errors::Unauthenticated.new error_message
-      representer = ::API::V3::Errors::ErrorRepresenter.new api_error
+      api_error = ::API::Errors::Unauthenticated.new(error_message)
+      representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
+      status = opts[:message] == "insufficient_scope" ? 403 : 401
 
-      e.error! representer.to_json, 401, warden.headers
+      e.error!(representer.to_json, status, warden.headers)
     end
 
     version "v3", using: :path do

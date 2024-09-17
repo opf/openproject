@@ -14,6 +14,10 @@ To add a work package to a meeting, open the detailed view of that work package,
 
 ![Add a work package to a meeting in OpenProject](openproject_user_guide_add_wp_to_meeting.png)
 
+> [!TIP]
+> The upcoming meetings are displayed in chronological order, from the nearest meeting to the most distant.
+> The past meetings are displayed in reverse chronological order, from the most recent meeting to the oldest.
+
 In the dialog that appears, select a meeting from the list of open upcoming meetings. You can also add any relevant notes (like discussion points, open questions or decision need). Click **Save** to add a new work package to the selected meeting as an agenda item.
 
 ![Add a work package to a new meeting](openproject_user_guide_meeting_dialogue.png)

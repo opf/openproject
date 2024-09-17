@@ -23,7 +23,7 @@ get:
             response:
               $ref: '../components/examples/relation_response.yml'
           schema:
-            $ref: '../components/schemas/relation_model.yml'
+            $ref: '../components/schemas/relation_read_model.yml'
     '404':
       description: |-
         Returned if the relation does not exist or the client does not have sufficient permissions to see it.
@@ -104,6 +104,8 @@ patch:
     Note that changing the `type` of a relation invariably also changes the respective `reverseType` as well as the
     "name" of it. The returned Relation object will reflect that change. For instance if you change a Relation's
     `type` to "follows" then the `reverseType` will be changed to `precedes`.
+    
+    It is not allowed to change a relation's involved work packages.
   parameters:
     - description: Relation ID
       example: '1'
@@ -112,13 +114,21 @@ patch:
       required: true
       schema:
         type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/relation_write_model.yml'
+        examples:
+          request:
+            $ref: '../components/examples/relation_update_request.yml'
   responses:
     '200':
       description: OK
       content:
         application/hal+json:
           schema:
-            $ref: '../components/schemas/relation_model.yml'
+            $ref: '../components/schemas/relation_read_model.yml'
           examples:
             response:
               $ref: '../components/examples/relation_response.yml'

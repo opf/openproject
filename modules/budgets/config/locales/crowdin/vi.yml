@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -21,13 +21,13 @@
 #++
 vi:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: 'Ngân sách'
   activerecord:
     attributes:
       budget:
         author: "Tác giả"
-        available: "Khả dụng"
-        budget: "Có kế hoạch"
+        available: "Có sẵn"
+        budget: "Dự kiến"
         budget_ratio: "Đã chi (tỷ lệ)"
         description: "Mô tả"
         spent: "Đã chi"
@@ -43,36 +43,36 @@ vi:
       material_budget_item: "Đơn vị"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "Ngân sách"
   attributes:
     budget: "Ngân sách"
   button_add_budget_item: "Thêm chi phí đã lên kế hoạch"
   button_add_budget: "Thêm ngân sách"
   button_add_cost_type: "Thêm kiểu chi phí"
-  button_cancel_edit_budget: "Cancel editing budget"
-  button_cancel_edit_costs: "Cancel editing costs"
-  caption_labor: "Labor"
-  caption_labor_costs: "Actual labor costs"
-  caption_material_costs: "Actual unit costs"
-  budgets_title: "Budgets"
+  button_cancel_edit_budget: "Hủy chỉnh sửa ngân sách"
+  button_cancel_edit_costs: "Hủy chỉnh sửa chi phí"
+  caption_labor: "Lao động"
+  caption_labor_costs: "Chi phí lao động thực tế"
+  caption_material_costs: "Chi phí đơn vị thực tế"
+  budgets_title: "Ngân sách"
   events:
-    budget: "Budget edited"
-  help_click_to_edit: "Click here to edit."
-  help_currency_format: "Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit."
-  help_override_rate: "Enter a value here to override the default rate."
+    budget: "Ngân sách đã được chỉnh sửa"
+  help_click_to_edit: "Nhấn vào đây để chỉnh sửa."
+  help_currency_format: "Định dạng giá trị tiền tệ hiển thị. %n sẽ được thay thế bằng giá trị tiền tệ, %u sẽ được thay thế bằng đơn vị tiền tệ."
+  help_override_rate: "Nhập giá trị ở đây để ghi đè tỷ lệ mặc định."
   label_budget: "Ngân sách"
-  label_budget_new: "New budget"
-  label_budget_plural: "Budgets"
-  label_budget_id: "Budget #%{id}"
+  label_budget_new: "Ngân sách mới"
+  label_budget_plural: "Ngân sách"
+  label_budget_id: "Ngân sách #%{id}"
   label_deliverable: "Ngân sách"
-  label_example_placeholder: 'e.g., %{decimal}'
-  label_view_all_budgets: "View all budgets"
+  label_example_placeholder: 'ví dụ: %{decimal}'
+  label_view_all_budgets: "Xem tất cả ngân sách"
   label_yes: "Có"
-  notice_budget_conflict: "Work packages must be of the same project."
-  notice_no_budgets_available: "No budgets available."
-  permission_edit_budgets: "Edit budgets"
-  permission_view_budgets: "View budgets"
-  project_module_budgets: "Budgets"
-  text_budget_reassign_to: "Reassign them to this budget:"
-  text_budget_delete: "Delete the budget from all work packages"
-  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"
+  notice_budget_conflict: "Các gói công việc phải thuộc cùng một dự án."
+  notice_no_budgets_available: "Không có ngân sách nào."
+  permission_edit_budgets: "Chỉnh sửa ngân sách"
+  permission_view_budgets: "Xem ngân sách"
+  project_module_budgets: "Ngân sách"
+  text_budget_reassign_to: "Gán lại chúng cho ngân sách này:"
+  text_budget_delete: "Xóa ngân sách khỏi tất cả các gói công việc"
+  text_budget_destroy_assigned_wp: "Có %{count} gói công việc được gán cho ngân sách này. Bạn muốn làm gì?"

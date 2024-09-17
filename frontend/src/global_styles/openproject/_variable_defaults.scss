@@ -1,6 +1,6 @@
 /*-- copyright
  * OpenProject is an open source project management software.
- * Copyright (C) 2012-2024 the OpenProject GmbH
+ * Copyright (C) the OpenProject GmbH
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 3.
@@ -68,9 +68,6 @@
   --accent-color--minor2: #a3c2da;
   --accent-color--dark-mode: #4493f8;
   --font-color-on-primary: #FFFFFF;
-  --font-color-on-primary-dark: #FFFFFF;
-  --font-color-on-secondary: #FFFFFF;
-  --font-color-on-alternative: #FFFFFF;
   --list-side-margin: 40px;
   --header-height: 55px;
   --header-bg-color: #1A67A3;
@@ -96,15 +93,10 @@
   --main-menu-fieldset-header-color: #B0B2B3;
   --main-menu-hover-border-color: transparent;
   --main-menu-bg-selected-border: transparent;
-  --toolbar-title-color: #5F5F5F;
-  --toolbar-item--bg-color: #F8F8F8;
-  --toolbar-item--bg-color-pressed: var(--gray-lighter);
-  --toolbar-item--border-color: #DDD;
   --breadcrumb-height: 40px;
   --breadcrumb-font-size: 12px;
   --breadcrumb-font-color: lighten(var(--body-font-color), 20);
   --content-icon-color: var(--accent-color);
-  --content-form-bg-color: #F8F8F8;
   --content-form-input-hover-border: 1px solid #888888;
   --content-form-error-color: #9E2A1C;
   --content-form-danger-zone-bg-color: #CA3F3F;
@@ -113,11 +105,6 @@
   --drop-down-hover-bg-color: #EFEFEF;
   --wiki-default-font-size: var(--body-font-size);
   --user-avatar-border-radius: 50%;
-  --inplace-edit--border-color: #ddd;
-  --inplace-edit--color--very-dark: #cacaca;
-  --inplace-edit--color--disabled: var(--control-fgColor-disabled);
-  --inplace-edit--bg-color--disabled: var(--control-bgColor-disabled);
-  --table-border-color: #E7E7E7;
   --table-row-highlighting-outline-color: #00A6FF;
   --button--font-color: #222222;
   --button--background-color: var(--gray-light);
@@ -126,6 +113,7 @@
   --button--primary-background-color: var(--primary-button-color);
   --button--primary-background-hover-color: var(--primary-button-color--major1);
   --button--primary-background-disabled-color: var(--primary-button-color--minor2);
+  --button--primary-border-color: var(--button--primary-background-color);
   --button--primary-border-disabled-color: var(--primary-button-color--minor2);
   --button--primary-font-color: var(--font-color-on-primary);
   --generic-table--header-font-size: 0.875rem;
@@ -143,4 +131,7 @@
   --link-text-decoration: none;
   --type-form-conf-attribute--background: var(--gray-light);
   --select-arrow-bg-color-url: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  --split-screen-width: 550px;
+  --full-view-split-right-width: 550px;
+  --gantt-split-width: 50%;
 }

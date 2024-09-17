@@ -48,19 +48,36 @@ module WorkPackages
 
       def wrapper_data_attributes
         {
+          test_selector: "op-wp-activity-tab",
           controller: "work-packages--activities-tab--index",
           "application-target": "dynamic",
-          "work-packages--activities-tab--index-update-streams-url-value": update_streams_work_package_activities_url(work_package),
+          "work-packages--activities-tab--index-update-streams-url-value": update_streams_work_package_activities_url(
+            work_package
+          ),
           "work-packages--activities-tab--index-sorting-value": journal_sorting,
           "work-packages--activities-tab--index-filter-value": filter,
           "work-packages--activities-tab--index-user-id-value": User.current.id,
           "work-packages--activities-tab--index-work-package-id-value": work_package.id,
-          "work-packages--activities-tab--index-polling-interval-in-ms-value": 10000 # protoypical implementation
+          "work-packages--activities-tab--index-polling-interval-in-ms-value": polling_interval,
+          "work-packages--activities-tab--index-notification-center-path-name-value": notifications_path
         }
       end
 
       def journal_sorting
         User.current.preference&.comments_sorting || "desc"
+      end
+
+      def polling_interval
+        # Polling interval should only be adjustable in test environment
+        if Rails.env.test?
+          ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"].presence || 10000
+        else
+          10000
+        end
+      end
+
+      def adding_comment_allowed?
+        User.current.allowed_in_project?(:add_work_package_notes, @work_package.project)
       end
     end
   end

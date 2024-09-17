@@ -1,0 +1,583 @@
+---
+http_interactions:
+- request:
+    method: mkcol
+    uri: https://nextcloud.local/remote.php/dav/files/vcr/VCR/Permission%20Test%20Folder
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic <BASIC_AUTH>
+      User-Agent:
+      - httpx.rb/1.3.0
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Security-Policy:
+      - default-src 'none';
+      Content-Type:
+      - text/html; charset=UTF-8
+      Date:
+      - Fri, 23 Aug 2024 15:28:56 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Oc-Fileid:
+      - '00000799oc07ul6b4oaw'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=a927f62338c190206dc5985489ac588f; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=bRyCKQt%2BvaqozQGCq5O9nGsdRA3MYge1FOl%2FnoJTqhMCJc5Xtp%2FdIujs5xAgAMBNCJ79BmK0V8vPElc%2BTEuyeW9Dkox1pzuy%2B6XFnp7WA%2BWCW1YnjSvMgcgJ0QC4jAIk;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=a927f62338c190206dc5985489ac588f;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=a927f62338c190206dc5985489ac588f;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=a927f62338c190206dc5985489ac588f;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=afefc644483807ab0a20d724cedf17b8;
+        path=/; secure; HttpOnly; SameSite=Lax, cookie_test=test; expires=Fri, 23
+        Aug 2024 16:28:56 GMT; Max-Age=3600
+      X-Content-Type-Options:
+      - nosniff
+      X-Debug-Token:
+      - qpmqxAN3kh1MgaA5M9kP
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - qpmqxAN3kh1MgaA5M9kP
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '0'
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Fri, 23 Aug 2024 15:28:56 GMT
+- request:
+    method: propfind
+    uri: https://nextcloud.local/remote.php/dav/files/vcr/VCR/Permission%20Test%20Folder
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+          <d:prop>
+            <oc:fileid/>
+            <oc:size/>
+            <d:getlastmodified/>
+            <oc:owner-display-name/>
+          </d:prop>
+        </d:propfind>
+    headers:
+      Authorization:
+      - Basic <BASIC_AUTH>
+      Depth:
+      - '1'
+      User-Agent:
+      - httpx.rb/1.3.0
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml; charset=utf-8
+      Content-Length:
+      - '207'
+  response:
+    status:
+      code: 207
+      message: Multi-Status
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Fri, 23 Aug 2024 15:28:56 GMT
+      Dav:
+      - 1, 3, extended-mkcol, access-control, calendarserver-principal-property-search,
+        nextcloud-checksum-update, nc-calendar-search, nc-enable-birthday-calendar
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=1d39bc244cb26834517f59232457fc22; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=VkeJavJBnWz4f4x0XDQPffKS8%2BmxaPnSGGnE1gaQSoSQ3zjp%2BnUAopgCI4CZPDFS%2BkPOSulMWsMwskL7gffn3lOWjMmkqmjjcIX8wP9cYH3734TAOB9VVXv%2FxIxKNOi8;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=1d39bc244cb26834517f59232457fc22;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=1d39bc244cb26834517f59232457fc22;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=1d39bc244cb26834517f59232457fc22;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=80adcb3565dc6113f9b26a8e4918e0c9;
+        path=/; secure; HttpOnly; SameSite=Lax, cookie_test=test; expires=Fri, 23
+        Aug 2024 16:28:57 GMT; Max-Age=3600
+      Vary:
+      - Brief,Prefer
+      X-Content-Type-Options:
+      - nosniff
+      X-Debug-Token:
+      - 8CKNsMHvkW8DFaT5EBfj
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - 8CKNsMHvkW8DFaT5EBfj
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '317'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns"><d:response><d:href>/remote.php/dav/files/vcr/VCR/Permission%20Test%20Folder/</d:href><d:propstat><d:prop><oc:fileid>799</oc:fileid><oc:size>0</oc:size><d:getlastmodified>Fri, 23 Aug 2024 15:28:56 GMT</d:getlastmodified><oc:owner-display-name>vcr</oc:owner-display-name></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>
+  recorded_at: Fri, 23 Aug 2024 15:28:57 GMT
+- request:
+    method: propfind
+    uri: https://nextcloud.local/remote.php/dav/files/vcr/VCR/Permission%20Test%20Folder
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:propfind xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+          <d:prop>
+            <nc:acl-list/>
+          </d:prop>
+        </d:propfind>
+    headers:
+      Authorization:
+      - Basic <BASIC_AUTH>
+      User-Agent:
+      - httpx.rb/1.3.0
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml; charset=utf-8
+      Content-Length:
+      - '141'
+  response:
+    status:
+      code: 207
+      message: Multi-Status
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Fri, 23 Aug 2024 15:28:57 GMT
+      Dav:
+      - 1, 3, extended-mkcol, access-control, calendarserver-principal-property-search,
+        nextcloud-checksum-update, nc-calendar-search, nc-enable-birthday-calendar
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=3966ed37ff3e0f3cfd19c0efb6d8e5e9; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=TqXez5efLfATpq9veN%2BMj8qIpQJSEjVN1vnSAl7Et4vPL8ZdiQ4e%2BKn3%2FA6qHQ7VQnqBxC%2BMgs6V9hKwGetPRg6BKPcwwAgG457QoJL2NLMxzu88wk%2B%2Fw3iGCkGZI8X9;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=3966ed37ff3e0f3cfd19c0efb6d8e5e9;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=3966ed37ff3e0f3cfd19c0efb6d8e5e9;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=3966ed37ff3e0f3cfd19c0efb6d8e5e9;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=5df37f195970f542580d33643b28241f;
+        path=/; secure; HttpOnly; SameSite=Lax, cookie_test=test; expires=Fri, 23
+        Aug 2024 16:28:57 GMT; Max-Age=3600
+      Vary:
+      - Brief,Prefer
+      X-Content-Type-Options:
+      - nosniff
+      X-Debug-Token:
+      - s3I6DIYrwZXkrXQfXTt3
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - s3I6DIYrwZXkrXQfXTt3
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '242'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns"><d:response><d:href>/remote.php/dav/files/vcr/VCR/Permission%20Test%20Folder/</d:href><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>
+  recorded_at: Fri, 23 Aug 2024 15:28:57 GMT
+- request:
+    method: get
+    uri: https://nextcloud.local/ocs/v1.php/apps/integration_openproject/fileinfo/799
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic <BASIC_AUTH>
+      Ocs-Apirequest:
+      - 'true'
+      Accept:
+      - application/json
+      User-Agent:
+      - httpx.rb/1.3.0
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 23 Aug 2024 15:28:58 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=d43f88e2979cf5744aa37e33e9fe808e; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=l7F2I53dDSoDmEwI8u0o5Sc%2FwUSrQytyxOa9CZ3evnKXVI2ADz9KQdj9EcUpmLJCK37lYByr9h0pu9go6O%2FdAbqfzhapvqN6b5mokeTmSw%2BrY0tAj%2Fihc3V5KauWI7l0;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=d43f88e2979cf5744aa37e33e9fe808e;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=d43f88e2979cf5744aa37e33e9fe808e;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=d43f88e2979cf5744aa37e33e9fe808e;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=33cedf5c0faff47baa93a590ad0c7d98;
+        path=/; secure; HttpOnly; SameSite=Lax, cookie_test=test; expires=Fri, 23
+        Aug 2024 16:28:58 GMT; Max-Age=3600
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - xad6qPwHCbI24SjfJp4j
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '261'
+    body:
+      encoding: UTF-8
+      string: '{"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK","totalitems":"","itemsperpage":""},"data":{"status":"OK","statuscode":200,"id":799,"name":"Permission
+        Test Folder","mtime":1724426936,"ctime":0,"mimetype":"application\/x-op-directory","size":0,"owner_name":"vcr","owner_id":"vcr","modifier_name":null,"modifier_id":null,"dav_permissions":"RMGDNVCK","path":"files\/VCR\/Permission
+        Test Folder\/"}}}'
+  recorded_at: Fri, 23 Aug 2024 15:28:58 GMT
+- request:
+    method: proppatch
+    uri: https://nextcloud.local/remote.php/dav/files/vcr/VCR/Permission%20Test%20Folder
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+          <d:set>
+            <d:prop>
+              <nc:acl-list>
+                <nc:acl>
+                  <nc:acl-mapping-type>user</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>luke_the_sky</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>31</nc:acl-permissions>
+                </nc:acl>
+              </nc:acl-list>
+            </d:prop>
+          </d:set>
+        </d:propertyupdate>
+    headers:
+      Authorization:
+      - Basic <BASIC_AUTH>
+      User-Agent:
+      - httpx.rb/1.3.0
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml; charset=utf-8
+      Content-Length:
+      - '449'
+  response:
+    status:
+      code: 207
+      message: Multi-Status
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Security-Policy:
+      - default-src 'none';
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Fri, 23 Aug 2024 15:28:58 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=f64663a174cf63f891857f7cecdc762c; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=kxiSFoO%2Fr%2FrNvmP7Kqzm3SWiXigcteR7sx6qEntHCj4Zl48lekvxPqDcRyFbqgT1GteQrWX1%2FU9N2f2QRvEFQJKLkYAd2p69N5fnntsM7bhcHy7OfI8OMowg%2F7GZ33tm;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=f64663a174cf63f891857f7cecdc762c;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=f64663a174cf63f891857f7cecdc762c;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=f64663a174cf63f891857f7cecdc762c;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=096557518dff940079c61096954dfdbf;
+        path=/; secure; HttpOnly; SameSite=Lax, cookie_test=test; expires=Fri, 23
+        Aug 2024 16:28:58 GMT; Max-Age=3600
+      Vary:
+      - Brief,Prefer
+      X-Content-Type-Options:
+      - nosniff
+      X-Debug-Token:
+      - zia7mjrTwEB9gk82hKZB
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - zia7mjrTwEB9gk82hKZB
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '361'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns"><d:response><d:href>/remote.php/dav/files/vcr/VCR/Permission%20Test%20Folder</d:href><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>
+  recorded_at: Fri, 23 Aug 2024 15:28:58 GMT
+- request:
+    method: propfind
+    uri: https://nextcloud.local/remote.php/dav/files/vcr/VCR/Permission%20Test%20Folder
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:propfind xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+          <d:prop>
+            <nc:acl-list/>
+          </d:prop>
+        </d:propfind>
+    headers:
+      Authorization:
+      - Basic <BASIC_AUTH>
+      User-Agent:
+      - httpx.rb/1.3.0
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml; charset=utf-8
+      Content-Length:
+      - '141'
+  response:
+    status:
+      code: 207
+      message: Multi-Status
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Fri, 23 Aug 2024 15:28:59 GMT
+      Dav:
+      - 1, 3, extended-mkcol, access-control, calendarserver-principal-property-search,
+        nextcloud-checksum-update, nc-calendar-search, nc-enable-birthday-calendar
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=da2d0fc1963ec3d3360a5e70fa84eca9; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=IyxSuFDWZztk0FR3Z4uOt093IN56tzy7AkgiQvJMaeU%2FLC%2F0SfDzx3whifCPRYRlkND3lGzhHH38Bp2VYUkxYk81FEQcvuZcEnFymAGhtu8Gw75aL2mhvewJJycpCPvA;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=da2d0fc1963ec3d3360a5e70fa84eca9;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=da2d0fc1963ec3d3360a5e70fa84eca9;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=da2d0fc1963ec3d3360a5e70fa84eca9;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=b7bc2ca49f3404370d1993a9f245d55f;
+        path=/; secure; HttpOnly; SameSite=Lax, cookie_test=test; expires=Fri, 23
+        Aug 2024 16:28:59 GMT; Max-Age=3600
+      Vary:
+      - Brief,Prefer
+      X-Content-Type-Options:
+      - nosniff
+      X-Debug-Token:
+      - qd7FtewIuY0uBLkxF16D
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - qd7FtewIuY0uBLkxF16D
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '237'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns"><d:response><d:href>/remote.php/dav/files/vcr/VCR/Permission%20Test%20Folder/</d:href><d:propstat><d:prop><nc:acl-list/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>
+  recorded_at: Fri, 23 Aug 2024 15:28:59 GMT
+- request:
+    method: delete
+    uri: https://nextcloud.local/remote.php/dav/files/vcr/VCR/Permission%20Test%20Folder
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic <BASIC_AUTH>
+      User-Agent:
+      - httpx.rb/1.3.0
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Security-Policy:
+      - default-src 'none';
+      Date:
+      - Fri, 23 Aug 2024 15:28:59 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=6c76f9e5a759e63644dcd13d1bc06b06; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=4oZSLGHq7iAinHIJWgDLoZNxlzts1Pucs35gdK8l%2FWnr9TvIRVrhg35w4UOCvP%2BVSVd6neLVQdU3fm%2FUSi%2FBhcDr2eKruTWxY%2BABX%2B1eGSKDrhFmuoY0EjDRGNRM96YI;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=6c76f9e5a759e63644dcd13d1bc06b06;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=6c76f9e5a759e63644dcd13d1bc06b06;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=6c76f9e5a759e63644dcd13d1bc06b06;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=ce46076e65d4e4ac29941b7014d77127;
+        path=/; secure; HttpOnly; SameSite=Lax, cookie_test=test; expires=Fri, 23
+        Aug 2024 16:29:00 GMT; Max-Age=3600
+      X-Content-Type-Options:
+      - nosniff
+      X-Debug-Token:
+      - 4okZgkeMXq77RY0tGOdX
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - 4okZgkeMXq77RY0tGOdX
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Fri, 23 Aug 2024 15:29:00 GMT
+recorded_with: VCR 6.3.1

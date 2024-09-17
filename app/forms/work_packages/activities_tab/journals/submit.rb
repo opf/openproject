@@ -28,7 +28,8 @@
 module WorkPackages::ActivitiesTab::Journals
   class Submit < ApplicationForm
     form do |notes_form|
-      notes_form.submit(name: :submit, label: "Save", scheme: :primary)
+      notes_form.submit(name: :submit, label: "Save", scheme: :primary,
+                        data: { test_selector: "op-submit-work-package-journal-form" })
     end
   end
 end

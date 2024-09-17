@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -78,6 +78,13 @@ class ProjectQuery < ApplicationRecord
       # distinct which then requires every column used e.g. for ordering
       # to be in select.
       super.where(id: Project.visible)
+    end
+  end
+
+  def advanced_filters
+    filters.reject do |filter|
+      # Skip the name filter as we have it present as a permanent filter with a text input.
+      filter.is_a?(Queries::Projects::Filters::NameAndIdentifierFilter)
     end
   end
 end

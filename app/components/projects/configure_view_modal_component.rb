@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,12 @@
 # ++
 
 class Projects::ConfigureViewModalComponent < ApplicationComponent
+  include OpTurbo::Streamable
+
   MODAL_ID = "op-project-list-configure-dialog"
   QUERY_FORM_ID = "op-project-list-configure-query-form"
   COLUMN_HTML_NAME = "columns"
+  COLUMN_HTML_ID = "columns-select"
 
   options :query
 

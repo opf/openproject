@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,6 +54,12 @@ module Pages
       page.within_test_selector("op-wp-share-button") do
         expect(page).to have_css(".badge", text: count, wait: 10)
       end
+    end
+
+    def wait_for_activity_tab
+      expect(page).to have_test_selector("op-wp-activity-tab", wait: 10)
+      # wait for stimulus js component to be mounted
+      expect(page).to have_css('[data-test-selector="op-wp-activity-tab"][data-stimulus-controller-connected="true"]')
     end
 
     private

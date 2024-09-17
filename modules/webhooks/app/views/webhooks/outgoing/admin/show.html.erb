@@ -1,29 +1,8 @@
-<% html_title(t(:label_administration), t('webhooks.singular'), @webhook.name) -%>
-<% local_assigns[:additional_breadcrumb] = [
-  link_to(t('webhooks.plural'), admin_outgoing_webhooks_path),
-  @webhook.name
-  ]
-%>
+<% html_title t(:label_administration), t("webhooks.plural"), @webhook.name %>
 
-<%= toolbar title: "#{t('webhooks.singular')} - #{@webhook.name}" do %>
-  <li class="toolbar-item">
-    <%= link_to edit_admin_outgoing_webhook_path(@webhook),
-          { class: 'button',
-            aria: {label: t(:label_edit)},
-            title: t(:label_edit)} do %>
-      <%= op_icon('button--icon icon-edit') %>
-      <span class="button--text"><%= t(:label_edit) %></span>
-    <% end %>
-  </li>
-  <li class="toolbar-item">
-    <%= link_to admin_outgoing_webhook_path(@webhook),
-                class: 'button -danger',
-                data: { method: 'delete', confirm: I18n.t(:text_are_you_sure) } do %>
-      <%= op_icon('button--icon icon-delete') %>
-      <span class="button--text"><%= t(:button_delete) %></span>
-    <% end %>
-  </li>
-<% end %>
+<%=
+  render Webhooks::Outgoing::Webhooks::ShowPageHeaderComponent.new(webhook: @webhook)
+%>
 
 <%= render ::Components::OnOffStatusComponent.new({
              is_on: @webhook.enabled?,

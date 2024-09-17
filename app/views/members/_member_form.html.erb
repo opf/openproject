@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -72,7 +72,7 @@ See COPYRIGHT and LICENSE files for more details.
         <div class="form--field">
           <%= styled_label_tag :member_role_ids do %>
             <%= content_tag :span, t(:label_role_search) %>
-            <%= angular_component_tag 'attribute-help-text',
+            <%= angular_component_tag 'opce-attribute-help-text',
                                       inputs: {
                                         attribute: 'members',
                                         attributeScope: 'Project'

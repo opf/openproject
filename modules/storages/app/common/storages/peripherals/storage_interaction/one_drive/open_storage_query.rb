@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,7 +50,7 @@ module Storages
           private
 
           def request_drive(http)
-            handle_responses http.get(Util.join_uri_path(@storage.uri, drive_uri_path))
+            handle_responses http.get(request_url)
           end
 
           def handle_responses(response)
@@ -72,8 +72,8 @@ module Storages
             end
           end
 
-          def drive_uri_path
-            "/v1.0/drives/#{@storage.drive_id}?$select=webUrl"
+          def request_url
+            "#{Util.drive_base_uri(@storage)}?$select=webUrl"
           end
 
           def web_url

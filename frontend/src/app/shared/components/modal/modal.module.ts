@@ -7,6 +7,7 @@ import { OpModalWrapperAugmentService } from './modal-wrapper-augment.service';
 import { OpModalBannerComponent } from 'core-app/shared/components/modal/modal-banner/modal-banner.component';
 import { OpModalOverlayComponent } from 'core-app/shared/components/modal/modal-overlay.component';
 import { CommonModule } from '@angular/common';
+import { OpCustomModalOverlayComponent } from 'core-app/shared/components/modal/custom-modal-overlay.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { CommonModule } from '@angular/common';
   ],
   exports: [
     OpModalOverlayComponent,
+    OpCustomModalOverlayComponent,
     OpModalBannerComponent,
   ],
   providers: [
@@ -26,6 +28,7 @@ import { CommonModule } from '@angular/common';
   declarations: [
     OpModalBannerComponent,
     OpModalOverlayComponent,
+    OpCustomModalOverlayComponent,
   ],
 })
 export class OpenprojectModalModule { }

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -75,7 +75,7 @@ th:
     unassigned: "ไม่ได้กำหนด"
     x_more: "%{count} more..."
   backlogs_active: "ใช้งานอยู่"
-  backlogs_any: "any"
+  backlogs_any: "ทั้งหมด"
   backlogs_inactive: "Project shows no activity"
   backlogs_points_burn_direction: "Points burn up/down"
   backlogs_product_backlog: "Product backlog"
@@ -88,7 +88,7 @@ th:
   backlogs_sprints: "Sprints"
   backlogs_story: "Story"
   backlogs_story_type: "Story types"
-  backlogs_task: "Task"
+  backlogs_task: "งาน"
   backlogs_task_type: "Task type"
   backlogs_velocity_missing: "No velocity could be calculated for this project"
   backlogs_velocity_varies: "Velocity varies significantly over sprints"

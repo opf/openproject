@@ -1,10 +1,14 @@
-import * as Turbo from '@hotwired/turbo';
 import { Controller } from '@hotwired/stimulus';
 import {
   ICKEditorInstance,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
-import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
-import { workPackageFilesCount } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-files-count.function';
+import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+
+interface CustomEventWithIdParam extends Event {
+  params:{
+    id:string;
+  };
+}
 
 export default class IndexController extends Controller {
   static values = {
@@ -14,6 +18,7 @@ export default class IndexController extends Controller {
     filter: String,
     userId: Number,
     workPackageId: Number,
+    notificationCenterPathName: String,
   };
 
   static targets = ['journalsContainer', 'buttonRow', 'formRow', 'form'];
@@ -28,25 +33,50 @@ export default class IndexController extends Controller {
   declare lastUpdateTimestamp:string;
   declare intervallId:number;
   declare pollingIntervalInMsValue:number;
+  declare notificationCenterPathNameValue:string;
   declare filterValue:string;
   declare userIdValue:number;
   declare workPackageIdValue:number;
   declare localStorageKey:string;
 
-  connect() {
+  private handleWorkPackageUpdateBound:EventListener;
+  private handleVisibilityChangeBound:EventListener;
+  private rescueEditorContentBound:EventListener;
+
+  private onSubmitBound:EventListener;
+  private adjustMarginBound:EventListener;
+  private hideEditorBound:EventListener;
+
+  private saveInProgress:boolean;
+  private updateInProgress:boolean;
+  private turboRequests:TurboRequestsService;
+
+  async connect() {
     this.setLocalStorageKey();
     this.setLastUpdateTimestamp();
-    this.hideLastPartOfTimeLineStem();
     this.setupEventListeners();
     this.handleInitialScroll();
     this.startPolling();
     this.populateRescuedEditorContent();
+    this.markAsConnected();
+
+    const context = await window.OpenProject.getPluginContext();
+    this.turboRequests = context.services.turboRequests;
   }
 
   disconnect() {
     this.rescueEditorContent();
     this.removeEventListeners();
     this.stopPolling();
+    this.markAsDisconnected();
+  }
+
+  private markAsConnected() {
+    (this.element as HTMLElement).dataset.stimulusControllerConnected = 'true';
+  }
+
+  private markAsDisconnected() {
+    (this.element as HTMLElement).dataset.stimulusControllerConnected = 'false';
   }
 
   private setLocalStorageKey() {
@@ -56,28 +86,26 @@ export default class IndexController extends Controller {
   }
 
   private setupEventListeners() {
-    this.handleWorkPackageUpdate = this.handleWorkPackageUpdate.bind(this);
-    this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
-    this.rescueEditorContent = this.rescueEditorContent.bind(this);
-    document.addEventListener('work-package-updated', this.handleWorkPackageUpdate);
-    document.addEventListener('visibilitychange', this.handleVisibilityChange);
-    document.addEventListener('beforeunload', this.rescueEditorContent);
+    this.handleWorkPackageUpdateBound = () => { void this.handleWorkPackageUpdate(); };
+    this.handleVisibilityChangeBound = () => { void this.handleVisibilityChange(); };
+    this.rescueEditorContentBound = () => { void this.rescueEditorContent(); };
+
+    document.addEventListener('work-package-updated', this.handleWorkPackageUpdateBound);
+    document.addEventListener('visibilitychange', this.handleVisibilityChangeBound);
+    document.addEventListener('beforeunload', this.rescueEditorContentBound);
   }
 
   private removeEventListeners() {
-    this.handleWorkPackageUpdate = this.handleWorkPackageUpdate.bind(this);
-    this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
-    this.rescueEditorContent = this.rescueEditorContent.bind(this);
-    document.removeEventListener('work-package-updated', this.handleWorkPackageUpdate);
-    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
-    document.removeEventListener('beforeunload', this.rescueEditorContent);
+    document.removeEventListener('work-package-updated', this.handleWorkPackageUpdateBound);
+    document.removeEventListener('visibilitychange', this.handleVisibilityChangeBound);
+    document.removeEventListener('beforeunload', this.rescueEditorContentBound);
   }
 
   private handleVisibilityChange() {
     if (document.hidden) {
       this.stopPolling();
     } else {
-      this.updateActivitiesList();
+      void this.updateActivitiesList();
       this.startPolling();
     }
   }
@@ -95,23 +123,59 @@ export default class IndexController extends Controller {
     return window.setInterval(() => this.updateActivitiesList(), this.pollingIntervalInMsValue);
   }
 
-  async handleWorkPackageUpdate(event:Event) {
+  handleWorkPackageUpdate(_event?:Event):void {
     setTimeout(() => this.updateActivitiesList(), 2000);
   }
 
   async updateActivitiesList() {
+    if (this.updateInProgress) return;
+    this.updateInProgress = true;
+
+    const journalsContainerAtBottom = this.isJournalsContainerScrolledToBottom(this.journalsContainerTarget);
+
+    void this.performUpdateStreamsRequest(this.prepareUpdateStreamsUrl()).then((html) => {
+      this.handleUpdateStreamsResponse(html as string, journalsContainerAtBottom);
+    }).catch((error) => {
+      console.error('Error updating activities list:', error);
+    }).finally(() => {
+      this.updateInProgress = false;
+    });
+  }
+
+  private prepareUpdateStreamsUrl():string {
     const url = new URL(this.updateStreamsUrlValue);
-    url.searchParams.append('last_update_timestamp', this.lastUpdateTimestamp);
-    url.searchParams.append('filter', this.filterValue);
+    url.searchParams.set('sortBy', this.sortingValue);
+    url.searchParams.set('filter', this.filterValue);
+    url.searchParams.set('last_update_timestamp', this.lastUpdateTimestamp);
+    return url.toString();
+  }
 
-    const response = await this.fetchWithCSRF(url, 'GET');
+  private performUpdateStreamsRequest(url:string):Promise<unknown> {
+    return this.turboRequests.request(url, {
+      method: 'GET',
+      headers: {
+        'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
+      },
+    });
+  }
 
-    if (response.ok) {
-      const text = await response.text();
-      Turbo.renderStreamMessage(text);
-      this.setLastUpdateTimestamp();
-      this.hideLastPartOfTimeLineStem();
+  private handleUpdateStreamsResponse(html:string, journalsContainerAtBottom:boolean) {
+    this.setLastUpdateTimestamp();
+    // only process append and prepend actions
+    if (!(html.includes('action="append"') || html.includes('action="prepend"'))) {
+      return;
     }
+    // the timeout is require in order to give the Turb.renderStream method enough time to render the new journals
+    setTimeout(() => {
+      if (this.sortingValue === 'asc' && journalsContainerAtBottom) {
+        // scroll to (new) bottom if sorting is ascending and journals container was already at bottom before a new activity was added
+        if (this.isMobile()) {
+          this.scrollInputContainerIntoView(300);
+        } else {
+          this.scrollJournalContainer(this.journalsContainerTarget, true, true);
+        }
+      }
+    }, 100);
   }
 
   private rescueEditorContent() {
@@ -134,24 +198,26 @@ export default class IndexController extends Controller {
 
   private handleInitialScroll() {
     if (window.location.hash.includes('#activity-')) {
-      this.scrollToActivity();
+      const activityId = window.location.hash.replace('#activity-', '');
+      this.scrollToActivity(activityId);
     } else if (this.sortingValue === 'asc') {
       this.scrollToBottom();
     }
   }
 
-  private scrollToActivity() {
-    const activityId = window.location.hash.replace('#activity-', '');
-    const activityElement = document.getElementById(`activity-${activityId}`);
-    activityElement?.scrollIntoView({ behavior: 'smooth' });
+  private scrollToActivity(activityId:string) {
+    const scrollableContainer = jQuery(this.element).scrollParent()[0];
+    const activityElement = document.getElementById(`activity-anchor-${activityId}`);
+
+    if (activityElement && scrollableContainer) {
+      scrollableContainer.scrollTop = activityElement.offsetTop-70;
+    }
   }
 
   private scrollToBottom() {
     const scrollableContainer = jQuery(this.element).scrollParent()[0];
     if (scrollableContainer) {
-      setTimeout(() => {
-        scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
-      }, 400);
+      scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
     }
   }
 
@@ -159,84 +225,126 @@ export default class IndexController extends Controller {
   setFilterToOnlyChanges() { this.filterValue = 'only_changes'; }
   unsetFilter() { this.filterValue = ''; }
 
+  setAnchor(event:CustomEventWithIdParam) {
+    // native anchor scroll is causing positioning issues
+    event.preventDefault();
+    const activityId = event.params.id;
+
+    this.scrollToActivity(activityId);
+    window.location.hash = `#activity-${activityId}`;
+  }
+
+  private getCkEditorElement():HTMLElement | null {
+    return this.element.querySelector('opce-ckeditor-augmented-textarea');
+  }
+
   private getCkEditorInstance():ICKEditorInstance | null {
-    const AngularCkEditorElement = this.element.querySelector('opce-ckeditor-augmented-textarea');
+    const AngularCkEditorElement = this.getCkEditorElement();
     return AngularCkEditorElement ? jQuery(AngularCkEditorElement).data('editor') as ICKEditorInstance : null;
   }
 
+  private getInputContainer():HTMLElement | null {
+    return this.element.querySelector('.work-packages-activities-tab-journals-new-component');
+  }
+
+  // Code Maintenance: Get rid of this JS based view port checks when activities are rendered in fully primierized activity tab in all contexts
+  private isMobile():boolean {
+    return window.innerWidth < 1279;
+  }
+
+  private isWithinNotificationCenter():boolean {
+    return window.location.pathname.includes(this.notificationCenterPathNameValue);
+  }
+
   private addEventListenersToCkEditorInstance() {
-    const editor = this.getCkEditorInstance();
-    if (editor) {
-      this.addKeydownListener(editor);
-      this.addKeyupListener(editor);
-      this.addBlurListener(editor);
+    this.onSubmitBound = () => { void this.onSubmit(); };
+    this.adjustMarginBound = () => { void this.adjustJournalContainerMargin(); };
+    this.hideEditorBound = () => { void this.hideEditorIfEmpty(); };
+
+    const editorElement = this.getCkEditorElement();
+    if (editorElement) {
+      editorElement.addEventListener('saveRequested', this.onSubmitBound);
+      editorElement.addEventListener('editorKeyup', this.adjustMarginBound);
+      editorElement.addEventListener('editorBlur', this.hideEditorBound);
     }
   }
 
-  private addKeydownListener(editor:ICKEditorInstance) {
-    editor.listenTo(
-      editor.editing.view.document,
-      'keydown',
-      (event, data) => {
-        if ((data.ctrlKey || data.metaKey) && data.keyCode === KeyCodes.ENTER) {
-          this.onSubmit();
-          event.stop();
-        }
-      },
-      { priority: 'highest' },
-    );
-  }
-
-  private addKeyupListener(editor:ICKEditorInstance) {
-    editor.listenTo(
-      editor.editing.view.document,
-      'keyup',
-      (event) => {
-        this.adjustJournalContainerMargin();
-        event.stop();
-      },
-      { priority: 'highest' },
-    );
-  }
-
-  private addBlurListener(editor:ICKEditorInstance) {
-    editor.listenTo(
-      editor.editing.view.document,
-      'change:isFocused',
-      () => {
-        // without the timeout `isFocused` is still true even if the editor was blurred
-        // current limitation:
-        // clicking on empty toolbar space and the somewhere else on the page does not trigger the blur anymore
-        setTimeout(() => {
-          if (!editor.ui.focusTracker.isFocused) { this.hideEditorIfEmpty(); }
-        }, 0);
-      },
-      { priority: 'highest' },
-    );
+  private removeEventListenersFromCkEditorInstance() {
+    const editorElement = this.getCkEditorElement();
+    if (editorElement) {
+      editorElement.removeEventListener('saveRequested', this.onSubmitBound);
+      editorElement.removeEventListener('editorKeyup', this.adjustMarginBound);
+      editorElement.removeEventListener('editorBlur', this.hideEditorBound);
+    }
   }
 
   private adjustJournalContainerMargin() {
     // don't do this on mobile screens
-    // TODO: get rid of static width value and reach for a more CSS based solution
-    if (window.innerWidth < 1279) { return; }
-    this.journalsContainerTarget.style.marginBottom = `${this.formRowTarget.clientHeight + 40}px`;
+    if (this.isMobile()) { return; }
+    this.journalsContainerTarget.style.marginBottom = `${this.formRowTarget.clientHeight + 29}px`;
   }
 
-  private scrollJournalContainer(journalsContainer:HTMLElement, toBottom:boolean) {
+  private isJournalsContainerScrolledToBottom(journalsContainer:HTMLElement) {
+    let atBottom = false;
+    // we have to handle different scrollable containers for different viewports/pages in order to idenfity if the user is at the bottom of the journals
+    // DOM structure different for notification center and workpackage detail view as well
+    // seems way to hacky for me, but I couldn't find a better solution
+    if (this.isMobile() && !this.isWithinNotificationCenter()) {
+      const scrollableContainer = document.querySelector('#content-body') as HTMLElement;
+
+      atBottom = (scrollableContainer.scrollTop + scrollableContainer.clientHeight + 10) >= scrollableContainer.scrollHeight;
+    } else {
+      const scrollableContainer = jQuery(journalsContainer).scrollParent()[0];
+
+      atBottom = (scrollableContainer.scrollTop + scrollableContainer.clientHeight + 10) >= scrollableContainer.scrollHeight;
+    }
+
+    return atBottom;
+  }
+
+  private scrollJournalContainer(journalsContainer:HTMLElement, toBottom:boolean, smooth:boolean = false) {
     const scrollableContainer = jQuery(journalsContainer).scrollParent()[0];
     if (scrollableContainer) {
-      scrollableContainer.scrollTop = toBottom ? scrollableContainer.scrollHeight : 0;
+      if (smooth) {
+        scrollableContainer.scrollTo({
+          top: toBottom ? scrollableContainer.scrollHeight : 0,
+        behavior: 'smooth',
+        });
+      } else {
+        scrollableContainer.scrollTop = toBottom ? scrollableContainer.scrollHeight : 0;
+      }
     }
   }
 
+  private scrollInputContainerIntoView(timeout:number = 0) {
+    const inputContainer = this.getInputContainer() as HTMLElement;
+    setTimeout(() => {
+      if (inputContainer) {
+        inputContainer.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, timeout);
+  }
+
   showForm() {
+    const journalsContainerAtBottom = this.isJournalsContainerScrolledToBottom(this.journalsContainerTarget);
+
     this.buttonRowTarget.classList.add('d-none');
     this.formRowTarget.classList.remove('d-none');
-    this.journalsContainerTarget?.classList.add('with-input-compensation');
+    this.journalsContainerTarget?.classList.add('work-packages-activities-tab-index-component--journals-container_with-input-compensation');
 
     this.addEventListenersToCkEditorInstance();
 
-    this.focusEditor();
+    if (this.isMobile()) {
+      this.scrollInputContainerIntoView(300);
+    } else if (this.sortingValue === 'asc' && journalsContainerAtBottom) {
+      // scroll to (new) bottom if sorting is ascending and journals container was already at bottom before showing the form
+      this.scrollJournalContainer(this.journalsContainerTarget, true);
+    }
+
+    const ckEditorInstance = this.getCkEditorInstance();
+    if (ckEditorInstance) {
+      setTimeout(() => ckEditorInstance.editing.view.focus(), 10);
+    }
   }
 
   focusEditor() {
@@ -277,20 +385,44 @@ export default class IndexController extends Controller {
 
   hideEditorIfEmpty() {
     const ckEditorInstance = this.getCkEditorInstance();
+
     if (ckEditorInstance && ckEditorInstance.getData({ trim: false }).length === 0) {
+      this.clearEditor(); // remove potentially empty lines
+      this.removeEventListenersFromCkEditorInstance();
       this.buttonRowTarget.classList.remove('d-none');
       this.formRowTarget.classList.add('d-none');
 
       if (this.journalsContainerTarget) {
         this.journalsContainerTarget.style.marginBottom = '';
-        this.journalsContainerTarget.classList.add('with-initial-input-compensation');
-        this.journalsContainerTarget.classList.remove('with-input-compensation');
+        this.journalsContainerTarget.classList.add('work-packages-activities-tab-index-component--journals-container_with-initial-input-compensation');
+        this.journalsContainerTarget.classList.remove('work-packages-activities-tab-index-component--journals-container_with-input-compensation');
       }
+
+      if (this.isMobile()) { this.scrollInputContainerIntoView(300); }
     }
   }
 
   async onSubmit(event:Event | null = null) {
+    if (this.saveInProgress === true) return;
+
+    this.saveInProgress = true;
+
     event?.preventDefault();
+
+    const formData = this.prepareFormData();
+    void this.submitForm(formData)
+      .then(() => {
+        this.handleSuccessfulSubmission();
+      })
+      .catch((error) => {
+        console.error('Error saving activity:', error);
+      })
+      .finally(() => {
+        this.saveInProgress = false;
+      });
+  }
+
+  private prepareFormData():FormData {
     const ckEditorInstance = this.getCkEditorInstance();
     const data = ckEditorInstance ? ckEditorInstance.getData({ trim: false }) : '';
 
@@ -299,64 +431,58 @@ export default class IndexController extends Controller {
     formData.append('filter', this.filterValue);
     formData.append('journal[notes]', data);
 
-    const response = await this.fetchWithCSRF(this.formTarget.action, 'POST', formData);
+    return formData;
+  }
 
-    if (response.ok) {
-      this.setLastUpdateTimestamp();
-      const text = await response.text();
-      Turbo.renderStreamMessage(text);
+  private async submitForm(formData:FormData):Promise<unknown> {
+    return this.turboRequests.request(this.formTarget.action, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
+      },
+    });
+  }
 
-      if (this.journalsContainerTarget) {
-        this.clearEditor();
-        this.focusEditor();
-        if (this.journalsContainerTarget) {
-          this.journalsContainerTarget.style.marginBottom = '';
-          this.journalsContainerTarget.classList.add('with-input-compensation');
-        }
-        setTimeout(() => {
-          this.scrollJournalContainer(
-            this.journalsContainerTarget,
-            this.sortingValue === 'asc',
-          );
-          this.hideLastPartOfTimeLineStem();
-        }, 100);
+  private handleSuccessfulSubmission() {
+    this.setLastUpdateTimestamp();
+
+    if (!this.journalsContainerTarget) return;
+
+    this.clearEditor();
+    this.handleEditorVisibility();
+    this.adjustJournalsContainer();
+
+    setTimeout(() => {
+      this.scrollJournalContainer(
+        this.journalsContainerTarget,
+        this.sortingValue === 'asc',
+        true,
+      );
+      if (this.isMobile()) {
+        this.scrollInputContainerIntoView(300);
       }
+    }, 10);
+
+    this.saveInProgress = false;
+  }
+
+  private handleEditorVisibility():void {
+    if (this.isMobile()) {
+      this.hideEditorIfEmpty();
+    } else {
+      this.focusEditor();
     }
   }
 
-  private async fetchWithCSRF(url:string | URL, method:string, body?:FormData) {
-    return fetch(url, {
-      method,
-      body,
-      headers: {
-        'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
-        Accept: 'text/vnd.turbo-stream.html',
-      },
-      credentials: 'same-origin',
-    });
+  private adjustJournalsContainer():void {
+    if (!this.journalsContainerTarget) return;
+
+    this.journalsContainerTarget.style.marginBottom = '';
+    this.journalsContainerTarget.classList.add('work-packages-activities-tab-index-component--journals-container_with-input-compensation');
   }
 
   setLastUpdateTimestamp() {
     this.lastUpdateTimestamp = new Date().toISOString();
-  }
-
-  hideLastPartOfTimeLineStem() {
-    // TODO: I wasn't able to find a pure CSS solution
-    // Didn't want to identify on server-side which element is last in the list in order to avoid n+1 queries
-    // happy to get rid of this hacky JS solution!
-    //
-    // Note: below works but not if filter is changed, skipping for now
-    //
-    // this.element.querySelectorAll('.details-container--empty--last--asc').forEach((container) => container.classList.remove('details-container--empty--last--asc'));
-
-    // const containers = this.element.querySelectorAll('.details-container--empty--asc');
-    // if (containers.length > 0) {
-    //   const lastContainer = containers[containers.length - 1] as HTMLElement;
-    //   // only apply for stem part after comment box
-    //   if (lastContainer?.parentElement?.parentElement?.previousElementSibling?.classList.contains('comment-border-box')) {
-    //     lastContainer.classList.add('details-container--empty--last--asc');
-    //   }
-    //   // lastContainer.classList.add('details-container--empty--last--asc');
-    // }
   }
 }

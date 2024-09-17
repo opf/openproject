@@ -28,13 +28,13 @@ RSpec.shared_examples_for "provides a single WP context menu" do
 
     # Open Move
     open_context_menu.call
-    menu.choose("Change project")
+    menu.choose("Move to another project")
     expect(page).to have_css("h2", text: I18n.t(:button_move))
     expect(page).to have_css("a.work_package", text: "##{work_package.id}")
 
     # Open Copy
     open_context_menu.call
-    menu.choose("Copy")
+    menu.choose("Duplicate")
     # Split view open in copy state
     expect(page)
       .to have_css(".wp-new-top-row",
@@ -62,9 +62,9 @@ RSpec.shared_examples_for "provides a single WP context menu" do
     open_context_menu.call
     menu.expect_no_options "Add predecessor", "Add follower, Show relations"
 
-    # Copy to other project
+    # Duplicate in another project
     open_context_menu.call
-    menu.choose("Copy to other project")
+    menu.choose("Duplicate in another project")
     expect(page).to have_css("h2", text: I18n.t(:button_copy))
     expect(page).to have_css("a.work_package", text: "##{work_package.id}")
   end

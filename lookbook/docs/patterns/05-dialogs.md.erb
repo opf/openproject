@@ -24,6 +24,7 @@ end
 ```
 
 On the Rails controller you wish to render the dialog, you need to respond to the request with the dialog content.
+The async-controller stimulus controller will ensure that a loading progress bar will be shown on the top of the page.
 
 ```ruby
 class TestController < ApplicationControler
@@ -37,6 +38,18 @@ class TestController < ApplicationControler
   end
 end
 ```
+
+For this to work, the `OpTurbo::Streamable` module needs to be included in the modal component:
+
+```ruby
+class MyDialogComponent < ApplicationControler
+  # include the module
+  include OpTurbo::Streamable
+
+  # ...
+end
+```
+
 
 Assuming the MyDialogComponent template looks like this:
 

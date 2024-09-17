@@ -1,16 +1,25 @@
-<% html_title(t(:label_administration), t('openid_connect.providers.plural')) -%>
-<% local_assigns[:additional_breadcrumb] = t('openid_connect.providers.plural') %>
+<% html_title(t(:label_administration), t("openid_connect.providers.plural")) -%>
 
-<%= toolbar title: t('openid_connect.providers.plural') do %>
-  <li class="toolbar-item">
-    <%= link_to new_openid_connect_provider_path,
-          { class: 'button -primary',
-            aria: {label: t('openid_connect.providers.label_add_new')},
-            title: t('openid_connect.providers.label_add_new')} do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= t('openid_connect.providers.singular') %></span>
-    <% end if openid_connect_providers_available_for_configure.any? %>
-  </li>
-<% end %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("openid_connect.providers.plural") }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: admin_settings_authentication_path, text: t(:label_authentication) },
+                             t("openid_connect.providers.plural")])
+  end
+%>
+
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(scheme: :primary,
+                                 aria: { label: I18n.t("openid_connect.providers.label_add_new") },
+                                 title: I18n.t("openid_connect.providers.label_add_new"),
+                                 tag: :a,
+                                 href: new_openid_connect_provider_path) do |button|
+      button.with_leading_visual_icon(icon: :plus)
+      t("openid_connect.providers.singular")
+    end
+  end if openid_connect_providers_available_for_configure.any?
+%>
 
 <%= render ::OpenIDConnect::Providers::TableComponent.new(rows: providers) %>

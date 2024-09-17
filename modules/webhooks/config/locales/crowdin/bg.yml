@@ -8,7 +8,7 @@ bg:
         url: 'Payload URL'
         secret: 'Signature secret'
         events: 'Events'
-        projects: 'Enabled projects'
+        projects: 'Активирани проекти'
       webhooks/log:
         event_name: 'Event name'
         url: 'Payload URL'
@@ -55,7 +55,7 @@ bg:
         events:
           title: 'Enabled events'
         project_ids:
-          title: 'Enabled projects'
+          title: 'Активирани проекти'
           description: 'Select for which projects this webhook should be executed for.'
           all: 'All projects'
           selected: 'Само избрани проекти'

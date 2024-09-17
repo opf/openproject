@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -68,7 +68,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= styled_label_tag :project_folder_mode,
                        class: "-bold -flex" do %>
     <%= t(:"storages.label_project_folder") %>
-    <%= angular_component_tag 'op-static-attribute-help-text',
+    <%= angular_component_tag 'opce-static-attribute-help-text',
                               inputs: {
                                 title: t(:"storages.label_project_folder"),
                                 content: t(:"storages.help_texts.project_folder"),
@@ -121,8 +121,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <div
-    style="display: none;"
-    class="form--field-container -with-children-spacing"
+    class="form--field-container -with-children-spacing d-none"
     data-project-storage-form-target="projectFolderSection"
   >
     <%= styled_button_tag class: 'button_no-margin',
@@ -134,11 +133,10 @@ See COPYRIGHT and LICENSE files for more details.
       <%= spot_icon('folder-open') %>
       <%= content_tag :span, t(:"storages.buttons.select_folder") %>
     <% end %>
-    <%= angular_component_tag 'op-storage-login-button',
+    <%= angular_component_tag 'opce-storage-login-button',
                               inputs: {
                                 input: storage_login_input(@project_storage.storage)
                               },
-                              style: 'display: inline-block',
                               data: {
                                 'project-storage-form-target': "loginButton"
                               }

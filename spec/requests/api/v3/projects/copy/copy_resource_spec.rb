@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,7 +55,10 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
 
   shared_let(:current_user) do
     create(:user,
-           member_with_permissions: { source_project => %i[copy_projects view_project view_work_packages] })
+           member_with_permissions: { source_project => %i[copy_projects
+                                                           view_project
+                                                           view_work_packages
+                                                           view_project_attributes] })
   end
 
   let(:path) { api_v3_paths.project_copy(source_project.id) }

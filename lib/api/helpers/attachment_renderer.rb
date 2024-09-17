@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -86,6 +86,10 @@ module API
       end
 
       def send_attachment(attachment)
+        if attachment.diskfile.nil?
+          raise ::API::Errors::NotFound.new
+        end
+
         content_type attachment_content_type(attachment)
         header["Content-Disposition"] = attachment.content_disposition
         env["api.format"] = :binary

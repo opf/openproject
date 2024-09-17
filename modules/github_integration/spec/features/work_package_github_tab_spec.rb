@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -106,7 +106,7 @@ RSpec.describe "Open the GitHub tab", :js do
       it "does not show the github tab" do
         work_package_page.visit!
 
-        github_tab.expect_tab_not_present
+        work_package_page.expect_no_tab "Github"
       end
     end
 
@@ -116,7 +116,7 @@ RSpec.describe "Open the GitHub tab", :js do
       it "does not show the github tab" do
         work_package_page.visit!
 
-        github_tab.expect_tab_not_present
+        work_package_page.expect_no_tab "Github"
       end
     end
   end
@@ -129,6 +129,14 @@ RSpec.describe "Open the GitHub tab", :js do
 
   describe "work package split view" do
     let(:work_package_page) { Pages::SplitWorkPackage.new(work_package) }
+
+    it_behaves_like "a github tab"
+  end
+
+  describe "primerized work package split view" do
+    let(:work_package_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
+    let(:tabs) { Components::WorkPackages::PrimerizedTabs.new }
+    let(:github_tab_element) { "github" }
 
     it_behaves_like "a github tab"
   end

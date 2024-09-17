@@ -37,7 +37,7 @@ export function openExternalLinksInNewTab(evt:MouseEvent, linkElement:HTMLAnchor
 
   const link = linkElement.href || '';
 
-  if (link === '') {
+  if (link === '' || !!linkElement.download) {
     return false;
   }
 

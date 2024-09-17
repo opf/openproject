@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -1015,5 +1015,31 @@ RSpec.describe User do
   it_behaves_like "acts_as_customizable included" do
     let(:model_instance) { user }
     let(:custom_field) { create(:user_custom_field, :string) }
+  end
+
+  describe ".available_custom_fields" do
+    let(:admin) { build_stubbed(:admin) }
+    let(:user) { build_stubbed(:user) }
+
+    shared_let(:user_cf) { create(:user_custom_field) }
+    shared_let(:admin_user_cf) { create(:user_custom_field, admin_only: true) }
+
+    context "for an admin" do
+      current_user { admin }
+
+      it "returns all fields including admin-only" do
+        expect(user.available_custom_fields)
+          .to contain_exactly(user_cf, admin_user_cf)
+      end
+    end
+
+    context "for a member" do
+      current_user { user }
+
+      it "does not return admin-only field" do
+        expect(user.available_custom_fields)
+          .to contain_exactly(user_cf)
+      end
+    end
   end
 end

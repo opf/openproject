@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ module Storages
 
           def call(auth_strategy:)
             Authentication[auth_strategy].call(storage: @storage) do |http|
-              handle_response http.get(Util.join_uri_path(@storage.uri, "/v1.0/me"))
+              handle_response http.get(UrlBuilder.url(@storage.uri, "/v1.0/me"))
             end
           end
 

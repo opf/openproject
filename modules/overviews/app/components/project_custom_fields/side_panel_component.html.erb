@@ -1,0 +1,20 @@
+<%=
+  component_wrapper do
+    if available_project_custom_fields_grouped_by_section.any?
+      render(Primer::OpenProject::SidePanel.new(
+        spacious: true,
+        test_selector: "project-custom-fields-sidebar-async-content"
+      )) do |panel|
+        available_project_custom_fields_grouped_by_section.each do |project_custom_field_section, project_custom_fields|
+          panel.with_section(
+            ProjectCustomFields::Sections::ShowComponent.new(
+              project: @project,
+              project_custom_field_section:,
+              project_custom_fields: project_custom_fields
+            )
+          )
+        end
+      end
+    end
+  end
+%>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,7 +49,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             { controller: "/work_packages", project_id: nil, state: nil, action: "index" },
             context: :modules,
             caption: I18n.t("label_work_package_plural"),
-            icon: "op-work-packages",
+            icon: "op-view-list",
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_in_any_work_package?(:view_work_packages)
@@ -185,7 +185,7 @@ end
 Redmine::MenuManager.map :notifications_menu do |menu|
   menu.push :notification_grouping_select,
             { controller: "/my", action: "notifications" },
-            partial: "notifications/menu_notification_center"
+            partial: "notifications/menus/menu"
 end
 
 Redmine::MenuManager.map :my_menu do |menu|
@@ -300,15 +300,15 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :users_and_permissions
 
   menu.push :admin_work_packages,
-            { controller: "/admin/settings/work_packages_settings", action: :show },
+            { controller: "/admin/settings/work_packages_general", action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_work_package_plural,
             icon: "op-view-list"
 
-  menu.push :work_packages_setting,
-            { controller: "/admin/settings/work_packages_settings", action: :show },
+  menu.push :work_packages_general,
+            { controller: "/admin/settings/work_packages_general", action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
+            caption: :label_general,
             parent: :admin_work_packages
 
   menu.push :types,
@@ -321,8 +321,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/statuses" },
             if: Proc.new { User.current.admin? },
             caption: :label_status,
-            parent: :admin_work_packages,
-            html: { class: "statuses" }
+            parent: :admin_work_packages
+
+  menu.push :progress_tracking,
+            { controller: "/admin/settings/progress_tracking", action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_progress_tracking,
+            parent: :admin_work_packages
 
   menu.push :workflows,
             { controller: "/workflows", action: "edit" },
@@ -409,13 +414,29 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_system_settings,
             icon: "gear"
 
-  SettingsHelper.system_settings_tabs.each do |node|
-    menu.push :"settings_#{node[:name]}",
-              { controller: node[:controller], action: :show },
-              caption: node[:label],
-              if: Proc.new { User.current.admin? && node[:name] != "experimental" },
-              parent: :settings
-  end
+  menu.push :settings_general,
+            { controller: "/admin/settings/general_settings", action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_general,
+            parent: :settings
+
+  menu.push :settings_languages,
+            { controller: "/admin/settings/languages_settings", action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_languages,
+            parent: :settings
+
+  menu.push :settings_repositories,
+            { controller: "/admin/settings/repositories_settings", action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_repository_plural,
+            parent: :settings
+
+  menu.push :settings_experimental,
+            { controller: "/admin/settings/experimental_settings", action: :show },
+            if: Proc.new { User.current.admin? && Rails.env.development? },
+            caption: :label_experimental,
+            parent: :settings
 
   menu.push :mail_and_notifications,
             { controller: "/admin/settings/aggregation_settings", action: :show },
@@ -462,7 +483,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :authentication_settings,
             { controller: "/admin/settings/authentication_settings", action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
+            caption: :label_authentication_settings,
             parent: :authentication
 
   menu.push :ldap_authentication,
@@ -529,7 +550,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/admin/settings", action: "show_plugin", id: :costs },
             if: Proc.new { User.current.admin? },
             caption: :project_module_costs,
-            icon: "op-budget"
+            icon: "op-cost-reports"
 
   menu.push :costs_setting,
             { controller: "/admin/settings", action: "show_plugin", id: :costs },
@@ -542,12 +563,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: Proc.new { User.current.admin? },
             caption: :label_backlogs,
             icon: "op-backlogs"
-
-  menu.push :backlogs_settings,
-            { controller: "/backlogs_settings", action: :show },
-            if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
-            parent: :admin_backlogs
 end
 
 Redmine::MenuManager.map :project_menu do |menu|
@@ -565,7 +580,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :roadmap,
             { controller: "/versions", action: "index" },
             if: Proc.new { |p| p.shared_versions.any? },
-            icon: "project-roadmap"
+            icon: "milestone"
 
   menu.push :work_packages,
             { controller: "/work_packages", action: "index" },
@@ -639,4 +654,47 @@ Redmine::MenuManager.map :project_menu do |menu|
               caption:,
               parent: :settings
   end
+end
+
+Redmine::MenuManager.map :work_package_split_view do |menu|
+  menu.push :overview,
+            { tab: :overview },
+            skip_permissions_check: true,
+            caption: :"js.work_packages.tabs.overview"
+  menu.push :activity,
+            { tab: :activity },
+            skip_permissions_check: true,
+            badge: ->(work_package:, **) {
+                     Notification.where(recipient: User.current,
+                                        read_ian: false,
+                                        resource: work_package)
+                                 .where.not(reason: %i[date_alert_start_date date_alert_due_date])
+                                 .count
+                   },
+            caption: :"js.work_packages.tabs.activity"
+  menu.push :files,
+            { tab: :files },
+            skip_permissions_check: true,
+            badge: ->(work_package:, **) {
+              count = Storages::FileLink.where(container_type: "WorkPackage", container_id: work_package).count
+              unless work_package.hide_attachments?
+                count += work_package.attachments.count
+              end
+              count
+            },
+            caption: :"js.work_packages.tabs.files"
+  menu.push :relations,
+            { tab: :relations },
+            skip_permissions_check: true,
+            badge: ->(work_package:, **) {
+              work_package.relations.count + work_package.children.count
+            },
+            caption: :"js.work_packages.tabs.relations"
+  menu.push :watchers,
+            { tab: :watchers },
+            skip_permissions_check: true,
+            badge: ->(work_package:, **) {
+              work_package.watchers.count
+            },
+            caption: :"js.work_packages.tabs.watchers"
 end

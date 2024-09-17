@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,9 +61,9 @@ gem "friendly_id", "~> 5.5.0"
 
 gem "acts_as_list", "~> 1.2.0"
 gem "acts_as_tree", "~> 2.9.0"
-gem "awesome_nested_set", "~> 3.6.0"
+gem "awesome_nested_set", "~> 3.7.0"
 gem "closure_tree", "~> 7.4.0"
-gem "rubytree", "~> 2.0.0"
+gem "rubytree", "~> 2.1.0"
 # Only used in down migrations now.
 # Is to be removed once the referencing migrations have been squashed.
 gem "typed_dag", "~> 2.0.2", require: false
@@ -158,14 +158,14 @@ gem "structured_warnings", "~> 0.4.0"
 gem "airbrake", "~> 13.0.0", require: false
 
 gem "markly", "~> 0.10" # another markdown parser like commonmarker, but with AST support used in PDF export
-gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "32603f09a249999a00e8ca23eb17215b46a26c0f"
+gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "fe05b4f8bae8fd46f4fa93b8e0adee6295ef7388"
 gem "prawn", "~> 2.4"
 gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
 
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.2"
 
-gem "meta-tags", "~> 2.21.0"
+gem "meta-tags", "~> 2.22.0"
 
 gem "paper_trail", "~> 15.1.0"
 
@@ -204,29 +204,32 @@ gem "plaintext", "~> 0.3.2"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 
-gem "mini_magick", "~> 4.13.0", require: false
+gem "mini_magick", "~> 5.0.1", require: false
 
 gem "validate_url"
 
 # Storages support code
+gem "dry-auto_inject"
 gem "dry-container"
 gem "dry-monads"
+gem "dry-validation"
 
 # ActiveRecord extension which adds typecasting to store accessors
 gem "store_attribute", "~> 1.0"
 
 # Appsignal integration
-gem "appsignal", "~> 3.8.1", require: false
+gem "appsignal", "~> 3.10.0", require: false
 
 gem "view_component"
 # Lookbook
 gem "lookbook", "~> 2.3.0"
 
 # Require factory_bot for usage with openproject plugins testing
-gem "factory_bot", "~> 6.4.0", require: false
+gem "factory_bot", "~> 6.5.0", require: false
 # require factory_bot_rails for convenience in core development
 gem "factory_bot_rails", "~> 6.4.0", require: false
 
+gem "turbo_power", "~> 0.6.2"
 gem "turbo-rails", "~> 2.0.0"
 
 gem "httpx"
@@ -238,13 +241,13 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem "test-prof", "~> 1.3.0"
+  gem "test-prof", "~> 1.4.0"
   gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"
   gem "rspec", "~> 3.13.0"
   # also add to development group, so 'spec' rake task gets loaded
-  gem "rspec-rails", "~> 6.1.0", group: :development
+  gem "rspec-rails", "~> 7.0.0", group: :development
 
   # Retry failures within the same environment
   gem "retriable", "~> 3.1.1"
@@ -272,7 +275,7 @@ group :test do
   gem "selenium-devtools"
   gem "selenium-webdriver", "~> 4.20"
 
-  gem "fuubar", "~> 2.5.0"
+  gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"
 
   # Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.
@@ -319,6 +322,9 @@ group :development, :test do
   gem "ruby-prof", require: false
   gem "stackprof", require: false
 
+  # Output a stack trace anytime, useful when a process is stuck
+  gem "rbtrace"
+
   # REPL with debug commands
   gem "debug"
 
@@ -342,10 +348,10 @@ group :development, :test do
   gem "erblint-github", require: false
 
   # Brakeman scanner
-  gem "brakeman", "~> 6.1.0"
+  gem "brakeman", "~> 6.2.0"
 
   # i18n-tasks helps find and manage missing and unused translations.
-  gem "i18n-tasks", "~> 1.0.13"
+  gem "i18n-tasks", "~> 1.0.13", require: false
 end
 
 gem "bootsnap", "~> 1.18.0", require: false
@@ -390,6 +396,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.15.0"
-gem "openproject-octicons_helper", "~>19.15.0"
-gem "openproject-primer_view_components", "~>0.36.2"
+gem "openproject-octicons", "~>19.18.0"
+gem "openproject-octicons_helper", "~>19.18.0"
+gem "openproject-primer_view_components", "~>0.47.0"

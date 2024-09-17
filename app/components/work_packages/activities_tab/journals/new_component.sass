@@ -1,25 +1,15 @@
-#work-packages-activities-tab-journals-new-component
-    #input-trigger-column
+.work-packages-activities-tab-journals-new-component
+    &--input-trigger-column
         width: 100%
         button
             background: var(--bgColor-default)
             cursor: text
             .Button-content
                 display: block
-    #ck-editor-column
-        width: 100%
-        @media screen and (max-width: $breakpoint-md)
-            width: calc(100% - 40px)
-    // prototypical primer style adoptions
-    .ck-toolbar
-        border-radius: var(--borderRadius-medium) var(--borderRadius-medium) 0px 0px
-    .document-editor__editable-container
-        background: var(--bgColor-default)
-        border-radius: 0px 0px var(--borderRadius-medium) var(--borderRadius-medium)
-    .ck-content
-        background: var(--bgColor-default)
-        max-height: 30vh
-        overflow-y: auto
-        border-radius: var(--borderRadius-medium)
-        margin: 5px
-
+    &--ck-editor-column
+        width: calc(100% - 40px)
+        // specific ck editor adjustments
+        .ck-content
+            max-height: 30vh
+        .ck-editor__preview
+            max-height: 30vh

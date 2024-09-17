@@ -1,0 +1,44 @@
+name: i18n-inconsistency-check
+
+on:
+  push:
+    branches:
+      - dev
+      - release/*
+    paths-ignore:
+      - 'docs/**'
+      - 'help/**'
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths-ignore:
+      - 'docs/**'
+      - 'help/**'
+      - 'packaging/**'
+      - '.pkgr.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  i18n-tasks:
+    permissions:
+      contents: read
+    if: github.repository == 'opf/openproject'
+    name: I18n inconsistency check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+
+      - name: Setup i18n-tasks
+        run: |
+          gem install i18n-tasks
+
+      - name: Run inconsistent translations check
+        run: |
+          i18n-tasks \
+            check-consistent-interpolations \
+            --config config/i18n-tasks-all-files.yml

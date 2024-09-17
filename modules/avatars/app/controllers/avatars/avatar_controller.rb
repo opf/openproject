@@ -15,6 +15,14 @@ module ::Avatars
       head :not_found
     end
 
+    def breadcrumb_items
+      [{ href: admin_index_path, text: t("label_administration") },
+       { href: admin_settings_users_path, text: t(:label_user_settings) },
+       @plugin.name]
+    end
+
+    helper_method :breadcrumb_items
+
     private
 
     def find_avatar

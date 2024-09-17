@@ -15,7 +15,11 @@
       <span class="op-tab-content--header-text" [textContent]="text.attachments.label"></span>
     </div>
 
-    <op-attachments [resource]="workPackage"></op-attachments>
+    <op-attachments
+      [resource]="workPackage"
+      (attachmentRemoved)="attachmentRemoved()"
+      (attachmentAdded)="attachmentAdded()"
+    ></op-attachments>
   </section>
 
   <section
@@ -28,6 +32,8 @@
       [projectStorage]="storage"
       [allowUploading]="allowManageFileLinks$ | async"
       [allowLinking]="allowManageFileLinks$ | async"
+      (fileRemoved)="attachmentRemoved()"
+      (fileAdded)="attachmentAdded()"
     ></op-storage>
   </section>
 </div>

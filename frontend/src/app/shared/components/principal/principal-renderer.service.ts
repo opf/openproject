@@ -117,7 +117,8 @@ export class PrincipalRendererService {
   ) {
     const userInitials = this.getInitials(principal.name);
     const colorMode = this.colors.colorMode();
-    const colorCode = this.colors.toHsl(principal.name, colorMode);
+    const text = `${principal.id}${principal.name}`;
+    const colorCode = this.colors.toHsl(text, colorMode);
 
     const fallback = document.createElement('div');
     fallback.classList.add('op-principal--avatar');
@@ -220,9 +221,9 @@ export class PrincipalRendererService {
 
     if (lastSpace === -1) {
       return first;
-    } else {
-      const last = name[lastSpace + 1]?.toUpperCase();
-      return [first, last].join('');
     }
+
+    const last = name[lastSpace + 1]?.toUpperCase();
+    return [first, last].join('');
   }
 }

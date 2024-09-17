@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,7 +49,7 @@ Rails.application.reloader.to_prepare do
                      },
                      permissible_on: :global,
                      require: :loggedin,
-                     enabled: -> { OpenProject::Configuration.backup_enabled? }
+                     visible: -> { OpenProject::Configuration.backup_enabled? }
 
       map.permission :create_user,
                      {
@@ -108,6 +108,18 @@ Rails.application.reloader.to_prepare do
                      },
                      permissible_on: :project,
                      require: :member
+
+      map.permission :view_project_attributes,
+                     {},
+                     permissible_on: :project,
+                     dependencies: :view_project
+
+      map.permission :edit_project_attributes,
+                     {},
+                     permissible_on: :project,
+                     require: :member,
+                     dependencies: :view_project_attributes,
+                     contract_actions: { projects: %i[update] }
 
       map.permission :select_project_custom_fields,
                      {
@@ -205,8 +217,7 @@ Rails.application.reloader.to_prepare do
                        work_packages: %i[show index],
                        work_packages_api: [:get],
                        "work_packages/reports": %i[report report_details],
-                       "work_packages/activities_tab": %i[index create update_streams edit cancel_edit update
-                                                          update_sorting update_filter toggle_reaction],
+                       "work_packages/activities_tab": %i[index update_streams update_sorting update_filter],
                        "work_packages/menus": %i[show]
                      },
                      permissible_on: %i[work_package project],
@@ -244,19 +255,24 @@ Rails.application.reloader.to_prepare do
                      {
                        # FIXME: Although the endpoint is removed, the code checking whether a user
                        # is eligible to add work packages through the API still seems to rely on this.
-                       journals: [:new]
+                       journals: [:new],
+                       "work_packages/activities_tab": %i[create toggle_reaction]
                      },
                      permissible_on: %i[work_package project],
                      dependencies: :view_work_packages
 
       wpt.permission :edit_work_package_notes,
-                     {},
+                     {
+                       "work_packages/activities_tab": %i[edit cancel_edit update]
+                     },
                      permissible_on: :project,
                      require: :loggedin,
                      dependencies: :view_work_packages
 
       wpt.permission :edit_own_work_package_notes,
-                     {},
+                     {
+                       "work_packages/activities_tab": %i[edit cancel_edit update]
+                     },
                      permissible_on: %i[work_package project],
                      require: :loggedin,
                      dependencies: :view_work_packages
@@ -278,7 +294,7 @@ Rails.application.reloader.to_prepare do
 
       wpt.permission :export_work_packages,
                      {
-                       work_packages: %i[index all]
+                       work_packages: %i[index export_dialog all]
                      },
                      permissible_on: %i[work_package project],
                      dependencies: :view_work_packages

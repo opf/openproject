@@ -9,7 +9,7 @@ pt-PT:
     verify_account: "Verifique a sua Conta"
     error_captcha: "Não foi possível verificar a sua conta. Por favor contate um administrador."
     settings:
-      website_key: 'Chave do site'
+      website_key: 'Chave do website (também pode ser designada por "Chave do site")'
       response_limit: 'Limite de resposta para HCaptcha'
       response_limit_text: 'O número máximo de caracteres para tratar a resposta HCaptcha como válida.'
       website_key_text: 'Digite a chave do site que criou na consola de administração reCAPTCHA para este domínio.'
@@ -20,5 +20,6 @@ pt-PT:
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       type_hcaptcha: 'HCaptcha'
-      recaptcha_description_html: >
-        reCAPTCHA é um serviço gratuito do Google que pode ser ativado para a sua instância do OpenProject. Se estiver ativado, será apresentado um formulário captcha no início de sessão para todos os utilizadores que ainda não tenham verificado um captcha. <br/> Aceda à seguinte hiperligação para obter mais informações sobre o reCAPTCHA e as suas versões, bem como sobre como criar o site e as chaves secretas: %{recaptcha_link} <br/> HCaptcha é uma alternativa gratuita do Google que pode ser usada se não quiser usar o reCAPTCHA. Aceda a esta hiperligação para mais informações: %{hcaptcha_link}
+      type_turnstile: 'Cloudflare Turnstile™'
+      captcha_description_html: >
+        reCAPTCHA é um serviço gratuito do Google que pode ser ativado para a sua instância do OpenProject. Se estiver ativado, será apresentado um formulário captcha no início de sessão para todos os utilizadores que ainda não tenham verificado um captcha. <br/> Aceda à seguinte hiperligação para obter mais informações sobre o reCAPTCHA e as suas versões, bem como sobre como criar o site e as chaves secretas: %{recaptcha_link} <br/> HCaptcha é uma alternativa gratuita do Google que pode ser usada se não quiser usar o reCAPTCHA. Aceda a esta hiperligação para mais informações: %{hcaptcha_link} <br/> Cloudflare Turnstile™ é outra alternativa que é mais conveniente para os utilizadores, além de oferecer o mesmo nível de segurança. Para mais informações, consulte este link: %{turnstile_link}

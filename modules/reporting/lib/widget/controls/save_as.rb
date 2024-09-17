@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ class Widget::Controls::SaveAs < Widget::Controls
       if @subject.new_record?
         I18n.t(:button_save)
       else
-        I18n.t(:button_save_as)
+        I18n.t(:button_save_report_as)
       end
     button = link_to(link_name, "#", id: "query-icon-save-as", class: "button icon-context icon-save")
     write(button + render_popup)

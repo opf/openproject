@@ -3,3 +3,19 @@ ko:
   plugin_openproject_job_status:
     name: "OpenProject 작업 상태"
     description: "백그라운드 작업 목록 및 상태."
+  job_status_dialog:
+    download_starts: '자동으로 다운로드가 시작됩니다.'
+    link_to_download: '또는 %{link}에서 다운로드하세요.'
+    click_here: '여기를 클릭'
+    title: '백그라운드 작업 상태'
+    redirect: '리디렉션 중입니다.'
+    redirect_link: '계속하려면 여기를 클릭하세요.'
+    redirect_errors: '이러한 오류로 인해 자동으로 리디렉션되지 않습니다.'
+    errors: '문제가 발생했습니다.'
+    generic_messages:
+      not_found: '이 작업을 찾을 수 없습니다.'
+      in_queue: '작업이 대기열에 있으며 곧 처리됩니다.'
+      in_process: '작업을 현재 처리 중입니다.'
+      error: '작업을 완료하지 못했습니다.'
+      cancelled: '오류로 인해 작업이 취소되었습니다.'
+      success: '작업이 성공적으로 완료되었습니다.'

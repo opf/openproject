@@ -1,25 +1,33 @@
 .work-packages-activities-tab-journals-item-component-details
-    .details-container
+    &--journal-details-container
         margin-left: 19px
         min-height: 20px
-    .details-container--empty--last--asc
+    &--journal-details-container--empty--last--asc
         display: none!important
-    .details-header-container
+    &--journal-details-header-container
         margin-left: -14px
-    .timeline-icon
+    &--journal-details-header
+        padding-top: 2px
+    &--timeline-icon
         background-color: var(--bgColor-muted)
         border-radius: 50%
         width: 28px
         height: 28px
         text-align: center
         padding-top: 3px
-    .empty-line
+        margin-top: -2px
+    &--user-name-container
+        max-width: 60%
+    &--user-name
+        @media screen and (min-width: $breakpoint-sm)
+            max-width: 40%
+    &--empty-line
         margin-top: 0px!important
         margin-bottom: 0px!important
-    .detail-stem-line
+    &--journal-detail-stem-line
         position: relative
         width: 20px
-    .detail-stem-line::before
+    &--journal-detail-stem-line::before
         content: ""
         position: absolute
         top: 10px
@@ -28,8 +36,10 @@
         height: var(--borderWidth-thin, 1px)
         background-color: var(--borderColor-default)
         transform: translateY(-50%)
-    .detail-description
+    &--journal-detail-description
         // quick hack to adapt the current detail rendering to desired primerised design
         i
             font-style: normal
             color: var(--fgColor-muted, var(--color-fg-subtle))
+    &--notification-dot-icon
+        color: var(--bgColor-accent-emphasis)

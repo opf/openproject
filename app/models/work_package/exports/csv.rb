@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,11 +39,19 @@ module WorkPackage::Exports
     end
 
     def csv_headers
+      return super unless with_descriptions
+
       super + [WorkPackage.human_attribute_name(:description)]
+    end
+
+    def with_descriptions
+      ActiveModel::Type::Boolean.new.cast(options[:show_descriptions])
     end
 
     # fetch all row values
     def csv_row(work_package)
+      return super unless with_descriptions
+
       super.tap do |row|
         if row.any?
           row << if work_package.description

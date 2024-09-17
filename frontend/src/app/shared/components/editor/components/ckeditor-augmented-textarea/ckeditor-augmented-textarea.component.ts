@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, OnInit, ViewChild } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -50,10 +50,8 @@ import { AttachmentCollectionResource } from 'core-app/features/hal/resources/at
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { navigator } from '@hotwired/turbo';
 
-export const ckeditorAugmentedTextareaSelector = 'ckeditor-augmented-textarea';
 
 @Component({
-  selector: ckeditorAugmentedTextareaSelector,
   templateUrl: './ckeditor-augmented-textarea.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -73,6 +71,15 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
   @Input() public editorType:ICKEditorType = 'full';
 
   @Input() public showAttachments = true;
+
+  // Output save requests (ctrl+enter and cmd+enter)
+  @Output() saveRequested = new EventEmitter<string>();
+
+  // Output keyup events
+  @Output() editorKeyup = new EventEmitter<void>();
+
+  // Output blur events
+  @Output() editorBlur = new EventEmitter<void>();
 
   // Which template to include
   public element:HTMLElement;
@@ -131,6 +138,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     this.context = {
       type: this.editorType,
       resource: this.halResource,
+      field: this.wrappedTextArea.name,
       previewContext: this.previewContext,
       removePlugins: this.removePlugins,
     };
@@ -151,7 +159,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
       )
       .subscribe((evt:SubmitEvent) => {
         evt.preventDefault();
-        this.saveForm(evt);
+        void this.saveForm(evt);
       });
   }
 
@@ -159,9 +167,11 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     window.OpenProject.pageWasEdited = true;
   }
 
-  public saveForm(evt?:SubmitEvent):void {
-    this.syncToTextarea();
+  public async saveForm(evt?:SubmitEvent):Promise<void> {
+    this.saveRequested.emit(); // Provide a hook for the parent component to do something before the form is submitted
     this.inFlight = true;
+
+    this.syncToTextarea();
     window.OpenProject.pageIsSubmitted = true;
 
     setTimeout(() => {
@@ -185,9 +195,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     // This is e.g. employed to set the text from outside to reuse the same editor for different languages.
     jQuery(this.element).data('editor', editor);
 
-    if (this.readOnly) {
-      editor.enableReadOnlyMode('wrapped-text-area-disabled');
-    }
+    this.setupMarkingReadonlyWhenTextareaIsDisabled(editor);
 
     if (this.halResource?.attachments) {
       this.setupAttachmentAddedCallback(editor);
@@ -200,8 +208,9 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   private syncToTextarea() {
     try {
-      this.wrappedTextArea.value = this.ckEditorInstance.getRawData();
+      this.wrappedTextArea.value = this.ckEditorInstance.getTransformedContent(true);
     } catch (e) {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       const message = (e as Error)?.message || (e as object).toString();
       console.error(`Failed to save CKEditor body to textarea: ${message}.`);
       this.Notifications.addError(message || this.I18n.t('js.error.internal'));
@@ -243,6 +252,24 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
         this.attachments = _.clone(resource.attachments.elements);
       });
+  }
+
+  private setupMarkingReadonlyWhenTextareaIsDisabled(editor:ICKEditorInstance) {
+    const observer = new MutationObserver((_mutations) => {
+      if (this.readOnly !== this.wrappedTextArea.disabled) {
+        this.readOnly = this.wrappedTextArea.disabled;
+        if (this.readOnly) {
+          editor.enableReadOnlyMode('wrapped-text-area-disabled');
+        } else {
+          editor.disableReadOnlyMode('wrapped-text-area-disabled');
+        }
+      }
+    });
+    observer.observe(this.wrappedTextArea, { attributes: true });
+
+    if (this.readOnly) {
+      editor.enableReadOnlyMode('wrapped-text-area-disabled');
+    }
   }
 
   private setLabel() {

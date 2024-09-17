@@ -3,3 +3,19 @@ ja:
   plugin_openproject_job_status:
     name: "OpenProject Job status"
     description: "Listing and status of background jobs."
+  job_status_dialog:
+    download_starts: 'The download should start automatically.'
+    link_to_download: 'Or, %{link} to download.'
+    click_here: 'click here'
+    title: 'Background job status'
+    redirect: 'You are being redirected.'
+    redirect_link: 'Please click here to continue.'
+    redirect_errors: 'Due to these errors, you will not be redirected automatically.'
+    errors: 'Something went wrong'
+    generic_messages:
+      not_found: 'This job could not be found.'
+      in_queue: 'The job has been queued and will be processed shortly.'
+      in_process: 'The job is currently being processed.'
+      error: 'The job has failed to complete.'
+      cancelled: 'The job has been cancelled due to an error.'
+      success: 'The job completed successfully.'

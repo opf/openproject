@@ -1,0 +1,49 @@
+<%=
+  table = Class.new(OpPrimer::BorderBoxTableComponent) do
+    columns :foo, :bar
+    def self.name
+      "MyTable"
+    end
+
+    def header_args(column)
+      if column == :foo
+        { style: "grid-column: span 3" }
+      else
+        super
+      end
+    end
+
+    def row_class
+      @clazz ||= Class.new(OpPrimer::BorderBoxRowComponent) do
+        def self.name
+          "MyRow"
+        end
+
+        def column_args(column)
+          if column == :foo
+            { style: "grid-column: span 3" }
+          else
+            super
+          end
+        end
+
+        def foo
+          "foo"
+        end
+
+        def bar
+          "bar"
+        end
+      end
+    end
+
+    def headers
+      [
+        [:foo, { caption: "3 columns wide" }],
+        [:bar, { caption: "1 column wide" }],
+      ]
+    end
+  end
+
+  render(table.new(rows: [1, 2]))
+%>

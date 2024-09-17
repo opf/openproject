@@ -48,7 +48,7 @@ export function navigateToTeamPlannerStep():OnboardingStep {
       jQuery('.team-planner-view-menu-item ~ .toggler')[0].click();
 
       waitForElement(
-        '.op-sidemenu--item-action',
+        '.op-submenu--item-action',
         '#main-menu',
         (match) => match.click(),
         (match) => !!match.textContent?.includes('Team planner'),

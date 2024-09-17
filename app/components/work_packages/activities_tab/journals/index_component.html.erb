@@ -1,23 +1,25 @@
 <%=
-  component_wrapper do
-    flex_layout(id: insert_target_modifier_id) do |journals_index_container|
-      if journals_grouped_by_day.any?
-        journals_grouped_by_day.each do |day, journals|
-          journals_index_container.with_row do
-            render(
-              WorkPackages::ActivitiesTab::Journals::DayComponent.new(day_as_date: day, journals:, work_package:, filter:)
-            )
+  component_wrapper(class: "work-packages-activities-tab-journals-index-component") do
+    flex_layout do |journals_index_wrapper_container|
+      journals_index_wrapper_container.with_row(classes: "work-packages-activities-tab-journals-index-component--journals-inner-container", mb: inner_container_margin_bottom) do
+        flex_layout(id: insert_target_modifier_id, data: { "test_selector": "op-wp-journals-container" }) do |journals_index_container|
+          if empty_state?
+            journals_index_container.with_row(mt: 2, mb: 3) do
+              render(
+                WorkPackages::ActivitiesTab::Journals::EmptyComponent.new()
+              )
+            end
           end
-        end
-      else
-        journals_index_container.with_row(mt: 2) do
-          render(Primer::Beta::Blankslate.new(border: true)) do |component|
-            component.with_visual_icon(icon: :pulse)
-            component.with_heading(tag: :h2).with_content(t("activities.work_packages.activity_tab.no_results_title_text"))
-            component.with_description { t("activities.work_packages.activity_tab.no_results_description_text") }
+          journals.each do |journal|
+            journals_index_container.with_row do
+              render(
+                WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:, filter:)
+              )
+            end
           end
         end
       end
+      journals_index_wrapper_container.with_row(classes: "work-packages-activities-tab-journals-index-component--stem-connection") unless empty_state? || journal_sorting == "desc"
     end
   end
 %>

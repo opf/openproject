@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ module BecomeMember
 
   module InstanceMethods
     def become_member_with_permissions(project, user, permissions)
-      role = create(:project_role, permissions: Array(permissions))
+      role = create(:project_role, permissions: Array(permissions), add_public_permissions: false)
 
       add_user_to_project! user:, project:, role:
     end

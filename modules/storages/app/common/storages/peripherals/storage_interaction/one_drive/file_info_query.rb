@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -100,7 +100,7 @@ module Storages
               owner_name: json.dig(:createdBy, :user, :displayName),
               owner_id: json.dig(:createdBy, :user, :id),
               permissions: nil,
-              location: Util.escape_path(Util.extract_location(json[:parentReference], json[:name])),
+              location: UrlBuilder.path(Util.extract_location(json[:parentReference], json[:name])),
               last_modified_at: Time.zone.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
               created_at: Time.zone.parse(json.dig(:fileSystemInfo, :createdDateTime)),
               last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),

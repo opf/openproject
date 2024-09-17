@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -90,10 +90,10 @@ RSpec.describe "Gantt charts menu",
       loading_indicator_saveguard
 
       # Show global queries only
-      expect(page).to have_css(".op-sidemenu--item-action", text: global_starred_query)
-      expect(page).to have_css(".op-sidemenu--item-action", text: global_public_query)
-      expect(page).to have_css(".op-sidemenu--item-action", text: global_private_query)
-      expect(page).to have_no_css(".op-sidemenu--item-action", text: private_project_query)
+      expect(page).to have_css(".op-submenu--item-action", text: global_starred_query)
+      expect(page).to have_css(".op-submenu--item-action", text: global_public_query)
+      expect(page).to have_css(".op-submenu--item-action", text: global_private_query)
+      expect(page).to have_no_css(".op-submenu--item-action", text: private_project_query)
     end
   end
 
@@ -103,10 +103,10 @@ RSpec.describe "Gantt charts menu",
       loading_indicator_saveguard
 
       # Show project queries only
-      expect(page).to have_no_css(".op-sidemenu--item-action", text: global_starred_query)
-      expect(page).to have_no_css(".op-sidemenu--item-action", text: global_public_query)
-      expect(page).to have_no_css(".op-sidemenu--item-action", text: global_private_query)
-      expect(page).to have_css(".op-sidemenu--item-action", text: private_project_query)
+      expect(page).to have_no_css(".op-submenu--item-action", text: global_starred_query)
+      expect(page).to have_no_css(".op-submenu--item-action", text: global_public_query)
+      expect(page).to have_no_css(".op-submenu--item-action", text: global_private_query)
+      expect(page).to have_css(".op-submenu--item-action", text: private_project_query)
     end
   end
 end

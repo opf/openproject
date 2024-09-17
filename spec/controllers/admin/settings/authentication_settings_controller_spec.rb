@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ RSpec.describe Admin::Settings::AuthenticationSettingsController do
 
   current_user { user }
 
-  require_admin_and_render_template("authentication_settings")
+  include_examples "GET #show requires admin permission and renders template", path: "authentication_settings"
 
   describe "PATCH #update" do
     describe "registration_footer" do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ::Widget::Table::EntryTable < Widget::Table
+class Widget::Table::EntryTable < Widget::Table
   FIELDS = %i[spent_on user_id activity_id work_package_id comments logged_by_id project_id].freeze
 
   def render
@@ -48,10 +48,10 @@ class ::Widget::Table::EntryTable < Widget::Table
   def colgroup
     content_tag :colgroup do
       FIELDS.each do
-        concat content_tag(:col, "", "opHighlightCol" => true)
+        concat content_tag(:col, "")
       end
-      concat content_tag(:col, "", "opHighlightCol" => true)
-      concat content_tag(:col, "", "opHighlightCol" => true)
+      concat content_tag(:col, "")
+      concat content_tag(:col, "")
       concat content_tag(:col, "")
     end
   end
@@ -162,19 +162,19 @@ class ::Widget::Table::EntryTable < Widget::Table
 
           icons << link_to(icon_wrapper("icon-context icon-delete", I18n.t(:button_delete)),
                            action_for(result, action: "destroy")
-                              .reverse_merge(authenticity_token: form_authenticity_token),
+                             .reverse_merge(authenticity_token: form_authenticity_token),
                            data: { confirm: I18n.t(:text_are_you_sure) },
                            method: :delete,
                            class: "no-decoration-on-hover",
                            title: I18n.t(:button_delete))
         else
-          icons = content_tag(:"time-entry--trigger-actions-entry",
-                              "",
-                              data: { entry: result["id"] })
+          icons = angular_component_tag("opce-time-entry-trigger-actions",
+                                        data: { entry: result["id"] })
         end
       end
     end
     icons
   end
+
   # rubocop:enable Metrics/AbcSize
 end

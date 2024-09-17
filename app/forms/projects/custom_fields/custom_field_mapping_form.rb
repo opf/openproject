@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,18 +38,19 @@ module Projects::CustomFields
           visually_hide_label: true,
           validation_message: project_ids_error_message,
           autocomplete_options: {
+            with_search_icon: true,
             openDirectly: false,
             focusDirectly: false,
             multiple: true,
             dropdownPosition: "bottom",
             disabledProjects: projects_with_custom_field_mapping,
-            inputName: "project_custom_field_project_mapping[project_ids]"
+            inputName: "#{input_name}[project_ids]"
           }
         )
 
         group.check_box(
           name: :include_sub_projects,
-          label: I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.include_sub_projects"),
+          label: I18n.t(:label_include_sub_projects),
           checked: false,
           label_arguments: { class: "no-wrap" }
         )
@@ -72,10 +73,18 @@ module Projects::CustomFields
     end
 
     def projects_with_custom_field_mapping
-      ProjectCustomFieldProjectMapping
+      join_table
         .where(custom_field_id: @project_mapping.custom_field_id)
         .pluck(:project_id)
         .to_h { |id| [id, id] }
+    end
+
+    def join_table
+      @project_mapping.class
+    end
+
+    def input_name
+      join_table.model_name.singular
     end
   end
 end

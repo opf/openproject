@@ -6,7 +6,7 @@
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 #Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
 #as published by the Free Software Foundation; either version 2
@@ -48,3 +48,6 @@ zh-CN:
         empty: '尚未链接任何合并请求。请在合并请求标题/描述中使用代码 <code>OP#%{wp_id}</code>（对于不公开链接，使用代码 <code>PP#%{wp_id}</code>）链接现有合并请求，或者创建新的合并请求。'
       gitlab_pipelines: 管道
       updated_on: 更新时间
+    work_packages:
+      tabs:
+        gitlab: "GitLab"

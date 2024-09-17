@@ -43,9 +43,9 @@ pt-PT:
           name: Outro
       project_query_roles:
         item_0:
-          name: Project query viewer
+          name: Visualizador de consultas de projetos
         item_1:
-          name: Project query editor
+          name: Editor de consultas de projetos
       work_package_roles:
         item_0:
           name: Editor de pacotes de trabalho
@@ -77,81 +77,6 @@ pt-PT:
           name: Alto
         item_3:
           name: Imediato
-      statuses:
-        item_0:
-          name: Novo
-        item_1:
-          name: Em especificação
-        item_2:
-          name: Especificado
-        item_3:
-          name: Confirmado
-        item_4:
-          name: Para ser agendado
-        item_5:
-          name: Agendado
-        item_6:
-          name: A decorrer
-        item_7:
-          name: Desenvolvido
-        item_8:
-          name: Em testes
-        item_9:
-          name: Testado
-        item_10:
-          name: Teste falhou
-        item_11:
-          name: Fechado
-        item_12:
-          name: Em espera
-        item_13:
-          name: Rejeitado
-      time_entry_activities:
-        item_0:
-          name: Gestão
-        item_1:
-          name: Especificação
-        item_2:
-          name: Desenvolvimento
-        item_3:
-          name: Testar
-        item_4:
-          name: Suporte
-        item_5:
-          name: Outro
-      types:
-        item_0:
-          name: Tarefa
-        item_1:
-          name: Marco
-        item_2:
-          name: Fase
-        item_3:
-          name: Funcionalidade
-        item_4:
-          name: Épico
-        item_5:
-          name: História do utilizador
-        item_6:
-          name: Bug
-      welcome:
-        title: Damos-lhe as boas-vindas ao OpenProject!
-        text: |
-          O OpenProject é o principal software de gestão de projetos de código aberto. Suporta a gestão de projetos clássica, ágil e híbrida e dá-lhe controlo total sobre os seus dados.
-
-          Características principais e casos de utilização:
-
-          * [Gestão de portefólio de projetos](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Planeamento e programação de projetos](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Gestão de tarefas e acompanhamento de problemas](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Quadros Agile (Scrum e Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Gestão de requisitos e planeamento de versões](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Controlo de tempo e de custos, orçamentos](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Colaboração em equipa e documentação](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-          Damos-lhe as boas-vindas ao futuro da gestão de projetos.
-
-          Para administradores: pode alterar este texto de boas-vindas [aqui]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Projeto de demonstração
@@ -489,3 +414,78 @@ pt-PT:
             * Tempo atribuído (3 h).
             * Após a revisão do Sprint, será moderado pelo Scrum Master.
             * A equipa discute o sprint: o que correu bem, o que precisa de ser melhorado para ser mais produtivo no próximo sprint ou até para se divertirem mais.
+      statuses:
+        item_0:
+          name: Novo
+        item_1:
+          name: Em especificação
+        item_2:
+          name: Especificado
+        item_3:
+          name: Confirmado
+        item_4:
+          name: Para ser agendado
+        item_5:
+          name: Agendado
+        item_6:
+          name: A decorrer
+        item_7:
+          name: Desenvolvido
+        item_8:
+          name: Em testes
+        item_9:
+          name: Testado
+        item_10:
+          name: Teste falhou
+        item_11:
+          name: Fechado
+        item_12:
+          name: Em espera
+        item_13:
+          name: Rejeitado
+      time_entry_activities:
+        item_0:
+          name: Gestão
+        item_1:
+          name: Especificação
+        item_2:
+          name: Desenvolvimento
+        item_3:
+          name: Testar
+        item_4:
+          name: Suporte
+        item_5:
+          name: Outro
+      types:
+        item_0:
+          name: Tarefa
+        item_1:
+          name: Marco
+        item_2:
+          name: Fase
+        item_3:
+          name: Funcionalidade
+        item_4:
+          name: Épico
+        item_5:
+          name: História do utilizador
+        item_6:
+          name: Bug
+      welcome:
+        title: Damos-lhe as boas-vindas ao OpenProject!
+        text: |
+          O OpenProject é o principal software de gestão de projetos de código aberto. Suporta a gestão de projetos clássica, ágil e híbrida e dá-lhe controlo total sobre os seus dados.
+
+          Características principais e casos de utilização:
+
+          * [Gestão de portefólio de projetos](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Planeamento e programação de projetos](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Gestão de tarefas e acompanhamento de problemas](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Quadros Agile (Scrum e Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Gestão de requisitos e planeamento de versões](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Controlo de tempo e de custos, orçamentos](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Colaboração em equipa e documentação](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+
+          Damos-lhe as boas-vindas ao futuro da gestão de projetos.
+
+          Para administradores: pode alterar este texto de boas-vindas [aqui]({{opSetting:base_url}}/admin/settings/general).

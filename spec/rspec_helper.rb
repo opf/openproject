@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +60,7 @@ RSpec.configure do |config|
   # rspec-mocks config goes here. You can use an alternate test double
   # library (such as bogus or mocha) by changing the `mock_with` option here.
   config.mock_with :rspec do |mocks|
-    mocks.verify_partial_doubles = false
+    mocks.verify_partial_doubles = true
   end
 
   # This option will default to `:apply_to_host_groups` in RSpec 4 (and will
@@ -88,19 +88,17 @@ RSpec.configure do |config|
     # unless a formatter has already been configured
     # (e.g. via a command-line flag).
     config.default_formatter = "doc"
-  else
-    # Otherwise, use the Fuubar formatter if we're not on the CI
-    unless ENV["TEST_ENV_NUMBER"] || ENV["CI"]
-      require "fuubar"
-      config.default_formatter = Fuubar
-    end
+  # Otherwise, use the Fuubar formatter if none is specified and we're not on the CI
+  elsif config.formatters.none? && !ENV["TEST_ENV_NUMBER"] && !ENV["CI"]
+    require "fuubar"
+    config.default_formatter = Fuubar
   end
 
   # Print the 10 slowest examples and example groups at the
   # end of the spec run, to help surface which specs are running
   # particularly slow.
   # Disabled on CI to have a cleaner log output.
-  config.profile_examples = 10 unless ENV["CI"]
+  config.profile_examples = 10 unless ENV["CI"] || ENV["NO_PROFILE_EXAMPLES"]
 
   # Run specs in random order to surface order dependencies. If you find an
   # order dependency and want to debug it, you can fix the order by providing

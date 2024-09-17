@@ -5,11 +5,11 @@ module Colors
     # If the color is light, use a dark font.
     # Otherwise, use a white font.
     def color_styles(light_color: "#FFFFFF", dark_color: "#333333")
-      if bright?
-        { color: dark_color, "background-color": hexcode }
-      else
-        { color: light_color, "background-color": hexcode }
-      end
+      { color: contrasting_font_color(light: light_color, dark: dark_color), "background-color": hexcode }
+    end
+
+    def contrasting_font_color(light: "#FFFFFF", dark: "#333333")
+      bright? ? dark : light
     end
 
     ##

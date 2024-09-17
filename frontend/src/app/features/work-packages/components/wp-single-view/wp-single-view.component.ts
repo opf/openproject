@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -388,7 +388,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    */
   private getDateField(change:WorkPackageChangeset):FieldDescriptor {
     const object:FieldDescriptor = {
-      name: '',
+      name: 'date',
       label: this.I18n.t('js.work_packages.properties.date'),
       spanAll: false,
       multiple: false,
@@ -396,10 +396,8 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
     if (change.schema.ofProperty('date')) {
       object.field = this.displayField(change, 'date');
-      object.name = 'date';
     } else {
       object.field = this.displayField(change, 'combinedDate');
-      object.name = 'combinedDate';
     }
 
     return object;

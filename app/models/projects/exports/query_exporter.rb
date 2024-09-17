@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ module Projects::Exports
     alias :query :object
 
     def columns
-      @columns ||= (forced_columns + selected_columns)
+      @columns ||= selected_columns
     end
 
     def page
@@ -50,13 +50,6 @@ module Projects::Exports
     end
 
     private
-
-    def forced_columns
-      [
-        { name: :id, caption: Project.human_attribute_name(:id) },
-        { name: :identifier, caption: Project.human_attribute_name(:identifier) }
-      ]
-    end
 
     def selected_columns
       query

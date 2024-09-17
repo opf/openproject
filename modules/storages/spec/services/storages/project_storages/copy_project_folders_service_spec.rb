@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,8 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::ProjectStorages::CopyProjectFoldersService, :webmock do
+  using Storages::Peripherals::ServiceResultRefinements
+
   let(:storage) { create(:nextcloud_storage, :as_automatically_managed) }
   let(:target) { create(:project_storage, storage:) }
   let(:system_user) { create(:system) }
@@ -84,6 +86,13 @@ RSpec.describe Storages::ProjectStorages::CopyProjectFoldersService, :webmock do
   context "with non-managed project folders" do
     let(:source) { create(:project_storage, project_folder_id: nil, project_folder_mode: "inactive") }
 
+    it "logs the occurrence" do
+      allow(Rails.logger).to receive(:info)
+      service.call(source:, target:)
+      expect(Rails.logger)
+        .to have_received(:info).with("#{source.storage.name} on #{source.project.name} is inactive. Skipping copy.")
+    end
+
     it "succeeds" do
       expect(service.call(source:, target:)).to be_success
     end
@@ -93,5 +102,69 @@ RSpec.describe Storages::ProjectStorages::CopyProjectFoldersService, :webmock do
 
       expect(result.result.id).to eq(source.project_folder_id)
     end
+  end
+
+  describe "error messages" do
+    let(:source) { create(:project_storage, :as_automatically_managed, storage:) }
+
+    it "the target folder already exists" do
+      Storages::Peripherals::Registry
+        .stub("#{source.storage.short_provider_type}.commands.copy_template_folder",
+              ->(_) { build_failure(:conflict) })
+
+      result = service.call(source:, target:)
+
+      expect(result).to be_failure
+      expect(result.errors[:base])
+        .to contain_exactly(I18n.t("services.errors.models.copy_project_folders_service.conflict",
+                                   destination_path: target.managed_project_folder_path))
+    end
+
+    it "source folder was not found" do
+      Storages::Peripherals::Registry
+        .stub("#{source.storage.short_provider_type}.commands.copy_template_folder",
+              ->(_) { build_failure(:not_found) })
+
+      result = service.call(source:, target:)
+
+      expect(result).to be_failure
+      expect(result.errors[:base])
+        .to contain_exactly(I18n.t("services.errors.models.copy_project_folders_service.not_found",
+                                   source_path: source.project_folder_location))
+    end
+
+    it "token is unauthorized to do the copy" do
+      Storages::Peripherals::Registry
+        .stub("#{source.storage.short_provider_type}.commands.copy_template_folder",
+              ->(_) { build_failure(:unauthorized) })
+
+      result = service.call(source:, target:)
+
+      expect(result).to be_failure
+      expect(result.errors[:base])
+        .to contain_exactly(I18n.t("services.errors.models.copy_project_folders_service.unauthorized"))
+    end
+
+    it "token has no access to the source folder" do
+      Storages::Peripherals::Registry
+        .stub("#{source.storage.short_provider_type}.commands.copy_template_folder",
+              ->(_) { build_failure(:forbidden) })
+
+      result = service.call(source:, target:)
+
+      expect(result).to be_failure
+      expect(result.errors[:base])
+        .to contain_exactly(I18n.t("services.errors.models.copy_project_folders_service.forbidden",
+                                   source_path: source.project_folder_location))
+    end
+  end
+
+  private
+
+  def build_failure(code)
+    response = "Response info"
+    storage_error = Storages::Peripherals::StorageInteraction::OneDrive::Util
+      .storage_error(response:, code:, source: described_class, log_message: "Log message for #{code}")
+    ServiceResult.failure(result: code, errors: storage_error)
   end
 end

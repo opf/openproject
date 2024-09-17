@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,15 +43,15 @@ module WorkPackages
         next if params.nil?
 
         menu_item(
-          I18n.t("js.work_packages.default_queries.#{query_key}"),
-          params
+          title: I18n.t("js.work_packages.default_queries.#{query_key}"),
+          query_params: params,
+          show_enterprise_icon: params[:show_enterprise_icon].present?
         )
       end
     end
 
     def query_path(query_params)
-      if !EnterpriseToken.allows_to?(:work_package_sharing) &&
-        %i[shared_with_users shared_with_me].any?(query_params[:name])
+      if query_params[:show_enterprise_icon].present?
         return ee_upsale_path(query_params)
       end
 

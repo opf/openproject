@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,11 +31,17 @@ module Filter
   # rubocop:disable OpenProject/AddPreviewForViewComponent
   class FilterButtonComponent < ApplicationComponent
     # rubocop:enable OpenProject/AddPreviewForViewComponent
+    include OpTurbo::Streamable
+
     options :query
     options :disabled
 
     def filters_count
       @filters_count ||= query.filters.count
+    end
+
+    def wrapper_key
+      "filter-button"
     end
   end
 end
