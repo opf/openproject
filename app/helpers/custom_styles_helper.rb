@@ -45,7 +45,7 @@ module CustomStylesHelper
         name: "pdf_export_styles",
         partial: "custom_styles/pdf_export_styles",
         path: custom_style_path(tab: :pdf_export_styles),
-        label: t(:'admin.custom_styles.tab_pdf_export_styles')
+        label: t(:"admin.custom_styles.tab_pdf_export_styles")
       }
     ]
   end

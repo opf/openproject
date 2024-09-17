@@ -43,7 +43,7 @@ RSpec.describe "interface tab" do
   end
 
   context "with EE token", with_ee: %i[define_custom_style] do
-    let(:custom_style) { create "custom_style_with_logo" }
+    let(:custom_style) { create (:custom_style_with_logo) }
 
     before do
       login_as(admin)

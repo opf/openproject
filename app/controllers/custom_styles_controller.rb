@@ -52,7 +52,7 @@ class CustomStylesController < ApplicationController
     @current_theme = @custom_style.theme
     @theme_options = options_for_theme_select
     if params[:tab].blank?
-      redirect_to tab: 'interface'
+      redirect_to tab: "interface"
     end
   end
 
