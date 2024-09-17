@@ -29,13 +29,7 @@
 require "spec_helper"
 require_relative "expected_markdown"
 
-RSpec.describe OpenProject::TextFormatting,
-               "Attribute macros" do
-  include_context "expected markdown modules"
-  shared_let(:project) { create(:valid_project, id: 4321) }
-  let(:work_package) { create(:work_package, project:, id: 1234) }
-  let(:options) { { project:, object: work_package } }
-
+RSpec.shared_examples_for "resolving macros" do
   describe "attribute label macros" do
     it_behaves_like "format_text produces" do
       let(:raw) do
@@ -130,6 +124,29 @@ RSpec.describe OpenProject::TextFormatting,
             Inline reference to project with name: <opce-macro-attribute-value data-model="project" data-id="some name" data-attribute="status"></opce-macro-attribute-value>
           </p>
         EXPECTED
+      end
+    end
+  end
+end
+
+RSpec.describe OpenProject::TextFormatting, "Attribute macros" do
+  include_context "expected markdown modules"
+  shared_let(:project) { create(:valid_project, id: 4321) }
+  let(:work_package) { create(:work_package, project:, id: 1234) }
+
+  context "with work package" do
+    it_behaves_like "resolving macros" do
+      let(:options) { { project:, object: work_package } }
+    end
+  end
+
+  context "with eager loading work package wrapper" do
+    it_behaves_like "resolving macros" do
+      let(:options) do
+        {
+          project:,
+          object: API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap_one(work_package, nil)
+        }
       end
     end
   end

@@ -55,7 +55,8 @@ module OpenProject::TextFormatting
       def self.work_package_context?(context)
         #  workPackageValue can be used in e.g. wiki and meeting notes without a work package,
         #  relative embedding is not supported in these cases
-        context[:object].is_a?(WorkPackage) || context[:object].is_a?(API::V3::WorkPackages::WorkPackageEagerLoadingWrapper)
+        #  work package list view or the work package fullscreen view use the wrapper via API calls, not the WorkPackage model
+        context[:object].is_a?(API::V3::WorkPackages::WorkPackageEagerLoadingWrapper) || context[:object].is_a?(WorkPackage)
       end
 
       def self.work_package_embed?(macro_attributes)
