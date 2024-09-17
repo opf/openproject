@@ -86,7 +86,7 @@ module CustomField::OrderStatements
 
   def select_custom_value_as_string
     <<-SQL
-    (SELECT cv_sort.value FROM #{CustomValue.table_name} cv_sort
+    (SELECT cv_sort.value FROM #{CustomValue.quoted_table_name} cv_sort
         WHERE #{cv_sort_only_custom_field_condition_sql}
         LIMIT 1)
     SQL
@@ -94,8 +94,8 @@ module CustomField::OrderStatements
 
   def select_custom_option_position
     <<-SQL
-    (SELECT co_sort.position FROM #{CustomOption.table_name} co_sort
-        LEFT JOIN #{CustomValue.table_name} cv_sort
+    (SELECT co_sort.position FROM #{CustomOption.quoted_table_name} co_sort
+        LEFT JOIN #{CustomValue.quoted_table_name} cv_sort
         ON co_sort.id = CAST(cv_sort.value AS decimal(60,3))
         WHERE #{cv_sort_only_custom_field_condition_sql}
         LIMIT 1
@@ -105,7 +105,7 @@ module CustomField::OrderStatements
 
   def select_custom_values_as_group
     <<-SQL
-      COALESCE((SELECT string_agg(cv_sort.value, '.') FROM #{CustomValue.table_name} cv_sort
+      COALESCE((SELECT string_agg(cv_sort.value, '.') FROM #{CustomValue.quoted_table_name} cv_sort
         WHERE #{cv_sort_only_custom_field_condition_sql}
           AND cv_sort.value IS NOT NULL), '')
     SQL
@@ -113,8 +113,8 @@ module CustomField::OrderStatements
 
   def select_custom_values_joined_options_as_group
     <<-SQL
-      COALESCE((SELECT string_agg(co_sort.value, '.' ORDER BY co_sort.position ASC) FROM #{CustomOption.table_name} co_sort
-        LEFT JOIN #{CustomValue.table_name} cv_sort
+      COALESCE((SELECT string_agg(co_sort.value, '.' ORDER BY co_sort.position ASC) FROM #{CustomOption.quoted_table_name} co_sort
+        LEFT JOIN #{CustomValue.quoted_table_name} cv_sort
         ON cv_sort.value IS NOT NULL AND co_sort.id = cv_sort.value::numeric
         WHERE #{cv_sort_only_custom_field_condition_sql}), '')
     SQL
@@ -122,7 +122,7 @@ module CustomField::OrderStatements
 
   def select_custom_value_as_decimal
     <<-SQL
-    (SELECT CAST(cv_sort.value AS decimal(60,3)) FROM #{CustomValue.table_name} cv_sort
+    (SELECT CAST(cv_sort.value AS decimal(60,3)) FROM #{CustomValue.quoted_table_name} cv_sort
       WHERE #{cv_sort_only_custom_field_condition_sql}
       AND cv_sort.value <> ''
       AND cv_sort.value IS NOT NULL
@@ -132,7 +132,7 @@ module CustomField::OrderStatements
 
   def order_by_user_sql
     <<-SQL
-    (SELECT ARRAY[cv_user.lastname, cv_user.firstname, cv_user.mail] FROM #{User.table_name} cv_user
+    (SELECT ARRAY[cv_user.lastname, cv_user.firstname, cv_user.mail] FROM #{User.quoted_table_name} cv_user
      WHERE cv_user.id = #{select_custom_value_as_decimal}
      LIMIT 1)
     SQL
@@ -140,7 +140,7 @@ module CustomField::OrderStatements
 
   def order_by_version_sql(column)
     <<-SQL
-    (SELECT #{column} version_cv_#{column} FROM #{Version.table_name} cv_version
+    (SELECT #{column} version_cv_#{column} FROM #{Version.quoted_table_name} cv_version
      WHERE cv_version.id = #{select_custom_value_as_decimal}
      LIMIT 1)
     SQL
@@ -149,7 +149,7 @@ module CustomField::OrderStatements
   def cv_sort_only_custom_field_condition_sql
     <<-SQL
       cv_sort.customized_type='#{self.class.customized_class.name}'
-      AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id
+      AND cv_sort.customized_id=#{self.class.customized_class.quoted_table_name}.id
       AND cv_sort.custom_field_id=#{id}
     SQL
   end
