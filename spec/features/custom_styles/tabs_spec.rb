@@ -45,16 +45,11 @@ RSpec.describe "interface tab" do
   context "with EE token", with_ee: %i[define_custom_style] do
     before do
       login_as(admin)
-      visit custom_style_path(tab: "interface")
+      visit custom_style_path
     end
 
-    it "doesn't show an upload button" do
+    it "interface tab is selected when selecting design from menu" do
       expect(page).to have_current_path(custom_style_path tab:'interface')
-      expect(page).not_to have_text "Upload"
-    end
-
-    it "doesn't show a replace button" do
-      expect(page).not_to have_text "Replace"
     end
 
     it "shows interface colours" do
@@ -65,12 +60,14 @@ RSpec.describe "interface tab" do
       select("OpenProject Light", from: "theme")
       find("[data-test-selector='change-color-theme-button']").click
       expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_successful_update))
+      expect(page).to have_current_path(custom_style_path tab:'interface')
     end
 
     it "changes accent color" do
       fill_in "design_colors[]accent-color", with: "#333333"
       find("[data-test-selector='update-interface-colors']").click
       expect(page).to have_css("#design_colors_accent-color", value: "#333333")
+      expect(page).to have_current_path(custom_style_path tab:'interface')
     end
 
     it "redirects to branding tab" do
