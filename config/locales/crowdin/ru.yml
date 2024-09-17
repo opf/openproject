@@ -649,8 +649,8 @@ ru:
         uid: "ID клиента"
         secret: "Секрет клиента"
         owner: "Владелец"
-        builtin: "Builtin"
-        enabled: "Active"
+        builtin: "Встроенный"
+        enabled: "Активный"
         redirect_uri: "Перенаправить URI"
         client_credentials_user_id: "ID пользователя клиента"
         scopes: "Области"
@@ -2098,7 +2098,7 @@ ru:
   label_copy_project: "Копировать проект"
   label_core_version: "Текущая версия"
   label_core_build: "Сборка ядра"
-  label_created_by: "Created by %{user}"
+  label_created_by: "Создано %{user}"
   label_current_status: "Текущий статус"
   label_current_version: "Текущий этап"
   label_custom_field_add_no_type: "Добавьте это поле в тип комплекса работ"
@@ -2226,9 +2226,9 @@ ru:
   label_share: "Поделиться"
   label_share_project_list: "Поделитесь списком проектов"
   label_share_work_package: "Поделиться пакетом работ"
-  label_show_hide: "Показать/скрыть"
-  label_show_hide_n_items: "Показать/скрыть %{count} элементов"
   label_show_all_registered_users: "Показать всех зарегистрированных пользователей"
+  label_show_n_more: "Show %{count} more"
+  label_show_less: "Show less"
   label_journal: "Журнал"
   label_journal_diff: "Описание сравнения"
   label_language: "Язык"
@@ -2378,7 +2378,7 @@ ru:
   label_product_version: "Версия продукта"
   label_profile: "Профиль"
   label_percent_complete: "% Готово"
-  label_progress_tracking: "Progress tracking"
+  label_progress_tracking: "Прогресс отслеживания"
   label_project: "Проект"
   label_project_activity: "Деятельность"
   label_project_attribute_plural: "Атрибуты проекта"
@@ -3203,13 +3203,13 @@ ru:
   setting_hours_per_day_explanation: >-
     Это определяет, что считается «днем» при более естественном отображении продолжительности (например, если день длится 8 часов, то 32 часа будет 4 дня).
   setting_invitation_expiration_days: "Действие письма активации истекает после"
-  setting_work_package_done_ratio: "Progress calculation mode"
+  setting_work_package_done_ratio: "Режим расчета прогресса"
   setting_work_package_done_ratio_field: "На основе трудозатрат"
   setting_work_package_done_ratio_field_caption_html: >-
-    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
+    <i>% Завершения</i> может быть свободно установлен на любое значение. Если Вы опционально введете значение для параметра <i>Работа</i>, то автоматически будет выведено значение <i>Оставшаяся работа</i>.
   setting_work_package_done_ratio_status: "На основе статуса"
   setting_work_package_done_ratio_status_caption_html: >-
-    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
+    С каждым статусом связано значение <i>% Завершения</i>. Изменение статуса приведет к изменению <i>% Завершения</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     В режиме <b>На основе трудозатрат</b>, % Завершения рассчитывается на основе того, сколько работы выполнено по отношению к общему объему работ. В режиме <b>На основе статуса</b>, каждый статус имеет связанное с ним значение % Завершения. Изменение статуса изменит % Завершения.
   setting_work_package_done_ratio_explanation_html: >
@@ -3807,16 +3807,16 @@ ru:
     close_warning: "Игнорировать это предупреждение."
   oauth:
     application:
-      builtin: Built-in instance application
-      confidential: Confidential
+      builtin: Встроенное приложение
+      confidential: Конфиденциально
       singular: "Приложение OAuth"
       plural: "OAuth приложения"
       named: "OAuth приложение '%{name}'"
       new: "Новое приложение OAuth"
-      non_confidential: Non confidential
+      non_confidential: Не конфиденциально
       default_scopes: "(Области по умолчанию)"
       instructions:
-        enabled: "Enable this application, allowing users to perform authorization grants with it."
+        enabled: "Включите это приложение, чтобы пользователи могли выполнять с его помощью авторизацию."
         name: "Название вашего приложения. Будет отображаться другим пользователям после авторизации."
         redirect_uri_html: >
           Разрешенные URL-адреса могут быть перенаправлены на. Одна запись на строку. <br/> Если вы регистрируете приложение на рабочем столе, используйте следующий URL.
@@ -3826,9 +3826,9 @@ ru:
         register_intro: "Если вы разрабатываете клиентское приложение OAuth API для OpenProject, вы можете зарегистрировать его, используя эту форму для всех пользователей."
         default_scopes: ""
     header:
-      builtin_applications: Built-in OAuth applications
-      other_applications: Other OAuth applications
-    empty_application_lists: No OAuth applications have been registered.
+      builtin_applications: Встроенные приложения OAuth
+      other_applications: Другие приложения OAuth
+    empty_application_lists: Нет зарегистрированных приложений OAuth.
     client_id: "ID клиента"
     client_secret_notice: >
       Это единственный раз, когда мы позволяем распечатать секрет клиента, пожалуйста, пожалуйста, запишите его и сохраните в безопасности. Он должен рассматриваться как пароль и не может быть получен в OpenProject позже.
