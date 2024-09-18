@@ -316,7 +316,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           let(:expected_attributes) { { done_ratio: 100, remaining_hours: 0.0 } }
           let(:expected_kept_attributes) { %w[estimated_hours] }
 
-          it_behaves_like "service call", description: "change % complete to 100% and derives remaining work accordingly"
+          it_behaves_like "service call", description: "changes % complete to 100% and derives remaining work accordingly"
         end
       end
     end
