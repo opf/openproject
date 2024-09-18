@@ -26,10 +26,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class AddPrimaryKeyToCustomFieldsProjects < ActiveRecord::Migration[7.1]
-  def change
-    # NOTE: Manually backfilling the `id` column is not necessary as the BIGSERIAL primary key will auto-populate
-    # the existing records with auto-incrementing values
-    add_column :custom_fields_projects, :id, :primary_key # rubocop:disable Rails/DangerousColumnNames
+require "spec_helper"
+require Rails.root.join("db/migrate/20240917105829_add_primary_key_to_custom_fields_projects.rb")
+
+RSpec.describe AddPrimaryKeyToCustomFieldsProjects, type: :model do
+  shared_association_default(:project) { create(:project) }
+
+  it "adds an `id` primary key column with backfilled values" do
+    ActiveRecord::Migration.suppress_messages { described_class.migrate(:down) }
+
+    create_list(:custom_fields_project, 5)
+
+    aggregate_failures "no primary key column" do
+      expect(CustomFieldsProject.column_names).not_to include("id")
+      expect(CustomFieldsProject.count).to eq 5
+    end
+
+    ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
+    CustomFieldsProject.reset_column_information
+    CustomFieldsProject.reset_primary_key
+
+    aggregate_failures "primary key column added" do
+      expect(CustomFieldsProject.column_names).to include("id")
+      expect(CustomFieldsProject.last.id).to eq 5
+    end
+
+    aggregate_failures "next record increments the primary key" do
+      expect { create(:custom_fields_project) }.to change(CustomFieldsProject, :count).by(1)
+      expect(CustomFieldsProject.last.id).to eq 6
+    end
   end
 end
