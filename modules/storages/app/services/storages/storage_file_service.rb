@@ -38,7 +38,7 @@ module Storages
       auth_strategy = strategy(storage, user)
 
       info "Requesting file #{file_id} information on #{storage.name}"
-      Peripherals::Registry.resolve("#{storage}.queries.file_info").call(storage:, auth_strategy:, folder:)
+      Peripherals::Registry.resolve("#{storage}.queries.file_info").call(storage:, auth_strategy:, file_id:)
     end
 
     private

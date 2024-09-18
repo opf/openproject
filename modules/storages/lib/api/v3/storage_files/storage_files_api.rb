@@ -73,7 +73,7 @@ module API::V3::StorageFiles
 
       route_param :file_id, type: String, desc: "Storage file id" do
         get do
-          Storages::StorageFilesService
+          Storages::StorageFileService
             .call(storage: @storage, user: current_user, file_id: params[:file_id])
             .map { |file_info| to_storage_file(file_info) }
             .match(
