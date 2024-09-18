@@ -113,7 +113,7 @@ class WorkPackages::ProgressController < ApplicationController
   private
 
   def modal_class
-    if WorkPackage.use_status_for_done_ratio?
+    if WorkPackage.status_based_mode?
       WorkPackages::Progress::StatusBased::ModalBodyComponent
     else
       WorkPackages::Progress::WorkBased::ModalBodyComponent
@@ -153,7 +153,7 @@ class WorkPackages::ProgressController < ApplicationController
   end
 
   def allowed_params
-    if WorkPackage.use_status_for_done_ratio?
+    if WorkPackage.status_based_mode?
       %i[estimated_hours status_id]
     # two next lines to be removed in 15.0 with :percent_complete_edition feature flag removal
     elsif !OpenProject::FeatureDecisions.percent_complete_edition_active?
