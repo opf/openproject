@@ -201,7 +201,7 @@ class WorkPackages::ProgressForm < ApplicationForm
              action: "work-packages--progress--preview#markFieldAsTouched" }
 
     if @focused_field == name
-      data[:"work-packages--progress--focus-field-target"] = "fieldToFocus"
+      data[:focus] = "true"
     end
     { data: }
   end

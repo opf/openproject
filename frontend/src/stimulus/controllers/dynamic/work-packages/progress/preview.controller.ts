@@ -82,6 +82,10 @@ export default class PreviewController extends Controller {
         target.addEventListener('input', this.debouncedPreview);
       }
       target.addEventListener('blur', this.debouncedPreview);
+
+      if (target.dataset.focus === 'true') {
+        this.focusAndSetCursorPositionToEndOfInput(target);
+      }
     });
 
     const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
@@ -139,6 +143,14 @@ export default class PreviewController extends Controller {
     if (turboFrame) {
       turboFrame.src = editUrl;
     }
+  }
+
+  private focusAndSetCursorPositionToEndOfInput(field:HTMLInputElement) {
+    field.focus();
+    field.setSelectionRange(
+      field.value.length,
+      field.value.length,
+    );
   }
 
   // Ensures that on create forms, there is an "id" for the un-persisted
