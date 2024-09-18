@@ -220,6 +220,10 @@ class WorkPackage < ApplicationRecord
     Setting.work_package_done_ratio == "field"
   end
 
+  def self.complete_on_status_closed?
+    Setting.percent_complete_on_status_closed == "set_100p"
+  end
+
   # Returns true if usr or current user is allowed to view the work_package
   def visible?(usr = User.current)
     usr.allowed_in_work_package?(:view_work_packages, self)

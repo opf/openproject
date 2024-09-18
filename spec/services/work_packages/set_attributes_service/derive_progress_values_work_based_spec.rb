@@ -35,7 +35,10 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
                with_settings: { work_package_done_ratio: "field" } do
   let(:user) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
-  let(:work_package) { build_stubbed(:work_package, project:) }
+  let(:work_package) { build_stubbed(:work_package, project:, status: status_open) }
+  let(:status_open) { build_stubbed(:status, is_closed: false, name: "Open") }
+  let(:status_wip) { build_stubbed(:status, is_closed: false, name: "Work In Progress") }
+  let(:status_closed) { build_stubbed(:status, is_closed: true, name: "Closed") }
   let(:instance) { described_class.new(work_package) }
 
   context "given a work package with work, remaining work, and % complete being set" do
@@ -433,6 +436,81 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
       include_examples "update progress values",
                        description: "is an error state (to be detected by contract), and all values are kept",
                        expected_hints: {}
+    end
+  end
+
+  context "when % Complete is automatically set to 100% when status is closed",
+          with_settings: { percent_complete_on_status_closed: "set_100p" } do
+    context "given a work package with a non-closed status" do
+      before do
+        work_package.status = status_open
+        work_package.estimated_hours = 10
+        work_package.remaining_hours = 10
+        work_package.done_ratio = 0
+        work_package.clear_changes_information
+      end
+
+      context "when the work package is closed" do
+        let(:set_attributes) { { status: status_closed } }
+        let(:expected_derived_attributes) { { remaining_hours: 0.0, done_ratio: 100 } }
+        let(:expected_kept_attributes) { %w[estimated_hours] }
+
+        include_examples "update progress values", description: "% complete is set to 100% and remaining work is derived",
+                                                   expected_hints: {
+                                                     remaining_work: :derived
+                                                   }
+      end
+
+      context "when the work package is closed and % complete is set to some value" do
+        let(:set_attributes) { { status: status_closed, done_ratio: 90 } }
+        let(:expected_derived_attributes) { { remaining_hours: 0.0, done_ratio: 100 } }
+        let(:expected_kept_attributes) { %w[estimated_hours] }
+
+        include_examples "update progress values", description: "% complete is set to 100% anyway and remaining work is derived",
+                                                   expected_hints: {
+                                                     remaining_work: :derived
+                                                   }
+      end
+
+      context "when the work package status is changed but not closed" do
+        let(:set_attributes) { { status: status_wip } }
+        let(:expected_kept_attributes) { %w[estimated_hours remaining_hours done_ratio] }
+
+        include_examples "update progress values", description: "does not change any progress values",
+                                                   expected_hints: {}
+      end
+    end
+
+    context "given a work package with a closed status and 100% complete" do
+      before do
+        work_package.status = status_closed
+        work_package.estimated_hours = 10
+        work_package.remaining_hours = 0
+        work_package.done_ratio = 100
+        work_package.clear_changes_information
+      end
+
+      context "when the work package percent complete is changed" do
+        let(:set_attributes) { { done_ratio: 90 } }
+        let(:expected_derived_attributes) { { remaining_hours: 1.0 } }
+        let(:expected_kept_attributes) { %w[estimated_hours] }
+
+        include_examples "update progress values", description: "changes % complete and remaining work is derived",
+                                                   expected_hints: {
+                                                     remaining_work: :derived
+                                                   }
+      end
+
+      context "when the work package status is set to the same value and % complete is changed" do
+        let(:set_attributes) { { status: status_closed, done_ratio: 90 } }
+        let(:expected_derived_attributes) { { remaining_hours: 1.0 } }
+        let(:expected_kept_attributes) { %w[estimated_hours] }
+
+        include_examples "update progress values", description: "changes % complete and remaining work is derived",
+                                                   expected_hints: {
+                                                     remaining_work: :derived
+                                                   }
+      end
     end
   end
 
