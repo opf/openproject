@@ -52,9 +52,9 @@ class Queries::Projects::Filters::AvailableProjectAttributesFilter < Queries::Pr
   def apply_to(_query_scope)
     case operator
     when "="
-      super.with_available_custom_fields(values)
+      super.with_available_project_custom_fields(values)
     when "!"
-      super.without_available_custom_fields(values)
+      super.without_available_project_custom_fields(values)
     else
       raise "unsupported operator"
     end

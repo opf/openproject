@@ -274,6 +274,9 @@ $scrollbar-size: 10px
   font: inherit
   text-align: inherit
 
+@mixin hide-button-texts
+  .button--text:not(.button--text_without_icon)
+    display: none
 
 @mixin board-header-editable-toolbar-title
   line-height: normal !important
@@ -317,7 +320,7 @@ $scrollbar-size: 10px
   padding: 0 0.15rem 0 0.15rem
   font-size: 0.7rem
   font-weight: var(--base-text-weight-bold)
-  background: #00A3FF
+  background: var(--bgColor-accent-emphasis)
   color: white
   flex-shrink: 0
 

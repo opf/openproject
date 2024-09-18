@@ -66,7 +66,7 @@ it:
     button_back_to_list_view: "Torna alla visualizzazione in lista"
     button_cancel: "Annulla"
     button_close: "Chiuso"
-    button_change_project: "Move to another project"
+    button_change_project: "Sposta su un altro progetto"
     button_check_all: "Seleziona tutti"
     button_configure-form: "Configura modulo"
     button_confirm: "Conferma"
@@ -74,7 +74,7 @@ it:
     button_copy: "Copia"
     button_copy_to_clipboard: "Copia negli appunti"
     button_copy_link_to_clipboard: "Copia link negli appunti"
-    button_copy_to_other_project: "Duplicate in another project"
+    button_copy_to_other_project: "Duplica in un altro progetto"
     button_custom-fields: "Campo personalizzato"
     button_delete: "Cancella"
     button_delete_watcher: "Elimina osservatore"
@@ -138,8 +138,8 @@ it:
     description_select_work_package: "Seleziona la macro-attività #%{id}"
     description_subwork_package: "Subordinata alla macro-attività #%{id}"
     editor:
-      revisions: "Show local modifications"
-      no_revisions: "No local modifications found"
+      revisions: "Mostra le modifiche locali"
+      no_revisions: "Nessuna modifica locale trovata"
       preview: "Attiva/disattiva modalità anteprima"
       source_code: "Attiva/Disattiva modalità origine Marcatura"
       error_saving_failed: "Il salvataggio del documento è fallito con il seguente errore: %{error}"
@@ -279,9 +279,9 @@ it:
           Vuoi davvero continuare?
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+          La modifica della modalità di calcolo dei progressi da basata sullo stato a basata su lavoro renderà <i>% completamento</i> un campo non modificabile il cui valore è derivato da <i>Lavoro</i> e <i>Lavoro residuo</i>. I valori esistenti per <i>% completamento</i> sono conservati. Se i valori per <i>Lavoro</i> e <i>Lavoro residuo</i> non erano presenti, saranno necessari per modificare <i>% completamento</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
+          La modifica della modalità di calcolo dei progressi da basata sullo stato a basata sul lavoro renderà il campo <i>% completamento</i> liberamente modificabile. Se inserisci facoltativamente valori per <i>Lavoro</i> o <i>Lavoro residuo</i>, questi verranno collegati anche a <i>% completamento</i>. La modifica di <i>Lavoro residuo</i> può quindi aggiornare <i>% completamento</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
           Cambiando la modalità di calcolo dell'avanzamento da basata sul lavoro a basata sullo stato porvocherà la perdita di tutti i valori <i>% Complete</i> esistenti e saranno sostituiti con i valori associati ad ogni stato. I valori esistenti per il lavoro <i>rimanente</i> potrebbero anche essere ricalcolati per riflettere questo cambiamento. Questa azione non è reversibile.
     custom_actions:
@@ -358,10 +358,10 @@ it:
           learn_about: "Scopri di più sulle nuove funzionalità"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                Questa versione contiene varie nuove funzionalità e miglioramenti, come: <br> <ul class="%{list_styling_class}"> <li>Opzione modalità scura nelle impostazioni personali</li> <li>Autorizzazioni separate per la visualizzazione e la modifica degli attributi di progetto</li> <li>Report sullo stato di avanzamento migliorato</li> <li>Convalida della connessione per gli archivi Nextcloud</li> <li>Più opzioni di filtro per gli elenchi di progetti</li> </ul>
+                Questa versione include varie nuove funzionalità e miglioramenti, come: <br> <ul class="%{list_styling_class}"> <li>Conservazione e ripristino delle versioni locali delle modifiche ai contenuti WYSIWYG.</li> <li>Abilitazione di un archivio per più progetti contemporaneamente.</li> <li>Esportazione di macro-attività in una nuova modalità con impostazioni aggiuntive.</li> <li>Visualizzazione di colonne/filtri di campi personalizzati negli elenchi di progetti anche nella Community Edition.</li> <li>Supporto a CloudFlare Turnstile come Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Iscriviti al calendario"
       inital_setup_error_message: "Si è verificato un errore recuperando i dati."
@@ -402,7 +402,7 @@ it:
     label_create: "Crea"
     label_create_work_package: "Crea una nuova macro-attività"
     label_created_by: "Creato da"
-    label_current: "current"
+    label_current: "attuale"
     label_date: "Data"
     label_date_with_format: "Immettere il %{date_attribute} utilizzando il seguente formato: %{format}"
     label_deactivate: "Disattivare"
@@ -641,7 +641,7 @@ it:
           with_current_filter: "Non ci sono notifiche in questa vista al momento"
         mark_all_read: "Segna tutti come letti"
         mark_as_read: "Segna come letto"
-        text_update_date_by: "%{date} by"
+        text_update_date_by: "%{date} da"
         total_count_warning: "Mostrando le %{newest_count} notifiche più recenti. %{more_count} altre non vengono visualizzate."
         empty_state:
           no_notification: "Sembra che siate tutti coinvolti."
@@ -1188,8 +1188,8 @@ it:
         other: "%{count} giorni"
         zero: "0 giorni"
       word:
-        one: "1 word"
-        other: "%{count} words"
+        one: "1 parola"
+        other: "%{count} parole"
     zen_mode:
       button_activate: "Attiva modalità zen"
       button_deactivate: "Disattiva modalità zen"

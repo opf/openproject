@@ -82,7 +82,7 @@ Access to the database (including the PostgreSQL tables) is restricted for the E
 
 ## Can I use LDAP authentication in my Enterprise cloud environment?
 
-You can use [LDAP authentication](../../../system-admin-guide/authentication/ldap-authentication/) in your cloud environment. **However**, usually LDAP servers will _not_ be exposed to the internet, which they have to be for this to work.
+You can use [LDAP authentication](../../../system-admin-guide/authentication/ldap-connections/) in your cloud environment. **However**, usually LDAP servers will _not_ be exposed to the internet, which they have to be for this to work.
 Whitelisting IPs is no option since the OpenProject servers' IPs are not permanent and can change without notice.
 Moreover we do not have a mechanism to list all IP addresses currently in use.
 

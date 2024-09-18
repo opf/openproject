@@ -44,8 +44,7 @@ module Storages
             #   d:getcontenttype
             #   d:resourcetype
             #   d:getcontentlength
-            #   d:permissions
-            #   d:size
+            #   oc:permissions
             #   oc:id
             #   oc:fileid
             #   oc:favorite
@@ -62,6 +61,10 @@ module Storages
             #   nc:contained-folder-count
             #   nc:contained-file-count
             #   nc:acl-list
+            #   nc:inherited-acl-list
+            #   nc:group-folder-id
+            #   nc:acl-enabled
+            #   nc:acl-can-manage
             # ].freeze
 
             def self.call(storage:, http:, username:, path:, props:)

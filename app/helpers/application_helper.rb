@@ -33,6 +33,7 @@ module ApplicationHelper
   include OpenProject::TextFormatting
   include OpenProject::ObjectLinking
   include OpenProject::SafeParams
+  include OpPrimer::FormHelpers
   include I18n
   include ERB::Util
   include Redmine::I18n

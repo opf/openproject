@@ -85,7 +85,7 @@ See COPYRIGHT and LICENSE files for more details.
     </span>
   </div>
 
-  <% if @custom_field.new_record? || @custom_field.list? || @custom_field.multi_value_possible? %>
+  <% if @custom_field.new_record? || @custom_field.multi_value_possible? %>
     <div class="form--field" <%= format_dependent.attributes(:multiSelect) %>>
       <%= f.check_box :multi_value,
                       data: { action: 'admin--custom-fields#checkOnlyOne' } %>
@@ -118,7 +118,7 @@ See COPYRIGHT and LICENSE files for more details.
     </fieldset>
   <% end %>
 
-  <% if @custom_field.new_record? || @custom_field.version? || @custom_field.allow_non_open_versions_possible? %>
+  <% if @custom_field.new_record? || @custom_field.allow_non_open_versions_possible? %>
     <div class="form--field" <%= format_dependent.attributes(:allowNonOpenVersions) %>>
       <%= f.check_box :allow_non_open_versions %>
     </div>

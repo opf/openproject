@@ -70,7 +70,7 @@ zh-TW:
       dialog:
         automatically_managed_appendix: 此外，在這種情況下，此儲存空間有一個自動管理的專案資料夾，此資料夾及其檔案將永遠刪除。
         confirmation_text: 請確認您瞭解並希望從本專案中移除此檔案儲存空間
-        heading_text: Remove project from %{storage}
+        heading_text: 從 %{storage} 移除專案
         text: 此動作是不可逆轉的，並會移除此專案的工作項目到該儲存的檔案和資料夾的所有連結。
       label: 移除專案
   services:
@@ -209,6 +209,7 @@ zh-TW:
         client_id_wrong: 設定的 OAuth 2 客戶端 ID 無效。請檢查設定。
         client_secret_wrong: 設定的 OAuth 2 用戶端密鑰無效。請檢查設定。
         drive_id_wrong: 找不到設定的儲存空間id。請檢查設定。
+        group_folder_not_found: The group folder could not be found.
         group_folder_version_mismatch: 不支援群組資料夾版本。請更新您的 Nextcloud 伺服器。
         host_not_found: 在設定的主機網址未找到 Nextcloud 伺服器。請檢查設定。
         missing_dependencies: '檔案儲存中缺少所需的相依性。請新增下列相依性： %{dependency}。'
@@ -216,7 +217,9 @@ zh-TW:
         placeholder: 根據伺服器檢查您的連線。
         subtitle: 連線驗證
         tenant_id_wrong: 設定的目錄 (租戶) id 無效。請檢查設定。
-        unexpected_content: 在儲存空間中發現預期之外內容。
+        unexpected_content:
+          nextcloud: Unexpected content found in the managed group folder.
+          one_drive: Unexpected content found in the drive.
         unknown_error: 連線無法驗證。發生未知錯誤。請檢查伺服器日誌以瞭解進一步資訊。
       label_error: 錯誤
       label_healthy: 健康的

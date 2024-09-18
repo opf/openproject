@@ -74,7 +74,7 @@ fr:
     button_copy: "Copier"
     button_copy_to_clipboard: "Copier dans le presse-papier"
     button_copy_link_to_clipboard: "Copier le lien dans le presse-papiers"
-    button_copy_to_other_project: "Duplicate in another project"
+    button_copy_to_other_project: "Dupliquer dans un autre projet"
     button_custom-fields: "Champs personnalisés"
     button_delete: "Supprimer"
     button_delete_watcher: "Supprimer observateur"
@@ -358,10 +358,10 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                La version contient diverses nouvelles fonctionnalités et améliorations, telles que : <br> <ul class="%{list_styling_class}"> <li>Option de mode sombre dans les paramètres personnels</li> <li>Séparation des permissions pour la visualisation et l'édition des attributs du projet</li> <li>Amélioration de l'état de progression basé sur le statut</li> <li>Validation de la connexion pour les stockages Nextcloud</li> <li>Plus d'options de filtre pour les listes de projets</li> </ul>
+                Cette version contient plusieurs nouvelles fonctionnalités et améliorations, telles que <br> <ul class="%{list_styling_class}"> <li>Conservation et restauration des versions locales des changements de contenu WYSIWYG.</li> <li>Activation d'un stockage pour plusieurs projets à la fois.</li> <li>Exportation des lots de travaux dans une fenêtre modale mise à jour avec des paramètres supplémentaires.</li> <li>Affichage des colonnes/filtres de champs personnalisés dans les listes de projets, y compris dans l'édition Community.</li> <li>Prise en charge de Turnstile de CloudFlare comme Captcha.</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -1188,7 +1188,7 @@ fr:
         other: "%{count} jours"
         zero: "0 jour"
       word:
-        one: "1 word"
+        one: "1 mot"
         other: "%{count} mots"
     zen_mode:
       button_activate: "Activer le mode zen"

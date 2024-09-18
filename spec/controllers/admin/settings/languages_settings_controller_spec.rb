@@ -36,7 +36,7 @@ RSpec.describe Admin::Settings::LanguagesSettingsController do
 
   current_user { user }
 
-  require_admin_and_render_template("languages_settings")
+  include_examples "GET #show requires admin permission and renders template", path: "languages_settings"
 
   describe "PATCH #update" do
     subject { patch "update", params: }

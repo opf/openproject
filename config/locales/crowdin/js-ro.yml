@@ -357,10 +357,10 @@ ro:
           learn_about: "Aflați mai multe despre noile caracteristici"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_4":
+          "14_5":
             standard:
               new_features_html: >
-                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Dark mode option in personal settings</li> <li>Separate permissions for viewing and editing on project attributes</li> <li>Improved status-based progress reporting</li> <li>Connection validation for Nextcloud storages</li> <li>More filter options for project lists</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Keep and restore local versions of WYSIWYG content changes.</li> <li>Enable a storage for multiple projects at once.</li> <li>Export work packages in an updated modal with additional settings.</li> <li>Display custom field columns/filters in project lists also in the Community Edition.</li> <li>Support CloudFlare Turnstile as Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -483,7 +483,7 @@ ro:
     label_project: "Proiect"
     label_project_list: "Listă proiecte"
     label_project_plural: "Proiecte"
-    label_visibility_settings: "Setări de vizibilitate"
+    label_visibility_settings: "Setări vizibilitate"
     label_quote_comment: "Citare comentariu"
     label_recent: "Recente"
     label_reset: "Resetare"
@@ -495,7 +495,7 @@ ro:
     label_repository_plural: "Repo-uri"
     label_save_as: "Salvare ca"
     label_search_columns: "Search a column"
-    label_select_project: "Selectați un proiect"
+    label_select_project: "Selectează un proiect"
     label_select_watcher: "Selectaţi un observator..."
     label_selected_filter_list: "Filtre selectate"
     label_show_attributes: "Afișați toate câmpurile"
@@ -639,7 +639,7 @@ ro:
         no_results:
           at_all: "Aici vor apărea notificări noi atunci când există o activitate care vă interesează."
           with_current_filter: "Nu există notificări în această vizualizare în acest moment"
-        mark_all_read: "Marchează Tot ca Citit"
+        mark_all_read: "Marchează tot ca citit"
         mark_as_read: "Marchează ca Citit"
         text_update_date_by: "%{date} by"
         total_count_warning: "Se afișează %{newest_count} cele mai recente notificări. %{more_count} în plus nu sunt afișate."
@@ -654,7 +654,7 @@ ro:
           link_text: "Click here to load them."
       settings:
         change_notification_settings: 'Puteți modifica setările <a target="_blank" href="%{url}">de notificare</a> pentru a vă asigura că nu pierdeți niciodată o actualizare importantă.'
-        title: "Setări de notificare"
+        title: "Setări notificare"
         notify_me: "Anunta-ma"
         reminders:
           no_notification: Nicio notificare
@@ -694,7 +694,7 @@ ro:
             teaser_text: "Cu alertele de date, veți fi notificat cu privire la următoarele date de început sau de sfârșit, astfel încât să nu ratați sau să uitați niciodată un termen limită important."
           overdue: În caz de întârziere
         project_specific:
-          title: "Setări de notificare specifice proiectului"
+          title: "Setări notificare specifice proiectului"
           description: "Aceste setări specifice proiectului prevalează asupra setărilor implicite de mai sus."
           add: "Adăugați o setare pentru proiect"
           already_selected: "Acest proiect este deja selectat"
@@ -1017,7 +1017,7 @@ ro:
         label_content: "Click aici pentru a sări peste tabelul cu pachete de lucru și a ajunge la paginare"
       placeholders:
         default: "-"
-        date: "Selectați data"
+        date: "Selectează data"
       query:
         column_names: "Coloane"
         group_by: "Grupare rezultate"
@@ -1114,7 +1114,7 @@ ro:
         save: "Salvare"
         save_as: "Salvare ca"
         export: "Exportare"
-        visibility_settings: "Setări de vizibilitate"
+        visibility_settings: "Setări vizibilitate"
         share_calendar: "Subscribe to calendar"
         page_settings: "Redenumire"
         delete: "Șterge"
@@ -1223,14 +1223,14 @@ ro:
         invite_principal_to_project: "Invitați %{principal} la %{project}"
       project:
         label: "Proiect"
-        required: "Vă rugăm să selectați un proiect"
-        lacking_permission: "Vă rugăm să selectați un alt proiect, deoarece nu aveți permisiuni pentru a atribui utilizatori la cel selectat în prezent."
+        required: "Te rog să selectezi un proiect"
+        lacking_permission: "Te rog să selectezi un alt proiect, deoarece nu ai permisiuni pentru a atribui utilizatori la cel selectat în prezent."
         lacking_permission_info: "Nu aveți permisiunea de a atribui utilizatori la proiectul în care vă aflați în prezent. Trebuie să selectați un alt proiect."
         next_button: "Înainte"
         no_results: "Nu au fost găsite proiecte"
         no_invite_rights: "Nu aveți voie să invitați membri în acest proiect"
       type:
-        required: "Vă rugăm să selectați tipul de invitat"
+        required: "Te rog să selectezi tipul de invitat"
         user:
           title: "Utilizator"
           description: "Permisiuni bazate pe rolul atribuit în proiectul selectat"
@@ -1254,15 +1254,15 @@ ro:
         no_results_group: "Nu au fost găsite grupuri"
         next_button: "Înainte"
         required:
-          user: "Vă rugăm să selectați un utilizator"
-          placeholder: "Vă rugăm să selectați limba dvs"
-          group: "Vă rugăm să selectați limba dvs"
+          user: "Te rog să selectezi un utilizator"
+          placeholder: "Te rog să selectezi un substituent"
+          group: "Te rog să selectezi un grup"
       role:
         label: "Rolul în %{project}"
         no_roles_found: "Nu au fost găsite roluri"
         description: >-
           This is the role that the user will receive when they join your project. Rolul definește acțiunile pe care utilizatorul are voie să le întreprindă și informațiile pe care le poate vedea. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Aflați mai multe despre roluri și permisiuni. </a>
-        required: "Vă rugăm să selectați un rol"
+        required: "Te rog să selectezi un rol"
         next_button: "Înainte"
       message:
         label: "Mesaj invitație"

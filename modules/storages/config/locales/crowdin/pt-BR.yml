@@ -70,7 +70,7 @@ pt-BR:
       dialog:
         automatically_managed_appendix: Além disso, neste caso, este armazenamento tenha uma pasta de projeto gerenciado automaticamente, este e seus arquivos serão excluídos para sempre.
         confirmation_text: Confirme se você entende e deseja remover este armazenamento de arquivos do projeto
-        heading_text: Remove project from %{storage}
+        heading_text: Remover projeto de %{storage}
         text: Esta ação é permanente e removerá todos os links entre os pacotes de trabalho deste projeto e os arquivos e pastas desse armazenamento.
       label: Remover projeto
   services:
@@ -209,6 +209,7 @@ pt-BR:
         client_id_wrong: O ID do cliente OAuth 2 configurado é inválido. Verifique a configuração.
         client_secret_wrong: O segredo do cliente OAuth 2 configurado é inválido. Verifique a configuração.
         drive_id_wrong: O drive ID configurado não foi encontrado. Verifique a configuração.
+        group_folder_not_found: The group folder could not be found.
         group_folder_version_mismatch: A versão da Pasta de Grupo não é suportada. Por favor, atualize seu servidor NextCloud.
         host_not_found: Nenhum servidor Nextcloud encontrado no URL do host configurado. Por favor, verifique a configuração.
         missing_dependencies: 'Está faltando uma dependência necessária do armazenamento de arquivos. Por favor, adicione a seguinte dependência: %{dependency}.'
@@ -216,7 +217,9 @@ pt-BR:
         placeholder: Verifique sua conexão com o servidor.
         subtitle: Validação de conexão
         tenant_id_wrong: O ID do diretório (inquilino) configurado é inválido. Verifique a configuração.
-        unexpected_content: Conteúdo inesperado encontrado na unidade.
+        unexpected_content:
+          nextcloud: Unexpected content found in the managed group folder.
+          one_drive: Unexpected content found in the drive.
         unknown_error: A conexão não pôde ser validada. Ocorreu um erro desconhecido. Verifique os registros do servidor para obter mais informações.
       label_error: Erro
       label_healthy: Saudável

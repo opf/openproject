@@ -5,7 +5,8 @@ module OpenProject::WorkPackages
   class SplitViewComponentPreview < ViewComponent::Preview
     # @display min_height 400px
     def default
-      render(WorkPackages::SplitViewComponent.new(id: 1, tab: "overview", base_route: work_packages_path))
+      render(WorkPackages::SplitViewComponent.new(id: WorkPackage.visible.pick(:id), tab: "overview",
+                                                  base_route: work_packages_path))
     end
   end
 end

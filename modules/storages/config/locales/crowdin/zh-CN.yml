@@ -70,7 +70,7 @@ zh-CN:
       dialog:
         automatically_managed_appendix: 而且，在这种情况下，这个存储有一个自动托管的项目文件夹，它和它的文件将被永久删除。
         confirmation_text: 请确认您已理解并要从此项目中删除此文件存储
-        heading_text: Remove project from %{storage}
+        heading_text: 从 %{storage} 中删除项目
         text: 此操作不可逆，将从此项目的工作包中删除所有链接到该存储的文件和文件夹。
       label: 删除项目
   services:
@@ -209,6 +209,7 @@ zh-CN:
         client_id_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
         client_secret_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
         drive_id_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
+        group_folder_not_found: The group folder could not be found.
         group_folder_version_mismatch: 不受支持的组文件夹版本。请更新您的 Nextcloud 服务器。
         host_not_found: 在配置的主机 URL 中找不到 Nextcloud 服务器。请检查配置。
         missing_dependencies: '文件存储缺少一个必需的依赖项。请添加以下依赖项： %{dependency}.'
@@ -216,7 +217,9 @@ zh-CN:
         placeholder: 检查您与服务器的连接。
         subtitle: 连接验证
         tenant_id_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
-        unexpected_content: 硬盘中发现意外内容。
+        unexpected_content:
+          nextcloud: Unexpected content found in the managed group folder.
+          one_drive: Unexpected content found in the drive.
         unknown_error: 连接无法验证。出现未知错误。请查看服务器日志以获取更多信息。
       label_error: 错误
       label_healthy: 健康

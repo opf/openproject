@@ -33,7 +33,7 @@ RSpec.describe Admin::Settings::AuthenticationSettingsController do
 
   current_user { user }
 
-  require_admin_and_render_template("authentication_settings")
+  include_examples "GET #show requires admin permission and renders template", path: "authentication_settings"
 
   describe "PATCH #update" do
     describe "registration_footer" do

@@ -207,26 +207,26 @@ module Pages
         wait_for_reload
       end
 
-      def filter_by_name_and_identifier(value)
-        set_name_and_identifier_filter([value])
+      def filter_by_name_and_identifier(value, send_keys: false)
+        set_name_and_identifier_filter([value], send_keys:)
         wait_for_reload
       end
 
-      def set_filter(name, human_name, human_operator = nil, values = [])
+      def set_filter(name, human_name, human_operator = nil, values = [], send_keys: false)
         if name == "name_and_identifier"
-          set_simple_filter(name, values)
+          set_simple_filter(name, values, send_keys:)
         else
-          set_advanced_filter(name, human_name, human_operator, values)
+          set_advanced_filter(name, human_name, human_operator, values, send_keys:)
         end
       end
 
-      def set_simple_filter(_name, values)
+      def set_simple_filter(_name, values, send_keys: false)
         return unless values.any?
 
-        set_name_and_identifier_filter(values) # This is the only one simple filter at the moment.
+        set_name_and_identifier_filter(values, send_keys:) # This is the only one simple filter at the moment.
       end
 
-      def set_advanced_filter(name, human_name, human_operator = nil, values = [])
+      def set_advanced_filter(name, human_name, human_operator = nil, values = [], send_keys: false)
         select human_name, from: "add_filter_select"
         selected_filter = page.find("li[data-filter-name='#{name}']")
         select(human_operator, from: "operator") unless boolean_filter?(name)
@@ -238,7 +238,7 @@ module Pages
             set_toggle_filter(values)
           elsif name == "created_at"
             select(human_operator, from: "operator")
-            set_created_at_filter(human_operator, values)
+            set_created_at_filter(human_operator, values, send_keys:)
           elsif /cf_\d+/.match?(name)
             select(human_operator, from: "operator")
             set_custom_field_filter(selected_filter, human_operator, values)
@@ -269,21 +269,34 @@ module Pages
         end
       end
 
-      def set_name_and_identifier_filter(values)
-        fill_in "name_and_identifier", with: values.first
-      end
-
-      def set_created_at_filter(human_operator, values)
-        case human_operator
-        when "on", "less than days ago", "more than days ago", "days ago"
-          fill_in "value", with: values.first
-        when "between"
-          fill_in "from_value", with: values.first
-          fill_in "to_value", with: values.second
+      def set_name_and_identifier_filter(values, send_keys: false)
+        if send_keys
+          find_field("name_and_identifier").send_keys values.first
+        else
+          fill_in "name_and_identifier", with: values.first
         end
       end
 
-      def set_custom_field_filter(selected_filter, human_operator, values)
+      def set_created_at_filter(human_operator, values, send_keys: false)
+        case human_operator
+        when "on", "less than days ago", "more than days ago", "days ago"
+          if send_keys
+            find_field("value").send_keys values.first
+          else
+            fill_in "value", with: values.first
+          end
+        when "between"
+          if send_keys
+            find_field("from_value").send_keysvalues.first
+            find_field("to_value").send_keys values.second
+          else
+            fill_in "from_value", with: values.first
+            fill_in "to_value", with: values.second
+          end
+        end
+      end
+
+      def set_custom_field_filter(selected_filter, human_operator, values, send_keys: false)
         if selected_filter[:"data-filter-type"] == "list_optional"
           if values.size == 1
             value_select = find('.single-select select[name="value"]')
@@ -291,7 +304,11 @@ module Pages
           end
         elsif selected_filter[:"data-filter-type"] == "date"
           if human_operator == "on"
-            fill_in "value", with: values.first
+            if send_keys
+              find_field("value").send_keys values.first
+            else
+              fill_in "value", with: values.first
+            end
           end
         end
       end

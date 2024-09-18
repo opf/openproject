@@ -191,7 +191,12 @@ sudo wget -O /etc/yum.repos.d/openproject.repo \
 If it is not already enabled, make sure to enable [Extra Packages for Enterprise Linux](https://fedoraproject.org/wiki/EPEL) (EPEL).
 
 ```shell
-sudo dnf install -y epel-release
+sudo subscription-manager repos --enable codeready-builder-for-rhel-9-$(arch)-rpms
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+
+# if using CentOS 9:
+# sudo dnf config-manager --set-enabled crb
+# sudo dnf install https://dl.fedoraproject.org/pub/epel/epel{,-next}-release-latest-9.noarch.rpm
 ```
 
 Download the OpenProject package:

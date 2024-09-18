@@ -7,6 +7,6 @@ sidebar_navigation:
 # Kubernetes
 
 Kubernetes is a container orchestration tool. As such it can use the
-OpenProject docker container in the same manner as shown in the [docker section](../docker/#one-container-per-process-recommended).
+OpenProject docker container in the same manner as shown in the [docker section](../docker/).
 
-In the [openproject-deploy](https://github.com/opf/openproject-deploy/blob/stable/14/kubernetes/README.md) repository we provide further information and an exemplary set of YAML files defining a complete OpenProject setup on Kubernetes.
+If you'd like to run OpenProject on Kubernetes, please take a look at the [OpenProject helm chart](../helm-chart).

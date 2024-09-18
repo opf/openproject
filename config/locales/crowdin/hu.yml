@@ -201,6 +201,11 @@ hu:
       title: "Egyéni műveletek"
       description: "Az egyéni műveletek egy kattintással elérhető parancsikonok előre meghatározott műveletek csoportjához, amelyeket állapot, szerep, típus vagy projekt alapján elérhetővé tehet bizonyos munkacsomagokon."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Új egyéni mezők hozzáadásához először létre kell hozni őket, még mielőtt felvenné azokat a projekthez.
     is_enabled_globally: "Globálisan engedélyezve van"
@@ -628,6 +633,8 @@ hu:
         uid: "Ügyfél azonosító"
         secret: "Kliens titok"
         owner: "Tulajdonos"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Átirányítás URI"
         client_credentials_user_id: "Ügyféladatok Felhasználói azonosító\n"
         scopes: "Hatáskörök"
@@ -799,6 +806,7 @@ hu:
         blank: "nem lehet üres."
         blank_nested: "be kell állítani a '%{property}' tulajdonságot.\n"
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "A feladatcsoport nem kapcsolható saját részfeladatához."
         circular_dependency: "Ez a kapcsolat egy körkörös függőséget eredményezne."
         confirmation: "%{attribute} nem egyezik."
@@ -872,6 +880,10 @@ hu:
               minimum: "tartalmaznia kell legalább egy szűrőt a fő, kontextus vagy azonosító számára a '=' operátorral.\n"
         custom_field:
           at_least_one_custom_option: "Minimum egy opciónak elérhetőnek kell lennie."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) csak egy érték megengedett."
           empty: "(%{name}) az érték nem lehet üres."
@@ -1941,6 +1953,7 @@ hu:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Hitelesítés"
   label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Elérhető fórumok"
@@ -2013,6 +2026,7 @@ hu:
   label_copy_project: "Projekt másolása"
   label_core_version: "Core verzió"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Jelenlegi állapot"
   label_current_version: "Jelenlegi verzió"
   label_custom_field_add_no_type: "Mező hozzáadása egy feladatcsoport típushoz"
@@ -2140,9 +2154,9 @@ hu:
   label_share: "Megosztás"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
-  label_show_hide: "Megjelenítés/Elrejtés"
-  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Minden regisztrált felhasználó megjelenítése"
+  label_show_n_more: "Show %{count} more"
+  label_show_less: "Show less"
   label_journal: "Hírközlés"
   label_journal_diff: "Leírás összehasonlítás"
   label_language: "Nyelv"
@@ -2292,6 +2306,7 @@ hu:
   label_product_version: "Termékverzió"
   label_profile: "Profil"
   label_percent_complete: "%-ban kész"
+  label_progress_tracking: "Progress tracking"
   label_project: "Projekt"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Projekt attribútumok"
@@ -2361,6 +2376,8 @@ hu:
   label_role_plural: "Szerepkörök"
   label_role_search: "Szerep hozzárendelése az új tagokhoz"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Keresés"
   label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
@@ -2475,7 +2492,6 @@ hu:
   label_work_package_new: "Új munkacsomag"
   label_work_package_edit: "Munkacsomag %{name} szerkesztése"
   label_work_package_plural: "Munkacsomagok"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Feladatcsoport állapot"
   label_work_package_status_new: "Új állapot"
   label_work_package_status_plural: "A munkacsomag állapotai"
@@ -3113,9 +3129,13 @@ hu:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Az aktivációs email lejár ekkor"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
@@ -3518,9 +3538,9 @@ hu:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "Vélemény"
@@ -3712,12 +3732,16 @@ hu:
     close_warning: "Figyelmeztetés figyelmen kívül hagyása."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth alkalmazás"
       plural: "OAuth alkalmazások"
       named: "OAuth-alkalmazás neve %{name}"
       new: "Új OAuth alkalmazás"
+      non_confidential: Non confidential
       default_scopes: "Alapértelmezett hatáskörök"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Az alkalmazás neve. Ez más felhasználók számára jelenik meg engedélyezéskor.\n"
         redirect_uri_html: >
           Az engedélyezett URL -címek átirányíthatók a jogosult felhasználókra. Soronként egy bejegyzés. <br/> Ha asztali alkalmazást regisztrál, használja a következő URL -t.
@@ -3726,6 +3750,10 @@ hu:
         client_credential_user_id: "Választható felhasználói azonosító, amelyet az ügyfelek az alkalmazás használatakor megszemélyesíthetnek. Üresen hagyva csak nyilvános hozzáférést engedélyez\n"
         register_intro: "Ha OAuth API kliensalkalmazást fejleszt az OpenProject számára, akkor ezen az űrlapon regisztrálhatja azt, hogy minden felhasználó használhassa."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Ügyfél azonosító"
     client_secret_notice: >
       Ez az egyetlen alkalom, amikor kinyomtathatjuk az ügyfél titkát, jegyezze fel és tartsa biztonságban. Jelszóként kell kezelni, és az OpenProject később nem tudja lekérni.

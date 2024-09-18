@@ -46,7 +46,7 @@ RSpec.describe "authorization for BCF api", :js, with_config: { edition: "bim" }
 
   it "can create and later authorize and manage an OAuth application grant and then use the access token for the bcf api" do
     # Initially empty
-    expect(page).to have_css(".generic-table--empty-row", text: "There is currently nothing to display")
+    expect(page).to have_test_selector("op-admin-oauth--applications-placeholder")
 
     # Create application
     page.find_test_selector("op-admin-oauth--button-new", text: "OAuth application").click

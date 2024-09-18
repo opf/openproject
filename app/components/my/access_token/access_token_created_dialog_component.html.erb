@@ -28,23 +28,17 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  render(Primer::Alpha::Dialog.new(
+  render(Primer::OpenProject::FeedbackDialog.new(
     id:,
     title: nil,
     size: :large
   )) do |dialog|
-    dialog.with_body do
+    dialog.with_feedback_message do |message|
+      message.with_heading(tag: :h2) { I18n.t("my.access_token.create_dialog.header", type: "API") }
+    end
+
+    dialog.with_additional_content do
       flex_layout do |flex|
-        flex.with_row(mb: 3) do
-          render(Primer::Beta::Heading.new(tag: :h1, text_align: :center)) do
-            render(Primer::Beta::Octicon.new(icon: :"check-circle", color: :success, size: :medium))
-          end
-        end
-        flex.with_row(mb: 1) do
-          render(Primer::Beta::Heading.new(tag: :h2, color: :default, text_align: :center)) do
-            I18n.t("my.access_token.create_dialog.header", type: "API")
-          end
-        end
         flex.with_row(mb: 2) do
           render(Primer::OpenProject::InputGroup.new) do |input_group|
             input_group.with_text_input(name: :openproject_api_access_token,
@@ -62,13 +56,6 @@ See COPYRIGHT and LICENSE files for more details.
           render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert)) do
             I18n.t("my.access_token.create_dialog.warning")
           end
-        end
-      end
-    end
-    dialog.with_footer do
-      component_collection do |footer|
-        footer.with_component(Primer::ButtonComponent.new(data: { 'close-dialog-id': id })) do
-          I18n.t("button_close")
         end
       end
     end

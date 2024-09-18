@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <%=
-  render(Primer::OpenProject::SubHeader.new) do |component|
+  render(Primer::OpenProject::SubHeader.new(test_selector: "add-projects-sub-header")) do |component|
     component.with_action_component do
       render(Primer::Beta::Button.new(
         scheme: :primary,
@@ -52,8 +52,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   if @custom_field.required?
-    render Primer::Beta::Blankslate.new(border: true) do |component|
-      component.with_visual_icon(icon: :checklist)
+    render Primer::OpenProject::FeedbackMessage.new(icon_arguments: { icon: :checklist}, border: true) do |component|
       component.with_heading(tag: :h2).with_content(I18n.t("projects.settings.project_custom_fields.is_required_blank_slate.heading"))
       component.with_description { I18n.t("projects.settings.project_custom_fields.is_required_blank_slate.description") }
     end

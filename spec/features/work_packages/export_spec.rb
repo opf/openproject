@@ -163,10 +163,25 @@ RSpec.describe "work package export" do
 
     before do
       open_export_dialog!
+      sleep 1
     end
 
-    it "exports a csv" do
-      export!
+    context "with descriptions" do
+      let(:expected_params) { default_expected_params.merge({ show_descriptions: "true" }) }
+
+      it "exports a csv" do
+        check I18n.t("export.dialog.xls.include_descriptions.label")
+        export!
+      end
+    end
+
+    context "without descriptions" do
+      let(:expected_params) { default_expected_params.merge({ show_descriptions: "false" }) }
+
+      it "exports a csv" do
+        uncheck I18n.t("export.dialog.xls.include_descriptions.label")
+        export!
+      end
     end
   end
 

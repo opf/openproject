@@ -77,8 +77,11 @@ module Storages
               return Failures::Builder.call(code: :error, log_message:, data:)
             end
 
-            current_token = OAuthClientToken.find_by(user: @user,
-                                                     oauth_client: storage.oauth_configuration.oauth_client)
+            # Uncached block is used here because in case of concurrent update on the second try we need a fresh token.
+            # Otherwise token ends up in an invalid state which leads to an undesired token deletion.
+            current_token = OAuthClientToken.uncached do
+              OAuthClientToken.find_by(user: @user, oauth_client: storage.oauth_configuration.oauth_client)
+            end
             if current_token.nil?
               Failures::Builder.call(code: :unauthorized,
                                      log_message: "Authorization failed. No user access token found.",

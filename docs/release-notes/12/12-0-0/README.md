@@ -21,7 +21,7 @@ The new in-app notifications let you never miss a change in your projects again.
 
 Go to our user guide to find out how to [configure in-app notifications](../../../user-guide/notifications/).
 
-> **Info:** Please note that starting with version 12.0, OpenProject will no longer send individual emails for each notification. You can view your notifications via the new [Notification center](../../../user-guide/notifications/#access-in-app-notifications). You can however still choose to receive daily [email reminders](../../../getting-started/my-account/#email-reminders) at specific times of the day that you can configure.
+> **Info:** Please note that starting with version 12.0, OpenProject will no longer send individual emails for each notification. You can view your notifications via the new [Notification center](../../../user-guide/notifications/#access-in-app-notifications). You can however still choose to receive daily [email reminders](../../../user-guide/my-account/#email-reminders) at specific times of the day that you can configure.
 
 ## Notification center
 

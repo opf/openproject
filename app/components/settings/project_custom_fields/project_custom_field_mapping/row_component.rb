@@ -29,13 +29,7 @@
 module Settings
   module ProjectCustomFields
     module ProjectCustomFieldMapping
-      class RowComponent < Projects::RowComponent
-        include OpTurbo::Streamable
-
-        def wrapper_uniq_by
-          "project-#{project.id}"
-        end
-
+      class RowComponent < Admin::CustomFields::CustomFieldProjects::RowComponent
         def more_menu_items
           @more_menu_items ||= [more_menu_detach_project].compact
         end

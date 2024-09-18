@@ -185,6 +185,7 @@ Other available keys for the email are:
 | Key             | Description                                           | Example                          |
 |-----------------|-------------------------------------------------------|----------------------------------|
 | Project         | sets the project. Use the project identifier          | Project:test\_project            |
+| Accountable     | sets the accountable, via user email or login         | Accountable:user@example.org     |
 | Assignee        | sets the assignee. Use the email or login of the user | Assignee:test.nutzer@example.org |
 | Type            | sets the type                                         | type:Milestone                   |
 | Version         | sets the version                                      | version:v4.1.0                   |
