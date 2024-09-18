@@ -38,6 +38,7 @@ x-op-backend: &backend
   environment:
     LOCAL_DEV_CHECK: "${LOCAL_DEV_CHECK:?The docker-compose file for OpenProject has moved to https://github.com/opf/openproject-deploy}"
     RAILS_ENV: development
+    OPENPROJECT_HOST__NAME: "${HOST:-localhost}:${PORT:-3000}"
     OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
     OPENPROJECT_RAILS__CACHE__STORE: file_store
     OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
@@ -66,6 +67,8 @@ services:
     depends_on:
       - db
       - cache
+    ports:
+      - "${PORT}:3000"
 
   worker:
     <<: *backend
@@ -87,6 +90,8 @@ services:
       - network
     depends_on:
       - backend
+    ports:
+      - "${FE_PORT}:4200"
 
   db:
     image: postgres:13
