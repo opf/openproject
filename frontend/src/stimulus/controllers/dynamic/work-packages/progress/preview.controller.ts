@@ -36,6 +36,10 @@ interface TurboBeforeFrameRenderEventDetail {
   render:(currentElement:HTMLElement, newElement:HTMLElement) => void;
 }
 
+interface HTMLTurboFrameElement extends HTMLElement {
+  src:string;
+}
+
 export default class PreviewController extends Controller {
   static targets = [
     'form',
@@ -64,11 +68,15 @@ export default class PreviewController extends Controller {
     });
 
     this.debouncedPreview = debounce((event:Event) => { void this.preview(event); }, 100);
-    // TODO: Ideally morphing in this single controller should not be necessary.
-    // Turbo supports morphing, by adding the <turbo-frame refresh="morph"> attribute.
-    // However, it has a bug, and it doesn't morphs when reloading the frame via javascript.
-    // See https://github.com/hotwired/turbo/issues/1161 . Once the issue is solved, we can remove
-    // this code and just use <turbo-frame refresh="morph"> instead.
+
+    // Turbo supports morphing, by adding the <turbo-frame refresh="morph">
+    // attribute. However, it does not work that well with primer input: when
+    // adding "data-turbo-permanent" to keep value and focus on the active
+    // element, it also keeps the `aria-describedby` attribute which references
+    // caption and validation element ids. As these elements are morphed and get
+    // new ids, the ids referenced by `aria-describedby` are stale. This makes
+    // caption and validation message unaccessible for screen readers and other
+    // assistive technologies. This is why morph cannot be used here.
     this.frameMorphRenderer = (event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => {
       event.detail.render = (currentElement:HTMLElement, newElement:HTMLElement) => {
         Idiomorph.morph(currentElement, newElement, { ignoreActiveValue: true });
@@ -88,7 +96,7 @@ export default class PreviewController extends Controller {
       }
     });
 
-    const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
+    const turboFrame = this.formTarget.closest('turbo-frame') as HTMLTurboFrameElement;
     turboFrame.addEventListener('turbo:before-frame-render', this.frameMorphRenderer);
   }
 
@@ -102,7 +110,7 @@ export default class PreviewController extends Controller {
       }
       target.removeEventListener('blur', this.debouncedPreview);
     });
-    const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
+    const turboFrame = this.formTarget.closest('turbo-frame') as HTMLTurboFrameElement;
     if (turboFrame) {
       turboFrame.removeEventListener('turbo:before-frame-render', this.frameMorphRenderer);
     }
@@ -138,7 +146,7 @@ export default class PreviewController extends Controller {
     const wpAction = wpPath.endsWith('/work_packages/new/progress') ? 'new' : 'edit';
 
     const editUrl = `${wpPath}/${wpAction}?${new URLSearchParams(wpParams).toString()}`;
-    const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
+    const turboFrame = this.formTarget.closest('turbo-frame') as HTMLTurboFrameElement;
 
     if (turboFrame) {
       turboFrame.src = editUrl;
