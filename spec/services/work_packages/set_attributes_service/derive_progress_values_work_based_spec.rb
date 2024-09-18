@@ -463,10 +463,10 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
 
       context "when the work package is closed and % complete is set to some value" do
         let(:set_attributes) { { status: status_closed, done_ratio: 90 } }
-        let(:expected_derived_attributes) { { remaining_hours: 0.0, done_ratio: 100 } }
+        let(:expected_derived_attributes) { { remaining_hours: 1.0, done_ratio: 90 } }
         let(:expected_kept_attributes) { %w[estimated_hours] }
 
-        include_examples "update progress values", description: "% complete is set to 100% anyway and remaining work is derived",
+        include_examples "update progress values", description: "uses % complete from the user and remaining work is derived",
                                                    expected_hints: {
                                                      remaining_work: :derived
                                                    }

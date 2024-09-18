@@ -58,7 +58,10 @@ class WorkPackages::SetAttributesService
     end
 
     def set_complete_for_closed_status?
-      WorkPackage.complete_on_status_closed? && work_package.status_id_changed? && work_package.closed?
+      WorkPackage.complete_on_status_closed? \
+        && percent_complete_not_provided_by_user? \
+        && work_package.status_id_changed? \
+        && work_package.closed?
     end
 
     def derive_work?
