@@ -44,6 +44,8 @@ RSpec.describe "interface tab" do
 
   context "with EE token", with_ee: %i[define_custom_style] do
     let(:custom_style) { create (:custom_style_with_logo) }
+    let(:image) { "logo" }
+    let!(:file_path) { custom_style.send(image).file.path }
 
     before do
       login_as(admin)
@@ -80,7 +82,8 @@ RSpec.describe "interface tab" do
       expect(page).to have_current_path custom_style_path(tab: "branding")
 
       # remove the logo and redirect to the branding tab
-      custom_style.send `:remove_logo`
+      custom_style.send :remove_logo
+      expect(File.exist?(file_path)).to be false
       expect(page).to have_current_path custom_style_path(tab: "branding")
     end
 
