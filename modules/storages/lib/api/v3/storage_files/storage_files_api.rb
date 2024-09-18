@@ -73,9 +73,8 @@ module API::V3::StorageFiles
 
       route_param :file_id, type: String, desc: "Storage file id" do
         get do
-          Storages::Peripherals::Registry
-            .resolve("#{@storage}.queries.file_info")
-            .call(storage: @storage, auth_strategy:, file_id: params[:file_id])
+          Storages::StorageFilesService
+            .call(storage: @storage, user: current_user, file_id: params[:file_id])
             .map { |file_info| to_storage_file(file_info) }
             .match(
               on_success: lambda { |storage_file|
