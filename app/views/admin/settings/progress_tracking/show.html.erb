@@ -67,7 +67,7 @@ primer_form_with(
     end
     form.radio_button_group(
       name: "percent_complete_on_status_closed",
-      disabled: Setting.work_package_done_ratio == "status",
+      disabled: WorkPackage.status_based_mode?,
       data: { admin__progress_tracking_target: "statusClosedRadioGroup" }
     )
     form.submit
