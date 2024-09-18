@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,5 +29,16 @@
 #++
 
 module Storages
-  UploadData = Data.define(:folder_id, :file_name)
+  module Peripherals
+    module StorageInteraction
+      module Inputs
+        class UploadDataContract < Dry::Validation::Contract
+          params do
+            required(:folder_id).filled(:string)
+            required(:file_name).filled(:string)
+          end
+        end
+      end
+    end
+  end
 end

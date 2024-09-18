@@ -33,6 +33,8 @@ module Storages
     module StorageInteraction
       module OneDrive
         class UploadLinkQuery
+          include TaggedLogging
+
           def self.call(storage:, auth_strategy:, upload_data:)
             new(storage).call(auth_strategy:, upload_data:)
           end
@@ -42,22 +44,16 @@ module Storages
           end
 
           def call(auth_strategy:, upload_data:)
-            return upload_data_failure if invalid?(upload_data:)
-
-            Authentication[auth_strategy].call(storage: @storage) do |http|
-              handle_response http.post(url(upload_data.folder_id, upload_data.file_name),
-                                        json: payload(upload_data.file_name))
+            with_tagged_logger do
+              Authentication[auth_strategy].call(storage: @storage) do |http|
+                info "Requesting an upload link on folder #{upload_data.folder_id}"
+                handle_response http.post(url(upload_data.folder_id, upload_data.file_name),
+                                          json: payload(upload_data.file_name))
+              end
             end
           end
 
           private
-
-          def upload_data_failure
-            ServiceResult.failure(result: :error,
-                                  errors: StorageError.new(code: :error,
-                                                           data: StorageErrorData.new(source: self.class),
-                                                           log_message: "Invalid upload data!"))
-          end
 
           def invalid?(upload_data:)
             upload_data.folder_id.blank? || upload_data.file_name.blank?
@@ -72,17 +68,22 @@ module Storages
             case response
             in { status: 200..299 }
               upload_url = response.json(symbolize_keys: true)[:uploadUrl]
+              info "Upload link generated successfully."
               ServiceResult.success(result: UploadLink.new(URI(upload_url), :put))
             in { status: 404 | 400 } # not existent parent folder in request url is responded with 400
+              info "The parent folder was not found."
               ServiceResult.failure(result: :not_found,
                                     errors: Util.storage_error(code: :not_found, response:, source: self.class))
             in { status: 401 }
+              info "User authorization failed."
               ServiceResult.failure(result: :unauthorized,
                                     errors: Util.storage_error(code: :unauthorized, response:, source: self.class))
             in { status: 403 }
+              info "User authorization failed."
               ServiceResult.failure(result: :forbidden,
                                     errors: Util.storage_error(code: :forbidden, response:, source: self.class))
             else
+              info "Unknown error happened."
               ServiceResult.failure(result: :error,
                                     errors: Util.storage_error(code: :error, response:, source: self.class))
             end
