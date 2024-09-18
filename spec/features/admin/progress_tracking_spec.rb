@@ -69,4 +69,26 @@ RSpec.describe "Progress tracking admin page", :cuprite, :js,
     expect_and_dismiss_toaster(message: "Successful update.")
     expect(Setting.find_by(name: "work_package_done_ratio").value).to eq("field")
   end
+
+  it "disables the status closed radio button when changing to status-based" do
+    login_as(admin)
+
+    Setting.work_package_done_ratio = "field"
+    visit admin_settings_progress_tracking_path
+    expect(page).to have_field("No change", disabled: false)
+    expect(page).to have_field("Automatically set to 100%", disabled: false)
+
+    find(:radio_button, "Status-based").click
+    expect(page).to have_field("No change", disabled: true)
+    expect(page).to have_field("Automatically set to 100%", disabled: true)
+
+    find(:radio_button, "Work-based").click
+    expect(page).to have_field("No change", disabled: false)
+    expect(page).to have_field("Automatically set to 100%", disabled: false)
+
+    Setting.work_package_done_ratio = "status"
+    visit admin_settings_progress_tracking_path
+    expect(page).to have_field("No change", disabled: true)
+    expect(page).to have_field("Automatically set to 100%", disabled: true)
+  end
 end
