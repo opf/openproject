@@ -9,9 +9,7 @@
     display: flex
     position: relative
     height: 100%
-    padding: 0 15px
-    justify-content: center
-    align-items: center
+    min-width: 0px
 
   &--item-dropdown-indicator
     display: inline-flex
@@ -37,7 +35,8 @@
     color: var(--header-item-font-color)
     font-size: var(--header-item-font-size)
     text-decoration: none
-    min-width: 36px
+    min-width: 0px
+    padding: 0 15px
 
     @media screen and (max-width: $breakpoint-sm)
       padding: 0 8px
