@@ -209,6 +209,7 @@ vi:
         client_id_wrong: ID khách hàng OAuth 2 cấu hình không hợp lệ. Vui lòng kiểm tra cấu hình.
         client_secret_wrong: Bí mật khách hàng OAuth 2 cấu hình không hợp lệ. Vui lòng kiểm tra cấu hình.
         drive_id_wrong: ID ổ đĩa cấu hình không tìm thấy. Vui lòng kiểm tra cấu hình.
+        group_folder_not_found: The group folder could not be found.
         group_folder_version_mismatch: Phiên bản Thư mục nhóm không được hỗ trợ. Vui lòng cập nhật máy chủ Nextcloud của bạn.
         host_not_found: Không tìm thấy máy chủ Nextcloud tại url máy chủ được cấu hình. Vui lòng kiểm tra cấu hình.
         missing_dependencies: 'Thiếu sự phụ thuộc bắt buộc vào bộ lưu trữ tệp. Vui lòng thêm sự phụ thuộc sau: %{dependency}.'
@@ -216,7 +217,9 @@ vi:
         placeholder: Kiểm tra kết nối của bạn với máy chủ.
         subtitle: Xác thực kết nối
         tenant_id_wrong: ID thư mục (người thuê) cấu hình không hợp lệ. Vui lòng kiểm tra cấu hình.
-        unexpected_content: Nội dung không mong đợi được tìm thấy trong ổ đĩa.
+        unexpected_content:
+          nextcloud: Unexpected content found in the managed group folder.
+          one_drive: Unexpected content found in the drive.
         unknown_error: Kết nối không thể được xác thực. Đã xảy ra lỗi không xác định. Vui lòng kiểm tra nhật ký máy chủ để biết thêm thông tin.
       label_error: Lỗi
       label_healthy: Khỏe

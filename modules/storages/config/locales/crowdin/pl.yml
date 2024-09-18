@@ -209,6 +209,7 @@ pl:
         client_id_wrong: Skonfigurowany identyfikator klienta OAuth 2 jest nieprawidłowy. Sprawdź konfigurację.
         client_secret_wrong: Skonfigurowany klucz tajny klienta OAuth 2 jest nieprawidłowy. Sprawdź konfigurację.
         drive_id_wrong: Nie można znaleźć skonfigurowanego Drive ID. Sprawdź konfigurację.
+        group_folder_not_found: The group folder could not be found.
         group_folder_version_mismatch: Wersja folderu grupy jest nieobsługiwana. Zaktualizuj swój serwer Nextcloud.
         host_not_found: Nie znaleziono serwera Nextcloud pod skonfigurowanym adresem URL hosta. Sprawdź konfigurację.
         missing_dependencies: 'Brakuje wymaganej zależności magazynu plików. Dodaj następującą zależność: %{dependency}.'
@@ -216,7 +217,9 @@ pl:
         placeholder: Sprawdź połączenie z serwerem.
         subtitle: Weryfikacja połączenia
         tenant_id_wrong: Skonfigurowany katalog (dzierżawca) jest nieprawidłowy. Sprawdź konfigurację.
-        unexpected_content: Na dysku znaleziono nieoczekiwaną zawartość.
+        unexpected_content:
+          nextcloud: Unexpected content found in the managed group folder.
+          one_drive: Unexpected content found in the drive.
         unknown_error: Nie można zweryfikować połączenia. Wystąpił nieznany błąd. Aby uzyskać dalsze informacje, sprawdź dzienniki serwera.
       label_error: Błąd
       label_healthy: Zdrowe

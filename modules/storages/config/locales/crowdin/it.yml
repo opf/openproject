@@ -209,6 +209,7 @@ it:
         client_id_wrong: L'ID del client OAuth 2 non è valido. Verifica la configurazione.
         client_secret_wrong: Il codice segreto del client OAuth 2 non è valido. Verifica la configurazione.
         drive_id_wrong: Il Drive ID non è stato trovato. Verifica la configurazione.
+        group_folder_not_found: The group folder could not be found.
         group_folder_version_mismatch: La versione della cartella di gruppo non è supportata. Aggiorna il server Nextcloud.
         host_not_found: Non è stato trovato alcun server Nextcloud all'indirizzo host configurato. Controlla la configurazione.
         missing_dependencies: 'Manca una dipendenza necessaria per l''archiviazione dei file. Aggiungi la seguente dipendenza: %{dependency}.'
@@ -216,7 +217,9 @@ it:
         placeholder: Verifica la tua connessione con il server.
         subtitle: Verifica della connessione
         tenant_id_wrong: L'ID della directory non è valido. Verifica la configurazione.
-        unexpected_content: Contenuto inatteso nello spazio di archiviazione.
+        unexpected_content:
+          nextcloud: Unexpected content found in the managed group folder.
+          one_drive: Unexpected content found in the drive.
         unknown_error: Non è stato possibile verificare la connessione. Si è verificato un errore sconosciuto. Per maggiori informazioni consulta i log del server.
       label_error: Errore
       label_healthy: Tutto ok
