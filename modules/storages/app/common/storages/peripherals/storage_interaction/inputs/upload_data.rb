@@ -28,14 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module Errors
-    class OutboundRequestNotFound < ErrorBase
-      identifier "OutboundRequest:NotFound"
-      code 500
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module Inputs
+        UploadData = Data.define(:folder_id, :file_name) do
+          private_class_method :new
 
-      def initialize(message = I18n.t("api_v3.errors.code_500_outbound_request_failure", status_code: 404))
-        super
+          def self.build(folder_id:, file_name:, contract: UploadDataContract.new)
+            contract.call(folder_id:, file_name:).to_monad.fmap do |result|
+              new(file_name: result[:file_name], folder_id: ParentFolder.new(result[:folder_id]))
+            end
+          end
+        end
       end
     end
   end
