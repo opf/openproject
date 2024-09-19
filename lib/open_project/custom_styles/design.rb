@@ -72,11 +72,9 @@ module OpenProject::CustomStyles
           accent-color
           header-bg-color
           header-item-bg-hover-color
-          header-border-bottom-color
           main-menu-bg-color
           main-menu-bg-selected-background
-          main-menu-bg-hover-background
-          main-menu-border-color)
+          main-menu-bg-hover-background)
     end
   end
 end
