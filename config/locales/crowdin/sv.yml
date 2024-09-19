@@ -3159,6 +3159,13 @@ sv:
   setting_password_min_length: "Minsta längd"
   setting_password_min_adhered_rules: "Minsta antal teckenklasser som krävs"
   setting_per_page_options: "Objekt per sida alternativ"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Oformaterad text i e-post (ingen HTML)"
   setting_protocol: "Protokoll"
   setting_project_gantt_query: "Project portfolio Gantt view"
