@@ -34,12 +34,15 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
                              t(:label_custom_style)])
     header.with_description { t(:label_custom_style_description) }
-    header.with_tab_nav(label: nil) do |tab_nav|
-      @tabs.each do |tab|
-        tab_nav.with_tab(selected: selected_tab(@tabs) == tab, href: tab[:path]) do |t|
-          t.with_text { tab[:label] }
+    
+    if @tabs.present?
+      header.with_tab_nav(label: nil) do |tab_nav|
+        @tabs.each do |tab|
+          tab_nav.with_tab(selected: selected_tab(@tabs) == tab, href: tab[:path]) do |t|
+            t.with_text { tab[:label] }
+          end
         end
       end
-    end if @tabs.present?
+    end
   end
 %>
