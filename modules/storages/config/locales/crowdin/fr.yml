@@ -90,6 +90,9 @@ fr:
         remote_folders: 'Lire le contenu du dossier du groupe :'
         rename_project_folder: 'Renommer le dossier du projet géré :'
     errors:
+      messages:
+        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
       models:
         copy_project_folders_service:
           conflict: Le dossier %{destination_path} existe déjà. Interruption du processus pour éviter les écrasements.
@@ -146,6 +149,8 @@ fr:
           not_allowed: L'application OpenProject n'a pas été autorisée à accéder à votre lecteur OneDrive. Veuillez vérifier les autorisations définies dans l'application Azure.
           unauthorized: OpenProject n'a pas pu se synchroniser avec OneDrive. Veuillez vérifier votre espace de stockage et la configuration de l'application Azure.
           user_does_not_exist: "%{user} n'existe pas dans Nextcloud."
+        upload_link_service:
+          not_found: The destination folder %{folder} could not be found on %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Compléter sans

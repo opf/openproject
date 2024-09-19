@@ -163,8 +163,8 @@ class WorkPackages::ProgressForm < ApplicationForm
   def hidden_touched_field(group, name:)
     group.hidden(name: :"#{name}_touched",
                  value: touched(name),
-                 data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
-                         "referrer-field": "work_package[#{name}]" })
+                 data: { "work-packages--progress--preview-target": "touchedFieldInput",
+                         "referrer-field": name })
   end
 
   def touched(name)
@@ -197,12 +197,11 @@ class WorkPackages::ProgressForm < ApplicationForm
   end
 
   def default_field_options(name)
-    data = { "work-packages--progress--preview-progress-target": "progressInput",
-             "work-packages--progress--touched-field-marker-target": "progressInput",
-             action: "work-packages--progress--touched-field-marker#markFieldAsTouched" }
+    data = { "work-packages--progress--preview-target": "progressInput",
+             action: "work-packages--progress--preview#markFieldAsTouched" }
 
     if @focused_field == name
-      data[:"work-packages--progress--focus-field-target"] = "fieldToFocus"
+      data[:focus] = "true"
     end
     { data: }
   end

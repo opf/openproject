@@ -3158,6 +3158,13 @@ es:
   setting_password_min_length: "Longitud mínima"
   setting_password_min_adhered_rules: "Numero mínimo de clases requeridas"
   setting_per_page_options: "Objetos por página de opciones"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Correo en texto plano (sin HTML)"
   setting_protocol: "Protocolo"
   setting_project_gantt_query: "Diagrama de Gantt de la cartera de proyectos"

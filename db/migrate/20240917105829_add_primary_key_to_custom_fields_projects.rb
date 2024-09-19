@@ -26,6 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  UploadData = Data.define(:folder_id, :file_name)
+class AddPrimaryKeyToCustomFieldsProjects < ActiveRecord::Migration[7.1]
+  def change
+    # NOTE: Manually backfilling the `id` column is not necessary as the BIGSERIAL primary key will auto-populate
+    # the existing records with auto-incrementing values
+    add_column :custom_fields_projects, :id, :primary_key # rubocop:disable Rails/DangerousColumnNames
+  end
 end

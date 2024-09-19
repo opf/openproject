@@ -188,6 +188,10 @@ module Storages
       @short_provider_type ||= self.class.shorten_provider_type(provider_type)
     end
 
+    def to_s
+      short_provider_type
+    end
+
     def provider_type_nextcloud?
       provider_type == ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
     end

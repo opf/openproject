@@ -90,6 +90,9 @@ vi:
         remote_folders: 'Đọc nội dung của thư mục nhóm:'
         rename_project_folder: 'Đổi tên thư mục dự án được quản lý:'
     errors:
+      messages:
+        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
       models:
         copy_project_folders_service:
           conflict: Thư mục %{destination_path} đã tồn tại. Đang tạm dừng quá trình để tránh ghi đè.
@@ -146,6 +149,8 @@ vi:
           not_allowed: OpenProject không được phép truy cập ổ đĩa OneDrive của bạn. Vui lòng kiểm tra các quyền được thiết lập trên Ứng dụng Azure.
           unauthorized: OpenProject không thể đồng bộ với OneDrive. Vui lòng kiểm tra cấu hình lưu trữ và ứng dụng Azure của bạn.
           user_does_not_exist: "%{user} không tồn tại trong Nextcloud."
+        upload_link_service:
+          not_found: The destination folder %{folder} could not be found on %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Hoàn tất mà không cần cấu hình

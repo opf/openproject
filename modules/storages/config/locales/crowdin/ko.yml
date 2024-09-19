@@ -90,6 +90,9 @@ ko:
         remote_folders: '그룹 폴더의 콘텐츠 읽기:'
         rename_project_folder: '관리되는 프로젝트 폴더의 이름 바꾸기:'
     errors:
+      messages:
+        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
       models:
         copy_project_folders_service:
           conflict: '%{destination_path} 폴더가 이미 존재합니다. 덮어쓰기를 방지하기 위해 프로세스가 중단됩니다.'
@@ -146,6 +149,8 @@ ko:
           not_allowed: OpenProject가 OneDrive 드라이브에 액세스하도록 허용되지 않았습니다. Azure 애플리케이션에 설정된 권한을 확인하세요.
           unauthorized: OpenProject가 OneDrive와 동기화할 수 없습니다. 저장소 및 Azure 애플리케이션 구성을 확인하세요.
           user_does_not_exist: "%{user}이(가) Nextcloud에 없습니다."
+        upload_link_service:
+          not_found: The destination folder %{folder} could not be found on %{storage_name}.
   storages:
     buttons:
       complete_without_setup: 이것 없이 완료

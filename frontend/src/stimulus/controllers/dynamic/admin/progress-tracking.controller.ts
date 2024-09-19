@@ -40,6 +40,7 @@ export default class ProgressTrackingController extends Controller {
     'progressCalculationModeRadioGroup',
     'warningText',
     'warningToast',
+    'statusClosedRadioGroup',
   ];
 
   declare readonly initialModeValue:string;
@@ -48,18 +49,38 @@ export default class ProgressTrackingController extends Controller {
   declare readonly progressCalculationModeRadioGroupTarget:HTMLElement;
   declare readonly warningTextTarget:HTMLElement;
   declare readonly warningToastTarget:HTMLElement;
+  declare readonly statusClosedRadioGroupTarget:HTMLElement;
 
   connect() {
-    this.displayWarning();
+    this.updateEnabledOptions();
   }
 
-  displayWarning() {
+  updateEnabledOptions() {
+    this.updateWarning();
+    this.updateStatusClosedDisabledState();
+  }
+
+  updateWarning() {
     const warningMessageHtml = this.getWarningMessageHtml();
     if (warningMessageHtml) {
       this.warningTextTarget.innerHTML = warningMessageHtml;
       this.warningToastTarget.hidden = false;
     } else {
       this.warningToastTarget.hidden = true;
+    }
+  }
+
+  updateStatusClosedDisabledState() {
+    if (this.getSelectedMode() === 'status') {
+      this.statusClosedRadioGroupTarget.setAttribute('disabled', 'true');
+      this.statusClosedRadioGroupTarget.querySelectorAll('input').forEach((input) => {
+        input.disabled = true;
+      });
+    } else {
+      this.statusClosedRadioGroupTarget.removeAttribute('disabled');
+      this.statusClosedRadioGroupTarget.querySelectorAll('input').forEach((input) => {
+        input.disabled = false;
+      });
     }
   }
 

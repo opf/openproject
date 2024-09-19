@@ -181,8 +181,9 @@ module Admin::Settings
     end
 
     def find_unlink_project_custom_field_mapping
-      @project = Project.find(permitted_params.project_custom_field_project_mapping[:project_id])
-      @project_custom_field_mapping = @custom_field.project_custom_field_project_mappings.find_by!(project: @project)
+      @project_custom_field_mapping = @custom_field.project_custom_field_project_mappings.find_by!(
+        project_id: permitted_params.project_custom_field_project_mapping[:project_id]
+      )
     rescue ActiveRecord::RecordNotFound
       update_flash_message_via_turbo_stream(
         message: t(:notice_file_not_found), full: true, dismiss_scheme: :hide, scheme: :danger

@@ -90,6 +90,9 @@ zh-TW:
         remote_folders: '讀取群組資料夾的內容：'
         rename_project_folder: '重新命名託管的專案資料夾：'
     errors:
+      messages:
+        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
       models:
         copy_project_folders_service:
           conflict: 資料夾 %{destination_path} 已經存在。中斷程序以避免覆寫。
@@ -146,6 +149,8 @@ zh-TW:
           not_allowed: OpenProject 不允許存取您的 OneDrive 磁碟機。請檢查 Azure 應用程式上設定的權限。
           unauthorized: OpenProject 無法與 OneDrive 同步。請檢查您的儲存空間和 Azure 應用程式設定。
           user_does_not_exist: "%{user} 在 Nextcloud 中不存在。"
+        upload_link_service:
+          not_found: The destination folder %{folder} could not be found on %{storage_name}.
   storages:
     buttons:
       complete_without_setup: 排除它完成
@@ -209,7 +214,7 @@ zh-TW:
         client_id_wrong: 設定的 OAuth 2 客戶端 ID 無效。請檢查設定。
         client_secret_wrong: 設定的 OAuth 2 用戶端密鑰無效。請檢查設定。
         drive_id_wrong: 找不到設定的儲存空間id。請檢查設定。
-        group_folder_not_found: The group folder could not be found.
+        group_folder_not_found: 無法找到群組資料夾。
         group_folder_version_mismatch: 不支援群組資料夾版本。請更新您的 Nextcloud 伺服器。
         host_not_found: 在設定的主機網址未找到 Nextcloud 伺服器。請檢查設定。
         missing_dependencies: '檔案儲存中缺少所需的相依性。請新增下列相依性： %{dependency}。'
@@ -218,8 +223,8 @@ zh-TW:
         subtitle: 連線驗證
         tenant_id_wrong: 設定的目錄 (租戶) id 無效。請檢查設定。
         unexpected_content:
-          nextcloud: Unexpected content found in the managed group folder.
-          one_drive: Unexpected content found in the drive.
+          nextcloud: 在管理的群組資料夾中發現非預期內容。
+          one_drive: 在儲存空間中發現預期之外內容。
         unknown_error: 連線無法驗證。發生未知錯誤。請檢查伺服器日誌以瞭解進一步資訊。
       label_error: 錯誤
       label_healthy: 健康的

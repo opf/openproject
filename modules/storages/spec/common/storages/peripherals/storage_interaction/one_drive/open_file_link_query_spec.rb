@@ -38,7 +38,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenFileLink
   let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
   let(:file_id) { "01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU" }
   let(:auth_strategy) do
-    Storages::Peripherals::Registry.resolve("one_drive.authentication.userbound").call(user:)
+    Storages::Peripherals::Registry.resolve("one_drive.authentication.user_bound").call(user:)
   end
 
   subject { described_class.new(storage) }

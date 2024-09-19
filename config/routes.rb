@@ -175,6 +175,9 @@ Rails.application.routes.draw do
         resources :projects,
                   controller: "/admin/custom_fields/custom_field_projects",
                   only: %i[index new create]
+        resource :project,
+                 controller: "/admin/custom_fields/custom_field_projects",
+                 only: :destroy
       end
     end
   end
