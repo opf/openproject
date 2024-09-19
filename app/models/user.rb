@@ -55,6 +55,7 @@ class User < Principal
      inverse_of: :user
   has_one :rss_token, class_name: "::Token::RSS", dependent: :destroy
   has_many :api_tokens, class_name: "::Token::API", dependent: :destroy
+  has_many :oauth_client_tokens, dependent: :destroy
 
   # The user might have one invitation token
   has_one :invitation_token, class_name: "::Token::Invitation", dependent: :destroy
