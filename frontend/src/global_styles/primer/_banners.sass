@@ -29,12 +29,18 @@
 $op-primer-banner-toaster-width: 80%
 
 .op-primer-banner
-  &--wrapper
-    // Move below sidebar
-    z-index: 599
-    position: absolute
-    max-width: $op-primer-banner-toaster-width
-    margin: 0 auto
-    left: 10%
-    right: 10%
-    top: 1rem
+  z-index: 599
+  position: absolute
+  max-width: $op-primer-banner-toaster-width
+  margin: 0 auto
+  left: 10%
+  right: 10%
+  top: 1rem
+
+  // Align multiple toasts
+  display: flex
+  flex-direction: column
+  gap: 1rem
+
+  &--item
+    word-wrap: break-word

@@ -43,8 +43,6 @@ module Pages::StructuredMeeting
 
     def trigger_change_poll
       script = <<~JS
-        // Remove flashes from the page to prevent race conditions
-        document.querySelectorAll('.op-toast--wrapper').forEach((el) => el.remove());
         var target = document.querySelector('[data-test-selector="meeting-page-header"]');
         var controller = window.Stimulus.getControllerForElementAndIdentifier(target, 'poll-for-changes')
         controller.triggerTurboStream();
