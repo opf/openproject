@@ -34,7 +34,7 @@ module Admin
     include ApplicationHelper
     include TabsHelper
 
-    def initialize(tabs: nil)
+    def initialize(tabs: [])
       super
       @tabs = tabs
     end
