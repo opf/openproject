@@ -4,13 +4,13 @@
 services:
   backend:
     environment:
-      OPENPROJECT_CLI_PROXY: "http://localhost:${PORT}"
+      OPENPROJECT_CLI_PROXY: "http://localhost:${FE_PORT:-4200}"
     ports:
-      - "3000:3000"
+      - "${PORT:-3000}:3000"
 
   frontend:
     ports:
-      - "${PORT}:4200"
+      - "${FE_PORT:-4200}:4200"
 
   db:
     ports:
