@@ -33,11 +33,7 @@ module CustomField::OrderStatements
   def order_statements
     case field_format
     when "list"
-      if multi_value?
-        [select_custom_values_joined_options_as_group]
-      else
-        [select_custom_option_position]
-      end
+      [select_custom_option_position]
     when "string", "date", "bool", "link"
       [coalesce_select_custom_value_as_string]
     when "int", "float"
@@ -93,14 +89,28 @@ module CustomField::OrderStatements
   end
 
   def select_custom_option_position
-    <<-SQL
-    (SELECT co_sort.position FROM #{CustomOption.quoted_table_name} co_sort
-        LEFT JOIN #{CustomValue.quoted_table_name} cv_sort
-        ON co_sort.id = CAST(cv_sort.value AS decimal(60,3))
-        WHERE #{cv_sort_only_custom_field_condition_sql}
-        LIMIT 1
-    )
-    SQL
+    if multi_value?
+      <<-SQL.squish
+        (
+          SELECT array_agg(co_sort.position ORDER BY co_sort.position)
+            FROM #{CustomOption.quoted_table_name} co_sort
+            LEFT JOIN #{CustomValue.quoted_table_name} cv_sort
+              ON cv_sort.value IS NOT NULL AND co_sort.id = cv_sort.value::bigint
+            WHERE #{cv_sort_only_custom_field_condition_sql}
+        )
+      SQL
+    else
+      <<-SQL.squish
+        (
+          SELECT co_sort.position
+            FROM #{CustomOption.quoted_table_name} co_sort
+            LEFT JOIN #{CustomValue.quoted_table_name} cv_sort
+              ON cv_sort.value IS NOT NULL AND co_sort.id = cv_sort.value::bigint
+            WHERE #{cv_sort_only_custom_field_condition_sql}
+            LIMIT 1
+        )
+      SQL
+    end
   end
 
   def select_custom_values_as_group
@@ -108,15 +118,6 @@ module CustomField::OrderStatements
       COALESCE((SELECT string_agg(cv_sort.value, '.') FROM #{CustomValue.quoted_table_name} cv_sort
         WHERE #{cv_sort_only_custom_field_condition_sql}
           AND cv_sort.value IS NOT NULL), '')
-    SQL
-  end
-
-  def select_custom_values_joined_options_as_group
-    <<-SQL
-      COALESCE((SELECT string_agg(co_sort.value, '.' ORDER BY co_sort.position ASC) FROM #{CustomOption.quoted_table_name} co_sort
-        LEFT JOIN #{CustomValue.quoted_table_name} cv_sort
-        ON cv_sort.value IS NOT NULL AND co_sort.id = cv_sort.value::numeric
-        WHERE #{cv_sort_only_custom_field_condition_sql}), '')
     SQL
   end
 

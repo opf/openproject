@@ -193,15 +193,14 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
 
         let(:projects) do
           [
-            project_without_cf_value,
-            # TODO: sorting is done by values sorted by position and joined by `.`, why?
-            project_with_cf_value(*id_by_value.fetch_values("100")),            # => 100
-            project_with_cf_value(*id_by_value.fetch_values("20", "100")),      # => 100.20
-            project_with_cf_value(*id_by_value.fetch_values("3", "100")),       # => 100.3
-            project_with_cf_value(*id_by_value.fetch_values("100", "3", "20")), # => 100.3.20
-            project_with_cf_value(*id_by_value.fetch_values("20")),             # => 20
-            project_with_cf_value(*id_by_value.fetch_values("3")),              # => 3
-            project_with_cf_value(*id_by_value.fetch_values("3", "20"))         # => 3.20
+            project_with_cf_value(*id_by_value.fetch_values("100")),
+            project_with_cf_value(*id_by_value.fetch_values("3", "100")),
+            project_with_cf_value(*id_by_value.fetch_values("100", "3", "20")),
+            project_with_cf_value(*id_by_value.fetch_values("20", "100")),
+            project_with_cf_value(*id_by_value.fetch_values("3")),
+            project_with_cf_value(*id_by_value.fetch_values("3", "20")),
+            project_with_cf_value(*id_by_value.fetch_values("20")),
+            project_without_cf_value # TODO: decide on order of absent values
           ]
         end
       end
