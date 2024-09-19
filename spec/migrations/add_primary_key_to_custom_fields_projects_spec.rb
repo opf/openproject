@@ -26,43 +26,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module CustomFields
-    module CustomFieldProjects
-      class RowComponent < Projects::RowComponent
-        include OpTurbo::Streamable
+require "spec_helper"
+require Rails.root.join("db/migrate/20240917105829_add_primary_key_to_custom_fields_projects.rb")
 
-        def wrapper_uniq_by
-          "project-#{project.id}"
-        end
+RSpec.describe AddPrimaryKeyToCustomFieldsProjects, type: :model do
+  shared_association_default(:project) { create(:project) }
 
-        def more_menu_items
-          @more_menu_items ||= [more_menu_detach_project].compact
-        end
+  it "adds an `id` primary key column with backfilled values" do
+    ActiveRecord::Migration.suppress_messages { described_class.migrate(:down) }
 
-        private
+    create_list(:custom_fields_project, 5)
 
-        def more_menu_detach_project
-          if User.current.allowed_in_project?(:select_custom_fields, project)
-            {
-              scheme: :default,
-              icon: nil,
-              label: I18n.t("projects.settings.project_custom_fields.actions.remove_from_project"),
-              href: detach_from_project_url,
-              data: { turbo_method: :delete }
-            }
-          end
-        end
+    aggregate_failures "no primary key column" do
+      expect(CustomFieldsProject.column_names).not_to include("id")
+      expect(CustomFieldsProject.count).to eq 5
+    end
 
-        def detach_from_project_url
-          url_helpers.custom_field_project_path(
-            custom_field_id: @table.params[:custom_field].id,
-            custom_fields_project: { project_id: project.id }
-          )
-        end
+    ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
+    CustomFieldsProject.reset_column_information
+    CustomFieldsProject.reset_primary_key
 
-        def project = model.first
-      end
+    aggregate_failures "primary key column added" do
+      expect(CustomFieldsProject.column_names).to include("id")
+      expect(CustomFieldsProject.last.id).to eq 5
+    end
+
+    aggregate_failures "next record increments the primary key" do
+      expect { create(:custom_fields_project) }.to change(CustomFieldsProject, :count).by(1)
+      expect(CustomFieldsProject.last.id).to eq 6
     end
   end
 end

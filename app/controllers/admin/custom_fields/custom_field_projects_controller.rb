@@ -31,6 +31,8 @@
 class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
   include OpTurbo::ComponentStream
   include OpTurbo::DialogStreamHelper
+  include ApplicationComponentStreams
+  include FlashMessagesOutputSafetyHelper
 
   layout "admin"
 
@@ -39,9 +41,10 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
   before_action :require_admin
   before_action :find_model_object
 
-  before_action :available_custom_fields_projects_query, only: :index
+  before_action :available_custom_fields_projects_query, only: %i[index destroy]
   before_action :initialize_custom_field_project, only: :new
   before_action :find_projects_to_activate_for_custom_field, only: :create
+  before_action :find_custom_field_project_to_destroy, only: :destroy
 
   menu_item :custom_fields
 
@@ -70,6 +73,23 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
     end
 
     respond_to_with_turbo_streams(status: create_service.success? ? :ok : :unprocessable_entity)
+  end
+
+  def destroy
+    delete_service = ::CustomFields::CustomFieldProjects::DeleteService
+                         .new(user: current_user, model: @custom_field_project)
+                         .call
+
+    delete_service.on_success { render_project_list(url_for_action: :index) }
+
+    delete_service.on_failure do
+      update_flash_message_via_turbo_stream(
+        message: join_flash_messages(delete_service.errors.full_messages),
+        full: true, dismiss_scheme: :hide, scheme: :danger
+      )
+    end
+
+    respond_to_with_turbo_streams(status: delete_service.success? ? :ok : :unprocessable_entity)
   end
 
   def default_breadcrumb; end
@@ -110,11 +130,14 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
       respond_with_turbo_streams
     end
   rescue ActiveRecord::RecordNotFound
-    update_flash_message_via_turbo_stream message: t(:notice_project_not_found), full: true, dismiss_scheme: :hide,
-                                          scheme: :danger
-    update_project_list_via_turbo_stream
+    respond_with_project_not_found_turbo_streams
+  end
 
-    respond_with_turbo_streams
+  def find_custom_field_project_to_destroy
+    @custom_field_project = CustomFieldsProject.find_by!(custom_field: @custom_field,
+                                                         project: params[:custom_fields_project][:project_id])
+  rescue ActiveRecord::RecordNotFound
+    respond_with_project_not_found_turbo_streams
   end
 
   def update_project_list_via_turbo_stream(url_for_action: action_name)
@@ -141,6 +164,14 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
                         .new(user: current_user, model: CustomFieldsProject.new, contract_class: EmptyContract)
                         .call(custom_field: @custom_field)
                         .result
+  end
+
+  def respond_with_project_not_found_turbo_streams
+    update_flash_message_via_turbo_stream message: t(:notice_project_not_found), full: true, dismiss_scheme: :hide,
+                                          scheme: :danger
+    update_project_list_via_turbo_stream
+
+    respond_with_turbo_streams
   end
 
   def include_sub_projects?

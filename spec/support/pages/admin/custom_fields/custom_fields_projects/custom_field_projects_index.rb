@@ -26,42 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module CustomFields
-    module CustomFieldProjects
-      class RowComponent < Projects::RowComponent
-        include OpTurbo::Streamable
+require "support/pages/projects/index"
 
-        def wrapper_uniq_by
-          "project-#{project.id}"
-        end
+module Pages
+  module Admin
+    module CustomFields
+      module CustomFieldsProjects
+        class CustomFieldProjectsIndex < ::Pages::Projects::Index
+          def path
+            "/custom_fields/#{custom_field.id}/projects"
+          end
 
-        def more_menu_items
-          @more_menu_items ||= [more_menu_detach_project].compact
-        end
-
-        private
-
-        def more_menu_detach_project
-          if User.current.allowed_in_project?(:select_custom_fields, project)
-            {
-              scheme: :default,
-              icon: nil,
-              label: I18n.t("projects.settings.project_custom_fields.actions.remove_from_project"),
-              href: detach_from_project_url,
-              data: { turbo_method: :delete }
-            }
+          def within_row(project)
+            row = page.find("#admin-custom-fields-custom-field-projects-row-component-project-#{project.id}")
+            row.hover
+            within row do
+              yield row
+            end
           end
         end
-
-        def detach_from_project_url
-          url_helpers.custom_field_project_path(
-            custom_field_id: @table.params[:custom_field].id,
-            custom_fields_project: { project_id: project.id }
-          )
-        end
-
-        def project = model.first
       end
     end
   end

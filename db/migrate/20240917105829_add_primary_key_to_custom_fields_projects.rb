@@ -26,43 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module CustomFields
-    module CustomFieldProjects
-      class RowComponent < Projects::RowComponent
-        include OpTurbo::Streamable
-
-        def wrapper_uniq_by
-          "project-#{project.id}"
-        end
-
-        def more_menu_items
-          @more_menu_items ||= [more_menu_detach_project].compact
-        end
-
-        private
-
-        def more_menu_detach_project
-          if User.current.allowed_in_project?(:select_custom_fields, project)
-            {
-              scheme: :default,
-              icon: nil,
-              label: I18n.t("projects.settings.project_custom_fields.actions.remove_from_project"),
-              href: detach_from_project_url,
-              data: { turbo_method: :delete }
-            }
-          end
-        end
-
-        def detach_from_project_url
-          url_helpers.custom_field_project_path(
-            custom_field_id: @table.params[:custom_field].id,
-            custom_fields_project: { project_id: project.id }
-          )
-        end
-
-        def project = model.first
-      end
-    end
+class AddPrimaryKeyToCustomFieldsProjects < ActiveRecord::Migration[7.1]
+  def change
+    # NOTE: Manually backfilling the `id` column is not necessary as the BIGSERIAL primary key will auto-populate
+    # the existing records with auto-incrementing values
+    add_column :custom_fields_projects, :id, :primary_key # rubocop:disable Rails/DangerousColumnNames
   end
 end
