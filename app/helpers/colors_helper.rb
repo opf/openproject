@@ -175,28 +175,5 @@ module ColorsHelper
       "color: hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - (var(--color-l) * 0.22)) * 1%), 1) !important;"
     end
   end
-
-  def get_contrast_color(hex)
-    # Convert hex to RGB
-    binding.pry
-    color = ColorConversion::Color.new(hex)
-    rgb = color.rgb
-
-    # Calculate luminance
-    luminance = calculate_luminance(rgb[:r], rgb[:g], rgb[:b])
-
-    # Return black or white depending on luminance
-    luminance > 0.5 ? '#333333' : '#FFFFFF'
-  end
-
-  def calculate_luminance(r, g, b)
-    # Normalize RGB values to the range [0, 1]
-    r_norm = r / 255.0
-    g_norm = g / 255.0
-    b_norm = b / 255.0
-
-    # Calculate luminance using the formula
-    0.2126 * r_norm + 0.7152 * g_norm + 0.0722 * b_norm
-  end
   # rubocop:enable Layout/LineLength
 end
