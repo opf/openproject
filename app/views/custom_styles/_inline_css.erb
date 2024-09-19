@@ -34,6 +34,21 @@ See COPYRIGHT and LICENSE files for more details.
     <% if design_color.variable == "header-border-bottom-color" %>
         --header-border-bottom-width: 1px;
     <% end %>
+    <% if design_color.variable == "header-bg-color" %>
+      --header-item-font-color: <%= design_color.contrasting_font_color %>;
+    <% end %>
+    <% if design_color.variable == "header-item-bg-hover-color" %>
+      --header-item-font-hover-color: <%= design_color.contrasting_font_color %>;
+    <% end %>
+    <% if design_color.variable == "main-menu-bg-color" %>
+      --main-menu-font-color: <%= design_color.contrasting_font_color %>;
+    <% end %>
+    <% if design_color.variable == "main-menu-bg-selected-background" %>
+      --main-menu-selected-font-color: <%= design_color.contrasting_font_color %>;
+    <% end %>
+    <% if design_color.variable == "main-menu-bg-hover-background" %>
+      --main-menu-hover-font-color: <%= design_color.contrasting_font_color %>;
+    <% end %>
     <% if design_color.variable == "main-menu-border-color" %>
         --main-menu-border-width: 1px;
     <% end %>
