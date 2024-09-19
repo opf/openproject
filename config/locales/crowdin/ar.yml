@@ -3308,6 +3308,13 @@ ar:
   setting_password_min_length: "الطول الأدنى"
   setting_password_min_adhered_rules: "الحد الأدنى لعدد من الفئات المطلوبة"
   setting_per_page_options: "الكائنات لكل خيارات الصفحة"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "بريد النص العادي (لا إتش تي أم ال)"
   setting_protocol: "البروتوكول Protocol"
   setting_project_gantt_query: "Project portfolio Gantt view"

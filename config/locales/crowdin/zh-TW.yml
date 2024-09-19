@@ -3120,6 +3120,13 @@ zh-TW:
   setting_password_min_length: "最小長度"
   setting_password_min_adhered_rules: "必要類別的最小數目"
   setting_per_page_options: "設置每頁顯示個數"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "純文字郵件（不含 HTML）"
   setting_protocol: "Protocol"
   setting_project_gantt_query: "專案含甘特圖檢視"
