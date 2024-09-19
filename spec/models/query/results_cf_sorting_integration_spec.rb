@@ -65,7 +65,7 @@ RSpec.describe Query::Results, "Sorting by custom field" do
   end
 
   shared_examples "it sorts" do
-    let(:work_package_desc) { work_packages.reverse }
+    let(:work_packages_desc) { work_packages.reverse }
 
     before { work_packages }
 
@@ -88,7 +88,7 @@ RSpec.describe Query::Results, "Sorting by custom field" do
       let(:sort_criteria) { [[custom_field.column_name, "desc"], %w[id asc]] }
 
       it "returns the correctly sorted result" do
-        expect(query_results.work_packages).to eq_array(work_package_desc, &work_package_attributes)
+        expect(query_results.work_packages).to eq_array(work_packages_desc, &work_package_attributes)
       end
     end
   end
@@ -269,7 +269,7 @@ RSpec.describe Query::Results, "Sorting by custom field" do
         end
 
         # TODO: second user is ignored, so order due to falling back on id asc
-        let(:work_package_desc) { work_packages.values_at(4, 2, 3, 1, 0) }
+        let(:work_packages_desc) { work_packages.values_at(4, 2, 3, 1, 0) }
       end
     end
   end
@@ -317,7 +317,7 @@ RSpec.describe Query::Results, "Sorting by custom field" do
         end
 
         # TODO: second version is ignored, so order due to falling back on id asc
-        let(:work_package_desc) { work_packages.values_at(4, 2, 3, 1, 0) }
+        let(:work_packages_desc) { work_packages.values_at(4, 2, 3, 1, 0) }
       end
     end
   end
