@@ -204,15 +204,27 @@ RSpec.describe Query::Results, "Sorting by custom field" do
 
         let(:work_packages) do
           [
-            wp_with_cf_value(id_by_value.fetch_values("100")),
-            wp_with_cf_value(id_by_value.fetch_values("3", "100")),
-            wp_with_cf_value(id_by_value.fetch_values("100", "3", "20")),
-            wp_with_cf_value(id_by_value.fetch_values("20", "100")),
-            wp_with_cf_value(id_by_value.fetch_values("3")),
-            wp_with_cf_value(id_by_value.fetch_values("3", "20")),
-            wp_with_cf_value(id_by_value.fetch_values("20")),
+            wp_with_cf_value(id_by_value.fetch_values("100")),            # 100
+            wp_with_cf_value(id_by_value.fetch_values("3", "100")),       # 100, 3
+            wp_with_cf_value(id_by_value.fetch_values("3", "20", "100")), # 100, 3, 20
+            wp_with_cf_value(id_by_value.fetch_values("3", "100", "20")), # 100, 3, 20
+            wp_with_cf_value(id_by_value.fetch_values("20", "3", "100")), # 100, 3, 20
+            wp_with_cf_value(id_by_value.fetch_values("20", "100", "3")), # 100, 3, 20
+            wp_with_cf_value(id_by_value.fetch_values("100", "3", "20")), # 100, 3, 20
+            wp_with_cf_value(id_by_value.fetch_values("100", "20", "3")), # 100, 3, 20
+            wp_with_cf_value(id_by_value.fetch_values("20", "100")),      # 100, 20
+            wp_with_cf_value(id_by_value.fetch_values("3")),              # 3
+            wp_with_cf_value(id_by_value.fetch_values("3", "20")),        # 3, 20
+            wp_with_cf_value(id_by_value.fetch_values("20")),             # 20
             wp_without_cf_value # TODO: decide on order of absent values
           ]
+        end
+
+        let(:work_packages_desc) do
+          indexes = work_packages.each_index.to_a
+          # order of values for a project is ignored, so ordered by falling back on id asc
+          indexes[2...8] = indexes[2...8].reverse
+          work_packages.values_at(*indexes.reverse)
         end
       end
     end
