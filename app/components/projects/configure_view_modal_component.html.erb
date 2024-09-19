@@ -1,6 +1,7 @@
 <%= render(Primer::Alpha::Dialog.new(title: t(:'queries.configure_view.heading'),
                                      size: :large,
                                      id: MODAL_ID,
+                                     data: { controller: "pagination-reset-on-sort", application_target: "dynamic" },
                                      # Hack to give the draggable autcompleter (ng-select) bound to the dialog
                                      # enough height to display all options.
                                      # This is necessary as long as ng-select does not support popovers.
@@ -10,11 +11,15 @@
     <%= primer_form_with(
           url: projects_path,
           id: QUERY_FORM_ID,
-          data: { "turbo-stream" => false },
+          data: {
+            "turbo-stream" => false,
+            "pagination-reset-on-sort-target" => "form",
+            action: "pagination-reset-on-sort#submit"
+          },
           method: :get
         ) do |form| %>
       <% helpers.projects_query_params.except(:columns, :sortBy).each do |name, value| %>
-        <%= hidden_field_tag name, value %>
+        <%= hidden_field_tag name, value, data: {"pagination-reset-on-sort-target" => name} %>
       <% end %>
       <%= render(Primer::Alpha::TabPanels.new(label: "label")) do |tab_panel| %>
         <% tab_panel.with_tab(selected: true, id: "tab-selects--columns") do |tab| %>
