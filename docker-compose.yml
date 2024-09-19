@@ -68,7 +68,7 @@ services:
       - db
       - cache
     ports:
-      - "${PORT}:3000"
+      - "${PORT:-3000}:3000"
 
   worker:
     <<: *backend
