@@ -1,0 +1,235 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "rails_helper"
+
+RSpec.describe WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob do
+  shared_let(:author) { create(:user) }
+  shared_let(:priority) { create(:priority, name: "Normal") }
+  shared_let(:project) { create(:project, name: "Main project") }
+
+  # statuses for work-based mode
+  shared_let(:status_new) { create(:status, name: "New") }
+  shared_let(:status_wip) { create(:status, name: "In progress") }
+  shared_let(:status_closed) { create(:status, name: "Closed") }
+
+  # statuses for status-based mode
+  shared_let(:status_0p_todo) { create(:status, name: "To do (0%)", default_done_ratio: 0) }
+  shared_let(:status_40p_doing) { create(:status, name: "Doing (40%)", default_done_ratio: 40) }
+  shared_let(:status_100p_done) { create(:status, name: "Done (100%)", default_done_ratio: 100) }
+
+  # statuses for both work-based and status-based modes
+  shared_let(:status_excluded) { create(:status, :excluded_from_totals, name: "Excluded") }
+
+  before_all do
+    set_factory_default(:user, author)
+    set_factory_default(:priority, priority)
+    set_factory_default(:project, project)
+    set_factory_default(:project_with_types, project)
+    set_factory_default(:status, status_new)
+  end
+
+  subject(:job) { described_class }
+
+  def expect_performing_job_changes(from:, to:,
+                                    cause_type: "total_percent_complete_mode_changed_to_work_weighted_average",
+                                    old_mode: "simple_average",
+                                    new_mode: "work_weighted_average")
+    table = create_table(from)
+
+    job.perform_now(cause_type:, old_mode:, new_mode:)
+
+    table.work_packages.map(&:reload)
+    expect_work_packages(table.work_packages, to)
+
+    table.work_packages
+  end
+
+  context "when changing from simple average to work weighted average mode",
+          with_settings: { total_percent_complete_mode: "work_weighted_average" } do
+    context "on a single-level hierarchy" do
+      it "updates the total % complete of the work packages" do
+        expect_performing_job_changes(
+          old_mode: "simple_average",
+          new_mode: "work_weighted_average",
+          from: <<~TABLE,
+            hierarchy | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            flat_wp_1 |  10h |        |             6h |                  |        40% |
+            flat_wp_2 |  5h  |        |             3h |                  |        60% |
+          TABLE
+          to: <<~TABLE
+            subject   | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            flat_wp_1 |  10h |        |             6h |                  |        40% |
+            flat_wp_2 |  5h  |        |             3h |                  |        60% |
+          TABLE
+        )
+      end
+    end
+
+    context "on a two-level hierarchy with parents having total values" do
+      it "updates the total % complete of parent work packages" do
+        expect_performing_job_changes(
+          old_mode: "simple_average",
+          new_mode: "work_weighted_average",
+          from: <<~TABLE,
+            hierarchy | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent    |  10h |    30h |             6h |              6h  |        40% |          70%
+              child1  |  15h |        |             0h |                  |       100% |
+              child2  |      |        |                |                  |        40% |
+              child3  |   5h |        |             0h |                  |       100% |
+          TABLE
+          to: <<~TABLE
+            subject   | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent    |  10h |    30h |             6h |              6h  |        40% |          80%
+              child1  |  15h |        |             0h |                  |       100% |
+              child2  |      |        |                |                  |        40% |
+              child3  |   5h |        |             0h |                  |       100% |
+          TABLE
+        )
+      end
+    end
+
+    context "on a two-level hierarchy with only % complete values set" do
+      it "unsets the % complete value from parents" do
+        expect_performing_job_changes(
+          old_mode: "simple_average",
+          new_mode: "work_weighted_average",
+          from: <<~TABLE,
+            hierarchy | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent    |      |        |                |                  |        40% |          70%
+              child1  |      |        |                |                  |       100% |
+              child2  |      |        |                |                  |        40% |
+              child3  |      |        |                |                  |       100% |
+          TABLE
+          to: <<~TABLE
+            subject   | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent    |      |        |                |                  |        40% |
+              child1  |      |        |                |                  |       100% |
+              child2  |      |        |                |                  |        40% |
+              child3  |      |        |                |                  |       100% |
+          TABLE
+        )
+      end
+    end
+
+    context "on a multi-level hierarchy with only % complete values set" do
+      it "unsets the % complete value from parents" do
+        expect_performing_job_changes(
+          old_mode: "simple_average",
+          new_mode: "work_weighted_average",
+          from: <<~TABLE,
+            hierarchy       | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent          |      |        |                |                  |        40% |          63%
+              child1        |      |        |                |                  |       100% |
+              child2        |      |        |                |                  |        40% |
+              child3        |      |        |                |                  |       100% |          70%
+                grandchild1 |      |        |                |                  |        40% |
+                grandchild2 |      |        |                |                  |       100% |
+          TABLE
+          to: <<~TABLE
+            subject         | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent          |      |        |                |                  |        40% |
+              child1        |      |        |                |                  |       100% |
+              child2        |      |        |                |                  |        40% |
+              child3        |      |        |                |                  |       100% |
+                grandchild1 |      |        |                |                  |        40% |
+                grandchild2 |      |        |                |                  |       100% |
+          TABLE
+        )
+      end
+    end
+
+    context "on a multi-level hierarchy with work and remaining work values set" do
+      it "updates the total % complete of parent work packages" do
+        expect_performing_job_changes(
+          old_mode: "simple_average",
+          new_mode: "work_weighted_average",
+          from: <<~TABLE,
+            hierarchy       | work  | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent          |  10h  |    50h |             6h |              6h  |        40% |          63%
+              child1        |  15h  |        |             0h |                  |       100% |
+              child2        |       |        |                |                  |        40% |
+              child3        |   5h  |    25h |             0h |              0h  |       100% |          70%
+                grandchild1 |       |        |                |                  |        40% |
+                grandchild2 |   20h |        |             0h |                  |       100% |
+          TABLE
+          to: <<~TABLE
+            subject         | work  | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent          |  10h  |    50h |             6h |              6h  |        40% |          88%
+              child1        |  15h  |        |             0h |                  |       100% |
+              child2        |       |        |                |                  |        40% |
+              child3        |   5h  |    25h |             0h |              0h  |       100% |         100%
+                grandchild1 |       |        |                |                  |        40% |
+                grandchild2 |   20h |        |             0h |                  |       100% |
+          TABLE
+        )
+      end
+    end
+
+    describe "journal entries" do
+      it "is still not done" do
+        pending "TODO: Add specs for the journal entries created"
+        raise StandardError, "Not implemented"
+      end
+    end
+  end
+
+  context "with errors during job execution" do
+    let_work_packages(<<~TABLE)
+      subject     | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+      wp          |  10h |    10h |             6h |               6h |        40% |          40%
+      wp 0%       |  10h |    10h |            10h |              10h |         0% |           0%
+      wp 40%      |  10h |    10h |             6h |               6h |        40% |          40%
+      wp 100%     |  10h |    10h |             0h |               0h |       100% |         100%
+    TABLE
+
+    before do
+      job.perform_now(cause_type: "should make it blow up!",
+                      old_mode: "simple_average",
+                      new_mode: "work_weighted_average")
+    rescue StandardError
+      # Catch the error to continue the test
+    end
+
+    it "does not update any work package" do
+      expect_work_packages(WorkPackage.all, <<~TABLE)
+        subject     | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+        wp          |  10h |    10h |             6h |               6h |        40% |          40%
+        wp 0%       |  10h |    10h |            10h |              10h |         0% |           0%
+        wp 40%      |  10h |    10h |             6h |               6h |        40% |          40%
+        wp 100%     |  10h |    10h |             0h |               0h |       100% |         100%
+      TABLE
+    end
+
+    it "cleans up temporary database artifacts used throughout the job" do
+      expect(
+        ActiveRecord::Base.connection.table_exists?("temp_wp_progress_values")
+      ).to be(false)
+    end
+  end
+end

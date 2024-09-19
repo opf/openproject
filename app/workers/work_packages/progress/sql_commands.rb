@@ -60,6 +60,41 @@ module WorkPackages::Progress::SqlCommands
     SQL
   end
 
+  def with_temporary_total_percent_complete_table
+    WorkPackage.transaction do
+      case new_mode
+      when "work_weighted_average"
+        create_temporary_total_percent_complete_table_for_work_weighted_average_mode
+      when "simple_average"
+        create_temporary_total_percent_complete_table_for_simple_average_mode
+      else
+        raise ArgumentError, "Invalid total percent complete mode: #{new_mode}"
+      end
+
+      yield
+    ensure
+      drop_temporary_total_percent_complete_table
+    end
+  end
+
+  def create_temporary_total_percent_complete_table_for_work_weighted_average_mode
+    execute(<<~SQL.squish)
+      CREATE UNLOGGED TABLE temp_wp_progress_values
+      AS SELECT
+        id,
+        derived_estimated_hours as total_work,
+        derived_remaining_hours as total_remaining_work,
+        derived_done_ratio      as total_p_complete
+      FROM work_packages
+    SQL
+  end
+
+  def drop_temporary_total_percent_complete_table
+    execute(<<~SQL.squish)
+      DROP TABLE temp_wp_progress_values
+    SQL
+  end
+
   def derive_remaining_work_from_work_and_percent_complete
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
@@ -164,6 +199,27 @@ module WorkPackages::Progress::SqlCommands
           OR work_packages.derived_estimated_hours IS DISTINCT FROM temp_wp_progress_values.total_work
           OR work_packages.derived_remaining_hours IS DISTINCT FROM temp_wp_progress_values.total_remaining_work
           OR work_packages.derived_done_ratio IS DISTINCT FROM temp_wp_progress_values.total_p_complete
+        )
+      RETURNING work_packages.id
+    SQL
+    results.column_values(0)
+  end
+
+  def copy_total_percent_complete_values_to_work_packages_and_update_journals(cause)
+    updated_work_package_ids = copy_total_percent_complete_values_to_work_packages
+    create_journals_for_updated_work_packages(updated_work_package_ids, cause:)
+  end
+
+  def copy_total_percent_complete_values_to_work_packages
+    results = execute(<<~SQL.squish)
+      UPDATE work_packages
+      SET derived_done_ratio = temp_wp_progress_values.total_p_complete,
+          lock_version       = lock_version + 1,
+          updated_at         = NOW()
+      FROM temp_wp_progress_values
+      WHERE work_packages.id = temp_wp_progress_values.id
+        AND (
+          work_packages.derived_done_ratio IS DISTINCT FROM temp_wp_progress_values.total_p_complete
         )
       RETURNING work_packages.id
     SQL
