@@ -34,12 +34,13 @@
   <%# Fill in the computed css variables in the inputs as their defaults %>
   <%= nonced_javascript_tag do %>
     var computedStyle = getComputedStyle(document.documentElement);
+    
     document
-    .querySelectorAll('.design-color--variable-input')
-    .forEach(function(el) {
-    if (!el.value || el.value === '') {
-    el.placeholder = computedStyle.getPropertyValue('--' + el.dataset.variableName).trim();
-    }
-    });
+        .querySelectorAll('.design-color--variable-input')
+        .forEach(function(el) {
+            if (!el.value || el.value === '') {
+                el.placeholder = computedStyle.getPropertyValue('--' + el.dataset.variableName).trim();
+            }
+        });
   <% end %>
 <% end %>
