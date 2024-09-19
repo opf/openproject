@@ -3,31 +3,26 @@ module OpenProject
     # @hidden
     class FlashPreview < Lookbook::Preview
       def default
-        render(Meetings::UpdateFlashComponent.new(
-                 button_path_object: @meeting,
-                 message: I18n.t("notice_meeting_updated")
-               ))
+        render(OpPrimer::BannerMessageComponent.new) do |_component|
+          I18n.t("notice_meeting_updated")
+        end
       end
 
       def danger
-        render(Meetings::UpdateFlashComponent.new(
-                 button_path_object: @meeting,
-                 message: I18n.t("notice_meeting_updated"),
-                 scheme: :danger,
-                 icon: :stop
-               ))
+        render(OpPrimer::BannerMessageComponent.new(scheme: :danger, icon: :stop)) do |_component|
+          "Stop right there."
+        end
       end
 
       def button
-        render(Meetings::UpdateFlashComponent.new(
-                 button_path_object: @meeting,
-                 message: I18n.t("notice_meeting_updated"),
-                 scheme: :success,
-                 icon: :check,
-                 button: true,
-                 button_message: I18n.t("label_meeting_reload")
-                 # button_path_object: # TODO
-               ))
+        render(OpPrimer::BannerMessageComponent.new) do |component|
+          component.with_action_button(
+            tag: :a,
+            href: "/"
+          ) { "Go home" }
+
+          I18n.t("notice_meeting_updated")
+        end
       end
     end
   end

@@ -31,7 +31,6 @@
 class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
   include OpTurbo::ComponentStream
   include OpTurbo::DialogStreamHelper
-  include ApplicationComponentStreams
   include FlashMessagesOutputSafetyHelper
 
   layout "admin"
