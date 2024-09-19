@@ -34,6 +34,8 @@ RSpec.describe AddPrimaryKeyToCustomFieldsProjects, type: :model do
 
   it "adds an `id` primary key column with backfilled values" do
     ActiveRecord::Migration.suppress_messages { described_class.migrate(:down) }
+    CustomFieldsProject.reset_column_information
+    CustomFieldsProject.reset_primary_key
 
     create_list(:custom_fields_project, 5)
 
