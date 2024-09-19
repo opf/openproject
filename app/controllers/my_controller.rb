@@ -238,7 +238,7 @@ class MyController < ApplicationController
 
   def handle_email_changes
     # If mail changed, expire all other sessions
-    if @user.previous_changes['mail']
+    if @user.previous_changes["mail"]
       Users::DropTokensService.new(current_user: @user).call!
       Sessions::DropOtherSessionsService.call!(@user, session)
 

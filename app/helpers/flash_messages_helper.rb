@@ -34,21 +34,10 @@ module FlashMessagesHelper
     include FlashMessagesOutputSafetyHelper
   end
 
-  def render_primer_banner_message?
-    flash[:primer_banner].present?
-  end
-
-  def render_primer_banner_message
-    return unless render_primer_banner_message?
-
-    render(BannerMessageComponent.new(**flash[:primer_banner].to_hash))
-  end
-
   # Renders flash messages
   def render_flash_messages
-    return if render_primer_banner_message?
-
     messages = flash
+      .reject { |k, _| k.to_s == "primer_banner" }
       .reject { |k, _| k.start_with? "_" }
       .map do |k, v|
       if k.to_sym == :modal

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,24 +25,19 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
 
-module Meetings
-  class UpdateFlashComponent < ApplicationComponent
-    include OpTurbo::Streamable
+module BannerMessagesHelper
+  extend ActiveSupport::Concern
 
-    alias_method :meeting, :model
+  def render_primer_banner_message
+    return if flash[:primer_banner].blank?
 
-    def call
-      render(::OpPrimer::BannerMessageComponent.new(icon: :info)) do |banner|
-        banner.with_action_button(
-          tag: :a,
-          href: helpers.meeting_path(meeting),
-          data: { turbo: false },
-          size: :medium
-        ) { I18n.t("label_meeting_reload") }
+    system_arguments = flash[:primer_banner]
+    message = system_arguments.delete(:message)
 
-        I18n.t("notice_meeting_updated")
-      end
+    render(OpPrimer::BannerMessageComponent.new(**system_arguments)) do
+      message
     end
   end
 end
