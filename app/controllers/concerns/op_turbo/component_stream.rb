@@ -77,8 +77,9 @@ module OpTurbo
       update_flash_message_via_turbo_stream(**kwargs.merge(scheme: :danger, icon: :stop))
     end
 
-    def update_flash_message_via_turbo_stream(component: OpPrimer::BannerMessageComponent, **)
-      turbo_streams << component.new(**).render_as_turbo_stream(view_context:, action: :flash)
+    def update_flash_message_via_turbo_stream(message:, component: OpPrimer::BannerMessageComponent, **)
+      instance = component.new(**).with_content(message)
+      turbo_streams << instance.render_as_turbo_stream(view_context:, action: :flash)
     end
 
     def turbo_streams
