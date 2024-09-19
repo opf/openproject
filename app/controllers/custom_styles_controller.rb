@@ -144,8 +144,8 @@ class CustomStylesController < ApplicationController
 
   def update_themes
     call = ::Design::UpdateDesignService
-             .new(theme_from_params)
-             .call
+       .new(theme_from_params)
+       .call
 
     call.on_success do
       flash[:notice] = I18n.t(:notice_successful_update)

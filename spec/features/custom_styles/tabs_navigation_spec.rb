@@ -28,7 +28,7 @@
 
 require "spec_helper"
 
-RSpec.describe "interface tab" do
+RSpec.describe "Tabs navigation and content switching on the admin/design page" do
   shared_let(:admin) { create(:admin) }
 
   context "without EE token", with_ee: false do
