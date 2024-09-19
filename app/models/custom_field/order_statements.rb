@@ -89,28 +89,19 @@ module CustomField::OrderStatements
   end
 
   def select_custom_option_position
-    if multi_value?
-      <<-SQL.squish
-        (
-          SELECT array_agg(co_sort.position ORDER BY co_sort.position)
-            FROM #{CustomOption.quoted_table_name} co_sort
-            LEFT JOIN #{CustomValue.quoted_table_name} cv_sort
-              ON cv_sort.value IS NOT NULL AND co_sort.id = cv_sort.value::bigint
-            WHERE #{cv_sort_only_custom_field_condition_sql}
-        )
-      SQL
-    else
-      <<-SQL.squish
-        (
-          SELECT co_sort.position
-            FROM #{CustomOption.quoted_table_name} co_sort
-            LEFT JOIN #{CustomValue.quoted_table_name} cv_sort
-              ON cv_sort.value IS NOT NULL AND co_sort.id = cv_sort.value::bigint
-            WHERE #{cv_sort_only_custom_field_condition_sql}
-            LIMIT 1
-        )
-      SQL
-    end
+    columns = multi_value? ? "array_agg(co_sort.position ORDER BY co_sort.position)" : "co_sort.position"
+    limit = multi_value? ? "" : "LIMIT 1"
+
+    <<-SQL.squish
+      (
+        SELECT #{columns}
+          FROM #{CustomOption.quoted_table_name} co_sort
+          LEFT JOIN #{CustomValue.quoted_table_name} cv_sort
+            ON cv_sort.value IS NOT NULL AND co_sort.id = cv_sort.value::bigint
+          WHERE #{cv_sort_only_custom_field_condition_sql}
+          #{limit}
+      )
+    SQL
   end
 
   def select_custom_values_as_group
