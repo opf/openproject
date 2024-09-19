@@ -69,12 +69,18 @@ RSpec.describe Query::Results, "Sorting by custom field" do
 
     before { work_packages }
 
+    work_package_attributes = ->(work_package) do
+      {
+        id: work_package.id,
+        values: work_package.custom_values.map(&:value).sort
+      }
+    end
+
     context "in ascending order" do
       let(:sort_criteria) { [[custom_field.column_name, "asc"], %w[id asc]] }
 
       it "returns the correctly sorted result" do
-        expect(query_results.work_packages.map(&:id))
-          .to eq work_packages.map(&:id)
+        expect(query_results.work_packages).to eq_array(work_packages, &work_package_attributes)
       end
     end
 
@@ -82,8 +88,7 @@ RSpec.describe Query::Results, "Sorting by custom field" do
       let(:sort_criteria) { [[custom_field.column_name, "desc"], %w[id asc]] }
 
       it "returns the correctly sorted result" do
-        expect(query_results.work_packages.map(&:id))
-          .to eq work_package_desc.map(&:id)
+        expect(query_results.work_packages).to eq_array(work_package_desc, &work_package_attributes)
       end
     end
   end

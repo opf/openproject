@@ -58,12 +58,18 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
 
     before { projects }
 
+    project_attributes = ->(project) do
+      {
+        id: project.id,
+        values: project.custom_values.map(&:value).sort
+      }
+    end
+
     context "in ascending order" do
       let(:direction) { :asc }
 
       it "returns the correctly sorted result" do
-        expect(query_results.map(&:id))
-          .to eq projects.map(&:id)
+        expect(query_results).to eq_array(projects, &project_attributes)
       end
     end
 
@@ -71,8 +77,7 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
       let(:direction) { :desc }
 
       it "returns the correctly sorted result" do
-        expect(query_results.map(&:id))
-          .to eq projects_desc.map(&:id)
+        expect(query_results).to eq_array(projects_desc, &project_attributes)
       end
     end
   end
