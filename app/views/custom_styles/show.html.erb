@@ -27,12 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% tabs = design_tabs %>
-<%=
-  render(Admin::DesignHeaderComponent.new(
-    tabs: design_tabs,
-    ))
-%>
+<%= render(Admin::DesignHeaderComponent.new(tabs: design_tabs)) %>
 
 <%= error_messages_for 'custom_style' %>
 <%= form_tag update_design_themes_path, method: :post, class: "form" do %>
