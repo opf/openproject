@@ -2,19 +2,59 @@ This component defines a specific use case of the Primer `Banner` component, con
 
 ## Overview
 
-To use a Primerised flash, the `Meetings::UpdateFlashComponent` was introduced.
+To use a Primerised flash, the `OpPrimer::BannerMessageComponent` was introduced.
 
 <%= embed OpenProject::Common::FlashPreview, :default, panels: %i[source] %>
 
-## Usage
+Internally, this component uses the `Primer::BannerComponent` to render the flash message.
+The `OpPrimer::BannerMessageComponent` is a wrapper around the `Primer::BannerComponent` that adds a wrapper class to prepend the flash message to the `#banner-messages` div in the base layout.
+
+Otherwise, you use the component as you would use `Primer::Alpha::Banner`.
+See below for available arguments.
+
+<%= embed Primer::Alpha::BannerPreview, :playground, panels: %i[params] %>
+
+## Render primer banner / flash from controllers
+
+In many views in OpenProject, you will find `flash[:notice], flash[:alert], flash[:error]` messages.
+These are rendered using the previous `op-flash` styles, and are not yet primerized.
+
+So if you find yourself in need to render a primerized flash. You can use this pattern instead:
+
+```ruby
+flash[:primer_banner] = { message: "Successful update", scheme: :success, icon: :check }
+```
+
+Or for an error:
+
+```ruby
+flash[:primer_banner] = { message: "Oh no! Something went wrong", scheme: :danger, icon: :alert }
+```
+
+These are rendered in the layout through the `render_banner_messages` helper using the `OpPrimer::BannerMessageComponent`.
+
+## Usage in turbo streams
+
+The interesting part is having a flash message responded from within a turbo stream response
 
 When a Primerised flash is required, this component can be used by calling `update_flash_message_via_turbo_stream()`. Under the hood, this prepends via turbo stream the `UpdateFlashComponent` in the `flash-container` div within the base layout.
 
-The icon, message, dismiss scheme, and scheme are configurable identically to the Primer `Banner` component.
+The icon, dismiss scheme, and scheme are configurable identically to the Primer `Banner` component.
+A `message` property is added that will be passed as the content of the banner.
 
-Two widths are supported, selectable via `full`. Depending on this value, the max width is capped or left unrestricted.
+For example:
 
-A `button` is optionally possible. When enabled, a link is included in the flash banner. `button_message` and `button_path_object` are used to configure the button text and linked path.
+```ruby
+update_flash_message_via_turbo_stream(
+  message: t(:notice_project_not_found),
+  full: true,
+  dismiss_scheme: :hide,
+  scheme: :danger
+)
+```
+
+The width of this banner is always configured through the `op-primer-banner` namespace.
+It is set to 80% of the available width
 
 ## Further Examples
 
@@ -29,8 +69,3 @@ As this is a common use case, the method `render_error_flash_message_via_turbo_s
 
 <%= embed OpenProject::Common::FlashPreview, :button, panels: %i[source] %>
 <% end %>
-
-
-
-
-
