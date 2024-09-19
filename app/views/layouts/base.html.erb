@@ -119,7 +119,7 @@ See COPYRIGHT and LICENSE files for more details.
     <main id="content-wrapper" class="<%= initial_classes %>">
       <%= render_primer_banner_message %>
       <%= render_streameable_primer_banner_message %>
-      <turbo-frame id="flash-messages">
+      <turbo-frame id="flash-messages" class="op-primer-banner">
         <%= render_flash_messages %>
       </turbo-frame>
       <% if show_onboarding_modal? %>
