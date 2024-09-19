@@ -91,7 +91,7 @@ services:
     depends_on:
       - backend
     ports:
-      - "${FE_PORT}:4200"
+      - "${FE_PORT:-4200}:4200"
 
   db:
     image: postgres:13
