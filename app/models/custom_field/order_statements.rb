@@ -123,10 +123,20 @@ module CustomField::OrderStatements
   end
 
   def order_by_user_sql
-    <<-SQL
-    (SELECT ARRAY[cv_user.lastname, cv_user.firstname, cv_user.mail] FROM #{User.quoted_table_name} cv_user
-     WHERE cv_user.id = #{select_custom_value_as_decimal}
-     LIMIT 1)
+    columns_array = "ARRAY[cv_user.lastname, cv_user.firstname, cv_user.mail]"
+
+    columns = multi_value? ? "array_agg(#{columns_array} ORDER BY #{columns_array})" : columns_array
+    limit = multi_value? ? "" : "LIMIT 1"
+
+    <<-SQL.squish
+      (
+        SELECT #{columns}
+          FROM #{User.quoted_table_name} cv_user
+          INNER JOIN #{CustomValue.quoted_table_name} cv_sort
+            ON cv_sort.value IS NOT NULL AND cv_sort.value != '' AND cv_user.id = cv_sort.value::bigint
+          WHERE #{cv_sort_only_custom_field_condition_sql}
+          #{limit}
+      )
     SQL
   end
 

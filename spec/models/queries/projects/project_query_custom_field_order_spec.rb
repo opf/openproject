@@ -222,10 +222,10 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
   context "for user format" do
     shared_let(:users) do
       [
-        create(:user, lastname: "B", firstname: "B", login: "bb1"),
-        create(:user, lastname: "B", firstname: "B", login: "bb2"),
-        create(:user, lastname: "B", firstname: "A", login: "ba"),
-        create(:user, lastname: "A", firstname: "X", login: "ax")
+        create(:user, lastname: "B", firstname: "B", login: "bb1", mail: "bb1@o.p"),
+        create(:user, lastname: "B", firstname: "B", login: "bb2", mail: "bb2@o.p"),
+        create(:user, lastname: "B", firstname: "A", login: "ba", mail: "ba@o.p"),
+        create(:user, lastname: "A", firstname: "X", login: "ax", mail: "ax@o.p")
       ]
     end
     shared_let(:id_by_login) { users.to_h { [_1.login, _1.id] } }
@@ -272,11 +272,12 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
 
         let(:custom_field_values) do
           [
-            id_by_login.fetch_values("ax"),
-            id_by_login.fetch_values("ba"),
-            # TODO: second user is ignored
-            id_by_login.fetch_values("bb1", "ba"),
-            id_by_login.fetch_values("bb1", "ax"),
+            id_by_login.fetch_values("ax"),        # ax
+            id_by_login.fetch_values("bb1", "ax"), # ax, bb1
+            id_by_login.fetch_values("ax", "bb1"), # ax, bb1
+            id_by_login.fetch_values("ba"),        # ba
+            id_by_login.fetch_values("bb1", "ba"), # ba, bb1
+            id_by_login.fetch_values("ba", "bb2"), # ba, bb2
             [] # TODO: should be at index 0
           ]
         end
@@ -287,8 +288,12 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
           end
         end
 
-        # TODO: second user is ignored, so order due to falling back on id asc
-        let(:projects_desc) { projects.values_at(4, 2, 3, 1, 0) }
+        let(:projects_desc) do
+          indexes = projects.each_index.to_a
+          # order of values for a work package is ignored, so ordered by falling back on id asc
+          indexes[1...3] = indexes[1...3].reverse
+          projects.values_at(*indexes.reverse)
+        end
       end
     end
   end

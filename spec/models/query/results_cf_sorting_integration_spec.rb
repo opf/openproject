@@ -233,10 +233,10 @@ RSpec.describe Query::Results, "Sorting by custom field" do
   context "for user format" do
     shared_let(:users) do
       [
-        create(:user, lastname: "B", firstname: "B", login: "bb1"),
-        create(:user, lastname: "B", firstname: "B", login: "bb2"),
-        create(:user, lastname: "B", firstname: "A", login: "ba"),
-        create(:user, lastname: "A", firstname: "X", login: "ax")
+        create(:user, lastname: "B", firstname: "B", login: "bb1", mail: "bb1@o.p"),
+        create(:user, lastname: "B", firstname: "B", login: "bb2", mail: "bb2@o.p"),
+        create(:user, lastname: "B", firstname: "A", login: "ba", mail: "ba@o.p"),
+        create(:user, lastname: "A", firstname: "X", login: "ax", mail: "ax@o.p")
       ]
     end
     shared_let(:id_by_login) { users.to_h { [_1.login, _1.id] } }
@@ -271,17 +271,22 @@ RSpec.describe Query::Results, "Sorting by custom field" do
 
         let(:work_packages) do
           [
-            wp_with_cf_value(id_by_login.fetch_values("ax")),
-            wp_with_cf_value(id_by_login.fetch_values("ba")),
-            # TODO: second user is ignored
-            wp_with_cf_value(id_by_login.fetch_values("bb1", "ba")),
-            wp_with_cf_value(id_by_login.fetch_values("bb1", "ax")),
+            wp_with_cf_value(id_by_login.fetch_values("ax")),        # ax
+            wp_with_cf_value(id_by_login.fetch_values("bb1", "ax")), # ax, bb1
+            wp_with_cf_value(id_by_login.fetch_values("ax", "bb1")), # ax, bb1
+            wp_with_cf_value(id_by_login.fetch_values("ba")),        # ba
+            wp_with_cf_value(id_by_login.fetch_values("bb1", "ba")), # ba, bb1
+            wp_with_cf_value(id_by_login.fetch_values("ba", "bb2")), # ba, bb2
             wp_without_cf_value # TODO: should be at index 0
           ]
         end
 
-        # TODO: second user is ignored, so order due to falling back on id asc
-        let(:work_packages_desc) { work_packages.values_at(4, 2, 3, 1, 0) }
+        let(:work_packages_desc) do
+          indexes = work_packages.each_index.to_a
+          # order of values for a project is ignored, so ordered by falling back on id asc
+          indexes[1...3] = indexes[1...3].reverse
+          work_packages.values_at(*indexes.reverse)
+        end
       end
     end
   end
