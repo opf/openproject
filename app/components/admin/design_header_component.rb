@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,38 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Admin
+  class DesignHeaderComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include ApplicationHelper
+    include TabsHelper
 
-RSpec.describe "custom_styles/show" do
-  let(:user) { build(:admin) }
-
-  before do
-    login_as user
-  end
-
-  context "no custom logo yet" do
-    before do
-      assign(:custom_style, CustomStyle.new)
-      assign(:current_theme, "")
-      allow(view).to receive(:options_for_select).and_return("")
-      render
-    end
-
-    it "shows an upload button" do
-      expect(rendered).to include "Upload"
-    end
-  end
-
-  context "with existing custom logo" do
-    before do
-      assign(:custom_style, build(:custom_style_with_logo))
-      assign(:current_theme, "")
-      allow(view).to receive(:options_for_select).and_return("")
-      render
-    end
-
-    it "shows a replace button" do
-      expect(rendered).to include "Replace"
+    def initialize(tabs: [])
+      super
+      @tabs = tabs
     end
   end
 end

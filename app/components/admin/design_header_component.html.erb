@@ -27,25 +27,22 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Admin::DesignHeaderComponent.new(tabs: design_tabs)) %>
-
-<%= error_messages_for 'custom_style' %>
-<%= form_tag update_design_themes_path, method: :post, class: "form" do %>
-  <section class="form--section">
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= I18n.t('admin.custom_styles.color_theme') %></legend>
-      <div class="form--field">
-        <div class="form--field-container">
-          <%= styled_select_tag 'theme',
-                                options_for_select(@theme_options, @current_theme),
-                                container_class: '-slim' %>
-        </div>
-      </div>
-
-      <%= styled_button_tag t(:button_save),
-                            data: { test_selector: "color-theme-button", confirm: (t('admin.custom_styles.theme_warning') unless @current_theme.present?)}  %>
-    </fieldset>
-  </section>
-<% end %>
-
-<%= render_tabs design_tabs, with_tab_nav: false %>
+<% helpers.html_title t(:label_administration), t(:label_custom_style), @title %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_custom_style) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             t(:label_custom_style)])
+    header.with_description { t(:label_custom_style_description) }
+    
+    if @tabs.present?
+      header.with_tab_nav(label: nil) do |tab_nav|
+        @tabs.each do |tab|
+          tab_nav.with_tab(selected: selected_tab(@tabs) == tab, href: tab[:path]) do |t|
+            t.with_text { tab[:label] }
+          end
+        end
+      end
+    end
+  end
+%>
