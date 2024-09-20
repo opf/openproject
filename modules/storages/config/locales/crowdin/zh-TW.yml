@@ -91,8 +91,8 @@ zh-TW:
         rename_project_folder: '重新命名託管的專案資料夾：'
     errors:
       messages:
-        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+        error: 發生意外錯誤。請檢查 OpenProject 記錄以獲得更多資訊，或聯絡管理員
+        unauthorized: OpenProject 無法驗證儲存服務提供者。請確認您有存取權。
       models:
         copy_project_folders_service:
           conflict: 資料夾 %{destination_path} 已經存在。中斷程序以避免覆寫。
@@ -150,7 +150,7 @@ zh-TW:
           unauthorized: OpenProject 無法與 OneDrive 同步。請檢查您的儲存空間和 Azure 應用程式設定。
           user_does_not_exist: "%{user} 在 Nextcloud 中不存在。"
         upload_link_service:
-          not_found: The destination folder %{folder} could not be found on %{storage_name}.
+          not_found: 在 %{storage_name} 上找不到目標資料夾 %{folder}。
   storages:
     buttons:
       complete_without_setup: 排除它完成

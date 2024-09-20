@@ -43,9 +43,5 @@ OpenProject::FeatureDecisions.add :percent_complete_edition,
                                                "Will be enabled by default in OpenProject 15.0. " \
                                                "See work package #52233 for more details."
 
-OpenProject::FeatureDecisions.add :enable_custom_field_for_multiple_projects,
-                                  description: "Allow a custom field to be enabled for multiple projects at once. " \
-                                               "See work package #56909 for more details."
-
 OpenProject::FeatureDecisions.add :built_in_oauth_applications,
                                   description: "Allows the display and use of built-in OAuth applications."

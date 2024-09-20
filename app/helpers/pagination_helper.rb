@@ -111,25 +111,18 @@ module PaginationHelper
   #  Prefers page over the other two and
   #  calculates page in it's absence based on limit and offset.
   #  Return 1 if all else fails.
-
   def page_param(options = params)
     page = if options[:page]
-
              options[:page].to_i
-
            elsif options[:offset] && options[:limit]
-
              begin
                # + 1 as page is not 0 but 1 based
                (options[:offset].to_i / per_page_param(options)) + 1
              rescue ZeroDivisionError
                1
              end
-
            else
-
              1
-
            end
 
     if page > 0
@@ -141,12 +134,11 @@ module PaginationHelper
 
   # Returns per_page option used for pagination
   # based on:
-  #  * per_page session value
   #  * per_page options value
+  #  * per_page session value
   #  * limit options value
   #  in that order
   #  Return smallest possible setting if all else fails.
-
   def per_page_param(options = params)
     per_page_candidates = [options[:per_page].to_i, session[:per_page].to_i, options[:limit].to_i]
 

@@ -3115,13 +3115,13 @@ zh-CN:
   setting_password_min_length: "最小长度"
   setting_password_min_adhered_rules: "所需的最少类型数量"
   setting_per_page_options: "每页对象选项"
-  setting_percent_complete_on_status_closed: "% Complete when status is closed"
-  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed: "状态关闭时\"%完成\"的值"
+  setting_percent_complete_on_status_closed_no_change: "不变"
   setting_percent_complete_on_status_closed_no_change_caption_html: >-
-    The value of <i>% Complete</i> will not change even when a work package is closed.
-  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+    即使工作包关闭，<i>%完成</i>的值也不会改变。
+  setting_percent_complete_on_status_closed_set_100p: "自动设置为 100%"
   setting_percent_complete_on_status_closed_set_100p_caption: >-
-    A closed work package is considered complete.
+    关闭的工作包视为已完成。
   setting_plain_text_mail: "纯文本邮件 (不含 HTML)"
   setting_protocol: "协议"
   setting_project_gantt_query: "项目组合甘特视图"

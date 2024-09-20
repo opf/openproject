@@ -27,15 +27,22 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{CustomField.model_name.human} #{h @custom_field.name}" %>
-
-<%= render(Admin::CustomFields::EditFormHeaderComponent.new(custom_field: @custom_field, selected: :edit)) %>
-
-<%= error_messages_for 'custom_field' %>
-
-<%= labelled_tabular_form_for @custom_field, as: :custom_field,
-                              url: custom_field_path(@custom_field),
-                              html: {method: :put, id: 'custom_field_form'} do |f| %>
-  <%= render partial: 'form', locals: { f: f } %>
-  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
-<% end %>
+<% helpers.html_title t(:label_administration), t(:label_custom_style), @title %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_custom_style) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             t(:label_custom_style)])
+    header.with_description { t(:label_custom_style_description) }
+    
+    if @tabs.present?
+      header.with_tab_nav(label: nil) do |tab_nav|
+        @tabs.each do |tab|
+          tab_nav.with_tab(selected: selected_tab(@tabs) == tab, href: tab[:path]) do |t|
+            t.with_text { tab[:label] }
+          end
+        end
+      end
+    end
+  end
+%>

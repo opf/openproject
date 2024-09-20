@@ -1,0 +1,122 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t(:label_custom_export_logo) %></legend>
+      <% if @custom_style.id && @custom_style.export_logo.present? %>
+        <div>
+          <%= tag('img', src: custom_style_export_logo_path(digest: @custom_style.digest, filename: @custom_style.export_logo_identifier), class: 'custom-export-logo-preview') %>
+          <%= link_to t(:button_delete),
+                      custom_style_export_logo_delete_path,
+                      method: :delete,
+                      class: 'icon icon-delete confirm-form-submit' %>
+        </div>
+      <% end %>
+      <div class="grid-block">
+        <div class="form--field -required">
+          <div class="attachment_field form--field-container -vertical -shrink">
+            <div class="form--file-container">
+              <%= f.file_field :export_logo, required: true, class: "attachment_choose_file", size: "15" %>
+            </div>
+          </div>
+          <div class="form--field-instructions">
+            <%= t('text_custom_export_logo_instructions') %>
+          </div>
+        </div>
+      </div>
+
+      <%= styled_button_tag t(@custom_style.export_logo.present? ? :button_replace : :button_upload), class: "button #{@custom_style.export_logo.blank? ? '-with-icon icon-add' : ''}" %>
+
+    </fieldset>
+  </section>
+<% end %>
+<%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t(:label_custom_export_cover) %></legend>
+
+      <% if @custom_style.id && @custom_style.export_cover.present? %>
+        <div>
+          <%= tag('img', src: custom_style_export_cover_path(digest: @custom_style.digest, filename: @custom_style.export_cover_identifier), class: 'custom-export-cover-preview') %>
+          <%= link_to t(:button_delete),
+                      custom_style_export_cover_delete_path,
+                      method: :delete,
+                      class: 'icon icon-delete confirm-form-submit' %>
+        </div>
+      <% end %>
+      <div class="grid-block">
+        <div class="form--field -required">
+          <div class="attachment_field form--field-container -vertical -shrink">
+            <div class="form--file-container">
+              <%= f.file_field :export_cover, required: true, class: "attachment_choose_file", size: "15" %>
+            </div>
+          </div>
+          <div class="form--field-instructions">
+            <%= t('text_custom_export_cover_instructions') %>
+          </div>
+        </div>
+      </div>
+      <%= styled_button_tag t(@custom_style.export_cover.present? ? :button_replace : :button_upload), class: "button #{@custom_style.export_cover.blank? ? '-with-icon icon-add' : ''}" %>
+    </fieldset>
+  </section>
+<% end %>
+<%= form_tag update_custom_style_export_cover_text_color_path, html: { multipart: true, class: "form -vertical" } do |f| %>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t(:label_custom_export_cover_overlay) %></legend>
+      <div class="form--field">
+        <label class="form--label"><%= I18n.t(:label_custom_export_cover_text_color) %>:</label>
+        <span class="form--field-container">
+          <div class="form--field-affix">
+            <% design_color_name = 'export_cover_text_color' %>
+            <% design_color_hex = @custom_style.export_cover_text_color.present? ? @custom_style.export_cover_text_color : '' %>
+            <%= icon_for_color(OpenStruct.new(variable: design_color_name,
+                                              hexcode: design_color_hex),
+                               data: { target: "#" + design_color_name }) %>
+          </div>
+          <span class="form--text-field-container">
+            <%= styled_text_field_tag design_color_name,
+                                      design_color_hex,
+                                      placeholder: '#000'
+            %>
+          </span>
+        </span>
+        <div class="form--field-instructions">
+          <% instruction_key = "admin.custom_styles.instructions.#{design_color_name}" %>
+          <% if I18n.exists?(instruction_key, :en) %>
+            <%= I18n.t(instruction_key) %>
+          <% end %>
+        </div>
+      </div>
+      <button type="submit" class="button -hide-when-collapsed" data-test-selector="text-color-change"><%= I18n.t(:button_save) %></button>
+    </fieldset>
+  </section>
+<% end %>

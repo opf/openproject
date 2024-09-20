@@ -870,7 +870,7 @@ GEM
       eventmachine_httpserver
       http_parser.rb (~> 0.6.0)
       multi_json
-    puma (6.4.2)
+    puma (6.4.3)
       nio4r (~> 2.0)
     puma-plugin-statsd (2.6.0)
       puma (>= 5.0, < 7)
@@ -1001,6 +1001,8 @@ GEM
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.13.1)
+    rspec-wait (1.0.1)
+      rspec (>= 3.4)
     rubocop (1.66.1)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -1347,6 +1349,7 @@ DEPENDENCIES
   rspec (~> 3.13.0)
   rspec-rails (~> 7.0.0)
   rspec-retry (~> 0.6.1)
+  rspec-wait
   rubocop
   rubocop-capybara
   rubocop-factory_bot
