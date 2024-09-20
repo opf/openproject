@@ -91,8 +91,8 @@ zh-CN:
         rename_project_folder: '重命名托管项目文件夹：'
     errors:
       messages:
-        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+        error: 发生意外错误。请检查日志获取更多信息或联系管理员
+        unauthorized: 无法通过存储提供商进行身份验证。请确保您有访问权限。
       models:
         copy_project_folders_service:
           conflict: '%{destination_path} 文件夹已经存在。中断进程以避免覆盖。'
@@ -150,7 +150,7 @@ zh-CN:
           unauthorized: OpenProject 无法与 Nextcloud 同步。请检查您的存储设备和 Nextcloud  配置。
           user_does_not_exist: "在 Nextcloud 中不存在 %{user}  。"
         upload_link_service:
-          not_found: The destination folder %{folder} could not be found on %{storage_name}.
+          not_found: '%{storage_name} 上找不到目标文件夹 %{folder} 。'
   storages:
     buttons:
       complete_without_setup: 没有它就完成
