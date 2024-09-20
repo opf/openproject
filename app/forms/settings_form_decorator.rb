@@ -121,6 +121,7 @@ class SettingsFormDecorator
           **button_options.reverse_merge(
             value:,
             checked: setting_value(name) == value,
+            autocomplete: "off",
             label: setting_label(name, value),
             caption: setting_caption(name, value)
           )
