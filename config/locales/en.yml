@@ -1915,6 +1915,7 @@ en:
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
 
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1945,6 +1946,8 @@ en:
         totals_removed_from_childless_work_packages: >-
           Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>.
           This is a maintenance task and can be safely ignored.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
 
   links:
     configuration_guide: "Configuration guide"

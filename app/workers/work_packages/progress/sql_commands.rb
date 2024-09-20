@@ -62,13 +62,13 @@ module WorkPackages::Progress::SqlCommands
 
   def with_temporary_total_percent_complete_table
     WorkPackage.transaction do
-      case new_mode
+      case mode
       when "work_weighted_average"
         create_temporary_total_percent_complete_table_for_work_weighted_average_mode
       when "simple_average"
         create_temporary_total_percent_complete_table_for_simple_average_mode
       else
-        raise ArgumentError, "Invalid total percent complete mode: #{new_mode}"
+        raise ArgumentError, "Invalid total percent complete mode: #{mode}"
       end
 
       yield

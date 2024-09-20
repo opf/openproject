@@ -58,11 +58,10 @@ RSpec.describe WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob do
 
   def expect_performing_job_changes(from:, to:,
                                     cause_type: "total_percent_complete_mode_changed_to_work_weighted_average",
-                                    old_mode: "simple_average",
-                                    new_mode: "work_weighted_average")
+                                    mode: "work_weighted_average")
     table = create_table(from)
 
-    job.perform_now(cause_type:, old_mode:, new_mode:)
+    job.perform_now(cause_type:, mode:)
 
     table.work_packages.map(&:reload)
     expect_work_packages(table.work_packages, to)
@@ -75,8 +74,7 @@ RSpec.describe WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob do
     context "on a single-level hierarchy" do
       it "updates the total % complete of the work packages" do
         expect_performing_job_changes(
-          old_mode: "simple_average",
-          new_mode: "work_weighted_average",
+          mode: "work_weighted_average",
           from: <<~TABLE,
             hierarchy | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
             flat_wp_1 |  10h |        |             6h |                  |        40% |
@@ -94,8 +92,7 @@ RSpec.describe WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob do
     context "on a two-level hierarchy with parents having total values" do
       it "updates the total % complete of parent work packages" do
         expect_performing_job_changes(
-          old_mode: "simple_average",
-          new_mode: "work_weighted_average",
+          mode: "work_weighted_average",
           from: <<~TABLE,
             hierarchy | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
             parent    |  10h |    30h |             6h |              6h  |        40% |          70%
@@ -117,8 +114,7 @@ RSpec.describe WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob do
     context "on a two-level hierarchy with only % complete values set" do
       it "unsets the % complete value from parents" do
         expect_performing_job_changes(
-          old_mode: "simple_average",
-          new_mode: "work_weighted_average",
+          mode: "work_weighted_average",
           from: <<~TABLE,
             hierarchy | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
             parent    |      |        |                |                  |        40% |          70%
@@ -140,8 +136,7 @@ RSpec.describe WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob do
     context "on a multi-level hierarchy with only % complete values set" do
       it "unsets the % complete value from parents" do
         expect_performing_job_changes(
-          old_mode: "simple_average",
-          new_mode: "work_weighted_average",
+          mode: "work_weighted_average",
           from: <<~TABLE,
             hierarchy       | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
             parent          |      |        |                |                  |        40% |          63%
@@ -167,8 +162,7 @@ RSpec.describe WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob do
     context "on a multi-level hierarchy with work and remaining work values set" do
       it "updates the total % complete of parent work packages" do
         expect_performing_job_changes(
-          old_mode: "simple_average",
-          new_mode: "work_weighted_average",
+          mode: "work_weighted_average",
           from: <<~TABLE,
             hierarchy       | work  | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
             parent          |  10h  |    50h |             6h |              6h  |        40% |          63%
@@ -192,10 +186,42 @@ RSpec.describe WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob do
     end
 
     describe "journal entries" do
-      it "is still not done" do
-        pending "TODO: Add specs for the journal entries created"
-        raise StandardError, "Not implemented"
+      # rubocop:disable RSpec/ExampleLength
+      it "creates journal entries for the modified work packages" do
+        parent, child1, child2, child3, grandchild1, grandchild2 = expect_performing_job_changes(
+          mode: "work_weighted_average",
+          from: <<~TABLE,
+            hierarchy       | work  | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent          |  10h  |    50h |             6h |              6h  |        40% |          63%
+              child1        |  15h  |        |             0h |                  |       100% |
+              child2        |       |        |                |                  |        40% |
+              child3        |   5h  |    25h |             0h |              0h  |       100% |          70%
+                grandchild1 |       |        |                |                  |        40% |
+                grandchild2 |   20h |        |             0h |                  |       100% |
+          TABLE
+          to: <<~TABLE
+            subject         | work  | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent          |  10h  |    50h |             6h |              6h  |        40% |          88%
+              child1        |  15h  |        |             0h |                  |       100% |
+              child2        |       |        |                |                  |        40% |
+              child3        |   5h  |    25h |             0h |              0h  |       100% |         100%
+                grandchild1 |       |        |                |                  |        40% |
+                grandchild2 |   20h |        |             0h |                  |       100% |
+          TABLE
+        )
+        [parent, child3].each do |work_package|
+          expect(work_package.journals.count).to eq 2
+          last_journal = work_package.last_journal
+          expect(last_journal.user).to eq(User.system)
+          expect(last_journal.cause_type).to eq("total_percent_complete_mode_changed_to_work_weighted_average")
+        end
+
+        # unchanged => no new journals
+        [child1, child2, grandchild1, grandchild2].each do |work_package|
+          expect(work_package.journals.count).to eq 1
+        end
       end
+      # rubocop:enable RSpec/ExampleLength
     end
   end
 
@@ -210,8 +236,7 @@ RSpec.describe WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob do
 
     before do
       job.perform_now(cause_type: "should make it blow up!",
-                      old_mode: "simple_average",
-                      new_mode: "work_weighted_average")
+                      mode: "work_weighted_average")
     rescue StandardError
       # Catch the error to continue the test
     end

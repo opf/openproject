@@ -47,6 +47,10 @@ class Settings::UpdateService < BaseServices::BaseContracted
     Setting[name] = new_value
     if name == :work_package_done_ratio && old_value != "status" && new_value == "status"
       WorkPackages::Progress::ApplyStatusesChangeJob.perform_later(cause_type: "progress_mode_changed_to_status_based")
+    elsif name == :total_percent_complete_mode && old_value != "work_weighted_average" && new_value == "work_weighted_average"
+      WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob
+        .perform_later(mode: new_value,
+                       cause_type: "total_percent_complete_mode_changed_to_work_weighted_average")
     end
   end
 

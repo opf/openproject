@@ -32,7 +32,7 @@ class WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob < WorkPacka
     total_percent_complete_mode_changed_to_simple_average
   ].freeze
 
-  attr_reader :cause_type, :old_mode, :new_mode
+  attr_reader :cause_type, :mode
 
   # Updates the total % complete of all work packages after the total
   # percent complete mode has been changed.
@@ -45,13 +45,12 @@ class WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob < WorkPacka
   #
   # It creates a journal entry with the System user describing the changes.
   #
-  # @param [String] old_mode The previous total percent complete mode
-  # @param [String] new_mode The new total percent complete mode
+  # @param [String] cause_type The cause type of the change
+  # @param [String] mode The new total percent complete mode
   # @return [void]
-  def perform(cause_type:, old_mode:, new_mode:)
+  def perform(cause_type:, mode:)
     @cause_type = cause_type
-    @old_mode = old_mode
-    @new_mode = new_mode
+    @mode = mode
 
     with_temporary_total_percent_complete_table do
       update_total_percent_complete
@@ -62,17 +61,17 @@ class WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob < WorkPacka
   private
 
   def update_total_percent_complete
-    case new_mode
+    case mode
     when "work_weighted_average"
-      update_work_weighted_average
+      update_to_work_weighted_average
     when "simple_average"
-      update_simple_average
+      update_to_simple_average
     else
-      raise ArgumentError, "Invalid total percent complete mode: #{new_mode}"
+      raise ArgumentError, "Invalid total percent complete mode: #{mode}"
     end
   end
 
-  def update_work_weighted_average
+  def update_to_work_weighted_average
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
       SET total_p_complete = CASE
@@ -91,7 +90,7 @@ class WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob < WorkPacka
     SQL
   end
 
-  def update_simple_average
+  def update_to_simple_average
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
       SET derived_done_ratio = CASE

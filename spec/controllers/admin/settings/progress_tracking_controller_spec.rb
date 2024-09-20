@@ -64,7 +64,7 @@ RSpec.describe Admin::Settings::ProgressTrackingController do
     end
   end
 
-  context "when sending path request to change progress calculation from status-based to status-based" do
+  context "when sending patch request to change progress calculation from status-based to status-based" do
     before do
       Setting.work_package_done_ratio = "status"
     end
@@ -95,6 +95,29 @@ RSpec.describe Admin::Settings::ProgressTrackingController do
             }
       expect(WorkPackages::Progress::ApplyStatusesChangeJob)
         .not_to have_been_enqueued
+    end
+  end
+
+  context "when changing total percent complete mode from simple average to work-weighted average" do
+    before do
+      Setting.total_percent_complete_mode = "simple_average"
+    end
+
+    it "starts a job to update work packages' total % complete values" do
+      patch "update",
+            params: {
+              settings: {
+                total_percent_complete_mode: "work_weighted_average"
+              }
+            }
+      expect(WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob)
+        .to have_been_enqueued.with(old_mode: "simple_average",
+                                    new_mode: "work_weighted_average",
+                                    cause_type: "total_percent_complete_mode_changed_to_work_weighted_average")
+
+      perform_enqueued_jobs
+
+      expect(Setting.total_percent_complete_mode).to eq("work_weighted_average")
     end
   end
 end
