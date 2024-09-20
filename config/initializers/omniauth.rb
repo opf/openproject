@@ -28,6 +28,10 @@
 
 OmniAuth.config.logger = Rails.logger
 
+OmniAuth.config.on_failure = Proc.new do |env|
+  OmniAuthLoginController.action(:failure).call(env)
+end
+
 Rails.application.config.middleware.use OmniAuth::Builder do
   unless Rails.env.production?
     provider :developer, fields: %i[first_name last_name email]
