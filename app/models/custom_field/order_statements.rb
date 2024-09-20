@@ -33,7 +33,7 @@ module CustomField::OrderStatements
   def order_statements
     case field_format
     when "list"
-      [select_custom_option_position]
+      [order_by_list_sql]
     when "string", "date", "bool", "link"
       [coalesce_select_custom_value_as_string]
     when "int", "float"
@@ -88,22 +88,6 @@ module CustomField::OrderStatements
     SQL
   end
 
-  def select_custom_option_position
-    columns = multi_value? ? "array_agg(co_sort.position ORDER BY co_sort.position)" : "co_sort.position"
-    limit = multi_value? ? "" : "LIMIT 1"
-
-    <<-SQL.squish
-      (
-        SELECT #{columns}
-          FROM #{CustomOption.quoted_table_name} co_sort
-          LEFT JOIN #{CustomValue.quoted_table_name} cv_sort
-            ON cv_sort.value IS NOT NULL AND co_sort.id = cv_sort.value::bigint
-          WHERE #{cv_sort_only_custom_field_condition_sql}
-          #{limit}
-      )
-    SQL
-  end
-
   def select_custom_values_as_group
     <<-SQL
       COALESCE((SELECT string_agg(cv_sort.value, '.') FROM #{CustomValue.quoted_table_name} cv_sort
@@ -119,6 +103,22 @@ module CustomField::OrderStatements
       AND cv_sort.value <> ''
       AND cv_sort.value IS NOT NULL
     LIMIT 1)
+    SQL
+  end
+
+  def order_by_list_sql
+    columns = multi_value? ? "array_agg(co_sort.position ORDER BY co_sort.position)" : "co_sort.position"
+    limit = multi_value? ? "" : "LIMIT 1"
+
+    <<-SQL.squish
+      (
+        SELECT #{columns}
+          FROM #{CustomOption.quoted_table_name} co_sort
+          LEFT JOIN #{CustomValue.quoted_table_name} cv_sort
+            ON cv_sort.value IS NOT NULL AND co_sort.id = cv_sort.value::bigint
+          WHERE #{cv_sort_only_custom_field_condition_sql}
+          #{limit}
+      )
     SQL
   end
 
