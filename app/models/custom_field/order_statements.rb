@@ -115,7 +115,7 @@ module CustomField::OrderStatements
         SELECT #{columns}
           FROM #{CustomOption.quoted_table_name} co_sort
           INNER JOIN #{CustomValue.quoted_table_name} cv_sort
-            ON cv_sort.value IS NOT NULL AND co_sort.id = cv_sort.value::bigint
+            ON cv_sort.value IS NOT NULL AND cv_sort.value != '' AND co_sort.id = cv_sort.value::bigint
           WHERE #{cv_sort_only_custom_field_condition_sql}
           #{limit}
       )
