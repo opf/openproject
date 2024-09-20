@@ -2,12 +2,12 @@ This component defines a specific use case of the Primer `Banner` component, con
 
 ## Overview
 
-To use a Primerised flash, the `OpPrimer::BannerMessageComponent` was introduced.
+To use a Primerised flash, the `OpPrimer::FlashComponent` was introduced.
 
-<%= embed OpPrimer::BannerMessageComponentPreview, :default, panels: %i[source] %>
+<%= embed OpPrimer::FlashComponentPreview, :default, panels: %i[source] %>
 
 Internally, this component uses the `Primer::BannerComponent` to render the flash message.
-The `OpPrimer::BannerMessageComponent` is a wrapper around the `Primer::BannerComponent` that adds a wrapper class to prepend the flash message to the `#banner-messages` div in the base layout.
+The `OpPrimer::FlashComponent` is a wrapper around the `Primer::BannerComponent` that adds a wrapper class to prepend the flash message to the `#primerized-flash-messages` div in the base layout.
 
 Otherwise, you use the component as you would use `Primer::Alpha::Banner`.
 See below for available arguments.
@@ -22,16 +22,16 @@ These are rendered using the previous `op-flash` styles, and are not yet primeri
 So if you find yourself in need to render a primerized flash. You can use this pattern instead:
 
 ```ruby
-flash[:primer_banner] = { message: "Successful update", scheme: :success, icon: :check }
+flash[:op_primer_flash] = { message: "Successful update", scheme: :success, icon: :check }
 ```
 
 Or for an error:
 
 ```ruby
-flash[:primer_banner] = { message: "Oh no! Something went wrong", scheme: :danger, icon: :alert }
+flash[:op_primer_flash] = { message: "Oh no! Something went wrong", scheme: :danger, icon: :alert }
 ```
 
-These are rendered in the layout through the `render_banner_messages` helper using the `OpPrimer::BannerMessageComponent`.
+These are rendered in the layout through the `render_banner_messages` helper using the `OpPrimer::FlashComponent`.
 
 ## Usage in turbo streams
 
@@ -53,7 +53,7 @@ update_flash_message_via_turbo_stream(
 )
 ```
 
-The width of this banner is always configured through the `op-primer-banner` namespace.
+The width of this banner is always configured through the `op-primer-flash` namespace.
 It is set to 80% of the available width
 
 Note that using a turbo stream will always remove  all previous flashes.
@@ -65,10 +65,10 @@ Please create a code maintenance ticket if you need to append/prepend messages i
 
 As this is a common use case, the method `render_error_flash_message_via_turbo_stream()` is provided, generating a flash with `scheme: :danger` and `icon: :stop` by default.
 
-<%= embed OpPrimer::BannerMessageComponentPreview, :danger, panels: %i[source] %>
+<%= embed OpPrimer::FlashComponentPreview, :danger, panels: %i[source] %>
 
 <% if false %>
 ### With optional button:
 
-<%= embed OpPrimer::BannerMessageComponentPreview , :button, panels: %i[source] %>
+<%= embed OpPrimer::FlashComponentPreview, :button, panels: %i[source] %>
 <% end %>

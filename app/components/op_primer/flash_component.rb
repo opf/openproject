@@ -25,19 +25,19 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
 
-module BannerMessagesHelper
-  extend ActiveSupport::Concern
+module OpPrimer
+  class FlashComponent < Primer::Alpha::Banner
+    include ApplicationHelper
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-  def render_primer_banner_message
-    return if flash[:primer_banner].blank?
+    def initialize(**system_arguments)
+      system_arguments[:test_selector] ||= "primer-banner-message-component"
+      system_arguments[:dismiss_scheme] ||= :remove
+      system_arguments[:dismiss_label] ||= I18n.t(:button_close)
 
-    system_arguments = flash[:primer_banner]
-    message = system_arguments.delete(:message)
-
-    render(OpPrimer::BannerMessageComponent.new(**system_arguments)) do
-      message
+      super
     end
   end
 end

@@ -37,7 +37,7 @@ module FlashMessagesHelper
   # Renders flash messages
   def render_flash_messages
     messages = flash
-      .reject { |k, _| k.to_s == "primer_banner" }
+      .reject { |k, _| k.to_s == "op_primer_flash" }
       .reject { |k, _| k.start_with? "_" }
       .map do |k, v|
       if k.to_sym == :modal

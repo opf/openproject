@@ -33,7 +33,7 @@ module Meetings
     alias_method :meeting, :model
 
     def call
-      render(::OpPrimer::BannerMessageComponent.new(icon: :info)) do |banner|
+      render(::OpPrimer::FlashComponent.new(icon: :info)) do |banner|
         banner.with_action_button(
           tag: :a,
           href: helpers.meeting_path(meeting),
