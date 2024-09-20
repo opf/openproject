@@ -74,7 +74,7 @@ class ProjectsController < ApplicationController
         )
         replace_via_turbo_stream(component: Projects::TableComponent.new(query: @query, current_user:, params:))
 
-        current_url = url_for(params.permit(:conroller, :action, :query_id, :filters, :columns, :sortBy, :page, :per_page))
+        current_url = url_for(params.permit(:controller, :action, :query_id, :filters, :columns, :sortBy, :page, :per_page))
         turbo_streams << turbo_stream.push_state(current_url)
         turbo_streams << turbo_stream.turbo_frame_set_src(
           "projects_sidemenu",
