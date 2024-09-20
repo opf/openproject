@@ -42,7 +42,6 @@ RSpec.describe CustomStylesController do
       context "when active token exists", with_ee: %i[define_custom_style] do
         it "renders show" do
           expect(subject).to redirect_to action: :show, tab: "interface"
-          expect(response).to be_redirect
         end
       end
 
@@ -85,7 +84,7 @@ RSpec.describe CustomStylesController do
         let(:valid) { true }
 
         it "redirects to show" do
-          expect(response).to be_redirect
+          expect(response).to redirect_to action: :show
           expect(response).to have_http_status(:found)
         end
       end
@@ -94,7 +93,7 @@ RSpec.describe CustomStylesController do
         let(:valid) { false }
 
         it "renders with error" do
-          expect(response).not_to be_redirect
+          expect(response).to have_http_status(:unprocessable_entity)
           expect(response).to render_template "custom_styles/show"
         end
       end
@@ -120,8 +119,7 @@ RSpec.describe CustomStylesController do
           let(:valid) { true }
 
           it "redirects to show" do
-            expect(response).to be_redirect
-            expect(response).to have_http_status(:found)
+            expect(response).to redirect_to(action: :show)
           end
         end
 
@@ -129,7 +127,7 @@ RSpec.describe CustomStylesController do
           let(:valid) { false }
 
           it "renders with error" do
-            expect(response).not_to be_redirect
+            expect(response).to have_http_status(:unprocessable_entity)
             expect(response).to render_template "custom_styles/show"
           end
         end
@@ -147,8 +145,7 @@ RSpec.describe CustomStylesController do
           let(:valid) { true }
 
           it "redirects to show" do
-            expect(response).to be_redirect
-            expect(response).to have_http_status(:found)
+            expect(response).to redirect_to(action: :show)
           end
         end
 
@@ -156,7 +153,7 @@ RSpec.describe CustomStylesController do
           let(:valid) { false }
 
           it "renders with error" do
-            expect(response).not_to be_redirect
+            expect(response).to have_http_status(:unprocessable_entity)
             expect(response).to render_template "custom_styles/show"
           end
         end
@@ -208,7 +205,7 @@ RSpec.describe CustomStylesController do
         end
 
         it "removes the logo from custom_style" do
-          expect(response).to be_redirect
+          expect(response).to redirect_to(action: :show)
           expect(response).to have_http_status(:found)
         end
       end
@@ -270,8 +267,7 @@ RSpec.describe CustomStylesController do
         end
 
         it "removes the export logo from custom_style" do
-          expect(response).to be_redirect
-          expect(response).to have_http_status(:found)
+          expect(response).to redirect_to(action: :show)
         end
       end
 
@@ -331,8 +327,7 @@ RSpec.describe CustomStylesController do
         end
 
         it "removes the export cover from custom_style" do
-          expect(response).to be_redirect
-          expect(response).to have_http_status(:found)
+          expect(response).to redirect_to(action: :show)
         end
       end
 
@@ -393,8 +388,7 @@ RSpec.describe CustomStylesController do
         end
 
         it "removes the favicon from custom_style" do
-          expect(response).to be_redirect
-          expect(response).to have_http_status(:found)
+          expect(response).to redirect_to(action: :show)
         end
       end
 
@@ -455,8 +449,7 @@ RSpec.describe CustomStylesController do
         end
 
         it "removes the touch icon from custom_style" do
-          expect(response).to be_redirect
-          expect(response).to have_http_status(:found)
+          expect(response).to redirect_to(action: :show)
         end
       end
 
@@ -492,8 +485,7 @@ RSpec.describe CustomStylesController do
 
           it "saves the color" do
             expect(custom_style.export_cover_text_color).to eq("#990000")
-            expect(response).to be_redirect
-            expect(response).to have_http_status(:found)
+            expect(response).to redirect_to(action: :show)
           end
         end
 
@@ -510,8 +502,7 @@ RSpec.describe CustomStylesController do
 
           it "removes the color" do
             expect(custom_style.export_cover_text_color).to be_nil
-            expect(response).to be_redirect
-            expect(response).to have_http_status(:found)
+            expect(response).to redirect_to(action: :show)
           end
         end
 
@@ -526,8 +517,7 @@ RSpec.describe CustomStylesController do
 
           it "ignores the parameter" do
             expect(custom_style.export_cover_text_color).to be_nil
-            expect(response).to be_redirect
-            expect(response).to have_http_status(:found)
+            expect(response).to redirect_to(action: :show)
           end
         end
       end
@@ -539,8 +529,7 @@ RSpec.describe CustomStylesController do
         end
 
         it "is created" do
-          expect(response).to be_redirect
-          expect(response).to have_http_status(:found)
+          expect(response).to redirect_to(action: :show)
         end
       end
     end

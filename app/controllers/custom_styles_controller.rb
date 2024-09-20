@@ -66,7 +66,7 @@ class CustomStylesController < ApplicationController
       redirect_to custom_style_path
     else
       flash[:error] = @custom_style.errors.full_messages
-      render action: :show
+      render action: :show, status: :unprocessable_entity
     end
   end
 
@@ -76,7 +76,7 @@ class CustomStylesController < ApplicationController
       redirect_to custom_style_path
     else
       flash[:error] = @custom_style.errors.full_messages
-      render action: :show
+      render action: :show, status: :unprocessable_entity
     end
   end
 
@@ -208,6 +208,7 @@ class CustomStylesController < ApplicationController
     if @custom_style.nil?
       return render_404
     end
+
     @custom_style.send(remove_method)
     redirect_to custom_style_path
   end
