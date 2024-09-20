@@ -324,17 +324,22 @@ RSpec.describe Query::Results, "Sorting by custom field" do
 
         let(:work_packages) do
           [
-            wp_with_cf_value(id_by_name.fetch_values("10.10.10")),
-            wp_with_cf_value(id_by_name.fetch_values("10.10.2")),
-            # TODO: second version is ignored
-            wp_with_cf_value(id_by_name.fetch_values("9", "10.10.2")),
-            wp_with_cf_value(id_by_name.fetch_values("9", "10.10.10")),
+            wp_with_cf_value(id_by_name.fetch_values("10.10.10")),        # 10.10.10
+            wp_with_cf_value(id_by_name.fetch_values("9", "10.10.10")),   # 10.10.10, 9
+            wp_with_cf_value(id_by_name.fetch_values("10.10.10", "9")),   # 10.10.10, 9
+            wp_with_cf_value(id_by_name.fetch_values("10.10.2")),         # 10.10.2
+            wp_with_cf_value(id_by_name.fetch_values("10.2", "10.10.2")), # 10.10.2, 10.2
+            wp_with_cf_value(id_by_name.fetch_values("10.10.2", "9")),    # 10.10.2, 9
             wp_without_cf_value # TODO: should be at index 0
           ]
         end
 
-        # TODO: second version is ignored, so order due to falling back on id asc
-        let(:work_packages_desc) { work_packages.values_at(4, 2, 3, 1, 0) }
+        let(:work_packages_desc) do
+          indexes = work_packages.each_index.to_a
+          # order of values for a project is ignored, so ordered by falling back on id asc
+          indexes[1...3] = indexes[1...3].reverse
+          work_packages.values_at(*indexes.reverse)
+        end
       end
     end
   end

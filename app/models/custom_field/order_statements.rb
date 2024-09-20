@@ -141,10 +141,18 @@ module CustomField::OrderStatements
   end
 
   def order_by_version_sql
-    <<-SQL
-    (SELECT cv_version.name FROM #{Version.quoted_table_name} cv_version
-     WHERE cv_version.id = #{select_custom_value_as_decimal}
-     LIMIT 1)
+    columns = multi_value? ? "array_agg(cv_version.name ORDER BY cv_version.name)" : "cv_version.name"
+    limit = multi_value? ? "" : "LIMIT 1"
+
+    <<-SQL.squish
+      (
+        SELECT #{columns}
+          FROM #{Version.quoted_table_name} cv_version
+          INNER JOIN #{CustomValue.quoted_table_name} cv_sort
+            ON cv_sort.value IS NOT NULL AND cv_sort.value != '' AND cv_version.id = cv_sort.value::bigint
+          WHERE #{cv_sort_only_custom_field_condition_sql}
+          #{limit}
+      )
     SQL
   end
 
