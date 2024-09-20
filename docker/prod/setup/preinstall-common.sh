@@ -50,12 +50,8 @@ apt-get install -yq --no-install-recommends \
 	catdoc \
 	imagemagick \
 	libclang-dev \
+	libjemalloc2 \
 	git
-
-# Install jemalloc
-if [ "$USE_JEMALLOC" = "true" ]; then
-	apt-get install -yq libjemalloc2
-fi
 
 # Specifics for BIM edition
 if [ ! "$BIM_SUPPORT" = "false" ]; then

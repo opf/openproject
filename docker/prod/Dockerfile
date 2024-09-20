@@ -5,8 +5,7 @@ LABEL maintainer="operations@openproject.com"
 ARG BUNDLER_VERSION="2.5.13"
 ARG NODE_VERSION="20.9.0"
 ARG BIM_SUPPORT=true
-ARG USE_JEMALLOC=false
-ENV USE_JEMALLOC=${USE_JEMALLOC}
+ENV USE_JEMALLOC=false
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BUNDLE_JOBS=8
 ENV BUNDLE_RETRY=3
@@ -39,8 +38,8 @@ ENV OPENPROJECT_RAILS__CACHE__STORE=file_store
 ENV OPENPROJECT_ANGULAR_UGLIFY=true
 
 RUN useradd -d /home/$APP_USER -m $APP_USER && \
-    mkdir -p $APP_PATH && chown $APP_USER:$APP_USER $APP_PATH && \
-    mkdir -p $APP_DATA_PATH && chown $APP_USER:$APP_USER $APP_DATA_PATH && chmod g+rwx $APP_DATA_PATH
+  mkdir -p $APP_PATH && chown $APP_USER:$APP_USER $APP_PATH && \
+  mkdir -p $APP_DATA_PATH && chown $APP_USER:$APP_USER $APP_DATA_PATH && chmod g+rwx $APP_DATA_PATH
 
 WORKDIR $APP_PATH
 
@@ -73,10 +72,10 @@ COPY . .
 
 # Copy lock file again as the updated version was overriden by COPY just now
 RUN cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak && \
-    ./docker/prod/setup/precompile-assets.sh && \
-    ./docker/prod/setup/postinstall-common.sh && \
-    cp ./config/database.production.yml config/database.yml && \
-    ln -s $APP_PATH/docker/prod/setup/.irbrc /home/$APP_USER/
+  ./docker/prod/setup/precompile-assets.sh && \
+  ./docker/prod/setup/postinstall-common.sh && \
+  cp ./config/database.production.yml config/database.yml && \
+  ln -s $APP_PATH/docker/prod/setup/.irbrc /home/$APP_USER/
 
 # -------------------------------------
 # slim (public)
@@ -100,7 +99,7 @@ ENV PGDATA=/var/openproject/pgdata
 ENV GOSU_VERSION="1.17"
 
 RUN ./docker/prod/setup/postinstall-onprem.sh && \
-    ln -s /app/docker/prod/setup/.irbrc /root/
+  ln -s /app/docker/prod/setup/.irbrc /root/
 
 # Expose ports for apache and postgres
 EXPOSE 80
