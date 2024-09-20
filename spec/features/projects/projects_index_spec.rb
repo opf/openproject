@@ -1190,6 +1190,45 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
         projects_page.expect_number_of_sort_fields(1)
       end
 
+      it "resets the pagination when sorting (bug #55392)" do
+        # We need pagination, so reduce the page size to enable it
+        allow(Setting).to receive(:per_page_options_array).and_return([1, 5])
+        projects_page.set_page_size(1)
+        wait_for_reload
+        projects_page.expect_page_size(1)
+        projects_page.go_to_page(2) # Go to another page that is not the first one
+        wait_for_reload
+        projects_page.expect_current_page_number(2)
+
+        # Open config dialog and make changes to the sorting
+        projects_page.open_configure_view
+        projects_page.switch_configure_view_tab(I18n.t("label_sort"))
+        projects_page.within_sort_row(0) do
+          projects_page.change_sort_order(column_identifier: :name, direction: :desc)
+        end
+
+        # Save and close the dialog
+        projects_page.submit_config_view_dialog
+        wait_for_reload
+
+        # Changing the sorting resets the pagination to the first page
+        projects_page.expect_current_page_number(1)
+
+        # Go to another page again
+        projects_page.go_to_page(2)
+        wait_for_reload
+        projects_page.expect_current_page_number(2)
+
+        # Open dialog, do not change anything and save
+        projects_page.open_configure_view
+        projects_page.switch_configure_view_tab(I18n.t("label_sort"))
+        projects_page.submit_config_view_dialog
+        wait_for_reload
+
+        # An unchanged sorting will keep the current position in the pagination
+        projects_page.expect_current_page_number(2)
+      end
+
       it "does not allow to sort via long text custom fields" do
         long_text_custom_field = create(:text_project_custom_field)
         Setting.enabled_projects_columns += [long_text_custom_field.column_name]
