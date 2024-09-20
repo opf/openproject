@@ -43,9 +43,5 @@ OpenProject::FeatureDecisions.add :percent_complete_edition,
                                                "Will be enabled by default in OpenProject 15.0. " \
                                                "See work package #52233 for more details."
 
-OpenProject::FeatureDecisions.add :meeting_updated_notification,
-                                  description: "Allow flash messages to notify users about concurrent meeting edits. " \
-                                               "See work package #54744 for more details."
-
 OpenProject::FeatureDecisions.add :built_in_oauth_applications,
                                   description: "Allows the display and use of built-in OAuth applications."

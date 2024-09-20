@@ -10,7 +10,7 @@
     render(Primer::OpenProject::PageHeader.new(
       test_selector: "meeting-page-header",
       state: @state,
-      data: OpenProject::FeatureDecisions.meeting_updated_notification_active? ? params : {}
+      data: params
     )) do |header|
       header.with_title do |title|
         title.with_editable_form(model: @meeting,

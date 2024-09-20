@@ -44,7 +44,7 @@ RSpec.describe "Structured meetings CRUD",
   let(:meeting) { create(:structured_meeting, project:, author: current_user) }
   let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
 
-  describe "meeting update flash", with_flag: { meeting_updated_notification: true } do
+  describe "meeting update flash" do
     before do
       # Disable the polling so we can trigger it manually
       allow_any_instance_of(Meetings::HeaderComponent) # rubocop:disable RSpec/AnyInstance
