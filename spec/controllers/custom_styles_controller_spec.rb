@@ -566,6 +566,13 @@ RSpec.describe CustomStylesController do
         expect(DesignColor.count).to eq(0)
         expect(response).to redirect_to action: :show
       end
+
+      context "when setting a tab to route to" do
+        it "redirects to that tab" do
+          post :update_colors, params: { tab: :branding, design_colors: [{ "primary-button-color" => "#110000" }] }
+          expect(response).to redirect_to(action: :show, tab: :branding)
+        end
+      end
     end
   end
 
