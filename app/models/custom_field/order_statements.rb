@@ -75,34 +75,46 @@ module CustomField::OrderStatements
 
   def coalesce_select_custom_value_as_string
     # COALESCE is here to make sure that blank and NULL values are sorted equally
-    <<-SQL
+    <<-SQL.squish
       COALESCE(#{select_custom_value_as_string}, '')
     SQL
   end
 
   def select_custom_value_as_string
-    <<-SQL
-    (SELECT cv_sort.value FROM #{CustomValue.quoted_table_name} cv_sort
-        WHERE #{cv_sort_only_custom_field_condition_sql}
-        LIMIT 1)
+    <<-SQL.squish
+      (
+        SELECT cv_sort.value
+          FROM #{CustomValue.quoted_table_name} cv_sort
+          WHERE #{cv_sort_only_custom_field_condition_sql}
+          LIMIT 1
+      )
     SQL
   end
 
   def select_custom_values_as_group
-    <<-SQL
-      COALESCE((SELECT string_agg(cv_sort.value, '.') FROM #{CustomValue.quoted_table_name} cv_sort
-        WHERE #{cv_sort_only_custom_field_condition_sql}
-          AND cv_sort.value IS NOT NULL), '')
+    <<-SQL.squish
+      COALESCE(
+        (
+          SELECT string_agg(cv_sort.value, '.')
+            FROM #{CustomValue.quoted_table_name} cv_sort
+            WHERE #{cv_sort_only_custom_field_condition_sql}
+              AND cv_sort.value IS NOT NULL
+        ),
+        ''
+      )
     SQL
   end
 
   def select_custom_value_as_decimal
-    <<-SQL
-    (SELECT CAST(cv_sort.value AS decimal(60,3)) FROM #{CustomValue.quoted_table_name} cv_sort
-      WHERE #{cv_sort_only_custom_field_condition_sql}
-      AND cv_sort.value <> ''
-      AND cv_sort.value IS NOT NULL
-    LIMIT 1)
+    <<-SQL.squish
+      (
+        SELECT CAST(cv_sort.value AS decimal(60,3))
+          FROM #{CustomValue.quoted_table_name} cv_sort
+          WHERE #{cv_sort_only_custom_field_condition_sql}
+            AND cv_sort.value <> ''
+            AND cv_sort.value IS NOT NULL
+          LIMIT 1
+      )
     SQL
   end
 
@@ -157,7 +169,7 @@ module CustomField::OrderStatements
   end
 
   def cv_sort_only_custom_field_condition_sql
-    <<-SQL
+    <<-SQL.squish
       cv_sort.customized_type='#{self.class.customized_class.name}'
       AND cv_sort.customized_id=#{self.class.customized_class.quoted_table_name}.id
       AND cv_sort.custom_field_id=#{id}
