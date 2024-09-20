@@ -54,7 +54,7 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
 
     it "shows interface tab" do
       expect(page).to have_current_path custom_style_path(tab: "interface")
-      expect(page).to have_text I18n.t(:label_interface_colours)
+      expect(page).to have_text I18n.t(:label_interface_colors)
     end
 
     it "selects a color theme and redirect to the interface tab" do

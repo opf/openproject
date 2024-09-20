@@ -1,8 +1,8 @@
 <%= form_tag update_design_colors_path, method: :post, class: "form" do %>
   <section class="form--section">
     <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= I18n.t(:label_interface_colours) %></legend>
-      <p> <%= t('label_interface_colours_description') %> </p>
+      <legend class="form--fieldset-legend"><%= I18n.t(:label_interface_colors) %></legend>
+      <p> <%= t('label_interface_colors_description') %> </p>
       <% DesignColor.setables.each do |design_color|  %>
         <div class="form--field -required">
           <label class="form--label"><%= I18n.t("admin.custom_styles.colors.#{design_color.variable}") %>:</label>
