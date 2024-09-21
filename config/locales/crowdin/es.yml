@@ -31,6 +31,9 @@ es:
     custom_styles:
       color_theme: "Tema de color"
       color_theme_custom: "(Personalizado)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Botón primario"
         accent-color: "Acento"
@@ -1639,7 +1642,7 @@ es:
   error_menu_item_not_saved: Elemento de menú no podría ser guardado
   error_wiki_root_menu_item_conflict: >
     No se puede renombrar "%{old_name}" a "%{new_name}" debido a un conflicto en el elemento de menú resultante con el elemento de menú existente "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Se produjo un error durante la autenticación externa. Vuelva a intentarlo."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Atributos que no pueden resaltarse: %{attributes}"
   events:
     changeset: "Set de cambios editado"
@@ -1920,7 +1923,8 @@ es:
   label_additional_workflow_transitions_for_assignee: "Transiciones adicionales permitidas cuando el usuario es el asignado"
   label_additional_workflow_transitions_for_author: "Transiciones adicionales permitidas cuando el usuario es el autor"
   label_administration: "Administración"
-  label_advanced_settings: "Ajustes avanzados"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Edad"
   label_ago: "días antes"
   label_all: "todos"
@@ -2034,6 +2038,7 @@ es:
   label_custom_field_plural: "Campos personalizados"
   label_custom_field_default_type: "Tipo vacío"
   label_custom_style: "Diseño"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Paneles de control"
   label_database_version: "Versión de PostgreSQL"
   label_date: "Fecha"
@@ -2155,8 +2160,8 @@ es:
   label_share_project_list: "Listas de proyectos compartidas"
   label_share_work_package: "Compartir paquete de trabajo"
   label_show_all_registered_users: "Mostrar todos los usuarios registrados"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Diario"
   label_journal_diff: "Comparación de la descripción"
   label_language: "Idioma"

@@ -31,6 +31,9 @@ ja:
     custom_styles:
       color_theme: "カラーテーマ"
       color_theme_custom: "（カスタム）"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
         accent-color: "Accent"
@@ -1603,7 +1606,7 @@ ja:
   error_menu_item_not_saved: メニュー項目を保存できませんでした。
   error_wiki_root_menu_item_conflict: >
     結果のメニュー項目が既存のメニュー項目 "%{existing_caption}" (%{existing_identifier}) と競合するため、"%{old_name}" の名前を "%{new_name}" に変更できません。
-  error_external_authentication_failed: "外部認証中にエラーが発生しました。もう一度やり直してください。"
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "強調表示されない属性: %{attributes}"
   events:
     changeset: "変更セットが編集されました。"
@@ -1884,7 +1887,8 @@ ja:
   label_additional_workflow_transitions_for_assignee: "ユーザーが担当者である場合、追加遷移を許可する"
   label_additional_workflow_transitions_for_author: "ユーザーが作成者である場合、追加遷移を許可する"
   label_administration: "管理"
-  label_advanced_settings: "詳細設定"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "経過"
   label_ago: "○日前"
   label_all: "全て"
@@ -1998,6 +2002,7 @@ ja:
   label_custom_field_plural: "カスタムフィールド"
   label_custom_field_default_type: "空の種類"
   label_custom_style: "デザイン"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "ダッシュボード"
   label_database_version: "PostgreSQL バージョン"
   label_date: "日付"
@@ -2119,8 +2124,8 @@ ja:
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
   label_show_all_registered_users: "すべての登録ユーザーを表示"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "履歴記述"
   label_journal_diff: "説明の比較"
   label_language: "言語"

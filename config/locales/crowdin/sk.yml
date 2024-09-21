@@ -31,6 +31,9 @@ sk:
     custom_styles:
       color_theme: "Farebný motív"
       color_theme_custom: "(Vlastné)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
         accent-color: "Accent"
@@ -1712,7 +1715,7 @@ sk:
   error_menu_item_not_saved: Položku sa nepodarilo uložiť
   error_wiki_root_menu_item_conflict: >
     Nie je možné premenovať "%{old_name}" na "%{new_name}" kvôli konfliktu vo výslednej položke menu s existujúcou položkou menu "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Atribút(y), ktoré nie je možné zvýrazniť: %{attributes}"
   events:
     changeset: "Sada zmien upravená"
@@ -1993,7 +1996,8 @@ sk:
   label_additional_workflow_transitions_for_assignee: "Povolené dodatočné prechody, pokiaľ je užívateľ priradený"
   label_additional_workflow_transitions_for_author: "Povolené dodatočné prechody, pokiaľ je užívateľ autorom"
   label_administration: "Administrácia"
-  label_advanced_settings: "Rozšírené nastavenia"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Vek"
   label_ago: "dní späť"
   label_all: "Všetky"
@@ -2107,6 +2111,7 @@ sk:
   label_custom_field_plural: "Vlastné polia"
   label_custom_field_default_type: "Prázdny typ"
   label_custom_style: "Návrh"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "Dátum"
@@ -2228,8 +2233,8 @@ sk:
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
   label_show_all_registered_users: "Zobraziť všetkých registrovaných užívateľov"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Denník"
   label_journal_diff: "Porovnanie popisu"
   label_language: "Jazyk"

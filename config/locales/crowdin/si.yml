@@ -31,6 +31,9 @@ si:
     custom_styles:
       color_theme: "වර්ණ තේමාව"
       color_theme_custom: "(අභිරුචි)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
         accent-color: "Accent"
@@ -1642,7 +1645,7 @@ si:
   error_menu_item_not_saved: මෙනු අයිතමය සුරැකිය නොහැකි විය
   error_wiki_root_menu_item_conflict: >
     දැනට පවතින මෙනු අයිතමය "%{existing_caption}" (%{existing_identifier}) සමඟ එහි ප්රතිඵලයක් ලෙස මෙනු අයිතමයේ ගැටුමක් හේතුවෙන් "%{old_name}" "" "%{new_name}" ලෙස නම් කල නොහැක.
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "විශේෂණය (ය) අවධාරණය කළ නොහැකි: %{attributes}"
   events:
     changeset: "සංස්කරණය කරන ලද වෙනස්"
@@ -1923,7 +1926,8 @@ si:
   label_additional_workflow_transitions_for_assignee: "පරිශීලකයා වන විට අතිරේක සංක්රමණයන් අවසර දෙනු ලැබේ"
   label_additional_workflow_transitions_for_author: "පරිශීලකයා කතුවරයා වන විට අතිරේක සංක්රමණයන් අවසර දෙනු ලැබේ"
   label_administration: "පරිපාලන"
-  label_advanced_settings: "උසස් සැකසුම්"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "වයස"
   label_ago: "දින කිහිපයකට පෙර"
   label_all: "සියලු"
@@ -2037,6 +2041,7 @@ si:
   label_custom_field_plural: "අභිරුචි ක්ෂේත්ර"
   label_custom_field_default_type: "හිස් වර්ගය"
   label_custom_style: "නිර්මාණ"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "දිනය"
@@ -2158,8 +2163,8 @@ si:
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
   label_show_all_registered_users: "සියලුම ලියාපදිංචි පරිශීලකයන් පෙන්වන්න"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "ජර්නල්"
   label_journal_diff: "විස්තරය සංසන්දනය"
   label_language: " "
