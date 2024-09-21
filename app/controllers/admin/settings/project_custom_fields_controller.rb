@@ -82,7 +82,7 @@ module Admin::Settings
 
     def link
       create_service = ProjectCustomFieldProjectMappings::BulkCreateService
-                         .new(user: current_user, projects: @projects, project_custom_field: @custom_field,
+                         .new(user: current_user, projects: @projects, model: @custom_field,
                               include_sub_projects: include_sub_projects?)
                          .call
 
