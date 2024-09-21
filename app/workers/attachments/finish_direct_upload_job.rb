@@ -79,7 +79,7 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
     contract = create_contract attachment, whitelist
 
     unless contract.valid?
-      errors = contracterrors.full_messages.join(", ")
+      errors = contract.errors.full_messages.join(", ")
       raise "Failed to validate attachment #{attachment.id}: #{errors}"
     end
   end
