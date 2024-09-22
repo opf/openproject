@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -28,44 +26,60 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-require_module_spec_helper
-require Rails.root.join('spec/services/principals/replace_references_context')
+RSpec.shared_examples_for "rewritten record" do |factory, attribute, format = Integer|
+  let!(:model) do
+    klass = FactoryBot.factories.find(factory).build_class
+    all_attributes = other_attributes.merge(attribute => principal_id)
 
-RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
-  subject(:service_call) { instance.call(from: principal, to: to_principal) }
+    inserted = ActiveRecord::Base.connection.select_one <<~SQL.squish
+      INSERT INTO #{klass.table_name}
+      (#{all_attributes.keys.join(', ')})
+      VALUES
+      (#{all_attributes.values.join(', ')})
+      RETURNING id
+    SQL
 
-  shared_let(:other_user) { create(:user) }
-  shared_let(:principal) { create(:user) }
-  shared_let(:to_principal) { create(:user) }
-
-  let(:instance) do
-    described_class.new
+    klass.find(inserted["id"])
   end
 
-  context "with MeetingAgendaItem" do
-    it_behaves_like "rewritten record",
-                    :meeting_agenda_item,
-                    :author_id do
-      let(:attributes) do
-        {
-          author_id: principal.id,
-          created_at: "NOW()",
-          updated_at: "NOW()"
-        }
+  let(:other_attributes) do
+    defined?(attributes) ? attributes : {}
+  end
+
+  def expected(user, format)
+    if format == String
+      user.id.to_s
+    else
+      user.id
+    end
+  end
+
+  context "for #{factory}" do
+    context "with the replaced user" do
+      let(:principal_id) { principal.id }
+
+      before do
+        service_call
+        model.reload
+      end
+
+      it "replaces #{attribute}" do
+        expect(model.send(attribute))
+          .to eql expected(to_principal, format)
       end
     end
 
-    it_behaves_like "rewritten record",
-                    :meeting_agenda_item,
-                    :presenter_id do
-      let(:attributes) do
-        {
-          presenter_id: principal.id,
-          created_at: "NOW()",
-          updated_at: "NOW()"
-        }
+    context "with a different user" do
+      let(:principal_id) { other_user.id }
 
+      before do
+        service_call
+        model.reload
+      end
+
+      it "keeps #{attribute}" do
+        expect(model.send(attribute))
+          .to eql expected(other_user, format)
       end
     end
   end

@@ -27,6 +27,7 @@
 #++
 
 require "spec_helper"
+require_relative "replace_references_context"
 
 RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
   subject(:service_call) { instance.call(from: principal, to: to_principal) }
@@ -330,8 +331,7 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
 
       it_behaves_like "rewritten record",
                       :journal_wiki_page_journal,
-                      :author_id do
-      end
+                      :author_id
     end
 
     context "with WorkPackage" do
