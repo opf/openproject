@@ -30,7 +30,6 @@ class MeetingSectionsController < ApplicationController
   include AttachableServiceCall
   include OpTurbo::ComponentStream
   include Meetings::AgendaComponentStreams
-  include ApplicationComponentStreams
 
   before_action :set_meeting
   before_action :set_meeting_section,

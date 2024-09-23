@@ -28,12 +28,11 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  render(Primer::Alpha::Banner.new(full:,
-                                   full_when_narrow:,
-                                   dismiss_scheme:,
-                                   dismiss_label:,
-                                   icon:,
-                                   scheme:,
-                                   test_selector:,
-                                   )) { message.html_safe }
+  render(Primer::BaseComponent.new(
+    tag: :div,
+    classes: "op-primer-flash--item",
+    data: { unique_key: @unique_key }.compact
+  )) do
+    render_parent
+  end
 %>

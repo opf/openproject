@@ -26,18 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ApplicationComponentStreams
-  extend ActiveSupport::Concern
+module OpPrimer
+  class FlashComponent < Primer::Alpha::Banner
+    include ApplicationHelper
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-  included do
-    def render_error_flash_message_via_turbo_stream(**kwargs)
-      update_flash_message_via_turbo_stream(**kwargs.merge(scheme: :danger, icon: :stop))
-    end
+    def initialize(**system_arguments)
+      @unique_key = system_arguments.delete(:unique_key)
 
-    def update_flash_message_via_turbo_stream(**)
-      replace_via_turbo_stream(
-        component: FlashMessageComponent.new(**)
-      )
+      system_arguments[:test_selector] ||= "primer-banner-message-component"
+      system_arguments[:dismiss_scheme] ||= :remove
+      system_arguments[:dismiss_label] ||= I18n.t(:button_close)
+
+      super
     end
   end
 end

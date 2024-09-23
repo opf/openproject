@@ -53,7 +53,7 @@ RSpec.describe "Structured meetings CRUD",
     end
 
     it do
-      flash_component = ".op-primer-banner--item"
+      flash_component = ".op-primer-flash--item"
 
       ## Add agenda item
       show_page.visit!
