@@ -37,44 +37,46 @@ module FlashMessagesHelper
   # Renders flash messages
   def render_flash_messages
     messages = flash
-      .reject { |k, _| k.to_s == "op_primer_flash" }
       .reject { |k, _| k.start_with? "_" }
-      .map do |k, v|
-      if k.to_sym == :modal
-        component = v[:type].constantize
-        component.new(**v.fetch(:parameters, {})).render_in(self)
-      else
-        render_flash_message(k, v)
-      end
-    end
+      .reject { |k, _| k.to_s == "modal" }
+      .map { |k, v| render_flash_content(k.to_sym, v) }
 
     safe_join messages, "\n"
   end
 
-  def render_flash_message(type, message, html_options = {}) # rubocop:disable Metrics/AbcSize
-    if type.to_s == "notice"
-      type = "success"
+  def render_flash_content(key, content)
+    case key
+    when :op_primer_flash
+      render_flash_message(content[:scheme] || :default, content[:message])
+    else
+      render_flash_message(key, content)
     end
+  end
 
-    toast_css_classes = ["op-toast -#{type}", html_options.delete(:class)]
+  def render_flash_modal
+    content = flash[:modal]
+    return if content.blank?
 
-    # Add autohide class to notice flashes if configured
-    if type.to_s == "success" && User.current.pref.auto_hide_popups?
-      toast_css_classes << "autohide-toaster"
+    component = content[:type].constantize
+    component.new(**content.fetch(:parameters, {})).render_in(self)
+  end
+
+  def mapped_flash_type(type)
+    case type
+    when :error
+      :danger
+    when :warning
+      :warning
+    when :notice
+      :success
+    else
+      :default
     end
+  end
 
-    html_options = { class: toast_css_classes.join(" "), role: "alert" }.merge(html_options)
-    close_button = content_tag :a, "", class: "op-toast--close icon-context icon-close",
-                                       title: I18n.t("js.close_popup_title"),
-                                       tabindex: "0"
-    toast = content_tag(:div, join_flash_messages(message), class: "op-toast--content")
-    content_tag :div, "", class: "op-toast--wrapper" do
-      content_tag :div, "", class: "op-toast--casing" do
-        content_tag :div, html_options do
-          concat(close_button)
-          concat(toast)
-        end
-      end
+  def render_flash_message(type, message)
+    render(OpPrimer::FlashComponent.new(scheme: mapped_flash_type(type))) do
+      join_flash_messages(message)
     end
   end
 end
