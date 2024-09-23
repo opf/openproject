@@ -113,9 +113,13 @@ module Redmine
       /(\[(.+?)\]\((.+?)\))/
     end
 
-    # Format the time to a date in the user time zone if one is set.
-    # If none is set and the time is in utc time zone (meaning it came from active record), format the date in the system timezone
-    # otherwise just use the date in the time zone attached to the time.
+    # Formats the given time as a date string according to the user's time zone and
+    # optional specified format.
+    #
+    # @param time [Time, String] The time to format. Can be a Time object or a String.
+    # @param format [String, nil] The strftime format to use for the date. If nil, the default
+    #   date format from `Setting.date_format` is used.
+    # @return [String, nil] The formatted date string, or nil if the time is not provided.
     def format_time_as_date(time, format: nil)
       return nil unless time
 
