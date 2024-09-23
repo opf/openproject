@@ -142,4 +142,37 @@ RSpec.describe Members::DeleteService, type: :model do
       end
     end
   end
+
+  context "when deleting global role memberships" do
+    let(:user) { create(:user) }
+    let(:global_role) { create(:global_role) }
+    let!(:membership) { create(:global_member, principal: user, roles: [global_role]) }
+
+    subject { described_class.new(user: current_user, model: membership) }
+
+    context "as an admin" do
+      let(:current_user) { create(:admin) }
+
+      it "deletes them" do
+        expect(membership.member_roles.map(&:role_id)).to eq([global_role.id])
+
+        subject.call
+
+        expect(membership.member_roles.map(&:role_id)).to be_empty
+      end
+    end
+
+    context "as a non-admin user" do
+      let(:current_user) { create(:user) }
+
+      it "does not delete them" do
+        expect(membership.member_roles.map(&:role_id)).to eq([global_role.id])
+
+        result = subject.call
+        expect(result).not_to be_success
+
+        expect(membership.member_roles.map(&:role_id)).to eq([global_role.id])
+      end
+    end
+  end
 end
