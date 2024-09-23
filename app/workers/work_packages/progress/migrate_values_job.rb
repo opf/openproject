@@ -51,19 +51,19 @@ class WorkPackages::Progress::MigrateValuesJob < WorkPackages::Progress::Job
     case current_mode
     when "field"
       unset_all_percent_complete_values if previous_mode == "disabled"
-      fix_remaining_work_set_with_100p_complete
+      fix_remaining_work_set_with_100_percent_complete
       fix_remaining_work_exceeding_work
       fix_only_work_being_set
       fix_only_remaining_work_being_set
-      derive_unset_work_from_remaining_work_and_p_complete
-      derive_unset_p_complete_from_work_and_remaining_work
+      derive_unset_work_from_remaining_work_and_percent_complete
+      derive_unset_percent_complete_from_work_and_remaining_work
       fix_percent_complete_and_remaining_work_when_work_is_0h
-      derive_remaining_work_from_work_and_p_complete
+      derive_remaining_work_from_work_and_percent_complete
     when "status"
-      set_p_complete_from_status
-      fix_remaining_work_set_with_100p_complete
-      derive_unset_work_from_remaining_work_and_p_complete
-      derive_remaining_work_from_work_and_p_complete
+      set_percent_complete_from_status
+      fix_remaining_work_set_with_100_percent_complete
+      derive_unset_work_from_remaining_work_and_percent_complete
+      derive_remaining_work_from_work_and_percent_complete
     else
       raise "Unknown progress calculation mode: #{current_mode}, aborting."
     end
@@ -117,7 +117,7 @@ class WorkPackages::Progress::MigrateValuesJob < WorkPackages::Progress::Job
     SQL
   end
 
-  def derive_unset_p_complete_from_work_and_remaining_work
+  def derive_unset_percent_complete_from_work_and_remaining_work
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
       SET done_ratio = CASE
