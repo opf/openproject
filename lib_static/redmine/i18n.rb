@@ -129,6 +129,17 @@ module Redmine
       end
     end
 
+    # Formats the given time as a time string according to the user's time zone
+    # and optional specified format.
+    #
+    # @param time [Time, String] The time to format. Can be a Time object or a
+    #   String.
+    # @param include_date [Boolean] Whether to include the date in the formatted
+    #   output. Defaults to true.
+    # @param format [String] The strftime format to use for the time. Defaults
+    #   to the format in `Setting.time_format`.
+    # @return [String, nil] The formatted time string, or nil if the time is not
+    #   provided.
     def format_time(time, include_date: true, format: Setting.time_format)
       return nil unless time
 
