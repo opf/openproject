@@ -50,23 +50,31 @@ class WorkPackages::Progress::MigrateValuesJob < WorkPackages::Progress::Job
   def adjust_progress_values
     case current_mode
     when "field"
-      unset_all_percent_complete_values if previous_mode == "disabled"
-      fix_remaining_work_set_with_100_percent_complete
-      fix_remaining_work_exceeding_work
-      fix_only_work_being_set
-      fix_only_remaining_work_being_set
-      derive_unset_work_from_remaining_work_and_percent_complete
-      derive_unset_percent_complete_from_work_and_remaining_work
-      fix_percent_complete_and_remaining_work_when_work_is_0h
-      derive_remaining_work_from_work_and_percent_complete
+      adjust_progress_values_for_work_based_mode
     when "status"
-      set_percent_complete_from_status
-      fix_remaining_work_set_with_100_percent_complete
-      derive_unset_work_from_remaining_work_and_percent_complete
-      derive_remaining_work_from_work_and_percent_complete
+      adjust_progress_values_for_status_based_mode
     else
       raise "Unknown progress calculation mode: #{current_mode}, aborting."
     end
+  end
+
+  def adjust_progress_values_for_work_based_mode
+    unset_all_percent_complete_values if previous_mode == "disabled"
+    fix_remaining_work_set_with_100_percent_complete
+    fix_remaining_work_exceeding_work
+    fix_only_work_being_set
+    fix_only_remaining_work_being_set
+    derive_unset_work_from_remaining_work_and_percent_complete
+    derive_unset_percent_complete_from_work_and_remaining_work
+    fix_percent_complete_and_remaining_work_when_work_is_0h
+    derive_remaining_work_from_work_and_percent_complete
+  end
+
+  def adjust_progress_values_for_status_based_mode
+    set_percent_complete_from_status
+    fix_remaining_work_set_with_100_percent_complete
+    derive_unset_work_from_remaining_work_and_percent_complete
+    derive_remaining_work_from_work_and_percent_complete
   end
 
   def unset_all_percent_complete_values
