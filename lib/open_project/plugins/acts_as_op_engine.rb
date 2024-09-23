@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -293,9 +293,9 @@ module OpenProject::Plugins
         OpenProject::Activity.register(event_type, options)
       end
 
-      def add_cron_jobs(&block)
+      def add_cron_jobs
         config.to_prepare do
-          Rails.application.config.good_job.cron.merge!(block.call)
+          Rails.application.config.good_job.cron.merge!(yield)
         end
       end
 

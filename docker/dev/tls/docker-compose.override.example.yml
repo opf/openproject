@@ -10,3 +10,4 @@ services:
           - openproject.local
           - nextcloud.local
           - gitlab.local
+          - keycloak.local

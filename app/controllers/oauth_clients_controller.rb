@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,6 +37,8 @@ class OAuthClientsController < ApplicationController
   before_action :set_redirect_uri, only: [:callback]
   before_action :set_code, only: [:callback]
   before_action :set_connection_manager, only: [:callback]
+
+  no_authorization_required! :callback, :ensure_connection
 
   after_action :clear_oauth_state_cookie, only: [:callback]
 
@@ -80,11 +82,7 @@ class OAuthClientsController < ApplicationController
 
     storage = oauth_client.integration
     # check if the origin is the same
-    destination_url = if params.fetch(:destination_url, "").start_with?(root_url)
-                        params[:destination_url]
-                      else
-                        root_url
-                      end
+    destination_url = destination_url(params.fetch(:destination_url, ""))
     auth_state = ::Storages::Peripherals::StorageInteraction::Authentication
                    .authorization_state(storage:, user: User.current)
 
@@ -93,13 +91,27 @@ class OAuthClientsController < ApplicationController
     else
       nonce = SecureRandom.uuid
       cookies["oauth_state_#{nonce}"] = { value: { href: destination_url, storageId: storage_id }.to_json, expires: 1.hour }
-      redirect_to(storage.oauth_configuration.authorization_uri(state: nonce))
+      redirect_to(storage.oauth_configuration.authorization_uri(state: nonce), allow_other_host: true)
     end
   end
 
   # rubocop:enable Metrics/AbcSize
 
   private
+
+  def relative_url?(url)
+    url.starts_with?("/")
+  end
+
+  def destination_url(url)
+    if ::API::V3::Utilities::PathHelper::ApiV3Path.same_origin?(url)
+      url
+    elsif relative_url?(url)
+      root_url.chomp("/") + url
+    else
+      root_url
+    end
+  end
 
   def handle_absent_oauth_client
     flash[:error] = [I18n.t("oauth_client.errors.oauth_client_not_found"),

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,5 +48,23 @@ RSpec.configure do |config|
       classes.each { |cls| cls.enable_test_adapter(original_adapter) }
       good_job_adapter&.shutdown
     end
+  end
+
+  config.around(:example, :with_good_job_batches) do |example|
+    original_adapter = ActiveJob::Base.queue_adapter
+    good_job_adapter = GoodJob::Adapter.new(execution_mode: :external)
+
+    classes = Array(example.metadata[:with_good_job_batches])
+    unless classes.all? { |cls| cls <= ApplicationJob }
+      raise ArgumentError.new("Pass the ApplicationJob subclasses you want to disable the test adapter on.")
+    end
+
+    classes.each(&:disable_test_adapter)
+    ActiveJob::Base.queue_adapter = good_job_adapter
+    example.run
+  ensure
+    ActiveJob::Base.queue_adapter = original_adapter
+    classes.each { |cls| cls.enable_test_adapter(original_adapter) }
+    good_job_adapter.shutdown
   end
 end

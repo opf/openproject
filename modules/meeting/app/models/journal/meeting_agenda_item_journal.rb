@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,7 @@ class Journal::MeetingAgendaItemJournal < Journal::BaseJournal
   enum item_type: MeetingAgendaItem::ITEM_TYPES
 
   belongs_to :meeting
+  belongs_to :work_package, optional: true
   belongs_to :author, class_name: "User"
   belongs_to :agenda_item, class_name: "MeetingAgendaItem"
 

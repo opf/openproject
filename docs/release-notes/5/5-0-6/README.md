@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 5.0.6
-  sidebar_navigation:
-      title: 5.0.6
-  release_version: 5.0.6
-  release_date: 2015-12-09
+title: OpenProject 5.0.6
+sidebar_navigation:
+  title: 5.0.6
+release_version: 5.0.6
+release_date: 2015-12-09
 ---
 
 
@@ -41,8 +41,6 @@ Changing a work packages assignee and responsible works significantly
 faster in projects with a lot of members.
 
 For further information on the release, please refer to the  
-[Changelog v.5.0.6](https://community.openproject.org/versions/784) 
+[Changelog v.5.0.6](https://community.openproject.org/versions/784)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.6).
-
-

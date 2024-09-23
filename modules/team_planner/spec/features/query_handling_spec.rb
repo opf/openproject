@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ require "spec_helper"
 require_relative "../support/pages/team_planner"
 require_relative "../../../../spec/features/views/shared_examples"
 
-RSpec.describe "Team planner query handling", :js, with_ee: %i[team_planner_view] do
+RSpec.describe "Team planner query handling", :js, :with_cuprite, with_ee: %i[team_planner_view] do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:project) do
@@ -75,7 +75,7 @@ RSpec.describe "Team planner query handling", :js, with_ee: %i[team_planner_view
   let(:team_planner) { Pages::TeamPlanner.new project }
   let(:work_package_page) { Pages::WorkPackagesTable.new project }
   let(:query_title) { Components::WorkPackages::QueryTitle.new }
-  let(:query_menu) { Components::WorkPackages::QueryMenu.new }
+  let(:query_menu) { Components::Submenu.new }
   let(:filters) { team_planner.filters }
 
   current_user { user }
@@ -97,7 +97,7 @@ RSpec.describe "Team planner query handling", :js, with_ee: %i[team_planner_view
     filters.open
 
     filters.add_filter_by("Type", "is (OR)", [type_bug.name])
-
+    team_planner.clear_any_toasters
     filters.expect_filter_count("2")
 
     team_planner.within_lane(user) do
@@ -114,12 +114,13 @@ RSpec.describe "Team planner query handling", :js, with_ee: %i[team_planner_view
 
   it "shows only team planner queries" do
     # Go to team planner where no query is shown, only the create option
-    query_menu.expect_no_menu_entry
-    expect(page).to have_test_selector("team-planner--create-button")
+    query_menu.expect_no_items
+    expect(page).to have_test_selector("team_planner--create-button")
 
     # Change filter
     filters.open
     filters.add_filter_by("Type", "is (OR)", [type_bug.name])
+    team_planner.clear_any_toasters
     filters.expect_filter_count("2")
 
     # Save current filters
@@ -128,11 +129,11 @@ RSpec.describe "Team planner query handling", :js, with_ee: %i[team_planner_view
     team_planner.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_create"))
 
     # The saved query appears in the side menu...
-    query_menu.expect_menu_entry "I am your Query"
+    query_menu.expect_item "I am your Query", selected: true
 
     # .. but not in the work packages module
     work_package_page.visit!
-    query_menu.expect_menu_entry_not_visible "I am your Query"
+    query_menu.expect_no_item "I am your Query"
   end
 
   it_behaves_like "module specific query view management" do

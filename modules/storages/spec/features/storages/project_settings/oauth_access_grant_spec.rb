@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ RSpec.describe "OAuth Access Grant Nudge upon adding a storage to a project",
   shared_let(:user) { create(:user, preferences: { time_zone: "Etc/UTC" }) }
 
   shared_let(:role) do
-    create(:project_role, permissions: %i[manage_storages_in_project
+    create(:project_role, permissions: %i[manage_files_in_project
                                           oauth_access_grant
                                           select_project_modules
                                           edit_project])
@@ -65,7 +65,7 @@ RSpec.describe "OAuth Access Grant Nudge upon adding a storage to a project",
   end
 
   it "adds a storage, nudges the project admin to grant OAuth access" do
-    visit project_settings_project_storages_path(project_id: project)
+    visit external_file_storages_project_settings_project_storages_path(project_id: project)
 
     click_on("Storage")
 
@@ -75,15 +75,15 @@ RSpec.describe "OAuth Access Grant Nudge upon adding a storage to a project",
     expect(page).to have_checked_field("New folder with automatically managed permissions")
     click_on("Add")
 
-    expect(page).to have_text("File storages available in this project")
+    expect(page).to have_css("h1", text: "Files")
     expect(page).to have_text(storage.name)
 
     within_test_selector("oauth-access-grant-nudge-modal") do
       expect(page).to be_axe_clean
-      expect(page).to have_text("One more step...")
-      click_on("Login")
-      wait_for(page).to have_current_path("/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
-                                          "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
+      expect(page).to have_text("Login to Nextcloud required")
+      click_on("Nextcloud log in")
+      wait_for { page }.to have_current_path("/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
+                                             "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
     end
   end
 
@@ -98,10 +98,10 @@ RSpec.describe "OAuth Access Grant Nudge upon adding a storage to a project",
 
     within_test_selector("oauth-access-grant-nudge-modal") do
       expect(page).to be_axe_clean
-      expect(page).to have_text("One more step...")
-      click_on("Login")
-      wait_for(page).to have_current_path("/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
-                                          "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
+      expect(page).to have_text("Login to Nextcloud required")
+      click_on("Nextcloud log in")
+      wait_for { page }.to have_current_path("/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
+                                             "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
     end
   end
 end

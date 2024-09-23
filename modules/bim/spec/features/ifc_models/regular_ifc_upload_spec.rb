@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
@@ -32,5 +32,17 @@ require_relative "ifc_upload_shared_examples"
 RSpec.describe "IFC upload", :js, with_config: { edition: "bim" } do
   it_behaves_like "can upload an IFC file" do
     let(:model_name) { "minimal.ifc" }
+
+    context "when the file size exceeds the allowed maximum", with_settings: { attachment_max_size: 1 } do
+      it "renders an error message" do
+        visit new_bcf_project_ifc_model_path(project_id: project.identifier)
+
+        page.attach_file("file", ifc_fixture.path, visible: :all)
+
+        click_on "Create"
+
+        expect(page).to have_content("IFC file is too large (maximum size is 1024 Bytes).")
+      end
+    end
   end
 end

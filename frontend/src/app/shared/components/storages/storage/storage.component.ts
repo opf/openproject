@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,9 +31,11 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -121,6 +123,10 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
 
   @ViewChild('hiddenFileInput') public filePicker:ElementRef<HTMLInputElement>;
 
+  @Output() public fileRemoved = new EventEmitter<void>();
+
+  @Output() public fileAdded = new EventEmitter<void>();
+
   fileLinks:Observable<IFileLink[]>;
 
   storage:Observable<IStorage>;
@@ -184,7 +190,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       return this.pathHelperService.fileLinksPath();
     }
 
-    return (this.resource.$links as unknown&{ addFileLink:IHalResourceLink }).addFileLink.href;
+    return (this.resource.$links as { addFileLink:IHalResourceLink }).addFileLink.href;
   }
 
   private onGlobalDragLeave:(_event:DragEvent) => void = (_event) => {
@@ -207,6 +213,10 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     this.dragging = 2;
     this.cdRef.detectChanges();
   };
+
+  public get openStorageLink() {
+    return this.projectStorage._links.openWithConnectionEnsured?.href || this.projectStorage._links.open?.href;
+  }
 
   constructor(
     private readonly i18n:I18nService,
@@ -287,7 +297,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
         switchMap((key) => this.fileLinkResourceService.remove(key, fileLink)),
       )
       .subscribe({
-        next: () => { /* Do nothing */ },
+        next: () => { this.fileRemoved.emit(); },
         error: (error:HttpErrorResponse) => this.toastService.addError(error),
       });
   }
@@ -307,6 +317,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
           collectionKey,
           fileLinks,
         };
+
         this.opModalService.show<FilePickerModalComponent>(FilePickerModalComponent, 'global', locals);
       });
   }
@@ -407,6 +418,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       .subscribe({
         next: (collection) => {
           this.toastService.addSuccess(this.text.toast.successFileLinksCreated(collection.count));
+          this.fileAdded.emit();
         },
         error: (error) => {
           if (isUploadError) {
@@ -496,7 +508,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   private uploadResourceLink(storage:IStorage, fileName:string, location:string):IPrepareUploadLink {
-    const project = (this.resource.project as unknown&{ id:string }).id;
+    const project = (this.resource.project as { id:string }).id;
     const link = storage._links.prepareUpload.filter((value) => project === value.payload.projectId.toString());
     if (link.length === 0) {
       throw new Error('Cannot upload to this storage. Missing permissions in project.');
@@ -528,7 +540,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   private fileLinkSelfLink(storage:IStorage):string {
-    const fileLinks = this.resource.fileLinks as unknown&{ href:string };
+    const fileLinks = this.resource.fileLinks as { href:string };
     return `${fileLinks.href}?filters=[{"storage":{"operator":"=","values":["${storage.id}"]}}]`;
   }
 

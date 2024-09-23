@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'permitted_params/allowed_settings'
+require "permitted_params/allowed_settings"
 
 class PermittedParams
   # This class intends to provide a method for all params hashes coming from the
@@ -162,7 +162,7 @@ class PermittedParams
     p = params.require(:query).permit(*self.class.permitted_attributes[:query])
     p[:sort_criteria] = params
       .require(:query)
-      .permit(sort_criteria: { '0' => [], '1' => [], '2' => [] })
+      .permit(sort_criteria: { "0" => [], "1" => [], "2" => [] })
     p[:sort_criteria].delete :sort_criteria
     p
   end
@@ -179,11 +179,8 @@ class PermittedParams
     params.require(:status).permit(*self.class.permitted_attributes[:status])
   end
 
-  def settings
-    permitted_params = params.require(:settings).permit
-    all_valid_keys = AllowedSettings.all
-
-    permitted_params.merge(params[:settings].to_unsafe_hash.slice(*all_valid_keys))
+  def settings(extra_permitted_filters = nil)
+    params.require(:settings).permit(*AllowedSettings.filters, *extra_permitted_filters)
   end
 
   def user(additional_params = [])
@@ -340,7 +337,7 @@ class PermittedParams
   end
 
   def attachments
-    params.permit(attachments: %i[file description id])['attachments']
+    params.permit(attachments: %i[file description id])["attachments"]
   end
 
   def enumerations
@@ -407,7 +404,7 @@ class PermittedParams
     # Reject blank values from include_hidden select fields
     values.each { |_, v| v.compact_blank! if v.is_a?(Array) }
 
-    values.empty? ? {} : { 'custom_field_values' => values.permit! }
+    values.empty? ? {} : { "custom_field_values" => values.permit! }
   end
 
   def permitted_attributes(key, additions = {})
@@ -475,7 +472,7 @@ class PermittedParams
           :possible_values,
           :regexp,
           :searchable,
-          :visible,
+          :admin_only,
           :default_value,
           :possible_values,
           :multi_value,
@@ -529,7 +526,7 @@ class PermittedParams
           :subject,
           Proc.new do |args|
             # avoid costly allowed_in_project? if the param is not there at all
-            if args[:params]['work_package']&.has_key?('watcher_user_ids') &&
+            if args[:params]["work_package"]&.has_key?("watcher_user_ids") &&
                args[:current_user].allowed_in_project?(:add_work_package_watchers, args[:project])
 
               { watcher_user_ids: [] }
@@ -552,6 +549,7 @@ class PermittedParams
           :name,
           :redirect_uri,
           :confidential,
+          :enabled,
           :client_credentials_user_id,
           { scopes: [] }
         ],
@@ -566,6 +564,7 @@ class PermittedParams
           project_id
           custom_field_id
           custom_field_section_id
+          include_sub_projects
         ),
         query: %i(
           name
@@ -596,6 +595,7 @@ class PermittedParams
           name
           color_id
           default_done_ratio
+          excluded_from_totals
           is_closed
           is_default
           is_readonly

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ module BasicData
     self.seed_data_model_key = "project_roles"
 
     def update_permissions_with_modules_data(role_data)
-      super(role_data)
+      super
 
       role_data["permissions"] += OpenProject::AccessControl.public_permissions.map(&:name)
     end

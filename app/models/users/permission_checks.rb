@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,13 +30,11 @@ module Users::PermissionChecks
   extend ActiveSupport::Concern
 
   included do
-    delegate :preload_projects_allowed_to, to: :user_allowed_service
-
     # Some Ruby magic. Create methods for each entity we can have memberships on automatically
     # i.e. allowed_in_work_package? and allowed_in_any_work_package?
     Member::ALLOWED_ENTITIES.each do |entity_model_name|
-      entity_name_underscored = entity_model_name.underscore
       entity_class = entity_model_name.constantize
+      entity_name_underscored = entity_class.model_name.element
 
       define_method :"allowed_in_#{entity_name_underscored}?" do |permission, entity|
         allowed_in_entity?(permission, entity, entity_class)
@@ -108,14 +106,24 @@ module Users::PermissionChecks
     roles_for_project(project).any?(&:member?)
   end
 
+  # Returns all permissions the user may have for a given context.
+  # "May" because this method does not check e.g. whether the module
+  # the permission belongs to is active.
   def all_permissions_for(context)
-    Authorization
-      .roles(self, context)
-      .includes(:role_permissions)
-      .pluck(:permission)
-      .compact
-      .map(&:to_sym)
-      .uniq
+    if admin?
+      OpenProject::AccessControl
+        .permissions
+        .select { |p| p.permissible_on?(context) && p.grant_to_admin? }
+        .map(&:name)
+    else
+      Authorization
+        .roles(self, context)
+        .includes(:role_permissions)
+        .pluck(:permission)
+        .compact
+        .map(&:to_sym)
+        .uniq
+    end
   end
 
   # Helper method to be used in places where we just throw anything into the permission check and don't know what
@@ -150,27 +158,7 @@ module Users::PermissionChecks
     end
   end
 
-  # Old allowed_to? interface. Marked as deprecated, should be removed at some point ... Guessing 14.0?
-  def allowed_to?(action, context, global: false)
-    OpenProject::Deprecation.deprecate_method(User, :allowed_to?)
-    user_allowed_service.call(action, context, global:)
-  end
-
-  def allowed_to_in_project?(action, project)
-    OpenProject::Deprecation.replaced(:allowed_to_in_project?, :allowed_in_project?, caller)
-    allowed_to?(action, project)
-  end
-
-  def allowed_to_globally?(action)
-    OpenProject::Deprecation.replaced(:allowed_to_globally?, :allowed_globally?, caller)
-    allowed_to?(action, nil, global: true)
-  end
-
   private
-
-  def user_allowed_service
-    @user_allowed_service ||= ::Authorization::UserAllowedService.new(self, role_cache: project_role_cache)
-  end
 
   def user_permissible_service
     @user_permissible_service ||= ::Authorization::UserPermissibleService.new(self)

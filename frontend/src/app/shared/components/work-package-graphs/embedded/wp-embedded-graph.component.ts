@@ -98,10 +98,54 @@ export class WorkPackageEmbeddedGraphComponent {
   }
 
   protected setChartOptions() {
+    const bodyFontColor= getComputedStyle(document.body).getPropertyValue('--body-font-color');
+    const gridLineColor= getComputedStyle(document.body).getPropertyValue('--borderColor-default');
+    const backdropColor= getComputedStyle(document.body).getPropertyValue('--overlay-backdrop-bgColor');
+
     const defaults:ChartOptions = {
+      color: bodyFontColor,
       responsive: true,
       maintainAspectRatio: false,
       indexAxis: this.chartType === 'horizontalBar' ? 'y' : 'x',
+      scales: {
+        r: {
+          angleLines: {
+            color: this.isRadarChart() ? gridLineColor : 'transparent',
+          },
+          grid: {
+            color: this.isRadarChart() ? gridLineColor : 'transparent',
+          },
+          pointLabels: {
+            color: this.isRadarChart() ? bodyFontColor : 'transparent',
+          },
+          ticks: {
+            color: this.isRadarChart() ? bodyFontColor : 'transparent',
+            backdropColor: this.isRadarChart() ? backdropColor : 'transparent',
+          },
+        },
+        y: {
+          ticks: {
+            color: this.isBarChart() ? bodyFontColor : 'transparent',
+          },
+          grid: {
+            color: this.isBarChart() ? gridLineColor : 'transparent',
+          },
+          border: {
+            color: this.isBarChart() ? bodyFontColor : 'transparent',
+          },
+        },
+        x: {
+          ticks: {
+            color: this.isBarChart() ? bodyFontColor : 'transparent',
+          },
+          grid: {
+            color: this.isBarChart() ? gridLineColor : 'transparent',
+          },
+          border: {
+            color: this.isBarChart() ? bodyFontColor : 'transparent',
+          },
+        },
+      },
       plugins: {
         legend: {
           // Only display legends if more than one dataset is provided.
@@ -110,6 +154,7 @@ export class WorkPackageEmbeddedGraphComponent {
         datalabels: {
           anchor: 'center',
           align: this.chartType === 'bar' ? 'top' : 'center',
+          color: bodyFontColor,
         },
       },
     };
@@ -126,6 +171,19 @@ export class WorkPackageEmbeddedGraphComponent {
 
   public get mappedChartType():string {
     return this.chartType === 'horizontalBar' ? 'bar' : this.chartType;
+  }
+
+  public get chartDescription():string {
+    const chartDataDescriptions = _.map(this.chartLabels, (label, index) => {
+      if (this.chartData.length === 1) {
+        const allCount = this.chartData[0].data[index];
+        return `${allCount} ${label}`;
+      }
+      const labelCounts = _.map(this.chartData, (dataset) => `${dataset.data[index]} ${dataset.label}`);
+      return `${label}: ${labelCounts.join(', ')}`;
+    });
+
+    return chartDataDescriptions.join('; ');
   }
 
   private setHeight() {
@@ -150,5 +208,13 @@ export class WorkPackageEmbeddedGraphComponent {
     } else {
       this.chartHeight = '100%';
     }
+  }
+
+  private isBarChart() {
+    return this.chartType === 'bar' || this.chartType === 'horizontalBar' || this.chartType === 'line';
+  }
+
+  private isRadarChart() {
+    return this.chartType === 'radar' || this.chartType === 'polarArea';
   }
 }

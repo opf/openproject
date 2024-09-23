@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -73,7 +73,7 @@ module Acts::Journalized
       end
     end
 
-    def add_journal(user: User.current, notes: '', cause: {})
+    def add_journal(user: User.current, notes: "", cause: CauseOfChange::NoCause.new)
       self.journal_user ||= user
       self.journal_notes ||= notes
       self.journal_cause ||= cause
@@ -83,8 +83,8 @@ module Acts::Journalized
 
     def with_ensured_journal_attributes
       self.journal_user ||= User.current
-      self.journal_notes ||= ''
-      self.journal_cause ||= {}
+      self.journal_notes ||= ""
+      self.journal_cause ||= CauseOfChange::NoCause.new
 
       yield
     ensure

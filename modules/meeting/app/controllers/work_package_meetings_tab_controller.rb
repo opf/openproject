@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,7 @@
 
 class WorkPackageMeetingsTabController < ApplicationController
   include OpTurbo::ComponentStream
+  include OpTurbo::DialogStreamHelper
   include Meetings::WorkPackageMeetingsTabComponentStreams
 
   before_action :set_work_package
@@ -51,12 +52,12 @@ class WorkPackageMeetingsTabController < ApplicationController
   end
 
   def count
-    count = get_grouped_agenda_items(:upcoming).count
+    count = Meeting.visible.where(id: @work_package.meetings.select(:id)).count
     render json: { count: }
   end
 
   def add_work_package_to_meeting_dialog
-    render(WorkPackageMeetingsTab::AddWorkPackageToMeetingFormComponent.new(work_package: @work_package), layout: false)
+    respond_with_dialog WorkPackageMeetingsTab::AddWorkPackageToMeetingDialogComponent.new(work_package: @work_package)
   end
 
   def add_work_package_to_meeting
@@ -65,6 +66,7 @@ class WorkPackageMeetingsTabController < ApplicationController
       .call(
         add_work_package_to_meeting_params.merge(
           work_package_id: @work_package.id,
+          presenter_id: current_user.id,
           item_type: MeetingAgendaItem::ITEM_TYPES[:work_package]
         )
       )
@@ -81,6 +83,9 @@ class WorkPackageMeetingsTabController < ApplicationController
         upcoming_meetings_count: @upcoming_meetings_count,
         past_meetings_count: @past_meetings_count
       )
+
+      replace_tab_counter_via_turbo_stream(work_package: @work_package)
+
       # TODO: show success message?
     else
       # show errors in form
@@ -95,6 +100,8 @@ class WorkPackageMeetingsTabController < ApplicationController
   def set_work_package
     @work_package = WorkPackage.find(params[:work_package_id])
     @project = @work_package.project # required for authorization via before_action
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def add_work_package_to_meeting_params
@@ -125,9 +132,20 @@ class WorkPackageMeetingsTabController < ApplicationController
         .includes(:meeting)
         .where(meeting_id: Meeting.visible(current_user))
         .where(work_package_id: @work_package.id)
-        .order("meetings.start_time": :asc)
+        .reorder(sort_clause(direction))
 
     comparison = direction == :past ? "<" : ">="
     agenda_items.where("meetings.start_time + (interval '1 hour' * meetings.duration) #{comparison} ?", Time.zone.now)
+  end
+
+  def sort_clause(direction)
+    case direction
+    when :upcoming
+      "meetings.start_time ASC"
+    when :past
+      "meetings.start_time DESC"
+    else
+      raise ArgumentError, "Invalid direction: #{direction}. Must be one of :upcoming or :past."
+    end
   end
 end

@@ -1,0 +1,37 @@
+<%=
+  component_wrapper(class: "op-meeting-section-container", data: { test_selector: "meeting-section-container-#{@meeting_section.id}" }.merge(draggable_item_config)) do
+    render(border_box_container(mt: 3, data: drag_and_drop_target_config)) do |component|
+      if render_section_wrapper?
+        component.with_header(font_weight: :bold, pl: 0) do
+          render(MeetingSections::HeaderComponent.new(meeting_section: @meeting_section, state: @state))
+        end
+      end
+      if render_new_button_in_section?
+        component.with_row(data: { 'empty-list-item': true }) do
+          flex_layout(align_items: :center, justify_content: :space_between, classes: "hide-when-print") do |empty_list_container|
+            empty_list_container.with_column(mr: 2) do
+              render(Primer::Beta::Text.new(color: :subtle)) { t("meeting_section.empty_text") }
+            end
+            empty_list_container.with_column do
+              render(MeetingAgendaItems::NewButtonComponent.new(meeting: @meeting, meeting_section: @meeting_section))
+            end
+          end
+        end
+      else
+        first_and_last = [@meeting_agenda_items.first, @meeting_agenda_items.last]
+        @meeting_agenda_items.each do |agenda_item|
+          render(
+            MeetingAgendaItems::ItemComponent.new(
+              meeting_agenda_item: agenda_item,
+              container: component,
+              first_and_last:
+            )
+          )
+        end
+      end
+      component.with_row(p: 0, border_top: 0, id: insert_target_modifier_id) do
+        render(MeetingAgendaItems::NewComponent.new(meeting: @meeting, meeting_section: @meeting_section, hidden: @form_hidden, type: @form_type))
+      end
+    end
+  end
+%>

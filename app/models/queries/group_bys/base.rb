@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,10 +50,9 @@ module Queries
         nil
       end
 
-      def scope
-        scope = model
-        scope = model.joins(joins) if joins
-        group_by scope
+      def apply_to(query_scope)
+        query_scope = query_scope.joins(joins) if joins
+        group_by query_scope
       end
 
       def name

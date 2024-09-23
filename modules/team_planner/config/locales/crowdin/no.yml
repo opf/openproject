@@ -5,12 +5,12 @@
     description: "Tilbyr teamplanlegger visninger."
   permission_view_team_planner: "Vis teamplanlegger"
   permission_manage_team_planner: "Administrer teamplanlegger"
-  project_module_team_planner_view: "Teamplanlegger"
+  project_module_team_planner_view: "Teamplanleggere"
   team_planner:
     label_team_planner: "Teamplanlegger"
     label_new_team_planner: "Ny teamplanlegger"
     label_create_new_team_planner: "Opprett ny teamplanlegger"
-    label_team_planner_plural: "Teamplanlegger"
+    label_team_planner_plural: "Teamplanleggere"
     label_assignees: "Tildelt"
     upsale:
       title: "Teamplanlegger"

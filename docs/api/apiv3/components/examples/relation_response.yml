@@ -1,0 +1,35 @@
+description: |-
+  Simple response of a 'duplicated by' relation between two work packages.
+value:
+  _type: Relation
+  id: 650
+  name: duplicated by
+  type: duplicated
+  reverseType: duplicates
+  lag: null
+  description: Those are the same... stupid Stormtroopers!
+  _embedded:
+    from:
+      id: 108
+      _type: WorkPackage
+      _hint: Work package resource shortened for brevity.
+    to:
+      id: 78
+      _type: WorkPackage
+      _hint: Work package resource shortened for brevity.
+  _links:
+    self:
+      href: /api/v3/relations/650
+    updateImmediately:
+      href: /api/v3/relations/650
+      method: patch
+    delete:
+      href: /api/v3/relations/650
+      method: delete,
+      title: Remove relation
+    from:
+      href: /api/v3/work_packages/108
+      title: Destroy Rebel Base
+    to:
+      href: /api/v3/work_packages/78
+      title: Annihilate Yavin 4

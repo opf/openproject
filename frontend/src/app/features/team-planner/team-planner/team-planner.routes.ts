@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -33,6 +33,13 @@ import { WorkPackagesBaseComponent } from 'core-app/features/work-packages/routi
 import { TeamPlannerPageComponent } from 'core-app/features/team-planner/team-planner/page/team-planner-page.component';
 import { TeamPlannerComponent } from 'core-app/features/team-planner/team-planner/planner/team-planner.component';
 
+export const sidemenuId = 'team_planner_sidemenu';
+export const sideMenuOptions = {
+  sidemenuId,
+  hardReloadOnBaseRoute: true,
+  defaultQuery: 'new',
+};
+
 export const TEAM_PLANNER_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'team_planner',
@@ -56,12 +63,14 @@ export const TEAM_PLANNER_ROUTES:Ng2StateDeclaration[] = [
     redirectTo: 'team_planner.page.show',
     data: {
       bodyClasses: 'router--team-planner',
+      sideMenuOptions,
     },
   },
   {
     name: 'team_planner.page.show',
     data: {
       baseRoute: 'team_planner.page.show',
+      sideMenuOptions,
     },
     views: {
       'content-left': { component: TeamPlannerComponent },

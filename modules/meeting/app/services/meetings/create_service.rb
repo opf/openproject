@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,6 @@ module Meetings
     protected
 
     def instance(params)
-
       # Setting the #type as attributes will not work
       # as the STI instance is not changed without using e.g., +becomes!+
       case params.delete(:type)
@@ -40,6 +39,20 @@ module Meetings
       else
         Meeting.new
       end
+    end
+
+    def after_perform(call)
+      if call.success? && Journal::NotificationConfiguration.active?
+        meeting = call.result
+
+        meeting.participants.where(invited: true).each do |participant|
+          MeetingMailer
+            .invited(meeting, participant.user, User.current)
+            .deliver_later
+        end
+      end
+
+      call
     end
   end
 end

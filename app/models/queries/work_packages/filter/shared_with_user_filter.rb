@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ class Queries::WorkPackages::Filter::SharedWithUserFilter <
     super && view_shared_work_packages_allowed?
   end
 
-  def scope
+  def apply_to(query_scope)
     query = visible_shared_work_packages(scoped_to_visible_projects: !querying_for_self?)
 
     if operator == "="
@@ -43,7 +43,7 @@ class Queries::WorkPackages::Filter::SharedWithUserFilter <
       query = query.where(shared_with_all_of_condition)
     end
 
-    WorkPackage.where(id: query.select("work_packages.id").distinct)
+    query_scope.where(id: query.select("work_packages.id").distinct)
   end
 
   # Conditions handled in +scope+ method

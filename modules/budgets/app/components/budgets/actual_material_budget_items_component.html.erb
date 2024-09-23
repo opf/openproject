@@ -1,0 +1,81 @@
+<div class="grid-content medium-6">
+  <h4><%= t(:caption_material_costs) %></h4>
+  <div>
+    <div class="generic-table--container -with-footer">
+      <div class="generic-table--results-container">
+        <table class="generic-table material_budget_items">
+          <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+          </colgroup>
+          <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= MaterialBudgetItem.human_attribute_name(:work_package)%>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= MaterialBudgetItem.human_attribute_name(:units) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= MaterialBudgetItem.human_attribute_name(:cost_type) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th class="currency">
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= MaterialBudgetItem.human_attribute_name(:costs) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <% by_work_package_and_cost_entry do |work_package, cost_entry| %>
+              <tr>
+                <td class="subject"><%= entry_work_package(work_package) %></td>
+                <td><%= entry_hours(work_package, cost_entry) %></td>
+                <td><%= entry_type(cost_entry) %></td>
+                <td class="currency"><%= entry_costs(cost_entry) %></td>
+              </tr>
+          <% end %>
+          </tbody>
+          <% if view_rates_allowed? %>
+            <tfoot>
+            <tr>
+              <td colspan="3"></td>
+              <td class="currency">
+                <div class="generic-table--footer-outer">
+                  <strong><%= spent_sum %></strong>
+                </div>
+              </td>
+            </tr>
+            </tfoot>
+          <% end %>
+        </table>
+
+        <div class="generic-table--footer-background"></div>
+      </div>
+    </div>
+  </div>
+</div>

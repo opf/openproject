@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,8 +41,7 @@ RSpec.describe CustomStylesController do
 
       context "when active token exists", with_ee: %i[define_custom_style] do
         it "renders show" do
-          expect(subject).to be_successful
-          expect(response).to render_template "show"
+          expect(subject).to redirect_to action: :show, tab: "interface"
         end
       end
 
@@ -86,6 +85,7 @@ RSpec.describe CustomStylesController do
 
         it "redirects to show" do
           expect(response).to redirect_to action: :show
+          expect(response).to have_http_status(:found)
         end
       end
 
@@ -93,7 +93,7 @@ RSpec.describe CustomStylesController do
         let(:valid) { false }
 
         it "renders with error" do
-          expect(response).not_to be_redirect
+          expect(response).to have_http_status(:unprocessable_entity)
           expect(response).to render_template "custom_styles/show"
         end
       end
@@ -119,7 +119,7 @@ RSpec.describe CustomStylesController do
           let(:valid) { true }
 
           it "redirects to show" do
-            expect(response).to redirect_to action: :show
+            expect(response).to redirect_to(action: :show)
           end
         end
 
@@ -127,7 +127,7 @@ RSpec.describe CustomStylesController do
           let(:valid) { false }
 
           it "renders with error" do
-            expect(response).not_to be_redirect
+            expect(response).to have_http_status(:unprocessable_entity)
             expect(response).to render_template "custom_styles/show"
           end
         end
@@ -145,7 +145,7 @@ RSpec.describe CustomStylesController do
           let(:valid) { true }
 
           it "redirects to show" do
-            expect(response).to redirect_to action: :show
+            expect(response).to redirect_to(action: :show)
           end
         end
 
@@ -153,7 +153,7 @@ RSpec.describe CustomStylesController do
           let(:valid) { false }
 
           it "renders with error" do
-            expect(response).not_to be_redirect
+            expect(response).to have_http_status(:unprocessable_entity)
             expect(response).to render_template "custom_styles/show"
           end
         end
@@ -205,7 +205,8 @@ RSpec.describe CustomStylesController do
         end
 
         it "removes the logo from custom_style" do
-          expect(response).to redirect_to action: :show
+          expect(response).to redirect_to(action: :show)
+          expect(response).to have_http_status(:found)
         end
       end
 
@@ -266,7 +267,7 @@ RSpec.describe CustomStylesController do
         end
 
         it "removes the export logo from custom_style" do
-          expect(response).to redirect_to action: :show
+          expect(response).to redirect_to(action: :show)
         end
       end
 
@@ -322,12 +323,11 @@ RSpec.describe CustomStylesController do
       context "if it exists" do
         before do
           allow(CustomStyle).to receive(:current).and_return(custom_style)
-          allow(custom_style).to receive(:remove_cover).and_call_original
           delete :export_cover_delete
         end
 
         it "removes the export cover from custom_style" do
-          expect(response).to redirect_to action: :show
+          expect(response).to redirect_to(action: :show)
         end
       end
 
@@ -388,7 +388,7 @@ RSpec.describe CustomStylesController do
         end
 
         it "removes the favicon from custom_style" do
-          expect(response).to redirect_to action: :show
+          expect(response).to redirect_to(action: :show)
         end
       end
 
@@ -449,7 +449,7 @@ RSpec.describe CustomStylesController do
         end
 
         it "removes the touch icon from custom_style" do
-          expect(response).to redirect_to action: :show
+          expect(response).to redirect_to(action: :show)
         end
       end
 
@@ -485,7 +485,7 @@ RSpec.describe CustomStylesController do
 
           it "saves the color" do
             expect(custom_style.export_cover_text_color).to eq("#990000")
-            expect(response).to redirect_to action: :show
+            expect(response).to redirect_to(action: :show)
           end
         end
 
@@ -502,7 +502,7 @@ RSpec.describe CustomStylesController do
 
           it "removes the color" do
             expect(custom_style.export_cover_text_color).to be_nil
-            expect(response).to redirect_to action: :show
+            expect(response).to redirect_to(action: :show)
           end
         end
 
@@ -517,7 +517,7 @@ RSpec.describe CustomStylesController do
 
           it "ignores the parameter" do
             expect(custom_style.export_cover_text_color).to be_nil
-            expect(response).to redirect_to action: :show
+            expect(response).to redirect_to(action: :show)
           end
         end
       end
@@ -529,7 +529,7 @@ RSpec.describe CustomStylesController do
         end
 
         it "is created" do
-          expect(response).to redirect_to action: :show
+          expect(response).to redirect_to(action: :show)
         end
       end
     end
@@ -565,6 +565,13 @@ RSpec.describe CustomStylesController do
         post :update_colors, params: { design_colors: [{ "primary-button-color" => "" }] }
         expect(DesignColor.count).to eq(0)
         expect(response).to redirect_to action: :show
+      end
+
+      context "when setting a tab to route to" do
+        it "redirects to that tab" do
+          post :update_colors, params: { tab: :branding, design_colors: [{ "primary-button-color" => "#110000" }] }
+          expect(response).to redirect_to(action: :show, tab: :branding)
+        end
       end
     end
   end

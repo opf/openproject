@@ -5,43 +5,40 @@ sidebar_navigation:
 release_version: 10.5.0
 release_date: 2020-04-23
 ---
----
-# Release notes OpenProject 10.5.0
+
+# OpenProject 10.5.0
+
+## Release notes OpenProject 10.5.0
 
 | Release notes                                                | Description                                                  |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [OpenProject 10.5.0](#openproject-1050)                      | What is new for OpenProject 10.5.0?                          |
 | [OpenProject 10.5 BIM edition for construction project management](#openproject-105-bim-edition-for-construction-project-management) | What is new for the construction project management for the building industry in OpenProject 10.5.0? |
 
-
-# OpenProject 10.5.0
-
 We released [OpenProject 10.5.0](https://community.openproject.org/versions/1386).
 The new release of the open source project management software contains new action boards for assignees, much more intuitive sorting of versions by name, the removed 24-hours booking restriction for time tracking, the summary of news on the project overview page, and much more usability improvements and bug fixes.
 
 We recommend updating to the newest version.
 
-<!--more-->
-
-### Action board for assignees
+## Action board for assignees
 
 The new action boards for assignees allow to create agile boards with lists for individual users or groups. The assignee will automatically be updated when moving cards across lists. This allows very transparent prioritization of tasks and distribution of workload between individuals and teams.
 
 ![Assignee-boards](Assignee-boards.png)
 
-### Sort versions by name
+## Sort versions by name
 
 We have now changed the sorting of versions in the drop-down menu by name not by dates. This makes it much easier to select a version from the list, especially when there are multiple active versions in one project.
 
 ![Sorting-versions](Sorting-versions.png)
 
-### No more 24-hour restriction for time tracking
+## No more 24-hour restriction for time tracking
 
 The restriction to only allow the booking of 24 hours per day has now been removed. You can now summarize your time bookings and track more than 24 hours.
 
 ![Spent-time](Spent-time.png)
 
-### Show news summary on project overview widget
+## Show news summary on project overview widget
 
 The summary of news will now be displayed in the news widget on the project overview page. This way, the summary of the most recent news will be communicated at one sight.
 
@@ -87,7 +84,7 @@ BCF Management in OpenProject is compatible with hundreds of applications that s
 BIM Issues can be created wherever the user identifies them, i.e. in his favorite BIM tool. These issues can then be easily imported into OpenProject - the central BCF management system - for centralized tracking and consolidation.
 An export function can then be used to distribute the BCFs back to the local applications.
 
-### All changes and bug fixes
+## All changes and bug fixes
 
 - Changed: Hide "Empty" work package updates  \[[#21471](https://community.openproject.org/wp/21471)\]
 - Changed: Create a "Action board" with "Action attribute" -> "Assignee" \[[#30157](https://community.openproject.org/wp/30157)\]
@@ -110,7 +107,7 @@ An export function can then be used to distribute the BCFs back to the local app
 - Fixed: Wiki tables not responsive + CSS weird + no markdown \[[#31920](https://community.openproject.org/wp/31920)\]
 - Fixed: Strings not localized (password settings) \[[#31976](https://community.openproject.org/wp/31976)\]
 - Fixed: Multiple Work Package Widgets on MyPage - Groups can't be reduced independently \[[#32030](https://community.openproject.org/wp/32030)\]
-- Fixed: [Repository] Error 500 when trying to log time with unmapped changeset user \[[#32038](https://community.openproject.org/wp/32038)\]
+- Fixed: \[Repository\] Error 500 when trying to log time with unmapped changeset user \[[#32038](https://community.openproject.org/wp/32038)\]
 - Fixed: Clean-up Administration -> System settings and remove wiki history compression \[[#32045](https://community.openproject.org/wp/32045)\]
 - Fixed: Work package ID cut off on right side \[[#32069](https://community.openproject.org/wp/32069)\]
 - Fixed: Project sorting not working anymore \[[#32220](https://community.openproject.org/wp/32220)\]
@@ -159,7 +156,7 @@ An export function can then be used to distribute the BCFs back to the local app
 - Fixed: Avatars are incorrectly cached \[[#32870](https://community.openproject.org/wp/32870)\]
 - Fixed: Hourly cron synchronization not executed in docker context \[[#32884](https://community.openproject.org/wp/32884)\]
 - Fixed: Assignee list empty when creating a task in "modules" work package table \[[#32887](https://community.openproject.org/wp/32887)\]
-- Fixed: [Docker] Attach files error "An internal error has occurred. The attachment could not be saved due to lacking file system permissions" \[[#32890](https://community.openproject.org/wp/32890)\]
+- Fixed: \[Docker\] Attach files error "An internal error has occurred. The attachment could not be saved due to lacking file system permissions" \[[#32890](https://community.openproject.org/wp/32890)\]
 - Fixed: Inconsistent breadcrumb in Administration -> Enterprise edition \[[#32905](https://community.openproject.org/wp/32905)\]
 - Fixed: Styling and consistency issues in the confirm deletion modal for the EE token \[[#32908](https://community.openproject.org/wp/32908)\]
 - Fixed: Misaligned menu opener in Backlogs plugin \[[#32923](https://community.openproject.org/wp/32923)\]
@@ -183,9 +180,8 @@ An export function can then be used to distribute the BCFs back to the local app
 - Fixed: String without translation in roles & permissions \[[#33113](https://community.openproject.org/wp/33113)\]
 - Fixed: Cannot find users anymore with "+" sign in user name / email to add to project \[[#33115](https://community.openproject.org/wp/33115)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
-
 Special thanks for reporting and finding bugs go to
-
 Vikas Kedia, Fernando Meurer, Aurelien Barre, Adnan Abou-Rikab, Scott Sanders, York-Simon Johannsen, Joachim Schardt, Peter Pof, Tobias R, Frank Schmid, Harald Holzmann, Petr Zeman, Paul GARROUSTE, Marc Vollmer, Filter Punk, Mathias Gerlach, Gio @ Enuan, Per Bröms, Jason Culligan, Frank Long, Radovan Semancik, Frendy A. N.

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,11 +33,15 @@ class API::V3::FileLinks::FileLinksOpenAPI < API::OpenProjectAPI
 
   resources :open do
     get do
+      auth_strategy = Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
+                        .strategy
+                        .with_user(current_user)
+
       Storages::Peripherals::Registry
         .resolve("#{@file_link.storage.short_provider_type}.queries.open_file_link")
         .call(
           storage: @file_link.storage,
-          user: current_user,
+          auth_strategy:,
           file_id: @file_link.origin_id,
           open_location: ActiveModel::Type::Boolean.new.cast(params[:location])
         )

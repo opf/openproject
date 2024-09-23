@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 class CustomFieldsController < ApplicationController
   include CustomFields::SharedActions # share logic with ProjectCustomFieldsControlller
-  layout 'admin'
+  layout "admin"
 
   before_action :require_admin
   before_action :find_custom_field, only: %i(edit update destroy delete_option reorder_alphabetical)
@@ -38,12 +38,12 @@ class CustomFieldsController < ApplicationController
   def index
     # loading wp cfs exclicity to allow for eager loading
     @custom_fields_by_type = CustomField.all
-      .where.not(type: ['WorkPackageCustomField', 'ProjectCustomField'])
+      .where.not(type: ["WorkPackageCustomField", "ProjectCustomField"])
       .group_by { |f| f.class.name }
 
-    @custom_fields_by_type['WorkPackageCustomField'] = WorkPackageCustomField.includes(:types).all
+    @custom_fields_by_type["WorkPackageCustomField"] = WorkPackageCustomField.includes(:types).all
 
-    @tab = params[:tab] || 'WorkPackageCustomField'
+    @tab = params[:tab] || "WorkPackageCustomField"
   end
 
   def new
@@ -58,16 +58,10 @@ class CustomFieldsController < ApplicationController
 
   protected
 
-  def default_breadcrumb
-    if action_name == 'index'
-      t('label_custom_field_plural')
-    else
-      ActionController::Base.helpers.link_to(t('label_custom_field_plural'), custom_fields_path)
-    end
-  end
+  def default_breadcrumb; end
 
   def show_local_breadcrumb
-    true
+    false
   end
 
   def find_custom_field
@@ -78,8 +72,8 @@ class CustomFieldsController < ApplicationController
 
   def check_custom_field
     # ProjecCustomFields now managed in a different UI
-    if @custom_field.nil? || @custom_field.type == 'ProjectCustomField'
-      flash[:error] = 'Invalid CF type'
+    if @custom_field.nil? || @custom_field.type == "ProjectCustomField"
+      flash[:error] = "Invalid CF type"
       redirect_to action: :index
     end
   end

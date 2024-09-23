@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,20 +58,20 @@ RSpec.describe "LDAP authentication",
       expect(subject).to redirect_to "/?first_time_user=true"
     end
 
-    context 'with a user that has umlauts in their name' do
-      let(:username) { 'bölle' }
-      let(:password) { 'bólle' }
+    context "with a user that has umlauts in their name" do
+      let(:username) { "bölle" }
+      let(:password) { "bólle" }
 
-      it 'creates a user with umlauts on the fly' do
-        expect(User.find_by(login: 'bölle')).to be_nil
+      it "creates a user with umlauts on the fly" do
+        expect(User.find_by(login: "bölle")).to be_nil
 
         expect { subject }.to change(User.not_builtin.active, :count).by(1)
 
-        user = User.find_by(login: 'bölle')
+        user = User.find_by(login: "bölle")
         expect(user).to be_present
         expect(user).to be_active
         expect(session[:user_id]).to eq user.id
-        expect(subject).to redirect_to '/?first_time_user=true'
+        expect(subject).to redirect_to "/?first_time_user=true"
       end
     end
 

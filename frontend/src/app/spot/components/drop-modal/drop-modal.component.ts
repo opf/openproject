@@ -17,14 +17,7 @@ import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-he
 import { SpotDropModalTeleportationService } from './drop-modal-teleportation.service';
 import { filter, take } from 'rxjs/operators';
 import { debounce } from 'lodash';
-import {
-  autoUpdate,
-  computePosition,
-  flip,
-  limitShift,
-  Placement,
-  shift,
-} from '@floating-ui/dom';
+import { autoUpdate, computePosition, flip, limitShift, Placement, shift } from '@floating-ui/dom';
 
 @Component({
   selector: 'spot-drop-modal',
@@ -39,9 +32,11 @@ export class SpotDropModalComponent implements OnDestroy {
    */
   @Input() public allowRepositioning = true;
 
+  @Input() public notFullscreen = false;
+
   /**
-   * The default alignment of the drop modal. There are twelve alignments in total. You can check which ones they are
-   * from the `SpotDropAlignmentOption` Enum that is available in 'core-app/spot/drop-alignment-options'.
+   * The default alignment of the drop modal. There are twelve alignments in total. You can check which ones they are in
+   * @floating-ui/utils: `Placement` in floating-ui.utils.d.ts
    */
   @Input() public alignment:Placement = 'bottom-start';
 
@@ -114,15 +109,6 @@ export class SpotDropModalComponent implements OnDestroy {
   open() {
     this._opened = true;
     this.updateAppHeight();
-    this.cdRef.detectChanges();
-
-    /*
-     * If we don't activate the body after one tick, angular will complain because
-     * it already rendered a `null` template, but then gets an update to that
-     * template in the same tick.
-     * To make it happy, we update afterwards
-     */
-    this.teleportationService.activate(this.body);
 
     this.teleportationService
       .hasRenderedFiltered$
@@ -131,6 +117,7 @@ export class SpotDropModalComponent implements OnDestroy {
         take(1),
       )
       .subscribe(() => {
+        this.cdRef.detectChanges();
         const referenceEl = this.elementRef.nativeElement as HTMLElement;
         const floatingEl = this.anchor.nativeElement as HTMLElement;
         this.cleanupFloatingUI = autoUpdate(
@@ -180,12 +167,19 @@ export class SpotDropModalComponent implements OnDestroy {
           }
         });
       });
+
+    /*
+     * If we don't activate the body after one tick, angular will complain because
+     * it already rendered a `null` template, but then gets an update to that
+     * template in the same tick.
+     * To make it happy, we update afterwards
+     */
+    this.teleportationService.activate(this.body);
   }
 
   close():void {
     this._opened = false;
     this.closed.emit();
-
     /*
      * The same as with opening; if we don't deactivate the body after
      * one tick, angular will complain because it already rendered the
@@ -206,7 +200,10 @@ export class SpotDropModalComponent implements OnDestroy {
   private onGlobalClick = this.close.bind(this) as () => void;
 
   ngOnDestroy():void {
-    this.teleportationService.clear();
+    if (this.opened) {
+      this.teleportationService.clear();
+    }
+
     document.body.removeEventListener('click', this.onGlobalClick);
     document.body.removeEventListener('keydown', this.onEscape);
     window.removeEventListener('resize', this.onResize);

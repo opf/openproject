@@ -1,0 +1,70 @@
+<%=
+  component_wrapper do
+    render(Primer::OpenProject::SidePanel::Section.new) do |section|
+      section.with_title { t(:label_meeting_state) }
+
+      case @meeting.state
+      when "open"
+        section.with_description(display: [:none, nil, :block]) { t("text_meeting_open_description") }
+        flex_layout(classes: 'op-meeting-sidebar-state') do |open_state|
+          open_state.with_row do
+            render(Primer::Beta::State.new(title: "state", scheme: :open)) do
+              flex_layout do |open_state_label|
+                open_state_label.with_column(mr: 1) do
+                  render(Primer::Beta::Octicon.new(icon: "issue-opened"))
+                end
+
+                open_state_label.with_column do
+                  render(Primer::Beta::Text.new) { t("label_meeting_state_open") }
+                end
+              end
+            end
+          end
+
+          if edit_enabled?
+            section.with_footer_button(
+              tag: :a,
+              href: change_state_meeting_path(@meeting, state: 'closed'),
+              classes: "hide-when-print",
+              data: { 'turbo-stream': true, 'turbo-method': 'put' },
+              test_selector: "close-meeting-button"
+            ) do |button|
+              button.with_leading_visual_icon(icon: :unlock)
+              t("label_meeting_close_action")
+            end
+          end
+        end
+      when "closed"
+        section.with_description(display: [:none, nil, :block]) { t("text_meeting_closed_description") }
+
+        flex_layout(classes: 'op-meeting-sidebar-state') do |closed_state|
+          closed_state.with_row do
+            render(Primer::Beta::State.new(title: "state", scheme: :default)) do
+              flex_layout do |closed_state_label|
+                closed_state_label.with_column(mr: 1) do
+                  render(Primer::Beta::Octicon.new(icon: "issue-closed"))
+                end
+
+                closed_state_label.with_column do
+                  render(Primer::Beta::Text.new) { t("label_meeting_state_closed") }
+                end
+              end
+            end
+          end
+
+          if edit_enabled?
+            section.with_footer_button(
+              tag: :a,
+              href: change_state_meeting_path(@meeting, state: 'open'),
+              classes: "hide-when-print",
+              data: { 'turbo-stream': true, 'turbo-method': 'put' }
+            ) do |button|
+              button.with_leading_visual_icon(icon: :unlock)
+              t("label_meeting_reopen_action")
+            end
+          end
+        end
+      end
+    end
+  end
+%>

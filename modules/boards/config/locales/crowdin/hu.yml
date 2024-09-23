@@ -13,7 +13,7 @@ hu:
     label_board_type: "Tábla típus"
     board_types:
       free: Alap
-      action: "Feladattábla"
+      action: "Feladattábla (%{attribute})"
     board_type_attributes:
       assignee: Felelős
       status: Állapot

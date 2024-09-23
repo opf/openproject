@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,10 +54,10 @@ class ParamsToQueryService
 
     filters = parse_filters_from_json(params[:filters])
 
-    filters[:attributes].each do |filter_name|
-      query = query.where(filter_name,
-                          filters[:operators][filter_name],
-                          filters[:values][filter_name])
+    filters.each do |filter|
+      query = query.where(filter[:attribute],
+                          filter[:operator],
+                          filter[:values])
     end
 
     query
@@ -94,21 +94,11 @@ class ParamsToQueryService
   #   { /* more filters if needed */}
   # ]
   def parse_filters_from_json(json)
-    filters = JSON.parse(json)
-    operators = {}
-    values = {}
-    filters.each do |filter|
-      attribute = filter.keys.first # there should only be one attribute per filter
-      ar_attribute = convert_attribute attribute, append_id: true
-      operators[ar_attribute] = filter[attribute]["operator"]
-      values[ar_attribute] = filter[attribute]["values"]
-    end
+    filters = Queries::ParamsParser::APIV3FiltersParser.parse(json)
 
-    {
-      attributes: values.keys,
-      operators:,
-      values:
-    }
+    filters.each do |filter|
+      filter[:attribute] = convert_attribute(filter[:attribute], append_id: true)
+    end
   end
 
   def parse_sorting_from_json(json)
@@ -133,7 +123,9 @@ class ParamsToQueryService
                        else
                          model_name = model.name
 
-                         "::Queries::#{model_name.pluralize}::#{model_name.demodulize}Query".constantize
+                         # Some queries exist as Queries::Models::ModelQuery others as ModelQuery
+                         "::Queries::#{model_name.pluralize}::#{model_name.demodulize}Query".safe_constantize ||
+                          "::#{model_name.demodulize}Query".constantize
                        end
   end
 end

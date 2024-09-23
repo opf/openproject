@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,5 +43,14 @@ module RolesHelper
     enabled_module_names = ::OpenProject::AccessControl.sorted_module_names(include_disabled: false)
     perms.group_by { |p| p.project_module.to_s }
          .slice(*enabled_module_names)
+  end
+
+  def permission_header_for_project_module(mod)
+    if mod.blank?
+      Project.model_name.human
+    else
+      I18n.t("permission_header_for_project_module_#{mod}",
+             default: [:"project_module_#{mod}", mod.humanize])
+    end
   end
 end

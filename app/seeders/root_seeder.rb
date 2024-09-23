@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -70,6 +70,7 @@ class RootSeeder < Seeder
     # Basic data needs be seeded before anything else.
     seed_basic_data
     seed_admin_user
+    seed_oauth_data
     seed_demo_data
     seed_development_data if seed_development_data?
     seed_plugins_data
@@ -130,6 +131,11 @@ class RootSeeder < Seeder
   def seed_admin_user
     print_status "*** Seeding admin user"
     AdminUserSeeder.new(seed_data).seed!
+  end
+
+  def seed_oauth_data
+    print_status "*** Seeding OAuth applications"
+    OAuthApplicationsSeeder.new(seed_data).seed!
   end
 
   def seed_demo_data

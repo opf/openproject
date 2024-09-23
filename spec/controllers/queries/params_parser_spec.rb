@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -215,6 +215,24 @@ RSpec.describe Queries::ParamsParser, type: :model do
       it "returns the parsed filter" do
         expect(subject[:filters])
           .to contain_exactly({ attribute: "active", operator: "=", values: %w[t] })
+      end
+    end
+
+    context "with an old (APIv3) style filter" do
+      let(:params) do
+        {
+
+          filters: JSON.dump([{ active: { operator: "=", values: ["f"] } },
+                              { cf_32: { operator: "=", values: ["63"] } }, # rubocop:disable Naming/VariableNumber
+                              { cf_34: { operator: "=", values: ["2006"] } }]) # rubocop:disable Naming/VariableNumber
+        }
+      end
+
+      it "returns the parsed filter" do
+        expect(subject[:filters])
+          .to contain_exactly({ attribute: "active", operator: "=", values: %w[f] },
+                              { attribute: "cf_32", operator: "=", values: %w[63] },
+                              { attribute: "cf_34", operator: "=", values: %w[2006] })
       end
     end
 

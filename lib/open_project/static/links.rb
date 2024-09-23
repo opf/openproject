@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -169,9 +169,17 @@ module OpenProject
               href: "https://www.openproject.org/blog",
               label: "homescreen.links.blog"
             },
+            blog_article_progress_changes: {
+              href: "https://www.openproject.org/blog/changes-progress-work-estimates/",
+              label: "Significant changes to progress and work estimates"
+            },
             release_notes: {
               href: "https://www.openproject.org/docs/release-notes/",
               label: :label_release_notes
+            },
+            release_notes_14_0_1: {
+              href: "https://www.openproject.org/docs/release-notes/14-0-1/",
+              label: "Release notes for OpenProject 14.0.1"
             },
             data_privacy: {
               href: "https://www.openproject.org/legal/privacy/",
@@ -239,6 +247,9 @@ module OpenProject
             pricing: {
               href: "https://www.openproject.org/pricing/"
             },
+            progress_tracking_docs: {
+              href: "https://www.openproject.org/docs/user-guide/time-and-costs/progress-tracking/"
+            },
             enterprise_docs: {
               form_configuration: {
                 href: "https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on"
@@ -276,10 +287,10 @@ module OpenProject
                 href: "https://apps.nextcloud.com/apps/integration_openproject"
               },
               one_drive_oauth_application: {
-                href: 'https://portal.azure.com/'
+                href: "https://portal.azure.com/"
               },
               troubleshooting: {
-                href: 'https://www.openproject.org/docs/user-guide/file-management/nextcloud-integration/#possible-errors-and-troubleshooting'
+                href: "https://www.openproject.org/docs/user-guide/file-management/nextcloud-integration/#possible-errors-and-troubleshooting"
               }
             },
             ical_docs: {

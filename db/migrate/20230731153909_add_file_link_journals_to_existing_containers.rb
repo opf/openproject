@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ class AddFileLinkJournalsToExistingContainers < ActiveRecord::Migration[7.0]
       next unless container.class.journaled?
 
       Journals::CreateService.new(container, system_user)
-                             .call(cause: { "type" => 'system_update', "feature" => 'file_links_journal' })
+                             .call(cause: Journal::CausedBySystemUpdate.new(feature: "file_links_journal"))
     end
   end
 

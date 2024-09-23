@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -89,7 +89,7 @@ module Accounts::CurrentUser
   def current_autologin_user
     return unless Setting::Autologin.enabled?
 
-    autologin_cookie_name = OpenProject::Configuration['autologin_cookie_name']
+    autologin_cookie_name = OpenProject::Configuration["autologin_cookie_name"]
     autologin_token = cookies[autologin_cookie_name]
     return unless autologin_token
 
@@ -105,7 +105,7 @@ module Accounts::CurrentUser
   end
 
   def current_rss_key_user
-    if params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])
+    if params[:format] == "atom" && params[:key] && accept_key_auth_actions.include?(action_name)
       # RSS key authentication does not start a session
       User.find_by_rss_key(params[:key])
     end
@@ -116,7 +116,7 @@ module Accounts::CurrentUser
 
     key = api_key_from_request
 
-    if key && accept_key_auth_actions.include?(params[:action])
+    if key && accept_key_auth_actions.include?(action_name)
       # Use API key
       User.find_by_api_key(key)
     end
@@ -183,8 +183,8 @@ module Accounts::CurrentUser
 
         format.any(:xml, :js, :json) do
           head :unauthorized,
-               'X-Reason' => 'login needed',
-               'WWW-Authenticate' => auth_header
+               "X-Reason" => "login needed",
+               "WWW-Authenticate" => auth_header
         end
 
         format.all { head :not_acceptable }

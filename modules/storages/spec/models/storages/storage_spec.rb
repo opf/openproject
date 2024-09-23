@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,40 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Storage do
+  describe "#health_notifications_should_be_sent?" do
+    let(:storage) { build(:storage, provider_fields: {}) }
+
+    context "when health_notifications_enabled is nil" do
+      it "relies on automatic_management_enabled" do
+        storage.automatic_management_enabled = false
+        expect(storage.health_notifications_should_be_sent?).to be(false)
+
+        storage.automatic_management_enabled = true
+        expect(storage.health_notifications_should_be_sent?).to be(true)
+      end
+    end
+
+    context "when health_notifications_enabled is not nil" do
+      it "relies on health_notifications_enabled" do
+        storage.automatic_management_enabled = false
+        storage.health_notifications_enabled = false
+        expect(storage.health_notifications_should_be_sent?).to be(false)
+
+        storage.automatic_management_enabled = true
+        storage.health_notifications_enabled = false
+        expect(storage.health_notifications_should_be_sent?).to be(false)
+
+        storage.automatic_management_enabled = false
+        storage.health_notifications_enabled = true
+        expect(storage.health_notifications_should_be_sent?).to be(true)
+
+        storage.automatic_management_enabled = false
+        storage.health_notifications_enabled = true
+        expect(storage.health_notifications_should_be_sent?).to be(true)
+      end
+    end
+  end
+
   describe "provider_fields" do
     let(:storage) { build(:storage, provider_fields: {}) }
 
@@ -79,6 +113,29 @@ RSpec.describe Storages::Storage do
 
         it { expect(storage.automatic_management_enabled?).to be(false) }
       end
+    end
+  end
+
+  describe "uri" do
+    it "returns nil if host is nil" do
+      storage = build(:storage, host: nil)
+      expect(storage.uri).to be_nil
+    end
+
+    it "returns host with trailing slash" do
+      storage = build(:storage, host: "https://example.com")
+      expect(storage.uri.to_s).to eq("https://example.com/")
+      storage = build(:storage, host: "https://endor")
+      expect(storage.uri.to_s).to eq("https://endor/")
+      storage = build(:storage, host: "https://deathstar.org/html")
+      expect(storage.uri.to_s).to eq("https://deathstar.org/html/")
+
+      storage = build(:storage, host: "https://example.com/")
+      expect(storage.uri.to_s).to eq("https://example.com/")
+      storage = build(:storage, host: "https://endor/")
+      expect(storage.uri.to_s).to eq("https://endor/")
+      storage = build(:storage, host: "https://deathstar.org/html/")
+      expect(storage.uri.to_s).to eq("https://deathstar.org/html/")
     end
   end
 end

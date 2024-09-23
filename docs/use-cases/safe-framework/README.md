@@ -22,8 +22,6 @@ This guide contains the following sections:
 | [Organizing work using table view, Gantt view](#organizing-work-using-table-view-gantt-view) | Using table and Gantt views to visualize, sort, filter and group work packages and save custom views at all levels (agile team, Agile Release Train or Solution Train) |
 | [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) | Organizing work and facilitating planning using Backlogs, Kanban boards and Team planner  |
 
-
-
 ## Structure and terminology
 
 Preparing OpenProject for SAFe involves configuration and access at two levels:
@@ -31,7 +29,7 @@ Preparing OpenProject for SAFe involves configuration and access at two levels:
 - **Individual projects** are self-contained and consist of a set of modules, members, work packages and project-level settings. Each can further contain sub-projects for additional hierarchy. They represent **Agile Release Trains** in SAFe.
 - **Global modules** encompass content from all projects (and sub-projects) and instance-level settings that affect all modules for all users; these settings can sometimes be overridden at a project-level. The global level serves as a **Solution Train-level** view in SAFe.
 
-Individual users will generally work within one or a set of different projects to deliver value. 
+Individual users will generally work within one or a set of different projects to deliver value.
 
 It is important to note that OpenProject terminology can vary somewhat form SAFe terminology:
 
@@ -57,7 +55,7 @@ In OpenProject, each **Agile Release Train** (ART) is set up as an individual pr
 
 A project consists of a number of different elements:
 
-- **Members**: individual members can be created at an instance-level and then added to individual projects, or external users 
+- **Members**: individual members can be created at an instance-level and then added to individual projects, or external users
 - can directly be "invited" to a project. Each member can have different roles in different projects.
 - **Modules** like Work packages, Gantt, Backlog, Team planner, Wiki, Forums, Meetings.
 - **Work packages** that can be of different types, including epics, features, enablers, user stories, and bugs.
@@ -69,7 +67,7 @@ To learn how to use the Work packages module to configure epics, features and us
 
 > **Demo:** View an [overview of an ART set up as a project](https://safe.openproject.com/projects/art-2-design/work_packages?query_id=58).
 
-### Project templates 
+### Project templates
 
 You can also use [project templates](../../user-guide/projects/project-templates/) and to make it easier to create news ARTs with the same structure, set of enabled modules, project structure or work package templates. Once a new ART is created using a template, it can then be modified in any way.
 
@@ -82,11 +80,11 @@ Project portfolios allow you to view, organize, sort and filter through all proj
 ![All Features and User Stories across all teams](all_features_across_all_teams.png)
 
 > In a near future release, OpenProject will have dedicated project portfolio features. [View mockups.](https://www.figma.com/file/YCCMdJWkrtP9YSmf49Od0i/Project-lists?type=design&node-id=470%3A13037&mode=design&t=g1EZesuy0Jj0VZFD-1)
-> 
+>
 > For the moment, [global modules](../../user-guide/home/global-modules/) give you an overview of content from all projects, including the ability to view and filter though a **project list**, and view, sort and filter **work packages at a global level**.
 
 > **Demo:** [Solution train (project list)](https://safe.openproject.com/projects)
-> 
+>
 > **Demo:** [Global work package view (epics, features and stories from all ARTs)](https://safe.openproject.com/projects/safe-solution-train-1/work_packages?query_id=120)
 
 ## Using versions to set Program Increments
@@ -137,7 +135,7 @@ Similarly, a template can be defined for **User stories** so that they can be ex
 > **As a** *{role}*
 >
 > **I want to** *{activity}*
-> 
+>
 > **so that** *{business or user value}*
 
 > **Demo**: Defining a [type template for user stories](https://safe.openproject.com/types/6/edit/settings) (requires admin privileges).
@@ -176,7 +174,6 @@ Progress can be viewed at a team label, at an ART-level or at a solution train l
 
 > **Demo:** [Progress overview at a PI level](https://safe.openproject.com/projects/safe-demo/work_packages?query_id=78)
 
-
 ## Organizing work using table view, Gantt view
 
 OpenProject is a powerful tool that allows you to view work packages in a variety of different ways.
@@ -202,7 +199,6 @@ The [Gantt chart](../../user-guide/gantt-chart/) module allows you to quickly vi
 ![Gantt view of one sprint in one ART](Gantt_view.png)
 
 > **Demo:** [A Gantt view of a sprint within an ART](https://safe.openproject.com/projects/art-0-test-release-train/work_packages?query_id=39)
-
 
 ## Backlogs, Kanban and Team planner
 
@@ -256,4 +252,4 @@ At a Solution train level, it also allows you to view the work of members across
 
 OpenProject is a powerful and highly-configurable tool that can be customized to fit the needs of your particular scaled agile implementation. Beyond the basics covered in this guide, OpenProject has many additional features and modules (such as [budgets](../../user-guide/budgets/), [time and cost tracking](../../user-guide/time-and-costs/), [wiki](../../user-guide/wiki/), [meetings](../../user-guide/meetings/) and [file storage integrations](../../development/file-storage-integration/)) that further enable your agile teams to work efficiently and deliver value.
 
-If you have questions about how to [use](../../getting-started/) and [configure](../../system-admin-guide/) OpenProject to work for you, please [get in touch](https://www.openproject.org/contact/) or [start a free trial](https://start.openproject.com/) to see for yourself. 
+If you have questions about how to [use](../../getting-started/) and [configure](../../system-admin-guide/) OpenProject to work for you, please [get in touch](https://www.openproject.org/contact/) or [start a free trial](https://start.openproject.com/) to see for yourself.

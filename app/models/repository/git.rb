@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,7 +50,7 @@ class Repository::Git < Repository
   end
 
   def self.permitted_params(params)
-    super(params).merge(params.permit(:path_encoding))
+    super.merge(params.permit(:path_encoding))
   end
 
   def self.supported_types

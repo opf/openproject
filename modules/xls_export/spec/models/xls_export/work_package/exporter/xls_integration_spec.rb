@@ -2,9 +2,10 @@ require "spec_helper"
 require "spreadsheet"
 
 RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
-  let(:project) { create(:project) }
+  shared_let(:project) { create(:project) }
+  shared_let(:admin) { create(:admin) }
 
-  let(:current_user) { create(:admin) }
+  let(:current_user) { admin }
 
   let(:column_names) { %w[type id subject status assigned_to priority] }
   let(:query) do
@@ -37,7 +38,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
   end
 
   context "with relations" do
-    let(:options) { { show_relations: true } }
+    let(:options) { { show_relations: "true" } }
 
     let(:parent) { create(:work_package, project:, subject: "Parent") }
     let(:child_1) do
@@ -87,7 +88,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       expect(sheet.rows[1])
         .to eq [
           nil, "Type", "ID", "Subject", "Status", "Assignee", "Priority",
-          nil, "Relation type", "Delay", "Description",
+          nil, "Relation type", "Lag", "Description",
           "Type", "ID", "Subject", "Status", "Assignee", "Priority",
           nil
         ]
@@ -134,7 +135,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
           nil, parent.type.name, parent.id.to_s, parent.subject, parent.status.name, parent.assigned_to, parent.priority.name,
           nil, "parent of", nil, nil,
           child_1.type.name, child_1.id.to_s, child_1.subject, child_1.status.name, child_1.assigned_to, child_1.priority.name
-        ] # delay nil as this is a parent-child relation not represented by an actual Relation record
+        ] # lag nil as this is a parent-child relation not represented by an actual Relation record
 
       expect(sheet.row(SINGLE))
         .to eq [
@@ -203,7 +204,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
         .and_return("costs_currency" => "EUR", "costs_currency_format" => "%n %u")
     end
 
-    it "successfullies export the work packages with a cost column" do
+    it "exports successfully the work packages with a cost column" do
       expect(sheet.rows.size).to eq(4 + 1)
 
       cost_column = sheet.columns.last.to_a
@@ -215,7 +216,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     context "with german locale" do
       let(:current_user) { create(:admin, language: :de) }
 
-      it "successfullies export the work packages with a cost column localized" do
+      it "exports successfully the work packages with a cost column localized" do
         I18n.with_locale :de do
           sheet
         end
@@ -233,12 +234,12 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
 
       # Check row after header row
       hours = sheet.rows[1].values_at(2)
-      expect(hours).to include("27.5 h")
+      expect(hours).to include("27.5h")
     end
   end
 
   context "with descriptions" do
-    let(:options) { { show_descriptions: true } }
+    let(:options) { { show_descriptions: "true" } }
 
     let(:work_package) do
       create(:work_package,
@@ -325,26 +326,29 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     it "adapts the datetime fields to the user time zone" do
       work_package.reload
       estimated_cell = sheet.rows.last.to_a.last
-      expect(estimated_cell).to eq "· Σ 15.0 h"
+      expect(estimated_cell).to eq "· Σ 15h"
     end
   end
 
-  describe "with derived estimated hours and estimated_hours set to zero" do
+  describe "with estimated and remaining hours set to zero and their derived value set" do
     let(:work_package) do
       create(:work_package,
              project:,
-             derived_estimated_hours: 15.0,
              estimated_hours: 0.0,
+             derived_estimated_hours: 15.0,
+             remaining_hours: 0.0,
+             derived_remaining_hours: 8,
              type: project.types.first)
     end
     let(:work_packages) { [work_package] }
 
-    let(:column_names) { %w[subject status updated_at estimated_hours] }
+    let(:column_names) { %w[subject status updated_at estimated_hours remaining_hours] }
 
     it "outputs both values" do
       work_package.reload
-      estimated_cell = sheet.rows.last.to_a.last
-      expect(estimated_cell).to eq "0.0 h · Σ 15.0 h"
+      estimated_cell, remaining_cell = sheet.rows.last.to_a.last(2)
+      expect(estimated_cell).to eq "0h · Σ 15h"
+      expect(remaining_cell).to eq "0h · Σ 8h"
     end
   end
 end

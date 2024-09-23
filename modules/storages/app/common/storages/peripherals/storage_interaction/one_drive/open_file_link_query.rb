@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,10 +33,8 @@ module Storages
     module StorageInteraction
       module OneDrive
         class OpenFileLinkQuery
-          using ::Storages::Peripherals::ServiceResultRefinements
-
-          def self.call(storage:, user:, file_id:, open_location: false)
-            new(storage).call(user:, file_id:, open_location:)
+          def self.call(storage:, auth_strategy:, file_id:, open_location: false)
+            new(storage).call(auth_strategy:, file_id:, open_location:)
           end
 
           def initialize(storage)
@@ -44,42 +42,26 @@ module Storages
             @delegate = Internal::DriveItemQuery.new(storage)
           end
 
-          def call(user:, file_id:, open_location: false)
-            @user = user
-
-            Util.using_user_token(@storage, user) do |token|
+          def call(auth_strategy:, file_id:, open_location: false)
+            Authentication[auth_strategy].call(storage: @storage) do |http|
               if open_location
-                request_parent_id(token).call(file_id) >> request_web_url(token)
+                request_parent_id(http, file_id).on_success { |parent_id| return request_web_url(http, parent_id.result) }
               else
-                request_web_url(token).call(file_id)
+                request_web_url(http, file_id)
               end
             end
           end
 
           private
 
-          def request_web_url(token)
-            ->(file_id) do
-              @delegate.call(token:, drive_item_id: file_id, fields: %w[webUrl]).map(&web_url)
-            end
+          # rubocop:disable Rails/Pluck
+          def request_web_url(http, file_id)
+            @delegate.call(http:, drive_item_id: file_id, fields: %w[webUrl]).map { |json| json[:webUrl] }
           end
+          # rubocop:enable Rails/Pluck
 
-          def request_parent_id(token)
-            ->(file_id) do
-              @delegate.call(token:, drive_item_id: file_id, fields: %w[parentReference]).map(&parent_id)
-            end
-          end
-
-          def web_url
-            ->(json) do
-              json[:webUrl]
-            end
-          end
-
-          def parent_id
-            ->(json) do
-              json.dig(:parentReference, :id)
-            end
+          def request_parent_id(http, file_id)
+            @delegate.call(http:, drive_item_id: file_id, fields: %w[parentReference]).map { |json| json.dig(:parentReference, :id) }
           end
         end
       end

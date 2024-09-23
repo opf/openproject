@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,10 +31,14 @@
 module Storages::Admin::Forms
   class GeneralInfoFormComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
+
     alias_method :storage, :model
 
     options form_method: :post,
             submit_button_disabled: false
+
+    def self.wrapper_key = :storage_general_info_section
 
     def form_url
       options[:form_url] || default_form_url
@@ -86,16 +90,6 @@ module Storages::Admin::Forms
           ::OpenProject::Static::Links[:storage_docs][:"#{provider_type}_oauth_application"][:href],
           I18n.t("storages.instructions.#{provider_type}.application_link_text")
         )
-      ).html_safe
-    end
-
-    def information_for_one_drive_automatic_management
-      href = ::OpenProject::Static::Links[:storage_docs][:one_drive_drive_id_guide][:href]
-      I18n.t(
-        "storages.page_titles.managed_project_folders.one_drive_information",
-        drive_id_link_text: render(Primer::Beta::Link.new(href:, target: "_blank")) do
-          I18n.t("storages.instructions.one_drive.documentation_link_text")
-        end
       ).html_safe
     end
 

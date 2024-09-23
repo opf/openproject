@@ -19,11 +19,11 @@ pt-PT:
               title: Atualizações da equipa do produto
             item_3:
               title: Atualizações da equipa de marketing
-            item_4:
-              title: Atualizações da equipa de vendas
             item_5:
-              title: Revisão dos objetivos trimestrais
+              title: Atualizações da equipa de vendas
             item_6:
-              title: Feedback sobre os valores fundamentais
+              title: Revisão dos objetivos trimestrais
             item_7:
+              title: Feedback sobre os valores fundamentais
+            item_8:
               title: Tópicos gerais

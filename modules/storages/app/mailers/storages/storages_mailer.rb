@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@
 
 module Storages
   class StoragesMailer < ApplicationMailer
-    layout 'mailer'
+    layout "mailer"
 
     include MessagesHelper
     include MailNotificationHelper
@@ -43,8 +43,8 @@ module Storages
       @storage = storage
       @reason = storage.health_reason
       @url = edit_admin_settings_storage_url(storage)
-      subject = I18n.t('mail.storages.health.unhealthy.subject', name: @storage.name)
-      mail(to: admin.mail, subject:)
+      subject = I18n.t("mail.storages.health.unhealthy.subject", name: @storage.name)
+      mail(to: admin, subject:)
     end
 
     def notify_healthy(admin, storage, reason)
@@ -52,8 +52,8 @@ module Storages
       @storage = storage
       @reason = reason
       @url = edit_admin_settings_storage_url(storage)
-      subject = I18n.t('mail.storages.health.healthy.subject', name: @storage.name)
-      mail(to: admin.mail, subject:)
+      subject = I18n.t("mail.storages.health.healthy.subject", name: @storage.name)
+      mail(to: admin, subject:)
     end
   end
 end

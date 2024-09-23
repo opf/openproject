@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,8 +47,10 @@ RSpec.describe "Work packages remaining time", :js, :with_cuprite do
     wp_page.expect_subject
     wp_page.expect_attributes remainingTime: "-"
 
+    # need to update work first to enable the remaining work field
+    wp_page.update_attributes estimatedTime: "200" # rubocop:disable Rails/ActiveRecordAliases
     wp_page.update_attributes remainingTime: "125" # rubocop:disable Rails/ActiveRecordAliases
-    wp_page.expect_attributes remainingTime: "125 h"
+    wp_page.expect_attributes remainingTime: "125h"
 
     work_package.reload
     expect(work_package.remaining_hours).to eq 125.0
@@ -58,16 +60,18 @@ RSpec.describe "Work packages remaining time", :js, :with_cuprite do
     wp_table_page = Pages::WorkPackagesTable.new(project)
 
     query_props = JSON.dump({
-                              c: %w(id subject remainingTime),
+                              c: %w[id subject estimatedTime remainingTime],
                               s: true
                             })
 
     wp_table_page.visit_with_params("query_props=#{query_props}")
     wp_table_page.expect_work_package_with_attributes work_package, remainingTime: "-"
 
+    # need to update work first to enable the remaining work field
+    wp_table_page.update_work_package_attributes work_package, estimatedTime: "200"
     wp_table_page.update_work_package_attributes work_package, remainingTime: "125"
-    wp_table_page.expect_work_package_with_attributes work_package, remainingTime: "125 h"
-    wp_table_page.expect_sums_row_with_attributes remainingTime: "125 h"
+    wp_table_page.expect_work_package_with_attributes work_package, remainingTime: "125h"
+    wp_table_page.expect_sums_row_with_attributes remainingTime: "125h"
 
     work_package.reload
     expect(work_package.remaining_hours).to eq 125.0

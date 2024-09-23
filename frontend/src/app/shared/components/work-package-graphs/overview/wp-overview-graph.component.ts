@@ -13,16 +13,17 @@ import {
 } from 'core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ChartOptions } from 'chart.js';
-import { WpGraphConfigurationService } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service';
+import {
+  WpGraphConfigurationService,
+} from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service';
 import {
   WpGraphConfiguration,
   WpGraphQueryParams,
 } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration';
 
-export const wpOverviewGraphSelector = 'wp-overview-graph';
 
 @Component({
-  selector: wpOverviewGraphSelector,
+  selector: 'opce-wp-overview-graph',
   templateUrl: './wp-overview-graph.template.html',
   styleUrls: ['./wp-overview-graph.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,7 +33,9 @@ export const wpOverviewGraphSelector = 'wp-overview-graph';
 })
 
 export class WorkPackageOverviewGraphComponent implements OnInit {
-  @Input() additionalFilter:any;
+  @Input() initialFilters:any;
+
+  @Input() globalScope:boolean;
 
   @ViewChild('wpEmbeddedGraphMulti') private embeddedGraphMulti:WorkPackageEmbeddedGraphComponent;
 
@@ -50,10 +53,12 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
 
   public error:string|null = null;
 
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef<Element>,
     readonly I18n:I18nService,
     readonly graphConfigurationService:WpGraphConfigurationService,
-    protected readonly cdr:ChangeDetectorRef) {
+    protected readonly cdr:ChangeDetectorRef,
+  ) {
     this.availableGroupBy = [{ label: I18n.t('js.work_packages.properties.category'), key: 'category' },
       { label: I18n.t('js.work_packages.properties.type'), key: 'type' },
       { label: I18n.t('js.work_packages.properties.status'), key: 'status' },
@@ -64,7 +69,9 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
 
   ngOnInit() {
     const element = this.elementRef.nativeElement;
-    this.additionalFilter = JSON.parse(element.getAttribute('additional-filter'));
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    this.initialFilters = JSON.parse(element.getAttribute('initial-filters') || 'null');
+    this.globalScope = element.getAttribute('global-scope') === 'true';
 
     this.setQueryProps();
   }
@@ -75,6 +82,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
     const params = this.graphParams;
 
     this.graphConfigurationService.configuration = new WpGraphConfiguration(params, {}, 'horizontalBar');
+    this.graphConfigurationService.globalScope = this.globalScope;
 
     // 'finally' was not available yet so the code for the change detection is duplicated
     this
@@ -128,14 +136,17 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   }
 
   private baseProps(filter?:any) {
-    const filters = [{ subprojectId: { operator: '*', values: [] } }];
+    const filters = [];
+
+    if (Array.isArray(this.initialFilters)) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      filters.push(...this.initialFilters);
+    } else {
+      filters.push({ subprojectId: { operator: '*', values: [] } });
+    }
 
     if (filter) {
       filters.push(filter);
-    }
-
-    if (this.additionalFilter) {
-      filters.push(this.additionalFilter);
     }
 
     return {

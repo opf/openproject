@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -67,6 +67,8 @@ RSpec.describe "adding a new budget", :js do
 
       # change cost type
       select "Foobar", from: "budget_new_material_budget_item_attributes_0_cost_type_id"
+
+      expect(page).to have_content "bars"
 
       click_on "Create"
 

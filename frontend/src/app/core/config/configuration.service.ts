@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -93,6 +93,22 @@ export class ConfigurationService {
 
   public dateFormat():string {
     return this.systemPreference('dateFormat');
+  }
+
+  public durationFormat():string {
+    return this.systemPreference('durationFormat');
+  }
+
+  public hoursPerDay():number {
+    return this.systemPreference('hoursPerDay');
+  }
+
+  public hoursPerWeek():number {
+    return this.systemPreference('hoursPerWeek');
+  }
+
+  public daysPerMonth():number {
+    return this.systemPreference('daysPerMonth');
   }
 
   public timeFormatPresent():boolean {

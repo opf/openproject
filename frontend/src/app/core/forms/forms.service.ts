@@ -76,6 +76,7 @@ export class FormsService {
     const formattedResourcesModel = Object
       .keys(resourcesModel)
       .reduce((result, resourceKey) => {
+        // @ts-ignore
         const resourceModel = resourcesModel[resourceKey];
         // Form.payload resources have a HalLinkSource interface while
         // API resource options have a IAllowedValue interface

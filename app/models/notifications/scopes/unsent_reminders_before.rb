@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,8 +36,9 @@ module Notifications::Scopes
       def unsent_reminders_before(recipient:, time:)
         where(Notification.arel_table[:created_at].lteq(time))
           .where(recipient:)
-          .where("read_ian IS NULL OR read_ian IS FALSE")
+          .where(read_ian: [false, nil])
           .where(mail_reminder_sent: false)
+          .where(mail_alert_sent: [false, nil])
       end
     end
   end

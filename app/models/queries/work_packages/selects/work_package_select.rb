@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,18 +27,17 @@
 #++
 
 class Queries::WorkPackages::Selects::WorkPackageSelect
-  attr_accessor :highlightable
+  attr_accessor :highlightable,
+                :name,
+                :sortable_join,
+                :summable,
+                :default_order,
+                :association
   alias_method :highlightable?, :highlightable
 
   attr_reader :groupable,
               :sortable,
               :displayable
-
-  attr_accessor :name,
-                :sortable_join,
-                :summable,
-                :default_order,
-                :association
 
   attr_writer :null_handling,
               :summable_select,

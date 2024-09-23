@@ -1,7 +1,7 @@
 id:
   plugin_openproject_openid_connect:
     name: "OpenProject OpenID Connect"
-    description: "Adds OmniAuth OpenID Connect strategy providers to Openproject."
+    description: "Adds OmniAuth OpenID Connect strategy providers to OpenProject."
   logout_warning: >
     Anda telah keluar.  Isi formulir apa pun yang Anda kirim mungkin akan hilang.  Silahkan [log in].
   activemodel:

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -86,6 +86,18 @@ RSpec.describe UserMailer do
       end
 
       it_behaves_like "mail is sent"
+    end
+
+    context "with true but user is locked" do
+      let(:recipient) { build_stubbed(:user, status: Principal.statuses[:locked]) }
+
+      before do
+        described_class.with_deliveries(true) do
+          described_class.test_mail(recipient).deliver_now
+        end
+      end
+
+      it_behaves_like "mail is not sent"
     end
   end
 

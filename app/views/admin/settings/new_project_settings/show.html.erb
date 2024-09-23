@@ -1,0 +1,54 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<% html_title t(:label_administration), t(:label_project_new) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_project_new) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: admin_settings_project_custom_fields_path, text: t(:label_project_plural) },
+                             t(:label_project_new)])
+  end
+%>
+
+<%= styled_form_tag(admin_settings_new_project_path, method: :patch) do %>
+  <fieldset class="form--fieldset">
+    <div class="form--field"><%= setting_check_box :default_projects_public %></div>
+    <div class="form--field">
+      <%= setting_multiselect(:default_projects_modules,
+        OpenProject::AccessControl.available_project_modules.collect {|m| [l_or_humanize(m, prefix: "project_module_"), m.to_s]}) %>
+    </div>
+    <div class="form--field"><%= setting_select :new_project_user_role_id,
+                      Role.givable.collect {|r| [r.name, r.id.to_s]},
+                      blank: "--- #{t(:actionview_instancetag_blank_option)} ---",
+                      container_class: '-middle' %></div>
+  </fieldset>
+
+  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
+<% end %>

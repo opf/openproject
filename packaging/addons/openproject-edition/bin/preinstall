@@ -26,29 +26,14 @@ if [ "$edition" = "bim" ]; then
 					# Therefore we should use those and not the ones from packages.microsoft.com, as otherwise the assumption for
 					# setting the DOTNET_ROOT later fails, leading to bugs like https://community.openproject.org/wp/50172.
 					;;
-				"20.04")
+				"20.04" | "18.04")
 					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/20.04/prod.list
+					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/${OSVERSION}/prod.list
 					apt-get update -qq
 					;;
-				"18.04")
+				"12" | "11")
 					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/18.04/prod.list
-					apt-get update -qq
-					;;
-				"12")
-					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/debian/12/prod.list
-					apt-get update -qq
-					;;
-				"11")
-					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/debian/11/prod.list
-					apt-get update -qq
-					;;
-				"10")
-					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/debian/10/prod.list
+					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/debian/${OSVERSION}/prod.list
 					apt-get update -qq
 					;;
 				esac

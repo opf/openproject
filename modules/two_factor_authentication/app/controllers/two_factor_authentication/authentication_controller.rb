@@ -11,6 +11,12 @@ module ::TwoFactorAuthentication
 
     # User is not yet logged in, so skip login required check
     skip_before_action :check_if_login_required
+    no_authorization_required! :request_otp,
+                               :confirm_otp,
+                               :enter_backup_code,
+                               :verify_backup_code,
+                               :retry,
+                               :webauthn_challenge
 
     # Avoid catch-all from core resulting in methods
     before_action :only_post, only: :confirm_otp

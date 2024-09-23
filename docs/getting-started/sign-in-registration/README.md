@@ -12,7 +12,6 @@ This page will give you an overview of how to register or sign in to an existing
 
 > **Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/create-cloud-trial/).
 
-
 | Topic                                                                         | Content                                                            |
 |-------------------------------------------------------------------------------|--------------------------------------------------------------------|
 | [Sign in with an existing account](#sign-in-with-an-existing-account)         | Sign in with an existing account to an OpenProject installation.   |
@@ -89,7 +88,7 @@ After the creation of your account you are logged into the system. You will then
 
 ![select language](20191202171349241.png)
 
-If you have already logged in before, you can [set your language in your user profile](../my-account/#profile-settings).
+If you have already logged in before, you can [set your language in your user profile](../../user-guide/my-account/#profile-settings).
 
 ## Reset your password
 
@@ -97,7 +96,7 @@ If you forgot your password, you can reset your password by clicking the blue **
 
 ![Forgot-password](1566205596114.png)
 
-You are then asked to enter your email address with which you registered to OpenProject. 
+You are then asked to enter your email address with which you registered to OpenProject.
 
 ![enter-email-address](1566205903097.png)
 

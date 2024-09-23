@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ RSpec.describe CustomActions::Actions::AssignedTo do
     users = [build_stubbed(:user),
              build_stubbed(:group)]
     allow(Principal)
-      .to receive_message_chain(:not_locked, :select, :ordered_by_name)
+      .to receive_message_chain(:not_locked, :select, :select_for_name, :ordered_by_name)
       .and_return(users)
 
     [{ value: nil, label: "-" },

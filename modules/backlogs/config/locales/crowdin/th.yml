@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -27,14 +27,14 @@ th:
     attributes:
       work_package:
         position: "ตำแหน่ง"
-        story_points: "Story Points"
+        story_points: ""
         backlogs_work_package_type: "Backlog type"
     errors:
       models:
         work_package:
           attributes:
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
+              can_only_contain_work_packages_of_current_sprint: ""
               must_block_at_least_one_work_package: "must contain the ID of at least one ticket."
             version_id:
               task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
@@ -42,15 +42,15 @@ th:
           cannot_end_before_it_starts: "Sprint cannot end before it starts."
   backlogs:
     add_new_story: "New Story"
-    any: "any"
+    any: "ทั้งหมด"
     backlog_settings: "Backlogs settings"
     burndown_graph: "Burndown Graph"
     card_paper_size: "Paper size for card printing"
-    chart_options: "Chart options"
-    close: "Close"
-    column_width: "Column width:"
-    date: "Day"
-    definition_of_done: "Definition of Done"
+    chart_options: "ตัวเลือกแผนภูมิ"
+    close: "ปิด"
+    column_width: "ขนาดคอลัมน์:"
+    date: "วันที่"
+    definition_of_done: "นิยามของคำว่าเสร็จสิ้น"
     generating_chart: "Generating Graph..."
     hours: "ชั่วโมง"
     impediment: "Impediment"
@@ -58,7 +58,7 @@ th:
     work_package_is_closed: "Work package is done, when"
     label_is_done_status: "Status %{status_name} means done"
     no_burndown_data: "No burndown data available. It is necessary to have the sprint start- and end dates set."
-    points: "Points"
+    points: "แต้ม"
     positions_could_not_be_rebuilt: "Positions could not be rebuilt."
     positions_rebuilt_successfully: "Positions rebuilt successfully."
     properties: "คุณสมบัติ"
@@ -70,12 +70,12 @@ th:
     story: "Story"
     story_points: "Story Points"
     story_points_ideal: "Story Points (ideal)"
-    task: "Task"
-    task_color: "Task color"
-    unassigned: "Unassigned"
+    task: "งาน"
+    task_color: "สีของงาน"
+    unassigned: "ไม่ได้กำหนด"
     x_more: "%{count} more..."
   backlogs_active: "ใช้งานอยู่"
-  backlogs_any: "any"
+  backlogs_any: "ทั้งหมด"
   backlogs_inactive: "Project shows no activity"
   backlogs_points_burn_direction: "Points burn up/down"
   backlogs_product_backlog: "Product backlog"
@@ -88,7 +88,7 @@ th:
   backlogs_sprints: "Sprints"
   backlogs_story: "Story"
   backlogs_story_type: "Story types"
-  backlogs_task: "Task"
+  backlogs_task: "งาน"
   backlogs_task_type: "Task type"
   backlogs_velocity_missing: "No velocity could be calculated for this project"
   backlogs_velocity_varies: "Velocity varies significantly over sprints"

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,31 @@
 module Settings
   module ProjectCustomFields
     class EditFormHeaderComponent < ApplicationComponent
-      def initialize(custom_field:)
-        super
+      TAB_NAVS = %i[
+        project_custom_field_edit
+        project_custom_field_project_mappings
+      ].freeze
 
+      def initialize(custom_field:, selected:)
+        selected = selected.to_sym
+        raise "selected must be one of the following: #{TAB_NAVS.join(', ')}" unless TAB_NAVS.include?(selected)
+
+        super
         @custom_field = custom_field
+        @selected = selected
+      end
+
+      TAB_NAVS.each do |tab_nav|
+        define_method(:"#{tab_nav}_selected?") do
+          @selected == tab_nav
+        end
+      end
+
+      def breadcrumbs_items
+        [{ href: admin_index_path, text: t("label_administration") },
+         { href: admin_settings_project_custom_fields_path, text: t("label_project_plural") },
+         { href: admin_settings_project_custom_fields_path, text: t("settings.project_attributes.heading") },
+         @custom_field.name]
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,16 +63,9 @@ module Queries
         }
       end
 
-      def scope
-        # TODO: remove switch once the WP query is a
-        # subclass of Queries::Base
-        model = if context.respond_to?(:model)
-                  context.model
-                else
-                  WorkPackage
-                end
-
-        model.unscoped
+      def apply_to(query_scope)
+        # No change to the query scope whatsoever since the filter does not exist.
+        query_scope
       end
 
       def attributes_hash

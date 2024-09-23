@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectorRef, Component, ElementRef, Injector, Input,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Injector, Input } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import {
+  OpContextMenuTrigger,
+} from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
@@ -41,16 +41,18 @@ import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op
   styleUrls: ['./icon-triggered-context-menu.component.sass'],
 })
 export class IconTriggeredContextMenuComponent extends OpContextMenuTrigger {
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     readonly opContextMenu:OPContextMenuService,
     readonly opModalService:OpModalService,
     readonly injector:Injector,
     readonly cdRef:ChangeDetectorRef,
-    readonly I18n:I18nService) {
+    readonly I18n:I18nService,
+  ) {
     super(elementRef, opContextMenu);
   }
 
-  @Input('menu-items') menuItems:Function;
+  @Input() menuItemsFactory:() => Promise<OpContextMenuItem[]>;
 
   protected async open(evt:JQuery.TriggeredEvent) {
     this.items = await this.buildItems();
@@ -78,8 +80,8 @@ export class IconTriggeredContextMenuComponent extends OpContextMenuTrigger {
     const items:OpContextMenuItem[] = [];
 
     // Add action specific menu entries
-    if (this.menuItems) {
-      const additional = await this.menuItems();
+    if (this.menuItemsFactory) {
+      const additional = await this.menuItemsFactory();
       return items.concat(additional);
     }
 

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,6 +48,10 @@ module Statuses
 
     def readonly?
       checkmark(status.is_readonly?)
+    end
+
+    def excluded_from_totals?
+      checkmark(status.excluded_from_totals?)
     end
 
     def color

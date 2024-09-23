@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 3.0.16
-  sidebar_navigation:
-      title: 3.0.16
-  release_version: 3.0.16
-  release_date: 2014-11-20
+title: OpenProject 3.0.16
+sidebar_navigation:
+  title: 3.0.16
+release_version: 3.0.16
+release_date: 2014-11-20
 ---
 
 # OpenProject 3.0.16
@@ -25,9 +25,7 @@ not applied properly. This has been fixed with OpenProject 3.0.16
 A big thanks goes to everyone involved in fixing and reporting those
 bugs!
 
-For a complete list of changes, please refer to the 
-[Changelog v3.0.16](https://community.openproject.org/versions/544) 
-or have a look at 
+For a complete list of changes, please refer to the
+[Changelog v3.0.16](https://community.openproject.org/versions/544)
+or have a look at
 [Github](https://github.com/opf/openproject/tree/v3.0.16).
-
-

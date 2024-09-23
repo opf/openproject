@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -100,6 +100,10 @@ export class PathHelperService {
     return `${this.staticBase}/topics/${messageIdentifier}`;
   }
 
+  public meetingPath(id:string):string {
+    return `${this.staticBase}/meetings/${id}`;
+  }
+
   public myPagePath() {
     return `${this.staticBase}/my/page`;
   }
@@ -114,6 +118,10 @@ export class PathHelperService {
 
   public notificationsPath():string {
     return `${this.staticBase}/notifications`;
+  }
+
+  public notificationsDetailsPath(workPackageId:string, tab?:string):string {
+    return `${this.notificationsPath()}/details/${workPackageId}${tab ? `/${tab}` : ''}`;
   }
 
   public loginPath() {
@@ -256,12 +264,32 @@ export class PathHelperService {
     return `${this.workPackagePath(workPackageId)}/copy`;
   }
 
+  public workPackageDetailsPath(projectIdentifier:string, workPackageId:string|number, tab?:string) {
+    if (tab) {
+      return `${this.projectWorkPackagePath(projectIdentifier, workPackageId)}/details/${tab}`;
+    }
+
+    return `${this.projectWorkPackagesPath(projectIdentifier)}/details/${workPackageId}`;
+  }
+
   public workPackageDetailsCopyPath(projectIdentifier:string, workPackageId:string|number) {
-    return `${this.projectWorkPackagesPath(projectIdentifier)}/details/${workPackageId}/copy`;
+    return this.workPackageDetailsPath(projectIdentifier, workPackageId, 'copy');
   }
 
   public workPackageSharePath(workPackageId:string|number) {
     return `${this.workPackagePath(workPackageId)}/shares`;
+  }
+
+  public workPackageProgressModalPath(workPackageId:string|number) {
+    if (workPackageId === 'new') {
+      return `${this.workPackagePath(workPackageId)}/progress/new`;
+    }
+
+    return `${this.workPackagePath(workPackageId)}/progress/edit`;
+  }
+
+  public workPackageUpdateCounterPath(workPackageId:string|number, counter:string) {
+    return `${this.workPackagePath(workPackageId)}/split_view/update_counter?counter=${counter}`;
   }
 
   // Work Package Bulk paths
@@ -284,5 +312,9 @@ export class PathHelperService {
 
   public textFormattingHelp() {
     return `${this.staticBase}/help/text_formatting`;
+  }
+
+  public jobStatusModalPath(jobId:string) {
+    return `${this.staticBase}/job_statuses/${jobId}/dialog`;
   }
 }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,8 +47,20 @@ module OpenProject
   end
 
   def self.httpx
+    # In tests it is not advisible to cache httpx session object,
+    # because, for example, stubs made for this object in one test case can
+    # easy interfere with other test cases using the same session object.
+    if Rails.env.test?
+      httpx_session
+    else
+      Thread.current[:httpx_session] ||= httpx_session
+    end
+  end
+
+  private_class_method def self.httpx_session
     session = HTTPX
                 .plugin(:oauth)
+                .plugin(:persistent)
                 .plugin(:basic_auth)
                 .plugin(:webdav)
                 .with(

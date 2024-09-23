@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,6 +37,6 @@ RSpec.describe RootSeeder, "Storage module" do
 
     expect(RolePermission.where(permission: :view_file_links).count).to eq 7
     expect(RolePermission.where(permission: :manage_file_links).count).to eq 2
-    expect(RolePermission.where(permission: :manage_storages_in_project).count).to eq 1
+    expect(RolePermission.where(permission: :manage_files_in_project).count).to eq 1
   end
 end

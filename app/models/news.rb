@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,6 +33,7 @@ class News < ApplicationRecord
     order(:created_at)
   }, as: :commented, dependent: :delete_all
 
+  validates :project, presence: true
   validates :title, presence: true
   validates :title, length: { maximum: 256 }
   validates :summary, length: { maximum: 255 }
@@ -45,6 +46,11 @@ class News < ApplicationRecord
                      include: :project,
                      references: :projects,
                      date_column: "#{table_name}.created_at"
+
+  acts_as_attachable view_permission: :view_news,
+                     add_on_new_permission: :manage_news,
+                     add_on_persisted_permission: :manage_news,
+                     delete_permission: :manage_news
 
   acts_as_watchable
 

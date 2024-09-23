@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,6 +51,10 @@ module Pages
 
     def expect_tab(tab)
       expect(page).to have_css(".op-tab-row--link_selected", text: tab.to_s.upcase)
+    end
+
+    def expect_no_tab(tab)
+      expect(page).to have_no_css(".op-tab-row--link", text: tab.to_s.upcase)
     end
 
     def within_active_tab(&)
@@ -138,6 +142,7 @@ module Pages
     def expect_no_attribute(label)
       expect(page).to have_no_css(".inline-edit--container.#{label.downcase}")
     end
+
     alias :expect_attribute_hidden :expect_no_attribute
 
     def expect_activity(user, number: nil)
@@ -207,16 +212,27 @@ module Pages
       end
     end
 
+    def set_progress_attributes(key_value_map, save_intermediate_updates: true, save: !create_page?)
+      key_value_map.each_with_index.map do |(key, value)|
+        field = work_package_field(key)
+        field.update(value, save: save_intermediate_updates)
+      end
+
+      ensure_no_conflicting_modifications if save
+    end
+
     def work_package_field(key)
       case key
       when /customField(\d+)$/
         work_package_custom_field(key, $1)
       when :date, :startDate, :dueDate, :combinedDate
         DateEditField.new container, key, is_milestone: work_package&.milestone?
+      when :estimatedTime, :remainingTime, :percentageDone, :statusWithinProgressModal
+        ProgressEditField.new container, key, create_form: create_page?
       when :description
         TextEditorField.new container, key
-      # The AbstractWorkPackageCreate pages do not require a special WorkPackageStatusField,
-      # because the status field on the create pages is a simple EditField.
+        # The AbstractWorkPackageCreate pages do not require a special WorkPackageStatusField,
+        # because the status field on the create pages is a simple EditField.
       when :status
         if create_page?
           EditField.new container, key, create_form: true

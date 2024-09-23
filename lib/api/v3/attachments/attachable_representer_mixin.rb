@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,6 +36,8 @@ module API
 
         included do
           link :attachments do
+            next if hide_attachments?
+
             {
               href: attachments_by_resource
             }
@@ -48,7 +50,7 @@ module API
             next if represented.new_record?
 
             {
-              href: attachments_by_resource + "/prepare",
+              href: "#{attachments_by_resource}/prepare",
               method: :post
             }
           end
@@ -68,6 +70,10 @@ module API
                    exec_context: :decorator,
                    if: ->(*) { embed_links },
                    uncacheable: true
+
+          def hide_attachments?
+            false
+          end
 
           def attachments
             ::API::V3::Attachments::AttachmentCollectionRepresenter.new(attachment_set,

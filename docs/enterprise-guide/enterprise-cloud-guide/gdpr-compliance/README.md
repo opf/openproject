@@ -34,7 +34,7 @@ All OpenProject GmbH employees employ industry standard data security measuremen
 
 ## Data Management and Portability
 
-The GDPR includes grants to every data subject the right to access, modify, receive, and delete their own data. 
+The GDPR includes grants to every data subject the right to access, modify, receive, and delete their own data.
 
 OpenProject customers with admin accounts on their instance act as data controllers for their team members and have elaborate means to perform these request on behalf of the data subjects they are responsible for.
 
@@ -54,7 +54,7 @@ OpenProject provides means to fully erase both all identifiable information of a
 
 - Data controllers can perform the deletion [through the administration](../../../system-admin-guide/users-permissions/users/).
 
-- Depending on the configuration of your OpenProject instance, individual data subjects may perform the deletion of their own account through the [Delete Account](../../../getting-started/my-account/) page. If this is disabled, the request may be stated to the data controller.
+- Depending on the configuration of your OpenProject instance, individual data subjects may perform the deletion of their own account through the [Delete Account](../../../user-guide/my-account/) page. If this is disabled, the request may be stated to the data controller.
 
 ### Data Portability
 
@@ -70,7 +70,5 @@ With OpenProject 11.1, we have automated this process in order to reduce manual 
 Please navigate to -> Administration -> GDPR and you can now online review and sign your DPA document directly within the application.
 
 ![OpenProject DPA](DPA.png)
-
-
 
 Find out more about [OpenProject's security features](../../../security-and-privacy/statement-on-security/#openproject-security-features).

@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -270,7 +270,6 @@ import { OpWpTabsModule } from 'core-app/features/work-packages/components/wp-ta
 import {
   EditFieldControlsModule,
 } from 'core-app/shared/components/fields/edit/field-controls/edit-field-controls.module';
-import { WpTableExportModalComponent } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
 import {
   WpButtonMacroModalComponent,
 } from 'core-app/shared/components/modals/editor/macro-wp-button-modal/wp-button-macro.modal';
@@ -414,6 +413,9 @@ import {
 import {
   WorkPackageShareModalComponent,
 } from 'core-app/features/work-packages/components/wp-share-modal/wp-share.modal';
+import {
+  WorkPackageSplitViewEntryComponent,
+} from 'core-app/features/work-packages/routing/wp-split-view/wp-split-view-entry.component';
 
 @NgModule({
   imports: [
@@ -606,6 +608,7 @@ import {
     // Split view
     WorkPackageDetailsViewButtonComponent,
     WorkPackageSplitViewComponent,
+    WorkPackageSplitViewEntryComponent,
     WorkPackageBreadcrumbComponent,
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,
@@ -624,7 +627,6 @@ import {
     WpTableConfigurationTimelinesTabComponent,
     WpTableConfigurationHighlightingTabComponent,
     WpTableConfigurationRelationSelectorComponent,
-    WpTableExportModalComponent,
     QuerySharingFormComponent,
     QuerySharingModalComponent,
     SaveQueryModalComponent,

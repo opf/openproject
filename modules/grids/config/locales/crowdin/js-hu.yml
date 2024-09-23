@@ -42,6 +42,9 @@ hu:
         subprojects:
           title: 'Alprojektek'
           no_results: "Nincsenek alprojektek\n"
+        project_favorites:
+          title: 'Kedvenc projektek'
+          no_results: 'Jelenleg nincsenek kedvenc projektjei. Kattintson a csillag ikonra a projekt műszerfalon, hogy felvegyen egyet a kedvencei közé.'
         time_entries_current_user:
           title: 'Eltöltött idő rögzítése'
           displayed_days: 'Napok megjelenítése a főoldalon.'

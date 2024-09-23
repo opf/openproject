@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +38,7 @@ RSpec.describe API::V3::StorageFiles::StorageUploadLinkRepresenter, "rendering" 
   let(:token) { "xyz123" }
   let(:destination) { "https://example.com/upload/#{token}" }
   let(:upload_link) do
-    Storages::UploadLink.new("https://example.com/upload/#{token}")
+    Storages::UploadLink.new("https://example.com/upload/#{token}", :post)
   end
   let(:representer) { described_class.new(upload_link, current_user: user) }
 

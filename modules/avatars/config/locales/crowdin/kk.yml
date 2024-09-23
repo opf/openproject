@@ -1,7 +1,7 @@
 #English strings go here
 kk:
   plugin_openproject_avatars:
-    name: "Avatars"
+    name: "Аватарлар"
     description: >-
       This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
   label_avatar: "Аватар"
@@ -11,7 +11,6 @@ kk:
   message_avatar_uploaded: "Аватар сәтті өзгертілді."
   error_image_upload: "Суретті жүктеуде қате шықты."
   error_image_size: "Сурет тым үлкен."
-  button_change_avatar: "Аватарды өзгерту"
   are_you_sure_delete_avatar: "Аватарыңызды шынымен өшіргіңіз келеді ме?"
   avatar_deleted: "Аватар сәтті өшірілді."
   unable_to_delete_avatar: "Аватарды өшіру мүмкін емес."

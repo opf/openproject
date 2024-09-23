@@ -31,6 +31,7 @@ export class CKEditorSetupService {
 
   public initialize() {
     this.prefetch = this.load();
+    this.watchTopLayer();
   }
 
   /**
@@ -45,7 +46,8 @@ export class CKEditorSetupService {
    * @returns {Promise<ICKEditorWatchdog>}
    */
   public async create(
-    wrapper:HTMLElement, context:ICKEditorContext,
+    wrapper:HTMLElement,
+    context:ICKEditorContext,
     initialData:string|null = null,
   ):Promise<ICKEditorWatchdog> {
     // Load the bundle and the matching locale, if found.
@@ -62,6 +64,7 @@ export class CKEditorSetupService {
 
     const config = {
       openProject: this.createConfig(context),
+      removePlugins: context.removePlugins,
       initialData,
       language: {
         ui: uiLocale,
@@ -77,9 +80,11 @@ export class CKEditorSetupService {
 
         // Allow custom events on wrapper to set/get data for debugging
         jQuery(wrapper)
-          .on('op:ckeditor:setData', (event:unknown, data:string) => editor.setData(data))
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return
+          .on('op:ckeditor:autosave', () => editor.config.get('autosave').save(editor))
+          .on('op:ckeditor:setData', (_, data:string) => editor.setData(data))
           .on('op:ckeditor:clear', () => editor.setData(' '))
-          .on('op:ckeditor:getData', (event:unknown, cb:(data:string) => void) => cb(editor.getData({ trim: false })));
+          .on('op:ckeditor:getData', (_, cb:(data:string) => void) => cb(editor.getData({ trim: false })));
 
         return watchdog;
       });
@@ -143,5 +148,32 @@ export class CKEditorSetupService {
       helpURL: this.PathHelper.textFormattingHelp(),
       pluginContext: window.OpenProject.pluginContext.value,
     };
+  }
+
+  private watchTopLayer() {
+    const targetClassNames = ['ck-body-wrapper', 'ck-inspector-'];
+
+    const observer = new MutationObserver((mutations) => {
+      const dialog = document.querySelector('dialog[open]');
+      if (!dialog) {
+        return;
+      }
+
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (!(node instanceof HTMLElement)) {
+            return;
+          }
+
+          if (targetClassNames.some((className) => node.classList.contains(className))) {
+            dialog.append(node);
+          }
+        });
+      });
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+    });
   }
 }

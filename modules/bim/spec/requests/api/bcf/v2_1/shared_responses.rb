@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 #++
 
 RSpec.shared_examples_for "bcf api successful response" do
-  def expect_identical_without_time(subject, expected_body)
+  def expect_identical_without_time(subject, expected_body) # rubocop:disable Metrics/PerceivedComplexity
     body = Array.wrap(JSON.parse(subject.body))
     expected = Array.wrap(expected_body)
     expect(body.size).to eql(expected.size)
@@ -41,18 +41,18 @@ RSpec.shared_examples_for "bcf api successful response" do
       expected_modified_date = expected_item.delete("modified_date")&.to_time
 
       if expected_modified_date
-        expect(subject_modified_date).to be_within(10.seconds).of(expected_modified_date)
+        expect(subject_modified_date).to equal_time_without_usec(expected_modified_date)
       else
-        expect(subject_modified_date).to eql(expected_modified_date)
+        expect(subject_modified_date).to be_nil
       end
 
       subject_created_date = subject_body.delete("date")&.to_time
       expected_created_date = expected_item.delete("date")&.to_time
 
       if expected_created_date
-        expect(subject_created_date).to be_within(10.seconds).of(expected_created_date)
+        expect(subject_created_date).to equal_time_without_usec(expected_created_date)
       else
-        expect(subject_created_date).to eql(expected_created_date)
+        expect(subject_created_date).to be_nil
       end
 
       expect(subject_body.to_json).to be_json_eql(expected_item.to_json)

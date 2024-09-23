@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,9 +42,7 @@ RSpec.describe "Admin Edit File storage",
     storage = create(:nextcloud_storage, name: "Foo Nextcloud")
     visit edit_admin_settings_storage_path(storage)
 
-    within_test_selector("page-header-actions") do
-      click_on "Delete"
-    end
+    page.find_test_selector("storage-delete-button").click
 
     expect(page).to have_text("DELETE FILE STORAGE")
     expect(page).to have_current_path("#{confirm_destroy_admin_settings_storage_path(storage)}?utf8=%E2%9C%93")
@@ -145,7 +143,7 @@ RSpec.describe "Admin Edit File storage",
                                                "this window. Please copy these values into the Nextcloud " \
                                                "OpenProject Integration settings.")
           expect(warning_section).to have_link("Nextcloud OpenProject Integration settings",
-                                               href: "#{storage.host}/settings/admin/openproject")
+                                               href: "#{storage.host}settings/admin/openproject")
 
           expect(page).to have_css("#openproject_oauth_application_uid",
                                    value: storage.reload.oauth_application.uid)
@@ -220,20 +218,37 @@ RSpec.describe "Admin Edit File storage",
       end
     end
 
-    it "renders health status information" do
+    it "renders a sidebar component" do
       visit edit_admin_settings_storage_path(storage)
 
-      expect(page).to have_test_selector("storage-health-label-pending", text: "Pending")
+      aggregate_failures "Health status" do
+        expect(page).to have_test_selector("validation-result--subtitle", text: "Connection validation")
+        expect(page).to have_test_selector("storage-health-status", text: "Pending")
+      end
+
+      aggregate_failures "Health notifications" do
+        expect(page).to have_test_selector("storage-health-notifications-button", text: "Unsubscribe")
+        expect(page).to have_test_selector("storage-health-notifications-description",
+                                           text: "All administrators receive health status email notifications for this storage.")
+
+        click_on "Unsubscribe"
+
+        expect(page).to have_test_selector("storage-health-notifications-button", text: "Subscribe")
+        expect(page).to have_test_selector("storage-health-notifications-description",
+                                           text: "Health status email notifications for this storage have been turned off for all administrators.")
+      end
     end
   end
 
   context "with Nextcloud Storage and not automatically managed" do
     let(:storage) { create(:nextcloud_storage, :as_not_automatically_managed, name: "Cloud Storage") }
 
-    it "does not render health status information" do
+    it "renders health status information but without health notifications for automatically managed folders" do
       visit edit_admin_settings_storage_path(storage)
 
-      expect(page).not_to have_test_selector("storage-health-label-pending", text: "Pending")
+      expect(page).to have_test_selector("validation-result--subtitle", text: "Connection validation")
+      expect(page).not_to have_test_selector("storage-health-status")
+      expect(page).not_to have_test_selector("storage-health-notifications-button")
     end
   end
 
@@ -255,7 +270,7 @@ RSpec.describe "Admin Edit File storage",
       aggregate_failures "Storage edit view" do
         # General information
         expect(page).to have_test_selector("storage-provider-label", text: "Storage provider")
-        expect(page).to have_test_selector("label-host_name_configured-storage_tenant_drive_configured-status",
+        expect(page).to have_test_selector("label-name_configured-storage_tenant_drive_configured-status",
                                            text: "Completed")
         expect(page).to have_test_selector("storage-description", text: "OneDrive/SharePoint - Test Drive")
 
@@ -327,20 +342,37 @@ RSpec.describe "Admin Edit File storage",
       end
     end
 
-    it "renders health status information" do
+    it "renders a sidebar component" do
       visit edit_admin_settings_storage_path(storage)
 
-      expect(page).to have_test_selector("storage-health-label-pending", text: "Pending")
+      aggregate_failures "Health status" do
+        expect(page).to have_test_selector("validation-result--subtitle", text: "Connection validation")
+        expect(page).to have_test_selector("storage-health-status", text: "Pending")
+      end
+
+      aggregate_failures "Health notifications" do
+        expect(page).to have_test_selector("storage-health-notifications-button", text: "Unsubscribe")
+        expect(page).to have_test_selector("storage-health-notifications-description",
+                                           text: "All administrators receive health status email notifications for this storage.")
+
+        click_on "Unsubscribe"
+
+        expect(page).to have_test_selector("storage-health-notifications-button", text: "Subscribe")
+        expect(page).to have_test_selector("storage-health-notifications-description",
+                                           text: "Health status email notifications for this storage have been turned off for all administrators.")
+      end
     end
   end
 
   context "with OneDrive/SharePoint Storage and not automatically managed" do
     let(:storage) { create(:one_drive_storage, :as_not_automatically_managed, name: "Cloud Storage") }
 
-    it "does not render health status information" do
+    it "renders health status information but without health notifications for automatically managed folders" do
       visit edit_admin_settings_storage_path(storage)
 
-      expect(page).not_to have_test_selector("storage-health-label-pending", text: "Pending")
+      expect(page).to have_test_selector("validation-result--subtitle", text: "Connection validation")
+      expect(page).not_to have_test_selector("storage-health-status")
+      expect(page).not_to have_test_selector("storage-health-notifications-button")
     end
   end
 end

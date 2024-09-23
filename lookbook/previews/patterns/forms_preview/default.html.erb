@@ -1,0 +1,60 @@
+<%
+  custom_width_form = Class.new(ApplicationForm) do
+    form do |f|
+      f.text_field(
+        name: :ultimate_answer,
+        label: "Auto",
+        caption: "Takes container width",
+        required: true,
+        input_width: :auto
+      )
+
+      f.text_field(
+        name: :ultimate_answer,
+        label: "Small",
+        required: true,
+        input_width: :small
+      )
+
+      f.text_field(
+        name: :lots_of_text,
+        label: "Medium",
+        required: true,
+        input_width: :medium
+      )
+
+      f.select_list(
+        name: "cities",
+        label: "Large",
+        caption: "All widths also work on Select fields",
+        include_blank: true,
+        required: true,
+        input_width: :large
+      ) do |city_list|
+        city_list.option(label: "Lopez Island", value: "lopez_island")
+        city_list.option(label: "Bellevue", value: "bellevue")
+        city_list.option(label: "Seattle", value: "seattle")
+      end
+
+
+      f.text_field(
+        name: :lots_of_text,
+        label: "XLarge",
+        required: true,
+        input_width: :xlarge
+      )
+
+
+      f.text_field(
+        name: :lots_of_text,
+        label: "XXLarge",
+        required: true,
+        input_width: :xxlarge
+      )
+    end
+  end
+%>
+
+<%= primer_form_with(url: "/foo") do |f| %>
+  <%= render(custom_width_form.new(f)) %>
+<% end %>

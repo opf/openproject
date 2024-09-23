@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 class EnableCurrentProjectCustomFieldsColumns < ActiveRecord::Migration[6.0]
   def up
-    return unless Setting.where(name: "enabled_projects_column").exists? # rubocop:disable Rails/WhereExists
+    return unless Setting.where(name: "enabled_projects_columns").exists? # rubocop:disable Rails/WhereExists
 
     columns = Setting.enabled_projects_columns
     cf_columns = ProjectCustomField.pluck(:id).map { |id| "cf_#{id}" }

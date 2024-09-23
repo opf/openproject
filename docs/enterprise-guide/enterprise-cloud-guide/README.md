@@ -13,7 +13,6 @@ Welcome to the OpenProject **Enterprise cloud guide**.
 
 > **Note**: This guide only describes the management of your Enterprise cloud. The feature descriptions are included in the respective parts of the OpenProject [user guide](../../user-guide).
 
-
 ## Overview
 
 | Topic                                                                                                       | Content                                                                                           |

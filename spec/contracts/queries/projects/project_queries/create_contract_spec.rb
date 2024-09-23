@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ require_relative "shared_contract_examples"
 RSpec.describe Queries::Projects::ProjectQueries::CreateContract do
   it_behaves_like "project queries contract" do
     let(:query) do
-      Queries::Projects::ProjectQuery.new(name: query_name).tap do |query|
+      ProjectQuery.new(name: query_name).tap do |query|
         query.extend(OpenProject::ChangedBySystem)
 
         query.change_by_system do

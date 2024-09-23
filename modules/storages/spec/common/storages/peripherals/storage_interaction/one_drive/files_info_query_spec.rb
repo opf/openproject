@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,21 +36,24 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
 
   let(:user) { create(:user) }
   let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
+  let(:auth_strategy) do
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
+  end
 
-  subject { described_class.new(storage) }
+  subject(:query) { described_class.new(storage) }
 
   describe "#call" do
     it "responds with correct parameters" do
       expect(described_class).to respond_to(:call)
 
       method = described_class.method(:call)
-      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user], %i[key file_ids])
+      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq auth_strategy], %i[key file_ids])
     end
 
     context "without outbound request involved" do
       context "with an empty array of file ids" do
         it "returns an empty array" do
-          result = subject.call(user:, file_ids: [])
+          result = query.call(auth_strategy:, file_ids: [])
 
           expect(result).to be_success
           expect(result.result).to eq([])
@@ -59,7 +62,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
 
       context "with nil" do
         it "returns an error" do
-          result = subject.call(user:, file_ids: nil)
+          result = query.call(auth_strategy:, file_ids: nil)
 
           expect(result).to be_failure
           expect(result.result).to eq(:error)
@@ -79,7 +82,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
 
         # rubocop:disable RSpec/ExampleLength
         it "must return an array of file information when called" do
-          result = subject.call(user:, file_ids:)
+          result = query.call(auth_strategy:, file_ids:)
           expect(result).to be_success
 
           result.match(
@@ -102,8 +105,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
                            last_modified_by_name: "Eric Schubert",
                            last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
                            permissions: nil,
-                           trashed: false,
-                           location: "/Folder with spaces"
+                           location: "/Folder%20with%20spaces"
                          },
                          {
                            status: "ok",
@@ -119,7 +121,6 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
                            last_modified_by_name: "Eric Schubert",
                            last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
                            permissions: nil,
-                           trashed: false,
                            location: "/Folder/Document.docx"
                          },
                          {
@@ -136,7 +137,6 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
                            last_modified_by_name: "Eric Schubert",
                            last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
                            permissions: nil,
-                           trashed: false,
                            location: "/Folder/Subfolder/NextcloudHub.md"
                          }
                        ])
@@ -153,7 +153,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
         let(:file_ids) { %w[01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU not_existent] }
 
         it "must return an array of file information when called" do
-          result = subject.call(user:, file_ids:)
+          result = query.call(auth_strategy:, file_ids:)
           expect(result).to be_success
 
           result.match(
@@ -167,78 +167,6 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
             on_failure: ->(error) { fail "Expected success, got #{error}" }
           )
         end
-      end
-    end
-
-    context "with invalid oauth token", vcr: "one_drive/files_info_query_invalid_token" do
-      before do
-        token = build_stubbed(:oauth_client_token, oauth_client: storage.oauth_client)
-        allow(Storages::Peripherals::StorageInteraction::OneDrive::Util)
-          .to receive(:using_user_token)
-                .and_yield(token)
-      end
-
-      context "with an array of file ids" do
-        let(:file_ids) { %w[01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU] }
-
-        it "must return an array of file information when called" do
-          result = subject.call(user:, file_ids:)
-          expect(result).to be_success
-
-          result.match(
-            on_success: ->(file_infos) do
-              expect(file_infos.size).to eq(1)
-              expect(file_infos).to all(be_a(Storages::StorageFileInfo))
-              expect(file_infos[0].id).to eq("01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU")
-              expect(file_infos[0].status).to eq("InvalidAuthenticationToken")
-              expect(file_infos[0].status_code).to eq(401)
-            end,
-            on_failure: ->(error) { fail "Expected success, got #{error}" }
-          )
-        end
-      end
-    end
-
-    context "with not existent oauth token" do
-      let(:file_ids) { %w[01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU] }
-      let(:user_without_token) { create(:user) }
-
-      it "must return unauthorized when called" do
-        result = subject.call(user: user_without_token, file_ids:)
-        expect(result).to be_failure
-        expect(result.error_source).to be_a(OAuthClients::ConnectionManager)
-
-        result.match(
-          on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-        )
-      end
-    end
-
-    context "with network errors" do
-      let(:file_ids) { %w[01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU] }
-
-      before do
-        request = HTTPX::Request.new(:get, "https://my.timeout.org/")
-        httpx_double = class_double(HTTPX, get: HTTPX::ErrorResponse.new(request, "Timeout happens", {}))
-
-        allow(OpenProject).to receive(:httpx).and_return(httpx_double)
-      end
-
-      it "must return an array of file information when called" do
-        result = subject.call(user:, file_ids:)
-        expect(result).to be_success
-
-        result.match(
-          on_success: ->(file_infos) do
-            expect(file_infos.size).to eq(1)
-            expect(file_infos).to all(be_a(Storages::StorageFileInfo))
-            expect(file_infos[0].id).to eq("01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU")
-            expect(file_infos[0].status).to eq("Timeout happens")
-            expect(file_infos[0].status_code).to eq(500)
-          end,
-          on_failure: ->(error) { fail "Expected success, got #{error}" }
-        )
       end
     end
   end

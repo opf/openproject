@@ -18,6 +18,7 @@ class CostQuery::ExportJob < Exports::ExportJob
   private
 
   def prepare!
+    CostQuery::Cache.check
     self.query = build_query(query)
   end
 

@@ -1,0 +1,155 @@
+This document serves as a reference guide for developers and designers with essential information about the colors used within OpenProject.
+Consistent utilization of colors not only enhances the visual appeal of the application but also improves user experience by creating a cohesive and intuitive design language.
+
+
+
+## Primer colors
+
+Primer already offers a wide palette of color variables as well as a [clear guide](https://primer.style/foundations/color/overview) on how to use them. We follow these rules within OpenProject. Thus we gain two main advantages:
+
+1. The Primer color system is proven to be accessible
+2. Primer offers different modes (dark, high contrast, colorblind, ..) which we can simply benefit from by using their variables.
+
+## Customization within OpenProject
+
+OpenProject offers the possibility to customize the color palette. For that to work, we unfortunately have to overwrite some of the Primer variables so that every component matches the desired colours. Please note, that we do not adapt these colors depending on the current mode. It is in the users responsibility to select colors that work with all modes.
+
+### Primary button color
+
+| Variable                 | Default hex code | Usage                                                                                                       |
+|--------------------------|------------------|-------------------------------------------------------------------------------------------------------------|
+| `--primary-button-color` | #1F883D          | This vibrant green is used sparingly for the most important button on a screen (usually the create action). |
+
+#### Where it's used
+
+- Global create button in the header
+- Module create button in the sidebar
+- All create buttons within the pages (e.g. Work packages &rarr; Create a Work package)
+
+#### Interaction with Primer
+
+The following variables of Primer are overwritten with the `--primary-button-color`:
+
+```css
+/* --primer-variable: var(--openProject-variable) */
+
+--button-primary-bgColor-rest: var(--primary-button-color) !important;
+--button-primary-bgColor-hover: var(--primary-button-color--major1) !important;
+```
+
+### Accent color
+
+| Variable         | Default hex code | Usage                                                                         |
+|------------------|------------------|-------------------------------------------------------------------------------|
+| `--accent-color` | #1A67A3          | This shade of blue is used for links and other decently highlighted elements. |
+
+
+#### Where it's used
+
+- All links
+- Selected dates in the datepicker (e.g within a Work package)
+- Toggle switch color (e.g. on the Project settings &rarr; Project attributes, or any boolean filter)
+
+#### Interaction with Primer
+
+The following variables of Primer are overwritten with the `--accent-color`:
+
+```css
+/* --primer-variable: var(--openProject-variable) */
+
+--fgColor-accent: var(--accent-color) !important;
+--control-checked-bgColor-rest: var(--accent-color) !important;
+--control-checked-bgColor-active: var(--accent-color) !important;
+--control-checked-bgColor-hover: var(--accent-color--major1) !important;
+--controlKnob-borderColor-checked: var(--accent-color) !important;
+```
+
+## Accessibility considerations
+
+When implementing colors in the application, we should ensure compliance with Primer's [accessibility standards](https://primer.style/foundations/color/accessibility).
+
+## Type and Status colors
+
+Currently, users can freely chose the colors for types, status and some other attributes (e.g priority). These are used for:
+
+- Font color
+  - Type
+- Background color
+  - Status selector button
+  - Inline highlighting of complete rows inside the WP table
+  - Inline highlighting via bubbles
+  - Inline highlighting of cards
+
+With the introduction of the dark mode, some of those colors are not readable/visible any more. To ensure that there is always a high enough contrast we calculate brighter (respective darker) versions of these colours. It is notable that the current class name structure is kept,
+
+For the calculation of those values, we decompose the color hex code into the individual `rgb` and `hsl` values. Based on those and on the mode we generate values for:
+
+* background-color
+* font-color
+* border-color
+
+
+Here is an example of defined method for highlighting foreground of an attribute in dark mode:
+
+```css
+--lightness-threshold: 0.6;
+--perceived-lightness: calc( ((var(--color-r) * 0.2126) + (var(--color-g) * 0.7152) + (var(--color-b) * 0.0722)) / 255 );
+--lightness-switch: max(0, min(calc((1/(var(--lightness-threshold) - var(--perceived-lightness)))), 1));
+--lighten-by: calc(((var(--lightness-threshold) - var(--perceived-lightness)) * 100) * var(--lightness-switch));
+```
+
+```rb
+def highlighted_foreground_dark
+  "color: hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + var(--lighten-by)) * 1%), 1) !important;"
+end
+```
+
+## Modes
+
+### High contrast mode
+
+The High contrast mode in our application is a user accessibility feature designed to enhance visibility and readability for individuals with visual impairments or those
+who prefer distinct visual elements. When enabled, the high contrast mode adjusts the application's color scheme, typically by increasing the contrast between text and
+background, using bold fonts, and employing vibrant colors to ensure clear distinction between interface elements.
+This mode aims to make content more discernible, thereby improving usability and accessibility for all users regardless of their visual abilities. The high contrast mode will be activated by following [these steps](https://www.openproject.org/docs/user-guide/my-account/#select-the-high-contrast-color-mode).
+
+Please note, that the high contrast mode is a **personal** setting, meaning it will only affect that user and not the whole instance. Further, it will override any customized colors for that users, as the accessibility compliance is valued higher then the theme.
+
+#### Technical notes
+
+The goal is to use Primer variables all over the application. Once we get to that state, we can simply switch between the modes and Primer offers the correct colors. Since we are currently using Primer variables at **many places** but not still have our own variables in place, we have to map some of OpenProject's global color variables to the Primer color variables. We do that in [app/views/custom\_styles/\_primer\_color\_mapping.erb](https://github.com/opf/openproject/blob/dev/app/views/custom_styles/_primer_color_mapping.erb). The following is only an excerpt of that:
+
+```css
+/* --openProject-variable: var(--primer-variable) */
+
+--main-menu-hover-border-color: var(--fgColor-default) !important;
+--main-menu-bg-selected-border: var(--fgColor-default);
+--accent-color: var(--fgColor-accent);
+--button--primary-font-color:  var(--button-primary-fgColor-rest);
+...
+```
+
+### Dark mode
+
+Dark mode is designed to reduce eye strain, especially in low-light environments, by using dark backgrounds and light text.
+Please note, that the dark mode is a **personal** setting, meaning that user can easily switch between dark and light modes through the user's settings, so it only affects that user and not the whole instance.
+The dark mode should be activated in My account/Settings by changing Mode to 'Dark'.
+
+#### Technical notes
+
+Since we respect the user-theming, in Administration/Design -> ADVANCED SETTINGS, the values for **accent** and **primary button** colors are kept but brightened, so that they work well on dark backgrounds.
+However, we enforce the header and the main menu colors to use Primer css variables. Otherwise we have no reliable way to ensure that these elements are also dark enough to fit with the dark mode. So any changes made to the colours of the header and the main menu **will be ignored** in the dark mode.
+
+```css.erb
+--accent-color--dark-mode: design_color.lighten 0.4;
+--primary-button-color--dark-mode: design_color.lighten 0.4;
+```
+
+```css
+--accent-color: var(--accent-color--dark-mode);
+--primary-button-color: var(--primary-button-color--dark-mode);
+
+--main-menu-bg-color: var(--overlay-bgColor);
+--header-bg-color: var(--page-header-bgColor);
+...
+```

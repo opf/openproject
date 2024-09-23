@@ -1,0 +1,38 @@
+name: email-notification
+
+on:
+  workflow_call:
+    inputs:
+      subject:
+        type: string
+        required: true
+      body:
+        type: string
+        required: true
+      from:
+        type: string
+        default: Github CI <github-ci@openproject.com>
+      to:
+        type: string
+        default: operations@openproject.com
+    secrets:
+      OPS_MAIL_SMTP_TOKEN:
+        required: true
+
+jobs:
+  notify:
+    name: Notify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          subject: ${{ inputs.subject }}
+          body: ${{ inputs.body }}
+          from: ${{ inputs.from }}
+          to: ${{ inputs.to }}
+          secure: false
+          server_port: 587
+          server_address: smtp.postmarkapp.com
+          username: PM-T-outbound-bw6Xf6uoKnU76g1RcuydgZ
+          password: ${{secrets.OPS_MAIL_SMTP_TOKEN }}

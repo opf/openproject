@@ -19,11 +19,11 @@ fr:
               title: Des nouvelles de l'équipe produit
             item_3:
               title: Des nouvelles de l'équipe marketing
-            item_4:
-              title: Des nouvelles de l'équipe commerciale
             item_5:
-              title: Révision des objectifs trimestriels
+              title: Des nouvelles de l'équipe commerciale
             item_6:
-              title: Feedback sur les valeurs fondamentales
+              title: Révision des objectifs trimestriels
             item_7:
+              title: Feedback sur les valeurs fondamentales
+            item_8:
               title: Sujets généraux

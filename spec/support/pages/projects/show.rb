@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   module Projects
@@ -44,7 +44,7 @@ module Pages
       end
 
       def within_sidebar(&)
-        within('#menu-sidebar', &)
+        within("#menu-sidebar", &)
       end
 
       def toast_type
@@ -55,30 +55,60 @@ module Pages
         visit path
       end
 
+      def expect_no_visible_sidebar
+        expect_angular_frontend_initialized
+        expect(page).to have_no_css(".op-grid-page--grid-container")
+      end
+
       def within_async_loaded_sidebar(&)
-        within '#project-custom-fields-sidebar' do
-          expect(page).to have_css("[data-qa-selector='project-custom-fields-sidebar-async-content']")
+        within "#project-custom-fields-sidebar" do
+          expect(page).to have_css("[data-test-selector='project-custom-fields-sidebar-async-content']")
           yield
         end
       end
 
       def within_custom_field_section_container(section, &)
-        within("[data-qa-selector='project-custom-field-section-#{section.id}']", &)
+        within("[data-test-selector='project-custom-field-section-#{section.id}']", &)
       end
 
       def within_custom_field_container(custom_field, &)
-        within("[data-qa-selector='project-custom-field-#{custom_field.id}']", &)
+        within("[data-test-selector='project-custom-field-#{custom_field.id}']", &)
       end
 
       def open_edit_dialog_for_section(section)
         within_async_loaded_sidebar do
-          scroll_to_element(page.find("[data-qa-selector='project-custom-field-section-#{section.id}']"))
+          scroll_to_element(page.find("[data-test-selector='project-custom-field-section-#{section.id}']"))
           within_custom_field_section_container(section) do
-            page.find("[data-qa-selector='project-custom-field-section-edit-button']").click
+            page.find("[data-test-selector='project-custom-field-section-edit-button']").click
           end
         end
 
-        expect(page).to have_css("[data-qa-selector='async-dialog-content']", wait: 5)
+        expect(page).to have_css("[data-test-selector='async-dialog-content']", wait: 5)
+      end
+
+      def expand_text(custom_field)
+        within_custom_field_container(custom_field) do
+          page.find('[data-test-selector="expand-button"]').click
+        end
+      end
+
+      def expect_text_not_truncated(custom_field)
+        within_custom_field_container(custom_field) do
+          expect(page).to have_no_css('[data-test-selector="expand-button"]')
+        end
+      end
+
+      def expect_text_truncated(custom_field)
+        within_custom_field_container(custom_field) do
+          expect(page).to have_css('[data-test-selector="expand-button"]')
+        end
+      end
+
+      def expect_full_text_in_dialog(text)
+        within('[data-test-selector="attribute-dialog"]') do
+          expect(page)
+            .to have_content(text)
+        end
       end
     end
   end

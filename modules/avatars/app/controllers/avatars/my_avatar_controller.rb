@@ -3,6 +3,10 @@ module ::Avatars
     before_action :require_login
     before_action :set_user
 
+    no_authorization_required! :show,
+                               :update,
+                               :destroy
+
     layout "my"
     menu_item :avatar
 

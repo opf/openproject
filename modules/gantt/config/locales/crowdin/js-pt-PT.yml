@@ -1,6 +1,5 @@
 pt-PT:
   js:
-    queries:
-      all_open: 'Tudo aberto'
-      timeline: 'Cronograma'
-      milestones: 'Marcos'
+    work_packages:
+      default_queries:
+        milestones: 'Marcos'

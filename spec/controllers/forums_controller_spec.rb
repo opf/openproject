@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -74,7 +74,7 @@ RSpec.describe ForumsController do
     context "when not login_required", with_settings: { login_required: false } do
       it "renders 404 for not found" do
         get :index, params: { project_id: "not found" }
-        expect(response.status).to eq 404
+        expect(response).to have_http_status :not_found
       end
     end
   end

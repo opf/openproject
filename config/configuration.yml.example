@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -382,16 +382,6 @@ default:
   #   global_basic_auth:
   #     user: admin
   #     password: admin
-
-  # Overriding LDAP TLS configuration
-  # You can set other TLS options for the LDAP auth source connection
-  # They are passed as the `tls_options` to the Net::LDAP gem
-  # see the following resources for more information
-  # https://github.com/ruby-ldap/ruby-net-ldap/blob/master/lib/net/ldap.rb
-  # https://ruby.github.io/openssl/OpenSSL/SSL/SSLContext.html
-  # For example, to specify a CA file
-  # ldap_tls_options:
-  #   ca_file: "/path/to/the/root-ca.crt"
 
   # By default, the APIv3 allows authentication through basic auth.
   # Uncomment the following line to restrict APIv3 access to session.

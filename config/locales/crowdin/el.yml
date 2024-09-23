@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -31,6 +31,9 @@ el:
     custom_styles:
       color_theme: "Χρωματικό θέμα"
       color_theme_custom: "(Προσαρμοσμένο)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
         accent-color: "Accent"
@@ -198,6 +201,11 @@ el:
       title: "Προσαρμοσμένες ενέργειες"
       description: "Οι προσαρμοσμένες ενέργειες είναι συντομεύσεις με ένα κλικ προς ένα σύνολο προκαθορισμένων ενεργειών που μπορείτε να διαθέσετε σε συγκεκριμένα πακέτα εργασίας με βάση την κατάσταση, ρόλος, τύπος ή έργο."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Για να προσθέσετε νέα προσαρμοσμένα πεδία σε ένα έργο, πρέπει πρώτα να τα δημιουργήσετε για να τα προσθέσετε σε αυτό το έργο.
     is_enabled_globally: "Είναι ενεργοποιημένο σε όλο το σύστημα"
@@ -208,10 +216,12 @@ el:
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     instructions:
       is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Mark the custom field as available in all existing and new projects."
       searchable: "Include the field values when using the global search functionality."
+      searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Allow the field to be editable by users themselves."
-      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      admin_only: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
       is_filter: >
         Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
@@ -245,6 +255,7 @@ el:
       work_package_attachments: "Work packages: attachments"
       work_package_categories: "Work packages: categories"
       work_package_file_links: "Work packages: file links"
+      work_package_shares: "Work packages: shares"
     delete:
       scheduled: "Η διαγραφή έχει προγραμματιστεί και εκτελείται στο παρασκήνιο. Θα ειδοποιηθείτε για το αποτέλεσμα."
       schedule_failed: "Το έργο δεν μπορεί να διαγραφεί: %{errors}"
@@ -257,11 +268,16 @@ el:
       open_as_gantt: "Άνοιγμα ως προβολή Gantt"
       no_results_title_text: Προς το παρόν δεν υπάρχουν έργα
       no_results_content_text: Δημιουργία νέου έργου
+      search:
+        label: Project name filter
+        placeholder: Search by project name
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Τα έργα μου"
+      favored: "Favorite projects"
       archived: "Archived projects"
-      my_private: "My private project lists"
+      shared: "Shared project lists"
+      my_lists: "My project lists"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -279,6 +295,21 @@ el:
         no_results_content_text: Δημιουργήστε μια νέα κατηγορία πακέτου εργασίας
       custom_fields:
         no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμα προσαρμοσμένα πεδία.
+      project_custom_fields:
+        header:
+          title: "Project attributes"
+          description: 'These project attributes will be displayed in your <a href=%{overview_url} target="_blank">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target="_blank">administration settings</a> by the administrator of the instance. '
+        filter:
+          label: "Search project attribute"
+        actions:
+          label_enable_single: "Active in this project, click to disable"
+          label_disable_single: "Inactive in this project, click to enable"
+          remove_from_project: "Remove from project"
+          label_enable_all: "Enable all"
+          label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμοι τύποι.
         form:
@@ -289,32 +320,101 @@ el:
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Αυτή τη στιγμή δεν υπάρχουν μέλη που να αποτελούν μέρος αυτού του έργου.
       no_results_content_text: Προσθέστε ένα μέλος στο έργο
     invite_by_mail: "Αποστολή πρόσκλησης στο %{mail}"
     send_invite_to: "Send invite to"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     columns:
       shared: "Shared"
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Όλα"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Κλειδωμένο"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Ομάδες"
+    delete_member_dialog:
+      title: "Remove member"
+      will_remove_the_users_role: "This will remove the user’s role from this project."
+      will_remove_the_groups_role: "This will remove the group role from this project."
+      however_work_packages_shared_with_user_html:
+        one: "However, %{shared_work_packages_link} has also been shared with this user."
+        other: "However, %{shared_work_packages_link} have also been shared with this user."
+      however_work_packages_shared_with_group_html:
+        one: "However, %{shared_work_packages_link} has also been shared with this group."
+        other: "However, %{shared_work_packages_link} have also been shared with this group."
+      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
+      also_work_packages_shared_with_user_html:
+        one: "Also, %{shared_work_packages_link} has been shared with this user."
+        other: "Also, %{shared_work_packages_link} have been shared with this user."
+      remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
+      will_remove_all_user_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
+      will_remove_all_group_access_priveleges: "Deleting this member will remove all access privileges of the group to the project. The group will still exist as part of the instance."
+      cannot_delete_inherited_membership: "You cannot delete this member because they belong to a group that is itself a member of this project."
+      cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
+      cannot_delete_inherited_membership_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
+    delete_work_package_shares_dialog:
+      title: "Revoke work package shares"
+      shared_with_this_user_html:
+        one: "%{all_shared_work_packages_link} has been shared with this user."
+        other: "%{all_shared_work_packages_link} have been shared with this user."
+      shared_with_this_group_html:
+        one: "%{all_shared_work_packages_link} has been shared with this group."
+        other: "%{all_shared_work_packages_link} have been shared with this group."
+      shared_with_permission_html:
+        one: "Only %{shared_work_packages_link} has been shared with %{shared_role_name} permissions."
+        other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
+      revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
+      cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
+      cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
+      cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
+      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
+      will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
+      create_dialog:
+        header: The %{type} token has been generated
+        warning: Note that this is the only time you will see this token, make sure to copy it now.
+      errors:
+        token_name_blank: "Please provide an API token name"
+        token_name_in_use: "This API token name is already in use, please select a different one"
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Όνομα"
+      new_access_token_dialog_submit_button_text: "Δημιουργία"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Αποτυχία επαναφοράς του token πρόσβασης: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "Δημιουργήθηκε ένα νέο token %{type}. Το token πρόσβασής σας είναι:"
       token_value_warning: "Σημείωση: Αυτή είναι η μοναδική φορά που θα δείτε αυτό το token, φροντίστε να το αντιγράψετε τώρα."
       no_results_title_text: Δεν υπάρχουν προς το παρόν διαθέσιμα αναγνωριστικά πρόσβασης.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the button in the API section."
       notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
       notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
   news:
@@ -342,7 +442,7 @@ el:
     memberships:
       no_results_title_text: Αυτός ο χρήστης δεν είναι προς το παρόν μέλος κάποιου έργου.
   page:
-    text: "Text"
+    text: "Κείμενο"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -373,13 +473,22 @@ el:
         Δεν θα είναι δυνατή η αλλαγή ιδιοτήτων εκτός από την κατάσταση.
         <br/>
         <strong>Σημείωση</strong>: Μεταβιβαζόμενες τιμές (π.χ., από τα παιδιά ή σχέσεις) θα εξακολουθούν να ισχύουν.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Κάντε κλικ για να αντιστοιχίσετε ή να αλλάξετε το χρώμα αυτής της κατάστασης.
         Εμφανίζεται στο κουμπί κατάστασης και μπορεί να χρησιμοποιηθεί για την επισήμανση πακέτων εργασίας στον πίνακα.
     index:
       no_results_title_text: Προς το παρόν δεν υπάρχουν καταστάσεις για το πακέτο εργασίας.
       no_results_content_text: Προσθέσετε μια νέα κατάσταση
+      headers:
+        is_default: "Προεπιλογή"
+        is_closed: "Κλειστό"
+        is_readonly: "Μόνο για ανάγνωση"
+        excluded_from_totals: "Excluded from totals"
   themes:
+    dark: "Dark (Beta)"
     light: "Light"
     light_high_contrast: "Light high contrast"
   types:
@@ -427,8 +536,12 @@ el:
     move:
       no_common_statuses_exists: "Δεν υπάρχει διαθέσιμη κατάσταση για όλα τα επιλεγμένα πακέτα εργασίας. Η κατάσταση τους δεν μπορεί να αλλάξει."
       unsupported_for_multiple_projects: "Η μαζική μετακίνηση/αντιγραφή δεν υποστηρίζεται για πακέτα εργασίας από πολλά έργα"
+      current_type_not_available_in_target_project: >
+        The current type of the work package is not enabled in the target project. Please enable the type in the target project if you'd like it to remain unchanged. Otherwise, select an available type in the target project from the list.
+      bulk_current_type_not_available_in_target_project: >
+        The current types of the work packages aren't enabled in the target project. Please enable the types in the target project if you'd like them to remain unchanged. Otherwise, select an available type in the target project from the list.
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -494,17 +607,6 @@ el:
       attribute_help_text:
         attribute_name: "Χαρακτηριστικό"
         help_text: "Κείμενο βοήθειας"
-      ldap_auth_source:
-        account: "Λογαριασμός"
-        attr_firstname: "Χαρακτηριστικό ονόματος"
-        attr_lastname: "Χαρακτηριστικό επωνύμου"
-        attr_login: "Χαρακτηριστικό ονόματος χρήστη"
-        attr_mail: "Χαρακτηριστικό email"
-        base_dn: "Base DN"
-        host: "Διακομιστής"
-        onthefly: "Αυτόματη δημιουργία χρήστη"
-        port: "Θύρα"
-        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Αποθετήριο"
       color:
@@ -526,9 +628,19 @@ el:
         possible_values: "Πιθανές τιμές"
         regexp: "Κανονική έκφραση"
         searchable: "Αναζητήσιμο"
-        visible: "Ορατό"
+        admin_only: "Admin-only"
       custom_value:
         value: "Τιμή"
+      doorkeeper/application:
+        uid: "Ταυτότητα Πελάτη"
+        secret: "Μυστικό πελάτη"
+        owner: "Ιδιοκτήτης"
+        builtin: "Builtin"
+        enabled: "Active"
+        redirect_uri: "Σύνδεσμος Ανακατεύθυνσης (URI)"
+        client_credentials_user_id: "Διαπιστευτήρια Πελάτη Ταυτότητα Χρήστη"
+        scopes: "Φυσικά αντικείμενα"
+        confidential: "Εμπιστευτικό"
       enterprise_token:
         starts_at: "Ισχύει από"
         subscriber: "Συνδρομητής"
@@ -539,19 +651,25 @@ el:
         row_count: "Πλήθος γραμμών"
         column_count: "Πλήθος στηλών"
         widgets: "Γραφικά στοιχεία"
-      oauth_client:
-        client: "Client ID"
-      relation:
-        delay: "Καθυστέρηση"
-        from: "Εργασία"
-        to: "Σχετικές εργασίες"
-      status:
-        is_closed: "Το πακέτο εργασίας είναι κλειστό"
-        is_readonly: "Εργασία μόνο για ανάγνωση"
       journal:
         notes: "Παρατηρήσεις"
+      ldap_auth_source:
+        account: "Λογαριασμός"
+        attr_firstname: "Χαρακτηριστικό ονόματος"
+        attr_lastname: "Χαρακτηριστικό επωνύμου"
+        attr_login: "Χαρακτηριστικό ονόματος χρήστη"
+        attr_mail: "Χαρακτηριστικό email"
+        base_dn: "Base DN"
+        host: "Διακομιστής"
+        onthefly: "Αυτόματη δημιουργία χρήστη"
+        port: "Θύρα"
+        tls_certificate_string: "LDAP server SSL certificate"
       member:
         roles: "Ρόλοι"
+      oauth_client:
+        client: "Ταυτότητα Πελάτη"
+      planning_element_type_color:
+        hexcode: Κωδικός Hex
       project:
         active_value:
           true: "unarchived"
@@ -565,7 +683,7 @@ el:
           false: "private"
         queries: "Αναζητήσεις"
         status_code: "Κατάσταση έργου"
-        description: "Description"
+        description: "Περιγραφή"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -581,6 +699,9 @@ el:
         types: "Τύποι"
         versions: "Εκδόσεις"
         work_packages: "Εργασίες"
+      project_custom_field:
+        is_required: "Required for all projects"
+        custom_field_section: Section
       query:
         column_names: "Στήλες"
         relations_to_type_column: "Συσχετίσεις με %{type}"
@@ -588,10 +709,19 @@ el:
         group_by: "Ομαδοποίηση αποτελεσμάτων κατά"
         filters: "Φίλτρα"
         timeline_labels: "Ετικέτες χρονοδιαγράμματος"
+      relation:
+        lag: "Lag"
+        from: "Εργασία"
+        to: "Σχετικές εργασίες"
       repository:
         url: "URL"
       role:
         permissions: "Δικαιώματα"
+      status:
+        is_closed: "Το πακέτο εργασίας είναι κλειστό"
+        is_readonly: "Εργασία μόνο για ανάγνωση"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        default_done_ratio: "% Complete"
       time_entry:
         activity: "Δραστηριότητα"
         hours: "Ώρες"
@@ -625,6 +755,7 @@ el:
         auto_hide_popups: "Αυτόματη απόκρυψη ειδοποιήσεων επιτυχίας"
         warn_on_leaving_unsaved: "Προειδοποιήστε με όταν φεύγω από ένα πακέτο εργασίας με μη αποθηκευμένες αλλαγές"
         theme: "Mode"
+        mode_guideline: "Some modes will overwrite custom theme colours for accessibility and legibility. For the full custom theme, please select Light mode."
       version:
         effective_date: "Ημερομηνία λήξης"
         sharing: "Κοινή Χρήση"
@@ -633,8 +764,6 @@ el:
       wiki_page:
         parent_title: "Σελίδα γονέα"
         redirect_existing_links: "Ανακατεύθυνση υπαρχόντων συνδέσμων"
-      planning_element_type_color:
-        hexcode: Κωδικός Hex
       work_package:
         begin_insertion: "Ξεκινήστε την εισαγωγή"
         begin_deletion: "Ξεκινήστε την διαγραφή"
@@ -669,14 +798,6 @@ el:
         type: "Τύπος"
         version: "Έκδοση"
         watcher: "Παρατηρητής"
-      "doorkeeper/application":
-        uid: "Ταυτότητα Πελάτη"
-        secret: "Μυστικό πελάτη"
-        owner: "Ιδιοκτήτης"
-        redirect_uri: "Σύνδεσμος Ανακατεύθυνσης (URI)"
-        client_credentials_user_id: "Διαπιστευτήρια Πελάτη Ταυτότητα Χρήστη"
-        scopes: "Φυσικά αντικείμενα"
-        confidential: "Εμπιστευτικό"
     errors:
       messages:
         accepted: "πρέπει να γίνει αποδεκτό."
@@ -686,6 +807,8 @@ el:
         before_or_equal_to: "πρέπει να είναι πριν ή ίσο με %{date}."
         blank: "δεν πρέπει να είναι κενό."
         blank_nested: "needs to have the property '%{property}' set."
+        cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Ένα πακέτο εργασίας δεν μπορεί να συνδεθεί με μια από τις υποεργασίες του."
         circular_dependency: "Αυτή η σχέση θα δημιουργήσει κυκλική εξάρτηση."
         confirmation: "δεν ταιριάζει με %{attribute}."
@@ -724,6 +847,7 @@ el:
         not_an_iso_date: "δεν είναι έγκυρη ημερομηνία. Απαιτούμενη μορφοποίηση: ΕΕΕΕ-ΜΜ-ΗΗ."
         not_same_project: "δεν ανήκει στο ίδιο έργο."
         odd: "πρέπει να είναι μονός."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "δεν ήταν δυνατή η επικύρωση με τη συσχετιζόμενη κανονική έκφραση."
         smaller_than_or_equal_to_max_length: "πρέπει να είναι μικρότερο ή ίσο με το μέγιστο μήκος."
         taken: "έχει ήδη κατοχυρωθεί."
@@ -758,6 +882,10 @@ el:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Τουλάχιστον μια επιλογή πρέπει να είναι διαθέσιμη."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) μόνο μια τιμή επιτρέπεται."
           empty: "(%{name}) η τιμή δεν μπορεί να είναι άδεια."
@@ -821,6 +949,10 @@ el:
             enabled_modules:
               dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
               format: "%{message}"
+        project_custom_field_project_mapping:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         query:
           attributes:
             project:
@@ -845,6 +977,8 @@ el:
               nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "είναι αμοιβαία αποκλειστικό με την ομαδοποίηση κατά '%{group_by}'. Δεν μπορείτε να ενεργοποιήσετε και τα δύο."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Δεν υπάρχει προσαρμοσμένο πεδίο για το φίλτρο."
@@ -878,6 +1012,14 @@ el:
             base:
               working_days_are_missing: "At least one day of the week must be defined as a working day."
               previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+        status:
+          attributes:
+            default_done_ratio:
+              inclusion: "must be between 0 and 100."
+          readonly_default_exlusive: "δεν μπορεί να ενεργοποιηθεί για καταστάσεις που είναι επισημασμένες ως προεπιλογές."
         time_entry:
           attributes:
             hours:
@@ -908,6 +1050,12 @@ el:
           attributes:
             assigned_to:
               format: "%{message}"
+            done_ratio:
+              does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
+              cannot_be_set_when_work_is_zero: "cannot be set when Work is 0h"
+              must_be_set_when_remaining_work_is_set: "required when Remaining work is set."
+              must_be_set_when_work_and_remaining_work_are_set: "required when Work and Remaining work are set."
+              inclusion: "must be between 0 and 100."
             due_date:
               not_start_date: "δεν είναι στην ημερομηνία έναρξης, παρόλο που απαιτείται από τα ορόσημα."
               cannot_be_null: "can not be set to null as start date and duration are known."
@@ -935,7 +1083,18 @@ el:
               only_same_project_categories_allowed: "Η κατηγορία ενός πακέτου εργασίας πρέπει να είναι μέσα στο ίδιο έργο με το πακέτο εργασίας."
               does_not_exist: "Η καθορισμένη κατηγορία δεν υπάρχει."
             estimated_hours:
-              only_values_greater_or_equal_zeroes_allowed: "πρέπει να είναι >= 0."
+              not_a_number: "is not a valid duration."
+              cant_be_inferior_to_remaining_work: "cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_and_percent_complete_are_set: "required when Remaining work and % Complete are set."
+            remaining_hours:
+              not_a_number: "is not a valid duration."
+              cant_exceed_work: "cannot be higher than Work."
+              must_be_set_when_work_is_set: "required when Work is set."
+              must_be_set_when_work_and_percent_complete_are_set: "required when Work and % Complete are set."
+              must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: >-
+                must be 0h when Work is set and % Complete is 100%.
+              must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
+                must be empty when Work is empty and % Complete is 100%.
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
           attributes:
@@ -954,7 +1113,7 @@ el:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "Πρέπει να περιέχει χαρακτήρες από τις ακόλουθες κλάσεις (τουλάχιστον %{min_count} από %{all_count}): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "πεζά γράμματα (π.χ. 'α')"
               uppercase: "κεφαλαία γράμματα (π.χ. 'Α')"
               numeric: "αριθμητικό (π.χ. '1')"
@@ -970,7 +1129,7 @@ el:
             ldap_auth_source:
               error_not_found: "δεν βρέθηκε"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "δεν βρέθηκε"
         member:
           principal_blank: "Παρακαλούμε επιλέξτε τουλάχιστον ένα χρήστη ή ομάδα."
           role_blank: "πρέπει να ανατεθεί."
@@ -983,8 +1142,10 @@ el:
         version:
           undeletable_archived_projects: "Η έκδοση δεν μπορεί να διαγραφεί επειδή είναι συνδεδεμένη με πακέτα εργασίας."
           undeletable_work_packages_attached: "Η έκδοση δεν μπορεί να διαγραφεί επειδή είναι συνδεδεμένη με πακέτα εργασίας."
-        status:
-          readonly_default_exlusive: "δεν μπορεί να ενεργοποιηθεί για καταστάσεις που είναι επισημασμένες ως προεπιλογές."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Παρακαλούμε ελέγξτε τα ακόλουθα πεδία:"
         header:
@@ -1008,11 +1169,17 @@ el:
         other: "Notifications"
       placeholder_user: "Placeholder χρήστης"
       project: "Έργο"
+      project_query:
+        one: "Project list"
+        other: "Project lists"
       query: "Προσαρμοσμένη αναζήτηση"
       role:
         one: "Ρόλος"
         other: "Ρόλοι"
       status: "Κατάσταση εργασίας"
+      token/api:
+        one: Access token
+        other: Access tokens
       type: "Τύπος"
       user: "Χρήστης"
       version: "Έκδοση"
@@ -1038,6 +1205,12 @@ el:
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Υποέργο"
       parent_no_longer: "No longer subproject of"
       time_entry:
@@ -1146,6 +1319,7 @@ el:
       token_cooldown: Το token αντιγράφου ασφαλείας θα είναι έγκυρο σε %{hours} ώρες.
       backup_pending: Υπάρχει ήδη ένα αντίγραφο ασφαλείας σε εκκρεμότητα.
       limit_reached: Μπορείτε να κάνετε μόνο %{limit} αντίγραφα ασφαλείας την ημέρα.
+  button_actions: "Ενέργειες"
   button_add: "Προσθήκη"
   button_add_comment: "Προσθέστε σχόλιο"
   button_add_member: Προσθήκη μέλους
@@ -1179,6 +1353,7 @@ el:
   button_edit: "Επεξεργασία"
   button_edit_associated_wikipage: "Επεξεργασία της συσχετιζόμενης σελίδας Wiki: %{page_title}"
   button_expand_all: "Ανάπτυξη όλων"
+  button_favorite: "Add to favorites"
   button_filter: "Φίλτρο"
   button_generate: "Παραγωγή"
   button_list: "Προβολή λίστας"
@@ -1196,7 +1371,7 @@ el:
   button_reset: "Επαναφορά"
   button_rollback: "Επαναφορά σε αυτή την έκδοση"
   button_save: "Αποθήκευση"
-  button_save_as: "Save as"
+  button_save_as: "Αποθήκευση ως"
   button_apply_changes: "Apply changes"
   button_save_back: "Αποθήκευση και επιστροφή"
   button_show: "Εμφάνιση"
@@ -1206,6 +1381,7 @@ el:
   button_unarchive: "Αναίρεση αρχειοθέτησης"
   button_uncheck_all: "Αποεπιλογή όλων"
   button_unlock: "Ξεκλείδωμα"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Αναίρεση παρακολούθησης"
   button_update: "Ενημέρωση"
   button_upgrade: "Αναβάθμιση"
@@ -1216,6 +1392,16 @@ el:
   button_add_menu_entry: "Προσθήκη αντικειμένου μενού"
   button_configure_menu_entry: "Μορφοποίηση αντικειμένου μενού"
   button_delete_menu_entry: "Διαγραφή αντικειμένου μενού"
+  button_view_shared_work_packages: "View shared work packages"
+  button_manage_roles: "Manage roles"
+  button_remove_member: "Remove member"
+  button_remove_member_and_shares: "Remove member and shares"
+  button_revoke_work_package_shares: "Revoke work package shares"
+  button_revoke_access: "Revoke access"
+  button_revoke_all: "Revoke all"
+  button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Έχω σημειώσει και συγκατατίθεμαι στα παραπάνω.
     failure_message: Η συναίνεση απέτυχε, δεν μπορείτε να προχωρήσετε.
@@ -1431,8 +1617,8 @@ el:
   error_pdf_export_too_many_columns: "Επιλέχθηκαν πάρα πολλές στήλες για εξαγωγή σε PDF. Παρακαλούμε μειώστε τον αριθμό των στηλών."
   error_pdf_failed_to_export: "Η εξαγωγή σε PDF δεν ήταν δυνατό να αποθηκευτεί: %{error}"
   error_token_authenticity: "Δεν ήταν δυνατή η επαλήθευση του Cross-Site Request Forgery token. Προσπαθήσατε να υποβάλετε δεδομένα σε πολλαπλούς περιηγητές ή καρτέλες; Παρακαλούμε κλείστε όλες τις καρτέλες και δοκιμάστε ξανά."
-  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Το πακέτο εργασίας δεν βρέθηκε ή δεν ανοίκει σε αυτό το έργο"
+  error_work_package_id_not_found: "The work package was not found."
   error_must_be_project_member: "πρέπει να είναι μέλος έργου"
   error_migrations_are_pending: "Η εγκατάσταση OpenProject σας έχει μεταφορές βάσης δεδομένων που εκκρεμούν. Πιθανότατα δεν τρέξατε τις μεταφορές κατά τη διάρκεια της προηγούμενης αναβάθμιση. Παρακαλούμε ελέγξτε τον οδηγό αναβάθμισης για να αναβαθμίσετε την εγκατάσταση σας σωστά."
   error_migrations_visit_upgrade_guides: "Παρακαλούμε επισκεφθείτε την τεκμηρίωση οδηγού αναβάθμισης"
@@ -1455,14 +1641,14 @@ el:
   error_menu_item_not_saved: Δεν ήταν δυνατή η αποθήκευση του αντικειμένου μενού
   error_wiki_root_menu_item_conflict: >
     Δεν είναι δυνατή η μετονομασία από "%{old_name}" σε "%{new_name}" λόγω μιας σύγκρουσης του αντικειμένου μενού που προκύπτει με ένα υπάρχον αντικείμενο μενού "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Παρουσιάστηκε σφάλμα κατά τη διάρκεια της εξωτερικής ταυτοποίησης. Παρακαλούμε προσπαθήστε ξανά."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Δεν είναι δυνατή η επισήμανση του(-ών) χαρακτηριστικού(-ών): %{attributes}"
   events:
     changeset: "Οι αλλαγές επεξεργάστηκαν"
     message: Το μήνυμα επεξεργάστηκε
     news: Νέα
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Το έργο επεξεργάστηκε"
     projects: "Το έργο επεξεργάστηκε"
     reply: Απάντησε
     time_entry: "Η καταγραφή χρόνου επεξεργάστηκε"
@@ -1474,9 +1660,71 @@ el:
       project: "Project: %{name}"
       subproject: "Subproject: %{name}"
   export:
-    your_work_packages_export: "Η εξαγωγή των πακέτων εργασίας σας"
-    succeeded: "Η εξαγωγή ολοκληρώθηκε επιτυχώς."
-    failed: "The export has failed: %{message}"
+    dialog:
+      title: "Export"
+      submit: "Export"
+      format:
+        label: "File format"
+        options:
+          csv:
+            label: "CSV"
+          pdf:
+            label: "PDF"
+          xls:
+            label: "XLS"
+      columns:
+        input_label_report: "Add columns to attribute table"
+        input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
+        input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
+      pdf:
+        export_type:
+          label: "PDF export type"
+          options:
+            table:
+              label: "Table"
+              caption: "Export the work packages list in a table with the desired columns."
+            report:
+              label: "Report"
+              caption: "Export the work package on a detailed report of all work packages in the list."
+            gantt:
+              label: "Gantt chart"
+              caption: "Export the work packages list in a Gantt diagram view."
+        include_images:
+          label: "Include images"
+          caption: "Exclude images to reduce the size of the PDF export."
+        gantt_zoom_levels:
+          label: "Zoom levels"
+          caption: "Select what is the zoom level for dates displayed in the chart."
+          options:
+            days: "Days"
+            weeks: "Weeks"
+            months: "Months"
+            quarters: "Quarters"
+        column_width:
+          label: "Table column width"
+          options:
+            narrow: "Narrow"
+            medium: "Medium"
+            wide: "Wide"
+            very_wide: "Very wide"
+        paper_size:
+          label: "Paper size"
+          caption: "Depending on the chart size more than one page might be exported."
+        long_text_fields:
+          input_caption: "By default all long text fields are selected."
+          input_label: "Add long text fields"
+          input_placeholder: "Search for long text fields"
+          drag_area_label: "Manage long text fields"
+      xls:
+        include_relations:
+          label: "Include relations"
+          caption: "This option will create a duplicate of each work package for every relation this has with another work package."
+        include_descriptions:
+          label: "Include descriptions"
+          caption: "This option will add a description column in raw format."
+    your_work_packages_export: "Work packages are being exported"
+    succeeded: "Export completed"
+    failed: "An error has occurred while trying to export the work packages: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1484,8 +1732,15 @@ el:
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Η εικόνα δεν εξήχθη."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: h
       days: d
@@ -1525,7 +1780,7 @@ el:
       postgres_migration: "Μεταφορά της εγκατάστασης σας σε PostgreSQL"
       user_guides: "Εγχειρίδια χρηστών"
       faq: "Συχνές Ερωτήσεις"
-      impressum: "Legal notice"
+      impressum: "Νομική Ειδοποίηση"
       glossary: "Γλωσσάριο"
       shortcuts: "Συντομεύσεις"
       blog: "OpenProject blog"
@@ -1536,8 +1791,10 @@ el:
   journals:
     changes_retracted: "Οι αλλαγές αποσύρθηκαν."
     caused_changes:
-      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
+      default_attribute_written: "Read-only attributes written"
+      progress_mode_changed_to_status_based: "Progress calculation updated"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1553,9 +1810,19 @@ el:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Οδηγός διαμόρφωσης"
     get_in_touch: "Έχετε απορίες; Επικοινωνήστε μαζί μας."
@@ -1570,6 +1837,8 @@ el:
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Άνοιγμα μενού γρήγορης προσθήκης"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1609,6 +1878,22 @@ el:
         failed: "An error occurred and the token couldn't be removed. Please try again later."
         unknown_storage: "Unknown storage"
   notifications:
+    reasons:
+      assigned: "Ανάθεση σε"
+      dateAlert: "Date alert"
+      mentioned: "Mentioned"
+      responsible: "Υπόλογος"
+      shared: "Shared"
+      watched: "Παρατηρητής"
+    facets:
+      unread: "Unread"
+      unread_title: "Show unread"
+      all: "Όλα"
+      all_title: "Εμφάνιση όλων"
+    menu:
+      by_project: "Unread by project"
+      by_reason: "Reason"
+      inbox: "Inbox"
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
@@ -1618,17 +1903,6 @@ el:
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
-    update_info_mail:
-      body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-        We hope you find in-app notifications useful and that they makes you even more productive.
-        Sincerely, The OpenProject team
-      body_header: "Version 12.0 with Notification Center"
-      body_subheader: "Νέα"
-      subject: "Important changes to notifications with the release of 12.0"
   label_accessibility: "Προσβασιμότητα"
   label_account: "Λογαριασμός"
   label_active: "Ενεργό"
@@ -1639,6 +1913,7 @@ el:
   label_add_another_file: "Προσθέσετε και άλλο αρχείο"
   label_add_columns: "Προσθέστε τις επιλεγμένες στήλες"
   label_add_note: "Προσθήκη σημείωσης"
+  label_add_projects: "Add projects"
   label_add_related_work_packages: "Προσθέστε σχετιζόμενα πακέτα εργασίας"
   label_add_subtask: "Προσθήκη υποεργασίας"
   label_added: "προστέθηκε"
@@ -1647,7 +1922,8 @@ el:
   label_additional_workflow_transitions_for_assignee: "Επιτρέπονται επιπλέον μεταβάσεις όταν ο χρήστης είναι το άτομο που του έχει ανατεθεί"
   label_additional_workflow_transitions_for_author: "Επιτρέπονται επιπλέον μεταβάσεις όταν ο χρήστης είναι ο συγγραφέας"
   label_administration: "Διαχείριση"
-  label_advanced_settings: "Προηγμένες ρυθμίσεις"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Ηλικία"
   label_ago: "ημέρες πριν"
   label_all: "όλα"
@@ -1671,25 +1947,27 @@ el:
   label_ascending: "Αύξουσα"
   label_assigned_to_me_work_packages: "Πακέτα εργασίας που έχουν ανατεθεί σε μένα"
   label_associated_revisions: "Σχετικές αναθεωρήσεις"
-  label_attachment_delete: "Διαγραφή αρχείου"
-  label_attachment_new: "Νέο αρχείο"
-  label_attachment_plural: "Αρχεία"
+  label_attachment_plural: "Συνημμένα"
   label_attribute: "Χαρακτηριστικό"
   label_attribute_plural: "Χαρακτηριστικά"
   label_ldap_auth_source_new: "New LDAP connection"
   label_ldap_auth_source: "Σύνδεση LDAP"
   label_ldap_auth_source_plural: "LDAP connections"
+  label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Ταυτοποίηση"
+  label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Διαθέσιμα φόρουμ"
   label_available_project_repositories: "Διαθέσιμα αποθετήρια"
   label_available_project_versions: "Διαθέσιμες εκδόσεις"
   label_available_project_work_package_categories: "Διαθέσιμες κατηγορίες πακέτων εργασίας"
   label_available_project_work_package_types: "Διαθέσιμοι τύποι εργασιών"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "Τεκμηρίωση API"
   label_backup: "Αντίγραφο Ασφαλείας"
-  label_backup_code: "Backup code"
+  label_backup_code: "Κωδικός αντιγράφων ασφαλείας"
   label_between: "μεταξύ"
   label_blocked_by: "αποκλεισμένο από"
   label_blocks: "μπλόκς"
@@ -1699,7 +1977,7 @@ el:
   label_forum_plural: "Φόρουμ"
   label_forum_sticky: "Sticky"
   label_boolean: "Δυαδικές τιμές"
-  label_board_plural: "Boards"
+  label_board_plural: "Πίνακες"
   label_branch: "Κλάδος"
   label_browse: "Περιήγηση"
   label_bulk_edit_selected_work_packages: "Μαζική επεξεργασία επιλεγμένων πακέτων εργασίας"
@@ -1751,6 +2029,7 @@ el:
   label_copy_project: "Αντιγραφή έργου"
   label_core_version: "Βασική έκδοση"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Τρέχουσα κατάσταση"
   label_current_version: "Τρέχουσα έκδοση"
   label_custom_field_add_no_type: "Προσθέστε αυτό το πεδίο σε έναν τύπο πακέτου εργασίας"
@@ -1758,7 +2037,8 @@ el:
   label_custom_field_plural: "Προσαρμοσμένα πεδία"
   label_custom_field_default_type: "Άδειος τύπος"
   label_custom_style: "Σχεδιασμός"
-  label_dashboard: "Dashboard"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
+  label_dashboard: "Πίνακας Ελέγχου"
   label_database_version: "Έκδοση PostgreSQL"
   label_date: "Ημερομηνία"
   label_date_and_time: "Ημερομηνία και ώρα"
@@ -1810,7 +2090,7 @@ el:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Περιβάλλον"
-  label_estimates_and_time: "Εκτιμήσεις & χρόνος"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "είναι"
   label_everywhere: "παντού"
   label_example: "Παράδειγμα"
@@ -1820,17 +2100,18 @@ el:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Εισαγωγή"
   label_export_to: "Επίσης διαθέσιμο σε:"
+  label_expand: "Επέκταση"
   label_expanded_click_to_collapse: "Επεκταμένο. Πατήστε για σύμπτυξη"
   label_f_hour: "%{value} ώρα"
   label_f_hour_plural: "%{value} ώρες"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Τροφοδοσίες"
   label_feeds_access_key: "Κλειδί πρόσβασης RSS"
   label_feeds_access_key_created_on: "Tο κλειδί πρόσβασης RSS δημιουργήθηκε πριν από %{value}"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Αρχεία"
   label_filter_add: "Προσθήκη φίλτρου"
-  label_filter: "Filters"
+  label_filter: "Φίλτρα"
   label_filter_plural: "Φίλτρα"
   label_filters_toggle: "Εμφάνιση/απόκρυψη φίλτρων"
   label_float: "Float"
@@ -1857,13 +2138,14 @@ el:
   label_home: "Αρχική"
   label_subject_or_id: "Θέμα ή ταυτότητα"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Αναγνωριστικό"
   label_in: "σε"
   label_in_less_than: "σε λιγότερο από"
   label_in_more_than: "σε περισσότερο από"
   label_inactive: "Ανενεργό"
   label_incoming_emails: "Εισερχόμενα email"
   label_includes: "περιλαμβάνει"
+  label_include_sub_projects: Include sub-projects
   label_index_by_date: "Δείκτης ανά ημερομηνία"
   label_index_by_title: "Δείκτης ανά τίτλο"
   label_information: "Πληροφορίες"
@@ -1874,8 +2156,11 @@ el:
   label_introduction_video: "Εισαγωγικό βίντεο"
   label_invite_user: "Προσκαλέστε χρήστη"
   label_share: "Share"
-  label_show_hide: "Εμφάνιση/απόκρυψη"
+  label_share_project_list: "Share project list"
+  label_share_work_package: "Share work package"
   label_show_all_registered_users: "Εμφάνιση όλων των εγγεγραμμένων χρηστών"
+  label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Ημερολόγιο"
   label_journal_diff: "Σύγκριση Περιγραφών"
   label_language: "Γλώσσα"
@@ -1893,8 +2178,10 @@ el:
   label_latest_revision: "Τελευταία αναθεώρηση"
   label_latest_revision_plural: "Τελευταίες αναθεωρήσεις"
   label_ldap_authentication: "Ταυτοποίηση LDAP"
+  label_learn_more: "Μάθετε περισσότερα"
   label_less_or_equal: "<="
   label_less_than_ago: "σε λιγότερο από ημέρες πριν"
+  label_link_url: "Link (URL)"
   label_list: "Προβολή λίστας"
   label_loading: "Φόρτωση..."
   label_lock_user: "Κλείδωμα χρήστη"
@@ -1910,6 +2197,7 @@ el:
   label_custom_touch_icon: "Προσαρμοσμένο εικονίδιο αφής"
   label_logout: "Αποσύνδεση"
   label_main_menu: "Πλευρικό Μενού"
+  label_manage: "Διαχείριση"
   label_manage_groups: "Διαχείριση Ομάδων"
   label_managed_repositories_vendor: "Αποθετήρια που διαχειρίζονται από %{vendor}"
   label_max_size: "Μέγιστο μέγεθος"
@@ -1918,8 +2206,9 @@ el:
   label_member_all_admin: "(Όλοι οι ρόλοι λόγω κατάστασης διαχειριστή)"
   label_member_plural: "Μέλη"
   label_membership_plural: "Memberships"
-  lable_membership_added: "Το μέλος προστέθηκε"
-  lable_membership_updated: "Το μέλος ενημερώθηκε"
+  label_membership_added: "Το μέλος προστέθηκε"
+  label_membership_updated: "Το μέλος ενημερώθηκε"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -1964,6 +2253,8 @@ el:
   label_next_week: "Επόμενη εβδομάδα"
   label_no_change_option: "(Δεν υπάρχουν αλλαγές)"
   label_no_data: "Δεν υπάρχουν δεδομένα για εμφάνιση"
+  label_no_due_date: "no finish date"
+  label_no_start_date: "no start date"
   label_no_parent_page: "Δεν υπάρχει σελίδα γονέα"
   label_nothing_display: "Δεν υπάρχει κάτι για εμφάνιση"
   label_nobody: "κανένας"
@@ -2010,7 +2301,7 @@ el:
   label_precedes: "προηγείται"
   label_preferences: "Προτιμήσεις"
   label_preview: "Προεπισκόπηση"
-  label_preview_not_available: "(Preview not available)"
+  label_preview_not_available: "Preview not available"
   label_previous: "Προηγούμενο"
   label_previous_week: "Προηγούμενη εβδομάδα"
   label_principal_invite_via_email: " ή προσκαλέστε καινούργιους χρήστες μέσω email"
@@ -2018,19 +2309,28 @@ el:
   label_privacy_policy: "Ιδιωτικότητα δεδομένων και πολιτική ασφαλείας"
   label_product_version: "Έκδοση προϊόντος"
   label_profile: "Προφίλ"
+  label_percent_complete: "% Complete"
+  label_progress_tracking: "Progress tracking"
+  label_project: "Έργο"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Συνολικός αριθμός έργων"
   label_project_copy_notifications: "Αποστολή ειδοποιήσεων με email κατά την διάρκεια της αντιγραφής του έργου"
   label_project_latest: "Τελευταία έργα"
   label_project_default_type: "Επιτρέψτε άδειους τύπους"
   label_project_hierarchy: "Ιεραρχία έργου"
+  label_project_mappings: "Enabled in projects"
   label_project_new: "Νέο έργο"
   label_project_plural: "Έργα"
+  label_project_list_plural: "Project lists"
+  label_project_attributes_plural: "Project attributes"
+  label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Ρυθμίσεις έργου"
+  label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} έργα χρησιμοποιούν %{storage} από τον χώρο αποθήκευσης του δίσκου"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Εμφάνιση όλων των έργων"
   label_project_show_details: "Εμφάνιση λεπτομερειών έργου"
   label_project_hide_details: "Απόκρυψη λεπτομερειών έργου"
@@ -2050,6 +2350,7 @@ el:
   label_relation_delete: "Διαγραφή συσχέτισης"
   label_relation_new: "Νέα συσχέτιση"
   label_release_notes: "Σημειώσεις έκδοσης"
+  label_remaining_work: "Remaining work"
   label_remove_columns: "Αφαιρέστε τις επιλεγμένες στήλες"
   label_renamed: "μετονομάστηκε"
   label_reply_plural: "Απαντήσεις"
@@ -2079,13 +2380,17 @@ el:
   label_role_plural: "Ρόλοι"
   label_role_search: "Ανάθεση ρόλων σε νέα μέλη"
   label_scm: "SCM"
+  label_scroll_left: "Scroll left"
+  label_scroll_right: "Scroll right"
   label_search: "Αναζήτηση"
+  label_search_by_name: "Search by name"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Αποστολή δοκιμαστικού email"
-  label_session: "Session"
+  label_session: "Συνεδρία"
   label_setting_plural: "Ρυθμίσεις"
   label_system_settings: "Ρυθμίσεις συστήματος"
   label_show_completed_versions: "Εμφάνιση ολοκληρωμένων εκδόσεων"
+  label_columns: "Στήλες"
   label_sort: "Ταξινόμηση"
   label_sort_by: "Ταξινόμηση κατά %{value}"
   label_sorted_by: "ταξινομημένα κατά %{value}"
@@ -2128,7 +2433,6 @@ el:
   label_type_new: "Νέος τύπος"
   label_type_plural: "Τύποι"
   label_ui: "Διεπαφή Χρήστη"
-  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Ενημερώθηκε πριν από %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Ενημερώθηκε από τον %{author} πριν από %{age}"
@@ -2183,6 +2487,7 @@ el:
   label_wiki_show_new_page_link: "Εμφάνιση του αντικειμένου υπομενού 'Δημιουργία καινούργιας σελίδας παιδιού'"
   label_wiki_show_submenu_item: "Εμφάνιση ως αντικείμενο υπομενού του "
   label_wiki_start: "Σελίδα έναρξης"
+  label_work: "Work"
   label_work_package: "Εργασία"
   label_work_package_attachments: "Συνημμένα πακέτου εργασίας"
   label_work_package_category_new: "Νέα κατηγορία"
@@ -2198,9 +2503,10 @@ el:
   label_work_package_tracking: "Παρακολούθηση πακέτου εργασίας"
   label_work_package_view_all: "Εμφάνιση όλων των πακέτων εργασίας"
   label_workflow: "Ροή εργασιών"
+  label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Ροές εργασίας"
   label_workflow_summary: "Περίληψη"
-  label_working_days: "Working days"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 κλειστό"
     other: "%{count} κλειστά"
@@ -2226,6 +2532,7 @@ el:
     other: "%{count} files"
     zero: "no files"
   label_yesterday: "χθες"
+  label_zen_mode: "Zen mode"
   label_role_type: "Τύπος"
   label_member_role: "Project role"
   label_global_role: "Global role"
@@ -2299,6 +2606,35 @@ el:
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
+    storages:
+      health:
+        plaintext:
+          storage: "Αποθηκευτικός χώρος"
+          healthy:
+            summary: 'Good news! The status of your storage, %{storage_name}, is currently displaying as "Healthy".'
+            error-solved-on: "Solved On"
+            recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
+            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+          unhealthy:
+            summary: 'The status of your storage, %{storage_name}, is currently displaying as "Error". We''ve detected an issue that might require your attention.'
+            error-details: "Error Details"
+            error-message: "Error Message"
+            error-occurred-on: "Occurred On"
+            recommendation: "We recommend heading over to the storage configuration page to address this issue"
+            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
+        email_notification_settings: "Storage email notification settings"
+        see_storage_settings: "See storage settings"
+        healthy:
+          subject: 'Storage "%{name}" is now healthy!'
+          solved_at: "solved at"
+          summary: "The problem with your %{storage_name} storage integration is now solved"
+        unhealthy:
+          subject: 'Storage "%{name}" is unhealthy!'
+          since: "since"
+          summary: "There is a problem with your %{storage_name} storage integration"
+          troubleshooting:
+            text: "For more information, check file storages"
+            link_text: "troubleshooting documentation"
   mail_body_account_activation_request: "'Ένας νέος χρήστης (%{value}) έχει εγγραφεί. Ο λογαριασμός είναι σε στάδιο αναμονής της έγκρισης σας:"
   mail_body_account_information: "Πληροφορίες του λογαριασμού σας"
   mail_body_account_information_external: "Μπορείτε να χρησιμοποιήσετε τον λογαριασμό %{value} για να συνδεθείτε."
@@ -2403,7 +2739,6 @@ el:
   notice_file_not_found: "Η σελίδα που ζητήσατε δεν υπάρχει ή έχει αφαιρεθεί."
   notice_forced_logout: "Αποσυνδεθήκατε αυτόματα μετά από %{ttl_time} λεπτά αδράνειας."
   notice_internal_server_error: "Παρουσιάστηκε ένα σφάλμα στη σελίδα που προσπαθήσατε να ανοίξετε. Αν εξακολουθείτε να αντιμετωπίζετε προβλήματα παρακαλούμε επικοινωνήστε με τον %{app_title} διαχειριστή σας για βοήθεια."
-  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Οι πληροφορίες ενημερώθηκαν από τουλάχιστον έναν ακόμα χρήστη στο εν τω μεταξύ."
   notice_locking_conflict_additional_information: "Η ενημέρωση(-εις) προήλθαν από %{users}."
   notice_locking_conflict_reload_page: "Παρακαλούμε ανανεώστε αυτή τη σελίδα, αναθεωρήστε τις αλλαγές και εφαρμόστε ξανά τις αλλαγές."
@@ -2419,6 +2754,7 @@ el:
   notice_principals_found_multiple: "Βρέθηκαν %{number} αποτελέσματα. \n Πατήστε Tab για να εστιάσετε στο πρώτο αποτέλεσμα."
   notice_principals_found_single: "Υπάρχει ένα αποτέλεσμα. \n Πατήστε Tab για να εστιάσετε σε αυτό."
   notice_project_not_deleted: "Το έργο δεν διαγράφηκε."
+  notice_project_not_found: "Project not found."
   notice_successful_connection: "Επιτυχής σύνδεση."
   notice_successful_create: "Επιτυχής δημιουργία."
   notice_successful_delete: "Επιτυχής διαγραφή."
@@ -2501,6 +2837,7 @@ el:
   permission_edit_own_messages: "Επεξεργασία δικών μου μηνυμάτων"
   permission_edit_own_time_entries: "Επεξεργασία των δικών μου καταγραφών χρόνου"
   permission_edit_project: "Επεξεργασία του έργου"
+  permission_edit_project_attributes: "Edit project attributes"
   permission_edit_reportings: "Επεξεργασία αναφορών"
   permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Επεξεργασία χρονοδιαγραμμάτων"
@@ -2529,6 +2866,7 @@ el:
   permission_save_queries: "Αποθήκευση προβολών"
   permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
+  permission_select_project_custom_fields: "Select project attributes"
   permission_select_project_modules: "Επιλογή ενοτήτων έργου"
   permission_share_work_packages: "Share work packages"
   permission_manage_types: "Επιλέξτε τύπους"
@@ -2550,9 +2888,13 @@ el:
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Τα πακέτα εργασίας μπορούν να ανατεθούν σε χρήστες και ομάδες που έχουν αυτό το ρόλο στο αντίστοιχο έργο"
   permission_view_project_activity: "View project activity"
+  permission_view_project_attributes: "View project attributes"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
+  permission_view_project_query: "View project query"
+  permission_edit_project_query: "Edit project query"
   placeholders:
     default: "-"
   project:
@@ -2577,6 +2919,10 @@ el:
     archive:
       are_you_sure: "Είστε σίγουροι ότι θέλετε να αρχειοθετήσετε το έργο %{name};"
       archived: "Αρχειοθετημένο"
+    count:
+      zero: "0 Projects"
+      one: "1 Project"
+      other: "%{count} Projects"
   project_module_activity: "Δραστηριότητα"
   project_module_forums: "Φόρουμ"
   project_module_work_package_tracking: "Πακέτα εργασίας"
@@ -2595,7 +2941,7 @@ el:
     member_of_group: "Ομάδα ανάθεσης"
     name_or_identifier: "Όνομα ή αναγνωριστικό"
     only_subproject_id: "Μόνο υποέργο"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
   repositories:
@@ -2716,7 +3062,7 @@ el:
     Εάν είναι ενεργοποιημένο το CORS, αυτές είναι οι πηγές που επιτρέπεται να έχουν πρόσβαση στο OpenProject API. <br/> Παρακαλώ ελέγξτε το <a href="%{origin_link}" target="_blank">Τεκμηρίωση στην κεφαλίδα προέλευσης</a> για τον τρόπο καθορισμού των αναμενόμενων τιμών.
   setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
   setting_apiv3_write_readonly_attributes_instructions_html: >
-    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and author. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximum API page size"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
@@ -2740,6 +3086,7 @@ el:
   setting_app_subtitle: "Υπότιτλος εφαρμογής"
   setting_app_title: "Τίτλος εφαρμογής"
   setting_attachment_max_size: "Μέγιστο μέγεθος συνημμένων"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Αυτόματη ανάκτηση αλλαγών αποθετηρίου"
@@ -2768,6 +3115,10 @@ el:
   setting_default_projects_public: "Τα νέα έργα είναι δημόσια από προεπιλογή"
   setting_diff_max_lines_displayed: "Εμφανίζεται ο μέγιστος αριθμός γραμμών diff"
   setting_display_subprojects_work_packages: "Εμφάνιση πακέτων εργασίας υποέργων στα κύρια έργα από προεπιλογή"
+  setting_duration_format: "Duration format"
+  setting_duration_format_hours_only: "Hours only"
+  setting_duration_format_days_and_hours: "Days and hours"
+  setting_duration_format_instructions: "This defines how Work, Remaining work, and Time spent durations are displayed."
   setting_emails_footer: "Υποσέλιδο των email"
   setting_emails_header: "Επικεφαλίδα email"
   setting_email_login: "Χρησιμοποιήστε email για είσοδο"
@@ -2778,11 +3129,21 @@ el:
   setting_feeds_limit: "Όριο συγκατάθεσης τροφοδοσίας"
   setting_file_max_size_displayed: "Μέγιστο μέγεθος αρχείων κειμένου που εμφανίζονται inline"
   setting_host_name: "Όνομα εξυπηρετητή"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Το μήνυμα ενεργοποίησης λήγει μετά από"
-  setting_work_package_done_ratio: "Calculate work package % Complete with"
-  setting_work_package_done_ratio_field: "The work package field"
-  setting_work_package_done_ratio_status: "The work package status"
-  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
+  setting_work_package_done_ratio: "Progress calculation mode"
+  setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
+  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
+  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+  setting_work_package_done_ratio_explanation_html: >
+    In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Ιδιότητες πακέτου εργασίας"
   setting_work_package_startdate_is_adddate: "Χρήση σημερινής ημερομηνίας ως ημερομηνία έναρξης για νέα πακέτα εργασίας"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2801,6 +3162,13 @@ el:
   setting_password_min_length: "Ελάχιστο μήκος"
   setting_password_min_adhered_rules: "Ελάχιστος αριθμός των απαιτούμενων κλάσεων"
   setting_per_page_options: "Αντικείμενα ανά σελίδα επιλογών"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Email απλού κειμένου (χωρίς HTML)"
   setting_protocol: "Πρωτόκολλο"
   setting_project_gantt_query: "Προβολή Gantt για portfolio έργου"
@@ -2840,6 +3208,8 @@ el:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -2848,7 +3218,7 @@ el:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
@@ -2887,6 +3257,20 @@ el:
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     other: "Άλλο"
     passwords: "Κωδικοί πρόσβασης"
+    project_attributes:
+      heading: "Project attributes"
+      label_new_attribute: "Project attribute"
+      label_new_section: "Section"
+      label_edit_section: "Edit title"
+      label_section_actions: "Section actions"
+      heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
+      label_project_custom_field_actions: "Project attribute actions"
+      label_no_project_custom_fields: "No project attributes defined in this section"
+      edit:
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+      new:
+        heading: "New attribute"
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Ρυθμίσεις για νέα έργα"
@@ -2919,6 +3303,7 @@ el:
   text_are_you_sure: "Είστε σίγουρος/η;"
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Διαγραφή πακέτου εργασίας και όλων των πακέτων-παιδιά;"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Ανάθεση στο έργο"
   text_form_configuration: >
     Μπορείτε να διαμορφώσετε σε ποια πεδία θα εμφανίζονται στις φόρμες πακέτων εργασίας. Μπορείτε ελεύθερα να ομαδοποιήσετε τα πεδία ώστε να αντικατοπτρίζουν τις ανάγκες του τομέα σας.
@@ -3058,9 +3443,13 @@ el:
     configure_view:
       heading: Configure view
       columns:
-        input_label: "Add columns"
+        input_label: "Προσθέστε στήλη"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Αυτόματα"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Επιπλέον πόροι"
     getting_started: "Ξεκινώντας"
@@ -3140,62 +3529,111 @@ el:
     destroy:
       info: "Η διαγραφή του πακέτου εργασίας είναι μια μη αναστρέψιμη ενέργεια."
       title: "Διαγραφή του πακέτου εργασίας"
-    sharing:
-      count:
-        zero: "0 users"
-        one: "1 user"
-        other: "%{count} users"
-      filter:
-        project_member: "Project member"
-        not_project_member: "Not project member"
-        project_group: "Project group"
-        not_project_group: "Not project group"
-        role: "Ρόλος"
-        type: "Τύπος"
-      label_search: "Search for users to invite"
-      label_search_placeholder: "Search by user or email address"
-      label_toggle_all: "Toggle all shares"
-      permissions:
-        comment: "Σχόλιο"
-        comment_description: "Can view and comment this work package."
-        denied: "You don't have permissions to share work packages."
-        edit: "Επεξεργασία"
-        edit_description: "Can view, comment and edit this work package."
-        view: "Προβολή"
-        view_description: "Can view this work package."
-      remove: "Αφαίρεση"
-      share: "Share"
-      text_empty_search_description: "There are no users with the current filter criteria."
-      text_empty_search_header: "We couldn't find any matching results."
-      text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
-      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
-      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
-      warning_user_limit_reached: >
-        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
-      warning_user_limit_reached_admin: >
-        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
-      warning_no_selected_user: "Please select users to share this work package with"
-      warning_locked_user: "The user %{user} is locked and cannot be shared with"
+    progress:
+      label_note: "Note:"
+      modal:
+        work_based_help_text: "Each field is automatically calculated from the two others when possible."
+        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
+        status_based_help_text: "% Complete is set by work package status."
+        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
+      derivation_hints:
+        done_ratio:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          cleared_because_work_is_0h: "Cleared because Work is 0h."
+          derived: "Derived from Work and Remaining work."
+        estimated_hours:
+          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
+          derived: "Derived from Remaining work and % Complete."
+          same_as_remaining_work: "Set to same value as Remaining work."
+        remaining_hours:
+          cleared_because_work_is_empty: "Cleared because Work is empty."
+          cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
+          derived: "Derived from Work and % Complete."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
+          same_as_work: "Set to same value as Work."
+    permissions:
+      comment: "Σχόλιο"
+      comment_description: "Can view and comment this work package."
+      edit: "Επεξεργασία"
+      edit_description: "Can view, comment and edit this work package."
+      view: "Προβολή"
+      view_description: "Can view this work package."
+  sharing:
+    count:
+      zero: "0 users"
+      one: "1 user"
+      other: "%{count} users"
+    filter:
+      project_member: "Project member"
+      not_project_member: "Not project member"
+      project_group: "Project group"
+      not_project_group: "Not project group"
+      user: "Χρήστης"
+      group: "Ομάδα"
+      role: "Ρόλος"
+      type: "Τύπος"
+    denied: "You don't have permissions to share %{entities}."
+    label_search: "Search for users to invite"
+    label_search_placeholder: "Search by user or email address"
+    label_toggle_all: "Toggle all shares"
+    remove: "Αφαίρεση"
+    share: "Share"
+    text_empty_search_description: "There are no users with the current filter criteria."
+    text_empty_search_header: "We couldn't find any matching results."
+    text_empty_state_description: "The %{entity} has not been shared with anyone yet."
+    text_empty_state_header: "Δεν μοιράζονται"
+    text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}."
+    text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+    warning_user_limit_reached: >
+      Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
+    warning_user_limit_reached_admin: >
+      Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this %{entity}.
+    warning_no_selected_user: "Please select users to share this %{entity} with"
+    warning_locked_user: "The user %{user} is locked and cannot be shared with"
+    user_details:
+      locked: "Locked user"
+      invited: "Invite sent. "
+      resend_invite: "Resend."
+      invite_resent: "Invite has been resent"
+      not_project_member: "Not a project member"
+      project_group: "Group members might have additional privileges (as project members)"
+      not_project_group: "Group (shared with all members)"
+      additional_privileges_project: "Might have additional privileges (as project member)"
+      additional_privileges_group: "Might have additional privileges (as group member)"
+      additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+    project_queries:
+      publishing_denied: "You do not have permission to make project lists public."
+      access_warning: "Users will only see the projects they have access to. Sharing project lists does not impact individual project permissions."
       user_details:
-        locked: "Locked user"
-        invited: "Invite sent. "
-        resend_invite: "Resend."
-        invite_resent: "Invite has been resent"
-        not_project_member: "Not a project member"
-        project_group: "Group members might have additional privileges (as project members)"
-        not_project_group: "Group (shared with all members)"
-        additional_privileges_project: "Might have additional privileges (as project member)"
-        additional_privileges_group: "Might have additional privileges (as group member)"
-        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+        owner: "List owner"
+        can_view_because_public: "Can already view because list is shared with everyone"
+        can_manage_public_lists: "Can edit due to global permissions"
+      public_flag:
+        label: "Share with everyone at %{instance_name}"
+        caption: "Everyone can view this project list. Those with global edit permissions can modify it."
+      blank_state:
+        public:
+          header: "Shared with everyone"
+          description: "Everyone can view this project list. You can also add individual users with extra permissions."
+        private:
+          header: "Not shared: Private"
+          description: "This project list has not been shared with anyone yet. Only you can access this list."
+      permissions:
+        view: "Προβολή"
+        view_description: "Can view this project list."
+        edit: "Επεξεργασία"
+        edit_description: "Can view, share and edit this project list."
+      upsale:
+        message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
@@ -3248,9 +3686,7 @@ el:
         unsupported_context: "Ο πόρος που δόθηκε δεν υποστηρίζεται ως πλαίσιο αναφοράς."
         context_object_not_found: "Δεν ήταν δυνατή η εύρεση του πόρου που δόθηκε ως πλαίσιο αναφοράς."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Η ημερομηνία λήξης δεν μπορεί να οριστεί σε πακέτα εργασίας-γονείς."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Ο επιλεγμένος χρήστης δεν επιτρέπεται να είναι '%{property}' για αυτό το πακέτο εργασίας."
         start_date: "Η ημερομηνία έναρξης δεν μπορεί να οριστεί σε πακέτα εργασίας-γονείς."
       eprops:
@@ -3306,12 +3742,16 @@ el:
     close_warning: "Αγνοείστε αυτή την προειδοποίηση."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth εφαρμογή"
       plural: "OAuth εφαρμογές"
       named: "OAuth εφαρμογή '%{name}'"
       new: "Νέα OAuth εφαρμογή"
+      non_confidential: Non confidential
       default_scopes: "(Προεπιλεγμένα φυσικά αντικείμενα)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Το όνομα τις εφαρμογής. Αυτό θα εμφανίζεται στους υπόλοιπους χρήστες μόλις γίνει η εξουσιοδότηση."
         redirect_uri_html: >
           Τα επιτρεπόμενα URLs στα οποία ανακατευθύνονται οι ταυτοποιημένοι χρήστες. <br/> Αν εγγράφεστε από την εφαρμογή υπολογιστή, χρησιμοποιείστε το ακόλουθο URL.
@@ -3320,6 +3760,10 @@ el:
         client_credential_user_id: "Προαιρετική ταυτότητα χρήστη για να υποδυθεί όταν οι πελάτες χρησιμοποιούν αυτή την εφαρμογή. Αφήστε κενό για να επιτρέψετε μόνο δημόσια πρόσβαση"
         register_intro: "Αν αναπτύσσετε μια εφαρμογή πελάτη OAuth API για το OpenProject, μπορείτε να την καταχωρήσετε χρησιμοποιώντας αυτή τη φόρμα για να μπορούν να τη χρησιμοποιήσουν όλοι οι χρήστες."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Ταυτότητα Πελάτη"
     client_secret_notice: >
       Αυτή είναι η μόνη φορά που μπορούμε να τυπώσουμε το μυστικό πελάτη, παρακαλούμε σημειώστε το και κρατήστε το ασφαλές. Θα πρέπει να το χειρίζεστε ως κωδικό πρόσβασης και δεν μπορεί να ανακτηθεί από το OpenProject αργότερα.
@@ -3363,7 +3807,7 @@ el:
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "OAuth2 provider reported"
       oauth_returned_error: "OAuth2 returned an error"
       oauth_returned_json_error: "OAuth2 returned a JSON error"
@@ -3403,7 +3847,7 @@ el:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

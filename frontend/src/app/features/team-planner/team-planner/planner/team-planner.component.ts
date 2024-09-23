@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -528,6 +528,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             ],
             resources: skeletonResources,
             resourceAreaWidth: this.isMobile ? '60px' : '180px',
+            resourceOrder: 'title',
             select: this.handleDateClicked.bind(this) as unknown,
             // DnD configuration
             editable: true,

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,7 @@ Rails.application.routes.draw do
   get "/api/docs" => "api_docs#index"
 
   # Redirect deprecated issue links to new work packages uris
-  get "/issues(/)"    => redirect("#{rails_relative_url_root}/work_packages")
+  get "/issues(/)" => redirect("#{rails_relative_url_root}/work_packages")
   # The URI.escape doesn't escape / unless you ask it to.
   # see https://github.com/rails/rails/issues/5688
   get "/issues/*rest" => redirect { |params, _req|
@@ -56,16 +56,16 @@ Rails.application.routes.draw do
   match "/assets/compiler.js.map", to: proc { [404, {}, [""]] }, via: :all
 
   # Redirect wp short url for work packages to full URL
-  get "/wp(/)"    => redirect("#{rails_relative_url_root}/work_packages")
+  get "/wp(/)" => redirect("#{rails_relative_url_root}/work_packages")
   get "/wp/*rest" => redirect { |params, _req|
     "#{rails_relative_url_root}/work_packages/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
   }
 
   # Add catch method for Rack OmniAuth to allow route helpers
   # Note: This renders a 404 in rails but is caught by omniauth in Rack before
-  get "/auth/failure", to: "account#omniauth_failure"
-  get "/auth/:provider", to: proc { [404, {}, [""]] }, as: "omniauth_start"
-  match "/auth/:provider/callback", to: "account#omniauth_login", as: "omniauth_login", via: %i[get post]
+  get "/auth/failure", to: "omni_auth_login#failure", as: "omni_auth_failure"
+  get "/auth/:provider", to: proc { [404, {}, [""]] }, as: "omni_auth_start"
+  match "/auth/:provider/callback", to: "omni_auth_login#callback", as: "omni_auth_callback", via: %i[get post]
 
   # In case assets are actually delivered by a node server (e.g. in test env)
   # forward requests to the proxy
@@ -74,6 +74,23 @@ Rails.application.routes.draw do
           to: redirect("#{FrontendAssetHelper.cli_proxy}/assets/frontend/%{appendix}", status: 307),
           format: false,
           via: :all
+  end
+
+  # Shared route concerns
+  # TODO: Add description how to configure controller to support shares
+  concern :shareable do
+    resources :members, path: "shares", controller: "shares", only: %i[index create update destroy] do
+      member do
+        post "resend_invite" => "shares#resend_invite"
+      end
+
+      collection do
+        get :dialog, to: "shares#dialog"
+        patch :bulk, to: "shares#bulk_update"
+        put :bulk, to: "shares#bulk_update"
+        delete :bulk, to: "shares#bulk_destroy"
+      end
+    end
   end
 
   scope controller: "account" do
@@ -112,8 +129,8 @@ Rails.application.routes.draw do
 
   get "/roles/workflow/:id/:role_id/:type_id" => "roles#workflow"
 
-  get   "/types/:id/edit/:tab" => "types#edit",
-        as: "edit_type_tab"
+  get "/types/:id/edit/:tab" => "types#edit",
+      as: "edit_type_tab"
   match "/types/:id/update/:tab" => "types#update",
         as: "update_type_tab",
         via: %i[post patch]
@@ -121,11 +138,7 @@ Rails.application.routes.draw do
     post "move/:id", action: "move", on: :collection
   end
 
-  resources :statuses, except: :show do
-    collection do
-      post "update_work_package_done_ratio"
-    end
-  end
+  resources :statuses, except: :show
 
   get "custom_style/:digest/logo/:filename" => "custom_styles#logo_download",
       as: "custom_style_logo",
@@ -156,6 +169,17 @@ Rails.application.routes.draw do
 
       post :reorder_alphabetical
     end
+
+    scope module: :admin do
+      scope module: :custom_fields do
+        resources :projects,
+                  controller: "/admin/custom_fields/custom_field_projects",
+                  only: %i[index new create]
+        resource :project,
+                 controller: "/admin/custom_fields/custom_field_projects",
+                 only: :destroy
+      end
+    end
   end
 
   get "(projects/:project_id)/search" => "search#index", as: "search"
@@ -171,17 +195,34 @@ Rails.application.routes.draw do
     resource :wiki_menu_item, only: %i[edit update]
   end
 
-  # generic route for adding/removing watchers.
-  # Models declared as acts_as_watchable will be automatically added to
-  # OpenProject::Acts::Watchable::Routes.watched
-  scope ":object_type/:object_id", constraints: OpenProject::Acts::Watchable::Routes do
+  # generic route for adding/removing watchers
+  scope ":object_type/:object_id", constraints: OpenProject::Acts::Watchable::RouteConstraint do
     post "/watch" => "watchers#watch"
     delete "/unwatch" => "watchers#unwatch"
   end
 
+  # generic route for adding/removing favorites
+  scope ":object_type/:object_id", constraints: OpenProject::Acts::Favorable::RouteConstraint do
+    post "/favorite" => "favorites#favorite"
+    delete "/favorite" => "favorites#unfavorite"
+  end
+
+  resources :project_queries, only: %i[show new create update destroy], controller: "projects/queries" do
+    concerns :shareable
+
+    member do
+      get :rename
+      post :toggle_public
+      get :destroy_confirmation_modal
+    end
+
+    collection do
+      get :configure_view_modal
+    end
+  end
+
   namespace :projects do
     resource :menu, only: %i[show]
-    resources :queries, only: %i[new create destroy]
   end
 
   resources :projects, except: %i[show edit create update] do
@@ -220,6 +261,11 @@ Rails.application.routes.draw do
 
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, as: "confirm_destroy"
+      post :deactivate_work_package_attachments
+    end
+
+    collection do
+      get :export_list_modal
     end
 
     resources :versions, only: %i[new create] do
@@ -275,6 +321,8 @@ Rails.application.routes.draw do
       collection do
         get "/report/:detail" => "work_packages/reports#report_details"
         get "/report" => "work_packages/reports#report"
+        get "menu" => "work_packages/menus#show"
+        get "/export_dialog" => "work_packages#export_dialog"
       end
 
       # states managed by client-side routing on work_package#index
@@ -302,8 +350,10 @@ Rails.application.routes.draw do
 
     resources :categories, except: %i[index show], shallow: true
 
-    resources :members, only: %i[index create update destroy], shallow: true do
+    resources :members, only: %i[index create update], shallow: true do
       collection do
+        delete "by_principal/:principal_id", action: :destroy_by_principal
+
         get :autocomplete_for_member
       end
     end
@@ -387,9 +437,7 @@ Rails.application.routes.draw do
 
     resource :custom_style, only: %i[update show create], path: "design"
 
-    resources :attribute_help_texts, only: %i(index new create edit update destroy) do
-      get :upsale, to: "attribute_help_texts#upsale", on: :collection, as: :upsale
-    end
+    resources :attribute_help_texts, only: %i(index new create edit update destroy)
 
     resources :groups, except: %i[show] do
       member do
@@ -420,16 +468,20 @@ Rails.application.routes.draw do
     resources :custom_actions, except: :show
 
     namespace :oauth do
-      resources :applications
+      resources :applications do
+        member do
+          post :toggle
+        end
+      end
     end
   end
 
   namespace :admin do
     namespace :settings do
-      SettingsHelper.system_settings_tabs.each do |tab|
-        get tab[:name], controller: tab[:controller], action: :show, as: tab[:name].to_s
-        patch tab[:name], controller: tab[:controller], action: :update, as: "update_#{tab[:name]}"
-      end
+      resource :general, controller: "/admin/settings/general_settings", only: %i[show update]
+      resource :languages, controller: "/admin/settings/languages_settings", only: %i[show update]
+      resource :repositories, controller: "/admin/settings/repositories_settings", only: %i[show update]
+      resource :experimental, controller: "/admin/settings/experimental_settings", only: %i[show update]
 
       resource :authentication, controller: "/admin/settings/authentication_settings", only: %i[show update]
       resource :attachments, controller: "/admin/settings/attachments_settings", only: %i[show update]
@@ -443,14 +495,23 @@ Rails.application.routes.draw do
       resource :aggregation, controller: "/admin/settings/aggregation_settings", only: %i[show update]
       resource :mail_notifications, controller: "/admin/settings/mail_notifications_settings", only: %i[show update]
       resource :api, controller: "/admin/settings/api_settings", only: %i[show update]
-      resource :work_packages, controller: "/admin/settings/work_packages_settings", only: %i[show update]
+      # It is important to have this named something else than "work_packages".
+      # Otherwise the angular ui-router will also recognize that as a WorkPackage page and apply according classes.
+      resource :work_packages_general, controller: "/admin/settings/work_packages_general", only: %i[show update]
+      resource :progress_tracking, controller: "/admin/settings/progress_tracking", only: %i[show update]
       resource :projects, controller: "/admin/settings/projects_settings", only: %i[show update]
+      resource :new_project, controller: "/admin/settings/new_project_settings", only: %i[show update]
       resources :project_custom_fields, controller: "/admin/settings/project_custom_fields" do
         member do
           delete "options/:option_id", action: "delete_option", as: :delete_option_of
           post :reorder_alphabetical
           put :move
           put :drop
+
+          get :project_mappings
+          get :new_link
+          post :link
+          delete :unlink
         end
       end
       resources :project_custom_field_sections, controller: "/admin/settings/project_custom_field_sections",
@@ -460,7 +521,7 @@ Rails.application.routes.draw do
           put :drop
         end
       end
-      resource :working_days, controller: "/admin/settings/working_days_settings", only: %i[show update]
+      resource :working_days_and_hours, controller: "/admin/settings/working_days_and_hours_settings", only: %i[show update]
       resource :users, controller: "/admin/settings/users_settings", only: %i[show update]
       resource :date_format, controller: "/admin/settings/date_format_settings", only: %i[show update]
       resource :icalendar, controller: "/admin/settings/icalendar_settings", only: %i[show update]
@@ -495,16 +556,18 @@ Rails.application.routes.draw do
   end
 
   namespace :work_packages do
+    get "menu" => "menus#show"
+
     match "auto_complete" => "auto_completes#index", via: %i[get post]
     resource :bulk, controller: "bulk", only: %i[edit update destroy]
     # FIXME: this is kind of evil!! We need to remove this soonest and
     # cover the functionality. Route is being used in work-package-service.js:331
     get "/bulk" => "bulk#destroy"
-
-    resources :shares, only: %i[destroy update]
   end
 
   resources :work_packages, only: [:index] do
+    concerns :shareable
+
     # move bulk of wps
     get "move/new" => "work_packages/moves#new", on: :collection, as: "new_move"
     post "move" => "work_packages/moves#create", on: :collection, as: "move"
@@ -514,22 +577,24 @@ Rails.application.routes.draw do
     # states managed by client-side routing on work_package#index
     get "details/*state" => "work_packages#index", on: :collection, as: :details
 
-    # Rails managed sharing route
-    resources :shares, controller: "work_packages/shares", only: %i[index create] do
-      member do
-        post "resend_invite" => "work_packages/shares#resend_invite"
-      end
-      collection do
-        resource :bulk, controller: "work_packages/shares/bulk", only: %i[update destroy], as: :shares_bulk
-      end
+    resource :progress, only: %i[new edit update], controller: "work_packages/progress"
+    collection do
+      resource :progress,
+               only: :create,
+               controller: "work_packages/progress",
+               as: :work_package_progress
     end
+    get "/export_dialog" => "work_packages#export_dialog", on: :collection, as: "export_dialog"
+
+    get "/split_view/update_counter" => "work_packages/split_view#update_counter",
+        on: :member
 
     # states managed by client-side (angular) routing on work_package#show
     get "/" => "work_packages#index", on: :collection, as: "index"
     get "/create_new" => "work_packages#index", on: :collection, as: "new_split"
     get "/new" => "work_packages#index", on: :collection, as: "new", state: "new"
     # We do not want to match the work package export routes
-    get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/ }
+    get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!(shares|split_view)).+/ }
     get "/share_upsale" => "work_packages#index", on: :collection, as: "share_upsale"
     get "/edit" => "work_packages#show", on: :member, as: "edit"
   end
@@ -662,8 +727,31 @@ Rails.application.routes.draw do
 
   root to: "account#login"
 
+  concern :with_split_view do |options|
+    get "details/:work_package_id(/:tab)",
+        action: options.fetch(:action, :split_view),
+        defaults: { tab: :overview },
+        as: :details,
+        work_package_split_view: true
+  end
+
+  resources :notifications, only: :index do
+    collection do
+      concerns :with_split_view, base_route: :notifications_path
+
+      post :mark_all_read
+      resource :menu, module: :notifications, only: %i[show], as: :notifications_menu
+    end
+  end
+
+  namespace :notifications do
+    resource :menu, only: %i[show]
+  end
+
   scope :notifications do
-    get "(/*state)", to: "angular#notifications_layout", as: :notifications_center
+    get "/share_upsale" => "notifications#share_upsale", as: "notifications_share_upsale"
+    get "/date_alerts" => "notifications#date_alerts", as: "notifications_date_alert_upsale"
+    get "/", to: "notifications#index", as: :notifications_center
   end
 
   # OAuthClient needs a "callback" URL that Nextcloud calls with a "code" (see OAuth2 RFC)

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 export const colorModes = {
   lightHighContrast: 'lightHighContrast',
   light: 'light',
+  dark: 'dark',
 };
 
 @Injectable({ providedIn: 'root' })
@@ -25,6 +26,14 @@ export class ColorsService {
   }
 
   public colorMode():string {
-    return document.body.getAttribute('data-light-theme') === 'light_high_contrast' ? colorModes.lightHighContrast : colorModes.light;
+    if (document.body.getAttribute('data-color-mode') === 'dark') {
+      return colorModes.dark;
+    }
+
+    if (document.body.getAttribute('data-light-theme') === 'light_high_contrast') {
+      return colorModes.lightHighContrast;
+    }
+
+    return colorModes.light;
   }
 }

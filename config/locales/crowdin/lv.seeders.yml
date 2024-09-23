@@ -41,6 +41,11 @@ lv:
           name: Specification
         item_2:
           name: Other
+      project_query_roles:
+        item_0:
+          name: Project query viewer
+        item_1:
+          name: Project query editor
       work_package_roles:
         item_0:
           name: Work package editor
@@ -72,81 +77,6 @@ lv:
           name: High
         item_3:
           name: Immediate
-      statuses:
-        item_0:
-          name: New
-        item_1:
-          name: In specification
-        item_2:
-          name: Specified
-        item_3:
-          name: Confirmed
-        item_4:
-          name: To be scheduled
-        item_5:
-          name: Scheduled
-        item_6:
-          name: In progress
-        item_7:
-          name: Developed
-        item_8:
-          name: In testing
-        item_9:
-          name: Tested
-        item_10:
-          name: Test failed
-        item_11:
-          name: Closed
-        item_12:
-          name: On hold
-        item_13:
-          name: Rejected
-      time_entry_activities:
-        item_0:
-          name: Management
-        item_1:
-          name: Specification
-        item_2:
-          name: Development
-        item_3:
-          name: Testing
-        item_4:
-          name: Support
-        item_5:
-          name: Other
-      types:
-        item_0:
-          name: Task
-        item_1:
-          name: Atskaites punkts
-        item_2:
-          name: Phase
-        item_3:
-          name: Feature
-        item_4:
-          name: Epic
-        item_5:
-          name: User story
-        item_6:
-          name: Bug
-      welcome:
-        title: Welcome to OpenProject!
-        text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
-
-          Core features and use cases:
-
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-          Welcome to the future of project management.
-
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Demo project
@@ -169,7 +99,7 @@ lv:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Komandas plānotājs
           boards:
             kanban:
               name: Kanban board
@@ -251,6 +181,21 @@ lv:
                     *   [ ] Even more beer
             item_4:
               subject: End of project
+          wiki: |
+            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+
+            **You can:**
+
+            * Insert text and images, also with copy and paste from other documents
+            * Create a page hierarchy with parent pages
+            * Include wiki pages to the project menu
+            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
+            * Include wiki pages in other text fields, e.g. project overview page
+            * Include links to other documents
+            * View the change history
+            * View as Markdown
+
+            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Scrum project
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
@@ -324,7 +269,7 @@ lv:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Produkta darbu krātuve
             item_2:
               name: Sprint 1
             item_3:
@@ -469,3 +414,78 @@ lv:
             * Time boxed (3 h).
             * After Sprint Review, will be moderated by Scrum Master.
             * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+      statuses:
+        item_0:
+          name: New
+        item_1:
+          name: In specification
+        item_2:
+          name: Specified
+        item_3:
+          name: Confirmed
+        item_4:
+          name: To be scheduled
+        item_5:
+          name: Scheduled
+        item_6:
+          name: In progress
+        item_7:
+          name: Developed
+        item_8:
+          name: In testing
+        item_9:
+          name: Tested
+        item_10:
+          name: Test failed
+        item_11:
+          name: Closed
+        item_12:
+          name: On hold
+        item_13:
+          name: Rejected
+      time_entry_activities:
+        item_0:
+          name: Management
+        item_1:
+          name: Specification
+        item_2:
+          name: Development
+        item_3:
+          name: Testing
+        item_4:
+          name: Support
+        item_5:
+          name: Other
+      types:
+        item_0:
+          name: Uzdevums
+        item_1:
+          name: Atskaites punkts
+        item_2:
+          name: Phase
+        item_3:
+          name: Feature
+        item_4:
+          name: Epic
+        item_5:
+          name: User story
+        item_6:
+          name: Bug
+      welcome:
+        title: Welcome to OpenProject!
+        text: |
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+
+          Core features and use cases:
+
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+
+          Welcome to the future of project management.
+
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).

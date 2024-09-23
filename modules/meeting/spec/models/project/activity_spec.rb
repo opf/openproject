@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +60,7 @@ RSpec.describe Projects::Activity, "meeting" do
       meeting2.update(updated_at: initial_time - 20.seconds)
 
       # there is a loss of precision for timestamps stored in database
-      expect(latest_activity).to be_within(0.00001).of(meeting.updated_at)
+      expect(latest_activity).to equal_time_without_usec(meeting.updated_at)
     end
 
     it "takes the time stamp of the latest activity across models" do
@@ -71,7 +71,7 @@ RSpec.describe Projects::Activity, "meeting" do
       # work_package
       # meeting
 
-      expect(latest_activity).to be_within(0.00001).of(work_package.updated_at)
+      expect(latest_activity).to equal_time_without_usec(work_package.updated_at)
 
       work_package.update(updated_at: meeting.updated_at - 10.seconds)
 
@@ -79,7 +79,7 @@ RSpec.describe Projects::Activity, "meeting" do
       # meeting
       # work_package
 
-      expect(latest_activity).to be_within(0.00001).of(meeting.updated_at)
+      expect(latest_activity).to equal_time_without_usec(meeting.updated_at)
     end
   end
 end

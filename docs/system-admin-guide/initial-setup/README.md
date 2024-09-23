@@ -11,8 +11,6 @@ keywords: initial setup, initial configuration in frontend
 This section will guide you through some basic recommendations for setting up your OpenProject instance as a system administrator and for preparing it for its users.
 For the backend setup and initial technical configurations for on-premise editions please have a look at the [respective section](../../installation-and-operations/installation/packaged/#initial-configuration) in the installation guide.
 
-
-
 Before adding users we recommend to check and configure the following topics:
 
 | Topic                                                            | What to set up                                                    |

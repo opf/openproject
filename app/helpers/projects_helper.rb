@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,15 +29,17 @@
 module ProjectsHelper
   include WorkPackagesFilterHelper
 
+  PROJECTS_QUERY_PARAM_NAMES = %i[query_id filters columns sortBy per_page page].freeze
+
   # Just like sort_header tag but removes sorting by
   # lft from the sort criteria as lft is mutually exclusive with
   # the other criteria.
-  def projects_sort_header_tag(*)
+  def projects_sort_header_tag(column, **)
     former_criteria = @sort_criteria.criteria.dup
 
     @sort_criteria.criteria.reject! { |a, _| a == "lft" }
 
-    sort_header_tag(*)
+    sort_header_tag(column, **, allowed_params: projects_query_param_names_for_sort)
   ensure
     @sort_criteria.criteria = former_criteria
   end
@@ -51,7 +53,7 @@ module ProjectsHelper
   end
 
   def projects_columns_options
-    @projects_columns_options ||= ::Queries::Projects::ProjectQuery
+    @projects_columns_options ||= ::ProjectQuery
                                     .new
                                     .available_selects
                                     .reject { |c| c.attribute == :hierarchy }
@@ -69,5 +71,11 @@ module ProjectsHelper
   def protected_projects_columns_options
     projects_columns_options
       .select { |c| c[:id] == :name }
+  end
+
+  def projects_query_param_names_for_sort = PROJECTS_QUERY_PARAM_NAMES - %i[sortBy page]
+
+  def projects_query_params
+    safe_query_params(PROJECTS_QUERY_PARAM_NAMES)
   end
 end

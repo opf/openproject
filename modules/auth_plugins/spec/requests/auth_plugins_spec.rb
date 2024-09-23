@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,17 +50,21 @@ RSpec.describe OpenProject::Plugins::AuthPlugin, with_ee: %i[board_view] do
     app = Object.new
     omniauth_builder = Object.new
 
-    allow(omniauth_builder).to receive(:provider) { |strategy|
-      middlewares << strategy
-    }
+    without_partial_double_verification do
+      allow(omniauth_builder).to receive(:provider) { |strategy|
+        middlewares << strategy
+      }
 
-    allow(app).to receive_message_chain(:config, :middleware, :use) { |_mw, &block| # rubocop:disable RSpec/MessageChain
-      omniauth_builder.instance_eval(&block)
-    }
+      allow(app).to receive_message_chain(:config, :middleware, :use) { |_mw, &block| # rubocop:disable RSpec/MessageChain
+        omniauth_builder.instance_eval(&block)
+      }
+    end
 
     allow(described_class).to receive(:strategies).and_return(strategies)
-    allow(dummy_engine_klass).to receive(:engine_name).and_return("foobar")
-    allow(dummy_engine_klass).to receive(:initializer) { |_, &block| app.instance_eval(&block) }
+    without_partial_double_verification do
+      allow(dummy_engine_klass).to receive(:engine_name).and_return("foobar")
+      allow(dummy_engine_klass).to receive(:initializer) { |_, &block| app.instance_eval(&block) }
+    end
   end
 
   describe "ProviderBuilder" do

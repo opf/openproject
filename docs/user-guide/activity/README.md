@@ -26,7 +26,7 @@ Within a project, navigate to the **Project settings > Modules** page. Make sure
 
 ### View project activity
 
-Click on the **Activity** option that is now visible in the sidebar of a project. This will show you recent activity in the project, with the most recent changes at the top. 
+Click on the **Activity** option that is now visible in the sidebar of a project. This will show you recent activity in the project, with the most recent changes at the top.
 
 For each update concerning a work package, you will see:
 
@@ -58,7 +58,7 @@ To filter the project activity list, use the filters on the sidebar. You may fil
 - Work packages
 - Project attributes
 
-Additionally, you can choose to include or exclude updates concerning sub-projects. 
+Additionally, you can choose to include or exclude updates concerning sub-projects.
 
 ![Project activity filters](project-activity-filter-list.png)
 
@@ -75,14 +75,8 @@ When you open a work package, e.g. by clicking on the ID of the work package in 
 
 ![work package activity](work-package-activity.png)
 
-
-There, all changes and activities concerning the work package are documented, e.g. if a user changes the status of the work package, this activity is recorded with the information who, when and what in the Activity area and is visible for other users who have the corresponding authorization. 
+There, all changes and activities concerning the work package are documented, e.g. if a user changes the status of the work package, this activity is recorded with the information who, when and what in the Activity area and is visible for other users who have the corresponding authorization.
 
 You can also use the Activity area as a chat portal and share messages with other team members there.![Work package activity flag someone](Work-package-activity-flag-someone.png)
 
-
-
 If you want to notify a specific user about something in the Activity section, you can also flag them with an "@" symbol in front of their username so that they receive a notification within OpenProject.
-
-
-

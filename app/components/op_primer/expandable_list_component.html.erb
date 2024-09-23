@@ -1,0 +1,39 @@
+<%=
+  component_wrapper(data: wrapper_data_attributes) do
+    if elements.count == 0
+      render(Primer::Beta::Text.new(color: :subtle)) { t("label_meeting_no_participants") }
+    elsif @cutoff_limit.nil? || elements.count <= @cutoff_limit
+      flex_layout do |list|
+        elements.each do |item|
+          list.with_row(mt: 1) { item.to_s }
+        end
+      end
+    elsif elements.count > @cutoff_limit
+      flex_layout do |list|
+        elements.take(@cutoff_limit).each do |item|
+          list.with_row(mt: 1) { item.to_s }
+        end
+        list.with_row(display: :none, data: { "expandable-list-target": "hiddenElements" }) do
+          flex_layout do |hidden_user_list|
+            elements[@cutoff_limit..].each do |item|
+              hidden_user_list.with_row(mt: 1) { item.to_s }
+            end
+            hidden_user_list.with_row(mt: 2) do
+              render(Primer::Beta::Button.new(
+                       scheme: :link,
+                       data: { action: "expandable-list#hideElements" }
+                     )) { I18n.t("label_show_less") }
+            end
+          end
+        end
+        list.with_row(mt: 2) do
+          render(Primer::Beta::Button.new(
+                   scheme: :link,
+                   data: { "expandable-list-target": "showButton",
+                           action: "expandable-list#showElements" }
+                 )) { I18n.t("label_show_more") }
+        end
+      end
+    end
+  end
+%>

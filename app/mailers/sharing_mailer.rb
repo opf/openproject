@@ -15,7 +15,7 @@ class SharingMailer < ApplicationMailer
     @role_rights = derive_role_rights(role)
     @allowed_work_package_actions = derive_allowed_work_package_actions(role)
     @url = optionally_activated_url(work_package_url(@work_package.id), @invitation_token)
-    @notification_url = optionally_activated_url(notifications_path(@work_package.id), @invitation_token)
+    @notification_url = optionally_activated_url(details_notifications_url(@work_package.id, tab: :activity), @invitation_token)
 
     set_open_project_headers(@work_package)
     message_id(membership, sharer)
@@ -39,11 +39,11 @@ class SharingMailer < ApplicationMailer
   def derive_role_rights(role)
     case role.builtin
     when Role::BUILTIN_WORK_PACKAGE_EDITOR
-      I18n.t("work_package.sharing.permissions.edit")
+      I18n.t("work_package.permissions.edit")
     when Role::BUILTIN_WORK_PACKAGE_COMMENTER
-      I18n.t("work_package.sharing.permissions.comment")
+      I18n.t("work_package.permissions.comment")
     when Role::BUILTIN_WORK_PACKAGE_VIEWER
-      I18n.t("work_package.sharing.permissions.view")
+      I18n.t("work_package.permissions.view")
     end
   end
 
@@ -51,14 +51,14 @@ class SharingMailer < ApplicationMailer
     allowed_actions =
       case role.builtin
       when Role::BUILTIN_WORK_PACKAGE_EDITOR
-        [I18n.t("work_package.sharing.permissions.view"),
-         I18n.t("work_package.sharing.permissions.comment"),
-         I18n.t("work_package.sharing.permissions.edit")]
+        [I18n.t("work_package.permissions.view"),
+         I18n.t("work_package.permissions.comment"),
+         I18n.t("work_package.permissions.edit")]
       when Role::BUILTIN_WORK_PACKAGE_COMMENTER
-        [I18n.t("work_package.sharing.permissions.view"),
-         I18n.t("work_package.sharing.permissions.comment")]
+        [I18n.t("work_package.permissions.view"),
+         I18n.t("work_package.permissions.comment")]
       when Role::BUILTIN_WORK_PACKAGE_VIEWER
-        [I18n.t("work_package.sharing.permissions.view")]
+        [I18n.t("work_package.permissions.view")]
       end
 
     allowed_actions.map(&:downcase)

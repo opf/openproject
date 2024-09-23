@@ -5,7 +5,7 @@
     <label class="op-form-field--label-wrap">
       <div class="op-form-field--label">{{ snippet.name }}</div>
       <div class="op-form-field--input">
-        <input type="text" class="copy-content op-input" readonly="true" [value]="snippet.textToCopy()">
+        <input type="text" class="copy-content op-input" readonly="true" [value]="snippet.textToDisplay()">
         <button class="button copy-button"
             type="button"
             [attr.aria-label]="text.copyButtonHelpText"
@@ -18,5 +18,3 @@
   </div>
 
 </div>
-
-

@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,7 @@
 
 import { NgModule } from '@angular/core';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
-import { UIRouterModule } from '@uirouter/angular';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
-import { PROJECTS_ROUTES, uiRouterProjectsConfiguration } from 'core-app/features/projects/projects-routes';
 import { DynamicFormsModule } from 'core-app/shared/components/dynamic-forms/dynamic-forms.module';
 import { NewProjectComponent } from 'core-app/features/projects/components/new-project/new-project.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -48,10 +46,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgSelectModule,
     OpenprojectHalModule,
     OpenprojectFieldsModule,
-    UIRouterModule.forChild({
-      states: PROJECTS_ROUTES,
-      config: uiRouterProjectsConfiguration,
-    }),
     DynamicFormsModule,
   ],
   declarations: [

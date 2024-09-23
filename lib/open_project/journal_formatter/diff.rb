@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -74,7 +74,8 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
     if options[:html]
       link_to(I18n.t(:label_details),
               url_attr,
-              class: "description-details")
+              target: "_top",
+              class: "diff-details")
     else
       url_for url_attr
     end

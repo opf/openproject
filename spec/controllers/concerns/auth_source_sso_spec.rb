@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,7 +51,7 @@ RSpec.describe MyController, :skip_2fa_stage do
   shared_examples "should log in the user" do
     it "logs in given user" do
       expect(response).to redirect_to my_account_path
-      expect(user.reload.last_login_on).to be_within(10.seconds).of(Time.current)
+      expect(user.reload.last_login_on).to equal_time_without_usec(Time.current)
       expect(session[:user_id]).to eq user.id
     end
   end
@@ -194,7 +194,7 @@ RSpec.describe MyController, :skip_2fa_stage do
       expect(session[:updated_at]).to be > session_update_time
 
       # User not is not relogged
-      expect(user.reload.last_login_on).to be_within(1.second).of(last_login)
+      expect(user.reload.last_login_on).to equal_time_without_usec(last_login)
 
       # Session values are kept
       expect(session[:should_be_kept]).to be true
@@ -219,7 +219,7 @@ RSpec.describe MyController, :skip_2fa_stage do
 
       expect(service).to have_received(:call!).with(other_user)
       expect(response).to redirect_to my_account_path
-      expect(user.reload.last_login_on).to be_within(10.seconds).of(Time.current)
+      expect(user.reload.last_login_on).to equal_time_without_usec(Time.current)
       expect(session[:user_id]).to eq user.id
       expect(session[:updated_at]).to be > session_update_time
     end

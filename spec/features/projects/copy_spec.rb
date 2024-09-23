@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,8 @@
 
 require "spec_helper"
 
-RSpec.describe "Projects copy", :js, :with_cuprite do
+RSpec.describe "Projects copy", :js, :with_cuprite,
+               with_good_job_batches: [CopyProjectJob, Storages::CopyProjectFoldersJob, SendCopyProjectStatusEmailJob] do
   describe "with a full copy example" do
     let!(:project) do
       create(:project,
@@ -46,6 +47,10 @@ RSpec.describe "Projects copy", :js, :with_cuprite do
 
         # Enable wiki
         p.enabled_module_names += ["wiki"]
+
+        # Enable the project custom field mappings
+        p.project_custom_field_project_mappings
+         .create(custom_field_id: optional_project_custom_field_with_default.id)
       end
     end
 
@@ -92,9 +97,11 @@ RSpec.describe "Projects copy", :js, :with_cuprite do
          manage_types
          view_work_packages
          select_custom_fields
-         manage_storages_in_project
+         manage_files_in_project
          manage_file_links
-         work_package_assigned)
+         work_package_assigned
+         view_project_attributes
+         edit_project_attributes)
     end
     let(:wp_user) do
       user = create(:user)
@@ -137,7 +144,10 @@ RSpec.describe "Projects copy", :js, :with_cuprite do
     let(:parent_field) { FormFields::SelectFormField.new :parent }
 
     let(:storage) { create(:nextcloud_storage) }
-    let(:project_storage) { create(:project_storage, project:, storage:) }
+    let(:project_storage) do
+      create(:project_storage, project:, storage:)
+    end
+
     let(:file_link) { create(:file_link, container: work_package, storage:) }
 
     before do
@@ -187,7 +197,6 @@ RSpec.describe "Projects copy", :js, :with_cuprite do
       it "does not disable optional project custom fields if explicitly set to blank" do
         # Expand advanced settings
         click_on "Advanced settings"
-
         editor = Components::WysiwygEditor.new "[data-qa-field-name='customField#{optional_project_custom_field.id}']"
         editor.clear
 
@@ -284,7 +293,7 @@ RSpec.describe "Projects copy", :js, :with_cuprite do
     context "with correct handling of invisible values" do
       let!(:invisible_field) do
         create(:string_project_custom_field, name: "Text for Admins only",
-                                             visible: false,
+                                             admin_only: true,
                                              project_custom_field_section:,
                                              projects: [project])
       end
@@ -349,6 +358,53 @@ RSpec.describe "Projects copy", :js, :with_cuprite do
       end
     end
 
+    context "when the user has a view_project_attributes only" do
+      let(:permissions) do
+        %i(copy_projects
+           edit_project
+           add_subprojects
+           manage_types
+           view_work_packages
+           select_custom_fields
+           manage_files_in_project
+           manage_file_links
+           work_package_assigned
+           view_project_attributes)
+      end
+
+      it "copies the project attributes" do
+        original_settings_page = Pages::Projects::Settings.new(project)
+        original_settings_page.visit!
+
+        find(".toolbar a", text: "Copy").click
+
+        expect(page).to have_text "Copy project \"#{project.name}\""
+
+        fill_in "Name", with: "Copied project"
+        click_on "Save"
+
+        wait_for_copy_to_finish
+
+        copied_project = Project.find_by(name: "Copied project")
+        expect(copied_project).to be_present
+
+        overview_page = Pages::Projects::Show.new(copied_project)
+        overview_page.visit!
+
+        overview_page.within_async_loaded_sidebar do
+          # User has no permission to edit project attributes.
+          expect(page).to have_no_css("[data-test-selector='project-custom-field-section-edit-button']")
+          # The custom fields are still copied from the parent project.
+          expect(page).to have_content(project_custom_field.name)
+          expect(page).to have_content("some text cf")
+          expect(page).to have_content(optional_project_custom_field.name)
+          expect(page).to have_content("some optional text cf")
+          expect(page).to have_content(optional_project_custom_field_with_default.name)
+          expect(page).to have_content("foo")
+        end
+      end
+    end
+
     it "copies projects and the associated objects" do
       original_settings_page = Pages::Projects::Settings.new(project)
       original_settings_page.visit!
@@ -366,7 +422,7 @@ RSpec.describe "Projects copy", :js, :with_cuprite do
       editor = Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
       editor.expect_value "some text cf"
 
-      click_button "Save"
+      click_on "Save"
 
       wait_for_copy_to_finish
 
@@ -491,10 +547,11 @@ RSpec.describe "Projects copy", :js, :with_cuprite do
 
       fill_in "Name", with: "Copied project"
 
-      click_button "Save"
+      click_on "Save"
 
       expect(page).to have_text "The job has been queued and will be processed shortly."
 
+      GoodJob.perform_inline
       perform_enqueued_jobs
 
       expect(copied_project)
@@ -510,6 +567,7 @@ RSpec.describe "Projects copy", :js, :with_cuprite do
     expect(page).to have_text "The job has been queued and will be processed shortly."
 
     # ensure all jobs are run especially emails which might be sent later on
+    GoodJob.perform_inline
     while perform_enqueued_jobs > 0
     end
   end

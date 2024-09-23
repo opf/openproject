@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 4.0.4
-  sidebar_navigation:
-      title: 4.0.4
-  release_version: 4.0.4
-  release_date: 2014-12-11
+title: OpenProject 4.0.4
+sidebar_navigation:
+  title: 4.0.4
+release_version: 4.0.4
+release_date: 2014-12-11
 ---
 
 # OpenProject 4.0.4
@@ -21,6 +21,5 @@ OpenProject 4.0.4.
 
 ## List of changes
 
-For a complete list of changes, please refer to the 
+For a complete list of changes, please refer to the
 [Changelog v.4.0.4](https://community.openproject.org/versions/559).
-

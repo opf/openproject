@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -196,7 +196,7 @@ RSpec.describe Meeting do
 
   describe "acts_as_watchable" do
     it "is watchable" do
-      expect(described_class).to include(Redmine::Acts::Watchable::InstanceMethods)
+      expect(described_class).to include(OpenProject::Acts::Watchable::InstanceMethods)
     end
 
     it "uses the :view_meetings permission" do

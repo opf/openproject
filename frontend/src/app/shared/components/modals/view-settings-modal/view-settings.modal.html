@@ -1,0 +1,58 @@
+<form
+  class="spot-modal loading-indicator--location"
+  data-indicator-name="modal"
+  name="modalSaveForm"
+  (submit)="saveQueryAs($event)"
+>
+  <h1 id="spotModalTitle" class="spot-modal--header">{{text.save_as}}</h1>
+
+  <div class="spot-divider"></div>
+
+  <div
+    name="modalSaveForm"
+    class="spot-modal--body spot-container"
+  >
+    <div class="form--field -required">
+      <label class="form--label -bold" for="save-query-name" [textContent]="text.label_name"></label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input
+            class="form--text-field"
+            type="text"
+            name="save-query-name"
+            id="save-query-name"
+            #queryNameField
+            [(ngModel)]="queryName"
+            required
+          />
+        </div>
+      </div>
+    </div>
+    <div class="spot-divider"></div>
+
+    <h2 class="spot-subheader-extra-small">{{ text.label_visibility_settings }}</h2>
+
+      <query-sharing-form
+        [isSave]="true"
+        (onChange)="setValues($event)"
+        [isStarred]="isStarred"
+        [isPublic]="isPublic">
+      </query-sharing-form>
+  </div>
+
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        type="button"
+        class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
+        [textContent]="text.button_cancel"
+        (click)="closeMe($event)"
+      ></button>
+      <button
+        class="button button_no-margin -primary -with-icon icon-save spot-action-bar--action"
+        [textContent]="text.button_save"
+        [disabled]="isBusy || !queryName"
+      ></button>
+    </div>
+  </div>
+</form>

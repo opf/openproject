@@ -138,7 +138,7 @@ A form:
 * contains a *schema* describing the properties of the work package as well as listing the available values for those referencing other resources. E.g. the projects in which work packages can be created (read in which the user has the permission to create work packages) are listed.
 * notes the current *errors* in the payload. E.g. a work package cannot be created outside of a project so a project reference needs to be provided.
 
-The API documentation offers detailed information [on forms in general](../forms) and on the [work package create form](../endpoints/work-packages/#work-package-create-form-for-project) in particular.
+The API documentation offers detailed information [on forms in general](../forms) and on the [work package create form](../endpoints/work-packages/#form-for-creating-work-packages-in-a-project) in particular.
 
 We will first fetch the empty form:
 
@@ -187,7 +187,6 @@ All referencing properties (`project` and `type` in our case) are noted in the `
 The value taken for the `href` in a resource value will always be the `self` link of a resource:
 
 ![work package create schema self link](./wp-create-form-schema-self-link.png)
-
 
 *The correct combination of `project` and `type` needs to be chosen. Sometimes a type is not available in every project. In that case, the type either can be added to the project in the UI or a different type needs to be chosen for the project. This is why it sometimes makes sense to first send the project within the form body as this will update the `availableValues` listed for `type`*
 

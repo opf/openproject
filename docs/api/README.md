@@ -20,7 +20,7 @@ We try to keep stable releases of OpenProject with changes to this API backwards
 
 The API v3 is a general purpose API supporting multiple use cases.
 
-While by no means complete, a whole lot of different scenarios can be automatized which otherwise would have to be carried out by hand via the UI. 
+While by no means complete, a whole lot of different scenarios can be automatized which otherwise would have to be carried out by hand via the UI.
 Examples for this include managing work packages, projects and users.
 
 ➔ [Go to OpenProject API](./introduction/)

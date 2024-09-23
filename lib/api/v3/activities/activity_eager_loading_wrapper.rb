@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -86,7 +86,7 @@ module API
           end
 
           def includes_for(journable_type)
-            journable_type == "Project" ? [] : [:project]
+            journable_type == "Project" ? [:project_custom_field_project_mappings] : [:project]
           end
 
           def data_by_type_and_id(journals)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,10 +40,11 @@ class WorkPackage < ApplicationRecord
   include WorkPackages::Costs
   include WorkPackages::Relations
   include ::Scopes::Scoped
+  include HasMembers
 
   include OpenProject::Journal::AttachmentHelper
 
-  DONE_RATIO_OPTIONS = %w(field status disabled).freeze
+  DONE_RATIO_OPTIONS = %w[field status].freeze
 
   belongs_to :project
   belongs_to :type
@@ -67,9 +68,6 @@ class WorkPackage < ApplicationRecord
 
   has_and_belongs_to_many :github_pull_requests # rubocop:disable Rails/HasAndBelongsToMany
 
-  has_many :members, as: :entity, dependent: :destroy
-  has_many :member_principals, through: :members, class_name: "Principal", source: :principal
-
   has_many :meeting_agenda_items, dependent: :nullify
   # The MeetingAgendaItem has a default order, but the ordered field is not part of the select
   # that retrieves the meetings, hence we need to remove the order.
@@ -82,8 +80,8 @@ class WorkPackage < ApplicationRecord
   scope :visible, ->(user = User.current) { allowed_to(user, :view_work_packages) }
 
   scope :in_status, ->(*args) do
-                      where(status_id: (args.first.respond_to?(:id) ? args.first.id : args.first))
-                    end
+    where(status_id: (args.first.respond_to?(:id) ? args.first.id : args.first))
+  end
 
   scope :for_projects, ->(projects) {
     where(project_id: projects)
@@ -206,16 +204,16 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::Journalized
   prepend Journable::Timestamps
 
-  def self.done_ratio_disabled?
-    Setting.work_package_done_ratio == "disabled"
-  end
-
-  def self.use_status_for_done_ratio?
+  def self.status_based_mode?
     Setting.work_package_done_ratio == "status"
   end
 
-  def self.use_field_for_done_ratio?
+  def self.work_based_mode?
     Setting.work_package_done_ratio == "field"
+  end
+
+  def self.complete_on_status_closed?
+    Setting.percent_complete_on_status_closed == "set_100p"
   end
 
   # Returns true if usr or current user is allowed to view the work_package
@@ -295,19 +293,47 @@ class WorkPackage < ApplicationRecord
   def milestone?
     type&.is_milestone?
   end
+
   alias_method :is_milestone?, :milestone?
 
+  def included_in_totals_calculation?
+    !status.excluded_from_totals
+  end
+
   def done_ratio
-    if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
+    if WorkPackage.status_based_mode? && status && status.default_done_ratio
       status.default_done_ratio
     else
       read_attribute(:done_ratio)
     end
   end
 
+  def hide_attachments?
+    if project&.deactivate_work_package_attachments.nil?
+      !Setting.show_work_package_attachments
+    else
+      project&.deactivate_work_package_attachments?
+    end
+  end
+
   def estimated_hours=(hours)
-    converted_hours = (hours.is_a?(String) ? hours.to_hours : hours)
-    write_attribute :estimated_hours, !!converted_hours ? converted_hours : hours
+    write_attribute :estimated_hours, convert_duration_to_hours(hours)
+  end
+
+  def remaining_hours=(hours)
+    write_attribute :remaining_hours, convert_duration_to_hours(hours)
+  end
+
+  def done_ratio=(value)
+    write_attribute :done_ratio, convert_value_to_percentage(value)
+  end
+
+  def set_derived_progress_hint(field_name, hint, **params)
+    derived_progress_hints[field_name] = ProgressHint.new("#{field_name}.#{hint}", params)
+  end
+
+  def derived_progress_hint(field_name)
+    derived_progress_hints[field_name]
   end
 
   def duration_in_hours
@@ -350,7 +376,7 @@ class WorkPackage < ApplicationRecord
   # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
   # even if the user turns off the setting later
   def update_done_ratio_from_status
-    if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
+    if WorkPackage.status_based_mode? && status && status.default_done_ratio
       self.done_ratio = status.default_done_ratio
     end
   end
@@ -502,11 +528,13 @@ class WorkPackage < ApplicationRecord
             .where(types: { id: work_packages.map(&:type_id).uniq }))
       .distinct
   end
+
   private_class_method :available_custom_fields_from_db
 
   def self.available_custom_field_key(work_package)
     :"#work_package_custom_fields_#{work_package.project_id}_#{work_package.type_id}"
   end
+
   private_class_method :available_custom_field_key
 
   def custom_field_cache_key
@@ -521,6 +549,10 @@ class WorkPackage < ApplicationRecord
 
   private
 
+  def derived_progress_hints
+    @derived_progress_hints ||= {}
+  end
+
   def add_time_entry_for(user, attributes)
     return if time_entry_blank?(attributes)
 
@@ -528,6 +560,24 @@ class WorkPackage < ApplicationRecord
                               spent_on: Time.zone.today)
 
     time_entries.build(attributes)
+  end
+
+  def convert_duration_to_hours(value)
+    if value.is_a?(String)
+      begin
+        value = DurationConverter.parse(value)
+      rescue ChronicDuration::DurationParseError
+        # keep invalid value, error shall be caught by numericality validator
+      end
+    end
+    value
+  end
+
+  def convert_value_to_percentage(value)
+    if value.is_a?(String) && PercentageConverter.valid?(value)
+      value = PercentageConverter.parse(value)
+    end
+    value
   end
 
   ##
@@ -539,7 +589,7 @@ class WorkPackage < ApplicationRecord
 
     key = "activity_id"
     id = attributes[key]
-    default_id = if id&.present?
+    default_id = if id.present?
                    Enumeration.exists? id:, is_default: true, type: "TimeEntryActivity"
                  else
                    true
@@ -555,6 +605,7 @@ class WorkPackage < ApplicationRecord
       " AND #{Version.table_name}.sharing <> 'system'"
     )
   end
+
   private_class_method :having_version_from_other_project
 
   # Update issues so their versions are not pointing to a
@@ -574,6 +625,7 @@ class WorkPackage < ApplicationRecord
       end
     end
   end
+
   private_class_method :update_versions
 
   # Default assignment based on category
@@ -639,6 +691,7 @@ class WorkPackage < ApplicationRecord
       group by s.id, s.is_closed, j.id"
     ).to_a
   end
+
   private_class_method :count_and_group_by
 
   def set_attachments_error_details

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,7 @@ RSpec.shared_examples_for "GET individual query" do
   end
 
   it "succeeds" do
-    expect(last_response.status).to eq(200)
+    expect(last_response).to have_http_status(:ok)
   end
 
   it "has the right endpoint set for the self reference" do
@@ -140,7 +140,7 @@ RSpec.shared_examples_for "GET individual query" do
 
       context "with EE", with_ee: %i[baseline_comparison] do
         it "succeeds" do
-          expect(last_response.status).to eq(200)
+          expect(last_response).to have_http_status(:ok)
         end
       end
 

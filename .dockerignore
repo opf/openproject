@@ -10,6 +10,7 @@
 .*ignore
 *.md
 *.log
+config/database.yml
 docker/prod/Dockerfile
 docker/ci/Dockerfile
 Guardfile
@@ -22,14 +23,23 @@ browserslist
 !/docs/api/apiv3/tags
 !/docs/api/apiv3/components
 
+# Ignore spec/** folders
+spec/**
+# Allow factories in case we use lookbook
+!spec/factories
+!spec/factories/**
+!spec/support
+!spec/support/**
+
 extra
 features
 help
 log/*.log
-spec
 /tmp
 frontend/.angular/cache
 frontend/node_modules
 node_modules
 # travis
 vendor/bundle
+/public/assets
+/config/frontend_assets.manifest.json

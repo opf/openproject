@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@ module Queries
       # deactivating superclass validation
       def validate_inclusion_of_operator; end
 
-      def scope
+      def apply_to(_query_scope)
         context.default_scope
       end
 

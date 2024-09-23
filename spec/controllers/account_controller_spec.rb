@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -434,6 +434,17 @@ RSpec.describe AccountController, :skip_2fa_stage do
     end
   end
 
+  describe "#login with omniauth_direct_login_provider set but empty",
+           with_config: { omniauth_direct_login_provider: "" } do
+    describe "GET" do
+      it "does not redirect to some_provider" do
+        get :login
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+
   describe "Login for user with forced password change" do
     let(:admin) { create(:admin, force_password_change: true) }
 
@@ -508,8 +519,6 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
       context "with a valid token" do
         before do
-          allow(controller).to receive(:allow_lost_password_recovery).and_return(true)
-
           post :lost_password, params: { token: token.value }
         end
 
@@ -721,7 +730,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
         end
 
         it "doesn't activate the user but sends out a token instead" do
-          expect(User.find_by_login("register")).not_to be_active # rubocop:disable Rails/DynamicFindBy
+          expect(User.find_by_login("register")).not_to be_active
           token = Token::Invitation.last
           expect(token.user.mail).to eq("register@example.com")
           expect(token).not_to be_expired
@@ -767,7 +776,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
         end
 
         it "doesn't activate the user" do
-          expect(User.find_by_login("register")).not_to be_active # rubocop:disable Rails/DynamicFindBy
+          expect(User.find_by_login("register")).not_to be_active
         end
 
         it "calls the user_registered callback" do
@@ -1028,6 +1037,80 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
         expect(response.body).to have_text "Create a new account"
         expect(response.body).to have_text "This field is invalid: Email can't be blank."
+      end
+    end
+  end
+
+  describe "registering through auth source" do
+    context "when not providing all required fields" do
+      let(:omniauth_strategy) { double("Google Strategy", name: "google") } # rubocop:disable RSpec/VerifiedDoubles
+      let(:omniauth_hash) do
+        OmniAuth::AuthHash.new(
+          provider: "google",
+          strategy: omniauth_strategy,
+          uid: "123545",
+          info: { name: "foo",
+                  email: "foo@bar.com",
+                  first_name: "foo",
+                  last_name: "bar" }
+        )
+      end
+
+      before do
+        request.env["omniauth.auth"] = omniauth_hash
+        request.env["omniauth.strategy"] = omniauth_strategy
+      end
+
+      it "registers user via post" do
+        allow(OpenProject::OmniAuth::Authorization).to receive(:after_login!)
+
+        auth_source_registration = omniauth_hash.merge(
+          omniauth: true,
+          timestamp: Time.current
+        )
+        session[:auth_source_registration] = auth_source_registration
+        post :register,
+             params: {
+               user: {
+                 login: "login@bar.com",
+                 firstname: "Foo",
+                 lastname: "Smith",
+                 mail: "foo@bar.com"
+               }
+             }
+        expect(response).to redirect_to home_url(first_time_user: true)
+
+        user = User.find_by_login("login@bar.com")
+        expect(OpenProject::OmniAuth::Authorization)
+          .to have_received(:after_login!).with(user, a_hash_including(omniauth_hash), any_args)
+        expect(user).to be_an_instance_of(User)
+        expect(user.ldap_auth_source_id).to be_nil
+        expect(user.current_password).to be_nil
+        expect(user.identity_url).to eql("google:123545")
+      end
+
+      context "when after a timeout expired" do
+        before do
+          session[:auth_source_registration] = omniauth_hash.merge(
+            omniauth: true,
+            timestamp: 42.days.ago
+          )
+        end
+
+        it "does not register the user when providing all the missing fields" do
+          post :register,
+               params: {
+                 user: {
+                   firstname: "Foo",
+                   lastname: "Smith",
+                   mail: "foo@bar.com"
+                 }
+               }
+
+          expect(response).to redirect_to signin_path
+          expect(flash[:error]).to eq(I18n.t(:error_omniauth_registration_timed_out))
+          expect(User.find_by_login("foo@bar.com")).to be_nil
+        end
       end
     end
   end

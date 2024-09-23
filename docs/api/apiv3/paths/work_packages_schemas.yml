@@ -1,22 +1,31 @@
 # /api/v3/work_packages/schemas/
 ---
 get:
+  summary: List Work Package Schemas
+  operationId: list_work_package_schemas
+  tags:
+    - Work Packages
+  description: |-
+    List all work package schemas that match the given filters. This endpoint does not return a successful response,
+    if no filter is given.
   parameters:
-  - description: |-
-      JSON specifying filter conditions.
-      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
-
-      + id: The schema's id
-
-      Schema id has the form `project_id-work_package_type_id`.
-    example: '[{ "id": { "operator": "=", "values": ["12-1", "14-2"] } }]'
-    in: query
-    name: filters
-    required: true
-    schema:
-      type: string
+    - name: filters
+      description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
+        endpoint. Currently supported filters are:
+        
+        + id: The schema's id
+        
+        Schema id has the form `project_id-work_package_type_id`.
+      in: query
+      required: true
+      schema:
+        type: string
+      example: '[{ "id": { "operator": "=", "values": ["12-1", "14-2"] } }]'
   responses:
     '200':
+      description: OK
       content:
         application/hal+json:
           examples:
@@ -24,24 +33,20 @@ get:
               value:
                 _embedded:
                   elements:
-                  - _links:
-                      self:
-                        href: "/api/v3/work_packages/schemas/13-1"
-                    _type: Schema...
-                  - _links:
-                      self:
-                        href: "/api/v3/work_packages/schemas/7-6"
-                    _type: Schema...
+                    - _links:
+                        self:
+                          href: "/api/v3/work_packages/schemas/13-1"
+                      _type: Schema...
+                    - _links:
+                        self:
+                          href: "/api/v3/work_packages/schemas/7-6"
+                      _type: Schema...
                 _links:
                   self:
                     href: "/api/v3/work_packages/schemas"
                 _type: Collection
                 count: 2
                 total: 5
-          schema:
-            "$ref": "../components/schemas/work_package_schemas_model.yml"
-      description: OK
-      headers: {}
     '400':
       $ref: "../components/responses/invalid_request_body.yml"
     '403':
@@ -59,9 +64,4 @@ get:
         Returned if the client does not have sufficient permissions.
 
         **Required permission:** View work packages in any project.
-      headers: {}
-  tags:
-  - Work Packages
-  description: List work package schemas.
-  operationId: List_Work_Package_Schemas
-  summary: List Work Package Schemas
+      headers: { }

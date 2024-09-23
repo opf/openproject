@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,8 +38,11 @@ class HourlyRatesController < ApplicationController
   before_action :find_optional_project, only: %i[show edit update]
   before_action :find_project, only: [:set_rate]
 
-  # #show, #edit have their own authorization
+  # #show, #edit and #update have their own authorization
   before_action :authorize, except: %i[show edit update]
+  no_authorization_required! :show,
+                             :edit,
+                             :update
 
   # TODO: this should be an index
   def show

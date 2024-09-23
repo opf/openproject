@@ -42,6 +42,9 @@ pl:
         subprojects:
           title: 'Podprojekty'
           no_results: 'Brak podprojektów.'
+        project_favorites:
+          title: 'Ulubione projekty'
+          no_results: 'Obecnie nie masz żadnych ulubionych projektów. Kliknij ikonę gwiazdki na pulpicie nawigacyjnym projektu, aby dodać go do ulubionych.'
         time_entries_current_user:
           title: 'Mój spędzony czas'
           displayed_days: 'Dni wyświetlane w widżecie:'

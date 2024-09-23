@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -73,9 +73,13 @@ module Meetings
     def ical_event(&)
       calendar = ::Icalendar::Calendar.new
 
+      ical_timezone = @timezone.tzinfo.ical_timezone meeting.start_time
+      calendar.add_timezone ical_timezone
+
       calendar.event(&)
 
       calendar.publish
+
       calendar.to_ical
     end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,9 +39,7 @@ module Pages::Meetings
     end
 
     def click_create_new
-      within ".toolbar-items" do
-        click_on "Meeting"
-      end
+      click_on("add-meeting-button")
 
       New.new(project)
     end
@@ -51,41 +49,31 @@ module Pages::Meetings
     end
 
     def expect_no_create_new_button
-      within ".toolbar-items" do
-        expect(page).to have_no_css "#add-meeting-button"
-      end
+      expect(page).not_to have_test_selector("add-meeting-button")
     end
 
     def expect_no_create_new_buttons
-      within ".toolbar-items" do
-        expect(page).to have_no_css "#add-meeting-button"
-      end
+      expect(page).not_to have_test_selector("add-meeting-button")
 
       within "#main-menu" do
-        expect(page).to have_no_button "Meeting"
+        expect(page).not_to have_test_selector "meeting--create-button"
       end
     end
 
     def expect_create_new_button
-      within ".toolbar-items" do
-        expect(page).to have_css "#add-meeting-button"
-      end
+      expect(page).to have_test_selector("add-meeting-button")
     end
 
     def expect_create_new_buttons
-      within ".toolbar-items" do
-        expect(page).to have_css "#add-meeting-button"
-      end
+      expect(page).to have_test_selector("add-meeting-button")
 
       within "#main-menu" do
-        expect(page).to have_button "Meeting"
+        expect(page).to have_test_selector "meeting--create-button"
       end
     end
 
     def set_sidebar_filter(filter_name)
-      within "#main-menu" do
-        click_on text: filter_name
-      end
+      submenu.click_item(filter_name)
     end
 
     def expect_no_meetings_listed
@@ -184,6 +172,10 @@ module Pages::Meetings
 
     def row_for(meeting)
       find("td.title", text: meeting.title).ancestor("tr")
+    end
+
+    def submenu
+      Components::Submenu.new
     end
   end
 end

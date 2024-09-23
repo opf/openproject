@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,15 +38,15 @@ class CustomField < ApplicationRecord
   has_many :custom_options,
            -> { order(position: :asc) },
            dependent: :delete_all,
-           inverse_of: 'custom_field'
+           inverse_of: "custom_field"
   accepts_nested_attributes_for :custom_options
 
   acts_as_list scope: [:type]
 
   validates :field_format, presence: true
   validates :custom_options,
-            presence: { message: ->(*) { I18n.t(:'activerecord.errors.models.custom_field.at_least_one_custom_option') } },
-            if: ->(*) { field_format == 'list' }
+            presence: { message: ->(*) { I18n.t(:"activerecord.errors.models.custom_field.at_least_one_custom_option") } },
+            if: ->(*) { field_format == "list" }
   validates :name, presence: true, length: { maximum: 256 }
 
   validate :uniqueness_of_name_with_scope
@@ -69,12 +69,15 @@ class CustomField < ApplicationRecord
   validates :min_length, numericality: { less_than_or_equal_to: :max_length, message: :smaller_than_or_equal_to_max_length },
                          unless: Proc.new { |cf| cf.max_length.blank? }
 
+  validates :multi_value, absence: true, unless: :multi_value_possible?
+  validates :allow_non_open_versions, absence: true, unless: :allow_non_open_versions_possible?
+
   before_validation :check_searchability
   after_destroy :destroy_help_text
 
   # make sure int, float, date, and bool are not searchable
   def check_searchability
-    self.searchable = false if %w(int float date bool).include?(field_format)
+    self.searchable = false if %w(int float date bool user version).include?(field_format)
     true
   end
 
@@ -127,11 +130,11 @@ class CustomField < ApplicationRecord
 
   def possible_values_options(obj = nil)
     case field_format
-    when 'user'
+    when "user"
       possible_user_values_options(obj)
-    when 'version'
+    when "version"
       possible_version_values_options(obj)
-    when 'list'
+    when "list"
       possible_list_values_options
     else
       possible_values
@@ -153,9 +156,9 @@ class CustomField < ApplicationRecord
   #        You MUST NOT pass a customizable if this CF has any other format
   def possible_values(obj = nil)
     case field_format
-    when 'user', 'version'
+    when "user", "version"
       possible_values_options(obj).map(&:last)
-    when 'list'
+    when "list"
       custom_options
     else
       read_attribute(:possible_values)
@@ -184,27 +187,27 @@ class CustomField < ApplicationRecord
     return if value.blank?
 
     case field_format
-    when 'string', 'text', 'list'
+    when "string", "text", "list", "link"
       value
-    when 'date'
+    when "date"
       begin
         value.to_date
       rescue StandardError
         nil
       end
-    when 'bool'
+    when "bool"
       ActiveRecord::Type::Boolean.new.cast(value)
-    when 'int'
+    when "int"
       value.to_i
-    when 'float'
+    when "float"
       value.to_f
-    when 'user', 'version'
+    when "user", "version"
       field_format.classify.constantize.find_by(id: value.to_i)
     end
   end
 
   def <=>(other)
-    if type == 'WorkPackageCustomField'
+    if type == "WorkPackageCustomField"
       name.downcase <=> other.name.downcase
     else
       position <=> other.position
@@ -265,6 +268,10 @@ class CustomField < ApplicationRecord
     field_format == "list"
   end
 
+  def user?
+    field_format == "user"
+  end
+
   def version?
     field_format == "version"
   end
@@ -277,22 +284,12 @@ class CustomField < ApplicationRecord
     field_format == "bool"
   end
 
-  def multi_value?
-    multi_value
-  end
-
   def multi_value_possible?
-    %w[version user list].include?(field_format) &&
-      [ProjectCustomField, WorkPackageCustomField, TimeEntryCustomField, VersionCustomField].include?(self.class)
-  end
-
-  def allow_non_open_versions?
-    allow_non_open_versions
+    version? || user? || list?
   end
 
   def allow_non_open_versions_possible?
-    version? &&
-      [ProjectCustomField, WorkPackageCustomField, TimeEntryCustomField, VersionCustomField].include?(self.class)
+    version?
   end
 
   ##

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,10 +47,14 @@ module API::V3::ProjectStorages
     end
 
     link :open do
+      next unless show_open_storage_links
+
       { href: api_v3_paths.project_storage_open(represented.id) }
     end
 
     link :openWithConnectionEnsured do
+      next unless show_open_storage_links
+
       { href: represented.open_with_connection_ensured }
     end
 
@@ -64,6 +68,16 @@ module API::V3::ProjectStorages
 
     def _type
       "ProjectStorage"
+    end
+
+    private
+
+    def show_open_storage_links
+      if represented.project_folder_automatic?
+        return current_user.allowed_in_project?(:read_files, represented.project)
+      end
+
+      true
     end
   end
 end

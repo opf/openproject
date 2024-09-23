@@ -49,8 +49,8 @@
           ></op-work-package-mark-notification-button>
         </li>
         <li class="toolbar-item hidden-for-tablet">
-          <zen-mode-toggle-button>
-          </zen-mode-toggle-button>
+          <opce-zen-mode-toggle-button>
+          </opce-zen-mode-toggle-button>
         </li>
         <li class="toolbar-item action_menu_main" id="action-show-more-dropdown-menu">
           <button class="button dropdown-relative toolbar-icon"
@@ -81,6 +81,7 @@
 
       <div class="work-packages-full-view--resizer hidden-for-mobile hide-when-print">
         <wp-resizer [elementClass]="'work-packages-full-view--split-right'"
+                    [variableName]="'--full-view-split-right-width'"
                     [localStorageKey]="'openProject-fullViewFlexBasis'"></wp-resizer>
       </div>
     </div>

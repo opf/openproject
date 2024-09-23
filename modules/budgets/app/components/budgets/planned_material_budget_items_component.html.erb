@@ -1,0 +1,81 @@
+<div class="grid-content medium-6">
+  <h4><%= Budget.human_attribute_name(:material_budget) %></h4>
+  <div>
+    <div class="generic-table--container -with-footer">
+      <div class="generic-table--results-container">
+        <table class="generic-table material_budget_items">
+          <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+          </colgroup>
+          <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= MaterialBudgetItem.human_attribute_name(:units) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= MaterialBudgetItem.human_attribute_name(:cost_type) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= MaterialBudgetItem.human_attribute_name(:comment) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th class="currency">
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= MaterialBudgetItem.human_attribute_name(:budget) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <% budget.material_budget_items.each do |material_budget_item| %>
+            <tr>
+              <td class="units"><%= item_units(material_budget_item) %></td>
+              <td><%= item_type(material_budget_item) %></td>
+              <td class="comments"><%= item_comments(material_budget_item) %></td>
+              <td class="currency"><%= item_costs(material_budget_item) %></td>
+            </tr>
+          <% end %>
+          </tbody>
+          <% if view_rates_allowed? %>
+            <tfoot>
+            <tr>
+              <td colspan="3"></td>
+              <td class="currency">
+                <div class="generic-table--footer-outer">
+                  <strong><%= planned_sum %></strong>
+                </div>
+              </td>
+            </tr>
+            </tfoot>
+          <% end %>
+        </table>
+
+        <div class="generic-table--footer-background"></div>
+      </div>
+    </div>
+  </div>
+</div>

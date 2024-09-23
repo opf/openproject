@@ -110,7 +110,7 @@ Document project achievements, lessons learned, best practices and easily summar
 
 ## OpenProject products
 
-###  What is the difference between the Community, Enterprise cloud and Enterprise on-premises edition?
+### What is the difference between the Community, Enterprise cloud and Enterprise on-premises edition?
 
 OpenProject can be used in three different editions, either on-premises or as software-as-a-service.
 

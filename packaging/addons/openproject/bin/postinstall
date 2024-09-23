@@ -10,6 +10,11 @@ CLI="${APP_NAME}"
 ${CLI} config:set OPENPROJECT_SEED_ADMIN_USER_MAIL="$(wiz_get "openproject/admin_email" || wiz_get "smtp/admin_email")"
 ${CLI} config:set RECOMPILE_RAILS_ASSETS="true"
 
+# Convert language pt to pt-BR (work packages #53374 and #55318)
+if [ "$(wiz_get "openproject/default_language")" = "pt" ]; then
+        wiz_set "openproject/default_language" "pt-BR"
+fi
+
 # Set the configured default language
 # Will be unset at installation postinstall before restart to ensure the setting is writable
 ${CLI} config:set OPENPROJECT_DEFAULT_LANGUAGE="$(wiz_get "openproject/default_language" || echo "en")"

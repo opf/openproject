@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { StateService, UIRouterGlobals } from '@uirouter/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IDynamicFieldGroupConfig, IOPFormlyFieldSettings } from 'core-app/shared/components/dynamic-forms/typings';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -7,12 +6,13 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { DynamicFormComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component';
+import {
+  DynamicFormComponent,
+} from 'core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { JobStatusModalService } from 'core-app/features/job-status/job-status-modal.service';
 
 export interface ProjectTemplateOption {
   href:string|null;
@@ -20,7 +20,6 @@ export interface ProjectTemplateOption {
 }
 
 @Component({
-  selector: 'op-new-project',
   templateUrl: './new-project.component.html',
   styleUrls: ['./new-project.component.sass'],
 })
@@ -45,6 +44,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   hiddenFields:string[] = [
     'identifier',
     'active',
+    'createdAt',
   ];
 
   copyableTemplateFilter = new ApiV3FilterBuilder()
@@ -76,10 +76,8 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
 
   constructor(
     private apiV3Service:ApiV3Service,
-    private uIRouterGlobals:UIRouterGlobals,
     private pathHelperService:PathHelperService,
-    private modalService:OpModalService,
-    private $state:StateService,
+    private jobStatusModalService:JobStatusModalService,
     private I18n:I18nService,
   ) {
     super();
@@ -100,14 +98,16 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
       fieldsFilter: (field:IOPFormlyFieldSettings) => this.isMeta(field.templateOptions?.property),
     }];
 
-    if (this.uIRouterGlobals.params.parent_id) {
-      this.setParentAsPayload(this.uIRouterGlobals.params.parent_id);
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.has('parent_id')) {
+      this.setParentAsPayload(urlParams.get('parent_id') as string);
     }
   }
 
   onSubmitted(response:HalSource) {
     if (response._type === 'JobStatus') {
-      this.modalService.show(JobStatusModalComponent, 'global', { jobId: response.jobId });
+      this.jobStatusModalService.show(response.jobId as string);
     } else {
       window.location.href = this.pathHelperService.projectPath(response.identifier as string);
     }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
   let(:overview_page) { Pages::Projects::Show.new(project) }
 
   before do
-    login_as member_with_project_edit_permissions
+    login_as member_with_project_attributes_edit_permissions
     overview_page.visit_page
   end
 
@@ -191,6 +191,22 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:expected_initial_value) { Date.new(2024, 1, 1) }
 
         it_behaves_like "a custom field input"
+      end
+
+      describe "with link CF" do
+        let(:custom_field) { link_project_custom_field }
+        let(:default_value) { "https://openproject.org" }
+        let(:expected_blank_value) { "" }
+        let(:expected_initial_value) { "https://www.openproject.org" }
+        let(:field) { FormFields::Primerized::InputField.new(custom_field) }
+
+        it_behaves_like "a custom field input"
+
+        it "renders the custom field as a link" do
+          page.within_test_selector "project-custom-field-#{link_project_custom_field.id}" do
+            expect(page).to have_link("https://www.openproject.org", href: "https://www.openproject.org")
+          end
+        end
       end
 
       describe "with text CF" do

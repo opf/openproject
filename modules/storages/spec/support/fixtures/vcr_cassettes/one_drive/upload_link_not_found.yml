@@ -1,0 +1,106 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://login.microsoftonline.com/4d44bf36-9b56-45c0-8807-bbf386dd047f/oauth2/v2.0/token
+    body:
+      encoding: ASCII-8BIT
+      string: grant_type=client_credentials&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default+offline_access&client_id=4262df2b-77bb-49c2-a5df-28355da676d2&client_secret=Vwk8Q%7EJTuPh.pAjvPiWBQBdTFMDK%7EAIwxbj9_axB
+    headers:
+      User-Agent:
+      - httpx.rb/1.2.4
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Content-Length:
+      - '201'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Pragma:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      P3p:
+      - CP="DSP CUR OTPi IND OTRi ONL FIN"
+      X-Ms-Request-Id:
+      - bbcb5b2b-2c31-467e-bb3d-7ddd09f70a00
+      X-Ms-Ests-Server:
+      - 2.1.17968.10 - SEC ProdSlices
+      X-Ms-Srs:
+      - 1.P
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - fpc=AlJjx-GtAfVJjLzlEBpmpwykbDoXAQAAAMXiyt0OAAAA; expires=Wed, 05-Jun-2024
+        14:40:05 GMT; path=/; secure; HttpOnly; SameSite=None, x-ms-gateway-slice=estsfd;
+        path=/; secure; samesite=none; httponly, stsservicecookie=estsfd; path=/;
+        secure; samesite=none; httponly
+      Date:
+      - Mon, 06 May 2024 14:40:04 GMT
+      Content-Length:
+      - '1735'
+    body:
+      encoding: UTF-8
+      string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"<ACCESS_TOKEN>"}'
+  recorded_at: Mon, 06 May 2024 14:40:05 GMT
+- request:
+    method: post
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/04AZJL5PN6Y2GOVW7725BZO354PWSELRRZ:/DeathStart_blueprints.tiff:/createUploadSession
+    body:
+      encoding: UTF-8
+      string: '{"item":{"@microsoft.graph.conflictBehavior":"rename","name":"DeathStart_blueprints.tiff"}}'
+    headers:
+      User-Agent:
+      - httpx.rb/1.2.4
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '91'
+      Authorization:
+      - Bearer <BEARER TOKEN>
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 9411c047-d4e0-441c-a447-a036d36d1b23
+      Client-Request-Id:
+      - 9411c047-d4e0-441c-a447-a036d36d1b23
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"001","RoleInstance":"FR2PEPF00000586"}}'
+      Date:
+      - Mon, 06 May 2024 14:40:04 GMT
+    body:
+      encoding: UTF-8
+      string: '{"error":{"code":"invalidRequest","message":"Invalid request","innerError":{"date":"2024-05-06T14:40:05","request-id":"9411c047-d4e0-441c-a447-a036d36d1b23","client-request-id":"9411c047-d4e0-441c-a447-a036d36d1b23"}}}'
+  recorded_at: Mon, 06 May 2024 14:40:05 GMT
+recorded_with: VCR 6.2.0

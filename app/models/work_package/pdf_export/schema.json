@@ -392,7 +392,7 @@
         "group_heading" : {
           "type" : "object",
           "title" : "Overview group heading",
-          "description" : "Styling for the group lavel if grouping is activated",
+          "description" : "Styling for the group label if grouping is activated",
           "x-example" : {
             "group_heading" : {
               "size" : 11,
@@ -981,6 +981,9 @@
         "task_list_point" : {
           "title" : "Markdown task list point",
           "$ref" : "#/$defs/task_list_point"
+        },
+        "alerts": {
+          "$ref": "#/$defs/alerts"
         }
       },
       "patternProperties" : {
@@ -1742,6 +1745,65 @@
           "title" : "Disable border bottom",
           "description" : "Turn off border on the bottom sides",
           "type" : "boolean"
+        }
+      }
+    },
+    "alert": {
+      "type": "object",
+      "title": "Alert",
+      "description": "Styling to denote a quote as alert box",
+      "x-example": {
+        "ALERT": {
+          "alert_color": "f4f9ff",
+          "border_color": "f4f9ff",
+          "border_width": 2,
+          "no_border_right": true,
+          "no_border_left": false,
+          "no_border_bottom": true,
+          "no_border_top": true
+        }
+      },
+      "properties": {
+        "background_color": {
+          "$ref": "#/$defs/color"
+        },
+        "alert_color": {
+          "$ref": "#/$defs/color"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/font"
+        },
+        {
+          "$ref": "#/$defs/border"
+        },
+        {
+          "$ref": "#/$defs/padding"
+        },
+        {
+          "$ref": "#/$defs/margin"
+        }
+      ]
+    },
+    "alerts": {
+      "type": "object",
+      "title": "alert boxes (styled blockquotes)",
+      "properties": {
+        "NOTE": {
+          "$ref": "#/$defs/alert"
+        },
+        "TIP": {
+          "$ref": "#/$defs/alert"
+        },
+        "WARNING": {
+          "$ref": "#/$defs/alert"
+        },
+        "IMPORTANT": {
+          "$ref": "#/$defs/alert"
+        },
+        "CAUTION": {
+          "$ref": "#/$defs/alert"
         }
       }
     }

@@ -1,4 +1,4 @@
-require_relative 'form_field'
+require_relative "form_field"
 
 module FormFields
   module Primerized
@@ -26,7 +26,7 @@ module FormFields
 
       def expect_value(value)
         scroll_to_element(field_container)
-        expect(field_container).to have_css('input') { |el| el.value == value }
+        expect(field_container).to have_css("input") { |el| el.value == value }
       end
     end
   end

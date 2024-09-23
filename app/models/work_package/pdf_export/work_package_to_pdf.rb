@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -82,7 +82,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   def title
     # <project>_<type>_<ID>_<subject><YYYY-MM-DD>_<HH-MM>.pdf
     build_pdf_filename([work_package.project, work_package.type,
-                        "##{work_package.id}", work_package.subject].join('_'))
+                        "##{work_package.id}", work_package.subject].join("_"))
   end
 
   def with_images?

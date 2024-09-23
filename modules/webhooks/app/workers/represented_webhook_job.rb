@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,8 +27,6 @@
 #++
 
 class RepresentedWebhookJob < WebhookJob
-  include ::OpenProjectErrorHelper
-
   attr_reader :resource
 
   def perform(webhook_id, resource, event_name)
@@ -39,41 +37,14 @@ class RepresentedWebhookJob < WebhookJob
 
     body = request_body
     headers = request_headers
-    exception = nil
-    response = nil
 
-    if signature = request_signature(body)
+    if (signature = request_signature(body))
       headers["X-OP-Signature"] = signature
     end
 
-    begin
-      response = Faraday.post(
-        webhook.url,
-        request_body,
-        headers
-      )
-    rescue Faraday::Error => e
-      response = e.response
-      exception = e
-    rescue StandardError => e
-      op_handle_error(e.message, reference: :webhook_job)
-      exception = e
-    end
-
-    ::Webhooks::Log.create(
-      webhook:,
-      event_name:,
-      url: webhook.url,
-      request_headers: headers,
-      request_body: body,
-      response_code: response&.status,
-      response_headers: response&.headers&.to_h&.transform_keys { |k| k.underscore.to_sym },
-      response_body: response&.body || exception&.message
-    )
-
-    # We want to re-raise timeout exceptions
-    # but log the request beforehand
-    raise exception if exception.is_a?(Faraday::TimeoutError)
+    ::Webhooks::Outgoing::RequestWebhookService
+      .new(webhook, event_name:, current_user: User.system)
+      .call!(body:, headers:)
   end
 
   def accepted_in_project?
@@ -81,7 +52,7 @@ class RepresentedWebhookJob < WebhookJob
   end
 
   def request_signature(request_body)
-    if secret = webhook.secret.presence
+    if (secret = webhook.secret.presence)
       "sha1=#{OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), secret, request_body)}"
     end
   end

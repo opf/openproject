@@ -13,7 +13,7 @@ RSpec.describe "Work package single context menu", :js do
   end
 
   it "sets the correct copy project link" do
-    find(".menu-item", text: "Copy to other project", exact_text: true).click
+    find(".menu-item", text: "Duplicate in another project", exact_text: true).click
     expect(page).to have_css("h2", text: I18n.t(:button_copy))
     expect(page).to have_css("a.work_package", text: "##{work_package.id}")
     expect(page).to have_current_path /work_packages\/move\/new\?copy=true&ids\[\]=#{work_package.id}/

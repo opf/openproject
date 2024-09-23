@@ -7,7 +7,7 @@ keywords: work package types
 ---
 # Work package types
 
-**Activate or deactivate work package types for a project**. 
+**Activate or deactivate work package types for a project**.
 Select the respective project via the project drop-down menu at the top left in the header navigation and choose -> *Project settings* -> *Work package types* in the project menu.
 
 ![project settings work package types](image-20200211133405469.png)

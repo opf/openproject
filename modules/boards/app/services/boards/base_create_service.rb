@@ -14,7 +14,7 @@ module Boards
     end
 
     def before_perform(params, _service_result)
-      return super(params, _service_result) if no_widgets_initially?
+      return super if no_widgets_initially?
 
       create_query_result = create_query(params)
 

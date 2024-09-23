@@ -13,8 +13,7 @@ Release date: 2022-05-04
 We released [OpenProject 12.1.1](https://community.openproject.org/versions/1548).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Click on Include projects filter is flickering \[[#42196](https://community.openproject.org/wp/42196)\]
 - Fixed: Unprefixed E-Mail settings ignored \[[#42209](https://community.openproject.org/wp/42209)\]
@@ -30,7 +29,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: IFC conversion fails (libhostfxr.so not found) \[[#42245](https://community.openproject.org/wp/42245)\]
 - Fixed: Roles cannot be edited with french language \[[#42246](https://community.openproject.org/wp/42246)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

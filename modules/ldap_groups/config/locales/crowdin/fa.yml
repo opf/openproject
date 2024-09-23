@@ -5,7 +5,7 @@ fa:
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
-        dn: 'DN'
+        dn: 'شناسه منحصربفرد'
         ldap_auth_source: 'LDAP connection'
         sync_users: 'همسان سازی کاربران'
       ldap_groups/synchronized_filter:

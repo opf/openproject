@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -96,7 +96,7 @@ module API
 
           {
             href: api_v3_paths.time_entries,
-            title: "Log time on #{represented.subject}"
+            title: "Log time on work package '#{represented.subject}'"
           }
         end
 
@@ -106,8 +106,8 @@ module API
 
           {
             href: new_work_package_move_path(represented),
-            type: 'text/html',
-            title: "Move #{represented.subject}"
+            type: "text/html",
+            title: "Move work package '#{represented.subject}'"
           }
         end
 
@@ -116,8 +116,9 @@ module API
           next if represented.new_record?
 
           {
-            href: work_package_path(represented, 'copy'),
-            title: "Copy #{represented.subject}"
+            href: work_package_path(represented, "copy"),
+            type: "text/html",
+            title: "Copy work package '#{represented.subject}'"
           }
         end
 
@@ -127,8 +128,8 @@ module API
 
           {
             href: work_package_path(id: represented.id, format: :pdf),
-            type: 'application/pdf',
-            title: 'Export as PDF'
+            type: "application/pdf",
+            title: "Export as PDF"
           }
         end
 
@@ -138,8 +139,8 @@ module API
 
           {
             href: work_package_path(id: represented.id, format: :atom),
-            type: 'application/rss+xml',
-            title: 'Atom feed'
+            type: "application/rss+xml",
+            title: "Atom feed"
           }
         end
 
@@ -158,7 +159,7 @@ module API
 
           {
             href: project_settings_custom_fields_path(represented.project.identifier),
-            type: 'text/html',
+            type: "text/html",
             title: "Custom fields"
           }
         end
@@ -168,8 +169,8 @@ module API
           next unless represented.type_id
 
           {
-            href: edit_type_path(represented.type_id, tab: 'form_configuration'),
-            type: 'text/html',
+            href: edit_type_path(represented.type_id, tab: "form_configuration"),
+            type: "text/html",
             title: "Configure form"
           }
         end
@@ -233,7 +234,7 @@ module API
           {
             href: api_v3_paths.work_package_watchers(represented.id),
             method: :post,
-            payload: { user: { href: api_v3_paths.user('{user_id}') } },
+            payload: { user: { href: api_v3_paths.user("{user_id}") } },
             templated: true
           }
         end
@@ -241,7 +242,7 @@ module API
         link :removeWatcher,
              cache_if: -> { current_user.allowed_in_project?(:delete_work_package_watchers, represented.project) } do
           {
-            href: api_v3_paths.watcher('{user_id}', represented.id),
+            href: api_v3_paths.watcher("{user_id}", represented.id),
             method: :delete,
             templated: true
           }
@@ -252,7 +253,7 @@ module API
           {
             href: api_v3_paths.work_package_relations(represented.id),
             method: :post,
-            title: 'Add relation'
+            title: "Add relation"
           }
         end
 
@@ -281,7 +282,7 @@ module API
           {
             href: api_v3_paths.work_package_activities(represented.id),
             method: :post,
-            title: 'Add comment'
+            title: "Add comment"
           }
         end
 
@@ -300,7 +301,7 @@ module API
 
           {
             href: api_v3_paths.path_for(:time_entries, filters:),
-            title: 'Time entries'
+            title: "Time entries"
           }
         end
 
@@ -361,11 +362,11 @@ module API
                         # handled in reader
                       },
                       reader: ->(decorator:, doc:, **) {
-                        next unless doc.key?('date')
+                        next unless doc.key?("date")
 
                         date = decorator
                           .datetime_formatter
-                          .parse_date(doc['date'],
+                          .parse_date(doc["date"],
                                       name.to_s.camelize(:lower),
                                       allow_nil: true)
 
@@ -409,7 +410,8 @@ module API
                    datetime_formatter.format_duration_from_hours(represented.remaining_hours,
                                                                  allow_nil: true)
                  end,
-                 render_nil: true
+                 writable: ->(*) { !WorkPackage.status_based_mode? },
+                 render_nil: false
 
         property :derived_remaining_time,
                  exec_context: :decorator,
@@ -442,13 +444,11 @@ module API
 
         property :done_ratio,
                  as: :percentageDone,
-                 render_nil: true,
-                 if: ->(*) { Setting.work_package_done_ratio != 'disabled' }
+                 render_nil: true
 
         property :derived_done_ratio,
                  as: :derivedPercentageDone,
-                 render_nil: true,
-                 if: ->(*) { Setting.work_package_done_ratio != 'disabled' }
+                 render_nil: true
 
         date_time_property :created_at
 
@@ -524,15 +524,15 @@ module API
                             setter: ->(fragment:, **) do
                               next if fragment.empty?
 
-                              href = fragment['href']
+                              href = fragment["href"]
 
                               new_parent =
                                 if href
                                   id = ::API::Utilities::ResourceLinkParser
                                     .parse_id href,
-                                              property: 'parent',
-                                              expected_version: '3',
-                                              expected_namespace: 'work_packages'
+                                              property: "parent",
+                                              expected_version: "3",
+                                              expected_namespace: "work_packages"
 
                                   WorkPackage.find_by(id:) ||
                                     ::WorkPackage::InexistentWorkPackage.new(id:)
@@ -568,7 +568,7 @@ module API
                   end
 
         def _type
-          'WorkPackage'
+          "WorkPackage"
         end
 
         def to_hash(*args)
@@ -579,6 +579,8 @@ module API
 
           super
         end
+
+        delegate :hide_attachments?, to: :represented
 
         # Permissions
         def current_user_watcher?
@@ -646,22 +648,22 @@ module API
 
         def estimated_time=(value)
           represented.estimated_hours =
-            datetime_formatter.parse_duration_to_hours(value, 'estimatedTime', allow_nil: true)
+            datetime_formatter.parse_duration_to_hours(value, "estimatedTime", allow_nil: true)
         end
 
         def derived_estimated_time=(value)
           represented.derived_estimated_hours =
-            datetime_formatter.parse_duration_to_hours(value, 'derivedEstimatedTime', allow_nil: true)
+            datetime_formatter.parse_duration_to_hours(value, "derivedEstimatedTime", allow_nil: true)
         end
 
         def remaining_time=(value)
           represented.remaining_hours =
-            datetime_formatter.parse_duration_to_hours(value, 'remainingTime', allow_nil: true)
+            datetime_formatter.parse_duration_to_hours(value, "remainingTime", allow_nil: true)
         end
 
         def derived_remaining_time=(value)
           represented.derived_remaining_hours =
-            datetime_formatter.parse_duration_to_hours(value, 'derivedRemainingTime', allow_nil: true)
+            datetime_formatter.parse_duration_to_hours(value, "derivedRemainingTime", allow_nil: true)
         end
 
         def spent_time=(value)
@@ -670,7 +672,7 @@ module API
 
         def duration=(value)
           represented.duration = datetime_formatter.parse_duration_to_days(value,
-                                                                           'duration',
+                                                                           "duration",
                                                                            allow_nil: true)
         end
 
@@ -689,15 +691,16 @@ module API
         # The dynamic class generation introduced because of the custom fields interferes with
         # the class naming as well as prevents calls to super
         def json_cache_key
-          ['API',
-           'V3',
-           'WorkPackages',
-           'WorkPackageRepresenter',
-           'json',
+          ["API",
+           "V3",
+           "WorkPackages",
+           "WorkPackageRepresenter",
+           "json",
            I18n.locale,
            json_key_representer_parts,
            represented.cache_checksum,
            Setting.work_package_done_ratio,
+           Setting.show_work_package_attachments,
            Setting.feeds_enabled?]
         end
 

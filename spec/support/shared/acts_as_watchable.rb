@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,12 +31,12 @@ RSpec.shared_examples_for "acts_as_watchable included" do
     unless defined?(model_instance) &&
            defined?(watch_permission) &&
            defined?(project)
-      raise <<MESSAGE
-  This share example needs the following objects:
-  * model_instance: An instance of the watchable under test
-  * watch_permission: The symbol for the permission required for watching an instance
-  * project: the project the model_instance is in
-MESSAGE
+      raise <<~MESSAGE
+        This share example needs the following objects:
+        * model_instance: An instance of the watchable under test
+        * watch_permission: The symbol for the permission required for watching an instance
+        * project: the project the model_instance is in
+      MESSAGE
     end
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,8 +44,6 @@ class AttributeHelpTextsController < ApplicationController
 
   def edit; end
 
-  def upsale; end
-
   def create
     call = ::AttributeHelpTexts::CreateService
       .new(user: current_user)
@@ -87,16 +85,10 @@ class AttributeHelpTextsController < ApplicationController
 
   protected
 
-  def default_breadcrumb
-    if action_name == "index"
-      t("attribute_help_texts.label_plural")
-    else
-      ActionController::Base.helpers.link_to(t("attribute_help_texts.label_plural"), attribute_help_texts_path)
-    end
-  end
+  def default_breadcrumb; end
 
   def show_local_breadcrumb
-    true
+    false
   end
 
   private

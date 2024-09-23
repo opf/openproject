@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,7 @@ module Pages
         end
 
         def open_projects_tab!
-          within(".content--tabs") do
+          within(".PageHeader-tabNav") do
             click_on "Projects"
           end
         end

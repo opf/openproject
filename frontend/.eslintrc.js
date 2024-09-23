@@ -25,7 +25,7 @@ module.exports = {
         project: "./src/tsconfig.app.json",
         tsconfigRootDir: __dirname,
         sourceType: "module",
-        createDefaultProgram: true
+        createDefaultProgram: true,
       },
       extends: [
         "plugin:@typescript-eslint/recommended",
@@ -49,11 +49,10 @@ module.exports = {
           "error",
           {"type": "element", "prefix": ["op", "opce"], "style": "kebab-case"},
         ],
-        "@angular-eslint/component-class-suffix": ["error", { "suffixes": ["Component", "Example"] }],
+        "@angular-eslint/component-class-suffix": ["error", {"suffixes": ["Component", "Example"]}],
 
         // Warn when new components are being created without OnPush
         "change-detection-strategy/on-push": "error",
-
         "no-console": [
           "error",
           {
@@ -65,8 +64,8 @@ module.exports = {
         ],
 
         // Sometimes we need to shush the TypeScript compiler
-        "no-unused-vars": ["error", { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }],
-        "@typescript-eslint/no-unused-vars": ["error", { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }],
+        "no-unused-vars": ["error", {"varsIgnorePattern": "^_", "argsIgnorePattern": "^_"}],
+        "@typescript-eslint/no-unused-vars": ["error", {"varsIgnorePattern": "^_", "argsIgnorePattern": "^_"}],
 
         // Who cares about line length
         "max-len": "off",
@@ -75,11 +74,11 @@ module.exports = {
         "object-curly-newline": "off",
 
         // Allow short circuit evaluations
-        "@typescript-eslint/no-unused-expressions": ["error", { "allowShortCircuit": true }],
+        "@typescript-eslint/no-unused-expressions": ["error", {"allowShortCircuit": true}],
 
         // Force single quotes to align with ruby
         quotes: "off",
-        "@typescript-eslint/quotes": ["error", "single", { avoidEscape: true }],
+        "@typescript-eslint/quotes": ["error", "single", {avoidEscape: true}],
 
         // Disable webpack loader definitions
         "import/no-webpack-loader-syntax": "off",
@@ -103,18 +102,21 @@ module.exports = {
 
         // No void at all collides with `@typescript-eslint/no-floating-promises` which wants us to handle each promise.
         // Until we do that, `void` is a good way to explicitly mark unhandled promises.
-        "no-void": ["error", { allowAsStatement: true }],
+        "no-void": ["error", {allowAsStatement: true}],
 
         // Disable no-use for functions and classes
-        "no-use-before-define": ["error", { "functions": false, "classes": false }],
-        "@typescript-eslint/no-use-before-define": ["error", { "functions": false, "classes": false }],
+        "no-use-before-define": ["error", {"functions": false, "classes": false}],
+        "@typescript-eslint/no-use-before-define": ["error", {"functions": false, "classes": false}],
 
         // Allow subsequent single fields in typescript classes
-        "@typescript-eslint/lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+        "@typescript-eslint/lines-between-class-members": ["error", "always", {"exceptAfterSingleLine": true}],
 
         // Disable indentation rule as it breaks in edge cases and is covered by editorconfig
         "indent": "off",
         "@typescript-eslint/indent": "off",
+
+        // Allow namespaces, they are generated into flat functions and we don't care about modules for helpers
+        "@typescript-eslint/no-namespace": "off",
 
         /*
         // Disable use before define, as irrelevant for TS interfaces
@@ -162,11 +164,14 @@ module.exports = {
             allowAfterThisConstructor: false,
             enforceInMethodNames: true,
             allowFunctionParams: true,
-          }
+          },
         ],
 
         "no-return-assign": ["error", "except-parens"],
-        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+        "no-plusplus": ["error", {"allowForLoopAfterthoughts": true}],
+
+        // https://typescript-eslint.io/rules/no-base-to-string/ Disable false positives due to missing types
+        "@typescript-eslint/no-base-to-string": ["error", {"ignoredTypeNames": ["URI", "Error", "RegExp", "URL", "URLSearchParams"]}],
 
         //////////////////////////////////////////////////////////////////////
         // Anything below this line should be turned on again at some point //
@@ -174,13 +179,14 @@ module.exports = {
 
         // It's common in Angular to wrap even pure functions in classes for injection purposes
         "class-methods-use-this": "off",
-      }
+
+        "spaced-comment": "off",
+      },
     },
     {
       files: ["*.html"],
       extends: ["plugin:@angular-eslint/template/recommended"],
-      rules: {
-      }
+      rules: {},
     },
     {
       files: ["*.spec.ts"],
@@ -197,7 +203,7 @@ module.exports = {
 
         // Allow more than one class definitions per file (test components)
         "max-classes-per-file": "off",
-      }
-    }
+      },
+    },
   ],
 };

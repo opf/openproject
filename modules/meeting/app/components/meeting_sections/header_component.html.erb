@@ -1,0 +1,74 @@
+<%=
+  component_wrapper(class: "op-meeting-section-container", data: wrapper_data_attributes) do
+    if @state == :show
+      grid_layout('op-meeting-section', tag: :div) do |grid|
+        grid.with_area(:'drag-handle', tag: :div, classes: "hide-when-print") do
+          if editable?
+            render(Primer::OpenProject::DragHandle.new(classes: 'handle'))
+          end
+        end
+        grid.with_area(:content, tag: :span) do
+          render(Primer::Beta::Text.new(font_weight: :bold, mr: 2)) do
+            @meeting_section.title.presence || I18n.t("meeting_section.untitled_title")
+          end
+        end
+        if @meeting_section.agenda_items_sum_duration_in_minutes > 0
+          grid.with_area(:duration, Primer::Beta::Text, color: :subtle, mr: 1, font_size: :small) do
+            render(Primer::Beta::Text.new(font_size: :small, font_weight: :normal, color: :subtle)) do
+              render(OpenProject::Common::DurationComponent.new(@meeting_section.agenda_items_sum_duration_in_minutes, :minutes, abbreviated: true))
+            end
+          end
+        end
+        grid.with_area(:actions, tag: :div, justify_self: :end, classes: "hide-when-print") do
+          if editable?
+            render(Primer::Alpha::ActionMenu.new(data: { test_selector: "meeting-section-action-menu" })) do |menu|
+              menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("settings.project_attributes.label_section_actions"), scheme: :invisible)
+              edit_action_item(menu)
+              unless first? && last?
+                menu.with_divider
+                move_actions(menu)
+              end
+              menu.with_divider
+              add_agenda_item_action(menu)
+              add_work_package_action(menu)
+              menu.with_divider
+              delete_action_item(menu)
+            end
+          end
+        end
+      end
+    else
+      primer_form_with(
+        model: @meeting_section,
+        method: :put,
+        url: meeting_section_path(@meeting_section.meeting, @meeting_section),
+        data: {
+            "controller": "meeting-section-form",
+            "application-target": "dynamic",
+            "meeting-section-form-cancel-url-value": cancel_edit_meeting_section_path(@meeting_section.meeting, @meeting_section)
+        }
+      ) do |f|
+        flex_layout do |editable_title_form|
+          editable_title_form.with_column(flex: 1, mr: 2, pl: 2) do
+            render(MeetingSection::Title.new(f))
+          end
+
+          editable_title_form.with_column(mr: 2) do
+            render(MeetingSection::Submit.new(f))
+          end
+
+          editable_title_form.with_column do
+            render(Primer::Beta::Button.new(
+              scheme: :secondary,
+              tag: :a,
+              href: cancel_edit_meeting_section_path(@meeting_section.meeting, @meeting_section),
+              data: { 'turbo-stream': true }
+            )) do |_c|
+              t("button_cancel")
+            end
+          end
+        end
+      end
+    end
+  end
+%>

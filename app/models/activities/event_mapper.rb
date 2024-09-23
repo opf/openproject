@@ -1,0 +1,85 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module Activities
+  class EventMapper
+    include Redmine::I18n
+
+    attr_reader :journable
+
+    def initialize(journable)
+      @journable = journable
+    end
+
+    def map_to_events
+      journable
+        .journals
+        .includes(*journals_includes)
+        .all
+        .flat_map { |journal| map_to_event(journal) }
+    end
+
+    protected
+
+    def journals_includes
+      %i[data]
+    end
+
+    def map_to_event(journal)
+      params = mapped_params(journal)
+      create_event(params)
+    end
+
+    def create_event(params)
+      Activities::Event.new(**params)
+    end
+
+    def mapped_params(journal)
+      data = event_data(journal)
+
+      {
+        event_description: journal.notes,
+        event_datetime: journal.updated_at,
+        event_author: journal.user,
+        project: journal.project,
+        project_id: journal.project&.id,
+        journal:,
+        data:,
+        event_title: event_title(journal, data)
+      }
+    end
+
+    def event_data(journal)
+      raise NotImplementedError
+    end
+
+    def event_title(journal, data)
+      raise NotImplementedError
+    end
+  end
+end

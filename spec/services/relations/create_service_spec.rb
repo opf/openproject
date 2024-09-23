@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ RSpec.describe Relations::CreateService do
   let(:work_package2_due_date) { nil }
 
   let(:follows_relation) { false }
-  let(:delay) { 3 }
+  let(:lag) { 3 }
 
   let(:work_package1) do
     build_stubbed(:work_package,
@@ -63,7 +63,7 @@ RSpec.describe Relations::CreateService do
     {
       to: work_package1,
       from: work_package2,
-      delay:
+      lag:
     }
   end
 

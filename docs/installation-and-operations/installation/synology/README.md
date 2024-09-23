@@ -5,14 +5,14 @@ sidebar_navigation: false
 # Synology
 
 Synology offers NAS devices that come with a UI for starting docker containers on them.
-This means OpenProject has to be used exactly as described in the [docker](../docker/#one-container-per-process-recommended) section.
+This means OpenProject has to be used exactly as described in the [docker](../docker/) section.
 
 ## Launching the container
 
 Launching OpenProject works like launching any other container in [Synology](https://www.synology.com/en-global/knowledgebase/DSM/help/Docker/docker_container).
 
 First you have to go to the **Registry** section and download the OpenProject image.
-It's best to choose the specific tag of the latest stable version (`openproject/community:11` at the time of writing).
+It's best to choose the specific tag of the latest stable version (`openproject/openproject:14` at the time of writing).
 You can use `:latest` too but it might lead to surprises when a major version upgrade happens.
 
 Below are some settings you have to pay attention to when launching the container.

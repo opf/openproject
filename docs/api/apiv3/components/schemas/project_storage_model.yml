@@ -80,12 +80,12 @@ properties:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              A link to open project strorage.
+              A link to OpenProject strorage.
       openWithConnectionEnsured:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              A link to open project storage with making sure user has access to it.
+              A link to OpenProject storage with making sure user has access to it.
 
               # Conditions
 

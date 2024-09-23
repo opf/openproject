@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 4.0.2
-  sidebar_navigation:
-      title: 4.0.2
-  release_version: 4.0.2
-  release_date: 2014-11-20
+title: OpenProject 4.0.2
+sidebar_navigation:
+  title: 4.0.2
+release_version: 4.0.2
+release_date: 2014-11-20
 ---
 
 # OpenProject 4.0.2
@@ -33,7 +33,7 @@ In addition, several bugs have been fixed:
 
 A big thanks to everyone involved in fixing and reporting those bugs!
 
-For a complete list of changes, please refer to the 
-[Changelog v4.0.2](https://community.openproject.org/versions/532) 
+For a complete list of changes, please refer to the
+[Changelog v4.0.2](https://community.openproject.org/versions/532)
 or to
 [Github](https://github.com/opf/openproject/tree/v4.0.2).

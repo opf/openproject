@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_ac
   shared_let(:user) { create(:user, preferences: { time_zone: "Etc/UTC" }) }
 
   shared_let(:role) do
-    create(:project_role, permissions: %i[manage_storages_in_project
+    create(:project_role, permissions: %i[manage_files_in_project
                                           oauth_access_grant
                                           select_project_modules
                                           edit_project])
@@ -55,7 +55,7 @@ RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_ac
         project_id: project_storage.project.id,
         id: project_storage
       )
-      expect(last_response.status).to eq(401)
+      expect(last_response).to have_http_status(:unauthorized)
     end
   end
 
@@ -78,14 +78,14 @@ RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_ac
           project_id: project_storage.project.id,
           id: project_storage
         )
-        expect(last_response.status).to eq(302)
+        expect(last_response).to have_http_status(:found)
         expect(last_response.location).to eq(
           "#{storage.host}/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
           "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}"
         )
 
         expect(last_response.cookies["oauth_state_#{nonce}"])
-          .to eq([CGI.escape({ href: "http://example.org/projects/#{project.id}/settings/project_storages",
+          .to eq([CGI.escape({ href: "http://#{Setting.host_name}/projects/#{project.id}/settings/project_storages/external_file_storages",
                                storageId: project_storage.storage_id }.to_json)])
       end
     end
@@ -104,8 +104,8 @@ RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_ac
         )
 
         storage.oauth_client
-        expect(last_response.status).to eq(302)
-        expect(last_response.location).to eq("http://example.org/projects/#{project.id}/settings/project_storages")
+        expect(last_response).to have_http_status(:found)
+        expect(last_response.location).to eq("http://#{Setting.host_name}/projects/#{project.id}/settings/project_storages/external_file_storages")
         expect(last_response.cookies.keys).to eq(["_open_project_session"])
       end
     end

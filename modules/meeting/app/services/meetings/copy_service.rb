@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,8 +76,17 @@ module Meetings
         .slice(*writable_meeting_attributes(meeting))
         .merge("start_time" => meeting.start_time + 1.week)
         .merge("author" => user)
-        .merge("participants_attributes" => meeting.allowed_participants.collect(&:copy_attributes))
+        .merge("state" => "open")
+        .merge("participants_attributes" => copied_participants)
         .merge(overwritten_attributes)
+    end
+
+    def copied_participants
+      if meeting.allowed_participants.empty?
+        [{ "user_id" => user.id, "invited" => true }]
+      else
+        meeting.allowed_participants.collect(&:copy_attributes)
+      end
     end
 
     def writable_meeting_attributes(meeting)
@@ -102,8 +111,14 @@ module Meetings
 
     def copy_meeting_agenda(copy)
       if meeting.is_a?(StructuredMeeting)
-        meeting.agenda_items.each do |agenda_item|
-          copy.agenda_items << agenda_item.dup
+        meeting.sections.each do |section|
+          copy.sections << section.dup
+          copied_section = copy.reload.sections.last
+          section.agenda_items.each do |agenda_item|
+            copied_agenda_item = agenda_item.dup
+            copied_agenda_item.meeting_id = copy.id
+            copied_section.agenda_items << copied_agenda_item
+          end
         end
       else
         MeetingAgenda.create!(

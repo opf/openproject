@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,6 @@ module Storages
     module StorageInteraction
       module OneDrive
         class OpenStorageQuery
-          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
-
           def self.call(storage:, auth_strategy:)
             new(storage).call(auth_strategy:)
           end
@@ -44,7 +42,7 @@ module Storages
           end
 
           def call(auth_strategy:)
-            Auth[auth_strategy].call(storage: @storage) do |http|
+            Authentication[auth_strategy].call(storage: @storage) do |http|
               request_drive(http).map(&web_url)
             end
           end
@@ -52,7 +50,7 @@ module Storages
           private
 
           def request_drive(http)
-            handle_responses http.get(Util.join_uri_path(@storage.uri, drive_uri_path))
+            handle_responses http.get(request_url)
           end
 
           def handle_responses(response)
@@ -61,21 +59,21 @@ module Storages
               ServiceResult.success(result: response.json(symbolize_keys: true))
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
-                                    errors: Util.storage_error(response:, code: :not_found, source: self))
+                                    errors: Util.storage_error(response:, code: :not_found, source: self.class))
             in { status: 403 }
               ServiceResult.failure(result: :forbidden,
-                                    errors: Util.storage_error(response:, code: :forbidden, source: self))
+                                    errors: Util.storage_error(response:, code: :forbidden, source: self.class))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
-                                    errors: Util.storage_error(response:, code: :unauthorized, source: self))
+                                    errors: Util.storage_error(response:, code: :unauthorized, source: self.class))
             else
-              data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
-              ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
+              ServiceResult.failure(result: :error,
+                                    errors: Util.storage_error(response:, code: :error, source: self.class))
             end
           end
 
-          def drive_uri_path
-            "/v1.0/drives/#{@storage.drive_id}?$select=webUrl"
+          def request_url
+            "#{Util.drive_base_uri(@storage)}?$select=webUrl"
           end
 
           def web_url

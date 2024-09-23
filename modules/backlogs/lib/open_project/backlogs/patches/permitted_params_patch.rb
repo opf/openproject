@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ module OpenProject::Backlogs::Patches::PermittedParamsPatch
 
   module InstanceMethods
     def update_work_package(args = {})
-      permitted_params = super(args)
+      permitted_params = super
 
       backlogs_params = params.require(:work_package).permit(:story_points)
       permitted_params.merge!(backlogs_params)

@@ -1,0 +1,116 @@
+# Schema: RelationReadModel
+---
+type: object
+properties:
+  _type:
+    type: string
+    enum:
+      - Relation
+  id:
+    type: integer
+    description: Relation ID
+  name:
+    type: string
+    description: The internationalised name of this type of relation
+  type:
+    type: string
+    description: The relation type.
+    enum:
+      - relates
+      - duplicates
+      - duplicated
+      - blocks
+      - blocked
+      - precedes
+      - follows
+      - includes
+      - partof
+      - requires
+      - required
+  reverseType:
+    type: string
+    description: The type of relation from the perspective of the related work package.
+    enum:
+      - relates
+      - duplicates
+      - duplicated
+      - blocks
+      - blocked
+      - precedes
+      - follows
+      - includes
+      - partof
+      - requires
+      - required
+  description:
+    type:
+      - 'string'
+      - 'null'
+    description: A descriptive text for the relation.
+  lag:
+    type:
+      - 'integer'
+      - 'null'
+    description: The lag in days between closing of `from` and start of `to`
+    minimum: 0
+  _embedded:
+    type: object
+    properties:
+      from:
+        $ref: './work_package_model.yml'
+      to:
+        $ref: './work_package_model.yml'
+  _links:
+    type: object
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This relation
+
+              **Resource**: Relation
+
+              # Conditions
+
+              **Permission**: view work packages
+      updateImmediately:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Updates the relation between two work packages
+
+              # Conditions
+
+              **Permission**: manage work package relations
+      delete:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Destroys the relation between the two work packages
+
+              # Conditions
+
+              **Permission**: manage work package relations
+      from:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The emanating work package
+
+              **Resource**: WorkPackage
+
+              # Conditions
+
+              **Permission**: view work packages
+      to:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The work package the relation ends in
+
+              **Resource**: WorkPackage
+
+              # Conditions
+
+              **Permission**: view work packages

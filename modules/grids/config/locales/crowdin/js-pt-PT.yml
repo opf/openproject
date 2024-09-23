@@ -42,6 +42,9 @@ pt-PT:
         subprojects:
           title: 'Subprojetos'
           no_results: 'Nenhum subprojeto.'
+        project_favorites:
+          title: 'Projetos favoritos'
+          no_results: 'Atualmente, não tem projetos favoritos. Clique no ícone da estrela no painel do projeto para adicionar um projeto aos seus favoritos.'
         time_entries_current_user:
           title: 'O meu tempo gasto'
           displayed_days: 'Dias exibidos no widget:'

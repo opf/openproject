@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,34 +28,27 @@
 
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation } from '@angular/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { combineLatest } from 'rxjs';
-import {
-  debounceTime,
-  filter,
-  map,
-  mergeMap,
-  shareReplay,
-  take,
-} from 'rxjs/operators';
+import { combineLatest, Observable, ReplaySubject } from 'rxjs';
+import { debounceTime, defaultIfEmpty, filter, map, mergeMap, shareReplay, take } from 'rxjs/operators';
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { insertInList } from 'core-app/shared/components/project-include/insert-in-list';
 import { recursiveSort } from 'core-app/shared/components/project-include/recursive-sort';
-import { SearchableProjectListService } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
+import {
+  SearchableProjectListService,
+} from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
-export const headerProjectSelectSelector = 'op-header-project-select';
 
 @Component({
-  selector: headerProjectSelectSelector,
+  selector: 'opce-header-project-select',
   templateUrl: './header-project-select.component.html',
   styleUrls: ['./header-project-select.component.sass'],
   encapsulation: ViewEncapsulation.None,
@@ -111,7 +104,28 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     shareReplay(),
   );
 
+  public favorites$:Observable<string[]> = this
+    .apiV3Service
+    .projects
+    .signalled(
+      ApiV3Filter('favored', '=', true),
+      [
+        'elements/id',
+      ],
+      { pageSize: '-1' },
+    )
+    .pipe(
+      map((collection:IHALCollection<{ id:string|number }>) => collection._embedded.elements || []),
+      map((elements) => elements.map((item) => item.id.toString())),
+      defaultIfEmpty([]),
+      shareReplay(1),
+    );
+
   public text = {
+    all: this.I18n.t('js.label_all_uppercase'),
+    favored: this.I18n.t('js.label_favorites'),
+    no_favorites: this.I18n.t('js.favorite_projects.no_results'),
+    no_favorites_subtext: this.I18n.t('js.favorite_projects.no_results_subtext'),
     project: {
       singular: this.I18n.t('js.label_project'),
       plural: this.I18n.t('js.label_project_plural'),
@@ -121,6 +135,13 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     search_placeholder: this.I18n.t('js.include_projects.search_placeholder'),
     no_results: this.I18n.t('js.include_projects.no_results'),
   };
+
+  public displayMode:'all'|'favored' = 'all';
+
+  public displayModeOptions = [
+    { value: 'all', title: this.text.all },
+    { value: 'favored', title: this.text.favored },
+  ];
 
   /* This seems like a way too convoluted loading check, but there's a good reason we need it.
    * The searchableProjectListService says fetching is "done" when the request returns.
@@ -142,12 +163,16 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
 
   private scrollToCurrent = false;
 
+  private subscriptionComplete$ = new ReplaySubject<void>(1);
+
   constructor(
-    protected pathHelper:PathHelperService,
-    protected I18n:I18nService,
-    protected currentProject:CurrentProjectService,
+    readonly pathHelper:PathHelperService,
+    readonly configuration:ConfigurationService,
+    readonly I18n:I18nService,
+    readonly currentProject:CurrentProjectService,
     readonly searchableProjectListService:SearchableProjectListService,
     readonly currentUserService:CurrentUserService,
+    readonly apiV3Service:ApiV3Service,
   ) {
     super();
 
@@ -161,14 +186,25 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
         }
 
         this.scrollToCurrent = false;
+        this.subscriptionComplete$.next(); // Signal that subscription logic is complete
       });
   }
 
   toggleDropModal():void {
-    this.dropModalOpen = !this.dropModalOpen;
-    if (this.dropModalOpen) {
-      this.scrollToCurrent = true;
-      this.searchableProjectListService.loadAllProjects();
+    this.subscriptionComplete$.pipe(take(1)).subscribe(() => {
+      this.dropModalOpen = !this.dropModalOpen;
+      if (this.dropModalOpen) {
+        this.scrollToCurrent = true;
+        this.searchableProjectListService.loadAllProjects();
+      }
+    });
+  }
+
+  displayModeChange(mode:'all'|'favored'):void {
+    this.displayMode = mode;
+
+    if (this.currentProject?.id) {
+      this.searchableProjectListService.selectedItemID$.next(parseInt(this.currentProject.id, 10));
     }
   }
 
@@ -192,5 +228,13 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
   newProjectPath():string {
     const parentParam = this.currentProject.id ? `?parent_id=${this.currentProject.id}` : '';
     return `${this.pathHelper.projectsNewPath()}${parentParam}`;
+  }
+
+  anyProjectsFound(projects:IProjectData[], favorites:string[]):boolean {
+    if (this.displayMode === 'all') {
+      return projects.length > 0;
+    }
+
+    return projects.length > 0 && favorites.length > 0;
   }
 }

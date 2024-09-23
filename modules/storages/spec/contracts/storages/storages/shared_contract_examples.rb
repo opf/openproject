@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -116,13 +116,13 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
       context "as host is not a URL" do
         let(:storage_host) { "---invalid-url---" }
 
-        include_examples "contract is invalid", host: I18n.t("activerecord.errors.messages.invalid_url")
+        include_examples "contract is invalid", host: :invalid_host_url
       end
 
       context "as host is an empty string" do
         let(:storage_host) { "" }
 
-        include_examples "contract is invalid", host: I18n.t("activerecord.errors.messages.invalid_url")
+        include_examples "contract is invalid", host: :invalid_host_url
       end
 
       context "as host is longer than 255" do
@@ -192,7 +192,8 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
 
             it "retries failed request once" do
               contract.validate
-              expect(stub_server_capabilities).to have_been_made.once
+              # twice due to HTTPX retry plugin being enabled.
+              expect(stub_server_capabilities).to have_been_made.twice
             end
           end
 
@@ -203,8 +204,8 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
 
             it "retries failed request once" do
               contract.validate
-
-              expect(stub_config_check).to have_been_made.once
+              # twice due to HTTPX retry plugin being enabled.
+              expect(stub_config_check).to have_been_made.twice
             end
           end
         end

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,26 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals
-  class ParentFolder
-    attr_reader :path
+module Storages
+  module Peripherals
+    ParentFolder = Data.define(:path) do
+      delegate :split, :empty?, to: :path
 
-    def initialize(path)
-      @path = path
+      def root?
+        path == "/"
+      end
+
+      def to_s
+        path
+      end
     end
 
-    def root?
-      @path == "/"
-    end
-
-    def to_s
-      @path
-    end
-  end
-
-  module StorageParentFolderExtractor
-    def extract_parent_folder(params)
-      ParentFolder.new(params[:parent].presence || "/")
+    module StorageParentFolderExtractor
+      def extract_parent_folder(params)
+        ParentFolder.new(params[:parent].presence || "/")
+      end
     end
   end
 end

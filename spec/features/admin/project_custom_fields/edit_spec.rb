@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,10 +48,18 @@ RSpec.describe "Edit project custom fields", :js do
     end
 
     it "shows a correct breadcrumb menu" do
-      within "#breadcrumb" do
+      within ".PageHeader-breadcrumbs" do
         expect(page).to have_link("Administration")
+        expect(page).to have_link("Projects")
         expect(page).to have_link("Project attributes")
         expect(page).to have_text(boolean_project_custom_field.name)
+      end
+    end
+
+    it "shows tab navigation" do
+      within_test_selector("project_attribute_detail_header") do
+        expect(page).to have_link("Details")
+        expect(page).to have_link("Enabled in projects")
       end
     end
 
@@ -59,7 +67,7 @@ RSpec.describe "Edit project custom fields", :js do
       # TODO: reuse specs for classic custom field form in order to test for other attribute manipulations
       expect(page).to have_css(".PageHeader-title", text: boolean_project_custom_field.name)
 
-      fill_in("custom_field_name", with: "Updated name")
+      fill_in("custom_field_name", with: "Updated name", fill_options: { clear: :backspace })
       select(section_for_select_fields.name, from: "custom_field_custom_field_section_id")
 
       click_on("Save")
@@ -71,8 +79,9 @@ RSpec.describe "Edit project custom fields", :js do
       expect(boolean_project_custom_field.reload.name).to eq("Updated name")
       expect(boolean_project_custom_field.reload.project_custom_field_section).to eq(section_for_select_fields)
 
-      within "#breadcrumb" do
+      within ".PageHeader-breadcrumbs" do
         expect(page).to have_link("Administration")
+        expect(page).to have_link("Projects")
         expect(page).to have_link("Project attributes")
         expect(page).to have_text("Updated name")
       end

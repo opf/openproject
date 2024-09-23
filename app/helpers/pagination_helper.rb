@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,9 +48,11 @@ module PaginationHelper
   end
 
   def pagination_option_links(paginator, pagination_options)
+    allowed_params = pagination_options[:allowed_params] || %w[filters sortBy]
+
     option_links = pagination_settings(paginator,
                                        pagination_options[:params]
-                                        .merge(safe_query_params(%w{filters sortBy expand})))
+                                        .merge(safe_query_params(allowed_params)))
 
     content_tag(:div, option_links, class: "op-pagination--options")
   end
@@ -109,25 +111,18 @@ module PaginationHelper
   #  Prefers page over the other two and
   #  calculates page in it's absence based on limit and offset.
   #  Return 1 if all else fails.
-
   def page_param(options = params)
     page = if options[:page]
-
              options[:page].to_i
-
            elsif options[:offset] && options[:limit]
-
              begin
                # + 1 as page is not 0 but 1 based
                (options[:offset].to_i / per_page_param(options)) + 1
              rescue ZeroDivisionError
                1
              end
-
            else
-
              1
-
            end
 
     if page > 0
@@ -139,12 +134,11 @@ module PaginationHelper
 
   # Returns per_page option used for pagination
   # based on:
-  #  * per_page session value
   #  * per_page options value
+  #  * per_page session value
   #  * limit options value
   #  in that order
   #  Return smallest possible setting if all else fails.
-
   def per_page_param(options = params)
     per_page_candidates = [options[:per_page].to_i, session[:per_page].to_i, options[:limit].to_i]
 
@@ -168,7 +162,7 @@ module PaginationHelper
 
     def merge_get_params(url_params)
       params = super
-      params.except(*blocked_url_params)
+      allowed_params ? params.slice(*allowed_params) : params
     end
 
     def page_number(page)
@@ -196,15 +190,28 @@ module PaginationHelper
     def previous_or_next_page(page, text, class_suffix)
       if page
         tag(:li,
-            link(text, page, { class: "op-pagination--item-link op-pagination--item-link_" + class_suffix }),
-            class: "op-pagination--item op-pagination--item_" + class_suffix)
+            link(text, page, { class: "op-pagination--item-link op-pagination--item-link_#{class_suffix}" }),
+            class: "op-pagination--item op-pagination--item_#{class_suffix}")
       else
         ""
       end
     end
 
-    def blocked_url_params
-      @options[:blocked_url_params] || [] # rubocop:disable Rails/HelperInstanceVariable
+    private
+
+    def link(text, target, attributes)
+      new_attributes = attributes.dup
+      new_attributes["data-turbo-stream"] = true if turbo?
+
+      super(text, target, new_attributes)
+    end
+
+    def allowed_params
+      @options[:allowed_params] # rubocop:disable Rails/HelperInstanceVariable
+    end
+
+    def turbo?
+      @options[:turbo] # rubocop:disable Rails/HelperInstanceVariable
     end
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,13 +58,6 @@ RSpec.describe RestoreDefaultsOnEmptySettings, type: :model do
     it_behaves_like "a successful migration of an empty setting" do
       let(:setting_name) { "apiv3_cors_origins" }
       let(:expected_value) { [] }
-    end
-  end
-
-  context "with an empty setting which must be a hash" do
-    it_behaves_like "a successful migration of an empty setting" do
-      let(:setting_name) { "ldap_tls_options" }
-      let(:expected_value) { {} }
     end
   end
 

@@ -12,7 +12,7 @@ A number of plugins exist for use with OpenProject. Most plugins that are mainta
 
 Previously, using them in a packaged installation was not possible without losing your changes on every upgrade. With the following steps, you can now use third party plugins.
 
->  **Note**: We cannot guarantee upgrade compatibility for third party plugins nor do we provide support for them. Please carefully check whether the plugins you use are available in newer versions before upgrading your installation.
+> **Note**: We cannot guarantee upgrade compatibility for third party plugins nor do we provide support for them. Please carefully check whether the plugins you use are available in newer versions before upgrading your installation.
 
 ## Add a custom Gemfile
 
@@ -47,7 +47,6 @@ openproject config:set RECOMPILE_ANGULAR_ASSETS="true"
 > **Note**: Re-enabling Angular asset compilation has two implications: It will install all npm packages required for the compilation and in turn cause a higher disk and especially inode consumption. The Angular CLI production build itself then consumes a sometimes absurd amount of RAM with at least 4GB being required to compile successfully.
 > If you experience any issues with OpenProject not starting after setting this flag, double check that you are not running out of inodes or RAM when calling `openproject configure`.
 
-
 ## Re-run the installer
 
 To re-bundle the application including the new plugins, as well as running migrations and precompiling their assets, simply re-run the installer while using the same configuration as before.
@@ -57,4 +56,3 @@ sudo openproject configure
 ```
 
 Using configure will take your previous decisions in the installer and simply re-apply them, which is an idempotent operation. It will detect the Gemfile config option being set and re-bundle the application with the additional plugins.
-

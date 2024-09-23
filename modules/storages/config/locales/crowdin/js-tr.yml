@@ -79,7 +79,7 @@ tr:
           Yakın zamanda yüklenen '%{fileName}' dosyasını %{workPackageId} iş paketine bağlarken bir hata oluştu.
         tooltip:
           not_logged_in: "Please log in to the storage to access this file."
-          view_not_allowed: "You have no permission to see this file."
+          view_not_allowed: "Bu dosyayı görme izniniz yok."
           not_found: "This file cannot be found."
         already_linked_file: "Bu dosya zaten bu iş paketine bağlı."
         already_linked_directory: "Bu dizin zaten bu çalışma paketine bağlı."

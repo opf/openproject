@@ -19,9 +19,10 @@ get:
         JSON specifying filter conditions.
         Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
         Currently supported filters are:
-        
+
         + active: based on the active property of the project
         + ancestor: filters projects by their ancestor. A project is not considered to be it's own ancestor.
+        + available_project_attributes: filters projects based on the activated project project attributes.
         + created_at: based on the time the project was created
         + latest_activity_at: based on the time the last activity was registered on a project.
         + name_and_identifier: based on both the name and the identifier.
@@ -33,7 +34,7 @@ get:
         + user_action: based on the actions the current user has in the project.
         + id: based on projects' id.
         + visible: based on the visibility for the user (id) provided as the filter value. This filter is useful for admins to identify the projects visible to a user.
-        
+
         There might also be additional filters based on the custom fields that have been configured.
       example: '[{ "ancestor": { "operator": "=", "values": ["1"] }" }]'
     - name: sortBy
@@ -44,7 +45,7 @@ get:
       description: |-
         JSON specifying sort criteria.
         Currently supported orders are:
-        
+
         + id
         + name
         + typeahead (sorting by hierarchy and name)
@@ -52,7 +53,7 @@ get:
         + public
         + latest_activity_at
         + required_disk_space
-        
+
         There might also be additional orders based on the custom fields that have been configured.
       example: '[["id", "asc"]]'
     - name: select
@@ -97,7 +98,7 @@ post:
     content:
       application/json:
         schema:
-          type: object
+          $ref: '../components/schemas/project_model.yml'
         examples:
           'with custom fields':
             $ref: '../components/examples/project_body.yml'

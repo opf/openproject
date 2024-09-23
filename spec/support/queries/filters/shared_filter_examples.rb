@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,13 @@ RSpec.shared_context "filter tests" do
     described_class.create!(name: instance_key, context:, operator:, values:)
   end
   let(:name) { model.human_attribute_name((instance_key || expected_class_key).to_s.gsub("_id", "")) }
-  let(:model) { WorkPackage }
+  let(:model) do
+    if /^Queries::(?<model_plural>(?:[A-Z][a-z]+)+)::Filters?::(?:[A-Z][a-z]+)+Filter$/ =~ described_class.name
+      model_plural.singularize.constantize
+    else
+      raise "needs to be defined"
+    end
+  end
 end
 
 RSpec.shared_examples_for "basic query filter" do
@@ -75,10 +81,11 @@ end
 RSpec.shared_examples_for "list query filter" do |scope: true|
   include_context "filter tests"
   let(:attribute) { raise "needs to be defined" }
+  let(:valid_values) { raise "needs to be defined" }
   let(:type) { :list }
 
   if scope
-    describe "#scope" do
+    describe "#apply_to" do
       context 'for "="' do
         let(:operator) { "=" }
         let(:values) { valid_values }
@@ -86,7 +93,7 @@ RSpec.shared_examples_for "list query filter" do |scope: true|
         it "is the same as handwriting the query" do
           expected = model.where(["#{model.table_name}.#{attribute} IN (?)", values])
 
-          expect(instance.scope.to_sql).to eql expected.to_sql
+          expect(instance.apply_to(model).to_sql).to eql expected.to_sql
         end
       end
 
@@ -99,7 +106,7 @@ RSpec.shared_examples_for "list query filter" do |scope: true|
                  OR #{model.table_name}.#{attribute} NOT IN (?))".squish
           expected = model.where([sql, values])
 
-          expect(instance.scope.to_sql).to eql expected.to_sql
+          expect(instance.apply_to(model).to_sql).to eql expected.to_sql
         end
       end
     end
@@ -134,6 +141,7 @@ end
 RSpec.shared_examples_for "list_optional query filter" do
   include_context "filter tests"
   let(:attribute) { raise "needs to be defined" }
+  let(:valid_values) { raise "needs to be defined" }
   let(:type) { :list_optional }
   let(:joins) { nil }
   let(:expected_base_scope) do
@@ -147,7 +155,7 @@ RSpec.shared_examples_for "list_optional query filter" do
     joins || model.table_name
   end
 
-  describe "#scope" do
+  describe "#apply_to" do
     let(:values) { valid_values }
     let(:db_values) { defined?(transformed_values) ? transformed_values : valid_values }
 
@@ -158,7 +166,7 @@ RSpec.shared_examples_for "list_optional query filter" do
         expected = expected_base_scope
                    .where(["#{expected_table_name}.#{attribute} IN (?)", db_values])
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
@@ -170,7 +178,7 @@ RSpec.shared_examples_for "list_optional query filter" do
                OR #{expected_table_name}.#{attribute} NOT IN (?))".squish
         expected = expected_base_scope.where([sql, db_values])
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
@@ -181,7 +189,7 @@ RSpec.shared_examples_for "list_optional query filter" do
         sql = "#{expected_table_name}.#{attribute} IS NOT NULL"
         expected = expected_base_scope.where([sql])
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
@@ -191,7 +199,7 @@ RSpec.shared_examples_for "list_optional query filter" do
       it "is the same as handwriting the query" do
         sql = "#{expected_table_name}.#{attribute} IS NULL"
         expected = expected_base_scope.where([sql])
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
   end
@@ -224,7 +232,9 @@ end
 
 RSpec.shared_examples_for "list_optional group query filter" do
   include_context "filter tests"
-  describe "#scope" do
+  let(:valid_values) { raise "needs to be defined" }
+
+  describe "#apply_to" do
     let(:values) { valid_values }
 
     context 'for "="' do
@@ -232,7 +242,7 @@ RSpec.shared_examples_for "list_optional group query filter" do
 
       it "is the same as handwriting the query" do
         expected = model.where(["users.id IN (#{User.in_group(values).select(:id).to_sql})"])
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
@@ -241,7 +251,7 @@ RSpec.shared_examples_for "list_optional group query filter" do
 
       it "is the same as handwriting the query" do
         expected = model.where(["users.id NOT IN (#{User.in_group(values).select(:id).to_sql})"])
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
@@ -250,7 +260,7 @@ RSpec.shared_examples_for "list_optional group query filter" do
 
       it "is the same as handwriting the query" do
         expected = model.where(["users.id IN (#{User.within_group([]).select(:id).to_sql})"])
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
@@ -259,7 +269,7 @@ RSpec.shared_examples_for "list_optional group query filter" do
 
       it "is the same as handwriting the query" do
         expected = model.where(["users.id NOT IN (#{User.within_group([]).select(:id).to_sql})"])
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
   end
@@ -293,6 +303,7 @@ end
 RSpec.shared_examples_for "list_all query filter" do
   include_context "filter tests"
   let(:attribute) { raise "needs to be defined" }
+  let(:valid_values) { raise "needs to be defined" }
   let(:type) { :list_all }
   let(:joins) { nil }
   let(:expected_base_scope) do
@@ -306,7 +317,7 @@ RSpec.shared_examples_for "list_all query filter" do
     joins || model.table_name
   end
 
-  describe "#scope" do
+  describe "#apply_to" do
     let(:values) { valid_values }
 
     context 'for "="' do
@@ -316,7 +327,7 @@ RSpec.shared_examples_for "list_all query filter" do
         expected = expected_base_scope
                    .where(["#{expected_table_name}.#{attribute} IN (?)", values])
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
@@ -328,7 +339,7 @@ RSpec.shared_examples_for "list_all query filter" do
                OR #{expected_table_name}.#{attribute} NOT IN (?))".squish
         expected = expected_base_scope.where([sql, values])
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
@@ -339,7 +350,7 @@ RSpec.shared_examples_for "list_all query filter" do
         sql = "#{expected_table_name}.#{attribute} IS NOT NULL"
         expected = expected_base_scope.where([sql])
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
   end
@@ -397,7 +408,7 @@ RSpec.shared_examples_for "boolean query filter" do |scope: true|
   end
 
   if scope
-    describe "#scope" do
+    describe "#apply_to" do
       let(:values) { valid_values }
 
       context 'for "="' do
@@ -407,7 +418,7 @@ RSpec.shared_examples_for "boolean query filter" do |scope: true|
           expected = expected_base_scope
                      .where(["#{expected_table_name}.#{attribute} IN (?)", values])
 
-          expect(instance.scope.to_sql).to eql expected.to_sql
+          expect(instance.apply_to(model).to_sql).to eql expected.to_sql
         end
       end
 
@@ -419,7 +430,7 @@ RSpec.shared_examples_for "boolean query filter" do |scope: true|
                  OR #{expected_table_name}.#{attribute} IN (?)".squish
           expected = expected_base_scope.where([sql, [OpenProject::Database::DB_VALUE_FALSE]])
 
-          expect(instance.scope.to_sql).to eql expected.to_sql
+          expect(instance.apply_to(model).to_sql).to eql expected.to_sql
         end
       end
     end

@@ -2,19 +2,23 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnInit,
+  OnDestroy,
   Output,
   ViewChild,
-  ElementRef } from '@angular/core';
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { DragulaService, Group } from 'ng2-dragula';
 import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { setBodyCursor } from 'core-app/shared/helpers/dom/set-window-cursor.helper';
-import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
+import {
+  repositionDropdownBugfix,
+} from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 import { AlternativeSearchService } from 'core-app/shared/components/work-packages/alternative-search.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
@@ -31,7 +35,7 @@ export interface DraggableOption {
   styleUrls: ['./draggable-autocomplete.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DraggableAutocompleteComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
+export class DraggableAutocompleteComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit, OnDestroy {
   /** Options to show in the autocompleter */
   @Input() options:DraggableOption[];
 
@@ -55,12 +59,19 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   /** Placeholder text to display in the autocompleter input */
   @Input() inputPlaceholder = '';
 
+  /** Label to display below the autocompleter input */
+  @Input() inputCaption = '';
+
   /** Label to display drag&drop area */
   @Input() dragAreaLabel = '';
+
+  /** Name of drag&drop area group */
+  @Input() dragAreaName = 'columns';
 
   /** Decide whether to bind the component to the component or to the body */
   /** Binding to the component in case the component is inside a Primer Dialog which uses popover */
   @Input() appendToComponent = false;
+  @Input() formControlId = 'op-draggable-autocomplete-container';
 
   /** Output when autocompleter changes values or items removed */
   @Output() onChange = new EventEmitter<DraggableOption[]>();
@@ -89,20 +100,25 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   ngOnInit():void {
     populateInputsFromDataset(this);
 
+    this.dragula.destroy(this.dragAreaName);
+
     this.updateAvailableOptions();
 
     // Setup groups
-    this.columnsGroup = this.dragula.createGroup('columns', {});
+    this.columnsGroup = this.dragula.createGroup(
+      this.dragAreaName,
+      { mirrorContainer: this.appendToComponent ? document.getElementById(this.formControlId)! : document.body },
+    );
 
     // Set cursor when dragging
-    this.dragula.drag('columns')
+    this.dragula.drag(this.dragAreaName)
       .pipe(this.untilDestroyed())
       .subscribe(() => setBodyCursor('move', 'important'));
 
     // Reset cursor when cancel or dropped
     merge(
-      this.dragula.drop('columns'),
-      this.dragula.cancel('columns'),
+      this.dragula.drop(this.dragAreaName),
+      this.dragula.cancel(this.dragAreaName),
     )
       .pipe(this.untilDestroyed())
       .subscribe(() => setBodyCursor('auto'));
@@ -111,7 +127,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
     const that = this;
     this.autoscroll = new DomAutoscrollService(
       [
-        document.getElementById('content-wrapper')!,
+        document.getElementById('content-body')!,
       ],
       {
         margin: 25,
@@ -123,7 +139,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
       },
     );
 
-    this.appendTo = this.appendToComponent ? '#op-draggable-autocomplete-container' : 'body';
+    this.appendTo = this.appendToComponent ? `#${this.formControlId}` : 'body';
   }
 
   ngAfterViewInit():void {
@@ -141,7 +157,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   ngOnDestroy():void {
     super.ngOnDestroy();
 
-    this.dragula.destroy('columns');
+    this.dragula.destroy(this.dragAreaName);
   }
 
   select(item:DraggableOption|undefined) {

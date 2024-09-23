@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 8.0.1
-  sidebar_navigation:
-      title: 8.0.1
-  release_version: 8.0.1
-  release_date: 2018-09-26
+title: OpenProject 8.0.1
+sidebar_navigation:
+  title: 8.0.1
+release_version: 8.0.1
+release_date: 2018-09-26
 ---
 
 
@@ -14,7 +14,7 @@ We released
 The release contains bug fixes from the 8.0 release. We recommend
 updating to the newest version.
 
-#### Bug fixes and changes
+## Bug fixes and changes
 
   - Fixed: Highlighting of timeline missing with highlighting mode none
     \[[#28564](https://community.openproject.org/wp/28564)\]
@@ -47,7 +47,7 @@ updating to the newest version.
   - Fixed: Login dropdown labels were styled as buttons on hover
     \[[#28616](https://community.openproject.org/wp/28616)\]
   - Fixed: Editing work package after submission with
-    add\_work\_packages permission 
+    add\_work\_packages permission
     \[[#28580](https://community.openproject.org/wp/28580)\]
   - Fixed: Fast click on subsequent query elements in the sidebar result
     in invalid table
@@ -65,10 +65,8 @@ updating to the newest version.
     is invalid when creating new project
     \[[#28543](https://community.openproject.org/wp/28543)\]
 
-#### Contributions
+## Contributions
 
 A big thanks to community members for reporting bugs, especially to Marc
 Vollmer, Frank Schmid, and Nicolas Salguero for their aid in identifying
 and providing fixes for multiple bug reports.
-
-

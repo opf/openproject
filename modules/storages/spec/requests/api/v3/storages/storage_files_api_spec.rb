@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -136,20 +136,20 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
       context "with authorization failure" do
         let(:error) { :unauthorized }
 
-        it { expect(last_response.status).to be(500) }
+        it { expect(last_response).to have_http_status(:internal_server_error) }
       end
 
       context "with internal error" do
         let(:error) { :error }
 
-        it { expect(last_response.status).to be(500) }
+        it { expect(last_response).to have_http_status(:internal_server_error) }
       end
 
       context "with not found" do
         let(:error) { :not_found }
 
         it "fails with outbound request failure" do
-          expect(last_response.status).to be(500)
+          expect(last_response).to have_http_status(:internal_server_error)
 
           body = JSON.parse(last_response.body)
           expect(body["message"]).to eq(I18n.t("api_v3.errors.code_500_outbound_request_failure", status_code: 404))
@@ -176,7 +176,6 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
           size: 1108864,
           owner_name: "Darth Vader",
           owner_id: "darthvader",
-          trashed: false,
           last_modified_by_name: "Darth Sidious",
           last_modified_by_id: "palpatine",
           permissions: "RGDNVCK",
@@ -218,7 +217,7 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
         let(:error) { :forbidden }
 
         it "fails with outbound request failure" do
-          expect(last_response.status).to be(500)
+          expect(last_response).to have_http_status(:internal_server_error)
 
           body = JSON.parse(last_response.body)
           expect(body["message"]).to eq(I18n.t("api_v3.errors.code_500_outbound_request_failure", status_code: 403))
@@ -229,14 +228,14 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
       context "with internal error" do
         let(:error) { :error }
 
-        it { expect(last_response.status).to be(500) }
+        it { expect(last_response).to have_http_status(:internal_server_error) }
       end
 
       context "with not found" do
         let(:error) { :not_found }
 
         it "fails with outbound request failure" do
-          expect(last_response.status).to be(500)
+          expect(last_response).to have_http_status(:internal_server_error)
 
           body = JSON.parse(last_response.body)
           expect(body["message"]).to eq(I18n.t("api_v3.errors.code_500_outbound_request_failure", status_code: 404))
@@ -249,7 +248,7 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
   describe "POST /api/v3/storages/:storage_id/files/prepare_upload" do
     let(:permissions) { %i(view_work_packages view_file_links manage_file_links) }
     let(:path) { api_v3_paths.prepare_upload(storage.id) }
-    let(:upload_link) { Storages::UploadLink.new("https://example.com/upload/xyz123") }
+    let(:upload_link) { Storages::UploadLink.new("https://example.com/upload/xyz123", :post) }
     let(:body) { { fileName: "ape.png", parent: "/Pictures", projectId: project.id }.to_json }
 
     subject(:last_response) do
@@ -258,10 +257,8 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
 
     describe "with successful response" do
       before do
-        Storages::Peripherals::Registry.stub(
-          "nextcloud.queries.upload_link",
-          ->(_) { ServiceResult.success(result: upload_link) }
-        )
+        Storages::Peripherals::Registry
+          .stub("nextcloud.queries.upload_link", ->(_) { ServiceResult.success(result: upload_link) })
       end
 
       subject { last_response.body }
@@ -288,23 +285,30 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
       describe "due to authorization failure" do
         let(:error) { :unauthorized }
 
-        it { expect(last_response.status).to be(500) }
+        it { expect(last_response).to have_http_status(:unauthorized) }
       end
 
       describe "due to internal error" do
         let(:error) { :error }
 
-        it { expect(last_response.status).to be(500) }
+        it "fails with an internal error" do
+          expect(last_response).to have_http_status(:internal_server_error)
+
+          body = MultiJson.load(last_response.body, symbolize_keys: true)
+          expect(body[:message]).to eq(I18n.t("services.errors.messages.error"))
+          expect(body[:errorIdentifier]).to eq("urn:openproject-org:api:v3:errors:InternalServerError")
+        end
       end
 
       describe "due to not found" do
         let(:error) { :not_found }
 
         it "fails with outbound request failure" do
-          expect(last_response.status).to be(500)
+          expect(last_response).to have_http_status(:internal_server_error)
 
           body = JSON.parse(last_response.body)
-          expect(body["message"]).to eq(I18n.t("api_v3.errors.code_500_outbound_request_failure", status_code: 404))
+          expect(body["message"]).to eq(I18n.t("services.errors.models.upload_link_service.not_found",
+                                               folder: "/Pictures", storage_name: storage.name))
           expect(body["errorIdentifier"]).to eq("urn:openproject-org:api:v3:errors:OutboundRequest:NotFound")
         end
       end
@@ -313,13 +317,13 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
     context "with invalid request body" do
       let(:body) { { fileNam_: "ape.png", parent: "/Pictures", projectId: project.id }.to_json }
 
-      it { expect(last_response.status).to be(400) }
+      it { expect(last_response).to have_http_status(:bad_request) }
     end
 
     context "without ee token", with_ee: false do
       let(:storage) { create(:one_drive_storage, creator: current_user) }
 
-      it { expect(last_response.status).to be(500) }
+      it { expect(last_response).to have_http_status(:internal_server_error) }
     end
   end
 end

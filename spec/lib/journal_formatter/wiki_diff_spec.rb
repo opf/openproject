@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -67,8 +67,8 @@ RSpec.describe OpenProject::JournalFormatter::WikiDiff do
                                                   protocol: Setting.protocol,
                                                   host: Setting.host_name)
   end
-  let(:link) { link_to(I18n.t(:label_details), path, class: "description-details") }
-  let(:full_url_link) { link_to(I18n.t(:label_details), url, class: "description-details") }
+  let(:link) { link_to(I18n.t(:label_details), path, class: "diff-details", target: "_top") }
+  let(:full_url_link) { link_to(I18n.t(:label_details), url, class: "diff-details") }
 
   describe "#render" do
     describe "a wiki diff for a wiki journal correctly" do
@@ -78,7 +78,7 @@ RSpec.describe OpenProject::JournalFormatter::WikiDiff do
                link:)
       end
 
-      it { expect(wiki_instance.render(wiki_key, ["old value", "new value"])).to eq(expected) }
+      it { expect(wiki_instance.render(wiki_key, ["old value", "new value"])).to be_html_eql(expected) }
     end
   end
 end

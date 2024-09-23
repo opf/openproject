@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -38,6 +38,8 @@ See COPYRIGHT and LICENSE files for more details.
   <!-- page specific tags -->
   <%= content_for(:header_tags) if content_for?(:header_tags) %>
   <meta name="current_menu_item" content="<%= current_menu_item %>"/>
+  <%# Disable prefetching while we have data-turbo=false on body %>
+  <meta name="turbo-prefetch" content="false">
 </head>
 <body
   class="<%= body_css_classes %> __overflowing_element_container __overflowing_body"
@@ -60,9 +62,9 @@ See COPYRIGHT and LICENSE files for more details.
     </p>
   </div>
 </noscript>
-<op-toasts-container></op-toasts-container>
-<op-modal-overlay></op-modal-overlay>
-<spot-drop-modal-portal></spot-drop-modal-portal>
+<opce-toasts-container></opce-toasts-container>
+<opce-modal-overlay></opce-modal-overlay>
+<opce-spot-drop-modal-portal></opce-spot-drop-modal-portal>
 <% main_menu = render_main_menu(local_assigns.fetch(:menu_name, nil), @project) %>
 <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
 <% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
@@ -73,7 +75,7 @@ See COPYRIGHT and LICENSE files for more details.
         <h1 class="hidden-for-sighted">
           <%= t(:label_top_menu) %>
         </h1>
-        <main-menu-toggle></main-menu-toggle>
+        <opce-main-menu-toggle></opce-main-menu-toggle>
         <a href="" class="hidden-for-sighted skip-navigation-link"
            id="skip-navigation--content"
            aria-label="<%= I18n.t('js.work_packages.jump_marks.label_content') %>">
@@ -100,7 +102,7 @@ See COPYRIGHT and LICENSE files for more details.
         data-application-target="dynamic"
       >
         <h1 class="hidden-for-sighted"><%= t(:label_main_menu) %></h1>
-        <main-menu-resizer></main-menu-resizer>
+        <opce-main-menu-resizer></opce-main-menu-resizer>
         <div id="menu-sidebar">
           <%= main_menu %>
           <%= content_for :main_menu %>
@@ -116,16 +118,12 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="content-overlay"></div>
     <main id="content-wrapper" class="<%= initial_classes %>">
       <%= render_primer_banner_message %>
-      <% if show_decoration %>
-        <div id="breadcrumb" class="<%= initial_classes %><%= show_breadcrumb ? ' -show' : '' %>">
-          <%= you_are_here_info %>
-          <div id="full_breadcrumbs">
-            <%= full_breadcrumbs %>
-          </div>
-          <%= call_hook :view_layouts_base_breadcrumb %>
-        </div>
-      <% end %>
-      <%= render_flash_messages %>
+      <%= render_streameable_primer_banner_message %>
+      <%# Banner messages are being rendered using primer %>
+      <div id="banner-messages" class="op-primer-banner"></div>
+      <turbo-frame id="flash-messages">
+        <%= render_flash_messages %>
+      </turbo-frame>
       <% if show_onboarding_modal? %>
         <section data-augmented-model-wrapper
                  data-modal-initialize-now="true"
@@ -135,14 +133,33 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
       <%= content_tag :div,
                       id: 'content',
-                      class: initial_classes,
+                      class: "#{initial_classes} #{'content--split' if content_for?(:content_body_right)}",
                       data: stimulus_content_data do %>
-        <h1 class="hidden-for-sighted"><%= t(:label_content) %></h1>
-        <%= content_for :content_body %>
-        <% unless local_assigns[:no_layout_yield] %>
-          <%= yield %>
+        <h1 class="hidden-for-sighted accessibility-helper"><%= t(:label_content) %></h1>
+        <% if content_for?(:content_header) %>
+          <div id="content-header">
+            <%= content_for :content_header %>
+          </div>
         <% end %>
-        <%= call_hook :view_layouts_base_content %>
+
+        <div id="content-body">
+          <% if show_decoration %>
+            <div id="breadcrumb" class="<%= show_breadcrumb ? ' -show' : '' %>">
+              <%= you_are_here_info %>
+              <div id="full_breadcrumbs">
+                <%= full_breadcrumbs %>
+              </div>
+              <%= call_hook :view_layouts_base_breadcrumb %>
+            </div>
+          <% end %>
+          <%= content_for :content_body %>
+          <% unless local_assigns[:no_layout_yield] %>
+            <%= yield %>
+          <% end %>
+        </div>
+        <%= turbo_frame_tag "content-bodyRight" do %>
+          <%= content_for :content_body_right %>
+        <% end %>
       <% end %>
     </main>
   </div>

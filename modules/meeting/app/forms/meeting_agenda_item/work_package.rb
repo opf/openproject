@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 class MeetingAgendaItem::WorkPackage < ApplicationForm
   form do |agenda_item_form|
-    agenda_item_form.autocompleter(
+    agenda_item_form.work_package_autocompleter(
       name: :work_package_id,
       label: WorkPackage.model_name.human,
       visually_hide_label: true,
@@ -37,8 +37,6 @@ class MeetingAgendaItem::WorkPackage < ApplicationForm
         data: {
           "test-selector": "op-agenda-items-wp-autocomplete"
         },
-        resource: "work_packages",
-        searchKey: "subjectOrId",
         focusDirectly: true,
         disabled: @disabled
       }

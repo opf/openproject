@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,58 +33,69 @@ module Storages
     module StorageInteraction
       module OneDrive
         class UploadLinkQuery
+          include TaggedLogging
+
+          def self.call(storage:, auth_strategy:, upload_data:)
+            new(storage).call(auth_strategy:, upload_data:)
+          end
+
           def initialize(storage)
             @storage = storage
-            @uri = storage.uri
           end
 
-          def self.call(storage:, user:, data:)
-            new(storage).call(user:, data:)
-          end
-
-          def call(user:, data:)
-            folder, filename = data.slice('parent', 'file_name').values
-
-            Util.using_user_token(@storage, user) do |token|
-              response = OpenProject.httpx
-                           .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
-                                            'Content-Type' => 'application/json' })
-                           .post(
-                             Util.join_uri_path(@uri, uri_path_for(folder, filename)),
-                             json: payload(filename)
-                           )
-
-              handle_response(response)
+          def call(auth_strategy:, upload_data:)
+            with_tagged_logger do
+              Authentication[auth_strategy].call(storage: @storage) do |http|
+                info "Requesting an upload link on folder #{upload_data.folder_id}"
+                handle_response http.post(url(upload_data.folder_id, upload_data.file_name),
+                                          json: payload(upload_data.file_name))
+              end
             end
           end
 
           private
 
+          def invalid?(upload_data:)
+            upload_data.folder_id.blank? || upload_data.file_name.blank?
+          end
+
           def payload(filename)
             { item: { "@microsoft.graph.conflictBehavior" => "rename", name: filename } }
           end
 
+          # rubocop:disable Metrics/AbcSize
           def handle_response(response)
-            data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
-
             case response
             in { status: 200..299 }
               upload_url = response.json(symbolize_keys: true)[:uploadUrl]
-              ServiceResult.success(result: ::Storages::UploadLink.new(URI(upload_url), :put))
-            in { status: 404 }
+              info "Upload link generated successfully."
+              ServiceResult.success(result: UploadLink.new(URI(upload_url), :put))
+            in { status: 404 | 400 } # not existent parent folder in request url is responded with 400
+              info "The parent folder was not found."
               ServiceResult.failure(result: :not_found,
-                                    errors: ::Storages::StorageError.new(code: :not_found, data:))
+                                    errors: Util.storage_error(code: :not_found, response:, source: self.class))
             in { status: 401 }
+              info "User authorization failed."
               ServiceResult.failure(result: :unauthorized,
-                                    errors: ::Storages::StorageError.new(code: :unauthorized, data:))
+                                    errors: Util.storage_error(code: :unauthorized, response:, source: self.class))
+            in { status: 403 }
+              info "User authorization failed."
+              ServiceResult.failure(result: :forbidden,
+                                    errors: Util.storage_error(code: :forbidden, response:, source: self.class))
             else
+              info "Unknown error happened."
               ServiceResult.failure(result: :error,
-                                    errors: ::Storages::StorageError.new(code: :error, data:))
+                                    errors: Util.storage_error(code: :error, response:, source: self.class))
             end
           end
 
-          def uri_path_for(folder, filename)
-            "/v1.0/drives/#{@storage.drive_id}/items/#{folder}:/#{URI.encode_uri_component(filename)}:/createUploadSession"
+          # rubocop:enable Metrics/AbcSize
+
+          def url(folder, filename)
+            base = UrlBuilder.url(Util.drive_base_uri(@storage), "/items/", folder)
+            file_path = UrlBuilder.path(filename)
+
+            "#{base}:#{file_path}:/createUploadSession"
           end
         end
       end

@@ -32,7 +32,7 @@ lv:
           name: Other
       types:
         item_0:
-          name: Task
+          name: Uzdevums
         item_1:
           name: Atskaites punkts
         item_2:
@@ -107,7 +107,7 @@ lv:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Komandas plānotājs
           boards:
             bcf:
               name: Simple drag'n drop workflow
@@ -169,7 +169,7 @@ lv:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Komandas plānotājs
           project-overview:
             widgets:
               item_0:
@@ -423,7 +423,7 @@ lv:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Komandas plānotājs
           project-overview:
             widgets:
               item_0:
@@ -696,7 +696,7 @@ lv:
             item_6:
               name: Tasks
             item_7:
-              name: Team planner
+              name: Komandas plānotājs
           boards:
             bcf:
               name: BCF issues

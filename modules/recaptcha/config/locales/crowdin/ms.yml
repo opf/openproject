@@ -1,24 +1,25 @@
 #English strings go here for Rails i18n
 ms:
   plugin_openproject_recaptcha:
-    name: "OpenProject ReCaptcha"
-    description: "This module provides recaptcha checks during login."
+    name: "ReCaptcha OpenProject"
+    description: "Modul ini menyediakan pemeriksaan recaptcha semasa log masuk."
   recaptcha:
     label_recaptcha: "reCAPTCHA"
-    button_please_wait: 'Sila tunggu ...'
+    button_please_wait: 'Sila tunggu sebentar ...'
     verify_account: "Sahkan akaun anda"
-    error_captcha: "Akaun anda tidak dapat disahkan. Sila hubungi pengurus."
+    error_captcha: "Akaun anda tidak dapat disahkan. Sila hubungi pentadbir."
     settings:
-      website_key: 'Website key'
-      response_limit: 'Had tindak balas untuk Hcaptcha'
-      response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
-      website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
-      secret_key: 'Secret key'
-      secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'
+      website_key: 'Website key (May also be called "Site key")'
+      response_limit: 'Had tindak balas untuk HCaptcha'
+      response_limit_text: 'Bilangan maksimum aksara bagi menganggap tindak balas HCaptcha sebagai sah.'
+      website_key_text: 'Masukkan kekunci laman web yang anda telah ciptakan di konsol pentadbir bagi domain ini.'
+      secret_key: 'Kekunci rahsia'
+      secret_key_text: 'Masukkan kekunci rahsia yang anda telah ciptakan di konsol pentadbir reCAPTCHA.'
       type: 'Gunakan reCAPTCHA'
-      type_disabled: 'Nyahaktifkan reCAPTCHA'
+      type_disabled: 'Nyahdayakan reCAPTCHA'
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       type_hcaptcha: 'HCaptcha'
-      recaptcha_description_html: >
-        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link}
+      type_turnstile: 'Cloudflare Turnstile™'
+      captcha_description_html: >
+        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link} <br/> Cloudflare Turnstile™ is another alternative that is more convenient for users while still providing the same level of security. See this link for more information: %{turnstile_link}

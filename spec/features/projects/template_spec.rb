@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,8 @@
 
 require "spec_helper"
 
-RSpec.describe "Project templates", :js, :with_cuprite do
+RSpec.describe "Project templates", :js, :with_cuprite,
+               with_good_job_batches: [CopyProjectJob, SendCopyProjectStatusEmailJob] do
   describe "making project a template" do
     let(:project) { create(:project) }
 
@@ -131,9 +132,10 @@ RSpec.describe "Project templates", :js, :with_cuprite do
       page.find("button:not([disabled])", text: "Save").click
 
       expect(page).to have_content I18n.t(:label_copy_project)
-      expect(page).to have_content I18n.t("js.job_status.generic_messages.in_queue")
+      expect(page).to have_content I18n.t("job_status_dialog.generic_messages.in_queue")
 
       # Run background jobs twice: the background job which itself enqueues the mailer job
+      GoodJob.perform_inline
       2.times { perform_enqueued_jobs }
 
       mail = ActionMailer::Base

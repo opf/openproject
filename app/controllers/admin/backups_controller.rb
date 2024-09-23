@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ class Admin::BackupsController < ApplicationController
   include ActionView::Helpers::TagHelper
   include BackupHelper
 
-  layout 'admin'
+  layout "admin"
 
   before_action :check_enabled
   before_action :authorize_global
@@ -65,7 +65,7 @@ class Admin::BackupsController < ApplicationController
   rescue StandardError => e
     token_reset_failed! e
   ensure
-    redirect_to action: 'show'
+    redirect_to action: "show"
   end
 
   def delete_token
@@ -73,15 +73,13 @@ class Admin::BackupsController < ApplicationController
 
     flash[:info] = t("backup.text_token_deleted")
 
-    redirect_to action: 'show'
+    redirect_to action: "show"
   end
 
-  def default_breadcrumb
-    t(:label_backup)
-  end
+  def default_breadcrumb; end
 
   def show_local_breadcrumb
-    true
+    false
   end
 
   def check_enabled
@@ -105,16 +103,16 @@ class Admin::BackupsController < ApplicationController
 
   def token_reset_flash_message(token)
     [
-      t('my.access_token.notice_reset_token', type: 'Backup'),
+      t("my.access_token.notice_reset_token", type: "Backup"),
       content_tag(:strong, token.plain_value),
-      t('my.access_token.token_value_warning')
+      t("my.access_token.token_value_warning")
     ]
   end
 
   def token_reset_failed!(error)
     Rails.logger.error "Failed to reset user ##{current_user.id}'s Backup token: #{error}"
 
-    flash[:error] = t('my.access_token.failed_to_reset_token', error: error.message)
+    flash[:error] = t("my.access_token.failed_to_reset_token", error: error.message)
   end
 
   def may_include_attachments?

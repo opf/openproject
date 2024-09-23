@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,15 +33,15 @@ module Pages::StructuredMeeting::Mobile
     def expect_participants(count: 1)
       within(meeting_details_container) do
         expect(page).to have_text(Meeting.human_attribute_name(:participant, count:))
-        expect(page).to have_button("Show all")
+        expect(page).to have_link("Show all")
       end
     end
 
     def open_participant_form
       within(meeting_details_container) do
-        click_on "Show all"
+        click_link_or_button "Show all"
       end
-      expect(page).to have_css("#meetings-sidebar-participants-form-component")
+      expect(page).to have_css("#edit-participants-dialog")
     end
   end
 end

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,12 +30,14 @@
 
 module Projects
   class TableComponent < ::TableComponent
+    include OpTurbo::Streamable
+
     options :params # We read collapsed state from params
     options :current_user # adds this option to those of the base class
     options :query
 
-    def initialize(**options)
-      super(rows: [], **options)
+    def initialize(**)
+      super(rows: [], **)
     end
 
     def before_render
@@ -47,21 +49,29 @@ module Projects
       %i[lft asc]
     end
 
+    def self.wrapper_key
+      "projects-table"
+    end
+
     def table_id
       "project-table"
+    end
+
+    def container_class
+      "generic-table--container_visible-overflow generic-table--container_height-100"
     end
 
     ##
     # The project sort by is handled differently
     def build_sort_header(column, options)
-      helpers.projects_sort_header_tag(column, options.merge(param: :json))
+      helpers.projects_sort_header_tag(column, **options, param: :json)
     end
 
     # We don't return the project row
     # but the [project, level] array from the helper
     def rows
       @rows ||= begin
-        projects_enumerator = ->(model) { to_enum(:projects_with_levels_order_sensitive, model).to_a } # rubocop:disable Lint/ToEnumArguments
+        projects_enumerator = ->(model) { to_enum(:projects_with_levels_order_sensitive, model).to_a }
         instance_exec(model, &projects_enumerator)
       end
     end
@@ -78,6 +88,21 @@ module Projects
       true
     end
 
+    def pagination_options
+      default_pagination_options.merge(optional_pagination_options)
+    end
+
+    def default_pagination_options
+      {
+        allowed_params: %i[query_id filters columns sortBy],
+        turbo: true
+      }
+    end
+
+    def optional_pagination_options
+      {}
+    end
+
     def deactivate_class_on_lft_sort
       if sorted_by_lft?
         "spot-link_inactive"
@@ -86,33 +111,33 @@ module Projects
 
     def href_only_when_not_sort_lft
       unless sorted_by_lft?
-        projects_path(sortBy: JSON::dump([["lft", "asc"]]))
+        projects_path(
+          sortBy: JSON.dump([%w[lft asc]]),
+          **helpers.projects_query_params.slice(*helpers.projects_query_param_names_for_sort)
+        )
       end
     end
 
-    def order_options(select)
-      {
-        caption: select.caption,
-        data:
-          {
-            controller: "params-from-query",
-            "application-target": "dynamic",
-            "params-from-query-allowed-value": '["query_id"]',
-            "params-from-query-all-anchors-value": "true"
-          }
-      }
+    def order_options(select, turbo: false)
+      options = { caption: select.caption }
+
+      if turbo
+        options[:data] = { "turbo-stream": true }
+      end
+
+      options
     end
 
     def sortable_column?(select)
-      query.known_order?(select.attribute)
+      sortable? && query.known_order?(select.attribute)
     end
 
     def columns
       @columns ||= begin
-        columns = query.selects.reject { |select| select.is_a?(Queries::Selects::NotExistingSelect) }
+        columns = query.selects.reject { |select| select.is_a?(::Queries::Selects::NotExistingSelect) }
 
         index = columns.index { |column| column.attribute == :name }
-        columns.insert(index, Queries::Projects::Selects::Default.new(:hierarchy)) if index
+        columns.insert(index, ::Queries::Projects::Selects::Default.new(:hierarchy)) if index
 
         columns
       end
@@ -147,6 +172,10 @@ module Projects
 
         ancestors << project
       end
+    end
+
+    def favored_project_ids
+      @favored_project_ids ||= Favorite.where(user: current_user, favored_type: "Project").pluck(:favored_id)
     end
 
     def sorted_by_lft?

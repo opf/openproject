@@ -1,0 +1,97 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(Primer::Alpha::Dialog.new(id:, title: scoped_t(:title), size: :large)) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
+
+  <% case %>
+  <% when can_delete_roles? && may_delete_shares? && shared_work_packages? %>
+    <% dialog.with_body do %>
+      <% if !can_delete? %>
+        <%= paragraph { scoped_t(:can_remove_direct_but_not_shared_roles) } %>
+        <%= paragraph { scoped_t(:also_work_packages_shared_with_user_html, shared_work_packages_link:, count: shared_work_packages_count) } %>
+        <%= paragraph do %>
+          <%= scoped_t(:remove_project_membership_or_work_package_shares_too) %>
+          <%= scoped_t(:will_not_affect_inherited_shares) if inherited_shared_work_packages_count? %>
+        <% end %>
+      <% elsif principal.is_a?(Group) %>
+        <%= paragraph do %>
+          <%= scoped_t(:will_remove_the_groups_role) %>
+          <%= scoped_t(:however_work_packages_shared_with_group_html, shared_work_packages_link:, count: shared_work_packages_count) %>
+        <% end %>
+        <%= paragraph do %>
+          <%= scoped_t(:remove_work_packages_shared_with_group_too) %>
+        <% end %>
+      <% else %>
+        <%= paragraph do %>
+          <%= scoped_t(:will_remove_the_users_role) %>
+          <%= scoped_t(:however_work_packages_shared_with_user_html, shared_work_packages_link:, count: shared_work_packages_count) %>
+        <% end %>
+        <%= paragraph do %>
+          <%= scoped_t(:remove_work_packages_shared_with_user_too) %>
+          <%= scoped_t(:will_not_affect_inherited_shares) if inherited_shared_work_packages_count? %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% dialog.with_footer do %>
+      <%= cancel_button %>
+      <%= button(scheme: :danger, tag: :a, href: delete_url(project: true), data: { method: :delete }) { t(:button_remove_member) } %>
+      <%= button(scheme: :danger, tag: :a, href: delete_url(project: true, work_package_shares_role_id: "all"), data: { method: :delete }) { t(:button_remove_member_and_shares) } %>
+    <% end %>
+  <% when can_delete_roles? %>
+    <% dialog.with_body do %>
+      <% if !can_delete? %>
+        <%= paragraph { scoped_t(:can_remove_direct_but_not_shared_roles) } %>
+      <% elsif principal.is_a?(Group) %>
+        <%= paragraph { scoped_t(:will_remove_all_group_access_priveleges) } %>
+      <% else %>
+        <%= paragraph { scoped_t(:will_remove_all_user_access_priveleges) } %>
+      <% end %>
+    <% end %>
+
+    <% dialog.with_footer do %>
+      <%= cancel_button %>
+      <%= button(scheme: :danger, tag: :a, href: delete_url(project: true), data: { method: :delete }) { t(:button_remove) } %>
+    <% end %>
+  <% else %>
+    <% dialog.with_body do %>
+      <%= paragraph { scoped_t(:cannot_delete_inherited_membership) } %>
+      <% if may_manage_user? %>
+        <%= paragraph { scoped_t(:cannot_delete_inherited_membership_note_admin_html, administration_settings_link:) } %>
+      <% else %>
+        <%= paragraph { scoped_t(:cannot_delete_inherited_membership_note_non_admin) } %>
+      <% end %>
+    <% end %>
+
+    <% dialog.with_footer do %>
+      <%= cancel_button %>
+    <% end %>
+  <% end %>
+<% end %>

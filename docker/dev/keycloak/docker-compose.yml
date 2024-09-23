@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+  db-keycloak:
+    image: postgres:13
+    restart: always
+    networks:
+      - external
+    environment:
+      - POSTGRES_DB=keycloak
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=keycloak
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1
+    command: ["start-dev", "--proxy edge", "--spi-connections-http-client-default-disable-trust-manager=true"]
+    restart: no
+    networks:
+      - external
+    extra_hosts:
+      - "openproject.local:host-gateway"
+    environment:
+      - KC_DB=postgres
+      - KC_DB_USERNAME=keycloak
+      - KC_DB_PASSWORD=keycloak
+      - KC_DB_URL=jdbc:postgresql://db-keycloak:5432/keycloak
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB_SCHEMA=public
+      - KC_HOSTNAME=keycloak.local
+      - KC_FEATURES=token-exchange
+      - KC_TRANSACTION_XA_ENABLED=false
+    volumes:
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+      - keycloak-data:/opt/keycloak/data/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak-sub-secure.rule=Host(`keycloak.local`)"
+      - "traefik.http.routers.keycloak-sub-secure.entrypoints=websecure"
+      - "traefik.http.routers.keycloak-sub-secure.tls=true"
+      - "traefik.http.routers.keycloak-sub-secure.tls.certresolver=step"
+    depends_on:
+      - db-keycloak
+
+volumes:
+  keycloak-data:
+
+networks:
+  external:
+    name: gateway
+    external: true

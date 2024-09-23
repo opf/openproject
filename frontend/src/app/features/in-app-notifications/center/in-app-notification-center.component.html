@@ -14,12 +14,12 @@
               class="op-ian-item"
               [class.op-ian-item_expanded]="records[0].expanded"
               [class.op-ian-item_read]="records[0].readIAN === true"
-              [class.op-ian-item_selected]="(stateChanged$ | async) === records[0]._links.resource.href"
+              [class.op-ian-item_selected]="(selectedWorkPackage$ | async) === idFromLink(records[0]._links.resource.href)"
               [notification]="records[0]"
               [aggregatedNotifications]="records"
               attr.data-test-selector="op-ian-notification-item-{{records[0].id}}"
               [attr.data-qa-ian-read]="records[0].readIAN === true || undefined"
-              [attr.data-qa-ian-selected]="(stateChanged$ | async) === records[0]._links.resource.href"
+              [attr.data-qa-ian-selected]="(selectedWorkPackage$ | async) === idFromLink(records[0]._links.resource.href)"
           ></op-in-app-notification-entry>
         </cdk-virtual-scroll-viewport>
       </ng-container>
@@ -28,7 +28,7 @@
         <img [src]="image.no_notification" class="op-ian-center-loading-image"/>
         <p class="op-ian-center-loading-text">
           <span [textContent]="noNotificationText((totalCount$ | async) > 0)"></span>
-         
+
         </p>
           <span
             *ngIf="(totalCount$ | async) > 0"

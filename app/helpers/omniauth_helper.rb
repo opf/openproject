@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,10 @@ module OmniauthHelper
     direct_login_provider.is_a? String
   end
 
+  def direct_login_provider_url(params = {})
+    omni_auth_start_url(direct_login_provider, params)
+  end
+
   ##
   # Per default the user may choose the usual password login as well as several omniauth providers
   # on the login page and in the login drop down menu.
@@ -42,6 +46,6 @@ module OmniauthHelper
   # If this option is active /login will lead directly to the configured omniauth provider
   # and so will a click on 'Sign in' (as opposed to opening the drop down menu).
   def direct_login_provider
-    OpenProject::Configuration["omniauth_direct_login_provider"]
+    Setting.omniauth_direct_login_provider.presence
   end
 end

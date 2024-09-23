@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -586,7 +586,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
       description: nil,
       base: nil
     )
-      work_package = base || issue.work_package
+      work_package = (base || issue.work_package).reload
 
       {
         guid: issue&.uuid,
@@ -603,9 +603,9 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
         due_date: due_date || base&.due_date,
         stage: nil,
         creation_author: creation_author_mail,
-        creation_date: work_package&.created_at&.iso8601(3),
+        creation_date: work_package&.created_at,
         modified_author: modified_author_mail,
-        modified_date: work_package&.updated_at&.iso8601(3),
+        modified_date: work_package&.updated_at,
         description: description || base&.description,
         authorization: {
           topic_status: [(base && base.status.name) || default_status.name],
@@ -689,7 +689,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
         end
 
         it "responds with a not authorized error" do
-          expect(response.status).to eq 403
+          expect(response).to have_http_status :forbidden
           expect(response.body).to include "You are not authorized to access this resource."
         end
       end
@@ -707,7 +707,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
         end
 
         it "responds with a not authorized error" do
-          expect(response.status).to eq 404
+          expect(response).to have_http_status :not_found
           expect(response.body).to include "The requested resource could not be found."
         end
       end

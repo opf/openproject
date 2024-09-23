@@ -1,0 +1,21 @@
+<%=
+container.with_row do
+  render(Primer::Box.new(border: true,
+                         border_radius: BOX_BORDER_RADIUS,
+                         p: BOX_PADDING)) do
+    content_tag(:div, class: tooltip_wrapper_classes, data: { tooltip: tooltip_message }) do
+      render(Primer::Forms::ToggleSwitchForm.new(
+        name: "publish_project_query",
+        label: t("sharing.project_queries.public_flag.label", instance_name: Setting.app_title),
+        caption: t("sharing.project_queries.public_flag.caption"),
+        src: toggle_public_flag_link,
+        csrf_token: form_authenticity_token,
+        status_label_position: :start,
+        checked: published?,
+        enabled: can_publish?,
+        turbo: true
+      ))
+    end
+  end
+end
+%>

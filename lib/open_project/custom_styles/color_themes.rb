@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,15 +34,18 @@ module OpenProject::CustomStyles
 
     DEPRECATED_ALTERNATIVE_COLOR = "#35C53F".freeze
     DEPRECATED_PRIMARY_COLOR = "#1A67A3".freeze
+    DEPRECATED_BIM_ALTERNATIVE_COLOR = "#349939".freeze
     DEPRECATED_PRIMARY_DARK_COLOR = "#175A8E".freeze
+    DEPRECATED_LINK_COLOR = "#155282".freeze
     PRIMER_PRIMARY_BUTTON_COLOR = "#1F883D".freeze
+    ACCENT_COLOR = "#1A67A3".freeze
 
     THEMES = [
       {
         theme: OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME,
         colors: {
           "primary-button-color" => PRIMER_PRIMARY_BUTTON_COLOR,
-          "accent-color" => "#175A8E",
+          "accent-color" => ACCENT_COLOR,
           "header-bg-color" => "#1A67A3",
           "header-item-bg-hover-color" => "#175A8E",
           "header-item-font-color" => "#FFFFFF",
@@ -61,7 +64,7 @@ module OpenProject::CustomStyles
         theme: "OpenProject Light",
         colors: {
           "primary-button-color" => PRIMER_PRIMARY_BUTTON_COLOR,
-          "accent-color" => "#175A8E",
+          "accent-color" => ACCENT_COLOR,
           "header-bg-color" => "#FAFAFA",
           "header-item-bg-hover-color" => "#E1E1E1",
           "header-item-font-color" => "#313131",
@@ -81,7 +84,7 @@ module OpenProject::CustomStyles
         theme: "OpenProject Dark",
         colors: {
           "primary-button-color" => PRIMER_PRIMARY_BUTTON_COLOR,
-          "accent-color" => "#275BB5",
+          "accent-color" => ACCENT_COLOR,
           "header-bg-color" => "#05002C",
           "header-item-bg-hover-color" => "#163473",
           "header-item-font-color" => "#FFFFFF",

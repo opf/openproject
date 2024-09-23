@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,8 +43,26 @@ module Storages
       {
         storage_oauth_client_configured: oauth_client.present?,
         storage_tenant_drive_configured: tenant_id.present? && drive_id.present?,
-        host_name_configured: name.present?
+        access_management_configured: !automatic_management_unspecified?,
+        name_configured: name.present?
       }
+    end
+
+    def automatic_management_new_record?
+      if provider_fields_changed?
+        previous_configuration = provider_fields_change.first
+        previous_configuration.values_at("automatically_managed").compact.empty?
+      else
+        automatic_management_unspecified?
+      end
+    end
+
+    def available_project_folder_modes
+      if automatic_management_enabled?
+        ["inactive", "automatic"]
+      else
+        ["inactive", "manual"]
+      end
     end
 
     def oauth_configuration

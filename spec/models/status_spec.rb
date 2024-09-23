@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -94,30 +94,6 @@ RSpec.describe Status do
 
       expect(stubbed_status.cache_key)
         .not_to eql old_cache_key
-    end
-  end
-
-  describe ".update_done_ratios" do
-    let(:status) { create(:status, default_done_ratio: 50) }
-    let(:work_package) { create(:work_package, status:) }
-
-    context "with Setting.work_package_done_ratio using the field", with_settings: { work_package_done_ratio: "field" } do
-      it "changes nothing" do
-        done_ratio_before = work_package.done_ratio
-        described_class.update_work_package_done_ratios
-
-        expect(work_package.reload.done_ratio)
-          .to eql done_ratio_before
-      end
-    end
-
-    context "with Setting.work_package_done_ratio using the status", with_settings: { work_package_done_ratio: "status" } do
-      it "updates all of the work package's % Complete values to match their status" do
-        described_class.update_work_package_done_ratios
-
-        expect(work_package.reload.done_ratio)
-          .to eql status.default_done_ratio
-      end
     end
   end
 

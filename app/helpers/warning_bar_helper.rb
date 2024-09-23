@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,7 +50,7 @@ module WarningBarHelper
   end
 
   def setting_hostname_mismatched?
-    Setting.host_name.gsub(/:\d+$/, "") != request.host
+    String(Setting.host_name).gsub(/:\d+$/, "") != request.host
   end
 
   def no_workflow_for_wp_edit_role?

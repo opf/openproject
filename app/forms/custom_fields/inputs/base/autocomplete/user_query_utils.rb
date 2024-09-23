@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 module CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
   def user_autocomplete_options
     {
-      component: 'opce-user-autocompleter',
+      component: "opce-user-autocompleter",
       defaultData: false,
       placeholder: I18n.t(:label_user_search),
       resource:,
@@ -43,18 +43,18 @@ module CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
   end
 
   def resource
-    'principals'
+    "principals"
   end
 
   def search_key
-    'any_name_attribute'
+    "any_name_attribute"
   end
 
   def filters
     [
-      { name: 'type', operator: '=', values: ['User', 'Group', 'PlaceholderUser'] },
-      { name: 'member', operator: '=', values: [@object.id.to_s] },
-      { name: 'status', operator: '!', values: [Principal.statuses["locked"].to_s] }
+      { name: "type", operator: "=", values: ["User", "Group", "PlaceholderUser"] },
+      { name: "member", operator: "=", values: [@object.id.to_s] },
+      { name: "status", operator: "!", values: [Principal.statuses["locked"].to_s] }
     ]
   end
 end

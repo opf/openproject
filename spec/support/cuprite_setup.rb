@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,15 +53,6 @@ module WindowResolutionManagement
   end
 end
 
-# Customize browser download path until https://github.com/rubycdp/cuprite/pull/217 is released.
-module SetCupriteDownloadPath
-  def initialize(app, options = {})
-    super
-    @options[:save_path] = DownloadList::SHARED_PATH.to_s
-  end
-end
-Capybara::Cuprite::Driver.prepend(SetCupriteDownloadPath)
-
 def register_better_cuprite(language, name: :"better_cuprite_#{language}")
   Capybara.register_driver(name) do |app|
     options = {
@@ -71,6 +62,7 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
       # pending_connection_errors: false,
       inspector: true,
       headless: headless_mode?,
+      save_path: DownloadList::SHARED_PATH.to_s,
       window_size: [1920, 1080]
     }
 

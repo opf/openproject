@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -92,6 +92,6 @@ class Queries::Projects::ProjectQueries::SetAttributesService < BaseServices::Se
   end
 
   def default_columns
-    (["name"] + Setting.enabled_projects_columns).uniq
+    (["favored", "name"] + Setting.enabled_projects_columns).uniq
   end
 end

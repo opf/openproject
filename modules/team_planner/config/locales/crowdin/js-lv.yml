@@ -4,8 +4,8 @@ lv:
     team_planner:
       add_existing: 'Add existing'
       add_existing_title: 'Add existing work packages'
-      create_label: 'Team planner'
-      create_title: 'Create new team planner'
+      create_label: 'Komandas plānotājs'
+      create_title: 'Izveidot jaunu komandas plānotāju'
       unsaved_title: 'Unnamed team planner'
       no_data: 'Add assignees to set up your team planner.'
       add_assignee: 'Add assignee'

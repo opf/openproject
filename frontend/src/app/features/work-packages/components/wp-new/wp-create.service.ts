@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,9 @@ import {
 } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { WorkPackageFilterValues } from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
+import {
+  WorkPackageFilterValues,
+} from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
 import {
   HalResourceEditingService,
   ResourceChangesetCommit,
@@ -61,6 +63,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
+import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';
 
@@ -399,6 +402,10 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     // Use POST /work_packages for saving link
     wp.updateImmediately = (data:object) => firstValueFrom(this.apiV3Service.work_packages.post(data));
     wp.$links.updateImmediately = (data:object) => firstValueFrom(this.apiV3Service.work_packages.post(data));
+
+    if (form.schema.$links.attachments) {
+      wp.$links.attachments = { elements: [] } as unknown as AttachmentCollectionResource;
+    }
 
     // We need to provide the schema to the cache so that it is available in the html form to e.g. determine
     // the editability.

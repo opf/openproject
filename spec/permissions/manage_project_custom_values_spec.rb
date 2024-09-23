@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,25 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require File.expand_path('../support/permission_specs', __dir__)
+require "spec_helper"
+require File.expand_path("../support/permission_specs", __dir__)
 
-RSpec.describe Overviews::OverviewsController, 'manage_project_custom_values permission',
+RSpec.describe Overviews::OverviewsController, "manage_project_custom_values permission",
                type: :controller do
   include PermissionSpecs
 
   # render sidebar on project overview page with view_project permission
-  # TODO: prevents calling overviews/overviews#project_custom_fields_sidebar when not having the permission view_project (FAILED - 1)
-  it 'prevents calling overviews/overviews#project_custom_fields_sidebar when not having the permission view_project' do
-    pending 'spec failing, reason unknown'
-    # wrapping the check_permission_required_for in a block to mark it as pending
-    # spec should not be executed in this block, but standalone, will fail then with real error
-    check_permission_required_for('overviews/overviews#project_custom_fields_sidebar', :view_project)
-  end
+  check_permission_required_for("overviews/overviews#project_custom_fields_sidebar", :view_project_attributes)
 
   # render dialog with inputs for editing project attributes with edit_project permission
-  check_permission_required_for('overviews/overviews#project_custom_field_section_dialog', :edit_project)
+  check_permission_required_for("overviews/overviews#project_custom_field_section_dialog", :edit_project_attributes)
 
   # update project attributes with edit_project permission, deeper permission check via contract in place
-  check_permission_required_for('overviews/overviews#update_project_custom_values', :edit_project)
+  check_permission_required_for("overviews/overviews#update_project_custom_values", :edit_project_attributes)
 end

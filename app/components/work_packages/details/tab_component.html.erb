@@ -1,0 +1,72 @@
+<%=
+  flex_layout(classes: "op-work-package-details-tab-component", data: {
+    "application-target": "dynamic",
+    controller: "work-packages--details--tabs"
+  }) do |flex|
+    flex.with_column(classes: "op-work-package-details-tab-component--action") do
+      render(Primer::Beta::IconButton.new(icon: :"chevron-left",
+                                          tag: :a,
+                                          scheme: :invisible,
+                                          data: {
+                                            action: "click->work-packages--details--tabs#scrollLeft"
+                                          },
+                                          aria: { label: I18n.t(:label_scroll_left) }))
+    end
+
+
+    flex.with_column(flex: 1, classes: "op-work-package-details-tab-component--tabs", test_selector: "wp-details-tab-component--tabs") do
+      render(Primer::Alpha::UnderlineNav.new(align: :left,
+                                             label: "Tabs",
+                                             data: {
+                                               "work-packages--details--tabs-target": "underlineNav",
+                                             })) do |component|
+        menu_items.each do |node|
+          component.with_tab(selected: @tab == node.name,
+                             href: helpers.url_for_with_params(**node.url),
+                             test_selector: "wp-details-tab-component--tab-#{node.name}",
+                             data: {
+                               turbo: true,
+                               turbo_stream: true,
+                               turbo_action: "replace",
+                               "work-packages--details--tabs-target": @tab == node.name ? "activeElement" : ""
+                             }
+          ) do |c|
+            c.with_text { t("js.work_packages.tabs.#{node.name}") }
+            count = node.badge(work_package:).to_i
+            c.with_counter(count:, hide_if_zero: true, id: "wp-details-tab-#{node.name}-counter", test_selector: "wp-details-tab-component--#{node.name}-counter")
+          end
+        end
+      end
+    end
+
+    flex.with_column(classes: "op-work-package-details-tab-component--action") do
+      render(Primer::Beta::IconButton.new(icon: :"chevron-right",
+                                          tag: :a,
+                                          scheme: :invisible,
+                                          data: {
+                                            action: "click->work-packages--details--tabs#scrollRight"
+                                          },
+                                          aria: { label: I18n.t(:label_scroll_right) }))
+    end
+
+    flex.with_column(classes: "op-work-package-details-tab-component--action") do
+      render(Primer::Beta::IconButton.new(icon: :"screen-full",
+                                          tag: :a,
+                                          href: work_package_path(work_package.id, full_screen_tab),
+                                          target: "_top",
+                                          scheme: :invisible,
+                                          test_selector: "wp-details-tab-component--full-screen",
+                                          aria: { label: I18n.t("js.button_show_fullscreen") }))
+    end
+
+    flex.with_column(classes: "op-work-package-details-tab-component--action") do
+      render(Primer::Beta::IconButton.new(icon: :x,
+                                          tag: :a,
+                                          href: base_route,
+                                          data: { turbo: true, target: "_top", turbo_action: "advance" },
+                                          scheme: :invisible,
+                                          test_selector: "wp-details-tab-component--close",
+                                          aria: { label: I18n.t(:button_close) }))
+    end
+  end
+%>

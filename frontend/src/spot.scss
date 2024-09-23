@@ -1,8 +1,8 @@
 // SPOT variables
-@import "src/assets/sass/_helpers.sass";
+@import "_helpers.sass";
 
 // Fonts
-@import "src/global_styles/fonts/_index.sass";
+@import "../../global_styles/fonts/_index.sass";
 
 // SPOT styles
 @import "app/spot/styles/sass/common";

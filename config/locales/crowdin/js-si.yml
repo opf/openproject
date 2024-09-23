@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ si:
     button_back_to_list_view: "ලැයිස්තු දැක්ම වෙත ආපසු"
     button_cancel: "අවලංගු කරන්න"
     button_close: "වසන්න"
-    button_change_project: "ව්යාපෘතිය වෙනස් කරන්න"
+    button_change_project: "Move to another project"
     button_check_all: "සියල්ල පරීක්ෂා කරන්න"
     button_configure-form: "පෝරමය සකසන්න"
     button_confirm: "තහවුරු කරන්න"
@@ -74,7 +74,7 @@ si:
     button_copy: "පිටපත් කරන්න"
     button_copy_to_clipboard: "පසුරු පුවරුවට පිටපත් කරන්න"
     button_copy_link_to_clipboard: "Copy link to clipboard"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "අභිරුචි ක්ෂේත්ර"
     button_delete: "මකන්න"
     button_delete_watcher: "මුරකරු මකන්න"
@@ -138,6 +138,8 @@ si:
     description_select_work_package: "වැඩ පැකේජය තෝරන්න #%{id}"
     description_subwork_package: "වැඩ පැකේජය දරුවා #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "පෙරදසුනෙහි මාදිලිය ටොගල් කරන්න"
       source_code: "සලකුණු කිරීමේ ප්රභව ප්රකාරය ටොගල් කරන්න"
       error_saving_failed: "පහත දැක්වෙන දෝෂය සමඟ ලේඛනය සුරැකීම අසාර්ථක විය: %{error}"
@@ -150,6 +152,7 @@ si:
         attribute_reference:
           macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
           not_found: "Requested resource could not be found"
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: "ළමා පිටු වලට සබැඳි"
@@ -274,6 +277,13 @@ si:
         warning: >
           The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
           Are you sure you want to continue?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
       date:
         specific: "මත"
@@ -348,11 +358,10 @@ si:
           learn_about: "නව විශේෂාංග ගැන වැඩි විස්තර දැනගන්න"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_5":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Keep and restore local versions of WYSIWYG content changes.</li> <li>Enable a storage for multiple projects at once.</li> <li>Export work packages in an updated modal with additional settings.</li> <li>Display custom field columns/filters in project lists also in the Community Edition.</li> <li>Support CloudFlare Turnstile as Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -378,6 +387,7 @@ si:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "දින කිහිපයකට පෙර"
     label_all: "සියලු"
+    label_all_uppercase: "සියලු"
     label_all_work_packages: "සියලුම වැඩ පැකේජ"
     label_and: "සහ"
     label_ascending: "නැගීම"
@@ -392,6 +402,7 @@ si:
     label_create: "සාදන්න"
     label_create_work_package: "නව වැඩ පැකේජයක් සාදන්න"
     label_created_by: "විසින් නිර්මාණය"
+    label_current: "current"
     label_date: "දිනය"
     label_date_with_format: "පහත දැක්වෙන ආකෘතිය භාවිතා කරමින් %{date_attribute} ඇතුල් කරන්න: %{format}"
     label_deactivate: "අක්රිය කරන්න"
@@ -419,6 +430,7 @@ si:
     label_expand_project_menu: "ව්යාපෘති මෙනුව පුළුල් කරන්න"
     label_export: "අපනයන"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_favorites: "Favorites"
     label_filename: "ගොනුව"
     label_filesize: "ප්‍රමාණය"
     label_general: "පොදු"
@@ -597,17 +609,17 @@ si:
       title: "Notifications"
       no_unread: "නොකියවූ දැනුම්දීම් නැත"
       reasons:
-        mentioned: "mentioned"
-        watched: "watcher"
-        assigned: "assignee"
-        responsible: "accountable"
-        created: "created"
-        scheduled: "scheduled"
-        commented: "commented"
-        processed: "processed"
-        prioritized: "prioritized"
+        mentioned: "Mentioned"
+        watched: "මුරකරු"
+        assigned: "අස්ගිනී"
+        accountable: "වගවීම"
+        created: "Created"
+        scheduled: "නියමිත"
+        commented: "අදහස් දැක්වීය"
+        processed: "Processed"
+        prioritized: "Prioritized"
         dateAlert: "Date alert"
-        shared: "shared"
+        shared: "Shared"
       date_alerts:
         milestone_date: "Milestone date"
         overdue: "Overdue"
@@ -619,11 +631,6 @@ si:
         upsale:
           title: "Date alerts"
           description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
-      facets:
-        unread: "Unread"
-        unread_title: "Show unread"
-        all: "සියලු"
-        all_title: "සියල්ල පෙන්වන්න"
       center:
         label_actor_and: "සහ"
         and_more_users:
@@ -634,25 +641,17 @@ si:
           with_current_filter: "There are no notifications in this view at the moment"
         mark_all_read: "Mark all as read"
         mark_as_read: "Mark as read"
-        text_update_date: "%{date} by"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you are all caught up."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."
-          link_text: "Click here to load them"
-      menu:
-        accountable: "වගවීම"
-        by_project: "Unread by project"
-        by_reason: "Reason"
-        inbox: "Inbox"
-        mentioned: "Mentioned"
-        watched: "මුරකරු"
-        date_alert: "Date alert"
-        shared: "Shared"
+          link_text: "Click here to load them."
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -760,7 +759,7 @@ si:
           last_day: "Last day"
     text_are_you_sure: "ඔබට විශ්වාසද?"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} ලිවීය:"
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} නම එක් වරකට වඩා භාවිතා වේ. කණ්ඩායම් නම් අද්විතීය විය යුතුය."
@@ -886,6 +885,11 @@ si:
       preformatted_text: "පෙර ආකෘතිකරණය කරන ලද පෙළ"
       wiki_link: "විකි පිටුවකට සබැඳිය"
       image: "පින්තූරය"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "ව්යාපෘතියේ තොග වෙනසක්"
@@ -925,6 +929,8 @@ si:
       message_work_package_read_only: "වැඩ පැකේජය මෙම තත්වය තුළ අගුලු දමා ඇත. තත්වය හැර වෙනත් කිසිදු ගුණාංගයක් වෙනස් කළ නොහැක."
       message_work_package_status_blocked: "සංවෘත තත්ත්වය සහ සංවෘත අනුවාදය පවරා ඇති නිසා වැඩ පැකේජ තත්ත්වය ලිවිය නොහැකි ය."
       placeholder_filter_by_text: "විෂය, විස්තරය, අදහස්,..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"
@@ -979,7 +985,7 @@ si:
         priority: "ප්රමුඛතාව"
         projectName: "ව්යාපෘති"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "ඉතිරි පැය"
         responsible: "වගකිව යුතු"
         startDate: "ආරම්භක දිනය"
         status: "තත්වය"
@@ -991,14 +997,16 @@ si:
         versionName: "අනුවාදය"
         version: "අනුවාදය"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "ඇස්තමේන්තුගත කාලය"
         remainingTime: "Remaining work"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "නවතම ක්රියාකාරකම්"
         created_by_me: "මා විසින් නිර්මාණය කරන ලදී"
         assigned_to_me: "මට පවරනු ලැබේ"
         recently_created: "මෑතකදී නිර්මාණය"
         all_open: "සියල්ල විවෘතයි"
+        overdue: "Overdue"
         summary: "සාරාංශය"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"
@@ -1039,12 +1047,8 @@ si:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: "Share"
         title: "Share work package"
-        show_all_users: "Show all shared users"
-        selected_count: "%{count} selected"
-        selection:
-          mixed: "Mixed"
+        show_all_users: "Show all users with whom the work package has been shared with"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:
@@ -1183,6 +1187,9 @@ si:
         one: "දින 1"
         other: "%{count} දින"
         zero: "0 days"
+      word:
+        one: "1 word"
+        other: "%{count} words"
     zen_mode:
       button_activate: "සක්රිය මාදිලිය"
       button_deactivate: "සෙන් මාදිලිය අක්රිය"
@@ -1250,7 +1257,8 @@ si:
       role:
         label: "Role in %{project}"
         no_roles_found: "No roles were found"
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: >-
+          This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
         required: "Please select a role"
         next_button: "ඊළඟ"
       message:
@@ -1266,6 +1274,14 @@ si:
           placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
           group: "The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance."
         next_button: "ඉදිරියට යන්න"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Include projects"
       title: "ව්‍යාපෘති"
@@ -1323,4 +1339,12 @@ si:
         remove: "ඉවත් කරන්න"
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
-        Close: "වසන්න"
+        close: "Close modal"
+    open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

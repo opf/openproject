@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ module WorkPackage::Exports
 
       def format(work_package, **)
         derived_done_ratio = work_package.derived_done_ratio
-        derived  = derived_done_ratio > 0 ? " · Σ #{derived_done_ratio}%" : ""
+        derived = derived_done_ratio&.positive? ? " · Σ #{derived_done_ratio}%" : ""
         "#{work_package.done_ratio}%#{derived}"
       end
     end

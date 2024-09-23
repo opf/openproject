@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ el:
     button_back_to_list_view: "Επιστροφή στη προβολή λίστας"
     button_cancel: "Ακύρωση"
     button_close: "Κλείσιμο"
-    button_change_project: "Αλλαγή έργου"
+    button_change_project: "Move to another project"
     button_check_all: "Επιλογή όλων"
     button_configure-form: "Διαμόρφωση φόρμας"
     button_confirm: "Επιβεβαίωση"
@@ -74,7 +74,7 @@ el:
     button_copy: "Αντιγραφή"
     button_copy_to_clipboard: "Αντιγραφή στο πρόχειρο"
     button_copy_link_to_clipboard: "Copy link to clipboard"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Προσαρμοσμένα πεδία"
     button_delete: "Διαγραφή"
     button_delete_watcher: "Διαγραφή παρατηρητή"
@@ -138,6 +138,8 @@ el:
     description_select_work_package: "Επιλέξτε πακέτο εργασίας #%{id}"
     description_subwork_package: "Παιδί του πακέτου εργασίας #%{id}"
     editor:
+      revisions: "Show local modifications"
+      no_revisions: "No local modifications found"
       preview: "Ενεργοποίηση λειτουργίας προεπισκόπησης"
       source_code: "Ενεργοποίηση λειτουργίας Markdown source"
       error_saving_failed: "Η αποθήκευση του αρχείου απέτυχε δίνοντας το ακόλουθο μήνυμα: %{error}"
@@ -150,6 +152,7 @@ el:
         attribute_reference:
           macro_help_tooltip: "Αυτό το τμήμα κειμένου δημιουργείται δυναμικά από μια μακροεντολή."
           not_found: "Ο ζητούμενος πόρος δεν βρέθηκε."
+          nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "Το επιλεγμένο χαρακτηριστικό '%{name}' δεν υπάρχει."
         child_pages:
           button: "Σύνδεσμοι σε σελίδες-παιδιά"
@@ -273,6 +276,13 @@ el:
         warning: >
           The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
           Are you sure you want to continue?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
     custom_actions:
       date:
         specific: "σε"
@@ -347,11 +357,10 @@ el:
           learn_about: "Μάθετε περισσότερα για τις νέες λειτουργίες"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_5":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Keep and restore local versions of WYSIWYG content changes.</li> <li>Enable a storage for multiple projects at once.</li> <li>Export work packages in an updated modal with additional settings.</li> <li>Display custom field columns/filters in project lists also in the Community Edition.</li> <li>Support CloudFlare Turnstile as Captcha.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -377,6 +386,7 @@ el:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "ημέρες πριν"
     label_all: "όλα"
+    label_all_uppercase: "Όλα"
     label_all_work_packages: "όλα τα πακέτα εργασίας"
     label_and: "και"
     label_ascending: "Αύξουσα"
@@ -391,6 +401,7 @@ el:
     label_create: "Δημιουργία"
     label_create_work_package: "Δημιουργήστε νέο πακέτο εργασίας"
     label_created_by: "Δημιουργήθηκε από"
+    label_current: "current"
     label_date: "Ημερομηνία"
     label_date_with_format: "Εισάγετε την %{date_attribute} χρησιμοποιώντας την ακόλουθη μορφοποίηση: %{format}"
     label_deactivate: "Απενεργοποίηση"
@@ -418,6 +429,7 @@ el:
     label_expand_project_menu: "Επέκταση του μενού έργου"
     label_export: "Εξαγωγή"
     label_export_preparing: "Η εξαγωγή προετοιμάζεται και θα κατεβεί σύντομα."
+    label_favorites: "Favorites"
     label_filename: "Aρχείο"
     label_filesize: "Μέγεθος"
     label_general: "Γενικά"
@@ -596,17 +608,17 @@ el:
       title: "Notifications"
       no_unread: "No unread notifications"
       reasons:
-        mentioned: "mentioned"
-        watched: "watcher"
-        assigned: "Εντολοδόχος"
-        responsible: "accountable"
-        created: "created"
-        scheduled: "scheduled"
-        commented: "commented"
-        processed: "processed"
-        prioritized: "prioritized"
+        mentioned: "Mentioned"
+        watched: "Παρατηρητής"
+        assigned: "Ανάθεση σε"
+        accountable: "Υπόλογος"
+        created: "Δημιουργήθηκε"
+        scheduled: "Προγραμματισμένο"
+        commented: "Σχολιασμένο"
+        processed: "Processed"
+        prioritized: "Prioritized"
         dateAlert: "Date alert"
-        shared: "shared"
+        shared: "Shared"
       date_alerts:
         milestone_date: "Milestone date"
         overdue: "Overdue"
@@ -618,11 +630,6 @@ el:
         upsale:
           title: "Date alerts"
           description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
-      facets:
-        unread: "Unread"
-        unread_title: "Show unread"
-        all: "Όλα"
-        all_title: "Εμφάνιση όλων"
       center:
         label_actor_and: "και"
         and_more_users:
@@ -633,25 +640,17 @@ el:
           with_current_filter: "There are no notifications in this view at the moment"
         mark_all_read: "Mark all as read"
         mark_as_read: "Mark as read"
-        text_update_date: "%{date} by"
+        text_update_date_by: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you are all caught up."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification_for_filter: "Looks like you are all caught up for this filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."
-          link_text: "Click here to load them"
-      menu:
-        accountable: "Υπόλογος"
-        by_project: "Unread by project"
-        by_reason: "Reason"
-        inbox: "Inbox"
-        mentioned: "Mentioned"
-        watched: "Παρατηρητής"
-        date_alert: "Date alert"
-        shared: "Shared"
+          link_text: "Click here to load them."
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -759,7 +758,7 @@ el:
           last_day: "Last day"
     text_are_you_sure: "Είστε σίγουρος/η;"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} έγραψε:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Το όνομα %{group} χρησιμοποιείται περισσότερες από μία φορές. Τα ονόματα ομάδων πρέπει να είναι μοναδικά."
@@ -885,6 +884,11 @@ el:
       preformatted_text: "Προδιαμορφωμένο κείμενο"
       wiki_link: "Σύνδεση σε μια σελίδα Wiki"
       image: "Εικόνα"
+    sharing:
+      share: "Share"
+      selected_count: "%{count} selected"
+      selection:
+        mixed: "Mixed"
     work_packages:
       bulk_actions:
         move: "Μαζική αλλαγή του έργου"
@@ -924,6 +928,8 @@ el:
       message_work_package_read_only: "Το πακέτο εργασίας είναι κλειδωμένο σε αυτή την κατάσταση. Κανένα χαρακτηριστικό εκτός από την κατάσταση δεν μπορεί να αλλαχθεί."
       message_work_package_status_blocked: "Η κατάσταση του πακέτου εργασίας δεν είναι εγγράψιμη λόγω κλειστής κατάστασης και εκχωρημένης έκδοσης."
       placeholder_filter_by_text: "Θέμα, περιγραφή, σχόλια, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"
@@ -978,7 +984,7 @@ el:
         priority: "Προτεραιότητα"
         projectName: "Έργο"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Υπολειπόμενες ώρες"
         responsible: "Υπεύθυνος"
         startDate: "Ημερομηνία έναρξης"
         status: "Κατάσταση"
@@ -990,14 +996,16 @@ el:
         versionName: "Έκδοση"
         version: "Έκδοση"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "Εκτιμώμενος χρόνος"
         remainingTime: "Remaining work"
       default_queries:
+        manually_sorted: "New manually sorted query"
         latest_activity: "Τελευταία δραστηριότητα"
         created_by_me: "Δημιουργήθηκε από εμένα"
         assigned_to_me: "Έχουν ανατεθεί σε εμένα"
         recently_created: "Δημιουργήθηκαν πρόσφατα"
         all_open: "Όλα τα ανοιχτά"
+        overdue: "Overdue"
         summary: "Περίληψη"
         shared_with_users: "Shared with users"
         shared_with_me: "Shared with me"
@@ -1038,12 +1046,8 @@ el:
         is_parent: "Οι ημερομηνίες αυτού του πακέτου εργασίας προκύπτουν αυτόματα από τα παιδιά του. Ενεργοποιήστε τον \"Χειροκίνητο προγραμματισμό\" για να ορίσετε τις ημερομηνίες."
         is_switched_from_manual_to_automatic: "Οι ημερομηνίες αυτού του πακέτου εργασίας μπορεί να χρειαστεί να υπολογιστούν εκ νέου μετά τη μετάβαση από χειροκίνητο σε αυτόματο προγραμματισμό λόγω των σχέσεων με άλλα πακέτα εργασίας."
       sharing:
-        share: "Share"
         title: "Share work package"
-        show_all_users: "Show all shared users"
-        selected_count: "%{count} selected"
-        selection:
-          mixed: "Mixed"
+        show_all_users: "Show all users with whom the work package has been shared with"
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:
@@ -1182,6 +1186,9 @@ el:
         one: "1 ημέρα"
         other: "%{count} ημέρες"
         zero: "0 days"
+      word:
+        one: "1 word"
+        other: "%{count} words"
     zen_mode:
       button_activate: "Ενεργοποίηση λειτουργίας zen"
       button_deactivate: "Απενεργοποίηση λειτουργίας zen"
@@ -1249,7 +1256,8 @@ el:
       role:
         label: "Ρόλος στο %{project}"
         no_roles_found: "Δεν βρέθηκε κανένας ρόλος"
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: >-
+          This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
         required: "Παρακαλούμε επιλέξτε ένα ρόλο"
         next_button: "Επόμενο"
       message:
@@ -1265,6 +1273,14 @@ el:
           placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
           group: "Η ομάδα είναι τώρα μέρος του %{project}. Εν τω μεταξύ, μπορείτε να προγραμματίσετε ήδη με αυτή την ομάδα και να αντιστοιχίσετε πακέτα εργασίας."
         next_button: "Συνέχεια"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Include projects"
       title: "Έργα"
@@ -1322,4 +1338,12 @@ el:
         remove: "Αφαίρεση"
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
-        Close: "Κλείσιμο"
+        close: "Close modal"
+    open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

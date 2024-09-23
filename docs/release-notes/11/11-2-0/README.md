@@ -11,7 +11,7 @@ release_date: 2021-03-09
 Release date: 2021-03-09
 
 We released [OpenProject 11.2.0](https://community.openproject.org/versions/1461).
-This new release will bring many new features and bug fixes that will improve classical as well as agile project management. 
+This new release will bring many new features and bug fixes that will improve classical as well as agile project management.
 
 ## Placeholder users (Enterprise add-on)
 

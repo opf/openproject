@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -59,6 +59,8 @@ export class ToastComponent implements OnInit {
 
   public type:ToastType;
 
+  public icon?:string;
+
   public uploadCount = 0;
 
   public show = false;
@@ -77,6 +79,7 @@ export class ToastComponent implements OnInit {
 
   ngOnInit():void {
     this.type = this.toast.type;
+    this.icon = this.toast.icon ? `toast-icon icon-${this.toast.icon}` : '';
 
     this.removable = !['upload', 'loading'].includes(this.type);
 

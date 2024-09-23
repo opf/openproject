@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -66,7 +66,7 @@ uk:
     button_back_to_list_view: "Повернутися до списку"
     button_cancel: "Скасувати"
     button_close: "Закрити"
-    button_change_project: "Змінити проект"
+    button_change_project: "Перейти до іншого проєкту"
     button_check_all: "Перевірити все"
     button_configure-form: "Налаштуйте форму"
     button_confirm: "Підтвердити"
@@ -138,6 +138,8 @@ uk:
     description_select_work_package: "Виберіть пакет робіт #%{id}"
     description_subwork_package: "Нащадок пакету робіт #%{id}"
     editor:
+      revisions: "Показати локальні зміни"
+      no_revisions: "Локальних змін не знайдено"
       preview: "Перемкнути режим попереднього перегляду"
       source_code: "Увімкнути режим вимкнення Markdown"
       error_saving_failed: "Не вдалося зберегти документ із такою помилкою: %{error}"
@@ -150,6 +152,7 @@ uk:
         attribute_reference:
           macro_help_tooltip: "Цей текстовий фрагмент динамічно візуалізується макросом."
           not_found: "Не вдалося знайти потрібний ресурс"
+          nested_macro: "Цей макрос рекурсивно посилається на %{model} %{id}."
           invalid_attribute: "Вибраний атрибут «%{name}» не існує."
         child_pages:
           button: "Посилання на дочірні сторінки"
@@ -274,6 +277,13 @@ uk:
         warning: >
           Застосування змін може тривати деякий час. Ви отримаєте сповіщення, коли всі відповідні пакети робіт буде оновлено.
           Продовжити?
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
+          Якщо перейти з режиму обчислення прогресу на основі статусу на режим на основі роботи, атрибут <i>% завершення</i> стане недоступним для редагування полем, значення якого виводитиметься зі значень атрибутів <i>Робота</i> й <i>Залишок роботи</i>. Наявні значення атрибута <i>% завершення</i> буде збережено. Якщо значення атрибутів <i>Робота</i> й <i>Залишок роботи</i> не задано, їх потрібно буде задати, щоб змінити значення атрибута <i>% завершення</i>.
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          Якщо перейти з режиму обчислення прогресу на основі статусу на режим на основі роботи, атрибут <i>% завершення</i> стане доступним для редагування полем. Якщо визначено атрибути <i>Робота</i> й <i>Залишок роботи</i>, їх значення буде також пов’язано з атрибутом <i>% завершення</i>. Змінення значення атрибута <i>Залишок роботи</i> призводить до оновлення атрибута <i>% завершення</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          Якщо перейти з режиму обчислення прогресу на основі робіт на режим на основі статусу, усі наявні значення атрибута <i>% завершення</i> буде втрачено й замінено значеннями, пов’язаними з кожним статусом. Наявні значення атрибута <i>Залишок роботи</i> може бути також переобчислено з урахуванням цієї зміни. Цю дію не можна скасувати.
     custom_actions:
       date:
         specific: "на"
@@ -348,11 +358,10 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_5":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"><ul class="%{list_styling_class}"><ul class="%{list_styling_class}"> <li>Інтеграція з GitLab (розроблена членами спільноти)</li> <li>Розширені можливості роботи з користувацькими списками проєктів</li> <li>Розширені можливості роботи з модулем «Наради»</li> <li>Можливіть перевірки на віруси за допомогою ClamAV (доповнення версії Enterprise)</li> <li>Екпорт PDF: підтримка списків у клітинках таблиці</li> <li>WebAuthn / FIDO / U2F додано як другий фактор</li> <li>Розширено список мов набору за умовчанням</li> </ul>
+                Випуск включає такі наведені нижче функції і поліпшення. <br> <ul class="%{list_styling_class}"> <li>Зберігайте й відновлюйте локальні версії змін вмісту WYSIWYG.</li> <li>Вмикайте сховище для кількох проєктів за раз.</li> <li>Експортуйте пакети робіт в оновлено модальному вікні з додатковими параметрами.</li> <li>Відображайте стовпці / фільтри користувацьких полів у списках проєктів у версії Community Edition.</li> <li>Використовуйте CloudFlare Turnstile для перевірки CAPTCHA.</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -378,6 +387,7 @@ uk:
     label_added_time_by: 'Додано користувачем <a href="%{authorLink}">%{author}</a> о %{age}'
     label_ago: "днів тому"
     label_all: "всі"
+    label_all_uppercase: "Усі"
     label_all_work_packages: "всі пакети в роботі"
     label_and: "і"
     label_ascending: "За зростанням"
@@ -392,6 +402,7 @@ uk:
     label_create: "Створити"
     label_create_work_package: "Створити новий робочий пакет"
     label_created_by: "Створено"
+    label_current: "поточний"
     label_date: "Дата"
     label_date_with_format: "Введіть %{date_attribute}, використовуючи наступний формат: %{format}"
     label_deactivate: "Деактивувати"
@@ -419,6 +430,7 @@ uk:
     label_expand_project_menu: "Розгорніть меню проекту"
     label_export: "Експорт"
     label_export_preparing: "Файл готується для експорту, і невдовзі його буде завантажено."
+    label_favorites: "Обране"
     label_filename: "Файл"
     label_filesize: "Розмір"
     label_general: "Загальні"
@@ -597,17 +609,17 @@ uk:
       title: "Сповіщення"
       no_unread: "Немає непрочитаних сповіщень"
       reasons:
-        mentioned: "згадано"
-        watched: "спостерігач"
-        assigned: "виконавець"
-        responsible: "відповідальний"
-        created: "створено"
-        scheduled: "заплановано"
-        commented: "прокоментовано"
-        processed: "оброблено"
-        prioritized: "надано пріоритет"
+        mentioned: "Згадано"
+        watched: "Спостерігач"
+        assigned: "Виконавець"
+        accountable: "Відповідальний"
+        created: "Створено"
+        scheduled: "Заплановано"
+        commented: "Прокоментовано"
+        processed: "Оброблено"
+        prioritized: "Надано пріоритет"
         dateAlert: "Оповіщення про дату"
-        shared: "спільні"
+        shared: "Поширено"
       date_alerts:
         milestone_date: "Дата віхи"
         overdue: "Прострочено"
@@ -619,11 +631,6 @@ uk:
         upsale:
           title: "Оповіщення про дати"
           description: "Завдяки оповіщенням про дати ви завжди знатимете про заплановані дати початку або завершення, тож ніколи не пропускатимете важливі терміни та не забуватимете про них."
-      facets:
-        unread: "Непрочитані"
-        unread_title: "Показати непрочитані"
-        all: "Всі"
-        all_title: "Показати всі"
       center:
         label_actor_and: "і"
         and_more_users:
@@ -636,25 +643,17 @@ uk:
           with_current_filter: "Зараз у цьому поданні немає сповіщень"
         mark_all_read: "Позначити все як прочитане"
         mark_as_read: "Позначити як прочитане"
-        text_update_date: "%{date} –"
+        text_update_date_by: "%{date} за"
         total_count_warning: "Показано стільки останніх сповіщень: %{newest_count}. Ще %{more_count} не показано."
         empty_state:
           no_notification: "Схоже, ви все переглянули."
           no_notification_with_current_project_filter: "Схоже, ви переглянули всі сповіщення для вибраного проєкту."
           no_notification_with_current_filter: "Схоже, ви переглянули всі сповіщення за фільтром «%{filter}»."
+          no_notification_for_filter: "Схоже, ви переглянули всі сповіщення за цим фільтром."
           no_selection: "Натисніть сповіщення, щоб переглянути всі дані про дію."
         new_notifications:
           message: "Немає нових сповіщень."
-          link_text: "Натисніть тут, щоб завантажити їх"
-      menu:
-        accountable: "Відповідальний"
-        by_project: "Непрочитані проєктом"
-        by_reason: "Причина"
-        inbox: "Вхідні"
-        mentioned: "Згадано"
-        watched: "Спостерігач"
-        date_alert: "Оповіщення про дату"
-        shared: "Спільні"
+          link_text: "Натисніть тут, щоб завантажити."
       settings:
         change_notification_settings: 'Ви можете змінити <a target="_blank" href="%{url}">налаштування сповіщень</a>, щоб ніколи не пропускати важливі оновлення.'
         title: "Налаштування сповіщень"
@@ -888,6 +887,11 @@ uk:
       preformatted_text: "Попередньо відформатований текст"
       wiki_link: "Посилання на вікі-сторінку"
       image: "Зображення"
+    sharing:
+      share: "Надати спільний доступ"
+      selected_count: "Вибрано: %{count}"
+      selection:
+        mixed: "Різні"
     work_packages:
       bulk_actions:
         move: "Групова зміна проєкту"
@@ -927,6 +931,8 @@ uk:
       message_work_package_read_only: "Робочий пакет заблоковано в цьому статусі. Атрибут, відмінний від статусу, може бути змінений."
       message_work_package_status_blocked: "Пакет робіт недоступний для запису, оскільки призначено закритий статус або закриту версію."
       placeholder_filter_by_text: "Тема, опис, коментарі, ..."
+      progress:
+        title: "Оцінки й прогрес виконання роботи"
       baseline:
         addition_label: "Додано до подання з періодом для порівняння"
         removal_label: "Вилучено з подання з періодом для порівняння"
@@ -996,11 +1002,13 @@ uk:
         workAlternative: "Приблизний час"
         remainingTime: "Залишок роботи"
       default_queries:
+        manually_sorted: "Новий, відсортований уручну запит"
         latest_activity: "Останні дії"
         created_by_me: "Створений мною"
         assigned_to_me: "Призначено мені"
         recently_created: "Нещодавно створений"
         all_open: "Всі відкрити"
+        overdue: "Прострочені"
         summary: "Резюме"
         shared_with_users: "Надано доступ користувачам"
         shared_with_me: "Доступ надано мені"
@@ -1041,12 +1049,8 @@ uk:
         is_parent: "Дати цього пакета робіт автоматично виводяться з його дочірніх елементів. Активуйте «Ручне планування», щоб установити ці дати."
         is_switched_from_manual_to_automatic: "Можливо, дати цього пакета робіт знадобиться перерахувати після переходу з ручного на автоматичне планування через зв’язок з іншими пакетами робіт."
       sharing:
-        share: "Поширити"
         title: "Надати доступ до пакета робіт"
-        show_all_users: "Показати всіх користувачів із доступом"
-        selected_count: "Вибрано: %{count}"
-        selection:
-          mixed: "Змішані"
+        show_all_users: "Показувати всіх користувачів, яким надано доступ до пакета робіт"
         upsale:
           description: "Діліться пакетами робіт із користувачами, які не належать до учасників проєкту."
       table:
@@ -1189,6 +1193,11 @@ uk:
         one: "1 день"
         other: "%{count} д."
         zero: "0 днів"
+      word:
+        one: "1 слово"
+        few: "%{count} слова"
+        many: "%{count} слів"
+        other: "%{count} слова"
     zen_mode:
       button_activate: "Активуйте режим дзен"
       button_deactivate: "Деактивуйте режим дзен"
@@ -1256,7 +1265,8 @@ uk:
       role:
         label: "Ролі у проєкті «%{project}»"
         no_roles_found: "Ролей не знайдено"
-        description: 'Це роль, яку користувач отримає в разі приєднання до вашого проєкту. Роль визначає, які дії йому дозволено та яку інформацію він може бачити. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Дізнатися більше про ролі й дозволи. </a>'
+        description: >-
+          Це роль, яку користувач отримає в разі приєднання до вашого проєкту. Роль визначає, які дії йому дозволено та яку інформацію він може бачити. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Дізнатися більше про ролі й дозволи. </a>
         required: "Виберіть роль"
         next_button: "Далі"
       message:
@@ -1272,6 +1282,14 @@ uk:
           placeholder: "Прототип тепер може ввійти, щоб отримати доступ до проєкту «%{project}». Тим часом ви вже можете включати цього користувача в план і призначати йому пакети робіт."
           group: "Ця група тепер входить у проєкт «%{project}». Тим часом ви вже можете включати її в план і призначати їй пакети робіт."
         next_button: "Продовжити"
+    exclusion_info:
+      modal:
+        title: "Статус виключено з підсумків ієрархії"
+        content: >-
+          Статус «%{status_name}» виключено з підсумків ієрархії для атрибутів «Робота», «Залишок роботи» й «% завершення». Це значення не враховуватиметься під час обчислення підсумків.
+    favorite_projects:
+      no_results: "У вас немає обраних проєктів"
+      no_results_subtext: "Додайте один або кілька проєктів в обране на відповідній сторінці огляду або в списку проєктів."
     include_projects:
       toggle_title: "Включити проєкти"
       title: "Проекти"
@@ -1329,4 +1347,12 @@ uk:
         remove: "Видалити"
       drop_modal:
         focus_grab: "Це якір фокуса для модальних вікон. Натисніть клавіші Shift + Tab, щоб повернутися до тригера модального вікна."
-        Close: "Закрити"
+        close: "Закрити модальне вікно"
+    open_project_storage_modal:
+      waiting_title:
+        timeout: "Час очікування"
+      waiting_subtitle:
+        network_off: "Існує проблема з мережею."
+        network_on: "З’єднання відновлено. Ми намагаємося."
+        timeout: >
+          Додатку OpenProject не вдалося надати вам доступ до папки проєкту протягом очікуваного періоду. Повторіть спробу.<br><br> Якщо ця проблема не зникне, зверніться до адміністратора OpenProject і попросіть його перевірити <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">стан справності конфігурації файлового сховища</a>.

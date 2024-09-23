@@ -11,7 +11,7 @@ The styleguide itself is just a long html page demonstrating the components. It 
 
 The general approach here is that for every partial of sass there is a Markdown file (`*.lsg`) describing it:
 
-```bash
+```shell
 $ cd app/assets/stylesheets/content
 $ ls -la _accounts*
 _accounts.lsg

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,16 +30,16 @@
 
 module Mailer
   LABEL_SCHEME_COLORS = {
-    default: 'rgb(208, 215, 222)',
-    primary: 'rgb(110, 119, 129)',
-    secondary: 'rgb(208, 215, 222)',
-    accent: 'rgb(9, 105, 218)',
-    success: 'rgb(31, 136, 61)',
-    attention: 'rgb(154, 103, 0)',
-    danger: 'rgb(207, 34, 46)',
-    severe: 'rgb(188, 76, 0)',
-    done: 'rgb(130, 80, 223)',
-    sponsor: 'rgb(191, 57, 137)'
+    default: "rgb(208, 215, 222)",
+    primary: "rgb(110, 119, 129)",
+    secondary: "rgb(208, 215, 222)",
+    accent: "rgb(9, 105, 218)",
+    success: "rgb(31, 136, 61)",
+    attention: "rgb(154, 103, 0)",
+    danger: "rgb(207, 34, 46)",
+    severe: "rgb(188, 76, 0)",
+    done: "rgb(130, 80, 223)",
+    sponsor: "rgb(191, 57, 137)"
   }.freeze
 
   class LabelComponent < ViewComponent::Base

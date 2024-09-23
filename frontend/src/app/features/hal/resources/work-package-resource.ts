@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -44,6 +44,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { TypeResource } from 'core-app/features/hal/resources/type-resource';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
+import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
 import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
@@ -67,7 +68,7 @@ export interface WorkPackageResourceEmbedded {
   relations:CollectionResource;
   responsible:HalResource|any;
   revisions:CollectionResource|any;
-  status:HalResource|any;
+  status:StatusResource|any;
   timeEntries:HalResource[]|any[];
   type:TypeResource;
   version:HalResource|any;

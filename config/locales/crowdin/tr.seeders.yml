@@ -41,6 +41,11 @@ tr:
           name: Özellik
         item_2:
           name: Diğer
+      project_query_roles:
+        item_0:
+          name: Project query viewer
+        item_1:
+          name: Project query editor
       work_package_roles:
         item_0:
           name: Work package editor
@@ -72,81 +77,6 @@ tr:
           name: Yüksek
         item_3:
           name: Acil
-      statuses:
-        item_0:
-          name: Yeni
-        item_1:
-          name: Şartname
-        item_2:
-          name: Belirtildi
-        item_3:
-          name: Onaylandı
-        item_4:
-          name: Zamanlanacak
-        item_5:
-          name: Zamanlandı
-        item_6:
-          name: Devam eden
-        item_7:
-          name: Geliştirilen
-        item_8:
-          name: Test ediliyor
-        item_9:
-          name: Test edildi
-        item_10:
-          name: Test başarısız oldu
-        item_11:
-          name: Kapalı
-        item_12:
-          name: Beklemede
-        item_13:
-          name: Reddedildi
-      time_entry_activities:
-        item_0:
-          name: Yönetim
-        item_1:
-          name: Özellik
-        item_2:
-          name: Geliştirme
-        item_3:
-          name: Deneme
-        item_4:
-          name: Destek
-        item_5:
-          name: Diğer
-      types:
-        item_0:
-          name: Görev
-        item_1:
-          name: Kilometre taşı
-        item_2:
-          name: Aşama
-        item_3:
-          name: Özellik
-        item_4:
-          name: Epik
-        item_5:
-          name: Kullanıcı hikayesi
-        item_6:
-          name: Hata
-      welcome:
-        title: Welcome to OpenProject!
-        text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
-
-          Core features and use cases:
-
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-          Welcome to the future of project management.
-
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Demo project
@@ -165,7 +95,7 @@ tr:
             item_0:
               name: Proje planı
             item_1:
-              name: Milestones
+              name: Aşamalar
             item_2:
               name: Görevler
             item_3:
@@ -215,7 +145,7 @@ tr:
                   name: İş paketleri
               item_6:
                 options:
-                  name: Milestones
+                  name: Aşamalar
           work_packages:
             item_0:
               subject: Start of project
@@ -251,6 +181,21 @@ tr:
                     *   [ ] Even more beer
             item_4:
               subject: End of project
+          wiki: |
+            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+
+            **You can:**
+
+            * Insert text and images, also with copy and paste from other documents
+            * Create a page hierarchy with parent pages
+            * Include wiki pages to the project menu
+            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
+            * Include wiki pages in other text fields, e.g. project overview page
+            * Include links to other documents
+            * View the change history
+            * View as Markdown
+
+            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Scrum project
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
@@ -469,3 +414,78 @@ tr:
             * Time boxed (3 h).
             * After Sprint Review, will be moderated by Scrum Master.
             * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+      statuses:
+        item_0:
+          name: Yeni
+        item_1:
+          name: Şartname
+        item_2:
+          name: Belirtildi
+        item_3:
+          name: Onaylandı
+        item_4:
+          name: Zamanlanacak
+        item_5:
+          name: Zamanlandı
+        item_6:
+          name: Devam eden
+        item_7:
+          name: Geliştirilen
+        item_8:
+          name: Test ediliyor
+        item_9:
+          name: Test edildi
+        item_10:
+          name: Test başarısız oldu
+        item_11:
+          name: Kapalı
+        item_12:
+          name: Beklemede
+        item_13:
+          name: Reddedildi
+      time_entry_activities:
+        item_0:
+          name: Yönetim
+        item_1:
+          name: Özellik
+        item_2:
+          name: Geliştirme
+        item_3:
+          name: Deneme
+        item_4:
+          name: Destek
+        item_5:
+          name: Diğer
+      types:
+        item_0:
+          name: Görev
+        item_1:
+          name: Kilometre taşı
+        item_2:
+          name: Aşama
+        item_3:
+          name: Özellik
+        item_4:
+          name: Epik
+        item_5:
+          name: Kullanıcı hikayesi
+        item_6:
+          name: Hata
+      welcome:
+        title: Welcome to OpenProject!
+        text: |
+          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+
+          Core features and use cases:
+
+          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+
+          Welcome to the future of project management.
+
+          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).

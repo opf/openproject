@@ -38,7 +38,7 @@ he:
         free_text: >
           Start from scratch with a blank board. Manually add cards and columns to this board.
         action: 'לוח פעולות'
-        action_by_attribute: 'לוח פעולות'
+        action_by_attribute: 'לוח פעולות (%{attribute})'
         action_text: >
           A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
         action_text_subprojects: >

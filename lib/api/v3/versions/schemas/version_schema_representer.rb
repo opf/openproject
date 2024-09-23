@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,10 +36,7 @@ module API
           custom_field_injector type: :schema_representer
 
           def initialize(represented, self_link: nil, current_user: nil, form_embedded: false)
-            super(represented,
-                  self_link:,
-                  current_user:,
-                  form_embedded:)
+            super
           end
 
           schema :id,

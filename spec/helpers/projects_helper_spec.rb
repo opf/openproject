@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,9 +40,9 @@ RSpec.describe ProjectsHelper do
       Queries::Projects::Selects::Status.new(:project_status)
     ]
 
-    query_instance = instance_double(Queries::Projects::ProjectQuery, available_selects: selects)
+    query_instance = instance_double(ProjectQuery, available_selects: selects)
 
-    allow(Queries::Projects::ProjectQuery)
+    allow(ProjectQuery)
       .to receive(:new)
             .and_return(query_instance)
   end

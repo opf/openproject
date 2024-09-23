@@ -2,10 +2,20 @@ services:
   backend:
     # The backend container needs some variables to be configured properly
     environment:
-      OPENPROJECT_CLI_PROXY: '${OPENPROJECT_DEV_URL}'
-      OPENPROJECT_DEV_EXTRA_HOSTS: '${OPENPROJECT_DEV_HOST}'
+      OPENPROJECT_CLI_PROXY: "${OPENPROJECT_DEV_URL}"
+      OPENPROJECT_DEV_EXTRA_HOSTS: "${OPENPROJECT_DEV_HOST}"
       OPENPROJECT_HTTPS: true
       SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
+      # uncomment and set all the envs below to integrate keycloak with OpenProject
+      # OPENPROJECT_OPENID__CONNECT_KEYCLOAK_DISPLAY__NAME: Keycloak
+      # OPENPROJECT_OPENID__CONNECT_KEYCLOAK_HOST: keycloak.local
+      # OPENPROJECT_OPENID__CONNECT_KEYCLOAK_IDENTIFIER: https://openproject.local
+      # OPENPROJECT_OPENID__CONNECT_KEYCLOAK_SECRET: <The client secret you copied from keycloak>
+      # OPENPROJECT_OPENID__CONNECT_KEYCLOAK_ISSUER: https://keycloak.local/realms/<REALM>
+      # OPENPROJECT_OPENID__CONNECT_KEYCLOAK_AUTHORIZATION__ENDPOINT: /realms/<REALM>/protocol/openid-connect/auth
+      # OPENPROJECT_OPENID__CONNECT_KEYCLOAK_TOKEN__ENDPOINT: /realms/<REALM>/protocol/openid-connect/token
+      # OPENPROJECT_OPENID__CONNECT_KEYCLOAK_USERINFO__ENDPOINT: /realms/<REALM>/protocol/openid-connect/userinfo
+      # OPENPROJECT_OPENID__CONNECT_KEYCLOAK_END__SESSION__ENDPOINT: https://keycloak.local/realms/<REALM>/protocol/openid-connect/logout
     networks:
       - external
     volumes:

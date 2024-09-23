@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,10 +31,6 @@ module API
     class UnsupportedMediaType < ErrorBase
       identifier "TypeNotSupported"
       code 415
-
-      def initialize(message)
-        super(message)
-      end
     end
   end
 end

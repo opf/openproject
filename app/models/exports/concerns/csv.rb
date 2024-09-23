@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,7 +53,7 @@ module Exports
         ::Exports::Result
           .new format: :csv,
                title: csv_export_filename,
-               content: serialized,
+               content: "\xEF\xBB\xBF#{serialized}", # Make Excel open CSV happy by append UTF8 BOM
                mime_type: "text/csv"
       end
 

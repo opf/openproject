@@ -1,0 +1,18 @@
+<%= flex_layout do |container| %>
+  <% gantt_selects.each_with_index do |entry, index| %>
+    <% container.with_row(mt: index == 0 ? 0 : 3) do %>
+      <%= render(Primer::Alpha::Select.new(
+        name: entry[:name],
+        label: entry[:label],
+        caption: entry[:caption],
+        size: :medium,
+        input_width: :small,
+        value: entry[:options].find { |e| e[:default] }[:value])
+          ) do |component|
+        entry[:options].each do |entry|
+          component.option(label: entry[:label], value: entry[:value])
+        end
+      end %>
+    <% end %>
+  <% end %>
+<% end %>

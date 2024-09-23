@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,12 +65,12 @@ RSpec.describe Queries::Members::MemberQuery, "Integration" do
       expect(subject.first).to have_attributes(
         project:,
         entity: work_package,
-        user:
+        principal: user
       )
       expect(subject.second).to have_attributes(
         project:,
         entity: nil,
-        user:
+        principal: user
       )
     end
   end

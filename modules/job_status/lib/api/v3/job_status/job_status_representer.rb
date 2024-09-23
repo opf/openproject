@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +37,7 @@ module API
 
         property :job_id
 
-        property :status
+        property :status, getter: ->(*) { batch_aware_status }, exec_context: :decorator
 
         property :message,
                  render_nil: true
@@ -45,6 +47,21 @@ module API
 
         def _type
           "JobStatus"
+        end
+
+        def batch_aware_status
+          batch = GoodJob::Job.find_by(id: represented.job_id)&.batch
+          return represented.status unless batch
+
+          unless batch.finished?
+            return "in_process" if batch.jobs.any?(&:running?)
+
+            return "in_queue"
+          end
+
+          return "success" if batch.succeeded?
+
+          "failure" if batch.discarded?
         end
       end
     end

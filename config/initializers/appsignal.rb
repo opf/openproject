@@ -20,6 +20,9 @@ if OpenProject::Appsignal.enabled?
         "ActionController::UnknownFormat",
         "ActiveJob::DeserializationError",
         "Net::SMTPServerBusy"
+      ],
+      ignore_logs: [
+        "GET /health_check"
       ]
     }
 
@@ -43,6 +46,12 @@ if OpenProject::Appsignal.enabled?
     # Extend the core log delegator
     handler = OpenProject::Appsignal.method(:exception_handler)
     OpenProject::Logging::LogDelegator.register(:appsignal, handler)
+
+    # Send our logs to appsignal
+    if OpenProject::Appsignal.logging_enabled?
+      appsignal_logger = Appsignal::Logger.new("rails")
+      Rails.logger.broadcast_to(appsignal_logger)
+    end
 
     Appsignal.start
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ class MeetingMailer < UserMailer
 
     with_attached_ics(meeting, user) do
       subject = "[#{@meeting.project.name}] #{@meeting.title}"
-      mail(to: user.mail, subject:)
+      mail(to: user, subject:)
     end
   end
 
@@ -53,7 +53,7 @@ class MeetingMailer < UserMailer
     with_attached_ics(meeting, user) do
       subject = "[#{@meeting.project.name}] "
       subject << I18n.t("meeting.email.rescheduled.header", title: @meeting.title)
-      mail(to: user.mail, subject:)
+      mail(to: user, subject:)
     end
   end
 
@@ -66,7 +66,7 @@ class MeetingMailer < UserMailer
       timezone = Time.zone || Time.zone_default
       @formatted_timezone = format_timezone_offset timezone, @meeting.start_time
       subject = "[#{@meeting.project.name}] #{@meeting.title}"
-      mail(to: user.mail, subject:)
+      mail(to: user, subject:)
     end
   end
 

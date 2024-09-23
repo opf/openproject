@@ -37,6 +37,6 @@ module OpenProject::Patches::FogFile
   end
 end
 
-OpenProject::Patches.patch_gem_version "carrierwave", "1.3.2" do
+OpenProject::Patches.patch_gem_version "carrierwave", "1.3.4" do
   CarrierWave::Storage::Fog::File.include OpenProject::Patches::FogFile
 end

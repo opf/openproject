@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,8 +61,8 @@ module API
         property :reverse_type, as: :reverseType, exec_context: :decorator
 
         ##
-        # The `delay` property is only used for the relation type "precedes/follows".
-        property :delay,
+        # The `lag` property is only used for the relation type "precedes/follows".
+        property :lag,
                  render_nil: true,
                  if: ->(*) {
                    # the relation type may be blank when parsing for an update

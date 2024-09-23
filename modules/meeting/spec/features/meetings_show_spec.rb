@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,6 +43,10 @@ RSpec.describe "Meetings", :js do
   current_user { user }
 
   describe "navigate to meeting page" do
+    before do
+      create(:meeting_participant, :invitee, user:, meeting:)
+    end
+
     let(:permissions) { %i[view_meetings] }
 
     it "can visit the meeting" do

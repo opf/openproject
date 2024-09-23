@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +39,8 @@ RSpec.describe OpenProject::Events do
   end
 
   before do
-    allow(Storages::ManageNextcloudIntegrationJob).to receive(:debounce)
+    allow(Storages::ManageStorageIntegrationsJob).to receive(:debounce)
+    allow(Storages::AutomaticallyManagedStorageSyncJob).to receive(:debounce)
   end
 
   %w[
@@ -53,22 +56,22 @@ RSpec.describe OpenProject::Events do
 
         it do
           subject
-          expect(Storages::ManageNextcloudIntegrationJob).not_to have_received(:debounce)
+          expect(Storages::AutomaticallyManagedStorageSyncJob).not_to have_received(:debounce)
         end
       end
 
       context "when payload contains automatic project_folder_mode" do
-        let(:payload) { { project_folder_mode: :automatic } }
+        let(:payload) { { project_folder_mode: "automatic", storage: create(:nextcloud_storage) } }
 
         it do
           subject
-          expect(Storages::ManageNextcloudIntegrationJob).to have_received(:debounce)
+          expect(Storages::AutomaticallyManagedStorageSyncJob).to have_received(:debounce).with(payload[:storage])
         end
 
         it do
-          allow(Storages::ManageNextcloudIntegrationJob).to receive(:disable_cron_job_if_needed)
+          allow(Storages::ManageStorageIntegrationsJob).to receive(:disable_cron_job_if_needed)
           subject
-          expect(Storages::ManageNextcloudIntegrationJob).to have_received(:disable_cron_job_if_needed)
+          expect(Storages::ManageStorageIntegrationsJob).to have_received(:disable_cron_job_if_needed)
         end
       end
     end
@@ -78,19 +81,36 @@ RSpec.describe OpenProject::Events do
     MEMBER_CREATED
     MEMBER_UPDATED
     MEMBER_DESTROYED
-    PROJECT_UPDATED
-    PROJECT_RENAMED
-    PROJECT_ARCHIVED
-    PROJECT_UNARCHIVED
   ].each do |event|
     describe(event) do
-      subject { fire_event(event) }
+      let(:project_role) { create(:existing_project_role) }
+      let(:project_storage) { create(:project_storage) }
+      let(:member) { create(:work_package_member, roles: [project_role], project: project_storage.project) }
 
-      let(:payload) { {} }
+      let(:payload) { { member: } }
+
+      subject { fire_event(event) }
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationJob).to have_received(:debounce)
+        expect(Storages::AutomaticallyManagedStorageSyncJob).to have_received(:debounce).with(project_storage.storage)
+      end
+    end
+  end
+
+  %w[PROJECT_UPDATED
+     PROJECT_RENAMED
+     PROJECT_ARCHIVED
+     PROJECT_UNARCHIVED].each do |event|
+    describe(event) do
+      let(:project_storage) { create(:project_storage, :as_automatically_managed) }
+      let(:payload) { { project: project_storage.project } }
+
+      subject { fire_event(event) }
+
+      it do
+        subject
+        expect(Storages::AutomaticallyManagedStorageSyncJob).to have_received(:debounce).with(project_storage.storage)
       end
     end
   end
@@ -103,7 +123,7 @@ RSpec.describe OpenProject::Events do
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationJob).not_to have_received(:debounce)
+        expect(Storages::ManageStorageIntegrationsJob).not_to have_received(:debounce)
       end
     end
 
@@ -112,7 +132,7 @@ RSpec.describe OpenProject::Events do
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationJob).to have_received(:debounce)
+        expect(Storages::ManageStorageIntegrationsJob).to have_received(:debounce)
       end
     end
   end
@@ -125,7 +145,7 @@ RSpec.describe OpenProject::Events do
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationJob).not_to have_received(:debounce)
+        expect(Storages::ManageStorageIntegrationsJob).not_to have_received(:debounce)
       end
     end
 
@@ -134,7 +154,7 @@ RSpec.describe OpenProject::Events do
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationJob).to have_received(:debounce)
+        expect(Storages::ManageStorageIntegrationsJob).to have_received(:debounce)
       end
     end
   end
@@ -147,7 +167,7 @@ RSpec.describe OpenProject::Events do
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationJob).not_to have_received(:debounce)
+        expect(Storages::ManageStorageIntegrationsJob).not_to have_received(:debounce)
       end
     end
 
@@ -156,7 +176,7 @@ RSpec.describe OpenProject::Events do
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationJob).to have_received(:debounce)
+        expect(Storages::ManageStorageIntegrationsJob).to have_received(:debounce)
       end
     end
   end

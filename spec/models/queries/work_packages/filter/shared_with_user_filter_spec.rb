@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require "spec_helper"
 RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
   create_shared_association_defaults_for_work_package_factory
 
-  describe "#scope" do
+  describe "#apply_to" do
     shared_let(:work_package_role) { create(:work_package_role, permissions: %i[blurgh]) }
 
     shared_let(:shared_with_user) { create(:user) }
@@ -73,7 +73,7 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
       end
     end
 
-    subject { instance.scope }
+    subject { instance.apply_to(WorkPackage) }
 
     current_user { user }
 

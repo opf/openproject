@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,11 +44,15 @@ module OpPrimer
       render(OpPrimer::ComponentCollectionComponent.new(**), &)
     end
 
+    def border_box_container(**system_args, &)
+      Primer::Beta::BorderBox.new(position: :relative, **system_args, &)
+    end
+
     def border_box_row(wrapper_arguments, &)
       if container
         container.with_row(**wrapper_arguments, &)
       else
-        container = Primer::Beta::BorderBox.new
+        container = border_box_container
         row = container.registered_slots[:rows][:renderable_function]
                        .bind_call(container, **wrapper_arguments)
 

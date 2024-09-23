@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -91,13 +91,13 @@ RSpec.describe ScheduleHelpers::ExampleMethods do
       schedule = create_schedule(<<~CHART)
         days        | MTWTFSS |
         predecessor | XX      |
-        follower    |     X   | follows predecessor with delay 2
+        follower    |     X   | follows predecessor with lag 2
       CHART
       expect(Relation.count).to eq(1)
       expect(schedule.follows_relation(from: "follower", to: "predecessor")).to be_an_instance_of(Relation)
       expect(schedule.follows_relation(from: "follower", to: "predecessor")).to have_attributes(
         relation_type: "follows",
-        delay: 2,
+        lag: 2,
         from: schedule.work_package("follower"),
         to: schedule.work_package("predecessor")
       )
@@ -105,8 +105,6 @@ RSpec.describe ScheduleHelpers::ExampleMethods do
   end
 
   describe "change_schedule" do
-    include ActiveSupport::Testing::TimeHelpers
-
     let(:fake_today) { Date.new(2022, 6, 16) } # Thursday 16 June 2022
     let(:monday) { Date.new(2022, 6, 20) } # Monday 20 June
     let(:tuesday) { Date.new(2022, 6, 21) }

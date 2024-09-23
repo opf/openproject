@@ -28,13 +28,19 @@ module Primer
           def initialize(name:, label:, autocomplete_options:, wrapper_data_attributes: {}, **system_arguments)
             @name = name
             @label = label
-            @autocomplete_options = autocomplete_options
+            @autocomplete_options = derive_autocompleter_options(autocomplete_options)
             @wrapper_data_attributes = wrapper_data_attributes
             @select_options = []
 
             super(**system_arguments)
 
             yield(self) if block_given?
+          end
+
+          def derive_autocompleter_options(options)
+            options.reverse_merge(
+              component: "opce-autocompleter"
+            )
           end
 
           def option(**args)

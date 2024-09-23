@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,6 @@
 
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { ApplicationRef } from '@angular/core';
-import { DynamicBootstrapper } from 'core-app/core/setup/globals/dynamic-bootstrapper';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ExpressionService } from 'core-app/core/expression/expression.service';
 
@@ -53,9 +52,6 @@ export class FormattableDisplayField extends DisplayField {
 
     element.innerHTML = '';
     element.appendChild(div);
-
-    // Allow embeddable rendered content
-    DynamicBootstrapper.bootstrapOptionalEmbeddable(this.appRef, div);
   }
 
   get placeholder():string {

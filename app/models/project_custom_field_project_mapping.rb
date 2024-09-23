@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 class ProjectCustomFieldProjectMapping < ApplicationRecord
   belongs_to :project
-  belongs_to :project_custom_field, class_name: 'ProjectCustomField', foreign_key: 'custom_field_id',
+  belongs_to :project_custom_field, class_name: "ProjectCustomField", foreign_key: "custom_field_id",
                                     inverse_of: :project_custom_field_project_mappings
 
   validates :custom_field_id, uniqueness: { scope: :project_id }

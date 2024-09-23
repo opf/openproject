@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,15 +35,15 @@ module Notifications::CreateFromModelService::DocumentStrategy
     :view_documents
   end
 
-  def self.supports_ian?
+  def self.supports_ian?(_reason)
     false
   end
 
-  def self.supports_mail_digest?
+  def self.supports_mail_digest?(_reason)
     false
   end
 
-  def self.supports_mail?
+  def self.supports_mail?(_reason)
     true
   end
 

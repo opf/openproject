@@ -5,7 +5,7 @@ release_date: 2019-09-23
 title: OpenProject Version 10 Release Notes
 ---
 
-# OpenProject Version 10 Release Notes 
+# OpenProject Version 10 Release Notes
 
 | Version                       | Release date |
 |-------------------------------|--------------|

@@ -14,7 +14,7 @@ We released [OpenProject 13.0.3](https://community.openproject.org/versions/1901
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Enterprise Trial automatic activation does not work \[[#49781](https://community.openproject.org/wp/49781)\]
 - Fixed: Fix untranslated strings \[[#49848](https://community.openproject.org/wp/49848)\]

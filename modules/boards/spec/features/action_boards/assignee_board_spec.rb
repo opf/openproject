@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -162,7 +162,7 @@ RSpec.describe "Assignee action board", :js,
 
       # Expect to have changed the avatar
       within_test_selector("op-wp-single-card--content-assignee") do
-        expect(page).to have_css(".op-avatar_mini", text: "GG", wait: 10)
+        expect(page).to have_css(".op-avatar_mini", text: "G", wait: 10)
       end
 
       work_package.reload

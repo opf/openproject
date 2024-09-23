@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ class AnnouncementMailer < ApplicationMailer
     with_locale_for(user) do
       localized_subject = localized(subject)
 
-      mail to: user.mail,
+      mail to: user,
            subject: localized_subject do |format|
         locals = {
           body: localized(body),

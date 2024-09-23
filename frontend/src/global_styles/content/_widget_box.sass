@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -125,7 +125,7 @@ $widget-box--enumeration-width: 20px
   // Ensure style for read-only widget headers
   .editable-toolbar-title--fixed,
   .toolbar--editable-toolbar
-    color: #5F5F5F
+    color: var(--fgColor-default)
     font-size: var(--body-font-size)
     letter-spacing: 1px
     text-transform: uppercase
@@ -144,7 +144,7 @@ $widget-box--enumeration-width: 20px
     @extend .icon-context
     display: inline-block
     font-size: 0.6rem
-    color: var(--content-icon-link-color)
+    color: var(--control-iconColor-rest)
     width: $widget-box--enumeration-width
 
 .widget-box--arrow-multiline

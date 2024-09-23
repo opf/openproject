@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 5.0.17
-  sidebar_navigation:
-      title: 5.0.17
-  release_version: 5.0.17
-  release_date: 2016-04-11
+title: OpenProject 5.0.17
+sidebar_navigation:
+  title: 5.0.17
+release_version: 5.0.17
+release_date: 2016-04-11
 ---
 
 # OpenProject 5.0.17
@@ -40,9 +40,7 @@ In addition, there are several design and usability improvements:
     page on small screens
     ([#22953](https://community.openproject.org/wp/22953)).
 
-For further information on the release, please refer to the 
-[Changelog v.5.0.17](https://community.openproject.org/versions/805) 
-or take a look at 
+For further information on the release, please refer to the
+[Changelog v.5.0.17](https://community.openproject.org/versions/805)
+or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.17).
-
-

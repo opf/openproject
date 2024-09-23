@@ -26,6 +26,7 @@ ko:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "2FA 배달이 비활성화되었습니다."
+    notice_not_writable: "2FA 설정은 환경 변수를 통해 제공되며 덮어쓸 수 없습니다."
     error_no_device: "이 인스턴스에 필요하지만, 이 사용자에 대해 등록된 2FA 장치를 찾지 못했습니다."
     error_no_matching_strategy: "이 사용자에 대해 사용 가능한 일치하는 2FA 전략이 없습니다. 관리자에게 문의하세요."
     error_is_enforced_not_active: "구성 오류: 2단계 인증이 적용되었지만, 존재하는 활성 전략이 없습니다."
@@ -118,10 +119,10 @@ ko:
       2fa_from_webauthn: WebAuthn 장치 <strong>%{device_name}</strong> 제공을 해주세요. USB 기반인 경우 장치를 연결하고 터치하세요. 그런 다음 로그인 버튼을 클릭하세요.
       webauthn:
         title: "WebAuthn"
-        description: '웹 인증을 사용하여 2단계 인증으로 FIDO2 장치(예: YubiKey)를 등록하거나 모바일 장치의 Secure Enclave를 등록합니다.'
+        description: 'FIDO2 장치(예: YubiKey) 또는 모바일 장치의 시큐어 엔클레이브를 등록하세요.'
         further_steps: 이름을 선택한 후 계속 버튼을 클릭할 수 있습니다. 브라우저에서 WebAuthn 장치를 제공하라는 메시지가 표시됩니다. 이렇게 하면 장치 등록이 완료됩니다.
       totp:
-        title: "앱 기반 인증자 사용"
+        title: "앱 기반 인증 도구"
         provisioning_uri: "프로비저닝 URI"
         secret_key: "비밀 키"
         time_based: "시간 기반"
@@ -134,14 +135,13 @@ ko:
         text_cannot_scan: |
           코드를 스캔할 수 없는 경우 다음과 같은 세부 정보를 사용하여 수동으로 항목을 입력할 수 있습니다.
         description: |
-          시간 기반 일회용 암호 인증 표준을 사용하여 OpenProject와 함께 사용할 애플리케이션 인증자를 등록하세요.
-          일반적인 예로 Google Authenticator 또는 Authy가 있습니다.
+          Authy 또는 Google Authenticator와 같은 인증 도구에 의해 생성된 일회용 코드를 사용합니다.
       sms:
-        title: "휴대폰 사용"
+        title: "모바일 장치"
         redacted_identifier: "모바일 장치(%{redacted_number})"
         request_2fa_identifier: "%{redacted_identifier}님, %{delivery_channel}을(를) 통해 인증 코드를 전송했습니다."
         description: |
-          OpenProject 일회용 암호 배달을 위해 휴대폰 번호를 등록하세요.
+          로그인할 때마다 휴대폰의 문자 메시지로 2FA 코드를 받습니다.
     sns:
       delivery_failed: "SNS 배달 실패:"
     message_bird:

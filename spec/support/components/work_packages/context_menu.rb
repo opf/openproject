@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,12 +41,16 @@ module Components
         find("body").send_keys :escape
         sleep 0.5 unless using_cuprite?
 
-        if card_view
-          page.find(".op-wp-single-card-#{work_package.id}").right_click
-        else
-          page.find(".wp-row-#{work_package.id}-table").right_click
-        end
+        retry_block do
+          if card_view
+            page.find(".op-wp-single-card-#{work_package.id}").right_click
+          else
+            page.find(".wp-row-#{work_package.id}-table").right_click
+          end
 
+          raise "Menu not open" unless page.find(:menu, work_package_context_menu_label)
+        end
+      rescue StandardError
         expect_open
       end
 

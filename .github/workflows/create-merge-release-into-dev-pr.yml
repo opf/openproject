@@ -16,7 +16,7 @@ jobs:
     steps:
     - id: find_latest_release
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.OPENPROJECT_CI_GH_TOKEN }}
         GITHUB_REPOSITORY: ${{ github.repository }}
       run: |
         BRANCH=$(curl -H "Authorization: token $GITHUB_TOKEN" \
@@ -79,19 +79,32 @@ jobs:
               echo "Successfully merged $RELEASE_BRANCH into $BASE_BRANCH and pushed"
             else
               # Close all previous PRs with label
-              for pr_number in $(gh pr list --label create-merge-release-into-dev-pr --json number --jq='.[].number'); do
-                gh pr close "$pr_number"
+              pr_numbers=$(gh pr list --label create-merge-release-into-dev-pr --json number --jq='.[].number')
+              for pr_number in $pr_numbers; do
+                gh pr close "$pr_number" --delete-branch
               done
+
+              pr_body=$(
+                echo 'Created by GitHub action'
+                for pr_number in $pr_numbers; do
+                  echo "Replaces #$pr_number"
+                done
+              )
+
+              TEMP_BRANCH="merge-$RELEASE_BRANCH-$(date "+%Y%m%d%H%M%S")"
+
+              git branch "$TEMP_BRANCH" "$RELEASE_BRANCH"
+
+              git push origin "$TEMP_BRANCH"
 
               gh pr create \
                 --base "$BASE_BRANCH" \
-                --head "$RELEASE_BRANCH" \
+                --head "$TEMP_BRANCH" \
                 --title "Merge $RELEASE_BRANCH into $BASE_BRANCH" \
-                --body 'Created by GitHub action' \
-                --label create-merge-release-into-dev-pr \
-                --reviewer opf/backend
-              echo "Created a PR to merge $RELEASE_BRANCH into $BASE_BRANCH"
+                --body "$pr_body" \
+                --label create-merge-release-into-dev-pr
+              echo "Created a PR to merge $RELEASE_BRANCH ($TEMP_BRANCH) into $BASE_BRANCH"
             fi
           fi
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.OPENPROJECT_CI_GH_TOKEN }}

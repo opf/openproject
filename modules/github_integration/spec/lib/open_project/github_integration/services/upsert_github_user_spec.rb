@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,7 +57,9 @@ RSpec.describe OpenProject::GithubIntegration::Services::UpsertGithubUser do
     end
 
     it "updates the github user" do
-      expect { upsert }.to change { github_user.reload.github_avatar_url }.from("https://github.com/test_user/old_avatar.jpg").to("https://github.com/test_user/avatar.jpg")
+      expect { upsert }.to change { github_user.reload.github_avatar_url }
+                             .from("https://github.com/test_user/old_avatar.jpg")
+                             .to("https://github.com/test_user/avatar.jpg")
     end
   end
 end

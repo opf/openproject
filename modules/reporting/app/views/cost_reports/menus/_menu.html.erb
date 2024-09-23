@@ -1,0 +1,5 @@
+<%= turbo_frame_tag "cost_reports_sidemenu",
+                    src: @project ? menu_project_cost_reports_path(@project, **params.permit(:id)) : cost_reports_menu_path(**params.permit(:id)),
+                    target: "_top",
+                    data: { turbo: false },
+                    loading: :lazy %>

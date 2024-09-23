@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,11 +40,11 @@ class Queries::Principals::Filters::TypeFilter < Queries::Principals::Filters::P
     :type
   end
 
-  def scope
+  def apply_to(query_scope)
     if operator == "="
-      Principal.where(type: values)
+      query_scope.where(type: values)
     else
-      Principal.where.not(type: values)
+      query_scope.where.not(type: values)
     end
   end
 end

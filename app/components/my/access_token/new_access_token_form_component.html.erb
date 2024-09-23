@@ -1,0 +1,75 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  component_wrapper do
+    primer_form_with(
+      model: @token,
+      url: my_generate_api_key_path,
+      data: { turbo: true },
+      method: :post
+    ) do |form|
+      component_collection do |collection|
+        collection.with_component(Primer::Alpha::Dialog::Body.new(
+          aria: { label: I18n.t("my.access_token.new_access_token_dialog_title") }
+        )) do
+          flex_layout(my: 3) do |body|
+            body.with_row do
+              render(Primer::Alpha::Banner.new(scheme: :warning)) do
+                I18n.t("my.access_token.new_access_token_dialog_attention_text")
+              end
+            end
+
+            body.with_row(mt: 3) do
+              render(Primer::Beta::Text.new(tag: :p)) do
+                I18n.t("my.access_token.new_access_token_dialog_text")
+              end
+            end
+
+            body.with_row do
+              render(My::AccessToken::NewAccessTokenForm.new(form))
+            end
+          end
+        end
+
+        collection.with_component(Primer::Alpha::Dialog::Footer.new) do
+          component_collection do |footer|
+            footer.with_component(Primer::ButtonComponent.new(data: { 'close-dialog-id': "new-access-token-dialog" })) do
+              I18n.t("button_cancel")
+            end
+
+            footer.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit, test_selector: "create-api-token-button")) do
+              I18n.t("my.access_token.new_access_token_dialog_submit_button_text")
+            end
+          end
+        end
+      end
+    end
+  end
+%>

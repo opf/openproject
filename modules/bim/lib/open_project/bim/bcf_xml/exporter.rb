@@ -4,7 +4,7 @@ module OpenProject::Bim::BcfXml
   class Exporter < ::WorkPackage::Exports::QueryExporter
     def initialize(object, options = {})
       object.add_filter("bcf_issue_associated", "=", ["t"])
-      super(object, options)
+      super
     end
 
     def current_user

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,7 @@
 
 require "spec_helper"
 require_relative "../../support/pages/work_package_meetings_tab"
+require_relative "../../support/pages/structured_meeting/show"
 
 RSpec.describe "Open the Meetings tab", :js do
   shared_let(:project) { create(:project) }
@@ -124,6 +125,23 @@ RSpec.describe "Open the Meetings tab", :js do
 
           expect(page).to have_no_content(invisible_meeting.title)
           expect(page).to have_no_content(meeting_agenda_item_of_invisible_meeting.notes)
+        end
+      end
+
+      context "with another past meeting" do
+        let!(:past_meeting) { create(:structured_meeting, project:, start_time: 1.week.ago) }
+
+        let!(:past_agenda_item) do
+          create(:meeting_agenda_item, meeting: past_meeting, work_package:, notes: "Public note!")
+        end
+
+        it "shows both future and past meetings" do
+          work_package_page.visit!
+          switch_to_meetings_tab
+
+          meetings_tab.expect_tab_count(2)
+          meetings_tab.expect_upcoming_counter_to_be(1)
+          meetings_tab.expect_past_counter_to_be(1)
         end
       end
     end
@@ -237,11 +255,15 @@ RSpec.describe "Open the Meetings tab", :js do
           expect(page).to have_content(second_meeting.title)
           expect(page).to have_content(meeting_agenda_item_of_second_meeting.notes)
         end
+
+        meeting_containers = page.all("[data-test-selector^='op-meeting-container-']")
+        expect(meeting_containers[0]["data-test-selector"]).to eq("op-meeting-container-#{first_meeting.id}")
+        expect(meeting_containers[1]["data-test-selector"]).to eq("op-meeting-container-#{second_meeting.id}")
       end
     end
 
     context "when the work_package was already referenced in past meetings" do
-      let!(:first_past_meeting) { create(:structured_meeting, project:, start_time: Date.yesterday - 10.hours) }
+      let!(:first_past_meeting) { create(:structured_meeting, project:, start_time: Date.yesterday - 11.hours) }
       let!(:second_past_meeting) { create(:structured_meeting, project:, start_time: Date.yesterday - 10.hours) }
 
       let!(:first_meeting_agenda_item_of_first_past_meeting) do
@@ -265,33 +287,34 @@ RSpec.describe "Open the Meetings tab", :js do
 
         meetings_tab.switch_to_past_meetings_section
 
+        page.within_test_selector("op-meeting-container-#{second_past_meeting.id}") do
+          expect(page).to have_content(second_past_meeting.title)
+          expect(page).to have_content(meeting_agenda_item_of_second_past_meeting.notes)
+        end
+
         page.within_test_selector("op-meeting-container-#{first_past_meeting.id}") do
           expect(page).to have_content(first_past_meeting.title)
           expect(page).to have_content(first_meeting_agenda_item_of_first_past_meeting.notes)
           expect(page).to have_content(second_meeting_agenda_item_of_first_past_meeting.notes)
         end
 
-        page.within_test_selector("op-meeting-container-#{second_past_meeting.id}") do
-          expect(page).to have_content(second_past_meeting.title)
-          expect(page).to have_content(meeting_agenda_item_of_second_past_meeting.notes)
-        end
+        meeting_containers = page.all("[data-test-selector^='op-meeting-container-']")
+        expect(meeting_containers[0]["data-test-selector"]).to eq("op-meeting-container-#{second_past_meeting.id}")
+        expect(meeting_containers[1]["data-test-selector"]).to eq("op-meeting-container-#{first_past_meeting.id}")
       end
     end
 
     context "when user is allowed to edit meetings" do
-      it "shows the add to meeting button" do
+      it "shows the add to meeting button and dialog" do
         work_package_page.visit!
         switch_to_meetings_tab
 
         meetings_tab.expect_add_to_meeting_button_present
-      end
 
-      it "opens the add to meeting dialog when clicking the add to meeting button" do
         work_package_page.visit!
         switch_to_meetings_tab
 
         meetings_tab.open_add_to_meeting_dialog
-
         meetings_tab.expect_add_to_meeting_dialog_shown
       end
 
@@ -303,6 +326,8 @@ RSpec.describe "Open the Meetings tab", :js do
         shared_let(:ongoing_meeting) do
           create(:structured_meeting, title: "Ongoing", project:, start_time: 1.hour.ago, duration: 4.0)
         end
+
+        let(:meeting_page) { Pages::StructuredMeeting::Show.new(first_upcoming_meeting) }
 
         it "enables the user to add the work package to multiple open, upcoming meetings" do
           work_package_page.visit!
@@ -381,9 +406,27 @@ RSpec.describe "Open the Meetings tab", :js do
 
           meetings_tab.open_add_to_meeting_dialog
 
-          click_on("Save")
+          retry_block do
+            click_on("Save")
 
-          expect(page).to have_content("Meeting can't be blank")
+            expect(page).to have_content("Meeting can't be blank")
+          end
+        end
+
+        it "adds presenter when the work package is added to a meeting" do
+          work_package_page.visit!
+          switch_to_meetings_tab
+
+          meetings_tab.open_add_to_meeting_dialog
+
+          meetings_tab.fill_and_submit_meeting_dialog(
+            first_upcoming_meeting,
+            "A very important note added from the meetings tab to the first meeting!"
+          )
+
+          meeting_page.visit!
+
+          expect(page.find(".op-meeting-agenda-item--presenter")).to have_text(user.name)
         end
       end
     end

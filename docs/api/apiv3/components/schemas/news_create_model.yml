@@ -1,0 +1,41 @@
+# Schema: NewsCreateModel
+---
+type: object
+properties:
+  title:
+    type: string
+    description: The headline of the news
+    readOnly: true
+  summary:
+    type: string
+    description: A short summary
+    readOnly: true
+  description:
+    allOf:
+      - $ref: "./formattable.yml"
+      - description: The main body of the news with all the details
+  _links:
+    type: object
+    required:
+      - project
+    properties:
+      project:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              The project the news is situated in
+
+              **Resource**: Project
+example:
+  title: asperiores possimus nam doloribus ab
+  summary: Celebrer spiculum colo viscus claustrum atque. Id nulla culpa sumptus.
+    Comparo crapula depopulo demonstro.
+  description:
+    raw: '**Videlicet deserunt aequitas cognatus**. Concedo quia est quia pariatur vorago
+      vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria ago
+      consectetur ventito sustineo nihil caecus. Supra officiis eos velociter somniculosus
+      tonsor qui. Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto
+      sortitus cresco apud vestrum qui.'
+  _links:
+    project:
+      href: "/api/v3/projects/1"

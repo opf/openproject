@@ -1,0 +1,8 @@
+<%= render Primer::OpenProject::PageHeader.new do |header| %>
+  <%= header.with_title(variant: :default) { t('projects.settings.project_custom_fields.header.title') } %>
+  <%= header.with_description { t('projects.settings.project_custom_fields.header.description',
+                                  overview_url: project_path(@project),
+                                  admin_settings_url: admin_settings_project_custom_fields_path
+  ).html_safe } %>
+  <%= header.with_breadcrumbs(breadcrumb_items) %>
+<% end %>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,7 +53,7 @@ module Components
 
     def open!
       SeleniumHubWaiter.wait
-      container.find("[data-qa-help-text-for='#{help_text.attribute_name}']").click
+      container.find("[data-qa-help-text-for='#{help_text.attribute_name.camelize(:lower)}']").click
       expect(page).to have_css('[data-test-selector="attribute-help-text--header"]', text: help_text.attribute_caption)
     end
 

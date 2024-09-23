@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,8 +51,9 @@ RSpec.describe RootSeeder,
       expect(WorkPackage.count).to eq 36
       expect(Wiki.count).to eq 2
       expect(Query.having_views.count).to eq 8
-      expect(View.where(type: "work_packages_table").count).to eq 7
+      expect(View.where(type: "work_packages_table").count).to eq 5
       expect(View.where(type: "team_planner").count).to eq 1
+      expect(View.where(type: "gantt").count).to eq 2
       expect(Query.count).to eq 26
       expect(ProjectRole.count).to eq 5
       expect(WorkPackageRole.count).to eq 3
@@ -82,10 +83,18 @@ RSpec.describe RootSeeder,
       expect(default_modules).to include("reporting_module")
     end
 
+    it "creates a structured meeting of 1h duration" do
+      expect(StructuredMeeting.count).to eq 1
+      expect(StructuredMeeting.last.duration).to eq 1.0
+      expect(MeetingAgendaItem.count).to eq 9
+      expect(MeetingAgendaItem.sum(:duration_in_minutes)).to eq 60
+    end
+
     it "creates different types of queries" do
       count_by_type = View.group(:type).count
       expect(count_by_type).to eq(
-        "work_packages_table" => 7,
+        "work_packages_table" => 5,
+        "gantt" => 2,
         "team_planner" => 1
       )
     end
@@ -119,7 +128,8 @@ RSpec.describe RootSeeder,
     include_examples "it creates records", model: DocumentCategory, expected_count: 3
     include_examples "it creates records", model: GlobalRole, expected_count: 1
     include_examples "it creates records", model: WorkPackageRole, expected_count: 3
-    include_examples "it creates records", model: Role, expected_count: 9
+    include_examples "it creates records", model: ProjectRole, expected_count: 5
+    include_examples "it creates records", model: ProjectQueryRole, expected_count: 2
     include_examples "it creates records", model: IssuePriority, expected_count: 4
     include_examples "it creates records", model: Status, expected_count: 14
     include_examples "it creates records", model: TimeEntryActivity, expected_count: 6
@@ -150,8 +160,9 @@ RSpec.describe RootSeeder,
         expect(WorkPackage.count).to eq 36
         expect(Wiki.count).to eq 2
         expect(Query.having_views.count).to eq 8
-        expect(View.where(type: "work_packages_table").count).to eq 7
+        expect(View.where(type: "work_packages_table").count).to eq 5
         expect(View.where(type: "team_planner").count).to eq 1
+        expect(View.where(type: "gantt").count).to eq 2
         expect(Query.count).to eq 26
         expect(ProjectRole.count).to eq 5
         expect(WorkPackageRole.count).to eq 3

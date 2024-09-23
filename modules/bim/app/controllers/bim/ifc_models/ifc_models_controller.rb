@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,6 +39,8 @@ module Bim
       before_action :authorize, except: %i[direct_upload_finished set_direct_upload_file_name]
       before_action :require_login, only: [:set_direct_upload_file_name]
       skip_before_action :verify_authenticity_token, only: [:set_direct_upload_file_name] # AJAX request in page, so skip authenticity token
+      no_authorization_required! :set_direct_upload_file_name,
+                                 :direct_upload_finished
 
       menu_item :ifc_models
 
@@ -65,6 +67,13 @@ module Bim
       end
 
       def set_direct_upload_file_name
+        if params[:filesize].to_i > Setting.attachment_max_size.to_i.kilobytes
+          render json: { error: I18n.t("activerecord.errors.messages.file_too_large",
+                                       count: Setting.attachment_max_size.to_i.kilobytes) },
+                 status: :unprocessable_entity
+          return
+        end
+
         session[:pending_ifc_model_title] = params[:title]
         session[:pending_ifc_model_is_default] = params[:isDefault]
       end
@@ -188,9 +197,10 @@ module Bim
       end
 
       def frontend_redirect(model_ids)
-        props = '{"c":["id","subject","bcfThumbnail","type","status","assignee","updatedAt"],"t":"id:desc"}'
+        props = Bim::Menus::DefaultQueryGeneratorService.new.call
         redirect_to bcf_project_frontend_path(models: JSON.dump(Array(model_ids)),
-                                              query_props: props)
+                                              query_props: props[:query_props],
+                                              name: props[:name])
       end
 
       def find_all_ifc_models

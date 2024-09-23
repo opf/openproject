@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -70,7 +70,7 @@ module Admin
     end
 
     def show_local_breadcrumb
-      true
+      false
     end
 
     def default_breadcrumb
@@ -90,7 +90,17 @@ module Admin
     end
 
     def settings_params
-      permitted_params.settings.to_h
+      permitted_params.settings(*extra_permitted_filters).to_h
+    end
+
+    # Override to allow additional permitted parameters.
+    #
+    # Useful when the format of the setting in the parameters is different from
+    # the expected format in the setting definition, for instance a setting is
+    # an array in the definition but is passed as a string to be split in the
+    # parameters.
+    def extra_permitted_filters
+      nil
     end
 
     def update_service

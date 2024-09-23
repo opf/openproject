@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -36,10 +36,7 @@ import { dangerZoneValidation } from 'core-app/core/setup/globals/global-listene
 import { setupServerResponse } from 'core-app/core/setup/globals/global-listeners/setup-server-response';
 import { listenToSettingChanges } from 'core-app/core/setup/globals/global-listeners/settings';
 import { detectOnboardingTour } from 'core-app/core/setup/globals/onboarding/onboarding_tour_trigger';
-import {
-  openExternalLinksInNewTab,
-  performAnchorHijacking,
-} from './global-listeners/link-hijacking';
+import { openExternalLinksInNewTab, performAnchorHijacking } from './global-listeners/link-hijacking';
 import { fixFragmentAnchors } from 'core-app/core/setup/globals/global-listeners/fix-fragment-anchors';
 
 /**
@@ -92,7 +89,7 @@ export function initializeGlobalListeners():void {
   if (hash && hash.startsWith('#')) {
     try {
       const el = document.querySelector(hash);
-      el && el.scrollIntoView();
+      el && el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } catch (e) {
       // This is very likely an invalid selector such as a Google Analytics tag.
       // We can safely ignore this and just not scroll in this case.
@@ -155,7 +152,7 @@ export function initializeGlobalListeners():void {
   setupToggableFieldsets();
 
   // Action menu logic
-  jQuery('.project-actions, .toolbar-items').each((idx:number, menu:HTMLElement) => {
+  jQuery('.toolbar-items').each((idx:number, menu:HTMLElement) => {
     installMenuLogic(jQuery(menu));
   });
 

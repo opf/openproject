@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2024 the OpenProject GmbH
+Copyright (C) the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -38,9 +38,6 @@ See COPYRIGHT and LICENSE files for more details.
   :post :
   :put %>
 
-<remote-field-updater data-url="<%= url_for(controller: :budgets, action: :update_material_budget_item, project_id: @cost_entry.project) %>"
-                      data-mode="json">
-</remote-field-updater>
 <%= labelled_tabular_form_for @cost_entry, url: url, html: { method: method } do |f| %>
   <%= error_messages_for 'cost_entry' %>
   <%= back_url_hidden_field_tag %>
@@ -151,4 +148,8 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 
   <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
+
+  <opce-remote-field-updater data-url="<%= url_for(controller: :budgets, action: :update_material_budget_item, project_id: @cost_entry.project) %>"
+                             data-mode="json">
+  </opce-remote-field-updater>
 <% end %>

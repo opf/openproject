@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,6 +53,7 @@ RSpec.describe TableHelpers::TableParser do
 
   it "ignores comments and empty lines" do
     table = <<~TABLE
+      # this comment is ignored
       | subject |
       # this comment and the following empty line are ignored
 
@@ -70,6 +71,25 @@ RSpec.describe TableHelpers::TableParser do
     TABLE
     expect { described_class.new.parse(table) }
       .to raise_error(ArgumentError, 'Please use "remaining work" instead of "remaining hours"')
+  end
+
+  it "raises an error if there are more cells than headers in a row" do
+    table = <<~TABLE
+      subject | work
+      wp      |   4h |   6h
+    TABLE
+    expect { described_class.new.parse(table) }
+      .to raise_error(ArgumentError, "Too many cells in row 1, have you forgotten some headers?")
+  end
+
+  it "is ok to have more headers than cells (value of missing cells will be nil)" do
+    table = <<~TABLE
+      subject | work | remaining work
+      wp      |   4h
+    TABLE
+    parsed_data = described_class.new.parse(table)
+    expect(parsed_data.dig(0, :attributes, :estimated_hours)).to eq(4.0)
+    expect(parsed_data.dig(0, :attributes, :remaining_hours)).to be_nil
   end
 
   describe "subject column" do
@@ -145,6 +165,20 @@ RSpec.describe TableHelpers::TableParser do
 
     it "sets the derived remaining work attribute" do
       expect(parsed_data.first[:attributes]).to include(derived_remaining_hours: 9)
+    end
+  end
+
+  describe "status column" do
+    let!(:status) { create(:status, name: "New") }
+    let(:table) do
+      <<~TABLE
+        subject | status
+        wp      | New
+      TABLE
+    end
+
+    it "sets the status attribute to its name, to be looked up later" do
+      expect(parsed_data.first[:attributes]).to include(status: "New")
     end
   end
 end

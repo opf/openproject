@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -86,16 +86,13 @@ RSpec.describe "API v3 Help texts resource" do
         end
 
         context "valid type id" do
-          it { expect(response.status).to eq(200) }
+          it { expect(response).to have_http_status(:ok) }
         end
 
         context "invalid type id" do
           let(:get_path) { api_v3_paths.type "bogus" }
 
-          it_behaves_like "param validation error" do
-            let(:id) { "bogus" }
-            let(:type) { "HelpText" }
-          end
+          it_behaves_like "not found"
         end
 
         context "invisible type id" do

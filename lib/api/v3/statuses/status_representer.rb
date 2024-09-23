@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,6 +42,7 @@ module API
                  render_nil: true
         property :is_default, render_nil: true
         property :is_readonly, render_nil: true
+        property :excluded_from_totals, render_nil: true
         property :default_done_ratio, render_nil: true
         property :position, render_nil: true
 

@@ -1,7 +1,7 @@
 /*
  * -- copyright
  * OpenProject is an open source project management software.
- * Copyright (C) 2023 the OpenProject GmbH
+ * Copyright (C) the OpenProject GmbH
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 3.
@@ -45,19 +45,17 @@ export default class extends Controller {
 
   connect():void {
     this.focusInput();
+    this.addNotes();
   }
 
   focusInput():void {
     const titleInput = this.element.querySelector('input[name="meeting_agenda_item[title]"]');
 
-    setTimeout(() => {
-      this.element.scrollIntoView({ block: 'center' });
-      if (window.getComputedStyle(this.notesInputTarget).display !== 'none') {
-          this.focusCkEditor();
-      } else if (titleInput) {
-        (titleInput as HTMLInputElement).focus();
-      }
-    }, 100);
+    this.element.scrollIntoView({ block: 'center' });
+    if (titleInput) {
+      (titleInput as HTMLInputElement).focus();
+      this.setCursorAtEnd(titleInput as HTMLInputElement);
+    }
   }
 
   async cancel() {
@@ -77,16 +75,12 @@ export default class extends Controller {
 
   addNotes() {
     this.notesInputTarget.classList.remove('d-none');
-    this.notesAddButtonTarget.classList.add('d-none');
-    this.focusCkEditor();
   }
 
-  private focusCkEditor() {
-    setTimeout(() => {
-      const ckContent = this.element.querySelector<HTMLElement>('.ck-content');
-      if (ckContent) {
-        ckContent.focus();
-      }
-    }, 50);
+  setCursorAtEnd(inputElement:HTMLInputElement):void {
+    if (document.activeElement === inputElement) {
+      const valueLength = inputElement.value.length;
+      inputElement.setSelectionRange(valueLength, valueLength);
+    }
   }
 }

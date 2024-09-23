@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -95,6 +95,15 @@ module MeetingAgendaItems
                        data: { "turbo-stream": true }
                      }) do |item|
         item.with_leading_visual_icon(icon: :note)
+      end
+    end
+
+    def copy_action_item(menu)
+      url = meeting_url(@meeting, anchor: "item-#{@meeting_agenda_item.id}")
+      menu.with_item(label: t("button_copy_link_to_clipboard"),
+                     tag: :"clipboard-copy",
+                     content_arguments: { value: url }) do |item|
+        item.with_leading_visual_icon(icon: :copy)
       end
     end
 

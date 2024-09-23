@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,6 +42,10 @@ RSpec.describe API::V3::ProjectStorages::ProjectStorageRepresenter do
   let(:representer) { described_class.new(project_storage, current_user: user) }
 
   subject { representer.to_json }
+
+  before do
+    allow(user).to receive("allowed_in_project?").and_return(true)
+  end
 
   describe "properties" do
     it_behaves_like "property", :_type do
@@ -99,12 +103,28 @@ RSpec.describe API::V3::ProjectStorages::ProjectStorageRepresenter do
       end
     end
 
-    context "when storage is not configured" do
+    context "when storage is configured" do
       before { project_storage.storage = create(:nextcloud_storage_configured) }
 
       it_behaves_like "has an untitled link" do
         let(:link) { "openWithConnectionEnsured" }
         let(:href) { ensure_connection_path(project_storage) }
+      end
+    end
+
+    context "when user does not have read_files permission" do
+      let(:project_storage) { build_stubbed(:project_storage, project_folder_mode: "automatic", project_folder_id: "1337") }
+
+      before do
+        allow(user).to receive("allowed_in_project?").and_return(false)
+      end
+
+      it_behaves_like "has no link" do
+        let(:link) { "openWithConnectionEnsured" }
+      end
+
+      it_behaves_like "has no link" do
+        let(:link) { "open" }
       end
     end
   end

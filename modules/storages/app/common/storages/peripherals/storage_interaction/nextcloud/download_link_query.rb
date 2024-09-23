@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,90 +28,111 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud
-  class DownloadLinkQuery
-    using Storages::Peripherals::ServiceResultRefinements
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module Nextcloud
+        class DownloadLinkQuery
+          using ServiceResultRefinements
 
-    def initialize(storage)
-      @uri = storage.uri
-      @configuration = storage.oauth_configuration
-    end
+          def self.call(storage:, auth_strategy:, file_link:)
+            new(storage).call(auth_strategy:, file_link:)
+          end
 
-    def self.call(storage:, user:, file_link:)
-      new(storage).call(user:, file_link:)
-    end
+          def initialize(storage)
+            @storage = storage
+          end
 
-    def call(user:, file_link:)
-      result = Util.token(user:, configuration: @configuration) do |token|
-        direct_download_request(token, file_link).bind do |resp|
-          # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
-          if resp.body.blank?
-            Util.error(:unauthorized, "Outbound request not authorized!")
-          else
-            ServiceResult.success(result: resp.body.to_s)
+          def call(auth_strategy:, file_link:)
+            if file_link.nil?
+              return failure(code: :error, payload: nil, log_message: "File link can not be nil.")
+            end
+
+            direct_download_request(auth_strategy:, file_link:)
+              .bind { |response_body| direct_download_token(body: response_body) }
+              .map { |download_token| download_link(download_token, file_link.origin_name) }
+          end
+
+          private
+
+          def http_options
+            Util.ocs_api_request.deep_merge(Util.accept_json)
+          end
+
+          def direct_download_request(auth_strategy:, file_link:)
+            Authentication[auth_strategy].call(storage: @storage, http_options:) do |http|
+              result = handle_response http.post(UrlBuilder.url(@storage.uri, "/ocs/v2.php/apps/dav/api/v1/direct"),
+                                                 json: { fileId: file_link.origin_id })
+
+              result.bind do |resp|
+                # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
+                if resp.body.blank?
+                  Util.error(:unauthorized, "Outbound request not authorized!")
+                else
+                  ServiceResult.success(result: resp.body.to_s)
+                end
+              end
+            end
+          end
+
+          def handle_response(response)
+            case response
+            in { status: 200..299 }
+              ServiceResult.success(result: response)
+            in { status: 404 }
+              failure(code: :not_found,
+                      payload: response.json(symbolize_keys: true),
+                      log_message: "Outbound request destination not found!")
+            in { status: 401 }
+              failure(code: :unauthorized,
+                      payload: response.json(symbolize_keys: true),
+                      log_message: "Outbound request not authorized!")
+            else
+              failure(code: :error,
+                      payload: response.json(symbolize_keys: true),
+                      log_message: "Outbound request failed with unknown error!")
+            end
+          end
+
+          def download_link(token, origin_name)
+            UrlBuilder.url(@storage.uri, "index.php/apps/integration_openproject/direct", token, origin_name)
+          end
+
+          def direct_download_token(body:)
+            token = parse_direct_download_token(body:)
+            if token.blank?
+              return Util.error(:error, "Received unexpected json response", body)
+            end
+
+            ServiceResult.success(result: token)
+          end
+
+          def parse_direct_download_token(body:)
+            begin
+              json = JSON.parse(body)
+            rescue JSON::ParserError
+              return nil
+            end
+
+            direct_download_url = json.dig("ocs", "data", "url")
+            return nil if direct_download_url.blank?
+
+            path = URI.parse(direct_download_url).path
+            return nil if path.blank?
+
+            path.split("/").last
+          end
+
+          def failure(code:, payload:, log_message:)
+            ServiceResult.failure(
+              result: code,
+              errors: StorageError.new(code:,
+                                       data: StorageErrorData.new(source: self.class, payload:),
+                                       log_message:)
+            )
           end
         end
       end
-
-      result
-        .bind { |response_body| direct_download_token(body: response_body) }
-        .map { |download_token| download_link(download_token, file_link.origin_name) }
-    end
-
-    private
-
-    def direct_download_request(token, file_link)
-      response = OpenProject
-                   .httpx
-                   .post(
-                     Util.join_uri_path(@uri, "/ocs/v2.php/apps/dav/api/v1/direct"),
-                     json: { fileId: file_link.origin_id },
-                     headers: {
-                       "Authorization" => "Bearer #{token.access_token}",
-                       "OCS-APIRequest" => "true",
-                       "Accept" => "application/json",
-                       "Content-Type" => "application/json"
-                     }
-                   )
-      case response
-      in { status: 200..299 }
-        ServiceResult.success(result: response)
-      in { status: 404 }
-        Util.error(:not_found, "Outbound request destination not found!", response)
-      in { status: 401 }
-        Util.error(:unauthorized, "Outbound request not authorized!", response)
-      else
-        Util.error(:error, "Outbound request failed!")
-      end
-    end
-
-    def download_link(token, origin_name)
-      Util.join_uri_path(@uri, "index.php/apps/integration_openproject/direct", token, CGI.escape(origin_name))
-    end
-
-    def direct_download_token(body:)
-      token = parse_direct_download_token(body:)
-      if token.blank?
-        return Util.error(:error, "Received unexpected json response", body)
-      end
-
-      ServiceResult.success(result: token)
-    end
-
-    def parse_direct_download_token(body:)
-      begin
-        json = JSON.parse(body)
-      rescue JSON::ParserError
-        return nil
-      end
-
-      direct_download_url = json.dig("ocs", "data", "url")
-      return nil if direct_download_url.blank?
-
-      path = URI.parse(direct_download_url).path
-      return nil if path.blank?
-
-      path.split("/").last
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,8 @@ class GroupsController < ApplicationController
   layout "admin"
 
   before_action :require_admin, except: %i[show]
+  no_authorization_required! :show
+
   before_action :find_group, only: %i[destroy update show create_memberships destroy_membership
                                       edit_membership add_users]
 
@@ -153,20 +155,13 @@ class GroupsController < ApplicationController
   end
 
   def visible_group_members?
-    current_user.allowed_in_any_project?(:manage_members) ||
+    current_user.admin? ||
+      current_user.allowed_in_any_project?(:manage_members) ||
       Group.in_project(Project.allowed_to(current_user, :view_members)).exists?
   end
 
-  def default_breadcrumb
-    if action_name == "index" || !current_user.admin?
-      t("label_group_plural")
-    else
-      ActionController::Base.helpers.link_to(t("label_group_plural"), groups_path)
-    end
-  end
-
   def show_local_breadcrumb
-    true
+    false
   end
 
   def respond_membership_altered(service_call)

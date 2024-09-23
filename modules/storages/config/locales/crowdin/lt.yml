@@ -12,6 +12,7 @@ lt:
         tenant: Direktorijos (savininko) ID
     errors:
       messages:
+        invalid_host_url: nėra tinkamas URL.
         not_linked_to_project: nesusietas su projektu.
       models:
         storages/file_link:
@@ -20,13 +21,17 @@ lt:
               only_numeric_or_uuid: gali būti tik skaitinis ar uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: negalimas šiai saugyklai.
+            project_ids:
+              blank: Please select a project.
         storages/storage:
           attributes:
             host:
               authorization_header_missing: nėra pilnai nustatytas. Nextcloud egzempliorius negauna „Autorizacijos“ antraštės, kuri būtina Turėtojo žetonu paremtoms autorizacijos API užklausoms. Prašome patikrinti jūsų HTTP serverio konfigūraciją.
-              cannot_be_connected_to: negali būti prijungtas prie.
+              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
               minimal_nextcloud_version_unmet: neatitinka minimalių versijos reikalavimų (turi būti Nextcloud 23 ar aukštesnis)
               not_nextcloud_server: nėra Nextcloud serveris
               op_application_not_installed: panašu neturi įdiegtos „OpenProject integracijos“ aplikacijos. Prašome ją įdiegti ir bandyti dar kartą.
@@ -39,20 +44,119 @@ lt:
   api_v3:
     errors:
       too_many_elements_created_at_once: Per daug elementu vienu metu. Tikėtasi daugiausia %{max}, gauta %{actual}.
-  permission_create_files: Kurti failus
-  permission_delete_files: Trinti failus
+  external_file_storages: Išorinės failų saugyklos
+  permission_create_files: 'Automatiškai valdomi projekto aplankai: Kurti failus'
+  permission_create_files_explanation: Šis teisė galima tik Nextcloud saugykloms
+  permission_delete_files: 'Automatiškai valdomi projekto aplankai: Trinti failus'
+  permission_delete_files_explanation: Šis teisė galima tik Nextcloud saugykloms
+  permission_header_for_project_module_storages: Automatiškai valdomi projekto aplankai
   permission_manage_file_links: Tvarkyti failo nuorodas
-  permission_manage_storages_in_project: Tvarkyti failų saugyklas projekte
-  permission_read_files: Skaityti failus
-  permission_share_files: Bendrinti failus
+  permission_manage_files_in_project: Manage files in project
+  permission_read_files: 'Automatiškai valdomi projekto aplankai: Skaityti failus'
+  permission_share_files: 'Automatiškai valdomi projekto aplankai: Bendrinti failus'
+  permission_share_files_explanation: Ši teisė galima tik Nextcloud saugykloms
   permission_view_file_links: Žiūrėti failo nuorodas
-  permission_write_files: Rašyti failus
-  project_module_storages: Failų saugyklos
+  permission_write_files: 'Automatiškai valdomi projekto aplankai: Rašyti failus'
+  project_module_storages: Failai
+  project_storages:
+    edit_project_folder:
+      label: Edit project folder
+    project_folder_mode:
+      automatic: Automatically managed
+      inactive: Jokio konkretaus aplanko
+      manual: Existing folder manually managed
+    remove_project:
+      deletion_failure_flash: Failed to remove the project from the storage. %{error}
+      dialog:
+        automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
+        confirmation_text: Please, confirm you understand and want to remove this file storage from this project
+        heading_text: Remove project from %{storage}
+        text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
+      label: Remove project
+  services:
+    attributes:
+      nextcloud_sync_service:
+        add_user_to_group: 'Add User to Group:'
+        create_folder: 'Managed Project Folder Creation:'
+        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
+        hide_inactive_folders: 'Hide Inactive Folders Step:'
+        remote_folders: 'Read contents of the group folder:'
+        remove_user_from_group: 'Remove User from Group:'
+        rename_project_folder: 'Rename managed project Folder:'
+      one_drive_sync_service:
+        create_folder: 'Managed Project Folder Creation:'
+        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
+        hide_inactive_folders: 'Hide Inactive Folders Step:'
+        remote_folders: 'Read contents of the group folder:'
+        rename_project_folder: 'Rename managed project Folder:'
+    errors:
+      messages:
+        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+      models:
+        copy_project_folders_service:
+          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
+          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
+          not_found: The source template location %{source_path} wasn't found.
+          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
+        nextcloud_sync_service:
+          attributes:
+            add_user_to_group:
+              conflict: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+              failed_to_add: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+            create_folder:
+              conflict: The %{folder_name} already exists on %{parent_location}.
+              not_found: "%{parent_location} wasn't found."
+            ensure_root_folder_permissions:
+              not_found: "%{group_folder} wasn't found. Please check your Nextcloud Group Folder setup."
+              permission_not_set: could not set permissions on %{group_folder}.
+            hide_inactive_folders:
+              permission_not_set: could not set permissions on %{path}.
+            remote_folders:
+              not_allowed: The %{username} doesn't have access to the %{group_folder}. Please check the folder permissions on Nextcloud.
+              not_found: "%{group_folder} wasn't found. Please check your Nextcloud setup."
+            remove_user_from_group:
+              conflict: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
+              failed_to_remove: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
+            rename_project_folder:
+              forbidden: OpenProject user does not have access to %{current_path} folder.
+              not_found: "%{current_path} wasn't found."
+            set_folders_permissions:
+              permission_not_set: could not set permissions on %{path}.
+          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
+          group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
+          insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
+          not_allowed: Nextcloud block the request.
+          unauthorized: OpenProject could not sync with Nextcloud. Please check you storage and Nextcloud configuration.
+          user_does_not_exist: "%{user} does not exist in Nextcloud."
+        one_drive_sync_service:
+          attributes:
+            create_folder:
+              conflict: The %{folder_name} already exists on %{parent_location}.
+              not_found: "%{parent_location} wasn't found."
+            hide_inactive_folders:
+              permission_not_set: could not set permissions on %{path}.
+            remote_folders:
+              request_error: OpenProject could not access your drive %{drive_id}. Please check if your storage configuration is correct.
+            rename_project_folder:
+              conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists
+              forbidden: OpenProject does not have access to %{current_path} in order to rename it.
+              not_found: "%{current_path} wasn't found."
+            set_folders_permissions:
+              permission_not_set: could not set permissions on %{path}.
+          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
+          not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
+          unauthorized: OpenProject could not sync with OneDrive. Please check you storage and Azure Application configuration.
+          user_does_not_exist: "%{user} does not exist in Nextcloud."
+        upload_link_service:
+          not_found: The destination folder %{folder} could not be found on %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Baigti be jo
       done_complete_setup: Atlikta, baigti nustatymą
       done_continue: Baigta, tęsti
+      open_storage: Open file storage
       replace_oauth_application: Keisti OpenProject OAuth
       replace_oauth_client: Keisti %{provider_type} OAuth
       save_and_continue: Įrašyti ir tęsti
@@ -75,8 +179,24 @@ lt:
       storage_delete_result_1: Išimti visus nustatymus visuose projektuose, naudojančiuose šią saugyklą.
       storage_delete_result_2: Išimti iš visų projektų darbo paketų visas nuorodas į failus ir aplankus šioje saugykloje.
       storage_delete_result_3: Jei saugykla turi automatiškai valdomus projekto aplankus, jie ir juose esantys failai bus ištrinti visam laikui.
+    dependencies:
+      nextcloud:
+        group_folders_app: Group folders
+        integration_app: Integration OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: This storage has an incomplete setup. Please, complete the setup before enabling it in multiple projects.
+      setup_incomplete_header: Storage setup incomplete
     error_invalid_provider_type: Prašome pažymėti tinkamą saugyklos tiekėją.
     file_storage_view:
+      access_management:
+        automatic_management: Atutomatiškai valdoma prieiga ir aplankai
+        automatic_management_description: Leisti OpenProject automatiškai kurti projektų aplankus ir tvarkyti naudotojų prieigą. Tai rekomenduojama, nes užtikrina, kad kiekvienas komandos narys visada turi reikiamas prieigos teises.
+        description: Parinkite naudotojų prieigos ir aplankų kūrimo valdymo tipą. Mes rekomenduojame naudoti automatiškai valdomą prieigą, kad turėtumėte labiau organizuotą struktūrą ir garantuotumėte prieigą visiems reikiamiems naudotojams.
+        manual_management: Rankiniu būdu valdoma prieiga ir aplankai
+        manual_management_description: Kurkite ir valdykite projektų aplankus patys rankiniu būdu. Jums reikės rankiniu būdu užtikrinti, kad reikiami naudotojai turi prieigą.
+        setup_incomplete: Parinkite naudotojų prieigos ir aplankų kūrimo valdymo tipą.
+        subtitle: Prieigos valdymas
+        title: Prieiga ir projekto aplankai
       automatically_managed_folders: Automatiškai valdomi aplankai
       general_information: Bendra informacija
       nextcloud_oauth: Nextcloud OAuth
@@ -88,18 +208,45 @@ lt:
       storage_provider: Saugyklos tiekėjas
     health:
       checked: Paskutinį kartą tikrinta %{datetime}
+      connection_validation:
+        action: Recheck connection
+        app_version_mismatch: The Integration OpenProject app version is not supported. Please update your Nextcloud server.
+        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
+        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
+        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        group_folder_not_found: The group folder could not be found.
+        group_folder_version_mismatch: The Group Folder version is not supported. Please update your Nextcloud server.
+        host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
+        missing_dependencies: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
+        not_configured: The connection could not be validated. Please finish configuration first.
+        placeholder: Check your connection against the server.
+        subtitle: Connection validation
+        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
+        unexpected_content:
+          nextcloud: Unexpected content found in the managed group folder.
+          one_drive: Unexpected content found in the drive.
+        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: Klaida
       label_healthy: Sveikas
       label_pending: Laukiama
+      label_warning: Įspėjimas
+      project_folders:
+        subtitle: Automatiškai valdomi projekto aplankai
       since: nuo %{datetime}
-      subtitle: Automatinio tvarkymo projekto aplankai
       title: Sveikatos būsena
+    health_email_notifications:
+      description_subscribed: Visi administratoriai gauna šios saugyklos sveikatos būsenos pranešimus e-paštu.
+      description_unsubscribed: Šios saugyklos sveikatos būsenos e-pašto pranešimai buvo išjungti visiems administratoriams.
+      error_could_not_be_saved: Nepavyko įrašyti e-pašto pranešimų nustatymų. Prašome bandyti dar kartą.
+      subscribe: Prenumeruoti
+      title: El. pašto priminimai
+      unsubscribe: Atšaukti prenumeratą
     help_texts:
       project_folder: Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.
+      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
     instructions:
       all_available_storages_already_added: Visos galimos failų saugyklos jau pridėtos į projektą.
       automatic_folder: Tai automatiškai sukurs šakninį aplanką šiam projektui ir tvarkys prieigos teises kiekvienam projekto nariui.
-      copy_from: Kopijuoti reikšmę iš
       empty_project_folder_validation: Norint tęsti būtina parinkti aplanką.
       existing_manual_folder: Jūs galite esamą aplanką paskirti šakniniu šiam projektui. Kaip bebūtų, teisės automatiškai netvarkomos, administratoriui reikia rankiniu būdu užtikrinti, kad atitinkami naudotojai turėtų prieigą. Parintktą aplanką gali naudoti keli projektai.
       host: Prašome pridėti jūsų saugyklos stoties adresą, įskaitant https://. Jis turi būti ne ilgesnis už 255 simbolius.
@@ -143,6 +290,7 @@ lt:
     label_creator: Kūrėjas
     label_delete_storage: Trinti saugyklą
     label_edit_storage: Keisti saugyklą
+    label_edit_storage_access_management: Keisti saugyklos prieigos valdymą
     label_edit_storage_automatically_managed_folders: Keisti saugyklos automatiškai tvarkomus aplankus
     label_edit_storage_host: Keisti saugyklos adresą
     label_existing_manual_folder: Esamas aplankas su rankiniu būdu valdomomis teisėmis
@@ -176,16 +324,24 @@ lt:
     no_results: Dar nenustatyta jokia saugykla.
     notice_successful_storage_connection: |-
       Saugykla sėkmingai prijungta! Nepamirškite aktyvuoti modulį ir konkrečią saugyklą visų projektų, kuriuose norite ją naudoti, nustatymuose.
+    oauth_access_granted_modal:
+      access_granted: Access granted
+      project_settings:
+        access_granted_screen_reader: Access granted. You are now ready to use %{storage}
+        storage_ready: You are now ready to use %{storage}
+      storage_admin:
+        access_granted_screen_reader: Access granted. You are now ready to add projects to %{storage}
+        storage_ready: You are now ready to add projects to %{storage}
     oauth_grant_nudge_modal:
-      access_granted: Prieiga suteikta
-      access_granted_screen_reader: Prieiga suteikta. Dabar galite naudotis %{storage}.
-      body: Kad gautumėte prieigą prie projekto aplanko, jums reikia prisijungti prie %{storage}.
       cancel_button_label: Aš tai padarysiu vėliau
-      confirm_button_aria_label: Prisijungti prie %{storage}
-      confirm_button_label: Prisijungti
+      heading: Login to %{provider_type} required
+      login_button_aria_label: Login to %{storage}
+      login_button_label: "%{provider_type} log in"
+      project_settings:
+        description: To get access to the project folder you need to login to %{storage}.
       requesting_access_to: Prašoma prieigos prie %{storage}
-      storage_ready: Jūs dabar pasiruošę naudoti %{storage}
-      title: Dar vienas žingsnis...
+      storage_admin:
+        description: In order to add projects to this storage you need to be logged into %{provider_type}. Please, log in and try again.
     open_project_storage_modal:
       success:
         subtitle: Jūs peradresuojami
@@ -198,8 +354,6 @@ lt:
         delete: Trinti failų saugyklą
         subtitle: Pridėkite išorinę failų saugyklą, jei norite įkelti, susieti ir valdyti failus darbo paketuose.
       managed_project_folders:
-        one_drive_information: |-
-          Kad įjungtumėte automatiškai tvarkomus projekto OneDrive/SharePoint aplankus, reikia papildomos konfigūracijos diske, kuris naudojamas šiai failų saugyklai. Jei OpenProject tvarko šio disko teises, jis tikėtina bus naudojamas ir kitiems SharePoint tikslams. Daugiau informacijos ir instrukcijas rasite %{drive_id_link_text}.
         subtitle: |-
           Leisti OpenProject automatiškai kurti projektų aplankus. Tai rekomenduojama, nes užtikrina, kad kiekvienas komandos narys visada turi reikiamas prieigos teises.
         subtitle_short: Leisti OpenProject kurti aplankus projektams automatiškai
@@ -207,12 +361,12 @@ lt:
       project_settings:
         delete: Trinti failų saugyklą
         edit: Keisti šio projekto failų saugyklą
-        index: Šiame projekte prieinamos failų saugyklos.
         members_connection_status: Narių jungties būsena
         new: Pridėti failų saugyklą šiam projektui
       project_storage_members:
         subtitle: Patikrinkite saugyklos %{storage_name_link} jungties būseną visiems projekto nariams.
         title: Narių jungties būsena
+    permission_header_explanation: 'Išorinių saugyklų failų prieigos teisės taikomos tik automatiškai projektų valdomiems aplankams ir failams. Pastebėtina, kad kai kurios failų prieigos teisės nepalaikomos kai kurių saugyklų. Daugiau informacijos rasite rasite dokumente <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>failų saugyklų teisės</a>.'
     provider_types:
       label: Tiekėjo tipas
       nextcloud:
@@ -225,6 +379,9 @@ lt:
         label_oauth_client_secret: Azure OAuth kliento slapta reikšmė
         name: OneDrive/SharePoint
         name_placeholder: pvz. OneDrive
+    show_attachments_toggle:
+      description: 'Išjungus šią parinktį darbo paketų failų kortelėje bus paslėptas priedų sąrašas. Darbo paketų aprašyme prisegti failai bus įkeliami į vidinę priedų saugyklą. '
+      label: Rodyti priedus darbo paketų failų kortelėje
     storage_list_blank_slate:
       description: Pridėkite saugyklą, kad matytumėte ją čia.
       heading: Jūs dar neturite jokių saugyklų.

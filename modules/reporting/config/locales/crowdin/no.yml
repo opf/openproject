@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -23,11 +23,11 @@
   plugin_openproject_reporting:
     name: "OpenProject rapportering"
     description: "Dette programtillegget gjør det mulig å lage egendefinerte kostnadsrapporter med filtrering og gruppering opprettet av OpenProject -utvidelsen Tid og kostnad."
-  button_save_as: "Lagre rapport som..."
+  button_save_report_as: "Save report as..."
   comments: "Kommentar"
   cost_reports_title: "Tid og kostnader"
   label_cost_report: "Kostnadsrapport"
-  label_cost_report_plural: "Kostnadsrapport"
+  label_cost_report_plural: "Kostnadsrapporter"
   description_drill_down: "Vis detaljer"
   description_filter_selection: "Utvalg"
   description_multi_select: "Vis flervalg"
@@ -36,7 +36,7 @@
   label_click_to_edit: "Klikk for å redigere."
   label_closed: "lukket"
   label_columns: "Kolonner"
-  label_cost_entry_attributes: "Kostnadsattributter"
+  label_cost_entry_attributes: "Kostnadsegenskaper"
   label_days_ago: "for de siste dagene"
   label_entry: "Kostnad"
   label_filter_text: "Filtrer tekst"

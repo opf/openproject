@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -157,13 +157,19 @@ RSpec.describe MyController do
   describe "settings" do
     describe "PATCH" do
       let(:language) { "en" }
+      let(:params) do
+        {
+          user: { language: },
+          pref: { auto_hide_popups: 0 }
+        }
+      end
 
       before do
         as_logged_in_user user do
           user.pref.comments_sorting = "desc"
           user.pref.auto_hide_popups = true
 
-          patch :update_settings, params: { user: { language: }, pref: { auto_hide_popups: 0 } }
+          patch :update_settings, params:
         end
       end
 
@@ -197,6 +203,28 @@ RSpec.describe MyController do
           expect(flash[:notice]).to eq(I18n.t(:notice_account_updated, locale: language))
         end
       end
+    end
+  end
+
+  describe "changing changing mail" do
+    let!(:recovery_token) { create(:recovery_token, user:) }
+    let!(:plain_session) { create(:user_session, user:, session_id: "internal_foobar") }
+    let!(:user_session) { Sessions::UserSession.find_by(session_id: "internal_foobar") }
+
+    let(:params) do
+      { user: { mail: "foo@example.org" } }
+    end
+
+    it "clears other sessions and removes tokens" do
+      as_logged_in_user user do
+        patch :update_settings, params:
+      end
+
+      expect(flash[:info]).to include(I18n.t(:notice_account_updated))
+      expect(flash[:info]).to include(I18n.t(:notice_account_other_session_expired))
+
+      expect(Token::Recovery.where(user:)).to be_empty
+      expect { user_session.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
@@ -275,34 +303,31 @@ RSpec.describe MyController do
     describe "api" do
       context "with no existing key" do
         it "creates a key" do
-          expect(user.api_token).to be_nil
+          expect(user.api_tokens).to be_empty
 
-          post :generate_api_key
-          new_token = user.reload.api_token
+          post :generate_api_key, params: { token_api: { token_name: "One heck of a token" } }, format: :turbo_stream
+          new_token = user.reload.api_tokens.last
           expect(new_token).to be_present
 
-          expect(flash[:info]).to be_present
-          expect(flash[:error]).not_to be_present
-
-          expect(response).to redirect_to action: :access_token
+          expect(response).to be_successful
+          expect(response.body).to include(new_token.token_name)
         end
       end
 
       context "with existing key" do
-        let!(:key) { Token::API.create user: }
+        let!(:key) { Token::API.create(user:, data: { name: "One heck of a token" }) }
 
-        it "replaces the key" do
-          expect(user.reload.api_token).to eq(key)
+        it "must add the new key" do
+          expect(user.reload.api_tokens.last).to eq(key)
 
-          post :generate_api_key
+          post :generate_api_key, params: { token_api: { token_name: "Two heck of a token" } }, format: :turbo_stream
 
-          new_token = user.reload.api_token
+          new_token = user.reload.api_tokens.last
           expect(new_token).not_to eq(key)
           expect(new_token.value).not_to eq(key.value)
-          expect(flash[:info]).to be_present
-          expect(flash[:error]).not_to be_present
 
-          expect(response).to redirect_to action: :access_token
+          expect(response).to be_successful
+          expect(response.body).to include("Two heck of a token")
         end
       end
     end

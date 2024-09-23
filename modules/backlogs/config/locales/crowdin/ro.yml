@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -26,9 +26,9 @@ ro:
   activerecord:
     attributes:
       work_package:
-        position: "Poziţie"
+        position: "Poziție"
         story_points: "Puncte"
-        backlogs_work_package_type: "Tipul de restante"
+        backlogs_work_package_type: "Tip restanță"
     errors:
       models:
         work_package:
@@ -37,7 +37,7 @@ ro:
               can_only_contain_work_packages_of_current_sprint: "poate conține numai ID-uri ale pachetelor de lucru din sprintul curent."
               must_block_at_least_one_work_package: "trebuie să conțină ID-ul a cel puțin un bilet."
             version_id:
-              task_version_must_be_the_same_as_story_version: "trebuie să fie aceeași cu versiunea povestirii-mamă."
+              task_version_must_be_the_same_as_story_version: "trebuie să fie aceeași cu versiunea cerinței părinte."
         sprint:
           cannot_end_before_it_starts: "Sprint nu se poate termina înainte de a începe."
   backlogs:
@@ -59,23 +59,23 @@ ro:
     label_is_done_status: "Starea %{status_name} înseamnă terminat"
     no_burndown_data: "Nu sunt disponibile date privind arderea în vegetație. Este necesar să fie stabilite datele de început și de sfârșit ale sprintului."
     points: "Puncte"
-    positions_could_not_be_rebuilt: "Nu s-a putut verifica etapa '%{stage}'."
+    positions_could_not_be_rebuilt: "Pozițiile nu au putut fi reconstruite."
     positions_rebuilt_successfully: "Toate elementele au fost șterse cu succes"
-    properties: "Proprietăţi"
+    properties: "Proprietăți"
     rebuild: "Reconstruiți"
     rebuild_positions: "Reconstruiți"
-    remaining_hours: "Remaining work"
-    remaining_hours_ideal: "Remaining work (ideal)"
+    remaining_hours: "Muncă rămasă"
+    remaining_hours_ideal: "Munca rămasă (ideal)"
     show_burndown_chart: "Size Chart"
     story: "Articol"
-    story_points: "Puncte"
+    story_points: "Puncte cerință"
     story_points_ideal: "Puncte"
     task: "Sarcină"
     task_color: "Sarcină"
     unassigned: "Neasociate"
     x_more: "%{count} mai mult..."
   backlogs_active: "activ"
-  backlogs_any: "Oricare"
+  backlogs_any: "oricare"
   backlogs_inactive: "Proiectul nu prezintă nicio activitate"
   backlogs_points_burn_direction: "Arderea punctelor în sus/jos"
   backlogs_product_backlog: "Fișa produsului"
@@ -86,7 +86,7 @@ ro:
   backlogs_sprint_unestimated: "Sprinturi închise sau active cu povești neestimate"
   backlogs_sprint_unsized: "Proiectul are povești pe sprinturi active sau recent închise care nu au fost dimensionate"
   backlogs_sprints: "Sprinturi"
-  backlogs_story: "Articol"
+  backlogs_story: "Cerință"
   backlogs_story_type: "Tipuri de povești"
   backlogs_task: "Sarcină"
   backlogs_task_type: "Sarcină"
@@ -134,7 +134,7 @@ ro:
   label_wiki: "Wiki"
   permission_view_master_backlog: "Vizualizare master backlog"
   permission_view_taskboards: "Vizualizați tablourile de sarcini"
-  permission_select_done_statuses: "Selectați statusuri terminate"
+  permission_select_done_statuses: "Selectează stările realizate"
   permission_update_sprints: "Sprinturi"
   points_accepted: "puncte acceptate"
   points_committed: "puncte comise"
@@ -144,15 +144,15 @@ ro:
   project_module_backlogs: "Restanțe"
   rb_label_copy_tasks: "Copierea pachetelor de lucru"
   rb_label_copy_tasks_all: "Toate"
-  rb_label_copy_tasks_none: "Nimic"
+  rb_label_copy_tasks_none: "Niciuna"
   rb_label_copy_tasks_open: "Deschis"
   rb_label_link_to_original: "Includeți un link către povestea originală"
-  remaining_hours: "remaining work"
+  remaining_hours: "muncă rămasă"
   required_burn_rate_hours: "rata de ardere necesară (ore)"
   required_burn_rate_points: "rata de ardere necesară (puncte)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
   todo_work_package_summary: "%{type}: %{summary}"
-  version_settings_display_label: "Coloană în backlog"
+  version_settings_display_label: "Coloană în restanță"
   version_settings_display_option_left: "stanga"
-  version_settings_display_option_none: "niciunul"
+  version_settings_display_option_none: "niciuna"
   version_settings_display_option_right: "dreapta"

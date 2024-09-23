@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -69,7 +69,7 @@ RSpec.describe "API v3 Work package resource",
       end
 
       it "responds with 200" do
-        expect(last_response.status).to eq(200)
+        expect(last_response).to have_http_status(:ok)
       end
 
       describe "response body" do
@@ -248,7 +248,7 @@ RSpec.describe "API v3 Work package resource",
 
         context "with EE", with_ee: %i[baseline_comparison] do
           it "responds with 200" do
-            expect(subject && last_response.status).to eq(200)
+            expect(subject && last_response).to have_http_status(:ok)
           end
 
           it "has the current attributes as attributes" do
@@ -502,13 +502,13 @@ RSpec.describe "API v3 Work package resource",
         context "without EE" do
           shared_examples "success" do
             it "responds with 200" do
-              expect(subject && last_response.status).to eq(200)
+              expect(subject && last_response).to have_http_status(:ok)
             end
           end
 
           shared_examples "error" do
             it "responds with 400" do
-              expect(subject && last_response.status).to eq(400)
+              expect(subject && last_response).to have_http_status(:bad_request)
             end
 
             it "has the invalid timestamps message" do

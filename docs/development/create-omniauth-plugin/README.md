@@ -119,4 +119,3 @@ The first line in the snippet shown above is only necessary because the `openpro
 ### Profit
 
 That’s it. Now users can authenticate using your own provider.
-

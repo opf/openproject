@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             { controller: "/projects", project_id: nil, action: "index" },
             context: :modules,
             caption: I18n.t("label_projects_menu"),
-            icon: "projects",
+            icon: "project",
             if: Proc.new {
               User.current.logged? || !Setting.login_required?
             }
@@ -43,13 +43,13 @@ Redmine::MenuManager.map :top_menu do |menu|
   menu.push :activity,
             { controller: "/activities", action: "index" },
             context: :modules,
-            icon: "checkmark"
+            icon: "history"
 
   menu.push :work_packages,
             { controller: "/work_packages", project_id: nil, state: nil, action: "index" },
             context: :modules,
             caption: I18n.t("label_work_package_plural"),
-            icon: "work-packages",
+            icon: "op-view-list",
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_in_any_work_package?(:view_work_packages)
@@ -58,7 +58,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             { controller: "/news", project_id: nil, action: "index" },
             context: :modules,
             caption: I18n.t("label_news_plural"),
-            icon: "news",
+            icon: "megaphone",
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_in_any_project?(:view_news)
@@ -68,7 +68,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             OpenProject::Static::Links.help_link,
             last: true,
             caption: "",
-            icon: "help op-app-help--icon",
+            icon: "question",
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),
                     title: I18n.t("label_help"),
                     target: "_blank" }
@@ -80,7 +80,7 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
               { controller: "/projects", action: :new, project_id: nil, parent_id: project&.id }
             },
             caption: ->(*) { Project.model_name.human },
-            icon: "add",
+            icon: "plus",
             html: {
               aria: { label: I18n.t(:label_project_new) },
               title: I18n.t(:label_project_new)
@@ -93,7 +93,7 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
   menu.push :invite_user,
             nil,
             caption: :label_invite_user,
-            icon: "user-plus",
+            icon: "person-add",
             html: {
               "invite-user-modal-augment": "invite-user-modal-augment"
             },
@@ -136,7 +136,7 @@ Redmine::MenuManager.map :global_menu do |menu|
   menu.push :projects,
             { controller: "/projects", project_id: nil, action: "index" },
             caption: I18n.t("label_projects_menu"),
-            icon: "projects",
+            icon: "project",
             after: :home,
             if: Proc.new {
               User.current.logged? || !Setting.login_required?
@@ -150,7 +150,7 @@ Redmine::MenuManager.map :global_menu do |menu|
   # Activity
   menu.push :activity,
             { controller: "/activities", action: "index" },
-            icon: "checkmark",
+            icon: "history",
             after: :projects
 
   menu.push :activity_filters,
@@ -162,19 +162,19 @@ Redmine::MenuManager.map :global_menu do |menu|
   menu.push :work_packages,
             { controller: "/work_packages", action: "index" },
             caption: :label_work_package_plural,
-            icon: "view-list",
+            icon: "op-view-list",
             after: :activity
 
   menu.push :work_packages_query_select,
             { controller: "/work_packages", action: "index" },
             parent: :work_packages,
-            partial: "work_packages/menu_query_select"
+            partial: "work_packages/menus/menu"
 
   # News
   menu.push :news,
             { controller: "/news", project_id: nil, action: "index" },
             caption: I18n.t("label_news_plural"),
-            icon: "news",
+            icon: "megaphone",
             after: :boards,
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
@@ -185,23 +185,23 @@ end
 Redmine::MenuManager.map :notifications_menu do |menu|
   menu.push :notification_grouping_select,
             { controller: "/my", action: "notifications" },
-            partial: "notifications/menu_notification_center"
+            partial: "notifications/menus/menu"
 end
 
 Redmine::MenuManager.map :my_menu do |menu|
   menu.push :account,
             { controller: "/my", action: "account" },
             caption: :label_profile,
-            icon: "user"
+            icon: "person-fill"
   menu.push :settings,
             { controller: "/my", action: "settings" },
             caption: :label_setting_plural,
-            icon: "settings2"
+            icon: "gear"
   menu.push :password,
             { controller: "/my", action: "password" },
             caption: :button_change_password,
             if: Proc.new { User.current.change_password_allowed? },
-            icon: "locked"
+            icon: "lock"
   menu.push :access_token,
             { controller: "/my", action: "access_token" },
             caption: I18n.t("my_account.access_tokens.access_tokens"),
@@ -209,7 +209,7 @@ Redmine::MenuManager.map :my_menu do |menu|
   menu.push :sessions,
             { controller: "/my/sessions", action: :index },
             caption: :"users.sessions.title",
-            icon: "installation-services"
+            icon: "op-installation-services"
   menu.push :notifications,
             { controller: "/my", action: "notifications" },
             caption: I18n.t("js.notifications.settings.title"),
@@ -217,14 +217,14 @@ Redmine::MenuManager.map :my_menu do |menu|
   menu.push :reminders,
             { controller: "/my", action: "reminders" },
             caption: I18n.t("js.reminders.settings.title"),
-            icon: "email-alert"
+            icon: "unread"
 
   menu.push :delete_account, :delete_my_account_info_path,
             caption: I18n.t("account.delete"),
             param: :user_id,
             if: Proc.new { Setting.users_deletable_by_self? },
             last: :delete_account,
-            icon: "delete"
+            icon: "trash"
 end
 
 Redmine::MenuManager.map :admin_menu do |menu|
@@ -238,23 +238,23 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :users,
             { controller: "/users" },
             if: Proc.new {
-                  !User.current.admin? &&
-                  (User.current.allowed_globally?(:manage_user) || User.current.allowed_globally?(:create_user))
-                },
+              !User.current.admin? &&
+                (User.current.allowed_globally?(:manage_user) || User.current.allowed_globally?(:create_user))
+            },
             caption: :label_user_plural,
-            icon: "group"
+            icon: "people"
 
   menu.push :placeholder_users,
             { controller: "/placeholder_users" },
             if: Proc.new { !User.current.admin? && User.current.allowed_globally?(:manage_placeholder_user) },
             caption: :label_placeholder_user_plural,
-            icon: "group"
+            icon: "people"
 
   menu.push :users_and_permissions,
             { controller: "/users" },
             if: Proc.new { User.current.admin? },
             caption: :label_user_and_permission,
-            icon: "group"
+            icon: "people"
 
   menu.push :user_settings,
             { controller: "/admin/settings/users_settings", action: :show },
@@ -300,15 +300,15 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :users_and_permissions
 
   menu.push :admin_work_packages,
-            { controller: "/admin/settings/work_packages_settings", action: :show },
+            { controller: "/admin/settings/work_packages_general", action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_work_package_plural,
-            icon: "view-list"
+            icon: "op-view-list"
 
-  menu.push :work_packages_setting,
-            { controller: "/admin/settings/work_packages_settings", action: :show },
+  menu.push :work_packages_general,
+            { controller: "/admin/settings/work_packages_general", action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
+            caption: :label_general,
             parent: :admin_work_packages
 
   menu.push :types,
@@ -321,8 +321,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/statuses" },
             if: Proc.new { User.current.admin? },
             caption: :label_status,
-            parent: :admin_work_packages,
-            html: { class: "statuses" }
+            parent: :admin_work_packages
+
+  menu.push :progress_tracking,
+            { controller: "/admin/settings/progress_tracking", action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_progress_tracking,
+            parent: :admin_work_packages
 
   menu.push :workflows,
             { controller: "/workflows", action: "edit" },
@@ -331,28 +336,34 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :admin_work_packages
 
   menu.push :admin_projects_settings,
-            { controller: '/admin/settings/project_custom_fields', action: :index },
+            { controller: "/admin/settings/project_custom_fields", action: :index },
             if: Proc.new { User.current.admin? },
             caption: :label_project_plural,
-            icon: 'projects'
+            icon: "project"
 
   menu.push :project_custom_fields_settings,
-            { controller: '/admin/settings/project_custom_fields', action: :index },
+            { controller: "/admin/settings/project_custom_fields", action: :index },
             if: Proc.new { User.current.admin? },
             caption: :label_project_attributes_plural,
             parent: :admin_projects_settings
 
-  menu.push :projects_settings,
-            { controller: '/admin/settings/projects_settings', action: :show },
+  menu.push :new_project_settings,
+            { controller: "/admin/settings/new_project_settings", action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
+            caption: :label_project_new,
+            parent: :admin_projects_settings
+
+  menu.push :project_lists_settings,
+            { controller: "/admin/settings/projects_settings", action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_project_list_plural,
             parent: :admin_projects_settings
 
   menu.push :custom_fields,
             { controller: "/custom_fields" },
             if: Proc.new { User.current.admin? },
             caption: :label_custom_field_plural,
-            icon: "custom-fields",
+            icon: "op-custom-fields",
             html: { class: "custom_fields" }
 
   menu.push :custom_actions,
@@ -365,52 +376,24 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :attribute_help_texts,
             { controller: "/attribute_help_texts" },
             caption: :"attribute_help_texts.label_plural",
-            icon: "help2",
+            icon: "question",
             if: Proc.new { User.current.allowed_globally?(:edit_attribute_help_texts) }
-
-  menu.push :attachments,
-            { controller: "/admin/settings/attachments_settings", action: :show },
-            caption: :"attributes.attachments",
-            icon: "attachment",
-            if: Proc.new { User.current.admin? }
-
-  menu.push :attachments_settings,
-            { controller: "/admin/settings/attachments_settings", action: :show },
-            if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
-            parent: :attachments
-
-  menu.push :virus_scanning_settings,
-            { controller: "/admin/settings/virus_scanning_settings", action: :show },
-            caption: :"settings.antivirus.title",
-            parent: :attachments,
-            enterprise_feature: "virus_scanning",
-            if: Proc.new { User.current.admin? }
-
-  menu.push :attachment_quarantine,
-            { controller: "/admin/attachments/quarantined_attachments", action: :index },
-            caption: :"antivirus_scan.quarantined_attachments.title",
-            parent: :attachments,
-            if: Proc.new {
-              User.current.admin? &&
-                (EnterpriseToken.allows_to?(:virus_scanning) || Attachment.status_quarantined.any?)
-            }
 
   menu.push :enumerations,
             { controller: "/enumerations" },
             if: Proc.new { User.current.admin? },
-            icon: "enumerations"
+            icon: "multi-select"
 
   menu.push :calendars_and_dates,
-            { controller: "/admin/settings/working_days_settings", action: :show },
+            { controller: "/admin/settings/working_days_and_hours_settings", action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_calendars_and_dates,
             icon: "calendar"
 
-  menu.push :working_days,
-            { controller: "/admin/settings/working_days_settings", action: :show },
+  menu.push :working_days_and_hours,
+            { controller: "/admin/settings/working_days_and_hours_settings", action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_working_days,
+            caption: :label_working_days_and_hours,
             parent: :calendars_and_dates
 
   menu.push :date_format,
@@ -429,21 +412,37 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/admin/settings/general_settings", action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_system_settings,
-            icon: "settings2"
+            icon: "gear"
 
-  SettingsHelper.system_settings_tabs.each do |node|
-    menu.push :"settings_#{node[:name]}",
-              { controller: node[:controller], action: :show },
-              caption: node[:label],
-              if: Proc.new { User.current.admin? && node[:name] != "experimental" },
-              parent: :settings
-  end
+  menu.push :settings_general,
+            { controller: "/admin/settings/general_settings", action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_general,
+            parent: :settings
+
+  menu.push :settings_languages,
+            { controller: "/admin/settings/languages_settings", action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_languages,
+            parent: :settings
+
+  menu.push :settings_repositories,
+            { controller: "/admin/settings/repositories_settings", action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_repository_plural,
+            parent: :settings
+
+  menu.push :settings_experimental,
+            { controller: "/admin/settings/experimental_settings", action: :show },
+            if: Proc.new { User.current.admin? && Rails.env.development? },
+            caption: :label_experimental,
+            parent: :settings
 
   menu.push :mail_and_notifications,
             { controller: "/admin/settings/aggregation_settings", action: :show },
             if: Proc.new { User.current.admin? },
             caption: :"menus.admin.mails_and_notifications",
-            icon: "mail1"
+            icon: "mail"
 
   menu.push :notification_settings,
             { controller: "/admin/settings/aggregation_settings", action: :show },
@@ -467,7 +466,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/admin/settings/api_settings", action: :show },
             if: Proc.new { User.current.admin? },
             caption: :"menus.admin.api_and_webhooks",
-            icon: "relations"
+            icon: "op-relations"
 
   menu.push :api,
             { controller: "/admin/settings/api_settings", action: :show },
@@ -479,12 +478,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/admin/settings/authentication_settings", action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_authentication,
-            icon: "two-factor-authentication"
+            icon: "shield-lock"
 
   menu.push :authentication_settings,
             { controller: "/admin/settings/authentication_settings", action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
+            caption: :label_authentication_settings,
             parent: :authentication
 
   menu.push :ldap_authentication,
@@ -506,52 +505,52 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/announcements", action: "edit" },
             if: Proc.new { User.current.admin? },
             caption: :label_announcement,
-            icon: "news"
+            icon: "megaphone"
 
   menu.push :plugins,
             { controller: "/admin", action: "plugins" },
             if: Proc.new { User.current.admin? },
             last: true,
-            icon: "plugins"
+            icon: "plug"
 
   menu.push :backups,
             { controller: "/admin/backups", action: "show" },
             if: Proc.new { OpenProject::Configuration.backup_enabled? && User.current.allowed_globally?(Backup.permission) },
             caption: :label_backup,
             last: true,
-            icon: "save"
+            icon: "op-save"
 
   menu.push :info,
             { controller: "/admin", action: "info" },
             if: Proc.new { User.current.admin? },
             caption: :label_information_plural,
             last: true,
-            icon: "info1"
+            icon: "info"
 
   menu.push :custom_style,
             { controller: "/custom_styles", action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_custom_style,
-            icon: "design",
+            icon: "paintbrush",
             enterprise_feature: "define_custom_style"
 
   menu.push :colors,
             { controller: "/colors", action: "index" },
             if: Proc.new { User.current.admin? },
             caption: :label_color_plural,
-            icon: "status"
+            icon: "meter"
 
   menu.push :enterprise,
             { controller: "/enterprises", action: :show },
             caption: :label_enterprise_edition,
-            icon: "enterprise-addons",
+            icon: "op-enterprise-addons",
             if: proc { User.current.admin? && OpenProject::Configuration.ee_manager_visible? }
 
   menu.push :admin_costs,
             { controller: "/admin/settings", action: "show_plugin", id: :costs },
             if: Proc.new { User.current.admin? },
             caption: :project_module_costs,
-            icon: "budget"
+            icon: "op-cost-reports"
 
   menu.push :costs_setting,
             { controller: "/admin/settings", action: "show_plugin", id: :costs },
@@ -563,20 +562,14 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/backlogs_settings", action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_backlogs,
-            icon: "backlogs"
-
-  menu.push :backlogs_settings,
-            { controller: "/backlogs_settings", action: :show },
-            if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
-            parent: :admin_backlogs
+            icon: "op-backlogs"
 end
 
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :activity,
             { controller: "/activities", action: "index" },
             if: Proc.new { |p| p.module_enabled?("activity") },
-            icon: "checkmark"
+            icon: "history"
 
   menu.push :activity_filters,
             { controller: "/activities", action: "index" },
@@ -587,13 +580,13 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :roadmap,
             { controller: "/versions", action: "index" },
             if: Proc.new { |p| p.shared_versions.any? },
-            icon: "roadmap"
+            icon: "milestone"
 
   menu.push :work_packages,
             { controller: "/work_packages", action: "index" },
             caption: :label_work_package_plural,
             if: Proc.new { |p| p.module_enabled?("work_package_tracking") },
-            icon: "view-list",
+            icon: "op-view-list",
             html: {
               id: "main-menu-work-packages",
               "wp-query-menu": "wp-query-menu"
@@ -602,24 +595,24 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :work_packages_query_select,
             { controller: "/work_packages", action: "index" },
             parent: :work_packages,
-            partial: "work_packages/menu_query_select",
+            partial: "work_packages/menus/menu",
             last: true,
             caption: :label_all_open_wps
 
   menu.push :news,
             { controller: "/news", action: "index" },
             caption: :label_news_plural,
-            icon: "news"
+            icon: "megaphone"
 
   menu.push :forums,
             { controller: "/forums", action: "index", id: nil },
             caption: :label_forum_plural,
-            icon: "ticket-note"
+            icon: "op-file-comment"
 
   menu.push :repository,
             { controller: "/repositories", action: :show },
             if: Proc.new { |p| p.repository && !p.repository.new_record? },
-            icon: "folder-open"
+            icon: "file-directory-open-fill"
 
   # Wiki menu items are added by WikiMenuItemHelper
 
@@ -627,7 +620,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: "/members", action: "index" },
             caption: :label_member_plural,
             before: :settings,
-            icon: "group"
+            icon: "people"
 
   menu.push :members_menu,
             { controller: "/members", action: "index" },
@@ -639,7 +632,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: "/projects/settings/general", action: :show },
             caption: :label_project_settings,
             last: true,
-            icon: "settings2",
+            icon: "gear",
             allow_deeplink: true
 
   project_menu_items = {
@@ -661,4 +654,47 @@ Redmine::MenuManager.map :project_menu do |menu|
               caption:,
               parent: :settings
   end
+end
+
+Redmine::MenuManager.map :work_package_split_view do |menu|
+  menu.push :overview,
+            { tab: :overview },
+            skip_permissions_check: true,
+            caption: :"js.work_packages.tabs.overview"
+  menu.push :activity,
+            { tab: :activity },
+            skip_permissions_check: true,
+            badge: ->(work_package:, **) {
+                     Notification.where(recipient: User.current,
+                                        read_ian: false,
+                                        resource: work_package)
+                                 .where.not(reason: %i[date_alert_start_date date_alert_due_date])
+                                 .count
+                   },
+            caption: :"js.work_packages.tabs.activity"
+  menu.push :files,
+            { tab: :files },
+            skip_permissions_check: true,
+            badge: ->(work_package:, **) {
+              count = Storages::FileLink.where(container_type: "WorkPackage", container_id: work_package).count
+              unless work_package.hide_attachments?
+                count += work_package.attachments.count
+              end
+              count
+            },
+            caption: :"js.work_packages.tabs.files"
+  menu.push :relations,
+            { tab: :relations },
+            skip_permissions_check: true,
+            badge: ->(work_package:, **) {
+              work_package.relations.count + work_package.children.count
+            },
+            caption: :"js.work_packages.tabs.relations"
+  menu.push :watchers,
+            { tab: :watchers },
+            skip_permissions_check: true,
+            badge: ->(work_package:, **) {
+              work_package.watchers.count
+            },
+            caption: :"js.work_packages.tabs.watchers"
 end

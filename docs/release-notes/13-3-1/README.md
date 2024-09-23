@@ -36,9 +36,10 @@ The release contains several bug fixes and we recommend updating to the newest v
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to Dennis St.
 
-Thank you to Syvert Fossdal for translating OpenProject into Norwegian. 
+Thank you to Syvert Fossdal for translating OpenProject into Norwegian.

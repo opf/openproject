@@ -72,10 +72,10 @@ post:
               value:
                 _embedded:
                   details:
-                    attribute: delay
+                    attribute: lag
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
-                message: Delay must be a number greater than or equal to 0
+                message: Lag must be a number greater than or equal to 0
       description: Returned if the custom action was not executed successfully e.g.
         when a constraint on a work package property was violated.
       headers: {}

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -81,7 +81,7 @@ module Projects::CustomFields
       form_args = { custom_field:, object: @project, wrapper_id: @wrapper_id }
 
       case custom_field.field_format
-      when "string"
+      when "string", "link"
         CustomFields::Inputs::String.new(builder, **form_args)
       when "text"
         CustomFields::Inputs::Text.new(builder, **form_args)

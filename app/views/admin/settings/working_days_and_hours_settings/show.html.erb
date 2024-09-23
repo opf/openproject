@@ -1,0 +1,100 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_administration), t(:label_working_days_and_hours) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title(test_selector: "op-working-days-admin-settings--title") { t(:label_working_days_and_hours) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_working_days_and_hours_path, text: t(:label_calendars_and_dates) },
+                             t(:label_working_days_and_hours)])
+    end
+%>
+
+<%= styled_form_tag(
+      admin_settings_working_days_and_hours_path,
+      method: :patch,
+      class: "op-working-days-admin-settings"
+    ) do %>
+
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <div class="form--field">
+        <%= setting_text_field :hours_per_day,
+                               type: :number,
+                               container_class: "-wide" %>
+        <div class="form--field-instructions"><%= t("setting_hours_per_day_explanation") %></div>
+      </div>
+      <div class="form--field">
+        <%= setting_select :duration_format,
+                           Settings::Definition[:duration_format].allowed.collect { |f| [t("setting_duration_format_#{f}"), f] },
+                           container_class: "-wide" %>
+        <div class="form--field-instructions"><%= t("setting_duration_format_instructions") %></div>
+      </div>
+    </fieldset>
+  </section>
+
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= t("settings.working_days.section_work_week") %></legend>
+      <div class="op-toast -warning -with-bottom-spacing">
+        <div class="op-toast--content">
+          <p>
+            <%= t("working_days.warning") %>
+          </p>
+        </div>
+      </div>
+      <p>
+        <%= t("working_days.info") %>
+      </p>
+
+      <div class="form--field op-working-days-admin-settings--day-selectors" id="setting_working_days">
+        <%= setting_multiselect :working_days,
+                                I18n.t("date.day_names").rotate.zip(WeekDay::DAY_RANGE),
+                                direction: :horizontal %>
+      </div>
+    </fieldset>
+  </section>
+
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= t("settings.working_days.section_holidays_and_closures") %></legend>
+
+      <p>
+        <%= t("working_days.instance_wide_info") %>
+      </p>
+      <%= angular_component_tag "opce-non-working-days-list",
+                                data: { modified_non_working_days: @modified_non_working_days } %>
+
+    </fieldset>
+  </section>
+
+  <%= styled_button_tag t(:button_apply_changes), class: "-primary -with-icon icon-checkmark" %>
+<% end %>

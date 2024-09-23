@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,6 +38,7 @@ module TableHelpers
       end
     end
 
+    include_examples "an identifier", name: nil, expected_identifier: nil
     include_examples "an identifier", name: "Subject", expected_identifier: :subject
     include_examples "an identifier", name: "Work package", expected_identifier: :work_package
     include_examples "an identifier", name: "grand-child", expected_identifier: :grand_child

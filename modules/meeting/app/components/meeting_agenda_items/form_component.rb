@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,10 +32,12 @@ module MeetingAgendaItems
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:, meeting_agenda_item:, method:, submit_path:, cancel_path:, type: :simple, display_notes_input: nil)
+    def initialize(meeting:, meeting_section:, meeting_agenda_item:, method:, submit_path:, cancel_path:, type: :simple,
+                   display_notes_input: nil)
       super
 
       @meeting = meeting
+      @meeting_section = meeting_section
       @meeting_agenda_item = meeting_agenda_item
       @method = method
       @submit_path = submit_path

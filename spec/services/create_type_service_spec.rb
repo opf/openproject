@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,5 +36,25 @@ RSpec.describe CreateTypeService do
   let(:instance) { described_class.new(user) }
   let(:service_call) { instance.call({ name: "foo" }.merge(params), {}) }
 
-  it_behaves_like "type service"
+  it_behaves_like "type service" do
+    describe "default attribute_groups" do
+      context "for a milestone type" do
+        let(:params) { { is_milestone: true } }
+
+        it "does not include the progress attribute group" do
+          expect(service_call.result.attribute_groups.map(&:key))
+            .to eql %i[people details costs]
+        end
+      end
+
+      context "for a non milestone type" do
+        let(:params) { { is_milestone: false } }
+
+        it "does include the progress attribute group" do
+          expect(service_call.result.attribute_groups.map(&:key))
+            .to eql %i[people estimates_and_progress details costs]
+        end
+      end
+    end
+  end
 end

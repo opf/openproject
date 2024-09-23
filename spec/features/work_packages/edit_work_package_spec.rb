@@ -108,33 +108,17 @@ RSpec.describe "edit work package", :js do
     end
   end
 
-  context "with progress" do
-    let(:visit_before) { false }
-
-    before do
-      work_package.update done_ratio: 42
-      visit!
-    end
-
-    it "does not hide empty % Complete while it is being edited" do
-      field = wp_page.work_package_field(:percentageDone)
-      field.update("0", save: false, expect_failure: true)
-
-      expect(page).to have_text("% Complete")
-    end
-  end
-
   it "allows updating and seeing the results" do
     wp_page.update_attributes subject: "a new subject",
                               type: type2.name,
                               combinedDate: ["2013-03-04", "2013-03-20"],
                               responsible: manager.name,
                               assignee: manager.name,
-                              estimatedTime: "5",
+                              estimatedTime: "10",
+                              remainingTime: "7",
                               priority: priority2.name,
                               version: version.name,
                               category: category.name,
-                              percentageDone: "30",
                               status: status2.name,
                               description: "a new description"
 
@@ -142,7 +126,8 @@ RSpec.describe "edit work package", :js do
                               responsible: manager.name,
                               assignee: manager.name,
                               combinedDate: "03/04/2013 - 03/20/2013",
-                              estimatedTime: "5",
+                              estimatedTime: "10h",
+                              remainingTime: "7h",
                               percentageDone: "30%",
                               subject: "a new subject",
                               description: "a new description",

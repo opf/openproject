@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -319,20 +319,8 @@ RSpec.describe Query,
   end
 
   describe "#available_columns" do
-    context "with work_package_done_ratio NOT disabled" do
-      it "includes the done_ratio column" do
-        expect(query.displayable_columns.map(&:name)).to include :done_ratio
-      end
-    end
-
-    context "with work_package_done_ratio disabled" do
-      before do
-        allow(WorkPackage).to receive(:done_ratio_disabled?).and_return(true)
-      end
-
-      it "does not include the done_ratio column" do
-        expect(query.displayable_columns.map(&:name)).not_to include :done_ratio
-      end
+    it "includes the done_ratio column" do
+      expect(query.displayable_columns.map(&:name)).to include :done_ratio
     end
 
     context "results caching" do

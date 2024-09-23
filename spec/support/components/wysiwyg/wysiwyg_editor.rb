@@ -6,7 +6,7 @@ module Components
 
     attr_reader :context_selector, :attachments, :attachments_list
 
-    def initialize(context = "#content", attachment_list_selector = "ckeditor-augmented-textarea")
+    def initialize(context = "#content", attachment_list_selector = "opce-ckeditor-augmented-textarea")
       @context_selector = context
       @attachments = ::Components::Attachments.new
       @attachments_list = ::Components::AttachmentsList.new("#{context} #{attachment_list_selector}")
@@ -47,6 +47,14 @@ module Components
       )
     end
 
+    def trigger_autosave
+      textarea = container.find(".op-ckeditor-source-element", visible: :all)
+      page.execute_script(
+        'jQuery(arguments[0]).trigger("op:ckeditor:autosave")',
+        textarea.native
+      )
+    end
+
     def expect_button(label)
       expect(container).to have_css(".ck-button", visible: :all, text: label)
     end
@@ -59,9 +67,9 @@ module Components
       expect(editor_element.text).to eq(value)
     end
 
-    def expect_supports_no_macros
+    def expect_supports_macros
       expect(container)
-          .to have_no_css(".ck-button", visible: :all, text: "Macros")
+          .to have_css(".ck-button", visible: :all, text: "Macros")
     end
 
     def within_enabled_preview

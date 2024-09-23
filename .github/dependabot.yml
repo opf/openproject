@@ -21,3 +21,9 @@ updates:
     target-branch: "dev"
     open-pull-requests-limit: 3
     versioning-strategy: lockfile-only
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "dev"
+    open-pull-requests-limit: 3

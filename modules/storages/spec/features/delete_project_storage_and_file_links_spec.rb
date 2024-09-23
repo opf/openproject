@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,9 +33,9 @@ require_module_spec_helper
 
 # Test if the deletion of a ProjectStorage actually deletes related FileLink
 # objects.
-RSpec.describe "Delete ProjectStorage with FileLinks", :js, :webmock do
+RSpec.describe "Delete ProjectStorage with FileLinks", :js, :webmock, :with_cuprite do
   let(:user) { create(:user) }
-  let(:role) { create(:project_role, permissions: [:manage_storages_in_project]) }
+  let(:role) { create(:project_role, permissions: [:manage_files_in_project]) }
   let(:project) do
     create(:project,
            name: "Project 1",
@@ -66,10 +66,10 @@ RSpec.describe "Delete ProjectStorage with FileLinks", :js, :webmock do
 
   it "deletes ProjectStorage with dependent FileLinks" do
     # Go to Projects -> Settings -> File Storages
-    visit project_settings_project_storages_path(project)
+    visit external_file_storages_project_settings_project_storages_path(project)
 
     # The list of enabled file storages should now contain Storage 1
-    expect(page).to have_text("File storages available in this project")
+    expect(page).to have_css("h1", text: "Files")
     expect(page).to have_text("Storage 1")
 
     # Press Delete icon to remove the storage from the project
@@ -82,7 +82,7 @@ RSpec.describe "Delete ProjectStorage with FileLinks", :js, :webmock do
 
     # Cancel Confirmation
     page.click_link("Cancel")
-    expect(page).to have_current_path project_settings_project_storages_path(project)
+    expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
 
     page.find(".icon.icon-delete").click
 
@@ -91,7 +91,7 @@ RSpec.describe "Delete ProjectStorage with FileLinks", :js, :webmock do
     page.click_button("Delete")
 
     # List of ProjectStorages empty again
-    expect(page).to have_current_path project_settings_project_storages_path(project)
+    expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
     expect(page).to have_text(I18n.t("storages.no_results"))
 
     # Also check in the database that ProjectStorage and dependent FileLinks are gone

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -79,7 +79,7 @@ module Pages
     end
 
     def expect_add_to_meeting_dialog_shown
-      expect(page).to have_test_selector("op-add-work-package-to-meeting-dialog-body")
+      expect(page).to have_css("#add-work-package-to-meeting-dialog")
     end
 
     def switch_to_upcoming_meetings_section

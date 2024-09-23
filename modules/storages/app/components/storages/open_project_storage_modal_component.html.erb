@@ -7,4 +7,7 @@
     <% dialog.with_body(id: self.class.dialog_body_id, p: 2) do %>
         <%= render(self.class::Body.new(@state)) %>
     <% end %>
+    <% dialog.with_footer do %>
+      <%= render(Primer::ButtonComponent.new(data: { "close-dialog-id": self.class.dialog_id })) { I18n.t("button_close") } %>
+    <% end %>
 <% end %>

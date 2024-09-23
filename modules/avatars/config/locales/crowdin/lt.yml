@@ -11,7 +11,6 @@ lt:
   message_avatar_uploaded: "Nuotrauka sėkmingai pakeista."
   error_image_upload: "Klaida įrašant paveikslėlį."
   error_image_size: "Paveikslėlis per didelis."
-  button_change_avatar: "Keisti nuotrauką"
   are_you_sure_delete_avatar: "Ar tikrai norite ištrinti jūsų nuotrauką?"
   avatar_deleted: "Nuotrauka sėkmingai ištrinta."
   unable_to_delete_avatar: "Nepavyko ištrinti nuotraukos."

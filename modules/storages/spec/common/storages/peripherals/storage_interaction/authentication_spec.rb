@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,19 +32,13 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmock do
-  using Storages::Peripherals::ServiceResultRefinements
-
   let(:user) { create(:user) }
 
   shared_examples_for "successful response" do |refreshed: false|
     it "must #{refreshed ? 'refresh token and ' : ''}return success" do
       result = described_class[auth_strategy].call(storage:, http_options:) { |http| make_request(http) }
       expect(result).to be_success
-
-      result.match(
-        on_failure: ->(error) { fail "Expected success, got #{error}" },
-        on_success: ->(r) { expect(r).to eq("EXPECTED_RESULT") }
-      )
+      expect(result.result).to eq("EXPECTED_RESULT")
     end
   end
 
@@ -72,13 +66,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
         it "must return error" do
           result = described_class[auth_strategy].call(storage:, http_options:) { |http| make_request(http) }
           expect(result).to be_failure
-          expect(result.error_source)
-            .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::BasicAuth)
 
-          result.match(
-            on_failure: ->(error) { expect(error.code).to eq(:error) },
-            on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-          )
+          error = result.errors
+          expect(error.code).to eq(:error)
+          expect(error.data.source)
+            .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::BasicAuth)
         end
       end
 
@@ -92,12 +84,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
         it "must return unauthorized" do
           result = described_class[auth_strategy].call(storage:, http_options:) { |http| make_request(http) }
           expect(result).to be_failure
-          expect(result.error_source).to eq("EXECUTING_QUERY")
 
-          result.match(
-            on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-            on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-          )
+          error = result.errors
+          expect(error.code).to eq(:unauthorized)
+          expect(error.data.source).to be("EXECUTING_QUERY")
         end
       end
     end
@@ -105,6 +95,20 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
     context "with user token strategy" do
       let(:auth_strategy) do
         Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
+      end
+
+      context "with incomplete storage configuration (missing oauth client)" do
+        let(:storage) { create(:nextcloud_storage) }
+
+        it "must return error" do
+          result = described_class[auth_strategy].call(storage:, http_options:) { |http| make_request(http) }
+          expect(result).to be_failure
+
+          error = result.errors
+          expect(error.code).to eq(:error)
+          expect(error.data.source)
+            .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
+        end
       end
 
       context "with not existent oauth token" do
@@ -118,32 +122,77 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
         it "must return unauthorized" do
           result = described_class[auth_strategy].call(storage:, http_options:) { |http| make_request(http) }
           expect(result).to be_failure
-          expect(result.error_source)
-            .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
 
-          result.match(
-            on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-            on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-          )
+          error = result.errors
+          expect(error.code).to eq(:unauthorized)
+          expect(error.data.source)
+            .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
         end
       end
 
       context "with invalid oauth refresh token", vcr: "auth/nextcloud/user_token_refresh_token_invalid" do
+        before { storage }
+
         it "must return unauthorized" do
           result = described_class[auth_strategy].call(storage:, http_options:) { |http| make_request(http) }
           expect(result).to be_failure
-          expect(result.error_source)
-            .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
 
-          result.match(
-            on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-            on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-          )
+          error = result.errors
+          expect(error.code).to eq(:unauthorized)
+          expect(error.data.source)
+            .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
+        end
+
+        it "responds with error when lock could not be obtained timely" do
+          strategy = described_class[auth_strategy]
+
+          allow(OpenProject::Mutex).to receive(:with_advisory_lock).and_return(false)
+
+          result = strategy.call(storage:, http_options:) { |http| make_request(http) }
+          expect(result).to be_failure
+
+          error = result.errors
+          expect(error.code).to eq(:error)
+          expect(error.data.source).to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
+          expect(error.log_message).to eq("Lock has not been acquired in 4 seconds. Refresh token is being updated at the moment by another thread.")
+        end
+
+        it "logs, retries once, raises exception if race condition happens" do
+          token = user.oauth_client_tokens.first
+          strategy = described_class[auth_strategy]
+
+          allow(Rails.logger).to receive(:error)
+          allow(strategy).to receive(:current_token).and_return(ServiceResult.success(result: token))
+          allow(token).to receive(:destroy).and_raise(ActiveRecord::StaleObjectError).twice
+
+          expect do
+            strategy.call(storage:, http_options:) { |http| make_request(http) }
+          end.to raise_error(ActiveRecord::StaleObjectError)
+
+          expect(Rails.logger)
+            .to have_received(:error)
+            .with("#<ActiveRecord::StaleObjectError: Stale object error.> happend for User ##{user.id} #{user.name}").once
         end
       end
 
       context "with invalid oauth access token", vcr: "auth/nextcloud/user_token_access_token_invalid" do
         it_behaves_like "successful response", refreshed: true
+
+        context "when updating token in openproject database fails" do
+          it "responds with error" do
+            storage
+            token = user.oauth_client_tokens.first
+            strategy = described_class[auth_strategy]
+            allow(strategy).to receive(:current_token).and_return(ServiceResult.success(result: token))
+            allow(token).to receive(:update).and_return(false)
+
+            result = strategy.call(storage:, http_options:) { |http| make_request(http) }
+            expect(result).to be_failure
+            expect(result.result).to eq(:error)
+            expect(result.errors.code).to eq(:error)
+            expect(result.errors.log_message).to eq("Error while persisting updated access token.")
+          end
+        end
       end
     end
   end
@@ -166,13 +215,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
         it "must return unauthorized" do
           result = described_class[auth_strategy].call(storage:) { |http| make_request(http) }
           expect(result).to be_failure
-          expect(result.error_source)
-            .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials)
 
-          result.match(
-            on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-            on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-          )
+          error = result.errors
+          expect(error.code).to eq(:unauthorized)
+          expect(error.data.source)
+            .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials)
         end
       end
 
@@ -180,13 +227,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
         it "must return unauthorized" do
           result = described_class[auth_strategy].call(storage:) { |http| make_request(http) }
           expect(result).to be_failure
-          expect(result.error_source)
-            .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials)
 
-          result.match(
-            on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-            on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-          )
+          error = result.errors
+          expect(error.code).to eq(:unauthorized)
+          expect(error.data.source)
+            .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials)
         end
       end
     end
@@ -201,6 +246,20 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
         it_behaves_like "successful response"
       end
 
+      context "with incomplete storage configuration (missing oauth client)" do
+        let(:storage) { create(:one_drive_storage) }
+
+        it "must return error" do
+          result = described_class[auth_strategy].call(storage:) { |http| make_request(http) }
+          expect(result).to be_failure
+
+          error = result.errors
+          expect(error.code).to eq(:error)
+          expect(error.data.source)
+            .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
+        end
+      end
+
       context "with not existent oauth token" do
         let(:user_without_token) { create(:user) }
         let(:auth_strategy) do
@@ -212,13 +271,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
         it "must return unauthorized" do
           result = described_class[auth_strategy].call(storage:) { |http| make_request(http) }
           expect(result).to be_failure
-          expect(result.error_source)
-            .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
 
-          result.match(
-            on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-            on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-          )
+          error = result.errors
+          expect(error.code).to eq(:unauthorized)
+          expect(error.data.source)
+            .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
         end
       end
 
@@ -226,13 +283,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
         it "must return unauthorized" do
           result = described_class[auth_strategy].call(storage:) { |http| make_request(http) }
           expect(result).to be_failure
-          expect(result.error_source)
-            .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
 
-          result.match(
-            on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-            on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-          )
+          error = result.errors
+          expect(error.code).to eq(:unauthorized)
+          expect(error.data.source)
+            .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
         end
       end
 

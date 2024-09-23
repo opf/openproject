@@ -22,8 +22,6 @@ HAL resources are the frontend counterpart to the `HAL+JSON` API of OpenProject.
 
 HAL resources on the frontend have no explicit prerequisite on our frontend. You will likely want to take a look at the [API documentation and the section on HAL+JSON](../../../api/introduction).
 
-
-
 ## Primer on HAL JSON
 
 The JSON response in HAL standard can contain these things:
@@ -32,21 +30,17 @@ The JSON response in HAL standard can contain these things:
 - Related HAL resources under `_links` that can be individually requested from the API (e.g., the link to a project the resource is contained in). Links often have a `title` attribute that is sufficient to render what the value of the link is.
 - Embedded HAL resources under `_embedded`. These are link properties themselves, but whose HAL JSON has been embedded into the parent JSON. You can think of this as calling the API and integrating the JSON response into the parent. This saves an additional request for resources that are often needed.
 
-
-
-The following is an example HAL JSON for a work package as it is retrieved by the API. This response is abbreviated, you can see the full response of [#34250 on our community](https://community.openproject.org/api/v3/work_packages/34250). You will see the three sections: 
+The following is an example HAL JSON for a work package as it is retrieved by the API. This response is abbreviated, you can see the full response of [#34250 on our community](https://community.openproject.org/api/v3/work_packages/34250). You will see the three sections:
 
 1. Immediate properties within the JSON such as `_type`, `id`, `lockVersion`, `description`. There are more properties like this, they are scalar values of the work package that are not linked to other resources
 
 2. The `_links` section. It contains two sorts of links. For other resources such as `_links.project` and `_links.status`. Each resource link contains an `href` and most often a `title` attribute to provide a human readable name of the linked resource.
 
-   The other type of links are the action links such as `update` or `updateImmediately` which are annotated with the HTTP method to use for these actions. 
+   The other type of links are the action links such as `update` or `updateImmediately` which are annotated with the HTTP method to use for these actions.
 
 3. The `_embedded` section. It contains `_links` that were embedded, i.e., have their own full JSON response included into the resource. This prevents additional requests, but increases the JSON payload and rendering complexity.
 
    The frontend cannot decide which resources to embed, this is controlled by the backend and depends on the endpoint used. For example, resource collection endpoints will usually not embed links.
-
-
 
 ```json5
 {
@@ -131,13 +125,7 @@ The following is an example HAL JSON for a work package as it is retrieved by th
 }
 ```
 
-
-
 In this linked example, only the `status` and `project` links and embedded resources were kept, as well as some work package properties removed.
-
-
-
-
 
 ## HalResourceService
 
@@ -146,19 +134,13 @@ On to loading the JSON resources from the API and turning them into usable class
 1. It uses the Angular `HTTPModule` for performing API requests to the APIv3
 2. It turns the responses of these requests  (or HAL JSON generated in the frontend) into a HAL resource class
 
-
-
 ### Performing requests against HAL API endpoints
 
 The service has HTTP `get`, `post`, `put`, etc. methods as well as a generic `request`  method that accept an URL and params/payload, and respond with an observable to the JSON transformed into a HAL resource.
 
-
-
 ### Error Handling
 
 For errors returned by the HAL API (specific error `_type` response in the JSON) or when erroneous HTTP statuses are being returned, the `HALResourceService` will wrap these into `ErrorResources` for identifying the cause and potentially, additional details to present to the frontend. This is used for example when saving work packages and validation errors occur. The validations are being output in details for individual attributes.
-
-
 
 ## Linked HAL resources
 
@@ -209,8 +191,6 @@ Instead of explicitly loading embedded resources, the frontend now usually uses 
 
 However, there are still use cases where `.$load()` is used and the resource is mutated.
 
-
-
 ## HAL resource builder
 
 In order to turn the JSON properties from `_embedded` and `_links` into writable properties on the HAL resource, there is a set of functions called the [`HAL resource builder`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/helpers/hal-resource-builder.ts). It will take care of:
@@ -225,16 +205,14 @@ In order to turn the JSON properties from `_embedded` and `_links` into writable
 
   The frontend doesn't really use this anymore due to it boiling down to a large mutable object. Instead, we use `ResourceChangesets` to modify resources and save them. [Click here to see the separate concept on them](../resource-changesets).
 
-
-
 ## 🔗 Code references
 
 - [`HALResourceService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/services/hal-resource.service.ts) for loading and turning JSON responses into HAL resource classes
 - [`halResource.config.ts`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/services/hal-resource.config.ts) for identifying what types in the JSON response and its members/links are being turned into which classes.
 - [`HalResource`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/resources/hal-resource.ts) the base HAL resource class
--  [`HAL resource builder`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/helpers/hal-resource-builder.ts) used for wiring up the links and embedded JSON properties into members of the HAL resource classes
+- [`HAL resource builder`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/helpers/hal-resource-builder.ts) used for wiring up the links and embedded JSON properties into members of the HAL resource classes
 
 ## Discussions
 
 - Due to the dynamic properties of the HAL resource, it traditionally has an index map to `any` which is the source of many typing issues and in turn, quite a number of bugs: [hal-resource.ts](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/hal/resources/hal-resource.ts#L63)
-- The way HAL resources work by embedding and allowing to load 
+- The way HAL resources work by embedding and allowing to load

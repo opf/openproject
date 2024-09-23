@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -100,6 +100,12 @@ module API
         content_type "text/vnd.yaml"
 
         API::OpenAPI.spec.to_yaml
+      end
+
+      # Catch all unknown routes (therefore have it at the end of the file)
+      # and return a properly formatted 404 error.
+      route :any, "*path" do
+        raise API::Errors::NotFound
       end
     end
   end

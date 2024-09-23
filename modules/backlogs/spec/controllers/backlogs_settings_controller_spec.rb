@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ RSpec.describe BacklogsSettingsController do
 
       it "fails" do
         get :show
-        expect(response.status).to eq 403
+        expect(response).to have_http_status :forbidden
       end
     end
   end
@@ -66,7 +66,7 @@ RSpec.describe BacklogsSettingsController do
       it "does not update the settings" do
         expect(Setting)
           .not_to(receive(:[]=))
-          .with("plugin_openproject_backlogs")
+          .with("plugin_openproject_backlogs", any_args)
 
         subject
 
@@ -97,12 +97,12 @@ RSpec.describe BacklogsSettingsController do
         it "does not update the settings" do
           expect(Setting)
             .not_to(receive(:[]=))
-            .with("plugin_openproject_backlogs")
+            .with("plugin_openproject_backlogs", any_args)
 
           subject
 
           expect(response).not_to be_successful
-          expect(response.status).to eq 403
+          expect(response).to have_http_status :forbidden
         end
       end
     end

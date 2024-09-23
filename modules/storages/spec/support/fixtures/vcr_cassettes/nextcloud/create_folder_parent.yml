@@ -1,0 +1,244 @@
+---
+http_interactions:
+- request:
+    method: mkcol
+    uri: https://nextcloud.local/remote.php/dav/files/admin/Folder/F%C3%B6lder%20CreatedBy%20%C3%87ommand
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.4
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Security-Policy:
+      - default-src 'none';
+      Content-Type:
+      - text/html; charset=UTF-8
+      Date:
+      - Tue, 23 Apr 2024 11:25:29 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Oc-Fileid:
+      - '00000378ocirabgzify6'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.57 (Debian)
+      Set-Cookie:
+      - ocirabgzify6=ceecd9275f73688198643c9e7d3c635b; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=MYNJ%2FNWpfizNKGTTKaqLNDMolxg0EzHGAO5NDnCnf7FmU85Qo1qXAQNnlDcuqbf8YuYUrsiaBKLhxvA6RXXi5XoTIM7%2BRq0FAeMZzFcz0P0pipY%2BaYd2d8KsR8OIZstZ;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=ceecd9275f73688198643c9e7d3c635b;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, ocirabgzify6=ceecd9275f73688198643c9e7d3c635b;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=ceecd9275f73688198643c9e7d3c635b;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=ceecd9275f73688198643c9e7d3c635b;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=ceecd9275f73688198643c9e7d3c635b;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=ceecd9275f73688198643c9e7d3c635b;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=ceecd9275f73688198643c9e7d3c635b;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=ceecd9275f73688198643c9e7d3c635b;
+        path=/; secure; HttpOnly; SameSite=Lax
+      X-Content-Type-Options:
+      - nosniff
+      X-Debug-Token:
+      - 69HzuEoCX0t5sxLFKbkO
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.16
+      X-Request-Id:
+      - 69HzuEoCX0t5sxLFKbkO
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '0'
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Tue, 23 Apr 2024 11:25:29 GMT
+- request:
+    method: propfind
+    uri: https://nextcloud.local/remote.php/dav/files/admin/Folder/F%C3%B6lder%20CreatedBy%20%C3%87ommand
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+          <d:prop>
+            <oc:fileid/>
+            <oc:size/>
+            <d:getlastmodified/>
+            <oc:owner-display-name/>
+          </d:prop>
+        </d:propfind>
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      Depth:
+      - '1'
+      User-Agent:
+      - httpx.rb/1.2.4
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml; charset=utf-8
+      Content-Length:
+      - '207'
+  response:
+    status:
+      code: 207
+      message: Multi-Status
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Tue, 23 Apr 2024 11:25:29 GMT
+      Dav:
+      - 1, 3, extended-mkcol, access-control, calendarserver-principal-property-search,
+        nextcloud-checksum-update, nc-calendar-search, nc-enable-birthday-calendar
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.57 (Debian)
+      Set-Cookie:
+      - ocirabgzify6=2c786e864dc31b23b829c1b38bc9fd3b; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=Sd1Rey6hsovDO61HS3F7nILY%2FDzQSyt9f9pXyOxN0Y6OrBtKqZH7ZwxBZoez8SCNYuH5wlwVlory6AMBSTU6%2BGOIRB%2F5AeLyh8ub8dZP%2BH8V5F4dMqhJ0zHl%2BgDVBjIk;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=2c786e864dc31b23b829c1b38bc9fd3b;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, ocirabgzify6=2c786e864dc31b23b829c1b38bc9fd3b;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=2c786e864dc31b23b829c1b38bc9fd3b;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=2c786e864dc31b23b829c1b38bc9fd3b;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=2c786e864dc31b23b829c1b38bc9fd3b;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=2c786e864dc31b23b829c1b38bc9fd3b;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=2c786e864dc31b23b829c1b38bc9fd3b;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=2c786e864dc31b23b829c1b38bc9fd3b;
+        path=/; secure; HttpOnly; SameSite=Lax
+      Vary:
+      - Brief,Prefer
+      X-Content-Type-Options:
+      - nosniff
+      X-Debug-Token:
+      - 5NZudMK9T7o3X1ExoTIJ
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.16
+      X-Request-Id:
+      - 5NZudMK9T7o3X1ExoTIJ
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '325'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns"><d:response><d:href>/remote.php/dav/files/admin/Folder/F%c3%b6lder%20CreatedBy%20%c3%87ommand/</d:href><d:propstat><d:prop><oc:fileid>378</oc:fileid><oc:size>0</oc:size><d:getlastmodified>Tue, 23 Apr 2024 11:25:29 GMT</d:getlastmodified><oc:owner-display-name>admin</oc:owner-display-name></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>
+  recorded_at: Tue, 23 Apr 2024 11:25:29 GMT
+- request:
+    method: delete
+    uri: https://nextcloud.local/remote.php/dav/files/admin/Folder/F%C3%B6lder%20CreatedBy%20%C3%87ommand
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.4
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Security-Policy:
+      - default-src 'none';
+      Date:
+      - Tue, 23 Apr 2024 11:25:30 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.57 (Debian)
+      Set-Cookie:
+      - ocirabgzify6=2c85029be0cca081da53706b75dda99a; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=LeYZagFxHWyiImT4QgwC4B%2Fm2sb8t1lrZ1oOUoOWd2avBWyb0DWkWqS3MCaoltf8jHM%2FPwlo3zn1qShxy9eIEirY4PUijDyFznUiReyJRxIeBpWsPDxp12OI9QgJPVVp;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=2c85029be0cca081da53706b75dda99a;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, ocirabgzify6=2c85029be0cca081da53706b75dda99a;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=2c85029be0cca081da53706b75dda99a;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=2c85029be0cca081da53706b75dda99a;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=2c85029be0cca081da53706b75dda99a;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=2c85029be0cca081da53706b75dda99a;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=2c85029be0cca081da53706b75dda99a;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=2c85029be0cca081da53706b75dda99a;
+        path=/; secure; HttpOnly; SameSite=Lax
+      X-Content-Type-Options:
+      - nosniff
+      X-Debug-Token:
+      - 99dzZ6fuzmQ6OKqdiJTJ
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.16
+      X-Request-Id:
+      - 99dzZ6fuzmQ6OKqdiJTJ
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Tue, 23 Apr 2024 11:25:30 GMT
+recorded_with: VCR 6.2.0

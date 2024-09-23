@@ -1,0 +1,107 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_administration), t(:label_work_package_plural), t(:label_general) -%>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t(:label_general) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
+                             t(:label_general)])
+  end
+%>
+
+<%= styled_form_tag({ action: :update }, method: :patch) do %>
+  <section class="form--section">
+    <div class="form--field"><%= setting_check_box :cross_project_work_package_relations %></div>
+    <div class="form--field"><%= setting_check_box :display_subprojects_work_packages %></div>
+    <div class="form--field"><%= setting_check_box :work_package_startdate_is_adddate %></div>
+    <div class="op-toast -warning -with-bottom-spacing"
+         hidden
+         data-admin--work-packages-settings-target="warningToast">
+      <div class="op-toast--content">
+        <p data-admin--work-packages-settings-target="warningText"></p>
+      </div>
+    </div>
+    <div class="form--field settings--highlighting-mode">
+      <%= setting_select(:work_package_list_default_highlighting_mode,
+                         Query::Highlighting::QUERY_HIGHLIGHTING_MODES.map do |mode|
+                           [t("settings.highlighting.mode_long.#{mode}"), mode]
+                         end,
+                         Hash.new.tap do |options|
+                           options[:container_class] = "-middle"
+                           options[:disabled] = "disabled" unless EnterpriseToken.allows_to?(:conditional_highlighting)
+                         end) %>
+      <%= render partial: "enterprise_feature_hint",
+                 locals: {
+                   ee_feature: :conditional_highlighting,
+                   explanation: t("js.work_packages.table_configuration.upsale.attribute_highlighting"),
+                   link_out: {
+                     href: "https://www.openproject.org/enterprise-edition/?op_edition=community-edition&op_referrer=settings-wp-attribute-highlighting#attribute-highlighting",
+                     caption: t("js.work_packages.table_configuration.upsale.check_out_link")
+                   }
+                 } %>
+    </div>
+    <% if EnterpriseToken.allows_to? :conditional_highlighting %>
+      <div class="form--field -indented -vertical settings--highlighted-attributes" style="<%= "display: none" unless Setting[:work_package_list_default_highlighting_mode] == "inline" %>">
+        <%= setting_multiselect(:work_package_list_default_highlighted_attributes,
+                                Query.available_columns(nil).select(&:highlightable).map do |column|
+                                  [column.caption, column.name.to_s]
+                                end) %>
+      </div>
+    <% end %>
+  </section>
+
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= t(:setting_column_options) %></legend>
+
+      <div class="form--field -full-width">
+        <div class="form--field-container">
+          <div class="form--text-field-container -xwide">
+            <%= angular_component_tag "opce-draggable-autocompleter",
+                                      inputs: {
+                                        options: work_packages_columns_options,
+                                        selected: selected_work_packages_columns_options,
+                                        protected: protected_work_packages_columns_options,
+                                        name: "settings[work_package_list_default_columns][]",
+                                        id: "setting_column_options",
+                                        inputLabel: I18n.t(:"queries.configure_view.columns.input_label"),
+                                        inputPlaceholder: I18n.t(:"queries.configure_view.columns.input_placeholder"),
+                                        dragAreaLabel: I18n.t(:"queries.configure_view.columns.drag_area_label")
+                                      } %>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </section>
+
+  <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
+<% end %>

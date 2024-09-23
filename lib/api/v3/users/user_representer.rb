@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -184,7 +184,7 @@ module API
         ##
         # Used while parsing JSON to initialize `ldap_auth_source_id` through the given link.
         def initialize_embedded_links!(data)
-          ldap_auth_source_id = parse_auth_source_id data, "auth_source"
+          ldap_auth_source_id = parse_auth_source_id(data, "authSource") || parse_auth_source_id(data, "auth_source")
 
           if ldap_auth_source_id
             auth_source = LdapAuthSource.find_by_unique(ldap_auth_source_id) # rubocop:disable Rails/DynamicFindBy

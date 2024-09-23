@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +29,9 @@
 require "rack/utils"
 
 class WorkPackages::AutoCompletesController < ApplicationController
+  # Authorization is checked by the query.
+  no_authorization_required! :index
+
   def index
     @work_packages = work_packages_matching_query_prop
 

@@ -9,7 +9,7 @@ ca:
     verify_account: "Verifica el teu compte"
     error_captcha: "No s'ha pogut verificar el teu compte. Si us plau, contacta l'administrador."
     settings:
-      website_key: 'Clau de la web'
+      website_key: 'Website key (May also be called "Site key")'
       response_limit: 'Resposta límit per HCaptcha'
       response_limit_text: 'El nombre màxim de caràcters per gestionar a la resposta HCaptcha no és vàlid.'
       website_key_text: 'Introdueix la clau de web que has creat en la consola d''administrador reCAPTCHA per aquest domini.'
@@ -20,5 +20,6 @@ ca:
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       type_hcaptcha: 'HCaptcha'
-      recaptcha_description_html: >
-        reCAPTCHA és un servei gratuït de Google que es pot activar a la teva instància d'OpenProject. Si s'activa, un formulàri "captcha" es mostrarà a la pantalla d'inici de sessió per tots els usuaris que no hagin verificat el "captcha" encara. <br/>Pots veure més detalls de reCAPTCHA i les seves versions i com crear les claus web i secreat al següent enllaç: %{recaptcha_link}<br/> HCaptcha es una alternativa a Google que pots utilitzar si no vols utilitzar reCAPTCHA. Següeix aquest enllaç per més informació: %{hcaptcha_link}
+      type_turnstile: 'Cloudflare Turnstile™'
+      captcha_description_html: >
+        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link} <br/> Cloudflare Turnstile™ is another alternative that is more convenient for users while still providing the same level of security. See this link for more information: %{turnstile_link}

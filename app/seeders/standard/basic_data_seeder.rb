@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,13 +32,15 @@ module Standard
         ::BasicData::BuiltinUsersSeeder,
         ::BasicData::ProjectRoleSeeder,
         ::BasicData::WorkPackageRoleSeeder,
+        ::BasicData::ProjectQueryRoleSeeder,
         ::BasicData::GlobalRoleSeeder,
         ::BasicData::TimeEntryActivitySeeder,
         ::BasicData::ColorSeeder,
         ::BasicData::ColorSchemeSeeder,
         ::BasicData::WorkflowSeeder,
         ::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
+        ::BasicData::SettingSeeder,
+        ::BasicData::ProjectCustomFieldSectionSeeder
       ]
     end
   end

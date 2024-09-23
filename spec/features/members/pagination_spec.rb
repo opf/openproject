@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -84,6 +84,7 @@ RSpec.describe "members pagination", :js do
       members_page.visit!
       SeleniumHubWaiter.wait
       members_page.remove_user! "Alice Alison"
+      members_page.expect_and_dismiss_toaster
       expect(members_page).to have_user "Bob Bobbit"
 
       SeleniumHubWaiter.wait

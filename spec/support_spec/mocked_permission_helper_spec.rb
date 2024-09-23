@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,6 +35,7 @@ RSpec.describe MockedPermissionHelper do
   let(:work_package_in_project) { build(:work_package, project:) }
   let(:other_work_package_in_project) { build(:work_package, project:) }
   let(:other_work_package) { build(:work_package) }
+  let(:project_query) { build(:project_query) }
 
   context "when trying to mock a permission that does not exist" do
     it "raises UnknownPermissionError exception" do
@@ -76,6 +77,16 @@ RSpec.describe MockedPermissionHelper do
     end
   end
 
+  context "when trying to mock a permission on nil as the project query" do
+    it "raises an ArgumentError exception" do
+      expect do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project_query :view_project_query, project_query: nil
+        end
+      end.to raise_error(ArgumentError, /tried to mock a permission on nil/)
+    end
+  end
+
   context "when not providing a block" do
     it "does not allow anything" do
       expect do
@@ -90,6 +101,7 @@ RSpec.describe MockedPermissionHelper do
         mock.allow_everything
         mock.allow_globally :add_project
         mock.allow_in_project(:add_work_packages, project:)
+        mock.allow_in_project_query(:view_project_query, project_query:)
 
         # this removes all permissions previously set
         mock.forbid_everything
@@ -102,6 +114,8 @@ RSpec.describe MockedPermissionHelper do
       expect(user).not_to be_allowed_in_any_project(:add_work_packages)
       expect(user).not_to be_allowed_in_work_package(:add_work_packages, work_package_in_project)
       expect(user).not_to be_allowed_in_any_work_package(:add_work_packages)
+      expect(user).not_to be_allowed_in_project_query(:view_project_query, project_query)
+      expect(user).not_to be_allowed_in_any_project_query(:view_project_query)
     end
   end
 
@@ -116,11 +130,8 @@ RSpec.describe MockedPermissionHelper do
       expect(user).to be_allowed_in_any_project(:add_work_packages)
       expect(user).to be_allowed_in_work_package(:add_work_packages, work_package_in_project)
       expect(user).to be_allowed_in_any_work_package(:add_work_packages)
-
-      # legacy interface
-      expect(user).to be_allowed_to_globally(:add_project)
-      expect(user).to be_allowed_to_in_project(:add_work_packages, project)
-      expect(user).to be_allowed_to_globally(:add_work_packages)
+      expect(user).to be_allowed_in_project_query(:view_project_query, project_query)
+      expect(user).to be_allowed_in_any_project_query(:view_project_query)
     end
   end
 
@@ -156,11 +167,6 @@ RSpec.describe MockedPermissionHelper do
     it "allows the global permission when querying with controller and action hash" do
       expect(user).to be_allowed_globally({ controller: "projects", action: "new" })
     end
-
-    it "allows the global permission using the deprecated interface" do
-      expect(user).to be_allowed_to_globally(:add_project)
-      expect(user).to be_allowed_to(:add_project, nil, global: true)
-    end
   end
 
   context "when mocking a permission in the project" do
@@ -179,14 +185,8 @@ RSpec.describe MockedPermissionHelper do
     end
 
     it "allows the project permission when querying with controller and action hash" do
-      expect(user).to be_allowed_in_project({ controller: "work_packages", action: "index", project_id: project.id })
+      expect(user).to be_allowed_in_project({ controller: "work_packages", action: "index", project_id: project.id }, nil)
       expect(user).to be_allowed_in_any_project({ controller: "work_packages", action: "index" })
-    end
-
-    it "allows the permission when using the deprecated interface" do
-      expect(user).to be_allowed_to_in_project(:view_work_packages, project)
-      expect(user).to be_allowed_to(:view_work_packages, project)
-      expect(user).to be_allowed_to_globally(:view_work_packages)
     end
 
     it "allows the permissions when asking for any project" do

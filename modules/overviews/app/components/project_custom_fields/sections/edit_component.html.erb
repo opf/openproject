@@ -1,0 +1,19 @@
+<%= helpers.angular_component_tag 'opce-custom-modal-overlay' %>
+<%=
+  component_wrapper do
+    primer_form_with(
+      id: "project-section-edit-form",
+      model: @project,
+      method: :put,
+      data: { turbo: true, turbo_stream: true, "test-selector": "async-dialog-content" },
+      url: update_project_custom_values_path(project_id: @project.id, section_id: @project_custom_field_section.id),
+    ) do |f|
+      render(Projects::CustomFields::Form.new(
+        f,
+        project: @project,
+        custom_field_section: @project_custom_field_section,
+        wrapper_id: "#edit-project-custom-fields-dialog-#{@project_custom_field_section.id}"
+      ))
+    end
+  end
+%>

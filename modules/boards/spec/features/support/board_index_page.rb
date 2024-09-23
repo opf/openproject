@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,7 +63,7 @@ module Pages
           click_link "Board"
         end
       else
-        find('[data-test-selector="sidebar--create-board-button"]').click
+        find('[data-test-selector="boards--create-button"]').click
       end
 
       new_board_page = NewBoard.new
@@ -71,6 +71,8 @@ module Pages
       new_board_page.set_title title
       new_board_page.set_board_type action
       new_board_page.click_on_submit
+
+      new_board_page.expect_and_dismiss_toaster
 
       if expect_empty
         expect(page).to have_css(".boards-list--add-item-text", wait: 10)
@@ -84,7 +86,7 @@ module Pages
 
     def open_board(board)
       page.find("td.name a", text: board.name).click
-      wait_for_reload if using_cuprite?
+      wait_for_reload
       ::Pages::Board.new board
     end
   end

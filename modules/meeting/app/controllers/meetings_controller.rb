@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,13 @@
 
 class MeetingsController < ApplicationController
   around_action :set_time_zone
-  before_action :find_optional_project, only: %i[index new create]
+  before_action :load_and_authorize_in_optional_project, only: %i[index new show create history]
+  before_action :verify_activities_module_activated, only: %i[history]
+  before_action :determine_date_range, only: %i[history]
+  before_action :determine_author, only: %i[history]
   before_action :build_meeting, only: %i[new]
   before_action :find_meeting, except: %i[index new create]
+  before_action :set_activity, only: %i[history]
   before_action :find_copy_from_meeting, only: %i[create]
   before_action :convert_params, only: %i[create update update_participants]
   before_action :authorize, except: %i[index new create update_title update_details update_participants change_state]
@@ -45,6 +49,7 @@ class MeetingsController < ApplicationController
   include SortHelper
 
   include OpTurbo::ComponentStream
+  include OpTurbo::FlashStreamHelper
   include ApplicationComponentStreams
   include Meetings::AgendaComponentStreams
   include MetaTagsHelper
@@ -54,7 +59,7 @@ class MeetingsController < ApplicationController
   def index
     @query = load_query
     @meetings = load_meetings(@query)
-    render 'index', locals: { menu_name: project_or_global_menu }
+    render "index", locals: { menu_name: project_or_global_menu }
   end
 
   current_menu_item :index do
@@ -64,13 +69,21 @@ class MeetingsController < ApplicationController
   def show
     html_title "#{t(:label_meeting)}: #{@meeting.title}"
     if @meeting.is_a?(StructuredMeeting)
-      render(Meetings::ShowComponent.new(meeting: @meeting))
+      render(Meetings::ShowComponent.new(meeting: @meeting, project: @project))
     elsif @meeting.agenda.present? && @meeting.agenda.locked?
-      params[:tab] ||= 'minutes'
+      params[:tab] ||= "minutes"
     end
   end
 
-  def create
+  def check_for_updates
+    if params[:reference] == @meeting.changed_hash
+      head :no_content
+    else
+      respond_with_flash(Meetings::UpdateFlashComponent.new(meeting: @meeting))
+    end
+  end
+
+  def create # rubocop:disable Metrics/AbcSize
     call =
       if @copy_from
         ::Meetings::CopyService
@@ -86,14 +99,15 @@ class MeetingsController < ApplicationController
       text = I18n.t(:notice_successful_create)
       if User.current.time_zone.nil?
         link = I18n.t(:notice_timezone_missing, zone: Time.zone)
-        text += " #{view_context.link_to(link, { controller: '/my', action: :account }, class: 'link_to_profile')}"
+        text += " #{view_context.link_to(link, { controller: '/my', action: :settings, anchor: 'pref_time_zone' },
+                                         class: 'link_to_profile')}"
       end
-      flash[:notice] = text.html_safe
+      flash[:notice] = text.html_safe # rubocop:disable Rails/OutputSafety
 
-      redirect_to action: 'show', id: call.result
+      redirect_to action: "show", id: call.result
     else
       @meeting = call.result
-      render template: 'meetings/new', project_id: @project, locals: { copy_from: @copy_from }
+      render template: "meetings/new", project_id: @project, locals: { copy_from: @copy_from }
     end
   end
 
@@ -110,13 +124,13 @@ class MeetingsController < ApplicationController
       .call(save: false)
 
     @meeting = call.result
-    render action: 'new', project_id: @project, locals: { copy_from: }
+    render action: "new", project_id: @project, locals: { copy_from: }
   end
 
   def destroy
     @meeting.destroy
     flash[:notice] = I18n.t(:notice_successful_delete)
-    redirect_to action: 'index', project_id: @project
+    redirect_to action: "index", project_id: @project
   end
 
   def edit
@@ -132,6 +146,13 @@ class MeetingsController < ApplicationController
     end
   end
 
+  def history
+    @events = get_events
+  rescue ActiveRecord::RecordNotFound => e
+    op_handle_warning "Failed to find all resources in activities: #{e.message}"
+    render_404 I18n.t(:error_can_not_find_all_resources)
+  end
+
   def cancel_edit
     update_header_component_via_turbo_stream(state: :show)
 
@@ -139,30 +160,29 @@ class MeetingsController < ApplicationController
   end
 
   def update
-    @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
-    @meeting.attributes = @converted_params
-    if @meeting.save
+    call = ::Meetings::UpdateService
+      .new(user: current_user, model: @meeting)
+      .call(@converted_params)
+
+    if call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to action: 'show', id: @meeting
+      redirect_to action: "show", id: @meeting
     else
-      render action: 'edit'
+      @meeting = call.result
+      render action: "edit"
     end
   end
 
-  def participants_dialog
-    render(Meetings::Sidebar::ParticipantsFormComponent.new(meeting: @meeting), layout: false)
-  end
+  def details_dialog; end
+
+  def participants_dialog; end
 
   def update_participants
     @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
     @meeting.save
 
-    if @meeting.errors.any?
-      update_sidebar_participants_form_component_via_turbo_stream
-    else
-      update_sidebar_details_component_via_turbo_stream
-      update_sidebar_participants_component_via_turbo_stream
-    end
+    update_sidebar_details_component_via_turbo_stream
+    update_sidebar_participants_component_via_turbo_stream
 
     respond_with_turbo_streams
   end
@@ -199,7 +219,7 @@ class MeetingsController < ApplicationController
   end
 
   def change_state
-    case structured_meeting_params[:state]
+    case params[:state]
     when "open"
       @meeting.open!
     when "closed"
@@ -233,7 +253,7 @@ class MeetingsController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_notification)
     else
       flash[:error] = I18n.t(:error_notification_with_errors,
-                             recipients: result.errors.map(&:name).join('; '))
+                             recipients: result.errors.map(&:name).join("; "))
     end
 
     redirect_to action: :show, id: @meeting
@@ -250,7 +270,7 @@ class MeetingsController < ApplicationController
     query = apply_default_filter_if_none_given(query)
 
     if @project
-      query.where("project_id", '=', @project.id)
+      query.where("project_id", "=", @project.id)
     end
 
     query
@@ -260,6 +280,7 @@ class MeetingsController < ApplicationController
     return query if query.filters.any?
 
     query.where("time", "=", Queries::Meetings::Filters::TimeFilter::FUTURE_VALUE)
+    query.where("invited_user_id", "=", [User.current.id.to_s])
   end
 
   def load_meetings(query)
@@ -310,6 +331,7 @@ class MeetingsController < ApplicationController
     # Force defaults on participants
     @converted_params[:participants_attributes] ||= {}
     @converted_params[:participants_attributes].each { |p| p.reverse_merge! attended: false, invited: false }
+    @converted_params[:send_notifications] = params[:send_notifications] == "1"
   end
 
   def meeting_params
@@ -328,6 +350,56 @@ class MeetingsController < ApplicationController
     end
   end
 
+  def meeting_type(given_type)
+    case given_type
+    when "dynamic"
+      "StructuredMeeting"
+    else
+      "Meeting"
+    end
+  end
+
+  def verify_activities_module_activated
+    render_403 if @project && !@project.module_enabled?("activity")
+  end
+
+  def set_activity
+    @activity = Activities::Fetcher.new(User.current,
+                                        project: @project,
+                                        with_subprojects: @with_subprojects,
+                                        author: @author,
+                                        scope: activity_scope,
+                                        meeting: @meeting)
+  end
+
+  def get_events
+    Activities::MeetingEventMapper
+      .new(@meeting)
+      .map_to_events
+  end
+
+  def activity_scope
+    ["meetings", "meeting_agenda_items"]
+  end
+
+  def determine_date_range
+    @days = Setting.activity_days_default.to_i
+
+    if params[:from]
+      begin
+        @date_to = params[:from].to_date + 1.day
+      rescue StandardError
+      end
+    end
+
+    @date_to ||= User.current.today + 1.day
+    @date_from = @date_to - @days
+  end
+
+  def determine_author
+    @author = params[:user_id].blank? ? nil : User.active.find(params[:user_id])
+  end
+
   def find_copy_from_meeting
     return unless params[:copied_from_meeting_id]
 
@@ -338,8 +410,9 @@ class MeetingsController < ApplicationController
 
   def copy_attributes
     {
-      copy_agenda: params[:copy_agenda] == '1',
-      copy_attachments: params[:copy_attachments] == '1',
+      copy_agenda: params[:copy_agenda] == "1",
+      copy_attachments: params[:copy_attachments] == "1",
+      send_notifications: params[:send_notifications] == "1"
     }
   end
 end

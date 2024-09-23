@@ -30,9 +30,4 @@ export namespace Highlighting {
 
     return '__hl_date_not_overdue';
   }
-
-  export function isBright(styles:CSSStyleDeclaration, property:string, id:string|number) {
-    const variable = `--hl-${property}-${id}-dark`;
-    return styles.getPropertyValue(variable) !== '';
-  }
 }

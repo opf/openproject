@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +60,7 @@ RSpec.describe "Notifications sent on shared work packages",
   end
 
   let(:center) { Pages::Notifications::Center.new }
-  let(:side_menu) { Components::Notifications::Sidemenu.new }
+  let(:side_menu) { Components::Submenu.new }
 
   describe "notification for being mentioned" do
     before do

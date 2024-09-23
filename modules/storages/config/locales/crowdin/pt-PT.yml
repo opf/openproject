@@ -12,6 +12,7 @@ pt-PT:
         tenant: ID do Diretório (inquilino)
     errors:
       messages:
+        invalid_host_url: não é um URL válido.
         not_linked_to_project: não está vinculado ao projeto.
       models:
         storages/file_link:
@@ -20,13 +21,17 @@ pt-PT:
               only_numeric_or_uuid: só pode ser numérico ou uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Selecione uma pasta.
             project_folder_mode:
               mode_unavailable: não está disponível para este armazenamento.
+            project_ids:
+              blank: Selecione um projeto.
         storages/storage:
           attributes:
             host:
               authorization_header_missing: não está totalmente configurado. A instância Nextcloud não recebe o cabeçalho "Autorização", que é necessário para um token portador com base na autorização das solicitações de API. Verifique novamente a configuração do seu servidor HTTP.
-              cannot_be_connected_to: não pode ser conectado.
+              cannot_be_connected_to: não foi possível aceder. Certifique-se de que o anfitrião está acessível e que a aplicação de integração do OpenProject está instalada.
               minimal_nextcloud_version_unmet: não atende aos requisitos mínimos de versão (deve ser Nextcloud 23 ou superior)
               not_nextcloud_server: não é um servidor Nextcloud
               op_application_not_installed: parece não ter a app "OpenProject integration" instalada. Instale-a primeiro e tente novamente.
@@ -39,20 +44,119 @@ pt-PT:
   api_v3:
     errors:
       too_many_elements_created_at_once: Demasiados elementos criados de uma só vez. Esperados %{max} no máximo, obtidos %{actual}.
-  permission_create_files: Criar ficheiros
-  permission_delete_files: Eliminar ficheiros
+  external_file_storages: Armazenamentos externos de ficheiros
+  permission_create_files: 'Pastas do projeto geridas automaticamente: Criar ficheiros'
+  permission_create_files_explanation: Esta permissão só está disponível para os armazenamentos Nextcloud
+  permission_delete_files: 'Pastas do projeto geridas automaticamente: Eliminar ficheiros'
+  permission_delete_files_explanation: Esta permissão só está disponível para os armazenamentos Nextcloud
+  permission_header_for_project_module_storages: Pastas do projeto geridas automaticamente
   permission_manage_file_links: Gerir hiperligações de ficheiro
-  permission_manage_storages_in_project: Gerir armazenamentos de ficheiros no projeto
-  permission_read_files: Ler ficheiros
-  permission_share_files: Partilhar ficheiros
+  permission_manage_files_in_project: Gerir ficheiros no projeto
+  permission_read_files: 'Pastas do projeto geridas automaticamente: Ler ficheiros'
+  permission_share_files: 'Pastas do projeto geridas automaticamente: Partilhar ficheiros'
+  permission_share_files_explanation: Esta permissão só está disponível para os armazenamentos Nextcloud
   permission_view_file_links: Mostrar hiperligações de ficheiros
-  permission_write_files: Escrever ficheiros
-  project_module_storages: Armazenamentos de ficheiros
+  permission_write_files: 'Pastas do projeto geridas automaticamente: Escrever ficheiros'
+  project_module_storages: Ficheiros
+  project_storages:
+    edit_project_folder:
+      label: Editar pasta do projeto
+    project_folder_mode:
+      automatic: Gerido automaticamente
+      inactive: Nenhuma pasta específica
+      manual: Pasta existente gerida manualmente
+    remove_project:
+      deletion_failure_flash: Erro ao remover o projeto do armazenamento. %{error}
+      dialog:
+        automatically_managed_appendix: Além disso, no caso de este armazenamento ter uma pasta de projeto gerida automaticamente, esta e os seus ficheiros serão eliminados para sempre.
+        confirmation_text: Confirme que compreende e pretende remover este armazenamento de ficheiros deste projeto
+        heading_text: Remover projeto de %{storage}
+        text: Esta ação é irreversível e irá remover todas as ligações dos pacotes de trabalho deste projeto aos ficheiros e pastas desse armazenamento.
+      label: Remover projeto
+  services:
+    attributes:
+      nextcloud_sync_service:
+        add_user_to_group: 'Adicionar utilizador ao grupo:'
+        create_folder: 'Criação de pastas de projeto geridas:'
+        ensure_root_folder_permissions: 'Definir permissões da pasta base:'
+        hide_inactive_folders: 'Passo "Ocultar pastas inativas":'
+        remote_folders: 'Ler conteúdo da pasta de grupo:'
+        remove_user_from_group: 'Remover utilizador do grupo:'
+        rename_project_folder: 'Renomear pasta do projeto gerido:'
+      one_drive_sync_service:
+        create_folder: 'Criação de pastas de projeto geridas:'
+        ensure_root_folder_permissions: 'Definir permissões da pasta base:'
+        hide_inactive_folders: 'Passo "Ocultar pastas inativas":'
+        remote_folders: 'Ler conteúdo da pasta de grupo:'
+        rename_project_folder: 'Renomear pasta do projeto gerido:'
+    errors:
+      messages:
+        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+      models:
+        copy_project_folders_service:
+          conflict: A pasta %{destination_path} já existe. Interrompa o processo para evitar substituições.
+          error: Ocorreu um erro inesperado. Verifique os registos do OpenProject para obter mais informações ou contacte um administrador
+          forbidden: O OpenProject não conseguiu aceder à pasta de origem. Verifique a sua configuração de permissões no fornecedor de armazenamento
+          not_found: A localização do modelo de origem %{source_path} não foi encontrada.
+          unauthorized: Não foi possível autenticar o OpenProject com o fornecedor de armazenamento.Verifique a sua configuração de armazenamento
+        nextcloud_sync_service:
+          attributes:
+            add_user_to_group:
+              conflict: 'Não foi possível adicionar o utilizador %{user} ao grupo %{group} pelo seguinte motivo: %{reason}'
+              failed_to_add: 'Não foi possível adicionar o utilizador %{user} ao grupo %{group} pelo seguinte motivo: %{reason}'
+            create_folder:
+              conflict: A pasta %{folder_name} já existe em %{parent_location}.
+              not_found: "%{parent_location} não foi encontrado."
+            ensure_root_folder_permissions:
+              not_found: "%{group_folder} não foi encontrado. Verifique a configuração da pasta de grupo do Nextcloud."
+              permission_not_set: não foi possível definir permissões em %{group_folder}.
+            hide_inactive_folders:
+              permission_not_set: não foi possível definir permissões em %{path}.
+            remote_folders:
+              not_allowed: O utilizador %{username} não tem acesso a %{group_folder}. Verifique as permissões de pasta no Nextcloud.
+              not_found: "%{group_folder} não foi encontrado. Verifique a configuração do Nextcloud."
+            remove_user_from_group:
+              conflict: 'Não foi possível remover o utilizador %{user} do grupo %{group} pelo seguinte motivo: %{reason}'
+              failed_to_remove: 'Não foi possível remover o utilizador %{user} do grupo %{group} pelo seguinte motivo: %{reason}'
+            rename_project_folder:
+              forbidden: "O utilizador do OpenProject não tem acesso à pasta %{current_path}.\n"
+              not_found: "%{current_path} não foi encontrado."
+            set_folders_permissions:
+              permission_not_set: não foi possível definir permissões em %{path}.
+          error: Ocorreu um erro inesperado. Certifique-se de que a sua instância do Nextcloud está acessível e verifique os registos de trabalho do OpenProject para obter mais informações
+          group_does_not_exist: "%{group} não existe. Verifique a configuração da sua instância do Nextcloud."
+          insufficient_privileges: O OpenProject não tem privilégios suficientes para adicionar %{user} a %{group}. Verifique as definições de grupo no Nextcloud.
+          not_allowed: O Nextcloud bloqueia o pedido.
+          unauthorized: Não foi possível sincronizar o OpenProject com o Nextcloud. Verifique o seu armazenamento e a configuração do Nextcloud.
+          user_does_not_exist: "%{user} não existe no Nextcloud."
+        one_drive_sync_service:
+          attributes:
+            create_folder:
+              conflict: A pasta %{folder_name} já existe em %{parent_location}.
+              not_found: "%{parent_location} não foi encontrado."
+            hide_inactive_folders:
+              permission_not_set: não foi possível definir permissões em %{path}.
+            remote_folders:
+              request_error: O OpenProject não conseguiu aceder à sua unidade %{drive_id}. Verifique se a sua configuração de armazenamento está correta.
+            rename_project_folder:
+              conflict: O OpenProject não conseguiu renomear a pasta %{current_path} para %{project_folder_name} porque já existe uma pasta com o mesmo nome
+              forbidden: "O OpenProject não tem acesso a %{current_path} para poder renomeá-lo.\n"
+              not_found: "%{current_path} não foi encontrado."
+            set_folders_permissions:
+              permission_not_set: não foi possível definir permissões em %{path}.
+          error: Ocorreu um erro inesperado. Certifique-se de que a sua instância do Nextcloud está acessível e verifique os registos de trabalho do OpenProject para obter mais informações
+          not_allowed: O OpenProject não tinha permissão para aceder à sua unidade do OneDrive. Verifique as permissões definidas na aplicação do Azure.
+          unauthorized: Não foi possível sincronizar o OpenProject com o OneDrive. Verifique o seu armazenamento e a configuração da aplicação do Azure.
+          user_does_not_exist: "%{user} não existe no Nextcloud."
+        upload_link_service:
+          not_found: The destination folder %{folder} could not be found on %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Concluir sem isso
       done_complete_setup: Concluído, terminar configuração
       done_continue: Concluído, continuar
+      open_storage: Abrir armazenamentos de ficheiros
       replace_oauth_application: Substituir OpenProject OAuth
       replace_oauth_client: Substituir OAuth %{provider_type}
       save_and_continue: Guardar e continuar
@@ -75,8 +179,24 @@ pt-PT:
       storage_delete_result_1: Remover todas as configurações de armazenamento para todos os projetos que utilizam este armazenamento.
       storage_delete_result_2: Remover todos os links de pacotes de trabalho de todos os projetos para ficheiros e pastas desse armazenamento.
       storage_delete_result_3: No caso de este armazenamento ter pastas de projeto geridas automaticamente, estas e os seus ficheiros serão eliminados para sempre.
+    dependencies:
+      nextcloud:
+        group_folders_app: Agrupar pastas
+        integration_app: Integração do OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: Este armazenamento tem uma configuração incompleta. Conclua a configuração antes de o ativar em vários projetos.
+      setup_incomplete_header: Configuração do armazenamento incompleta
     error_invalid_provider_type: Selecione um fornecedor de armazenamento válido.
     file_storage_view:
+      access_management:
+        automatic_management: Acesso e pastas geridas automaticamente
+        automatic_management_description: Deixe o OpenProject criar pastas por projeto automaticamente e gerir o acesso dos utilizadores. Isto é recomendado porque garante que cada membro da equipa tem sempre as permissões de acesso corretas.
+        description: Selecione o tipo de gestão do acesso dos utilizadores e da criação de pastas. Recomendamos que utilize o acesso gerido automaticamente para ter uma estrutura mais organizada e garantir o acesso a todos os utilizadores relevantes.
+        manual_management: Acesso e pastas geridas manualmente
+        manual_management_description: Crie e gira manualmente as pastas por projeto por conta própria. Terá de garantir manualmente que os utilizadores relevantes têm acesso.
+        setup_incomplete: Selecione o tipo de gestão do acesso dos utilizadores e da criação de pastas.
+        subtitle: Gestão de acesso
+        title: Pastas de acesso e de projeto
       automatically_managed_folders: Pastas geridas automaticamente
       general_information: Informação geral
       nextcloud_oauth: Nextcloud OAuth
@@ -88,18 +208,45 @@ pt-PT:
       storage_provider: Fornecedor de armazenamento
     health:
       checked: Última verificação em %{datetime}
+      connection_validation:
+        action: Verifique novamente a ligação
+        app_version_mismatch: A versão da aplicação Integration OpenProject não é suportada. Atualize o seu servidor do Nextcloud.
+        client_id_wrong: O ID de cliente OAuth 2 configurado é inválido. Verifique a configuração.
+        client_secret_wrong: O segredo do cliente OAuth 2 configurado é inválido. Verifique a configuração.
+        drive_id_wrong: Não foi possível encontrar o Drive ID configurado. Verifique a configuração.
+        group_folder_not_found: The group folder could not be found.
+        group_folder_version_mismatch: A versão da pasta de grupo não é suportada. Atualize o seu servidor do Nextcloud.
+        host_not_found: Não foi encontrado nenhum servidor do Nextcloud no URL do anfitrião configurado. Verifique a configuração.
+        missing_dependencies: 'Está em falta uma dependência necessária no armazenamento de ficheiros. Adicione a seguinte dependência: %{dependency}.'
+        not_configured: Não foi possível validar a ligação.Termine, primeiro, a configuração.
+        placeholder: Verifique a sua ligação com o servidor.
+        subtitle: Validação da ligação
+        tenant_id_wrong: O ID do diretório (inquilino) configurado é inválido. Verifique a configuração.
+        unexpected_content:
+          nextcloud: Unexpected content found in the managed group folder.
+          one_drive: Unexpected content found in the drive.
+        unknown_error: Não foi possível validar a ligação. Ocorreu um erro desconhecido. Consulte os registos do servidor para obter mais informações.
       label_error: Erro
       label_healthy: Bom estado
       label_pending: Pendente
+      label_warning: Aviso
+      project_folders:
+        subtitle: Pastas do projeto geridas automaticamente
       since: desde %{datetime}
-      subtitle: Pastas do projeto geridas automaticamente
       title: Estado de funcionamento atual
+    health_email_notifications:
+      description_subscribed: Todos os administradores recebem notificações por e-mail sobre o estado de funcionamento deste armazenamento.
+      description_unsubscribed: As notificações por e-mail sobre o estado de funcionamento deste armazenamento foram desativadas para todos os administradores.
+      error_could_not_be_saved: Não foi possível guardar as definições de notificação por e-mail. Tente novamente.
+      subscribe: Subscrever
+      title: Notificações por e-mail
+      unsubscribe: Anular subscrição
     help_texts:
       project_folder: A pasta do projeto é a pasta predefinida para o carregamento de ficheiros para este projeto. Os utilizadores podem, no entanto, carregar ficheiros para outras localizações.
+      project_folder_bulk: A pasta do projeto é a pasta predefinida para o carregamento de ficheiros para todos os projetos selecionados. Pode modificar esta opção individualmente nas definições de cada projeto. No entanto, os utilizadores podem carregar ficheiros para outras localizações.
     instructions:
       all_available_storages_already_added: Todos os armazenamentos disponíveis já foram adicionados ao projeto.
       automatic_folder: Isto irá criar automaticamente uma pasta raiz para este projeto e gerir as permissões de acesso para cada membro do projeto.
-      copy_from: Copiar este valor de
       empty_project_folder_validation: Tem de selecionar uma pasta para avançar.
       existing_manual_folder: Pode designar uma pasta existente como a pasta de raiz para este projeto. No entanto, as permissões não são geridas automaticamente, o administrador tem de garantir manualmente que os utilizadores relevantes têm acesso. A pasta selecionada pode ser utilizada por vários projetos.
       host: Adicione o endereço de anfitrião do seu armazenamento, incluindo o https://. Não deve ter mais de 255 caracteres.
@@ -143,6 +290,7 @@ pt-PT:
     label_creator: Criador
     label_delete_storage: Eliminar armazenamento
     label_edit_storage: Editar armazenamento
+    label_edit_storage_access_management: Editar a gestão do acesso ao armazenamento
     label_edit_storage_automatically_managed_folders: Editar o armazenamento pastas geridas automaticamente
     label_edit_storage_host: Editar anfitrião de armazenamento
     label_existing_manual_folder: Pasta existente com permissões geridas manualmente
@@ -176,16 +324,24 @@ pt-PT:
     no_results: Não há armazenamento configurado.
     notice_successful_storage_connection: |-
       Armazenamento ligado com sucesso! Lembre-se de ativar o módulo e o armazenamento específico nas definições do projeto de cada projeto pretendido para o utilizar.
-    oauth_grant_nudge_modal:
+    oauth_access_granted_modal:
       access_granted: Acesso garantido
-      access_granted_screen_reader: Acesso concedido. Está agora pronto para utilizar %{storage}.
-      body: Para ter acesso à pasta do projeto, tem de iniciar sessão em %{storage}.
+      project_settings:
+        access_granted_screen_reader: Acesso concedido. Está agora pronto para utilizar %{storage}
+        storage_ready: Está agora pronto para utilizar %{storage}
+      storage_admin:
+        access_granted_screen_reader: Acesso concedido. Está agora pronto para adicionar projetos a %{storage}
+        storage_ready: Está agora pronto para adicionar projetos a %{storage}
+    oauth_grant_nudge_modal:
       cancel_button_label: Farei isso mais tarde
-      confirm_button_aria_label: Iniciar sessão em %{storageType}
-      confirm_button_label: Iniciar sessão
+      heading: Tem de iniciar sessão em %{provider_type}
+      login_button_aria_label: Iniciar sessão em %{storage}
+      login_button_label: "Início de sessão em %{provider_type}"
+      project_settings:
+        description: Para ter acesso à pasta do projeto, tem de iniciar sessão em %{storage}.
       requesting_access_to: Solicitando acesso a %{storage}
-      storage_ready: Está pronto para utilizar %{storage}
-      title: Mais um passo…
+      storage_admin:
+        description: Para adicionar projetos a este armazenamento, tem de iniciar sessão em %{provider_type}. Inicie sessão e tente novamente.
     open_project_storage_modal:
       success:
         subtitle: Está a ser redirecionado
@@ -198,11 +354,6 @@ pt-PT:
         delete: Eliminar armazenamento de ficheiros
         subtitle: Adicione um armazenamento de ficheiros externo para carregar, ligar e gerir ficheiros em pacotes de trabalho.
       managed_project_folders:
-        one_drive_information: |-
-          Para ativar as pastas de projeto geridas automaticamente no OneDrive/SharePoint, é necessária uma configuração adicional na
-          unidade que é utilizada para o armazenamento de ficheiros. Se o OpenProject gerir as permissões desta unidade, esta
-          provavelmente será inutilizável para outros casos de utilização no SharePoint. Para mais informações e orientações, consulte
-          %{drive_id_link_text}.
         subtitle: |-
           Deixe o OpenProject criar pastas por projeto automaticamente. Isto é recomendado porque garante que cada membro da equipa tem sempre as permissões de acesso corretas.
         subtitle_short: Deixe o OpenProject criar pastas por projeto automaticamente.
@@ -210,12 +361,12 @@ pt-PT:
       project_settings:
         delete: Eliminar armazenamento de ficheiros
         edit: Edite o armazenamento de ficheiros para este projeto
-        index: Armazenamentos de ficheiros disponíveis neste projeto
         members_connection_status: Estado da ligação dos membros
         new: Adicionar um armazenamento de ficheiros a este projeto
       project_storage_members:
         subtitle: Verifique o estado da ligação para o armazenamento %{storage_name_link} de todos os membros do projeto.
         title: Estado da ligação dos membros
+    permission_header_explanation: 'As permissões de ficheiros em armazenamentos externos são aplicadas apenas a pastas e ficheiros dentro de pastas de projetos geridas automaticamente. Tenha em conta que nem todas as permissões de ficheiros são suportadas por todos os fornecedores de armazenamento. Para mais informações, consulte a documentação sobre <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>permissões de armazenamento de ficheiros</a>.'
     provider_types:
       label: Tipo de fornecedor
       nextcloud:
@@ -228,6 +379,9 @@ pt-PT:
         label_oauth_client_secret: Valor Secreto do Cliente Azure OAuth
         name: OneDrive/SharePoint
         name_placeholder: p. ex., OneDrive
+    show_attachments_toggle:
+      description: 'Se desativar esta opção, irá ocultar a lista de anexos no separador de ficheiros dos pacotes de trabalho. Os ficheiros anexados na descrição de um pacote de trabalho irão continuar a ser carregados no armazenamento interno de anexos.'
+      label: Mostrar anexos no separador dos ficheiros dos pacotes de trabalho
     storage_list_blank_slate:
       description: Adicione um armazenamento para vê-lo aqui.
       heading: Ainda não tem nenhum armazenamento.

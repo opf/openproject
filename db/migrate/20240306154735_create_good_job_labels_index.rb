@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,8 +35,10 @@ class CreateGoodJobLabelsIndex < ActiveRecord::Migration[7.1]
     reversible do |dir|
       dir.up do
         unless connection.index_name_exists?(:good_jobs, :index_good_jobs_on_labels)
-          add_index :good_jobs, :labels, using: :gin, where: "(labels IS NOT NULL)",
-            name: :index_good_jobs_on_labels, algorithm: :concurrently
+          add_index :good_jobs, :labels, using: :gin,
+                                         where: "(labels IS NOT NULL)",
+                                         name: :index_good_jobs_on_labels,
+                                         algorithm: :concurrently
         end
       end
 

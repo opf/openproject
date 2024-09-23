@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,7 +53,7 @@ RSpec.describe API::V3::Memberships::CreateFormAPI, content_type: :json do
 
   describe "#POST /api/v3/memberships/form" do
     it "returns 200 OK" do
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it "returns a form" do
@@ -157,7 +157,7 @@ RSpec.describe API::V3::Memberships::CreateFormAPI, content_type: :json do
       let(:permissions) { [] }
 
       it "returns 403 Not Authorized" do
-        expect(response.status).to eq(403)
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end

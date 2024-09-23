@@ -10,7 +10,7 @@ keywords: backlogs FAQ, back-logs. task board, version, sprint, scrum
 
 ## What can I do to show the tasks of shared sub-projects in the backlog?
 
-This is not possible. "Work packages from sub-projects are not displayed in the backlog of a main project" is the currently implemented behavior. 
+This is not possible. "Work packages from sub-projects are not displayed in the backlog of a main project" is the currently implemented behavior.
 
 ## I assigned a version to work packages. Why can't I see them in the respective backlog?
 

@@ -1,7 +1,17 @@
 .op-long-text-attribute
-  display: flex
-  align-items: center
+  position: relative
+
   &--text
-    @include text-shortener
+    overflow: hidden
     margin: 0
-    flex-grow: 1
+  &--text-hider
+    position: absolute
+    bottom: 0
+    right: 0
+    height: 1.5em
+    width: 2em
+  &--text-expander
+    position: absolute
+    bottom: 1px
+    right: 0
+    float: right

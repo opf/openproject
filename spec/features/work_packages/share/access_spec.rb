@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,9 @@ RSpec.describe "Shared Work Package Access",
                :js, :with_cuprite,
                with_ee: %i[work_package_sharing] do
   shared_let(:project) { create(:project_with_types) }
+  # This custom field is not explicitly displayed, but it's purpose is to ensure there are no errors
+  # on the overview page while displaying project attributes.
+  shared_let(:int_project_custom_field) { create(:integer_project_custom_field, projects: [project]) }
   shared_let(:work_package) { create(:work_package, project:, journal_notes: "Hello!") }
   shared_let(:sharer) { create(:admin) }
   shared_let(:shared_with_user) { create(:user, firstname: "Mean", lastname: "Turkey") }
@@ -46,7 +49,7 @@ RSpec.describe "Shared Work Package Access",
   let(:global_work_packages_page) { Pages::WorkPackagesTable.new }
   let(:work_packages_page) { Pages::WorkPackagesTable.new(project) }
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:share_modal) { Components::WorkPackages::ShareModal.new(work_package) }
+  let(:share_modal) { Components::Sharing::WorkPackages::ShareModal.new(work_package) }
   let(:add_comment_button_selector) { ".work-packages--activity--add-comment" }
   let(:attach_files_button_selector) { "op-attachments--upload-button" }
 
@@ -83,9 +86,12 @@ RSpec.describe "Shared Work Package Access",
       # 2. Via the Projects dropdown in the top menu
       projects_top_menu.toggle!
       projects_top_menu.expect_result(project.name)
-
       # 3. Visiting the Project's URL directly
       project_page.visit!
+
+      # The project overview page is loaded without errors
+      wait_for_network_idle
+      project_page.expect_no_toaster(type: "error")
 
       #
       # Work Package is now visible
@@ -100,7 +106,7 @@ RSpec.describe "Shared Work Package Access",
       %i[type subject description
          assignee responsible
          estimatedTime remainingTime
-         combinedDate percentageDone category version
+         combinedDate category version
          overallCosts laborCosts].each do |field|
         work_package_page.edit_field(field).expect_read_only
       end
@@ -161,6 +167,10 @@ RSpec.describe "Shared Work Package Access",
       # 3. Visiting the Project's URL directly
       project_page.visit!
 
+      # The project overview page is loaded without errors
+      wait_for_network_idle
+      project_page.expect_no_toaster(type: "error")
+
       #
       # Work Package is now visible
       project_page.within_sidebar do
@@ -174,7 +184,7 @@ RSpec.describe "Shared Work Package Access",
       %i[type subject description
          assignee responsible
          estimatedTime remainingTime
-         combinedDate percentageDone category version
+         combinedDate category version
          overallCosts laborCosts].each do |field|
         work_package_page.edit_field(field).expect_read_only
       end
@@ -240,6 +250,10 @@ RSpec.describe "Shared Work Package Access",
       # 3. Visiting the Project's URL directly
       project_page.visit!
 
+      # The project overview page is loaded without errors
+      wait_for_network_idle
+      project_page.expect_no_toaster(type: "error")
+
       #
       # Work Package is now visible
       project_page.within_sidebar do
@@ -253,7 +267,7 @@ RSpec.describe "Shared Work Package Access",
       %i[type subject description
          assignee responsible
          estimatedTime remainingTime
-         combinedDate percentageDone category].each do |field|
+         combinedDate category].each do |field|
         expect(work_package_page.edit_field(field))
           .to be_editable
       end

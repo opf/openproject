@@ -1,22 +1,13 @@
 <div class="op-grid-page">
-  <div class="toolbar op-grid-page--toolbar-container">
+  <div *ngIf="showToolbar"
+       class="toolbar op-grid-page--toolbar-container">
       <div class="op-grid-page--title-container title-container">
         <h2 [textContent]="text.title"></h2>
       </div>
 
       <ul class="op-grid-page--toolbar-items toolbar-items hidden-for-mobile">
         <li class="toolbar-item hidden-for-tablet">
-          <zen-mode-toggle-button></zen-mode-toggle-button>
-        </li>
-        <li class="toolbar-item">
-          <button class="button"
-                  *ngIf="addWidget.isAllowed"
-                  [title]="addWidget.addText"
-                  (click)="areas.toggleHelpMode()"
-                  [ngClass]="{'-active': areas.inHelpMode}">
-            <op-icon icon-classes="button--icon icon-add">
-            </op-icon>
-          </button>
+          <opce-zen-mode-toggle-button></opce-zen-mode-toggle-button>
         </li>
       </ul>
   </div>

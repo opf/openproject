@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -179,7 +179,7 @@ RSpec.describe GroupsController do
     it "forbids index" do
       get :index
       expect(response).not_to be_successful
-      expect(response.status).to eq 403
+      expect(response).to have_http_status :forbidden
     end
 
     it "shows" do
@@ -191,7 +191,7 @@ RSpec.describe GroupsController do
     it "forbids new" do
       get :new
       expect(response).not_to be_successful
-      expect(response.status).to eq 403
+      expect(response).to have_http_status :forbidden
     end
 
     it "forbids create" do
@@ -200,14 +200,14 @@ RSpec.describe GroupsController do
       end.not_to(change(Group, :count))
 
       expect(response).not_to be_successful
-      expect(response.status).to eq 403
+      expect(response).to have_http_status :forbidden
     end
 
     it "forbids edit" do
       get :edit, params: { id: group.id }
 
       expect(response).not_to be_successful
-      expect(response.status).to eq 403
+      expect(response).to have_http_status :forbidden
     end
   end
 end

@@ -1,4 +1,4 @@
-@import "src/assets/sass/helpers"
+@import "helpers"
 
 // The attribute groups for work packages are a bit different thant on other pages:
 //
@@ -8,7 +8,7 @@
 // Parent > 800px: 2 Column view where all fields have left-right labels, and long text fields span both columns
 //
 // More specifically:
-// 
+//
 // Requirements for the attribute sections in the WP view
 //   * Number of columns: min 1, max 2.
 //   * Min-width: 400px, max-width: not wider than the parent.
@@ -25,14 +25,14 @@
   flex-wrap: wrap
 
   // We want a margin between items, but not between items and the parent box.
-  // 
+  //
   // We don't know if any one item is on the right,
   // the left, or spanning both columns. The easy way to get a gutter is to give
   // *all* elements margins on both sides, and then negating this margin on the parent.
   // This also explains all of the + and - xrem calc() values below.
   margin: 0 -1 * $spot-spacing-1_5
   width: calc(100% + #{$spot-spacing-3})
-  
+
   &--attribute
     flex-basis: 400px
     flex-grow: 1

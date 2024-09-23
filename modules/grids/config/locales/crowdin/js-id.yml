@@ -42,6 +42,9 @@ id:
         subprojects:
           title: 'Sub Project'
           no_results: 'Tidak ada subproyek.'
+        project_favorites:
+          title: 'Favorite projects'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Waktu yang saya habiskan'
           displayed_days: 'Hari yang ditampilkan di widget:'

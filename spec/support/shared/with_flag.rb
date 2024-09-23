@@ -1,5 +1,5 @@
 #  OpenProject is an open source project management software.
-#  Copyright (C) 2010-2022 the OpenProject GmbH
+#  Copyright (C) the OpenProject GmbH
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License version 3.
@@ -42,6 +42,12 @@ RSpec.configure do |config|
   config.include WithFlagMixin
 
   config.before :example, :with_flag do |example|
-    with_flags(example.metadata[:with_flag])
+    value = example.metadata[:with_flag]
+    case value
+    when Symbol
+      with_flags(value => true)
+    else
+      with_flags(value)
+    end
   end
 end

@@ -12,7 +12,7 @@ We released [OpenProject 10.6.3](https://community.openproject.org/versions/1441
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Arrow next to parent task still shown after removing subtask \[[#33109](https://community.openproject.org/wp/33109)\]
 - Fixed: Multiple spaces in project name causes problems \[[#33344](https://community.openproject.org/wp/33344)\]
@@ -21,7 +21,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Number of watchers not shown when opening work package in full screen (through double-click) \[[#33685](https://community.openproject.org/wp/33685)\]
 - Changed: Don't poll queries in boards in inactive tabs \[[#33707](https://community.openproject.org/wp/33707)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

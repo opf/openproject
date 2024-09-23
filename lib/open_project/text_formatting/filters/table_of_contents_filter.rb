@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ module OpenProject::TextFormatting
       attr_reader :headings, :ids
 
       def initialize(doc, context = nil, result = nil)
-        super(doc, context, result)
+        super
         @headings ||= doc.css("h1, h2, h3, h4, h5, h6")
         @ids = Set.new
       end

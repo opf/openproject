@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,6 +27,10 @@
 #++
 
 OmniAuth.config.logger = Rails.logger
+
+OmniAuth.config.on_failure = Proc.new do |env|
+  OmniAuthLoginController.action(:failure).call(env)
+end
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   unless Rails.env.production?

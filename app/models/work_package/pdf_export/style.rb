@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +38,7 @@ module WorkPackage::PDFExport::Style
     end
 
     def page_size
-      @styles[:page_size] || "EXECUTIVE"
+      @styles[:page_size] || "A4"
     end
 
     def page_header_offset

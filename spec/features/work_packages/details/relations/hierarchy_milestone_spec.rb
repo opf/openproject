@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,10 +49,9 @@ RSpec.describe "work package hierarchies for milestones", :js, :selenium do
   end
 
   it "does not provide links to add children or existing children (Regression #28745)" do
-    within(".wp-relations--children") do
-      expect(page).to have_no_text("Add existing child")
-      expect(page).to have_no_text("Create new child")
-      expect(page).to have_no_css("wp-inline-create--add-link")
-    end
+    expect(page).to have_no_text("Add existing child")
+    expect(page).to have_no_text("Create new child")
+    expect(page).to have_no_css("wp-inline-create--add-link")
+    expect(page).to have_no_text("Children")
   end
 end

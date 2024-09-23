@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 6.1.2
-  sidebar_navigation:
-      title: 6.1.2
-  release_version: 6.1.2
-  release_date: 2016-12-21
+title: OpenProject 6.1.2
+sidebar_navigation:
+  title: 6.1.2
+release_version: 6.1.2
+release_date: 2016-12-21
 ---
 
 # OpenProject 6.1.2
@@ -34,5 +34,3 @@ fixes [here.](https://community.openproject.org/versions/822)
 Special thanks to [Dirk Wiesenthal](https://github.com/dwiesent) from
 [Univention](https://www.univention.de/) for helping us to improve our
 users api.
-
-

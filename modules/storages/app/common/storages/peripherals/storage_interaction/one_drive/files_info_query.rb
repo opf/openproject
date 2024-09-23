@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,57 +33,57 @@ module Storages
     module StorageInteraction
       module OneDrive
         class FilesInfoQuery
+          include TaggedLogging
           using ServiceResultRefinements
 
-          def self.call(storage:, user:, file_ids: [])
-            new(storage).call(user:, file_ids:)
+          def self.call(storage:, auth_strategy:, file_ids: [])
+            new(storage).call(auth_strategy:, file_ids:)
           end
 
           def initialize(storage)
             @storage = storage
-            @uri = storage.uri
           end
 
-          def call(user:, file_ids:)
+          def call(auth_strategy:, file_ids:)
             if file_ids.nil?
               return ServiceResult.failure(
                 result: :error,
-                errors: ::Storages::StorageError.new(code: :error, log_message: 'File IDs can not be nil')
+                errors: StorageError.new(code: :error, log_message: "File IDs can not be nil")
               )
             end
 
-            result = file_ids.map do |file_id|
-              file_info_result = FileInfoQuery.call(storage: @storage, user:, file_id:)
-              if file_info_result.failure? &&
-                file_info_result.error_source.is_a?(::OAuthClients::ConnectionManager)
-                # errors in the connection manager must short circuit the query and return the error
-                return file_info_result
+            with_tagged_logger do
+              info "Retrieving file information for #{file_ids.join(', ')}"
+              result = Array(file_ids).map do |file_id|
+                file_info_result = FileInfoQuery.call(storage: @storage, auth_strategy:, file_id:)
+
+                file_info_result.on_failure do |failed_result|
+                  return failed_result if failed_result.error_source.module_parent == AuthenticationStrategies
+                end
+
+                wrap_storage_file_error(file_id, file_info_result)
               end
 
-              wrap_storage_file_error(file_id, file_info_result)
+              ServiceResult.success(result:)
             end
-
-            ServiceResult.success(result:)
           end
 
           private
 
           def wrap_storage_file_error(file_id, query_result)
-            if query_result.success?
-              query_result.result
-            else
-              status = if query_result.error_payload.instance_of?(HTTPX::ErrorResponse)
-                         query_result.error_payload.error
-                       else
-                         query_result.error_payload.dig(:error, :code)
-                       end
+            return query_result.result if query_result.success?
 
-              StorageFileInfo.new(
-                id: file_id,
-                status:,
-                status_code: Rack::Utils::SYMBOL_TO_STATUS_CODE[query_result.errors.code] || 500
-              )
-            end
+            status = if query_result.error_payload.instance_of?(HTTPX::ErrorResponse)
+                       query_result.error_payload.error
+                     else
+                       query_result.error_payload.dig(:error, :code)
+                     end
+
+            StorageFileInfo.new(
+              id: file_id,
+              status:,
+              status_code: Rack::Utils::SYMBOL_TO_STATUS_CODE[query_result.errors.code] || 500
+            )
           end
         end
       end

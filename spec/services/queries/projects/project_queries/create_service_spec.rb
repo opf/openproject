@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,50 @@ require "services/base_services/behaves_like_create_service"
 
 RSpec.describe Queries::Projects::ProjectQueries::CreateService, type: :model do
   it_behaves_like "BaseServices create service" do
+    let(:model_class) { ProjectQuery }
     let(:factory) { :project_query }
+  end
+
+  describe "overriding the instance" do
+    subject(:result) { described_class.new(from: instance, user:).call(params).result }
+
+    let(:user) { build(:user) }
+    let(:params) { { filters: [{ attribute: "active", operator: "=", values: ["f"] }] } }
+
+    context "when overriding initial instance" do
+      let(:instance) { build(:project_query).where("public", "=", "t").order(name: :desc) }
+
+      it "returns the instance" do
+        expect(result).to eq(instance)
+      end
+
+      it "keeps instance value for attribute not passed in params" do
+        expect(result).to have_attributes(
+          orders: [having_attributes(attribute: :name, direction: :desc)]
+        )
+      end
+
+      it "sets value for attribute passed in params" do
+        expect(result).to have_attributes(
+          filters: [having_attributes(name: :active, operator: "=", values: %w[f])]
+        )
+      end
+    end
+
+    context "when not overriding initial instance" do
+      let(:instance) { nil }
+
+      it "uses default value for attribute not passed in params" do
+        expect(result).to have_attributes(
+          orders: [having_attributes(attribute: :lft, direction: :asc)]
+        )
+      end
+
+      it "sets value for attribute passed in params" do
+        expect(result).to have_attributes(
+          filters: [having_attributes(name: :active, operator: "=", values: %w[f])]
+        )
+      end
+    end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,6 +43,7 @@ module MeetingAgendaItems
       render(Primer::Box.new(pl: 3)) do
         render(MeetingAgendaItems::FormComponent.new(
                  meeting: @meeting_agenda_item.meeting,
+                 meeting_section: @meeting_agenda_item.meeting_section,
                  meeting_agenda_item: @meeting_agenda_item,
                  method: :put,
                  submit_path: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item, format: :turbo_stream),

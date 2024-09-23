@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ class Queries::Serialization::Filters
     return [] if serialized_filter_hash.nil?
 
     serialized_filter_hash.map do |serialized_filter|
-      filter = filter_for(serialized_filter["attribute"], no_memoization: true)
+      filter = filter_for(serialized_filter["attribute"].to_sym, no_memoization: true)
       filter.operator = serialized_filter["operator"]
       filter.values = serialized_filter["values"]
 
@@ -49,9 +49,9 @@ class Queries::Serialization::Filters
   def self.dump(filters)
     (filters || []).map do |filter|
       {
-        attribute: filter.field,
-        operator: filter.operator,
-        values: filter.values
+        "attribute" => filter.field.to_s,
+        "operator" => filter.operator,
+        "values" => filter.values
       }
     end
   end

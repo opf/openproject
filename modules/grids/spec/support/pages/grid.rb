@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -83,12 +83,7 @@ module Pages
       area = area_of(row_number, column_number, location)
       area.hover
 
-      add_widget_button = if using_cuprite?
-                            area.find(".grid--widget-add")
-                          else
-                            area.find(".grid--widget-add", visible: :all)
-                          end
-
+      add_widget_button = area.find(".grid--widget-add", visible: :all)
       add_widget_button.click
 
       within(".spot-modal", &)

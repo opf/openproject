@@ -18,13 +18,13 @@ To share a work package with a project non-member select the detailed view of a 
 
 ![Share button in OpenProject work packages](openproject_user_guide_share_button_wp.png)
 
-A dialogue window will open, showing the list of all users, who this work package has already been shared with. If the work package has not yet been shared, the list will be empty. 
+A dialogue window will open, showing the list of all users, who this work package has already been shared with. If the work package has not yet been shared, the list will be empty.
 
 > **Note**: In order to be able to share a work package with non members you need to have been assigned a [global role *create users*](../../../system-admin-guide/users-permissions/users/#create-users). If you do not see the option to share a work package, please contact your administrator.
 
 ![List of users with access to a work package in OpenProject](openproject_user_guide_shared_with_list.png)
 
-If the list contains multiple users you can filter it by Type or Role. 
+If the list contains multiple users you can filter it by Type or Role.
 
 Following user types are available as filters:
 
@@ -48,21 +48,21 @@ Following user roles are available as filters:
 
 > **Note:** Please keep in mind that users listed after you have applied a filter may have additional permissions. For example if you select the **View** filter, it is possible that a user is listed, which has inherited additional role as part of user group with permissions exceeding the viewing ones.
 
-You can search for a user or a group via a user name, group name or an email address. You can either select an existing user from the dropdown menu or enter an email address for an entirely new user, who will receive an invitation to create an account on your instance. 
+You can search for a user or a group via a user name, group name or an email address. You can either select an existing user from the dropdown menu or enter an email address for an entirely new user, who will receive an invitation to create an account on your instance.
 
 It is possible to add multiple users or groups at the same time.
 
 ![search for a new user to share a work package](openproject_user_guide_shared_search.png)
 
-A user with whom you shared the work package will be added with the role **Work Package Viewer**. However this user is **not** automatically a member of the whole project. A project member will typically have more permissions within the project than viewing a work package. 
+A user with whom you shared the work package will be added with the role **Work Package Viewer**. However this user is **not** automatically a member of the whole project. A project member will typically have more permissions within the project than viewing a work package.
 
 Users with whom you shared the work package will also receive an email notification alerting them that the work package has been shared.
 
-You can always adjust the viewing rights of a user by selecting an option from the dropdown menu next to the user name. 
+You can always adjust the viewing rights of a user by selecting an option from the dropdown menu next to the user name.
 
 ![Shared work package roles](openproject_user_guide_shared_with_list_change_role.png)
 
-> **Note:** granting the **edit** rights to the user will allow you to set this user a work package **Assignee** or **Accountable**. 
+> **Note:** granting the **edit** rights to the user will allow you to set this user a work package **Assignee** or **Accountable**.
 
 Once a work package has been shared, you will see the number of shared users in the **Share** button.
 
@@ -70,17 +70,21 @@ Once a work package has been shared, you will see the number of shared users in 
 
 ## Remove sharing privileges
 
-You can also remove the user from the list by clicking on **Remove** next to the user name. Please note that this will not remove a user entirely, but only revoke the viewing and/or editing rights for the work package. User account will remain intact. If you need to [delete a user](../../../system-admin-guide/users-permissions/users/#delete-users), please do that in system administration or contact your administrator.
+You can also remove the user from the list by clicking on **Remove** next to the user name. Please note that this will not remove a user entirely, but only revoke the rights for this work package. User account will remain intact.
+
+If you need to revoke all sharing rights from a specific user, please do that under [project members](../../members) or contact your project administrator.
+
+If you need to [delete a user](../../../system-admin-guide/users-permissions/users/#delete-users), please do that in system administration or contact your administrator.
 
 ## Shared work packages overview
 
-For an overview of all work packages that have been shared with other users or groups, navigate to the [global modules](../../home/global-modules/), select the module **Work Packages** and choose the filter **Shared with users** from the list of default work package filters on the left side. 
+For an overview of all work packages that have been shared with other users or groups, navigate to the [global modules](../../home/global-modules/), select the module **Work Packages** and choose the filter **Shared with users** from the list of default work package filters on the left side.
 
 The default view will include the **Shared with** column, which lists all users and/or groups that a particular work package was shared with. If there are more than two shared users and/or groups, two of them will be listed and the overall number will be indicated in the badge. Clicking on that number will show the details.
 
 If you want to see all shared work packages within a specific project, navigate to that project first and then select the same filter. You can also [adjust this filter](../work-package-table-configuration/#filter-work-packages) and save it under your private work package filters.
 
-You (with the correct permissions) can always change or remove sharing options. 
+You (with the correct permissions) can always change or remove sharing options.
 
 ![Filter for work packages shared with other users in OpenProject](openproject_user_guide_shared_with_users_filter_new.png)
 

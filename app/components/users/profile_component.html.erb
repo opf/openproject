@@ -1,0 +1,19 @@
+<%=
+  render(Primer::Alpha::Layout.new(stacking_breakpoint: :md)) do |content|
+    content.with_main do
+      flex_layout do |profile|
+        profile.with_row do
+          render(Users::Profile::ActivitiesComponent.new(user: @user))
+        end
+
+        profile.with_row do
+          helpers.call_hook(:view_account_left_bottom, user: @user)
+        end
+      end
+    end
+
+    content.with_sidebar(row_placement: :start, col_placement: :end) do
+      render(Users::Profile::SidePanelComponent.new(user: @user))
+    end
+  end
+%>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -109,7 +109,7 @@ RSpec.describe "Only see your own rates", :js do
 
   it "only displays own entries and rates" do
     # All the values do not include the entries made by the other user
-    wp_page.expect_attributes spent_time: "1 h",
+    wp_page.expect_attributes spent_time: "1h",
                               costs_by_type: "2 Translations",
                               overall_costs: "24.00 EUR",
                               labor_costs: "10.00 EUR",

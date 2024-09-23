@@ -1,0 +1,13 @@
+.op-work-package-split-view
+  height: 100%
+  min-width: 550px
+  justify-content: space-around
+  border-left: 1px solid var(--borderColor-muted)
+
+  @media screen and (max-width: $breakpoint-lg)
+    // Unfortunately, we have to enforce this style via !important as the resizer writes the width directly on the element as inline style
+    min-width: unset !important
+
+  @media screen and (max-width: $breakpoint-sm)
+    .work-packages--details-toolbar-container
+      @include hide-button-texts

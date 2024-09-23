@@ -56,7 +56,7 @@ With this release, admins of an Enterprise edition can choose between manually o
 - Bugfix: Lookbook is broken \[[#51787](https://community.openproject.org/wp/51787)\]
 - Bugfix: Anonymous Users (without signing in) cannot load board content \[[#51850](https://community.openproject.org/wp/51850)\]
 - Bugfix: Misalignment in the dropdown on searching work packages \[[#51948](https://community.openproject.org/wp/51948)\]
-- Bugfix: Remove colour in share modal is not correct \[[#52012](https://community.openproject.org/wp/52012)\]
+- Bugfix: Remove color in share modal is not correct \[[#52012](https://community.openproject.org/wp/52012)\]
 - Bugfix: Timeouts as non privileged users \[[#52022](https://community.openproject.org/wp/52022)\]
 - Bugfix: WorkPackage query with baseline filter takes too much time for non-admins \[[#52156](https://community.openproject.org/wp/52156)\]
 - Bugfix: Multi-select user custom field broken in table \[[#52289](https://community.openproject.org/wp/52289)\]
@@ -90,7 +90,8 @@ With this release, admins of an Enterprise edition can choose between manually o
 - Feature: Maintain manually managed project folder on project copy for SharePoint/OneDrive \[[#52363](https://community.openproject.org/wp/52363)\]
 - Feature: Rename "Managed folder status" heading in Storage form \[[#52456](https://community.openproject.org/wp/52456)\]
 
-### Contributions
+## Contributions
+
 A very special thank you goes to our sponsors for features and improvements of this release:
 
 - BMI for sponsoring the features on progress reporting and Gantt charts (which will be continued in the following releases)

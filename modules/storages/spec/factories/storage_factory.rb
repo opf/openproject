@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,18 +76,26 @@ FactoryBot.define do
       health_changed_at { Time.now.utc }
       health_checked_at { Time.now.utc }
     end
+
+    trait :with_health_notifications_enabled do
+      health_notifications_enabled { true }
+    end
+
+    trait :with_health_notifications_disabled do
+      health_notifications_enabled { false }
+    end
   end
 
   factory :nextcloud_storage,
           parent: :storage,
           class: "::Storages::NextcloudStorage" do
     provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
-    sequence(:host) { |n| "https://host#{n}.example.com" }
+    sequence(:host) { |n| "https://host#{n}.example.com/" }
 
     trait :as_automatically_managed do
-      automatically_managed { true }
+      automatic_management_enabled { true }
       username { "OpenProject" }
-      password { "Password123" }
+      password { ENV.fetch("NEXTCLOUD_LOCAL_GROUP_USER_PASSWORD", "Password123") }
     end
   end
 
@@ -103,10 +111,11 @@ FactoryBot.define do
           traits: [:as_not_automatically_managed] do
     transient do
       oauth_client_token_user { association :user }
+      origin_user_id { "admin" }
     end
 
     name { "Nextcloud Local" }
-    host { "https://nextcloud.local" }
+    host { "https://nextcloud.local/" }
 
     initialize_with do
       Storages::NextcloudStorage.create_or_find_by(attributes.except(:oauth_client, :oauth_application))
@@ -133,8 +142,12 @@ FactoryBot.define do
                                      "MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN"),
              refresh_token: ENV.fetch("NEXTCLOUD_LOCAL_OAUTH_CLIENT_REFRESH_TOKEN",
                                       "MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_REFRESH_TOKEN"),
-             token_type: "bearer",
-             origin_user_id: "admin")
+             token_type: "bearer")
+
+      create(:remote_identity,
+             oauth_client: storage.oauth_client,
+             user: evaluator.oauth_client_token_user,
+             origin_user_id: evaluator.origin_user_id)
     end
   end
 
@@ -155,14 +168,24 @@ FactoryBot.define do
     host { nil }
     tenant_id { SecureRandom.uuid }
     drive_id { SecureRandom.uuid }
+    automatically_managed { false }
 
     trait :as_automatically_managed do
       automatically_managed { true }
     end
   end
 
+  factory :one_drive_storage_configured, parent: :one_drive_storage do
+    after(:create) do |storage, _evaluator|
+      create(:oauth_client, integration: storage)
+      create(:oauth_application, integration: storage)
+    end
+  end
+
   factory :sharepoint_dev_drive_storage,
           parent: :one_drive_storage do
+    automatically_managed { false }
+
     transient do
       oauth_client_token_user { association :user }
     end
@@ -185,8 +208,9 @@ FactoryBot.define do
                                      "MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN"),
              refresh_token: ENV.fetch("ONE_DRIVE_TEST_OAUTH_CLIENT_REFRESH_TOKEN",
                                       "MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_REFRESH_TOKEN"),
-             token_type: "bearer",
-             origin_user_id: "33db2c84-275d-46af-afb0-c26eb786b194")
+             token_type: "bearer")
+      create(:remote_identity, oauth_client: storage.oauth_client, user: evaluator.oauth_client_token_user,
+                               origin_user_id: "33db2c84-275d-46af-afb0-c26eb786b194")
     end
   end
 end

@@ -13,8 +13,7 @@ Release date: 2022-12-14
 We released [OpenProject 12.4.1](https://community.openproject.org/versions/1612).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Margin under road map caption when version is overdue \[[#41676](https://community.openproject.org/wp/41676)\]
 - Fixed: Issues with project selection on mobile \[[#44440](https://community.openproject.org/wp/44440)\]
@@ -32,7 +31,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Login and email missing during AzureAD OpenID Connect registration \[[#45415](https://community.openproject.org/wp/45415)\]
 - Fixed: xeokit-metadata fails to find dotnet-runtime in Ubuntu 22.04 \[[#45442](https://community.openproject.org/wp/45442)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

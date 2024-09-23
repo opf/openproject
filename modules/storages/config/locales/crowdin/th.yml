@@ -12,6 +12,7 @@ th:
         tenant: Directory (tenant) ID
     errors:
       messages:
+        invalid_host_url: is not a valid URL.
         not_linked_to_project: is not linked to project.
       models:
         storages/file_link:
@@ -20,13 +21,17 @@ th:
               only_numeric_or_uuid: can only be numeric or uuid.
         storages/project_storage:
           attributes:
+            project_folder_id:
+              blank: Please select a folder.
             project_folder_mode:
               mode_unavailable: is not available for this storage.
+            project_ids:
+              blank: Please select a project.
         storages/storage:
           attributes:
             host:
               authorization_header_missing: is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
-              cannot_be_connected_to: can not be connected to.
+              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
               minimal_nextcloud_version_unmet: does not meet minimal version requirements (must be Nextcloud 23 or higher)
               not_nextcloud_server: is not a Nextcloud server
               op_application_not_installed: appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
@@ -39,20 +44,119 @@ th:
   api_v3:
     errors:
       too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.
-  permission_create_files: Create files
-  permission_delete_files: Delete files
+  external_file_storages: External file storages
+  permission_create_files: 'Automatically managed project folders: Create files'
+  permission_create_files_explanation: This permission is only available for Nextcloud storages
+  permission_delete_files: 'Automatically managed project folders: Delete files'
+  permission_delete_files_explanation: This permission is only available for Nextcloud storages
+  permission_header_for_project_module_storages: Automatically managed project folders
   permission_manage_file_links: Manage file links
-  permission_manage_storages_in_project: Manage file storages in project
-  permission_read_files: Read files
-  permission_share_files: Share files
+  permission_manage_files_in_project: Manage files in project
+  permission_read_files: 'Automatically managed project folders: Read files'
+  permission_share_files: 'Automatically managed project folders: Share files'
+  permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: View file links
-  permission_write_files: Write files
-  project_module_storages: File storages
+  permission_write_files: 'Automatically managed project folders: Write files'
+  project_module_storages: ไฟล์
+  project_storages:
+    edit_project_folder:
+      label: Edit project folder
+    project_folder_mode:
+      automatic: Automatically managed
+      inactive: No specific folder
+      manual: Existing folder manually managed
+    remove_project:
+      deletion_failure_flash: Failed to remove the project from the storage. %{error}
+      dialog:
+        automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
+        confirmation_text: Please, confirm you understand and want to remove this file storage from this project
+        heading_text: Remove project from %{storage}
+        text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
+      label: Remove project
+  services:
+    attributes:
+      nextcloud_sync_service:
+        add_user_to_group: 'Add User to Group:'
+        create_folder: 'Managed Project Folder Creation:'
+        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
+        hide_inactive_folders: 'Hide Inactive Folders Step:'
+        remote_folders: 'Read contents of the group folder:'
+        remove_user_from_group: 'Remove User from Group:'
+        rename_project_folder: 'Rename managed project Folder:'
+      one_drive_sync_service:
+        create_folder: 'Managed Project Folder Creation:'
+        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
+        hide_inactive_folders: 'Hide Inactive Folders Step:'
+        remote_folders: 'Read contents of the group folder:'
+        rename_project_folder: 'Rename managed project Folder:'
+    errors:
+      messages:
+        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+      models:
+        copy_project_folders_service:
+          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
+          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
+          not_found: The source template location %{source_path} wasn't found.
+          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
+        nextcloud_sync_service:
+          attributes:
+            add_user_to_group:
+              conflict: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+              failed_to_add: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+            create_folder:
+              conflict: The %{folder_name} already exists on %{parent_location}.
+              not_found: "%{parent_location} wasn't found."
+            ensure_root_folder_permissions:
+              not_found: "%{group_folder} wasn't found. Please check your Nextcloud Group Folder setup."
+              permission_not_set: could not set permissions on %{group_folder}.
+            hide_inactive_folders:
+              permission_not_set: could not set permissions on %{path}.
+            remote_folders:
+              not_allowed: The %{username} doesn't have access to the %{group_folder}. Please check the folder permissions on Nextcloud.
+              not_found: "%{group_folder} wasn't found. Please check your Nextcloud setup."
+            remove_user_from_group:
+              conflict: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
+              failed_to_remove: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
+            rename_project_folder:
+              forbidden: OpenProject user does not have access to %{current_path} folder.
+              not_found: "%{current_path} wasn't found."
+            set_folders_permissions:
+              permission_not_set: could not set permissions on %{path}.
+          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
+          group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
+          insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
+          not_allowed: Nextcloud block the request.
+          unauthorized: OpenProject could not sync with Nextcloud. Please check you storage and Nextcloud configuration.
+          user_does_not_exist: "%{user} does not exist in Nextcloud."
+        one_drive_sync_service:
+          attributes:
+            create_folder:
+              conflict: The %{folder_name} already exists on %{parent_location}.
+              not_found: "%{parent_location} wasn't found."
+            hide_inactive_folders:
+              permission_not_set: could not set permissions on %{path}.
+            remote_folders:
+              request_error: OpenProject could not access your drive %{drive_id}. Please check if your storage configuration is correct.
+            rename_project_folder:
+              conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists
+              forbidden: OpenProject does not have access to %{current_path} in order to rename it.
+              not_found: "%{current_path} wasn't found."
+            set_folders_permissions:
+              permission_not_set: could not set permissions on %{path}.
+          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
+          not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
+          unauthorized: OpenProject could not sync with OneDrive. Please check you storage and Azure Application configuration.
+          user_does_not_exist: "%{user} does not exist in Nextcloud."
+        upload_link_service:
+          not_found: The destination folder %{folder} could not be found on %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Complete without it
       done_complete_setup: Done, complete setup
       done_continue: Done, continue
+      open_storage: Open file storage
       replace_oauth_application: Replace OpenProject OAuth
       replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Save and continue
@@ -75,8 +179,24 @@ th:
       storage_delete_result_1: Remove all storage setups for all projects using this storage.
       storage_delete_result_2: Remove all links from work packages of all projects to files and folders of that storage.
       storage_delete_result_3: In case this storage has automatically managed project folders, those and their contained files will be deleted forever.
+    dependencies:
+      nextcloud:
+        group_folders_app: Group folders
+        integration_app: Integration OpenProject
+    enabled_in_projects:
+      setup_incomplete_description: This storage has an incomplete setup. Please, complete the setup before enabling it in multiple projects.
+      setup_incomplete_header: Storage setup incomplete
     error_invalid_provider_type: Please select a valid storage provider.
     file_storage_view:
+      access_management:
+        automatic_management: Automatically managed access and folders
+        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
+        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
+        manual_management: Manually managed access and folders
+        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
+        setup_incomplete: Select the type of management of user access and folder creation.
+        subtitle: Access management
+        title: Access and project folders
       automatically_managed_folders: Automatically managed folders
       general_information: General information
       nextcloud_oauth: Nextcloud OAuth
@@ -88,18 +208,45 @@ th:
       storage_provider: Storage provider
     health:
       checked: Last checked %{datetime}
+      connection_validation:
+        action: Recheck connection
+        app_version_mismatch: The Integration OpenProject app version is not supported. Please update your Nextcloud server.
+        client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
+        client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
+        drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        group_folder_not_found: The group folder could not be found.
+        group_folder_version_mismatch: The Group Folder version is not supported. Please update your Nextcloud server.
+        host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
+        missing_dependencies: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
+        not_configured: The connection could not be validated. Please finish configuration first.
+        placeholder: Check your connection against the server.
+        subtitle: Connection validation
+        tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
+        unexpected_content:
+          nextcloud: Unexpected content found in the managed group folder.
+          one_drive: Unexpected content found in the drive.
+        unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: ข้อผิดพลาด
       label_healthy: Healthy
       label_pending: Pending
+      label_warning: Warning
+      project_folders:
+        subtitle: Automatically managed project folders
       since: since %{datetime}
-      subtitle: Automatic managed project folders
       title: Health status
+    health_email_notifications:
+      description_subscribed: All administrators receive health status email notifications for this storage.
+      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
+      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      subscribe: Subscribe
+      title: อีเมล์แจ้งเตือน
+      unsubscribe: Unsubscribe
     help_texts:
       project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
+      project_folder_bulk: The project folder is the default folder for file uploads for all the projects selected. You can modify this individually in each project settings. Users can nevertheless still upload files to other locations.
     instructions:
       all_available_storages_already_added: All available storages are already added to the project.
       automatic_folder: This will automatically create a root folder for this project and manage the access permissions for each project member.
-      copy_from: Copy this value from
       empty_project_folder_validation: Selecting a folder is mandatory to proceed.
       existing_manual_folder: You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       host: Please add the host address of your storage including the https://. It should not be longer than 255 characters.
@@ -143,6 +290,7 @@ th:
     label_creator: Creator
     label_delete_storage: Delete storage
     label_edit_storage: Edit storage
+    label_edit_storage_access_management: Edit storage access management
     label_edit_storage_automatically_managed_folders: Edit storage automatically managed folders
     label_edit_storage_host: Edit storage host
     label_existing_manual_folder: Existing folder with manually managed permissions
@@ -177,16 +325,24 @@ th:
     notice_successful_storage_connection: |-
       Storage connected successfully! Remember to activate the module and the specific storage in the project settings
       of each desired project to use it.
-    oauth_grant_nudge_modal:
+    oauth_access_granted_modal:
       access_granted: Access granted
-      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
-      body: To get access to the project folder you need to login to %{storage}.
+      project_settings:
+        access_granted_screen_reader: Access granted. You are now ready to use %{storage}
+        storage_ready: You are now ready to use %{storage}
+      storage_admin:
+        access_granted_screen_reader: Access granted. You are now ready to add projects to %{storage}
+        storage_ready: You are now ready to add projects to %{storage}
+    oauth_grant_nudge_modal:
       cancel_button_label: I will do it later
-      confirm_button_aria_label: Login to %{storage}
-      confirm_button_label: Login
+      heading: Login to %{provider_type} required
+      login_button_aria_label: Login to %{storage}
+      login_button_label: "%{provider_type} log in"
+      project_settings:
+        description: To get access to the project folder you need to login to %{storage}.
       requesting_access_to: Requesting access to %{storage}
-      storage_ready: You are now ready to use %{storage}
-      title: One more step...
+      storage_admin:
+        description: In order to add projects to this storage you need to be logged into %{provider_type}. Please, log in and try again.
     open_project_storage_modal:
       success:
         subtitle: You are being redirected
@@ -199,11 +355,6 @@ th:
         delete: Delete file storage
         subtitle: Add an external file storage in order to upload, link and manage files in work packages.
       managed_project_folders:
-        one_drive_information: |-
-          To enable automatically managed project folders in OneDrive/SharePoint, additional configuration is needed on
-          the drive that is used for this file storage. If OpenProject manages the permissions of this drive, it will
-          most likely be unusable for other use cases in SharePoint. For more information and guidance please refer
-          to the %{drive_id_link_text}.
         subtitle: |-
           Let OpenProject create folders per project automatically. This is recommended as it ensures that every team
           member always has the correct access permissions.
@@ -212,12 +363,12 @@ th:
       project_settings:
         delete: Delete file storage
         edit: Edit the file storage to this project
-        index: File storages available in this project
         members_connection_status: Members connection status
         new: Add a file storage to this project
       project_storage_members:
         subtitle: Check the connection status for the storage %{storage_name_link} of all project members.
         title: Members connection status
+    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
     provider_types:
       label: Provider type
       nextcloud:
@@ -230,6 +381,9 @@ th:
         label_oauth_client_secret: Azure OAuth Client Secret Value
         name: OneDrive/SharePoint
         name_placeholder: e.g. OneDrive
+    show_attachments_toggle:
+      description: 'Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage. '
+      label: Show attachments in the work packages files tab
     storage_list_blank_slate:
       description: Add a storage to see them here.
       heading: You don't have any storages yet.

@@ -2,7 +2,7 @@
 
 > **Note**: This guide only concerns installations having upgraded exactly to the OpenProject version 10.4.0. Installations having upgraded to 10.4.1 directly are not affected.
 
-The migration scripts that ran as part of the OpenProject 10.4.0 upgrade includes an unfortunate bug that leads to some installations suffering data loss. 
+The migration scripts that ran as part of the OpenProject 10.4.0 upgrade includes an unfortunate bug that leads to some installations suffering data loss.
 Installations, that had time entry activities enabled/disabled per project, will have all their time entries assigned to a single time entry activity.
 
 This guide describes how to fix the data once this has happened.
@@ -15,9 +15,9 @@ This guide describes how to fix the data once this has happened.
 
 ## 1. Create a second database from the backup
 
-Backup scripts are by default created via the [built in OpenProject command](../../operation/backing-up). 
-When not following the default, the database or the OpenProject server itself may have been backed up. 
-This guide only covers the proceedings for the the built in backup command. 
+Backup scripts are by default created via the [built in OpenProject command](../../operation/backing-up).
+When not following the default, the database or the OpenProject server itself may have been backed up.
+This guide only covers the proceedings for the the built in backup command.
 But the reader might deduce the steps necessary to restore accordingly for a custom backup from this guide.
 
 As a result of this step, a second database, not the database OpenProject is currently connecting to, will contain the data of the backup.
@@ -57,13 +57,13 @@ CREATE DATABASE
 The command above might not work for some installations. In that case the following is a viable alternative:
 
 ```shell
-$ su postgres -c createdb -O <dbusernamer> openproject_backup
+su postgres -c createdb -O <dbusernamer> openproject_backup
 ```
 
 Example:
 
 ```shell
-$ su postgres -c createdb -O openproject openproject_backup
+su postgres -c createdb -O openproject openproject_backup
 ```
 
 ### 1.3 Restore backup to auxiliary database
@@ -84,16 +84,16 @@ drwxr-xr-x 6 openproject openproject    4096 Nov 19 21:00 ..
 
 We will need the most recently created (but created before the migration to 10.4) file following the schema `postgresql-dump-<TIMESTAMP>.pgdump`.
 
-Using that file we can then restore the database to the newly created database (called `openproject_backup` in our example). **In the following steps, ensure that you do not restore to the currently running database**. 
+Using that file we can then restore the database to the newly created database (called `openproject_backup` in our example). **In the following steps, ensure that you do not restore to the currently running database**.
 
 ```shell
-$ pg_restore -d "postgres://<dbusername>:<dbpassword>@<dbhost>:<dbport>/<new_dbname>" /var/db/openproject/backup/postgresql-dump-<TIMESTAMP>.pgdump` 
+pg_restore -d "postgres://<dbusername>:<dbpassword>@<dbhost>:<dbport>/<new_dbname>" /var/db/openproject/backup/postgresql-dump-<TIMESTAMP>.pgdump` 
 ```
 
 Example:
 
 ```shell
-$ pg_restore -d "postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject_backup" /var/db/openproject/backup/postgresql-dump-20191119210038.pgdump` 
+pg_restore -d "postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject_backup" /var/db/openproject/backup/postgresql-dump-20191119210038.pgdump` 
 ```
 
 That command will restore the contents of the backup file into the auxiliary database.
@@ -103,13 +103,13 @@ That command will restore the contents of the backup file into the auxiliary dat
 The script that fixes the time entries can then be called:
 
 ```shell
-$ BACKUP_DATABASE_URL="postgres://<dbusername>:<dbpassword>@<dbhost>:<dbport>/<new_dbname>" sudo openproject run bundle exec rails openproject:reassign_time_entry_activities
+BACKUP_DATABASE_URL="postgres://<dbusername>:<dbpassword>@<dbhost>:<dbport>/<new_dbname>" sudo openproject run bundle exec rails openproject:reassign_time_entry_activities
 ```
 
 Example
 
 ```shell
-$ BACKUP_DATABASE_URL="postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject_backup" sudo openproject run bundle exec rails openproject:reassign_time_entry_activities
+BACKUP_DATABASE_URL="postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject_backup" sudo openproject run bundle exec rails openproject:reassign_time_entry_activities
 ```
 
 The script will then print out the number of time entries it has fixed.

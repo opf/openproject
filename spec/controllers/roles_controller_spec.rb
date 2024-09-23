@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -387,7 +387,7 @@ RSpec.describe RolesController do
         subject
 
         expect(enqueued_jobs.count).to eq(1)
-        expect(enqueued_jobs[0][:job]).to eq(Storages::ManageNextcloudIntegrationJob)
+        expect(enqueued_jobs[0][:job]).to eq(Storages::ManageStorageIntegrationsJob)
         expect(response).to redirect_to roles_path
         expect(Role.count).to eq(0)
       end
@@ -436,7 +436,7 @@ RSpec.describe RolesController do
 
     it "assigns permissions" do
       expect(assigns(:permissions))
-        .to match OpenProject::AccessControl.permissions.reject(&:public?)
+        .to match OpenProject::AccessControl.permissions.reject(&:public?).reject(&:hidden?)
     end
 
     it "assigns roles" do

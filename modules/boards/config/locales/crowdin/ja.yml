@@ -35,5 +35,5 @@ ja:
       subtasks: >
         子要素の列が自動化されたボード。ワークパッケージを他のリストにドラッグすると、それに応じて親要素が更新されます。
     upsale:
-      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+      teaser_text: 'ボードでワークフローを自動化しませんか？アドバンスボードはエンタープライズアドオンです。有料プランにアップグレードしてください。'
       upgrade: '今すぐアップグレード'

@@ -1,0 +1,76 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://nextcloud.local/ocs/v2.php/cloud/capabilities
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Ocs-Apirequest:
+      - 'true'
+      Accept:
+      - application/json
+      User-Agent:
+      - httpx.rb/1.3.0
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 18 Jul 2024 11:08:36 GMT
+      Etag:
+      - '"239fbef50c9f726dacc27b3926f1d412"'
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=7dd57f7df2fa9182f35293e790df04a1; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=dVTC6oN%2BeR3PuEQS%2BU3uzQX3yIJhJ7J1vxp%2FeyONfXYZYynSBd34QQrUxywFobEaXG6obJNNgYiybQsBBIggx10OEgJDIriDcrPkj4gX9P4KubUIPMHjknt6eD7opePa;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=7dd57f7df2fa9182f35293e790df04a1;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=7dd57f7df2fa9182f35293e790df04a1;
+        path=/; secure; HttpOnly; SameSite=Lax
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - uIXexPMfV1NwH11Oak9M
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '362'
+    body:
+      encoding: UTF-8
+      string: '{"ocs":{"meta":{"status":"ok","statuscode":200,"message":"OK"},"data":{"version":{"major":28,"minor":0,"micro":7,"string":"28.0.7","edition":"","extendedSupport":false},"capabilities":{"bruteforce":{"delay":0,"allow-listed":false},"theming":{"name":"Nextcloud","url":"https:\/\/nextcloud.com","slogan":"a
+        safe home for all your data","color":"#00679e","color-text":"#ffffff","color-element":"#00679e","color-element-bright":"#00679e","color-element-dark":"#00679e","logo":"https:\/\/nextcloud.local\/core\/img\/logo\/logo.svg?v=0","background":"#00679e","background-plain":true,"background-default":true,"logoheader":"https:\/\/nextcloud.local\/core\/img\/logo\/logo.svg?v=0","favicon":"https:\/\/nextcloud.local\/core\/img\/logo\/logo.svg?v=0"}}}}}'
+  recorded_at: Thu, 18 Jul 2024 11:08:36 GMT
+recorded_with: VCR 6.2.0

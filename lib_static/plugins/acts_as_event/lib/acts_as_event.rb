@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,10 +56,6 @@ module Redmine
       end
 
       module InstanceMethods
-        def self.included(base)
-          base.extend ClassMethods
-        end
-
         %w(datetime title description author name type).each do |attr|
           src = <<-END_SRC
             def event_#{attr}
@@ -95,9 +91,6 @@ module Redmine
           else
             option
           end
-        end
-
-        module ClassMethods
         end
       end
     end

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,14 +33,22 @@ module Storages
     module StorageInteraction
       module AuthenticationStrategies
         class Strategy
-          attr_reader :key, :user
+          attr_reader :key, :user, :use_cache
 
           def initialize(key)
             @key = key
+            # per default authorization strategies are using the cache
+            # to reduce the number authentication requests
+            @use_cache = true
           end
 
           def with_user(user)
             @user = user
+            self
+          end
+
+          def with_cache(use_cache)
+            @use_cache = use_cache
             self
           end
         end

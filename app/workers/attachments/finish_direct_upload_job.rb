@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -79,7 +79,7 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
     contract = create_contract attachment, whitelist
 
     unless contract.valid?
-      errors = contracterrors.full_messages.join(", ")
+      errors = contract.errors.full_messages.join(", ")
       raise "Failed to validate attachment #{attachment.id}: #{errors}"
     end
   end

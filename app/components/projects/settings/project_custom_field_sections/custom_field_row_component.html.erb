@@ -1,15 +1,15 @@
 <%=
   component_wrapper do
     flex_layout(align_items: :center, justify_content: :space_between, classes: 'op-project-custom-field', data: {
-      qa_selector: "project-custom-field-#{@project_custom_field.id}"
+      test_selector: "project-custom-field-#{@project_custom_field.id}"
     }) do |custom_field_container|
       custom_field_container.with_column(flex_layout: true) do |title_container|
         title_container.with_column(pt: 1, mr: 2) do
-          render(Primer::Beta::Text.new) do 
+          render(Primer::Beta::Text.new) do
             @project_custom_field.name
           end
         end
-        title_container.with_column(pt: 1, mr: 2, data: { qa_selector: "custom-field-type" } ) do
+        title_container.with_column(pt: 1, mr: 2, data: { test_selector: "custom-field-type" } ) do
           render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
             @project_custom_field.field_format.capitalize
           end
@@ -37,7 +37,7 @@
                   ),
                   csrf_token: form_authenticity_token,
                   data: { 'turbo-method': :put, 'turbo-stream': true,
-                          qa_selector: "toggle-project-custom-field-mapping-#{@project_custom_field.id}" },
+                          test_selector: "toggle-project-custom-field-mapping-#{@project_custom_field.id}" },
                   checked: active_in_project?,
                   enabled: !@project_custom_field.required?, # required fields cannot be disabled
                   size: :small,

@@ -21,6 +21,7 @@ sidebar_navigation:
 This section concerns upgrading of your OpenProject installation for packaged-based installation methods.
 
 ### Patch and minor releases
+
 Upgrading to a newer patch or minor version of OpenProject is as easy as installing a newer OpenProject package and
 running the `openproject configure` command.
 Please follow the steps listed below according to your Linux distribution.
@@ -37,17 +38,16 @@ sudo openproject configure
 
 On Ubuntu 22.04., you might see warnings like these:
 
-> W: https://dl.packager.io/srv/deb/opf/openproject/stable/13/ubuntu/dists/22.04/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
+> W: https://dl.packager.io/srv/deb/opf/openproject/stable/14/ubuntu/dists/22.04/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
 
 This message is due to Ubuntu 22.04 switching to a more secure way of adding repository sources, which is not yet supported by the repository provider. There is ongoing work on this item, the message is for information only.
 
 If you get an error like the following:
 
-> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/13/ubuntu 22.04 InRelease' changed its 'Origin' value from '' to 'https://packager.io/gh/opf/openproject'
-> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/13/ubuntu 22.04 InRelease' changed its 'Label' value from '' to 'Ubuntu 22.04 packages for opf/openproject'
+> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/14/ubuntu 22.04 InRelease' changed its 'Origin' value from '' to 'https://packager.io/gh/opf/openproject'
+> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/14/ubuntu 22.04 InRelease' changed its 'Label' value from '' to 'Ubuntu 22.04 packages for opf/openproject'
 
 These two messages messages are expected, due to a change in Origin and Label repository metadata, to better explain what the repository is about. You should allow the change, and/or run `sudo apt-get update --allow-releaseinfo-change` for the update to go through.
-
 
 ### CentOS / RHEL
 
@@ -78,7 +78,6 @@ The necessary steps are the same as setting up the package source for the first 
 | [Ubuntu 20.04 Focal](../../installation/packaged/#ubuntu-2004)           |
 | [Debian 12 Bookworm](../../installation/packaged/#debian-12)             |
 | [Debian 11 Bullseye](../../installation/packaged/#debian-11)             |
-| [Debian 10 Buster](../../installation/packaged/#debian-10)               |
 | [CentOS/RHEL 9.x](../../installation/packaged/#centos-9--rhel-9)         |
 | [CentOS/RHEL 8.x](../../installation/packaged/#centos-8--rhel-8)         |
 | [Suse Linux Enterprise Server 15](../../installation/packaged/#sles-15)  |
@@ -86,7 +85,6 @@ The necessary steps are the same as setting up the package source for the first 
 After following the steps to update the package source, updating the openproject package and running `openproject configure`, your system will be up to date.
 
 In case you experience issues, please note the exact steps you took, copy the output of all commands you ran and open a post in our [installation support forum](https://community.openproject.org/projects/openproject/forums/9).
-
 
 ### Running openproject configure
 
@@ -98,17 +96,18 @@ If you want to perform changes to your configuration or are unsure what steps ar
 
 Note that this still takes previous values into consideration. Values that should not change from your previous configurations can be skipped by pressing `<Return>`. This also applies for steps with passwords, which are shown as empty even though they may have a value. Skipping those steps equals to re-use the existing value.
 
-
 ## Compose-based installation
+> **Note**: Please make sure the git repository with the docker-compose.yml file is up-to-date. If you're using an old version of the repository, the update might fail.
 
 When using the Compose-based docker installation, you can simply do the following:
 
 ```shell
-docker-compose pull
+docker-compose pull --ignore-buildable
 docker-compose up -d
 ```
 
-Please note that you can override the `TAG` that is used to pull the OpenProject image from the [Docker Hub](https://hub.docker.com/r/openproject/community/).
+Please note that you can override the `TAG` that is used to pull the OpenProject image from
+the [Docker Hub](https://hub.docker.com/r/openproject/openproject/).
 
 ### All-in-one container
 
@@ -117,8 +116,8 @@ When using the all-in-one docker container, you need to perform the following st
 1. First, pull the latest version of the image:
 
 ```shell
-docker pull openproject/community:VERSION
-# e.g. docker pull openproject/community:10
+docker pull openproject/openproject:VERSION
+# e.g. docker pull openproject/openproject:14
 ```
 
 Then stop and remove your existing container (we assume that you are running with the recommended production setup here):
@@ -132,7 +131,7 @@ Finally, re-launch the container in the same way you launched it previously.
 This time, it will use the new image:
 
 ```shell
-docker run -d ... openproject/community:VERSION
+docker run -d ... openproject/openproject:VERSION
 ```
 
 #### I have already started OpenProject without mounted volumes. How do I save my data during an update?
@@ -160,7 +159,7 @@ sudo chown -R 102 /volume1/openproject/*
 ```
 
 After that it's simply a matter of launching the new container mounted with the copied `pgdata` and `assets` folders
-as described in the [installation section](../../installation/docker/#one-container-per-process-recommended).
+as described in the [installation section](../../installation/docker/).
 
 ## Upgrade notes from 9.x
 

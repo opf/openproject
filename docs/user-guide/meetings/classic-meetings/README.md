@@ -15,7 +15,6 @@ Meetings in OpenProject allow you to manage and document your project meetings, 
 </div>
 > *Note:* [Dynamic meetings](../dynamic-meetings) were introduced in OpenProject 13.1. At the moment, the Meetings module lets you create classic or dynamic meetings but please keep in mind that the ability to create classic meetings will eventually be removed from OpenProject.
 
-
 | Topic                                                                     | Content                                     |
 |---------------------------------------------------------------------------|---------------------------------------------|
 | [Meetings in OpenProject](#meetings-in-openproject)                       | How to open meetings in OpenProject.        |
@@ -56,8 +55,6 @@ An edit screen is displayed and the meeting information can be adjusted.
 
 Do not forget to save the changes by clicking the blue **Save** button. Cancel will bring you back to the details view.
 
-
-
 ## Add meeting participants
 
 You can **add participants** (Invitees and Attendees) to a meeting while being in the [edit mode](#edit-a-meeting). The process is the same whether you are creating a new meeting or editing an existing one. Additionally you can record after the meeting who actually took part in it.
@@ -80,7 +77,6 @@ After creating a meeting, you can set up a **meeting agenda**.
 4. All changes made to the agenda are tracked. You can click the **History** button to get an overview of all the changes including the persons who made the changes.
 7. At the beginning of the meeting, **Close** the agenda to prevent any other changes and provide the same basis for all meeting participants. After closing the agenda, the meeting minutes are displayed to capture the results of the meeting.
 
-
 ![edit-meeting-agenda](edit-meeting-agenda.png)
 
 ## Create or edit meeting minutes
@@ -101,7 +97,7 @@ To quickly notify participants about the meeting and send them a link to the mee
 
 ## Download iCalendar event
 
-To add a meeting to a calendar, select the dropdown menu behind the three dots and select **Download iCalendar event**. You can then quickly add the meeting to your calendar or forward it other meeting participants. 
+To add a meeting to a calendar, select the dropdown menu behind the three dots and select **Download iCalendar event**. You can then quickly add the meeting to your calendar or forward it other meeting participants.
 
 ![Download a classic meeting as an iCalendar event in OpenProject](download-a-meeting.png)
 
@@ -114,8 +110,6 @@ If you have recurring meetings, such as a Jour Fixe, and want to simplify the pr
 You can now edit the copied meeting and add the new details. Click the **Save** button to secure your changes.
 
 > **Note**: all the settings will be copied, except for the minutes, participants and meeting history. So if you want to keep the minutes as well, you have to copy it separately.
-
-
 
 ## Delete a meeting
 

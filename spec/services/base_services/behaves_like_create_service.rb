@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,6 +56,9 @@ RSpec.shared_examples "BaseServices create service" do
   end
   let!(:model_instance) { build_stubbed(factory) }
   let!(:set_attributes_service) do
+    # Do not stub the SetAttributesService when the model is not stubbed
+    next unless stub_model_instance
+
     service = double("set_attributes_service_instance")
 
     allow(set_attributes_class)
@@ -75,10 +78,11 @@ RSpec.shared_examples "BaseServices create service" do
 
   let(:model_save_result) { true }
   let(:contract_validate_result) { true }
+  let(:stub_model_instance) { true }
 
   before do
     allow(model_instance).to receive(:save).and_return(model_save_result)
-    allow(instance).to receive(:instance).and_return(model_instance)
+    allow(instance).to receive(:instance).and_return(model_instance) if stub_model_instance
   end
 
   subject { instance.call(call_attributes) }

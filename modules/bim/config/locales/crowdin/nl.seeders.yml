@@ -98,7 +98,7 @@ nl:
                 In this module you can communicate project news to your team members.
               description: Het actuele nieuws
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Categorie 1 (te wijzigen in Projectinstellingen)
           queries:
             item_0:
               name: Project abonnement
@@ -160,7 +160,7 @@ nl:
                 In this module you can communicate project news to your team members.
               description: Het actuele nieuws
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Categorie 1 (te wijzigen in Projectinstellingen)
           queries:
             item_0:
               name: Project abonnement
@@ -414,7 +414,7 @@ nl:
                 In this module you can communicate project news to your team members.
               description: Het actuele nieuws
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Categorie 1 (te wijzigen in Projectinstellingen)
           queries:
             item_0:
               name: Project abonnement
@@ -603,13 +603,13 @@ nl:
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_6:
               subject: Modelling & coordinating, second cycle
-              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
+              description: "## Doel\r\n\r\n* ...\r\n\r\n## Beschrijving\r\n\r\n* ..."
             item_7:
               subject: Modelling & coordinating, ... cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_8:
               subject: Modelling & coordinating, (n-th minus 1) cycle
-              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
+              description: "## Doel\r\n\r\n* ...\r\n\r\n## Beschrijving\r\n\r\n* ..."
             item_9:
               subject: Modelling & coordinating n-th cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
@@ -679,7 +679,7 @@ nl:
             item_2:
               name: Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Categorie 1 (te wijzigen in Projectinstellingen)
           queries:
             item_0:
               name: Problemen

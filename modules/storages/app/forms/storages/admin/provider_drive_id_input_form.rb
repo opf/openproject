@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ module Storages::Admin
     form do |storage_form|
       storage_form.text_field(
         name: :drive_id,
-        label: Storages::Admin::LABEL_DRIVE_ID,
+        label: ::Storages::Admin::LABEL_DRIVE_ID,
         visually_hide_label: false,
         required: true,
         caption: caption.html_safe, # rubocop:disable Rails/OutputSafety

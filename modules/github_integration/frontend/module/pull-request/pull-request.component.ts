@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -70,6 +70,9 @@ export class PullRequestComponent {
   get state():string {
     if (this.pullRequest.state === 'open') {
       return (this.pullRequest.draft ? 'draft' : 'open');
+    }
+    if (this.pullRequest.state === 'deployed') {
+      return 'deployed';
     }
     return (this.pullRequest.merged ? 'merged' : 'closed');
   }

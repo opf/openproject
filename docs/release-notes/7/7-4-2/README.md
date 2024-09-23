@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 7.4.2
-  sidebar_navigation:
-      title: 7.4.2
-  release_version: 7.4.2
-  release_date: 2018-03-14
+title: OpenProject 7.4.2
+sidebar_navigation:
+  title: 7.4.2
+release_version: 7.4.2
+release_date: 2018-03-14
 ---
 
 # OpenProject 7.4.2
@@ -29,8 +29,6 @@
     sorting by name also sorts by their effective date
 
 For further information on the 7.4.2 release, please refer to
-the [Changelog v7.4.2](https://community.openproject.org/versions/857) 
+the [Changelog v7.4.2](https://community.openproject.org/versions/857)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v7.4.2).
-
-

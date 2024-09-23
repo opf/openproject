@@ -26,6 +26,7 @@ fr:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "La sortie A2F a été désactivée."
+    notice_not_writable: "Les paramètres 2FA ont été fournis par le biais de variables d'environnement et ne peuvent pas être écrasés."
     error_no_device: "Aucun appareil 2FA enregistré trouvé pour cet utilisateur, bien qu'étant requis pour cette instance."
     error_no_matching_strategy: "Aucune stratégie 2FA correspondante disponible pour cet utilisateur. Veuillez contacter votre administrateur."
     error_is_enforced_not_active: "Erreur de configuration : l'authentification à deux facteurs à été imposée, mais aucune stratégie active n'existe."
@@ -116,10 +117,10 @@ fr:
       2fa_from_webauthn: Veuillez spécifier l'appareil WebAuthn <strong>%{device_name}</strong>. S'il s'agit d'un périphérique USB, veillez à le brancher et à le toucher. Cliquez ensuite sur le bouton de connexion.
       webauthn:
         title: "WebAuthn"
-        description: Utilisez l'authentification Web pour enregistrer un dispositif FIDO2 (comme une YubiKey) ou l'enclave sécurisée de votre appareil mobile en tant que deuxième facteur.
+        description: Enregistrez un appareil FIDO2 (comme YubiKey) ou l'enclave sécurisée de votre appareil mobile.
         further_steps: Après avoir choisi un nom, cliquez sur le bouton Continuer. Votre navigateur vous invitera à présenter votre appareil WebAuthn. Une fois cette action effectuée, l'enregistrement de l'appareil est terminé.
       totp:
-        title: "Utilisez votre authentificateur basé sur l'application"
+        title: "Authentification basée sur une application"
         provisioning_uri: "Provisionnement URI"
         secret_key: "Clé secrète"
         time_based: "Basé sur le temps"
@@ -131,13 +132,13 @@ fr:
         text_cannot_scan: |
           Si vous ne pouvez pas scanner le code, vous pouvez l'entrer manuellement avec les détails suivants :
         description: |
-          Inscrivez un authentificateur d'applications à utiliser avec OpenProject en utilisant le mot de passe à usage unique et durée limitée. Des exemples courants sont Google Authenticator ou Authy.
+          Utilisez un code unique généré par un authentificateur comme Authy ou Google Authenticator.
       sms:
-        title: "Utilisez votre téléphone mobile"
+        title: "Appareil mobile"
         redacted_identifier: "Appareil mobile (%{redacted_number})"
         request_2fa_identifier: "%{redacted_identifier}, nous vous avons envoyé un code d’authentification via %{delivery_channel}"
         description: |
-          Inscrivez votre numéro de téléphone pour la livraison de mots de passe à usage unique OpenProject.
+          Recevez le code 2FA par un message texte sur votre téléphone à chaque fois que vous vous connectez.
     sns:
       delivery_failed: "Remise SNS a échoué:"
     message_bird:

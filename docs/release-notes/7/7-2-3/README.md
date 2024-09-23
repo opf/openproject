@@ -1,12 +1,14 @@
 ---
-  title: OpenProject 7.2.3
-  sidebar_navigation:
-      title: 7.2.3
-  release_version: 7.2.3
-  release_date: 2017-09-04
+title: OpenProject 7.2.3
+sidebar_navigation:
+  title: 7.2.3
+release_version: 7.2.3
+release_date: 2017-09-04
 ---
 
-## Bug: Assigned to filter returns work packages set to assignee’s group.
+# OpenProject 7.2.3
+
+## Bug: Assigned to filter returns work packages set to assignee’s group
 
 When filtering by *Assigned to* with a single user selected, the filter
 returns work packages assigned to that user. Since OpenProject 7.0,  it
@@ -24,7 +26,3 @@ If you want to filter for this exact behavior, a new filter named
     group, and any users within
 
 Bug reference: [#26207](https://community.openproject.org/wp/26207)
-
- 
-
-

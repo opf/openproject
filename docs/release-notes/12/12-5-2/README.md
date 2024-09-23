@@ -13,8 +13,7 @@ Release date: 2023-03-28
 We released [OpenProject 12.5.2](https://community.openproject.org/versions/1693).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: [AppSignal] incompatible character encodings: ASCII-8BIT and UTF-8 \[[#43898](https://community.openproject.org/wp/43898)\]
 - Fixed: Missing deletion confirmation for subprojects \[[#45935](https://community.openproject.org/wp/45935)\]
@@ -26,7 +25,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Swagger UI is not rendering for API docs \[[#47157](https://community.openproject.org/wp/47157)\]
 - Changed: Add hint if Nextcloud App "OpenProject Integration" needs upgrade for 12.5 \[[#47021](https://community.openproject.org/wp/47021)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

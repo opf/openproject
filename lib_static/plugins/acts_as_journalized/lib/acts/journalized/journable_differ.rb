@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,6 +42,23 @@ module Acts::Journalized
         get_association_changes(original, changed, *)
       end
 
+      def association_changes_multiple_attributes(original, changed, association, association_name, key, values)
+        list = {}
+        values.each do |value|
+          list.store(value, get_association_changes(original, changed, association, association_name, key, value))
+        end
+
+        transformed = {}
+        list.each do |key, value|
+          value.each do |agenda_item, data|
+            transformed["#{agenda_item}_#{key}"] ||= {}
+            transformed["#{agenda_item}_#{key}"] = data
+          end
+        end
+
+        transformed
+      end
+
       private
 
       def normalize_newlines(data)
@@ -52,7 +69,7 @@ module Acts::Journalized
 
       def no_nil_to_empty_strings?(normalized_old_data, attribute, new_value)
         old_value = normalized_old_data[attribute]
-        new_value != old_value && ([new_value, old_value] - ['', nil]).present?
+        new_value != old_value && ([new_value, old_value] - ["", nil]).present?
       end
 
       def journaled_attributes(object)
@@ -64,18 +81,10 @@ module Acts::Journalized
       end
 
       def get_association_changes(original, changed, association, association_name, key, value)
-        if original.nil?
-          changed.send(association).each_with_object({}) do |associated_journal, h|
-            changed_attribute = "#{association_name}_#{associated_journal.send(key)}"
-            new_value = associated_journal.send(value)
-            h[changed_attribute] = [nil, new_value]
-          end
-        else
-          new_journals = changed.send(association).map(&:attributes)
-          old_journals = original.send(association).map(&:attributes)
+        new_journals = changed.send(association).map(&:attributes)
+        old_journals = original&.send(association)&.map(&:attributes) || []
 
-          changes_on_association(new_journals, old_journals, association_name, key, value)
-        end
+        changes_on_association(new_journals, old_journals, association_name, key, value)
       end
 
       def changes_on_association(current, original, association_name, key, value)
@@ -124,7 +133,7 @@ module Acts::Journalized
         if selected_journals.empty?
           nil
         else
-          selected_journals.sort.join(',')
+          selected_journals.sort.join(",")
         end
       end
     end

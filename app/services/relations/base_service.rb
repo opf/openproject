@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,9 +55,9 @@ class Relations::BaseService < BaseServices::BaseCallable
 
   def set_defaults(model)
     if Relation::TYPE_FOLLOWS == model.relation_type
-      model.delay ||= 0
+      model.lag ||= 0
     else
-      model.delay = nil
+      model.lag = nil
     end
   end
 

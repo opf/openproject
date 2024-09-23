@@ -44,7 +44,7 @@
     </select>
 
     <op-filter-boolean-value
-      *ngIf="valueType == '[1]Boolean'"
+      *ngIf="valueType === '[1]Boolean'"
       (filterChanged)="onFilterUpdated($event)"
       [shouldFocus]="shouldFocus"
       [filter]="filter"

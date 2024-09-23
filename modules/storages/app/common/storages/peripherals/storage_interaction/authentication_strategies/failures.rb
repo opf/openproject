@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,8 +34,26 @@ module Storages
       module AuthenticationStrategies
         module Failures
           Builder = ->(code:, log_message:, data:) do
-            storage_error = ::Storages::StorageError.new(code:, log_message:, data:)
+            storage_error = StorageError.new(code:, log_message:, data:)
             ServiceResult.failure(result: code, errors: storage_error)
+          end
+
+          ErrorData = ->(response:, source:) do
+            payload =
+              case response
+              in { content_type: { mime_type: "application/json" } }
+                response.json
+              in { content_type: { mime_type: "text/xml" } }
+                response.xml
+              else
+                response.body.to_s
+              end
+
+            StorageErrorData.new(source:, payload:)
+          end
+
+          TimeoutErrorData = ->(error:, source:) do
+            StorageErrorData.new(source:, payload: error.to_s)
           end
         end
       end

@@ -18,8 +18,6 @@ Resource changesets allow to edit resources in a transparent way, tracking its c
 - provide a `Proxy` javascript object `projectedResource` to the resource with the changes applied
 - encapsulates a temporary schema and form resource for accessing newly added fields and errors
 
-
-
 ## Prerequisites
 
 In order to understand Inline Editing, you will need the following concepts:
@@ -28,13 +26,9 @@ In order to understand Inline Editing, you will need the following concepts:
 
 - [Schemas](../resource-schemas)
 
-
-
 ## Classes overview
 
 Let's go over the classes and services used to provide access to changesets.
-
-
 
 ### ResourceChangeset
 
@@ -46,20 +40,15 @@ The changeset maintains references to
  * The actual `Changeset` object of changes (basically a map of `attribute -> values` of changes)
  * The `FormResource` for the resource (due to temporary changes such as switching types or projects in work packages)
 
-
 The changeset provides a high level access to getting and writing changes as well as caching resources around editing to avoid reloading them too often. It also provides access to a `projectedResource`, which is a proxy class on the HAL resource with all overridden values returned from the changeset. It behaves as if the modified resource was saved and returned.
 
 The ResourceChangeset is possibly subclassed for specific HAL resource types. For example, by the `WorkPackageChangeset`, a resource changeset specifically for work packages to correctly handle cases like switching types or projects - which will require in a reloading of the `FormResource` and its embedded schema for identifying and showing new attributes.
-
-
 
 ### HalResourceEditingService
 
 In order to *create*, *remove* or *saving* changesets for a specific resource, the `HalResourceEditingService` is provided at various hierarchies of the application. The service maintains a store of available resource changesets, whose states and changes can be observed with an RXJS observable.
 
 The main entry point for editing changesets is `HalResourceEditingService#changeFor`, which will either continue editing an existing changeset, or create a new one for the given class.
-
-
 
 #### Minimal example on using the changeset
 
@@ -96,17 +85,11 @@ console.log(changeset.isEmpty()); // true
 console.log(changeset2.isEmpty()); // true
 ```
 
-
-
 #### Saving the changeset
 
 In order to save a changeset, you would simply pass it to `HalResourceEditingService#save`. This will save the changes to the APIv3 and update the resource. It returns a `ResourceChangesetCommit` which is a reference to the changes and resulting resource.
 
-
-
 You will often see other components pushing into the changeset, such as the `EditFieldComponent`. To find out more about the inline editing functionality, see [this guide](../inline-editing).
-
-
 
 #### Temporary editing resources
 
@@ -118,11 +101,6 @@ Assume you start creating a new work package of type `Task`, and then switch to 
 
 For this to work, the `WorkPackageSingleView` needs to have access to the work package *as if it was saved* after the type was changed. But the work package is a new resource and not yet actually saved. That's why `HalResourceEditingService#temporaryEditingResource` returns an observable state that returns either the pristine work package, or the proxied work package by the changeset to transparently access the modified-yet-unsaved work package resource.
 
-
-
 ## Additional resources
 
 Changesets are used in several components throughout the application. Notable examples are the [inline editing `EditForm`](../inline-editing).
-
-
-

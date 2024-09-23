@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,6 +48,14 @@ RSpec.describe Meetings::CopyService, "integration", type: :model do
     expect(copy.start_time).to eq(meeting.start_time + 1.week)
   end
 
+  context "when the meeting is closed" do
+    it "reopens the meeting" do
+      meeting.update! state: "closed"
+      expect(service_result).to be_success
+      expect(copy.state).to eq("open")
+    end
+  end
+
   describe "with participants" do
     let(:invited_user) { create(:user, member_with_permissions: { project => %i(view_meetings) }) }
     let(:attending_user) { create(:user, member_with_permissions: { project => %i(view_meetings) }) }
@@ -73,6 +81,17 @@ RSpec.describe Meetings::CopyService, "integration", type: :model do
     end
   end
 
+  describe "without participants" do
+    it "sets the author as invited" do
+      meeting.participants.destroy_all
+
+      expect(service_result).to be_success
+      expect(copy.participants.count).to eq(1)
+      invited = copy.participants.find_by(user:)
+      expect(invited).to be_invited
+    end
+  end
+
   describe "when not saving" do
     let(:params) { { save: false } }
 
@@ -92,7 +111,7 @@ RSpec.describe Meetings::CopyService, "integration", type: :model do
     end
 
     it "copies the agenda item" do
-      expect(copy.agenda_items.length)
+      expect(copy.reload.agenda_items.length)
         .to eq 1
 
       expect(copy.agenda_items.first.notes)
@@ -121,6 +140,7 @@ RSpec.describe Meetings::CopyService, "integration", type: :model do
 
     context "when asking to copy attachments" do
       let(:params) { { copy_attachments: true } }
+
       it "copies the attachment" do
         expect(copy.attachments.length)
           .to eq 1

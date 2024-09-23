@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,6 +35,10 @@ module TableHelpers
     def work_package(name)
       name = normalize_name(name)
       @work_packages_by_identifier[name]
+    end
+
+    def work_packages
+      @work_packages_by_identifier.values
     end
 
     private

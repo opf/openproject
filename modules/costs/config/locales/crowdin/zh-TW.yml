@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -22,7 +22,7 @@
 zh-TW:
   plugin_costs:
     name: "時間與費用"
-    description: "This module adds features for planning and tracking costs of projects."
+    description: "此模組增加了規劃和追蹤專案成本的功能。"
   activerecord:
     attributes:
       cost_entry:
@@ -96,13 +96,13 @@ zh-TW:
   label_edit: "編輯"
   label_generic_user: "一般使用者"
   label_greater_or_equal: ">="
-  label_group_by: "分組依據"
+  label_group_by: "分類"
   label_group_by_add: "增加群組欄位"
   label_hourly_rate: "小時費率"
   label_include_deleted: "包含已刪除的"
   label_work_package_filter_add: "新增工作項目篩選條件"
   label_kind: "類型"
-  label_less_or_equal: "<="
+  label_less_or_equal: "之後"
   label_log_costs: "紀錄支出單位"
   label_no: "否"
   label_option_plural: "選項"
@@ -117,7 +117,7 @@ zh-TW:
   label_yes: "是"
   notice_something_wrong: "發生錯誤，請重試。"
   notice_successful_restore: "復原成功。"
-  notice_successful_lock: "鎖定成功。"
+  notice_successful_lock: "停用成功。"
   notice_cost_logged_successfully: '單位成本紀錄成功。'
   permission_edit_cost_entries: "編輯自己紀錄的單位成本"
   permission_edit_own_cost_entries: "編輯自己紀錄的單位成本"

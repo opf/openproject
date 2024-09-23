@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -178,6 +178,23 @@ RSpec.describe Setting do
     it "raises an error for a non writable setting" do
       expect { described_class.smtp_openssl_verify_mode = "none" }
         .to raise_error NoMethodError
+    end
+
+    context "for a setting with an environment specific default value", :settings_reset do
+      before do
+        Settings::Definition.add(
+          "my_setting",
+          format: :string,
+          default: "The default",
+          default_by_env: {
+            test: "The test default"
+          }
+        )
+      end
+
+      it "uses the test specific default" do
+        expect(described_class.my_setting).to eq("The test default")
+      end
     end
 
     context "for a integer setting with non-nil default value", :settings_reset do
@@ -478,7 +495,8 @@ RSpec.describe Setting do
            smtp_port: 25,
            smtp_user_name: "username",
            smtp_enable_starttls_auto: 1,
-           smtp_ssl: 0
+           smtp_ssl: 0,
+           smtp_timeout: 1234
          } do
         described_class.reload_mailer_settings!
         expect(ActionMailer::Base).to have_received(:perform_deliveries=).with(true)
@@ -489,6 +507,8 @@ RSpec.describe Setting do
                                                        domain: "example.com",
                                                        enable_starttls_auto: true,
                                                        openssl_verify_mode: "peer",
+                                                       read_timeout: 1234,
+                                                       open_timeout: 1234,
                                                        ssl: false)
       end
     end
@@ -515,6 +535,8 @@ RSpec.describe Setting do
                                                        domain: "example.com",
                                                        enable_starttls_auto: false,
                                                        openssl_verify_mode: "peer",
+                                                       open_timeout: 5,
+                                                       read_timeout: 5,
                                                        ssl: true)
       end
     end
@@ -543,6 +565,8 @@ RSpec.describe Setting do
                                                        password: "p4ssw0rd",
                                                        enable_starttls_auto: true,
                                                        openssl_verify_mode: "peer",
+                                                       open_timeout: 5,
+                                                       read_timeout: 5,
                                                        ssl: false)
       end
     end
@@ -571,6 +595,8 @@ RSpec.describe Setting do
                                                        password: "p4ssw0rd",
                                                        enable_starttls_auto: false,
                                                        openssl_verify_mode: "peer",
+                                                       open_timeout: 5,
+                                                       read_timeout: 5,
                                                        ssl: true)
       end
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -344,6 +344,23 @@ end
 
 RSpec.shared_examples_for "text custom action validations" do
   it_behaves_like "string custom action validations"
+end
+
+RSpec.shared_examples_for "link custom action validations" do
+  it_behaves_like "string custom action validations"
+
+  let(:errors) do
+    build_stubbed(:custom_action).errors
+  end
+
+  it "adds an error on actions if value an invalid url" do
+    instance.values = ["invalid_link"]
+
+    instance.validate(errors)
+
+    expect(errors.symbols_for(instance.human_name.to_sym))
+      .to eql [:invalid_url]
+  end
 end
 
 RSpec.shared_examples_for "date custom action validations" do

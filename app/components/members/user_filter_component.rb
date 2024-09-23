@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -103,11 +103,11 @@ module Members
       def mapped_shared_role_name(role)
         case role.builtin
         when Role::BUILTIN_WORK_PACKAGE_VIEWER
-          I18n.t("work_package.sharing.permissions.view")
+          I18n.t("work_package.permissions.view")
         when Role::BUILTIN_WORK_PACKAGE_COMMENTER
-          I18n.t("work_package.sharing.permissions.comment")
+          I18n.t("work_package.permissions.comment")
         when Role::BUILTIN_WORK_PACKAGE_EDITOR
-          I18n.t("work_package.sharing.permissions.edit")
+          I18n.t("work_package.permissions.edit")
         else
           role.name
         end
@@ -128,7 +128,7 @@ module Members
       end
 
       def apply_filters(params, query)
-        super(params, query)
+        super
         filter_shares(query, params[:shared_role_id]) if params.key?(:shared_role_id)
 
         query

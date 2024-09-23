@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -116,13 +116,13 @@ RSpec.describe WorkPackages::Scopes::CoveringDatesAndDaysOfWeek do
         .to eq([])
     end
 
-    it "does not return work packages having follows relation with delay covering the given days of week" do
+    it "does not return work packages having follows relation with lag covering the given days of week" do
       create_schedule(<<~CHART)
         days         | MTWTFSS |
         not_covered1 | X       |
-        follower1    |     X   | follows not_covered1 with delay 3
+        follower1    |     X   | follows not_covered1 with lag 3
         not_covered2 | X       |
-        follower2    |   X     | follows not_covered2 with delay 1
+        follower2    |   X     | follows not_covered2 with lag 1
       CHART
 
       expect(WorkPackage.covering_dates_and_days_of_week(**day_args[:tuesday, :thursday]))

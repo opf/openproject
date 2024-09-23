@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -93,7 +93,8 @@ RSpec.describe Storages::Storages::NextcloudContract, :storage_server_helpers, :
           expect(subject.errors.to_hash)
             .to eq({ password: ["could not be validated. Please check your storage connection and try again."] })
 
-          expect(credentials_request).to have_been_made.once
+          # twice due to HTTPX retry plugin being enabled.
+          expect(credentials_request).to have_been_made.twice
         end
       end
 

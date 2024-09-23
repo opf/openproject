@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,13 +61,13 @@ module WorkPackages
         due_date
       end
 
-      def soonest_working_day(date, delay: nil)
+      def soonest_working_day(date, lag: nil)
         return unless date
 
-        delay ||= 0
+        lag ||= 0
 
-        while delay > 0
-          delay -= 1 if working?(date)
+        while lag > 0
+          lag -= 1 if working?(date)
           date += 1
         end
 

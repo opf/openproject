@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,13 +29,27 @@
 class AccountController < ApplicationController
   include CustomFieldsHelper
   include OmniauthHelper
-  include Accounts::OmniauthLogin
+  include Accounts::Registration
   include Accounts::UserConsent
   include Accounts::UserLimits
+  include Accounts::UserLogin
   include Accounts::UserPasswordChange
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_action :check_if_login_required
+  no_authorization_required! :login,
+                             :internal_login,
+                             :logout,
+                             :lost_password,
+                             :register,
+                             :activate,
+                             :consent,
+                             :confirm_consent,
+                             :decline_consent,
+                             :stage_success,
+                             :stage_failure,
+                             :change_password,
+                             :auth_source_sso_failed
 
   before_action :apply_csp_appends, only: %i[login]
   before_action :disable_api
@@ -145,20 +159,6 @@ class AccountController < ApplicationController
     end
   end
 
-  def allow_registration?
-    allow = Setting::SelfRegistration.enabled? && !OpenProject::Configuration.disable_password_login?
-
-    invited = session[:invitation_token].present?
-    get = request.get? && allow
-    post = (request.post? || request.patch?) && (session[:auth_source_registration] || allow)
-
-    invited || get || post
-  end
-
-  def allow_lost_password_recovery?
-    Setting.lost_password? && !OpenProject::Configuration.disable_password_login?
-  end
-
   # Token based account activation
   def activate
     token = ::Token::Invitation.find_by_plaintext_value(params[:token])
@@ -175,6 +175,36 @@ class AccountController < ApplicationController
       invalid_token_and_redirect
     end
   end
+
+  # Process a password change form, used when the user is forced
+  # to change the password.
+  # When making changes here, also check MyController.change_password
+  def change_password
+    # Retrieve user_id from session
+    @user = User.find(params[:password_change_user_id])
+
+    change_password_flow(user: @user, params:, show_user_name: true) do
+      password_authentication(@user.login, params[:new_password])
+    end
+  rescue ActiveRecord::RecordNotFound
+    Rails.logger.error "Failed to find user for change_password request: #{flash[:_password_change_user_id]}"
+    render_404
+  end
+
+  def auth_source_sso_failed
+    failure = session.delete :auth_source_sso_failure
+    user = auth_source_sso_failure_user(failure)
+
+    if user.try(:new_record?)
+      return onthefly_creation_failed user, login: user.login, ldap_auth_source_id: user.ldap_auth_source_id
+    end
+
+    show_sso_error_for(user, failure)
+
+    render action: "login", back_url: failure[:back_url]
+  end
+
+  private
 
   def handle_expired_token(token)
     send_activation_email! token.user
@@ -254,50 +284,32 @@ class AccountController < ApplicationController
     redirect_to signin_path(username: user.login)
   end
 
-  # Process a password change form, used when the user is forced
-  # to change the password.
-  # When making changes here, also check MyController.change_password
-  def change_password
-    # Retrieve user_id from session
-    @user = User.find(params[:password_change_user_id])
+  def allow_registration?
+    allow = Setting::SelfRegistration.enabled? && !OpenProject::Configuration.disable_password_login?
 
-    change_password_flow(user: @user, params:, show_user_name: true) do
-      password_authentication(@user.login, params[:new_password])
-    end
-  rescue ActiveRecord::RecordNotFound
-    Rails.logger.error "Failed to find user for change_password request: #{flash[:_password_change_user_id]}"
-    render_404
+    invited = session[:invitation_token].present?
+    get = request.get? && allow
+    post = (request.post? || request.patch?) && (session[:auth_source_registration] || allow)
+
+    invited || get || post
   end
 
-  def auth_source_sso_failed
-    failure = session.delete :auth_source_sso_failure
-    login = failure[:login]
-    user = find_user_from_auth_source(login) || build_user_from_auth_source(login)
-
-    if user.try(:new_record?)
-      return onthefly_creation_failed user, login: user.login, ldap_auth_source_id: user.ldap_auth_source_id
-    end
-
-    show_sso_error_for user
-
-    flash.now[:error] = I18n.t(:error_auth_source_sso_failed, value: failure[:login]) +
-                        ": " + String(flash.now[:error])
-
-    render action: "login", back_url: failure[:back_url]
+  def allow_lost_password_recovery?
+    Setting.lost_password? && !OpenProject::Configuration.disable_password_login?
   end
-
-  private
 
   def check_auth_source_sso_failure
     redirect_to home_url unless session[:auth_source_sso_failure].present?
   end
 
-  def show_sso_error_for(user)
+  def show_sso_error_for(user, failure)
     if user.nil?
       flash_and_log_invalid_credentials
     elsif not user.active?
       account_inactive user, flash_now: true
     end
+
+    flash.now[:error] = "#{I18n.t(:error_auth_source_sso_failed, value: failure[:login])}: #{String(flash.now[:error])}"
   end
 
   def registration_through_invitation!
@@ -333,49 +345,6 @@ class AccountController < ApplicationController
       .new(model: User.new, user: current_user, contract_class: EmptyContract)
       .call(attrs)
       .result
-  end
-
-  def register_plain_user(user)
-    user.attributes = permitted_params.user.transform_values do |val|
-      if val.is_a? String
-        val.strip!
-      end
-
-      val
-    end
-    user.login = params[:user][:login].strip if params[:user][:login].present?
-    user.password = params[:user][:password]
-    user.password_confirmation = params[:user][:password_confirmation]
-
-    respond_for_registered_user(user)
-  end
-
-  def register_with_auth_source(user)
-    # on-the-fly registration via omniauth or via auth source
-    if pending_omniauth_registration?
-      user.assign_attributes permitted_params.user_register_via_omniauth
-      register_via_omniauth(session, user.attributes)
-    else
-      user.attributes = permitted_params.user
-      user.activate
-      user.login = session[:auth_source_registration][:login]
-      user.ldap_auth_source_id = session[:auth_source_registration][:ldap_auth_source_id]
-
-      respond_for_registered_user(user)
-    end
-  end
-
-  def respond_for_registered_user(user)
-    call = ::Users::RegisterUserService.new(user).call
-
-    if call.success?
-      flash[:notice] = call.message.presence
-      login_user_if_active(call.result, just_registered: true)
-    else
-      flash[:error] = error = call.message
-      Rails.logger.error "Registration of user #{user.login} failed: #{error}"
-      onthefly_creation_failed(user)
-    end
   end
 
   def user_with_placeholder_name?(user)
@@ -443,61 +412,6 @@ class AccountController < ApplicationController
     end
   end
 
-  def login_user_if_active(user, just_registered:)
-    if user.active?
-      successful_authentication(user, just_registered:)
-      return
-    end
-
-    # Show an appropriate error unless
-    # the user was just registered
-    if !(just_registered && user.registered?)
-      account_inactive(user, flash_now: false)
-    end
-
-    redirect_to signin_path(back_url: params[:back_url])
-  end
-
-  def pending_auth_source_registration?
-    session[:auth_source_registration] && !pending_omniauth_registration?
-  end
-
-  def pending_omniauth_registration?
-    Hash(session[:auth_source_registration])[:omniauth]
-  end
-
-  # Onthefly creation failed, display the registration form to fill/fix attributes
-  def onthefly_creation_failed(user, auth_source_options = {})
-    @user = user
-    session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?
-    render action: "register"
-  end
-
-  def self_registration_disabled
-    flash[:error] = I18n.t("account.error_self_registration_disabled")
-    redirect_to signin_url
-  end
-
-  # Call if an account is inactive - either registered or locked
-  def account_inactive(user, flash_now: true)
-    if user.registered?
-      account_not_activated(flash_now:)
-    else
-      flash_and_log_invalid_credentials(flash_now:)
-    end
-  end
-
-  # Log an attempt to log in to an account in "registered" state and show a flash message.
-  def account_not_activated(flash_now: true)
-    flash_error_message(log_reason: "NOT ACTIVATED", flash_now:) do
-      if Setting::SelfRegistration.by_email?
-        "account.error_inactive_activation_by_mail"
-      else
-        "account.error_inactive_manual_activation"
-      end
-    end
-  end
-
   def invited_account_not_activated(_user)
     flash_error_message(log_reason: "invited, NOT ACTIVATED", flash_now: false) do
       "account.error_inactive_activation_by_mail"
@@ -534,5 +448,11 @@ class AccountController < ApplicationController
 
   def check_internal_login_enabled
     render_404 unless omniauth_direct_login?
+  end
+
+  def auth_source_sso_failure_user(failure)
+    login = failure[:login]
+
+    find_user_from_auth_source(login) || build_user_from_auth_source(login)
   end
 end

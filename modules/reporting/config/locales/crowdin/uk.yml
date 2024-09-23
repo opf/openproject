@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2024 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -23,7 +23,7 @@ uk:
   plugin_openproject_reporting:
     name: "Звіти OpenProject"
     description: "Цей плагін дає змогу створювати звіти про витрати з можливостями фільтрування й групування, створеними плагіном «Час і витрати» в OpenProject."
-  button_save_as: "Зберегти звіт до:"
+  button_save_report_as: "Save report as..."
   comments: "Коментар"
   cost_reports_title: "Час і витрати"
   label_cost_report: "Звіт про витрати"

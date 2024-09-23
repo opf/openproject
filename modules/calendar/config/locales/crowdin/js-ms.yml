@@ -2,7 +2,7 @@
 ms:
   js:
     calendar:
-      create_new: 'Cipta kalendar baru'
+      create_new: 'Cipta kalendar baharu'
       title: 'Kalendar'
-      too_many: 'Terdapat %{count} pakej kerja secara keseluruhan, tetapi hanya %{max} sahaja yang boleh ditunjukkan.'
-      unsaved_title: 'Kalendar tanpa nama'
+      too_many: 'Terdapat %{count} pakej kerja secara keseluruhan, tetapi hanya %{max} sahaja yang boleh dipaparkan.'
+      unsaved_title: 'Kalendar tidak dinamakan'

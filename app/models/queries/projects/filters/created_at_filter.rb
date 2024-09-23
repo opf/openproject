@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Filters::CreatedAtFilter < Queries::Projects::Filters::ProjectFilter
+class Queries::Projects::Filters::CreatedAtFilter < Queries::Projects::Filters::Base
   def type
     :datetime_past
+  end
+
+  def available?
+    # The column is only available for admins.
+    # When the filter is used, one could get the same information as with the column.
+    User.current.admin?
   end
 end

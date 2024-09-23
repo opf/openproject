@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -83,7 +83,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     super
   end
 
-  def date_picker(field, options = {})
+  def date_picker(field, options = {}) # rubocop:disable Metrics/AbcSize
     options[:class] = Array(options[:class])
     options[:container_class] ||= "-xslim"
     merge_required_attributes(options[:required], options)
@@ -100,7 +100,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     inputs = {
       value: @object.public_send(field),
       id: field_id(field, index: options[:index]),
-      name: field_name(field, index: options[:index])
+      name: options[:name] || field_name(field, index: options[:index])
     }
 
     if options.dig(:data, :"remote-field-key")
@@ -117,13 +117,13 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     end
 
     label = label_for_field(field, label_options)
-    input = angular_component_tag("op-basic-single-date-picker",
+    input = angular_component_tag("opce-basic-single-date-picker",
                                   class: options[:class],
                                   inputs:)
     (label + container_wrap_field(input, :date_picker, options))
   end
 
-  def radio_button(field, value, options = {}, *args)
+  def radio_button(field, value, options = {}, *)
     options[:class] = Array(options[:class]) + %w(form--radio-button)
 
     input_options, label_options = extract_from options
@@ -134,7 +134,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     end
 
     label = label_for_field(field, label_options)
-    input = super(field, value, input_options, *args)
+    input = super(field, value, input_options, *)
 
     (label + container_wrap_field(input, "radio-button", options))
   end

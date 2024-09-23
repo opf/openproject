@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,6 +44,7 @@ class MeetingAgendaItem::Presenter < ApplicationForm
         focusDirectly: false,
         multiple: false,
         appendTo: "body",
+        placeholder: I18n.t("activerecord.attributes.meeting_agenda_item.presenter"),
         disabled: @disabled
       }
     )

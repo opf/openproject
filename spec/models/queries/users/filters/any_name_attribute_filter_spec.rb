@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,14 +55,14 @@ RSpec.describe Queries::Users::Filters::AnyNameAttributeFilter do
     end
   end
 
-  describe "#scope" do
+  describe "#apply_to" do
     context 'for "~"' do
       let(:operator) { "~" }
 
       it "is the same as handwriting the query" do
         expected = model.where("unaccent(#{filter_str}) LIKE unaccent('%#{values.first.downcase}%')")
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
@@ -72,7 +72,7 @@ RSpec.describe Queries::Users::Filters::AnyNameAttributeFilter do
       it "is the same as handwriting the query" do
         expected = model.where("unaccent(#{filter_str}) NOT LIKE unaccent('%#{values.first.downcase}%')")
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
   end

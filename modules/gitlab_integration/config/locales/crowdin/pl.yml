@@ -6,7 +6,7 @@
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 #Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
 #as published by the Free Software Foundation; either version 2
@@ -33,7 +33,7 @@ pl:
             labels:
               invalid_schema: "musi być tablicą skrótów z kluczami: color, title"
   project_module_gitlab: "GitLab"
-  permission_show_gitlab_content: "Show GitLab content"
+  permission_show_gitlab_content: "Pokaż treść GitLab"
   gitlab_integration:
     merge_request_opened_comment: >
       **Otwarto MR:** żądanie scalenia %{mr_number} [%{mr_title}](%{mr_url}) dla [%{repository}](%{repository_url}) zostało otwarte przez [%{gitlab_user}](%{gitlab_user_url}).
@@ -63,5 +63,7 @@ pl:
       **Ponownie otwarto problem:** problem %{issue_number} [%{issue_title}](%{issue_url}) dotyczący [%{repository}](%{repository_url}) został ponownie otwarty przez [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
       **Wypchnięto w MR:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) wypchnął [%{commit_number}](%{commit_url}) do [%{repository}](%{repository_url}) o %{commit_timestamp}: %{commit_note}
+    push_single_commit_comment_with_ref: >
+      **Wypchnięto w %{reference}:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) wypchnął [%{commit_number}](%{commit_url}) do [%{repository}](%{repository_url}) o %{commit_timestamp}: %{commit_note}
     push_multiple_commits_comment: >
       **Wypchnięto w MR:** [%{gitlab_user}](%{gitlab_user_url}) wypchnął wiele zmian [%{commit_number}](%{commit_url}) do [%{repository}](%{repository_url}) o %{commit_timestamp}: %{commit_note}

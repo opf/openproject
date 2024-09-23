@@ -15,6 +15,10 @@ properties:
     description: Page size steps to be offered in paginated list UI
     items:
       type: integer
+  durationFormat:
+    type: string
+    description: The format used to display Work, Remaining Work, and Spent time durations
+    readOnly: true
   activeFeatureFlags:
     type: array
     description: The list of all feature flags that are active

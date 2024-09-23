@@ -1,21 +1,21 @@
 require "spec_helper"
 
 RSpec.describe "Work Package group by progress", :js do
-  let(:user) { create(:admin) }
+  shared_let(:user) { create(:admin) }
 
-  let(:project) { create(:project) }
+  shared_let(:project) { create(:project) }
 
-  let!(:wp_1) { create(:work_package, project:) }
-  let!(:wp_2) { create(:work_package, project:, done_ratio: 10) }
-  let!(:wp_3) { create(:work_package, project:, done_ratio: 10) }
-  let!(:wp_4) { create(:work_package, project:, done_ratio: 50) }
+  shared_let(:wp_none) { create(:work_package, project:) }
+  shared_let(:wp_10p1) { create(:work_package, project:, done_ratio: 10) }
+  shared_let(:wp_10p2) { create(:work_package, project:, done_ratio: 10) }
+  shared_let(:wp_50p) { create(:work_package, project:, done_ratio: 50) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:group_by) { Components::WorkPackages::GroupBy.new }
 
   let!(:query) do
     query              = build(:query, user:, project:)
-    query.column_names = ["subject", "done_ratio"]
+    query.column_names = ["subject", "estimated_hours", "remaining_hours", "done_ratio"]
 
     query.save!
     query
@@ -25,7 +25,7 @@ RSpec.describe "Work Package group by progress", :js do
     login_as(user)
 
     wp_table.visit_query(query)
-    wp_table.expect_work_package_listed wp_1, wp_2, wp_3, wp_4
+    wp_table.expect_work_package_listed wp_none, wp_10p1, wp_10p2, wp_50p
   end
 
   it "shows group headers for group by progress (regression test #26717)" do
@@ -34,14 +34,14 @@ RSpec.describe "Work Package group by progress", :js do
 
     # Expect table to be grouped as WP created above
     group_by.expect_number_of_groups 3
-    group_by.expect_grouped_by_value "0%", 1
-    group_by.expect_grouped_by_value "10%", 2
     group_by.expect_grouped_by_value "50%", 1
+    group_by.expect_grouped_by_value "10%", 2
+    group_by.expect_grouped_by_value "-", 1
 
-    # Update category of wp_none
-    cat = wp_table.edit_field(wp_1, :percentageDone)
-    cat.update "50"
-
+    # Update work and remaining work of wp_none to have 50% completeness
+    wp_table.edit_field(wp_none, :estimatedTime).update "10"
+    loading_indicator_saveguard
+    wp_table.edit_field(wp_none, :remainingTime).update "5"
     loading_indicator_saveguard
 
     # Expect changed groups

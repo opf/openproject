@@ -1,0 +1,14 @@
+<%= render(Primer::OpenProject::FlexLayout.new(test_selector: 'sort-by-field')) do |flex| %>
+  <% flex.with_column(flex: 1) do %>
+    <%#- We are just using the classes of the primer component here, because when using the primer component, we cannot detach the input element from the form %>
+    <%#- The form="none" adds the input to a nonexistant form (as we do not have one with the ID="none" and thus the fields to not get appended to the query string %>
+    <%= select_tag 'sort_field', select_options, prompt: "-", form: "none", class: "FormControl-select FormControl-medium FormControl--fullWidth", data: { action: "change->sort-by-config#fieldChanged"} %>
+  <% end %>
+  <% flex.with_column do %>
+    <%= render(Primer::Alpha::SegmentedControl.new("aria-label": "Sort order", hide_labels: true, ml: 3)) do |sort_buttons| %>
+      <%#- The segmented control actions need to be included here as well as they do the visual styling of the currently selected option, just setting our action would remove their action %>
+      <% sort_buttons.with_item(icon: "sort-asc", label: "sort ascending", selected: order_asc?, data: { direction: 'asc', action: "click:segmented-control#select click->sort-by-config#fieldChanged"}) %>
+      <% sort_buttons.with_item(icon: "sort-desc", label: "sort descending", selected: order_desc?, data: { direction: 'desc', action: "click:segmented-control#select click->sort-by-config#fieldChanged"}) %>
+    <% end %>
+  <% end %>
+<% end %>

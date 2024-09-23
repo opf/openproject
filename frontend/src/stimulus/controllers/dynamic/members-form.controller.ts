@@ -1,7 +1,7 @@
 /*
  * -- copyright
  * OpenProject is an open source project management software.
- * Copyright (C) 2023 the OpenProject GmbH
+ * Copyright (C) the OpenProject GmbH
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 3.
@@ -120,15 +120,11 @@ export default class MembersFormController extends Controller {
   }
 
   toggleMembershipEdit({ params: { togglingClass } }:{ params:{ togglingClass:string } }) {
-    const targetedForm = this.membershipEditFormTargets.find((form:HTMLElement) => form.className === togglingClass);
-
-    if (targetedForm !== undefined) {
-      if (targetedForm.style.display === 'none') {
-        targetedForm.style.display = '';
-      } else {
-        targetedForm.style.display = 'none';
+    this.membershipEditFormTargets.forEach((form:HTMLElement) => {
+      if (form.className === togglingClass) {
+        form.style.display = form.style.display === 'none' ? '' : 'none';
       }
-    }
+    });
   }
 
   focusAutocompleter():void {

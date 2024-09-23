@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,8 +38,7 @@ RSpec.shared_examples_for "ProjectStorages contract" do
   include_context "ModelContract shared context"
 
   let(:current_user) { create(:user) }
-  # The user needs "edit_project" to see the project's settings page
-  let(:role) { create(:project_role, permissions: %i[manage_storages_in_project edit_project]) }
+  let(:role) { create(:project_role, permissions: %i[manage_files_in_project]) }
   # Create a project managed by current user and with Storages enabled.
   let(:project) do
     create(:project,
@@ -50,7 +49,7 @@ RSpec.shared_examples_for "ProjectStorages contract" do
   let(:storage_creator) { current_user }
 
   # This is not 100% precise, as the required permission is not :admin
-  # but :manage_storages_in_project, but let's still include this.
+  # but :manage_files_in_project, but let's still include this.
   it_behaves_like "contract is valid for active admins and invalid for regular users"
 
   describe "validations" do

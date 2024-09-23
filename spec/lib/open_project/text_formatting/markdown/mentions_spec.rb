@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -255,7 +255,7 @@ RSpec.describe OpenProject::TextFormatting,
             let(:expected) do
               <<~EXPECTED
                 <p class="op-uc-p">
-                  Link to user:"<a class="op-uc-link" href="mailto:foo@bar.com">foo@bar.com</a>"
+                  Link to user:"<a class="op-uc-link" rel="noopener noreferrer" target="_top" href="mailto:foo@bar.com">foo@bar.com</a>"
                 </p>
               EXPECTED
             end

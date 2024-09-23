@@ -12,11 +12,11 @@ module XlsExport::WorkPackage::Exporter
     end
 
     def with_descriptions
-      options[:show_descriptions]
+      ActiveModel::Type::Boolean.new.cast(options[:show_descriptions])
     end
 
     def with_relations
-      options[:show_relations]
+      ActiveModel::Type::Boolean.new.cast(options[:show_relations])
     end
 
     def enable!(singleton_module)
@@ -128,9 +128,9 @@ module XlsExport::WorkPackage::Exporter
 
     def relation_row(work_package, wp_columns, other, relation)
       type = relation_type work_package, other, relation
-      delay = relation ? relation.delay : ""
+      lag = relation ? relation.lag : ""
       description = relation ? relation.description : ""
-      relation_columns = ["", type, delay, description] + column_values(other)
+      relation_columns = ["", type, lag, description] + column_values(other)
 
       [""] + wp_columns + relation_columns
     end
@@ -149,7 +149,7 @@ module XlsExport::WorkPackage::Exporter
     def with_relations_headers
       [
         Relation.human_attribute_name(:relation_type),
-        Relation.human_attribute_name(:delay),
+        Relation.human_attribute_name(:lag),
         Relation.human_attribute_name(:description)
       ]
     end

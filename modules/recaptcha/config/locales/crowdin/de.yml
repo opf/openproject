@@ -9,7 +9,7 @@ de:
     verify_account: "Verifizieren Sie Ihr Konto"
     error_captcha: "Ihr Account konnte nicht verifiziert werden. Bitte kontaktieren Sie einen Administrator."
     settings:
-      website_key: 'Website-Schlüssel'
+      website_key: 'Website-Schlüssel (auch "Site-Schlüssel" genannt)'
       response_limit: 'Antwortlimit für HCaptcha'
       response_limit_text: 'Die maximale Anzahl an Zeichen, um eine HCaptcha-Antwort als gültig zu werten.'
       website_key_text: 'Geben Sie den Webseitenschlüssel ein, den Sie auf der reCAPTCHA Admin-Konsole für diese Domain erstellt haben.'
@@ -20,5 +20,6 @@ de:
       type_v2: 'reCAPTCHA V2'
       type_v3: 'reCAPTCHA V3'
       type_hcaptcha: 'HCaptcha'
-      recaptcha_description_html: >
-        reCAPTCHA ist ein kostenloser Dienst von Google, der für Ihre OpenProject Instanz aktiviert werden kann. Wenn aktiviert, wird bei Anmeldung ein Captcha-Formular für alle Benutzer gerendert, die noch kein Captcha verifiziert haben. <br/> Bitte sehen Sie den folgenden Link für weitere Details zu reCAPTCHA und deren Versionen, und wie die Webseite und die geheimen Schlüssel erstellt werden: %{recaptcha_link} <br/> HCaptcha ist eine Google-freie Alternative, die Sie verwenden können, wenn Sie reCAPTCHA nicht verwenden möchten. Siehe diesen Link für weitere Informationen: %{hcaptcha_link}
+      type_turnstile: 'Cloudflare Turnstile™'
+      captcha_description_html: >
+        reCAPTCHA ist ein kostenloser Dienst von Google, der für Ihre OpenProject Instanz aktiviert werden kann. Wenn aktiviert, wird bei Anmeldung ein Captcha-Formular für alle Benutzer gerendert, die noch kein Captcha verifiziert haben. <br/> Bitte sehen Sie den folgenden Link für weitere Details zu reCAPTCHA und deren Versionen, und wie die Webseite und die geheimen Schlüssel erstellt werden: %{recaptcha_link} <br/> HCaptcha ist eine Google-freie Alternative, die Sie verwenden können, wenn Sie reCAPTCHA nicht verwenden möchten. Siehe diesen Link für weitere Informationen: %{hcaptcha_link} <br/>Cloudflare Turnstile™ is eine weitere Alternative für Nutzer von CloudFlare. Sie diesen Link für weitere Informationen: %{turnstile_link}

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -66,7 +66,7 @@ RSpec.describe "Projects status administration", :js, :with_cuprite do
     status_field.select_option "On track"
 
     status_description.set_markdown "Everything is fine at the start"
-    status_description.expect_supports_no_macros
+    status_description.expect_supports_macros
 
     click_button "Save"
 

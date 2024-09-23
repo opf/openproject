@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,13 +33,15 @@ class Queries::Projects::Orders::NameOrder < Queries::Orders::Base
     :name
   end
 
-  def scope
+  def apply_to(_query_scope)
     super.select("projects.*", "lower(projects.name)")
   end
 
-  def order
+  private
+
+  def order(scope)
     with_raise_on_invalid do
-      model.order(Arel.sql("lower(projects.name)").send(direction))
+      scope.order(Arel.sql("lower(projects.name)").send(direction))
     end
   end
 end

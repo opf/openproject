@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,12 +31,14 @@ class GithubPullRequest < ApplicationRecord
 
   has_and_belongs_to_many :work_packages
   has_many :github_check_runs, dependent: :destroy
+  has_many :deploy_status_checks, dependent: :destroy
   belongs_to :github_user, optional: true
   belongs_to :merged_by, optional: true, class_name: "GithubUser"
 
   enum state: {
     open: "open",
-    closed: "closed"
+    closed: "closed",
+    deployed: "deployed"
   }
 
   validates_presence_of :github_html_url,

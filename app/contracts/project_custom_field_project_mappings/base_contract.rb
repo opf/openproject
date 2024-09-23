@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,13 +46,14 @@ module ProjectCustomFieldProjectMappings
       # enabling a custom field which is required happens in an after_save hook within the custom field model itself
       return if model.project_custom_field.nil? || !model.project_custom_field.required?
 
-      errors.add :custom_field_id, :invalid
+      errors.add :custom_field_id, :cannot_delete_mapping
     end
 
     def visbile_to_user
       # "invisible" custom fields can only be seen and edited by admins
       # using visible scope to check if the custom field is actually visible to the user
-      return if model.project_custom_field.nil? || ProjectCustomField.visible.pluck(:id).include?(model.project_custom_field.id)
+      return if model.project_custom_field.nil? ||
+                ProjectCustomField.visible(user).pluck(:id).include?(model.project_custom_field.id)
 
       errors.add :custom_field_id, :invalid
     end

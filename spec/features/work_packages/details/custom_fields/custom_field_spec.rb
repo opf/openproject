@@ -236,4 +236,30 @@ RSpec.describe "custom field inplace editor", :js do
       end
     end
   end
+
+  describe "link text" do
+    let(:custom_field) do
+      create(:link_wp_custom_field, :link, name: "My Link")
+    end
+    let(:initial_custom_values) { {} }
+
+    it "can set a link" do
+      # Activate the field
+      field.expect_state_text "-"
+      field.update "http://example.com"
+
+      field.expect_state_text "http://example.com"
+      expect(field.display_element).to have_css('a[href="http://example.com"]')
+
+      field.update "bogus", expect_failure: true
+
+      wp_page.expect_toast message: "My Link is not a valid URL", type: "error"
+
+      field.set_value "community.openproject.org"
+      field.save!
+
+      field.expect_state_text "http://community.openproject.org"
+      expect(field.display_element).to have_css('a[href="http://community.openproject.org"]')
+    end
+  end
 end

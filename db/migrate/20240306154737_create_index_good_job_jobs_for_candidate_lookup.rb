@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,8 +40,9 @@ class CreateIndexGoodJobJobsForCandidateLookup < ActiveRecord::Migration[7.1]
       end
     end
 
-    add_index :good_jobs, [:priority, :created_at], order: { priority: "ASC NULLS LAST", created_at: :asc },
-      where: "finished_at IS NULL", name: :index_good_job_jobs_for_candidate_lookup,
-      algorithm: :concurrently
+    add_index :good_jobs, %i[priority created_at], order: { priority: "ASC NULLS LAST", created_at: :asc },
+                                                   where: "finished_at IS NULL",
+                                                   name: :index_good_job_jobs_for_candidate_lookup,
+                                                   algorithm: :concurrently
   end
 end

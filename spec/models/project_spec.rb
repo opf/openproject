@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -219,7 +219,7 @@ RSpec.describe Project do
     end
   end
 
-  include_examples "creates an audit trail on destroy" do
+  it_behaves_like "creates an audit trail on destroy" do
     subject { create(:attachment) }
   end
 
@@ -235,10 +235,6 @@ RSpec.describe Project do
       expect(project.users)
         .to eq [active_user]
     end
-  end
-
-  include_examples "creates an audit trail on destroy" do
-    subject { create(:attachment) }
   end
 
   describe "#close_completed_versions" do
@@ -407,8 +403,41 @@ RSpec.describe Project do
     end
   end
 
+  it_behaves_like "acts_as_favorable included" do
+    let(:instance) { project }
+  end
+
   it_behaves_like "acts_as_customizable included" do
     let(:model_instance) { project }
     let(:custom_field) { create(:string_project_custom_field) }
+  end
+
+  describe "url identifier" do
+    let(:reserved) do
+      Rails.application.routes.routes
+        .map { |route| route.path.spec.to_s }
+        .filter_map { |path| path[%r{^/projects/(\w+)\(\.:format\)$}, 1] }
+        .uniq
+    end
+
+    it "is set from name" do
+      project = described_class.new(name: "foo")
+
+      project.validate
+
+      expect(project.identifier).to eq("foo")
+    end
+
+    it "is not allowed to clash with projects routing" do
+      expect(reserved).not_to be_empty
+
+      reserved.each do |word|
+        project = described_class.new(name: word)
+
+        project.validate
+
+        expect(project.identifier).not_to eq(word)
+      end
+    end
   end
 end

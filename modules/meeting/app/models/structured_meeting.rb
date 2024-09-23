@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +38,7 @@ class StructuredMeeting < Meeting
   def calculate_agenda_item_time_slots
     current_time = start_time
     MeetingAgendaItem.transaction do
-      changed_items = agenda_items.order(:position).map do |top|
+      changed_items = agenda_items.includes(:meeting_section).reorder("meeting_sections.position", :position).map do |top|
         start_time = current_time
         current_time += top.duration_in_minutes&.minutes || 0.minutes
         end_time = current_time

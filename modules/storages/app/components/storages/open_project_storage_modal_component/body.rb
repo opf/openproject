@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +30,8 @@ class Storages::OpenProjectStorageModalComponent::Body < ApplicationComponent # 
           waiting_title: I18n.t("storages.open_project_storage_modal.waiting.title"),
           waiting_subtitle: I18n.t("storages.open_project_storage_modal.waiting.subtitle")
 
-  def initialize(state, **options)
+  def initialize(state, **)
     @state = state
-    super(nil, **options)
+    super(nil, **)
   end
 end

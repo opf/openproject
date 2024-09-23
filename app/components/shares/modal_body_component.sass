@@ -1,0 +1,21 @@
+.op-share-dialog-modal-body
+  &--row-container
+    gap: 16px
+
+  &--user-row
+    display: grid
+    grid-template-columns: minmax(31px, auto) 1fr auto // 31px is the width needed to display a group avatar
+    grid-template-areas: "avatar user_details button"
+    grid-column-gap: 10px
+
+    &_manageable
+      display: grid
+      grid-template-columns: 20px minmax(31px, auto) 1fr auto auto
+      grid-template-areas: "selection avatar user_details button remove"
+      grid-column-gap: 10px
+
+  &--header
+    display: grid
+    grid-template-columns: 1fr auto
+    grid-template-areas: "counter actions"
+    grid-column-gap: 10px

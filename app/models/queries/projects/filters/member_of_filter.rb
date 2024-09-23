@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,18 +29,18 @@
 # ++
 #
 
-class Queries::Projects::Filters::MemberOfFilter < Queries::Projects::Filters::ProjectFilter
+class Queries::Projects::Filters::MemberOfFilter < Queries::Projects::Filters::Base
   include Queries::Filters::Shared::BooleanFilter
 
   def self.key
     :member_of
   end
 
-  def scope
+  def apply_to(query_scope)
     if allowed_values.first.intersect?(values)
-      model.visible.with_member
+      query_scope.with_member
     else
-      model.visible.without_member
+      query_scope.without_member
     end
   end
 

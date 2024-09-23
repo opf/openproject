@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,6 +61,7 @@ class StatusesController < ApplicationController
   def update
     @status = Status.find(params[:id])
     if @status.update(permitted_params.status)
+      recompute_progress_values
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: "index"
     else
@@ -82,26 +83,22 @@ class StatusesController < ApplicationController
     redirect_to action: "index"
   end
 
-  def update_work_package_done_ratio
-    if Status.update_work_package_done_ratios
-      flash[:notice] = I18n.t(:notice_work_package_done_ratios_updated)
-    else
-      flash[:error] = I18n.t(:error_work_package_done_ratios_not_updated)
-    end
-    redirect_to action: "index"
-  end
-
   protected
 
-  def default_breadcrumb
-    if action_name == "index"
-      t(:label_work_package_status_plural)
-    else
-      ActionController::Base.helpers.link_to(t(:label_work_package_status_plural), statuses_path)
-    end
+  def show_local_breadcrumb
+    false
   end
 
-  def show_local_breadcrumb
-    true
+  def recompute_progress_values
+    attributes_triggering_recomputing = ["excluded_from_totals"]
+    attributes_triggering_recomputing << "default_done_ratio" if WorkPackage.status_based_mode?
+    changes = @status.previous_changes.slice(*attributes_triggering_recomputing)
+    return if changes.empty?
+
+    WorkPackages::Progress::ApplyStatusesChangeJob
+      .perform_later(cause_type: "status_changed",
+                     status_name: @status.name,
+                     status_id: @status.id,
+                     changes:)
   end
 end

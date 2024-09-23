@@ -6,13 +6,12 @@
 
     position: absolute
     @include spot-z-index("drop-modal", 1)
-    pointer-events: none
 
     pointer-events: all
     opacity: 1
 
-    box-shadow: $spot-shadow-light-mid
-    background: $spot-color-basic-white
+    box-shadow: var(--shadow-floating-medium)
+    background: var(--body-background)
     border-radius: $border-radius
 
     display: flex
@@ -26,7 +25,6 @@
 
     @media #{$spot-mq-drop-modal-full-screen}
       position: fixed
-      height: auto
       bottom: $spot-spacing-3_5
       // !important is needed here so `@floating-ui/dom` does not overwrite it.
       left: $spot-spacing-1 !important
@@ -34,6 +32,12 @@
       right: $spot-spacing-1
       width: calc(100vw - (2 * #{$spot-spacing-1}))
       height: calc(#{var(--app-height)} - (#{$spot-spacing-3_5} + #{$spot-spacing-1}))
+
+      &_not-full-screen
+        height: auto
+        bottom: unset
+        top: 50% !important
+        transform: translateY(-50%)
 
     @media #{$spot-mq-drop-modal-in-context}
       position: absolute
@@ -67,12 +71,27 @@
     @media #{$spot-mq-drop-modal-in-context}
       display: none
 
+  &--header
+    @extend .spot-modal--header
+    font-size: var(--body-font-size) !important
+    line-height: 1 !important
+
+  &--header-title
+    @extend .spot-modal--header-title
+
+  &--header-close-button
+    @extend .spot-modal--header-close-button
+
+  &--header-close-button-icon
+    @extend .spot-modal--header-close-button-icon
+
+  &--content
+    margin: $spot-spacing-1
+
   &--close-button
-    display: block
-    position: fixed
-    top: auto
-    height: auto
-    bottom: $spot-spacing-0_75
+    position: absolute
+    top: 100%
+    margin-top: $spot-spacing-0_75
     left: 50%
     transform: translateX(-50%)
     background-color: $spot-color-basic-white

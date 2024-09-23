@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ module Users
     end
 
     def persist(service_result)
-      service_result = super(service_result)
+      service_result = super(service_result) # rubocop:disable Style/SuperArguments
 
       if service_result.success?
         service_result.success = model.pref.save

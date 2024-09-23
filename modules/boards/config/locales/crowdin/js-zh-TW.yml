@@ -2,13 +2,13 @@
 zh-TW:
   js:
     boards:
-      create_new: '建立新看板'
+      create_new: '建立看板'
       label_unnamed_board: '未命名看板'
       label_unnamed_list: '未命名列表'
       label_board_type: '看板類型'
       upsale:
         teaser_text: '你想用看板來自動化你的工作流程嗎？進階看板是一項企業功能。請升級到付費計劃。'
-        upgrade: '立即更新'
+        upgrade: '立即升級'
       lists:
         delete: '刪除列表'
       version:
@@ -28,9 +28,9 @@ zh-TW:
       error_attribute_not_writable: "無法移動該工作項目, %{attribute} 不可寫入"
       error_loading_the_list: "列表讀取錯誤: %{error_message}"
       error_permission_missing: "缺少建立公開查詢的權限"
-      error_cannot_move_into_self: "不可將任務移至自己的欄位"
+      error_cannot_move_into_self: "不可將任務移入自己的欄位"
       text_hidden_list_warning: "因權限限制，清單無法全部顯示，請聯絡管理員。"
-      click_to_remove_list: "移除列表"
+      click_to_remove_list: "點擊移除列表"
       board_type:
         text: '看板類型'
         free: '基本'
@@ -56,7 +56,7 @@ zh-TW:
           status: 狀態
           version: 版本
           subproject: 子專案
-          subtasks: 父-子
+          subtasks: 主任務-子任務
         board_type_title:
           assignee: 執行者
           status: 狀態
@@ -76,7 +76,7 @@ zh-TW:
           status: |
             目前無可用狀態
           assignee: 沒有任何符合您設定篩選值的人員
-          no_member: 此專案目前沒有任何可以加入的人員
+          no_member: 此專案目前沒有任何可加入的人員
           add_members: <a href="%{link}">新增成員至此專案</a> 再次選擇使用者。
       configuration_modal:
         title: '設定此看板'

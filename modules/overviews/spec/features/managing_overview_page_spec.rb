@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -96,11 +96,14 @@ RSpec.describe "Overview page managing", :js do
 
     # within top-left area, add an additional widget
     overview_page.add_widget(1, 1, :row, "Work packages table")
-
     # Actually there are two success messages displayed currently. One for the grid getting updated and one
     # for the query assigned to the new widget being created. A user will not notice it but the automated
-    # browser can get confused. Therefore we wait.
-    sleep(1)
+    # browser can get confused. Therefore we dismiss it twice.
+    overview_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+
+    # Fixing flaky spec: for some reason, the second request to load the table is not executed until
+    # some activity happens on the page. Sending an enter key to trigger the second request.
+    page.find("body").send_keys(:enter)
 
     overview_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 

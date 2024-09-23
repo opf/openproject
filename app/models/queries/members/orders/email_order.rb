@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,13 +39,13 @@ class Queries::Members::Orders::EmailOrder < Queries::Orders::Base
 
   private
 
-  def order
+  def order(scope)
     with_raise_on_invalid do
       order_string = "NULLIF(mail, '')"
       order_string += " DESC" if direction == :desc
       order_string += " NULLS LAST"
 
-      model.order(Arel.sql(order_string))
+      scope.order(Arel.sql(order_string))
     end
   end
 end

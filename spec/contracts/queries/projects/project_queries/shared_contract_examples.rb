@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,10 +52,82 @@ RSpec.shared_examples_for "project queries contract" do
       it_behaves_like "contract is invalid", name: :too_long
     end
 
-    context "if the user is not the current user" do
+    context "if the user is not the current user and does not have the permission" do
       let(:query_user) { build_stubbed(:user) }
 
-      it_behaves_like "contract is invalid", base: :error_unauthorized
+      it_behaves_like "contract is invalid", base: :can_only_be_modified_by_owner
+    end
+
+    context "if the user is not the current user but has the permission" do
+      let(:query_user) { build_stubbed(:user) }
+
+      before do
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_in_project_query :edit_project_query, project_query: query
+        end
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "if the list is public and the editing user has the global permission" do
+      let(:query_user) { build_stubbed(:user) }
+
+      before do
+        query.change_by_system do
+          query.public = true
+        end
+
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_globally :manage_public_project_queries
+        end
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "if the list is public and the editing user does not have the global permission" do
+      let(:query_user) { build_stubbed(:user) }
+
+      before do
+        query.change_by_system do
+          query.public = true
+        end
+
+        mock_permissions_for(current_user, &:forbid_everything)
+      end
+
+      it_behaves_like "contract is invalid", base: :need_permission_to_modify_public_query
+    end
+
+    context "if the list is public and the editing user does not have the global permission but has edit rights on the item" do
+      let(:query_user) { build_stubbed(:user) }
+
+      before do
+        query.change_by_system do
+          query.public = true
+        end
+
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_in_project_query :edit_project_query, project_query: query
+        end
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "if the list is public and the editing user does not have the permission, even if they are the owner" do
+      let(:query_user) { current_user }
+
+      before do
+        query.change_by_system do
+          query.public = true
+        end
+
+        mock_permissions_for(current_user, &:forbid_everything)
+      end
+
+      it_behaves_like "contract is invalid", base: :need_permission_to_modify_public_query
     end
 
     context "if the user and the current user is anonymous" do

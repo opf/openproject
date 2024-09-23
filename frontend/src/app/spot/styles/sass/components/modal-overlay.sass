@@ -15,11 +15,16 @@
     flex-direction: column-reverse
 
     @media (max-width: 680px)
-      justify-content: flex-end
+      justify-content: center
 
     @media (max-height: 480px)
       // reorder elements to be displayed in row on very small heights
       flex-direction: row-reverse
+
+  &_top
+    @media (max-width: 680px)
+      justify-content: flex-end
+      padding-top: 10px
 
   &_not-full-screen
     background: transparent

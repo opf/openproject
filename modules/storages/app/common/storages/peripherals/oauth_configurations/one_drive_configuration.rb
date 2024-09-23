@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,8 +39,13 @@ module Storages
         # rubocop:disable Lint/MissingSuper
         def initialize(storage)
           @storage = storage
-          @uri = storage.uri
-          @oauth_client = storage.oauth_client
+
+          raise(ArgumentError, "Storage must have configured OAuth client credentials") if storage.oauth_client.blank?
+
+          @oauth_client = storage.oauth_client.freeze
+
+          raise(ArgumentError, "Storage must have a configured tenant id") if storage.tenant_id.blank?
+
           @oauth_uri = URI("https://login.microsoftonline.com/#{@storage.tenant_id}/oauth2/v2.0").normalize
         end
 
@@ -48,7 +53,7 @@ module Storages
 
         def extract_origin_user_id(rack_access_token)
           OpenProject.httpx.get(
-            Util.join_uri_path(@uri, "/v1.0/me"),
+            UrlBuilder.url(@storage.uri, "/v1.0/me"),
             headers: { "Authorization" => "Bearer #{rack_access_token.access_token}", "Accept" => "application/json" }
           ).raise_for_status.json["id"]
         end

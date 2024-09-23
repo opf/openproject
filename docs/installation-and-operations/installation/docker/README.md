@@ -1,10 +1,10 @@
 ---
 sidebar_navigation:
-  title: Docker
+  title: Docker (all-in-one)
   priority: 300
 ---
 
-# Install OpenProject with Docker
+# OpenProject on Docker all-in-one container
 
 [Docker](https://www.docker.com) is a way to distribute self-contained applications easily. We provide a Docker image for the Community edition that you can very easily
 install and upgrade on your servers. However, contrary to the manual or package-based installation, your machine needs to have the Docker Engine
@@ -12,7 +12,7 @@ installed first, which usually requires a recent operating system. Please see th
 
 ***
 
-**Supported architectures**
+## Supported architectures
 
 Starting with OpenProject 12.5.6 we publish our containers for three architectures.
 
@@ -24,75 +24,24 @@ The OpenProject **BIM Edition** is only supported on AMD64, however.
 
 ***
 
-**Limitations**
+## Limitations
 
 Note that the docker container setup does not allow for integration of repositories within OpenProject. You can reference external repositories, but cannot set them up through OpenProject itself.
 For that feature to work, you need to use the packaged installation method.
 
-**Overview**
+## Overview
 
 OpenProject's docker setup can be launched in two ways:
 
-1. Multiple containers (recommended), each with a single process inside, using a Compose file. Allows to easily choose which services you want to run, and simplifies scaling and monitoring aspects.
+### One container per process (recommend)
 
-2. One container with all the processes inside. Easy but not recommended for production. This is the legacy behavior.
+This is the recommended approach for using OpenProject with Docker, where each component has a single container inside, orchestrated using a Compose file. Allows to easily choose which services you want to run, and simplifies scaling and monitoring aspects.
 
-## One container per process (recommended)
+Please follow the [OpenProject for Docker compose](../docker-compose/) documentation for this installation method
 
-### Quick Start
+### Single docker container
 
-First, you must clone the [openproject-deploy](https://github.com/opf/openproject-deploy/tree/stable/13/compose) repository:
-
-```shell
-git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/13 openproject
-```
-
-Then, change into the compose folder, this folder will be the location where you enter all following commands:
-
-```shell
-cd openproject/compose
-```
-
-Make sure you are using the latest version of the Docker images:
-
-```shell
-docker-compose pull
-```
-
-Launch the containers:
-
-```shell
-OPENPROJECT_HTTPS=false docker-compose up -d
-```
-
-After a while, OpenProject should be up and running on `http://localhost:8080`. The default username and password is login: `admin`, and password: `admin`. You need to explicitly disable HTTPS mode on startup as OpenProject assumes it's running behind HTTPS in production by default.
-
-> **Note:** The `docker-compose.yml` file present in the repository can be adjusted to your convenience. With each pull it will be overwritten. Best practice is to use the file `docker-compose.override.yml` for that case. For instance you could mount specific configuration files, override environment variables, or switch off services you don't need. Please refer to the official [Docker Compose documentation](https://docs.docker.com/compose/extends/) for more details.
-
-You can stop the Compose stack by running:
-
-```shell
-docker-compose stop
-```
-
-You can stop and remove all containers by running:
-
-```shell
-docker-compose down
-```
-
-This will not remove your data which is persisted in named volumes, likely called `compose_opdata` (for attachments) and `compose_pgdata` (for the database). The exact name depends on the name of the directory where your `docker-compose.yml` and/or you `docker-compose.override.yml` files are stored (`compose` in this case).
-
-If you want to start from scratch and remove the existing data you will have to remove these volumes via
-`docker volume rm compose_opdata compose_pgdata`.
-
-### Configuration
-
-Please see the [advanced configuration guide's docker paragraphs](../../configuration/#docker)
-
-#### BIM edition
-
-In order to install or change to BIM inside a Docker environment, please navigate to the [Docker Installation for OpenProject BIM](../../bim-edition/#docker-installation-openproject-bim) paragraph at the BIM edition documentation.
+This guide will show you to install OpenProject in one container with all the processes inside. This allows for a very quick start but is not recommended for production as it hinders upgradability of the different components such as the database.
 
 ## All-in-one container
 
@@ -107,7 +56,7 @@ docker run -it -p 8080:80 \
   -e OPENPROJECT_HOST__NAME=localhost:8080 \
   -e OPENPROJECT_HTTPS=false \
   -e OPENPROJECT_DEFAULT__LANGUAGE=en \
-  openproject/community:13
+  openproject/openproject:14
 ```
 
 Explanation of the used configuration values:
@@ -137,7 +86,7 @@ docker run -d -p 8080:80 \
   -e OPENPROJECT_SECRET_KEY_BASE=secret \
   -e OPENPROJECT_HOST__NAME=localhost:8080 \
   -e OPENPROJECT_HTTPS=false \
-  openproject/community:13
+  openproject/openproject:14
 ```
 
 **Note**: We've had reports of people being unable to start OpenProject this way
@@ -169,11 +118,11 @@ docker run -d -p 8080:80 --name openproject \
   -e OPENPROJECT_SECRET_KEY_BASE=secret \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
-  openproject/community:13
+  openproject/openproject:14
 ```
 
 Please make sure you set the correct public facing hostname in `OPENPROJECT_HOST__NAME`. If you don't have a load-balancing or proxying web server in front of your docker container,
-you will otherwise be vulnerable to [HOST header injections](https://portswigger.net/web-security/host-header), as the internal server has no way of identifying the correct host name.
+you will otherwise be vulnerable to [HOST header injections](https://portswigger.net/web-security/host-header), as the internal server has no way of identifying the correct host name. We strongly recommend you use an external load-balancing or proxying web server for termination of TLS/SSL and general security hardening.
 
 **Note**: Make sure to replace `secret` with a random string. One way to generate one is to run `head /dev/urandom | tr -dc A-Za-z0-9 | head -c 32 ; echo ''` if you are on Linux.
 
@@ -419,14 +368,14 @@ For instance:
 
 ```ruby
 group :opf_plugins do
-  gem "openproject-slack", git: "https://github.com/opf/openproject-slack.git", branch: "release/12.0"
+  gem "openproject-slack", git: "https://github.com/opf/openproject-slack.git", branch: "dev"
 end
 ```
 
 **3. Create the `Dockerfile`** in the same folder. The contents have to look like this:
 
 ```dockerfile
-FROM openproject/community:13
+FROM openproject/openproject:14
 
 # If installing a local plugin (using `path:` in the `Gemfile.plugins` above),
 # you will have to copy the plugin code into the container here and use the
@@ -439,7 +388,7 @@ COPY Gemfile.plugins /app/
 # RUN npm add npm <package-name>*
 
 RUN bundle config unset deployment && bundle install && bundle config set deployment 'true'
-RUN ./docker/prod/setup/postinstall.sh
+RUN ./docker/prod/setup/precompile-assets.sh
 ```
 
 The file is based on the normal OpenProject docker image.
@@ -449,8 +398,8 @@ All the Dockerfile does is copy your custom plugins gemfile into the image, inst
 
 If you are using the `-slim` tag you will need to do the following to add your plugin.
 
-```
-FROM openproject/community:13 AS plugin
+```dockerfile
+FROM openproject/openproject:14 AS plugin
 
 # If installing a local plugin (using `path:` in the `Gemfile.plugins` above),
 # you will have to copy the plugin code into the container here and use the
@@ -463,9 +412,9 @@ COPY Gemfile.plugins /app/
 # RUN npm add npm <package-name>*
 
 RUN bundle config unset deployment && bundle install && bundle config set deployment 'true'
-RUN ./docker/prod/setup/postinstall.sh
+RUN ./docker/prod/setup/precompile-assets.sh
 
-FROM openproject/community:13-slim
+FROM openproject/openproject:14-slim
 
 COPY --from=plugin /usr/bin/git /usr/bin/git
 COPY --chown=$APP_USER:$APP_USER --from=plugin /app/vendor/bundle /app/vendor/bundle
@@ -489,7 +438,7 @@ The `-t` option is the tag for your image. You can choose what ever you want.
 **5. Run the image**
 
 You can run the image just like the normal OpenProject image (as shown earlier).
-You just have to use your chosen tag instead of `openproject/community:13`.
+You just have to use your chosen tag instead of `openproject/openproject:14`.
 To just give it a quick try you can run this:
 
 ```shell
@@ -508,7 +457,7 @@ The installation works the same as described above. The only difference is that 
 On a system that has access to the internet run the following.
 
 ```shell
-docker pull openproject/community:13 && docker save openproject/community:13 | gzip > openproject-12.tar.gz
+docker pull openproject/openproject:14 && docker save openproject/openproject:14 | gzip > openproject-12.tar.gz
 ```
 
 This creates a compressed archive containing the latest OpenProject docker image.
@@ -709,12 +658,12 @@ Once this has finished you should see something like this when running `docker s
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest
-qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:13
+qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/openproject:14
 cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:13
-uvtfnc9dnlbn        openproject_proxy    replicated          1/1                 openproject/community:13   *:8080->80/tcp
-g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:13
-canb3m7ilkjn        openproject_web      replicated          1/1                 openproject/community:13
-7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:13
+uvtfnc9dnlbn        openproject_proxy    replicated          1/1                 openproject/openproject:14   *:8080->80/tcp
+g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/openproject:14
+canb3m7ilkjn        openproject_web      replicated          1/1                 openproject/openproject:14
+7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/openproject:14
 ```
 
 You can now access OpenProject under `http://0.0.0.0:8080`.
@@ -752,12 +701,12 @@ This will take a moment to converge. Once done you should see something like the
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest
-qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:13
+qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/openproject:14
 cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:10
-uvtfnc9dnlbn        openproject_proxy    replicated          2/2                 openproject/community:13   *:8080->80/tcp
-g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:13
-canb3m7ilkjn        openproject_web      replicated          6/6                 openproject/community:13
-7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:13
+uvtfnc9dnlbn        openproject_proxy    replicated          2/2                 openproject/openproject:14   *:8080->80/tcp
+g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/openproject:14
+canb3m7ilkjn        openproject_web      replicated          6/6                 openproject/openproject:14
+7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/openproject:14
 ```
 
 Docker swarm handles the networking necessary to distribute the load among the nodes.
@@ -771,7 +720,7 @@ But that will be a single point of failure if the manager node goes down.
 To make this more redundant you can use the load balancer directive in your proxy configuration.
 For instance for apache this could look like this:
 
-```
+```apache
 <Proxy balancer://swarm>
     BalancerMember http://10.0.2.77:8080 # swarm node 1 (manager)
     BalancerMember http://10.0.2.78:8080 # swarm node 2

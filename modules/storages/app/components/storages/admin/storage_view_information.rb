@@ -18,7 +18,7 @@ module Storages::Admin
       if storage.provider_type_nextcloud?
         configuration_check_label_for(:host_name_configured)
       elsif storage.provider_type_one_drive?
-        configuration_check_label_for(:host_name_configured, :storage_tenant_drive_configured)
+        configuration_check_label_for(:name_configured, :storage_tenant_drive_configured)
       end
     end
 

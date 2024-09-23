@@ -1,0 +1,107 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(Primer::Alpha::Dialog.new(id:, title: scoped_t(:title), size: :large)) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
+
+  <% case %>
+  <% when direct_shared_work_packages_count? && other_shared_work_packages_count? %>
+    <% dialog.with_body do %>
+      <% if inherited_shared_work_packages_count? %>
+        <%= paragraph do %>
+          <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:, count: all_shared_work_packages_count) %>
+          <%= scoped_t(:shared_with_permission_html, shared_work_packages_link:, count: shared_work_packages_count, shared_role_name:) %>
+        <% end %>
+        <%= paragraph do %>
+          <%= scoped_t(:revoke_all_or_with_role, shared_role_name:) %>
+          <%= scoped_t(:will_not_affect_inherited_shares) %>
+        <% end %>
+      <% elsif principal.is_a?(Group) %>
+        <%= paragraph do %>
+          <%= scoped_t(:shared_with_this_group_html, all_shared_work_packages_link:, count: all_shared_work_packages_count) %>
+          <%= scoped_t(:shared_with_permission_html, shared_work_packages_link:, count: shared_work_packages_count, shared_role_name:) %>
+        <% end %>
+        <%= paragraph { scoped_t(:revoke_all_or_with_role, shared_role_name:) } %>
+      <% else %>
+        <%= paragraph do %>
+          <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:, count: all_shared_work_packages_count) %>
+          <%= scoped_t(:shared_with_permission_html, shared_work_packages_link:, count: shared_work_packages_count, shared_role_name:) %>
+        <% end %>
+        <%= paragraph { scoped_t(:revoke_all_or_with_role, shared_role_name:) } %>
+      <% end %>
+    <% end %>
+
+    <% dialog.with_footer do %>
+      <%= cancel_button %>
+      <%= button(scheme: :danger, tag: :a, href: delete_url(work_package_shares_role_id: "all"), data: { method: :delete }) { t(:button_revoke_all) } %>
+      <%= button(scheme: :danger, tag: :a, href: delete_url(work_package_shares_role_id: shared_role_id), data: { method: :delete }) { t(:button_revoke_only, shared_role_name:) } %>
+    <% end %>
+  <% when direct_shared_work_packages_count? %>
+    <% dialog.with_body do %>
+      <% if inherited_shared_work_packages_count? %>
+        <%= paragraph do %>
+          <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:, count: all_shared_work_packages_count) %>
+          <%= scoped_t(:will_revoke_directly_granted_access) %>
+        <% end %>
+      <% elsif principal.is_a?(Group) %>
+        <%= paragraph do %>
+          <%= scoped_t(:shared_with_this_group_html, all_shared_work_packages_link:, count: all_shared_work_packages_count) %>
+          <%= scoped_t(:will_revoke_access_to_all) %>
+        <% end %>
+      <% else %>
+        <%= paragraph do %>
+          <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:, count: all_shared_work_packages_count) %>
+          <%= scoped_t(:will_revoke_access_to_all) %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% dialog.with_footer do %>
+      <%= cancel_button %>
+      <%= button(scheme: :danger, tag: :a, href: delete_url(work_package_shares_role_id: "all"), data: { method: :delete }) { t(:button_revoke_access) } %>
+    <% end %>
+  <% else %>
+    <% dialog.with_body do %>
+      <% if other_shared_work_packages_count? %>
+        <%= paragraph { scoped_t(:cannot_remove_inherited_with_role, shared_role_name:) } %>
+      <% else %>
+        <%= paragraph { scoped_t(:cannot_remove_inherited, shared_role_name:) } %>
+      <% end %>
+      <% if may_manage_user? %>
+        <%= paragraph { scoped_t(:cannot_remove_inherited_note_admin_html, administration_settings_link:) } %>
+      <% else %>
+        <%= paragraph { scoped_t(:cannot_remove_inherited_note_non_admin) } %>
+      <% end %>
+    <% end %>
+
+    <% dialog.with_footer do %>
+      <%= cancel_button %>
+    <% end %>
+  <% end %>
+<% end %>

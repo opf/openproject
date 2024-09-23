@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,9 @@ RSpec.describe "users/edit" do
       assign(:user, user)
       assign(:auth_sources, [])
 
-      allow(view).to receive(:current_user).and_return(admin)
+      without_partial_double_verification do
+        allow(view).to receive(:current_user).and_return(admin)
+      end
     end
 
     it "shows the authentication provider" do
@@ -75,7 +77,9 @@ RSpec.describe "users/edit" do
 
     context "for an admin" do
       before do
-        allow(view).to receive(:current_user).and_return(admin)
+        without_partial_double_verification do
+          allow(view).to receive(:current_user).and_return(admin)
+        end
         render
       end
 
@@ -88,7 +92,9 @@ RSpec.describe "users/edit" do
       let(:non_admin) { create(:user, global_permissions: [:manage_user]) }
 
       before do
-        allow(view).to receive(:current_user).and_return(non_admin)
+        without_partial_double_verification do
+          allow(view).to receive(:current_user).and_return(non_admin)
+        end
         render
       end
 
@@ -105,7 +111,9 @@ RSpec.describe "users/edit" do
       assign(:user, user)
       assign(:auth_sources, [])
 
-      allow(view).to receive(:current_user).and_return(admin)
+      without_partial_double_verification do
+        allow(view).to receive(:current_user).and_return(admin)
+      end
       render
     end
 
@@ -121,7 +129,9 @@ RSpec.describe "users/edit" do
       assign :user, user
       assign :auth_sources, []
 
-      allow(view).to receive(:current_user).and_return(admin)
+      without_partial_double_verification do
+        allow(view).to receive(:current_user).and_return(admin)
+      end
     end
 
     context "with password login disabled" do

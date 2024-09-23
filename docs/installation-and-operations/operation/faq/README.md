@@ -55,4 +55,3 @@ A closer look at the available branches:
 ## How can I backup and restore my OpenProject installation?
 
 Please refer to the [backup documentation](../backing-up) for the packaged installation.
-

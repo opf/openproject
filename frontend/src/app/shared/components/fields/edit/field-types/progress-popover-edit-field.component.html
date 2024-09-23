@@ -1,0 +1,54 @@
+<spot-drop-modal
+  [opened]="opened"
+  [notFullscreen]="true"
+  (closed)="onModalClosed()"
+  alignment="bottom-start"
+>
+  <input
+    slot="trigger"
+    type="text"
+    class="spot-input"
+    (click)="onInputClick($event)"
+    (focus)="showProgressModal()"
+    [value]="asHoursOrPercent"
+    [disabled]="opened || inFlight"
+    [id]="handler.htmlId"
+  />
+
+  <ng-container slot="body">
+    <div
+      class="spot-drop-modal--header"
+    >
+      <div
+        id="spotModalTitle"
+        class="spot-drop-modal--header-title"
+        [textContent]="this.text.title">
+      </div>
+
+      <button
+        class="button button_no-margin -transparent spot-drop-modal--header-close-button"
+        [attr.aria-label]="text.button_close"
+        (click)="closeMe()"
+        data-test-selector="op-progress-modal--close-icon"
+      >
+        <svg x-icon size="small" class="spot-drop-modal--header-close-button-icon"></svg>
+      </button>
+    </div>
+
+    <div class="spot-drop-modal--content">
+      <turbo-frame
+        #frameElement
+        id="work_package_progress_modal"
+        [attr.src]="this.frameSrc">
+        <op-content-loader
+          viewBox="0 0 180 80"
+        >
+          <svg:rect height="10" rx="2" ry="2" width="110" x="0" y="0"/>
+          <svg:rect height="10" rx="2" ry="2" width="25" x="120" y="0"/>
+          <svg:rect height="10" rx="2" ry="2" width="25" x="155" y="0"/>
+          <svg:rect height="25%" rx="2" ry="2" width="180" x="0" y="16"/>
+        </op-content-loader>
+      </turbo-frame>
+    </div>
+  </ng-container>
+</spot-drop-modal>

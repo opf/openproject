@@ -1,0 +1,22 @@
+<% sidebar_menu_items =
+     [
+       OpenProject::Menu::MenuGroup.new(
+         header: "Private",
+         children: [
+           OpenProject::Menu::MenuItem.new(title: "My query", href: "", selected: false, favored: favored),
+           OpenProject::Menu::MenuItem.new(title: "An awesome query", href: "", selected: false, count: count, icon: icon),
+           OpenProject::Menu::MenuItem.new(title: "A third query", href: "", selected: false, show_enterprise_icon: show_enterprise_icon)
+         ]
+       )
+     ] %>
+
+<div class="main-menu">
+  <!-- Meant to be rendered inside the left-handed sidebar and is currently depending on that -->
+  <!-- Please note, that due to that not all styles are correctly applied in the lookbook -->
+  <%= render OpenProject::Common::SubmenuComponent.new(
+    sidebar_menu_items: sidebar_menu_items,
+    searchable: searchable,
+    create_btn_options: create_btn_options
+  )
+  %>
+</div>

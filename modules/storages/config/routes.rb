@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,14 +38,33 @@ Rails.application.routes.draw do
           post :finish_setup
         end
 
-        resource :automatically_managed_project_folders, controller: "/storages/admin/automatically_managed_project_folders",
-                                                         only: %i[new create edit update]
+        resource :automatically_managed_project_folders,
+                 controller: "/storages/admin/automatically_managed_project_folders",
+                 only: %i[index new create edit update]
+
+        resource :access_management, controller: "/storages/admin/access_management", only: %i[new create edit update]
+
+        scope module: :storages do
+          resources :project_storages,
+                    controller: "/storages/admin/storages/project_storages",
+                    only: %i[index new create edit update destroy] do
+            get :destroy_confirmation_dialog, on: :member
+            get :oauth_access_grant, on: :collection
+          end
+        end
+
+        resource :connection_validation,
+                 controller: "/storages/admin/connection_validation",
+                 only: [] do
+          post :validate_connection, on: :member
+        end
 
         get :select_provider, on: :collection
 
         member do
           get :show_oauth_application
           get :edit_host
+          patch :change_health_notifications_enabled
           get :confirm_destroy
           delete :replace_oauth_application
         end
@@ -62,7 +81,11 @@ Rails.application.routes.draw do
 
   scope "projects/:project_id", as: "project" do
     namespace "settings" do
-      resources :project_storages, controller: "/storages/admin/project_storages", except: %i[show] do
+      resources :project_storages, controller: "/storages/admin/project_storages", except: %i[index show] do
+        collection do
+          get :external_file_storages
+          get :attachments
+        end
         member do
           get :oauth_access_grant
           # Destroy uses a get request to prompt the user before the actual DELETE request

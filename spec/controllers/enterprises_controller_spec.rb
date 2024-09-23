@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -181,7 +181,7 @@ RSpec.describe EnterprisesController do
         end
 
         it "renders 404" do
-          expect(response.status).to eq(404)
+          expect(response).to have_http_status(:not_found)
         end
       end
     end
@@ -195,7 +195,7 @@ RSpec.describe EnterprisesController do
     end
 
     it "is forbidden" do
-      expect(response.status).to eq 403
+      expect(response).to have_http_status :forbidden
     end
   end
 end

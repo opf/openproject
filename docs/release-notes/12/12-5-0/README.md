@@ -15,7 +15,7 @@ We have released [OpenProject 12.5.0](https://community.openproject.org/versions
 This new release is again packed with many new collaboration features, improvements and bug fixes.
 Version 12.5 brings the anticipated collaboration features for the **Nextcloud integration to the OpenProject side**. Nextcloud and OpenProject now offer users of both services a way to manage their projects and share files seamlessly and without disruption.
 
-OpenProject 12.5 now also lets system administrator **define additional non-working days** on an instance level, such as public holidays. We are also happy to **release another Enterprise add-on** to the free-of-charge Community version: The advanced search functionality not only supports full text search but also enables users to search for work package attachments or content. 
+OpenProject 12.5 now also lets system administrator **define additional non-working days** on an instance level, such as public holidays. We are also happy to **release another Enterprise add-on** to the free-of-charge Community version: The advanced search functionality not only supports full text search but also enables users to search for work package attachments or content.
 
 ## Upload files to Nextcloud while working in OpenProject
 
@@ -55,8 +55,6 @@ Once you have selected or dropped the files you would like to upload, simply sel
 
 The ability to upload new files to Nextcloud directly from OpenProject or link existing files to work packages is not reserved only for existing work packages. You can now do both also when creating a new work package.
 
-
-
 ![openproject-nextcloud-upload-files-empty-status](openproject-nextcloud-upload-files-empty-status.png)
 
 ### More options for linked Nextcloud files in OpenProject
@@ -73,7 +71,7 @@ With OpenProject 12.5, administrators can now also define additional individual 
 
 ![Non-working-days-holidays](Non-working-days-holidays.png)
 
-**Please note**: These additional non-working days are set at an instance level and affect all work packages in all projects. Adding additional non-working days can therefore affect and reschedule a large number of work packages in the instance (except those for which the 'Working days only' switch is turned off). Individual non-working days and are also tied to a specific year. Recurring holidays like Christmas have to be set separately for each year. 
+**Please note**: These additional non-working days are set at an instance level and affect all work packages in all projects. Adding additional non-working days can therefore affect and reschedule a large number of work packages in the instance (except those for which the 'Working days only' switch is turned off). Individual non-working days and are also tied to a specific year. Recurring holidays like Christmas have to be set separately for each year.
 
 ## View project activity
 
@@ -215,6 +213,7 @@ With OpenProject 12.5, we are happy to announce that another Enterprise add-on w
 - Epic: Cross-application main menu for dPhoenixSuite/Sovereign Administrative Work Place  \[[#44297](https://community.openproject.org/wp/44297)\]
 
 ## Credits and contributions
+
 A very special thank you goes to the following sponsors for features and improvements of this release:
 
 - **The City of Cologne** for having sponsored the tracking of project changes, adding additional non-working days, and parts of the Nextcloud integration.
@@ -222,4 +221,4 @@ A very special thank you goes to the following sponsors for features and improve
 
 A very big thank you to M V, Sven Kunze, Rince wind, Christina Vechkanova, Johannes Frenck, Marc Burk, Jörg Nold, Nidhin Manoharan, Jörg Mollowitz, Benjamin Rönnau, Harald Herz for finding and reporting bugs.
 
-And of course, a very big thank you to the **Nextcloud** team for this amazing collaboration. 
+And of course, a very big thank you to the **Nextcloud** team for this amazing collaboration.

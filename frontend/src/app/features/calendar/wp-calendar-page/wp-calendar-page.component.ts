@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -45,7 +45,6 @@ import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packa
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
 import { OpProjectIncludeComponent } from 'core-app/shared/components/project-include/project-include.component';
-import { teamPlannerPageRefresh } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
 import { calendarRefreshRequest } from 'core-app/features/calendar/calendar.actions';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';

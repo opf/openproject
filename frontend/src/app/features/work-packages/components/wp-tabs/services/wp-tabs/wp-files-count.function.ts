@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2024 the OpenProject GmbH
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 //++
 
 import { Injector } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -40,13 +40,13 @@ export function workPackageFilesCount(
 ):Observable<number> {
   const attachmentService = injector.get(AttachmentsResourceService);
   const fileLinkService = injector.get(FileLinksResourceService);
+  const attachmentsCollection = workPackage.$links.attachments
+    ? attachmentService.collection(workPackage.$links.attachments.href || '')
+    : of([]);
+  const fileLinksCollection = fileLinkService.collection(workPackage.$links.fileLinks?.href || '');
 
-  return combineLatest(
-    [
-      attachmentService.collection(workPackage.$links.attachments.href || ''),
-      fileLinkService.collection(workPackage.$links.fileLinks?.href || ''),
-    ],
-  ).pipe(
-    map(([a, f]) => a.length + f.length),
-  );
+  return combineLatest([
+    attachmentsCollection,
+    fileLinksCollection,
+  ]).pipe(map(([a, f]) => a.length + f.length));
 }

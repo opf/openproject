@@ -9,52 +9,45 @@ properties:
   id:
     type: integer
     description: Status id
-    readOnly: true
     minimum: 1
   name:
     type: string
     description: Status name
-    readOnly: true
-  position:
-    type: integer
-    description: Sort index of the status
-    readOnly: true
-  isDefault:
-    type: boolean
-    readOnly: true
   isClosed:
     type: boolean
-    description: are tickets of this status considered closed?
-    readOnly: true
+    description: Indicates, whether work package of this status are considered closed
+  color:
+    type: string
+    format: hex-code
+    description: The color of the status
+  isDefault:
+    type: boolean
+    description: True, if this status is the default status for new work packages
   isReadonly:
     type: boolean
-    description: are tickets of this status read only?
-    readOnly: true
+    description: Indicates, whether work package of this status are readonly
+  excludedFromTotals:
+    type: boolean
+    description: |-
+      Indicates, whether work package of this status are excluded from totals of `Work`, `Remaining work`, and
+      `% Complete` in a hierarchy.
   defaultDoneRatio:
     type: integer
     description: The percentageDone being applied when changing to this status
+    minimum: 0
     maximum: 100
+  position:
+    type: integer
+    description: Sort index of the status
   _links:
     type: object
     required:
-    - self
+      - self
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This status
-
-            **Resource**: Status
-          readOnly: true
-example:
-  _links:
-    self:
-      href: "/api/v3/statuses/1"
-  _type: Status
-  id: 1
-  name: New
-  position: 1
-  isDefault: true
-  isClosed: false
-  defaultDoneRatio: 0
+          - $ref: './link.yml'
+          - description: |-
+              This status
+              
+              **Resource**: Status

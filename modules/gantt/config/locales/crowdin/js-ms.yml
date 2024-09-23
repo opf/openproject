@@ -1,6 +1,5 @@
 ms:
   js:
-    queries:
-      all_open: 'Semua terbuka'
-      timeline: 'Garis masa'
-      milestones: 'Pencapaian'
+    work_packages:
+      default_queries:
+        milestones: 'Pencapaian'

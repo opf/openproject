@@ -1,0 +1,51 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% helpers.html_title t(:label_administration), @title %>
+
+<%= render(Primer::OpenProject::PageHeader.new) do |header|
+  header.with_title { t(:"attributes.attachments") }
+  header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                           { href: admin_settings_storages_path, text: t("project_module_storages") },
+                           t(:"attributes.attachments")])
+  header.with_tab_nav(label: nil) do |tab_nav|
+    tab_nav.with_tab(selected: @selected == 1, href: admin_settings_attachments_path) do |tab|
+      tab.with_text { t("settings.general") }
+    end
+    tab_nav.with_tab(selected: @selected == 2, href: admin_settings_virus_scanning_path) do |tab|
+      tab.with_icon(icon: :"op-enterprise-addons") unless EnterpriseToken.allows_to?("virus_scanning")
+      tab.with_text { t(:"settings.antivirus.title") }
+    end
+    if User.current.admin? && (EnterpriseToken.allows_to?(:virus_scanning) || Attachment.status_quarantined.any?)
+      tab_nav.with_tab(selected: @selected == 3, href: admin_quarantined_attachments_path) do |tab|
+        tab.with_text { t(:"antivirus_scan.quarantined_attachments.title") }
+      end
+    end
+  end
+end %>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,16 +37,21 @@ module Notifications
 
       def with_marked_notifications(notification_ids)
         Notification.transaction do
-          mark_notifications_sent(notification_ids)
+          # It might be decided by the callers that the notifications should not be sent after all which
+          # is signaled by `nil`. This happens e.g. for work packages where users might have disabled the
+          # immediate_reminders for mentioned.
+          was_sent = yield
 
-          yield
+          mark_notifications_sent(notification_ids, was_sent.present? ? !!was_sent : nil)
+
+          was_sent
         end
       end
 
-      def mark_notifications_sent(notification_ids)
+      def mark_notifications_sent(notification_ids, was_sent)
         Notification
           .where(id: Array(notification_ids))
-          .update_all(notification_marked_attribute => true, updated_at: Time.current)
+          .update_all(notification_marked_attribute => was_sent, updated_at: Time.current)
       end
     end
   end

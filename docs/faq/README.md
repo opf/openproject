@@ -19,7 +19,6 @@ Welcome to the central overview of frequently asked questions for OpenProject.
 | [Other](#other)                                                                 | Additional questions, e.g. about contribution, training, support                                  |
 | [Topic-specific FAQ](#topic-specific-faq)                                       | Links to other FAQ sections                                                                       |
 
-
 ## Learn more about OpenProject
 
 ### How do I get access to the OpenProject Enterprise add-ons?
@@ -33,6 +32,7 @@ If you want to run OpenProject on your own server, the OpenProject Enterprise on
 Have you already installed the [OpenProject Community edition](https://www.openproject.org/download-and-installation/)? If yes, you can request a trial license for the OpenProject Enterprise on-premises edition by clicking on the button "Free trial license" [here](https://www.openproject.org/de/enterprise-edition/) and test the Enterprise on-premises edition for 14 days for free.
 
 ### Can I have some users with Enterprise add-ons and some without?
+
 As the Enterprise Enterprise add-ons affect the whole instance (e.g. with Agile Boards and project custom fields) it's not possible to upgrade only some users.
 
 ### What are the system requirements?
@@ -84,7 +84,7 @@ However, if you're still using an old OpenProject subscription there may be limi
 
 ### What is the difference between Enterprise on-premises and Community edition regarding LDAP?
 
-In the Community edition and in the Enterprise on-premises edition you can use the standard LDAP authentication. However, the Enterprise on-premises edition also includes LDAP group synchronization. This allows you to synchronize group members from LDAP with groups in OpenProject. The respective documentation can be found [here](../system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/#synchronize-ldap-and-openproject-groups-enterprise-add-on).
+In the Community edition and in the Enterprise on-premises edition you can use the standard LDAP authentication. However, the Enterprise on-premises edition also includes LDAP group synchronization. This allows you to synchronize group members from LDAP with groups in OpenProject. The respective documentation can be found [here](../system-admin-guide/authentication/ldap-connections/ldap-group-synchronization/#synchronize-ldap-and-openproject-groups-enterprise-add-on).
 
 ## How to ... in OpenProject
 
@@ -151,7 +151,7 @@ Please find information on the features of OpenProject [here](https://www.openpr
 ### Is it possible to use multiple languages in OpenProject?
 
 Yes, it is possible to use OpenProject in multiple languages. We support English, German, French and a number of additional languages. Each user can select their own preferred language by signing into OpenProject, clicking on the user avatar on the upper right side and selecting "My account" from the dropdown menu.
-You can then select "Settings" from the side menu on the left side and [change the language](../getting-started/my-account/#change-your-language).
+You can then select "Settings" from the side menu on the left side and [change the language](../user-guide/my-account/#change-your-language).
 
 ### Is there an OpenProject app?
 
@@ -194,7 +194,6 @@ More information regarding resource management in OpenProject can be found in th
 For portfolio management or custom reporting, you can use either the project list, or the global work package table. Both views can be used to create optimal reports via filtering, sorting and other configuration options.
 
 For more information on portfolio management options in OpenProject please refer to this [Use Case](../use-cases/portfolio-management).
-
 
 ### Is there an organizational chart in OpenProject?
 
@@ -248,7 +247,6 @@ Yes. Take a photo with your camera and save it on your phone. Then open the corr
 
 Yes, of course. Within the BCF module you can upload multiple IFC models and create and manage BCF issues.
 
-
 ## Migration
 
 ### How can I migrate from Bitnami to OpenProject?
@@ -269,6 +267,8 @@ At the moment there are these ways to migrate:
 - our [API](../api/)
 - our [Excel sync](../system-admin-guide/integrations/excel-synchronization)
 - Using a [Markdown export app](https://marketplace.atlassian.com/apps/1221351/markdown-exporter-for-confluence) you can export pages from Confluence and paste them (via copy & paste) into OpenProject in e.g. the wiki. This should preserve at least most of the layout. Attachments would then have to be added manually.
+
+Our partners at [ALMToolbox](https://www.almtoolbox.com/)  are happy to support you with Jira or Confluence migration. 
 
 For more information please contact us.
 
@@ -309,10 +309,6 @@ We offer our Professional Support for Enterprise on-premises users and Enterpris
 If you use the Community edition please feel free to use our [forums](https://community.openproject.org/projects/openproject/forums) for exchange with other users.
 
 To learn more about OpenProject and how its features work please have a look at [this FAQ](#how-can-i-learn-more-about-openproject).
-
-### Do you support Univention users?
-
-If you're an Enterprise on-premises user you're eligible for Professional Support. However, we can't support you in all Univention-related topics (e.g. server not reachable, authentication setup, ...).
 
 ### Do you have a cyber insurance?
 

@@ -244,10 +244,10 @@ cs:
                     *   ...
                 item_2:
                   subject: Konec základního hodnocení
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Tento typ je hierarchicky nadřazený typům &quot;Clash&quot; a &quot;Request&quot;, představuje tedy obecnou poznámku.
             item_2:
               subject: Předběžné plánování
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Tento typ je hierarchicky nadřazený typům &quot;Clash&quot; a &quot;Request&quot;, představuje tedy obecnou poznámku.
               children:
                 item_0:
                   subject: Vývoj prvního konceptu
@@ -281,10 +281,10 @@ cs:
                     *   ...
             item_3:
               subject: Přijetí předběžného plánu
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Tento typ je hierarchicky nadřazený typům &quot;Clash&quot; a &quot;Request&quot;, představuje tedy obecnou poznámku.
             item_4:
               subject: Plánování návrhů
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Tento typ je hierarchicky nadřazený typům &quot;Clash&quot; a &quot;Request&quot;, představuje tedy obecnou poznámku.
               children:
                 item_0:
                   subject: Dokončovací návrhu
@@ -302,7 +302,7 @@ cs:
                     *   ...
                 item_1:
                   subject: Zmrazení návrhu
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Tento typ je hierarchicky nadřazený typům &quot;Clash&quot; a &quot;Request&quot;, představuje tedy obecnou poznámku.
             item_5:
               subject: Fáze výstavby
               children:
@@ -469,7 +469,7 @@ cs:
                 The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
               subject: Příprava projektu
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Tento typ je hierarchicky nadřazený typům &quot;Clash&quot; a &quot;Request&quot;, představuje tedy obecnou poznámku.
               children:
                 item_0:
                   subject: Shromažďování údajů a informací specifických pro projekt pro model BIM
@@ -502,13 +502,13 @@ cs:
                     *   ...
                 item_2:
                   subject: Dokončení plánu provádění BIM
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Tento typ je hierarchicky nadřazený typům &quot;Clash&quot; a &quot;Request&quot;, představuje tedy obecnou poznámku.
             item_2:
               subject: Konec přípravné fáze
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Tento typ je hierarchicky nadřazený typům &quot;Clash&quot; a &quot;Request&quot;, představuje tedy obecnou poznámku.
             item_3:
               subject: Vytváření počátečního modelu BIM
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Tento typ je hierarchicky nadřazený typům &quot;Clash&quot; a &quot;Request&quot;, představuje tedy obecnou poznámku.
               children:
                 item_0:
                   subject: Modelování počátečního modelu BIM
@@ -536,10 +536,10 @@ cs:
                     *   ...
                 item_2:
                   subject: Odesílání počátečního modelu BIM
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Tento typ je hierarchicky nadřazený typům &quot;Clash&quot; a &quot;Request&quot;, představuje tedy obecnou poznámku.
             item_4:
               subject: Modelování, první cyklus
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Tento typ je hierarchicky nadřazený typům &quot;Clash&quot; a &quot;Request&quot;, představuje tedy obecnou poznámku.
               children:
                 item_0:
                   subject: Odkazování externích modelů BIM

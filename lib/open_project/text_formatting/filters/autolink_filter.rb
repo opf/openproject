@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +42,8 @@ module OpenProject::TextFormatting
         autolink_context = default_autolink_options.merge context.fetch(:autolink, {})
         return doc if autolink_context[:enabled] == false
 
-        ::Rinku.auto_link(html, :all, "class=\"#{autolink_context[:classes]}\"")
+        ::Rinku.auto_link(html, :all, "class=\"#{autolink_context[:classes]}\" rel=\"noopener noreferrer\"", nil,
+                          Rinku::AUTOLINK_SHORT_DOMAINS)
       end
 
       def default_autolink_options

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -285,7 +285,7 @@ RSpec.describe OpenProject::TextFormatting,
                           <input type="checkbox" disabled="disabled">
                           <span class="op-uc-list__label__description">asdfasdfasdf </span>
                         </label>
-                        <a class="op-uc-link" href="https://example.com/">
+                        <a class="op-uc-link" target="_top" href="https://example.com/">
                           <label class="op-uc-list__label">
                             <span class="op-uc-list__label__description">foobar</span>
                           </label>
@@ -316,7 +316,7 @@ RSpec.describe OpenProject::TextFormatting,
                           <li class="op-uc-list--item">
                             <input type="checkbox" class="op-uc-list--task-checkbox" disabled>
                             <span>asdfasdfasdf </span>
-                            <a class="op-uc-link" target="_top" href="https://example.com/" rel="noopener noreferrer">
+                            <a class="op-uc-link" href="https://example.com/" target="_top" rel="noopener noreferrer">
                               <span>foobar</span>
                             </a>
                           </li>

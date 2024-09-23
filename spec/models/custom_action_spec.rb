@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -120,6 +120,19 @@ RSpec.describe CustomAction do
 
       expect(stubbed_instance.all_actions.map { |a| [a.key, a.values] })
         .to include([:assigned_to, [1]], [:status, []])
+    end
+
+    it "fetches data for login format of user name" do
+      create(:user)
+
+      allow(Setting).to receive(:user_format).and_return(:username)
+
+      expect do
+        stubbed_instance
+          .all_actions
+          .select { _1.type == :associated_property }
+          .each(&:allowed_values)
+      end.not_to raise_error
     end
   end
 

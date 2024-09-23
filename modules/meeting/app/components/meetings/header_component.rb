@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,18 +31,43 @@ module Meetings
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
+    include Primer::FetchOrFallbackHelper
 
-    def initialize(meeting:, state: :show)
+    STATE_DEFAULT = :show
+    STATE_EDIT = :edit
+    STATE_OPTIONS = [STATE_DEFAULT, STATE_EDIT].freeze
+    def initialize(meeting:, project: nil, state: STATE_DEFAULT)
       super
 
       @meeting = meeting
-      @state = state
+      @project = project
+      @state = fetch_or_fallback(STATE_OPTIONS, state)
+    end
+
+    # Define the interval so it can be overriden through tests
+    def check_for_updates_interval
+      10_000
     end
 
     private
 
     def delete_enabled?
       User.current.allowed_in_project?(:delete_meetings, @meeting.project)
+    end
+
+    def breadcrumb_items
+      [parent_element,
+       { href: @project.present? ? project_meetings_path(@project.id) : meetings_path,
+         text: I18n.t(:label_meeting_plural) },
+       @meeting.title]
+    end
+
+    def parent_element
+      if @project.present?
+        { href: project_overview_path(@project.id), text: @project.name }
+      else
+        { href: home_path, text: I18n.t(:label_home) }
+      end
     end
   end
 end

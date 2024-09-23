@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ module Users
     def persist(call)
       new_user = call.result
 
-      return super(call) unless new_user.invited?
+      return super unless new_user.invited?
 
       # As we're basing on the user's mail, this parameter is required
       # before we're able to validate the contract or user
