@@ -39,6 +39,7 @@ class WorkPackages::SetAttributesService
       # by the contract and errors will be set.
       return if invalid_progress_values?
 
+      set_complete if set_complete_for_closed_status?
       update_work if derive_work?
       update_remaining_work if derive_remaining_work?
       update_percent_complete if derive_percent_complete?
@@ -56,6 +57,13 @@ class WorkPackages::SetAttributesService
       percent_complete && !percent_complete.between?(0, 100)
     end
 
+    def set_complete_for_closed_status?
+      WorkPackage.complete_on_status_closed? \
+        && percent_complete_not_provided_by_user? \
+        && work_package.status_id_changed? \
+        && work_package.closed?
+    end
+
     def derive_work?
       work_not_provided_by_user? && (remaining_work_changed? || percent_complete_changed?)
     end
@@ -67,6 +75,11 @@ class WorkPackages::SetAttributesService
     def derive_percent_complete?
       percent_complete_not_provided_by_user? && (work_changed? || remaining_work_changed?) \
         && !skip_percent_complete_derivation
+    end
+
+    def set_complete
+      self.percent_complete = 100
+      skip_percent_complete_derivation!
     end
 
     # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity

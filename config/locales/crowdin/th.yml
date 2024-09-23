@@ -31,6 +31,9 @@ th:
     custom_styles:
       color_theme: "สีของรูปแบบ"
       color_theme_custom: "ตั้งค่าเอง"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
         accent-color: "Accent"
@@ -1607,7 +1610,7 @@ th:
   error_menu_item_not_saved: ไม่สามารถบันทึกรายการเมนูได้
   error_wiki_root_menu_item_conflict: >
     ไม่สามารถเปลี่ยนชื่อ "%{old_name}" เป็น "%{new_name}" ได้เนื่องจากขัดแย้งกับรายการเมนูที่มีอยู่แล้ว "%{existing_caption}" (%{existing_identifier})
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
     changeset: "แก้ไขชุดการเปลี่ยนแปลงแล้ว"
@@ -1888,7 +1891,8 @@ th:
   label_additional_workflow_transitions_for_assignee: "ยินยอมให้มีการเปลี่ยนแปลงได้เพิ่มขึ้นเมื่อผู้ใช้เป็นผู้ได้รับมอบหมายความรับผิดชอบ"
   label_additional_workflow_transitions_for_author: "ยินยอมให้มีการเปลี่ยนแปลงได้เพิ่มขึ้นเมื่อผู้ใช้เป็นผู้สร้าง"
   label_administration: "การจัดการระบบ"
-  label_advanced_settings: "Advanced settings"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "ระยะเวลา"
   label_ago: "วันที่ผ่านมา"
   label_all: "ทั้งหมด"
@@ -2002,6 +2006,7 @@ th:
   label_custom_field_plural: "ฟิลด์ที่กำหนดเอง"
   label_custom_field_default_type: "ชนิดว่าง"
   label_custom_style: "การออกแบบ"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "วันที่"
@@ -2123,8 +2128,8 @@ th:
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
   label_show_all_registered_users: "Show all registered users"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "บันทึก"
   label_journal_diff: "เปรียบเทียบคำอธิบาย"
   label_language: "ภาษา"
@@ -3125,6 +3130,13 @@ th:
   setting_password_min_length: "จำนวนตัวอักษรขั้นต่ำ"
   setting_password_min_adhered_rules: "จำนวน class ขั้นต่ำที่จำเป็น"
   setting_per_page_options: "ตัวเลือกออบเจคต่อหน้าเพจ"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "จดหมายข้อความล้วน (ไม่ใช้ HTML)"
   setting_protocol: "โปรโทคอล"
   setting_project_gantt_query: "Project portfolio Gantt view"

@@ -31,6 +31,9 @@ ko:
     custom_styles:
       color_theme: "컬러 테마"
       color_theme_custom: "(사용자 지정)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "기본 버튼"
         accent-color: "강조 색"
@@ -1606,7 +1609,7 @@ ko:
   error_menu_item_not_saved: 메뉴 항목을 저장할 수 없습니다.
   error_wiki_root_menu_item_conflict: >
     결과 메뉴 항목에서 기존 메뉴 항목 "%{existing_caption}" (%{existing_identifier})과(와)의 충돌로 인해 "%{old_name}"을(를) "%{new_name}"(으)로 이름을 바꿀 수 없습니다.
-  error_external_authentication_failed: "외부 인증 중에 오류가 발생했습니다. 다시 시도하세요."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "강조 표시되지 않는 특성: %{attributes}"
   events:
     changeset: "변경 집합 편집됨"
@@ -1887,7 +1890,8 @@ ko:
   label_additional_workflow_transitions_for_assignee: "사용자가 담당자일 때 허용되는 추가 전환"
   label_additional_workflow_transitions_for_author: "사용자가 작성자일 때 허용되는 추가 전환"
   label_administration: "관리"
-  label_advanced_settings: "고급 설정"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "기간"
   label_ago: "일 전"
   label_all: "모두"
@@ -2001,6 +2005,7 @@ ko:
   label_custom_field_plural: "사용자 정의 필드"
   label_custom_field_default_type: "빈 유형"
   label_custom_style: "디자인"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "대시보드"
   label_database_version: "PostgreSQL 버전"
   label_date: "날짜"
@@ -2122,8 +2127,8 @@ ko:
   label_share_project_list: "프로젝트 목록 공유"
   label_share_work_package: "작업 패키지 공유"
   label_show_all_registered_users: "등록된 사용자 모두 표시"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "기록일지"
   label_journal_diff: "설명 비교"
   label_language: "언어"
@@ -3121,6 +3126,13 @@ ko:
   setting_password_min_length: "최소 길이"
   setting_password_min_adhered_rules: "최소 필수 클래스 수"
   setting_per_page_options: "페이지당 개체 옵션"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "일반 텍스트 메일(HTML 없음)"
   setting_protocol: "프로토콜"
   setting_project_gantt_query: "프로젝트 포트폴리오 Gantt 보기"

@@ -31,6 +31,9 @@ lt:
     custom_styles:
       color_theme: "Spalvų tema"
       color_theme_custom: "(Pasirinktinis)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Pagrindinis mygtukas"
         accent-color: "Akcentas"
@@ -1709,7 +1712,7 @@ lt:
   error_menu_item_not_saved: Meniu punktas negali būti išsaugotas
   error_wiki_root_menu_item_conflict: >
     Negalima pervadinti „%{old_name}“ į „%{new_name}“ dėl konflikto su esamu meniu punktu „%{existing_caption}“ (%{existing_identifier}).
-  error_external_authentication_failed: "Įvyko klaida vykstant išorinei autentifikacijai. Bandykite dar kartą."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Atributai, kurių negalima paryškinti: %{attributes}"
   events:
     changeset: "Pakeitimų paketas redaguotas"
@@ -1990,7 +1993,8 @@ lt:
   label_additional_workflow_transitions_for_assignee: "Papildomi darbų eigos variantai leistini, kai darbas paskirtas vartotojui"
   label_additional_workflow_transitions_for_author: "Papildomi darbų eigos variantai leistini, kai vartotojas yra autorius"
   label_administration: "Administravimas"
-  label_advanced_settings: "Išplėstiniai nustatymai"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Amžius"
   label_ago: "dienų prieš"
   label_all: "visi"
@@ -2104,6 +2108,7 @@ lt:
   label_custom_field_plural: "Pritaikyti laukai"
   label_custom_field_default_type: "Tuščias tipas"
   label_custom_style: "Išvaizda"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Skydelis"
   label_database_version: "PostgreSQL versija"
   label_date: "Data"
@@ -2225,8 +2230,8 @@ lt:
   label_share_project_list: "Share project list"
   label_share_work_package: "Dalintis darbo paketu"
   label_show_all_registered_users: "Rodyti visus registruotus vartotojus"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Žurnalas"
   label_journal_diff: "Aprašymų palyginimas"
   label_language: "Kalba"
@@ -3229,6 +3234,13 @@ lt:
   setting_password_min_length: "Minimalus ilgis"
   setting_password_min_adhered_rules: "Minimalus reikalingų klasių skaičius"
   setting_per_page_options: "Įrašų puslapyje nustatymai"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Tik tekstas laiške (be HTML)"
   setting_protocol: "Protokolas"
   setting_project_gantt_query: "Projektų portfelio Gantt diagrama"

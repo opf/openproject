@@ -31,6 +31,9 @@ ro:
     custom_styles:
       color_theme: "Culoarea temei"
       color_theme_custom: "(Personalizat)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
         accent-color: "Accent"
@@ -1677,7 +1680,7 @@ ro:
   error_menu_item_not_saved: Meniul nu a putut fi salvat
   error_wiki_root_menu_item_conflict: >
     Nu se poate redenumi %{old_name} în %{new_name} datorită unui conflict între noul meniu și meniul deja existent "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "A apărut o eroare în timpul autentificării externe. Vă rugăm să încercați din nou."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Atributul (atributele) nu poate (pot) fi evidențiat(e): %{attributes}"
   events:
     changeset: "Set de schimbări editat"
@@ -1958,7 +1961,8 @@ ro:
   label_additional_workflow_transitions_for_assignee: "Tranziții suplimentare permise când utilizatorul este executantul"
   label_additional_workflow_transitions_for_author: "Tranziții suplimentare permise când utilizatorul este autorul"
   label_administration: "Administrare"
-  label_advanced_settings: "Setări avansate"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Vârstă"
   label_ago: "zile în urmă"
   label_all: "toate"
@@ -2072,6 +2076,7 @@ ro:
   label_custom_field_plural: "Câmpuri personalizate"
   label_custom_field_default_type: "Golire tip"
   label_custom_style: "Design"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Panou de control"
   label_database_version: "Versiunea PostgreSQL"
   label_date: "Data"
@@ -2193,8 +2198,8 @@ ro:
   label_share_project_list: "Distribuie lista de proiecte"
   label_share_work_package: "Share work package"
   label_show_all_registered_users: "Afișați toți utilizatorii înregistrați"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Jurnal"
   label_journal_diff: "Comparare descriere"
   label_language: "Limbă"
@@ -3198,6 +3203,13 @@ ro:
   setting_password_min_length: "Lungime minimă"
   setting_password_min_adhered_rules: "Numărul minim de clase necesare"
   setting_per_page_options: "Opțiuni pentru obiecte pe pagină"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Text e-mail simplu (fără HTML)"
   setting_protocol: "Protocol"
   setting_project_gantt_query: "Portofoliu de proiecte vedere Gantt"

@@ -31,6 +31,9 @@ pt-PT:
     custom_styles:
       color_theme: "Cores do tema"
       color_theme_custom: "(Personalizado)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Botão principal"
         accent-color: "Destaque"
@@ -1640,7 +1643,7 @@ pt-PT:
   error_menu_item_not_saved: Item de menu não pôde ser guardado
   error_wiki_root_menu_item_conflict: >
     Não é possível mudar o nome de"%{old_name}" para "%{new_name}" devido a um conflito no item de menu resultante com o item de menu existente "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Ocorreu um erro durante a autenticação externa. Por favor, tente novamente."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Atributos não destacáveis: %{attributes}"
   events:
     changeset: "Changeset editado"
@@ -1921,7 +1924,8 @@ pt-PT:
   label_additional_workflow_transitions_for_assignee: "Transições adicionais permitidas quando a tarefa está atribuída ao utilizador"
   label_additional_workflow_transitions_for_author: "Transições adicionais permitidas quando o utilizador é o autor da tarefa"
   label_administration: "Administração"
-  label_advanced_settings: "Configurações avançadas"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Idade"
   label_ago: "dias atrás"
   label_all: "todos"
@@ -2035,6 +2039,7 @@ pt-PT:
   label_custom_field_plural: "Campos personalizados"
   label_custom_field_default_type: "Tipo de vazio"
   label_custom_style: "Design"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Painel"
   label_database_version: "versão PostgreSQL"
   label_date: "Data"
@@ -2156,8 +2161,8 @@ pt-PT:
   label_share_project_list: "Partilhar lista de projetos"
   label_share_work_package: "Partilhar pacote de trabalho"
   label_show_all_registered_users: "Mostrar todos utilizadores registrados"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Diário"
   label_journal_diff: "Comparação de descrição"
   label_language: "Idioma"
@@ -3157,6 +3162,13 @@ pt-PT:
   setting_password_min_length: "Tamanho mínimo"
   setting_password_min_adhered_rules: "Número mínimo de classes obrigatórias"
   setting_per_page_options: "Opções de objetos por página"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Mensagens de texto simples (sem HTML)"
   setting_protocol: "Protocolo"
   setting_project_gantt_query: "Visualização de portfólio Gantt do projeto"

@@ -44,7 +44,7 @@ RSpec.describe "Structured meetings CRUD",
   let(:meeting) { create(:structured_meeting, project:, author: current_user) }
   let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
 
-  describe "meeting update flash", with_flag: { meeting_updated_notification: true } do
+  describe "meeting update flash" do
     before do
       # Disable the polling so we can trigger it manually
       allow_any_instance_of(Meetings::HeaderComponent) # rubocop:disable RSpec/AnyInstance
@@ -53,7 +53,7 @@ RSpec.describe "Structured meetings CRUD",
     end
 
     it do
-      flash_component = ".op-toast--wrapper"
+      flash_component = ".op-primer-banner--item"
 
       ## Add agenda item
       show_page.visit!
@@ -74,7 +74,7 @@ RSpec.describe "Structured meetings CRUD",
         show_page.trigger_change_poll
         expect(page).to have_css(flash_component, wait: 5)
         expect(page).to have_text I18n.t(:notice_meeting_updated)
-        page.within(".flash") { click_on "Reload" }
+        page.within(flash_component) { click_on "Reload" }
       end
 
       # Expect no notification in window2
@@ -103,7 +103,7 @@ RSpec.describe "Structured meetings CRUD",
         expect(page).to have_css(flash_component, wait: 5)
         expect(page).to have_text I18n.t(:notice_meeting_updated)
 
-        page.within(".flash") { click_on "Reload" }
+        page.within(flash_component) { click_on "Reload" }
 
         ## Add section
         show_page.add_section do
@@ -119,7 +119,7 @@ RSpec.describe "Structured meetings CRUD",
         show_page.trigger_change_poll
         expect(page).to have_css(flash_component, wait: 5)
         expect(page).to have_text I18n.t(:notice_meeting_updated)
-        page.within(".flash") { click_on "Reload" }
+        page.within(flash_component) { click_on "Reload" }
       end
 
       # Expect no notification in window2
@@ -147,7 +147,7 @@ RSpec.describe "Structured meetings CRUD",
         show_page.trigger_change_poll
         expect(page).to have_text I18n.t(:notice_meeting_updated)
 
-        page.within(".flash") { click_on "Reload" }
+        page.within(flash_component) { click_on "Reload" }
 
         ## Close meeting
         find_test_selector("close-meeting-button").click
@@ -158,7 +158,7 @@ RSpec.describe "Structured meetings CRUD",
         show_page.trigger_change_poll
         expect(page).to have_css(flash_component, wait: 5)
         expect(page).to have_text I18n.t(:notice_meeting_updated)
-        page.within(".flash") { click_on "Reload" }
+        page.within(flash_component) { click_on "Reload" }
       end
 
       # Expect no notification in window2

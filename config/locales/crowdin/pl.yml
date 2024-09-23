@@ -31,6 +31,9 @@ pl:
     custom_styles:
       color_theme: "Kolor motywu"
       color_theme_custom: "(Niestandardowe)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Przycisk główny"
         accent-color: "Akcent"
@@ -1709,7 +1712,7 @@ pl:
   error_menu_item_not_saved: Nie można zapisać elementu menu
   error_wiki_root_menu_item_conflict: >
     Nie można zmienić nazwy "%{old_name}" na "%{new_name}", ze względu na konflikt w istniejącym elemencie menu "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Podczas uwierzytelniania zewnętrznego wystąpił błąd. Spróbuj ponownie."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Atrybuty, których nie można wyróżnić: %{attributes}"
   events:
     changeset: "Komentarze edytowane"
@@ -1990,7 +1993,8 @@ pl:
   label_additional_workflow_transitions_for_assignee: "Dodatkowe przejścia dozwolone, gdy użytkownik jest cesjonariuszem"
   label_additional_workflow_transitions_for_author: "Dodatkowe przejścia dozwolone, gdy użytkownik jest autorem"
   label_administration: "Administracja"
-  label_advanced_settings: "Zaawansowane ustawienia"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Wiek"
   label_ago: "dni temu"
   label_all: "wszystkie"
@@ -2104,6 +2108,7 @@ pl:
   label_custom_field_plural: "Pola niestandardowe"
   label_custom_field_default_type: "Typ pusty"
   label_custom_style: "Kompozycja"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Pulpit nawigacyjny"
   label_database_version: "Wersja PostgreSQL"
   label_date: "Data"
@@ -2225,8 +2230,8 @@ pl:
   label_share_project_list: "Udostępnij listę projektów"
   label_share_work_package: "Udostępnij pakiet roboczy"
   label_show_all_registered_users: "Pokaż wszystkich zarejestrowanych użytkowników"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Dziennik"
   label_journal_diff: "Opis porównania"
   label_language: "Język"
@@ -3230,6 +3235,13 @@ pl:
   setting_password_min_length: "Minimalna długość"
   setting_password_min_adhered_rules: "Minimalna liczba wymaganych klas"
   setting_per_page_options: "Obiektów na stronie"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Poczta czystym tekstem (bez HTML)"
   setting_protocol: "Protokół"
   setting_project_gantt_query: "Widok wykresu Gantta portfolio projektu"

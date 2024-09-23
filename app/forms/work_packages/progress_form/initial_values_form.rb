@@ -57,8 +57,8 @@ class WorkPackages::ProgressForm
     def hidden_initial_field(form, name:)
       form.hidden(name:,
                   value: work_package.public_send(:"#{name}_was"),
-                  data: { "work-packages--progress--touched-field-marker-target": "initialValueInput",
-                          "referrer-field": "work_package[#{name}]" })
+                  data: { "work-packages--progress--preview-target": "initialValueInput",
+                          "referrer-field": name })
     end
   end
 end

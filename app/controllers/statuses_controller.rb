@@ -91,7 +91,7 @@ class StatusesController < ApplicationController
 
   def recompute_progress_values
     attributes_triggering_recomputing = ["excluded_from_totals"]
-    attributes_triggering_recomputing << "default_done_ratio" if WorkPackage.use_status_for_done_ratio?
+    attributes_triggering_recomputing << "default_done_ratio" if WorkPackage.status_based_mode?
     changes = @status.previous_changes.slice(*attributes_triggering_recomputing)
     return if changes.empty?
 

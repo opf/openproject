@@ -31,6 +31,9 @@ el:
     custom_styles:
       color_theme: "Χρωματικό θέμα"
       color_theme_custom: "(Προσαρμοσμένο)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
         accent-color: "Accent"
@@ -1638,7 +1641,7 @@ el:
   error_menu_item_not_saved: Δεν ήταν δυνατή η αποθήκευση του αντικειμένου μενού
   error_wiki_root_menu_item_conflict: >
     Δεν είναι δυνατή η μετονομασία από "%{old_name}" σε "%{new_name}" λόγω μιας σύγκρουσης του αντικειμένου μενού που προκύπτει με ένα υπάρχον αντικείμενο μενού "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Παρουσιάστηκε σφάλμα κατά τη διάρκεια της εξωτερικής ταυτοποίησης. Παρακαλούμε προσπαθήστε ξανά."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Δεν είναι δυνατή η επισήμανση του(-ών) χαρακτηριστικού(-ών): %{attributes}"
   events:
     changeset: "Οι αλλαγές επεξεργάστηκαν"
@@ -1919,7 +1922,8 @@ el:
   label_additional_workflow_transitions_for_assignee: "Επιτρέπονται επιπλέον μεταβάσεις όταν ο χρήστης είναι το άτομο που του έχει ανατεθεί"
   label_additional_workflow_transitions_for_author: "Επιτρέπονται επιπλέον μεταβάσεις όταν ο χρήστης είναι ο συγγραφέας"
   label_administration: "Διαχείριση"
-  label_advanced_settings: "Προηγμένες ρυθμίσεις"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Ηλικία"
   label_ago: "ημέρες πριν"
   label_all: "όλα"
@@ -2033,6 +2037,7 @@ el:
   label_custom_field_plural: "Προσαρμοσμένα πεδία"
   label_custom_field_default_type: "Άδειος τύπος"
   label_custom_style: "Σχεδιασμός"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Πίνακας Ελέγχου"
   label_database_version: "Έκδοση PostgreSQL"
   label_date: "Ημερομηνία"
@@ -2154,8 +2159,8 @@ el:
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
   label_show_all_registered_users: "Εμφάνιση όλων των εγγεγραμμένων χρηστών"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Ημερολόγιο"
   label_journal_diff: "Σύγκριση Περιγραφών"
   label_language: "Γλώσσα"
@@ -3157,6 +3162,13 @@ el:
   setting_password_min_length: "Ελάχιστο μήκος"
   setting_password_min_adhered_rules: "Ελάχιστος αριθμός των απαιτούμενων κλάσεων"
   setting_per_page_options: "Αντικείμενα ανά σελίδα επιλογών"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Email απλού κειμένου (χωρίς HTML)"
   setting_protocol: "Πρωτόκολλο"
   setting_project_gantt_query: "Προβολή Gantt για portfolio έργου"

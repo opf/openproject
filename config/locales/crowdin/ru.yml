@@ -31,6 +31,9 @@ ru:
     custom_styles:
       color_theme: "Цветовая тема"
       color_theme_custom: "(Пользовательская)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Основная кнопка"
         accent-color: "Оттенок"
@@ -1711,7 +1714,7 @@ ru:
   error_menu_item_not_saved: Пункт меню не может быть сохранен
   error_wiki_root_menu_item_conflict: >
     Невозможно переименовать "%{old_name}" в "%{new_name}" из-за конфликта между получающимся и существующим пунктами меню "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Произошла ошибка во время внешней аутентификации. Пожалуйста, попробуйте еще раз."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Атрибуты не выделяются: %{attributes}"
   events:
     changeset: "Набор изменений отредактирован"
@@ -1992,7 +1995,8 @@ ru:
   label_additional_workflow_transitions_for_assignee: "Дополнительные переходы допускается, если пользователь является правопреемником"
   label_additional_workflow_transitions_for_author: "Дополнительные переходы допускаются, если пользователь является автором"
   label_administration: "Администрирование"
-  label_advanced_settings: "Расширенные настройки"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Возраст"
   label_ago: "дней назад"
   label_all: "все"
@@ -2106,6 +2110,7 @@ ru:
   label_custom_field_plural: "Пользовательские поля"
   label_custom_field_default_type: "Пустой тип"
   label_custom_style: "Дизайн"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Панель"
   label_database_version: "Версия PostgreSQL"
   label_date: "Дата"
@@ -2227,8 +2232,8 @@ ru:
   label_share_project_list: "Поделитесь списком проектов"
   label_share_work_package: "Поделиться пакетом работ"
   label_show_all_registered_users: "Показать всех зарегистрированных пользователей"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Журнал"
   label_journal_diff: "Описание сравнения"
   label_language: "Язык"
@@ -3232,6 +3237,13 @@ ru:
   setting_password_min_length: "Минимальная длина"
   setting_password_min_adhered_rules: "Минимальное количество необходимых классов"
   setting_per_page_options: "Количество объектов на страницу"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Обычный текст электронной почты (не HTML)"
   setting_protocol: "Протокол"
   setting_project_gantt_query: "Портфолио проекта в виде диаграммы Ганта"

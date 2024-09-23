@@ -31,6 +31,9 @@ vi:
     custom_styles:
       color_theme: "Màu sắc giao diện"
       color_theme_custom: "(Tùy chỉnh)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Nút chính"
         accent-color: "Nhấn mạnh"
@@ -1609,7 +1612,7 @@ vi:
   error_menu_item_not_saved: Không thể lưu mục trình đơn
   error_wiki_root_menu_item_conflict: >
     Không thể đổi tên "%{old_name}" thành "%{new_name}" do có xung đột giữa mục menu kết quả với mục menu hiện tại "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Đã xảy ra lỗi trong quá trình xác thực bên ngoài. Vui lòng thử lại."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Thuộc tính(s) không thể tô sáng: %{attributes}"
   events:
     changeset: "Đã chỉnh sửa Changeset (bộ thay đổi)"
@@ -1890,7 +1893,8 @@ vi:
   label_additional_workflow_transitions_for_assignee: "Chuyển đổi bổ sung được cho phép khi người sử dụng là người được gán"
   label_additional_workflow_transitions_for_author: "Các chuyển đổi bổ xung được phép khi người dùng là tác giả"
   label_administration: "Quản trị"
-  label_advanced_settings: "Cài đặt nâng cao"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Tuổi"
   label_ago: "vài ngày trước"
   label_all: "tất cả"
@@ -2004,6 +2008,7 @@ vi:
   label_custom_field_plural: "Các trường tùy chỉnh"
   label_custom_field_default_type: "Kiểu rỗng"
   label_custom_style: "Thiết kế"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Bảng điều khiển"
   label_database_version: "Phiên bản PostgreSQL"
   label_date: "Ngày"
@@ -2125,8 +2130,8 @@ vi:
   label_share_project_list: "Chia sẻ danh sách dự án"
   label_share_work_package: "Chia sẻ gói công việc"
   label_show_all_registered_users: "Hiển thị tất cả người dùng đã đăng ký"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Nhật ký"
   label_journal_diff: "So sánh mô tả"
   label_language: "Ngôn ngữ"
@@ -3127,6 +3132,13 @@ vi:
   setting_password_min_length: "Độ dài tối thiểu"
   setting_password_min_adhered_rules: "Số lượng lớp yêu cầu tối thiểu"
   setting_per_page_options: "Tùy chọn số đối tượng trên mỗi trang"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Email văn bản thuần túy (không có HTML)"
   setting_protocol: "Giao thức"
   setting_project_gantt_query: "Xem Gantt của danh mục dự án"

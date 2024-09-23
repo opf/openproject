@@ -31,6 +31,9 @@ fi:
     custom_styles:
       color_theme: "Väriteema"
       color_theme_custom: "(Mukautettu)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
         accent-color: "Accent"
@@ -1642,7 +1645,7 @@ fi:
   error_menu_item_not_saved: Valikkokohta ei voitu tallentaa
   error_wiki_root_menu_item_conflict: >
     Arvoa "%{old_name}" ei voi uudelleennimetä arvoksi "%{new_name}" koska se olisi konfliktissa valikkoarvon "%{existing_caption}" (%{existing_identifier}) kanssa.
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
     changeset: "Changeset edited"
@@ -1923,7 +1926,8 @@ fi:
   label_additional_workflow_transitions_for_assignee: "Vastuulliselle käyttäjälle on olemassa lisää siirtymiä"
   label_additional_workflow_transitions_for_author: "Aloittajalle on olemassa lisää siirtymiä"
   label_administration: "Ylläpito"
-  label_advanced_settings: "Lisäasetukset"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Ikä"
   label_ago: "päiviä sitten"
   label_all: "kaikki"
@@ -2037,6 +2041,7 @@ fi:
   label_custom_field_plural: "Mukautetut kentät"
   label_custom_field_default_type: "Tyhjä tyyppi"
   label_custom_style: "Ulkoasu"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "Päivämäärä"
@@ -2158,8 +2163,8 @@ fi:
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
   label_show_all_registered_users: "Show all registered users"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Journal"
   label_journal_diff: "Kuvauksen vertailu"
   label_language: "Kieli"
@@ -3162,6 +3167,13 @@ fi:
   setting_password_min_length: "Vähimmäispituus"
   setting_password_min_adhered_rules: "Luokkien vähimmäismäärä"
   setting_per_page_options: "Sivun objektien määrän asetukset"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "vain muotoilematonta tekstiä (ei HTML)"
   setting_protocol: "Protokolla"
   setting_project_gantt_query: "Project portfolio Gantt view"

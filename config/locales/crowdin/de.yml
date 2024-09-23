@@ -31,6 +31,9 @@ de:
     custom_styles:
       color_theme: "Farbschema"
       color_theme_custom: "(Benutzerdefiniert)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primäre Schaltfläche"
         accent-color: "Akzent"
@@ -630,8 +633,8 @@ de:
         uid: "Client-ID"
         secret: "Clientschlüssel"
         owner: "Besitzer"
-        builtin: "Builtin"
-        enabled: "Active"
+        builtin: "Intern"
+        enabled: "Aktiv"
         redirect_uri: "Redirect URI"
         client_credentials_user_id: "Client Credentials User-ID"
         scopes: "Geltungsbereiche"
@@ -1636,7 +1639,7 @@ de:
   error_menu_item_not_saved: Menüpunkt konnte nicht aktualisiert werden.
   error_wiki_root_menu_item_conflict: >
     Kann "%{old_name}" nicht in "%{new_name}" umbenennen, weil es mit dem bestehenden Menüeintrag "%{existing_caption}" (%{existing_identifier}) kollidiert.
-  error_external_authentication_failed: "Die externe Authentifizierung ist fehlgeschlagen. Bitte versuchen Sie es erneut."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Nicht hervorhebbare Attribut(e): %{attributes}"
   events:
     changeset: "Projektarchiv-Änderung bearbeitet"
@@ -1917,7 +1920,8 @@ de:
   label_additional_workflow_transitions_for_assignee: "Zusätzliche Workflow-Übergänge für den Nutzer, dem ein Arbeitspaket zugewiesen ist"
   label_additional_workflow_transitions_for_author: "Zusätzliche Workflow-Übergänge wenn der Nutzer der Autor des Arbeitspakets ist"
   label_administration: "Administration"
-  label_advanced_settings: "Erweiterte Einstellungen"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Geändert vor"
   label_ago: "vor (Tage)"
   label_all: "alle"
@@ -2023,7 +2027,7 @@ de:
   label_copy_project: "Projekt kopieren"
   label_core_version: "Core Version"
   label_core_build: "Core-Buildinformation"
-  label_created_by: "Created by %{user}"
+  label_created_by: "Erstellt von %{user}"
   label_current_status: "Gegenwärtiger Status"
   label_current_version: "Gegenwärtige Version"
   label_custom_field_add_no_type: "Dieses Feld zu einem Arbeitspaket-Typ hinzufügen"
@@ -2031,6 +2035,7 @@ de:
   label_custom_field_plural: "Benutzerdefinierte Felder"
   label_custom_field_default_type: "Leerer Typ"
   label_custom_style: "Design"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL-Version"
   label_date: "Datum"
@@ -2152,8 +2157,8 @@ de:
   label_share_project_list: "Projektliste teilen"
   label_share_work_package: "Arbeitspaket teilen"
   label_show_all_registered_users: "Alle registrierten Benutzer anzeigen"
-  label_show_n_more: "Show %{count} more"
-  label_show_less: "Show less"
+  label_show_less: "Weniger anzeigen"
+  label_show_more: "Show more"
   label_journal: "Änderungen"
   label_journal_diff: "Beschreibungsvergleich"
   label_language: "Sprache"
@@ -2303,7 +2308,7 @@ de:
   label_product_version: "Produktversion"
   label_profile: "Profil"
   label_percent_complete: "% abgeschlossen"
-  label_progress_tracking: "Progress tracking"
+  label_progress_tracking: "Fortschrittsverfolgung"
   label_project: "Projekt"
   label_project_activity: "Projektaktivität"
   label_project_attribute_plural: "Projekt-Attribute"
@@ -3127,13 +3132,13 @@ de:
   setting_hours_per_day_explanation: >-
     Dies legt fest, was als "Tag" angesehen wird, wenn eine zeitliche Dauer angezeigt werden (zum Beispiel: Wenn die Länge eines Tages 8 Stunden beträgt, wird eine Eingabe von 32 Stunden als 4 Tage angezeigt).
   setting_invitation_expiration_days: "Aktivierungs-Mail läuft ab nach"
-  setting_work_package_done_ratio: "Progress calculation mode"
+  setting_work_package_done_ratio: "Modus der Fortschrittsberechnung"
   setting_work_package_done_ratio_field: "Arbeitsbezogen"
   setting_work_package_done_ratio_field_caption_html: >-
-    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
+    <i>% abgeschlossen</i> kann auf jeden beliebigen Wert gesetzt werden. Wenn Sie optional einen Wert für <i>Aufwand</i> eingeben, wird <i>verbleibender Aufwand</i> automatisch abgeleitet.
   setting_work_package_done_ratio_status: "Statusbezogen"
   setting_work_package_done_ratio_status_caption_html: >-
-    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
+    Jeder Status ist mit einem Wert für <i>% abgeschlossen</i> verbunden. Wenn Sie den Status ändern, ändert sich auch <i>% abgeschlossen</i>.
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
     Im <b>arbeitsbezogenen</b> Modus beschreibt % abgeschlossen das Verhältnis zwischen verbeibendem Aufwand und Gesamtaufwand. Im <b>statusbasierten</b> Modus ist jedem Status ein Wert für % abgeschlossen zugeordnet. Wenn Sie den Status ändern, ändert sich % abgeschlossen.
   setting_work_package_done_ratio_explanation_html: >
@@ -3156,6 +3161,13 @@ de:
   setting_password_min_length: "Minimale Länge"
   setting_password_min_adhered_rules: "Mindestanzahl zu verwendender Zeichenklassen"
   setting_per_page_options: "Objekte pro Seite"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "Keine Änderung"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatisch auf 100 % eingestellt"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Nur reinen Text (kein HTML) senden"
   setting_protocol: "Protokoll"
   setting_project_gantt_query: "Projekt-Portfolioübersicht"
@@ -3729,16 +3741,16 @@ de:
     close_warning: "Diese Warnung ignorieren."
   oauth:
     application:
-      builtin: Built-in instance application
-      confidential: Confidential
+      builtin: Interne Anwendung für diese Instanz
+      confidential: Vertraulich
       singular: "OAuth-Anwendung"
       plural: "OAuth-Anwendungen"
       named: "OAuth-Anwendung '%{name}'"
       new: "Neue OAuth-Anwendung"
-      non_confidential: Non confidential
+      non_confidential: Nicht vertraulich
       default_scopes: "(Voreingestellte Geltungsbereiche)"
       instructions:
-        enabled: "Enable this application, allowing users to perform authorization grants with it."
+        enabled: "Aktivieren Sie diese Anwendung, so dass Benutzer mit ihr Autorisierungen vornehmen können."
         name: "Der Name Ihrer OAuth-Anwendung. Dieser wird anderen Benutzern bei der Autorisierung angezeigt."
         redirect_uri_html: >
           Die erlaubten URLs auf welche autorisierte Benutzer weitergeleitet werden können. Ein Eintrag pro Zeile. <br/> Wenn Sie eine Desktop-Anwendung registrieren, verwenden Sie die folgende URL.
@@ -3748,9 +3760,9 @@ de:
         register_intro: "Wenn Sie eine OAuth API-Client-Anwendung für OpenProject entwickeln, können Sie es mit diesem Formular für alle Benutzer registrieren."
         default_scopes: ""
     header:
-      builtin_applications: Built-in OAuth applications
-      other_applications: Other OAuth applications
-    empty_application_lists: No OAuth applications have been registered.
+      builtin_applications: Eingebaute OAuth-Anwendungen
+      other_applications: Andere OAuth-Anwendungen
+    empty_application_lists: Es wurden noch keine OAuth-Anwendungen registriert.
     client_id: "Client-ID"
     client_secret_notice: >
       Dies ist das einzige Mal, dass wir das Client-Geheimnis anzeigen können. Bitte speichern Sie es ab und halten Sie es sicher. Es sollte als Passwort behandelt werden und kann später nicht mehr von OpenProject abgerufen werden.
