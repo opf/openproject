@@ -48,7 +48,7 @@ RSpec.describe "user memberships through user page", :js, :with_cuprite do
         # Check if user with global role is there
         principal_page.visit!
         principal_page.open_global_roles_tab!
-        principal_page.expect_global_roles(["Global Role 1"])
+        principal_page.expect_global_roles([global_role.name])
 
         # Remove the global role from the user
         principal_page.remove_global_role!("Global Role 1")
