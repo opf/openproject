@@ -111,6 +111,25 @@ module Pages
                               results_selector: "body"
         end
 
+        def open_global_roles_tab!
+          within(".PageHeader-tabNav") do
+            click_on "Global roles"
+          end
+        end
+
+        def expect_global_roles(roles)
+          roles_in_on_page = page.find_all("#table_principal_roles tr td.role")
+
+          expect(roles_in_on_page.map(&:text)).to eq(roles)
+        end
+
+        def remove_global_role!(role)
+          within("#table_principal_roles") do
+            role_td = find("tr td.role", text: role)
+            role_td.ancestor("tr").find("td.buttons a").click
+          end
+        end
+
         def activate!
           within ".toolbar-items" do
             click_button "Activate"

@@ -27,7 +27,15 @@
 #++
 
 module Members
-  class DeleteContract < DeleteBaseContract
-    delete_permission :manage_members
+  # Abstract contract for deleting members. Should not be used directly. Look at the child classes for
+  # individual use cases.
+  class DeleteBaseContract < ::DeleteContract
+    validate :member_is_deletable
+
+    protected
+
+    def member_is_deletable
+      errors.add(:base, :not_deletable) unless model.some_roles_deletable?
+    end
   end
 end
