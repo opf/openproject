@@ -31,6 +31,10 @@ require "services/base_services/behaves_like_delete_service"
 
 RSpec.describe Members::DeleteService, type: :model do
   it_behaves_like "BaseServices delete service" do
+    let(:contract_class) do
+      "#{namespace}::DeleteFromProjectContract".constantize
+    end
+
     let(:principal) { user }
     before do
       model_instance.principal = principal
@@ -139,6 +143,39 @@ RSpec.describe Members::DeleteService, type: :model do
 
           expect(OpenProject::Notifications).not_to have_received(:send)
         end
+      end
+    end
+  end
+
+  context "when deleting global role memberships" do
+    let(:user) { create(:user) }
+    let(:global_role) { create(:global_role) }
+    let!(:membership) { create(:global_member, principal: user, roles: [global_role]) }
+
+    subject { described_class.new(user: current_user, model: membership) }
+
+    context "as an admin" do
+      let(:current_user) { create(:admin) }
+
+      it "deletes them" do
+        expect(membership.member_roles.map(&:role_id)).to eq([global_role.id])
+
+        subject.call
+
+        expect(membership.member_roles.map(&:role_id)).to be_empty
+      end
+    end
+
+    context "as a non-admin user" do
+      let(:current_user) { create(:user) }
+
+      it "does not delete them" do
+        expect(membership.member_roles.map(&:role_id)).to eq([global_role.id])
+
+        result = subject.call
+        expect(result).not_to be_success
+
+        expect(membership.member_roles.map(&:role_id)).to eq([global_role.id])
       end
     end
   end
