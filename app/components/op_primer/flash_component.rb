@@ -33,6 +33,8 @@ module OpPrimer
     include OpPrimer::ComponentHelpers
 
     def initialize(**system_arguments)
+      @unique_key = system_arguments.delete(:unique_key)
+
       system_arguments[:test_selector] ||= "primer-banner-message-component"
       system_arguments[:dismiss_scheme] ||= :remove
       system_arguments[:dismiss_label] ||= I18n.t(:button_close)

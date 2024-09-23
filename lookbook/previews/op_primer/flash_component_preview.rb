@@ -13,6 +13,12 @@ module OpPrimer
       end
     end
 
+    def unique_key
+      render(OpPrimer::FlashComponent.new(unique_key: "bla", scheme: :danger, icon: :stop)) do |_component|
+        "Stop right there."
+      end
+    end
+
     def button
       render(OpPrimer::FlashComponent.new) do |component|
         component.with_action_button(

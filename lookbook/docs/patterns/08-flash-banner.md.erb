@@ -67,8 +67,12 @@ As this is a common use case, the method `render_error_flash_message_via_turbo_s
 
 <%= embed OpPrimer::FlashComponentPreview, :danger, panels: %i[source] %>
 
-<% if false %>
 ### With optional button:
 
 <%= embed OpPrimer::FlashComponentPreview, :button, panels: %i[source] %>
-<% end %>
+
+### Replacing existing flashes
+
+By passing `data-unique-key`, you can delete previous flashes using the same key
+
+<%= embed OpPrimer::FlashComponentPreview, :unique_key, panels: %i[source] %>
