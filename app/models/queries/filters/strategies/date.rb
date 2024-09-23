@@ -46,7 +46,7 @@ module Queries::Filters::Strategies
 
     def validate_values_all_date
       unless values.all? { |value| value.blank? || date?(value) }
-        errors.add(:values, I18n.t("activerecord.errors.messages.not_a_date"))
+        errors.add(:values, I18n.t("activerecord.errors.messages.not_a_date_or_out_of_range"))
       end
     end
 
