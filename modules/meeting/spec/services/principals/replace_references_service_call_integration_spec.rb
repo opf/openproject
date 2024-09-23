@@ -30,7 +30,7 @@
 
 require "spec_helper"
 require_module_spec_helper
-require Rails.root.join('spec/services/principals/replace_references_context')
+require Rails.root.join("spec/services/principals/replace_references_context")
 
 RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
   subject(:service_call) { instance.call(from: principal, to: to_principal) }
@@ -65,7 +65,6 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
           created_at: "NOW()",
           updated_at: "NOW()"
         }
-
       end
     end
   end
