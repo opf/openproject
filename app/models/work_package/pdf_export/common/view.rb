@@ -61,7 +61,6 @@ class WorkPackage::PDFExport::Common::View
   def register_fonts!(document)
     register_font!("NotoSans", noto_font_base_path, document)
     register_font!("SpaceMono", spacemono_font_base_path, document)
-    register_font!("OpenSans", opensans_font_base_path, document)
   end
 
   def register_font!(family, font_path, document)
@@ -112,9 +111,5 @@ class WorkPackage::PDFExport::Common::View
 
   def spacemono_font_base_path
     Rails.public_path.join("fonts/spacemono")
-  end
-
-  def opensans_font_base_path
-    Rails.public_path.join("fonts/opensans")
   end
 end
