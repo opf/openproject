@@ -27,41 +27,17 @@
 #++
 
 module Queries::Filters::Strategies
-  class DateTimePast < Queries::Filters::Strategies::Integer
-    include DateHelpers
+  module DateHelpers
+    # Technically dates in PostgreSQL can be up to 5874897 AD, but limit to
+    # timestamp range, as dates are used to query for timestamps too
+    #
+    # https://www.postgresql.org/docs/current/datatype-datetime.html
+    PG_DATE_FROM = ::Date.new(-4713, 1, 1)
+    PG_DATE_TO_EXCLUSIVE = ::Date.new(294276 + 1, 1, 1)
+    PG_DATE_RANGE = PG_DATE_FROM...PG_DATE_TO_EXCLUSIVE
 
-    self.supported_operators = [">t-", "<t-", "t-", "t", "w", "=d", "<>d"]
-    self.default_operator = ">t-"
-
-    def validate
-      if operator == Queries::Operators::OnDateTime ||
-         operator == Queries::Operators::BetweenDateTime
-        validate_values_all_datetime
-      else
-        super
-      end
-    end
-
-    private
-
-    def operator_map
-      super_value = super.dup
-      super_value["=d"] = Queries::Operators::OnDateTime
-      super_value["<>d"] = Queries::Operators::BetweenDateTime
-
-      super_value
-    end
-
-    def validate_values_all_datetime
-      unless values.all? { |value| value.blank? || datetime?(value) }
-        errors.add(:values, I18n.t("activerecord.errors.messages.not_a_datetime"))
-      end
-    end
-
-    def datetime?(str)
-      valid_date?(::DateTime.strptime(str))
-    rescue ArgumentError
-      false
+    def valid_date?(date)
+      PG_DATE_RANGE.cover?(date)
     end
   end
 end

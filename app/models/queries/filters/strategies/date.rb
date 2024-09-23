@@ -28,6 +28,8 @@
 
 module Queries::Filters::Strategies
   class Date < Queries::Filters::Strategies::Integer
+    include DateHelpers
+
     self.supported_operators = ["<t+", ">t+", "t+", "t", "w", ">t-", "<t-", "t-", "=d", "<>d", "!*"]
     self.default_operator = "t"
 
@@ -49,7 +51,7 @@ module Queries::Filters::Strategies
     end
 
     def date?(str)
-      true if ::Date.parse(str)
+      valid_date?(::Date.strptime(str))
     rescue ArgumentError
       false
     end
