@@ -68,7 +68,7 @@ PATH
   remote: modules/auth_saml
   specs:
     openproject-auth_saml (1.0.0)
-      omniauth-saml (~> 1.10.1)
+      omniauth-saml (~> 1.10.5)
 
 PATH
   remote: modules/avatars
