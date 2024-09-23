@@ -36,6 +36,7 @@ module Meetings
       render(
         ::OpPrimer::FlashComponent.new(
           icon: :info,
+          dismiss_scheme: :none,
           unique_key: "meetings-update-flash"
         )
       ) do |banner|
