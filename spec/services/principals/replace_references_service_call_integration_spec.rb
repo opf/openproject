@@ -200,9 +200,7 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
                       :meeting_agenda,
                       :author_id do
         let(:attributes) do
-          { type: "'MeetingAgenda'",
-            created_at: "NOW()",
-            updated_at: "NOW()" }
+          { type: "'MeetingAgenda'" }
         end
       end
 
@@ -210,32 +208,19 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
                       :meeting_minutes,
                       :author_id do
         let(:attributes) do
-          { type: "'MeetingMinutes'",
-            created_at: "NOW()",
-            updated_at: "NOW()" }
+          { type: "'MeetingMinutes'" }
         end
       end
 
       it_behaves_like "rewritten record",
                       :journal_meeting_content_journal,
-                      :author_id do
-        let(:attributes) do
-          {}
-        end
-      end
+                      :author_id
     end
 
     context "with MeetingParticipant" do
       it_behaves_like "rewritten record",
                       :meeting_participant,
-                      :user_id do
-        let(:attributes) do
-          {
-            created_at: "NOW()",
-            updated_at: "NOW()"
-          }
-        end
-      end
+                      :user_id
     end
 
     context "with News" do
@@ -466,9 +451,7 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
           {
             recipient_id: user.id,
             resource_id: 1234,
-            resource_type: "'WorkPackage'",
-            created_at: "NOW()",
-            updated_at: "NOW()"
+            resource_type: "'WorkPackage'"
           }
         end
       end
@@ -483,9 +466,7 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
             name: "'foo'",
             uid: "'bar'",
             secret: "'bar'",
-            redirect_uri: "'urn:whatever'",
-            created_at: "NOW()",
-            updated_at: "NOW()"
+            redirect_uri: "'urn:whatever'"
           }
         end
       end

@@ -30,6 +30,8 @@ RSpec.shared_examples_for "rewritten record" do |factory, attribute, format = In
   let!(:model) do
     klass = FactoryBot.factories.find(factory).build_class
     all_attributes = other_attributes.merge(attribute => principal_id)
+    all_attributes[:created_at] ||= "NOW()" if klass.column_names.include?("created_at")
+    all_attributes[:updated_at] ||= "NOW()" if klass.column_names.include?("updated_at")
 
     inserted = ActiveRecord::Base.connection.select_one <<~SQL.squish
       INSERT INTO #{klass.table_name}
@@ -55,7 +57,7 @@ RSpec.shared_examples_for "rewritten record" do |factory, attribute, format = In
   end
 
   context "for #{factory}" do
-    context "with the replaced user" do
+    context "when #{attribute} is set to the replaced user" do
       let(:principal_id) { principal.id }
 
       before do
@@ -63,13 +65,13 @@ RSpec.shared_examples_for "rewritten record" do |factory, attribute, format = In
         model.reload
       end
 
-      it "replaces #{attribute}" do
+      it "replaces its value" do
         expect(model.send(attribute))
           .to eql expected(to_principal, format)
       end
     end
 
-    context "with a different user" do
+    context "when #{attribute} is set to a different user" do
       let(:principal_id) { other_user.id }
 
       before do
@@ -77,7 +79,7 @@ RSpec.shared_examples_for "rewritten record" do |factory, attribute, format = In
         model.reload
       end
 
-      it "keeps #{attribute}" do
+      it "keeps its value" do
         expect(model.send(attribute))
           .to eql expected(other_user, format)
       end

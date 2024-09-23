@@ -35,9 +35,9 @@ require Rails.root.join("spec/services/principals/replace_references_context")
 RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
   subject(:service_call) { instance.call(from: principal, to: to_principal) }
 
-  shared_let(:other_user) { create(:user) }
-  shared_let(:principal) { create(:user) }
-  shared_let(:to_principal) { create(:user) }
+  shared_let(:other_user) { create(:user, firstname: "other user") }
+  shared_let(:principal) { create(:user, firstname: "old principal") }
+  shared_let(:to_principal) { create(:user, firstname: "new principal") }
 
   let(:instance) do
     described_class.new
@@ -46,26 +46,10 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
   context "with MeetingAgendaItem" do
     it_behaves_like "rewritten record",
                     :meeting_agenda_item,
-                    :author_id do
-      let(:attributes) do
-        {
-          author_id: principal.id,
-          created_at: "NOW()",
-          updated_at: "NOW()"
-        }
-      end
-    end
+                    :author_id
 
     it_behaves_like "rewritten record",
                     :meeting_agenda_item,
-                    :presenter_id do
-      let(:attributes) do
-        {
-          presenter_id: principal.id,
-          created_at: "NOW()",
-          updated_at: "NOW()"
-        }
-      end
-    end
+                    :presenter_id
   end
 end
