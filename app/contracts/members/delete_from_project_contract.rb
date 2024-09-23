@@ -27,7 +27,7 @@
 #++
 
 module Members
-  class GlobalDeleteContract < DeleteBaseContract
-    delete_permission :admin
+  class DeleteFromProjectContract < DeleteBaseContract
+    delete_permission :manage_members
   end
 end

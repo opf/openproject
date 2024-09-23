@@ -31,6 +31,10 @@ require "services/base_services/behaves_like_delete_service"
 
 RSpec.describe Members::DeleteService, type: :model do
   it_behaves_like "BaseServices delete service" do
+    let(:contract_class) do
+      "#{namespace}::DeleteFromProjectContract".constantize
+    end
+
     let(:principal) { user }
     before do
       model_instance.principal = principal

@@ -64,9 +64,9 @@ class Members::DeleteService < BaseServices::Delete
   def default_contract_class
     # We have different contracts for project roles and global roles
     if model.project_role?
-      "#{namespace}::DeleteContract".constantize
+      "#{namespace}::DeleteFromProjectContract".constantize
     else
-      "#{namespace}::GlobalDeleteContract".constantize
+      "#{namespace}::DeleteGloballyContract".constantize
     end
   end
 end
