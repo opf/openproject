@@ -123,10 +123,10 @@ module Pages
           expect(roles_in_on_page.map(&:text)).to eq(roles)
         end
 
-        def remove_global_role!(role)
+        def remove_global_role!(role_id)
           within("#table_principal_roles") do
-            role_td = find("tr td.role", text: role)
-            role_td.ancestor("tr").find("td.buttons a").click
+            role_tr = find("#assigned_global_role_#{role_id}")
+            role_tr.find("a[data-test-selector='delete-global-role']").click
           end
         end
 
