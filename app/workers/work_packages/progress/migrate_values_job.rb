@@ -55,9 +55,10 @@ class WorkPackages::Progress::MigrateValuesJob < WorkPackages::Progress::Job
       fix_remaining_work_exceeding_work
       fix_only_work_being_set
       fix_only_remaining_work_being_set
-      derive_unset_remaining_work_from_work_and_p_complete
       derive_unset_work_from_remaining_work_and_p_complete
-      derive_p_complete_from_work_and_remaining_work
+      derive_unset_p_complete_from_work_and_remaining_work
+      fix_percent_complete_and_remaining_work_when_work_is_0h
+      derive_remaining_work_from_work_and_p_complete
     when "status"
       set_p_complete_from_status
       fix_remaining_work_set_with_100p_complete
@@ -97,6 +98,15 @@ class WorkPackages::Progress::MigrateValuesJob < WorkPackages::Progress::Job
     SQL
   end
 
+  def fix_percent_complete_and_remaining_work_when_work_is_0h
+    execute(<<~SQL.squish)
+      UPDATE temp_wp_progress_values
+      SET remaining_hours = 0,
+          done_ratio = NULL
+      WHERE estimated_hours = 0
+    SQL
+  end
+
   def fix_only_remaining_work_being_set
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
@@ -107,22 +117,7 @@ class WorkPackages::Progress::MigrateValuesJob < WorkPackages::Progress::Job
     SQL
   end
 
-  def derive_unset_remaining_work_from_work_and_p_complete
-    execute(<<~SQL.squish)
-      UPDATE temp_wp_progress_values
-      SET remaining_hours =
-        GREATEST(0,
-          LEAST(estimated_hours,
-            ROUND((estimated_hours - (estimated_hours * done_ratio / 100.0))::numeric, 2)
-          )
-        )
-      WHERE estimated_hours IS NOT NULL
-        AND remaining_hours IS NULL
-        AND done_ratio IS NOT NULL
-    SQL
-  end
-
-  def derive_p_complete_from_work_and_remaining_work
+  def derive_unset_p_complete_from_work_and_remaining_work
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
       SET done_ratio = CASE
@@ -131,6 +126,7 @@ class WorkPackages::Progress::MigrateValuesJob < WorkPackages::Progress::Job
         END
       WHERE estimated_hours >= 0
         AND remaining_hours >= 0
+        AND done_ratio IS NULL
     SQL
   end
 
