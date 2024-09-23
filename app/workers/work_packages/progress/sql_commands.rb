@@ -67,6 +67,7 @@ module WorkPackages::Progress::SqlCommands
         create_temporary_total_percent_complete_table_for_work_weighted_average_mode
       when "simple_average"
         create_temporary_total_percent_complete_table_for_simple_average_mode
+        create_temporary_depth_table
       else
         raise ArgumentError, "Invalid total percent complete mode: #{mode}"
       end
@@ -74,24 +75,86 @@ module WorkPackages::Progress::SqlCommands
       yield
     ensure
       drop_temporary_total_percent_complete_table
+      drop_temporary_depth_table
     end
   end
 
   def create_temporary_total_percent_complete_table_for_work_weighted_average_mode
     execute(<<~SQL.squish)
-      CREATE UNLOGGED TABLE temp_wp_progress_values
-      AS SELECT
+      CREATE UNLOGGED TABLE temp_wp_progress_values AS
+      SELECT
         id,
         derived_estimated_hours as total_work,
         derived_remaining_hours as total_remaining_work,
-        derived_done_ratio      as total_p_complete
+        derived_done_ratio as total_p_complete
       FROM work_packages
+    SQL
+  end
+
+  def create_temporary_total_percent_complete_table_for_simple_average_mode
+    execute(<<~SQL.squish)
+      CREATE UNLOGGED TABLE temp_wp_progress_values AS
+      SELECT
+      	id,
+      	parent_id,
+      	status_id,
+      	done_ratio AS p_complete,
+      	NULL::INTEGER AS total_p_complete
+      FROM work_packages
+    SQL
+  end
+
+  def create_temporary_depth_table
+    execute(<<~SQL.squish)
+      CREATE UNLOGGED TABLE temp_work_package_depth AS
+      WITH RECURSIVE
+        work_package_depth AS (
+          /* Base case: Leaves (work packages with no children) */
+          SELECT
+            wp.id,
+            wp.parent_id,
+            0 AS depth
+          FROM
+            temp_wp_progress_values wp
+          WHERE
+            NOT EXISTS (
+              SELECT
+                1
+              FROM
+                temp_wp_progress_values c
+              WHERE
+                c.parent_id = wp.id
+            )
+          UNION ALL
+          /* Recursive case: Parents */
+          SELECT
+            wp.parent_id AS id,
+            wp2.parent_id,
+            wpd.depth + 1 AS depth
+          FROM
+            work_packages wp
+            INNER JOIN work_package_depth wpd ON wp.id = wpd.id
+            INNER JOIN temp_wp_progress_values wp2 ON wp.parent_id = wp2.id
+          WHERE
+            wp.parent_id IS NOT NULL
+        )
+      SELECT
+        id,
+        depth
+      FROM
+        work_package_depth
     SQL
   end
 
   def drop_temporary_total_percent_complete_table
     execute(<<~SQL.squish)
-      DROP TABLE temp_wp_progress_values
+      DROP TABLE IF EXISTS temp_wp_progress_values
+    SQL
+  end
+
+  def drop_temporary_depth_table
+    execute(<<~SQL.squish)
+      DROP TABLE IF EXISTS temp_work_package_depth
     SQL
   end
 
@@ -223,6 +286,7 @@ module WorkPackages::Progress::SqlCommands
         )
       RETURNING work_packages.id
     SQL
+
     results.column_values(0)
   end
 

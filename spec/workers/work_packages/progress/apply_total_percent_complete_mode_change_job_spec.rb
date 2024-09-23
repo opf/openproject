@@ -72,7 +72,7 @@ RSpec.describe WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob do
   context "when changing from simple average to work weighted average mode",
           with_settings: { total_percent_complete_mode: "work_weighted_average" } do
     context "on a single-level hierarchy" do
-      it "updates the total % complete of the work packages" do
+      it "does not update the total % complete of the work packages" do
         expect_performing_job_changes(
           mode: "work_weighted_average",
           from: <<~TABLE,
@@ -139,10 +139,10 @@ RSpec.describe WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob do
           mode: "work_weighted_average",
           from: <<~TABLE,
             hierarchy       | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
-            parent          |      |        |                |                  |        40% |          63%
+            parent          |      |        |                |                  |        40% |          65%
               child1        |      |        |                |                  |       100% |
               child2        |      |        |                |                  |        40% |
-              child3        |      |        |                |                  |       100% |          70%
+              child3        |      |        |                |                  |       100% |          80%
                 grandchild1 |      |        |                |                  |        40% |
                 grandchild2 |      |        |                |                  |       100% |
           TABLE
@@ -214,6 +214,163 @@ RSpec.describe WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob do
           last_journal = work_package.last_journal
           expect(last_journal.user).to eq(User.system)
           expect(last_journal.cause_type).to eq("total_percent_complete_mode_changed_to_work_weighted_average")
+        end
+
+        # unchanged => no new journals
+        [child1, child2, grandchild1, grandchild2].each do |work_package|
+          expect(work_package.journals.count).to eq 1
+        end
+      end
+      # rubocop:enable RSpec/ExampleLength
+    end
+  end
+
+  context "when changing from work weighted average to simple average mode",
+          with_settings: { total_percent_complete_mode: "simple_average" } do
+    context "on a single-level hierarchy" do
+      it "does not update the total % complete of the work packages" do
+        expect_performing_job_changes(
+          mode: "simple_average",
+          from: <<~TABLE,
+            hierarchy | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            flat_wp_1 |  10h |        |             6h |                  |        40% |
+            flat_wp_2 |  5h  |        |             3h |                  |        60% |
+          TABLE
+          to: <<~TABLE
+            subject   | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            flat_wp_1 |  10h |        |             6h |                  |        40% |
+            flat_wp_2 |  5h  |        |             3h |                  |        60% |
+          TABLE
+        )
+      end
+    end
+
+    context "on a two-level hierarchy with parents having total values" do
+      it "updates the total % complete of parent work packages" do
+        expect_performing_job_changes(
+          mode: "simple_average",
+          from: <<~TABLE,
+            hierarchy | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent    |  10h |    30h |             6h |              6h  |        40% |          80%
+              child1  |  15h |        |             0h |                  |       100% |
+              child2  |      |        |                |                  |        40% |
+              child3  |   5h |        |             0h |                  |       100% |
+          TABLE
+          to: <<~TABLE
+            subject   | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent    |  10h |    30h |             6h |              6h  |        40% |          70%
+              child1  |  15h |        |             0h |                  |       100% |
+              child2  |      |        |                |                  |        40% |
+              child3  |   5h |        |             0h |                  |       100% |
+          TABLE
+        )
+      end
+    end
+
+    context "on a two-level hierarchy with only % complete values set" do
+      it "sets the % complete value from parents" do
+        expect_performing_job_changes(
+          mode: "simple_average",
+          from: <<~TABLE,
+            hierarchy | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent    |      |        |                |                  |        40% |
+              child1  |      |        |                |                  |       100% |
+              child2  |      |        |                |                  |        40% |
+              child3  |      |        |                |                  |       100% |
+          TABLE
+          to: <<~TABLE
+            subject   | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent    |      |        |                |                  |        40% |          70%
+              child1  |      |        |                |                  |       100% |
+              child2  |      |        |                |                  |        40% |
+              child3  |      |        |                |                  |       100% |
+          TABLE
+        )
+      end
+    end
+
+    context "on a multi-level hierarchy with only % complete values set" do
+      it "unsets the % complete value from parents" do
+        expect_performing_job_changes(
+          mode: "simple_average",
+          from: <<~TABLE,
+            hierarchy       | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent          |      |        |                |                  |        40% |
+              child1        |      |        |                |                  |       100% |
+              child2        |      |        |                |                  |        40% |
+              child3        |      |        |                |                  |       100% |
+                grandchild1 |      |        |                |                  |        40% |
+                grandchild2 |      |        |                |                  |       100% |
+          TABLE
+          to: <<~TABLE
+            subject         | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent          |      |        |                |                  |        40% |          65%
+              child1        |      |        |                |                  |       100% |
+              child2        |      |        |                |                  |        40% |
+              child3        |      |        |                |                  |       100% |          80%
+                grandchild1 |      |        |                |                  |        40% |
+                grandchild2 |      |        |                |                  |       100% |
+          TABLE
+        )
+      end
+    end
+
+    context "on a multi-level hierarchy with work and remaining work values set" do
+      it "updates the total % complete of parent work packages irrelevant of work values" do
+        expect_performing_job_changes(
+          mode: "simple_average",
+          from: <<~TABLE,
+            hierarchy         | work  | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent          |  10h  |    50h |             6h |              6h  |        40% |          88%
+              child1        |  15h  |        |             0h |                  |       100% |
+              child2        |       |        |                |                  |        40% |
+              child3        |   5h  |    25h |             0h |              0h  |       100% |         100%
+                grandchild1 |       |        |                |                  |        40% |
+                grandchild2 |   20h |        |             0h |                  |       100% |
+          TABLE
+          to: <<~TABLE
+            subject         | work  | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent          |  10h  |    50h |             6h |              6h  |        40% |          65%
+              child1        |  15h  |        |             0h |                  |       100% |
+              child2        |       |        |                |                  |        40% |
+              child3        |   5h  |    25h |             0h |              0h  |       100% |          80%
+                grandchild1 |       |        |                |                  |        40% |
+                grandchild2 |   20h |        |             0h |                  |       100% |
+          TABLE
+        )
+      end
+    end
+
+    describe "journal entries" do
+      # rubocop:disable RSpec/ExampleLength
+      it "creates journal entries for the modified work packages" do
+        parent, child1, child2, child3, grandchild1, grandchild2 = expect_performing_job_changes(
+          cause_type: "total_percent_complete_mode_changed_to_simple_average",
+          mode: "simple_average",
+          from: <<~TABLE,
+            hierarchy         | work  | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent          |  10h  |    50h |             6h |              6h  |        40% |          88%
+              child1        |  15h  |        |             0h |                  |       100% |
+              child2        |       |        |                |                  |        40% |
+              child3        |   5h  |    25h |             0h |              0h  |       100% |         100%
+                grandchild1 |       |        |                |                  |        40% |
+                grandchild2 |   20h |        |             0h |                  |       100% |
+          TABLE
+          to: <<~TABLE
+            subject         | work  | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent          |  10h  |    50h |             6h |              6h  |        40% |          65%
+              child1        |  15h  |        |             0h |                  |       100% |
+              child2        |       |        |                |                  |        40% |
+              child3        |   5h  |    25h |             0h |              0h  |       100% |          80%
+                grandchild1 |       |        |                |                  |        40% |
+                grandchild2 |   20h |        |             0h |                  |       100% |
+          TABLE
+        )
+        [parent, child3].each do |work_package|
+          expect(work_package.journals.count).to eq 2
+          last_journal = work_package.last_journal
+          expect(last_journal.user).to eq(User.system)
+          expect(last_journal.cause_type).to eq("total_percent_complete_mode_changed_to_simple_average")
         end
 
         # unchanged => no new journals

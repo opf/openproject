@@ -51,6 +51,10 @@ class Settings::UpdateService < BaseServices::BaseContracted
       WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob
         .perform_later(mode: new_value,
                        cause_type: "total_percent_complete_mode_changed_to_work_weighted_average")
+    elsif name == :total_percent_complete_mode && old_value != "simple_average" && new_value == "simple_average"
+      WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob
+        .perform_later(mode: new_value,
+                       cause_type: "total_percent_complete_mode_changed_to_simple_average")
     end
   end
 

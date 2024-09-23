@@ -111,13 +111,34 @@ RSpec.describe Admin::Settings::ProgressTrackingController do
               }
             }
       expect(WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob)
-        .to have_been_enqueued.with(old_mode: "simple_average",
-                                    new_mode: "work_weighted_average",
+        .to have_been_enqueued.with(mode: "work_weighted_average",
                                     cause_type: "total_percent_complete_mode_changed_to_work_weighted_average")
 
       perform_enqueued_jobs
 
       expect(Setting.total_percent_complete_mode).to eq("work_weighted_average")
+    end
+  end
+
+  context "when changing total percent complete mode from work-weighted average to simple average" do
+    before do
+      Setting.total_percent_complete_mode = "work_weighted_average"
+    end
+
+    it "starts a job to update work packages' total % complete values" do
+      patch "update",
+            params: {
+              settings: {
+                total_percent_complete_mode: "simple_average"
+              }
+            }
+      expect(WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob)
+        .to have_been_enqueued.with(mode: "simple_average",
+                                    cause_type: "total_percent_complete_mode_changed_to_simple_average")
+
+      perform_enqueued_jobs
+
+      expect(Setting.total_percent_complete_mode).to eq("simple_average")
     end
   end
 end

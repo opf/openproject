@@ -92,30 +92,61 @@ class WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob < WorkPacka
 
   def update_to_simple_average
     execute(<<~SQL.squish)
-      UPDATE temp_wp_progress_values
-      SET derived_done_ratio = CASE
-        WHEN avg_ratios.avg_done_ratio IS NOT NULL THEN ROUND(avg_ratios.avg_done_ratio)
-        ELSE done_ratio
-      END
-      FROM (
-        SELECT wp_tree.ancestor_id AS id,
-               AVG(CASE
-                 WHEN wp_tree.generations = 1 THEN COALESCE(wp_progress.done_ratio, 0)
-                 ELSE NULL
-               END) AS avg_done_ratio
-        FROM work_package_hierarchies wp_tree
-          LEFT JOIN temp_wp_progress_values wp_progress ON wp_tree.descendant_id = wp_progress.id
-          LEFT JOIN statuses ON wp_progress.status_id = statuses.id
-        WHERE statuses.excluded_from_totals = FALSE
-        GROUP BY wp_tree.ancestor_id
-      ) avg_ratios
-      WHERE temp_wp_progress_values.id = avg_ratios.id
-      AND temp_wp_progress_values.id IN (
-        SELECT ancestor_id AS id
-        FROM work_package_hierarchies
-        GROUP BY id
-        HAVING MAX(generations) > 0
-      )
+      DO $$
+      DECLARE
+      	min_depth INTEGER := 0;
+      	max_depth INTEGER := (SELECT MAX(depth) FROM temp_work_package_depth);
+      	current_depth INTEGER := min_depth;
+      BEGIN
+        /* Navigate work packages and perform updates bottom-up */
+      	while current_depth <= max_depth loop
+      UPDATE temp_wp_progress_values wp
+      SET
+      	total_p_complete = CASE
+      		WHEN current_depth = min_depth THEN NULL
+      		ELSE ROUND(
+      			(
+      				COALESCE(wp.p_complete, 0) + (
+      					SELECT
+      						SUM(
+      							COALESCE(child_wp.total_p_complete, child_wp.p_complete, 0)
+      						)
+      					FROM
+      						temp_wp_progress_values child_wp
+      					WHERE
+      						child_wp.parent_id = wp.id
+      				)
+      			) / (
+      				CASE
+      					WHEN wp.p_complete IS NOT NULL THEN 1
+      					ELSE 0
+      				END + (
+      					SELECT
+      						COUNT(1)
+      					FROM
+      						temp_wp_progress_values child_wp
+      					WHERE
+      						child_wp.parent_id = wp.id
+      				)
+      			)
+      		)
+      	END
+      /* Select only work packages at the curren depth */
+      WHERE
+      	wp.id IN (
+      		SELECT
+      			id
+      		FROM
+      			temp_work_package_depth
+      		WHERE
+      			depth = current_depth
+      	);
+
+      /* Go up a level from a child to a parent*/
+      current_depth := current_depth + 1;
+
+      END loop;
+      END $$;
     SQL
   end
 
