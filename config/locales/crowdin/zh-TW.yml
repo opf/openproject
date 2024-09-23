@@ -31,9 +31,9 @@ zh-TW:
     custom_styles:
       color_theme: "色彩佈景主題"
       color_theme_custom: "自訂"
-      tab_interface: "Interface"
-      tab_branding: "Branding"
-      tab_pdf_export_styles: "PDF export styles"
+      tab_interface: "介面"
+      tab_branding: "品牌化"
+      tab_pdf_export_styles: "PDF 匯出類型"
       colors:
         primary-button-color: "主按鈕"
         accent-color: "強調（Accent）"
@@ -1608,7 +1608,7 @@ zh-TW:
   error_menu_item_not_saved: 選單項目無法保存
   error_wiki_root_menu_item_conflict: >
     無法將 "%{old_name}" 重命名為 "%{new_name}", 因為結果功能表項目中的衝突與現有功能表項目 "%{existing_caption}" (%{existing_identifier}) 衝突。
-  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
+  error_external_authentication_failed_message: "外部驗證時發生錯誤： %{message}"
   error_attribute_not_highlightable: "無法凸顯的屬性: %{attributes}"
   events:
     changeset: "已編輯變更"
@@ -1889,8 +1889,8 @@ zh-TW:
   label_additional_workflow_transitions_for_assignee: "使用者是執行者時，可用狀態"
   label_additional_workflow_transitions_for_author: "使用者是作者，可用狀態"
   label_administration: "系統管理"
-  label_interface_colors: "Interface colors"
-  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
+  label_interface_colors: "介面顏色"
+  label_interface_colors_description: "這些顏色控制應用程式的外觀。如果您修改它們，主題會自動變更為自訂主題，但我們無法保證符合網頁內容可訪問性指南基本要求 (WCAG 2.1)。 "
   label_age: "年齡"
   label_ago: "天前"
   label_all: "所有"
@@ -2004,7 +2004,7 @@ zh-TW:
   label_custom_field_plural: "客製欄位"
   label_custom_field_default_type: "空類型"
   label_custom_style: "設計"
-  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
+  label_custom_style_description: "選擇 OpenProject 的主題外觀、選擇要在應用程式中使用的預設顏色以及匯出的外觀。"
   label_dashboard: "儀表板"
   label_database_version: "PostgreSQL 版本"
   label_date: "日期"
@@ -2127,7 +2127,7 @@ zh-TW:
   label_share_work_package: "共用工作項目"
   label_show_all_registered_users: "顯示所有註冊使用者"
   label_show_less: "減少顯示"
-  label_show_more: "Show more"
+  label_show_more: "顯示更多"
   label_journal: "日誌"
   label_journal_diff: "內容對比"
   label_language: "語言"
