@@ -113,12 +113,8 @@ RSpec.describe Query::SortCriteria do
       let(:sort_criteria) { [%w[version desc], %w[start_date asc]] }
 
       it "adds the order handling (and the default order by id)" do
-        sort_sql = <<~SQL
-          array_remove(regexp_split_to_array(regexp_replace(substring(versions.name from '^[^a-zA-Z]+'), '\\D+', ' ', 'g'), ' '), '')::int[]
-        SQL
-
         expect(subject)
-          .to eq [["#{sort_sql} DESC NULLS LAST", "name DESC NULLS LAST"],
+          .to eq [["name DESC NULLS LAST"],
                   ["work_packages.start_date NULLS LAST"],
                   ["work_packages.id DESC"]]
       end
