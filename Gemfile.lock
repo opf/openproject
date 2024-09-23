@@ -1092,7 +1092,7 @@ GEM
       sprockets (>= 3.0.0)
     ssrf_filter (1.0.8)
     stackprof (0.2.26)
-    store_attribute (1.3.0)
+    store_attribute (1.3.1)
       activerecord (>= 6.1)
     stringex (2.8.6)
     stringio (3.1.1)
