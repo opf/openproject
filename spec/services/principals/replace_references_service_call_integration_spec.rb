@@ -83,65 +83,6 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
       end
     end
 
-    shared_examples_for "rewritten record" do |factory, attribute, format = Integer|
-      let!(:model) do
-        klass = FactoryBot.factories.find(factory).build_class
-        all_attributes = other_attributes.merge(attribute => principal_id)
-
-        inserted = ActiveRecord::Base.connection.select_one <<~SQL.squish
-          INSERT INTO #{klass.table_name}
-          (#{all_attributes.keys.join(', ')})
-          VALUES
-          (#{all_attributes.values.join(', ')})
-          RETURNING id
-        SQL
-
-        klass.find(inserted["id"])
-      end
-
-      let(:other_attributes) do
-        defined?(attributes) ? attributes : {}
-      end
-
-      def expected(user, format)
-        if format == String
-          user.id.to_s
-        else
-          user.id
-        end
-      end
-
-      context "for #{factory}" do
-        context "with the replaced user" do
-          let(:principal_id) { principal.id }
-
-          before do
-            service_call
-            model.reload
-          end
-
-          it "replaces #{attribute}" do
-            expect(model.send(attribute))
-              .to eql expected(to_principal, format)
-          end
-        end
-
-        context "with a different user" do
-          let(:principal_id) { other_user.id }
-
-          before do
-            service_call
-            model.reload
-          end
-
-          it "keeps #{attribute}" do
-            expect(model.send(attribute))
-              .to eql expected(other_user, format)
-          end
-        end
-      end
-    end
-
     context "with Attachment" do
       it_behaves_like "rewritten record",
                       :attachment,
