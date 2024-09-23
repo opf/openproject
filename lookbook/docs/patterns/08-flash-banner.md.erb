@@ -4,7 +4,7 @@ This component defines a specific use case of the Primer `Banner` component, con
 
 To use a Primerised flash, the `OpPrimer::BannerMessageComponent` was introduced.
 
-<%= embed OpenProject::Common::FlashPreview, :default, panels: %i[source] %>
+<%= embed OpPrimer::BannerMessageComponentPreview, :default, panels: %i[source] %>
 
 Internally, this component uses the `Primer::BannerComponent` to render the flash message.
 The `OpPrimer::BannerMessageComponent` is a wrapper around the `Primer::BannerComponent` that adds a wrapper class to prepend the flash message to the `#banner-messages` div in the base layout.
@@ -37,7 +37,7 @@ These are rendered in the layout through the `render_banner_messages` helper usi
 
 The interesting part is having a flash message responded from within a turbo stream response
 
-When a Primerised flash is required, this component can be used by calling `update_flash_message_via_turbo_stream()`. Under the hood, this prepends via turbo stream the `UpdateFlashComponent` in the `flash-container` div within the base layout.
+When a Primerised flash is required, this component can be used by calling `update_flash_message_via_turbo_stream()`. Under the hood, this prepends via turbo stream the `UpdateFlashComponent` in the `#banner-messages` div within the base layout.
 
 The icon, dismiss scheme, and scheme are configurable identically to the Primer `Banner` component.
 A `message` property is added that will be passed as the content of the banner.
@@ -65,10 +65,10 @@ Please create a code maintenance ticket if you need to append/prepend messages i
 
 As this is a common use case, the method `render_error_flash_message_via_turbo_stream()` is provided, generating a flash with `scheme: :danger` and `icon: :stop` by default.
 
-<%= embed OpenProject::Common::FlashPreview, :danger, panels: %i[source] %>
+<%= embed OpPrimer::BannerMessageComponentPreview, :danger, panels: %i[source] %>
 
 <% if false %>
 ### With optional button:
 
-<%= embed OpenProject::Common::FlashPreview, :button, panels: %i[source] %>
+<%= embed OpPrimer::BannerMessageComponentPreview , :button, panels: %i[source] %>
 <% end %>
