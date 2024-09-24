@@ -997,6 +997,8 @@ en:
             name:
               blank: "is mandatory. Please select a name."
               not_unique: "is already in use. Please select another name."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "At least one channel for sending notifications needs to be specified."
           attributes:
