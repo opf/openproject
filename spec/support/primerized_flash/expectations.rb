@@ -1,9 +1,7 @@
 module PrimerizedFlash
   module Expectations
-    include FlashMessagesHelper
-
     def expect_primerized_flash(message:, type: :success, wait: 20)
-      mapped_scheme = mapped_flash_type(type)
+      mapped_scheme = expected_flash_type(type)
       expect(page).to have_css(".Banner--#{mapped_scheme}", text: message, wait:)
     end
 
@@ -28,8 +26,21 @@ module PrimerizedFlash
       if type.nil?
         expect(page).not_to have_test_selector("op-primer-flash-message")
       else
-        mapped_scheme = mapped_flash_type(type)
+        mapped_scheme = expected_flash_type(type)
         expect(page).to have_no_css(".Banner--#{mapped_scheme}", text: message, wait:)
+      end
+    end
+
+    def expected_flash_type(type)
+      case type
+      when :error
+        :error # The class is error, but the scheme is danger
+      when :warning
+        :warning
+      when :success, :notice
+        :success
+      else
+        :default
       end
     end
   end
