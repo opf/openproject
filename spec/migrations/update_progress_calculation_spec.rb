@@ -863,14 +863,17 @@ RSpec.describe UpdateProgressCalculation, type: :model do
           .to eql [nil, 50]
       end
 
-      it "creates a journal for the work package transitioning ∑ % complete from 90% to 20%" do
+      it "creates a journal for the work package transitioning ∑ remaining work from 50h to 80h " \
+         "and ∑ % complete from 90% to 20%" do
         expect(wp_wrong.journals.count).to eq(2)
 
         expect(wp_wrong.journals.first.get_changes.keys)
           .not_to include("derived_done_ratio")
 
-        expect(wp_wrong.journals.last.get_changes["derived_done_ratio"])
-          .to eql [nil, 20]
+        expect(wp_wrong.journals.last.get_changes).to include(
+          "derived_remaining_hours" => [50.0, 80.0],
+          "derived_done_ratio" => [nil, 20]
+        )
       end
     end
   end
