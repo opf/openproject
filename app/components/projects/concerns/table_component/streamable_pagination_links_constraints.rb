@@ -26,18 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module CustomFields
-    module CustomFieldProjects
-      class TableComponent < Projects::TableComponent
-        include ::Projects::Concerns::TableComponent::StreamablePaginationLinksConstraints
-
-        def columns
-          @columns ||= query.selects.reject { |select| select.is_a?(Queries::Selects::NotExistingSelect) }
-        end
-
-        def sortable?
-          false
+module Projects
+  module Concerns
+    module TableComponent
+      module StreamablePaginationLinksConstraints
+        # @override optional_pagination_options are passed to the pagination_options
+        # which are passed to #pagination_links_full in pagination_helper.rb
+        #
+        # In Turbo streamable components, we need to be able to specify the url_for(action:) so that links are
+        # generated in the context of the component index action, instead of any turbo stream actions performing
+        # partial updates on the page.
+        #
+        # params[:url_for_action] is passed to the pagination_options making it's way down to any pagination links
+        # that are generated via link_to which calls url_for which uses the params[:url_for_action] to specify
+        # the controller action that link_to should use.
+        #
+        # data-turbo-action="advance" is added to the pagination links ensure links pushState to the browser
+        #
+        def optional_pagination_options
+          super.tap do |options|
+            options[:params] = { action: params[:url_for_action] } if params[:url_for_action]
+            options[:turbo_action] = "advance"
+          end
         end
       end
     end

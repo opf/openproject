@@ -228,6 +228,10 @@ RSpec.describe "Admin lists project mappings for a storage",
 
           expect(page).to have_text(project.name)
           expect(page).to have_text(subproject.name)
+
+          aggregate_failures "pagination links maintain the correct url" do
+            project_storages_index_page.expect_correct_pagination_links(model: storage)
+          end
         end
 
         context "when the user does not select a folder" do
@@ -296,6 +300,10 @@ RSpec.describe "Admin lists project mappings for a storage",
 
         project_storages_index_page.within_the_table_row_containing(project.name) do
           expect(page).to have_text("No specific folder")
+        end
+
+        aggregate_failures "pagination links maintain the correct url" do
+          project_storages_index_page.expect_correct_pagination_links(model: storage)
         end
       end
 
@@ -388,6 +396,10 @@ RSpec.describe "Admin lists project mappings for a storage",
         expect(page).to have_no_selector("dialog")
         expect(page).to have_text("Successful deletion.")
         expect(page).to have_no_text(project.name)
+
+        aggregate_failures "pagination links maintain the correct url" do
+          project_storages_index_page.expect_correct_pagination_links(model: storage)
+        end
       end
     end
   end
