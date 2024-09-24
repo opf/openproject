@@ -611,7 +611,9 @@ cs:
         mentioned: "Zmíněné"
         watched: "Sledující"
         assigned: "Řešitel"
-        accountable: "Odpovědný"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "Vytvořeno"
         scheduled: "Naplánováno"
         commented: "Komentované"

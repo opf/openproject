@@ -82,6 +82,7 @@ ko:
         contact: "당사에 데모 요청하기"
       enterprise_info_html: "- Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> 추가 기능입니다."
       upgrade_info: "활성화하고 팀에서 사용하려면 유료 플랜으로 업그레이드하세요."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "사용자의 개별 작업(예: 작업 패키지를 두 번 업데이트)은 연령 차이가 지정된 기간 미만인 경우 단일 작업으로 집계됩니다. 애플리케이션 내에서 단일 작업으로 표시됩니다. 또한 이는 전송되는 이메일 수를 줄이는 동일한 시간만큼 알림을 지연시키고 %{webhook_link} 지연에도 영향을 미칩니다."

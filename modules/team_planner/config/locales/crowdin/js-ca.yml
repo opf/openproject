@@ -8,7 +8,7 @@ ca:
       create_title: 'Crea un nou planificador d''equips'
       unsaved_title: 'Planificador d''equips sense nom'
       no_data: 'Afegeix usuaris assignats per tal de configurar el teu planificador d''equip.'
-      add_assignee: 'Afegir assignats'
+      add_assignee: 'Assignee'
       remove_assignee: 'Elimina assignats'
       two_weeks: '2 setmanes'
       one_week: '1 setmana'

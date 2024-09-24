@@ -612,7 +612,9 @@ fr:
         mentioned: "Mentionné"
         watched: "Observateur"
         assigned: "Personne assignée"
-        accountable: "Responsable"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "Créé"
         scheduled: "Planifié"
         commented: "Commenté"

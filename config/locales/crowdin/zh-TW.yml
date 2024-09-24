@@ -82,6 +82,7 @@ zh-TW:
         contact: "聯絡我們取得試用"
       enterprise_info_html: "是企業版功能 <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> 。"
       upgrade_info: "請升級到付費版以啟用此功能"
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "例如使用者\"更新\"工作項目兩次，如果時間間隔小於設定值，則將合併視為為單次操作。應用程序中亦會顯示為單個操作。這也會套用在電子郵件通知，以及 %{webhook_link} 。"

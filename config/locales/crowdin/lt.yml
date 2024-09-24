@@ -82,6 +82,7 @@ lt:
         contact: "Susisiekite su mumis dėl demonstracijos"
       enterprise_info_html: "yra Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'> priedas."
       upgrade_info: "Prašome atsinaujinti į mokamą planą, kad aktyvuotumėte ir pradėtumėte ji naudoti savo komandoje."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Visi atskiri naudotojo veiksmai (t.y. darbų paketo atnaujinimas du kartus) yra sugrupuojami į vieną veiksmą, jei laiko tarpas tarp jų yra mažesnis už šį nustatymą. Programoje jie bus rodomi kaip vienas veiksmas. Tiek pat bus pavėlinti ir pranešimai. Dėl to sumažės siunčiamų el.laiškų skaičius ir taipogi įtakos %{webhook_link} delsimą."

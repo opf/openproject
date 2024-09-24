@@ -82,6 +82,7 @@ vi:
         contact: "Liên hệ với chúng tôi để có buổi demo"
       enterprise_info_html: "là một tiện ích bổ sung Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
       upgrade_info: "Vui lòng nâng cấp lên gói trả phí để kích hoạt và bắt đầu sử dụng nó trong nhóm của bạn."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Các hành động cá nhân của người dùng (ví dụ: cập nhật một công việc hai lần) được gộp thành một hành động nếu thời gian chênh lệch giữa chúng nhỏ hơn khoảng thời gian được chỉ định. Chúng sẽ được hiển thị dưới dạng một hành động duy nhất trong ứng dụng. Điều này cũng sẽ trì hoãn thông báo cùng một khoảng thời gian giảm số lượng email được gửi và cũng sẽ ảnh hưởng đến độ trễ %{webhook_link}."

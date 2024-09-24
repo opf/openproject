@@ -82,6 +82,7 @@ fr:
         contact: "Contactez-nous pour une démo"
       enterprise_info_html: "est un module de la version <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>Enterprise."
       upgrade_info: "Veuillez passer à un plan payant pour l'activer et commencer à l'utiliser dans votre équipe."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Les actions individuelles d'un utilisateur (par ex. mis à jour un lot de travaux deux fois) sont agrégés en une seule action si leur différence d'âge est inférieure à la période spécifiée. Elles seront affichées en une seule action dans l'application. Cela retardera également les notifications du même temps réduisant donc le nombre d'e-mails envoyés et affectera également le délai %{webhook_link}."

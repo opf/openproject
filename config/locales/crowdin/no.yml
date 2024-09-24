@@ -82,6 +82,7 @@
         contact: "Kontakt oss for en demo"
       enterprise_info_html: "er en Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>-utvidelse."
       upgrade_info: "Vennligst oppgrader til et betalt abonnement for å kunne aktivere og begynne å bruke det i ditt team."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Individuelle handlinger av en bruker (f.eks. oppdatering av en arbeidspakke to ganger) aggregeres til en enkelt handling hvis aldersforskjellen er mindre enn det spesifiserte tidsrommet. De vil bli vist som en enkelt handling i programmet. Dette vil også forsinke varslinger med samme tidsperiode som reduserer antall e-poster som sendes, og vil også påvirke %{webhook_link} forsinkelse."

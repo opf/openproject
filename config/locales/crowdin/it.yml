@@ -82,6 +82,7 @@ it:
         contact: "Contattaci per una demo"
       enterprise_info_html: "è un componente aggiuntivo di Imprese <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
       upgrade_info: "Esegui l'upgrade a un piano a pagamento per attivarlo e iniziare a usarlo nel tuo team."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Le singole azioni di un utente (es. l'aggiornamento di una macro-attività due volte) vengono aggregate in un'unica azione se il tempo intercorso tra esse è inferiore al periodo minimo di tempo impostato. Verranno visualizzate quindi come un'unica azione all'interno dell'applicazione. Questo ritarderà anche le notifiche della stessa quantità di tempo, riducendo così il numero di email inviate, e influirà anche sul ritardo di %{webhook_link}."
