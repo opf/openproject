@@ -94,6 +94,9 @@ module ErrorsHelper
     @message_details = arg[:message_details]
     respond_to do |format|
       format.html do
+        binding.pry
+        error_message = "[#{I18n.t(:error_code, code: @status)}] #{@message}\n#{@message_details}"
+        flash[:error] = error_message
         render template: "common/error", layout: use_layout, status: @status
       end
       format.any do
