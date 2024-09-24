@@ -49,6 +49,10 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
     create(:public_project, custom_values: cf_values(*values))
   end
 
+  def project_without_cf_value
+    create(:public_project)
+  end
+
   shared_examples "it sorts" do
     let(:projects_desc) { projects.reverse }
 
@@ -79,7 +83,7 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
 
       let(:projects) do
         [
-          create(:public_project),
+          project_without_cf_value,
           project_with_cf_value("16"),
           project_with_cf_value("6.25")
         ]
@@ -93,7 +97,7 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
 
       let(:projects) do
         [
-          create(:public_project),
+          project_without_cf_value,
           project_with_cf_value("https://openproject.org/intro/"),
           project_with_cf_value("https://openproject.org/pricing/")
         ]
@@ -109,7 +113,7 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
         [
           project_with_cf_value("6"),
           project_with_cf_value("16"),
-          create(:public_project) # TODO: should be at index 0
+          project_without_cf_value # TODO: should be at index 0
         ]
       end
     end
@@ -123,7 +127,7 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
         [
           project_with_cf_value("6.25"),
           project_with_cf_value("16"),
-          create(:public_project) # TODO: should be at index 0
+          project_without_cf_value # TODO: should be at index 0
         ]
       end
     end
@@ -135,7 +139,7 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
 
       let(:projects) do
         [
-          create(:public_project),
+          project_without_cf_value,
           project_with_cf_value("2024-01-01"),
           project_with_cf_value("2030-01-01"),
           project_with_cf_value("999-01-01") # TODO: should be at index 1
@@ -150,7 +154,7 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
 
       let(:projects) do
         [
-          create(:public_project),
+          project_without_cf_value,
           project_with_cf_value("0"),
           project_with_cf_value("1")
         ]
@@ -172,7 +176,7 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
             project_with_cf_value(id_by_value.fetch("100")),
             project_with_cf_value(id_by_value.fetch("3")),
             project_with_cf_value(id_by_value.fetch("20")),
-            create(:public_project) # TODO: should be at index 0
+            project_without_cf_value # TODO: should be at index 0
           ]
         end
       end
@@ -184,7 +188,7 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
 
         let(:projects) do
           [
-            create(:public_project),
+            project_without_cf_value,
             # TODO: sorting is done by values sorted by position and joined by `.`, why?
             project_with_cf_value(*id_by_value.fetch_values("100")),            # => 100
             project_with_cf_value(*id_by_value.fetch_values("20", "100")),      # => 100.20
@@ -224,7 +228,7 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
       include_examples "it sorts" do
         let(:custom_field) { create(:project_custom_field, :user) }
 
-        let(:projects) { custom_field_values.map { create(:public_project) } }
+        let(:projects) { custom_field_values.map { project_without_cf_value } }
 
         let(:custom_field_values) do
           [
@@ -248,7 +252,7 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
       include_examples "it sorts" do
         let(:custom_field) { create(:project_custom_field, :user, :multi_value) }
 
-        let(:projects) { custom_field_values.map { create(:public_project) } }
+        let(:projects) { custom_field_values.map { project_without_cf_value } }
 
         let(:custom_field_values) do
           [
@@ -274,7 +278,7 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
   end
 
   context "for version format" do
-    let(:project) { create(:public_project) }
+    let(:project) { project_without_cf_value }
     let(:versions) do
       [
         create(:version, project:, sharing: "system", name: "10.10.10"),
