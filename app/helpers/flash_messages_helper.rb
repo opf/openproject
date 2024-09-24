@@ -67,7 +67,7 @@ module FlashMessagesHelper
       :danger
     when :warning
       :warning
-    when :notice
+    when :success, :notice
       :success
     else
       :default
