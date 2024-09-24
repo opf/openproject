@@ -30,8 +30,6 @@ module Admin
   module CustomFields
     module CustomFieldProjects
       class TableComponent < Projects::TableComponent
-        include OpTurbo::Streamable
-
         def columns
           @columns ||= query.selects.reject { |select| select.is_a?(Queries::Selects::NotExistingSelect) }
         end
