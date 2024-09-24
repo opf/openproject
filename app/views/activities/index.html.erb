@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { (@author.nil? ? t(:label_activity) : t(:label_user_activity, value: link_to_user(@author))) }
-    header.with_breadcrumbs([{ href: home_path, text: I18n.t("label_home")},
+    header.with_breadcrumbs([{ href: home_path, text: organization_name},
                              *([href: project_overview_path(@project.id), text: @project.name] if @project),
                              t(:label_activity)])
   end

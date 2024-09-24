@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { I18n.t("label_home") }
-    header.with_breadcrumbs([I18n.t(:label_home)])
+    header.with_breadcrumbs([{ href: home_path, text: organization_name}, I18n.t(:label_home)])
   end
 %>
 
