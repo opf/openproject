@@ -975,6 +975,32 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
         TABLE
       end
     end
+
+    context "with parent having % complete set " \
+            "and a multi-level children hierarchy with some % complete set " \
+            "and some children having status excluded from totals" do
+      let_work_packages(<<~TABLE)
+        hierarchy       | status   | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+        parent          | Open     |      |    44h |                |             21h  |        10% |
+          child1        | Open     | 15h  |    23h |           10h  |             14h  |        33% |         43%
+            grandchild1 | Open     |  5h  |        |            3h  |                  |        40% |
+            grandchild2 | Open     |  3h  |        |            1h  |                  |        67% |
+          child2        | Rejected |  5h  |     7h |          2.5h  |            3.5h  |        50% |         75%
+            grandchild3 | Open     |  2h  |        |            1h  |                  |       100% |
+          child3        | Open     | 10h  |    14h |          2.5h  |            3.5h  |        75% |
+            grandchild4 | Rejected |  4h  |        |            1h  |                  |        75% |
+          child4        | Open     |      |        |                |                  |        60% |
+      TABLE
+
+      it "sets the total % complete solely based on % complete values of direct children" do
+        expect(call_result).to be_success
+        updated_work_packages = call_result.all_results
+        expect_work_packages(updated_work_packages, <<~TABLE)
+          subject | total % complete
+          parent  |              47%
+        TABLE
+      end
+    end
   end
 
   describe "ignore_non_working_days propagation" do

@@ -140,16 +140,21 @@ class WorkPackages::UpdateAncestorsService
   end
 
   def calculate_simple_average_percent_complete(work_package, loader)
-    all_done_ratios = loader
-        .children_of(work_package)
-        .map { |child| child.derived_done_ratio || child.done_ratio || 0 }
+    all_done_ratios = children_done_ratio_values(work_package, loader)
 
-    if work_package.done_ratio.present?
+    if work_package.done_ratio.present? && !work_package.status.excluded_from_totals
       all_done_ratios << work_package.done_ratio
     end
 
     progress = all_done_ratios.sum.to_f / all_done_ratios.count
     progress.round
+  end
+
+  def children_done_ratio_values(work_package, loader)
+    loader
+      .children_of(work_package)
+      .reject(&:status_excluded_from_totals)
+      .map { |child| child.derived_done_ratio || child.done_ratio || 0 }
   end
 
   # Sets the ignore_non_working_days to true if any descendant has its value set to true.

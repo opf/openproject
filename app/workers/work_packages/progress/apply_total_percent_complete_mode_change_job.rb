@@ -106,7 +106,12 @@ class WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob < WorkPacka
       		WHEN current_depth = min_depth THEN NULL
       		ELSE ROUND(
       			(
-      				COALESCE(wp.p_complete, 0) + (
+              /* Exclude the current work package if it has a status excluded from totals */
+      				CASE WHEN wp.status_excluded_from_totals
+              THEN 0
+              /* Otherwise, use the current work package's % complete value or 0 if unset */
+              ELSE COALESCE(wp.p_complete, 0)
+              END + (
       					SELECT
       						SUM(
       							COALESCE(child_wp.total_p_complete, child_wp.p_complete, 0)
@@ -115,18 +120,24 @@ class WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob < WorkPacka
       						temp_wp_progress_values child_wp
       					WHERE
       						child_wp.parent_id = wp.id
+                  /* Exclude children with a status excluded from totals */
+                  AND NOT child_wp.status_excluded_from_totals
       				)
-      			) / (
-      				CASE
-      					WHEN wp.p_complete IS NOT NULL THEN 1
-      					ELSE 0
-      				END + (
+              ) / (
+              /* Exclude the current work package if it has a status excluded from totals */
+              CASE WHEN wp.status_excluded_from_totals
+              THEN 0
+              /* Otherwise, count the current work package if it has a % complete value set */
+              ELSE(CASE WHEN wp.p_complete IS NOT NULL THEN 1 ELSE 0 END)
+              END + (
       					SELECT
       						COUNT(1)
       					FROM
       						temp_wp_progress_values child_wp
       					WHERE
       						child_wp.parent_id = wp.id
+                  /* Exclude children with a status excluded from totals */
+                  AND NOT child_wp.status_excluded_from_totals
       				)
       			)
       		)

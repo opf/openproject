@@ -95,12 +95,13 @@ module WorkPackages::Progress::SqlCommands
     execute(<<~SQL.squish)
       CREATE UNLOGGED TABLE temp_wp_progress_values AS
       SELECT
-      	id,
-      	parent_id,
-      	status_id,
+      	work_packages.id as id,
+      	work_packages.parent_id as parent_id,
+      	statuses.excluded_from_totals AS status_excluded_from_totals,
       	done_ratio AS p_complete,
       	NULL::INTEGER AS total_p_complete
       FROM work_packages
+      LEFT JOIN statuses ON work_packages.status_id = statuses.id
     SQL
   end
 

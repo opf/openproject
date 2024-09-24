@@ -185,6 +185,33 @@ RSpec.describe WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob do
       end
     end
 
+    context "on a multi-level hierarchy with work and remaining work values set " \
+            "and a child with a status excluded from totals" do
+      it "updates the total % complete of parent work packages excluding the child" do
+        expect_performing_job_changes(
+          mode: "work_weighted_average",
+          from: <<~TABLE,
+            hierarchy       | status    | work  | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent          | New       |  10h  |    30h |             6h |              6h  |        40% |          63%
+              child1        | New       |  15h  |        |             0h |                  |       100% |
+              child2        | New       |       |        |                |                  |        40% |
+              child3        | New       |   5h  |    5h  |             0h |              0h  |       100% |          70%
+                grandchild1 | New       |       |        |                |                  |        40% |
+                grandchild2 | Excluded  |   20h |        |             0h |                  |       100% |
+          TABLE
+          to: <<~TABLE
+            subject         | status    | work  | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent          | New       |  10h  |    30h |             6h |              6h  |        40% |          80%
+              child1        | New       |  15h  |        |             0h |                  |       100% |
+              child2        | New       |       |        |                |                  |        40% |
+              child3        | New       |   5h  |     5h |             0h |              0h  |       100% |         100%
+                grandchild1 | New       |       |        |                |                  |        40% |
+                grandchild2 | Excluded  |   20h |        |             0h |                  |       100% |
+          TABLE
+        )
+      end
+    end
+
     describe "journal entries" do
       # rubocop:disable RSpec/ExampleLength
       it "creates journal entries for the modified work packages" do
@@ -336,6 +363,34 @@ RSpec.describe WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob do
               child3        |   5h  |    25h |             0h |              0h  |       100% |          80%
                 grandchild1 |       |        |                |                  |        40% |
                 grandchild2 |   20h |        |             0h |                  |       100% |
+          TABLE
+        )
+      end
+    end
+
+    context "on a multi-level hierarchy with work and remaining work values set " \
+            "and a child having a status excluded from totals" do
+      it "updates the total % complete of parent work packages irrelevant of work values " \
+         "excluding the child with the excluded status" do
+        expect_performing_job_changes(
+          mode: "simple_average",
+          from: <<~TABLE,
+            hierarchy         | status   | work  | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent          | New      |  10h  |    50h |             6h |              6h  |        40% |          88%
+              child1        | New      |  15h  |        |             0h |                  |       100% |
+              child2        | New      |       |        |                |                  |        40% |
+              child3        | Excluded |   5h  |    25h |             0h |              0h  |       100% |         100%
+                grandchild1 | New      |       |        |                |                  |        40% |
+                grandchild2 | New      |   20h |        |             0h |                  |       100% |
+          TABLE
+          to: <<~TABLE
+            subject         | status   | work  | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent          | New      |  10h  |    50h |             6h |              6h  |        40% |          60%
+              child1        | New      |  15h  |        |             0h |                  |       100% |
+              child2        | New      |       |        |                |                  |        40% |
+              child3        | Excluded |   5h  |    25h |             0h |              0h  |       100% |         70%
+                grandchild1 | New      |       |        |                |                  |        40% |
+                grandchild2 | New      |   20h |        |             0h |                  |       100% |
           TABLE
         )
       end
