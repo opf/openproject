@@ -35,6 +35,9 @@ module ErrorMessageHelper
     return unless object
 
     assign_flash_error(object.errors, object)
+
+    # Don't output anything for compability
+    nil
   end
 
   def assign_flash_error(errors, object)
