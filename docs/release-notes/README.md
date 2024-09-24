@@ -26,6 +26,12 @@ Release date: 2024-09-11
 
 [Release Notes](14-5-0/)
 
+## 14.4.2
+
+Release date: 2024-08-30
+
+[Release Notes](14-4-2/)
+
 
 ## 14.4.1
 
