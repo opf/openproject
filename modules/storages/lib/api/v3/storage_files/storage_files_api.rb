@@ -52,7 +52,6 @@ module API::V3::StorageFiles
 
       def fetch_upload_link
         lambda do |upload_data|
-          Rails.logger.error "UploadLink #{upload_data.inspect}"
           Storages::UploadLinkService.call(storage: @storage, upload_data:, user: current_user)
         end
       end
