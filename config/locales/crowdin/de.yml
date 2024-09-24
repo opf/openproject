@@ -1657,27 +1657,27 @@ de:
             label: "XLS"
       columns:
         input_label_report: "Spalten zur Attributtabelle hinzufügen"
-        input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
-        input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
+        input_caption_report: "Standardmäßig sind alle Attribute, die als Spalten in der Arbeitspaketliste hinzugefügt wurden, ausgewählt. Textfelder sind in der Attribut-Tabelle nicht verfügbar, können aber unterhalb der Tabelle angezeigt werden."
+        input_caption_table: "Standardmäßig sind alle Attribute, die als Spalten in der Arbeitspaketliste hinzugefügt wurden, ausgewählt. Textfelder sind in tabellenbasierten Exporten nicht verfügbar."
       pdf:
         export_type:
-          label: "PDF export type"
+          label: "PDF-Exporttyp"
           options:
             table:
               label: "Tabelle"
-              caption: "Export the work packages list in a table with the desired columns."
+              caption: "Exportieren Sie die Liste der Arbeitspakete in eine Tabelle mit den gewünschten Spalten."
             report:
               label: "Report"
-              caption: "Export the work package on a detailed report of all work packages in the list."
+              caption: "Exportieren Sie das Arbeitspaket in einen detaillierten Bericht über alle Arbeitspakete in der Liste."
             gantt:
               label: "Gantt-Diagramm"
-              caption: "Export the work packages list in a Gantt diagram view."
+              caption: "Exportieren Sie die Liste der Arbeitspakete in einer Gantt-Diagramm-Ansicht."
         include_images:
-          label: "Include images"
-          caption: "Exclude images to reduce the size of the PDF export."
+          label: "Bilder inkludieren"
+          caption: "Schließen Sie Bilder aus, um die Größe des PDF-Exports zu reduzieren."
         gantt_zoom_levels:
-          label: "Zoom levels"
-          caption: "Select what is the zoom level for dates displayed in the chart."
+          label: "Zoomstufe"
+          caption: "Wählen Sie die Zoomstufe für die im Diagramm angezeigten Daten."
           options:
             days: "Tage"
             weeks: "Wochen"
@@ -1696,18 +1696,18 @@ de:
         long_text_fields:
           input_caption: "Standardmäßig sind alle Langtextfelder ausgewählt."
           input_label: "Langtextfelder hinzufügen"
-          input_placeholder: "Search for long text fields"
-          drag_area_label: "Manage long text fields"
+          input_placeholder: "Nach Textfeldern suchen"
+          drag_area_label: "Textfelder hinzufügen"
       xls:
         include_relations:
-          label: "Include relations"
-          caption: "This option will create a duplicate of each work package for every relation this has with another work package."
+          label: "Beziehungen inkludieren"
+          caption: "Jedes Arbeitspakets, mit dem eine Beziehung mit dem exportierten Arbeitspaket besteht, als zusätzliche Zeile einfügen."
         include_descriptions:
-          label: "Include descriptions"
-          caption: "This option will add a description column in raw format."
-    your_work_packages_export: "Work packages are being exported"
-    succeeded: "Export completed"
-    failed: "An error has occurred while trying to export the work packages: %{message}"
+          label: "Beschreibungen inkludieren"
+          caption: "Mit dieser Option wird die Beschreibungs-Spalte im Rohformat hinzugefügt."
+    your_work_packages_export: "Arbeitspakete werden exportiert"
+    succeeded: "Export abgeschlossen"
+    failed: "Beim Versuch, die Arbeitspakete zu exportieren, ist ein Fehler aufgetreten: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -2358,8 +2358,8 @@ de:
   label_role_plural: "Rollen"
   label_role_search: "Rolle für neue Mitglieder zuweisen"
   label_scm: "Versionskontrollsystem"
-  label_scroll_left: "Scroll left"
-  label_scroll_right: "Scroll right"
+  label_scroll_left: "Nach links scrollen"
+  label_scroll_right: "Nach rechts scrollen"
   label_search: "Suche"
   label_search_by_name: "Nach Name suchen"
   label_send_information: "Neue Anmeldeinformationen an den Benutzer senden"
@@ -3117,9 +3117,9 @@ de:
   setting_work_package_done_ratio_field: "Arbeitsbezogen"
   setting_work_package_done_ratio_status: "Statusbezogen"
   setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    Im <b>arbeitsbezogenen</b> Modus beschreibt % abgeschlossen das Verhältnis zwischen verbeibendem Aufwand und Gesamtaufwand. Im <b>statusbasierten</b> Modus ist jedem Status ein Wert für % abgeschlossen zugeordnet. Wenn Sie den Status ändern, ändert sich % abgeschlossen.
   setting_work_package_done_ratio_explanation_html: >
-    In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    Im <b>arbeitsbezogenen</b> Modus ist % abgeschlossen frei wählbar. Falls Sie einen Wert für Aufwand angeben, wird Verbleibender Aufand automatisch abgeleitet. Im <b>statusbasierten</b> Modus ist jedem Status ein Wert für % abgeschlossen zugeordnet. Wenn Sie den Status ändern, ändert sich % abgeschlossen.
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
   setting_work_package_startdate_is_adddate: "Neue Arbeitspakete haben \"Heute\" als Anfangsdatum"
   setting_work_packages_projects_export_limit: "Arbeitspakete / Exportlimit für Projekte"
@@ -3501,26 +3501,26 @@ de:
     progress:
       label_note: "Hinweis:"
       modal:
-        work_based_help_text: "Each field is automatically calculated from the two others when possible."
+        work_based_help_text: "Jedes Feld wird, wenn möglich, automatisch aus den beiden anderen berechnet."
         work_based_help_text_pre_14_4_without_percent_complete_edition: "% Abgeschlossen wird automatisch aus Aufwand und Verbleibender Aufwand abgeleitet."
         status_based_help_text: "% Abgeschlossen wird durch den Status des Arbeitspakets festgelegt."
         migration_warning_text: "Im aufwandsbezogenen Modus, kann % Fertig nicht manuell eingegeben werden und ist immer an den Aufwand gebunden. Der vorhandene Wert wurde beibehalten, kann aber nicht bearbeitet werden. Bitte geben Sie zuerst den Wert für Aufwand ein."
       derivation_hints:
         done_ratio:
-          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
-          cleared_because_work_is_0h: "Cleared because Work is 0h."
-          derived: "Derived from Work and Remaining work."
+          cleared_because_remaining_work_is_empty: "Gelöscht, weil Verbleibender Aufwand leer ist."
+          cleared_because_work_is_0h: "Gelöscht, weil Aufwand 0h beträgt."
+          derived: "Von Aufwand und Verbleibendem Aufwand abgeleitet."
         estimated_hours:
-          cleared_because_remaining_work_is_empty: "Cleared because Remaining work is empty."
-          derived: "Derived from Remaining work and % Complete."
-          same_as_remaining_work: "Set to same value as Remaining work."
+          cleared_because_remaining_work_is_empty: "Gelöscht, weil Verbleibender Aufwand leer ist."
+          derived: "Von Aufwand und % abgeschlossen abgeleitet."
+          same_as_remaining_work: "Auf denselben Wert wie Verbleibender Aufwand gesetzt."
         remaining_hours:
-          cleared_because_work_is_empty: "Cleared because Work is empty."
-          cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
+          cleared_because_work_is_empty: "Gelöscht, weil Aufwand leer ist."
+          cleared_because_percent_complete_is_empty: "Gelöscht, da % abgeschlossen leer ist."
           decreased_like_work: "Verringert um den gleichen Betrag wie Aufwand."
-          derived: "Derived from Work and % Complete."
+          derived: "Abgeleitet von Aufwand und % abgeschlossen."
           increased_like_work: "Erhöht um den gleichen Betrag wie Aufwand."
-          same_as_work: "Set to same value as Work."
+          same_as_work: "Auf denselben Wert wie Aufwand gesetzt."
     permissions:
       comment: "Kommentar"
       comment_description: "Kann dieses Arbeitspaket anzeigen und kommentieren."

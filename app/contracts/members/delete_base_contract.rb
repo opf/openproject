@@ -26,47 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Members::DeleteService < BaseServices::Delete
-  include Members::Concerns::CleanedUp
+module Members
+  # Abstract contract for deleting members. Should not be used directly. Look at the child classes for
+  # individual use cases.
+  class DeleteBaseContract < ::DeleteContract
+    validate :member_is_deletable
 
-  def destroy(object)
-    if object.member_roles.where.not(inherited_from: nil).empty?
-      super
-    else
-      object.member_roles.where(inherited_from: nil).destroy_all
-    end
-  end
+    protected
 
-  protected
-
-  def after_perform(service_call)
-    super.tap do |call|
-      member = call.result
-
-      cleanup_for_group(member)
-      send_notification(member) if member.destroyed?
-    end
-  end
-
-  def send_notification(member)
-    ::OpenProject::Notifications.send(OpenProject::Events::MEMBER_DESTROYED,
-                                      member:)
-  end
-
-  def cleanup_for_group(member)
-    return unless member.principal.is_a?(Group)
-
-    Groups::CleanupInheritedRolesService
-      .new(member.principal, current_user: user, contract_class: EmptyContract)
-      .call
-  end
-
-  def default_contract_class
-    # We have different contracts for project roles and global roles
-    if model.project_role?
-      "#{namespace}::DeleteFromProjectContract".constantize
-    else
-      "#{namespace}::DeleteGloballyContract".constantize
+    def member_is_deletable
+      errors.add(:base, :not_deletable) unless model.some_roles_deletable?
     end
   end
 end

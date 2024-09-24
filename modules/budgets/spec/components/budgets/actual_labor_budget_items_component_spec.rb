@@ -25,48 +25,40 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+require "rails_helper"
 
-class Members::DeleteService < BaseServices::Delete
-  include Members::Concerns::CleanedUp
-
-  def destroy(object)
-    if object.member_roles.where.not(inherited_from: nil).empty?
-      super
-    else
-      object.member_roles.where(inherited_from: nil).destroy_all
-    end
+RSpec.describe Budgets::ActualLaborBudgetItemsComponent, type: :component do
+  let(:project) do
+    create(
+      :project,
+      enabled_module_names: %i[costs work_package_tracking budgets],
+      members: {
+        user => member_role
+      }
+    )
   end
 
-  protected
+  let(:member_role) { create(:project_role, name: "Member", permissions: [:view_time_entries]) }
+  let(:budget) { create :budget, project: }
+  let(:work_package) { create :work_package, project:, budget:, author: user }
+  let(:user) { create :user }
 
-  def after_perform(service_call)
-    super.tap do |call|
-      member = call.result
-
-      cleanup_for_group(member)
-      send_notification(member) if member.destroyed?
-    end
+  subject do
+    described_class.new budget:, project:
   end
 
-  def send_notification(member)
-    ::OpenProject::Notifications.send(OpenProject::Events::MEMBER_DESTROYED,
-                                      member:)
+  before do
+    login_as user
   end
 
-  def cleanup_for_group(member)
-    return unless member.principal.is_a?(Group)
+  describe "with time entries" do
+    let!(:time_entry) { create :time_entry, work_package:, user: }
 
-    Groups::CleanupInheritedRolesService
-      .new(member.principal, current_user: user, contract_class: EmptyContract)
-      .call
-  end
+    it "renders the link to the time entry's user's avatar" do
+      rendered = render_inline(subject)
 
-  def default_contract_class
-    # We have different contracts for project roles and global roles
-    if model.project_role?
-      "#{namespace}::DeleteFromProjectContract".constantize
-    else
-      "#{namespace}::DeleteGloballyContract".constantize
+      expect(rendered).to have_css("opce-principal[data-title='\"#{user.name}\"']")
     end
   end
 end
