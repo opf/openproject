@@ -115,15 +115,7 @@ RSpec.describe "Custom Fields Multi-Project Activation", :js do
       expect(page).to have_text(subproject.name)
 
       aggregate_failures "pagination links maintain the correct url" do
-        within ".op-pagination" do
-          pagination_links = page.all(".op-pagination--item-link")
-          expect(pagination_links.size).to be_positive
-
-          pagination_links.each do |pagination_link|
-            uri = URI.parse(pagination_link["href"])
-            expect(uri.path).to eq(custom_field_projects_path(custom_field))
-          end
-        end
+        custom_field_projects_page.expect_correct_pagination_links(model: custom_field)
       end
     end
 
@@ -138,15 +130,7 @@ RSpec.describe "Custom Fields Multi-Project Activation", :js do
       expect(page).to have_no_text(project.name)
 
       aggregate_failures "pagination links maintain the correct url after unlinking is done" do
-        within ".op-pagination" do
-          pagination_links = page.all(".op-pagination--item-link")
-          expect(pagination_links.size).to be_positive
-
-          pagination_links.each do |pagination_link|
-            uri = URI.parse(pagination_link["href"])
-            expect(uri.path).to eq(custom_field_projects_path(custom_field))
-          end
-        end
+        custom_field_projects_page.expect_correct_pagination_links(model: custom_field)
       end
     end
 

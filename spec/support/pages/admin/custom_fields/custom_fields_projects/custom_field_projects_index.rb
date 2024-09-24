@@ -33,17 +33,32 @@ module Pages
     module CustomFields
       module CustomFieldsProjects
         class CustomFieldProjectsIndex < ::Pages::Projects::Index
-          def path
+          def path(custom_field)
             "/custom_fields/#{custom_field.id}/projects"
           end
 
           def within_row(project)
-            row = page.find("#admin-custom-fields-custom-field-projects-row-component-project-#{project.id}")
+            row = page.find("#{row_id_prefix}-#{project.id}")
             row.hover
             within row do
               yield row
             end
           end
+
+          def expect_correct_pagination_links(model:)
+            within ".op-pagination" do
+              pagination_links = page.all(".op-pagination--item-link")
+              expect(pagination_links.size).to be_positive
+
+              pagination_links.each.with_index(1) do |pagination_link, page_number|
+                uri = URI.parse(pagination_link["href"])
+                expect(uri.path).to eq(path(model))
+                expect(uri.query).to include("page=#{page_number}")
+              end
+            end
+          end
+
+          def row_id_prefix = "#admin-custom-fields-custom-field-projects-row-component-project"
         end
       end
     end

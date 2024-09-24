@@ -119,15 +119,7 @@ RSpec.describe "Project Custom Field Mappings", :js do
       expect(page).to have_text(subproject.name)
 
       aggregate_failures "pagination links maintain the correct url" do
-        within ".op-pagination" do
-          pagination_links = page.all(".op-pagination--item-link")
-          expect(pagination_links.size).to be_positive
-
-          pagination_links.each do |pagination_link|
-            uri = URI.parse(pagination_link["href"])
-            expect(uri.path).to eq(project_mappings_admin_settings_project_custom_field_path(project_custom_field))
-          end
-        end
+        project_custom_field_mappings_page.expect_correct_pagination_links(model: project_custom_field)
       end
     end
 
@@ -142,15 +134,7 @@ RSpec.describe "Project Custom Field Mappings", :js do
       expect(page).to have_no_text(project.name)
 
       aggregate_failures "pagination links maintain the correct url after unlinking is done" do
-        within ".op-pagination" do
-          pagination_links = page.all(".op-pagination--item-link")
-          expect(pagination_links.size).to be_positive
-
-          pagination_links.each do |pagination_link|
-            uri = URI.parse(pagination_link["href"])
-            expect(uri.path).to eq(project_mappings_admin_settings_project_custom_field_path(project_custom_field))
-          end
-        end
+        project_custom_field_mappings_page.expect_correct_pagination_links(model: project_custom_field)
       end
     end
 
