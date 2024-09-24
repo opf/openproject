@@ -1,4 +1,4 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -24,29 +24,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
 require "spec_helper"
 
-RSpec.describe Queries::Projects::Orders::CustomFieldOrder do
+RSpec.describe Queries::Projects::Selects::CustomField do
   describe ".key" do
-    before do
-      where = double
-      where_not = double
-      visible = double
-
-      allow(ProjectCustomField).to receive(:where).and_return(where)
-      allow(where).to receive(:not).with(field_format: %w[text]).and_return(where_not)
-      allow(where_not).to receive(:visible).and_return(visible)
-      allow(visible).to receive(:pluck).with(:id).and_return([42])
-    end
-
-    it "matches key in correct format for existing custom field" do
+    it "matches key in correct format" do
       expect(described_class.key).to match("cf_42")
-    end
-
-    it "doesn't match key in correct format for not found custom field" do
-      expect(described_class.key).not_to match("cf_43")
     end
 
     it "doesn't match non numerical id" do
@@ -62,41 +47,15 @@ RSpec.describe Queries::Projects::Orders::CustomFieldOrder do
     end
   end
 
-  describe "#available?" do
-    let(:instance) { described_class.new("cf_#{custom_field.id}") }
-
-    current_user { build_stubbed(:admin) }
-
-    context "for int custom field" do
-      let!(:custom_field) { create(:project_custom_field, :integer) }
-
-      it "allows to sort by it" do
-        expect(instance).to be_available
-      end
-    end
-
-    context "for text custom field" do
-      let!(:custom_field) { create(:project_custom_field, :text) }
-
-      it "does not allow to sort by it" do
-        expect(instance).not_to be_available
-      end
-    end
-  end
-
   describe "#custom_field" do
     let(:instance) { described_class.new(name) }
     let(:name) { "cf_42" }
     let(:id) { 42 }
 
     before do
-      where = double
-      where_not = double
       visible = double
 
-      allow(ProjectCustomField).to receive(:where).and_return(where)
-      allow(where).to receive(:not).with(field_format: %w[text]).and_return(where_not)
-      allow(where_not).to receive(:visible).and_return(visible)
+      allow(ProjectCustomField).to receive(:visible).and_return(visible)
       allow(visible).to receive(:find_by).with(id: id.to_s).and_return(custom_field)
     end
 
@@ -110,7 +69,7 @@ RSpec.describe Queries::Projects::Orders::CustomFieldOrder do
       it "memoizes the custom field" do
         2.times { instance.custom_field }
 
-        expect(ProjectCustomField).to have_received(:where).once
+        expect(ProjectCustomField).to have_received(:visible).once
       end
     end
 
@@ -124,7 +83,7 @@ RSpec.describe Queries::Projects::Orders::CustomFieldOrder do
       it "memoizes the custom field" do
         2.times { instance.custom_field }
 
-        expect(ProjectCustomField).to have_received(:where).once
+        expect(ProjectCustomField).to have_received(:visible).once
       end
     end
   end

@@ -26,37 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Queries::Projects::Selects::CustomField < Queries::Selects::Base
-  validates :custom_field, presence: { message: I18n.t(:"activerecord.errors.messages.does_not_exist") }
+require "spec_helper"
 
-  KEY = /\Acf_(\d+)\z/
+RSpec.describe Queries::Projects::Selects::Default do
+  describe ".key" do
+    define_negated_matcher :not_match, :match
 
-  def self.key
-    KEY
-  end
+    let(:keys) { described_class::KEYS }
 
-  def self.all_available
-    return [] unless available?
+    it "matches every key" do
+      expect(keys).to all(match(described_class.key))
+    end
 
-    ProjectCustomField
-      .visible
-      .pluck(:id)
-      .map { |id| new(:"cf_#{id}") }
-  end
+    it "doesn't match any key with prefix" do
+      expect(keys.map { "x#{_1}" }).to all(not_match(described_class.key))
+    end
 
-  def caption
-    custom_field.name
-  end
-
-  def custom_field
-    return @custom_field if defined?(@custom_field)
-
-    @custom_field = ProjectCustomField
-                      .visible
-                      .find_by(id: attribute[KEY, 1])
-  end
-
-  def available?
-    custom_field.present?
+    it "doesn't match any key with suffix" do
+      expect(keys.map { "#{_1}x" }).to all(not_match(described_class.key))
+    end
   end
 end
