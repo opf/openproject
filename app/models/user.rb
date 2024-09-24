@@ -543,46 +543,12 @@ class User < Principal
 
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
   # one anonymous user per database.
-  def self.anonymous # rubocop:disable Metrics/AbcSize
-    RequestStore[:anonymous_user] ||=
-      begin
-        anonymous_user = AnonymousUser.first
-
-        if anonymous_user.nil?
-          (anonymous_user = AnonymousUser.new.tap do |u|
-            u.lastname = "Anonymous"
-            u.login = ""
-            u.firstname = ""
-            u.mail = ""
-            u.status = User.statuses[:active]
-          end).save
-
-          raise "Unable to create the anonymous user." if anonymous_user.new_record?
-        end
-        anonymous_user
-      end
+  def self.anonymous
+    RequestStore[:anonymous_user] ||= AnonymousUser.first
   end
 
   def self.system
-    system_user = SystemUser.first
-
-    if system_user.nil?
-      system_user = SystemUser.new(
-        firstname: "",
-        lastname: "System",
-        login: "",
-        mail: "",
-        admin: true,
-        status: User.statuses[:active],
-        first_login: false
-      )
-
-      system_user.save(validate: false)
-
-      raise "Unable to create the automatic migration user." unless system_user.persisted?
-    end
-
-    system_user
+    SystemUser.first
   end
 
   protected

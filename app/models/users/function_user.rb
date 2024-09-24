@@ -26,40 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
-# User for tasks like migrations
-#
+module Users::FunctionUser
+  extend ActiveSupport::Concern
 
-class SystemUser < User
-  include Users::FunctionUser
+  included do
+    validate :validate_unique_function_user, on: :create
 
-  def name(*_args); "System" end
-
-  def run_given
-    User.execute_as(self) do
-      yield self
-    end
-  end
-
-  def self.first
-    system_user = super
-
-    if system_user.nil?
-      system_user = new(
-        firstname: "",
-        lastname: "System",
-        login: "",
-        mail: "",
-        admin: true,
-        status: User.statuses[:active],
-        first_login: false
-      )
-
-      system_user.save
-
-      raise "Unable to create the system user." unless system_user.persisted?
+    # There should be only one such user in the database
+    def validate_unique_function_user
+      errors.add :base, "A #{self.class.name} already exists." if self.class.any?
     end
 
-    system_user
+    def available_custom_fields = []
+
+    def logged? = false
+
+    def builtin? = true
+
+    def name(*_args); raise NotImplementedError end
+
+    def mail = nil
+
+    def time_zone; ActiveSupport::TimeZone[Setting.user_default_timezone.presence || "Etc/UTC"] end
+
+    def rss_key = nil
+
+    def destroy = false
   end
 end
