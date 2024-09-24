@@ -47,7 +47,7 @@ module FlashMessagesHelper
   def render_flash_content(key, content)
     case key
     when :op_primer_flash
-      render_flash_message(content[:scheme] || :default, content[:message])
+      render_flash_message(content[:scheme] || :default, content[:message], **content.except(:message))
     else
       render_flash_message(key, content)
     end
@@ -74,8 +74,8 @@ module FlashMessagesHelper
     end
   end
 
-  def render_flash_message(type, message)
-    render(OpPrimer::FlashComponent.new(scheme: mapped_flash_type(type))) do
+  def render_flash_message(type, message, **args)
+    render(OpPrimer::FlashComponent.new(scheme: mapped_flash_type(type), **args.except(:scheme))) do
       join_flash_messages(message)
     end
   end
