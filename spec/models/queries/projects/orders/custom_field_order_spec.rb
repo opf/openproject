@@ -65,9 +65,7 @@ RSpec.describe Queries::Projects::Orders::CustomFieldOrder do
   describe "#available?" do
     let(:instance) { described_class.new("cf_#{custom_field.id}") }
 
-    before do
-      allow(User).to receive(:current).and_return build_stubbed(:admin)
-    end
+    current_user { build_stubbed(:admin) }
 
     context "for int custom field" do
       let!(:custom_field) { create(:project_custom_field, :integer) }
