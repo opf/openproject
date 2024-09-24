@@ -49,7 +49,7 @@ RSpec.describe "Wysiwyg linking", :js do
       # Save wiki page
       click_on "Save"
 
-      expect(page).to have_css(".op-toast.-success")
+      expect_primerized_flash(message: "Successful creation.")
 
       wiki_page = project.wiki.pages.first.reload
 

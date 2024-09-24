@@ -201,35 +201,13 @@ RSpec.describe "Copy work packages through Rails view", :js, :with_cuprite do
         it "fails, informing of the reasons" do
           click_on "Copy and follow"
 
-          expect(page)
-            .to have_css(
-              ".op-toast.-error",
-              text: I18n.t("work_packages.bulk.none_could_be_saved", total: 3)
-            )
-
-          expect(page)
-            .to have_css(
-              ".op-toast.-error",
-              text: I18n.t("work_packages.bulk.selected_because_descendants", total: 3, selected: 2)
-            )
-
-          expect(page)
-            .to have_css(
-              ".op-toast.-error",
-              text: "#{work_package.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}"
-            )
-
-          expect(page)
-            .to have_css(
-              ".op-toast.-error",
-              text: "#{work_package2.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}"
-            )
-
-          expect(page)
-            .to have_css(
-              ".op-toast.-error",
-              text: "#{child.id} (descendant of selected): Type #{I18n.t('activerecord.errors.messages.inclusion')}"
-            )
+          expect_primerized_error(I18n.t("work_packages.bulk.none_could_be_saved", total: 3))
+          expect_primerized_error(I18n.t("work_packages.bulk.selected_because_descendants", total: 3, selected: 2))
+          expect_primerized_error("#{work_package.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}")
+          expect_primerized_error("#{work_package2.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}")
+          expect_primerized_error(
+            "#{child.id} (descendant of selected): Type #{I18n.t('activerecord.errors.messages.inclusion')}"
+          )
         end
 
         context "when the limit to move in the frontend is 0",
@@ -316,9 +294,7 @@ RSpec.describe "Copy work packages through Rails view", :js, :with_cuprite do
 
       click_on "Copy and follow"
 
-      expect(page)
-        .to have_css(".op-toast.-success",
-                     text: I18n.t(:notice_successful_create))
+      expect_primerized_flash(message: I18n.t(:notice_successful_create))
 
       wp_page = Pages::FullWorkPackage.new(WorkPackage.last)
 

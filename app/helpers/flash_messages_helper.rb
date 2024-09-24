@@ -63,7 +63,7 @@ module FlashMessagesHelper
 
   def mapped_flash_type(type)
     case type
-    when :error
+    when :error, :danger
       :danger
     when :warning
       :warning

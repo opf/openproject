@@ -1,8 +1,17 @@
 module PrimerizedFlash
   module Expectations
+    def expect_primerized_error(message)
+      expect_primerized_flash(message:, type: :error)
+    end
+
     def expect_primerized_flash(message:, type: :success, wait: 20)
-      mapped_scheme = expected_flash_type(type)
-      expect(page).to have_css(".Banner--#{mapped_scheme}", text: message, wait:)
+      expected_css = expected_flash_css(type)
+      expect(page).to have_css(expected_css, text: message, wait:)
+    end
+
+    def find_primerized_flash(type:)
+      expected_css = expected_flash_css(type)
+      page.find(expected_css)
     end
 
     def expect_and_dismiss_primerized_flash(message: nil, type: :success, wait: 20)
@@ -26,12 +35,22 @@ module PrimerizedFlash
       if type.nil?
         expect(page).not_to have_test_selector("op-primer-flash-message")
       else
-        mapped_scheme = expected_flash_type(type)
-        expect(page).to have_no_css(".Banner--#{mapped_scheme}", text: message, wait:)
+        expected_css = expected_flash_css(type)
+        expect(page).to have_no_css(expected_css, text: message, wait:)
       end
     end
 
-    def expected_flash_type(type)
+    def expected_flash_css(type)
+      scheme = mapped_flash_type(type)
+      case scheme
+      when :default
+        %{[data-test-selector="op-primer-flash-message"].Banner}
+      else
+        %{[data-test-selector="op-primer-flash-message"].Banner--#{scheme}}
+      end
+    end
+
+    def mapped_flash_type(type)
       case type
       when :error
         :error # The class is error, but the scheme is danger

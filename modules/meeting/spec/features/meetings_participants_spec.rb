@@ -64,7 +64,7 @@ RSpec.describe "Meetings participants" do
 
     edit_page.invite(viewer_user)
     show_page = edit_page.click_save
-    show_page.expect_toast(message: "Successful update")
+    expect_primerized_flash(message: "Successful update")
 
     show_page.expect_invited(viewer_user)
 
