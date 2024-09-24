@@ -12,6 +12,9 @@ Release date: 2024-09-24
 
 We released OpenProject [OpenProject 14.5.1](https://community.openproject.org/versions/2118).
 The release contains several bug fixes and we recommend updating to the newest version.
+
+If you are using a SAML integration, this release addresses a critical vulnerability in ruby-saml: [CVE-2024-45409](https://github.com/advisories/GHSA-jw9c-mfg7-9rx2)
+
 In these Release Notes, we will give an overview of important feature changes.
 At the end, you will find a complete list of all changes and bug fixes.
 
