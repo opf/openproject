@@ -52,9 +52,10 @@ module Admin
         # the controller action that link_to should use.
         #
         def optional_pagination_options
-          return super unless params[:url_for_action]
-
-          super.merge(params: { action: params[:url_for_action] })
+          super.tap do |options|
+            options[:params] = { action: params[:url_for_action] } if params[:url_for_action]
+            options[:turbo_action] = "advance"
+          end
         end
       end
     end
