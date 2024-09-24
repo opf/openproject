@@ -60,7 +60,7 @@ module WorkPackages::Progress::SqlCommands
     SQL
   end
 
-  def derive_remaining_work_from_work_and_p_complete
+  def derive_remaining_work_from_work_and_percent_complete
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
       SET remaining_hours =
@@ -74,7 +74,7 @@ module WorkPackages::Progress::SqlCommands
     SQL
   end
 
-  def set_p_complete_from_status
+  def set_percent_complete_from_status
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
       SET done_ratio = statuses.default_done_ratio
@@ -83,7 +83,7 @@ module WorkPackages::Progress::SqlCommands
     SQL
   end
 
-  def fix_remaining_work_set_with_100p_complete
+  def fix_remaining_work_set_with_100_percent_complete
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
       SET estimated_hours = remaining_hours,
@@ -94,7 +94,7 @@ module WorkPackages::Progress::SqlCommands
     SQL
   end
 
-  def derive_unset_work_from_remaining_work_and_p_complete
+  def derive_unset_work_from_remaining_work_and_percent_complete
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
       SET estimated_hours =
