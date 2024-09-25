@@ -146,6 +146,8 @@ class WorkPackages::UpdateAncestorsService
       all_done_ratios << work_package.done_ratio
     end
 
+    return if all_done_ratios.empty?
+
     progress = all_done_ratios.sum.to_f / all_done_ratios.count
     progress.round
   end

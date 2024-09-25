@@ -1022,6 +1022,29 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
         TABLE
       end
     end
+
+    context "with all hierarchy being excluded from totals (parent excluded and child updated to be excluded)" do
+      let_work_packages(<<~TABLE)
+        hierarchy | status   | % complete | ∑ % complete
+        parent    | Rejected |        10% |         10%
+          child   | Open     |        33% |         43%
+      TABLE
+      let(:initiator_work_package) { child }
+
+      before do
+        set_attributes_on(child, status: rejected_status)
+      end
+
+      it "clears the total % complete of the parent" do
+        expect(call_result).to be_success
+        updated_work_packages = call_result.all_results
+        expect_work_packages(updated_work_packages, <<~TABLE)
+          subject | total % complete
+          parent  |
+          child   |
+        TABLE
+      end
+    end
   end
 
   describe "ignore_non_working_days propagation" do
