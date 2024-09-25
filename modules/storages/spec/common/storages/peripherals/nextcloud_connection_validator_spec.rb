@@ -51,8 +51,6 @@ RSpec.describe Storages::Peripherals::NextcloudConnectionValidator do
     let(:storage) { create(:nextcloud_storage_configured, :as_not_automatically_managed) }
     let(:app_enabled) { true }
     let(:app_version) { Storages::SemanticVersion.parse("2.6.3") }
-    # let(:group_folder_enabled) { true }
-    # let(:group_folder_version) { Storages::SemanticVersion.parse("17.0.1") }
     let(:capabilities_response) do
       ServiceResult.success(result: Storages::NextcloudCapabilities.new(
         app_enabled?: app_enabled,
