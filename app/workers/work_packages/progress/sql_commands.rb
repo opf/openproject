@@ -108,42 +108,11 @@ module WorkPackages::Progress::SqlCommands
   def create_temporary_depth_table
     execute(<<~SQL.squish)
       CREATE UNLOGGED TABLE temp_work_package_depth AS
-      WITH RECURSIVE
-        work_package_depth AS (
-          /* Base case: Leaves (work packages with no children) */
-          SELECT
-            wp.id,
-            wp.parent_id,
-            0 AS depth
-          FROM
-            temp_wp_progress_values wp
-          WHERE
-            NOT EXISTS (
-              SELECT
-                1
-              FROM
-                temp_wp_progress_values c
-              WHERE
-                c.parent_id = wp.id
-            )
-          UNION ALL
-          /* Recursive case: Parents */
-          SELECT
-            wp.parent_id AS id,
-            wp2.parent_id,
-            wpd.depth + 1 AS depth
-          FROM
-            work_packages wp
-            INNER JOIN work_package_depth wpd ON wp.id = wpd.id
-            INNER JOIN temp_wp_progress_values wp2 ON wp.parent_id = wp2.id
-          WHERE
-            wp.parent_id IS NOT NULL
-        )
       SELECT
-        id,
-        depth
-      FROM
-        work_package_depth
+        ancestor_id as id,
+        max(generations) as depth
+      FROM work_package_hierarchies
+      GROUP BY ancestor_id
     SQL
   end
 
