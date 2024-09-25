@@ -59,7 +59,7 @@ module Pages
 
     def create_board(action: "Basic", title: "#{action} Board", expect_empty: false, via_toolbar: true)
       if via_toolbar
-        within ".toolbar-items" do
+        within '[data-test-selector="add-board-button"]' do
           click_link "Board"
         end
       else
