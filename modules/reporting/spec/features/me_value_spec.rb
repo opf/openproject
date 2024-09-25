@@ -39,7 +39,7 @@ RSpec.describe "Cost report showing my own times", :js do
       check "query_is_public"
       find_by_id("query-icon-save-button").click
       # wait until the save is complete
-      expect(page).to have_css("h2", text: "Query ME value")
+      expect(page).to have_css(".PageHeader-title", text: "Query ME value")
 
       expect(page).to have_css(".report", text: "10.00")
 

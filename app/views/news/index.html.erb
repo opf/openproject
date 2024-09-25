@@ -46,6 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
                                    title: I18n.t(:label_work_package_status_new),
                                    tag: :a,
                                    id: 'new_news_link',
+                                   data: { "test-selector": "add-news-button"},
                                    href: new_project_news_path(@project)) do |button|
         button.with_leading_visual_icon(icon: :plus)
         t(:label_news_singular)
