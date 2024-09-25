@@ -79,4 +79,8 @@ OpenProject::CustomFieldFormat.map do |fields|
                                                      label: nil,
                                                      order: 11,
                                                      formatter: "CustomValue::EmptyStrategy")
+  fields.register OpenProject::CustomFieldFormat.new("hierarchy",
+                                                     label: :label_hierarchy,
+                                                     order: 12,
+                                                     formatter: "CustomValue::ListStrategy")
 end
