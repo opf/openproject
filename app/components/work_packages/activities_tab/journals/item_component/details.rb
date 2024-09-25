@@ -226,7 +226,11 @@ module WorkPackages
         end
 
         def render_detail_description(container, detail)
-          container.with_column(pl: 1, font_size: :small) do
+          container.with_column(
+            pl: 1,
+            font_size: :small,
+            classes: "work-packages-activities-tab-journals-item-component-details--journal-detail-description-container"
+          ) do
             render(Primer::Beta::Text.new(
                      classes: "work-packages-activities-tab-journals-item-component-details--journal-detail-description",
                      data: { "test-selector": "op-journal-detail-description" }
