@@ -39,7 +39,7 @@ en:
         label_activity_show_all: "Show everything"
         label_activity_show_only_comments: "Show comments only"
         label_activity_show_only_changes: "Show changes only"
-        label_sort_asc: "Oldest on top"
+        label_sort_asc: "Newest at the bottom"
         label_sort_desc: "Newest on top"
         label_type_to_comment: "Type here to comment"
         label_submit_comment: "Submit comment"
