@@ -52,6 +52,9 @@ export default class PollForChangesController extends ApplicationController {
         void this.triggerTurboStream();
       }, this.intervalValue || 10_000);
     }
+
+    window.addEventListener('beforeunload', this.rememberCurrentScrollPosition.bind(this));
+    window.addEventListener('DOMContentLoaded', this.autoscrollToLastKnownPosition.bind(this));
   }
 
   disconnect() {
@@ -72,5 +75,35 @@ export default class PollForChangesController extends ApplicationController {
         renderStreamMessage(html);
       }
     });
+  }
+
+  rememberCurrentScrollPosition() {
+    const currentPosition = document.getElementById('content-body')?.scrollTop;
+
+    if (currentPosition !== undefined) {
+      sessionStorage.setItem(this.scrollPositionKey(), currentPosition.toString());
+    }
+  }
+
+  autoscrollToLastKnownPosition() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('autoscroll') !== 'true') {
+      return;
+    }
+
+    const lastKnownPos = sessionStorage.getItem(this.scrollPositionKey());
+    if (lastKnownPos) {
+      const content = document.getElementById('content-body');
+
+      if (content) {
+        content.scrollTop = parseInt(lastKnownPos, 10);
+      }
+    }
+
+    sessionStorage.removeItem(this.scrollPositionKey());
+  }
+
+  private scrollPositionKey():string {
+    return `${this.urlValue}/scrollPosition`;
   }
 }

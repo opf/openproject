@@ -42,7 +42,7 @@ module Meetings
       ) do |banner|
         banner.with_action_button(
           tag: :a,
-          href: helpers.meeting_path(meeting),
+          href: helpers.meeting_path(meeting, autoscroll: true),
           data: { turbo: false },
           size: :medium
         ) { I18n.t("label_meeting_reload") }
