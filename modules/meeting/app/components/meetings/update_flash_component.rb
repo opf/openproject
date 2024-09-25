@@ -43,7 +43,7 @@ module Meetings
         banner.with_action_button(
           tag: :a,
           href: helpers.meeting_path(meeting),
-          data: { turbo: false },
+          data: { turbo: false, poll_for_changes_target: "reloadButton" },
           size: :medium
         ) { I18n.t("label_meeting_reload") }
 
