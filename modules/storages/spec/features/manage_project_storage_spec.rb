@@ -97,7 +97,7 @@ RSpec.describe("Activation of storages in projects",
     expect(page).to have_current_path new_project_settings_project_storage_path(project_id: project)
     expect(page).to have_text("Add a file storage")
     expect(page).to have_select("storages_project_storage_storage_id",
-                                options: ["#{storage.name} (#{storage.short_provider_type})"])
+                                options: ["#{storage.name} (#{storage})"])
     page.click_on("Continue")
 
     # by default automatic have to be choosen if storage has automatic management enabled

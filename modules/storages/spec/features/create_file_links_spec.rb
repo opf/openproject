@@ -63,7 +63,7 @@ RSpec.describe "Managing file links in work package", :js, :webmock do
     allow(Storages::FileLinkSyncService).to receive(:new).and_return(sync_service)
 
     Storages::Peripherals::Registry.stub(
-      "#{storage.short_provider_type}.queries.auth_check",
+      "#{storage}.queries.auth_check",
       ->(_) { ServiceResult.success }
     )
 

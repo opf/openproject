@@ -69,13 +69,13 @@ module Storages
 
       def capabilities
         @capabilities ||= Peripherals::Registry
-                            .resolve("#{@storage.short_provider_type}.queries.capabilities")
+                            .resolve("#{@storage}.queries.capabilities")
                             .call(storage: @storage, auth_strategy: noop)
       end
 
       def files
         @files ||= Peripherals::Registry
-                     .resolve("#{@storage.short_provider_type}.queries.files")
+                     .resolve("#{@storage}.queries.files")
                      .call(storage: @storage, auth_strategy: userless, folder: ParentFolder.new(@storage.group_folder))
       end
 

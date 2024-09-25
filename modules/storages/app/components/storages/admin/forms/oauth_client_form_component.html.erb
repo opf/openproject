@@ -8,7 +8,7 @@
       ) do |form|
         flex_layout do |oauth_client_row|
           oauth_client_row.with_row(mb: 3) do
-            render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t("storages.file_storage_view.#{storage.short_provider_type}_oauth") }
+            render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t("storages.file_storage_view.#{storage}_oauth") }
           end
 
           oauth_client_row.with_row(mb: 3) do

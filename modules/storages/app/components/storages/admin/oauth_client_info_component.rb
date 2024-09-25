@@ -46,7 +46,7 @@ module Storages::Admin
 
     def edit_icon_button_options
       label = I18n.t("storages.buttons.replace_oauth_client",
-                     provider_type: I18n.t("storages.provider_types.#{storage.short_provider_type}.name"))
+                     provider_type: I18n.t("storages.provider_types.#{storage}.name"))
 
       {
         icon: oauth_client_configured? ? :sync : :pencil,
@@ -64,7 +64,7 @@ module Storages::Admin
     def edit_icon_button_data_options
       {}.tap do |data_h|
         if oauth_client_configured?
-          provider_type = I18n.t("storages.provider_types.#{storage.short_provider_type}.name")
+          provider_type = I18n.t("storages.provider_types.#{storage}.name")
           data_h[:turbo_confirm] = I18n.t("storages.confirm_replace_oauth_client", provider_type:)
         end
         data_h[:turbo_stream] = true
