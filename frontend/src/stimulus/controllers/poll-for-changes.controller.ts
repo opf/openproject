@@ -39,6 +39,10 @@ export default class PollForChangesController extends ApplicationController {
     autoscrollEnabled: Boolean,
   };
 
+  static targets = ['reloadButton'];
+
+  declare reloadButtonTarget:HTMLLinkElement;
+
   declare referenceValue:string;
   declare urlValue:string;
   declare intervalValue:number;
@@ -56,7 +60,6 @@ export default class PollForChangesController extends ApplicationController {
     }
 
     if (this.autoscrollEnabledValue) {
-      window.addEventListener('beforeunload', this.rememberCurrentScrollPosition.bind(this));
       window.addEventListener('DOMContentLoaded', this.autoscrollToLastKnownPosition.bind(this));
     }
   }
@@ -64,6 +67,10 @@ export default class PollForChangesController extends ApplicationController {
   disconnect() {
     super.disconnect();
     clearInterval(this.interval);
+  }
+
+  reloadButtonTargetConnected() {
+    this.reloadButtonTarget.addEventListener('click', this.rememberCurrentScrollPosition.bind(this));
   }
 
   triggerTurboStream() {
@@ -90,11 +97,6 @@ export default class PollForChangesController extends ApplicationController {
   }
 
   autoscrollToLastKnownPosition() {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('autoscroll') !== 'true') {
-      return;
-    }
-
     const lastKnownPos = sessionStorage.getItem(this.scrollPositionKey());
     if (lastKnownPos) {
       const content = document.getElementById('content-body');
