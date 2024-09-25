@@ -921,6 +921,8 @@ bg:
             name:
               blank: "is mandatory. Please select a name."
               not_unique: "is already in use. Please select another name."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "At least one channel for sending notifications needs to be specified."
           attributes:
@@ -1818,7 +1820,7 @@ bg:
       progress_mode_changed_to_status_based: Режим на изчисление на напредъка, зададен на базата на състоянието
       status_excluded_from_totals_set_to_false_message: сега са включени в общите суми на йерархията
       status_excluded_from_totals_set_to_true_message: сега са изключени от общите стойности на йерархията
-      status_percent_complete_changed: "% завършеност променен от %{old_value}% на %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           Отсега нататък дейностите, свързани с файлови връзки (файлове, съхранявани във външни хранилища), ще се показват тук, в раздела Дейности. По-долу е представена дейност, свързана с връзки, които вече са съществували:

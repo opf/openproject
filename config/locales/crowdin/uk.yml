@@ -929,6 +929,8 @@ uk:
             name:
               blank: "– обов’язковий атрибут. Виберіть ім’я."
               not_unique: "уже використовується. Виберіть інше ім’я."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Необхідно вказати принаймні один канал для надсилання сповіщень."
           attributes:
@@ -1882,7 +1884,7 @@ uk:
       progress_mode_changed_to_status_based: Установлено режим обчислення прогресу на основі статусу
       status_excluded_from_totals_set_to_false_message: тепер включено в підсумки ієрархії
       status_excluded_from_totals_set_to_true_message: тепер виключено з підсумків ієрархії
-      status_percent_complete_changed: "«% завершення» змінено з %{old_value}% на %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           Тепер дії, пов’язані з посиланнями на файли (файли, що зберігаються в зовнішніх сховищах), з’являтимуться на вкладці «Активність». Наявні дії, пов’язані із посиланнями:

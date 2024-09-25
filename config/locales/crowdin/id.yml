@@ -907,6 +907,8 @@ id:
             name:
               blank: "adalah wajib. Silakan pilih nama."
               not_unique: "sudah digunakan. Silakan pilih nama lain."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Setidaknya satu saluran untuk mengirim notifikasi harus ditentukan."
           attributes:
@@ -1776,7 +1778,7 @@ id:
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:

@@ -913,6 +913,8 @@ ko:
             name:
               blank: "- 필수입니다. 이름을 선택하세요."
               not_unique: "- 사용 중입니다. 다른 이름을 선택하세요."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "알림을 보낼 채널을 하나 이상 지정해야 합니다."
           attributes:
@@ -1782,7 +1784,7 @@ ko:
       progress_mode_changed_to_status_based: 진행률 계산 모드가 상태 기반으로 설정되었습니다
       status_excluded_from_totals_set_to_false_message: 이제 계층 합계에 포함됨
       status_excluded_from_totals_set_to_true_message: 이제 계층 합계에서 제외됨
-      status_percent_complete_changed: "완료 %가 %{old_value}%에서 %{new_value}%(으)로 변경되었습니다"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           지금부터 파일 링크(외부 저장소에 저장된 파일)와 관련된 활동이 활동 탭에 표시됩니다. 다음은 이미 존재하는 링크와 관련된 활동을 나타냅니다.
