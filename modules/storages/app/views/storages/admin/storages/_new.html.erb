@@ -55,7 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="form--field -required">
     <%= f.text_field :name,
                      required: true,
-                     placeholder: I18n.t("storages.provider_types.#{@storage.short_provider_type}.name_placeholder"),
+                     placeholder: I18n.t("storages.provider_types.#{@storage}.name_placeholder"),
                      container_class: '-slim',
                      data: {
                        'storages--storage-form-target': 'storageName'

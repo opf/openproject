@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,39 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Storages
+  class StorageFilesService < BaseService
+    def self.call(storage:, user:, folder:)
+      new.call(storage:, user:, folder:)
+    end
 
-# This file can be safely deleted once the feature flag :percent_complete_edition
-# is removed, which should happen for OpenProject 15.0 release.
-RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema, "pre 14.4 without percent complete edition",
-               with_flag: { percent_complete_edition: false } do
-  let(:project) { build_stubbed(:project) }
-  let(:type) { build_stubbed(:type) }
-  let(:work_package) do
-    build_stubbed(:work_package,
-                  project:,
-                  type:)
-  end
-  let(:current_user) { build_stubbed(:user) }
+    def call(user:, storage:, folder:)
+      auth_strategy = strategy(storage, user)
 
-  before do
-    mock_permissions_for(current_user, &:allow_everything)
-    login_as(current_user)
-  end
+      info "Requesting all the files under folder #{folder} for #{storage.name}"
+      Peripherals::Registry.resolve("#{storage}.queries.files").call(storage:, auth_strategy:, folder:)
+    end
 
-  subject { described_class.new(work_package:) }
+    private
 
-  describe "#writable?" do
-    describe "% Complete" do
-      it "is not writable in work-based progress calculation mode",
-         with_settings: { work_package_done_ratio: "field" } do
-        expect(subject).not_to be_writable(:done_ratio)
-      end
-
-      it "is not writable in status-based progress calculation mode",
-         with_settings: { work_package_done_ratio: "status" } do
-        expect(subject).not_to be_writable(:done_ratio)
-      end
+    def strategy(storage, user)
+      Peripherals::Registry.resolve("#{storage}.authentication.user_bound").call(user:)
     end
   end
 end

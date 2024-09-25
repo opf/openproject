@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= I18n.t('mail.storages.health.plaintext.unhealthy.summary', storage_name: @storage.name) %>
 
-<%= I18n.t('mail.storages.health.plaintext.storage') %>: <%= I18n.t("storages.provider_types.#{@storage.short_provider_type}.name") %> - <%= @storage.host %>
+<%= I18n.t('mail.storages.health.plaintext.storage') %>: <%= I18n.t("storages.provider_types.#{@storage}.name") %> - <%= @storage.host %>
 
 <%= I18n.t('mail.storages.health.plaintext.unhealthy.error-details') %>:
 <%= "-" * 30 %>

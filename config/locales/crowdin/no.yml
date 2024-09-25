@@ -920,6 +920,8 @@
             name:
               blank: "er obligatorisk. Velg et navn."
               not_unique: "er allerede i bruk. Velg et annet navn."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Minst en kanal for sending av varsler må angis."
           attributes:
@@ -1817,7 +1819,7 @@
       progress_mode_changed_to_status_based: Framdriftsmodus satt til statusbasert
       status_excluded_from_totals_set_to_false_message: nå inkludert i hierarkiske summer
       status_excluded_from_totals_set_to_true_message: nå ekskludert fra hierarkiske summer
-      status_percent_complete_changed: "% ferdig endret fra %{old_value}% til %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           Fra nå av vil aktivitet knyttet til linker (filer lagret i eksterne lagringer) vises her i aktivitetsfanen. Følgende representerer aktivitet med lenker som allerede eksisterer:

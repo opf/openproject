@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <div class="form--field -required">
   <%= f.select :storage_id,
-               @available_storages.map { |storage| ["#{storage.name} (#{storage.short_provider_type})", storage.id] },
+               @available_storages.map { |storage| ["#{storage.name} (#{storage})", storage.id] },
                class: '-bold',
                selected: @available_storages.first.id.to_s,
                container_class: '-slim'

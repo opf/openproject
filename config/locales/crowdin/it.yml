@@ -918,6 +918,8 @@ it:
             name:
               blank: "è obbligatorio. Sei pregato di selezionare un nome."
               not_unique: "è già in uso. Sei pregato di selezionare un altro nome."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Deve essere specificato almeno un canale per l'invio delle notifiche."
           attributes:
@@ -1815,7 +1817,7 @@ it:
       progress_mode_changed_to_status_based: La modalità di calcolo dell'avanzamento è impostata in funzione dello stato.
       status_excluded_from_totals_set_to_false_message: ora incluso nei totali della gerarchia
       status_excluded_from_totals_set_to_true_message: ora escluso dai totali della gerarchia
-      status_percent_complete_changed: "% di completamento cambiata da %{old_value}% a %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           D'ora in poi, l'attività relativa ai collegamenti ai file (file archiviati in archivi esterni) verrà visualizzata qui nella scheda Attività. Di seguito trovi attività riguardanti link già esistenti:

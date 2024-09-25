@@ -31,7 +31,7 @@
 RSpec.shared_examples_for "files_query: basic query setup" do
   it "is registered as queries.files" do
     expect(Storages::Peripherals::Registry
-             .resolve("#{storage.short_provider_type}.queries.files")).to eq(described_class)
+             .resolve("#{storage}.queries.files")).to eq(described_class)
   end
 
   it "responds to #call with correct parameters" do

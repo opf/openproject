@@ -44,7 +44,7 @@ You need to take care to prefix all actions, values etc. with the exact same pat
 
 ### Requiring a page controller
 
-If you have a single controller used in a partial, we have added a helper to use in a partial in order to append a controller to the `#content`tag. This is useful if your template doesn't have a single DOM root. For example, to load the dynamic `project-storage-form` controller and provide a custom value to it:
+If you have a single controller used in a partial, we have added a helper to use in a partial in order to append a controller to the `#content-wrapper` tag. This is useful if your template doesn't have a single DOM root. For example, to load the dynamic `project-storage-form` controller and provide a custom value to it:
 
 ```erb
 <% content_controller 'project-storage-form',

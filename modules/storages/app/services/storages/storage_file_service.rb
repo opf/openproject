@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,33 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-
-# This file can be safely deleted once the feature flag :percent_complete_edition
-# is removed, which should happen for OpenProject 15.0 release.
-RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema, "pre 14.4 without percent complete edition",
-               with_flag: { percent_complete_edition: false } do
-  let(:project) { build(:project) }
-  let(:type) { build(:type) }
-
-  let(:current_user) { build_stubbed(:user) }
-
-  subject { described_class.new(project:, type:) }
-
-  before do
-    login_as(current_user)
-    mock_permissions_for(current_user, &:allow_everything)
-  end
-
-  describe "#writable?" do
-    it "percentage done is not writable in work-based progress calculation mode",
-       with_settings: { work_package_done_ratio: "field" } do
-      expect(subject).not_to be_writable(:done_ratio)
+module Storages
+  class StorageFileService < BaseService
+    def self.call(storage:, user:, file_id:)
+      new.call(storage:, user:, file_id:)
     end
 
-    it "percentage done is not writable in status-based progress calculation mode",
-       with_settings: { work_package_done_ratio: "status" } do
-      expect(subject).not_to be_writable(:done_ratio)
+    def call(user:, storage:, file_id:)
+      auth_strategy = strategy(storage, user)
+
+      info "Requesting file #{file_id} information on #{storage.name}"
+      Peripherals::Registry.resolve("#{storage}.queries.file_info").call(storage:, auth_strategy:, file_id:)
+    end
+
+    private
+
+    def strategy(storage, user)
+      Peripherals::Registry.resolve("#{storage}.authentication.user_bound").call(user:)
     end
   end
 end

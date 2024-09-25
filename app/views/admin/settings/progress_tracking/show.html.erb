@@ -42,7 +42,6 @@ primer_form_with(
     application_target: "dynamic",
     controller: "admin--progress-tracking",
     admin__progress_tracking_target: "progressCalculationModeRadioGroup",
-    admin__progress_tracking_percent_complete_edition_active_value: OpenProject::FeatureDecisions.percent_complete_edition_active?,
     admin__progress_tracking_initial_mode_value: Setting.work_package_done_ratio
   }
 ) do |f|

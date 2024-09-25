@@ -180,13 +180,13 @@ module ApplicationHelper
 
   def html_safe_gsub(string, *gsub_args, &)
     html_safe = string.html_safe?
-    string.gsub(*gsub_args, &)
+    result = string.gsub(*gsub_args, &)
 
     # We only mark the string as safe if the previous string was already safe
     if html_safe
-      string.html_safe # rubocop:disable Rails/OutputSafety
+      result.html_safe # rubocop:disable Rails/OutputSafety
     else
-      string
+      result
     end
   end
 

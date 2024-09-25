@@ -31,7 +31,7 @@
 RSpec.shared_examples_for "file_path_to_id_map_query: basic query setup" do
   it "is registered as queries.file_path_to_id_map" do
     expect(Storages::Peripherals::Registry
-             .resolve("#{storage.short_provider_type}.queries.file_path_to_id_map")).to eq(described_class)
+             .resolve("#{storage}.queries.file_path_to_id_map")).to eq(described_class)
   end
 
   it "responds to #call with correct parameters" do

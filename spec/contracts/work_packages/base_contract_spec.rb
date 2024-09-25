@@ -29,8 +29,7 @@
 require "spec_helper"
 require "contracts/shared/model_contract_shared_context"
 
-RSpec.describe WorkPackages::BaseContract,
-               with_flag: { percent_complete_edition: true } do
+RSpec.describe WorkPackages::BaseContract do
   include_context "ModelContract shared context"
 
   let(:work_package) do

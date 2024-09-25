@@ -918,6 +918,8 @@ es:
             name:
               blank: "es obligatorio. Por favor, seleccione un nombre."
               not_unique: "ya está en uso. Por favor, seleccione otro nombre."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Debe especificarse al menos un canal para enviar notificaciones."
           attributes:
@@ -1815,7 +1817,7 @@ es:
       progress_mode_changed_to_status_based: Modo de cálculo del progreso establecido como basado en el estado
       status_excluded_from_totals_set_to_false_message: ahora incluido en totales de jerarquía
       status_excluded_from_totals_set_to_true_message: ahora excluido de los totales de la jerarquía
-      status_percent_complete_changed: "% completado cambiado de %{old_value} % a %{new_value} %"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           A partir de ahora, la actividad relacionada con los enlaces de archivos (archivos almacenados en almacenamiento externo) aparecerá aquí en la pestaña Actividad. La siguiente representa la actividad relativa a los enlaces que ya existían:

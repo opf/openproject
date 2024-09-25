@@ -45,9 +45,6 @@ class WorkPackages::ProgressForm
       else
         hidden_initial_field(form, name: :estimated_hours)
         hidden_initial_field(form, name: :remaining_hours)
-        # next line to be removed in 15.0 with :percent_complete_edition feature flag removal
-        next unless OpenProject::FeatureDecisions.percent_complete_edition_active?
-
         hidden_initial_field(form, name: :done_ratio)
       end
     end

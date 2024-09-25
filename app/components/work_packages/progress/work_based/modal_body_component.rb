@@ -40,15 +40,6 @@ module WorkPackages
 
           @mode = :work_based
         end
-
-        # This method can be safely deleted once the feature flag
-        # :percent_complete_edition is removed, which should happen for
-        # OpenProject 15.0 release.
-        def should_display_migration_warning?
-          return false if OpenProject::FeatureDecisions.percent_complete_edition_active?
-
-          work_package.done_ratio.present? && work_package.estimated_hours.nil? && work_package.remaining_hours.nil?
-        end
       end
       # rubocop:enable OpenProject/AddPreviewForViewComponent
     end

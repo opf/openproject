@@ -1,7 +1,7 @@
 <!-- Standard Ruby view, please see the controller for comments -->
 <%
   label_new_file_storage = t("storages.label_new_file_storage",
-                              provider: t("storages.provider_types.#{@storage.short_provider_type}.name"))
+                              provider: t("storages.provider_types.#{@storage}.name"))
 %>
 
 <% html_title t(:label_administration), t("project_module_storages"), label_new_file_storage %>
@@ -18,8 +18,8 @@
   <% header.with_description(test_selector: 'storage-new-page-header--description') do %>
     <%=
       t("storages.instructions.new_storage",
-        provider_link: ::OpenProject::Static::Links[:storage_docs][:"#{@storage.short_provider_type}_setup"][:href].html_safe,
-        provider_name: I18n.t("storages.provider_types.#{@storage.short_provider_type}.name")
+        provider_link: ::OpenProject::Static::Links[:storage_docs][:"#{@storage}_setup"][:href].html_safe,
+        provider_name: I18n.t("storages.provider_types.#{@storage}.name")
       ).html_safe
     %>
   <% end %>

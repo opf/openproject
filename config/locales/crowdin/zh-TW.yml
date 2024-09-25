@@ -82,7 +82,7 @@ zh-TW:
         contact: "聯絡我們取得試用"
       enterprise_info_html: "是企業版功能 <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> 。"
       upgrade_info: "請升級到付費版以啟用此功能"
-    jemalloc_allocator: Jemalloc memory allocator
+    jemalloc_allocator: Jemalloc 記憶體分配器
     journal_aggregation:
       explanation:
         text: "例如使用者\"更新\"工作項目兩次，如果時間間隔小於設定值，則將合併視為為單次操作。應用程序中亦會顯示為單個操作。這也會套用在電子郵件通知，以及 %{webhook_link} 。"
@@ -912,6 +912,8 @@ zh-TW:
             name:
               blank: "必填。 請選擇一個名稱。"
               not_unique: "已被使用。請選擇其他名稱。"
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "至少需要指定一個發送通知的方式"
           attributes:
@@ -1781,7 +1783,7 @@ zh-TW:
       progress_mode_changed_to_status_based: 自動計算模式設定成「Status-based」
       status_excluded_from_totals_set_to_false_message: 現在包含在層次結構總計中
       status_excluded_from_totals_set_to_true_message: 現在不包含在層次結構總計中
-      status_percent_complete_changed: "完成百分比從 %{old_value}% 變為 %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           從現在開始，與文件鏈接(存儲在外部存儲器中的文件) 相關的活動將出現在“活動”選項卡中。以下是與已經存在的鏈接相關的活動的表示：

@@ -916,6 +916,8 @@ vi:
             name:
               blank: "là bắt buộc. Vui lòng chọn một tên."
               not_unique: "đã được sử dụng. Vui lòng chọn một tên khác."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Cần chỉ định ít nhất một kênh để gửi thông báo."
           attributes:
@@ -1785,7 +1787,7 @@ vi:
       progress_mode_changed_to_status_based: Chế độ tính toán tiến độ đã được đặt thành chế độ dựa trên trạng thái
       status_excluded_from_totals_set_to_false_message: hiện được bao gồm trong tổng số phân cấp
       status_excluded_from_totals_set_to_true_message: hiện bị loại trừ khỏi tổng số phân cấp
-      status_percent_complete_changed: "Phần trăm hoàn thành đã thay đổi từ %{old_value}% thành %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           Từ giờ trở đi, hoạt động liên quan đến liên kết tệp (các tệp lưu trữ bên ngoài) sẽ xuất hiện ở đây trong tab Hoạt động. Các hoạt động sau đây liên quan đến các liên kết đã tồn tại:
