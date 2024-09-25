@@ -39,35 +39,43 @@ module Storages
         @storage = storage
       end
 
-      # rubocop:disable Metrics/AbcSize
       def validate
         maybe_is_not_configured
-          .or { host_url_not_found }
-          .or { missing_dependencies }
-          .or { version_mismatch }
-          .or { with_unexpected_content }
-          .or { group_folder_not_found }
-          .or { capabilities_request_failed_with_unknown_error }
-          .or { files_request_failed_with_unknown_error }
+          .or { has_base_configuration_error? }
+          .or { has_ampf_configuration_error? }
           .value_or(ConnectionValidation.new(type: :healthy,
                                              error_code: :none,
                                              timestamp: Time.current,
                                              description: nil))
       end
 
-      # rubocop:enable Metrics/AbcSize
-
       private
+
+      def has_base_configuration_error?
+        host_url_not_found
+          .or { missing_dependencies }
+          .or { version_mismatch }
+          .or { with_unexpected_content }
+          .or { capabilities_request_failed_with_unknown_error }
+      end
+
+      def has_ampf_configuration_error?
+        return None() unless @storage.automatic_management_enabled?
+
+        userless_access_denied
+          .or { group_folder_not_found }
+          .or { files_request_failed_with_unknown_error }
+      end
 
       def capabilities
         @capabilities ||= Peripherals::Registry
-                     .resolve("#{@storage}.queries.capabilities")
-                     .call(storage: @storage, auth_strategy: noop)
+                            .resolve("#{@storage}.queries.capabilities")
+                            .call(storage: @storage, auth_strategy: noop)
       end
 
       def files
         @files ||= Peripherals::Registry
-                     .resolve("#{@storage.short_provider_type}.queries.files")
+                     .resolve("#{@storage}.queries.files")
                      .call(storage: @storage, auth_strategy: userless, folder: ParentFolder.new(@storage.group_folder))
       end
 
@@ -156,6 +164,15 @@ module Storages
 
       # rubocop:enable Metrics/AbcSize
 
+      def userless_access_denied
+        return None() if files.result != :unauthorized
+
+        Some(ConnectionValidation.new(type: :error,
+                                      error_code: :err_userless_access_denied,
+                                      timestamp: Time.current,
+                                      description: I18n.t("storages.health.connection_validation.userless_access_denied")))
+      end
+
       def group_folder_not_found
         return None() if files.result != :not_found
 
@@ -195,6 +212,7 @@ module Storages
         Rails.logger.error(
           "Connection validation failed with unknown error:\n\t" \
           "storage: ##{@storage.id} #{@storage.name}\n\t" \
+          "request: Nextcloud capabilities\n\t" \
           "status: #{capabilities.result}\n\t" \
           "response: #{capabilities.error_payload}"
         )
@@ -211,6 +229,7 @@ module Storages
         Rails.logger.error(
           "Connection validation failed with unknown error:\n\t" \
           "storage: ##{@storage.id} #{@storage.name}\n\t" \
+          "request: Group folder content\n\t" \
           "status: #{files.result}\n\t" \
           "response: #{files.error_payload}"
         )
