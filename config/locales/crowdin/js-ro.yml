@@ -112,7 +112,7 @@ ro:
         inline: "Evidențiați în linie:"
         entire_card_by: "Întreaga carte de"
       remove_from_list: "Alegeți intervalul din listă"
-    caption_rate_history: "Istoricul ratei"
+    caption_rate_history: "Istoric cotă"
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Copiat cu succes în clipboard!"
@@ -583,7 +583,7 @@ ro:
           sprints: "În dreapta aveți lista de rezultate și erorile restante, în stânga aveți sprintele respective. Aici poți crea <b>epicuri, povestiri pentru utilizatori și erori</b>, prioritizează prin drag & drop și adaugă-le la un sprint."
           task_board_arrow: "Pentru a vedea <b>panoul de sarcini</b>, deschideți meniul Sprint..."
           task_board_select: "... și selectați intrarea <b>Task board</b>."
-          task_board: "Grupul de lucru vizualizează progresul <b>pentru această sprint</b>. Dă click pe pictograma plus (+) de lângă o povestire de utilizator pentru a adăuga sarcini noi sau impedimente. <br> Starea poate fi actualizată de drag și drop."
+          task_board: "Grupul de lucru vizualizează progresul <b>pentru această iterație</b>. Dă click pe pictograma plus (+) de lângă o cerință de utilizator pentru a adăuga sarcini noi sau impedimente. <br> Starea poate fi actualizată cu glisare și plasare."
         boards:
           overview: "Selectează secțiunile <b></b> pentru a schimba vizualizarea și administrarea proiectului tău folosind vizualizarea secțiunilor agile."
           lists_kanban: "Aici puteţi crea mai multe liste (coloane) în cadrul secţiunii. Această funcţie vă permite să creaţi o <b>tabelă Kanban</b>, de exemplu."
@@ -611,7 +611,9 @@ ro:
         mentioned: "Menţionat"
         watched: "Observator"
         assigned: "Executant"
-        accountable: "Responsabil"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "Creat pe"
         scheduled: "Planificat"
         commented: "Cu comentarii"
@@ -639,7 +641,7 @@ ro:
         no_results:
           at_all: "Aici vor apărea notificări noi atunci când există o activitate care vă interesează."
           with_current_filter: "Nu există notificări în această vizualizare în acest moment"
-        mark_all_read: "Marchează tot ca citit"
+        mark_all_read: "Marchează toate ca și citite"
         mark_as_read: "Marchează ca Citit"
         text_update_date_by: "%{date} by"
         total_count_warning: "Se afișează %{newest_count} cele mai recente notificări. %{more_count} în plus nu sunt afișate."

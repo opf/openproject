@@ -39,7 +39,7 @@ RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model 
 
     before do
       Storages::Peripherals::Registry
-        .stub("#{storage.short_provider_type}.commands.delete_folder", command_double)
+        .stub("#{storage}.commands.delete_folder", command_double)
     end
 
     context "if project folder mode is set to automatic" do

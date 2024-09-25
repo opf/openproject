@@ -31,6 +31,9 @@ uk:
     custom_styles:
       color_theme: "Колірна тема"
       color_theme_custom: "(Власний)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Основна кнопка"
         accent-color: "Акцент"
@@ -79,6 +82,7 @@ uk:
         contact: "Зв’яжіться з нами, щоб отримати демоверсію"
       enterprise_info_html: "– це доповнення версії Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
       upgrade_info: "Перейдіть на платний план, щоб активувати його та почати використовувати його у своїй команді."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Окремі дії користувача (напр., оновлення робочого пакета двічі) зводяться в одну дію, якщо відмінність у часі між ними менша за вказаний проміжок часу. Їх буде виведено як окремі дії в межах додатка. Крім того, це призведе до затримки сповіщень на такий самий проміжок часу, що зменшить кількість електронних листів, які надсилатимуться, а також вплине на затримку %{webhook_link}."
@@ -925,6 +929,8 @@ uk:
             name:
               blank: "– обов’язковий атрибут. Виберіть ім’я."
               not_unique: "уже використовується. Виберіть інше ім’я."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Необхідно вказати принаймні один канал для надсилання сповіщень."
           attributes:
@@ -1706,7 +1712,7 @@ uk:
   error_menu_item_not_saved: Не вдалося зберегти пункт меню
   error_wiki_root_menu_item_conflict: >
     Неможливо перейменувати %{old_name} для %{new_name} через конфлікт у результуючому пункті меню з існуючим пунктом меню %{existing_caption} %{existing_identifier}
-  error_external_authentication_failed: "Під час зовнішньої автентифікації сталася помилка. Повторіть спробу."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Атрибут(и) не виділено: %{attributes}"
   events:
     changeset: "Набір змін відредаговано"
@@ -1878,7 +1884,7 @@ uk:
       progress_mode_changed_to_status_based: Установлено режим обчислення прогресу на основі статусу
       status_excluded_from_totals_set_to_false_message: тепер включено в підсумки ієрархії
       status_excluded_from_totals_set_to_true_message: тепер виключено з підсумків ієрархії
-      status_percent_complete_changed: "«% завершення» змінено з %{old_value}% на %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           Тепер дії, пов’язані з посиланнями на файли (файли, що зберігаються в зовнішніх сховищах), з’являтимуться на вкладці «Активність». Наявні дії, пов’язані із посиланнями:
@@ -1987,7 +1993,8 @@ uk:
   label_additional_workflow_transitions_for_assignee: "Додаткові переходи можна коли користувач є правонаступником"
   label_additional_workflow_transitions_for_author: "Додаткові переходи дозволені користувачу, який є автором"
   label_administration: "Адміністрування"
-  label_advanced_settings: "Розширені налаштування"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Вік"
   label_ago: "днів тому"
   label_all: "всі"
@@ -2101,6 +2108,7 @@ uk:
   label_custom_field_plural: "Індивідуальні поля"
   label_custom_field_default_type: "Порожній тип"
   label_custom_style: "Дизайн"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Панель керування"
   label_database_version: "Версія PostgreSQL"
   label_date: "Дата"
@@ -2222,8 +2230,8 @@ uk:
   label_share_project_list: "Поділитися списком проєктів"
   label_share_work_package: "Поділитися пакетом робіт"
   label_show_all_registered_users: "Усі зареєстровані користувачі"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Журнал"
   label_journal_diff: "Опис Порівняння"
   label_language: "Мова"
@@ -3227,6 +3235,13 @@ uk:
   setting_password_min_length: "Мінімальна довжина"
   setting_password_min_adhered_rules: "Мінімальна кількість необхідних класів"
   setting_per_page_options: "Кількість записів на сторінку"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Простий текстовий лист (без HTML)"
   setting_protocol: "Протокол"
   setting_project_gantt_query: "Подання Ґанта портфеля проєкту "

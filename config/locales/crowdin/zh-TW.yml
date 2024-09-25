@@ -31,6 +31,9 @@ zh-TW:
     custom_styles:
       color_theme: "色彩佈景主題"
       color_theme_custom: "自訂"
+      tab_interface: "介面"
+      tab_branding: "品牌化"
+      tab_pdf_export_styles: "PDF 匯出類型"
       colors:
         primary-button-color: "主按鈕"
         accent-color: "強調（Accent）"
@@ -79,6 +82,7 @@ zh-TW:
         contact: "聯絡我們取得試用"
       enterprise_info_html: "是企業版功能 <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> 。"
       upgrade_info: "請升級到付費版以啟用此功能"
+    jemalloc_allocator: Jemalloc 記憶體分配器
     journal_aggregation:
       explanation:
         text: "例如使用者\"更新\"工作項目兩次，如果時間間隔小於設定值，則將合併視為為單次操作。應用程序中亦會顯示為單個操作。這也會套用在電子郵件通知，以及 %{webhook_link} 。"
@@ -908,6 +912,8 @@ zh-TW:
             name:
               blank: "必填。 請選擇一個名稱。"
               not_unique: "已被使用。請選擇其他名稱。"
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "至少需要指定一個發送通知的方式"
           attributes:
@@ -1605,7 +1611,7 @@ zh-TW:
   error_menu_item_not_saved: 選單項目無法保存
   error_wiki_root_menu_item_conflict: >
     無法將 "%{old_name}" 重命名為 "%{new_name}", 因為結果功能表項目中的衝突與現有功能表項目 "%{existing_caption}" (%{existing_identifier}) 衝突。
-  error_external_authentication_failed: "在外部身份驗證期間出錯。請重試。"
+  error_external_authentication_failed_message: "外部驗證時發生錯誤： %{message}"
   error_attribute_not_highlightable: "無法凸顯的屬性: %{attributes}"
   events:
     changeset: "已編輯變更"
@@ -1777,7 +1783,7 @@ zh-TW:
       progress_mode_changed_to_status_based: 自動計算模式設定成「Status-based」
       status_excluded_from_totals_set_to_false_message: 現在包含在層次結構總計中
       status_excluded_from_totals_set_to_true_message: 現在不包含在層次結構總計中
-      status_percent_complete_changed: "完成百分比從 %{old_value}% 變為 %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           從現在開始，與文件鏈接(存儲在外部存儲器中的文件) 相關的活動將出現在“活動”選項卡中。以下是與已經存在的鏈接相關的活動的表示：
@@ -1886,7 +1892,8 @@ zh-TW:
   label_additional_workflow_transitions_for_assignee: "使用者是執行者時，可用狀態"
   label_additional_workflow_transitions_for_author: "使用者是作者，可用狀態"
   label_administration: "系統管理"
-  label_advanced_settings: "進階設定"
+  label_interface_colors: "介面顏色"
+  label_interface_colors_description: "這些顏色控制應用程式的外觀。如果您修改它們，主題會自動變更為自訂主題，但我們無法保證符合網頁內容可訪問性指南基本要求 (WCAG 2.1)。 "
   label_age: "年齡"
   label_ago: "天前"
   label_all: "所有"
@@ -2000,6 +2007,7 @@ zh-TW:
   label_custom_field_plural: "客製欄位"
   label_custom_field_default_type: "空類型"
   label_custom_style: "設計"
+  label_custom_style_description: "選擇 OpenProject 的主題外觀、選擇要在應用程式中使用的預設顏色以及匯出的外觀。"
   label_dashboard: "儀表板"
   label_database_version: "PostgreSQL 版本"
   label_date: "日期"
@@ -2121,8 +2129,8 @@ zh-TW:
   label_share_project_list: "共用專案清單"
   label_share_work_package: "共用工作項目"
   label_show_all_registered_users: "顯示所有註冊使用者"
-  label_show_n_more: "Show %{count} more"
-  label_show_less: "Show less"
+  label_show_less: "減少顯示"
+  label_show_more: "顯示更多"
   label_journal: "日誌"
   label_journal_diff: "內容對比"
   label_language: "語言"
@@ -3120,6 +3128,13 @@ zh-TW:
   setting_password_min_length: "最小長度"
   setting_password_min_adhered_rules: "必要類別的最小數目"
   setting_per_page_options: "設置每頁顯示個數"
+  setting_percent_complete_on_status_closed: "狀態結束時之完成百分比"
+  setting_percent_complete_on_status_closed_no_change: "未變更"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    即使工作項目關閉，<i>完成百分比的</i>值也不會改變。
+  setting_percent_complete_on_status_closed_set_100p: "自動設定為 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    工作項目結束即視為完成。
   setting_plain_text_mail: "純文字郵件（不含 HTML）"
   setting_protocol: "Protocol"
   setting_project_gantt_query: "專案含甘特圖檢視"

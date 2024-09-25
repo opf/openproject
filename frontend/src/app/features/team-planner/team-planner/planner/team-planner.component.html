@@ -135,8 +135,12 @@
           class="op-team-planner--empty-state-button button -primary"
           data-test-selector="op-team-planner--empty-state-button"
           (click)="showAssigneeAddRow()"
-          [textContent]="text.add_assignee"
         >
+          <op-icon icon-classes="icon-add button--icon"></op-icon>
+          <span
+            class="button--text"
+            [textContent]="text.add_assignee">
+          </span>
         </button>
       </div>
     </ng-container>
@@ -153,8 +157,11 @@
           data-test-selector="tp-assignee-add-button"
           data-tour-selector="tp-assignee-add-button"
         >
-          <span class="spot-icon spot-icon_user-plus"></span>
-          <span [textContent]="text.add_assignee"></span>
+          <op-icon icon-classes="icon-add button--icon"></op-icon>
+          <span
+            class="button--text"
+            [textContent]="text.add_assignee">
+          </span>
         </button>
       </div>
       <ng-container *ngIf="(dropzone$ | async) as dropzone">

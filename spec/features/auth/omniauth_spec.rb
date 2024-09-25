@@ -248,7 +248,7 @@ RSpec.describe "Omniauth authentication" do
           OmniAuth::FailureEndpoint.new(env).redirect_to_failure
         end
         visit login_path
-        expect(page).to have_content(I18n.t(:error_external_authentication_failed))
+        expect(page).to have_content(I18n.t(:error_external_authentication_failed_message, message: "Unknown error"))
 
         if defined? instructions
           expect(page).to have_content instructions

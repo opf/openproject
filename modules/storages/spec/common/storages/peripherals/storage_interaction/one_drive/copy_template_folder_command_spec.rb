@@ -145,7 +145,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
 
     subfolder = command.call(auth_strategy:, folder_name: "Subfolder with File", parent_location:).result
     file_name = "files_query_root.yml"
-    upload_data = Storages::UploadData.new(folder_id: subfolder.id, file_name:)
+    upload_data = Storages::Peripherals::StorageInteraction::Inputs::UploadData.build(folder_id: subfolder.id, file_name:).value!
     upload_link = Storages::Peripherals::Registry
                     .resolve("one_drive.queries.upload_link")
                     .call(storage:, auth_strategy:, upload_data:)

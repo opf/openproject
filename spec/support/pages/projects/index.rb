@@ -523,6 +523,10 @@ module Pages
         within(field_component, &)
       end
 
+      def submit_config_view_dialog
+        page.find('[data-test-selector="op-project-list-configure-dialog-submit"]').click
+      end
+
       def within_table(&)
         within "#project-table", &
       end

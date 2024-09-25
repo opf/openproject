@@ -610,7 +610,9 @@ zh-TW:
         mentioned: "被提及"
         watched: "監看者"
         assigned: "執行者"
-        accountable: "負責人"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "負責人"
         created: "已建立"
         scheduled: "已排程"
         commented: "已留言"

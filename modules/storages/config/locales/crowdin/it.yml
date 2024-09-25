@@ -90,6 +90,9 @@ it:
         remote_folders: 'Leggi i contenuti della cartella di gruppo:'
         rename_project_folder: 'Rinomina la cartella di progetto gestita:'
     errors:
+      messages:
+        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
       models:
         copy_project_folders_service:
           conflict: La cartella %{destination_path} esiste già. Interrompi il processo per evitare sovrascritture.
@@ -146,6 +149,8 @@ it:
           not_allowed: OpenProject non è stato autorizzato ad accedere al tuo drive OneDrive. Verifica le autorizzazioni impostate sull'applicazione Azure.
           unauthorized: OpenProject non è riuscito a sincronizzarsi con OneDrive. Verifica la configurazione dell'archiviazione e dell'applicazione Azure.
           user_does_not_exist: "%{user} non esiste in Nextcloud."
+        upload_link_service:
+          not_found: The destination folder %{folder} could not be found on %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Completa senza
@@ -209,6 +214,7 @@ it:
         client_id_wrong: L'ID del client OAuth 2 non è valido. Verifica la configurazione.
         client_secret_wrong: Il codice segreto del client OAuth 2 non è valido. Verifica la configurazione.
         drive_id_wrong: Il Drive ID non è stato trovato. Verifica la configurazione.
+        group_folder_not_found: The group folder could not be found.
         group_folder_version_mismatch: La versione della cartella di gruppo non è supportata. Aggiorna il server Nextcloud.
         host_not_found: Non è stato trovato alcun server Nextcloud all'indirizzo host configurato. Controlla la configurazione.
         missing_dependencies: 'Manca una dipendenza necessaria per l''archiviazione dei file. Aggiungi la seguente dipendenza: %{dependency}.'
@@ -216,7 +222,9 @@ it:
         placeholder: Verifica la tua connessione con il server.
         subtitle: Verifica della connessione
         tenant_id_wrong: L'ID della directory non è valido. Verifica la configurazione.
-        unexpected_content: Contenuto inatteso nello spazio di archiviazione.
+        unexpected_content:
+          nextcloud: Unexpected content found in the managed group folder.
+          one_drive: Unexpected content found in the drive.
         unknown_error: Non è stato possibile verificare la connessione. Si è verificato un errore sconosciuto. Per maggiori informazioni consulta i log del server.
       label_error: Errore
       label_healthy: Tutto ok

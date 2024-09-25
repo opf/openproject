@@ -88,11 +88,11 @@ module Storages
 
       if project_folder_not_accessible?(user)
         Peripherals::Registry
-          .resolve("#{storage.short_provider_type}.queries.open_storage")
+          .resolve("#{storage}.queries.open_storage")
           .call(storage:, auth_strategy:)
       else
         Peripherals::Registry
-          .resolve("#{storage.short_provider_type}.queries.open_file_link")
+          .resolve("#{storage}.queries.open_file_link")
           .call(storage:, auth_strategy:, file_id: project_folder_id)
       end
     end
@@ -118,7 +118,7 @@ module Storages
 
     def managed_folder_identifier
       @managed_folder_identifier ||=
-        Peripherals::Registry.resolve("#{storage.short_provider_type}.models.managed_folder_identifier").new(self)
+        Peripherals::Registry.resolve("#{storage}.models.managed_folder_identifier").new(self)
     end
 
     def project_folder_not_accessible?(user)

@@ -33,8 +33,8 @@ set -e
 
 PR_BODY="$@"
 
-# Extract URL from PR description
-WP_URL=$(echo "$PR_BODY" | grep -oE 'https://community.openproject.org/(wp|work_packages|projects/[^/]+/work_packages)/[0-9]+' || true)
+# Extract first work package URL from PR description
+WP_URL=$(echo "$PR_BODY" | grep -oE 'https://community.openproject.org/(wp|work_packages|projects/[^/]+/work_packages)/[0-9]+' | head -n 1 || true)
 
 if [ -z "$WP_URL" ]; then
   echo "::warning::PR description does not contain a valid URL to an OpenProject ticket."

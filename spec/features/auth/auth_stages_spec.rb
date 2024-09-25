@@ -35,7 +35,7 @@ RSpec.describe "Authentication Stages", :skip_2fa_stage do
 
     OpenProject::Authentication::Stage.register :dummy_step, "/login/stage_test"
 
-    allow_any_instance_of(AccountController)
+    allow_any_instance_of(ApplicationController) # rubocop:disable RSpec/AnyInstance
       .to receive(:stage_secret)
       .and_return("success") # usually 'success' would be a random hex string
   end

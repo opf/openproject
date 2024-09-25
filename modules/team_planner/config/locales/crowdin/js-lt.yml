@@ -8,7 +8,7 @@ lt:
       create_title: 'Kurti naują komandos planą'
       unsaved_title: 'Nepavadintas komandos planas'
       no_data: 'Komandos plano sudarymui pridėkite paskirtųjų.'
-      add_assignee: 'Pridėti paskirtąjį'
+      add_assignee: 'Assignee'
       remove_assignee: 'Išimti paskirtąjį'
       two_weeks: '2-savaitės'
       one_week: '1-savaitė'

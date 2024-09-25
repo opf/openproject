@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -28,6 +30,30 @@
 
 module Storages::Peripherals
   module StorageErrorHelper
+    def raise_service_result_error(errors)
+      handle_base_errors(errors) if errors.has_key?(:base)
+
+      api_errors = ::API::Errors::ErrorBase.create_errors(errors)
+      fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
+    end
+
+    def handle_base_errors(errors)
+      base_errors = errors.symbols_for(:base)
+      message = errors.full_messages_for(:base)&.first
+
+      if base_errors.include? :not_found
+        fail API::Errors::OutboundRequestNotFound.new(message)
+      elsif base_errors.include? :unauthorized
+        fail ::API::Errors::Unauthenticated.new(message)
+      elsif base_errors.include? :forbidden
+        fail API::Errors::OutboundRequestForbidden.new(message)
+      elsif base_errors.include? :error
+        fail API::Errors::InternalError.new(message)
+      else
+        base_errors
+      end
+    end
+
     def raise_error(error)
       Rails.logger.error(error)
 

@@ -468,7 +468,7 @@ ro:
         item_4:
           name: Epic
         item_5:
-          name: Scenariu de utilizare
+          name: Cerință utilizator
         item_6:
           name: Defect
       welcome:

@@ -31,7 +31,7 @@
 RSpec.shared_examples_for "rename_file_command: basic command setup" do
   it "is registered as commands.rename_file" do
     expect(Storages::Peripherals::Registry
-             .resolve("#{storage.short_provider_type}.commands.rename_file")).to eq(described_class)
+             .resolve("#{storage}.commands.rename_file")).to eq(described_class)
   end
 
   it "responds to #call with correct parameters" do
