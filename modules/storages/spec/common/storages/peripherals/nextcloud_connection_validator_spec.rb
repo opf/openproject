@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -31,7 +33,7 @@ require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::NextcloudConnectionValidator do
   before do
-    Storages::Peripherals::Registry.stub("#{storage.short_provider_type}.queries.capabilities", ->(_) { capabilities_response })
+    Storages::Peripherals::Registry.stub("#{storage}.queries.capabilities", ->(_) { capabilities_response })
     Storages::Peripherals::Registry.stub("#{storage.short_provider_type}.queries.files", ->(_) { files_response })
   end
 

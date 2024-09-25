@@ -31,7 +31,7 @@
 RSpec.shared_examples_for "create_folder_command: basic command setup" do
   it "is registered as commands.create_folder" do
     expect(Storages::Peripherals::Registry
-             .resolve("#{storage.short_provider_type}.commands.create_folder")).to eq(described_class)
+             .resolve("#{storage}.commands.create_folder")).to eq(described_class)
   end
 
   it "responds to #call with correct parameters" do

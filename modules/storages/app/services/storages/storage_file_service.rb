@@ -28,7 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Storages
-  class UpdateContract < ::Storages::Storages::BaseContract
+module Storages
+  class StorageFileService < BaseService
+    def self.call(storage:, user:, file_id:)
+      new.call(storage:, user:, file_id:)
+    end
+
+    def call(user:, storage:, file_id:)
+      auth_strategy = strategy(storage, user)
+
+      info "Requesting file #{file_id} information on #{storage.name}"
+      Peripherals::Registry.resolve("#{storage}.queries.file_info").call(storage:, auth_strategy:, file_id:)
+    end
+
+    private
+
+    def strategy(storage, user)
+      Peripherals::Registry.resolve("#{storage}.authentication.user_bound").call(user:)
+    end
   end
 end

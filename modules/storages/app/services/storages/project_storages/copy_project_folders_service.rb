@@ -74,7 +74,7 @@ module Storages
 
       def initiate_copy(storage, source_path, destination_path)
         Peripherals::Registry
-          .resolve("#{storage.short_provider_type}.commands.copy_template_folder")
+          .resolve("#{storage}.commands.copy_template_folder")
           .call(auth_strategy: auth_strategy(storage.short_provider_type),
                 storage:,
                 source_path:,
