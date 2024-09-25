@@ -43,8 +43,11 @@ en:
         label_sort_desc: "Newest on top"
         label_type_to_comment: "Type here to comment"
         label_submit_comment: "Submit comment"
-        changed_on: "made changes on"
+        changed_on: "changed on"
         created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
 
 
   admin:

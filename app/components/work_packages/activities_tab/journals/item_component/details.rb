@@ -74,6 +74,7 @@ module WorkPackages
             render_timeline_icon(header_start_container)
             render_user_avatar(header_start_container)
             render_user_name_for_desktop(header_start_container)
+            render_journal_type_for_desktop(header_start_container)
             render_user_name_and_time_for_mobile(header_start_container)
             render_updated_time(header_start_container)
           end
@@ -98,6 +99,23 @@ module WorkPackages
             classes: "work-packages-activities-tab-journals-item-component-details--user-name ellipsis hidden-for-mobile"
           ) do
             truncated_user_name(journal.user)
+          end
+        end
+
+        def render_journal_type_for_desktop(container)
+          container.with_column(
+            mr: 1,
+            classes: "work-packages-activities-tab-journals-item-component-details--journal-type hidden-for-mobile"
+          ) do
+            if journal.initial?
+              render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) do
+                I18n.t("activities.work_packages.activity_tab.created_on")
+              end
+            else
+              render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) do
+                I18n.t("activities.work_packages.activity_tab.changed_on")
+              end
+            end
           end
         end
 
@@ -143,7 +161,10 @@ module WorkPackages
         end
 
         def render_activity_link(container)
-          container.with_column(pr: 3) do
+          container.with_column(
+            pr: 3,
+            classes: "work-packages-activities-tab-journals-item-component-details--activity-link-container"
+          ) do
             render(Primer::Beta::Link.new(
                      href: "#",
                      scheme: :secondary,
@@ -158,7 +179,11 @@ module WorkPackages
         end
 
         def icon_aria_label
-          journal.initial? ? "Add" : "Change"
+          if journal.initial?
+            I18n.t("activities.work_packages.activity_tab.created")
+          else
+            I18n.t("activities.work_packages.activity_tab.changed")
+          end
         end
 
         def render_details(details_container)

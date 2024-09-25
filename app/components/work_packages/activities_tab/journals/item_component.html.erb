@@ -5,7 +5,8 @@
         journal_container.with_row do
           render(border_box_container(
             id: "activity-anchor-#{journal.version}",
-            padding: :condensed
+            padding: :condensed,
+            "aria-label": I18n.t("activities.work_packages.activity_tab.commented")
           )) do |border_box_component|
             border_box_component.with_header(px: 2, py: 1, data: { test_selector: "op-journal-notes-header" }) do
               flex_layout(align_items: :center, justify_content: :space_between) do |header_container|
