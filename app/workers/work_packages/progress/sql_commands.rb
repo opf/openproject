@@ -188,7 +188,6 @@ module WorkPackages::Progress::SqlCommands
     if Setting.total_percent_complete_mode == "work_weighted_average"
       update_total_percent_complete_in_work_weighted_average_mode
     elsif Setting.total_percent_complete_mode == "simple_average"
-      update_total_percent_complete_in_work_weighted_average_mode
       update_total_percent_complete_in_simple_average_mode
     end
   end
