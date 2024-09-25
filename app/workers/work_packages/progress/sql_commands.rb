@@ -103,7 +103,7 @@ module WorkPackages::Progress::SqlCommands
         work_packages.id as id,
         work_packages.parent_id as parent_id,
         statuses.excluded_from_totals AS status_excluded_from_totals,
-        done_ratio AS p_complete,
+        done_ratio,
         NULL::INTEGER AS total_p_complete
       FROM work_packages
       LEFT JOIN statuses ON work_packages.status_id = statuses.id
@@ -221,13 +221,16 @@ module WorkPackages::Progress::SqlCommands
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
       SET total_p_complete = CASE
+        WHEN total_work IS NULL OR total_remaining_work IS NULL THEN NULL
         WHEN total_work = 0 THEN NULL
-        ELSE (1 - (total_remaining_work / total_work)) * 100
+        ELSE ROUND(
+          ((total_work - total_remaining_work)::float / total_work) * 100
+        )
       END
       WHERE id IN (
-        SELECT ancestor_id AS id
+        SELECT ancestor_id
         FROM work_package_hierarchies
-        GROUP BY id
+        GROUP BY ancestor_id
         HAVING MAX(generations) > 0
       )
     SQL

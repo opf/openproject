@@ -63,102 +63,12 @@ class WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob < WorkPacka
   def update_total_percent_complete
     case mode
     when "work_weighted_average"
-      update_to_work_weighted_average
+      update_total_percent_complete_in_work_weighted_average_mode
     when "simple_average"
-      update_to_simple_average
+      update_total_percent_complete_in_simple_average_mode
     else
       raise ArgumentError, "Invalid total percent complete mode: #{mode}"
     end
-  end
-
-  def update_to_work_weighted_average
-    execute(<<~SQL.squish)
-      UPDATE temp_wp_progress_values
-      SET total_p_complete = CASE
-        WHEN total_work IS NULL OR total_remaining_work IS NULL THEN NULL
-        WHEN total_work = 0 THEN NULL
-        ELSE ROUND(
-          ((total_work - total_remaining_work)::float / total_work) * 100
-        )
-      END
-      WHERE id IN (
-        SELECT ancestor_id
-        FROM work_package_hierarchies
-        GROUP BY ancestor_id
-        HAVING MAX(generations) > 0
-      )
-    SQL
-  end
-
-  def update_to_simple_average
-    execute(<<~SQL.squish)
-      DO $$
-      DECLARE
-      	min_depth INTEGER := 0;
-      	max_depth INTEGER := (SELECT MAX(depth) FROM temp_work_package_depth);
-      	current_depth INTEGER := min_depth;
-      BEGIN
-        /* Navigate work packages and perform updates bottom-up */
-      	while current_depth <= max_depth loop
-      UPDATE temp_wp_progress_values wp
-      SET
-      	total_p_complete = CASE
-      		WHEN current_depth = min_depth THEN NULL
-      		ELSE ROUND(
-      			(
-              /* Exclude the current work package if it has a status excluded from totals */
-      				CASE WHEN wp.status_excluded_from_totals
-              THEN 0
-              /* Otherwise, use the current work package's % complete value or 0 if unset */
-              ELSE COALESCE(wp.p_complete, 0)
-              END + (
-      					SELECT
-      						SUM(
-      							COALESCE(child_wp.total_p_complete, child_wp.p_complete, 0)
-      						)
-      					FROM
-      						temp_wp_progress_values child_wp
-      					WHERE
-      						child_wp.parent_id = wp.id
-                  /* Exclude children with a status excluded from totals */
-                  AND NOT child_wp.status_excluded_from_totals
-      				)
-              ) / (
-              /* Exclude the current work package if it has a status excluded from totals */
-              CASE WHEN wp.status_excluded_from_totals
-              THEN 0
-              /* Otherwise, count the current work package if it has a % complete value set */
-              ELSE(CASE WHEN wp.p_complete IS NOT NULL THEN 1 ELSE 0 END)
-              END + (
-      					SELECT
-      						COUNT(1)
-      					FROM
-      						temp_wp_progress_values child_wp
-      					WHERE
-      						child_wp.parent_id = wp.id
-                  /* Exclude children with a status excluded from totals */
-                  AND NOT child_wp.status_excluded_from_totals
-      				)
-      			)
-      		)
-      	END
-      /* Select only work packages at the curren depth */
-      WHERE
-      	wp.id IN (
-      		SELECT
-      			id
-      		FROM
-      			temp_work_package_depth
-      		WHERE
-      			depth = current_depth
-      	);
-
-      /* Go up a level from a child to a parent*/
-      current_depth := current_depth + 1;
-
-      END loop;
-      END $$;
-    SQL
   end
 
   def journal_cause
