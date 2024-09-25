@@ -284,7 +284,8 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob,
       end
     end
 
-    context "when in hierarchy" do
+    context "when in hierarchy in work-weighted average mode",
+            with_settings: { total_percent_complete_mode: "work_weighted_average" } do
       it "the total remaining work and total % complete values are recomputed" do
         # Simulating changing "Doing" status default % progress from 20% to 40%
         expect_performing_job_changes(
@@ -303,6 +304,33 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob,
                 child 1  | Done (100%) |   9h |             0h |       100% |        |                  |
                 child 2  | Doing (40%) |   5h |             3h |        40% |        |                  |
                 child 3  | To do (0%)  |   5h |             5h |         0% |        |                  |
+          TABLE
+        )
+      end
+    end
+
+    context "when in hierarchy in simple average mode",
+            with_settings: { total_percent_complete_mode: "simple_average" } do
+      it "the total remaining work and total % complete values are recomputed" do
+        # Simulating changing "Doing" status default % progress from 20% to 40%
+        expect_performing_job_changes(
+          from: <<~TABLE,
+            hierarchy    | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            grandparent  | Doing (40%) |   1h |           0.8h |        20% |    20h |             9.8h |          51%
+              parent     | Doing (40%) |      |                |        20% |    19h |               9h |          53%
+                child 1  | Done (100%) |   9h |             0h |       100% |        |                  |
+                child 2  | Doing (40%) |   5h |             4h |        20% |        |                  |
+                child 3  | To do (0%)  |   5h |             5h |         0% |        |                  |
+                excluded | Excluded    |   5h |             5h |         0% |        |                  |
+          TABLE
+          to: <<~TABLE
+            subject      | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            grandparent  | Doing (40%) |   1h |           0.6h |        40% |    20h |             8.6h |          38%
+              parent     | Doing (40%) |      |                |        40% |    19h |               8h |          35%
+                child 1  | Done (100%) |   9h |             0h |       100% |        |                  |
+                child 2  | Doing (40%) |   5h |             3h |        40% |        |                  |
+                child 3  | To do (0%)  |   5h |             5h |         0% |        |                  |
+                excluded | Excluded    |   5h |             5h |         0% |        |                  |
           TABLE
         )
       end
