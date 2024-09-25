@@ -184,7 +184,12 @@ module WorkPackages
         end
 
         def render_single_detail(container, detail)
-          container.with_row(flex_layout: true, my: 1, align_items: :flex_start) do |detail_container|
+          container.with_row(
+            flex_layout: true,
+            my: 1,
+            align_items: :flex_start,
+            classes: "work-packages-activities-tab-journals-item-component-details--journal-detail-container"
+          ) do |detail_container|
             render_stem_line(detail_container)
             render_detail_description(detail_container, detail)
           end

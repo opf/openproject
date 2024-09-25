@@ -923,4 +923,49 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
       end
     end
   end
+
+  describe "work package attribute updates" do
+    let(:work_package) { create(:work_package, project:, author: admin) }
+
+    let!(:first_comment_by_member) do
+      create(:work_package_journal, user: member, notes: "First comment by member", journable: work_package, version: 2)
+    end
+
+    current_user { admin }
+
+    before do
+      # set WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS to 1000
+      # to speed up the polling interval for test duration
+      ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"] = "1000"
+
+      wp_page.visit!
+      wp_page.wait_for_activity_tab
+    end
+
+    after do
+      ENV.delete("WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS")
+    end
+
+    it "shows the updated work package attribute without reload", :aggregate_failures do
+      # wait for the latest comments to be loaded before proceeding!
+      activity_tab.expect_journal_notes(text: "First comment by member")
+      wp_page.expect_attributes(subject: work_package.subject)
+
+      # we need to wait a bit before triggering the update below
+      # otherwise the update is already picked up by the initial (async) workpackage attributes update called in the connect hook
+      # and we wouldn't test the polling based update below
+      sleep 2
+      wp_page.expect_attributes(subject: work_package.subject) # check if the initial update picked up the original subject
+
+      # simulate another user is updating the work package subject
+      # this btw does behave very strangely in test env and will not assign the change to the specified user
+      WorkPackages::UpdateService.new(user: admin, model: work_package).call(subject: "Subject updated")
+
+      # activity tab should show the updated attribute
+      activity_tab.expect_journal_changed_attribute(text: "Subject updated")
+
+      # work package page should also show the updated attribute
+      wp_page.expect_attributes(subject: "Subject updated")
+    end
+  end
 end
