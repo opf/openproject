@@ -71,10 +71,8 @@ class WorkPackages::Progress::ApplyStatusesChangeJob < WorkPackages::Progress::J
       clear_percent_complete_when_0h_work
     elsif WorkPackage.status_based_mode?
       set_percent_complete_from_status
-      if OpenProject::FeatureDecisions.percent_complete_edition_active?
-        fix_remaining_work_set_with_100_percent_complete
-        derive_unset_work_from_remaining_work_and_percent_complete
-      end
+      fix_remaining_work_set_with_100_percent_complete
+      derive_unset_work_from_remaining_work_and_percent_complete
       derive_remaining_work_from_work_and_percent_complete
     end
   end
