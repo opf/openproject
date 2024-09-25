@@ -306,6 +306,23 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
           TABLE
         )
       end
+
+      context "when total work and remaining work values are null" do
+        it "recomputes the total % complete to null" do
+          expect_performing_job_changes(
+            from: <<~TABLE,
+              hierarchy    | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+              grandparent  | Doing (40%) |      |                |        40% |        |                  |          40%
+                parent     | Doing (40%) |      |                |        40% |        |                  |          40%
+            TABLE
+            to: <<~TABLE
+              hierarchy    | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+              grandparent  | Doing (40%) |      |                |        40% |        |                  |
+                parent     | Doing (40%) |      |                |        40% |        |                  |
+            TABLE
+          )
+        end
+      end
     end
 
     context "when in hierarchy in simple average mode",
