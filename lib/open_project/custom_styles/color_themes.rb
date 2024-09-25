@@ -30,7 +30,7 @@ module OpenProject::CustomStyles
   module ColorThemes
     module_function
 
-    OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME = "OpenProject".freeze
+    OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME = "OpenProject (default)".freeze
 
     DEPRECATED_ALTERNATIVE_COLOR = "#35C53F".freeze
     DEPRECATED_PRIMARY_COLOR = "#1A67A3".freeze
@@ -61,7 +61,7 @@ module OpenProject::CustomStyles
         }
       },
       {
-        theme: "OpenProject Light",
+        theme: "OpenProject Gray",
         colors: {
           "primary-button-color" => PRIMER_PRIMARY_BUTTON_COLOR,
           "accent-color" => ACCENT_COLOR,
@@ -81,7 +81,7 @@ module OpenProject::CustomStyles
         logo: "logo_openproject.png"
       },
       {
-        theme: "OpenProject Dark",
+        theme: "OpenProject Navy Blue",
         colors: {
           "primary-button-color" => PRIMER_PRIMARY_BUTTON_COLOR,
           "accent-color" => ACCENT_COLOR,
