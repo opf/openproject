@@ -188,7 +188,8 @@ module WorkPackages
             flex_layout: true,
             my: 1,
             align_items: :flex_start,
-            classes: "work-packages-activities-tab-journals-item-component-details--journal-detail-container"
+            classes: "work-packages-activities-tab-journals-item-component-details--journal-detail-container",
+            data: { turbo: false }
           ) do |detail_container|
             render_stem_line(detail_container)
             render_detail_description(detail_container, detail)
