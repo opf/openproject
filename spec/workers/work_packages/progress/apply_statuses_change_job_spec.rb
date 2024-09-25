@@ -333,6 +333,27 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
           TABLE
         )
       end
+
+      context "when statuses are being excluded from progress calculation" do
+        it "recomputes totals without the values from work packages having the excluded status" do
+          expect_performing_job_changes(
+            from: <<~TABLE,
+              hierarchy    | status      | work | remaining work | % complete | ∑ work  | ∑ remaining work  | ∑ % complete
+              parent       | Excluded    |   4h |             4h |         0% |    90h  |               30h |          67%
+                child 1    | Excluded    |   9h |             9h |         0% |         |                   |
+                child 2    | Doing (40%) |   5h |             3h |        40% |         |                   |
+                child 3    | Done (100%) |   5h |             0h |       100% |         |                   |
+            TABLE
+            to: <<~TABLE
+              subject      | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+              parent       | Excluded    |   4h |             4h |         0% |    10h |               3h |          70%
+                child 1    | Excluded    |   9h |             9h |         0% |        |                  |
+                child 2    | Doing (40%) |   5h |             3h |        40% |        |                  |
+                child 3    | Done (100%) |   5h |             0h |       100% |        |                  |
+            TABLE
+          )
+        end
+      end
     end
 
     context "when a status is being excluded from progress calculation" do
