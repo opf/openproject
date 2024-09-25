@@ -9,7 +9,7 @@
 # when the hash of the last commit in the branch you set up changes. This does
 # NOT apply to ownership claim operations, which are processed immediately.
 #
-repositoryID: openproject
+repositoryID: 25516830-632d-470a-8eb8-6a5da9b48192
 owners:
   - name: oliverguenther
     email: o.guenther@openproject.com
