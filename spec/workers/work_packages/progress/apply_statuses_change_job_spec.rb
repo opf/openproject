@@ -132,6 +132,21 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob,
         )
       end
 
+      it "removes all totals when all work packages of the hierarchy are excluded" do
+        expect_performing_job_changes(
+          from: <<~TABLE,
+            hierarchy   | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            parent      | Excluded    |  10h |             3h |        70% |    20h |               5h |          75%
+              child     | Excluded    |  10h |             2h |        50% |        |                  |
+          TABLE
+          to: <<~TABLE
+            subject     | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            parent      | Excluded    |  10h |             3h |        70% |        |                  |
+              child     | Excluded    |  10h |             2h |        50% |        |                  |
+          TABLE
+        )
+      end
+
       it "keeps the totals unset if work, remaining work, and % complete are all nil" do
         expect_performing_job_changes(
           from: <<~TABLE,

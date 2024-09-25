@@ -212,6 +212,24 @@ RSpec.describe WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob do
       end
     end
 
+    context "when all work packages of the hierarchy are excluded" do
+      it "removes all totals" do
+        expect_performing_job_changes(
+          mode: "work_weighted_average",
+          from: <<~TABLE,
+            hierarchy   | status      | work | remaining work | % complete | ∑ % complete
+            parent      | Excluded    |  40h |            12h |        70% |          72%
+              child     | Excluded    |  10h |             2h |        80% |
+          TABLE
+          to: <<~TABLE
+            subject     | status      | work | remaining work | % complete | ∑ % complete
+            parent      | Excluded    |  40h |            12h |        70% |
+              child     | Excluded    |  10h |             2h |        80% |
+          TABLE
+        )
+      end
+    end
+
     describe "journal entries" do
       # rubocop:disable RSpec/ExampleLength
       it "creates journal entries for the modified work packages" do
@@ -391,6 +409,24 @@ RSpec.describe WorkPackages::Progress::ApplyTotalPercentCompleteModeChangeJob do
               child3        | Excluded |   5h  |    25h |             0h |              0h  |       100% |         70%
                 grandchild1 | New      |       |        |                |                  |        40% |
                 grandchild2 | New      |   20h |        |             0h |                  |       100% |
+          TABLE
+        )
+      end
+    end
+
+    context "when all work packages of the hierarchy are excluded" do
+      it "removes all totals" do
+        expect_performing_job_changes(
+          mode: "simple_average",
+          from: <<~TABLE,
+            hierarchy   | status      | % complete | ∑ % complete
+            parent      | Excluded    |         0% |           0%
+              child     | Excluded    |         0% |
+          TABLE
+          to: <<~TABLE
+            subject     | status      | % complete | ∑ % complete
+            parent      | Excluded    |         0% |
+              child     | Excluded    |         0% |
           TABLE
         )
       end
