@@ -36,11 +36,13 @@ export default class PollForChangesController extends ApplicationController {
     url: String,
     interval: Number,
     reference: String,
+    autoscrollEnabled: Boolean,
   };
 
   declare referenceValue:string;
   declare urlValue:string;
   declare intervalValue:number;
+  declare autoscrollEnabledValue:boolean;
 
   private interval:number;
 
@@ -53,8 +55,10 @@ export default class PollForChangesController extends ApplicationController {
       }, this.intervalValue || 10_000);
     }
 
-    window.addEventListener('beforeunload', this.rememberCurrentScrollPosition.bind(this));
-    window.addEventListener('DOMContentLoaded', this.autoscrollToLastKnownPosition.bind(this));
+    if (this.autoscrollEnabledValue) {
+      window.addEventListener('beforeunload', this.rememberCurrentScrollPosition.bind(this));
+      window.addEventListener('DOMContentLoaded', this.autoscrollToLastKnownPosition.bind(this));
+    }
   }
 
   disconnect() {
