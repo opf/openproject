@@ -799,7 +799,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
   describe "simple average mode for total % complete calculation",
            with_settings: { total_percent_complete_mode: "simple_average" } do
     subject(:call_result) do
-      described_class.new(user:, work_package: parent)
+      described_class.new(user:, work_package: initiator_work_package)
                       .call(%i(remaining_hours))
     end
 
@@ -811,6 +811,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
           child2  |  5h  |        |          2.5h  |                  |      50%   |
           child3  | 10h  |        |          2.5h  |                  |      75%   |
       TABLE
+      let(:initiator_work_package) { child3 }
 
       it "sets the total % complete solely based on % complete values of children and parent" do
         expect(call_result).to be_success
@@ -818,6 +819,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
         expect_work_packages(updated_work_packages, <<~TABLE)
           subject | total % complete
           parent  |              46%
+          child3  |
         TABLE
       end
     end
@@ -830,6 +832,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
           child2  |  5h  |        |           2.5h |                  |      50%   |
           child3  | 10h  |        |           2.5h |                  |      75%   |
       TABLE
+      let(:initiator_work_package) { child3 }
 
       it "sets the total % complete solely based on % complete values of children" do
         expect(call_result).to be_success
@@ -837,6 +840,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
         expect_work_packages(updated_work_packages, <<~TABLE)
           subject | total % complete
           parent  |              53%
+          child3  |
         TABLE
       end
     end
@@ -851,6 +855,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
           child2  |      |        |                |                  |      75%   |
           child3  | 10h  |        |           2.5h |                  |      75%   |
       TABLE
+      let(:initiator_work_package) { child2 }
 
       it "sets the total % complete solely based on % complete values of children" do
         expect(call_result).to be_success
@@ -858,6 +863,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
         expect_work_packages(updated_work_packages, <<~TABLE)
           subject | total % complete
           parent  |              61%
+          child2  |
         TABLE
       end
     end
@@ -872,6 +878,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
           child2  |      |        |                |                  |       100% |
           child3  |      |        |                |                  |        75% |
       TABLE
+      let(:initiator_work_package) { child1 }
 
       it "sets the total % complete solely based on % complete values of children" do
         expect(call_result).to be_success
@@ -879,6 +886,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
         expect_work_packages(updated_work_packages, <<~TABLE)
           subject | total % complete
           parent  |              92%
+          child1  |
         TABLE
       end
     end
@@ -893,6 +901,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
           child2  |      |        |                |                  |            |
           child3  |      |        |                |                  |        75% |
       TABLE
+      let(:initiator_work_package) { child1 }
 
       it "sets the total % complete solely based on % complete values of children " \
          "and accounts unset values in children as 0" do
@@ -901,6 +910,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
         expect_work_packages(updated_work_packages, <<~TABLE)
           subject | total % complete
           parent  |              58%
+          child1  |
         TABLE
       end
     end
@@ -915,6 +925,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
           child2  |      |        |                |                  |            |
           child3  |      |        |                |                  |        75% |
       TABLE
+      let(:initiator_work_package) { child1 }
 
       it "sets the total % complete based on % complete values of children and parent " \
          "and accounts unset values in children as 0" do
@@ -923,6 +934,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
         expect_work_packages(updated_work_packages, <<~TABLE)
           subject | total % complete
           parent  |              46%
+          child1  |
         TABLE
       end
     end
@@ -937,16 +949,19 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
             grandchild2 |  3h  |        |            1h  |                  |      67%   |
           child2        |  5h  |     7h |          2.5h  |            3.5h  |      50%   |         50%
             grandchild3 |  2h  |        |            1h  |                  |      50%   |
-          child3        | 10h  |    14h |          2.5h  |            3.5h  |      75%   |         75%
+          child3        | 10h  |    14h |          2.5h  |            3.5h  |      75%   |         11%
             grandchild4 |  4h  |        |            1h  |                  |      75%   |
       TABLE
+      let(:initiator_work_package) { grandchild4 }
 
       it "sets the total % complete solely based on % complete values of direct children" do
         expect(call_result).to be_success
         updated_work_packages = call_result.all_results
         expect_work_packages(updated_work_packages, <<~TABLE)
-          subject | total % complete
-          parent  |              56%
+          subject     | total % complete
+          parent      |               56%
+          child3      |               75%
+          grandchild4 |
         TABLE
       end
     end
@@ -961,17 +976,20 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
             grandchild2 |  3h  |        |            1h  |                  |        67% |
           child2        |  5h  |     7h |          2.5h  |            3.5h  |        50% |         75%
             grandchild3 |  2h  |        |            1h  |                  |       100% |
-          child3        | 10h  |    14h |          2.5h  |            3.5h  |        75% |         75%
+          child3        | 10h  |    14h |          2.5h  |            3.5h  |        75% |          0%
             grandchild4 |  4h  |        |            1h  |                  |        75% |
           child4        |      |        |                |                  |        60% |
       TABLE
+      let(:initiator_work_package) { grandchild4 }
 
       it "sets the total % complete solely based on % complete values of direct children" do
         expect(call_result).to be_success
         updated_work_packages = call_result.all_results
         expect_work_packages(updated_work_packages, <<~TABLE)
-          subject | total % complete
-          parent  |              53%
+          subject     | total % complete
+          parent      |              53%
+          child3      |               75%
+          grandchild4 |
         TABLE
       end
     end
@@ -988,16 +1006,19 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
           child2        | Rejected |  5h  |     7h |          2.5h  |            3.5h  |        50% |         75%
             grandchild3 | Open     |  2h  |        |            1h  |                  |       100% |
           child3        | Open     | 10h  |    14h |          2.5h  |            3.5h  |        75% |
-            grandchild4 | Rejected |  4h  |        |            1h  |                  |        75% |
+            grandchild4 | Rejected |  4h  |        |            1h  |                  |       100% |
           child4        | Open     |      |        |                |                  |        60% |
       TABLE
+      let(:initiator_work_package) { grandchild4 }
 
       it "sets the total % complete solely based on % complete values of direct children" do
         expect(call_result).to be_success
         updated_work_packages = call_result.all_results
         expect_work_packages(updated_work_packages, <<~TABLE)
-          subject | total % complete
-          parent  |              47%
+          subject     | total % complete
+          parent      |              47%
+          child3      |              75%
+          grandchild4 |
         TABLE
       end
     end

@@ -153,7 +153,7 @@ class WorkPackages::UpdateAncestorsService
   def children_done_ratio_values(work_package, loader)
     loader
       .children_of(work_package)
-      .reject(&:status_excluded_from_totals)
+      .filter(&:included_in_totals_calculation?)
       .map { |child| child.derived_done_ratio || child.done_ratio || 0 }
   end
 
