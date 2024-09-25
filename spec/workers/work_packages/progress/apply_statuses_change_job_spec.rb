@@ -325,8 +325,8 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob,
           TABLE
           to: <<~TABLE
             subject      | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
-            grandparent  | Doing (40%) |   1h |           0.6h |        40% |    20h |             8.6h |          38%
-              parent     | Doing (40%) |      |                |        40% |    19h |               8h |          35%
+            grandparent  | Doing (40%) |   1h |           0.6h |        40% |    20h |             8.6h |          42%
+              parent     | Doing (40%) |      |                |        40% |    19h |               8h |          45%
                 child 1  | Done (100%) |   9h |             0h |       100% |        |                  |
                 child 2  | Doing (40%) |   5h |             3h |        40% |        |                  |
                 child 3  | To do (0%)  |   5h |             5h |         0% |        |                  |

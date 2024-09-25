@@ -32,8 +32,10 @@ module WorkPackages::Progress::SqlCommands
   def with_temporary_progress_table
     WorkPackage.transaction do
       create_temporary_progress_table
+      create_temporary_depth_table
       yield
     ensure
+      drop_temporary_depth_table
       drop_temporary_progress_table
     end
   end
@@ -42,15 +44,18 @@ module WorkPackages::Progress::SqlCommands
     execute(<<~SQL.squish)
       CREATE UNLOGGED TABLE temp_wp_progress_values
       AS SELECT
-        id,
+        work_packages.id,
+        parent_id as parent_id,
         status_id,
         estimated_hours,
         remaining_hours,
         done_ratio,
+        statuses.excluded_from_totals AS status_excluded_from_totals,
         NULL::double precision AS total_work,
         NULL::double precision AS total_remaining_work,
         NULL::integer AS total_p_complete
       FROM work_packages
+      LEFT JOIN statuses ON work_packages.status_id = statuses.id
     SQL
   end
 
@@ -95,11 +100,11 @@ module WorkPackages::Progress::SqlCommands
     execute(<<~SQL.squish)
       CREATE UNLOGGED TABLE temp_wp_progress_values AS
       SELECT
-      	work_packages.id as id,
-      	work_packages.parent_id as parent_id,
-      	statuses.excluded_from_totals AS status_excluded_from_totals,
-      	done_ratio AS p_complete,
-      	NULL::INTEGER AS total_p_complete
+        work_packages.id as id,
+        work_packages.parent_id as parent_id,
+        statuses.excluded_from_totals AS status_excluded_from_totals,
+        done_ratio AS p_complete,
+        NULL::INTEGER AS total_p_complete
       FROM work_packages
       LEFT JOIN statuses ON work_packages.status_id = statuses.id
     SQL
@@ -179,14 +184,20 @@ module WorkPackages::Progress::SqlCommands
   # Computes total work, total remaining work and total % complete for all work
   # packages having children.
   def update_totals
+    update_work_and_remaining_work_totals
+    if Setting.total_percent_complete_mode == "work_weighted_average"
+      update_total_percent_complete_in_work_weighted_average_mode
+    elsif Setting.total_percent_complete_mode == "simple_average"
+      update_total_percent_complete_in_work_weighted_average_mode
+      update_total_percent_complete_in_simple_average_mode
+    end
+  end
+
+  def update_work_and_remaining_work_totals
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
       SET total_work = totals.total_work,
-          total_remaining_work = totals.total_remaining_work,
-          total_p_complete = CASE
-            WHEN totals.total_work = 0 THEN NULL
-            ELSE (1 - (totals.total_remaining_work / totals.total_work)) * 100
-          END
+          total_remaining_work = totals.total_remaining_work
       FROM (
         SELECT wp_tree.ancestor_id AS id,
                SUM(estimated_hours) AS total_work,
@@ -204,6 +215,93 @@ module WorkPackages::Progress::SqlCommands
         GROUP BY id
         HAVING MAX(generations) > 0
       )
+    SQL
+  end
+
+  def update_total_percent_complete_in_work_weighted_average_mode
+    execute(<<~SQL.squish)
+      UPDATE temp_wp_progress_values
+      SET total_p_complete = CASE
+        WHEN total_work = 0 THEN NULL
+        ELSE (1 - (total_remaining_work / total_work)) * 100
+      END
+      WHERE id IN (
+        SELECT ancestor_id AS id
+        FROM work_package_hierarchies
+        GROUP BY id
+        HAVING MAX(generations) > 0
+      )
+    SQL
+  end
+
+  def update_total_percent_complete_in_simple_average_mode
+    execute(<<~SQL.squish)
+      DO $$
+      DECLARE
+        min_depth INTEGER := 0;
+        max_depth INTEGER := (SELECT MAX(depth) FROM temp_work_package_depth);
+        current_depth INTEGER := min_depth;
+      BEGIN
+        /* Navigate work packages and perform updates bottom-up */
+        while current_depth <= max_depth loop
+      UPDATE temp_wp_progress_values wp
+      SET
+        total_p_complete = CASE
+          WHEN current_depth = min_depth THEN NULL
+          ELSE ROUND(
+            (
+              /* Exclude the current work package if it has a status excluded from totals */
+              CASE WHEN wp.status_excluded_from_totals
+              THEN 0
+              /* Otherwise, use the current work package's % complete value or 0 if unset */
+              ELSE COALESCE(wp.done_ratio, 0)
+              END + (
+                SELECT
+                  SUM(
+                    COALESCE(child_wp.total_p_complete, child_wp.done_ratio, 0)
+                  )
+                FROM
+                  temp_wp_progress_values child_wp
+                WHERE
+                  child_wp.parent_id = wp.id
+                  /* Exclude children with a status excluded from totals */
+                  AND NOT child_wp.status_excluded_from_totals
+              )
+              ) / (
+              /* Exclude the current work package if it has a status excluded from totals */
+              CASE WHEN wp.status_excluded_from_totals
+              THEN 0
+              /* Otherwise, count the current work package if it has a % complete value set */
+              ELSE(CASE WHEN wp.done_ratio IS NOT NULL THEN 1 ELSE 0 END)
+              END + (
+                SELECT
+                  COUNT(1)
+                FROM
+                  temp_wp_progress_values child_wp
+                WHERE
+                  child_wp.parent_id = wp.id
+                  /* Exclude children with a status excluded from totals */
+                  AND NOT child_wp.status_excluded_from_totals
+              )
+            )
+          )
+        END
+      /* Select only work packages at the curren depth */
+      WHERE
+        wp.id IN (
+          SELECT
+            id
+          FROM
+            temp_work_package_depth
+          WHERE
+            depth = current_depth
+        );
+
+      /* Go up a level from a child to a parent*/
+      current_depth := current_depth + 1;
+
+      END loop;
+      END $$;
     SQL
   end
 
