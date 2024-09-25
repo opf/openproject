@@ -65,7 +65,7 @@ RSpec.describe "API V3 Authentication" do
 
       it "returns unauthorized" do
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq('Bearer realm="OpenProject API" error="invalid_token"')
+        expect(last_response.header["WWW-Authenticate"]).to eq('Bearer realm="OpenProject API", error="invalid_token"')
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -76,7 +76,7 @@ RSpec.describe "API V3 Authentication" do
 
       it "returns unauthorized" do
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq('Bearer realm="OpenProject API" error="invalid_token"')
+        expect(last_response.header["WWW-Authenticate"]).to eq('Bearer realm="OpenProject API", error="invalid_token"')
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -93,7 +93,7 @@ RSpec.describe "API V3 Authentication" do
 
       it "returns unauthorized" do
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq('Bearer realm="OpenProject API" error="invalid_token"')
+        expect(last_response.header["WWW-Authenticate"]).to eq('Bearer realm="OpenProject API", error="invalid_token"')
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -104,7 +104,7 @@ RSpec.describe "API V3 Authentication" do
 
       it "returns forbidden" do
         expect(last_response).to have_http_status :forbidden
-        expect(last_response.header["WWW-Authenticate"]).to eq('Bearer realm="OpenProject API" error="insufficient_scope"')
+        expect(last_response.header["WWW-Authenticate"]).to eq('Bearer realm="OpenProject API", error="insufficient_scope"')
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -120,7 +120,7 @@ RSpec.describe "API V3 Authentication" do
 
       it "returns unauthorized" do
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq('Bearer realm="OpenProject API" error="invalid_token"')
+        expect(last_response.header["WWW-Authenticate"]).to eq('Bearer realm="OpenProject API", error="invalid_token"')
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -414,7 +414,8 @@ RSpec.describe "API V3 Authentication" do
       it do
         get resource
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq("Bearer realm=\"OpenProject API\" error=\"invalid_token\" error_description=\"The access token issuer is unknown\"")
+        expect(last_response.header["WWW-Authenticate"])
+          .to eq(%{Bearer realm="OpenProject API", error="invalid_token", error_description="The access token issuer is unknown"})
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -422,13 +423,16 @@ RSpec.describe "API V3 Authentication" do
     context "when token is issued by provider configured in OP" do
       context "when token signature algorithm is not supported" do
         let(:token) do
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJpc3MiOiJodHRwczovL2tleWNsb2FrLmxvY2FsL3JlYWxtcy9tYXN0ZXIifQ.Pwod8ZJqq3jWsbnrGw4ZU1-aLS2bSicb8PgiF78JHUc"
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5" \
+            "MDIyLCJpc3MiOiJodHRwczovL2tleWNsb2FrLmxvY2FsL3JlYWxtcy9tYXN0ZXIifQ.Pwod8ZJqq3jWsbnrGw4ZU1-aLS2bSicb8PgiF78JHUc"
         end
 
         it do
           get resource
           expect(last_response).to have_http_status :unauthorized
-          expect(last_response.header["WWW-Authenticate"]).to eq("Bearer realm=\"OpenProject API\" error=\"invalid_token\" error_description=\"Token signature algorithm is not supported\"")
+          error = "Token signature algorithm is not supported"
+          expect(last_response.header["WWW-Authenticate"])
+            .to eq(%{Bearer realm="OpenProject API", error="invalid_token", error_description="#{error}"})
           expect(JSON.parse(last_response.body)).to eq(error_response_body)
         end
       end
@@ -455,7 +459,9 @@ RSpec.describe "API V3 Authentication" do
                 get resource
               end
               expect(last_response).to have_http_status :unauthorized
-              expect(last_response.header["WWW-Authenticate"]).to eq('Bearer realm="OpenProject API" error="invalid_token" error_description="The access token audience claim is wrong"')
+              error = "The access token audience claim is wrong"
+              expect(last_response.header["WWW-Authenticate"])
+                .to eq(%{Bearer realm="OpenProject API", error="invalid_token", error_description="#{error}"})
               expect(JSON.parse(last_response.body)).to eq(error_response_body)
             end
           end
@@ -481,7 +487,8 @@ RSpec.describe "API V3 Authentication" do
             end
 
             expect(last_response).to have_http_status :unauthorized
-            expect(last_response.header["WWW-Authenticate"]).to eq('Bearer realm="OpenProject API" error="invalid_token" error_description="The access token expired"')
+            expect(last_response.header["WWW-Authenticate"])
+              .to eq(%{Bearer realm="OpenProject API", error="invalid_token", error_description="The access token expired"})
             expect(JSON.parse(last_response.body)).to eq(error_response_body)
           end
 
@@ -521,7 +528,9 @@ RSpec.describe "API V3 Authentication" do
           end
           expect(last_response).to have_http_status :unauthorized
           expect(JSON.parse(last_response.body)).to eq(error_response_body)
-          expect(last_response.header["WWW-Authenticate"]).to eq('Bearer realm="OpenProject API" error="invalid_token" error_description="The access token signature kid is unknown"')
+          error = "The access token signature kid is unknown"
+          expect(last_response.header["WWW-Authenticate"])
+            .to eq(%{Bearer realm="OpenProject API", error="invalid_token", error_description="#{error}"})
         end
       end
     end
