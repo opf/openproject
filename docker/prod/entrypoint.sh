@@ -5,6 +5,11 @@ set -o pipefail
 
 APACHE_PIDFILE=/run/apache2/apache2.pid
 
+# Use jemalloc at runtime
+if [ "$USE_JEMALLOC" = "true" ]; then
+	export LD_PRELOAD=libjemalloc.so.2
+fi
+
 # handle legacy configs
 if [ -f "/var/lib/postgresql/9.6/main/PG_VERSION" ]; then
 	echo "ERROR: You are using a legacy volume path for your postgres data. You should mount your postgres volumes at $PGDATA instead of /var/lib/postgresql/9.6/main"

@@ -91,12 +91,12 @@ class WorkPackages::Pre144ProgressForm < ApplicationForm
 
         group.hidden(name: :status_id_touched,
                      value: @touched_field_map["status_id_touched"] || false,
-                     data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
-                             "referrer-field": "work_package[status_id]" })
+                     data: { "work-packages--progress--preview-target": "touchedFieldInput",
+                             "referrer-field": "status_id" })
         group.hidden(name: :estimated_hours_touched,
                      value: @touched_field_map["estimated_hours_touched"] || false,
-                     data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
-                             "referrer-field": "work_package[estimated_hours]" })
+                     data: { "work-packages--progress--preview-target": "touchedFieldInput",
+                             "referrer-field": "estimated_hours" })
       else
         render_text_field(group, name: :estimated_hours, label: I18n.t(:label_work))
         render_text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work),
@@ -105,12 +105,12 @@ class WorkPackages::Pre144ProgressForm < ApplicationForm
 
         group.hidden(name: :estimated_hours_touched,
                      value: @touched_field_map["estimated_hours_touched"] || false,
-                     data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
-                             "referrer-field": "work_package[estimated_hours]" })
+                     data: { "work-packages--progress--preview-target": "touchedFieldInput",
+                             "referrer-field": "estimated_hours" })
         group.hidden(name: :remaining_hours_touched,
                      value: @touched_field_map["remaining_hours_touched"] || false,
-                     data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
-                             "referrer-field": "work_package[remaining_hours]" })
+                     data: { "work-packages--progress--preview-target": "touchedFieldInput",
+                             "referrer-field": "remaining_hours" })
       end
       group.fields_for(:initial) do |builder|
         ::WorkPackages::ProgressForm::InitialValuesForm.new(builder, work_package:, mode:)
@@ -195,12 +195,11 @@ class WorkPackages::Pre144ProgressForm < ApplicationForm
   end
 
   def default_field_options(name)
-    data = { "work-packages--progress--preview-progress-target": "progressInput",
-             "work-packages--progress--touched-field-marker-target": "progressInput",
-             action: "input->work-packages--progress--touched-field-marker#markFieldAsTouched" }
+    data = { "work-packages--progress--preview-target": "progressInput",
+             action: "input->work-packages--progress--preview#markFieldAsTouched" }
 
     if @focused_field == name
-      data[:"work-packages--progress--focus-field-target"] = "fieldToFocus"
+      data[:focus] = "true"
     end
     { data: }
   end

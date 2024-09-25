@@ -611,7 +611,9 @@ sv:
         mentioned: "Mentioned"
         watched: "Bevakare"
         assigned: "Tilldelad till"
-        accountable: "Huvudansvarig"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "Skapad"
         scheduled: "Schemalagt"
         commented: "Kommenterade"

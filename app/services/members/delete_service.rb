@@ -60,4 +60,13 @@ class Members::DeleteService < BaseServices::Delete
       .new(member.principal, current_user: user, contract_class: EmptyContract)
       .call
   end
+
+  def default_contract_class
+    # We have different contracts for project roles and global roles
+    if model.project_role?
+      "#{namespace}::DeleteFromProjectContract".constantize
+    else
+      "#{namespace}::DeleteGloballyContract".constantize
+    end
+  end
 end

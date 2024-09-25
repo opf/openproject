@@ -41,7 +41,7 @@ class WorkPackages::SetAttributesService
 
     # From this point, copied over from 109b135b:app/services/work_packages/set_attributes_service.rb#L287-L427
     def update_progress_attributes
-      if WorkPackage.use_status_for_done_ratio?
+      if WorkPackage.status_based_mode?
         update_done_ratio
         update_remaining_hours
       elsif only_percent_complete_initially_set?
@@ -73,7 +73,7 @@ class WorkPackages::SetAttributesService
     # Unless both +remaining_hours+ and +estimated_hours+ are set, +done_ratio+ will be
     # considered nil.
     def update_done_ratio
-      if WorkPackage.use_status_for_done_ratio?
+      if WorkPackage.status_based_mode?
         return unless work_package.status_id_changed?
 
         work_package.done_ratio = work_package.status.default_done_ratio
@@ -133,7 +133,7 @@ class WorkPackages::SetAttributesService
     end
 
     def update_estimated_hours
-      return unless WorkPackage.use_field_for_done_ratio?
+      return unless WorkPackage.work_based_mode?
       return if work_package.estimated_hours_came_from_user?
       return unless work_package.remaining_hours_changed?
 
@@ -151,9 +151,9 @@ class WorkPackages::SetAttributesService
     # unset the remaining hours.
     # rubocop:disable Metrics/PerceivedComplexity
     def update_remaining_hours
-      if WorkPackage.use_status_for_done_ratio?
+      if WorkPackage.status_based_mode?
         update_remaining_hours_from_percent_complete
-      elsif WorkPackage.use_field_for_done_ratio? &&
+      elsif WorkPackage.work_based_mode? &&
         work_package.estimated_hours_changed?
         return if work_package.remaining_hours_came_from_user?
         return if work_package.estimated_hours&.negative?

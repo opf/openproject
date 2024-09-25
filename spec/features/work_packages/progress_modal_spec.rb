@@ -223,9 +223,23 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
 
         it "can create work package after setting work" do
           work_package_create_page.visit!
+          work_package_create_page.expect_fully_loaded
+
+          progress_popover.open
+          progress_popover.set_values(work: "invalid")
+          progress_popover.expect_values(remaining_work: "")
+          progress_popover.expect_errors(work: "Is not a valid duration.")
+
+          # The modal does not go away when clicking Save until all fields are valid
+          3.times do
+            progress_popover.save
+            sleep 0.2
+            progress_popover.expect_errors(work: "Is not a valid duration.")
+          end
+          progress_popover.set_values(work: "10h")
+          progress_popover.save
 
           work_package_create_page.set_attributes({ subject: "hello" })
-          work_package_create_page.set_progress_attributes({ estimatedTime: "10h" })
           work_package_create_page.save!
           work_package_table.expect_and_dismiss_toaster(message: "Successful creation.", wait: 5)
 
@@ -264,6 +278,25 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
 
           work_package_create_page.save!
           work_package_table.expect_and_dismiss_toaster(message: "Successful creation.")
+        end
+
+        it "updates remaining work when status is changed" do
+          work_package_create_page.visit!
+          work_package_create_page.set_attributes({ subject: "hello" })
+
+          progress_popover.open
+          progress_popover.expect_hints(work: nil, remaining_work: nil)
+          progress_popover.set_values(work: "14h")
+          progress_popover.expect_values(remaining_work: "14h")
+          progress_popover.expect_hints(remaining_work: :derived)
+          progress_popover.save
+
+          status_field = work_package_create_page.edit_field(:status)
+          status_field.update("in progress")
+
+          progress_popover.open
+          progress_popover.expect_values(work: "14h", remaining_work: "7h")
+          progress_popover.expect_hints(remaining_work: :derived)
         end
       end
     end
@@ -383,6 +416,28 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
             remaining_work: "",
             percent_complete: ""
           )
+        end
+      end
+
+      context "with invalid values" do
+        before do
+          update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil, done_ratio: nil)
+        end
+
+        it "does not close the modal when clicking save multiple times (Bug #57423)" do
+          visit_progress_query_displaying_work_package
+
+          progress_popover.open
+          progress_popover.set_values(work: "invalid")
+          progress_popover.expect_values(remaining_work: "")
+          progress_popover.expect_errors(work: "Is not a valid duration.")
+
+          # The modal does not go away when clicking save
+          3.times do
+            progress_popover.save
+            sleep 0.2
+            progress_popover.expect_errors(work: "Is not a valid duration.")
+          end
         end
       end
 

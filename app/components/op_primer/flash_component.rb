@@ -26,16 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Members
-  class DeleteContract < ::DeleteContract
-    delete_permission :manage_members
+module OpPrimer
+  class FlashComponent < Primer::Alpha::Banner
+    include ApplicationHelper
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-    validate :member_is_deletable
+    def initialize(**system_arguments)
+      @unique_key = system_arguments.delete(:unique_key)
 
-    private
+      system_arguments[:test_selector] ||= "primer-banner-message-component"
+      system_arguments[:dismiss_scheme] ||= :remove
+      system_arguments[:dismiss_label] ||= I18n.t(:button_close)
 
-    def member_is_deletable
-      errors.add(:base, :not_deletable) unless model.some_roles_deletable?
+      super
     end
   end
 end

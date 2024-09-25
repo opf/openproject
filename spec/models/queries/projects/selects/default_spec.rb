@@ -1,4 +1,4 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -24,28 +24,26 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class BannerMessageComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-  def initialize(message: nil,
-                 full: true,
-                 full_when_narrow: false,
-                 dismiss_scheme: :hide,
-                 dismiss_label: I18n.t("button_close"),
-                 icon: false,
-                 scheme: :default,
-                 test_selector: "primer-banner-message-component")
-    super
+require "spec_helper"
 
-    @message = message
-    @full = full
-    @full_when_narrow = full_when_narrow
-    @dismiss_scheme = dismiss_scheme
-    @dismiss_label = dismiss_label
-    @icon = icon
-    @scheme = scheme
-    @test_selector = test_selector
+RSpec.describe Queries::Projects::Selects::Default do
+  describe ".key" do
+    define_negated_matcher :not_match, :match
+
+    let(:keys) { described_class::KEYS }
+
+    it "matches every key" do
+      expect(keys).to all(match(described_class.key))
+    end
+
+    it "doesn't match any key with prefix" do
+      expect(keys.map { "x#{_1}" }).to all(not_match(described_class.key))
+    end
+
+    it "doesn't match any key with suffix" do
+      expect(keys.map { "#{_1}x" }).to all(not_match(described_class.key))
+    end
   end
-
-  attr_reader :message, :full, :full_when_narrow, :dismiss_scheme, :dismiss_label, :icon, :scheme, :test_selector
 end

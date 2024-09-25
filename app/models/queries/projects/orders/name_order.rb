@@ -33,10 +33,6 @@ class Queries::Projects::Orders::NameOrder < Queries::Orders::Base
     :name
   end
 
-  def apply_to(_query_scope)
-    super.select("projects.*", "lower(projects.name)")
-  end
-
   private
 
   def order(scope)

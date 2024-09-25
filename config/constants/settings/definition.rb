@@ -741,6 +741,11 @@ module Settings
       per_page_options: {
         default: "20, 100"
       },
+      percent_complete_on_status_closed: {
+        description: "Describes how % complete should change when setting a work package status to a closed one",
+        default: "no_change",
+        allowed: %w[no_change set_100p]
+      },
       plain_text_mail: {
         default: false
       },

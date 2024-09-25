@@ -26,36 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class FlashMessageComponent < ApplicationComponent
-  include ApplicationHelper
-  include OpTurbo::Streamable
-  include OpPrimer::ComponentHelpers
-
-  def initialize(message: nil, full: false, dismiss_scheme: :none, icon: nil, scheme: :default)
-    super
-
-    @message = message
-    @full = full
-    @dismiss_scheme = dismiss_scheme
-    @icon = icon
-    @scheme = scheme
-  end
-
-  def call
-    component_wrapper do
-      # even without provided message, the wrapper should be  rendered as this allows
-      # for triggering a flash message via turbo stream
-      if @message.present?
-        flash_partial
-      end
-    end
-  end
-
-  private
-
-  def flash_partial
-    render(Primer::Alpha::Banner.new(
-             full: @full, dismiss_scheme: @dismiss_scheme, icon: @icon, scheme: @scheme
-           )) { @message }
+module Members
+  class DeleteFromProjectContract < DeleteBaseContract
+    delete_permission :manage_members
   end
 end

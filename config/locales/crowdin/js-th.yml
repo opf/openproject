@@ -612,7 +612,9 @@ th:
         mentioned: "Mentioned"
         watched: "ผู้ดูข้อมูล"
         assigned: "ผู้ได้รับมอบหมาย"
-        accountable: "Accountable"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "ที่ถูกสร้างขึ้น"
         scheduled: "Scheduled"
         commented: "แสดงความเห็น"

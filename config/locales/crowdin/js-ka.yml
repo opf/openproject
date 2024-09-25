@@ -612,7 +612,9 @@ ka:
         mentioned: "მოხსენიებულები"
         watched: "მეთვალყურე"
         assigned: "დამსაქმებელი"
-        accountable: "ანგარიშვალდებული"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "შეიქმნა"
         scheduled: "დაგეგმილია"
         commented: "კომენტარით"

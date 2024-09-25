@@ -611,7 +611,9 @@ da:
         mentioned: "Mentioned"
         watched: "Tilsynsførende"
         assigned: "Tildelt"
-        accountable: "Accountable"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "Oprettet"
         scheduled: "Planlagt"
         commented: "Kommenterede"

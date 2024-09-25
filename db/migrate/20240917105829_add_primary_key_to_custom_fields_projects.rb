@@ -26,18 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ApplicationComponentStreams
-  extend ActiveSupport::Concern
-
-  included do
-    def render_error_flash_message_via_turbo_stream(**kwargs)
-      update_flash_message_via_turbo_stream(**kwargs.merge(scheme: :danger, icon: :stop))
-    end
-
-    def update_flash_message_via_turbo_stream(**)
-      replace_via_turbo_stream(
-        component: FlashMessageComponent.new(**)
-      )
-    end
+class AddPrimaryKeyToCustomFieldsProjects < ActiveRecord::Migration[7.1]
+  def change
+    # NOTE: Manually backfilling the `id` column is not necessary as the BIGSERIAL primary key will auto-populate
+    # the existing records with auto-incrementing values
+    add_column :custom_fields_projects, :id, :primary_key # rubocop:disable Rails/DangerousColumnNames
   end
 end

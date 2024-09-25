@@ -73,7 +73,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     service_result = call_update_service
 
     if service_result.success?
-      flash[:primer_banner] = {
+      flash[:op_primer_flash] = {
         message: I18n.t(:"storages.notice_successful_storage_connection"),
         scheme: :success
       }
