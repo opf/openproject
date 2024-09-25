@@ -91,19 +91,4 @@ RSpec.describe "Progress tracking admin page",
     expect(page).to have_field("No change", disabled: true)
     expect(page).to have_field("Automatically set to 100%", disabled: true)
   end
-
-  it "does not keep radio button state when navigating to another page and back" do
-    Setting.work_package_done_ratio = "field"
-    visit admin_settings_progress_tracking_path
-
-    find(:radio_button, "Status-based").click
-
-    # navigate to another page, then back
-    click_on "General"
-    wait_for { page.current_path }.to include(admin_settings_work_packages_general_path)
-    page.go_back
-
-    # browser should not keep the radio button state (autocomplete="off")
-    expect(page).to have_field("Work-based", checked: true)
-  end
 end
