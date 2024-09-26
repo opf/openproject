@@ -118,8 +118,6 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="content-overlay"></div>
     <%= content_tag :main, id: "content-wrapper", class: initial_classes, data: stimulus_content_data do %>
       <%= render partial: "layouts/flashes" %>
-      <%# Flash modals render modal components %>
-      <%= render_flash_modal %>
       <% if show_onboarding_modal? %>
         <section data-augmented-model-wrapper
                  data-modal-initialize-now="true"

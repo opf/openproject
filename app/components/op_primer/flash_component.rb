@@ -39,6 +39,8 @@ module OpPrimer
       system_arguments[:dismiss_scheme] ||= :remove
       system_arguments[:dismiss_label] ||= I18n.t(:button_close)
 
+      @autohide = system_arguments[:scheme] == :success && system_arguments[:dismiss_scheme] != :none
+
       super
     end
   end
