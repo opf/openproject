@@ -32,7 +32,7 @@ module Storages::ProjectStorages
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(storage:, project_storage:, params:)
+    def initialize(storage:, project_storage:, params: {})
       super
 
       @storage = storage
