@@ -90,6 +90,9 @@ zh-CN:
         remote_folders: '读取组文件夹的内容：'
         rename_project_folder: '重命名托管项目文件夹：'
     errors:
+      messages:
+        error: 发生意外错误。请检查日志获取更多信息或联系管理员
+        unauthorized: 无法通过存储提供商进行身份验证。请确保您有访问权限。
       models:
         copy_project_folders_service:
           conflict: '%{destination_path} 文件夹已经存在。中断进程以避免覆盖。'
@@ -146,6 +149,8 @@ zh-CN:
           not_allowed: OpenProject 未被允许访问您的 OneDrive 驱动器。请检查 Azure 应用程序上设置的权限。
           unauthorized: OpenProject 无法与 Nextcloud 同步。请检查您的存储设备和 Nextcloud  配置。
           user_does_not_exist: "在 Nextcloud 中不存在 %{user}  。"
+        upload_link_service:
+          not_found: '%{storage_name} 上找不到目标文件夹 %{folder} 。'
   storages:
     buttons:
       complete_without_setup: 没有它就完成
@@ -209,6 +214,7 @@ zh-CN:
         client_id_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
         client_secret_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
         drive_id_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
+        group_folder_not_found: 无法找到组文件夹。
         group_folder_version_mismatch: 不受支持的组文件夹版本。请更新您的 Nextcloud 服务器。
         host_not_found: 在配置的主机 URL 中找不到 Nextcloud 服务器。请检查配置。
         missing_dependencies: '文件存储缺少一个必需的依赖项。请添加以下依赖项： %{dependency}.'
@@ -216,7 +222,9 @@ zh-CN:
         placeholder: 检查您与服务器的连接。
         subtitle: 连接验证
         tenant_id_wrong: 已配置的 OAuth 2 客户端ID无效。请检查配置。
-        unexpected_content: 硬盘中发现意外内容。
+        unexpected_content:
+          nextcloud: 在管理组文件夹中发现意外内容。
+          one_drive: 在驱动器中发现意外内容。
         unknown_error: 连接无法验证。出现未知错误。请查看服务器日志以获取更多信息。
       label_error: 错误
       label_healthy: 健康

@@ -612,7 +612,9 @@ ar:
         mentioned: "Mentioned"
         watched: "المشاهد"
         assigned: "المُسند إليه"
-        accountable: "Accountable"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "تم إنشاؤه"
         scheduled: "مُجدول"
         commented: "علّق"

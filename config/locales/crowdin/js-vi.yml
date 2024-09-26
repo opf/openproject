@@ -612,7 +612,9 @@ vi:
         mentioned: "nhắc đến"
         watched: "người theo dõi"
         assigned: "người được giao"
-        accountable: "Có trách nhiệm"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "được tạo"
         scheduled: "được lên lịch"
         commented: "bình luận"

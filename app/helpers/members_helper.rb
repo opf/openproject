@@ -36,11 +36,13 @@ module MembersHelper
     if member.roles.length == 1
       link_to("",
               principal_membership_path(member.principal, member),
-              { method: :delete, class: "icon icon-delete", title: t(:button_delete) })
+              { method: :delete, class: "icon icon-delete", title: t(:button_delete),
+                data: { "test-selector" => "delete-global-role" } })
     else
       link_to("",
               principal_membership_path(member.principal, member, "membership[role_ids]" => member.roles - [role]),
-              { method: :patch, class: "icon icon-delete", title: t(:button_delete) })
+              { method: :patch, class: "icon icon-delete", title: t(:button_delete),
+                data: { "test-selector" => "delete-global-role" } })
     end
   end
 

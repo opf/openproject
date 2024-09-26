@@ -31,6 +31,9 @@ lt:
     custom_styles:
       color_theme: "Spalvų tema"
       color_theme_custom: "(Pasirinktinis)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Pagrindinis mygtukas"
         accent-color: "Akcentas"
@@ -79,6 +82,7 @@ lt:
         contact: "Susisiekite su mumis dėl demonstracijos"
       enterprise_info_html: "yra Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'> priedas."
       upgrade_info: "Prašome atsinaujinti į mokamą planą, kad aktyvuotumėte ir pradėtumėte ji naudoti savo komandoje."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Visi atskiri naudotojo veiksmai (t.y. darbų paketo atnaujinimas du kartus) yra sugrupuojami į vieną veiksmą, jei laiko tarpas tarp jų yra mažesnis už šį nustatymą. Programoje jie bus rodomi kaip vienas veiksmas. Tiek pat bus pavėlinti ir pranešimai. Dėl to sumažės siunčiamų el.laiškų skaičius ir taipogi įtakos %{webhook_link} delsimą."
@@ -928,6 +932,8 @@ lt:
             name:
               blank: "yra privalomas. Prašome pasirinkti pavadinimą."
               not_unique: "jau naudojamas. Prašome pasirinkti kitą pavadinimą."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Turi būti nurodytas bent vienas kanalas pranešimų siuntimui."
           attributes:
@@ -1709,7 +1715,7 @@ lt:
   error_menu_item_not_saved: Meniu punktas negali būti išsaugotas
   error_wiki_root_menu_item_conflict: >
     Negalima pervadinti „%{old_name}“ į „%{new_name}“ dėl konflikto su esamu meniu punktu „%{existing_caption}“ (%{existing_identifier}).
-  error_external_authentication_failed: "Įvyko klaida vykstant išorinei autentifikacijai. Bandykite dar kartą."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Atributai, kurių negalima paryškinti: %{attributes}"
   events:
     changeset: "Pakeitimų paketas redaguotas"
@@ -1881,7 +1887,7 @@ lt:
       progress_mode_changed_to_status_based: Nustatytas eigos skaičiavimo režimas priklausantis-nuo-būsenos
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           Nuo dabar, su failų nuorodomis (failais, saugomais išorinse saugyklose) susiję veiksmai bus rodomi Veiksmų kortelėje. Žemiau pateikiamas jau egzistavusių nuorodų veiksmų sąrašas:
@@ -1990,7 +1996,8 @@ lt:
   label_additional_workflow_transitions_for_assignee: "Papildomi darbų eigos variantai leistini, kai darbas paskirtas vartotojui"
   label_additional_workflow_transitions_for_author: "Papildomi darbų eigos variantai leistini, kai vartotojas yra autorius"
   label_administration: "Administravimas"
-  label_advanced_settings: "Išplėstiniai nustatymai"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Amžius"
   label_ago: "dienų prieš"
   label_all: "visi"
@@ -2104,6 +2111,7 @@ lt:
   label_custom_field_plural: "Pritaikyti laukai"
   label_custom_field_default_type: "Tuščias tipas"
   label_custom_style: "Išvaizda"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Skydelis"
   label_database_version: "PostgreSQL versija"
   label_date: "Data"
@@ -2225,8 +2233,8 @@ lt:
   label_share_project_list: "Share project list"
   label_share_work_package: "Dalintis darbo paketu"
   label_show_all_registered_users: "Rodyti visus registruotus vartotojus"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Žurnalas"
   label_journal_diff: "Aprašymų palyginimas"
   label_language: "Kalba"
@@ -3229,6 +3237,13 @@ lt:
   setting_password_min_length: "Minimalus ilgis"
   setting_password_min_adhered_rules: "Minimalus reikalingų klasių skaičius"
   setting_per_page_options: "Įrašų puslapyje nustatymai"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Tik tekstas laiške (be HTML)"
   setting_protocol: "Protokolas"
   setting_project_gantt_query: "Projektų portfelio Gantt diagrama"

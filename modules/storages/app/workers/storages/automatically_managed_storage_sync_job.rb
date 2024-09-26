@@ -52,7 +52,7 @@ module Storages
       end
     end
 
-    def self.key(storage) = "sync-#{storage.short_provider_type}-#{storage.id}"
+    def self.key(storage) = "sync-#{storage}-#{storage.id}"
 
     def perform(storage)
       return unless storage.configured? && storage.automatically_managed?

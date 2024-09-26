@@ -31,6 +31,9 @@ et:
     custom_styles:
       color_theme: "Värviteema"
       color_theme_custom: "(Kohandatud)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
         accent-color: "Accent"
@@ -79,6 +82,7 @@ et:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
@@ -917,6 +921,8 @@ et:
             name:
               blank: "is mandatory. Please select a name."
               not_unique: "is already in use. Please select another name."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "At least one channel for sending notifications needs to be specified."
           attributes:
@@ -1642,7 +1648,7 @@ et:
   error_menu_item_not_saved: Menüü üksust ei saanud salvestada
   error_wiki_root_menu_item_conflict: >
     Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
     changeset: "Toimikut on muudetud"
@@ -1814,7 +1820,7 @@ et:
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1923,7 +1929,8 @@ et:
   label_additional_workflow_transitions_for_assignee: "Täiendavad üleminekud on lubatud juhul kui kasutaja on tööpaketi teostaja"
   label_additional_workflow_transitions_for_author: "Täiendavad üleminekud on lubatud juhul kui kasutaja on tööpaketi autor"
   label_administration: "Haldamine"
-  label_advanced_settings: "Täpsemad seaded"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Vanus"
   label_ago: "päeva tagasi"
   label_all: "kõik"
@@ -2037,6 +2044,7 @@ et:
   label_custom_field_plural: "Lisaväljad"
   label_custom_field_default_type: "Määramata tüüp"
   label_custom_style: "Kavandamine"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "Kuupäev"
@@ -2158,8 +2166,8 @@ et:
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
   label_show_all_registered_users: "Show all registered users"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Journal"
   label_journal_diff: "Kirjelduse võrdlus"
   label_language: "Keel"
@@ -3162,6 +3170,13 @@ et:
   setting_password_min_length: "Lühima lubatud parooli pikkus"
   setting_password_min_adhered_rules: "Minimaalne nõutav erineva tähemärgiklassi kasutamine paroolis"
   setting_per_page_options: "Kuvatud tulemuste arv lehe kohta"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "E-kiri tavalise tekstina (ilma HTML-ta)"
   setting_protocol: "Protokoll"
   setting_project_gantt_query: "Project portfolio Gantt view"

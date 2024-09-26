@@ -54,7 +54,8 @@ class WorkPackages::SetAttributesService
     end
 
     def status_percent_complete_changed?
-      work_package.status_id_changed? && work_package.status.default_done_ratio != work_package.done_ratio_was
+      work_package.status_id.present? && work_package.status_id_came_from_user? \
+        && work_package.status.default_done_ratio != work_package.done_ratio_was
     end
 
     # Update +% complete+ from the status if the status changed.

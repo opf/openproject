@@ -31,6 +31,9 @@ zh-CN:
     custom_styles:
       color_theme: "主题颜色"
       color_theme_custom: "（自定义）"
+      tab_interface: "界面"
+      tab_branding: "品牌"
+      tab_pdf_export_styles: "PDF 导出样式"
       colors:
         primary-button-color: "主按钮色"
         accent-color: "强调色"
@@ -79,6 +82,7 @@ zh-CN:
         contact: "联系我们获取演示"
       enterprise_info_html: "是企业版的 <span class='spot-icon spot-icon_enterprise-addons'></span> 附加功能。"
       upgrade_info: "请升级到付费方案，以激活并开始在您的团队中使用该功能。"
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "如果用户的多项操作（例如，更新工作包两次）的时间间隔小于指定的时间跨度，则这些操作将被聚合为单个操作，并在应用程序中显示为单个操作。这也会将通知延迟同等的时间，从而减少电子邮件的发送数量，并且还会影响 %{webhook_link} 延迟。"
@@ -906,6 +910,8 @@ zh-CN:
             name:
               blank: "是强制性的。请选择一个名称。"
               not_unique: "已被使用。请另选一个名称。"
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "至少需要指定一个发送通知的通道。"
           attributes:
@@ -1603,7 +1609,7 @@ zh-CN:
   error_menu_item_not_saved: 不能保存菜单项
   error_wiki_root_menu_item_conflict: >
     无法将 "%{old_name}" 重命名为 "%{new_name}"，因为结果菜单项与现有菜单项 "%{existing_caption}" (%{existing_identifier}) 存在冲突。
-  error_external_authentication_failed: "在外部身份验证期间出错。请重试。"
+  error_external_authentication_failed_message: "外部身份验证过程中发生错误： %{message}"
   error_attribute_not_highlightable: "未高亮显示的属性：%{attributes}"
   events:
     changeset: "编辑更改集"
@@ -1775,7 +1781,7 @@ zh-CN:
       progress_mode_changed_to_status_based: 进度计算模式设置为基于状态
       status_excluded_from_totals_set_to_false_message: 现在包含在层次结构总计中
       status_excluded_from_totals_set_to_true_message: 现在不包含在层次结构总计中
-      status_percent_complete_changed: "完成百分比从 %{old_value}% 变为 %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           从现在开始，与文件链接（存储在外部存储器中的文件）相关的活动将出现在“活动”选项卡中。以下是与已经存在的链接相关的活动的表示：
@@ -1884,7 +1890,8 @@ zh-CN:
   label_additional_workflow_transitions_for_assignee: "当用户是受理人时允许额外的转移"
   label_additional_workflow_transitions_for_author: "当用户是作者时允许额外转移"
   label_administration: "管理"
-  label_advanced_settings: "高级设置"
+  label_interface_colors: "界面颜色"
+  label_interface_colors_description: "这些颜色控制应用程序的外观。 如果您修改了它们，主题将自动变为自定义主题， 但我们无法确保无障碍对比最小值(WCAG 2)。 。 "
   label_age: "年龄"
   label_ago: "天前"
   label_all: "所有"
@@ -1998,6 +2005,7 @@ zh-CN:
   label_custom_field_plural: "自定义字段"
   label_custom_field_default_type: "空类型"
   label_custom_style: "设计"
+  label_custom_style_description: "选择主题来定制OpenProject的外观，选择应用中的默认颜色以及导出的样式。"
   label_dashboard: "仪表板"
   label_database_version: "PostgreSQL 版本"
   label_date: "日期"
@@ -2119,8 +2127,8 @@ zh-CN:
   label_share_project_list: "共享项目列表"
   label_share_work_package: "共享工作包"
   label_show_all_registered_users: "显示所有注册用户"
-  label_show_n_more: "Show %{count} more"
-  label_show_less: "Show less"
+  label_show_less: "显示更少"
+  label_show_more: "显示更多"
   label_journal: "日志"
   label_journal_diff: "描述的对比"
   label_language: "语言"
@@ -3115,6 +3123,13 @@ zh-CN:
   setting_password_min_length: "最小长度"
   setting_password_min_adhered_rules: "所需的最少类型数量"
   setting_per_page_options: "每页对象选项"
+  setting_percent_complete_on_status_closed: "状态关闭时\"完成%\"的值"
+  setting_percent_complete_on_status_closed_no_change: "无变化"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    即使工作包关闭，<i>完成%</i>的值也不会改变。
+  setting_percent_complete_on_status_closed_set_100p: "自动设置为 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    关闭的工作包视为已完成。
   setting_plain_text_mail: "纯文本邮件 (不含 HTML)"
   setting_protocol: "协议"
   setting_project_gantt_query: "项目组合甘特视图"

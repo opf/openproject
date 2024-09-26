@@ -31,7 +31,7 @@
 RSpec.shared_examples_for "set_permissions_command: basic command setup" do
   it "is registered as commands.set_permissions" do
     expect(Storages::Peripherals::Registry
-             .resolve("#{storage.short_provider_type}.commands.set_permissions")).to eq(described_class)
+             .resolve("#{storage}.commands.set_permissions")).to eq(described_class)
   end
 
   it "responds to #call with correct parameters" do

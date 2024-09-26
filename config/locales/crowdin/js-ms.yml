@@ -612,7 +612,9 @@ ms:
         mentioned: "Telah disebutkan"
         watched: "Pemerhati"
         assigned: "Penerima tugasan"
-        accountable: "Bertanggungjawab"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "Dicipta"
         scheduled: "Dijadualkan"
         commented: "Komen"

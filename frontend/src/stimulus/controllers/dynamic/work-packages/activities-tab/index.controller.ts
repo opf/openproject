@@ -3,6 +3,8 @@ import {
   ICKEditorInstance,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 interface CustomEventWithIdParam extends Event {
   params:{
@@ -51,7 +53,13 @@ export default class IndexController extends Controller {
   private updateInProgress:boolean;
   private turboRequests:TurboRequestsService;
 
+  private apiV3Service:ApiV3Service;
+
   async connect() {
+    const context = await window.OpenProject.getPluginContext();
+    this.turboRequests = context.services.turboRequests;
+    this.apiV3Service = context.services.apiV3Service;
+
     this.setLocalStorageKey();
     this.setLastUpdateTimestamp();
     this.setupEventListeners();
@@ -60,8 +68,24 @@ export default class IndexController extends Controller {
     this.populateRescuedEditorContent();
     this.markAsConnected();
 
-    const context = await window.OpenProject.getPluginContext();
-    this.turboRequests = context.services.turboRequests;
+    // Towards using updateDisplayedWorkPackageAttributes here:
+    //
+    // this ideally only is triggered when switched back to the activities tab from e.g. the "Files" tab
+    // in order to make sure that the state of the displayed work package attributes is aligned with the state of the refreshed journal entries
+    //
+    // this is necessary because the polling for updates (and related work package attribute updates) only happens when the activity tab is connected
+    //
+    // without any further checks, this update is currently triggered even after the very first rendering of the activity tab
+    //
+    // this is not ideal but I don't want to introduce another hacky "ui-state-check" for now
+    this.updateDisplayedWorkPackageAttributes();
+
+    // something like below could be used to check for the ui state in the disconnect method
+    // in order to identify if the activity tab was connected at least once
+    // and then call updateDisplayedWorkPackageAttributes accordingly after an "implicit" tab change:
+    //
+    // const workPackageContainer = document.getElementsByTagName('wp-full-view-entry')[0] as HTMLElement;
+    // workPackageContainer.dataset.activityTabWasConnected = 'true';
   }
 
   disconnect() {
@@ -72,10 +96,12 @@ export default class IndexController extends Controller {
   }
 
   private markAsConnected() {
+    // used in specs for timing
     (this.element as HTMLElement).dataset.stimulusControllerConnected = 'true';
   }
 
   private markAsDisconnected() {
+    // used in specs for timing
     (this.element as HTMLElement).dataset.stimulusControllerConnected = 'false';
   }
 
@@ -129,6 +155,7 @@ export default class IndexController extends Controller {
 
   async updateActivitiesList() {
     if (this.updateInProgress) return;
+
     this.updateInProgress = true;
 
     const journalsContainerAtBottom = this.isJournalsContainerScrolledToBottom(this.journalsContainerTarget);
@@ -161,8 +188,24 @@ export default class IndexController extends Controller {
 
   private handleUpdateStreamsResponse(html:string, journalsContainerAtBottom:boolean) {
     this.setLastUpdateTimestamp();
-    // only process append and prepend actions
-    if (!(html.includes('action="append"') || html.includes('action="prepend"'))) {
+    this.checkForAndHandleWorkPackageUpdate(html);
+    this.performAutoScrolling(html, journalsContainerAtBottom);
+  }
+
+  private checkForAndHandleWorkPackageUpdate(html:string) {
+    if (html.includes('work-packages-activities-tab-journals-item-component-details--journal-detail-container')) {
+      this.updateDisplayedWorkPackageAttributes();
+    }
+  }
+
+  private updateDisplayedWorkPackageAttributes() {
+    const wp = this.apiV3Service.work_packages.id(this.workPackageIdValue);
+    void wp.refresh();
+  }
+
+  private performAutoScrolling(html:string, journalsContainerAtBottom:boolean) {
+    // only process append, prepend and update actions
+    if (!(html.includes('action="append"') || html.includes('action="prepend"') || html.includes('action="update"'))) {
       return;
     }
     // the timeout is require in order to give the Turb.renderStream method enough time to render the new journals

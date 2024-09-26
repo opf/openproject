@@ -3,7 +3,7 @@
   data-test-selector="op-ian-bell"
   [href]="notificationsPath()"
 >
-  <op-icon icon-classes="icon-bell"></op-icon>
+  <svg bell-fill-icon size="small"></svg>
   <ng-container *ngIf="(unreadCount$ | async) as unreadCount">
     <span
       *ngIf="unreadCount !== 0"

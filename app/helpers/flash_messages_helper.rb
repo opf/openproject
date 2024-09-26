@@ -34,26 +34,10 @@ module FlashMessagesHelper
     include FlashMessagesOutputSafetyHelper
   end
 
-  def render_primer_banner_message?
-    flash[:primer_banner].present?
-  end
-
-  def render_primer_banner_message
-    return unless render_primer_banner_message?
-
-    render(BannerMessageComponent.new(**flash[:primer_banner].to_hash))
-  end
-
-  # Primer's flash message component wrapped in a component which is empty initially but can be updated via turbo stream
-  def render_streameable_primer_banner_message
-    render(FlashMessageComponent.new)
-  end
-
   # Renders flash messages
   def render_flash_messages
-    return if render_primer_banner_message?
-
     messages = flash
+      .reject { |k, _| k.to_s == "op_primer_flash" }
       .reject { |k, _| k.start_with? "_" }
       .map do |k, v|
       if k.to_sym == :modal

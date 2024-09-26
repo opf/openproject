@@ -349,6 +349,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
     if journals.any?
       remove_potential_empty_state
+      update_activity_counter
     end
   end
 
@@ -390,6 +391,14 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     # remove the empty state if it is present
     remove_via_turbo_stream(
       component: WorkPackages::ActivitiesTab::Journals::EmptyComponent.new
+    )
+  end
+
+  def update_activity_counter
+    # update the activity counter in the primerized tabs
+    # not targeting the legacy tab!
+    replace_via_turbo_stream(
+      component: WorkPackages::Details::UpdateCounterComponent.new(work_package: @work_package, menu_name: "activity")
     )
   end
 

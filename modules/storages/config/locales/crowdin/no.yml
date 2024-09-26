@@ -90,6 +90,9 @@
         remote_folders: 'Read contents of the group folder:'
         rename_project_folder: 'Rename managed project Folder:'
     errors:
+      messages:
+        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
+        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
       models:
         copy_project_folders_service:
           conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
@@ -146,6 +149,8 @@
           not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
           unauthorized: OpenProject could not sync with OneDrive. Please check you storage and Azure Application configuration.
           user_does_not_exist: "%{user} does not exist in Nextcloud."
+        upload_link_service:
+          not_found: The destination folder %{folder} could not be found on %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Fullfør uten
@@ -209,6 +214,7 @@
         client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
         client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
         drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+        group_folder_not_found: The group folder could not be found.
         group_folder_version_mismatch: The Group Folder version is not supported. Please update your Nextcloud server.
         host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
         missing_dependencies: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
@@ -216,7 +222,9 @@
         placeholder: Check your connection against the server.
         subtitle: Connection validation
         tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
-        unexpected_content: Unexpected content found in the drive.
+        unexpected_content:
+          nextcloud: Unexpected content found in the managed group folder.
+          one_drive: Unexpected content found in the drive.
         unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: Feil
       label_healthy: Sunn

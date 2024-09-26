@@ -45,17 +45,17 @@ RSpec.describe "Work package activity", :js, :with_cuprite do
   TABLE
 
   let(:parent_page) { Pages::FullWorkPackage.new(parent) }
+  let(:popover) { Components::WorkPackages::ProgressPopover.new }
 
   current_user { admin }
 
   context "when the progress values are changed" do
     before do
-      wp_page = Pages::FullWorkPackage.new(parent)
-      wp_page.visit!
-      wp_page.update_attributes estimatedTime: "100" # rubocop:disable Rails/ActiveRecordAliases
-      wp_page.expect_and_dismiss_toaster(message: "Successful update.")
-      wp_page.update_attributes remainingTime: "5" # rubocop:disable Rails/ActiveRecordAliases
-      wp_page.expect_and_dismiss_toaster(message: "Successful update.")
+      parent_page.visit!
+      popover.open
+      popover.set_values(work: "100", remaining_time: "5")
+      popover.save
+      parent_page.expect_and_dismiss_toaster(message: "Successful update.")
     end
 
     it "displays changed attributes in the activity tab", :aggregate_failures do

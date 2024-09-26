@@ -29,11 +29,11 @@
 require "spec_helper"
 
 RSpec.describe WorkPackages::SetAttributesService,
-               type: :model,
-               with_flag: { percent_complete_edition: true } do
+               type: :model do
   shared_let(:status_0_pct_complete) { create(:status, default_done_ratio: 0, name: "0% complete") }
   shared_let(:status_50_pct_complete) { create(:status, default_done_ratio: 50, name: "50% complete") }
   shared_let(:status_70_pct_complete) { create(:status, default_done_ratio: 70, name: "70% complete") }
+  shared_let(:status_99_pct_closed) { create(:closed_status, default_done_ratio: 99, name: "Closed 99% complete") }
 
   let(:today) { Time.zone.today }
   let(:user) { build_stubbed(:user) }
@@ -282,6 +282,67 @@ RSpec.describe WorkPackages::SetAttributesService,
           end
 
           it_behaves_like "service call", description: "remaining work is set to the same value and % complete is set to 0%"
+        end
+      end
+    end
+  end
+
+  describe "updating % complete when closing work package" do
+    before do
+      work_package.status = status_50_pct_complete
+      work_package.estimated_hours = 10.0
+      work_package.remaining_hours = 5.0
+      work_package.done_ratio = 50
+      work_package.clear_changes_information
+    end
+
+    context "in work-based mode",
+            with_settings: { work_package_done_ratio: "field" } do
+      context "when `percent_complete_on_status_closed` is set to `no_change`",
+              with_settings: { percent_complete_on_status_closed: "no_change" } do
+        context "when status is closed" do
+          let(:call_attributes) { { status: status_99_pct_closed } }
+          let(:expected_kept_attributes) { %w[estimated_hours remaining_hours done_ratio] }
+
+          it_behaves_like "service call", description: "does not change % complete"
+        end
+      end
+
+      context "when `percent_complete_on_status_closed` is set to `set_100p`",
+              with_settings: { percent_complete_on_status_closed: "set_100p" } do
+        context "when status is closed" do
+          let(:call_attributes) { { status: status_99_pct_closed } }
+          let(:expected_attributes) { { done_ratio: 100, remaining_hours: 0.0 } }
+          let(:expected_kept_attributes) { %w[estimated_hours] }
+
+          it_behaves_like "service call", description: "changes % complete to 100% and derives remaining work accordingly"
+        end
+      end
+    end
+
+    context "in status-based mode",
+            with_settings: { work_package_done_ratio: "status" } do
+      context "when `percent_complete_on_status_closed` is set to `no_change`",
+              with_settings: { percent_complete_on_status_closed: "no_change" } do
+        context "when status is closed" do
+          let(:call_attributes) { { status: status_99_pct_closed } }
+          let(:expected_attributes) { { done_ratio: 99, remaining_hours: 0.1 } }
+          let(:expected_kept_attributes) { %w[estimated_hours] }
+
+          it_behaves_like "service call", description: "changes % complete to the status's default % complete value " \
+                                                       "and derives remaining work accordingly"
+        end
+      end
+
+      context "when `percent_complete_on_status_closed` is set to `set_100p`",
+              with_settings: { percent_complete_on_status_closed: "set_100p" } do
+        context "when status is closed" do
+          let(:call_attributes) { { status: status_99_pct_closed } }
+          let(:expected_attributes) { { done_ratio: 99, remaining_hours: 0.1 } }
+          let(:expected_kept_attributes) { %w[estimated_hours] }
+
+          it_behaves_like "service call", description: "changes % complete to the status's default % complete value " \
+                                                       "and derives remaining work accordingly"
         end
       end
     end

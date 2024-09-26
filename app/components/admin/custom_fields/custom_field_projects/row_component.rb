@@ -37,8 +37,31 @@ module Admin
         end
 
         def more_menu_items
-          []
+          @more_menu_items ||= [more_menu_detach_project].compact
         end
+
+        private
+
+        def more_menu_detach_project
+          if User.current.allowed_in_project?(:select_custom_fields, project)
+            {
+              scheme: :default,
+              icon: nil,
+              label: I18n.t("projects.settings.project_custom_fields.actions.remove_from_project"),
+              href: detach_from_project_url,
+              data: { turbo_method: :delete }
+            }
+          end
+        end
+
+        def detach_from_project_url
+          url_helpers.custom_field_project_path(
+            custom_field_id: @table.params[:custom_field].id,
+            custom_fields_project: { project_id: project.id }
+          )
+        end
+
+        def project = model.first
       end
     end
   end

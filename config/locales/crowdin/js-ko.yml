@@ -612,7 +612,9 @@ ko:
         mentioned: "멘션됨"
         watched: "주시자"
         assigned: "담당자"
-        accountable: "담당자"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "생성됨"
         scheduled: "예약됨"
         commented: "코멘트 작성됨"

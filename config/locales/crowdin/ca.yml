@@ -31,6 +31,9 @@ ca:
     custom_styles:
       color_theme: "Tema de color"
       color_theme_custom: "(Personalitzat)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Botó principal"
         accent-color: "Accent"
@@ -79,6 +82,7 @@ ca:
         contact: "Contacta amb nosaltres per una demostració"
       enterprise_info_html: "és una extensió de l'edició Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'>."
       upgrade_info: "Si us plau, actualitza a una versió de pagament per tal d'activar i començar a utilitzar aquesta funcionalitat en el teu equip."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Les accions individuals d'un sol usuari (per exemple actualitzar dos cops un paquet de treball) seran agregades en una sola acció si la diferència temporal és menor a l'especificada. Aquests seran exposats com una acció individual dins l'aplicació. Això, també reduïra el número d'emails enviats i el retràs en el %{webhook_link} ja que les notificacións també seran retrasades."
@@ -913,6 +917,8 @@ ca:
             name:
               blank: "és obligatori. Si us plau, selecciona un nom."
               not_unique: "ja està en ús. Si us plau, selecciona un altre nom."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "És necessari d'especificar almenys un canal per enviar notificacions."
           attributes:
@@ -1638,7 +1644,7 @@ ca:
   error_menu_item_not_saved: No es pot desar l'element de menú
   error_wiki_root_menu_item_conflict: >
     No es pot reanomenar "%{old_name}" a "%{new_name}" a causa d'un conflicte resultant en l'element de menú amb l'element de menú existent "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "S'ha produït un error durant l'autentificació externa. Torneu-ho a provar."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Atribut(s) no destacables: %{attributes}"
   events:
     changeset: "Conjunt de canvis editat"
@@ -1810,7 +1816,7 @@ ca:
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1919,7 +1925,8 @@ ca:
   label_additional_workflow_transitions_for_assignee: "Transicions addicionals permeses quan l'usuari és l'assignat"
   label_additional_workflow_transitions_for_author: "Transicions addicionals permeses quan l'usuari és l'autor"
   label_administration: "Administració"
-  label_advanced_settings: "Configuració avançada"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Edat"
   label_ago: "dies abans"
   label_all: "tot"
@@ -2033,6 +2040,7 @@ ca:
   label_custom_field_plural: "Camps personalitzats"
   label_custom_field_default_type: "Tipus buit"
   label_custom_style: "Disseny"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Tauler de control"
   label_database_version: "Versió PostgreSQL"
   label_date: "Data"
@@ -2154,8 +2162,8 @@ ca:
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
   label_show_all_registered_users: "Mostra tots els usuaris registrats"
-  label_show_n_more: "Show %{count} more"
   label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Diari"
   label_journal_diff: "Descripció de comparació"
   label_language: "Idioma"
@@ -3151,6 +3159,13 @@ ca:
   setting_password_min_length: "Longitud mínima"
   setting_password_min_adhered_rules: "Nombre mínim de classes exigides"
   setting_per_page_options: "Opcions d'objectes per pàgina"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Només text pla (no HTML)"
   setting_protocol: "Protocol"
   setting_project_gantt_query: "Cartera de projecte en diagrama Gantt"

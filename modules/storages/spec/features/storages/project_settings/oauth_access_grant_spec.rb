@@ -82,8 +82,8 @@ RSpec.describe "OAuth Access Grant Nudge upon adding a storage to a project",
       expect(page).to be_axe_clean
       expect(page).to have_text("Login to Nextcloud required")
       click_on("Nextcloud log in")
-      wait_for(page).to have_current_path("/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
-                                          "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
+      wait_for { page }.to have_current_path("/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
+                                             "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
     end
   end
 
@@ -100,8 +100,8 @@ RSpec.describe "OAuth Access Grant Nudge upon adding a storage to a project",
       expect(page).to be_axe_clean
       expect(page).to have_text("Login to Nextcloud required")
       click_on("Nextcloud log in")
-      wait_for(page).to have_current_path("/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
-                                          "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
+      wait_for { page }.to have_current_path("/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
+                                             "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
     end
   end
 end

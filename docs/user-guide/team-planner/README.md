@@ -50,7 +50,7 @@ A team planner has a number of features numbered 1 to 8 in the above screenshot:
 
 1. Click on the name of your team planner (*Marketing Team* in the example above) to edit it. Unless it's a new team planner, this change has to be confirmed by pressing the floppy disk icon that appears next to the name after you change it.
 2. Use the **+ Add existing** button to add an existing work package  to the team planner. You do this by searching for work package and dragging its card to an assignee, at a certain time. This will then update the *assignee*, *start date* and *finish date* attributes of that work package.
-3. Add a new team member to the assignee column by Clicking on the **Add assignee** button.
+3. Add a new team member to the assignee column by Clicking on the **+ Assignee** button.
 4. By default, the team planner will only show assigned work packages belonging to the current project. However, it is possible to also add assigned work packages belonging to other projects. You can make these work packages from other projects visible by using **Include projects** feature and selecting additional projects to be included in this view.
 5. Use the **Filter** feature (same as in the [work packages](../work-packages/work-package-table-configuration/#filter-work-packages) module) to display only work packages that meet certain filter criteria. You could, for example, filter such that only work packages of certain types, certain status or certain custom field values are visible.
 6. The **Fullscreen** button lets you view the team planner in fullscreen mode.
