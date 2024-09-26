@@ -3142,8 +3142,6 @@ de:
   setting_work_package_done_ratio_status: "Statusbezogen"
   setting_work_package_done_ratio_status_caption_html: >-
     Jeder Status ist mit einem Wert für <i>% abgeschlossen</i> verbunden. Wenn Sie den Status ändern, ändert sich auch <i>% abgeschlossen</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    Im <b>arbeitsbezogenen</b> Modus beschreibt % abgeschlossen das Verhältnis zwischen verbeibendem Aufwand und Gesamtaufwand. Im <b>statusbasierten</b> Modus ist jedem Status ein Wert für % abgeschlossen zugeordnet. Wenn Sie den Status ändern, ändert sich % abgeschlossen.
   setting_work_package_done_ratio_explanation_html: >
     Im <b>arbeitsbezogenen</b> Modus ist % abgeschlossen frei wählbar. Falls Sie einen Wert für Aufwand angeben, wird Verbleibender Aufand automatisch abgeleitet. Im <b>statusbasierten</b> Modus ist jedem Status ein Wert für % abgeschlossen zugeordnet. Wenn Sie den Status ändern, ändert sich % abgeschlossen.
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
@@ -3535,7 +3533,6 @@ de:
       label_note: "Hinweis:"
       modal:
         work_based_help_text: "Jedes Feld wird, wenn möglich, automatisch aus den beiden anderen berechnet."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Abgeschlossen wird automatisch aus Aufwand und Verbleibender Aufwand abgeleitet."
         status_based_help_text: "% Abgeschlossen wird durch den Status des Arbeitspakets festgelegt."
         migration_warning_text: "Im aufwandsbezogenen Modus, kann % Fertig nicht manuell eingegeben werden und ist immer an den Aufwand gebunden. Der vorhandene Wert wurde beibehalten, kann aber nicht bearbeitet werden. Bitte geben Sie zuerst den Wert für Aufwand ein."
       derivation_hints:

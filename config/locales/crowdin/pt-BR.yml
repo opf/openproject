@@ -3144,8 +3144,6 @@ pt-BR:
   setting_work_package_done_ratio_status: "Com base no estado"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    No modo <b>com base no trabalho</b>, a % de conclusão é calculada com base na quantidade de trabalho realizado em relação ao total de trabalho. Já no modo <b>com base no estado</b>, cada estado possui um valor de % de conclusão associado a ele. Alterar o estado resultará em uma mudança na % de conclusão.
   setting_work_package_done_ratio_explanation_html: >
     No modo <b>baseado em trabalho</b>, você pode definir o % de conclusão para qualquer valor desejado. Se você inserir um valor para o Trabalho, o Trabalho restante será calculado automaticamente. No modo <b>baseado em status</b>, cada status está associado a um valor de % de conclusão. Alterar o status irá atualizar o % de conclusão correspondente.
   setting_work_package_properties: "Propriedades do pacote de trabalho"
@@ -3537,7 +3535,6 @@ pt-BR:
       label_note: "Obs.:"
       modal:
         work_based_help_text: "Cada campo é calculado automaticamente a partir dos outros dois, sempre que possível."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% de conclusão é automaticamente calculada com base no trabalho total e no trabalho restante."
         status_based_help_text: "A % de conclusão é definida pelo estado do pacote de trabalho."
         migration_warning_text: "No modo de cálculo de progresso com base no trabalho, a % conclusão não pode ser definida manualmente e está vinculada ao Trabalho. O valor existente foi mantido, mas não pode ser editado. Favor inserir o Trabalho primeiro."
       derivation_hints:

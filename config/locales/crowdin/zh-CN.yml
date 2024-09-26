@@ -82,7 +82,7 @@ zh-CN:
         contact: "联系我们获取演示"
       enterprise_info_html: "是企业版的 <span class='spot-icon spot-icon_enterprise-addons'></span> 附加功能。"
       upgrade_info: "请升级到付费方案，以激活并开始在您的团队中使用该功能。"
-    jemalloc_allocator: Jemalloc memory allocator
+    jemalloc_allocator: 使用 jemalloc 内存分配器
     journal_aggregation:
       explanation:
         text: "如果用户的多项操作（例如，更新工作包两次）的时间间隔小于指定的时间跨度，则这些操作将被聚合为单个操作，并在应用程序中显示为单个操作。这也会将通知延迟同等的时间，从而减少电子邮件的发送数量，并且还会影响 %{webhook_link} 延迟。"
@@ -911,7 +911,7 @@ zh-CN:
               blank: "是强制性的。请选择一个名称。"
               not_unique: "已被使用。请另选一个名称。"
         meeting:
-          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
+          error_conflict: "无法保存，因为会议已被其他人同时更新。请重新加载页面。"
         notifications:
           at_least_one_channel: "至少需要指定一个发送通知的通道。"
           attributes:
@@ -1781,7 +1781,7 @@ zh-CN:
       progress_mode_changed_to_status_based: 进度计算模式设置为基于状态
       status_excluded_from_totals_set_to_false_message: 现在包含在层次结构总计中
       status_excluded_from_totals_set_to_true_message: 现在不包含在层次结构总计中
-      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
+      status_percent_complete_changed: "完成% 从 %{old_value}% 变为 %{new_value}%"
       system_update:
         file_links_journal: >
           从现在开始，与文件链接（存储在外部存储器中的文件）相关的活动将出现在“活动”选项卡中。以下是与已经存在的链接相关的活动的表示：
@@ -3101,8 +3101,6 @@ zh-CN:
   setting_work_package_done_ratio_status: "基于状态"
   setting_work_package_done_ratio_status_caption_html: >-
     每个状态都有一个与之相关的<i>完成%</i>值。更改状态将改变<i>完成%</i>。
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    在<b>基于工时</b>模式下，“完成 %”是根据已完成的工时占总工时的比例计算出来的。在<b>基于状态</b>模式下，每个状态都有一个与之相关的“完成 %”。更改状态将改变“完成 %”。
   setting_work_package_done_ratio_explanation_html: >
     在<b>基于工作的</b>模式下，“完成 %”可以自由设置为任何值。如果选择输入 "工时 "值，则会自动得出 "剩余工时"。在<b>基于状态的</b>模式下，每个状态都有一个与之相关的“完成 %”值。更改状态将改变“完成 %”。
   setting_work_package_properties: "工作包属性"
@@ -3493,7 +3491,6 @@ zh-CN:
       label_note: "注意："
       modal:
         work_based_help_text: "在可能的情况下，每个字段都会根据另外两个字段自动计算。"
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "“完成 %”由 \"工时\" 和 \"剩余工时\" 自动得出。"
         status_based_help_text: "完成百分比由工作包状态设定。"
         migration_warning_text: "在基于工时的进度计算模式下，完成百分比不能手动设置，而是与工时绑定。现有值已被保留，但无法编辑。请先输入工时。"
       derivation_hints:

@@ -3145,8 +3145,6 @@ it:
   setting_work_package_done_ratio_status: "Basato sullo stato"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    Nella modalità <b>basata sul lavoro</b>, la % completamento viene calcolata in base alla quantità di lavoro svolto rispetto al lavoro totale. Nella modalità <b>basata sullo stato</b>, a ogni stato è associato un valore di % completamento. La modifica dello stato cambierà la % completamento.
   setting_work_package_done_ratio_explanation_html: >
     Nella modalità <b>basata sul lavoro</b>, la % completamento può assumere qualsiasi valore. Se inserisci facoltativamente un Lavoro, il Lavoro residuo verrà automaticamente calcolato. Nella modalità <b>basata sullo stato</b>, a ogni stato è associato un valore di % completamento. La modifica dello stato cambierà la % completamento.
   setting_work_package_properties: "Proprietà della macro-attività"
@@ -3539,7 +3537,6 @@ it:
       label_note: "Nota:"
       modal:
         work_based_help_text: "Ogni campo viene calcolato automaticamente dagli altri due, quando possibile."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "La % completamento viene ricavata automaticamente dal Lavoro e dal Lavoro residuo."
         status_based_help_text: "La % completamento è stabilita dallo stato della macro-attività."
         migration_warning_text: "Nella modalità di calcolo basata sul lavoro, la % completamento non può essere impostata manualmente ed è legata al lavoro. Il valore esistente è stato mantenuto ma non può essere modificato. Specifica prima il lavoro."
       derivation_hints:

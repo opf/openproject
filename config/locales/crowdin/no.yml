@@ -3147,8 +3147,6 @@
   setting_work_package_done_ratio_status: "Statusbasert"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
     In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Egenskaper for arbeidspakke"
@@ -3541,7 +3539,6 @@
       label_note: "Merk:"
       modal:
         work_based_help_text: "Each field is automatically calculated from the two others when possible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Ferdig er angitt etter status på arbeidspakken."
         migration_warning_text: "I arbeidsbasert fremdriftsberegningsmodus kan % Ferdig ferdigstilt ikke settes manuelt og er knyttet til jobber. Den eksisterende verdien er lagret, men kan ikke endres. Skriv inn arbeidet først."
       derivation_hints:

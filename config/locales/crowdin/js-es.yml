@@ -278,8 +278,6 @@ es:
           Los cambios pueden tardar algún tiempo en surtir efecto. Se le notificará cuando todos los paquetes de trabajo relevantes hayan sido actualizados.
           ¿Está seguro de que desea continuar?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          Cambiar el modo de cálculo del progreso de basado en el estado a basado en el trabajo hará que <i>% completado</i> sea un campo no editable cuyo valor se deriva de <i>Trabajo</i> y <i>Trabajo restante</i>. Los valores existentes para <i>% completado</i> se conservan. Si los valores para <i>Trabajo</i> y <i>Trabajo restante</i> no estaban presentes, serán necesarios para cambiar <i>% completado</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
           Cambiar el modo de cálculo del progreso de basado en el estado a basado en el trabajo hará que el campo <i>% completado</i> se pueda editar libremente. Si introduce opcionalmente valores para <i>Trabajo</i> o <i>Trabajo restante</i>, también se vincularán a <i>% completado</i>. Cambiar <i>Trabajo restante</i> puede entonces actualizar <i>% completado</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-

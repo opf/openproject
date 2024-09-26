@@ -226,6 +226,7 @@ pl:
           nextcloud: Unexpected content found in the managed group folder.
           one_drive: Unexpected content found in the drive.
         unknown_error: Nie można zweryfikować połączenia. Wystąpił nieznany błąd. Aby uzyskać dalsze informacje, sprawdź dzienniki serwera.
+        userless_access_denied: The configured app password is invalid.
       label_error: Błąd
       label_healthy: Zdrowe
       label_pending: Oczekujący

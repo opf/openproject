@@ -226,6 +226,7 @@ de:
           nextcloud: Unerwarteter Inhalt im verwalteten Gruppenordner gefunden.
           one_drive: Unerwarteter Inhalt auf dem Laufwerk gefunden.
         unknown_error: Die Verbindung konnte nicht validiert werden. Es ist ein unbekannter Fehler aufgetreten. Bitte prüfen Sie die Serverprotokolle für weitere Informationen.
+        userless_access_denied: The configured app password is invalid.
       label_error: Fehler
       label_healthy: Fehlerfrei
       label_pending: Ausstehend

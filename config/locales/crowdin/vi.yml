@@ -3113,8 +3113,6 @@ vi:
   setting_work_package_done_ratio_status: "Dựa trên trạng thái"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    Ở chế độ <b>dựa trên công việc</b>, % Hoàn thành được tính từ lượng công việc đã hoàn thành so với tổng công việc. Ở chế độ <b>dựa trên trạng thái</b>, mỗi trạng thái có giá trị % Hoàn thành liên quan đến nó. Thay đổi trạng thái sẽ thay đổi % Hoàn thành.
   setting_work_package_done_ratio_explanation_html: >
     Ở chế độ <b>dựa trên công việc</b>, % Hoàn thành có thể được tự do thiết lập thành bất kỳ giá trị nào. Nếu bạn tùy ý nhập giá trị cho Công việc, Công việc còn lại sẽ tự động được suy ra. Ở chế độ <b>dựa trên trạng thái</b>, mỗi trạng thái có giá trị % Hoàn thành được liên kết với nó. Thay đổi trạng thái sẽ thay đổi % Hoàn thành.
   setting_work_package_properties: "Thuộc tính gói công việc"
@@ -3505,7 +3503,6 @@ vi:
       label_note: "Ghi chú:"
       modal:
         work_based_help_text: "Mỗi trường sẽ được tự động tính toán dựa trên hai trường còn lại khi có thể."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Hoàn thành được tự động lấy từ Công việc và Công việc còn lại."
         status_based_help_text: "% Hoàn thành được thiết lập theo trạng thái của gói công việc."
         migration_warning_text: "Trong chế độ tính toán tiến độ dựa trên công việc, % Hoàn thành không thể được đặt thủ công và liên kết với Công việc. Giá trị hiện tại đã được giữ nhưng không thể chỉnh sửa. Vui lòng nhập Công việc trước."
       derivation_hints:

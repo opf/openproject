@@ -3215,8 +3215,6 @@ lt:
   setting_work_package_done_ratio_status: "Pagal-būseną"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
     In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Darbų paketo ypatybės"
@@ -3610,7 +3608,6 @@ lt:
       label_note: "Pastaba:"
       modal:
         work_based_help_text: "Each field is automatically calculated from the two others when possible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% baigta nustatoma pagal paketo būseną."
         migration_warning_text: "Darbu paremtame eigos skaičiavimo režime % baigta negali būti nustatomas rankomis ir yra susietas su darbu. Esamos reikšmės buvo išlaikytos, bet negali būti keičiamos. Prašome iš pradžių įveskite darbą."
       derivation_hints:

@@ -3144,8 +3144,6 @@ es:
   setting_work_package_done_ratio_status: "Basado en el estado"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    En el modo <b>basado en el trabajo</b>, el % completado se calcula a partir de cuánto trabajo se ha realizado en relación con el trabajo total. En el modo <b>basado en el estado</b>, cada estado tiene asociado un valor de % completado. El cambio de estado modificará el % completado.
   setting_work_package_done_ratio_explanation_html: >
     En el modo <b>basado en trabajo</b>, el % completado puede fijarse libremente en cualquier valor. Si introduce opcionalmente un valor para Trabajo, se derivará automáticamente Trabajo restante. En el modo <b>basado en estados</b>, cada estado tiene asociado un valor de % completado. Si cambia de estado, cambiará el % completado.
   setting_work_package_properties: "Propiedades de paquete de trabajo"
@@ -3537,7 +3535,6 @@ es:
       label_note: "Nota:"
       modal:
         work_based_help_text: "Cada campo se calcula automáticamente a partir de los otros dos cuando es posible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "El % completado se obtiene automáticamente a partir del Trabajo y del Trabajo restante."
         status_based_help_text: "% completado se establece por el estado del paquete de trabajo."
         migration_warning_text: "En el modo de cálculo del progreso basado en el trabajo, el % completado no puede fijarse manualmente y está vinculado al Trabajo. El valor existente se mantiene, pero no puede editarse. Introduzca primero el Trabajo."
       derivation_hints:

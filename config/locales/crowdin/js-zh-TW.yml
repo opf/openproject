@@ -276,8 +276,6 @@ zh-TW:
         warning: >
           更改可能需要一些時間才能生效。當更新完所有相關工作包時，您將收到通知。
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          將進度計算模式從基於狀態更改為基於工作將使<i>完成百分比</i>成為不可編輯，其值源自<i>工時</i>和<i>剩餘工時</i >。 <i>% Complete</i> 的現有值將會保留。如果<i>工時</i>和<i>剩餘工時</i>的值不存在，則需要更改它們'才能修改<i>完成百分比</i>。
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
           將進度計算模式從基於狀態變更為基於工作將使<i>完成百分比</i>欄位可自由編輯。如果您選擇輸入<i>工時</i>或<i>剩餘工時</i>，它們也會連結到<i>完成百分比</i>。更改<i>剩餘工作</i>可以更新<i>完成百分比</i>。
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
@@ -345,7 +343,7 @@ zh-TW:
     hal:
       error:
         update_conflict_refresh: "點擊此處刷新資源並更新到最新版本。"
-        edit_prohibited: "已阻止對此工作包編輯 %{attribute}。此屬性來自於關係繼承(如子項目)或其他無法配置的來源。"
+        edit_prohibited: "已阻止對此屬性資源編輯 %{attribute} 功能。此屬性來自於關係繼承(如子項目)或其他無法配置的來源。"
         format:
           date: "%{attribute} 不是有效日期 - 需要 YYYY-MM-DD。"
         general: "發生錯誤。"
@@ -782,7 +780,7 @@ zh-TW:
     timer:
       start_new_timer: "開始新的計時"
       timer_already_running: "要啓動新計時器，必須先停止當前計時器："
-      timer_already_stopped: "此工作包沒有啟用的計時器，您是否已在其他窗口中將其停止？"
+      timer_already_stopped: "沒有啟用此工作項目計時器，您是否已在其他窗口中將其停止？"
       tracking_time: "跟蹤時間"
       button_stop: "停止當前計時器"
     two_factor_authentication:

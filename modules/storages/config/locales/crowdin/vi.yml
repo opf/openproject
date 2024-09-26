@@ -226,6 +226,7 @@ vi:
           nextcloud: Unexpected content found in the managed group folder.
           one_drive: Unexpected content found in the drive.
         unknown_error: Kết nối không thể được xác thực. Đã xảy ra lỗi không xác định. Vui lòng kiểm tra nhật ký máy chủ để biết thêm thông tin.
+        userless_access_denied: The configured app password is invalid.
       label_error: Lỗi
       label_healthy: Khỏe
       label_pending: Đang chờ
