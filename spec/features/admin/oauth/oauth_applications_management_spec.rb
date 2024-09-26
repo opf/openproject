@@ -106,15 +106,7 @@ RSpec.describe "OAuth applications management", :js, :with_cuprite do
       within_test_selector("op-admin-oauth--built-in-applications") do
         expect(page).to have_test_selector("op-admin-oauth--application", count: 1)
         expect(page).to have_link(text: "OpenProject Mobile App")
-        expect(page).to have_test_selector("op-admin-oauth--application-enabled-toggle-switch", text: "On")
-
-        find_test_selector("op-admin-oauth--application-enabled-toggle-switch").click
-        expect(page).not_to have_test_selector("op-admin-oauth--application-enabled-toggle-switch", text: "Loading")
         expect(page).to have_test_selector("op-admin-oauth--application-enabled-toggle-switch", text: "Off")
-
-        app.reload
-        expect(app).to be_builtin
-        expect(app).not_to be_enabled
 
         find_test_selector("op-admin-oauth--application-enabled-toggle-switch").click
         expect(page).not_to have_test_selector("op-admin-oauth--application-enabled-toggle-switch", text: "Loading")
@@ -123,6 +115,14 @@ RSpec.describe "OAuth applications management", :js, :with_cuprite do
         app.reload
         expect(app).to be_builtin
         expect(app).to be_enabled
+
+        find_test_selector("op-admin-oauth--application-enabled-toggle-switch").click
+        expect(page).not_to have_test_selector("op-admin-oauth--application-enabled-toggle-switch", text: "Loading")
+        expect(page).to have_test_selector("op-admin-oauth--application-enabled-toggle-switch", text: "Off")
+
+        app.reload
+        expect(app).to be_builtin
+        expect(app).not_to be_enabled
 
         click_on "OpenProject Mobile App"
       end
