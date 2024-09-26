@@ -279,7 +279,7 @@ module WorkPackage::PDFExport::Common::Common
   end
 
   def footer_date
-    format_time(Time.zone.now, true)
+    format_time(Time.zone.now)
   end
 
   def current_page_nr
