@@ -45,3 +45,6 @@ OpenProject::FeatureDecisions.add :percent_complete_edition,
 
 OpenProject::FeatureDecisions.add :built_in_oauth_applications,
                                   description: "Allows the display and use of built-in OAuth applications."
+
+OpenProject::FeatureDecisions.add :custom_field_of_type_hierarchy,
+                                  description: "Allows the use of the custom field type 'Hierarchy'"

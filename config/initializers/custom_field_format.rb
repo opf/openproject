@@ -61,15 +61,13 @@ OpenProject::CustomFieldFormat.map do |fields|
                                                      formatter: "CustomValue::BoolStrategy")
   fields.register OpenProject::CustomFieldFormat.new("user",
                                                      label: Proc.new { User.model_name.human },
-                                                     only: %w(WorkPackage TimeEntry
-                                                              Version Project),
+                                                     only: %w(WorkPackage TimeEntry Version Project),
                                                      edit_as: "list",
                                                      order: 9,
                                                      formatter: "CustomValue::UserStrategy")
   fields.register OpenProject::CustomFieldFormat.new("version",
                                                      label: Proc.new { Version.model_name.human },
-                                                     only: %w(WorkPackage TimeEntry
-                                                              Version Project),
+                                                     only: %w(WorkPackage TimeEntry Version Project),
                                                      edit_as: "list",
                                                      order: 10,
                                                      formatter: "CustomValue::VersionStrategy")
@@ -79,8 +77,11 @@ OpenProject::CustomFieldFormat.map do |fields|
                                                      label: nil,
                                                      order: 11,
                                                      formatter: "CustomValue::EmptyStrategy")
-  fields.register OpenProject::CustomFieldFormat.new("hierarchy",
-                                                     label: :label_hierarchy,
-                                                     order: 12,
-                                                     formatter: "CustomValue::ListStrategy")
+
+  if OpenProject::FeatureDecisions.custom_field_of_type_hierarchy_active?
+    fields.register OpenProject::CustomFieldFormat.new("hierarchy",
+                                                       label: :label_hierarchy,
+                                                       order: 12,
+                                                       formatter: "CustomValue::ListStrategy")
+  end
 end
