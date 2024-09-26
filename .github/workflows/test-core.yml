@@ -24,7 +24,7 @@ jobs:
     name: Units + Features
     if: github.repository == 'opf/openproject'
     runs-on:
-      labels
+      labels:
         - runs-on
         - runner=32cpu-linux-x64
         - family=m7
