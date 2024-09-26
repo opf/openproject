@@ -44,10 +44,6 @@ class AddButtonComponent < ApplicationComponent
     raise "Implement the id for this component"
   end
 
-  def li_css_class
-    "toolbar-item"
-  end
-
   def title
     accessibility_label_text
   end

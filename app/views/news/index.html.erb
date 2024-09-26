@@ -30,20 +30,29 @@ See COPYRIGHT and LICENSE files for more details.
   managable = User.current.allowed_in_project?(:manage_news, @project)
  %>
 
-<% html_title(t(:label_news_plural)) -%>
-<%= toolbar title: t(:label_news_plural) do %>
-  <% if managable %>
-    <li class="toolbar-item">
-      <%= link_to new_project_news_path(@project),
-          { class: 'button -primary',
-            id: 'new_news_link',
-            aria: {label: t(:label_news_new)},
-            title: t(:label_news_new)} do %>
-        <%= op_icon('button--icon icon-add') %>
-        <span class="button--text"><%= t(:label_news_singular) %></span>
-      <% end %>
-    </li>
-  <% end %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t(:label_news_plural) }
+    header.with_breadcrumbs([{ href: home_path, text: organization_name},
+                               *([href: project_overview_path(@project.id), text: @project.name] if @project),
+                               t(:label_news_plural)])
+  end
+%>
+<% if managable %>
+  <%=
+    render(Primer::OpenProject::SubHeader.new) do |subheader|
+      subheader.with_action_button(scheme: :primary,
+                                   aria: { label: t(:label_news_new)},
+                                   title: I18n.t(:label_work_package_status_new),
+                                   tag: :a,
+                                   id: 'new_news_link',
+                                   data: { "test-selector": "add-news-button"},
+                                   href: new_project_news_path(@project)) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        t(:label_news_singular)
+      end
+    end
+  %>
 <% end %>
 
 <% if @newss.any? %>

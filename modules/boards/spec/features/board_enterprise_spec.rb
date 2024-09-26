@@ -54,7 +54,7 @@ RSpec.describe "Boards enterprise spec", :js, :with_cuprite do
     end
 
     it "disabled all action boards" do
-      page.find(".toolbar-item a", text: "Board").click
+      page.find('[data-test-selector="add-board-button"]', text: "Board").click
 
       expect(page).to have_css("#{test_selector('op-tile-block')}:not(.-disabled)", text: "Basic")
       expect(page).to have_css("#{test_selector('op-tile-block')}.-disabled", count: 5)
@@ -83,7 +83,7 @@ RSpec.describe "Boards enterprise spec", :js, :with_cuprite do
     end
 
     it "enables all options" do
-      page.find(".toolbar-item a", text: "Board").click
+      page.find('[data-test-selector="add-board-button"]', text: "Board").click
 
       expect(page).to have_css("#{test_selector('op-tile-block')}:not(.-disabled)", count: 6)
     end
