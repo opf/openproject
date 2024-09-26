@@ -95,7 +95,7 @@ module ErrorsHelper
     respond_to do |format|
       format.html do
         error_message = "[#{I18n.t(:error_code, code: status)}] #{message}\n#{message_details}"
-        flash.now[:op_primer_flash] = { scheme: :danger, message: error_message, dismiss_scheme: :none }
+        flash.now[:error] = { message: error_message, dismiss_scheme: :none }
         render template: "common/error",
                layout: use_layout,
                status:,
