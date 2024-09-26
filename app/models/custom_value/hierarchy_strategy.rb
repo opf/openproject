@@ -1,4 +1,4 @@
-# --copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -24,26 +24,29 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-require_relative "../../lib_static/open_project/feature_decisions"
+class CustomValue::HierarchyStrategy < CustomValue::ARObjectStrategy
+  def validate_type_of_value
+    raise NotImplementedError
+  end
 
-# Add feature flags here via e.g.
-#
-#   OpenProject::FeatureDecisions.add :some_flag
-#
-# If the feature to be flag-guarded stems from a module, add an initializer
-# to that module's engine:
-#
-#   initializer 'the_engine.feature_decisions' do
-#     OpenProject::FeatureDecisions.add :some_flag
-#   end
-OpenProject::FeatureDecisions.add :built_in_oauth_applications,
-                                  description: "Allows the display and use of built-in OAuth applications."
+  def typed_value
+    raise NotImplementedError
+  end
 
-OpenProject::FeatureDecisions.add :generate_pdf_from_work_package,
-                                  description: "Allows to generate a PDF document from a work package description. " \
-                                               "See #45896 for details."
+  private
 
-OpenProject::FeatureDecisions.add :custom_field_of_type_hierarchy,
-                                  description: "Allows the use of the custom field type 'Hierarchy'."
+  def ar_class
+    CustomField::Hierarchy::Item
+  end
+
+  def ar_object(value)
+    option = CustomField::Hierarchy::Item.find_by(id: value.to_s)
+    if option.nil?
+      "#{value} #{I18n.t(:label_not_found)}"
+    else
+      option.value
+    end
+  end
+end
