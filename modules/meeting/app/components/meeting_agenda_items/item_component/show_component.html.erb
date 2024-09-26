@@ -7,7 +7,7 @@
         end
       end
 
-      grid.with_area(:content, tag: :span) do
+      grid.with_area(:content, tag: :span, mr: 2) do
         if @meeting_agenda_item.visible_work_package?
           flex_layout(align_items: :center) do |flex|
             # flex.with_column(mr: 2, flex: 1, classes: 'ellipsis') do

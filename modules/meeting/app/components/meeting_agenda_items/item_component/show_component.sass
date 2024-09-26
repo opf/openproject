@@ -30,7 +30,7 @@ $meeting-agenda-item--presenter-width: 300px
     margin-bottom: 0
 
   &--content
-    @include text-shortener
+    overflow-wrap: anywhere
 
   @media screen and (max-width: $breakpoint-lg)
     grid-template-columns: 20px auto 1fr calc($meeting-agenda-item--presenter-width - 50px) 50px
