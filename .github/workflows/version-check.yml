@@ -22,7 +22,9 @@ jobs:
 
       - name: Verify linked version matches core version
         id: version-check
-        run: ./script/ci/version_check.sh "${{ github.event.pull_request.body }}"
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: ./script/ci/version_check.sh "$PR_BODY"
 
       - name: Add comment if versions differ
         if: steps.version-check.outputs.version_mismatch == 'true'
@@ -31,13 +33,13 @@ jobs:
           header: version-mismatch-comment
           message: |
             The provided work package version does not match the core version:
-            
+
              - Work package URL: ${{ steps.version-check.outputs.wp_url }}
              - Work package version: ${{steps.version-check.outputs.wp_version}}
              - Core version: ${{steps.version-check.outputs.core_version}}
-            
+
             Please make sure that:
-            
+
              - The work package version OR your pull request target branch is correct
       - name: Version check passed
         if: steps.version-check.outputs.version_mismatch != 'true'
