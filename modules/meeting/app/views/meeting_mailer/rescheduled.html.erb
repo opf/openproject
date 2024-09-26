@@ -46,9 +46,9 @@ See COPYRIGHT and LICENSE files for more details.
             </td>
             <td style="<%= placeholder_text_styles %>">
               <s>
-                <%= format_time_as_date @changes[:old_start] %> <%= format_time @changes[:old_start], false %>
+                <%= format_time_as_date @changes[:old_start] %> <%= format_time @changes[:old_start], include_date: false %>
                 -
-                <%= format_time (@changes[:old_start] + @changes[:old_duration].hours), false %> <%= Time.zone %>
+                <%= format_time (@changes[:old_start] + @changes[:old_duration].hours), include_date: false %> (<%= formatted_time_zone_offset %>)
               </s>
             </td>
           </tr>
@@ -57,9 +57,9 @@ See COPYRIGHT and LICENSE files for more details.
               <%= t('meeting.email.rescheduled.new_date_time') %>
             </td>
             <td style="<%= placeholder_text_styles('font-weight': 'bold') %>">
-              <%= format_time_as_date @changes[:new_start] %> <%= format_time @changes[:new_start], false %>
+              <%= format_time_as_date @changes[:new_start] %> <%= format_time @changes[:new_start], include_date: false %>
               -
-              <%= format_time (@changes[:new_start] + @changes[:new_duration].hours), false %> <%= Time.zone %>
+              <%= format_time (@changes[:new_start] + @changes[:new_duration].hours), include_date: false %> (<%= formatted_time_zone_offset %>)
             </td>
           </tr>
           <% if @meeting.location.present? %>

@@ -127,7 +127,7 @@ module WorkPackage::PDFExport::Page
   end
 
   def footer_date
-    format_time(Time.zone.now, true)
+    format_time(Time.zone.now)
   end
 
   def total_page_nr_text

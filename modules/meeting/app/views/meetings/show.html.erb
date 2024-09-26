@@ -100,8 +100,8 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
     <div class="grid-content small-6">
       <p>
-        <strong><%= Meeting.human_attribute_name(:start_time) %></strong>: <%= format_date @meeting.start_time %> <%= format_time @meeting.start_time, false %>
-        - <%= format_time @meeting.end_time, false %> <%= Time.zone %></p>
+        <strong><%= Meeting.human_attribute_name(:start_time) %></strong>: <%= format_date @meeting.start_time %> <%= format_time @meeting.start_time, include_date: false %>
+        - <%= format_time @meeting.end_time, include_date: false %> <%= formatted_time_zone_offset %></p>
     </div>
     <div class="grid-content small-6">
       <p>
