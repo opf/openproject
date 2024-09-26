@@ -745,7 +745,7 @@ GEM
     markly (0.12.1)
     matrix (0.4.2)
     messagebird-rest (1.4.2)
-    meta-tags (2.22.0)
+    meta-tags (2.22.1)
       actionpack (>= 6.0.0, < 8.1)
     method_source (1.1.0)
     mime-types (3.5.2)
