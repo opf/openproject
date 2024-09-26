@@ -5,12 +5,13 @@ $meeting-agenda-item--presenter-width: 300px
 .op-meeting-agenda-item
   display: grid
   grid-template-columns: 20px auto 1fr fit-content($meeting-agenda-item--presenter-width) fit-content(40px)
-  grid-template-areas: "drag-handle content duration presenter actions" ".notes notes notes notes"
+  grid-template-areas: "drag-handle content duration presenter actions" ". title title title title" ". notes notes notes notes"
 
   &--drag-handle,
   &--duration,
   &--content,
-  &--presenter
+  &--presenter,
+  &--title
     align-self: center
 
   &--actions
@@ -22,13 +23,18 @@ $meeting-agenda-item--presenter-width: 300px
 
   &--duration
     white-space: nowrap
+    justify-self: end
+
+  &--title
+    overflow-wrap: anywhere
+    margin-bottom: 0
 
   &--content
     @include text-shortener
 
   @media screen and (max-width: $breakpoint-lg)
     grid-template-columns: 20px auto 1fr calc($meeting-agenda-item--presenter-width - 50px) 50px
-    grid-template-areas: "drag-handle content content content actions" ". duration . presenter presenter" ". notes notes notes notes"
+    grid-template-areas: "drag-handle content content content actions" ". duration . presenter presenter" ". title title title title" ". notes notes notes notes"
 
     &--author
       justify-self: stretch
