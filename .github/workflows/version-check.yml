@@ -9,7 +9,7 @@ permissions:
   pull-requests: write  # to comment on the PR
 
 jobs:
-  check-pr:
+  version-check:
     if: contains(github.event.pull_request.labels.*.name, 'needs review')
     runs-on: ubuntu-latest
 
