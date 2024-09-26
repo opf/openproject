@@ -78,10 +78,8 @@ OpenProject::CustomFieldFormat.map do |fields|
                                                      order: 11,
                                                      formatter: "CustomValue::EmptyStrategy")
 
-  if OpenProject::FeatureDecisions.custom_field_of_type_hierarchy_active?
-    fields.register OpenProject::CustomFieldFormat.new("hierarchy",
-                                                       label: :label_hierarchy,
-                                                       order: 12,
-                                                       formatter: "CustomValue::ListStrategy")
-  end
+  fields.register OpenProject::CustomFieldFormat.new("hierarchy",
+                                                     label: :label_hierarchy,
+                                                     order: 12,
+                                                     formatter: "CustomValue::HierarchyStrategy")
 end
