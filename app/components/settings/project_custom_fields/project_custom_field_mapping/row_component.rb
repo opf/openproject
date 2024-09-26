@@ -35,7 +35,8 @@ module Settings
         def detach_from_project_url
           url_helpers.unlink_admin_settings_project_custom_field_path(
             id: @table.params[:custom_field].id,
-            project_custom_field_project_mapping: { project_id: project.id }
+            project_custom_field_project_mapping: { project_id: project.id },
+            page: current_page
           )
         end
       end

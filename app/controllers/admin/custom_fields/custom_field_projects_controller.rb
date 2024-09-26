@@ -103,7 +103,7 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
     update_via_turbo_stream(
       component: Admin::CustomFields::CustomFieldProjects::TableComponent.new(
         query: available_custom_fields_projects_query,
-        params: { custom_field: @custom_field, url_for_action: }
+        params: params.merge({ custom_field: @custom_field, url_for_action: })
       )
     )
   end

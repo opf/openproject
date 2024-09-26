@@ -119,18 +119,21 @@ RSpec.describe "Custom Fields Multi-Project Activation", :js do
       end
     end
 
-    it "allows unlinking a project from a custom field" do
-      project = create(:project)
-      create(:custom_fields_project, custom_field:, project:)
+    it "allows unlinking a project from a custom field", with_settings: { per_page_options: "2,5" } do
+      projects = create_list(:project, 4)
+      projects.each { |project| create(:custom_fields_project, custom_field:, project:) }
 
-      visit custom_field_projects_path(custom_field)
+      current_page = 3
+      visit custom_field_projects_path(custom_field, page: current_page)
 
+      project = custom_field_projects_page.project_in_first_row
       custom_field_projects_page.click_menu_item_of("Remove from project", project)
 
       expect(page).to have_no_text(project.name)
 
       aggregate_failures "pagination links maintain the correct url after unlinking is done" do
-        custom_field_projects_page.expect_correct_pagination_links(model: custom_field)
+        custom_field_projects_page.expect_correct_pagination_links(model: custom_field, current_page:)
+        custom_field_projects_page.expect_current_page_number(current_page)
       end
     end
 

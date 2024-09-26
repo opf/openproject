@@ -123,18 +123,21 @@ RSpec.describe "Project Custom Field Mappings", :js do
       end
     end
 
-    it "allows unlinking a project from a custom field" do
-      project = create(:project)
-      create(:project_custom_field_project_mapping, project_custom_field:, project:)
+    it "allows unlinking a project from a custom field", with_settings: { per_page_options: "2,5" } do
+      projects = create_list(:project, 4)
+      projects.each { |project| create(:project_custom_field_project_mapping, project_custom_field:, project:) }
 
-      visit project_mappings_admin_settings_project_custom_field_path(project_custom_field)
+      current_page = 3
+      visit project_mappings_admin_settings_project_custom_field_path(project_custom_field, page: current_page)
 
+      project = project_custom_field_mappings_page.project_in_first_row
       project_custom_field_mappings_page.click_menu_item_of("Remove from project", project)
 
       expect(page).to have_no_text(project.name)
 
       aggregate_failures "pagination links maintain the correct url after unlinking is done" do
-        project_custom_field_mappings_page.expect_correct_pagination_links(model: project_custom_field)
+        project_custom_field_mappings_page.expect_correct_pagination_links(model: project_custom_field, current_page:)
+        project_custom_field_mappings_page.expect_current_page_number(current_page)
       end
     end
 
