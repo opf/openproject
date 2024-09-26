@@ -226,6 +226,7 @@ zh-CN:
           nextcloud: 在管理组文件夹中发现意外内容。
           one_drive: 在驱动器中发现意外内容。
         unknown_error: 连接无法验证。出现未知错误。请查看服务器日志以获取更多信息。
+        userless_access_denied: The configured app password is invalid.
       label_error: 错误
       label_healthy: 健康
       label_pending: 待处理

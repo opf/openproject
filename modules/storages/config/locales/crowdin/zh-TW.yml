@@ -226,6 +226,7 @@ zh-TW:
           nextcloud: 在管理的群組資料夾中發現非預期內容。
           one_drive: 在儲存空間中發現預期之外內容。
         unknown_error: 連線無法驗證。發生未知錯誤。請檢查伺服器日誌以瞭解進一步資訊。
+        userless_access_denied: The configured app password is invalid.
       label_error: 錯誤
       label_healthy: 健康的
       label_pending: 待處理

@@ -920,6 +920,8 @@ fr:
             name:
               blank: "est obligatoire. Veuillez sélectionner un nom."
               not_unique: "est déjà utilisé. Veuillez choisir un autre nom."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Au moins un canal pour envoyer des notifications doit être spécifié."
           attributes:
@@ -1817,7 +1819,7 @@ fr:
       progress_mode_changed_to_status_based: Le calcul de la progression est désormais basé sur le statut
       status_excluded_from_totals_set_to_false_message: désormais inclus dans les totaux de la hiérarchie
       status_excluded_from_totals_set_to_true_message: désormais exclus des totaux de la hiérarchie
-      status_percent_complete_changed: "% réalisé passé de %{old_value} % à %{new_value} %"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           À partir de maintenant, l'activité liée aux liens de fichiers (fichiers stockés sur des supports externes) apparaîtra ici dans l'onglet Activité. Les activités suivantes concernent des liens déjà existants :
@@ -3145,8 +3147,6 @@ fr:
   setting_work_package_done_ratio_status: "Basé sur le statut"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    En mode <b>Basé sur le travail</b>, le % d'achèvement est calculé à partir de la quantité de travail effectuée par rapport au total du travail. En mode <b>Basé sur le statut</b>, chaque état a une valeur de % d'achèvement associée. Le changement de statut changera la valeur de % d'achèvement.
   setting_work_package_done_ratio_explanation_html: >
     En mode <b>Basé sur le travail</b>, le % d'achèvement peut être librement défini sur n'importe quelle valeur. Si vous saisissez une valeur pour le travail, le travail restant sera automatiquement dérivé. En mode <b>Basé sur le statut</b>, chaque état a une valeur de % d'achèvement associée. Le changement de statut changera la valeur de % d'achèvement.
   setting_work_package_properties: "Propriétés du Lot de Travaux"
@@ -3538,7 +3538,6 @@ fr:
       label_note: "Note :"
       modal:
         work_based_help_text: "Chaque champ est calculé automatiquement à partir des deux autres lorsque cela est possible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "Le % d'achèvement est automatiquement dérivé du travail et du travail restant."
         status_based_help_text: "Le % réalisé est défini par le statut du lot de travaux."
         migration_warning_text: "Dans le mode de calcul de la progression basé sur le travail, le % réalisé ne peut pas être défini manuellement et est lié au travail. La valeur existante a été conservée mais ne peut pas être modifiée. Veuillez d'abord renseigner Travail."
       derivation_hints:

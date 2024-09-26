@@ -1,0 +1,23 @@
+<% html_title t(:label_administration), t('saml.providers.plural') %>
+
+<%= content_for :content_header do %>
+  <%= render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t('saml.providers.plural') }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             t('saml.providers.plural')])
+  end %>
+
+  <%= render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(scheme: :primary,
+                                 aria: { label: I18n.t('saml.providers.label_add_new') },
+                                 title: I18n.t('saml.providers.label_add_new'),
+                                 tag: :a,
+                                 href: new_saml_provider_path) do |button|
+      button.with_leading_visual_icon(icon: :plus)
+      t('saml.providers.singular')
+    end
+  end
+  %>
+<% end %>
+
+<%= render ::Saml::Providers::TableComponent.new(rows: @providers) %>

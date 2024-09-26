@@ -929,6 +929,8 @@ uk:
             name:
               blank: "– обов’язковий атрибут. Виберіть ім’я."
               not_unique: "уже використовується. Виберіть інше ім’я."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Необхідно вказати принаймні один канал для надсилання сповіщень."
           attributes:
@@ -1882,7 +1884,7 @@ uk:
       progress_mode_changed_to_status_based: Установлено режим обчислення прогресу на основі статусу
       status_excluded_from_totals_set_to_false_message: тепер включено в підсумки ієрархії
       status_excluded_from_totals_set_to_true_message: тепер виключено з підсумків ієрархії
-      status_percent_complete_changed: "«% завершення» змінено з %{old_value}% на %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           Тепер дії, пов’язані з посиланнями на файли (файли, що зберігаються в зовнішніх сховищах), з’являтимуться на вкладці «Активність». Наявні дії, пов’язані із посиланнями:
@@ -3211,8 +3213,6 @@ uk:
   setting_work_package_done_ratio_status: "На основі статусу"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    У режимі <b>на основі роботи</b> значення атрибута «% завершення» залежить від частки виконаної роботи відносно загального обсягу робіт. У режимі <b>на основі статусу</b> кожен статус має пов’язане з ним значення атрибута «% завершення». У разі змінення статусу змінюється й значення атрибута «% завершення».
   setting_work_package_done_ratio_explanation_html: >
     У режимі <b>на основі роботи</b> атрибут «% завершення» може мати будь-яке значення. Якщо визначено атрибут «Робота», з нього автоматично виводиться значення атрибута «Залишок роботи». У режимі <b>на основі статусу</b> кожен статус має пов’язане з ним значення атрибута «% завершення». У разі змінення статусу змінюється й значення атрибута «% завершення».
   setting_work_package_properties: "Властивості робочого пакета"
@@ -3606,7 +3606,6 @@ uk:
       label_note: "Примітка."
       modal:
         work_based_help_text: "Кожне поле автоматично обчислюється на основі двох інших, коли це можливо."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "Значення атрибута «% завершення» автоматично виводиться з атрибутів «Робота» й «Залишок роботи»."
         status_based_help_text: "Значення параметра «% завершення» визначається статусом пакета робіт."
         migration_warning_text: "У режимі обчислення прогресу на основі робіт значення параметра «% завершення» не можна встановити вручну й прив’язати до значення параметра «Робота». Наявне значення збережено, але його не можна змінити. Спочатку визначте параметр «Робота»."
       derivation_hints:

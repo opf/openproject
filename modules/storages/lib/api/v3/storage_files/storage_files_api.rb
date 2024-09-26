@@ -52,23 +52,19 @@ module API::V3::StorageFiles
 
       def fetch_upload_link
         lambda do |upload_data|
-          Rails.logger.error "UploadLink #{upload_data.inspect}"
           Storages::UploadLinkService.call(storage: @storage, upload_data:, user: current_user)
         end
       end
 
       def auth_strategy
-        Storages::Peripherals::Registry
-          .resolve("#{@storage.short_provider_type}.authentication.user_bound")
-          .call(user: current_user)
+        Storages::Peripherals::Registry.resolve("#{@storage}.authentication.user_bound").call(user: current_user)
       end
     end
 
     resources :files do
       get do
-        Storages::Peripherals::Registry
-          .resolve("#{@storage.short_provider_type}.queries.files")
-          .call(storage: @storage, auth_strategy:, folder: extract_parent_folder(params))
+        Storages::StorageFilesService
+          .call(storage: @storage, user: current_user, folder: extract_parent_folder(params))
           .match(
             on_success: ->(files) { API::V3::StorageFiles::StorageFilesRepresenter.new(files, @storage, current_user:) },
             on_failure: ->(error) { raise_error(error) }
@@ -77,9 +73,8 @@ module API::V3::StorageFiles
 
       route_param :file_id, type: String, desc: "Storage file id" do
         get do
-          Storages::Peripherals::Registry
-            .resolve("#{@storage.short_provider_type}.queries.file_info")
-            .call(storage: @storage, auth_strategy:, file_id: params[:file_id])
+          Storages::StorageFileService
+            .call(storage: @storage, user: current_user, file_id: params[:file_id])
             .map { |file_info| to_storage_file(file_info) }
             .match(
               on_success: lambda { |storage_file|

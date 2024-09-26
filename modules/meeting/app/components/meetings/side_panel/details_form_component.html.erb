@@ -8,12 +8,12 @@
     ) do |f|
       component_collection do |collection|
         collection.with_component(Primer::Alpha::Dialog::Body.new) do
-          flex_layout(my: 3) do |modal_body|
+          flex_layout(mb: 3) do |modal_body|
             modal_body.with_row do
               render(BaseErrorsComponent.new(@meeting))
             end
 
-            modal_body.with_row do
+            modal_body.with_row(mt: 3) do
               render(Meeting::StartDate.new(f, initial_value: start_date_initial_value))
             end
 

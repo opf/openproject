@@ -278,8 +278,6 @@ vi:
           Các thay đổi có thể mất một thời gian để có hiệu lực. Bạn sẽ được thông báo khi tất cả các công việc liên quan đã được cập nhật.
           Bạn có chắc chắn muốn tiếp tục không?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          Thay đổi chế độ tính toán tiến độ từ dựa trên trạng thái sang dựa trên công việc sẽ biến <i>% Hoàn thành</i> thành trường không thể chỉnh sửa có giá trị được lấy từ <i>Công việc</i> và <i>Công việc còn lại</i>. Các giá trị hiện tại cho <i>% Hoàn thành</i> được giữ nguyên. Nếu các giá trị cho <i>Công việc</i> và <i>Công việc còn lại</i> không có, chúng sẽ được yêu cầu để thay đổi <i>% Hoàn thành</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
           Thay đổi chế độ tính toán tiến độ từ dựa trên trạng thái sang dựa trên công việc sẽ làm cho trường <i>% Hoàn thành</i> có thể chỉnh sửa tự do. Nếu bạn tùy ý nhập giá trị cho <i>Công việc</i> hoặc <i>Công việc còn lại</i>, chúng cũng sẽ được liên kết với <i>% Hoàn thành</i>. Thay đổi <i>Công việc còn lại</i> sau đó có thể cập nhật <i>% Hoàn thành</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-

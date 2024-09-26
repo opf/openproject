@@ -916,6 +916,8 @@ vi:
             name:
               blank: "là bắt buộc. Vui lòng chọn một tên."
               not_unique: "đã được sử dụng. Vui lòng chọn một tên khác."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Cần chỉ định ít nhất một kênh để gửi thông báo."
           attributes:
@@ -1785,7 +1787,7 @@ vi:
       progress_mode_changed_to_status_based: Chế độ tính toán tiến độ đã được đặt thành chế độ dựa trên trạng thái
       status_excluded_from_totals_set_to_false_message: hiện được bao gồm trong tổng số phân cấp
       status_excluded_from_totals_set_to_true_message: hiện bị loại trừ khỏi tổng số phân cấp
-      status_percent_complete_changed: "Phần trăm hoàn thành đã thay đổi từ %{old_value}% thành %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           Từ giờ trở đi, hoạt động liên quan đến liên kết tệp (các tệp lưu trữ bên ngoài) sẽ xuất hiện ở đây trong tab Hoạt động. Các hoạt động sau đây liên quan đến các liên kết đã tồn tại:
@@ -3111,8 +3113,6 @@ vi:
   setting_work_package_done_ratio_status: "Dựa trên trạng thái"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    Ở chế độ <b>dựa trên công việc</b>, % Hoàn thành được tính từ lượng công việc đã hoàn thành so với tổng công việc. Ở chế độ <b>dựa trên trạng thái</b>, mỗi trạng thái có giá trị % Hoàn thành liên quan đến nó. Thay đổi trạng thái sẽ thay đổi % Hoàn thành.
   setting_work_package_done_ratio_explanation_html: >
     Ở chế độ <b>dựa trên công việc</b>, % Hoàn thành có thể được tự do thiết lập thành bất kỳ giá trị nào. Nếu bạn tùy ý nhập giá trị cho Công việc, Công việc còn lại sẽ tự động được suy ra. Ở chế độ <b>dựa trên trạng thái</b>, mỗi trạng thái có giá trị % Hoàn thành được liên kết với nó. Thay đổi trạng thái sẽ thay đổi % Hoàn thành.
   setting_work_package_properties: "Thuộc tính gói công việc"
@@ -3503,7 +3503,6 @@ vi:
       label_note: "Ghi chú:"
       modal:
         work_based_help_text: "Mỗi trường sẽ được tự động tính toán dựa trên hai trường còn lại khi có thể."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Hoàn thành được tự động lấy từ Công việc và Công việc còn lại."
         status_based_help_text: "% Hoàn thành được thiết lập theo trạng thái của gói công việc."
         migration_warning_text: "Trong chế độ tính toán tiến độ dựa trên công việc, % Hoàn thành không thể được đặt thủ công và liên kết với Công việc. Giá trị hiện tại đã được giữ nhưng không thể chỉnh sửa. Vui lòng nhập Công việc trước."
       derivation_hints:

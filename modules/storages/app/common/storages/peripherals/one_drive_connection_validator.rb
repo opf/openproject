@@ -57,7 +57,7 @@ module Storages
 
       def query
         @query ||= Peripherals::Registry
-                     .resolve("#{@storage.short_provider_type}.queries.files")
+                     .resolve("#{@storage}.queries.files")
                      .call(storage: @storage, auth_strategy:, folder: root_folder)
       end
 
@@ -173,7 +173,7 @@ module Storages
       end
 
       def auth_strategy
-        Peripherals::Registry.resolve("#{@storage.short_provider_type}.authentication.userless")
+        Peripherals::Registry.resolve("#{@storage}.authentication.userless")
                              .call
                              .with_cache(false)
       end

@@ -913,6 +913,8 @@ ko:
             name:
               blank: "- 필수입니다. 이름을 선택하세요."
               not_unique: "- 사용 중입니다. 다른 이름을 선택하세요."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "알림을 보낼 채널을 하나 이상 지정해야 합니다."
           attributes:
@@ -1782,7 +1784,7 @@ ko:
       progress_mode_changed_to_status_based: 진행률 계산 모드가 상태 기반으로 설정되었습니다
       status_excluded_from_totals_set_to_false_message: 이제 계층 합계에 포함됨
       status_excluded_from_totals_set_to_true_message: 이제 계층 합계에서 제외됨
-      status_percent_complete_changed: "완료 %가 %{old_value}%에서 %{new_value}%(으)로 변경되었습니다"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           지금부터 파일 링크(외부 저장소에 저장된 파일)와 관련된 활동이 활동 탭에 표시됩니다. 다음은 이미 존재하는 링크와 관련된 활동을 나타냅니다.
@@ -3105,8 +3107,6 @@ ko:
   setting_work_package_done_ratio_status: "상태 기반"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    <b>작업 기반</b> 모드에서 완료 %는 총 작업 대비 완료된 작업을 기준으로 계산됩니다. <b>상태 기반</b> 모드에서는 각 상태에 완료 % 값이 연결되어 있습니다. 상태를 변경하면 완료 %도 변경됩니다.
   setting_work_package_done_ratio_explanation_html: >
     <b>작업 기반</b> 모드에서 완료 %는 어떤 값으로든 자유롭게 설정할 수 있습니다. 선택적으로 작업에 대한 값을 입력하면 남은 작업이 자동으로 파생됩니다. <b>상태 기반</b> 모드에서는 각 상태에 완료 % 값이 연결되어 있습니다. 상태를 변경하면 완료 %도 변경됩니다.
   setting_work_package_properties: "작업 패키지 속성"
@@ -3498,7 +3498,6 @@ ko:
       label_note: "참고:"
       modal:
         work_based_help_text: "가능한 경우 각 필드는 다른 두 필드에서 자동으로 계산됩니다."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "완료 %는 작업 및 남은 작업에서 자동으로 파생됩니다."
         status_based_help_text: "완료 %는 작업 패키지 상태에 따라 설정됩니다."
         migration_warning_text: "작업 기반 진행률 계산 모드에서 완료 %는 수동으로 설정할 수 없으며 작업에 연결됩니다. 기존 값은 유지되지만 편집할 수 없습니다. 먼저 작업을 입력하세요."
       derivation_hints:

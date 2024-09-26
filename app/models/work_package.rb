@@ -45,6 +45,7 @@ class WorkPackage < ApplicationRecord
   include OpenProject::Journal::AttachmentHelper
 
   DONE_RATIO_OPTIONS = %w[field status].freeze
+  TOTAL_PERCENT_COMPLETE_MODE_OPTIONS = %w[work_weighted_average simple_average].freeze
 
   belongs_to :project
   belongs_to :type

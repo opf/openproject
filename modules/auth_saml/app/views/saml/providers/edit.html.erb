@@ -1,0 +1,26 @@
+<% page_title = t('saml.providers.label_edit', name: @provider.display_name) %>
+
+<% html_title(t(:label_administration), page_title) -%>
+
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title { @provider.display_name } %>
+
+  <% header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                              { href: saml_providers_path, text: t('saml.providers.plural') },
+                              @provider.display_name]) %>
+
+  <% header.with_description do %>
+    <%= link_translate(
+          'saml.instructions.documentation_link',
+          links: {
+            docs_url: ::OpenProject::Static::Links[:sysadmin_docs][:saml][:href],
+          },
+          target: "_blank"
+        ) %>
+  <% end %>
+<% end %>
+
+<%= render(Saml::Providers::ViewComponent.new(@provider,
+                                              view_mode: :edit,
+                                              edit_mode: @edit_mode,
+                                              edit_state: @edit_state)) %>

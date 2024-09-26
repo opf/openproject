@@ -13,8 +13,8 @@ class UrlValidator < ActiveModel::EachValidator
   end
 
   def parse(value)
-    url = URI.parse(value)
-  rescue StandardError => e
+    URI.parse(value.to_s.strip)
+  rescue StandardError
     nil
   end
 

@@ -226,6 +226,7 @@ ja:
           nextcloud: Unexpected content found in the managed group folder.
           one_drive: Unexpected content found in the drive.
         unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
+        userless_access_denied: The configured app password is invalid.
       label_error: エラー！
       label_healthy: Healthy
       label_pending: 保留中
