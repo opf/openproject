@@ -32,7 +32,10 @@ jobs:
         with:
           header: version-mismatch-comment
           message: |
-            The provided work package version does not match the core version:
+            > [!CAUTION]
+            > The provided work package version does not match the core version
+
+            Details:
 
              - Work package URL: ${{ steps.version-check.outputs.wp_url }}
              - Work package version: ${{steps.version-check.outputs.wp_version}}
