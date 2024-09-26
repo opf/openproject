@@ -28,7 +28,7 @@ zh-TW:
       work_package:
         position: "位置"
         story_points: "需求重要性"
-        backlogs_work_package_type: "待辦項目類型"
+        backlogs_work_package_type: "待辦事項類型"
     errors:
       models:
         work_package:

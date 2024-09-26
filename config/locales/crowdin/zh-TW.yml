@@ -526,7 +526,7 @@ zh-TW:
       current_type_not_available_in_target_project: >
         當前工作包類型未在目標項目中啓用。 如果您想保持不變，請啓用目標項目中的類型。 否則，將從列表中選擇目標項目中的可用類型。
       bulk_current_type_not_available_in_target_project: >
-        目標項目中未啓用工作包的當前類型。如果您希望工作包類型保持不變，請在目標項目中啓用這些類型。否則，請從列表中選擇目標項目中的可用類型。
+        當前類型之工作項目尚未啓用於目標專案。如果您希望工作項目類型保持不變，請在目標專案中啓用這些類型。否則，請從列表中選擇目標專案中的可用類型。
     sharing:
       missing_workflow_warning:
         title: "共用工作項目缺少工作流"
@@ -1913,7 +1913,7 @@ zh-TW:
   label_available_project_repositories: "可用的版本庫"
   label_available_project_versions: "可用的版本"
   label_available_project_work_package_categories: "可用的工作項目類別"
-  label_available_project_work_package_types: "可用的工作包類型"
+  label_available_project_work_package_types: "可用的工作項目類型"
   label_available_projects: "可用專案"
   label_api_doc: "API文件"
   label_backup: "備份"
@@ -2546,7 +2546,7 @@ zh-TW:
     sharing:
       work_packages:
         allowed_actions: "您擁有這個工作項目的 %{allowed_actions} 權限. 這些權限將隨著您的角色不同而更改."
-        create_account: "要訪問此工作包，您需要創建一個 %{instance} 帳戶。"
+        create_account: "要存取此工作項目，您需要建立一個 %{instance} 帳戶。"
         open_work_package: "開啟工作項目"
         subject: "有個工作項目 #%{id} 與您共用"
         enterprise_text: "與不是專案成員的使用者共用工作項目。"
@@ -2749,7 +2749,7 @@ zh-TW:
   permission_add_messages: "張貼訊息"
   permission_add_project: "建立專案"
   permission_add_work_package_attachments: "新增附件"
-  permission_add_work_package_attachments_explanation: "允許在沒有編輯工作包權限的情況下添加附件"
+  permission_add_work_package_attachments_explanation: "允許在沒有編輯工作項目權限的情況下新增附件"
   permission_archive_project: "封存專案"
   permission_create_user: "新增使用者"
   permission_manage_user: "編輯使用者"
@@ -2760,7 +2760,7 @@ zh-TW:
   permission_browse_repository: "唯讀版本庫 (瀏覽和 Checkout)"
   permission_change_wiki_parent_page: "更改上層 Wiki 頁面"
   permission_change_work_package_status: "變更工作項目狀態"
-  permission_change_work_package_status_explanation: "允許在不編輯工作包權限的情況下更改狀態"
+  permission_change_work_package_status_explanation: "允許在無編輯工作項目權限的情況下更改狀態"
   permission_comment_news: "在「最新消息」留言"
   permission_commit_access: "讀/寫 權限版本庫 (Commit)"
   permission_copy_projects: "複製專案"
@@ -3467,7 +3467,7 @@ zh-TW:
       modal:
         work_based_help_text: "在可能的情況下，每個欄位都會根據其他兩個欄位自動計算。"
         work_based_help_text_pre_14_4_without_percent_complete_edition: "完成百分比由 \"工時\" 和 \"剩餘工時\" 自動得出。"
-        status_based_help_text: "完成百分比由工作包狀態設定。"
+        status_based_help_text: "完成百分比依工作項目狀態設定。"
         migration_warning_text: "在「基於工時」進度計算模式下，完成百分比無法手動設置，並且與「工時」相關聯。目前手動輸入數值已保留，無法編輯。 請務必輸入「工時」才能進行。"
       derivation_hints:
         done_ratio:
@@ -3532,9 +3532,9 @@ zh-TW:
       not_project_member: "非專案的成員"
       project_group: "小組成員可能擁有額外權限(作為項目成員)"
       not_project_group: "群組 (與所有成員共用)"
-      additional_privileges_project: "可能有額外的權限(作為項目成員)"
-      additional_privileges_group: "可能有額外的權限(作為組成員)"
-      additional_privileges_project_or_group: "可能有額外的權限(作為項目成員或組成員)"
+      additional_privileges_project: "可能有額外的權限(身為專案成員)"
+      additional_privileges_group: "可能有額外的權限(作為群組成員)"
+      additional_privileges_project_or_group: "可能有額外的權限(身為專案成員或群組成員)"
     project_queries:
       publishing_denied: "您沒有公開專案列表的權限。"
       access_warning: "用戶只能看到他們有權訪問的專案。共用專案列表不會影響單一專案的權限。"
@@ -3592,7 +3592,7 @@ zh-TW:
       code_500_outbound_request_failure: "對另一個資源的出站請求存在失敗狀態代碼 %{status_code} 。"
       code_500_missing_enterprise_token: "由於企業權杖是無效的或缺失的，故無法處理該請求。"
       not_found:
-        work_package: "找不到您要查找的工作包或者它已被刪除。"
+        work_package: "找不到您要查找的工作項目或者它已被刪除。"
       expected:
         date: "YYYY-MM-DD (僅適用於 ISO 8601 日期)"
         datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm](任何兼容的 ISO 8601 日期時間)"

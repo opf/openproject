@@ -345,7 +345,7 @@ zh-TW:
     hal:
       error:
         update_conflict_refresh: "點擊此處刷新資源並更新到最新版本。"
-        edit_prohibited: "已阻止對此工作包編輯 %{attribute}。此屬性來自於關係繼承(如子項目)或其他無法配置的來源。"
+        edit_prohibited: "已阻止對此屬性資源編輯 %{attribute} 功能。此屬性來自於關係繼承(如子項目)或其他無法配置的來源。"
         format:
           date: "%{attribute} 不是有效日期 - 需要 YYYY-MM-DD。"
         general: "發生錯誤。"
@@ -780,7 +780,7 @@ zh-TW:
     timer:
       start_new_timer: "開始新的計時"
       timer_already_running: "要啓動新計時器，必須先停止當前計時器："
-      timer_already_stopped: "此工作包沒有啟用的計時器，您是否已在其他窗口中將其停止？"
+      timer_already_stopped: "沒有啟用此工作項目計時器，您是否已在其他窗口中將其停止？"
       tracking_time: "跟蹤時間"
       button_stop: "停止當前計時器"
     two_factor_authentication:
