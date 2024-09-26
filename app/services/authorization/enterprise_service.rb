@@ -41,10 +41,10 @@ class Authorization::EnterpriseService
     grid_widget_wp_graph
     ldap_groups
     one_drive_sharepoint_file_storage
-    openid_providers
     placeholder_users
     project_list_sharing
     readonly_work_packages
+    sso_auth_providers
     team_planner_view
     two_factor_authentication
     virus_scanning

@@ -1,0 +1,21 @@
+<% html_title(t(:label_administration), t('saml.providers.label_add_new')) -%>
+
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title { t('saml.providers.label_add_new') } %>
+
+  <% header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration")},
+                              { href: saml_providers_path, text: t('saml.providers.plural') },
+                              t('saml.providers.label_add_new')]) %>
+
+  <% header.with_description do %>
+    <%= link_translate(
+          'saml.instructions.documentation_link',
+          links: {
+            docs_url: ::OpenProject::Static::Links[:sysadmin_docs][:saml][:href],
+          },
+          target: "_blank"
+        ) %>
+  <% end %>
+<% end %>
+
+<%= render(Saml::Providers::ViewComponent.new(@provider, edit_mode: true, edit_state: :name)) %>

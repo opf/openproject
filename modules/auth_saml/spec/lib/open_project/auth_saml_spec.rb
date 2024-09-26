@@ -1,66 +1,34 @@
-require File.dirname(__FILE__) + "/../../spec_helper"
+require "#{File.dirname(__FILE__)}/../../spec_helper"
 require "open_project/auth_saml"
 
 RSpec.describe OpenProject::AuthSaml do
-  before do
-    OpenProject::AuthSaml.reload_configuration!
-  end
-
-  after do
-    OpenProject::AuthSaml.reload_configuration!
-  end
-
   describe ".configuration" do
-    let(:config) do
-      # the `configuration` method is cached to avoid
-      # loading the SAML file more than once
-      # thus remove any cached value here
-      OpenProject::AuthSaml.remove_instance_variable(:@saml_settings)
-      OpenProject::AuthSaml.configuration
-    end
+    let!(:provider) { create(:saml_provider, display_name: "My SSO", slug: "my-saml") }
 
-    context(
-      "with configuration",
-      with_config: {
-        saml: {
-          my_saml: {
-            name: "saml",
-            display_name: "My SSO"
-          }
-        }
-      }
-    ) do
-      it "contains the configuration from OpenProject::Configuration (or settings.yml) by default" do
-        expect(config[:my_saml][:name]).to eq "saml"
-        expect(config[:my_saml][:display_name]).to eq "My SSO"
-      end
+    subject { described_class.configuration[:"my-saml"] }
 
-      context(
-        "with settings override from database",
-        with_settings: {
-          plugin_openproject_auth_saml: {
-            providers: {
-              my_saml: {
-                display_name: "Your SSO"
-              },
-              new_saml: {
-                name: "new_saml",
-                display_name: "Another SAML"
-              }
-            }
-          }
-        }
-      ) do
-        it "overrides the existing configuration where defined" do
-          expect(config[:my_saml][:name]).to eq "saml"
-          expect(config[:my_saml][:display_name]).to eq "Your SSO"
-        end
+    it "contains the configuration from OpenProject::Configuration (or settings.yml) by default",
+       :aggregate_failures do
+      expect(subject[:name]).to eq "my-saml"
+      expect(subject[:display_name]).to eq "My SSO"
+      expect(subject[:idp_cert].strip).to eq provider.idp_cert.strip
+      expect(subject[:assertion_consumer_service_url]).to eq "http://#{Setting.host_name}/auth/my-saml/callback"
+      expect(subject[:idp_sso_service_url]).to eq "https://example.com/sso"
+      expect(subject[:idp_slo_service_url]).to eq "https://example.com/slo"
 
-        it "defines new providers if given" do
-          expect(config[:new_saml][:name]).to eq "new_saml"
-          expect(config[:new_saml][:display_name]).to eq "Another SAML"
-        end
-      end
+      attributes = subject[:attribute_statements]
+      expect(attributes[:email]).to eq Saml::Defaults::MAIL_MAPPING.split("\n")
+      expect(attributes[:login]).to eq Saml::Defaults::MAIL_MAPPING.split("\n")
+      expect(attributes[:first_name]).to eq Saml::Defaults::FIRSTNAME_MAPPING.split("\n")
+      expect(attributes[:last_name]).to eq Saml::Defaults::LASTNAME_MAPPING.split("\n")
+
+      security = subject[:security]
+      expect(security[:check_idp_cert_expiration]).to be false
+      expect(security[:check_sp_cert_expiration]).to be false
+      expect(security[:metadata_signed]).to be false
+      expect(security[:authn_requests_signed]).to be false
+      expect(security[:want_assertions_signed]).to be false
+      expect(security[:want_assertions_encrypted]).to be false
     end
   end
 end

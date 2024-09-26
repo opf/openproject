@@ -1,0 +1,110 @@
+<fieldset class="form--fieldset">
+  <div class="form--field -required">
+    <%= f.text_field :name, required: true, disable: f.object.persisted?, container_class: '-middle' %>
+  </div>
+
+  <div class="form--field -required">
+    <%= f.text_field :display_name, required: true, container_class: '-middle' %>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_field :sp_entity_id, required: false, container_class: '-middle' %>
+  </div>
+
+  <div class="form--field -required">
+    <%= f.text_field :idp_sso_service_url, required: true, container_class: '-xwide' %>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_field :idp_slo_service_url, required: false, container_class: '-xwide' %>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_field :idp_cert_fingerprint,
+                     required: false,
+                     container_class: '-xwide' %>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_area :idp_cert, required: false, rows: 10, columns: 20, container_class: '-xwide' %>
+  </div>
+
+  <div class="form--field">
+    <%= f.check_box :limit_self_registration, required: false, container_class: '-middle' %>
+    <div class="form--field-instructions">
+      <%= I18n.t('openid_connect.setting_instructions.limit_self_registration') %>
+    </div>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_field :name_identifier_format, required: false, container_class: '-xwide' %>
+  </div>
+</fieldset>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%= t('saml.providers.attribute_mapping') %></legend>
+  <p><%= t 'saml.providers.attribute_mapping_text' %></p>
+
+  <div class="form--field -required">
+    <%= f.text_field 'login_mapping',
+                     required: true,
+                     size: 20,
+                     container_class: '-middle' %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.login_map') %>
+    </span>
+  </div>
+  <div class="form--field">
+    <%= f.text_field 'first_name_mapping',
+                     size: 20,
+                     container_class: '-middle' %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.generic_map', attribute: ApplicationRecord.human_attribute_name(:firstname)) %>
+    </span>
+  </div>
+  <div class="form--field">
+    <%= f.text_field 'last_name_mapping',
+                     size: 20,
+                     container_class: '-middle' %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.generic_map', attribute: ApplicationRecord.human_attribute_name(:lastname)) %>
+    </span>
+  </div>
+  <div class="form--field">
+    <%= f.text_field 'email_mapping',
+                     size: 20,
+                     placeholder: 'mail',
+                     container_class: '-middle' %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.generic_map', attribute: ApplicationRecord.human_attribute_name(:mail)) %>
+    </span>
+  </div>
+</fieldset>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%= t('saml.providers.request_attributes.title') %></legend>
+  <p><%= t 'saml.providers.request_attributes.legend' %></p>
+
+  <% @provider.request_attributes.each do |request| %>
+    <% base_key = "saml_request_#{request['name']}" %>
+    <div class="form--field -required">
+      <%= styled_label_tag "#{base_key}_name", t('saml.providers.requested_attributes.name') %>
+      <div class="form--field-container">
+        <%= text_field_tag 'saml_provider[request_attributes][][name]',
+                           request['name'],
+                           id: "#{base_key}_name"
+        %>
+      </div>
+    </div>
+    <div class="form--field -required">
+      <%= styled_label_tag "#{base_key}_format", t('saml.providers.requested_attributes.format') %>
+      <div class="form--field-container">
+        <%= text_field_tag 'saml_provider[request_attributes][][name_format]',
+                           request['name_format'],
+                           id: "#{base_key}_format"
+        %>
+      </div>
+    </div>
+    <hr/>
+  <% end %>
+</fieldset>
