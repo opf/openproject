@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= @meeting.project.name %>: <%= @meeting.title %> (<%= meeting_url(@meeting) %>)
 <%= @meeting.author %>
 
-<%=t :label_meeting_date_time %>: <%= format_time_as_date @meeting.start_time %> <%= format_time @meeting.start_time, false %>-<%= format_time @meeting.end_time, false %> <%= Time.zone %>
+<%=t :label_meeting_date_time %>: <%= format_time_as_date @meeting.start_time %> <%= format_time @meeting.start_time, include_date: false %>-<%= format_time @meeting.end_time, include_date: false %> (<%= formatted_time_zone_offset %>)
 <%= Meeting.human_attribute_name(:location) %>: <%= @meeting.location %>
 <%= Meeting.human_attribute_name(:participants_invited) %>: <%= @meeting.participants.invited.sort.join("; ") %>
 <%= Meeting.human_attribute_name(:participants_attended) %>: <%= @meeting.participants.attended.sort.join("; ") %>

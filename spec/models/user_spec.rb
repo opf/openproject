@@ -823,6 +823,39 @@ RSpec.describe User do
     end
   end
 
+  describe "#time_zone" do
+    let(:user) { build(:user, preferences:) }
+
+    context "with an existing time zone in the prefs" do
+      let(:preferences) { { "time_zone" => "Europe/Athens" } }
+
+      it "returns the matching ActiveSupport::TimeZone" do
+        expect(user.time_zone)
+          .to eql ActiveSupport::TimeZone["Europe/Athens"]
+      end
+    end
+
+    context "with an invalid time zone" do
+      # Would need to be Etc/UTC or UTC to be valid
+      let(:preferences) { { "time_zone" => "utc" } }
+
+      it "returns the utc ActiveSupport::TimeZone" do
+        expect(user.time_zone)
+          .to eql ActiveSupport::TimeZone["Etc/UTC"]
+      end
+    end
+
+    context "without a time zone" do
+      # Would need to be Etc/UTC or UTC to be valid
+      let(:preferences) { {} }
+
+      it "returns the utc ActiveSupport::TimeZone" do
+        expect(user.time_zone)
+          .to eql ActiveSupport::TimeZone["Etc/UTC"]
+      end
+    end
+  end
+
   describe "#find_by_mail" do
     let!(:user1) { create(:user, mail: "foo+test@example.org") }
     let!(:user2) { create(:user, mail: "foo@example.org") }

@@ -78,7 +78,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     end
   end
   let(:export_time) { DateTime.new(2024, 4, 22, 12, 37) }
-  let(:export_time_formatted) { format_time(export_time, true) }
+  let(:export_time_formatted) { format_time(export_time, include_date: true) }
   let(:export) do
     login_as(user)
     work_packages

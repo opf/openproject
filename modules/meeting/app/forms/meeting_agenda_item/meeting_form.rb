@@ -52,7 +52,7 @@ class MeetingAgendaItem::MeetingForm < ApplicationForm
             label: "#{meeting.project.name}: " \
                    "#{meeting.title} " \
                    "#{format_date(meeting.start_time)} " \
-                   "#{format_time(meeting.start_time, false)}",
+                   "#{format_time(meeting.start_time, include_date: false)}",
             value: meeting.id
           )
         end

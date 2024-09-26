@@ -33,7 +33,7 @@ require_relative "../support/pages/meetings/index"
 RSpec.describe "Meetings new", :js, with_cuprite: false do
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   shared_let(:admin) { create(:admin) }
-  let(:time_zone) { "utc" }
+  let(:time_zone) { "Etc/UTC" }
   let(:user) do
     create(:user,
            lastname: "First",

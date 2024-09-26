@@ -26,23 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Meeting::StartTime < ApplicationForm
-  include Redmine::I18n
+module Users::FunctionUser
+  extend ActiveSupport::Concern
 
-  form do |meeting_form|
-    meeting_form.text_field(
-      name: :start_time_hour,
-      type: "time",
-      value: @initial_value,
-      placeholder: Meeting.human_attribute_name(:start_time),
-      label: Meeting.human_attribute_name(:start_time),
-      leading_visual: { icon: :clock },
-      required: true,
-      caption: formatted_time_zone_offset
-    )
-  end
+  included do
+    validate :validate_unique_function_user, on: :create
 
-  def initialize(initial_value: DateTime.now.strftime("%H:%M"))
-    @initial_value = initial_value
+    # There should be only one such user in the database
+    def validate_unique_function_user
+      errors.add :base, "A #{self.class.name} already exists." if self.class.any?
+    end
+
+    def available_custom_fields = []
+
+    def logged? = false
+
+    def builtin? = true
+
+    def name(*_args); raise NotImplementedError end
+
+    def mail = nil
+
+    def time_zone; ActiveSupport::TimeZone[Setting.user_default_timezone.presence || "Etc/UTC"] end
+
+    def rss_key = nil
+
+    def destroy = false
   end
 end
