@@ -371,8 +371,15 @@ RSpec.describe "Admin lists project mappings for a storage",
         expect(page).to have_text(project.name)
       end
 
-      it "is possible to remove the project after checking the confirmation checkbox in the dialog" do
-        expect(page).to have_text(project.name)
+      it "is possible to remove the project after checking the confirmation checkbox in the dialog",
+         with_settings: { per_page_options: "2,5" } do
+        projects = create_list(:project, 4)
+        projects.each { |project| create(:project_storage, storage:, project:) }
+
+        current_page = 3
+        visit admin_settings_storage_project_storages_path(storage, page: current_page)
+
+        project = project_storages_index_page.project_in_first_row(column_text_separator: "\t")
         project_storages_index_page.click_menu_item_of("Remove project", project)
 
         # The original DeleteService would try to remove actual files from actual storages,
@@ -398,7 +405,7 @@ RSpec.describe "Admin lists project mappings for a storage",
         expect(page).to have_no_text(project.name)
 
         aggregate_failures "pagination links maintain the correct url" do
-          project_storages_index_page.expect_correct_pagination_links(model: storage)
+          project_storages_index_page.expect_correct_pagination_links(model: storage, current_page:)
         end
       end
     end

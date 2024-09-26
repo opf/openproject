@@ -551,9 +551,9 @@ module Pages
         within "#project-table", &
       end
 
-      def project_in_first_row
+      def project_in_first_row(column_text_separator: "\n")
         first_row = within("#projects-table") { find(".op-project-row-component", match: :first) }
-        Project.find_by!(name: first_row.text.split("\n").first)
+        Project.find_by!(name: first_row.text.split(column_text_separator).first)
       end
 
       def within_row(project)
