@@ -276,8 +276,6 @@ zh-TW:
         warning: >
           更改可能需要一些時間才能生效。當更新完所有相關工作包時，您將收到通知。
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          將進度計算模式從基於狀態更改為基於工作將使<i>完成百分比</i>成為不可編輯，其值源自<i>工時</i>和<i>剩餘工時</i >。 <i>% Complete</i> 的現有值將會保留。如果<i>工時</i>和<i>剩餘工時</i>的值不存在，則需要更改它們'才能修改<i>完成百分比</i>。
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
           將進度計算模式從基於狀態變更為基於工作將使<i>完成百分比</i>欄位可自由編輯。如果您選擇輸入<i>工時</i>或<i>剩餘工時</i>，它們也會連結到<i>完成百分比</i>。更改<i>剩餘工作</i>可以更新<i>完成百分比</i>。
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
@@ -610,7 +608,9 @@ zh-TW:
         mentioned: "被提及"
         watched: "監看者"
         assigned: "執行者"
-        accountable: "負責人"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "負責人"
         created: "已建立"
         scheduled: "已排程"
         commented: "已留言"

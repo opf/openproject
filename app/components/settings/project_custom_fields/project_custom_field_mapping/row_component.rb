@@ -29,33 +29,14 @@
 module Settings
   module ProjectCustomFields
     module ProjectCustomFieldMapping
-      class RowComponent < Projects::RowComponent
-        include OpTurbo::Streamable
-
-        def wrapper_uniq_by
-          "project-#{project.id}"
-        end
-
-        def more_menu_items
-          @more_menu_items ||= [more_menu_detach_project].compact
-        end
-
+      class RowComponent < Admin::CustomFields::CustomFieldProjects::RowComponent
         private
 
-        def more_menu_detach_project
-          project = model.first
-          if User.current.admin && project.active?
-            {
-              scheme: :default,
-              icon: nil,
-              label: I18n.t("projects.settings.project_custom_fields.actions.remove_from_project"),
-              href: unlink_admin_settings_project_custom_field_path(
-                id: @table.params[:custom_field].id,
-                project_custom_field_project_mapping: { project_id: project.id }
-              ),
-              data: { turbo_method: :delete }
-            }
-          end
+        def detach_from_project_url
+          url_helpers.unlink_admin_settings_project_custom_field_path(
+            id: @table.params[:custom_field].id,
+            project_custom_field_project_mapping: { project_id: project.id }
+          )
         end
       end
     end

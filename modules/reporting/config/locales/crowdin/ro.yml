@@ -23,7 +23,7 @@ ro:
   plugin_openproject_reporting:
     name: "OpenProject Reporting"
     description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
-  button_save_as: "Salvare raport ca..."
+  button_save_report_as: "Save report as..."
   comments: "Comentariu"
   cost_reports_title: "Timp și costuri"
   label_cost_report: "Raport de cost"
@@ -68,7 +68,7 @@ ro:
   label_filter: "Filtrare"
   label_filter_add: "Adăugare filtru"
   label_filter_plural: "Filtre"
-  label_group_by: "Grupează după"
+  label_group_by: "Grupare după"
   label_group_by_add: "Adăugați atributul Group-by"
   label_inactive: "Inactiv"
   label_no: "Nu"

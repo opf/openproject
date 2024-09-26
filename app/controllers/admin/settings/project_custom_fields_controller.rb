@@ -31,7 +31,6 @@ module Admin::Settings
     include CustomFields::SharedActions
     include OpTurbo::ComponentStream
     include OpTurbo::DialogStreamHelper
-    include ApplicationComponentStreams
     include FlashMessagesOutputSafetyHelper
     include Admin::Settings::ProjectCustomFields::ComponentStreams
 
@@ -76,8 +75,8 @@ module Admin::Settings
     def new_link
       @project_mapping = ProjectCustomFieldProjectMapping.new(project_custom_field: @custom_field)
       respond_with_dialog Settings::ProjectCustomFields::ProjectCustomFieldMapping::NewProjectMappingComponent.new(
-        project_mapping: @project_mapping,
-        project_custom_field: @custom_field
+        custom_field_project_mapping: @project_mapping,
+        custom_field: @custom_field
       )
     end
 
@@ -181,8 +180,9 @@ module Admin::Settings
     end
 
     def find_unlink_project_custom_field_mapping
-      @project = Project.find(permitted_params.project_custom_field_project_mapping[:project_id])
-      @project_custom_field_mapping = @custom_field.project_custom_field_project_mappings.find_by!(project: @project)
+      @project_custom_field_mapping = @custom_field.project_custom_field_project_mappings.find_by!(
+        project_id: permitted_params.project_custom_field_project_mapping[:project_id]
+      )
     rescue ActiveRecord::RecordNotFound
       update_flash_message_via_turbo_stream(
         message: t(:notice_file_not_found), full: true, dismiss_scheme: :hide, scheme: :danger
@@ -205,8 +205,8 @@ module Admin::Settings
         project_mapping = ProjectCustomFieldProjectMapping.new(project_custom_field: @custom_field)
         project_mapping.errors.add(:project_ids, :blank)
         component = Settings::ProjectCustomFields::ProjectCustomFieldMapping::NewProjectMappingFormComponent.new(
-          project_mapping:,
-          project_custom_field: @custom_field
+          custom_field_project_mapping: project_mapping,
+          custom_field: @custom_field
         )
         update_via_turbo_stream(component:, status: :bad_request)
         respond_with_turbo_streams

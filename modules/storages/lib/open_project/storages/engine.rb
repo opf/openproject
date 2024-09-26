@@ -38,8 +38,8 @@ Dry::Validation.load_extensions(:monads)
 
 module OpenProject::Storages
   class Engine < ::Rails::Engine
-    def self.permissions
-      @permissions ||= Storages::NextcloudGroupFolderPropertiesSyncService::PERMISSIONS_KEYS
+    def self.external_file_permissions
+      %i[read_files write_files create_files delete_files share_files].freeze
     end
 
     # engine name is used as a default prefix for module tables when generating
@@ -90,7 +90,7 @@ module OpenProject::Storages
         OpenProject::Notifications.subscribe(
           OpenProject::Events::ROLE_UPDATED
         ) do |payload|
-          if payload[:permissions_diff]&.intersect?(OpenProject::Storages::Engine.permissions)
+          if payload[:permissions_diff]&.intersect?(OpenProject::Storages::Engine.external_file_permissions)
             ::Storages::ManageStorageIntegrationsJob.debounce
           end
         end
@@ -98,7 +98,7 @@ module OpenProject::Storages
         OpenProject::Notifications.subscribe(
           OpenProject::Events::ROLE_DESTROYED
         ) do |payload|
-          if payload[:permissions]&.intersect?(OpenProject::Storages::Engine.permissions)
+          if payload[:permissions]&.intersect?(OpenProject::Storages::Engine.external_file_permissions)
             ::Storages::ManageStorageIntegrationsJob.debounce
           end
         end
@@ -166,7 +166,7 @@ module OpenProject::Storages
                      "storages/project_settings/project_storage_members": %i[index] },
                    permissible_on: :project,
                    dependencies: %i[]
-        OpenProject::Storages::Engine.permissions.each do |p|
+        OpenProject::Storages::Engine.external_file_permissions.each do |p|
           permission(p, {}, permissible_on: :project, dependencies: %i[])
         end
       end
@@ -219,10 +219,10 @@ module OpenProject::Storages
           prj.project_storages.each do |prj_storage|
             storage = prj_storage.storage
             hide_from_menu = !storage.configured? ||
-                             # the following check is required for ensure access modal final check being possible
-                             # the modal waiting for read_files permission on the project folder
-                             # otherwise polls backend until eternity
-                             (prj_storage.project_folder_automatic? && !u.allowed_in_project?(:read_files, prj))
+              # the following check is required for ensure access modal final check being possible
+              # the modal waiting for read_files permission on the project folder
+              # otherwise polls backend until eternity
+              (prj_storage.project_folder_automatic? && !u.allowed_in_project?(:read_files, prj))
             next if hide_from_menu
 
             icon = storage.provider_type_nextcloud? ? "op-mark-nextcloud" : "file-directory"

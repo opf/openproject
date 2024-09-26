@@ -73,6 +73,15 @@ module OpTurbo
       turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :before)
     end
 
+    def render_error_flash_message_via_turbo_stream(**kwargs)
+      update_flash_message_via_turbo_stream(**kwargs.merge(scheme: :danger, icon: :stop))
+    end
+
+    def update_flash_message_via_turbo_stream(message:, component: OpPrimer::FlashComponent, **)
+      instance = component.new(**).with_content(message)
+      turbo_streams << instance.render_as_turbo_stream(view_context:, action: :flash)
+    end
+
     def turbo_streams
       @turbo_streams ||= []
     end

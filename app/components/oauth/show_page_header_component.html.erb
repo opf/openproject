@@ -32,31 +32,33 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_title { h(@application.name) }
     header.with_breadcrumbs(breadcrumb_items)
 
-    header.with_action_button(tag: :a,
-                              mobile_icon: :pencil,
-                              mobile_label: t(:button_edit),
-                              size: :medium,
-                              href: edit_oauth_application_path(@application),
-                              aria: { label: I18n.t(:button_edit) },
-                              title: I18n.t(:button_edit)) do |button|
-      button.with_leading_visual_icon(icon: :pencil)
-      t(:button_edit)
-    end
+    unless @application.builtin?
+      header.with_action_button(tag: :a,
+                                mobile_icon: :pencil,
+                                mobile_label: t(:button_edit),
+                                size: :medium,
+                                href: edit_oauth_application_path(@application),
+                                aria: { label: I18n.t(:button_edit) },
+                                title: I18n.t(:button_edit)) do |button|
+        button.with_leading_visual_icon(icon: :pencil)
+        t(:button_edit)
+      end
 
-    header.with_action_button(tag: :a,
-                              scheme: :danger,
-                              mobile_icon: :trash,
-                              mobile_label: t(:button_delete),
-                              size: :medium,
-                              href: oauth_application_path(@application),
-                              aria: { label: I18n.t(:button_delete) },
-                              data: {
-                                confirm: I18n.t(:text_are_you_sure),
-                                method: :delete
-                              },
-                              title: I18n.t(:button_delete)) do |button|
-      button.with_leading_visual_icon(icon: :trash)
-      t(:button_delete)
+      header.with_action_button(tag: :a,
+                                scheme: :danger,
+                                mobile_icon: :trash,
+                                mobile_label: t(:button_delete),
+                                size: :medium,
+                                href: oauth_application_path(@application),
+                                aria: { label: I18n.t(:button_delete) },
+                                data: {
+                                  confirm: I18n.t(:text_are_you_sure),
+                                  method: :delete
+                                },
+                                title: I18n.t(:button_delete)) do |button|
+        button.with_leading_visual_icon(icon: :trash)
+        t(:button_delete)
+      end
     end
   end
 %>

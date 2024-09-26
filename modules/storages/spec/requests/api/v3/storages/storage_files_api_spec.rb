@@ -43,14 +43,14 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
   end
 
   let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:nextcloud_storage, creator: current_user, oauth_application:) }
+  let(:storage) { create(:nextcloud_storage_configured, creator: current_user, oauth_application:) }
+  let(:oauth_token) { create(:oauth_client_token, user: current_user, oauth_client: storage.oauth_client) }
   let(:project_storage) { create(:project_storage, project:, storage:) }
 
-  subject(:last_response) do
-    get path
-  end
+  subject(:last_response) { get path }
 
   before do
+    oauth_application
     project_storage
     login_as current_user
   end
@@ -205,12 +205,9 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
 
     context "with query failed" do
       before do
-        clazz = Storages::Peripherals::StorageInteraction::Nextcloud::FileInfoQuery
-        instance = instance_double(clazz)
-        allow(clazz).to receive(:new).and_return(instance)
-        allow(instance).to receive(:call).and_return(
-          ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error))
-        )
+        Storages::Peripherals::Registry
+          .stub("#{storage}.queries.file_info",
+                ->(_) { ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)) })
       end
 
       context "with authorization failure" do
@@ -257,10 +254,8 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
 
     describe "with successful response" do
       before do
-        Storages::Peripherals::Registry.stub(
-          "nextcloud.queries.upload_link",
-          ->(_) { ServiceResult.success(result: upload_link) }
-        )
+        Storages::Peripherals::Registry
+          .stub("nextcloud.queries.upload_link", ->(_) { ServiceResult.success(result: upload_link) })
       end
 
       subject { last_response.body }
@@ -287,13 +282,19 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
       describe "due to authorization failure" do
         let(:error) { :unauthorized }
 
-        it { expect(last_response).to have_http_status(:internal_server_error) }
+        it { expect(last_response).to have_http_status(:unauthorized) }
       end
 
       describe "due to internal error" do
         let(:error) { :error }
 
-        it { expect(last_response).to have_http_status(:internal_server_error) }
+        it "fails with an internal error" do
+          expect(last_response).to have_http_status(:internal_server_error)
+
+          body = MultiJson.load(last_response.body, symbolize_keys: true)
+          expect(body[:message]).to eq(I18n.t("services.errors.messages.error"))
+          expect(body[:errorIdentifier]).to eq("urn:openproject-org:api:v3:errors:InternalServerError")
+        end
       end
 
       describe "due to not found" do
@@ -303,7 +304,8 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
           expect(last_response).to have_http_status(:internal_server_error)
 
           body = JSON.parse(last_response.body)
-          expect(body["message"]).to eq(I18n.t("api_v3.errors.code_500_outbound_request_failure", status_code: 404))
+          expect(body["message"]).to eq(I18n.t("services.errors.models.upload_link_service.not_found",
+                                               folder: "/Pictures", storage_name: storage.name))
           expect(body["errorIdentifier"]).to eq("urn:openproject-org:api:v3:errors:OutboundRequest:NotFound")
         end
       end

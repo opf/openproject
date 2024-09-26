@@ -31,6 +31,9 @@ zh-CN:
     custom_styles:
       color_theme: "主题颜色"
       color_theme_custom: "（自定义）"
+      tab_interface: "界面"
+      tab_branding: "品牌"
+      tab_pdf_export_styles: "PDF 导出样式"
       colors:
         primary-button-color: "主按钮色"
         accent-color: "强调色"
@@ -67,7 +70,7 @@ zh-CN:
         text: "您确定要删除当前使用的企业版令牌吗？"
         title: "删除令牌"
       replace_token: "替换您当前的支持令牌"
-      order: "订购本地部署版的 Enterprise edition"
+      order: "订购本地部署的 Enterprise edition"
       paste: "粘贴您企业版的支持令牌"
       required_for_feature: "此功能仅限具激活的企业版支持令牌的订阅者使用。"
       enterprise_link: "如需了解详细信息，请单击此处。"
@@ -79,6 +82,7 @@ zh-CN:
         contact: "联系我们获取演示"
       enterprise_info_html: "是企业版的 <span class='spot-icon spot-icon_enterprise-addons'></span> 附加功能。"
       upgrade_info: "请升级到付费方案，以激活并开始在您的团队中使用该功能。"
+    jemalloc_allocator: 使用 jemalloc 内存分配器
     journal_aggregation:
       explanation:
         text: "如果用户的多项操作（例如，更新工作包两次）的时间间隔小于指定的时间跨度，则这些操作将被聚合为单个操作，并在应用程序中显示为单个操作。这也会将通知延迟同等的时间，从而减少电子邮件的发送数量，并且还会影响 %{webhook_link} 延迟。"
@@ -199,6 +203,11 @@ zh-CN:
       title: "自定义操作"
       description: "自定义操作是一组预定义操作的一键式快捷方式，您可以根据状态、角色、类型或项目在某些工作包上提供这些操作。"
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: 适用于所有项目
+          description: 由于选中了 "适用于所有项目 "选项，因此所有项目都启用了该自定义字段。单个项目无法停用。
     text_add_new_custom_field: >
       要向项目添加新的自定义字段，您需要先创建字段，然后才能将其添加到此项目中。
     is_enabled_globally: "已全局启用"
@@ -620,6 +629,8 @@ zh-CN:
         uid: "客户端 ID"
         secret: "客户端密钥"
         owner: "所有者"
+        builtin: "内置"
+        enabled: "激活"
         redirect_uri: "重定向 URI"
         client_credentials_user_id: "客户端证书用户 ID"
         scopes: "范围"
@@ -791,6 +802,7 @@ zh-CN:
         blank: "不能为空。"
         blank_nested: "需要设置属性“%{property}”。"
         cannot_delete_mapping: "必需项，不能删除"
+        is_for_all_cannot_modify: "适用于全部。不可修改。"
         cant_link_a_work_package_with_a_descendant: "工作包无法链接到它的子任务之一。"
         circular_dependency: "这种关系将创建循环依赖项。"
         confirmation: "不匹配 %{attribute}。"
@@ -864,6 +876,10 @@ zh-CN:
               minimum: "需要包含至少一个采用“=”运算符的主体、上下文或 ID 筛选器。"
         custom_field:
           at_least_one_custom_option: "至少有需要一个可用选项。"
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "请选择一个项目。"
         custom_actions:
           only_one_allowed: "(%{name}) 只允许一个值。"
           empty: "(%{name}) 值不能为空。"
@@ -894,6 +910,8 @@ zh-CN:
             name:
               blank: "是强制性的。请选择一个名称。"
               not_unique: "已被使用。请另选一个名称。"
+        meeting:
+          error_conflict: "无法保存，因为会议已被其他人同时更新。请重新加载页面。"
         notifications:
           at_least_one_channel: "至少需要指定一个发送通知的通道。"
           attributes:
@@ -1091,7 +1109,7 @@ zh-CN:
               confirmation: "确认密码与密码不一致。"
               format: "%{message}"
             password:
-              weak: "必须包含以下类字符 (至少 %{min_count} %{all_count}): %{rules}。"
+              weak: "必须包含以下字符 (至少 %{all_count} 中的 %{min_count} 个)：%{rules}。"
               lowercase: "小写字母 （如 'a')"
               uppercase: "大写字母 (如 'A')"
               numeric: "数值 （例如 ' 1')"
@@ -1591,7 +1609,7 @@ zh-CN:
   error_menu_item_not_saved: 不能保存菜单项
   error_wiki_root_menu_item_conflict: >
     无法将 "%{old_name}" 重命名为 "%{new_name}"，因为结果菜单项与现有菜单项 "%{existing_caption}" (%{existing_identifier}) 存在冲突。
-  error_external_authentication_failed: "在外部身份验证期间出错。请重试。"
+  error_external_authentication_failed_message: "外部身份验证过程中发生错误： %{message}"
   error_attribute_not_highlightable: "未高亮显示的属性：%{attributes}"
   events:
     changeset: "编辑更改集"
@@ -1763,7 +1781,7 @@ zh-CN:
       progress_mode_changed_to_status_based: 进度计算模式设置为基于状态
       status_excluded_from_totals_set_to_false_message: 现在包含在层次结构总计中
       status_excluded_from_totals_set_to_true_message: 现在不包含在层次结构总计中
-      status_percent_complete_changed: "完成百分比从 %{old_value}% 变为 %{new_value}%"
+      status_percent_complete_changed: "完成% 从 %{old_value}% 变为 %{new_value}%"
       system_update:
         file_links_journal: >
           从现在开始，与文件链接（存储在外部存储器中的文件）相关的活动将出现在“活动”选项卡中。以下是与已经存在的链接相关的活动的表示：
@@ -1872,7 +1890,8 @@ zh-CN:
   label_additional_workflow_transitions_for_assignee: "当用户是受理人时允许额外的转移"
   label_additional_workflow_transitions_for_author: "当用户是作者时允许额外转移"
   label_administration: "管理"
-  label_advanced_settings: "高级设置"
+  label_interface_colors: "界面颜色"
+  label_interface_colors_description: "这些颜色控制应用程序的外观。 如果您修改了它们，主题将自动变为自定义主题， 但我们无法确保无障碍对比最小值(WCAG 2)。 。 "
   label_age: "年龄"
   label_ago: "天前"
   label_all: "所有"
@@ -1905,6 +1924,7 @@ zh-CN:
   label_attribute_expand_text: "%{attribute}的完整文本"
   label_authentication: "身份验证"
   label_authentication_settings: "验证设置"
+  label_available_custom_fields_projects: "可用的自定义字段项目"
   label_available_global_roles: "可用的全局角色"
   label_available_project_attributes: "可用的项目属性"
   label_available_project_forums: "可用论坛"
@@ -1977,6 +1997,7 @@ zh-CN:
   label_copy_project: "复制项目"
   label_core_version: "核心版本"
   label_core_build: "核心构建"
+  label_created_by: "由 %{user} 创建"
   label_current_status: "当前状态"
   label_current_version: "当前版本"
   label_custom_field_add_no_type: "将此字段添加到工作包类型中"
@@ -1984,6 +2005,7 @@ zh-CN:
   label_custom_field_plural: "自定义字段"
   label_custom_field_default_type: "空类型"
   label_custom_style: "设计"
+  label_custom_style_description: "选择主题来定制OpenProject的外观，选择应用中的默认颜色以及导出的样式。"
   label_dashboard: "仪表板"
   label_database_version: "PostgreSQL 版本"
   label_date: "日期"
@@ -2104,9 +2126,9 @@ zh-CN:
   label_share: "共享"
   label_share_project_list: "共享项目列表"
   label_share_work_package: "共享工作包"
-  label_show_hide: "显示/隐藏"
-  label_show_hide_n_items: "显示/隐藏 %{count} 项目"
   label_show_all_registered_users: "显示所有注册用户"
+  label_show_less: "显示更少"
+  label_show_more: "显示更多"
   label_journal: "日志"
   label_journal_diff: "描述的对比"
   label_language: "语言"
@@ -2256,6 +2278,7 @@ zh-CN:
   label_product_version: "产品版本"
   label_profile: "配置文件"
   label_percent_complete: "% 完成"
+  label_progress_tracking: "进度跟踪"
   label_project: "项目"
   label_project_activity: "项目活动"
   label_project_attribute_plural: "项目属性"
@@ -2316,7 +2339,7 @@ zh-CN:
   label_revision_id: "修订版本 %{value}"
   label_revision_plural: "修订"
   label_roadmap: "路线图"
-  label_roadmap_edit: "编辑路线图%{name}"
+  label_roadmap_edit: "编辑路线图 %{name}"
   label_roadmap_due_in: "%{value} 到期"
   label_roadmap_no_work_packages: "该版本没有工作包。"
   label_roadmap_overdue: "%{value} 超时"
@@ -2441,7 +2464,6 @@ zh-CN:
   label_work_package_new: "新工作包"
   label_work_package_edit: "编辑工作包 %{name}"
   label_work_package_plural: "工作包"
-  label_work_packages_settings: "工作包设置"
   label_work_package_status: "工作包状态"
   label_work_package_status_new: "新状态"
   label_work_package_status_plural: "工作包状态"
@@ -2967,7 +2989,7 @@ zh-CN:
       managed: "在 OpenProject 中创建新的存储库"
     storage:
       not_available: "磁盘存储开销不可用于此存储库。"
-      update_timeout: "在 N 分钟内保留存储库最后所需的磁盘空间信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
+      update_timeout: "在 N 分钟内保留存储库最后所需磁盘空间的信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
       oauth_application_details: "关闭此窗口后，将无法再次访问客户端密钥值。请将这些值复制到 Nextcloud OpenProject 集成设置中："
       oauth_application_details_link_text: "转到设置页面"
       setup_documentation_details: "如果您在配置新文件存储方面需要帮助，请查看文档："
@@ -3072,11 +3094,13 @@ zh-CN:
   setting_hours_per_day_explanation: >-
     这定义了在以天和小时为单位显示持续时间时，什么是一"天"（例如，如果一天是 8 小时，32 小时就是 4 天）。
   setting_invitation_expiration_days: "激活电子邮件将在此时间后过期"
-  setting_work_package_done_ratio: "进度计算"
+  setting_work_package_done_ratio: "进度计算模式"
   setting_work_package_done_ratio_field: "基于工时"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>完成 %</i> 可以自由设置为任何值。 如果您可选输入一个 <i>工时</i>, <i>剩余工时</i> 将自动生成。
   setting_work_package_done_ratio_status: "基于状态"
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    在<b>基于工时</b>模式下，“完成 %”是根据已完成的工时占总工时的比例计算出来的。在<b>基于状态</b>模式下，每个状态都有一个与之相关的“完成 %”。更改状态将改变“完成 %”。
+  setting_work_package_done_ratio_status_caption_html: >-
+    每个状态都有一个与之相关的<i>完成%</i>值。更改状态将改变<i>完成%</i>。
   setting_work_package_done_ratio_explanation_html: >
     在<b>基于工作的</b>模式下，“完成 %”可以自由设置为任何值。如果选择输入 "工时 "值，则会自动得出 "剩余工时"。在<b>基于状态的</b>模式下，每个状态都有一个与之相关的“完成 %”值。更改状态将改变“完成 %”。
   setting_work_package_properties: "工作包属性"
@@ -3097,6 +3121,13 @@ zh-CN:
   setting_password_min_length: "最小长度"
   setting_password_min_adhered_rules: "所需的最少类型数量"
   setting_per_page_options: "每页对象选项"
+  setting_percent_complete_on_status_closed: "状态关闭时\"完成%\"的值"
+  setting_percent_complete_on_status_closed_no_change: "无变化"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    即使工作包关闭，<i>完成%</i>的值也不会改变。
+  setting_percent_complete_on_status_closed_set_100p: "自动设置为 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    关闭的工作包视为已完成。
   setting_plain_text_mail: "纯文本邮件 (不含 HTML)"
   setting_protocol: "协议"
   setting_project_gantt_query: "项目组合甘特视图"
@@ -3118,7 +3149,7 @@ zh-CN:
   setting_session_ttl_hint: "当设置的值低于5时，其作用类似于禁用。"
   setting_session_ttl_enabled: "会话过期"
   setting_start_of_week: "一周起始日"
-  setting_sys_api_enabled: "启用存储库管理网页服务"
+  setting_sys_api_enabled: "启用版本库管理 web 服务"
   setting_sys_api_description: "存储库管理网页服务提供了集成的，用户授权的存储库访问。"
   setting_time_format: "时间"
   setting_accessibility_mode_for_anonymous: "为匿名用户启用辅助功能模式"
@@ -3430,7 +3461,7 @@ zh-CN:
   warning_user_limit_reached_admin: >
     添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问此实例。
   warning_user_limit_reached_instructions: >
-    您已达到用户限制（%{current}/%{max} 活跃用户）。请联系 sales@openproject.com 升级您的企业版计划以添加额外用户。
+    您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -3460,7 +3491,6 @@ zh-CN:
       label_note: "注意："
       modal:
         work_based_help_text: "在可能的情况下，每个字段都会根据另外两个字段自动计算。"
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "“完成 %”由 \"工时\" 和 \"剩余工时\" 自动得出。"
         status_based_help_text: "完成百分比由工作包状态设定。"
         migration_warning_text: "在基于工时的进度计算模式下，完成百分比不能手动设置，而是与工时绑定。现有值已被保留，但无法编辑。请先输入工时。"
       derivation_hints:
@@ -3475,9 +3505,9 @@ zh-CN:
         remaining_hours:
           cleared_because_work_is_empty: "已清空，因为 \"工时 \"为空。"
           cleared_because_percent_complete_is_empty: "已清空，因为“完成 %”为空。"
-          decreased_like_work: "减少与 \"工时 \"相同的数额。"
+          decreased_by_delta_like_work: "减少了 %{delta}，与工作量的减少相匹配。"
           derived: "由“工时”和“完成 %”得出"
-          increased_like_work: "增加与 \"工时 \"相同的数额。"
+          increased_by_delta_like_work: "增加了 %{delta}，与工作量的增加相匹配。"
           same_as_work: "设置为与 \"工时 \"相同的值。"
     permissions:
       comment: "评论"
@@ -3669,12 +3699,16 @@ zh-CN:
     close_warning: "请忽略这个警告。"
   oauth:
     application:
+      builtin: 内置实例应用程序
+      confidential: 机密
       singular: "OAuth应用程序"
       plural: "OAuth应用程序"
       named: "OAuth 应用程序“%{name}”"
       new: "新的 OAuth 应用程序"
+      non_confidential: 非机密
       default_scopes: "（默认范围）"
       instructions:
+        enabled: "启用此应用程序，允许用户使用它执行授权授予。"
         name: "您的应用程序的名称。将在授权后显示给其他用户。"
         redirect_uri_html: >
           授权的用户可以重定向到的允许 URL。每行一个条目。<br/>如果您注册的是桌面应用程序，请使用以下 URL。
@@ -3683,6 +3717,10 @@ zh-CN:
         client_credential_user_id: "在客户端使用此应用程序时要冒充的可选用户 ID。留空可以仅允许公开访问"
         register_intro: "如果您正在为 OpenProject 开发 OAuth API 客户端应用程序，则可以使用此表单注册，供所有用户使用。"
         default_scopes: ""
+    header:
+      builtin_applications: 内置 OAuth 应用程序
+      other_applications: 其他 OAuth 应用程序
+    empty_application_lists: 没有注册任何OAuth应用程序。
     client_id: "客户端 ID"
     client_secret_notice: >
       这是我们唯一可以打印客户端密钥的时间，请记下密钥并保证它的安全。密钥应被视为密码，并且之后无法通过 OpenProject 检索。

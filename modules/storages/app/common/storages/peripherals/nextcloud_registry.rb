@@ -35,7 +35,6 @@ module Storages
         register(:auth_check, StorageInteraction::Nextcloud::AuthCheckQuery)
         register(:capabilities, StorageInteraction::Nextcloud::CapabilitiesQuery)
         register(:download_link, StorageInteraction::Nextcloud::DownloadLinkQuery)
-        register(:file_ids, StorageInteraction::Nextcloud::FileIdsQuery)
         register(:file_info, StorageInteraction::Nextcloud::FileInfoQuery)
         register(:files_info, StorageInteraction::Nextcloud::FilesInfoQuery)
         register(:files, StorageInteraction::Nextcloud::FilesQuery)
@@ -68,7 +67,7 @@ module Storages
 
       namespace("authentication") do
         register(:userless, StorageInteraction::AuthenticationStrategies::NextcloudStrategies::UserLess, call: false)
-        register(:userbound, StorageInteraction::AuthenticationStrategies::NextcloudStrategies::UserBound)
+        register(:user_bound, StorageInteraction::AuthenticationStrategies::NextcloudStrategies::UserBound)
       end
     end
   end

@@ -33,6 +33,7 @@ module Storages
     module StorageInteraction
       module OneDrive
         class FilesInfoQuery
+          include TaggedLogging
           using ServiceResultRefinements
 
           def self.call(storage:, auth_strategy:, file_ids: [])
@@ -51,17 +52,20 @@ module Storages
               )
             end
 
-            result = Array(file_ids).map do |file_id|
-              file_info_result = FileInfoQuery.call(storage: @storage, auth_strategy:, file_id:)
+            with_tagged_logger do
+              info "Retrieving file information for #{file_ids.join(', ')}"
+              result = Array(file_ids).map do |file_id|
+                file_info_result = FileInfoQuery.call(storage: @storage, auth_strategy:, file_id:)
 
-              file_info_result.on_failure do |failed_result|
-                return failed_result if failed_result.error_source.module_parent == AuthenticationStrategies
+                file_info_result.on_failure do |failed_result|
+                  return failed_result if failed_result.error_source.module_parent == AuthenticationStrategies
+                end
+
+                wrap_storage_file_error(file_id, file_info_result)
               end
 
-              wrap_storage_file_error(file_id, file_info_result)
+              ServiceResult.success(result:)
             end
-
-            ServiceResult.success(result:)
           end
 
           private

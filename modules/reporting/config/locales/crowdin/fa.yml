@@ -23,7 +23,7 @@ fa:
   plugin_openproject_reporting:
     name: "گزارش OpenProject"
     description: "این افزونه به شما امکان ایجاد گزارش‌های سفارشی هزینه با فیلتر کردن و گروه‌بندی ایجاد شده توسط افزونه زمان و هزینه اوپن‌پروژه را می‌دهد."
-  button_save_as: "ذخیره گزارش به عنوان..."
+  button_save_report_as: "Save report as..."
   comments: "نظر"
   cost_reports_title: "زمان و هزینه‌ها"
   label_cost_report: "گزارش هزینه"

@@ -37,24 +37,18 @@ class WorkPackages::ProgressController < ApplicationController
   layout false
   authorization_checked! :new, :edit, :create, :update
 
-  helper_method :modal_class
-
   def new
     make_fake_initial_work_package
     set_progress_attributes_to_work_package
 
-    render modal_class.new(@work_package,
-                           focused_field: params[:field],
-                           touched_field_map:)
+    render progress_modal_component
   end
 
   def edit
     find_work_package
     set_progress_attributes_to_work_package
 
-    render modal_class.new(@work_package,
-                           focused_field: params[:field],
-                           touched_field_map:)
+    render progress_modal_component
   end
 
   # rubocop:disable Metrics/AbcSize
@@ -71,13 +65,11 @@ class WorkPackages::ProgressController < ApplicationController
           # Angular has context as to the success or failure of
           # the request in order to fetch the new set of Work Package
           # attributes in the ancestry solely on success.
-          render :update, status: :unprocessable_entity
+          render turbo_stream: [
+            turbo_stream.morph("work_package_progress_modal", progress_modal_component)
+          ], status: :unprocessable_entity
         end
       end
-    # following 3 lines to be removed in 15.0 with :percent_complete_edition feature flag removal
-    elsif !OpenProject::FeatureDecisions.percent_complete_edition_active?
-      render json: { estimatedTime: formatted_duration(@work_package.estimated_hours),
-                     remainingTime: formatted_duration(@work_package.remaining_hours) }
     else
       render json: { estimatedTime: formatted_duration(@work_package.estimated_hours),
                      remainingTime: formatted_duration(@work_package.remaining_hours),
@@ -95,7 +87,9 @@ class WorkPackages::ProgressController < ApplicationController
 
     if service_call.success?
       respond_to do |format|
-        format.turbo_stream
+        format.turbo_stream do
+          render turbo_stream: []
+        end
       end
     else
       respond_to do |format|
@@ -104,7 +98,9 @@ class WorkPackages::ProgressController < ApplicationController
           # Angular has context as to the success or failure of
           # the request in order to fetch the new set of Work Package
           # attributes in the ancestry solely on success.
-          render :update, status: :unprocessable_entity
+          render turbo_stream: [
+            turbo_stream.morph("work_package_progress_modal", progress_modal_component)
+          ], status: :unprocessable_entity
         end
       end
     end
@@ -112,12 +108,20 @@ class WorkPackages::ProgressController < ApplicationController
 
   private
 
+  def progress_modal_component
+    modal_class.new(@work_package, focused_field:, touched_field_map:)
+  end
+
   def modal_class
-    if WorkPackage.use_status_for_done_ratio?
+    if WorkPackage.status_based_mode?
       WorkPackages::Progress::StatusBased::ModalBodyComponent
     else
       WorkPackages::Progress::WorkBased::ModalBodyComponent
     end
+  end
+
+  def focused_field
+    params[:field]
   end
 
   def find_work_package
@@ -153,11 +157,8 @@ class WorkPackages::ProgressController < ApplicationController
   end
 
   def allowed_params
-    if WorkPackage.use_status_for_done_ratio?
+    if WorkPackage.status_based_mode?
       %i[estimated_hours status_id]
-    # two next lines to be removed in 15.0 with :percent_complete_edition feature flag removal
-    elsif !OpenProject::FeatureDecisions.percent_complete_edition_active?
-      %i[estimated_hours remaining_hours]
     else
       %i[estimated_hours remaining_hours done_ratio]
     end

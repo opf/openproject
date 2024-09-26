@@ -31,7 +31,7 @@
 RSpec.shared_examples_for "set_permissions_command: basic command setup" do
   it "is registered as commands.set_permissions" do
     expect(Storages::Peripherals::Registry
-             .resolve("#{storage.short_provider_type}.commands.set_permissions")).to eq(described_class)
+             .resolve("#{storage}.commands.set_permissions")).to eq(described_class)
   end
 
   it "responds to #call with correct parameters" do
@@ -81,6 +81,24 @@ RSpec.shared_examples_for "set_permissions_command: creates new permissions" do
 
     expect(result).to be_success
     expect(current_remote_permissions).to eq(user_permissions)
+  ensure
+    clean_up file_id
+  end
+end
+
+RSpec.shared_examples_for "set_permissions_command: unknown remote identity" do
+  it "returns a failure" do
+    file_id = test_folder.id
+    input_data = Storages::Peripherals::StorageInteraction::Inputs::SetPermissions
+                   .build(file_id:, user_permissions:)
+                   .value!
+    result = described_class.call(storage:, auth_strategy:, input_data:)
+
+    expect(result).to be_failure
+
+    error = result.errors
+    expect(error.code).to eq(:unknown_remote_identity)
+    expect(error.data.source).to eq(error_source)
   ensure
     clean_up file_id
   end

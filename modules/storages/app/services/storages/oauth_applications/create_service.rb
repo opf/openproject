@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -42,16 +44,16 @@ module Storages::OAuthApplications
     end
 
     def call
-      ::OAuth::PersistApplicationService
-        .new(::Doorkeeper::Application.new, user:)
-        .call({
-                name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage.short_provider_type}.name")})",
-                redirect_uri: File.join(storage.host, "index.php/apps/integration_openproject/oauth-redirect"),
-                scopes: "api_v3",
-                confidential: true,
-                owner: storage.creator,
-                integration: storage
-              })
+      ::OAuth::Applications::CreateService
+        .new(user:)
+        .call(
+          name: "#{storage.name} (#{I18n.t("storages.provider_types.#{storage}.name")})",
+          redirect_uri: File.join(storage.host, "index.php/apps/integration_openproject/oauth-redirect"),
+          scopes: "api_v3",
+          confidential: true,
+          owner: storage.creator,
+          integration: storage
+        )
     end
   end
 end

@@ -52,8 +52,8 @@ module Storages::Admin::Forms
     end
 
     def storage_provider_credentials_instructions
-      I18n.t("storages.instructions.#{storage.short_provider_type}.oauth_configuration",
-             application_link_text: send(:"#{storage.short_provider_type}_integration_link")).html_safe
+      I18n.t("storages.instructions.#{storage}.oauth_configuration",
+             application_link_text: send(:"#{storage}_integration_link")).html_safe
     end
 
     private

@@ -26,13 +26,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <div class="modal-delivery-element">
   <%= labelled_tabular_form_for(@user, url: account_register_path, html: { class: 'form -wide-labels spot-modal' }) do |f| %>
-
     <%= back_url_hidden_field_tag use_referer: false %>
     <%= error_messages_for :user %>
-
     <div id="spotModalTitle" class="spot-modal--header">
       <%= I18n.t('onboarding.welcome', app_title: Setting.app_title) %>
     </div>
@@ -52,23 +49,19 @@ See COPYRIGHT and LICENSE files for more details.
         <div class="form--field -required -wide-label">
           <%= f.text_field :firstname, required: true %>
         </div>
-
         <div class="form--field -required -wide-label">
           <%= f.text_field :lastname, required: true %>
         </div>
-
         <% if registration_show_email? %>
           <div class="form--field -required -wide-label">
             <%= email_field(f) %>
           </div>
         <% end %>
-
         <%= call_hook :view_account_register_after_basic_information, f: f %>
-
         <%= render partial: "customizable/form",
                    locals: { form: f, all_fields: false, only_required: true, wide_labels: true } %>
-
-        <br/><br/>
+        <br/>
+        <br/>
         <% if @user.change_password_allowed? %>
           <div class="form--field -required -wide-label -reduced-margin">
             <%= f.password_field :password,
@@ -87,15 +80,12 @@ See COPYRIGHT and LICENSE files for more details.
           </div>
         <% end %>
       </section>
-
       <% if user_consent_required? %>
         <hr/>
         <%= render partial: 'account/user_consent_check' %>
       <% end %>
-
       <%= render partial: 'account/auth_providers', locals: { omniauth_title: I18n.t('account.signup_with_auth_provider'), wide: true } %>
     </div>
-
     <%= render partial: 'account/footer' %>
   <% end %>
 </div>

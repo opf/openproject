@@ -1,0 +1,43 @@
+<%=
+  component_wrapper(data: { 'test-selector': "op-admin-oauth--application" }) do
+    flex_layout(align_items: :center, justify_content: :space_between) do |oauth_application_container|
+      oauth_application_container.with_column(flex_layout: true) do |application_information|
+        application_information.with_column(mr: 2) do
+          render(Primer::Beta::Link.new(href: oauth_application_path(@application), font_weight: :bold)) do
+            @application.name
+          end
+        end
+
+        application_information.with_column(mr: 2) do
+          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+            if @application.builtin?
+              t("oauth.application.builtin")
+            else
+              t(:label_created_by, user: @application.owner)
+            end
+          end
+        end
+
+        unless @application.builtin?
+          application_information.with_column do
+            render(Primer::Beta::Label.new) do
+              @application.confidential? ? t("oauth.application.confidential") : t("oauth.application.non_confidential")
+            end
+          end
+        end
+      end
+
+      # Actions
+      oauth_application_container.with_column do
+        render(Primer::Alpha::ToggleSwitch.new(
+          src: toggle_oauth_application_path(@application),
+          csrf_token: form_authenticity_token,
+          checked: @application.enabled?,
+          data: {
+            'test-selector': "op-admin-oauth--application-enabled-toggle-switch"
+          }
+        ))
+      end
+    end
+  end
+%>

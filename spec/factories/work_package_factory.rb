@@ -149,7 +149,7 @@ FactoryBot.define do
 
     # force done_ratio in status-based mode if given done_ratio is different from status default
     callback(:after_create) do |work_package, evaluator|
-      next unless WorkPackage.use_status_for_done_ratio?
+      next unless WorkPackage.status_based_mode?
       next unless evaluator.__override_names__.include?(:done_ratio)
 
       if work_package.read_attribute(:done_ratio) != evaluator.done_ratio

@@ -30,8 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Progress modal", :js, :with_cuprite,
-               with_flag: { percent_complete_edition: true } do
+RSpec.describe "Progress modal", :js, :with_cuprite do
   shared_let(:user) { create(:admin) }
   shared_let(:role) { create(:project_role) }
 
@@ -223,9 +222,23 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
 
         it "can create work package after setting work" do
           work_package_create_page.visit!
+          work_package_create_page.expect_fully_loaded
+
+          progress_popover.open
+          progress_popover.set_values(work: "invalid")
+          progress_popover.expect_values(remaining_work: "")
+          progress_popover.expect_errors(work: "Is not a valid duration.")
+
+          # The modal does not go away when clicking Save until all fields are valid
+          3.times do
+            progress_popover.save
+            sleep 0.2
+            progress_popover.expect_errors(work: "Is not a valid duration.")
+          end
+          progress_popover.set_values(work: "10h")
+          progress_popover.save
 
           work_package_create_page.set_attributes({ subject: "hello" })
-          work_package_create_page.set_progress_attributes({ estimatedTime: "10h" })
           work_package_create_page.save!
           work_package_table.expect_and_dismiss_toaster(message: "Successful creation.", wait: 5)
 
@@ -264,6 +277,25 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
 
           work_package_create_page.save!
           work_package_table.expect_and_dismiss_toaster(message: "Successful creation.")
+        end
+
+        it "updates remaining work when status is changed" do
+          work_package_create_page.visit!
+          work_package_create_page.set_attributes({ subject: "hello" })
+
+          progress_popover.open
+          progress_popover.expect_hints(work: nil, remaining_work: nil)
+          progress_popover.set_values(work: "14h")
+          progress_popover.expect_values(remaining_work: "14h")
+          progress_popover.expect_hints(remaining_work: :derived)
+          progress_popover.save
+
+          status_field = work_package_create_page.edit_field(:status)
+          status_field.update("in progress")
+
+          progress_popover.open
+          progress_popover.expect_values(work: "14h", remaining_work: "7h")
+          progress_popover.expect_hints(remaining_work: :derived)
         end
       end
     end
@@ -386,6 +418,28 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         end
       end
 
+      context "with invalid values" do
+        before do
+          update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil, done_ratio: nil)
+        end
+
+        it "does not close the modal when clicking save multiple times (Bug #57423)" do
+          visit_progress_query_displaying_work_package
+
+          progress_popover.open
+          progress_popover.set_values(work: "invalid")
+          progress_popover.expect_values(remaining_work: "")
+          progress_popover.expect_errors(work: "Is not a valid duration.")
+
+          # The modal does not go away when clicking save
+          3.times do
+            progress_popover.save
+            sleep 0.2
+            progress_popover.expect_errors(work: "Is not a valid duration.")
+          end
+        end
+      end
+
       describe "status field", with_settings: { work_package_done_ratio: "status" } do
         it "renders the status options as the << status_name (percent_complete_value %) >>" do
           visit_progress_query_displaying_work_package
@@ -436,6 +490,8 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         progress_popover.open
         progress_popover.set_values(work: "")
         progress_popover.expect_values(remaining_work: "")
+        progress_popover.expect_hints(remaining_work: :cleared_because_work_is_empty,
+                                      percent_complete: nil)
       end
 
       specify "Case 2: when work is set to 12h, " \
@@ -447,9 +503,13 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         progress_popover.open
         progress_popover.set_values(work: "12")
         progress_popover.expect_values(remaining_work: "6h")
+        progress_popover.expect_hints(remaining_work: { increased_by_delta_like_work: { delta: 2 } },
+                                      percent_complete: :derived)
 
         progress_popover.set_values(work: "14")
         progress_popover.expect_values(remaining_work: "8h")
+        progress_popover.expect_hints(remaining_work: { increased_by_delta_like_work: { delta: 4 } },
+                                      percent_complete: :derived)
       end
 
       specify "Case 3: when work is set to 2h, " \
@@ -461,9 +521,13 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         progress_popover.open
         progress_popover.set_values(work: "2")
         progress_popover.expect_values(remaining_work: "0h")
+        progress_popover.expect_hints(remaining_work: { decreased_by_delta_like_work: { delta: -8 } },
+                                      percent_complete: :derived)
 
         progress_popover.set_values(work: "12")
         progress_popover.expect_values(remaining_work: "6h")
+        progress_popover.expect_hints(remaining_work: { increased_by_delta_like_work: { delta: 2 } },
+                                      percent_complete: :derived)
       end
 
       specify "Case 23-7: when remaining work or % complete are set, work never " \
@@ -473,12 +537,21 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         progress_popover.open
         progress_popover.set_values(remaining_work: "2h")
         progress_popover.expect_values(work: "10h", percent_complete: "80%")
+        progress_popover.expect_hints(work: nil,
+                                      remaining_work: nil,
+                                      percent_complete: :derived)
 
         progress_popover.set_values(percent_complete: "50%")
         progress_popover.expect_values(work: "10h", remaining_work: "5h")
+        progress_popover.expect_hints(work: nil,
+                                      remaining_work: :derived,
+                                      percent_complete: nil)
 
         progress_popover.set_values(remaining_work: "9h")
         progress_popover.expect_values(work: "10h", percent_complete: "10%")
+        progress_popover.expect_hints(work: nil,
+                                      remaining_work: nil,
+                                      percent_complete: :derived)
       end
 
       # scenario from https://community.openproject.org/wp/57370
@@ -490,11 +563,17 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         # clear work
         progress_popover.set_values(work: "")
         progress_popover.expect_values(work: "", remaining_work: "", percent_complete: "60%")
+        progress_popover.expect_hints(work: nil,
+                                      remaining_work: :cleared_because_work_is_empty,
+                                      percent_complete: nil)
 
         # set remaining work
         progress_popover.set_values(remaining_work: "8h")
         # work is derived
         progress_popover.expect_values(work: "20h", remaining_work: "8h", percent_complete: "60%")
+        progress_popover.expect_hints(work: :derived,
+                                      remaining_work: nil,
+                                      percent_complete: nil)
       end
 
       # scenario from https://community.openproject.org/wp/57370
@@ -506,11 +585,17 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         # clear work
         progress_popover.set_values(remaining_work: "")
         progress_popover.expect_values(work: "", remaining_work: "", percent_complete: "60%")
+        progress_popover.expect_hints(work: :cleared_because_remaining_work_is_empty,
+                                      remaining_work: nil,
+                                      percent_complete: nil)
 
-        # set remaining work
+        # set work
         progress_popover.set_values(work: "20h")
-        # => work is derived
+        # => remaining work is derived
         progress_popover.expect_values(work: "20h", remaining_work: "8h", percent_complete: "60%")
+        progress_popover.expect_hints(work: nil,
+                                      remaining_work: :derived,
+                                      percent_complete: nil)
       end
 
       # scenario from https://community.openproject.org/wp/57370
@@ -522,11 +607,17 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         # clear work and % complete
         progress_popover.set_values(work: "", percent_complete: "")
         progress_popover.expect_values(work: "", remaining_work: "4h", percent_complete: "")
+        progress_popover.expect_hints(work: nil,
+                                      remaining_work: nil,
+                                      percent_complete: nil)
 
         # set work
         progress_popover.set_values(work: "20h")
         # => % complete is derived
         progress_popover.expect_values(work: "20h", remaining_work: "4h", percent_complete: "80%")
+        progress_popover.expect_hints(work: nil,
+                                      remaining_work: nil,
+                                      percent_complete: :derived)
       end
 
       # scenario from https://community.openproject.org/wp/57370
@@ -568,9 +659,15 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         progress_popover.open
         progress_popover.set_values(remaining_work: "2h", percent_complete: "50%")
         progress_popover.expect_values(work: "4h")
+        progress_popover.expect_hints(work: :derived,
+                                      remaining_work: nil,
+                                      percent_complete: nil)
 
         progress_popover.set_values(remaining_work: "10h")
         progress_popover.expect_values(work: "20h")
+        progress_popover.expect_hints(work: :derived,
+                                      remaining_work: nil,
+                                      percent_complete: nil)
       end
 
       # scenario from https://community.openproject.org/wp/57370
@@ -581,12 +678,79 @@ RSpec.describe "Progress modal", :js, :with_cuprite,
         progress_popover.open
         progress_popover.set_values(percent_complete: "40%")
         progress_popover.expect_values(work: "", remaining_work: "", percent_complete: "40%")
+        progress_popover.expect_hints(work: nil,
+                                      remaining_work: nil,
+                                      percent_complete: nil)
 
         progress_popover.set_values(remaining_work: "60h")
         progress_popover.expect_values(work: "100h", remaining_work: "60h", percent_complete: "40%")
+        progress_popover.expect_hints(work: :derived,
+                                      remaining_work: nil,
+                                      percent_complete: nil)
 
         progress_popover.set_values(percent_complete: "80%")
         progress_popover.expect_values(work: "300h", remaining_work: "60h", percent_complete: "80%")
+        progress_popover.expect_hints(work: :derived,
+                                      remaining_work: nil,
+                                      percent_complete: nil)
+      end
+    end
+
+    context "in status-based mode",
+            with_settings: { work_package_done_ratio: "status" } do
+      before_all do
+        open_status_with_0p_done_ratio.update!(is_default: true)
+
+        create(:workflow,
+               type_id: type_task.id,
+               old_status: open_status_with_0p_done_ratio,
+               new_status: in_progress_status_with_50p_done_ratio,
+               role:)
+        create(:workflow,
+               type_id: type_task.id,
+               old_status: open_status_with_0p_done_ratio,
+               new_status: complete_status_with_100p_done_ratio,
+               role:)
+      end
+
+      context "given status has % complete to 50% and work is unset" do
+        before do
+          update_work_package_with(work_package, status: in_progress_status_with_50p_done_ratio,
+                                                 estimated_hours: nil)
+        end
+
+        specify "when setting work, it updates remaining work and % complete" do
+          visit_progress_query_displaying_work_package
+
+          progress_popover.open
+          progress_popover.expect_values(work: "", remaining_work: "")
+          progress_popover.expect_hints(work: nil, remaining_work: nil)
+
+          progress_popover.set_values(work: "10h")
+          progress_popover.expect_values(work: "10h", remaining_work: "5h")
+          progress_popover.expect_hints(work: nil, remaining_work: :derived)
+        end
+      end
+
+      context "given work = 10h" do
+        before do
+          update_work_package_with(work_package, estimated_hours: 10)
+        end
+
+        specify "when changing the status or work, it updates remaining work" do
+          visit_progress_query_displaying_work_package
+
+          progress_popover.open
+          progress_popover.expect_hints(work: nil, remaining_work: nil)
+
+          progress_popover.set_values(status: in_progress_status_with_50p_done_ratio)
+          progress_popover.expect_values(work: "10h", remaining_work: "5h")
+          progress_popover.expect_hints(work: nil, remaining_work: :derived)
+
+          progress_popover.set_values(work: "")
+          progress_popover.expect_values(work: "", remaining_work: "")
+          progress_popover.expect_hints(work: nil, remaining_work: :cleared_because_work_is_empty)
+        end
       end
     end
   end

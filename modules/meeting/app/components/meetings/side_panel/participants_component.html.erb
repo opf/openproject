@@ -2,7 +2,6 @@
   component_wrapper do
     render(Primer::OpenProject::SidePanel::Section.new) do |section|
       section.with_title { Meeting.human_attribute_name(:participants) }
-      section.with_description { I18n.t('meeting.attachments.text') }
       section.with_counter(count: @meeting.invited_or_attended_participants.count)
 
       if @meeting.editable?
@@ -21,12 +20,6 @@
       component_wrapper(data: wrapper_data_attributes) do
         flex_layout do |participants_container|
           participants_container.with_row do
-            flex_layout(align_items: :center, justify_content: :space_between) do |heading|
-
-            end
-          end
-
-          participants_container.with_row(mt: 2) do
             render(OpPrimer::ExpandableListComponent.new(cutoff_limit: 5)) do |list|
               elements.each do |item|
                 list.with_element { render_participant(item) }

@@ -8,7 +8,7 @@ zh-CN:
       create_title: '创建新的工作组规划器'
       unsaved_title: '未命名的工作组规划器'
       no_data: '添加受理人以设置您的工作组规划器。'
-      add_assignee: '添加受理人'
+      add_assignee: '受理人'
       remove_assignee: '移除受理人'
       two_weeks: '2 周'
       one_week: '1 周'

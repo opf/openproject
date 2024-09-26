@@ -16,7 +16,6 @@ def register_chrome(language, name: :"chrome_#{language}", headless: "old", over
     end
 
     options.add_argument("--no-sandbox")
-    options.add_argument("--disable-gpu")
     options.add_argument("--disable-popup-blocking")
     options.add_argument("--lang=#{language}")
     options.add_preference("intl.accept_languages", language)
@@ -24,6 +23,10 @@ def register_chrome(language, name: :"chrome_#{language}", headless: "old", over
     # https://github.com/grosser/parallel_tests/issues/658
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-smooth-scrolling")
+    # Software GPU to avoid the dreaded "[ERROR] [Canvas '__0']: Failed to get a
+    # WebGL context" error for tests using xeokit, adapted from answers of
+    # https://stackoverflow.com/q/70948512/177665 and
+    options.add_argument("--use-gl=angle")
     # Disable "Select your search engine screen"
     options.add_argument("--disable-search-engine-choice-screen")
 

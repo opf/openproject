@@ -30,6 +30,13 @@ See COPYRIGHT and LICENSE files for more details.
 <%= error_messages_for @application %>
 
 <section class="form--section">
+  <div class="form--field">
+    <%= f.check_box :enabled, container_class: '-middle' %>
+    <span class="form--field-instructions">
+      <%= t('oauth.application.instructions.enabled') %>
+    </span>
+  </div>
+
   <div class="form--field -required">
     <%= f.text_field :name, required: true, size: 25, container_class: '-middle' %>
     <span class="form--field-instructions">

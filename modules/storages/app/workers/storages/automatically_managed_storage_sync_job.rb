@@ -52,14 +52,14 @@ module Storages
       end
     end
 
-    def self.key(storage) = "sync-#{storage.short_provider_type}-#{storage.id}"
+    def self.key(storage) = "sync-#{storage}-#{storage.id}"
 
     def perform(storage)
       return unless storage.configured? && storage.automatically_managed?
 
       sync_result = case storage.short_provider_type
                     when "nextcloud"
-                      NextcloudGroupFolderPropertiesSyncService.call(storage)
+                      NextcloudManagedFolderSyncService.call(storage)
                     when "one_drive"
                       OneDriveManagedFolderSyncService.call(storage)
                     else

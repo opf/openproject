@@ -32,8 +32,8 @@ require "open3"
 module OpenProject
   module VERSION # :nodoc:
     MAJOR = 14
-    MINOR = 5
-    PATCH = 2
+    MINOR = 6
+    PATCH = 0
 
     class << self
       # Used by semver to define the special version (if any).

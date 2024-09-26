@@ -95,6 +95,7 @@ export interface QueryRequestParams {
   groupBy:string|null;
   filters:string;
   sortBy:string;
+  query_id:string|null;
   timestamps:string;
   valid_subset?:boolean;
 }

@@ -31,7 +31,7 @@
 RSpec.shared_examples_for "file_path_to_id_map_query: basic query setup" do
   it "is registered as queries.file_path_to_id_map" do
     expect(Storages::Peripherals::Registry
-             .resolve("#{storage.short_provider_type}.queries.file_path_to_id_map")).to eq(described_class)
+             .resolve("#{storage}.queries.file_path_to_id_map")).to eq(described_class)
   end
 
   it "responds to #call with correct parameters" do
@@ -40,13 +40,18 @@ RSpec.shared_examples_for "file_path_to_id_map_query: basic query setup" do
     method = described_class.method(:call)
     expect(method.parameters).to contain_exactly(%i[keyreq storage],
                                                  %i[keyreq auth_strategy],
-                                                 %i[keyreq folder])
+                                                 %i[keyreq folder],
+                                                 %i[key depth])
   end
 end
 
 RSpec.shared_examples_for "file_path_to_id_map_query: successful query" do
   it "returns a map of locations to file ids" do
-    result = described_class.call(storage:, auth_strategy:, folder:)
+    result = if defined?(depth)
+               described_class.call(storage:, auth_strategy:, folder:, depth:)
+             else
+               described_class.call(storage:, auth_strategy:, folder:)
+             end
 
     expect(result).to be_success
 

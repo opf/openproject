@@ -109,7 +109,7 @@ class ColorsController < ApplicationController
   def default_breadcrumb; end
 
   def require_admin_unless_readonly_api_request
-    require_admin unless %w[index show].include? params[:action] and
+    require_admin unless %w[index show].include? action_name and
                          api_request?
   end
 end

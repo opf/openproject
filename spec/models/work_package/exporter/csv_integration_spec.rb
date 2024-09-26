@@ -124,7 +124,7 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
       data = CSV.parse instance.export!.content
 
       expect(data.size).to eq(5)
-      expect(data.pluck(0)).to eq ["Type", "Type A", "Type A", "Type A", "Type B"]
+      expect(data.pluck(0)).to eq ["\xEF\xBB\xBFType", "Type A", "Type A", "Type A", "Type B"]
     end
   end
 
@@ -171,7 +171,7 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
       data = CSV.parse instance.export!.content
 
       expect(data.size).to eq(5)
-      expect(data.pluck(0)).to eq %w[Subject WP4 WP2 WP1 WP3]
+      expect(data.pluck(0)).to eq %w[WP4 WP2 WP1 WP3].unshift("\xEF\xBB\xBFSubject")
     end
   end
 end

@@ -31,6 +31,9 @@ ru:
     custom_styles:
       color_theme: "Цветовая тема"
       color_theme_custom: "(Пользовательская)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Основная кнопка"
         accent-color: "Оттенок"
@@ -79,6 +82,7 @@ ru:
         contact: "Свяжитесь с нами для демо"
       enterprise_info_html: "является дополнением Корпоративной версии <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
       upgrade_info: "Пожалуйста, перейдите на платный тарифный план, чтобы активировать его и начать использовать в вашей команде."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Личные действия пользователя (например, обновление пакета работ дважды) агрегируются в одно действие, если их разница во времени не больше указанной. Они будут отображаться как одно действие внутри приложения. Это также задерживает уведомление на такое же количество времени, уменьшая количество отправляемых писем и также повлияет на %{webhook_link} задержки."
@@ -201,6 +205,11 @@ ru:
       title: "Настраиваемые действия"
       description: "Пользовательские действия сводятся к одному клику по кнопке для совершения заранее определенных действий, которые вы можете сделать доступными для пакетов работ на основании статуса, роли, типа или проекта."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: Для всех проектов
+          description: Это пользовательское поле включено во всех проектах, так как отмечена опция «Для всех проектов». Его нельзя отключить для отдельных проектов.
     text_add_new_custom_field: >
       Прежде чем добавлять настраиваемые поля в проект, нужно создать их.
     is_enabled_globally: "Разрешено в глобальном масштабе"
@@ -644,6 +653,8 @@ ru:
         uid: "ID клиента"
         secret: "Секрет клиента"
         owner: "Владелец"
+        builtin: "Встроенный"
+        enabled: "Активный"
         redirect_uri: "Перенаправить URI"
         client_credentials_user_id: "ID пользователя клиента"
         scopes: "Области"
@@ -815,6 +826,7 @@ ru:
         blank: "не может быть пустым."
         blank_nested: "должно быть установлено свойство '%{property}'."
         cannot_delete_mapping: "требуется. Невозможно удалить."
+        is_for_all_cannot_modify: "предназначен для всех. Не может быть изменен."
         cant_link_a_work_package_with_a_descendant: "Пакет работ не может быть связан с одной из своих подзадач."
         circular_dependency: "Это отношение создаст циклическую зависимость."
         confirmation: "не совпадает со значением поля %{attribute}."
@@ -888,6 +900,10 @@ ru:
               minimum: "необходимо включить хотя бы один фильтр для основного, контекста или id с оператором '='."
         custom_field:
           at_least_one_custom_option: "По крайней мере один параметр должен быть доступен."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Пожалуйста, выберите проект."
         custom_actions:
           only_one_allowed: "(%{name}) разрешено только одно значение."
           empty: "(%{name}) не может быть пустым."
@@ -918,6 +934,8 @@ ru:
             name:
               blank: "является обязательным. Пожалуйста, выберите имя."
               not_unique: "уже используется. Пожалуйста, выберите другое имя."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Нужно указать хотя бы один канал для отправки уведомлений."
           attributes:
@@ -1115,7 +1133,7 @@ ru:
               confirmation: "Подтверждение пароля не совпадает с паролем."
               format: "%{message}"
             password:
-              weak: "Должны содержаться символы следующих классов (как минимум %{min_count} из %{all_count}): %{rules}."
+              weak: "Должен содержать символы следующих классов (как минимум %{min_count}\nиз %{all_count}): %{rules}"
               lowercase: "нижний регистр (например «а»)"
               uppercase: "прописные буквы (например, \"A\")"
               numeric: "цифры (например \"1\")"
@@ -1699,7 +1717,7 @@ ru:
   error_menu_item_not_saved: Пункт меню не может быть сохранен
   error_wiki_root_menu_item_conflict: >
     Невозможно переименовать "%{old_name}" в "%{new_name}" из-за конфликта между получающимся и существующим пунктами меню "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Произошла ошибка во время внешней аутентификации. Пожалуйста, попробуйте еще раз."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Атрибуты не выделяются: %{attributes}"
   events:
     changeset: "Набор изменений отредактирован"
@@ -1871,7 +1889,7 @@ ru:
       progress_mode_changed_to_status_based: Расчет прогресса установлен в режим "На основе статуса"
       status_excluded_from_totals_set_to_false_message: теперь включено в иерархию итогов
       status_excluded_from_totals_set_to_true_message: теперь исключено из иерархии итогов
-      status_percent_complete_changed: "% завершения изменен с %{old_value}% на %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           Теперь на вкладке Активность появится активность, связанная со ссылками файлов (файлы, хранящиеся во внешних хранилищах). Ниже описывается деятельность по уже существующим ссылкам:
@@ -1980,7 +1998,8 @@ ru:
   label_additional_workflow_transitions_for_assignee: "Дополнительные переходы допускается, если пользователь является правопреемником"
   label_additional_workflow_transitions_for_author: "Дополнительные переходы допускаются, если пользователь является автором"
   label_administration: "Администрирование"
-  label_advanced_settings: "Расширенные настройки"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Возраст"
   label_ago: "дней назад"
   label_all: "все"
@@ -2013,6 +2032,7 @@ ru:
   label_attribute_expand_text: "Полный текст для '%{attribute}'"
   label_authentication: "Аутентификация"
   label_authentication_settings: "Параметры аутентификации"
+  label_available_custom_fields_projects: "Доступные пользовательские поля проектов"
   label_available_global_roles: "Доступные глобальные роли"
   label_available_project_attributes: "Доступные атрибуты проекта"
   label_available_project_forums: "Доступные форумы"
@@ -2085,6 +2105,7 @@ ru:
   label_copy_project: "Копировать проект"
   label_core_version: "Текущая версия"
   label_core_build: "Сборка ядра"
+  label_created_by: "Создано %{user}"
   label_current_status: "Текущий статус"
   label_current_version: "Текущий этап"
   label_custom_field_add_no_type: "Добавьте это поле в тип комплекса работ"
@@ -2092,6 +2113,7 @@ ru:
   label_custom_field_plural: "Пользовательские поля"
   label_custom_field_default_type: "Пустой тип"
   label_custom_style: "Дизайн"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Панель"
   label_database_version: "Версия PostgreSQL"
   label_date: "Дата"
@@ -2212,9 +2234,9 @@ ru:
   label_share: "Поделиться"
   label_share_project_list: "Поделитесь списком проектов"
   label_share_work_package: "Поделиться пакетом работ"
-  label_show_hide: "Показать/скрыть"
-  label_show_hide_n_items: "Показать/скрыть %{count} элементов"
   label_show_all_registered_users: "Показать всех зарегистрированных пользователей"
+  label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Журнал"
   label_journal_diff: "Описание сравнения"
   label_language: "Язык"
@@ -2364,6 +2386,7 @@ ru:
   label_product_version: "Версия продукта"
   label_profile: "Профиль"
   label_percent_complete: "% Готово"
+  label_progress_tracking: "Прогресс отслеживания"
   label_project: "Проект"
   label_project_activity: "Деятельность"
   label_project_attribute_plural: "Атрибуты проекта"
@@ -2549,7 +2572,6 @@ ru:
   label_work_package_new: "Новый пакет работ"
   label_work_package_edit: "Редактирование пакета работ %{name}"
   label_work_package_plural: "Комплекс работ"
-  label_work_packages_settings: "Настройки пакетов работ"
   label_work_package_status: "Статус пакета работ"
   label_work_package_status_new: "Новый статус"
   label_work_package_status_plural: "Статусы пакета работ"
@@ -3191,9 +3213,11 @@ ru:
   setting_invitation_expiration_days: "Действие письма активации истекает после"
   setting_work_package_done_ratio: "Режим расчета прогресса"
   setting_work_package_done_ratio_field: "На основе трудозатрат"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Завершения</i> может быть свободно установлен на любое значение. Если Вы опционально введете значение для параметра <i>Работа</i>, то автоматически будет выведено значение <i>Оставшаяся работа</i>.
   setting_work_package_done_ratio_status: "На основе статуса"
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    В режиме <b>На основе трудозатрат</b>, % Завершения рассчитывается на основе того, сколько работы выполнено по отношению к общему объему работ. В режиме <b>На основе статуса</b>, каждый статус имеет связанное с ним значение % Завершения. Изменение статуса изменит % Завершения.
+  setting_work_package_done_ratio_status_caption_html: >-
+    С каждым статусом связано значение <i>% Завершения</i>. Изменение статуса приведет к изменению <i>% Завершения</i>.
   setting_work_package_done_ratio_explanation_html: >
     В режиме <b>На основе трудозатрат</b> для параметра % Завершения можно свободно установить любое значение. Если вы дополнительно введете значение «Работа», «Оставшаяся работа» будет получена автоматически. В режиме <b>На основе статуса</b> с каждым статусом связано значение % Завершения. Изменение статуса приведет к изменению % Завершения.
   setting_work_package_properties: "Свойства пакета работ"
@@ -3214,6 +3238,13 @@ ru:
   setting_password_min_length: "Минимальная длина"
   setting_password_min_adhered_rules: "Минимальное количество необходимых классов"
   setting_per_page_options: "Количество объектов на страницу"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Обычный текст электронной почты (не HTML)"
   setting_protocol: "Протокол"
   setting_project_gantt_query: "Портфолио проекта в виде диаграммы Ганта"
@@ -3580,7 +3611,6 @@ ru:
       label_note: "Примечание:"
       modal:
         work_based_help_text: "Каждое поле автоматически рассчитывается от двух других, когда это возможно."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Завершения автоматически выводится из Работы и Оставшейся работы."
         status_based_help_text: "% Выполнения определяется статусом пакета работ."
         migration_warning_text: "В режиме расчета прогресса \"На основе трудозатрат\" процент завершения невозможно установить вручную, он привязан к трудозатратам. Существующее значение сохранено, но его нельзя изменить. Пожалуйста, сначала введите трудозатраты."
       derivation_hints:
@@ -3595,9 +3625,9 @@ ru:
         remaining_hours:
           cleared_because_work_is_empty: "Очищено, потому что Работа пуста."
           cleared_because_percent_complete_is_empty: "Очищено, потому что % Завершения пуст."
-          decreased_like_work: "Уменьшается на ту же величину, что и Работа."
+          decreased_by_delta_like_work: "Уменьшилось на %{delta}, в соответствии с уменьшением объема работ."
           derived: "Получено из Работы и % Завершения."
-          increased_like_work: "Увеличивается на ту же величину, что и Работа."
+          increased_by_delta_like_work: "Увеличилось на %{delta}, в соответствии с увеличением объема работ."
           same_as_work: "Установите то же значение, что и для Работы."
     permissions:
       comment: "Комментировать"
@@ -3789,12 +3819,16 @@ ru:
     close_warning: "Игнорировать это предупреждение."
   oauth:
     application:
+      builtin: Встроенное приложение
+      confidential: Конфиденциально
       singular: "Приложение OAuth"
       plural: "OAuth приложения"
       named: "OAuth приложение '%{name}'"
       new: "Новое приложение OAuth"
+      non_confidential: Не конфиденциально
       default_scopes: "(Области по умолчанию)"
       instructions:
+        enabled: "Включите это приложение, чтобы пользователи могли выполнять с его помощью авторизацию."
         name: "Название вашего приложения. Будет отображаться другим пользователям после авторизации."
         redirect_uri_html: >
           Разрешенные URL-адреса могут быть перенаправлены на. Одна запись на строку. <br/> Если вы регистрируете приложение на рабочем столе, используйте следующий URL.
@@ -3803,6 +3837,10 @@ ru:
         client_credential_user_id: "Необязательный ID пользователя для замещения в момент использования этого приложения клиентами. Оставьте пустым, чтобы разрешить только публичный доступ"
         register_intro: "Если вы разрабатываете клиентское приложение OAuth API для OpenProject, вы можете зарегистрировать его, используя эту форму для всех пользователей."
         default_scopes: ""
+    header:
+      builtin_applications: Встроенные приложения OAuth
+      other_applications: Другие приложения OAuth
+    empty_application_lists: Нет зарегистрированных приложений OAuth.
     client_id: "ID клиента"
     client_secret_notice: >
       Это единственный раз, когда мы позволяем распечатать секрет клиента, пожалуйста, пожалуйста, запишите его и сохраните в безопасности. Он должен рассматриваться как пароль и не может быть получен в OpenProject позже.

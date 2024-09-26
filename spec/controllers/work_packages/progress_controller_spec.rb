@@ -30,8 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackages::ProgressController,
-               with_flag: { percent_complete_edition: true } do
+RSpec.describe WorkPackages::ProgressController do
   shared_let(:user) { create(:admin) }
   shared_let(:work_package) { create(:work_package) }
 

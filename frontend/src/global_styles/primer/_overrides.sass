@@ -83,14 +83,10 @@ sub-header,
       flex-direction: column
       row-gap: 1rem
 
-// Todo: Fix this as soon as possible in the primer repo!
-.SubHeader-leftPane
-  [class*="FormControl-input-width--"]:not(.FormControl-input-width--auto)
-    width: 100vw
-
 .Button.op-app-header--primer-button,
 .Button.op-app-header--primer-button .Button-visual
   color: var(--header-item-font-color)
+  width: auto
 
   &:hover
     background: var(--header-item-bg-hover-color)

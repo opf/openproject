@@ -27,6 +27,29 @@
 #++
 
 module CustomStylesHelper
+  def design_tabs
+    [
+      {
+        name: "interface",
+        partial: "custom_styles/interface",
+        path: custom_style_path(tab: :interface),
+        label: t(:"admin.custom_styles.tab_interface")
+      },
+      {
+        name: "branding",
+        partial: "custom_styles/branding",
+        path: custom_style_path(tab: :branding),
+        label: t(:"admin.custom_styles.tab_branding")
+      },
+      {
+        name: "pdf_export_styles",
+        partial: "custom_styles/pdf_export_styles",
+        path: custom_style_path(tab: :pdf_export_styles),
+        label: t(:"admin.custom_styles.tab_pdf_export_styles")
+      }
+    ]
+  end
+
   def apply_custom_styles?(skip_ee_check: OpenProject::Configuration.bim?)
     # Apply custom styles either if EE allows OR we are on a BIM edition with the BIM theme active.
     CustomStyle.current.present? &&

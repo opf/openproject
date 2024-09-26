@@ -87,7 +87,9 @@ class ProgressEditField < EditField
   end
 
   def set_value(value)
-    if value == ""
+    if status_field?
+      select_status(value)
+    elsif value == ""
       clear
     else
       page.fill_in field_name, with: value
@@ -95,10 +97,21 @@ class ProgressEditField < EditField
     wait_for_preview_to_complete
   end
 
+  def select_status(value)
+    value = value.name if value.is_a?(Status)
+
+    page.select(value, from: "% Complete")
+  end
+
+  def status_field?
+    field_name == "work_package_status_id"
+  end
+
   def focus
     return if focused?
 
     input_element.click
+    input_element.click if status_field? # to close the dropdown
     wait_for_preview_to_complete
   end
 
@@ -116,10 +129,11 @@ class ProgressEditField < EditField
   end
 
   def input_caption_element
-    input_element["aria-describedby"]
-      .split
-      .find { _1.start_with?("caption-") }
-      &.then { |caption_id| find(id: caption_id) }
+    input_aria_related_element(describedby: "caption")
+  end
+
+  def input_validation_element
+    input_aria_related_element(describedby: "validation")
   end
 
   def trigger_element
@@ -170,7 +184,12 @@ class ProgressEditField < EditField
   # If they are the same, it means the modal field is in focus.
   # @return [Boolean] true if the modal field is in focus, false otherwise.
   def expect_modal_field_in_focus
-    expect(focused?).to be(true)
+    # Use capybara `synchronize` helper to wait until the modal field is in focus
+    page.document.synchronize do
+      unless focused?
+        raise Capybara::ExpectationNotMet, "Input #{input_element} does not have focus"
+      end
+    end
   end
 
   def focused?
@@ -197,14 +216,14 @@ class ProgressEditField < EditField
     expect(page).to have_field(@field_name, disabled: true)
   end
 
-  def expect_read_only_modal_field
+  def expect_modal_field_read_only
     expect(input_element).to be_readonly
   end
 
-  def expect_modal_field_value(value, disabled: false, readonly: false)
+  def expect_modal_field_value(value, disabled: :all)
     within modal_element do
       if @property_name == "percentageDone" && value.to_s == "-"
-        expect(page).to have_field(field_name, readonly:, placeholder: value.to_s)
+        expect(page).to have_field(field_name, placeholder: value.to_s)
       elsif @property_name == "statusWithinProgressModal"
         if value == :empty_without_any_options
           expect(page).to have_select(field_name, disabled:, options: [])
@@ -212,7 +231,7 @@ class ProgressEditField < EditField
           expect(page).to have_select(field_name, disabled:, with_selected: value.to_s)
         end
       else
-        expect(page).to have_field(field_name, disabled:, readonly:, with: value.to_s)
+        expect(page).to have_field(field_name, disabled:, with: value.to_s)
       end
     end
   end
@@ -223,6 +242,15 @@ class ProgressEditField < EditField
                                                "got \"#{input_caption_element&.text}\""
     else
       expect(input_caption_element).to have_text(expected_caption)
+    end
+  end
+
+  def expect_error(expected_error)
+    if expected_error.nil?
+      expect(input_validation_element).to be_nil, "Expected no error message for #{@human_field_name} field, " \
+                                                  "got \"#{input_validation_element&.text}\""
+    else
+      expect(input_validation_element).to have_text(expected_error)
     end
   end
 
@@ -240,24 +268,18 @@ class ProgressEditField < EditField
     end
   end
 
-  # to be removed in 15.0 with :percent_complete_edition feature flag removal
-  def expect_migration_warning_banner(should_render: true)
-    within modal_element do
-      if should_render
-        expect(page)
-          .to have_text(I18n.t("work_package.progress.modal.migration_warning_text"))
-      else
-        expect(page)
-          .to have_no_text(I18n.t("work_package.progress.modal.migration_warning_text"))
-      end
-    end
-  end
-
   private
 
   attr_reader :field_name
 
   def modal_element
     page.find(MODAL_SELECTOR)
+  end
+
+  def input_aria_related_element(describedby:)
+    input_element["aria-describedby"]
+      .split
+      .find { _1.start_with?("#{describedby}-") }
+      &.then { |id| find(id:) }
   end
 end
