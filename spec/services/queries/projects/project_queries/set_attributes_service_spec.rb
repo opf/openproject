@@ -66,11 +66,15 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
         .to receive(:find_by)
               .with(id: cf.id.to_s)
               .and_return(cf)
+
+      allow(scope)
+        .to receive(:pluck)
+              .with(:id)
+              .and_return([cf.id])
     end
   end
 
   before do
-    RequestStore.store[:custom_sortable_project_custom_fields] = "1"
     allow(model_instance).to receive(:valid?).and_return(model_valid)
   end
 

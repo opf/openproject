@@ -82,6 +82,7 @@ hu:
         contact: "Keressen fel minket a próbaverzióért"
       enterprise_info_html: "egy Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> kiegészítő."
       upgrade_info: "Kérjük, válasszon egy fizetős csomagot az aktiváláshoz, hogy mihamarabb használhassa a csapatában."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "A felhasználó egyes műveletei (pl. egy munkacsomag kétszeri frissítése) egyetlen műveletté egyesülnek, ha korkülönbségük kisebb, mint a megadott időtartam. Ezek egyetlen műveletként jelennek meg az alkalmazásban. Ez ugyanannyi idővel késlelteti az értesítéseket, csökkenti az elküldött emailek számát, valamint befolyásolja a %{webhook_link} késleltetését is.\n"

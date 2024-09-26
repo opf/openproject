@@ -29,8 +29,10 @@
 class Queries::Projects::Selects::CustomField < Queries::Selects::Base
   validates :custom_field, presence: { message: I18n.t(:"activerecord.errors.messages.does_not_exist") }
 
+  KEY = /\Acf_(\d+)\z/
+
   def self.key
-    /cf_(\d+)/
+    KEY
   end
 
   def self.all_available
@@ -39,7 +41,7 @@ class Queries::Projects::Selects::CustomField < Queries::Selects::Base
     ProjectCustomField
       .visible
       .pluck(:id)
-      .map { |cf_id| new(:"cf_#{cf_id}") }
+      .map { |id| new(:"cf_#{id}") }
   end
 
   def caption
@@ -47,9 +49,11 @@ class Queries::Projects::Selects::CustomField < Queries::Selects::Base
   end
 
   def custom_field
-    @custom_field ||= ProjectCustomField
-                        .visible
-                        .find_by(id: self.class.key.match(attribute)[1])
+    return @custom_field if defined?(@custom_field)
+
+    @custom_field = ProjectCustomField
+                      .visible
+                      .find_by(id: attribute[KEY, 1])
   end
 
   def available?

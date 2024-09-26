@@ -26,26 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class BannerMessageComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-  def initialize(message: nil,
-                 full: true,
-                 full_when_narrow: false,
-                 dismiss_scheme: :hide,
-                 dismiss_label: I18n.t("button_close"),
-                 icon: false,
-                 scheme: :default,
-                 test_selector: "primer-banner-message-component")
-    super
+module OpPrimer
+  class FlashComponent < Primer::Alpha::Banner
+    include ApplicationHelper
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-    @message = message
-    @full = full
-    @full_when_narrow = full_when_narrow
-    @dismiss_scheme = dismiss_scheme
-    @dismiss_label = dismiss_label
-    @icon = icon
-    @scheme = scheme
-    @test_selector = test_selector
+    def initialize(**system_arguments)
+      @unique_key = system_arguments.delete(:unique_key)
+
+      system_arguments[:test_selector] ||= "primer-banner-message-component"
+      system_arguments[:dismiss_scheme] ||= :remove
+      system_arguments[:dismiss_label] ||= I18n.t(:button_close)
+
+      super
+    end
   end
-
-  attr_reader :message, :full, :full_when_narrow, :dismiss_scheme, :dismiss_label, :icon, :scheme, :test_selector
 end

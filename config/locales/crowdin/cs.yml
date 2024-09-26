@@ -82,6 +82,7 @@ cs:
         contact: "Kontaktujte nás pro demo"
       enterprise_info_html: "je doplněk Enterprise edice <span class='spot-icon spot-icon_enterprise-addons'></span>."
       upgrade_info: "Přejděte na placenou verzi a začněte ji používat ve vašem týmu."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Individuální akce/úpravy uživatele (např. dvojnásobná aktualizace pracovního balíčku se sečtou do jediné akce, pokud je jejich časový rozdíl menší než stanovený čas. Budou zobrazeny jako jedna akce v rámci aplikace. Toto také zpozdí oznámení o stejný čas a sníží tak počet zasílaných e-mailů a ovlivní se také zpoždění na adrese %{webhook_link}."

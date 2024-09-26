@@ -50,8 +50,8 @@ apt-get install -yq --no-install-recommends \
 	catdoc \
 	imagemagick \
 	libclang-dev \
+	libjemalloc2 \
 	git
-
 
 # Specifics for BIM edition
 if [ ! "$BIM_SUPPORT" = "false" ]; then
@@ -95,4 +95,3 @@ id $APP_USER || useradd -d /home/$APP_USER -m $APP_USER
 
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 truncate -s 0 /var/log/*log
-

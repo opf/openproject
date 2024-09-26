@@ -612,7 +612,9 @@ lv:
         mentioned: "Mentioned"
         watched: "Sekotājs"
         assigned: "Pašreizējais atbildīgais"
-        accountable: "Accountable"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "Izveidots"
         scheduled: "Scheduled"
         commented: "Komentēja"

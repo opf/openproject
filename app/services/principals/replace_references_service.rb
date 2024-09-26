@@ -49,6 +49,7 @@ module Principals
       rewrite_actor(from, to)
       rewrite_owner(from, to)
       rewrite_logged_by(from, to)
+      rewrite_presenter(from, to)
     end
 
     def rewrite_custom_value(from, to)
@@ -135,12 +136,20 @@ module Principals
       end
     end
 
+    def rewrite_presenter(from, to)
+      [
+        MeetingAgendaItem
+      ].each do |klass|
+        rewrite(klass, :presenter_id, from, to)
+      end
+    end
+
     def journal_classes
       [Journal] + Journal::BaseJournal.subclasses
     end
 
     def foreign_keys
-      %w[author_id user_id assigned_to_id responsible_id logged_by_id]
+      %w[author_id user_id assigned_to_id responsible_id logged_by_id presenter_id]
     end
 
     def rewrite(klass, attribute, from, to)

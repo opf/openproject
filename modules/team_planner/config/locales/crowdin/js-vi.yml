@@ -8,7 +8,7 @@ vi:
       create_title: 'Tạo kế hoạch nhóm mới'
       unsaved_title: 'Kế hoạch nhóm chưa đặt tên'
       no_data: 'Thêm người được phân công để thiết lập kế hoạch nhóm của bạn.'
-      add_assignee: 'Thêm người được phân công'
+      add_assignee: 'Assignee'
       remove_assignee: 'Xóa người được phân công'
       two_weeks: '2 tuần'
       one_week: '1 tuần'

@@ -613,7 +613,9 @@ ja:
         mentioned: "Mentioned"
         watched: "ウォッチャー"
         assigned: "担当者"
-        accountable: "責任者"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "作成日時"
         scheduled: "スケジュール済"
         commented: "コメントしました。"

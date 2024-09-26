@@ -82,6 +82,7 @@ id:
         contact: "Hubungi kami untuk demo"
       enterprise_info_html: "adalah add-on <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> Perusahaan."
       upgrade_info: "Tingkatkan ke paket berbayar untuk mengaktifkan dan mulai menggunakannya di tim Anda."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Setiap tindakan pengguna (mis. memperbarui paket kerja dua kali) digabungkan menjadi satu tindakan jika perbedaan usianya kurang dari rentang waktu yang ditentukan.  Mereka akan ditampilkan sebagai tindakan tunggal dalam aplikasi.  Ini juga akan menunda pemberitahuan dengan jumlah waktu yang sama sehingga mengurangi jumlah email yang dikirim dan juga akan memengaruhi penundaan %{webhook_link}."

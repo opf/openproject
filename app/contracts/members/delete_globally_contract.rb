@@ -27,15 +27,7 @@
 #++
 
 module Members
-  class DeleteContract < ::DeleteContract
-    delete_permission :manage_members
-
-    validate :member_is_deletable
-
-    private
-
-    def member_is_deletable
-      errors.add(:base, :not_deletable) unless model.some_roles_deletable?
-    end
+  class DeleteGloballyContract < DeleteBaseContract
+    delete_permission :admin
   end
 end

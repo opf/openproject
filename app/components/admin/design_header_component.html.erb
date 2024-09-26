@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% helpers.html_title t(:label_administration), t(:label_custom_style), @title %>
+<% helpers.html_title t(:label_administration), t(:label_custom_style), selected_tab(@tabs)[:label] %>
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { t(:label_custom_style) }

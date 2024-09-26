@@ -28,14 +28,27 @@
 
 module Meetings
   class UpdateFlashComponent < ApplicationComponent
-    include ApplicationHelper
     include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:)
-      super
+    alias_method :meeting, :model
 
-      @meeting = meeting
+    def call
+      render(
+        ::OpPrimer::FlashComponent.new(
+          icon: :info,
+          dismiss_scheme: :none,
+          unique_key: "meetings-update-flash"
+        )
+      ) do |banner|
+        banner.with_action_button(
+          tag: :a,
+          href: helpers.meeting_path(meeting),
+          data: { turbo: false },
+          size: :medium
+        ) { I18n.t("label_meeting_reload") }
+
+        I18n.t("notice_meeting_updated")
+      end
     end
   end
 end

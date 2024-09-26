@@ -1,4 +1,4 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -24,38 +24,26 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class FlashMessageComponent < ApplicationComponent
-  include ApplicationHelper
-  include OpTurbo::Streamable
-  include OpPrimer::ComponentHelpers
+require "spec_helper"
 
-  def initialize(message: nil, full: false, dismiss_scheme: :none, icon: nil, scheme: :default)
-    super
+RSpec.describe Queries::Projects::Selects::Default do
+  describe ".key" do
+    define_negated_matcher :not_match, :match
 
-    @message = message
-    @full = full
-    @dismiss_scheme = dismiss_scheme
-    @icon = icon
-    @scheme = scheme
-  end
+    let(:keys) { described_class::KEYS }
 
-  def call
-    component_wrapper do
-      # even without provided message, the wrapper should be  rendered as this allows
-      # for triggering a flash message via turbo stream
-      if @message.present?
-        flash_partial
-      end
+    it "matches every key" do
+      expect(keys).to all(match(described_class.key))
     end
-  end
 
-  private
+    it "doesn't match any key with prefix" do
+      expect(keys.map { "x#{_1}" }).to all(not_match(described_class.key))
+    end
 
-  def flash_partial
-    render(Primer::Alpha::Banner.new(
-             full: @full, dismiss_scheme: @dismiss_scheme, icon: @icon, scheme: @scheme
-           )) { @message }
+    it "doesn't match any key with suffix" do
+      expect(keys.map { "#{_1}x" }).to all(not_match(described_class.key))
+    end
   end
 end
