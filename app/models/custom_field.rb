@@ -41,6 +41,11 @@ class CustomField < ApplicationRecord
            inverse_of: "custom_field"
   accepts_nested_attributes_for :custom_options
 
+  has_one :hierarchy_root,
+          class_name: "CustomField::Hierarchy::Item",
+          dependent: :delete, # todo: cascade into children with service
+          inverse_of: "custom_field"
+
   acts_as_list scope: [:type]
 
   validates :field_format, presence: true

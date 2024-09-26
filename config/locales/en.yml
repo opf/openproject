@@ -2268,6 +2268,7 @@ en:
   label_here: here
   label_hide: "Hide"
   label_history: "History"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Home"
   label_subject_or_id: "Subject or ID"
