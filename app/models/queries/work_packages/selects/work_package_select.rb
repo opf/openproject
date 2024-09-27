@@ -27,19 +27,13 @@
 #++
 
 class Queries::WorkPackages::Selects::WorkPackageSelect
-  attr_accessor :highlightable,
-                :name,
-                :sortable_join,
-                :summable,
-                :default_order,
-                :association
-  alias_method :highlightable?, :highlightable
-
-  attr_reader :groupable,
-              :sortable,
-              :displayable
-
-  attr_writer :null_handling,
+  attr_reader :highlightable,
+              :name,
+              :sortable_join,
+              :summable,
+              :default_order,
+              :association,
+              :null_handling,
               :summable_select,
               :summable_work_packages_select
 
@@ -76,31 +70,25 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
     @null_handling
   end
 
-  def groupable=(value)
-    @groupable = name_or_value_or_false(value)
+  def displayable
+    @displayable.nil? ? true : @displayable
   end
 
-  def sortable=(value)
-    @sortable = name_or_value_or_false(value)
+  def sortable
+    name_or_value_or_false(@sortable)
   end
 
-  def displayable=(value)
-    @displayable = value.nil? ? true : value
+  def groupable
+    name_or_value_or_false(@groupable)
   end
 
-  def displayable?
-    displayable
-  end
+  def displayable? = !!displayable
 
-  # Returns true if the column is sortable, otherwise false
-  def sortable?
-    !!sortable
-  end
+  def sortable? = !!sortable
 
-  # Returns true if the column is groupable, otherwise false
-  def groupable?
-    !!groupable
-  end
+  def groupable? = !!groupable
+
+  def highlightable? = !!highlightable
 
   def summable?
     summable || @summable_select || @summable_work_packages_select
@@ -127,22 +115,24 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
   end
 
   def initialize(name, options = {})
-    self.name = name
+    @name = name
 
-    %i(sortable
-       sortable_join
-       displayable
-       groupable
-       summable
-       summable_select
-       summable_work_packages_select
-       association
-       null_handling
-       default_order).each do |attribute|
-      send(:"#{attribute}=", options[attribute])
+    %i[
+      sortable
+      sortable_join
+      displayable
+      groupable
+      summable
+      summable_select
+      summable_work_packages_select
+      association
+      null_handling
+      default_order
+    ].each do |attribute|
+      instance_variable_set(:"@#{attribute}", options[attribute])
     end
 
-    self.highlightable = !!options.fetch(:highlightable, false)
+    @highlightable = !!options.fetch(:highlightable, false)
   end
 
   def caption

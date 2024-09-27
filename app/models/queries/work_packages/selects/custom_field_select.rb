@@ -69,20 +69,19 @@ class Queries::WorkPackages::Selects::CustomFieldSelect < Queries::WorkPackages:
   private
 
   def set_name!
-    self.name = custom_field.column_name.to_sym
+    @name = custom_field.column_name.to_sym
   end
 
   def set_sortable!
-    self.sortable = custom_field.order_statements || false
+    @sortable = custom_field.order_statements || false
   end
 
   def set_groupable!
-    self.groupable = custom_field.group_by_statement if groupable_custom_field?(custom_field)
-    self.groupable ||= false
+    @groupable = groupable_custom_field?(custom_field) ? custom_field.group_by_statement || false : false
   end
 
   def set_summable!
-    self.summable = if %w(float int).include?(custom_field.field_format)
+    @summable = if %w(float int).include?(custom_field.field_format)
                       select = summable_select_statement
 
                       ->(query, grouped) {
