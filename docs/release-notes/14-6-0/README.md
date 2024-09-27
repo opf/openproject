@@ -28,9 +28,9 @@ If you use our progress tracking, we advise reading [this detailed article about
 
 ### Meetings: Receive an update notification with reload option
 
-Text
+If you have not used our Meetings module, you should consider starting it now. We updated dynamic meetings so that you know receive a notification whenever someone else made chagnes to the meeting you're looking at. Click on the button included in the notification to reload the page. This is a particularly great improvement for teams who work simultaneously in meetings.
 
-Screenshot
+![Screenshot of the OpenProject meetings module, showing the notification: This page has been updated by someone else. Reload to view changes.](openproject-14-6-meetings-reload.png)
 
 ### Enable a custom field for multiple projects at once
 
