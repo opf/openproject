@@ -65,9 +65,8 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
     create_service.on_success { render_project_list(url_for_action: :index) }
 
     create_service.on_failure do
-      update_flash_message_via_turbo_stream(
-        message: join_flash_messages(create_service.errors),
-        full: true, dismiss_scheme: :hide, scheme: :danger
+      render_error_flash_message_via_turbo_stream(
+        message: join_flash_messages(create_service.errors)
       )
     end
 
@@ -82,9 +81,8 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
     delete_service.on_success { render_project_list(url_for_action: :index) }
 
     delete_service.on_failure do
-      update_flash_message_via_turbo_stream(
-        message: join_flash_messages(delete_service.errors.full_messages),
-        full: true, dismiss_scheme: :hide, scheme: :danger
+      render_error_flash_message_via_turbo_stream(
+        message: join_flash_messages(delete_service.errors.full_messages)
       )
     end
 
@@ -166,8 +164,7 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
   end
 
   def respond_with_project_not_found_turbo_streams
-    update_flash_message_via_turbo_stream message: t(:notice_project_not_found), full: true, dismiss_scheme: :hide,
-                                          scheme: :danger
+    render_error_flash_message_via_turbo_stream message: t(:notice_project_not_found)
     update_project_list_via_turbo_stream
 
     respond_with_turbo_streams
