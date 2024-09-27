@@ -20,15 +20,15 @@ In these Release Notes, we will give an overview of important feature changes. A
 
 In response to valuable user feedback, OpenProject 14.6 brings important changes to progress reporting. We greatly appreciate the input from our Community, which helped shape these updates. Based on your feedback, the % Complete field is now manually editable again in work-based mode (like it has been in the versions before 14.0), removing the previous requirement to input Work or Remaining Work. This gives users more flexibility in tracking project progress.
 
-But we did not only revise the changes we made with 14.0, we also added new options to enhance progress tracking and make it most flexible for our users. This is why additionally, administrators now have new settings for progress calculation and % Complete hierarchy totals:
+But we did not only revise the changes we made with 14.0, we also added new options to enhance progress tracking and make it most flexible for our users. This is why, additionally, administrators now have new settings for progress calculation and % Complete hierarchy totals:
 
 ![Screenshot of the new admin page for progress tracking with OpenProject 14.6](progress-tracking-admin-options.png)
 
-If you use our progress tracking, we advise reading [this detailed article about progress reporting with OpenProejct 14.6](https://www.openproject.org/blog/updates-to-progress-tracking-in-14-6-based-on-user-feedback/) from our product team.
+If you use our progress tracking, we advise reading [this detailed article about progress reporting with OpenProject 14.6](https://www.openproject.org/blog/updates-to-progress-tracking-in-14-6-based-on-user-feedback/) from our product team.
 
 ### Meetings: Receive an update notification with reload option
 
-If you have not used our Meetings module, you should consider starting it now. We updated dynamic meetings so that you know receive a notification whenever someone else made chagnes to the meeting you're looking at. Click on the button included in the notification to reload the page. This is a particularly great improvement for teams who work simultaneously in meetings.
+If you have not used our Meetings module, you should consider starting it now. We updated dynamic meetings so that you now receive a notification whenever someone else made changes to the meeting you're looking at. Click on the button included in the notification to reload the page. This is a particularly great improvement for teams who work simultaneously in meetings.
 
 ![Screenshot of the OpenProject meetings module, showing the notification: This page has been updated by someone else. Reload to view changes.](openproject-14-6-meetings-reload.png)
 
@@ -42,13 +42,15 @@ Additionally, users can include sub-projects when adding, which automatically se
 
 ![Screenshot showing the new administration page to add custom fields to multiple projects](openproject-14-6-custom-field-highlighted.png)
 
+Learn more about [custom fields and how to create them](../../user-guide/projects/project-settings/custom-fields/) in our user guide.
+
 ### Use relative work package attribute macros
 
 In OpenProject 14.6, users can now use descriptions with embedded macros. This feature ensures consistent descriptions across work packages and eliminates the need to manually replace placeholders for each work package attribute.
 
 This is particularly helpful if you want to work with templates, as the copied work package automatically references to its own attributes. Also, this feature will be very helpful for the [upcoming feature to generate PDFs from work package descriptions](https://community.openproject.org/wp/45896).
 
-Macros such as *workPackageValue:assignee* have been implemented, allowing the dynamic display of work package specific values like the Assignee directly in the template. These macros support both work package and project values and labels, making it easier to generate consistent and accurate documentation.
+Macros such as *workPackageValue:assignee* have been implemented, allowing the dynamic display of work package specific values like the assignee directly in the template. These macros support both work package and project values and labels, making it easier to generate consistent and accurate documentation. Of course, you can still reference to a specific work package by including the ID (e.g. *workPackageValue:1234:assignee*).
 
 ![Screenshot showing a work package with macros in the description](openproject-14-6-macros.png)
 
@@ -130,9 +132,9 @@ On the Meetings tab in the split screen view, the number next to the “Meetings
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
 ## Contributions
-A very special thank you goes to City of Cologne again for sponsoring features in project lists. Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
+A very special thank you goes to City of Cologne again for sponsoring features in project lists. Also, a big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
 Special thanks for reporting and finding bugs go to Jan H, Joris Ceelen, André van Kaam, and Christian Jeschke.
 
-Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight [DKrukoff](https://crowdin.com/profile/dkrukoff), for an outstanding number of translations into Russian.
+Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release, we would like to highlight [DKrukoff](https://crowdin.com/profile/dkrukoff), for an outstanding number of translations into Russian.
 
-Would you like to help out with translations yourself? Then take a look at our translation guide and find out exactly how you can contribute. It is very much appreciated!
+Would you like to help out with translations yourself? Then take a look at our [translation guide](../../development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
