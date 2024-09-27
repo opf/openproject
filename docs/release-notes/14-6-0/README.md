@@ -8,20 +8,49 @@ release_date: 2024-09-26
 
 # OpenProject 14.6.0
 
-Release date: 2024-09-26
+Release date: 2024-10-09
 
-We released OpenProject [OpenProject 14.6.0](https://community.openproject.org/versions/2111).
-The release contains several bug fixes and we recommend updating to the newest version.
-In these Release Notes, we will give an overview of important feature changes.
-At the end, you will find a complete list of all changes and bug fixes.
+We released OpenProject [OpenProject 14.6.0](https://community.openproject.org/versions/2111). The release contains several bug fixes and we recommend updating to the newest version. 
+
+In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
 
 ## Important feature changes
 
-<!-- Inform about the major features in this section -->
+### More flexible progress reporting
 
-## Important updates and breaking changes
+Text
 
-<!-- Remove this section if empty, add to it in pull requests linking to tickets and provide information -->
+Screenshot
+
+### Meetings: Receive an update notification with reload option
+
+Text
+
+Screenshot
+
+### Enable a custom field for multiple projects at once
+
+Text
+
+Screenshot
+
+### Use relative work package attribute macros
+
+Text
+
+Screenshot
+
+### Use empty lines in rich text
+
+Text
+
+Screenshot
+
+### See past meetings included in the number next to the Meetings tab
+
+Text
+
+Screenshot
 
 <!--more-->
 
@@ -91,11 +120,9 @@ At the end, you will find a complete list of all changes and bug fixes.
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
 ## Contributions
-A very special thank you goes to our sponsors for this release.
-Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
-Special thanks for reporting and finding bugs go to Jan H, Joris Ceelen, Ivan Kuchin, André van Kaam, Christian Jeschke.
+A very special thank you goes to City of Cologne again for sponsoring features in project lists. Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
+Special thanks for reporting and finding bugs go to Jan H, Joris Ceelen, André van Kaam, and Christian Jeschke.
 
-Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings!
-Would you like to help out with translations yourself?
-Then take a look at our translation guide and find out exactly how you can contribute.
-It is very much appreciated!
+Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight [DKrukoff](https://crowdin.com/profile/dkrukoff), for an outstanding number of translations into Russian.
+
+Would you like to help out with translations yourself? Then take a look at our translation guide and find out exactly how you can contribute. It is very much appreciated!
