@@ -230,7 +230,7 @@ RSpec.describe "Admin lists project mappings for a storage",
           expect(page).to have_text(subproject.name)
 
           aggregate_failures "pagination links maintain the correct url" do
-            project_storages_index_page.expect_correct_pagination_options(model: storage)
+            project_storages_index_page.expect_page_sizes(model: storage)
           end
         end
 
@@ -303,7 +303,7 @@ RSpec.describe "Admin lists project mappings for a storage",
         end
 
         aggregate_failures "pagination links maintain the correct url" do
-          project_storages_index_page.expect_correct_pagination_options(model: storage)
+          project_storages_index_page.expect_page_sizes(model: storage)
         end
       end
 
@@ -405,7 +405,7 @@ RSpec.describe "Admin lists project mappings for a storage",
         expect(page).to have_no_text(project.name)
 
         aggregate_failures "pagination links maintain the correct url" do
-          project_storages_index_page.expect_correct_pagination_links(model: storage, current_page:)
+          project_storages_index_page.expect_page_links(model: storage, current_page:)
         end
       end
     end

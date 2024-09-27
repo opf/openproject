@@ -127,7 +127,7 @@ module Pages
         end
       end
 
-      def expect_correct_pagination_links(model:, current_page: 1)
+      def expect_page_links(model:, current_page: 1)
         within ".op-pagination--pages" do
           pagination_links = page.all(".op-pagination--item-link")
           expect(pagination_links.size).to be_positive
@@ -147,10 +147,11 @@ module Pages
         end
       end
 
-      def expect_correct_pagination_options(model:)
+      def expect_page_sizes(model:)
         within ".op-pagination--options" do
           pagination_links = page.all(".op-pagination--item-link")
           expect(pagination_links.size).to be_positive
+          expect(page).to have_css(".op-pagination--item_current")
 
           pagination_links.each do |pagination_link|
             uri = URI.parse(pagination_link["href"])
