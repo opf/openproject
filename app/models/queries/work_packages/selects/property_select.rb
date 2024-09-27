@@ -135,15 +135,12 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
     shared_with_users: {
       sortable: false,
       groupable: false
-
     }
   }
 
   def self.instances(_context = nil)
-    property_selects.filter_map do |name, options|
-      next unless !options[:if] || options[:if].call
-
-      new(name, options.except(:if))
+    property_selects.map do |name, options|
+      new(name, options)
     end
   end
 end
