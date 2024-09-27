@@ -44,11 +44,15 @@ Additionally, users can include sub-projects when adding, which automatically se
 
 ### Use relative work package attribute macros
 
-In OpenProject 14.6, users can now utilize template descriptions with embedded macros. This feature ensures consistent descriptions across work packages and eliminates the need to manually replace placeholders for each work package attribute. This is particularly helpful if you want to generate PDFs from work package descriptions.
+In OpenProject 14.6, users can now use descriptions with embedded macros. This feature ensures consistent descriptions across work packages and eliminates the need to manually replace placeholders for each work package attribute.
+
+This is particularly helpful if you want to work with templates, as the copied work package automatically references to its own attributes. Also, this feature will be very helpful for the [upcoming feature to generate PDFs from work package descriptions](https://community.openproject.org/wp/45896).
 
 Macros such as *workPackageValue:assignee* have been implemented, allowing the dynamic display of work package specific values like the Assignee directly in the template. These macros support both work package and project values and labels, making it easier to generate consistent and accurate documentation.
 
-Screenshot
+![Screenshot showing a work package with macros in the description](openproject-14-6-macros.png)
+
+See our [documentation for a list of available attributes for work packages](../../user-guide/wysiwyg/#available-attributes-for-work-packages).
 
 ### Use empty lines in rich text
 
