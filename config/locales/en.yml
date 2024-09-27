@@ -234,6 +234,8 @@ en:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
 
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before
@@ -702,6 +704,7 @@ en:
         editable: "Editable"
         field_format: "Format"
         is_filter: "Used as a filter"
+        is_for_all: "For all projects"
         is_required: "Required"
         max_length: "Maximum length"
         min_length: "Minimum length"
