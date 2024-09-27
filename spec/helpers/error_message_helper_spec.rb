@@ -32,11 +32,13 @@ RSpec.describe ErrorMessageHelper do
   let(:model) { WikiPage.new }
   let(:errors) { model.errors }
 
+  let(:error_flash) { flash[:error] }
+  let(:message) { error_flash[:message] }
+  let(:description) { error_flash[:description] }
+
   def escape_html(array)
     array.map { CGI.escapeHTML _1 }
   end
-
-  subject { flash[:error] }
 
   before do
     helper.instance_variable_set(:@wiki_page, model)
@@ -44,7 +46,7 @@ RSpec.describe ErrorMessageHelper do
 
   shared_examples "error messages rendering" do
     context "when no errors" do
-      it { expect(subject).to be_nil }
+      it { expect(error_flash).to be_nil }
     end
 
     context "with one field error" do
@@ -55,9 +57,9 @@ RSpec.describe ErrorMessageHelper do
       it "adds the error messages", :aggregate_failures do
         helper.error_messages_for("wiki_page")
 
-        expect(subject).to include(t("activerecord.errors.template.header", model: "Wiki page", count: 1))
-        expect(subject).to include(t("errors.header_invalid_fields", count: 1))
-        expect(subject).to include(*escape_html(errors.full_messages))
+        expect(message).to include(t("activerecord.errors.template.header", model: "Wiki page", count: 1))
+        expect(description).to include(t("errors.header_invalid_fields", count: 1))
+        expect(description).to include(*escape_html(errors.full_messages))
       end
     end
 
@@ -70,9 +72,9 @@ RSpec.describe ErrorMessageHelper do
       it "adds both error messages", :aggregate_failures do
         helper.error_messages_for("wiki_page")
 
-        expect(subject).to include(t("activerecord.errors.template.header", model: "Wiki page", count: 2))
-        expect(subject).to include(t("errors.header_invalid_fields", count: 2))
-        expect(subject).to include(*escape_html(errors.full_messages))
+        expect(message).to include(t("activerecord.errors.template.header", model: "Wiki page", count: 2))
+        expect(description).to include(t("errors.header_invalid_fields", count: 2))
+        expect(description).to include(*escape_html(errors.full_messages))
       end
     end
 
@@ -84,9 +86,9 @@ RSpec.describe ErrorMessageHelper do
       it "adds the one error message", :aggregate_failures do
         helper.error_messages_for("wiki_page")
 
-        expect(subject).to include(t("activerecord.errors.template.header", model: "Wiki page", count: 1))
-        expect(subject).not_to include(t("errors.header_additional_invalid_fields", count: 1))
-        expect(subject).to include(*escape_html(errors.full_messages))
+        expect(message).to include(t("activerecord.errors.template.header", model: "Wiki page", count: 1))
+        expect(description).not_to include(t("errors.header_additional_invalid_fields", count: 1))
+        expect(description).to include(*escape_html(errors.full_messages))
       end
     end
 
@@ -99,9 +101,9 @@ RSpec.describe ErrorMessageHelper do
       it "adds both error messages", :aggregate_failures do
         helper.error_messages_for("wiki_page")
 
-        expect(subject).to include(t("activerecord.errors.template.header", model: "Wiki page", count: 2))
-        expect(subject).to include(t("errors.header_additional_invalid_fields", count: 1))
-        expect(subject).to include(*escape_html(errors.full_messages))
+        expect(message).to include(t("activerecord.errors.template.header", model: "Wiki page", count: 2))
+        expect(description).to include(t("errors.header_additional_invalid_fields", count: 1))
+        expect(description).to include(*escape_html(errors.full_messages))
       end
     end
 
@@ -116,9 +118,9 @@ RSpec.describe ErrorMessageHelper do
       it "adds both error messages", :aggregate_failures do
         helper.error_messages_for("wiki_page")
 
-        expect(subject).to include(t("activerecord.errors.template.header", model: "Wiki page", count: 4))
-        expect(subject).to include(t("errors.header_additional_invalid_fields", count: 2))
-        expect(subject).to include(*escape_html(errors.full_messages))
+        expect(message).to include(t("activerecord.errors.template.header", model: "Wiki page", count: 4))
+        expect(description).to include(t("errors.header_additional_invalid_fields", count: 2))
+        expect(description).to include(*escape_html(errors.full_messages))
       end
     end
   end
@@ -127,14 +129,14 @@ RSpec.describe ErrorMessageHelper do
     it "accesses the model from instance variables if a name is given" do
       model.errors.add(:base, :error_conflict)
       helper.error_messages_for("wiki_page")
-      expect(subject).to include(*escape_html(errors.full_messages))
+      expect(description).to include(*escape_html(errors.full_messages))
     end
 
     it "renders nothing if there is no instance variable with the given name" do
       model.errors.add(:base, :error_conflict)
       helper.error_messages_for("work_package")
 
-      expect(subject).to be_nil
+      expect(error_flash).to be_nil
     end
 
     include_examples "error messages rendering"
