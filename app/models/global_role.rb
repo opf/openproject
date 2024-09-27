@@ -31,4 +31,15 @@ class GlobalRole < Role
     super
       .where(type: "GlobalRole")
   end
+
+  def self.standard
+    standard_global_role = where(builtin: BUILTIN_STANDARD_GLOBAL).first
+    if standard_global_role.nil?
+      standard_global_role = create(name: "Standard global role", position: 0) do |role|
+        role.builtin = BUILTIN_STANDARD_GLOBAL
+      end
+      raise "Unable to create the standard global role." if standard_global_role.new_record?
+    end
+    standard_global_role
+  end
 end
