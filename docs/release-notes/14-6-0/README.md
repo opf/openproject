@@ -54,15 +54,13 @@ Macros such as *workPackageValue:assignee* have been implemented, allowing the d
 
 See our [documentation for a list of available attributes for work packages](../../user-guide/wysiwyg/#available-attributes-for-work-packages).
 
-### Show empty lines in rich text
+### Show empty lines in saved rich text
 
 Before 14.6, OpenProject's editors, such as in the work package description, did automatically delete empty lines when saved. Now, empty rows are shown in show mode, edit mode, and are not removed when saving text fields.
 
 ### See past meetings included in the number next to the Meetings tab
 
-Text
-
-Screenshot
+On the Meetings tab in the split screen view, the number next to the “Meetings (2)” tab should include both current and past meetings. Previously, only future meetings were counted. So if you use the Meetings module and reference work packages there, you may notice a higher number on the work package tab for meetings.
 
 <!--more-->
 
