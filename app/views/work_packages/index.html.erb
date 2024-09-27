@@ -28,7 +28,6 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% html_title(t('activerecord.attributes.project.work_packages')) -%>
-<%= call_hook(:view_work_packages_index_bottom, { project: project, query: query }) %>
 
 <% content_for :sidebar do %>
   <%= render partial: 'sidebar' %>
@@ -38,3 +37,19 @@ See COPYRIGHT and LICENSE files for more details.
   <%= auto_discovery_link_tag(:atom, {query_id: query, format: 'atom', page: nil, key: User.current.rss_key}, title: t(:label_work_package_plural)) %>
   <%= auto_discovery_link_tag(:atom, {controller: '/journals', action: 'index', query_id: query, format: 'atom', page: nil, key: User.current.rss_key}, title: t(:label_changes_details)) %>
 <% end %>
+
+<% content_for :content_header do %>
+  <%= render WorkPackages::IndexPageHeaderComponent.new(project: @project) %>
+  <%= render WorkPackages::IndexSubHeaderComponent.new(project: @project, query: @query) %>
+<% end %>
+
+<% content_for :content_body do %>
+  <%= angular_component_tag "opce-work-packages-table" %>
+<% end %>
+
+<% content_for :content_body_right do %>
+  <%# When we update the split screen from a turbo frame requset, the title is not correctly updated (Hack for #57705) %>
+  <%= render(split_view_instance) if render_work_package_split_view? %>
+<% end %>
+
+<%= call_hook(:view_work_packages_index_bottom, { project: project, query: query }) %>

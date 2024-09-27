@@ -42,7 +42,7 @@ class WorkPackagesController < ApplicationController
                 :protect_from_unauthorized_export, only: %i[index export_dialog]
   authorization_checked! :index, :show, :export_dialog
 
-  before_action :load_and_validate_query, only: :index, unless: -> { request.format.html? }
+  before_action :load_and_validate_query, only: :index
   before_action :load_work_packages, only: :index, if: -> { request.format.atom? }
   before_action :load_and_validate_query_for_export, only: :export_dialog
 
@@ -50,8 +50,7 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html do
         render :index,
-               locals: { query: @query, project: @project, menu_name: project_or_global_menu },
-               layout: "angular/angular"
+               locals: { query: @query, project: @project, menu_name: project_or_global_menu }
       end
 
       format.any(*supported_list_formats) do
