@@ -215,6 +215,12 @@ module PaginationHelper
     #  "advance" - push a new entry onto the history stack.
     #  "replace" - replace the current history entry.
     # See: https://turbo.hotwired.dev/reference/attributes
+    #
+    # Example: Promoting a Frame Navigation to a Page Visit
+    #   By default navigation within a turbo frame does not change the rest of the browser's state,
+    #   but you can promote a frame navigation a "Visit" by setting the turbo-action attribute to "advance".
+    #   See: https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit
+    #
     def turbo_action
       @options[:turbo_action] # rubocop:disable Rails/HelperInstanceVariable
     end
