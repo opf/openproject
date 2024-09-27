@@ -16,11 +16,15 @@ In these Release Notes, we will give an overview of important feature changes. A
 
 ## Important feature changes
 
-### More flexible progress reporting
+### Updated progress reporting with most flexible options
 
-Text
+In response to valuable user feedback, OpenProject 14.6 brings important changes to progress reporting. We greatly appreciate the input from our Community, which helped shape these updates. Based on your feedback, the % Complete field is now manually editable again in work-based mode (like it has been in the versions before 14.0), removing the previous requirement to input Work or Remaining Work. This gives users more flexibility in tracking project progress.
 
-Screenshot
+But we did not only revise the changes we made with 14.0, we also added new options to enhance progress tracking and make it most flexible for our users. This is why additionally, administrators now have new settings for progress calculation and % Complete hierarchy totals:
+
+![Screenshot of the new admin page for progress tracking with OpenProject 14.6](progress-tracking-admin-options.png)
+
+If you use our progress tracking, we advise reading [this detailed article about progress reporting with OpenProejct 14.6](https://www.openproject.org/blog/updates-to-progress-tracking-in-14-6-based-on-user-feedback/) from our product team.
 
 ### Meetings: Receive an update notification with reload option
 
