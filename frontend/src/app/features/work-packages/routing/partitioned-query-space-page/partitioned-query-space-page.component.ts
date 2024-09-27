@@ -134,19 +134,8 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     component: WorkPackageFilterContainerComponent,
   };
 
-  PageHeaderTurboFrameSrc:string = '';
-
   ngOnInit():void {
     super.ngOnInit();
-
-    // TODO: Limit to WP module
-    if (this.currentProject.inProjectContext) {
-      this.PageHeaderTurboFrameSrc = `${this.pathHelper.projectWorkPackagesPath(this.currentProject.identifier!)}/index_page_header`;
-    } else {
-      this.PageHeaderTurboFrameSrc = `${this.pathHelper.workPackagesPath()}/index_page_header`;
-    }
-
-    this.PageHeaderTurboFrameSrc += window.location.search;
 
     this.showToolbarSaveButton = !!this.$state.params.query_props;
     this.setPartition(this.$state.current);

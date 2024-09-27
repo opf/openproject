@@ -1,6 +1,6 @@
 <div class="work-packages-partitioned-query-space--container"
      [ngClass]="currentPartition">
-  <div *ngIf="!this.PageHeaderTurboFrameSrc" class="toolbar-container -editable">
+  <div class="toolbar-container -editable">
     <div class="toolbar">
       <op-back-button *ngIf="backButtonCallback"
                       class="op-back-button"
@@ -41,11 +41,6 @@
                  [ndcDynamicInjector]="injector">
     </ndc-dynamic>
   </div>
-
-  <turbo-frame *ngIf="!!this.PageHeaderTurboFrameSrc"
-               [src]="this.PageHeaderTurboFrameSrc"
-               id="work-package-index-page-header">
-  </turbo-frame>
 
   <div class="work-packages-partitioned-page--content-container">
     <!-- Left content view -->

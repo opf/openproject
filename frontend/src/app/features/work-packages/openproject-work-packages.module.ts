@@ -416,6 +416,9 @@ import {
 import {
   WorkPackageSplitViewEntryComponent,
 } from 'core-app/features/work-packages/routing/wp-split-view/wp-split-view-entry.component';
+import {
+  WorkPackagePrimerizedListViewComponent,
+} from 'core-app/features/work-packages/routing/wp-list-view/wp-primerized-list-view.component';
 
 @NgModule({
   imports: [
@@ -655,6 +658,9 @@ import {
     OpBaselineComponent,
     OpBaselineLoadingComponent,
     OpBaselineLegendsComponent,
+
+    // Primerized work packages list
+    WorkPackagePrimerizedListViewComponent,
   ],
   exports: [
     WorkPackagesTableComponent,
