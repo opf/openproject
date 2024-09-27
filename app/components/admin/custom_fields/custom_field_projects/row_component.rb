@@ -57,11 +57,10 @@ module Admin
         def detach_from_project_url
           url_helpers.custom_field_project_path(
             custom_field_id: @table.params[:custom_field].id,
-            custom_fields_project: { project_id: project.id }
+            custom_fields_project: { project_id: project.id },
+            page: current_page
           )
         end
-
-        def project = model.first
       end
     end
   end

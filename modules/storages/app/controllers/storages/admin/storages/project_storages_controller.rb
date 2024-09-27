@@ -117,7 +117,8 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   def destroy_confirmation_dialog
     respond_with_dialog Storages::ProjectStorages::DestroyConfirmationDialogComponent.new(
       storage: @storage,
-      project_storage: @project_storage
+      project_storage: @project_storage,
+      params:
     )
   end
 
@@ -186,7 +187,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
       component: Storages::ProjectStorages::Projects::TableComponent.new(
         query: storage_projects_query,
         storage: @storage,
-        params: { url_for_action: }
+        params: params.merge({ url_for_action: })
       )
     )
   end
