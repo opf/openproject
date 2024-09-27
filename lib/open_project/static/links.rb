@@ -170,7 +170,7 @@ module OpenProject
               label: "homescreen.links.blog"
             },
             blog_article_progress_changes: {
-              href: "https://www.openproject.org/blog/changes-progress-work-estimates/",
+              href: "https://www.openproject.org/blog/updates-to-progress-tracking-in-14-4-based-on-user-feedback/",
               label: "Significant changes to progress and work estimates"
             },
             release_notes: {
