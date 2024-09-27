@@ -3375,7 +3375,7 @@ en:
   setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
   setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
     The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy.
-    Work packages without <i>Work</i> will be ignored (current behaviour).
+    Work packages without <i>Work</i> will be ignored.
   setting_total_percent_complete_mode_simple_average: "Simple average"
   setting_total_percent_complete_mode_simple_average_caption_html: >-
     <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
