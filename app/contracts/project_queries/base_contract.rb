@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Queries::Projects::ProjectQueries
+module ProjectQueries
   class BaseContract < ::ModelContract
     attribute :name
     attribute :selects

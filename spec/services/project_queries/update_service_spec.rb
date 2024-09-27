@@ -25,39 +25,12 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-module Projects
-  module QueryLoading
-    private
 
-    def load_query(duplicate:)
-      ::Queries::Projects::Factory.find(params[:query_id],
-                                        params: permitted_query_params,
-                                        user: current_user,
-                                        duplicate:)
-    end
+require "spec_helper"
+require "services/base_services/behaves_like_update_service"
 
-    def load_query_or_deny_access
-      @query = load_query(duplicate: false)
-
-      render_403 unless @query
-    end
-
-    def build_query_or_deny_access
-      @query = load_query(duplicate: true)
-
-      render_403 unless @query
-    end
-
-    def permitted_query_params
-      query_params = {}
-
-      if params[:query]
-        query_params.merge!(params.require(:query).permit(:name))
-      end
-
-      query_params.merge!(::Queries::ParamsParser.parse(params))
-
-      query_params.with_indifferent_access
-    end
+RSpec.describe ProjectQueries::UpdateService, type: :model do
+  it_behaves_like "BaseServices update service" do
+    let(:factory) { :project_query }
   end
 end

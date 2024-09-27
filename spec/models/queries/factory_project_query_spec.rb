@@ -29,7 +29,8 @@
 require "spec_helper"
 require "services/base_services/behaves_like_create_service"
 
-RSpec.describe Queries::Projects::Factory,
+RSpec.describe Queries::Factory,
+               "ProjectQuery",
                with_settings: { enabled_projects_columns: %w[favored name project_status] } do
   before do
     scope = instance_double(ActiveRecord::Relation)
@@ -80,7 +81,7 @@ RSpec.describe Queries::Projects::Factory,
   current_user { build_stubbed(:user) }
 
   describe ".find" do
-    subject(:find) { described_class.find(id, params:, user: current_user, duplicate:) }
+    subject(:find) { described_class.find(id, query_class: ProjectQuery, params:, user: current_user, duplicate:) }
 
     let(:duplicate) { false }
 
@@ -878,180 +879,6 @@ RSpec.describe Queries::Projects::Factory,
 
         it { is_expected.not_to be_changed }
       end
-    end
-  end
-
-  describe ".static_query_active" do
-    subject(:find) { described_class.static_query_active }
-
-    it "returns a project query" do
-      expect(find)
-        .to be_a(ProjectQuery)
-    end
-
-    it "has a name" do
-      expect(find.name)
-        .to eql(I18n.t("projects.lists.active"))
-    end
-
-    it "has a filter for active projects" do
-      expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-        .to eq([[:active, "=", ["t"]]])
-    end
-
-    it "is ordered by lft asc" do
-      expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([%i[lft asc]])
-    end
-
-    it "has the enabled_project_columns columns as selects" do
-      expect(find.selects.map(&:attribute))
-        .to eq(default_selects)
-    end
-  end
-
-  describe ".static_query_my" do
-    subject(:find) { described_class.static_query_my }
-
-    it "returns a project query" do
-      expect(find)
-        .to be_a(ProjectQuery)
-    end
-
-    it "has a name" do
-      expect(find.name)
-        .to eql(I18n.t("projects.lists.my"))
-    end
-
-    it "has a filter for projects the user is a member of" do
-      expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-        .to eq([[:member_of, "=", ["t"]]])
-    end
-
-    it "is ordered by lft asc" do
-      expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([%i[lft asc]])
-    end
-
-    it "has the enabled_project_columns columns as selects" do
-      expect(find.selects.map(&:attribute))
-        .to eq(default_selects)
-    end
-  end
-
-  describe ".static_query_archived" do
-    subject(:find) { described_class.static_query_archived }
-
-    it "returns a project query" do
-      expect(find)
-        .to be_a(ProjectQuery)
-    end
-
-    it "has a name" do
-      expect(find.name)
-        .to eql(I18n.t("projects.lists.archived"))
-    end
-
-    it "has a filter for archived projects" do
-      expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-        .to eq([[:active, "=", ["f"]]])
-    end
-
-    it "is ordered by lft asc" do
-      expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([%i[lft asc]])
-    end
-
-    it "has the enabled_project_columns columns as selects" do
-      expect(find.selects.map(&:attribute))
-        .to eq(default_selects)
-    end
-  end
-
-  describe ".static_query_status_on_track" do
-    subject(:find) { described_class.static_query_status_on_track }
-
-    it "returns a project query" do
-      expect(find)
-        .to be_a(ProjectQuery)
-    end
-
-    it "has a name" do
-      expect(find.name)
-        .to eql(I18n.t("activerecord.attributes.project.status_codes.on_track"))
-    end
-
-    it 'has a filter for project that are "on track"' do
-      expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-        .to eq([[:project_status_code, "=", [Project.status_codes[:on_track].to_s]]])
-    end
-
-    it "is ordered by lft asc" do
-      expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([%i[lft asc]])
-    end
-
-    it "has the enabled_project_columns columns as selects" do
-      expect(find.selects.map(&:attribute))
-        .to eq(default_selects)
-    end
-  end
-
-  describe ".static_query_status_off_track" do
-    subject(:find) { described_class.static_query_status_off_track }
-
-    it "returns a project query" do
-      expect(find)
-        .to be_a(ProjectQuery)
-    end
-
-    it "has a name" do
-      expect(find.name)
-        .to eql(I18n.t("activerecord.attributes.project.status_codes.off_track"))
-    end
-
-    it 'has a filter for projects that are "off track"' do
-      expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-        .to eq([[:project_status_code, "=", [Project.status_codes[:off_track].to_s]]])
-    end
-
-    it "is ordered by lft asc" do
-      expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([%i[lft asc]])
-    end
-
-    it "has the enabled_project_columns columns as selects" do
-      expect(find.selects.map(&:attribute))
-        .to eq(default_selects)
-    end
-  end
-
-  describe ".static_query_status_at_risk" do
-    subject(:find) { described_class.static_query_status_at_risk }
-
-    it "returns a project query" do
-      expect(find)
-        .to be_a(ProjectQuery)
-    end
-
-    it "has a name" do
-      expect(find.name)
-        .to eql(I18n.t("activerecord.attributes.project.status_codes.at_risk"))
-    end
-
-    it 'has a filter for projects that are "at risk"' do
-      expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-        .to eq([[:project_status_code, "=", [Project.status_codes[:at_risk].to_s]]])
-    end
-
-    it "is ordered by lft asc" do
-      expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([%i[lft asc]])
-    end
-
-    it "has the enabled_project_columns columns as selects" do
-      expect(find.selects.map(&:attribute))
-        .to eq(default_selects)
     end
   end
 end

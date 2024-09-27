@@ -1,4 +1,4 @@
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -24,19 +24,26 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-class Queries::Projects::ProjectQueries::CreateService < BaseServices::Create
-  def initialize(from: nil, **)
-    @from = from
-    super(**)
-  end
+module ProjectQueries
+  class PublishService < BaseServices::Update
+    private
 
-  def instance(_params)
-    @from || super
-  end
+    def after_validate(params, service_call)
+      model.public = params[:public]
 
-  def instance_class
-    ProjectQuery
+      service_call
+    end
+
+    def persist(service_call)
+      model.save
+
+      service_call
+    end
+
+    def default_contract_class
+      ProjectQueries::PublishContract
+    end
   end
 end
