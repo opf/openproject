@@ -27,14 +27,14 @@ th:
     attributes:
       work_package:
         position: "ตำแหน่ง"
-        story_points: "Story Points"
+        story_points: ""
         backlogs_work_package_type: "Backlog type"
     errors:
       models:
         work_package:
           attributes:
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
+              can_only_contain_work_packages_of_current_sprint: ""
               must_block_at_least_one_work_package: "must contain the ID of at least one ticket."
             version_id:
               task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."

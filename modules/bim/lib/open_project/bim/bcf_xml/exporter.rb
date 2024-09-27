@@ -43,7 +43,7 @@ module OpenProject::Bim::BcfXml
 
       sane_filename(
         "#{Setting.app_title} #{I18n.t(:label_work_package_plural)} \
-        #{format_time_as_date(Time.now, '%Y-%m-%d')}.bcf"
+        #{format_time_as_date(Time.current, format: '%Y-%m-%d')}.bcf"
       )
     end
 

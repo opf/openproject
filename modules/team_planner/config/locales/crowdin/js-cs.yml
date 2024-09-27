@@ -8,7 +8,7 @@ cs:
       create_title: 'Vytvořit nový týmový plánovač'
       unsaved_title: 'Nepojmenovaný plánovač týmu'
       no_data: 'Přidejte řešitele k nastavení svého týmového plánovače.'
-      add_assignee: 'Přidat řešitele'
+      add_assignee: 'Assignee'
       remove_assignee: 'Odstranit řešitele'
       two_weeks: '2 týdny'
       one_week: '1 týden'

@@ -35,13 +35,13 @@ module Pages
     end
 
     def expect_create_button
-      within ".toolbar-items" do
+      within '[data-test-selector="add-board-button"]' do
         expect(page).to have_link "Board"
       end
     end
 
     def expect_no_create_button
-      within ".toolbar-items" do
+      within '[data-test-selector="add-board-button"]' do
         expect(page).to have_no_link "Board"
       end
     end

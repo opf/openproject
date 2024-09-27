@@ -32,7 +32,6 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
   include OpTurbo::ComponentStream
   include OpTurbo::DialogStreamHelper
   include FlashMessagesOutputSafetyHelper
-  include ApplicationComponentStreams
   include Storages::OAuthAccessGrantable
 
   layout "admin"

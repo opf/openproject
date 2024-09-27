@@ -31,6 +31,9 @@ id:
     custom_styles:
       color_theme: "Warna tema"
       color_theme_custom: "Kustomisasi"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
         accent-color: "Accent"
@@ -79,6 +82,7 @@ id:
         contact: "Hubungi kami untuk demo"
       enterprise_info_html: "adalah add-on <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> Perusahaan."
       upgrade_info: "Tingkatkan ke paket berbayar untuk mengaktifkan dan mulai menggunakannya di tim Anda."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Setiap tindakan pengguna (mis. memperbarui paket kerja dua kali) digabungkan menjadi satu tindakan jika perbedaan usianya kurang dari rentang waktu yang ditentukan.  Mereka akan ditampilkan sebagai tindakan tunggal dalam aplikasi.  Ini juga akan menunda pemberitahuan dengan jumlah waktu yang sama sehingga mengurangi jumlah email yang dikirim dan juga akan memengaruhi penundaan %{webhook_link}."
@@ -622,6 +626,8 @@ id:
         uid: "ID Pelanggan"
         secret: "Rahasia klien"
         owner: "Pemilik"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Alihkan URI"
         client_credentials_user_id: "ID Pengguna Kredensial Klien"
         scopes: "Cakupan"
@@ -793,6 +799,7 @@ id:
         blank: "harus di isi."
         blank_nested: "harus menyetel properti '%{property}'."
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "Work package tidak dapat dihubungkan dengan subtask-nya."
         circular_dependency: "Relasi ini menyebabkan dependensi circular."
         confirmation: "tidak sesuai dengan %{attribute}."
@@ -866,6 +873,10 @@ id:
               minimum: "perlu menyertakan setidaknya satu filter untuk prinsipal, konteks, atau id dengan operator '='."
         custom_field:
           at_least_one_custom_option: "Paling tidak, satu pilihan dibutuhkan untuk tersedia."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) hanya satu nilai yang diperbolehkan."
           empty: "Nilai (%{name}) tidak boleh kosong."
@@ -896,6 +907,8 @@ id:
             name:
               blank: "adalah wajib. Silakan pilih nama."
               not_unique: "sudah digunakan. Silakan pilih nama lain."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Setidaknya satu saluran untuk mengirim notifikasi harus ditentukan."
           attributes:
@@ -1593,7 +1606,7 @@ id:
   error_menu_item_not_saved: Menu item tidak bisa disimpan
   error_wiki_root_menu_item_conflict: >
     Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Terjadi kesalahan selama autentikasi eksternal. Silakan coba lagi."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Atribut tidak dapat disorot: %{attributes}"
   events:
     changeset: "Set-Perubahan telah diedit"
@@ -1765,7 +1778,7 @@ id:
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1874,7 +1887,8 @@ id:
   label_additional_workflow_transitions_for_assignee: "Tambahan transisi diperbolehkan ketika user mendapat penugasan"
   label_additional_workflow_transitions_for_author: "Tambahan transisi diperbolehkan ketika user adalah Penulis"
   label_administration: "Administrasi"
-  label_advanced_settings: "Advanced settings"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Usia"
   label_ago: "hari yang lalu"
   label_all: "semua"
@@ -1980,6 +1994,7 @@ id:
   label_copy_project: "Copy Project"
   label_core_version: "Core versi"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Status saat ini"
   label_current_version: "Versi saat ini"
   label_custom_field_add_no_type: "Tambahkan field ini ke sebuah jenis paket kerja"
@@ -1987,6 +2002,7 @@ id:
   label_custom_field_plural: "Isian kustom"
   label_custom_field_default_type: "Tipe kosong"
   label_custom_style: "Rancangan"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Dasbor"
   label_database_version: "Versi PostgreSQL"
   label_date: "Tanggal"
@@ -2107,9 +2123,9 @@ id:
   label_share: "Share"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
-  label_show_hide: "Show/hide"
-  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Menampilkan semua pengguna teregistrasi"
+  label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Journal"
   label_journal_diff: "Deskripsi perbandingan"
   label_language: "Bahasa"
@@ -2259,6 +2275,7 @@ id:
   label_product_version: "Product version"
   label_profile: "Profil"
   label_percent_complete: "% Complete"
+  label_progress_tracking: "Progress tracking"
   label_project: "Project"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Atribut proyek"
@@ -2444,7 +2461,6 @@ id:
   label_work_package_new: "Paket-Penugasan baru"
   label_work_package_edit: "Edit Paket-Penugasan %{name}"
   label_work_package_plural: "Paket-Penugasan"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Status Work Package"
   label_work_package_status_new: "Status baru"
   label_work_package_status_plural: "Status Paket-Penugasan"
@@ -3077,11 +3093,13 @@ id:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Status-based"
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_html: >
     In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Properti Paket-Penugasan"
@@ -3102,6 +3120,13 @@ id:
   setting_password_min_length: "Panjang minimum"
   setting_password_min_adhered_rules: "Jumlah Min. class yang diperlukan"
   setting_per_page_options: "Opsi objek per halaman"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Teks (no HTML)"
   setting_protocol: "Protocol"
   setting_project_gantt_query: "Project portfolio Gantt view"
@@ -3466,7 +3491,6 @@ id:
       label_note: "Note:"
       modal:
         work_based_help_text: "Each field is automatically calculated from the two others when possible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
       derivation_hints:
@@ -3675,12 +3699,16 @@ id:
     close_warning: "Abaikan peringatan ini."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "aplikasi OAuth"
       plural: "OAuth applications"
       named: "OAuth application '%{name}'"
       new: "New OAuth application"
+      non_confidential: Non confidential
       default_scopes: "(Default scopes)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "The name of your application. This will be displayed to other users upon authorization."
         redirect_uri_html: >
           The allowed URLs authorized users can be redirected to. One entry per line. <br/> If you're registering a desktop application, use the following URL.
@@ -3689,6 +3717,10 @@ id:
         client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
         register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "ID Pelanggan"
     client_secret_notice: >
       This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.

@@ -50,6 +50,11 @@ export default class SortByConfigController extends Controller {
   declare readonly inputRowTargets:HTMLElement[];
   declare readonly inputRowContainerTarget:HTMLElement;
 
+  declare parentForm:HTMLFormElement | null;
+  declare pageTarget:HTMLInputElement;
+
+  declare initialSortBy:string;
+
   connect():void {
     this.inputRowTargets.forEach((row) => {
       this.manageRow(row);
@@ -57,6 +62,9 @@ export default class SortByConfigController extends Controller {
 
     this.displayNewFieldSelectorIfNeeded();
     this.disableSelectedFieldsForOtherSelects();
+
+    this.initialSortBy = this.sortByFieldTarget.value;
+    this.registerPaginationResetHandler();
   }
 
   buildSortJson():string {
@@ -67,6 +75,43 @@ export default class SortByConfigController extends Controller {
     });
 
     return JSON.stringify(compact(filters));
+  }
+
+  // Tries to find the parent form in the DOM. If present and the form contains a `page` field marked
+  // with the proper target, will register a handler to trigger a pagination reset when the sorting
+  // changes.
+  registerPaginationResetHandler():void {
+    this.parentForm = this.sortByFieldTarget.closest('form');
+
+    if (this.parentForm) {
+      this.pageTarget = this.parentForm.querySelector('input[data-sort-by-config-target="page"]') as HTMLInputElement;
+
+      if (this.pageTarget) {
+        this.parentForm.addEventListener('submit', this.onFormSubmit.bind(this));
+      }
+    }
+  }
+
+  onFormSubmit(event:SubmitEvent):void {
+    if (!this.parentForm || !this.pageTarget) { return; }
+    event.preventDefault();
+
+    this.resetPaginationIfSortingChanged();
+
+    this.parentForm.submit();
+  }
+
+  // When the sorting criteria changes, reset the pagination to the first page.
+  // This leads to a better UX since the previous position in the pagination becomes
+  // obsolete when the underlying collection changes due to sorting adjustments. It is better to start
+  // from a fresh perspective on the data.
+  resetPaginationIfSortingChanged():void {
+    const currentSelection = this.sortByFieldTarget.value;
+
+    if (this.initialSortBy !== currentSelection) {
+      // Reset the pagination:
+      this.pageTarget.value = '';
+    }
   }
 
   fieldChanged(event:Event):void {

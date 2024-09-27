@@ -26,7 +26,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% breadcrumb_paths(nil) %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { I18n.t("label_home") }
+    header.with_breadcrumbs([{ href: home_path, text: organization_name}, I18n.t(:label_home)])
+  end
+%>
+
 <h2 class="headline--application">
   <span><%= organization_icon %></span>
   <%= organization_name %>

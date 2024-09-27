@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,11 +31,11 @@
 module API
   module Errors
     class OutboundRequestNotFound < ErrorBase
-      identifier "OutboundRequest:NotFound".freeze
+      identifier "OutboundRequest:NotFound"
       code 500
 
-      def initialize
-        super(I18n.t("api_v3.errors.code_500_outbound_request_failure", status_code: 404))
+      def initialize(message = I18n.t("api_v3.errors.code_500_outbound_request_failure", status_code: 404))
+        super
       end
     end
   end

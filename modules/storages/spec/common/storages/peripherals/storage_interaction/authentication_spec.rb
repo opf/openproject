@@ -143,8 +143,22 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
             .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
         end
 
+        it "responds with error when lock could not be obtained timely" do
+          strategy = described_class[auth_strategy]
+
+          allow(OpenProject::Mutex).to receive(:with_advisory_lock).and_return(false)
+
+          result = strategy.call(storage:, http_options:) { |http| make_request(http) }
+          expect(result).to be_failure
+
+          error = result.errors
+          expect(error.code).to eq(:error)
+          expect(error.data.source).to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
+          expect(error.log_message).to eq("Lock has not been acquired in 4 seconds. Refresh token is being updated at the moment by another thread.")
+        end
+
         it "logs, retries once, raises exception if race condition happens" do
-          token = OAuthClientToken.last
+          token = user.oauth_client_tokens.first
           strategy = described_class[auth_strategy]
 
           allow(Rails.logger).to receive(:error)
@@ -163,6 +177,22 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
 
       context "with invalid oauth access token", vcr: "auth/nextcloud/user_token_access_token_invalid" do
         it_behaves_like "successful response", refreshed: true
+
+        context "when updating token in openproject database fails" do
+          it "responds with error" do
+            storage
+            token = user.oauth_client_tokens.first
+            strategy = described_class[auth_strategy]
+            allow(strategy).to receive(:current_token).and_return(ServiceResult.success(result: token))
+            allow(token).to receive(:update).and_return(false)
+
+            result = strategy.call(storage:, http_options:) { |http| make_request(http) }
+            expect(result).to be_failure
+            expect(result.result).to eq(:error)
+            expect(result.errors.code).to eq(:error)
+            expect(result.errors.log_message).to eq("Error while persisting updated access token.")
+          end
+        end
       end
     end
   end

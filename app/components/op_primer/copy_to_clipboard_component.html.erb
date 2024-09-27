@@ -1,0 +1,21 @@
+<%=
+  flex_layout(align_items: :center, **@system_arguments) do |flex|
+    if @scheme == :link
+      flex.with_column(classes: "ellipsis") do
+        render(Primer::Beta::Link.new(
+          id: @id,
+          href: value,
+          title: value,
+          target: :_blank
+        )) { value }
+      end
+    else
+      flex.with_column(classes: "ellipsis") do
+        render(Primer::Beta::Text.new(title: value)) { value }
+      end
+    end
+    flex.with_column(ml: 1) do
+      render(Primer::Beta::ClipboardCopy.new(value:, "aria-label": t(:button_copy_to_clipboard)))
+    end
+  end
+%>

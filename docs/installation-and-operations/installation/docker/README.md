@@ -1,10 +1,10 @@
 ---
 sidebar_navigation:
-  title: Docker
+  title: Docker (all-in-one)
   priority: 300
 ---
 
-# Install OpenProject with Docker
+# OpenProject on Docker all-in-one container
 
 [Docker](https://www.docker.com) is a way to distribute self-contained applications easily. We provide a Docker image for the Community edition that you can very easily
 install and upgrade on your servers. However, contrary to the manual or package-based installation, your machine needs to have the Docker Engine
@@ -12,7 +12,7 @@ installed first, which usually requires a recent operating system. Please see th
 
 ***
 
-**Supported architectures**
+## Supported architectures
 
 Starting with OpenProject 12.5.6 we publish our containers for three architectures.
 
@@ -24,75 +24,24 @@ The OpenProject **BIM Edition** is only supported on AMD64, however.
 
 ***
 
-**Limitations**
+## Limitations
 
 Note that the docker container setup does not allow for integration of repositories within OpenProject. You can reference external repositories, but cannot set them up through OpenProject itself.
 For that feature to work, you need to use the packaged installation method.
 
-**Overview**
+## Overview
 
 OpenProject's docker setup can be launched in two ways:
 
-1. Multiple containers (recommended), each with a single process inside, using a Compose file. Allows to easily choose which services you want to run, and simplifies scaling and monitoring aspects.
+### One container per process (recommend)
 
-2. One container with all the processes inside. Easy but not recommended for production. This is the legacy behavior.
+This is the recommended approach for using OpenProject with Docker, where each component has a single container inside, orchestrated using a Compose file. Allows to easily choose which services you want to run, and simplifies scaling and monitoring aspects.
 
-## One container per process (recommended)
+Please follow the [OpenProject for Docker compose](../docker-compose/) documentation for this installation method
 
-### Quick Start
+### Single docker container
 
-First, you must clone the [openproject-deploy](https://github.com/opf/openproject-deploy/tree/stable/14/compose) repository:
-
-```shell
-git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/14 openproject
-```
-
-Then, change into the compose folder, this folder will be the location where you enter all following commands:
-
-```shell
-cd openproject/compose
-```
-
-Make sure you are using the latest version of the Docker images:
-
-```shell
-docker-compose pull
-```
-
-Launch the containers:
-
-```shell
-OPENPROJECT_HTTPS=false docker-compose up -d
-```
-
-After a while, OpenProject should be up and running on `http://localhost:8080`. The default username and password is login: `admin`, and password: `admin`. You need to explicitly disable HTTPS mode on startup as OpenProject assumes it's running behind HTTPS in production by default.
-
-> **Note:** The `docker-compose.yml` file present in the repository can be adjusted to your convenience. With each pull it will be overwritten. Best practice is to use the file `docker-compose.override.yml` for that case. For instance you could mount specific configuration files, override environment variables, or switch off services you don't need. Please refer to the official [Docker Compose documentation](https://docs.docker.com/compose/extends/) for more details.
-
-You can stop the Compose stack by running:
-
-```shell
-docker-compose stop
-```
-
-You can stop and remove all containers by running:
-
-```shell
-docker-compose down
-```
-
-This will not remove your data which is persisted in named volumes, likely called `compose_opdata` (for attachments) and `compose_pgdata` (for the database). The exact name depends on the name of the directory where your `docker-compose.yml` and/or you `docker-compose.override.yml` files are stored (`compose` in this case).
-
-If you want to start from scratch and remove the existing data you will have to remove these volumes via
-`docker volume rm compose_opdata compose_pgdata`.
-
-### Configuration
-
-Please see the [advanced configuration guide's docker paragraphs](../../configuration/#docker)
-
-#### BIM edition
-
-In order to install or change to BIM inside a Docker environment, please navigate to the [Docker Installation for OpenProject BIM](../../bim-edition/#docker-installation-openproject-bim) paragraph at the BIM edition documentation.
+This guide will show you to install OpenProject in one container with all the processes inside. This allows for a very quick start but is not recommended for production as it hinders upgradability of the different components such as the database.
 
 ## All-in-one container
 
@@ -488,7 +437,7 @@ The `-t` option is the tag for your image. You can choose what ever you want.
 
 **5. Run the image**
 
-You can run the image just like the normal OpenProject image (as shown earlier).
+You can run the image just like the normal OpenProject image (as shown [here](#quick-start)).
 You just have to use your chosen tag instead of `openproject/openproject:14`.
 To just give it a quick try you can run this:
 
@@ -497,6 +446,57 @@ docker run -p 8080:80 --rm -it openproject-with-slack
 ```
 
 After which you can access OpenProject under `http://localhost:8080`.
+
+## Import self-signed root certificate
+
+If you want to connect OpenProject to an external server as example SMTP-Server or a Nextcloud-Server that uses a self-signed certificate, you need to import the root certificate that was used to create the self-signed certificate. There are two ways to archive this.
+
+The first way is to mount the root certificate via the ``` --mount``` option into the container and add the  certificate to the ```SSL_CERT_FILE``` variable.
+```shell
+sudo docker run -it -p 8080:80 \
+  -e OPENPROJECT_SECRET_KEY_BASE=secret \
+  -e OPENPROJECT_HOST__NAME=localhost:8080 \
+  -e OPENPROJECT_HTTPS=false \
+  -e OPENPROJECT_DEFAULT__LANGUAGE=en \
+  --mount type=bind,source=$(pwd)/my_root.crt,target=/tmp/my_root.crt \ #mount my_root.crt to /tmp
+  -e SSL_CERT_FILE=/tmp/my_root.crt \ #set the SSL_CERT_FILE to the path of my_root.crt 
+  openproject/openproject:14
+```
+
+The second way would be to build a new image of the ```openproject/openproject:14``` or the ```-slim``` image.
+
+**1. Create a new folder** with any name, for instance `custom-openproject`. Change into that folder.
+
+**2. Put your root SSL certificate** into the folder. In this example, we will name it ```my_root.crt```.
+
+**3. Create the `Dockerfile`** in the same folder. The contents have to look like this:
+```dockerfile
+FROM openproject/openproject:14
+
+COPY ./my_root.crt /usr/local/share/ca-certificates/
+RUN update-ca-certificates
+```
+
+If you are using the -slim tag, you will need to do the following to import your root certificate:
+```dockerfile
+FROM openproject/openproject:14-slim
+
+USER root
+COPY ./smtp.local_rootCA.crt /usr/local/share/ca-certificates/
+RUN update-ca-certificates
+USER $APP_USER
+```
+
+**4. Build the image**
+```shell
+docker build --pull -t openproject-with-custom-ca .
+```
+
+The `-t` option is the tag for your image. You can choose what ever you want.
+
+**5. Run the image**
+
+You can run the image just like the normal OpenProject image (as shown [here](#quick-start)). You just have to use your chosen tag instead of ```openproject/openproject:14```
 
 ## Offline/air-gapped installation
 

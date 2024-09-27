@@ -7,7 +7,7 @@ keywords: GDPR, data flow, processing personal data, data privacy information
 ---
 # Processing of personal data
 
-Status of this document: 2024-01-10
+Status of this document: 2024-09-22
 
 ## Purpose of this document
 
@@ -115,6 +115,16 @@ Depending on the individual use and permissions of the user the following person
 - Assignment of a files to an uploader or creator
 - Change history
 - Person mentioned in a file (incl. file attributes)
+
+#### GitHub pull requests (cg-01)
+
+* Assignment of a person to a pull request in GitHub (author, reviewer, participant)
+* Change history
+
+#### GitLab merge requests and issues (cg-02)
+
+* Assignment of a person to a merge request or issue in GitLab (author, reviewer, participant)
+* Change history
 
 #### Meetings (cm-01)
 
@@ -591,6 +601,7 @@ flowchart LR
 
 #### Processed data
 
+* cg-01
 * cw-02
 
 #### Security measure
@@ -638,6 +649,7 @@ flowchart LR
 
 #### Processed data
 
+* cg-02
 * cw-02
 
 #### Security measure

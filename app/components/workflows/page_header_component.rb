@@ -40,7 +40,7 @@ module Workflows
 
     def breadcrumb_items
       base_items = [{ href: admin_index_path, text: t("label_administration") },
-                    { href: admin_settings_work_package_tracking_path, text: t(:label_work_package_plural) },
+                    { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
                     title]
 
       if @state == :edit

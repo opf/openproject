@@ -10,6 +10,7 @@
 .*ignore
 *.md
 *.log
+config/database.yml
 docker/prod/Dockerfile
 docker/ci/Dockerfile
 Guardfile

@@ -13,7 +13,7 @@ module Pages
     def navigate_by_create_button
       visit work_package_boards_path unless page.current_path == work_package_boards_path
 
-      within ".toolbar-items" do
+      within '[data-test-selector="add-board-button"]' do
         click_link "Board"
       end
     end

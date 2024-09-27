@@ -277,8 +277,6 @@ ru:
           Для вступления изменений в силу может потребоваться некоторое время. Вы будете уведомлены, когда все соответствующие пакеты работ будут обновлены.
           Хотите продолжить?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          При изменении расчета прогресса с режима "На основе статуса" на режим "На основе трудозатрат" поле <i>% Завершения</i> станет нередактируемым, его значение будет получено из значений <i>Работа</i> и <i>Оставшаяся работа</i>. Существующие значения для <i>% Завершения</i> сохраняются. Если значения для <i>Работа</i> и <i>Оставшаяся работа</i> отсутствуют, они потребуются для изменения <i>% Завершения</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
           При изменении расчета прогресса с режима "На основе статуса" на режим "На основе трудозатрат" поле <i>% Завершения</i> станет редактируемым. Если Вы дополнительно введете значения для <i>Работы</i> или <i>Оставшейся работы</i>, они также будут связаны с <i>% Завершения</i>. Изменение значения <i>Оставшейся работы</i> может привести к обновлению <i>% Завершения</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
@@ -611,7 +609,9 @@ ru:
         mentioned: "Упомянутый"
         watched: "Наблюдатель"
         assigned: "Назначенный"
-        accountable: "Ответственный"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "Создано"
         scheduled: "Запланировано"
         commented: "Прокомментировано"

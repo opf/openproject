@@ -34,7 +34,7 @@ RSpec.describe "Meetings copy", :js, :with_cuprite do
   shared_let(:user) do
     create(:user,
            member_with_permissions: { project => permissions }).tap do |u|
-      u.pref[:time_zone] = "UTC"
+      u.pref[:time_zone] = "Etc/UTC"
 
       u.save!
     end
@@ -66,7 +66,7 @@ RSpec.describe "Meetings copy", :js, :with_cuprite do
     start_of_meeting = start_time.strftime(twelve_hour_format)
     end_of_meeting = (start_time + meeting.duration.hours).strftime(twelve_hour_format)
 
-    "Start time: #{date} #{start_of_meeting} - #{end_of_meeting} (GMT+00:00) UTC"
+    "Start time: #{date} #{start_of_meeting} - #{end_of_meeting} UTC+00:00"
   end
 
   before do

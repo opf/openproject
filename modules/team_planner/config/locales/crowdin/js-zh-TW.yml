@@ -8,7 +8,7 @@ zh-TW:
       create_title: '建立新的小組工作企劃'
       unsaved_title: '未命名的小組工作企劃'
       no_data: '新增執行者來設定您的小組工作企劃。'
-      add_assignee: '增加「執行者」'
+      add_assignee: '執行者'
       remove_assignee: '刪除執行者'
       two_weeks: '雙週'
       one_week: '單週'

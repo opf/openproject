@@ -63,9 +63,9 @@ Rails.application.routes.draw do
 
   # Add catch method for Rack OmniAuth to allow route helpers
   # Note: This renders a 404 in rails but is caught by omniauth in Rack before
-  get "/auth/failure", to: "account#omniauth_failure"
-  get "/auth/:provider", to: proc { [404, {}, [""]] }, as: "omniauth_start"
-  match "/auth/:provider/callback", to: "account#omniauth_login", as: "omniauth_login", via: %i[get post]
+  get "/auth/failure", to: "omni_auth_login#failure", as: "omni_auth_failure"
+  get "/auth/:provider", to: proc { [404, {}, [""]] }, as: "omni_auth_start"
+  match "/auth/:provider/callback", to: "omni_auth_login#callback", as: "omni_auth_callback", via: %i[get post]
 
   # In case assets are actually delivered by a node server (e.g. in test env)
   # forward requests to the proxy
@@ -175,6 +175,9 @@ Rails.application.routes.draw do
         resources :projects,
                   controller: "/admin/custom_fields/custom_field_projects",
                   only: %i[index new create]
+        resource :project,
+                 controller: "/admin/custom_fields/custom_field_projects",
+                 only: :destroy
       end
     end
   end
@@ -466,16 +469,20 @@ Rails.application.routes.draw do
     resources :custom_actions, except: :show
 
     namespace :oauth do
-      resources :applications
+      resources :applications do
+        member do
+          post :toggle
+        end
+      end
     end
   end
 
   namespace :admin do
     namespace :settings do
-      SettingsHelper.system_settings_tabs.each do |tab|
-        get tab[:name], controller: tab[:controller], action: :show, as: tab[:name].to_s
-        patch tab[:name], controller: tab[:controller], action: :update, as: "update_#{tab[:name]}"
-      end
+      resource :general, controller: "/admin/settings/general_settings", only: %i[show update]
+      resource :languages, controller: "/admin/settings/languages_settings", only: %i[show update]
+      resource :repositories, controller: "/admin/settings/repositories_settings", only: %i[show update]
+      resource :experimental, controller: "/admin/settings/experimental_settings", only: %i[show update]
 
       resource :authentication, controller: "/admin/settings/authentication_settings", only: %i[show update]
       resource :attachments, controller: "/admin/settings/attachments_settings", only: %i[show update]
@@ -491,7 +498,8 @@ Rails.application.routes.draw do
       resource :api, controller: "/admin/settings/api_settings", only: %i[show update]
       # It is important to have this named something else than "work_packages".
       # Otherwise the angular ui-router will also recognize that as a WorkPackage page and apply according classes.
-      resource :work_package_tracking, controller: "/admin/settings/work_packages_settings", only: %i[show update]
+      resource :work_packages_general, controller: "/admin/settings/work_packages_general", only: %i[show update]
+      resource :progress_tracking, controller: "/admin/settings/progress_tracking", only: %i[show update]
       resource :projects, controller: "/admin/settings/projects_settings", only: %i[show update]
       resource :new_project, controller: "/admin/settings/new_project_settings", only: %i[show update]
       resources :project_custom_fields, controller: "/admin/settings/project_custom_fields" do

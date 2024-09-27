@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
       title: @meeting.title) %>
 
 <%= t('meeting.email.rescheduled.old_date_time') %>:
-<%= format_time_as_date @changes[:old_start] %> <%= format_time @changes[:old_start], false %> - <%= format_time (@changes[:old_start] + @changes[:old_duration]), false %> <%= Time.zone %>
+<%= format_time_as_date @changes[:old_start] %> <%= format_time @changes[:old_start], include_date: false %> - <%= format_time (@changes[:old_start] + @changes[:old_duration]), include_date: false %> (<%= formatted_time_zone_offset %>}
 
 <%= t('meeting.email.rescheduled.new_date_time') %>:
-<%= format_time_as_date @changes[:new_start] %> <%= format_time @changes[:new_start], false %> - <%= format_time (@changes[:new_start] + @changes[:new_duration]), false %> <%= Time.zone %>
+<%= format_time_as_date @changes[:new_start] %> <%= format_time @changes[:new_start], include_date: false %> - <%= format_time (@changes[:new_start] + @changes[:new_duration]), include_date: false %> (<%= formatted_time_zone_offset %>}

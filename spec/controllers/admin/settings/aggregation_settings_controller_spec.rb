@@ -31,10 +31,10 @@
 
 require "spec_helper"
 
-RSpec.describe Admin::Settings::AggregationSettingsController do # rubocop:disable RSpec/EmptyExampleGroup
+RSpec.describe Admin::Settings::AggregationSettingsController do
   shared_let(:user) { create(:admin) }
 
   current_user { user }
 
-  require_admin_and_render_template("aggregation_settings")
+  include_examples "GET #show requires admin permission and renders template", path: "aggregation_settings"
 end

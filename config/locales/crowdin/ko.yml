@@ -31,6 +31,9 @@ ko:
     custom_styles:
       color_theme: "컬러 테마"
       color_theme_custom: "(사용자 지정)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "기본 버튼"
         accent-color: "강조 색"
@@ -79,6 +82,7 @@ ko:
         contact: "당사에 데모 요청하기"
       enterprise_info_html: "- Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> 추가 기능입니다."
       upgrade_info: "활성화하고 팀에서 사용하려면 유료 플랜으로 업그레이드하세요."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "사용자의 개별 작업(예: 작업 패키지를 두 번 업데이트)은 연령 차이가 지정된 기간 미만인 경우 단일 작업으로 집계됩니다. 애플리케이션 내에서 단일 작업으로 표시됩니다. 또한 이는 전송되는 이메일 수를 줄이는 동일한 시간만큼 알림을 지연시키고 %{webhook_link} 지연에도 영향을 미칩니다."
@@ -628,6 +632,8 @@ ko:
         uid: "고객 ID"
         secret: "클라이언트 비밀번호"
         owner: "소유자"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "리디렉션 URI"
         client_credentials_user_id: "클라이언트 자격 증명 사용자 ID"
         scopes: "범위"
@@ -799,6 +805,7 @@ ko:
         blank: "내용을 입력해주세요"
         blank_nested: "- '%{property}' 속성이 설정되어 있어야 합니다."
         cannot_delete_mapping: "- 필수입니다. 삭제할 수 없습니다."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "작업 패키지는 하위 작업패키지들 중 하나에 연결 될 수 없습니다."
         circular_dependency: "이 연계는 순환 종속관계를 만듭니다."
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
@@ -872,6 +879,10 @@ ko:
               minimum: "'=' 연산자를 사용하여 주체, 컨텍스트 또는 ID에 대해 하나 이상의 필터를 포함시켜야 합니다."
         custom_field:
           at_least_one_custom_option: "하나 이상의 옵션을 사용할 수 있어야 합니다."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) 하나의 값만 허용됩니다."
           empty: "(%{name}) 값은 비워둘 수 없습니다."
@@ -902,6 +913,8 @@ ko:
             name:
               blank: "- 필수입니다. 이름을 선택하세요."
               not_unique: "- 사용 중입니다. 다른 이름을 선택하세요."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "알림을 보낼 채널을 하나 이상 지정해야 합니다."
           attributes:
@@ -1599,7 +1612,7 @@ ko:
   error_menu_item_not_saved: 메뉴 항목을 저장할 수 없습니다.
   error_wiki_root_menu_item_conflict: >
     결과 메뉴 항목에서 기존 메뉴 항목 "%{existing_caption}" (%{existing_identifier})과(와)의 충돌로 인해 "%{old_name}"을(를) "%{new_name}"(으)로 이름을 바꿀 수 없습니다.
-  error_external_authentication_failed: "외부 인증 중에 오류가 발생했습니다. 다시 시도하세요."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "강조 표시되지 않는 특성: %{attributes}"
   events:
     changeset: "변경 집합 편집됨"
@@ -1771,7 +1784,7 @@ ko:
       progress_mode_changed_to_status_based: 진행률 계산 모드가 상태 기반으로 설정되었습니다
       status_excluded_from_totals_set_to_false_message: 이제 계층 합계에 포함됨
       status_excluded_from_totals_set_to_true_message: 이제 계층 합계에서 제외됨
-      status_percent_complete_changed: "완료 %가 %{old_value}%에서 %{new_value}%(으)로 변경되었습니다"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           지금부터 파일 링크(외부 저장소에 저장된 파일)와 관련된 활동이 활동 탭에 표시됩니다. 다음은 이미 존재하는 링크와 관련된 활동을 나타냅니다.
@@ -1880,7 +1893,8 @@ ko:
   label_additional_workflow_transitions_for_assignee: "사용자가 담당자일 때 허용되는 추가 전환"
   label_additional_workflow_transitions_for_author: "사용자가 작성자일 때 허용되는 추가 전환"
   label_administration: "관리"
-  label_advanced_settings: "고급 설정"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "기간"
   label_ago: "일 전"
   label_all: "모두"
@@ -1986,6 +2000,7 @@ ko:
   label_copy_project: "프로젝트 복사"
   label_core_version: "코어 버전"
   label_core_build: "코어 빌드"
+  label_created_by: "Created by %{user}"
   label_current_status: "현재 상태"
   label_current_version: "현재 버전"
   label_custom_field_add_no_type: "작업 패키지 유형에 이 필드 추가"
@@ -1993,6 +2008,7 @@ ko:
   label_custom_field_plural: "사용자 정의 필드"
   label_custom_field_default_type: "빈 유형"
   label_custom_style: "디자인"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "대시보드"
   label_database_version: "PostgreSQL 버전"
   label_date: "날짜"
@@ -2113,9 +2129,9 @@ ko:
   label_share: "공유"
   label_share_project_list: "프로젝트 목록 공유"
   label_share_work_package: "작업 패키지 공유"
-  label_show_hide: "표시/숨기기"
-  label_show_hide_n_items: "%{count}개 항목 표시/숨기기"
   label_show_all_registered_users: "등록된 사용자 모두 표시"
+  label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "기록일지"
   label_journal_diff: "설명 비교"
   label_language: "언어"
@@ -2265,6 +2281,7 @@ ko:
   label_product_version: "제품 버전"
   label_profile: "프로필"
   label_percent_complete: "완료 %"
+  label_progress_tracking: "Progress tracking"
   label_project: "프로젝트"
   label_project_activity: "프로젝트 활동"
   label_project_attribute_plural: "프로젝트 특성"
@@ -2450,7 +2467,6 @@ ko:
   label_work_package_new: "새 작업 패키지"
   label_work_package_edit: "작업 패키지 %{name} 편집"
   label_work_package_plural: "작업 패키지"
-  label_work_packages_settings: "작업 패키지 설정"
   label_work_package_status: "작업 패키지 상태"
   label_work_package_status_new: "새 상태"
   label_work_package_status_plural: "작업 패키지 상태"
@@ -3084,11 +3100,13 @@ ko:
   setting_hours_per_day_explanation: >-
     일 및 시간으로 기간을 표시할 때 "하루"로 간주되는 시간을 정의합니다(예: 하루가 8시간이면 32시간은 4일이 됩니다).
   setting_invitation_expiration_days: "활성화 이메일 만료 기간:"
-  setting_work_package_done_ratio: "진행률 계산"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "작업 기반"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "상태 기반"
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    <b>작업 기반</b> 모드에서 완료 %는 총 작업 대비 완료된 작업을 기준으로 계산됩니다. <b>상태 기반</b> 모드에서는 각 상태에 완료 % 값이 연결되어 있습니다. 상태를 변경하면 완료 %도 변경됩니다.
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_html: >
     <b>작업 기반</b> 모드에서 완료 %는 어떤 값으로든 자유롭게 설정할 수 있습니다. 선택적으로 작업에 대한 값을 입력하면 남은 작업이 자동으로 파생됩니다. <b>상태 기반</b> 모드에서는 각 상태에 완료 % 값이 연결되어 있습니다. 상태를 변경하면 완료 %도 변경됩니다.
   setting_work_package_properties: "작업 패키지 속성"
@@ -3109,6 +3127,13 @@ ko:
   setting_password_min_length: "최소 길이"
   setting_password_min_adhered_rules: "최소 필수 클래스 수"
   setting_per_page_options: "페이지당 개체 옵션"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "일반 텍스트 메일(HTML 없음)"
   setting_protocol: "프로토콜"
   setting_project_gantt_query: "프로젝트 포트폴리오 Gantt 보기"
@@ -3473,7 +3498,6 @@ ko:
       label_note: "참고:"
       modal:
         work_based_help_text: "가능한 경우 각 필드는 다른 두 필드에서 자동으로 계산됩니다."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "완료 %는 작업 및 남은 작업에서 자동으로 파생됩니다."
         status_based_help_text: "완료 %는 작업 패키지 상태에 따라 설정됩니다."
         migration_warning_text: "작업 기반 진행률 계산 모드에서 완료 %는 수동으로 설정할 수 없으며 작업에 연결됩니다. 기존 값은 유지되지만 편집할 수 없습니다. 먼저 작업을 입력하세요."
       derivation_hints:
@@ -3682,12 +3706,16 @@ ko:
     close_warning: "이 경고를 무시하십시오."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth 애플리케이션"
       plural: "OAuth 애플리케이션"
       named: "OAuth 애플리케이션 '%{name}'"
       new: "새로운 OAuth 애플리케이션"
+      non_confidential: Non confidential
       default_scopes: "(기본 범위)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "애플리케이션 이름입니다. 권한 부여 시 다른 사용자에게 표시됩니다."
         redirect_uri_html: >
           허용된 URL 인증 사용자로 리디렉션될 수 있습니다. 라인별로 하나의 항목이 있습니다. <br/> 데스크톱 애플리케이션을 등록하려면 다음 URL을 사용하세요.
@@ -3696,6 +3724,10 @@ ko:
         client_credential_user_id: "클라이언트가 이 애플리케이션을 사용할 때 가장하기 위한 선택적 사용자 ID입니다. 공용 액세스만 허용하려면 비워두세요."
         register_intro: "OpenProject용 OAuth API 클라이언트 애플리케이션을 개발할 경우 이 양식을 사용하여 모든 사용자가 사용할 수 있도록 등록할 수 있습니다."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "고객 ID"
     client_secret_notice: >
       클라이언트 비밀번호를 인쇄할 수 있는 유일한 순간입니다. 이 비밀번호를 기록하고 안전하게 보관하십시오. 이 비밀번호는 암호로 취급해야 하며 나중에 OpenProject로 검색할 수 없습니다.

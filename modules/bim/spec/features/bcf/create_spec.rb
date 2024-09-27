@@ -70,7 +70,7 @@ RSpec.describe "Create BCF", :js,
       create_page.save!
 
       index_page.expect_and_dismiss_toaster(
-        message: "Successful creation. Click here to open this work package in fullscreen view."
+        message: "Successful creation."
       )
 
       if with_viewpoints

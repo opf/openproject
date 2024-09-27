@@ -48,7 +48,7 @@ RSpec.describe DeletedUser do
   end
 
   describe "#time_zone" do
-    it { expect(user.time_zone).to be_nil }
+    it { expect(user.time_zone).to eql ActiveSupport::TimeZone["Etc/UTC"] }
   end
 
   describe "#rss_key" do

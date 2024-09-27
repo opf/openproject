@@ -278,8 +278,6 @@ fr:
           Les modifications pourraient prendre un certain temps pour être appliquées. Vous serez averti(e) lorsque tous les lots de travaux pertinents auront été mis à jour.
           Voulez-vous continuer ?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          Passer du mode de calcul de la progression basé sur le statut au mode basé sur le travail transformera <i>% réalisé</i> en champ non modifiable dont la valeur est dérivée des champs <i>Travail</i> et <i>Travail restant</i>. Les valeurs existantes pour <i>% réalisé</i> sont conservées. Des valeurs pour <i>Travail</i> et <i>Travail restant</i> sont requises pour modifier <i>% réalisé</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
           Passer du mode de calcul de la progression basé sur le statut au mode basé sur le travail transformera <i>% réalisé</i> en champ librement modifiable. Si vous complétez les champs <i>Travail</i> et <i>Travail restant</i>, ils seront également liés à <i>% réalisé</i>. Changer le champ <i>Travail restant</i> peut alors changer le <i>% réalisé</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
@@ -612,7 +610,9 @@ fr:
         mentioned: "Mentionné"
         watched: "Observateur"
         assigned: "Personne assignée"
-        accountable: "Responsable"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "Créé"
         scheduled: "Planifié"
         commented: "Commenté"

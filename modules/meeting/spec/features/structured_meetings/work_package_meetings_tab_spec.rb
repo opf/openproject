@@ -127,6 +127,23 @@ RSpec.describe "Open the Meetings tab", :js do
           expect(page).to have_no_content(meeting_agenda_item_of_invisible_meeting.notes)
         end
       end
+
+      context "with another past meeting" do
+        let!(:past_meeting) { create(:structured_meeting, project:, start_time: 1.week.ago) }
+
+        let!(:past_agenda_item) do
+          create(:meeting_agenda_item, meeting: past_meeting, work_package:, notes: "Public note!")
+        end
+
+        it "shows both future and past meetings" do
+          work_package_page.visit!
+          switch_to_meetings_tab
+
+          meetings_tab.expect_tab_count(2)
+          meetings_tab.expect_upcoming_counter_to_be(1)
+          meetings_tab.expect_past_counter_to_be(1)
+        end
+      end
     end
 
     context "when the meetings module is not enabled for the project" do

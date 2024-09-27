@@ -314,11 +314,11 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
 
     it do
       expect(cause).to render_html_variant("<strong>Status &#39;In progress&#39;</strong> " \
-                                           "% complete changed from 20% to 40%")
+                                           "% Complete changed from 20% to 40%")
     end
 
     it do
-      expect(cause).to render_raw_variant("Status 'In progress' % complete changed from 20% to 40%")
+      expect(cause).to render_raw_variant("Status 'In progress' % Complete changed from 20% to 40%")
     end
 
     it_behaves_like "XSS-proof rendering of status name"
@@ -398,6 +398,22 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
+  context "when a change of total percent complete mode from " \
+          "simple average to work-weighted average is the cause" do
+    subject(:cause) do
+      {
+        "type" => "total_percent_complete_mode_changed_to_work_weighted_average"
+      }
+    end
+
+    it do
+      expect(cause).to render_html_variant(
+        "<strong>Calculation of % Complete totals now weighted by Work.</strong> " \
+        "Child work packages without Work are ignored."
+      )
+    end
+  end
+
   context "when both a change of status % complete and excluded from totals is the cause" do
     shared_let(:status) { create(:status, name: "In progress", default_done_ratio: 40) }
     subject(:cause) do
@@ -412,12 +428,12 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
 
     it do
       expect(cause).to render_html_variant("<strong>Status &#39;In progress&#39;</strong> " \
-                                           "% complete changed from 20% to 40% and now excluded from hierarchy totals")
+                                           "% Complete changed from 20% to 40% and now excluded from hierarchy totals")
     end
 
     it do
       expect(cause).to render_raw_variant("Status 'In progress' " \
-                                          "% complete changed from 20% to 40% and now excluded from hierarchy totals")
+                                          "% Complete changed from 20% to 40% and now excluded from hierarchy totals")
     end
 
     it_behaves_like "XSS-proof rendering of status name"

@@ -1,0 +1,22 @@
+export const TURBO_EVENTS:string[] = [
+  'turbo:before-cache',
+  'turbo:before-fetch-request',
+  'turbo:before-fetch-response',
+  'turbo:before-frame-morph',
+  'turbo:before-frame-render',
+  'turbo:before-prefetch',
+  'turbo:before-render',
+  'turbo:before-stream-render',
+  'turbo:before-visit',
+  'turbo:click',
+  'turbo:fetch-request-error',
+  'turbo:frame-load',
+  'turbo:frame-render',
+  'turbo:load',
+  'turbo:morph',
+  'turbo:reload',
+  'turbo:render',
+  'turbo:submit-end',
+  'turbo:submit-start',
+  'turbo:visit'
+];

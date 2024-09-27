@@ -1,0 +1,76 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<% html_title t(:label_administration), t(:label_work_package_plural), t(:label_progress_tracking) -%>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t(:label_progress_tracking) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
+                             t(:label_progress_tracking)])
+  end
+%>
+<%=
+primer_form_with(
+  scope: :settings, action: :update, method: :patch,
+  data: {
+    application_target: "dynamic",
+    controller: "admin--progress-tracking",
+    admin__progress_tracking_target: "progressCalculationModeRadioGroup",
+    admin__progress_tracking_initial_mode_value: Setting.work_package_done_ratio
+  }
+) do |f|
+  render_inline_settings_form(f) do |form|
+    form.radio_button_group(
+      name: "work_package_done_ratio",
+      button_options: {
+        data: { action: "admin--progress-tracking#updateEnabledOptions" }
+      }
+    )
+    form.html_content do
+      tag.div(class: "op-toast -warning -with-bottom-spacing",
+              hidden: true,
+              data: { admin__progress_tracking_target: "warningToast" }) do
+        tag.div(class: "op-toast--content") do
+          tag.p(data: { admin__progress_tracking_target: "warningText" })
+        end
+      end
+    end
+    form.radio_button_group(
+      name: "total_percent_complete_mode",
+      values: WorkPackage::TOTAL_PERCENT_COMPLETE_MODE_OPTIONS
+    )
+    form.radio_button_group(
+      name: "percent_complete_on_status_closed",
+      disabled: WorkPackage.status_based_mode?,
+      data: { admin__progress_tracking_target: "statusClosedRadioGroup" }
+    )
+    form.submit
+  end
+end
+%>

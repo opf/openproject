@@ -31,6 +31,9 @@
     custom_styles:
       color_theme: "Fargetema"
       color_theme_custom: "Egendefinert"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primærknapp"
         accent-color: "Uthevet"
@@ -79,6 +82,7 @@
         contact: "Kontakt oss for en demo"
       enterprise_info_html: "er en Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>-utvidelse."
       upgrade_info: "Vennligst oppgrader til et betalt abonnement for å kunne aktivere og begynne å bruke det i ditt team."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Individuelle handlinger av en bruker (f.eks. oppdatering av en arbeidspakke to ganger) aggregeres til en enkelt handling hvis aldersforskjellen er mindre enn det spesifiserte tidsrommet. De vil bli vist som en enkelt handling i programmet. Dette vil også forsinke varslinger med samme tidsperiode som reduserer antall e-poster som sendes, og vil også påvirke %{webhook_link} forsinkelse."
@@ -635,6 +639,8 @@
         uid: "Klient ID"
         secret: "Klient hemmlighet"
         owner: "Eier"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Omdiriger URI"
         client_credentials_user_id: "Klientens bruker-ID"
         scopes: "Omfang"
@@ -806,6 +812,7 @@
         blank: "kan ikke være blank."
         blank_nested: "må ha egenskapen '%{property}' aktivert."
         cannot_delete_mapping: "er påkrevd. Kan ikke slettes."
+        is_for_all_cannot_modify: "is for all. Cannot be modified."
         cant_link_a_work_package_with_a_descendant: "En arbeidspakke kan ikke knyttes til en av sine deloppgaver."
         circular_dependency: "En slik relasjon ville lage en sirkulær avhengighet."
         confirmation: "samsvarer ikke med %{attribute}."
@@ -879,6 +886,10 @@
               minimum: "må inkludere minst ett filter for prinsipp, kontekst eller id med '='-operatøren."
         custom_field:
           at_least_one_custom_option: "Minst ett alternativ må være tilgjengelig."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) kun tillatt med én verdi."
           empty: "(%{name}) verdi kan ikke være tom."
@@ -909,6 +920,8 @@
             name:
               blank: "er obligatorisk. Velg et navn."
               not_unique: "er allerede i bruk. Velg et annet navn."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Minst en kanal for sending av varsler må angis."
           attributes:
@@ -1634,7 +1647,7 @@
   error_menu_item_not_saved: Menyelementet kunne ikke lagres
   error_wiki_root_menu_item_conflict: >
     Kan ikke endre navn fra %{old_name} til %{new_name} pga en konflikt mellom det resulterende menyelementet og eksisterende menyelementet "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Det oppstod en feil under ekstern autentisering. Vennligst prøv igjen."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Egenskap(er) kan ikke utheves: %{attributes}"
   events:
     changeset: "Changeset ble redigert"
@@ -1806,7 +1819,7 @@
       progress_mode_changed_to_status_based: Framdriftsmodus satt til statusbasert
       status_excluded_from_totals_set_to_false_message: nå inkludert i hierarkiske summer
       status_excluded_from_totals_set_to_true_message: nå ekskludert fra hierarkiske summer
-      status_percent_complete_changed: "% ferdig endret fra %{old_value}% til %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           Fra nå av vil aktivitet knyttet til linker (filer lagret i eksterne lagringer) vises her i aktivitetsfanen. Følgende representerer aktivitet med lenker som allerede eksisterer:
@@ -1915,7 +1928,8 @@
   label_additional_workflow_transitions_for_assignee: "Ytterligere overganger tillatt når brukeren er deltaker"
   label_additional_workflow_transitions_for_author: "Flere overganger er tillatt når brukeren er forfatter"
   label_administration: "Administrasjon"
-  label_advanced_settings: "Avanserte innstillinger"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Alder"
   label_ago: "dager siden"
   label_all: "alle"
@@ -2021,6 +2035,7 @@
   label_copy_project: "Kopier prosjekt"
   label_core_version: "Kildeversjon"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Gjeldende status"
   label_current_version: "Gjeldende versjon"
   label_custom_field_add_no_type: "Legg dette feltet til en arbeidspakketype"
@@ -2028,6 +2043,7 @@
   label_custom_field_plural: "Egendefinerte felter"
   label_custom_field_default_type: "Tom type"
   label_custom_style: "Design"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Kontrollpanel"
   label_database_version: "PostgreSQL versjon"
   label_date: "Dato"
@@ -2148,9 +2164,9 @@
   label_share: "Del"
   label_share_project_list: "Del prosjektliste"
   label_share_work_package: "Del arbeidspakke"
-  label_show_hide: "Vis/Skjul"
-  label_show_hide_n_items: "Vis/skjul %{count} elementer"
   label_show_all_registered_users: "Vis alle registrerte brukere"
+  label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Journal"
   label_journal_diff: "Sammenligning av beskrivelse"
   label_language: "Språk"
@@ -2300,6 +2316,7 @@
   label_product_version: "Produktversjon"
   label_profile: "Profil"
   label_percent_complete: "% Ferdig"
+  label_progress_tracking: "Progress tracking"
   label_project: "Prosjekt"
   label_project_activity: "Aktivitet i prosjektet"
   label_project_attribute_plural: "Prosjekt egenskaper"
@@ -2485,7 +2502,6 @@
   label_work_package_new: "Ny arbeidspakke"
   label_work_package_edit: "Rediger arbeidspakke %{name}"
   label_work_package_plural: "Arbeidspakker"
-  label_work_packages_settings: "Innstillinger for arbeidspakker"
   label_work_package_status: "Status for arbeidspakke"
   label_work_package_status_new: "Ny status"
   label_work_package_status_plural: "Statuser for arbeidspakke"
@@ -3124,11 +3140,13 @@
   setting_hours_per_day_explanation: >-
     Dette vil definere hva som anses som en "dag" når varigheten vises i dager og timer (for eksempel hvis dagen er 8 timer, vil 32 timer være 4 dager).
   setting_invitation_expiration_days: "Aktiverings e-post utløper etter"
-  setting_work_package_done_ratio: "Beregning av fremdrift"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Arbeidsbasert"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Statusbasert"
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_html: >
     In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Egenskaper for arbeidspakke"
@@ -3149,6 +3167,13 @@
   setting_password_min_length: "Minimumslengde"
   setting_password_min_adhered_rules: "Minste antall obligatoriske tegnklasser"
   setting_per_page_options: "Alternativer for oppføringer pr. side"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Ren tekst (ingen HTML)"
   setting_protocol: "Protokoll"
   setting_project_gantt_query: "Prosjektportefølje Gantt-visning"
@@ -3514,7 +3539,6 @@
       label_note: "Merk:"
       modal:
         work_based_help_text: "Each field is automatically calculated from the two others when possible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Ferdig er angitt etter status på arbeidspakken."
         migration_warning_text: "I arbeidsbasert fremdriftsberegningsmodus kan % Ferdig ferdigstilt ikke settes manuelt og er knyttet til jobber. Den eksisterende verdien er lagret, men kan ikke endres. Skriv inn arbeidet først."
       derivation_hints:
@@ -3723,12 +3747,16 @@
     close_warning: "Ignorer denne advarselen."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth program"
       plural: "OAuth programmer"
       named: "OAuth program '%{name}'"
       new: "Ny OAuth-app"
+      non_confidential: Non confidential
       default_scopes: "(Standard omfang)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Navnet på søknaden. Dette vises til andre brukere etter autorisasjon."
         redirect_uri_html: >
           De tillatte nettadresser autoriserte brukere kan bli omdirigert til. Én oppføring per linje. <br/> Hvis du registrerer et skrivebordsprogram, bruk følgende URL.
@@ -3737,6 +3765,10 @@
         client_credential_user_id: "Valgfri bruker-ID å gi seg selv når klienter bruker dette programmet. La stå tomt for å kun tillate offentlig tilgang"
         register_intro: "Hvis du utvikler en OAuth API-klient-app for OpenProject, kan du registrere den ved hjelp av dette skjemaet for alle brukere."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Klient ID"
     client_secret_notice: >
       Dette er eneste gang vi kan skrive ut klientens hemmelighet, merk den ned og hold den sikker. Den skal behandles som et passord og kan ikke hentes av OpenProject på et senere tidspunkt.

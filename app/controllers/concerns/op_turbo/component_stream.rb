@@ -39,6 +39,7 @@ module OpTurbo
         yield(format) if format_block
       end
     end
+
     alias_method :respond_with_turbo_streams, :respond_to_with_turbo_streams
 
     def update_via_turbo_stream(component:, status: :ok)
@@ -71,6 +72,21 @@ module OpTurbo
 
     def add_before_via_turbo_stream(component:, target_component:)
       turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :before)
+    end
+
+    def render_error_flash_message_via_turbo_stream(**kwargs)
+      update_flash_message_via_turbo_stream(**kwargs.merge(scheme: :danger, icon: :stop))
+    end
+
+    def update_flash_message_via_turbo_stream(message:, component: OpPrimer::FlashComponent, **)
+      instance = component.new(**).with_content(message)
+      turbo_streams << instance.render_as_turbo_stream(view_context:, action: :flash)
+    end
+
+    def scroll_into_view_via_turbo_stream(target, behavior: :auto, block: :start)
+      turbo_streams << OpTurbo::StreamComponent
+        .new(action: :scroll_into_view, target:, behavior:, block:)
+        .render_in(view_context)
     end
 
     def turbo_streams

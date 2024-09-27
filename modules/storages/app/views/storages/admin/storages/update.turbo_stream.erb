@@ -1,6 +1,6 @@
 <%
   label_storage_provider_part = render(Primer::Beta::Text.new(tag: :span, font_weight: :light, color: :muted)) do
-    "(#{I18n.t("storages.provider_types.#{@storage.short_provider_type}.name")})"
+    "(#{I18n.t("storages.provider_types.#{@storage}.name")})"
   end
   label_storage_name_with_provider_label = "#{@storage.name} #{label_storage_provider_part}".html_safe
 %>

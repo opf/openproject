@@ -91,15 +91,15 @@
     "@fullcalendar/timegrid": "^6.1.11",
     "@github/webauthn-json": "^2.1.1",
     "@hotwired/stimulus": "^3.2.2",
-    "@hotwired/turbo": "^8.0.4",
-    "@hotwired/turbo-rails": "^8.0.4",
+    "@hotwired/turbo": "^8.0.10",
+    "@hotwired/turbo-rails": "^8.0.10",
     "@kolkov/ngx-gallery": "^2.0.1",
     "@ng-select/ng-option-highlight": "13.2.0",
     "@ng-select/ng-select": "^13.2.0",
     "@ngneat/content-loader": "^7.0.0",
     "@ngx-formly/core": "^6.1.4",
     "@openproject/octicons-angular": "^19.18.0",
-    "@openproject/primer-view-components": "^0.46.1",
+    "@openproject/primer-view-components": "^0.47.0",
     "@openproject/reactivestates": "^3.0.1",
     "@primer/css": "^21.3.3",
     "@types/hotwired__turbo": "^8.0.1",
@@ -176,6 +176,6 @@
     "generate-typings": "tsc -d -p src/tsconfig.app.json"
   },
   "overrides": {
-    "@primer/view-components": "npm:@openproject/primer-view-components@^0.46.1"
+    "@primer/view-components": "npm:@openproject/primer-view-components@^0.47.0"
   }
 }

@@ -278,8 +278,6 @@ it:
           L'applicazione delle modifiche potrebbe richiedere del tempo. Riceverai una notifica quando tutti i pacchetti di lavoro pertinenti saranno aggiornati.
           Vuoi davvero continuare?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          La modifica della modalità di calcolo dei progressi da basata sullo stato a basata su lavoro renderà <i>% completamento</i> un campo non modificabile il cui valore è derivato da <i>Lavoro</i> e <i>Lavoro residuo</i>. I valori esistenti per <i>% completamento</i> sono conservati. Se i valori per <i>Lavoro</i> e <i>Lavoro residuo</i> non erano presenti, saranno necessari per modificare <i>% completamento</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
           La modifica della modalità di calcolo dei progressi da basata sullo stato a basata sul lavoro renderà il campo <i>% completamento</i> liberamente modificabile. Se inserisci facoltativamente valori per <i>Lavoro</i> o <i>Lavoro residuo</i>, questi verranno collegati anche a <i>% completamento</i>. La modifica di <i>Lavoro residuo</i> può quindi aggiornare <i>% completamento</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
@@ -612,7 +610,9 @@ it:
         mentioned: "Menzionato"
         watched: "Osservatore"
         assigned: "Assegnatario"
-        accountable: "Responsabile"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "Creato"
         scheduled: "Programmato"
         commented: "Commentato"

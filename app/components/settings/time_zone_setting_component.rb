@@ -30,7 +30,7 @@
 
 module Settings
   ##
-  # A text field to enter numeric values.
+  # A select field to select a time zone from.
   class TimeZoneSettingComponent < ::ApplicationComponent
     options :form, :title
     options container_class: "-wide"

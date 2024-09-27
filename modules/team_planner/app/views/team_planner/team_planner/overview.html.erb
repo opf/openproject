@@ -1,7 +1,18 @@
 <% html_title(t('team_planner.label_team_planner_plural')) -%>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t('team_planner.label_team_planner_plural') }
+    header.with_breadcrumbs([{ href: home_path, text: organization_name},
+                             t('team_planner.label_team_planner_plural')])
+  end
+%>
 
-<%= toolbar title: t(:'team_planner.label_team_planner_plural') do %>
-  <%= render ::TeamPlanner::AddButtonComponent.new %>
-<% end %>
+<%=
+  render Primer::OpenProject::SubHeader.new do |subheader|
+    subheader.with_action_component(data: { "test-selector": "add-team-planner-button"}) do
+      render ::TeamPlanner::AddButtonComponent.new
+    end
+  end
+%>
 
 <%= render ::TeamPlanner::Overview::TableComponent.new(rows: @views, current_user: current_user) %>

@@ -278,8 +278,6 @@ pt-PT:
           As alterações podem demorar algum tempo a entrar em vigor. Receberá uma notificação quando todos os pacotes de trabalho relevantes forem atualizados.
           Tem a certeza de que quer continuar?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          Alterar o modo de cálculo do progresso de "baseado no estado" para "baseado no trabalho" fará com que a <i>% de conclusão</i> seja um campo não editável cujo valor é derivado de <i>Trabalho</i> e <i>Trabalho restante</i>. Os valores existentes para a <i>% de conclusão</i> são preservados. Se os valores para <i>Trabalho</i> e <i>Trabalho restante</i> não estiverem presentes, eles serão necessários para alterar a <i>% de conclusão</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
           Se alterar o modo de cálculo do progresso de baseado no estado para baseado no trabalho, o campo <i>% de conclusão</i> poderá ser editado livremente. Se, opcionalmente, introduzir valores para <i>Trabalho</i> ou <i>Trabalho restante</i>, estes também serão associado a <i>% de conclusão</i>. Se alterar o <i>Trabalho restante</i>, pode atualizar a <i>% de conclusão</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
@@ -612,7 +610,9 @@ pt-PT:
         mentioned: "Mencionado"
         watched: "Observador"
         assigned: "Pessoa atribuída"
-        accountable: "Responsável"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "Criado"
         scheduled: "Agendado"
         commented: "Comentado"

@@ -159,7 +159,7 @@ RSpec.describe "Assigned to me embedded query on my page", :js do
     project_field.set_value project.name
 
     embedded_table.expect_toast(
-      message: "Successful creation. Click here to open this work package in fullscreen view."
+      message: "Successful creation."
     )
 
     wp = WorkPackage.last
