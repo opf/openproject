@@ -48,7 +48,6 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
 <% content_for :content_body_right do %>
-  <%# When we update the split screen from a turbo frame requset, the title is not correctly updated (Hack for #57705) %>
   <%= render(split_view_instance) if render_work_package_split_view? %>
 <% end %>
 

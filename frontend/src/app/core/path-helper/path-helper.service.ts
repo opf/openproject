@@ -272,6 +272,14 @@ export class PathHelperService {
     return `${this.projectWorkPackagesPath(projectIdentifier)}/details/${workPackageId}`;
   }
 
+  public workPackagePrimerDetailsPath(projectIdentifier:string|null, workPackageId:string|number, tab = 'activity') {
+    if (projectIdentifier) {
+      return `${this.projectWorkPackagesPath(projectIdentifier)}/details/${workPackageId}/${tab}`;
+    }
+
+    return `${this.workPackagesPath()}/details/${workPackageId}/${tab}`;
+  }
+
   public workPackageDetailsCopyPath(projectIdentifier:string, workPackageId:string|number) {
     return this.workPackageDetailsPath(projectIdentifier, workPackageId, 'copy');
   }

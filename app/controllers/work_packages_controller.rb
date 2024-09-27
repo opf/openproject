@@ -32,6 +32,7 @@ class WorkPackagesController < ApplicationController
   include Layout
   include WorkPackagesControllerHelper
   include OpTurbo::DialogStreamHelper
+  include WorkPackages::WithSplitView
 
   accept_key_auth :index, :show
 
@@ -40,9 +41,9 @@ class WorkPackagesController < ApplicationController
   before_action :load_and_authorize_in_optional_project,
                 :check_allowed_export,
                 :protect_from_unauthorized_export, only: %i[index export_dialog]
-  authorization_checked! :index, :show, :export_dialog
+  authorization_checked! :index, :show, :export_dialog, :split_view
 
-  before_action :load_and_validate_query, only: :index
+  before_action :load_and_validate_query, only: %i[index split_view]
   before_action :load_work_packages, only: :index, if: -> { request.format.atom? }
   before_action :load_and_validate_query_for_export, only: :export_dialog
 
@@ -85,11 +86,31 @@ class WorkPackagesController < ApplicationController
     end
   end
 
+  def split_view
+    respond_to do |format|
+      format.html do
+        if turbo_frame_request?
+          render "work_packages/split_view", layout: false
+        else
+          render :index
+        end
+      end
+    end
+  end
+
   def export_dialog
     respond_with_dialog WorkPackages::Exports::ModalDialogComponent.new(query: @query, project: @project, title: params[:title])
   end
 
   protected
+
+  def split_view_base_route
+    if @project
+      project_work_packages_path(@project, request.query_parameters)
+    else
+      work_packages_path(request.query_parameters)
+    end
+  end
 
   def load_and_validate_query_for_export
     load_and_validate_query

@@ -93,6 +93,14 @@ Rails.application.routes.draw do
     end
   end
 
+  concern :with_split_view do |options|
+    get "details/:work_package_id(/:tab)",
+        action: options.fetch(:action, :split_view),
+        defaults: { tab: :overview },
+        as: :details,
+        work_package_split_view: true
+  end
+
   scope controller: "account" do
     get "/account/force_password_change", action: "force_password_change"
     post "/account/change_password", action: "change_password"
@@ -317,21 +325,16 @@ Rails.application.routes.draw do
     # work as a catchall for everything under /wiki
     get "wiki" => "wiki#show"
 
-    resources :work_packages, only: [] do
+    resources :work_packages, only: %i[index show new] do
       collection do
+        concerns :with_split_view, base_route: :project_work_packages_path
+
         get "/report/:detail" => "work_packages/reports#report_details"
         get "/report" => "work_packages/reports#report"
         get "menu" => "work_packages/menus#show"
         get "/export_dialog" => "work_packages#export_dialog"
+        get :new_split
       end
-
-      # states managed by client-side routing on work_package#index
-      get "(/*state)" => "work_packages#index", on: :collection, as: ""
-      get "/create_new" => "work_packages#index", on: :collection, as: "new_split"
-      get "/new" => "work_packages#index", on: :collection, as: "new"
-
-      # state for show view in project context
-      get "(/*state)" => "work_packages#show", on: :member, as: ""
     end
 
     resources :activity, :activities, only: :index, controller: "activities" do
@@ -727,14 +730,6 @@ Rails.application.routes.draw do
   get "/robots" => "homescreen#robots", defaults: { format: :txt }
 
   root to: "account#login"
-
-  concern :with_split_view do |options|
-    get "details/:work_package_id(/:tab)",
-        action: options.fetch(:action, :split_view),
-        defaults: { tab: :overview },
-        as: :details,
-        work_package_split_view: true
-  end
 
   resources :notifications, only: :index do
     collection do

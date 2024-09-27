@@ -41,10 +41,10 @@ module Pages
       if original_work_package
         project_work_package_path(original_work_package.project, original_work_package.id) + "/copy"
       elsif parent_work_package
-        new_project_work_packages_path(parent_work_package.project.identifier,
-                                       parent_id: parent_work_package.id)
+        new_project_work_package_path(parent_work_package.project.identifier,
+                                      parent_id: parent_work_package.id)
       elsif project
-        new_project_work_packages_path(project.identifier)
+        new_project_work_package_path(project.identifier)
       end
     end
   end

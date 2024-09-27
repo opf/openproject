@@ -84,7 +84,7 @@ export class WorkPackagePrimerizedListViewComponent extends WorkPackageListViewC
     let link:string;
 
     if (this.currentProject.identifier) {
-      link = this.pathHelper.workPackageDetailsPath(this.currentProject.identifier, workPackageId, tabIdentifier);
+      link = this.pathHelper.workPackagePrimerDetailsPath(this.currentProject.identifier, workPackageId, tabIdentifier);
     } else {
       link = this.pathHelper.workPackageDetailsPath(workPackageId, tabIdentifier);
     }

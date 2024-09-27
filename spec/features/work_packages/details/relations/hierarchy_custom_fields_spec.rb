@@ -45,7 +45,7 @@ RSpec.describe "creating a child directly after the wp itself was created", :js 
 
   before do
     login_as user
-    visit new_project_work_packages_path(project.identifier, type: type.id)
+    visit new_project_work_package_path(project.identifier, type: type.id)
     expect_angular_frontend_initialized
     loading_indicator_saveguard
   end
