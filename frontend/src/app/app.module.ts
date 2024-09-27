@@ -237,6 +237,9 @@ import {
 } from 'core-app/shared/components/attribute-help-texts/static-attribute-help-text.component';
 import { appBaseSelector, ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
 import { SpotSwitchComponent } from 'core-app/spot/components/switch/switch.component';
+import {
+  WorkPackagePrimerizedListViewComponent,
+} from 'core-app/features/work-packages/routing/wp-list-view/wp-primerized-list-view.component';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -466,5 +469,6 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-global-search-tabs', GlobalSearchTabsComponent, { injector });
     registerCustomElement('opce-zen-mode-toggle-button', ZenModeButtonComponent, { injector });
     registerCustomElement('opce-colors-autocompleter', ColorsAutocompleterComponent, { injector });
+    registerCustomElement('opce-work-packages-list', WorkPackagePrimerizedListViewComponent, { injector });
   }
 }
