@@ -32,11 +32,15 @@ If you have not used our Meetings module, you should consider starting it now. W
 
 ![Screenshot of the OpenProject meetings module, showing the notification: This page has been updated by someone else. Reload to view changes.](openproject-14-6-meetings-reload.png)
 
-### Enable a custom field for multiple projects at once
+### Enable and disable a custom field for multiple projects at once
 
-Text
+In OpenProject 14.6, administrators can now save time by enabling or disabling custom fields for multiple projects simultaneously. This feature streamlines the process of managing custom fields across projects, making it easier and more efficient for administrators.
 
-Screenshot
+A new tab navigation has been introduced under *Administration* > *Custom Fields*, similar to the project attributes interface. This section displays a list of all projects where a specific custom field is activated. Administrators can easily add or remove projects from the list using a menu within each row, without the need for confirmation. 
+
+Additionally, users can include sub-projects when adding, which automatically selects all sub-projects within the hierarchy. Already added projects are visible but deactivated in the dropdown.
+
+![Screenshot showing the new administration page to add custom fields to multiple projects](openproject-14-6-custom-field-highlighted.png)
 
 ### Use relative work package attribute macros
 
