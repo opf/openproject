@@ -119,7 +119,7 @@ RSpec.describe "Project Custom Field Mappings", :js do
       expect(page).to have_text(subproject.name)
 
       aggregate_failures "pagination links maintain the correct url" do
-        project_custom_field_mappings_page.expect_correct_pagination_links(model: project_custom_field)
+        project_custom_field_mappings_page.expect_correct_pagination_options(model: project_custom_field)
       end
     end
 

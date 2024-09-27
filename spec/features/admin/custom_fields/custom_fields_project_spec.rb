@@ -115,7 +115,7 @@ RSpec.describe "Custom Fields Multi-Project Activation", :js do
       expect(page).to have_text(subproject.name)
 
       aggregate_failures "pagination links maintain the correct url" do
-        custom_field_projects_page.expect_correct_pagination_links(model: custom_field)
+        custom_field_projects_page.expect_correct_pagination_options(model: custom_field)
       end
     end
 

@@ -147,6 +147,18 @@ module Pages
         end
       end
 
+      def expect_correct_pagination_options(model:)
+        within ".op-pagination--options" do
+          pagination_links = page.all(".op-pagination--item-link")
+          expect(pagination_links.size).to be_positive
+
+          pagination_links.each do |pagination_link|
+            uri = URI.parse(pagination_link["href"])
+            expect(uri.path).to eq(path(model))
+          end
+        end
+      end
+
       def expect_filters_container_toggled
         expect(page).to have_css(".op-filters-form")
       end
