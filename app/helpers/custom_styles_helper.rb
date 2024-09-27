@@ -42,6 +42,12 @@ module CustomStylesHelper
         label: t(:"admin.custom_styles.tab_branding")
       },
       {
+        name: "default_colors",
+        partial: "custom_styles/default_colors",
+        path: custom_style_path(tab: :default_colors),
+        label: t(:"admin.custom_styles.tab_default_colors")
+      },
+      {
         name: "pdf_export_styles",
         partial: "custom_styles/pdf_export_styles",
         path: custom_style_path(tab: :pdf_export_styles),
