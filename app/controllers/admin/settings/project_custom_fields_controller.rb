@@ -182,15 +182,8 @@ module Admin::Settings
         project_id: permitted_params.project_custom_field_project_mapping[:project_id]
       )
     rescue ActiveRecord::RecordNotFound
-      render_error_flash_message_via_turbo_stream(
-        message: t(:notice_file_not_found)
-      )
-      replace_via_turbo_stream(
-        component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
-          query: project_custom_field_mappings_query,
-          params: { custom_field: @custom_field }
-        )
-      )
+      render_error_flash_message_via_turbo_stream(message: t(:notice_file_not_found))
+      render_project_list(url_for_action: :project_mappings)
 
       respond_with_turbo_streams
     end
@@ -211,10 +204,8 @@ module Admin::Settings
         false
       end
     rescue ActiveRecord::RecordNotFound
-      render_error_flash_message_via_turbo_stream(
-        message: t(:notice_project_not_found)
-      )
-      render_project_list
+      render_error_flash_message_via_turbo_stream(message: t(:notice_project_not_found))
+      render_project_list(url_for_action: :project_mappings)
 
       respond_with_turbo_streams
     end

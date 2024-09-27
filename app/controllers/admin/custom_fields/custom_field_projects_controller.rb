@@ -137,15 +137,6 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
     respond_with_project_not_found_turbo_streams
   end
 
-  def update_project_list_via_turbo_stream(url_for_action: action_name)
-    update_via_turbo_stream(
-      component: Admin::CustomFields::CustomFieldProjects::TableComponent.new(
-        query: available_custom_fields_projects_query,
-        params: { custom_field: @custom_field, url_for_action: }
-      )
-    )
-  end
-
   def available_custom_fields_projects_query
     @available_custom_fields_projects_query = ProjectQuery.new(
       name: "custom-fields-projects-#{@custom_field.id}"
@@ -165,7 +156,7 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
 
   def respond_with_project_not_found_turbo_streams
     render_error_flash_message_via_turbo_stream message: t(:notice_project_not_found)
-    update_project_list_via_turbo_stream
+    render_project_list(url_for_action: :index)
 
     respond_with_turbo_streams
   end
