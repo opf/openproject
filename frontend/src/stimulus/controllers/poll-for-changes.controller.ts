@@ -39,9 +39,11 @@ export default class PollForChangesController extends ApplicationController {
     autoscrollEnabled: Boolean,
   };
 
-  static targets = ['reloadButton'];
+  static targets = ['reloadButton', 'reference'];
 
   declare reloadButtonTarget:HTMLLinkElement;
+  declare referenceTarget:HTMLElement;
+  declare readonly hasReferenceTarget:boolean;
 
   declare referenceValue:string;
   declare urlValue:string;
@@ -69,12 +71,20 @@ export default class PollForChangesController extends ApplicationController {
     clearInterval(this.interval);
   }
 
+  buildReference():string {
+    if (this.hasReferenceTarget) {
+      return this.referenceTarget.dataset.referenceValue as string;
+    }
+
+    return this.referenceValue;
+  }
+
   reloadButtonTargetConnected() {
     this.reloadButtonTarget.addEventListener('click', this.rememberCurrentScrollPosition.bind(this));
   }
 
   triggerTurboStream() {
-    void fetch(`${this.urlValue}?reference=${this.referenceValue}`, {
+    void fetch(`${this.urlValue}?reference=${this.buildReference()}`, {
       headers: {
         Accept: 'text/vnd.turbo-stream.html',
       },
