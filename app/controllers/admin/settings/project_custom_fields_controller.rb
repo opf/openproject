@@ -158,7 +158,7 @@ module Admin::Settings
       update_via_turbo_stream(
         component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
           query: project_custom_field_mappings_query,
-          params: { custom_field: @custom_field, url_for_action: }
+          params: params.merge({ custom_field: @custom_field, url_for_action: })
         )
       )
     end

@@ -26,18 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "support/pages/projects/index"
-
-module Pages
-  module Admin
-    module Settings
-      module ProjectCustomFields
-        class ProjectCustomFieldMappingsIndex < ::Pages::Admin::CustomFields::CustomFieldsProjects::CustomFieldProjectsIndex
-          def path(project_custom_field)
-            "/admin/settings/project_custom_fields/#{project_custom_field.id}/project_mappings"
+module Projects
+  module Concerns
+    module TableComponent
+      module StreamablePaginationLinksConstraints
+        # @override optional_pagination_options are passed to the pagination_options
+        # which are passed to #pagination_links_full in pagination_helper.rb
+        #
+        # In Turbo streamable components, we need to be able to specify the url_for(action:) so that links are
+        # generated in the context of the component index action, instead of any turbo stream actions performing
+        # partial updates on the page.
+        #
+        # params[:url_for_action] is passed to the pagination_options making it's way down to any pagination links
+        # that are generated via link_to which calls url_for which uses the params[:url_for_action] to specify
+        # the controller action that link_to should use.
+        #
+        # data-turbo-action="advance" is added to the pagination links ensure links pushState to the browser
+        #
+        def optional_pagination_options
+          super.tap do |options|
+            options[:params] = { action: params[:url_for_action] } if params[:url_for_action]
+            options[:turbo_action] = "advance"
           end
-
-          def row_id_prefix = "#settings-project-custom-fields-project-custom-field-mapping-row-component-project"
         end
       end
     end

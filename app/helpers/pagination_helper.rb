@@ -202,12 +202,27 @@ module PaginationHelper
     def link(text, target, attributes)
       new_attributes = attributes.dup
       new_attributes["data-turbo-stream"] = true if turbo?
+      new_attributes["data-turbo-action"] = turbo_action if turbo_action.present?
 
       super(text, target, new_attributes)
     end
 
     def allowed_params
       @options[:allowed_params] # rubocop:disable Rails/HelperInstanceVariable
+    end
+
+    # Customize the Turbo visit action for pagination links. Can be set to "advance" or "replace".
+    #  "advance" - push a new entry onto the history stack.
+    #  "replace" - replace the current history entry.
+    # See: https://turbo.hotwired.dev/reference/attributes
+    #
+    # Example: Promoting a Frame Navigation to a Page Visit
+    #   By default navigation within a turbo frame does not change the rest of the browser's state,
+    #   but you can promote a frame navigation a "Visit" by setting the turbo-action attribute to "advance".
+    #   See: https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit
+    #
+    def turbo_action
+      @options[:turbo_action] # rubocop:disable Rails/HelperInstanceVariable
     end
 
     def turbo?

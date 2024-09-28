@@ -373,5 +373,9 @@ module Projects
     def custom_field_column?(column)
       column.is_a?(::Queries::Projects::Selects::CustomField)
     end
+
+    def current_page
+      table.model.current_page.to_s
+    end
   end
 end
