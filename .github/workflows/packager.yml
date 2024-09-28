@@ -1,0 +1,62 @@
+name: Package
+on: 
+  push:
+    branches:
+      - feature/package-via-github-actions
+      - dev
+      - release/*
+      - stable/*
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: app
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: p4ssw0rd
+        ports:
+          - 5432:5432
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - debian:10
+          - debian:11
+          - debian:12
+          - ubuntu:20.04
+          - ubuntu:22.04
+          - ubuntu:24.04
+          - el:8
+          - el:9
+          - sles:15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup
+        id: setup
+        run: |
+          VERSION=$(ruby -r ./lib/open_project/version.rb -e "puts OpenProject::VERSION")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Package
+        uses: pkgr/action/package@v1
+        id: package
+        with:
+          target: ${{ matrix.target }}
+          version: ${{ steps.setup.outputs.version }}
+          debug: true
+          env: |
+            DATABASE_URL=postgres://app:p4ssw0rd@127.0.0.1:5432/app
+      - name: Publish
+        uses: pkgr/action/publish@v1
+        with:
+          target: ${{ matrix.target }}
+          token: ${{ secrets.PACKAGER_PUBLISH_TOKEN }}
+          repository: opf/openproject
+          channel: test
+          artefact: ${{ steps.package.outputs.package_path }}
