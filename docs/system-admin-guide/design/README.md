@@ -11,16 +11,21 @@ As an OpenProject Enterprise add-on you can replace the default  OpenProject log
 
 Navigate to *Administration* -> *Design* in order to customize your OpenProject theme and logo.
 
-The design page provides several options to customize your OpenProject Enterprise edition:
+The design page provides several options to customize your OpenProject Enterprise edition, grouped under three tabs, **Interface, Branding, PDF export styles**. You can [choose a color theme](#choose-a-color-theme) under any of these tabs. 
 
-1. Choose a default color theme: OpenProject, Light or Dark. Press the Save button to apply your changes.
-2. Upload your own **custom logo** to replace the default OpenProject logo.
-3. Set a custom **favicon** which is shown as an icon in your browser window/tab.
-4. Upload a custom **touch icon** which is shown on your smartphone or tablet when you bookmark OpenProject on your home screen.
-5. Set the **Custom PDF export settings** for [exporting work packages in a PDF format](../../user-guide/work-packages/exporting/#pdf-export).
-6. [Advanced settings](#advanced-settings) to configure **custom colors** to adjust nearly any aspect of OpenProject, such  as the color of the header and side menu, the link color and the hover color.
+Under **Interface** you can also set [the interface colors](#interface-colors) to configure **custom colors** to adjust nearly any aspect of OpenProject, such  as the color of the header and side menu, the link color and the hover color.
 
-![Design settings in an OpenProject system admin guide](openproject_system_guide_design.png)
+UPDATE SCREENSHOT
+
+Under the **Branding** tab you can also [upload a custom logo](#upload-a-custom-logo) to replace the default OpenProject logo, [set a custom favicon](#set-a-custom-favicon), which is shown as an icon in your browser window/tab, and [upload a custom touch icon](#set-a-custom-touch-icon), which is shown on your smartphone or tablet when you bookmark OpenProject on your home screen.
+
+ UPDATE SCREENSHOT
+
+Under **PDF export settings** you can set the preferences for [exporting work packages in a PDF format](../../user-guide/work-packages/exporting/#pdf-export).
+
+UPDATE SCREENSHOT
+
+
 
 ## Choose a color theme
 
@@ -60,7 +65,7 @@ Click the *Upload* button to confirm and upload your custom touch icon.
 
 When you bookmark your OpenProject environment’s URL, you will see that the uploaded icon is used as a custom touch icon.
 
-## Advanced settings
+## Interface colors
 
 Aside from uploading logos and icons, you can also customize the colors used within your OpenProject environment.
 
@@ -70,6 +75,6 @@ To do this change the color values (entered as color hex code) in the *Advanced 
 > [!TIP]
 > If the button color you select is too light to have white text on top of it, the icon and text color will be displayed in black instead.
 
-![Advanced color settings in OpenProject](openproject_system_guide_design_advanced_settings_primer.png)
+![Advanced color settings in OpenProject](openproject_system_guide_design_interface_colors.png)
 
 As soon as you press the **Save** button your changes are applied and the colors of your OpenProject environment are adjusted accordingly.
