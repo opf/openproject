@@ -256,7 +256,7 @@ RSpec.describe "Authentication Stages" do
         # Decline the consent
         click_on I18n.t(:button_decline)
 
-        expect_primerized_error("foo@example.org")
+        expect_primerized_flash(type: :error, message: "foo@example.org")
       end
     end
   end

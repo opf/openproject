@@ -4,8 +4,8 @@ module Toasts
       if toast_type == :angular
         expect(page).to have_css(".op-toast.-#{type}", text: message, wait:)
       elsif type == :error
-        ActiveSupport::Deprecation.warn("Use `expect_primerized_error(message)` instead of expect_toast with type: :error")
-        expect_primerized_error(message)
+        ActiveSupport::Deprecation.warn("Use `expect_primerized_flash(type: :error, message: message)` instead of expect_toast with type: :error")
+        expect_primerized_flash(type: :error, message:)
       elsif type == :success
         ActiveSupport::Deprecation.warn(
           "Use `expect_primerized_flash(type: :success, message:)` instead of expect_toast with type: :success"

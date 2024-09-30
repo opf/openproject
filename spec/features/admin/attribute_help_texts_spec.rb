@@ -113,7 +113,7 @@ RSpec.describe "Attribute help texts", :js, :with_cuprite do
         click_button "Save"
 
         # Handle errors
-        expect_primerized_error("Help text can't be blank.")
+        expect_primerized_flash(type: :error, message: "Help text can't be blank.")
         SeleniumHubWaiter.wait
         editor.set_markdown("New**help**text")
         click_button "Save"

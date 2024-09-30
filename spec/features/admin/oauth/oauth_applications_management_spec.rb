@@ -49,14 +49,14 @@ RSpec.describe "OAuth applications management", :js, :with_cuprite do
     fill_in "application_redirect_uri", with: "not a url!"
     click_on "Create"
 
-    expect_primerized_error("Redirect URI must be an absolute URI.")
+    expect_primerized_flash(type: :error, message: "Redirect URI must be an absolute URI.")
 
     fill_in("application_redirect_uri", with: "")
     # Fill redirect_uri which does not provide a Secure Context
     fill_in "application_redirect_uri", with: "http://example.org"
     click_on "Create"
 
-    expect_primerized_error('Redirect URI is not providing a "Secure Context"')
+    expect_primerized_flash(type: :error, message: 'Redirect URI is not providing a "Secure Context"')
 
     # Can create localhost without https (https://community.openproject.com/wp/34025)
     fill_in "application_redirect_uri", with: "urn:ietf:wg:oauth:2.0:oob\nhttp://localhost/my/callback"

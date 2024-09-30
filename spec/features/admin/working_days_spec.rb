@@ -141,7 +141,7 @@ RSpec.describe "Working Days", :js, :with_cuprite do
         dialog.confirm
       end
 
-      expect_primerized_error("At least one day of the week must be defined as a working day.")
+      expect_primerized_flash(type: :error, message: "At least one day of the week must be defined as a working day.")
       # Restore the checkboxes to their valid state
       expect(page).to have_checked_field "Monday"
       expect(page).to have_checked_field "Tuesday"
@@ -171,7 +171,8 @@ RSpec.describe "Working Days", :js, :with_cuprite do
       # Not executing the background jobs
       dialog.confirm
 
-      expect_primerized_error("The previous changes to the working days configuration have not been applied yet.")
+      expect_primerized_flash(type: :error,
+                              message: "The previous changes to the working days configuration have not been applied yet.")
     end
   end
 

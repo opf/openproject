@@ -60,7 +60,8 @@ RSpec.describe "Enterprise token", :js, :with_cuprite do
       submit_button.click
 
       # Error output
-      expect_primerized_error("Enterprise support token can't be read. Are you sure it is a support token?")
+      expect_primerized_flash(type: :error,
+                              message: "Enterprise support token can't be read. Are you sure it is a support token?")
 
       within "span.errorSpan" do
         expect(page).to have_css("#enterprise_token_encoded_token")

@@ -33,7 +33,7 @@ module Components
     include Capybara::DSL
     include Capybara::RSpecMatchers
     include RSpec::Matchers
-    include PrimerizedFlash::Expectations
+    include Flash::Expectations
 
     attr_reader :time_logging_modal
 

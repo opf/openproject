@@ -144,13 +144,13 @@ RSpec.describe "random password generation", :js, :with_cuprite do
       fill_in "user_password", with: "adminADMIN"
       fill_in "user_password_confirmation", with: "adminADMIN"
       scroll_to_and_click(find(".button", text: "Save"))
-      expect_primerized_error("Password Must contain characters of the following classes")
+      expect_primerized_flash(type: :error, message: "Password Must contain characters of the following classes")
 
       # 2 of 3 classes
       fill_in "user_password", with: "adminADMIN123"
       fill_in "user_password_confirmation", with: "adminADMIN123"
       scroll_to_and_click(find(".button", text: "Save"))
-      expect_primerized_error("Password Must contain characters of the following classes")
+      expect_primerized_flash(type: :error, message: "Password Must contain characters of the following classes")
 
       # All classes
       fill_in "user_password", with: "adminADMIN!"

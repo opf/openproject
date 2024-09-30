@@ -111,10 +111,11 @@ RSpec.describe "Bulk update work packages through Rails view", :js, :with_cuprit
         fill_in "Parent", with: "-1"
         click_on "Submit"
 
-        expect_primerized_error(I18n.t("work_packages.bulk.none_could_be_saved", total: 2))
-        expect_primerized_error("#{work_package.id}: Parent #{I18n.t('activerecord.errors.messages.does_not_exist')}")
+        expect_primerized_flash(type: :error, message: I18n.t("work_packages.bulk.none_could_be_saved", total: 2))
+        expect_primerized_flash(type: :error,
+                                message: "#{work_package.id}: Parent #{I18n.t('activerecord.errors.messages.does_not_exist')}")
 
-        expect_primerized_error(
+        expect_primerized_flash(type: :error, message:
           <<~MSG.squish
             #{work_package2.id}:
             Parent #{I18n.t('activerecord.errors.messages.does_not_exist')}
@@ -142,11 +143,10 @@ RSpec.describe "Bulk update work packages through Rails view", :js, :with_cuprit
             fill_in custom_field.name, with: "Custom field text"
             click_on "Submit"
 
-            expect_primerized_error(
-              I18n.t("work_packages.bulk.x_out_of_y_could_be_saved", total: 2, failing: 1, success: 1)
-            )
+            expect_primerized_flash(type: :error, message:
+              I18n.t("work_packages.bulk.x_out_of_y_could_be_saved", total: 2, failing: 1, success: 1))
 
-            expect_primerized_error(
+            expect_primerized_flash(type: :error, message:
               <<~MSG.squish
                 #{work_package2.id}:
                 #{custom_field.name} #{I18n.t('activerecord.errors.messages.error_readonly')}

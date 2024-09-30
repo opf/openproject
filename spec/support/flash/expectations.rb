@@ -1,9 +1,5 @@
-module PrimerizedFlash
+module Flash
   module Expectations
-    def expect_primerized_error(message)
-      expect_primerized_flash(message:, type: :error)
-    end
-
     def expect_primerized_flash(message:, type: :success, wait: 20)
       expected_css = expected_flash_css(type)
       expect(page).to have_css(expected_css, text: message, wait:)
@@ -66,5 +62,5 @@ module PrimerizedFlash
 end
 
 RSpec.configure do |config|
-  config.include PrimerizedFlash::Expectations
+  config.include Flash::Expectations
 end
