@@ -119,7 +119,7 @@ class Storages::ProjectStoragesController < ApplicationController
     redirect_to(
       project_overview_path(project_id: @project.identifier),
       op_modal: {
-        component: "Storages::OpenProjectStorageModalComponent",
+        component: Storages::OpenProjectStorageModalComponent.name,
         parameters: {
           project_storage_open_url: request.path,
           redirect_url: api_v3_project_storage_open,

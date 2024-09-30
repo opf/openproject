@@ -51,7 +51,9 @@ module FlashMessagesHelper
   end
 
   def render_op_modal_flash_component(component:, parameters: {})
-    component.constantize.new(**parameters).render_in(self)
+    component = component.constantize if component.is_a?(String)
+
+    component.new(**parameters).render_in(self)
   rescue NameError => e
     Rails.logger.error { "Could not render flash component #{component}: #{e.message}" }
   end

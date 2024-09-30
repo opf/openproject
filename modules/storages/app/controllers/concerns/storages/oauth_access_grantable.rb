@@ -54,21 +54,21 @@ module Storages
 
     def project_storage_oauth_access_grant_nudge_modal(project_storage:)
       {
-        component: ::Storages::ProjectStorages::OAuthAccessGrantNudgeModalComponent.name,
+        component: ::Storages::ProjectStorages::OAuthAccessGrantNudgeModalComponent,
         parameters: { project_storage: project_storage.id }
       }
     end
 
     def project_storage_oauth_access_granted_modal(storage:)
       {
-        component: ::Storages::ProjectStorages::OAuthAccessGrantedModalComponent.name,
+        component: ::Storages::ProjectStorages::OAuthAccessGrantedModalComponent,
         parameters: { storage: storage.id }
       }
     end
 
     def storage_oauth_access_granted_modal(storage:)
       {
-        component: ::Storages::Admin::Storages::OAuthAccessGrantedModalComponent.name,
+        component: ::Storages::Admin::Storages::OAuthAccessGrantedModalComponent,
         parameters: { storage: storage.id }
       }
     end

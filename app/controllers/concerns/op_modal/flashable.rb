@@ -35,11 +35,11 @@ module OpModal
     end
 
     def flash_op_modal(component:, parameters: {})
-      flash[:op_modal] = { component:, parameters: }
+      flash[:op_modal] = { component: component.name, parameters: }
     end
 
     def store_callback_op_modal_flash(component:, parameters: {})
-      session[:callback_op_modal] = { component:, parameters: }
+      session[:callback_op_modal] = { component: component.name, parameters: }
     end
 
     def retrieve_callback_op_modal_flash

@@ -12,7 +12,7 @@ To flash a modal, set a `flash[:op_modal]` hash in your controller action. The h
 Ex.
 
 ```ruby
-flash_op_modal component: ::Storages::ProjectStorages::OAuthAccessGrantedModalComponent.name,
+flash_op_modal component: ::Storages::ProjectStorages::OAuthAccessGrantedModalComponent,
                parameters: { storage: storage.id }
 ```
 
@@ -27,7 +27,7 @@ Ex.
 ```ruby
 # Controller action that performs the open redirect
 def redirect_to_external_service
-  store_callback_op_modal_flash component: ::Storages::ProjectStorages::OAuthAccessGrantedModalComponent.name,
+  store_callback_op_modal_flash component: ::Storages::ProjectStorages::OAuthAccessGrantedModalComponent,
                                 parameters: { storage: storage.id }
   redirect_to external_service_url
 end
