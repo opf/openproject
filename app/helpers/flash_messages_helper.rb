@@ -54,8 +54,6 @@ module FlashMessagesHelper
     component = component.constantize if component.is_a?(String)
 
     component.new(**parameters).render_in(self)
-  rescue NameError => e
-    Rails.logger.error { "Could not render flash component #{component}: #{e.message}" }
   end
 
   def render_flash_message(type, message, html_options = {}) # rubocop:disable Metrics/AbcSize
