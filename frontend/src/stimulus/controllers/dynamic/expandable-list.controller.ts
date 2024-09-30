@@ -30,7 +30,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-export default class ExxpandableListController extends Controller {
+export default class ExpandableListController extends Controller {
   static targets = ['hiddenElements', 'showButton'];
   declare readonly hiddenElementsTarget:HTMLElement;
   declare readonly showButtonTarget:HTMLElement;
