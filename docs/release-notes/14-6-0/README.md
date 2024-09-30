@@ -63,7 +63,8 @@ Before 14.6, OpenProject's editors, such as in the work package description, did
 ### See past meetings included in the number next to the Meetings tab
 
 On the Meetings tab in the split screen view, the number next to the “Meetings (2)” tab should include both current and past meetings. Previously, only future meetings were counted. So if you use the Meetings module and reference work packages there, you may notice a higher number on the work package tab for meetings.
-
+### Changes to design settings in administration
+[Design settings in OpenProject administration](../../system-admin-guide/design) were split into several sections, to make navigation easier and eliminate scrolling down the page to find the correct setting.
 <!--more-->
 
 ## Bug fixes and changes
