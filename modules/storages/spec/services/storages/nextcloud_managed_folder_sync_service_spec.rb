@@ -185,7 +185,10 @@ module Storages
         end
 
         # No AuthStrategy on GroupUsers
-        allow(group_users).to receive(:call).with(storage:, group: storage.group).and_return(group_users_result)
+        allow(group_users).to receive(:call).with(storage:,
+                                                  auth_strategy:,
+                                                  group: storage.group)
+                                            .and_return(group_users_result)
         # Updating the group users
         allow(add_user).to receive(:call).with(storage:,
                                                auth_strategy:,

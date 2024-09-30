@@ -34,47 +34,51 @@ module Storages
       module Nextcloud
         class GroupUsersQuery
           include TaggedLogging
-          using ServiceResultRefinements
 
-          def self.call(storage:, group: storage.group)
-            new(storage).call(group:)
+          def self.call(storage:, auth_strategy:, group:)
+            new(storage).call(auth_strategy:, group:)
           end
 
           def initialize(storage)
             @storage = storage
-            @username = storage.username
-            @password = storage.password
+          end
+
+          def call(auth_strategy:, group:)
+            with_tagged_logger do
+              Authentication[auth_strategy].call(storage: @storage, http_options:) do |http|
+                url = UrlBuilder.url(@storage.uri, "ocs/v1.php/cloud/groups", group)
+                info "Requesting user list for group #{group} via url #{url} "
+
+                handle_response(http.get(url))
+              end
+            end
+          end
+
+          private
+
+          def http_options
+            Util.ocs_api_request
           end
 
           # rubocop:disable Metrics/AbcSize
-          def call(group:)
-            with_tagged_logger do
-              url = UrlBuilder.url(@storage.uri, "ocs/v1.php/cloud/groups", CGI.escapeURIComponent(group))
+          def handle_response(response)
+            error_data = StorageErrorData.new(source: self.class, payload: response)
 
-              info "Requesting user list for group #{group} via url #{url} "
-              response = OpenProject.httpx
-                                    .basic_auth(@username, @password)
-                                    .with(headers: { "OCS-APIRequest" => "true" })
-                                    .get(url)
-
-              error_data = StorageErrorData.new(source: self.class, payload: response)
-
-              case response
-              in { status: 200..299 }
-                group_users = Nokogiri::XML(response.body.to_s).xpath("/ocs/data/users/element").map(&:text)
-                info "#{group_users.size} users found"
-                ServiceResult.success(result: group_users)
-              in { status: 405 }
-                Util.error(:not_allowed, "Outbound request method not allowed", error_data)
-              in { status: 401 }
-                Util.error(:unauthorized, "Outbound request not authorized", error_data)
-              in { status: 404 }
-                Util.error(:not_found, "Outbound request destination not found", error_data)
-              in { status: 409 }
-                Util.error(:conflict, error_text_from_response(response), error_data)
-              else
-                Util.error(:error, "Outbound request failed", error_data)
-              end
+            case response
+            in { status: 200..299 }
+              group_users = Nokogiri::XML(response.body.to_s).xpath("/ocs/data/users/element").map(&:text)
+              info "#{group_users.size} users found"
+              ServiceResult.success(result: group_users)
+            in { status: 405 }
+              Util.error(:not_allowed, "Outbound request method not allowed", error_data)
+            in { status: 401 }
+              Util.error(:unauthorized, "Outbound request not authorized", error_data)
+            in { status: 404 }
+              Util.error(:not_found, "Outbound request destination not found", error_data)
+            in { status: 409 }
+              Util.error(:conflict, error_text_from_response(response), error_data)
+            else
+              Util.error(:error, "Outbound request failed", error_data)
             end
           end
 
