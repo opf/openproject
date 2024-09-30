@@ -41,7 +41,7 @@ RSpec.describe "edit placeholder users", :js do
 
       click_on "Save"
 
-      expect_flash(message: "Successful update.")
+      expect_flash(type: :success, message: "Successful update.")
 
       placeholder_user.reload
 

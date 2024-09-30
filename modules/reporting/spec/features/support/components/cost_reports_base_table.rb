@@ -81,7 +81,7 @@ module Components
       SeleniumHubWaiter.wait
       fill_in("cost_entry_units", with: new_value)
       click_button "Save"
-      expect_flash(message: "Successful update.")
+      expect_flash(type: :success, message: "Successful update.")
     end
 
     def delete_entry(row)

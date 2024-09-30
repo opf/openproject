@@ -56,7 +56,7 @@ module Pages
 
       click_button "Save"
 
-      expect_toast message: "Successful creation."
+      expect_toast type: :success, message: "Successful creation."
       expect_title name
     end
 

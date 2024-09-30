@@ -90,7 +90,7 @@ RSpec.describe "description inplace editor", :js, :selenium do
       field.set_value "Edit to be saved by keyboard"
       field.submit_by_enter
 
-      wp_page.expect_toast message: I18n.t("js.notice_successful_update")
+      wp_page.expect_toast type: :success, message: I18n.t("js.notice_successful_update")
       field.expect_state_text "Edit to be saved by keyboard"
     end
   end
@@ -108,7 +108,7 @@ RSpec.describe "description inplace editor", :js, :selenium do
       field.expect_save_button(enabled: true)
       field.submit_by_click
 
-      wp_page.expect_toast message: I18n.t("js.notice_successful_update")
+      wp_page.expect_toast type: :success, message: I18n.t("js.notice_successful_update")
       field.expect_state_text "A new hope ..."
     end
   end

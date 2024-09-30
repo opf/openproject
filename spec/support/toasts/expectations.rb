@@ -12,7 +12,7 @@ module Toasts
         ActiveSupport::Deprecation.warn(
           "Use `expect_flash(type: :success, message:)` instead of expect_toast with type: :success"
         )
-        expect_flash(message:)
+        expect_flash(message:, type:)
       else
         raise NotImplementedError
       end

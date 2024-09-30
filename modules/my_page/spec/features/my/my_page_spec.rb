@@ -99,7 +99,7 @@ RSpec.describe "My page", :js do
 
   it "renders the default view, allows altering and saving" do
     # Waits for the default view to be created
-    my_page.expect_toast(message: "Successful update")
+    my_page.expect_toast(type: :success, message: "Successful update")
 
     assigned_area.expect_to_exist
     created_area.expect_to_exist

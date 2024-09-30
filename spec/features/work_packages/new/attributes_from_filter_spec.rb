@@ -169,7 +169,7 @@ RSpec.describe "Work package create uses attributes from filters", :js, :seleniu
         click_button "Save"
       end
 
-      wp_table.expect_toast(message: "Successful creation.")
+      wp_table.expect_toast(type: :success, message: "Successful creation.")
 
       wp = WorkPackage.last
       expect(wp.subject).to eq "Split Foobar!"
@@ -234,7 +234,7 @@ RSpec.describe "Work package create uses attributes from filters", :js, :seleniu
         click_button "Save"
       end
 
-      wp_table.expect_toast(message: "Successful creation.")
+      wp_table.expect_toast(type: :success, message: "Successful creation.")
 
       wp = WorkPackage.last
       expect(wp.subject).to eq "Split Foobar!"
@@ -265,7 +265,7 @@ RSpec.describe "Work package create uses attributes from filters", :js, :seleniu
         click_button "Save"
       end
 
-      wp_table.expect_toast(message: "Successful creation.")
+      wp_table.expect_toast(type: :success, message: "Successful creation.")
 
       wp = WorkPackage.last
       expect(wp.subject).to eq "Split Foobar!"

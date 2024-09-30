@@ -61,7 +61,7 @@ RSpec.describe "Work Package boards spec", :js, with_ee: %i[board_view] do
     board_page = board_index.open_board board_view
     board_page.expect_query "List 1", editable: true
     board_page.add_card "List 1", "Task 1"
-    board_page.expect_toast message: I18n.t(:notice_successful_create)
+    board_page.expect_toast type: :success, message: I18n.t(:notice_successful_create)
 
     wp = WorkPackage.last
     expect(wp.subject).to eq "Task 1"
@@ -85,7 +85,7 @@ RSpec.describe "Work Package boards spec", :js, with_ee: %i[board_view] do
 
     # Add a second card, focus on that
     board_page.add_card "List 1", "Foobar"
-    board_page.expect_toast message: I18n.t(:notice_successful_create)
+    board_page.expect_toast type: :success, message: I18n.t(:notice_successful_create)
 
     wp = WorkPackage.last
     expect(wp.subject).to eq "Foobar"
@@ -124,7 +124,7 @@ RSpec.describe "Work Package boards spec", :js, with_ee: %i[board_view] do
     board_page = board_index.open_board board_view
     board_page.expect_query "List 1", editable: true
     board_page.add_card "List 1", "Task 1"
-    board_page.expect_toast message: I18n.t(:notice_successful_create)
+    board_page.expect_toast type: :success, message: I18n.t(:notice_successful_create)
 
     wp = WorkPackage.last
     expect(wp.subject).to eq "Task 1"
@@ -154,7 +154,7 @@ RSpec.describe "Work Package boards spec", :js, with_ee: %i[board_view] do
     board_page = board_index.open_board board_view
     board_page.expect_query "List 1", editable: true
     board_page.add_card "List 1", "Task 1"
-    board_page.expect_toast message: I18n.t(:notice_successful_create)
+    board_page.expect_toast type: :success, message: I18n.t(:notice_successful_create)
 
     wp = WorkPackage.last
     expect(wp.subject).to eq "Task 1"
@@ -177,7 +177,7 @@ RSpec.describe "Work Package boards spec", :js, with_ee: %i[board_view] do
     board_page = board_index.open_board board_view
     board_page.expect_query "List 1", editable: true
     board_page.add_card "List 1", "Task 1"
-    board_page.expect_toast message: I18n.t(:notice_successful_create)
+    board_page.expect_toast type: :success, message: I18n.t(:notice_successful_create)
     wp = WorkPackage.last
     expect(wp.subject).to eq "Task 1"
 

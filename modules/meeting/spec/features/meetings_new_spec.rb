@@ -97,7 +97,7 @@ RSpec.describe "Meetings new", :js, with_cuprite: false do
 
           show_page = new_page.click_create
 
-          expect_flash(message: "Successful creation.")
+          expect_flash(type: :success, message: "Successful creation.")
 
           show_page.expect_invited(user, other_user)
 
@@ -178,7 +178,7 @@ RSpec.describe "Meetings new", :js, with_cuprite: false do
 
         show_page = new_page.click_create
 
-        expect_flash(message: "Successful creation.")
+        expect_flash(type: :success, message: "Successful creation.")
 
         # Not sure if that is then intended behaviour but that is what is currently programmed
         show_page.expect_invited(admin)
@@ -256,7 +256,7 @@ RSpec.describe "Meetings new", :js, with_cuprite: false do
 
           show_page = new_page.click_create
 
-          expect_flash(message: "Successful creation.")
+          expect_flash(type: :success, message: "Successful creation.")
 
           show_page.expect_invited(user, other_user)
 
@@ -317,7 +317,7 @@ RSpec.describe "Meetings new", :js, with_cuprite: false do
 
         show_page = new_page.click_create
 
-        expect_flash(message: "Successful creation.")
+        expect_flash(type: :success, message: "Successful creation.")
 
         # Not sure if that is then intended behaviour but that is what is currently programmed
         show_page.expect_invited(admin)
@@ -346,7 +346,7 @@ RSpec.describe "Meetings new", :js, with_cuprite: false do
 
         new_page.click_create
 
-        expect_flash(message: "Successful creation.")
+        expect_flash(type: :success, message: "Successful creation.")
 
         meeting = Meeting.last
 
@@ -354,7 +354,7 @@ RSpec.describe "Meetings new", :js, with_cuprite: false do
 
         field.submit_by_enter
 
-        expect_flash(message: "Successful update")
+        expect_flash(type: :success, message: "Successful update")
 
         meeting.reload
 

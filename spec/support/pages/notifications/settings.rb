@@ -128,7 +128,7 @@ module Pages
 
       def save
         click_button "Save"
-        expect_toast message: "Successful update."
+        expect_toast type: :success, message: "Successful update."
       end
     end
   end

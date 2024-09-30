@@ -39,14 +39,14 @@ RSpec.describe "Lost password" do
     fill_in "mail", with: "invalid mail"
     click_on "Submit"
 
-    expect_flash(message: I18n.t(:notice_account_lost_email_sent))
+    expect_flash(type: :success, message: I18n.t(:notice_account_lost_email_sent))
 
     perform_enqueued_jobs
     expect(ActionMailer::Base.deliveries.size).to be 0
 
     fill_in "mail", with: user.mail
     click_on "Submit"
-    expect_flash(message: I18n.t(:notice_account_lost_email_sent))
+    expect_flash(type: :success, message: I18n.t(:notice_account_lost_email_sent))
 
     perform_enqueued_jobs
     expect(ActionMailer::Base.deliveries.size).to be 1
@@ -79,7 +79,7 @@ RSpec.describe "Lost password" do
       fill_in "mail", with: user.mail
       click_on "Submit"
 
-      expect_flash(message: I18n.t(:notice_account_lost_email_sent))
+      expect_flash(type: :success, message: I18n.t(:notice_account_lost_email_sent))
 
       perform_enqueued_jobs
       expect(ActionMailer::Base.deliveries.size).to be 1
@@ -99,7 +99,7 @@ RSpec.describe "Lost password" do
       fill_in "mail", with: user.mail
       click_on "Submit"
 
-      expect_flash(message: I18n.t(:notice_account_lost_email_sent))
+      expect_flash(type: :success, message: I18n.t(:notice_account_lost_email_sent))
 
       perform_enqueued_jobs
       expect(ActionMailer::Base.deliveries.size).to be 1

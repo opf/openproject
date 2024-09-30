@@ -75,7 +75,7 @@ RSpec.describe "edit work package", :js do
       status_field.expect_state_text status_new.name
       status_field.update status_done.name
 
-      wp_page.expect_toast(message: "Successful update")
+      wp_page.expect_toast(type: :success, message: "Successful update")
       status_field.expect_state_text status_done.name
 
       subject_field = wp_page.work_package_field("subject")
@@ -91,7 +91,7 @@ RSpec.describe "edit work package", :js do
       status_field.expect_state_text status_new.name
       status_field.update status_done.name
 
-      wp_page.expect_toast(message: "Successful update")
+      wp_page.expect_toast(type: :success, message: "Successful update")
       status_field.expect_state_text status_done.name
     end
   end

@@ -60,7 +60,7 @@ RSpec.describe "Work Package budget fields", :js do
 
     create_page.save!
 
-    view_page.expect_toast(message: "Successful creation.")
+    view_page.expect_toast(type: :success, message: "Successful creation.")
 
     view_page.edit_field(:budget).expect_display_value budget.name
   end

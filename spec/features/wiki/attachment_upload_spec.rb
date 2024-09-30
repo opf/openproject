@@ -56,7 +56,7 @@ RSpec.describe "Upload attachment to wiki page", :js do
 
     click_on "Save"
 
-    expect_and_dismiss_flash(message: "Successful creation")
+    expect_and_dismiss_flash(type: :success, message: "Successful creation")
     expect(page).to have_css("#content img", count: 1)
     expect(page).to have_content("Image uploaded the first time")
     attachments_list.expect_attached("image.png")
@@ -113,7 +113,7 @@ RSpec.describe "Upload attachment to wiki page", :js do
 
     click_on "Save"
 
-    expect_and_dismiss_flash(message: "Successful creation")
+    expect_and_dismiss_flash(type: :success, message: "Successful creation")
     attachments_list.expect_attached("image.png")
 
     # required sleep otherwise clicking on the Edit button doesn't do anything

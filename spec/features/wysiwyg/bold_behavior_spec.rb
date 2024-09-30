@@ -58,7 +58,7 @@ RSpec.describe "Wysiwyg bold behavior", :js, :with_cuprite do
         # Save wiki page
         click_on "Save"
 
-        expect_flash(message: "Successful creation.")
+        expect_flash(type: :success, message: "Successful creation.")
 
         within("#content") do
           expect(page).to have_css("p") { |node|

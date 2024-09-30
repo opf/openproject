@@ -106,6 +106,6 @@ RSpec.describe "Invalid query spec", :js do
     wp_table.expect_work_package_listed work_package_assigned
     wp_table.save
 
-    wp_table.expect_toast(message: I18n.t("js.notice_successful_update"))
+    wp_table.expect_toast(type: :success, message: I18n.t("js.notice_successful_update"))
   end
 end

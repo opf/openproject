@@ -298,7 +298,7 @@ RSpec.describe "Copy work packages through Rails view", :js, :with_cuprite do
 
       click_on "Copy and follow"
 
-      expect_flash(message: I18n.t(:notice_successful_create))
+      expect_flash(type: :success, message: I18n.t(:notice_successful_create))
 
       wp_page = Pages::FullWorkPackage.new(WorkPackage.last)
 

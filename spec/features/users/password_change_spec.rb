@@ -60,7 +60,7 @@ RSpec.describe "random password generation", :js, :with_cuprite do
 
       click_on "Save"
 
-      expect_flash(message: "Successful update.")
+      expect_flash(type: :success, message: "Successful update.")
       expect(password).to be_present
 
       # Logout
@@ -126,7 +126,7 @@ RSpec.describe "random password generation", :js, :with_cuprite do
       find_by_id("settings_password_min_adhered_rules").set 3
 
       scroll_to_and_click(find(".button", text: "Save"))
-      expect_flash(message: "Successful update.")
+      expect_flash(type: :success, message: "Successful update.")
 
       Setting.clear_cache
 
@@ -156,7 +156,7 @@ RSpec.describe "random password generation", :js, :with_cuprite do
       fill_in "user_password", with: "adminADMIN!"
       fill_in "user_password_confirmation", with: "adminADMIN!"
       scroll_to_and_click(find(".button", text: "Save"))
-      expect_flash(message: I18n.t(:notice_successful_update))
+      expect_flash(type: :success, message: I18n.t(:notice_successful_update))
     end
   end
 

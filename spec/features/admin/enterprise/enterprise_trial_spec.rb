@@ -276,7 +276,7 @@ RSpec.describe "Enterprise trial management",
       # advance to close
       click_on "Continue"
 
-      expect_and_dismiss_flash(message: "Successful update.")
+      expect_and_dismiss_flash(type: :success, message: "Successful update.")
       expect(page).to have_css(".attributes-key-value--value-container", text: "OpenProject Test")
       expect(page).to have_css(".attributes-key-value--value-container", text: "01/01/2020")
       expect(page).to have_css(".attributes-key-value--value-container", text: "01/02/2020")

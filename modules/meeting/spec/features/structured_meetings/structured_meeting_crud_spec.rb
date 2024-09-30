@@ -86,7 +86,7 @@ RSpec.describe "Structured meetings CRUD",
   end
 
   it "can create a structured meeting and add agenda items" do
-    show_page.expect_toast(message: "Successful creation")
+    show_page.expect_toast(type: :success, message: "Successful creation")
 
     # Does not send invitation mails by default
     perform_enqueued_jobs
@@ -248,7 +248,7 @@ RSpec.describe "Structured meetings CRUD",
   end
 
   it "shows an error toast trying to update an outdated item" do
-    show_page.expect_toast(message: "Successful creation")
+    show_page.expect_toast(type: :success, message: "Successful creation")
 
     # Can add and edit a single item
     show_page.add_agenda_item do
@@ -271,7 +271,7 @@ RSpec.describe "Structured meetings CRUD",
   end
 
   it "can copy the meeting" do
-    show_page.expect_toast(message: "Successful creation")
+    show_page.expect_toast(type: :success, message: "Successful creation")
 
     # Can add and edit a single item
     show_page.add_agenda_item do
@@ -280,7 +280,7 @@ RSpec.describe "Structured meetings CRUD",
     end
 
     show_page.expect_agenda_item title: "My agenda item"
-    item = MeetingAgendaItem.find_by!(title: "My agenda item")
+    MeetingAgendaItem.find_by!(title: "My agenda item")
 
     click_on("op-meetings-header-action-trigger")
     click_on "Copy"
@@ -327,7 +327,7 @@ RSpec.describe "Structured meetings CRUD",
 
     context "when starting with empty sections" do
       it "can add, edit and delete sections" do
-        show_page.expect_toast(message: "Successful creation")
+        show_page.expect_toast(type: :success, message: "Successful creation")
 
         # create the first section
         show_page.add_section do

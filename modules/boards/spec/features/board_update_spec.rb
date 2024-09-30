@@ -50,7 +50,7 @@ RSpec.describe "Work Package boards updating spec", :js, with_ee: %i[board_view]
     board_page = board_index.open_board board_view
     board_page.expect_query "List 1", editable: true
     board_page.add_card "List 1", "Foo Bar"
-    board_page.expect_toast message: I18n.t(:notice_successful_create)
+    board_page.expect_toast type: :success, message: I18n.t(:notice_successful_create)
 
     work_package = WorkPackage.last
     expect(work_package.subject).to eq "Foo Bar"

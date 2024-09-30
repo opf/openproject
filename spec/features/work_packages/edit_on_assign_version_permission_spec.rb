@@ -43,7 +43,7 @@ RSpec.describe "edit work package", :js do
     it "can only change the version" do
       wp_page.update_attributes version: version.name
 
-      wp_page.expect_toast(message: "Successful update")
+      wp_page.expect_toast(type: :success, message: "Successful update")
       wp_page.expect_attributes version: version.name
 
       subject_field = wp_page.work_package_field("subject")

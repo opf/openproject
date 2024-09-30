@@ -191,7 +191,7 @@ RSpec.describe "Assigned to me embedded query on my page", :js do
 
     assigned_area.resize_to(1, 2)
 
-    my_page.expect_toast(message: I18n.t("js.notice_successful_update"))
+    my_page.expect_toast(type: :success, message: I18n.t("js.notice_successful_update"))
 
     assigned_area.expect_to_span(1, 1, 2, 3)
     # has been moved down by resizing

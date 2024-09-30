@@ -77,7 +77,7 @@ RSpec.describe "Enterprise token", :js, :with_cuprite do
         textarea.set "foobar"
         submit_button.click
 
-        expect_flash(message: I18n.t(:notice_successful_update))
+        expect_flash(type: :success, message: I18n.t(:notice_successful_update))
         expect(page).to have_test_selector("op-enterprise--active-token")
 
         expect(page.all(".attributes-key-value--key").map(&:text))
@@ -100,7 +100,7 @@ RSpec.describe "Enterprise token", :js, :with_cuprite do
 
         wait_for_reload
 
-        expect_flash(message: I18n.t(:notice_successful_update))
+        expect_flash(type: :success, message: I18n.t(:notice_successful_update))
 
         # Assume next request
         RequestStore.clear!
@@ -114,7 +114,7 @@ RSpec.describe "Enterprise token", :js, :with_cuprite do
 
         wait_for_reload
 
-        expect_flash(message: I18n.t(:notice_successful_delete))
+        expect_flash(type: :success, message: I18n.t(:notice_successful_delete))
 
         # Assume next request
         RequestStore.clear!

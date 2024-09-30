@@ -53,7 +53,7 @@ RSpec.describe "Wiki Activity", :js, :with_cuprite do
 
     click_button "Save"
 
-    expect_and_dismiss_flash(message: "Successful creation.")
+    expect_and_dismiss_flash(type: :success, message: "Successful creation.")
 
     # We mock letting some time pass by altering the timestamps
     Journal.last.update_columns(created_at: Time.now - 5.days, updated_at: Time.now - 5.days)

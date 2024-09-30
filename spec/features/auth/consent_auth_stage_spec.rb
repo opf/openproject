@@ -168,7 +168,7 @@ RSpec.describe "Authentication Stages" do
       find_by_id("toggle_consent_time").set(true)
 
       click_on "Save"
-      expect_flash(message: "Successful update.")
+      expect_flash(type: :success, message: "Successful update.")
 
       Setting.clear_cache
       expect(Setting.consent_time).to be_present
@@ -215,7 +215,7 @@ RSpec.describe "Authentication Stages" do
       check "consent_check"
       click_on I18n.t(:button_create)
 
-      expect_flash(message: I18n.t(:notice_account_registered_and_logged_in))
+      expect_flash(type: :success, message: I18n.t(:notice_account_registered_and_logged_in))
       expect_logged_in("/?first_time_user=true")
     end
 

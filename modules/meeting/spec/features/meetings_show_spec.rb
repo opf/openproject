@@ -126,7 +126,7 @@ RSpec.describe "Meetings", :js do
 
           field.submit_by_enter
 
-          expect_and_dismiss_flash(message: "Successful update")
+          expect_and_dismiss_flash(type: :success, message: "Successful update")
 
           meeting.reload
 

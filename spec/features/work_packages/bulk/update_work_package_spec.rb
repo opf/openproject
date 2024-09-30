@@ -174,7 +174,7 @@ RSpec.describe "Bulk update work packages through Rails view", :js, :with_cuprit
             fill_in custom_field.name, with: "Custom field text"
             click_on "Submit"
 
-            expect_and_dismiss_flash(message: I18n.t(:notice_successful_update))
+            expect_and_dismiss_flash(type: :success, message: I18n.t(:notice_successful_update))
 
             # Should update 2 work package custom fields
             work_package.reload

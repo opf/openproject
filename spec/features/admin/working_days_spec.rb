@@ -101,7 +101,7 @@ RSpec.describe "Working Days", :js, :with_cuprite do
         dialog.confirm
       end
 
-      expect_flash(message: "Successful update.")
+      expect_flash(type: :success, message: "Successful update.")
       expect(page).to have_unchecked_field "Monday"
       expect(page).to have_unchecked_field "Friday"
       expect(page).to have_unchecked_field "Saturday"
@@ -229,7 +229,7 @@ RSpec.describe "Working Days", :js, :with_cuprite do
       click_on "Apply changes"
       click_on "Save and reschedule"
 
-      expect_flash(message: "Successful update.")
+      expect_flash(type: :success, message: "Successful update.")
 
       nwd1 = NonWorkingDay.find_by(name: "My holiday")
       expect(nwd1.date).to eq date1
@@ -309,6 +309,6 @@ RSpec.describe "Working Days", :js, :with_cuprite do
     click_on "Apply changes"
 
     # No dialog and saved successfully
-    expect_flash(message: "Successful update.")
+    expect_flash(type: :success, message: "Successful update.")
   end
 end

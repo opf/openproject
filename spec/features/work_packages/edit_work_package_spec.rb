@@ -209,7 +209,7 @@ RSpec.describe "edit work package", :js do
 
     wp_page.save_comment
 
-    wp_page.expect_toast(message: "The comment was successfully added.")
+    wp_page.expect_toast(type: :success, message: "The comment was successfully added.")
     wp_page.expect_comment text: "hallo welt"
   end
 
@@ -250,7 +250,7 @@ RSpec.describe "edit work package", :js do
     it "submits the edit mode when pressing enter" do
       subject_field.input_element.send_keys(:return)
 
-      wp_page.expect_toast(message: "Successful update")
+      wp_page.expect_toast(type: :success, message: "Successful update")
       subject_field.expect_inactive!
       subject_field.expect_state_text "My new subject!"
     end
@@ -258,7 +258,7 @@ RSpec.describe "edit work package", :js do
     it "submits the edit mode when changing the focus" do
       page.find("body").click
 
-      wp_page.expect_toast(message: "Successful update")
+      wp_page.expect_toast(type: :success, message: "Successful update")
       subject_field.expect_inactive!
       subject_field.expect_state_text "My new subject!"
     end

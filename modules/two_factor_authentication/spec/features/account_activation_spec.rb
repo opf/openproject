@@ -50,7 +50,7 @@ RSpec.describe "activating an invited account", :js,
 
       activate!
 
-      expect_flash(message: "Developer strategy generated the following one-time password:")
+      expect_flash(type: :success, message: "Developer strategy generated the following one-time password:")
 
       SeleniumHubWaiter.wait
       fill_in I18n.t(:field_otp), with: sms_token
@@ -63,7 +63,7 @@ RSpec.describe "activating an invited account", :js,
     it "handles faulty user input on two factor authentication" do
       activate!
 
-      expect_flash(message: "Developer strategy generated the following one-time password:")
+      expect_flash(type: :success, message: "Developer strategy generated the following one-time password:")
 
       fill_in I18n.t(:field_otp), with: "asdf" # faulty token
       click_button I18n.t(:button_login)

@@ -62,7 +62,7 @@ RSpec.describe "OAuth applications management", :js, :with_cuprite do
     fill_in "application_redirect_uri", with: "urn:ietf:wg:oauth:2.0:oob\nhttp://localhost/my/callback"
     click_on "Create"
 
-    expect_flash(message: "Successful creation.")
+    expect_flash(type: :success, message: "Successful creation.")
 
     expect(page).to have_css(".attributes-key-value--key", text: "Client ID")
     expect(page).to have_css(".attributes-key-value--value", text: "urn:ietf:wg:oauth:2.0:oob\nhttp://localhost/my/callback")

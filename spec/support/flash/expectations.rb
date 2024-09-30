@@ -1,6 +1,6 @@
 module Flash
   module Expectations
-    def expect_flash(message:, type: :success, wait: 20)
+    def expect_flash(message:, type:, wait: 20)
       expected_css = expected_flash_css(type)
       expect(page).to have_css(expected_css, text: message, wait:)
     end
@@ -10,7 +10,7 @@ module Flash
       page.find(expected_css)
     end
 
-    def expect_and_dismiss_flash(message: nil, type: :success, wait: 20)
+    def expect_and_dismiss_flash(type:, message: nil, wait: 20)
       expect_flash(type:, message:, wait:)
       dismiss_flash!
       expect_no_flash(type:, message:, wait: 0.1)
@@ -20,7 +20,7 @@ module Flash
       page.find(".Banner-close button").click # rubocop:disable Capybara/SpecificActions
     end
 
-    def expect_no_flash(type: :success, message: nil, wait: 10)
+    def expect_no_flash(type: nil, message: nil, wait: 10)
       if type.nil?
         expect(page).not_to have_test_selector("op-primer-flash-message")
       else

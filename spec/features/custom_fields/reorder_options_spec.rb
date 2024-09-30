@@ -38,7 +38,7 @@ RSpec.describe "Reordering custom options of a list custom field", :js do
 
     click_link "Reorder values alphabetically"
     cf_page.accept_alert_dialog!
-    expect_flash(message: I18n.t(:notice_successful_update))
+    expect_flash(type: :success, message: I18n.t(:notice_successful_update))
     expect(custom_field.custom_options.order(:position).pluck(:value))
       .to eq get_possible_values_reordered(200)
   end

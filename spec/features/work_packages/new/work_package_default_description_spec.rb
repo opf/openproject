@@ -59,7 +59,7 @@ RSpec.describe "new work package", :js do
     end
 
     scroll_to_and_click find_by_id("work-packages--edit-actions-save")
-    wp_page.expect_toast message: "Successful creation."
+    wp_page.expect_toast type: :success, message: "Successful creation."
 
     expect(page).to have_css(".inline-edit--display-field.description", text: "Something different than the default.")
   end

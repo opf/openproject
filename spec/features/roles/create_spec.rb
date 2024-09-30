@@ -72,7 +72,7 @@ RSpec.describe "Role creation", :js, :with_cuprite do
 
     click_button "Create"
 
-    expect_and_dismiss_flash(message: "Successful creation.")
+    expect_and_dismiss_flash(type: :success, message: "Successful creation.")
 
     expect(page)
       .to have_current_path(roles_path)

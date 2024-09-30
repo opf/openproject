@@ -231,7 +231,7 @@ RSpec.describe "new work package", :js, :with_cuprite do
       create_work_package(type_task)
       save_work_package!
 
-      wp_page.expect_toast message: "Successful creation."
+      wp_page.expect_toast type: :success, message: "Successful creation."
     end
 
     it "reloads the table and selects the new work package" do
