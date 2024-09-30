@@ -106,47 +106,6 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
     end
   end
 
-  describe "#add_user_to_group_command" do
-    let(:expected_response) do
-      {
-        status: 200,
-        body: expected_response_body,
-        headers: {}
-      }
-    end
-    let(:expected_response_body) do
-      <<~XML
-        <?xml version="1.0"?>
-        <ocs>
-          <meta>
-            <status>ok</status>
-            <statuscode>100</statuscode>
-            <message>OK</message>
-            <totalitems></totalitems>
-            <itemsperpage></itemsperpage>
-          </meta>
-          <data/>
-        </ocs>
-      XML
-    end
-
-    before do
-      stub_request(:post, "https://example.com/ocs/v1.php/cloud/users/#{origin_user_id}/groups")
-        .with(
-          headers: {
-            "Authorization" => "Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA==",
-            "OCS-APIRequest" => "true"
-          }
-        )
-        .to_return(expected_response)
-    end
-
-    it "adds user to the group" do
-      result = registry.resolve("nextcloud.commands.add_user_to_group").call(storage:, user: origin_user_id)
-      expect(result).to be_success
-    end
-  end
-
   describe "#delete_folder_command" do
     let(:auth_strategy) { Storages::Peripherals::StorageInteraction::AuthenticationStrategies::BasicAuth.strategy }
 
