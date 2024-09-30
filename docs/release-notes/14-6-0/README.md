@@ -50,7 +50,7 @@ In OpenProject 14.6, users can now use descriptions with embedded macros. This f
 
 This is particularly helpful if you want to work with templates, as the copied work package automatically references its own attributes. Also, this feature will be very helpful for the [upcoming feature to generate PDFs from work package descriptions](https://community.openproject.org/wp/45896).
 
-Macros such as *workPackageValue:assignee* have been implemented, allowing the dynamic display of work package specific values like the assignee directly in the template. These macros support both work package and project values and labels, making it easier to generate consistent and accurate documentation. Of course, you can still reference to a specific work package by including the ID (e.g. *workPackageValue:1234:assignee*).
+Macros such as *workPackageValue:assignee* have been implemented, allowing the dynamic display of work package specific values like the assignee directly in the template. These macros support both work package and project values and labels, making it easier to generate consistent and accurate documentation. Of course, you can still reference a specific work package by including the ID (e.g. *workPackageValue:1234:assignee*).
 
 ![Screenshot showing a work package with macros in the description](openproject-14-6-macros.png)
 
