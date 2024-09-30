@@ -226,7 +226,7 @@ zh-TW:
           nextcloud: 在管理的群組資料夾中發現非預期內容。
           one_drive: 在儲存空間中發現預期之外內容。
         unknown_error: 連線無法驗證。發生未知錯誤。請檢查伺服器日誌以瞭解進一步資訊。
-        userless_access_denied: The configured app password is invalid.
+        userless_access_denied: 設定的應用程式密碼無效。
       label_error: 錯誤
       label_healthy: 健康的
       label_pending: 待處理
@@ -286,7 +286,6 @@ zh-TW:
     label_active: 啟用
     label_add_new_storage: 新增檔案儲存空間
     label_automatic_folder: 自動管理資料夾權限
-    label_completed: 已完成
     label_creation_time: 建立時間
     label_creator: 建立者
     label_delete_storage: 刪除儲存區
@@ -298,7 +297,6 @@ zh-TW:
     label_file_storage: 文件儲存空間
     label_host: 主機 URL
     label_inactive: 未啟用
-    label_incomplete: 不完整
     label_managed_project_folders:
       application_password: 應用程式密碼
       automatically_managed_folders: 自動管理文件夾

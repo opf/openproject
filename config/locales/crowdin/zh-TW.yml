@@ -527,7 +527,7 @@ zh-TW:
       could_not_be_saved: "以下文檔無法被保存"
       none_could_be_saved: " %{total} 個工作項目無法更新"
       x_out_of_y_could_be_saved: "在 %{total} 個工作包中，%{failing} 個無法更新，%{success} 個可以更新。"
-      selected_because_descendants: "雖然選擇了 %{selected} 個工作包，但共有 %{total} 個工作包受到影響，包括子工作包。"
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "所選項的子工作"
     move:
       no_common_statuses_exists: "被選取的工作項目沒有可用的狀態。他們的狀態不可以變更。"
@@ -785,7 +785,7 @@ zh-TW:
         readonly: "唯讀"
         remaining_hours: "剩餘工作"
         remaining_time: "剩餘工作"
-        shared_with_users: "協作成員（共用）"
+        shared_with_users: "共用"
         schedule_manually: "手動排程"
         spent_hours: "耗時"
         spent_time: "耗時"
@@ -1343,6 +1343,7 @@ zh-TW:
   button_expand_all: "全部展開"
   button_favorite: "收藏"
   button_filter: "篩選條件"
+  button_finish_setup: "Finish setup"
   button_generate: "產生"
   button_list: "清單"
   button_lock: "鎖定"
@@ -1395,8 +1396,8 @@ zh-TW:
     failure_message: 同意失敗, 無法繼續。
     title: 使用者同意個資意向書
     decline_warning_message: 您已拒絕同意並已登出。
-    user_has_consented: 使用者已同意您在給定時間配置的語句。
-    not_yet_consented: 使用者尚未同意, 將在下次登錄時請求。
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: 使用者可透過系統更改或移除郵寄地址。
     contact_your_administrator: 如果您想刪除您的帳戶, 請與您的管理員聯繫。
     contact_this_mail_address: 如果要刪除帳戶, 請聯繫 %{mail_address}。
@@ -1766,6 +1767,8 @@ zh-TW:
       progress_mode_changed_to_status_based: "更新計算後的進度"
       status_changed: "狀態 '%{status_name}'"
       system_update: "OpenProject 系統更新："
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: 根據前置任務 %{link} 的更改
       work_package_parent_changed_times: 因上層%{link}而異動
@@ -1793,6 +1796,10 @@ zh-TW:
           自動計算進度<a href="%{href}" target="_blank">隨版本更新調整</a>。
         totals_removed_from_childless_work_packages: >-
           使用 <a href="%{href}" target="_blank">版本更新</a>的非父工作包的工作和進度總計自動移除。 這是一個維護任務，可以安全地被忽略。
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "設定指南"
     get_in_touch: "如有任何問題，歡迎聯繫我們"
@@ -1956,6 +1963,7 @@ zh-TW:
   label_calendars_and_dates: "行事曆與日期"
   label_calendar_show: "顯示行事曆"
   label_category: "類別"
+  label_completed: Completed
   label_consent_settings: "使用者同意個資意向書"
   label_wiki_menu_item: 維基選單項目
   label_select_main_menu_item: 選擇新的主選單項目
@@ -2104,6 +2112,7 @@ zh-TW:
   label_here: 這裡
   label_hide: "隱藏"
   label_history: "歷史"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "頁面結構頁"
   label_home: "Home"
   label_subject_or_id: "主旨或 id"
@@ -2115,6 +2124,7 @@ zh-TW:
   label_inactive: "未啟用"
   label_incoming_emails: "接收到的電子郵件"
   label_includes: "包括"
+  label_incomplete: Incomplete
   label_include_sub_projects: 包含子專案
   label_index_by_date: "按日期索引"
   label_index_by_title: "按標題索引"
@@ -2228,6 +2238,7 @@ zh-TW:
   label_no_parent_page: "無上層頁面"
   label_nothing_display: "沒有可以顯示的"
   label_nobody: "沒有人"
+  label_not_configured: "Not configured"
   label_not_found: "未找到"
   label_none: "無"
   label_none_parentheses: "（無）"
@@ -3157,6 +3168,13 @@ zh-TW:
   setting_sys_api_enabled: "啟用版控容器管理網路服務"
   setting_sys_api_description: "版控容器管理網路服務提供容器存取管理和使用者認證"
   setting_time_format: "時間"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "啟用匿名使用者存取模式"
   setting_user_format: "姓名顯示方式"
   setting_user_default_timezone: "使用者預設時區"

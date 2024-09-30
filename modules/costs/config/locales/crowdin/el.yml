@@ -111,6 +111,7 @@ el:
   label_rate: "Αμοιβή"
   label_rate_plural: "Αμοιβές"
   label_status_finished: "Ολοκληρωμένο"
+  label_show: "Show"
   label_units: "Μονάδες κόστους"
   label_user: "Χρήστης"
   label_until: "μέχρι"

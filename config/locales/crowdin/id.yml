@@ -522,7 +522,7 @@ id:
       could_not_be_saved: "Paket pekerjaan berikut tidak dapat disimpan:"
       none_could_be_saved: "Tak satu pun dari %{total} paket pekerjaan dapat diperbarui."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages tidak bisa diupdate sedangkan %{success} bisa."
-      selected_because_descendants: "Sementara %{selected} paket kerja yang dipilih, secara total %{total} paket kerja terpengaruh yang mencakup keturunan."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "keturunan terpilih"
     move:
       no_common_statuses_exists: "Tidak ada status yang tersedia untuk semua paket pekerjaan yang dipilih. Status mereka tidak dapat diubah."
@@ -1338,6 +1338,7 @@ id:
   button_expand_all: "Buka semua"
   button_favorite: "Add to favorites"
   button_filter: "Filter"
+  button_finish_setup: "Finish setup"
   button_generate: "Generate"
   button_list: "List"
   button_lock: "Lock"
@@ -1390,8 +1391,8 @@ id:
     failure_message: Persetujuan gagal, tidak bisa dilanjutkan.
     title: Persetujuan Pengguna
     decline_warning_message: Anda telah menolak untuk menyetujui dan telah dikeluarkan.
-    user_has_consented: Pengguna telah menyetujui pernyataan yang Anda konfigurasikan pada waktu yang ditentukan.
-    not_yet_consented: Pengguna belum memberikan persetujuan, akan diminta saat login berikutnya.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Tentukan alamat email yang dapat dijangkau pengguna ke pengontrol data untuk melakukan permintaan perubahan atau penghapusan data.
     contact_your_administrator: Silakan hubungi administrator Anda jika Anda ingin akun Anda dihapus.
     contact_this_mail_address: Harap hubungi %{mail_address} jika Anda ingin akun Anda dihapus.
@@ -1761,6 +1762,8 @@ id:
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1788,6 +1791,10 @@ id:
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
         totals_removed_from_childless_work_packages: >-
           Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Petunjuk Konfigurasi"
     get_in_touch: "Anda punya pertanyaan? Hubungi kami."
@@ -1951,6 +1958,7 @@ id:
   label_calendars_and_dates: "Kalender dan tanggal"
   label_calendar_show: "Tampilkan kalender"
   label_category: "Kategori"
+  label_completed: Completed
   label_consent_settings: "Persetujuan Pengguna"
   label_wiki_menu_item: Wiki menu item
   label_select_main_menu_item: Pilih item main menu baru
@@ -2099,6 +2107,7 @@ id:
   label_here: disini
   label_hide: "Sembunyikan"
   label_history: "Histori"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Daun hierarki"
   label_home: "Home"
   label_subject_or_id: "Subyek atau ID"
@@ -2110,6 +2119,7 @@ id:
   label_inactive: "Tidak aktif"
   label_incoming_emails: "Email masuk"
   label_includes: "termasuk"
+  label_incomplete: Incomplete
   label_include_sub_projects: Include sub-projects
   label_index_by_date: "Indeks menurut tanggal"
   label_index_by_title: "Indeks menurut judul"
@@ -2223,6 +2233,7 @@ id:
   label_no_parent_page: "Tidak ada halaman induk"
   label_nothing_display: "Tidak ada yang ditampilkan"
   label_nobody: "tidak ada"
+  label_not_configured: "Not configured"
   label_not_found: "tidak ditemukan"
   label_none: "kosong"
   label_none_parentheses: "(kosong)"
@@ -3151,6 +3162,13 @@ id:
   setting_sys_api_enabled: "Aktifkan web service untuk manajemen repository"
   setting_sys_api_description: "Repository management web service menyediakan integrasi fungsi dan otorisasi untuk akses repository."
   setting_time_format: "Waktu"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Aktifkan mode Aksesibilitas untuk user anonim"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"

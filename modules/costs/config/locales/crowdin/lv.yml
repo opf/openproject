@@ -112,6 +112,7 @@ lv:
   label_rate: "Likme"
   label_rate_plural: "Likmes"
   label_status_finished: "Pabeigts"
+  label_show: "Show"
   label_units: "Izmaksu vienības"
   label_user: "Lietotāji"
   label_until: "līdz"

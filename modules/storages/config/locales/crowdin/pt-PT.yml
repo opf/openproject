@@ -286,7 +286,6 @@ pt-PT:
     label_active: Ativo
     label_add_new_storage: Adicionar novo armazenamento
     label_automatic_folder: Nova pasta com permissões geridas automaticamente
-    label_completed: Concluído
     label_creation_time: Hora de criação
     label_creator: Criador
     label_delete_storage: Eliminar armazenamento
@@ -298,7 +297,6 @@ pt-PT:
     label_file_storage: Armazenamento de ficheiros
     label_host: URL do anfitrião
     label_inactive: Inativo
-    label_incomplete: Incompleto
     label_managed_project_folders:
       application_password: Palavra-passe da aplicação
       automatically_managed_folders: Pastas geridas automaticamente

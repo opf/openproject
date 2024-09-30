@@ -112,6 +112,7 @@ ro:
   label_rate: "Evaluează"
   label_rate_plural: "Tarife"
   label_status_finished: "Finalizat"
+  label_show: "Show"
   label_units: "Unități de cost"
   label_user: "Utilizator"
   label_until: "până la"

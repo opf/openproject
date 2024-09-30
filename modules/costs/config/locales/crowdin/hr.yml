@@ -112,6 +112,7 @@ hr:
   label_rate: "Stopa"
   label_rate_plural: "Satnice"
   label_status_finished: "Završeno"
+  label_show: "Show"
   label_units: "Jedinice troška"
   label_user: "Korisnik"
   label_until: "do"

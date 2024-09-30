@@ -111,6 +111,7 @@ de:
   label_rate: "Satz"
   label_rate_plural: "Sätze"
   label_status_finished: "Abgeschlossen"
+  label_show: "Anzeigen"
   label_units: "Einheiten"
   label_user: "Benutzer"
   label_until: "bis"

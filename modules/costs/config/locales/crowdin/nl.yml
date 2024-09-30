@@ -111,6 +111,7 @@ nl:
   label_rate: "Tarief"
   label_rate_plural: "Tarieven"
   label_status_finished: "Afgewerkt"
+  label_show: "Show"
   label_units: "Kosten eenheden"
   label_user: "Gebruiker"
   label_until: "tot"

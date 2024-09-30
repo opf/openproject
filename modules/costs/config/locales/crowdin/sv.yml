@@ -111,6 +111,7 @@ sv:
   label_rate: "Timpris"
   label_rate_plural: "Priser"
   label_status_finished: "Avslutad"
+  label_show: "Visa"
   label_units: "Kostnadsenheter"
   label_user: "Användare"
   label_until: "fram till"
