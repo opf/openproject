@@ -70,7 +70,7 @@ zh-CN:
         text: "您确定要删除当前使用的企业版令牌吗？"
         title: "删除令牌"
       replace_token: "替换您当前的支持令牌"
-      order: "订购本地部署的 Enterprise edition"
+      order: "订购本地部署版的 Enterprise edition"
       paste: "粘贴您企业版的支持令牌"
       required_for_feature: "此功能仅限具激活的企业版支持令牌的订阅者使用。"
       enterprise_link: "如需了解详细信息，请单击此处。"
@@ -1393,8 +1393,8 @@ zh-CN:
     failure_message: 同意失败, 无法继续。
     title: 用户同意
     decline_warning_message: 您已拒绝同意并已注销。
-    user_has_consented: 用户已同意您在给定时间配置的语句。
-    not_yet_consented: 用户尚未同意, 将在下次登录时请求。
+    user_has_consented: 用户同意您的 [配置的同意信息文本](同意设置)。
+    not_yet_consented: 用户尚未同意[配置的同意信息](同意设置)。他们下次登录时会被提醒。
     contact_mail_instructions: 定义用户可以访问数据控制器以执行数据更改或删除请求的邮件地址。
     contact_your_administrator: 如果您想删除您的帐户, 请与您的管理员联系。
     contact_this_mail_address: 如果您想删除您的帐户, 请联系%{mail_address}。
@@ -1764,6 +1764,8 @@ zh-CN:
       progress_mode_changed_to_status_based: "更新进度计算"
       status_changed: "状态 '%{status_name}'"
       system_update: "OpenProject 系统更新："
+      total_percent_complete_mode_changed_to_work_weighted_average: "现在按工作加权计算的 完成% 总数。"
+      total_percent_complete_mode_changed_to_simple_average: "完成% 总数的计算现在仅基于完成% 值的简单平均值。"
     cause_descriptions:
       work_package_predecessor_changed_times: 根据前置任务 %{link}的更改
       work_package_parent_changed_times: 通过对父级的更改 %{link}
@@ -1791,6 +1793,10 @@ zh-CN:
           进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
         totals_removed_from_childless_work_packages: >-
           使用 <a href="%{href}" target="_blank">版本更新</a>的非父工作包的工作和进度总计自动移除。 这是一个维护任务，可以安全地被忽略。
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        无工时的子工作包被忽略。
+      total_percent_complete_mode_changed_to_simple_average: >-
+        忽略子工作包的工时值。
   links:
     configuration_guide: "配置指南"
     get_in_touch: "遇到问题了？与我们联系。"
@@ -2339,7 +2345,7 @@ zh-CN:
   label_revision_id: "修订版本 %{value}"
   label_revision_plural: "修订"
   label_roadmap: "路线图"
-  label_roadmap_edit: "编辑路线图 %{name}"
+  label_roadmap_edit: "编辑路线图%{name}"
   label_roadmap_due_in: "%{value} 到期"
   label_roadmap_no_work_packages: "该版本没有工作包。"
   label_roadmap_overdue: "%{value} 超时"
@@ -2989,7 +2995,7 @@ zh-CN:
       managed: "在 OpenProject 中创建新的存储库"
     storage:
       not_available: "磁盘存储开销不可用于此存储库。"
-      update_timeout: "在 N 分钟内保留存储库最后所需磁盘空间的信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
+      update_timeout: "在 N 分钟内保留存储库最后所需的磁盘空间信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
       oauth_application_details: "关闭此窗口后，将无法再次访问客户端密钥值。请将这些值复制到 Nextcloud OpenProject 集成设置中："
       oauth_application_details_link_text: "转到设置页面"
       setup_documentation_details: "如果您在配置新文件存储方面需要帮助，请查看文档："
@@ -3149,9 +3155,16 @@ zh-CN:
   setting_session_ttl_hint: "当设置的值低于5时，其作用类似于禁用。"
   setting_session_ttl_enabled: "会话过期"
   setting_start_of_week: "一周起始日"
-  setting_sys_api_enabled: "启用版本库管理 web 服务"
+  setting_sys_api_enabled: "启用存储库管理网页服务"
   setting_sys_api_description: "存储库管理网页服务提供了集成的，用户授权的存储库访问。"
   setting_time_format: "时间"
+  setting_total_percent_complete_mode: "计算 完成% 层次结构总数"
+  setting_total_percent_complete_mode_work_weighted_average: "按工作权重"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    <i>总完成%</i>将根据层次结构中每个工作包的<i>工时</i>加权计算。没有<i>工时</i>的工作包将被忽略。
+  setting_total_percent_complete_mode_simple_average: "简单平均值"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>工时</i> 将被忽略，<i>总完成%</i> 将是层次结构中各工作包的 <i>完成%</i> 值的简单平均值。
   setting_accessibility_mode_for_anonymous: "为匿名用户启用辅助功能模式"
   setting_user_format: "用户名格式"
   setting_user_default_timezone: "用户默认时区"
@@ -3461,7 +3474,7 @@ zh-CN:
   warning_user_limit_reached_admin: >
     添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问此实例。
   warning_user_limit_reached_instructions: >
-    您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
+    您已达到用户限制（%{current}/%{max} 活跃用户）。请联系 sales@openproject.com 升级您的企业版计划以添加额外用户。
   warning_protocol_mismatch_html: >
 
   warning_bar:
