@@ -20,7 +20,7 @@ Internally, the `FlashMessagesHelper#render_flash_messages` will select flash me
 
 ### Flash a modal on callback from external service
 
-When you want to display a modal after a callback request from an external service, store the op modal component directly in the `session` in the controller action that performs by calling `OpModal::Flashable#store_callback_op_modal_flash` bofore the open redirect and then extract them in the controller action that handles the callback via `OpTurbo::Flashable#retrieve_callback_op_modal_flash`.
+When you want to display a modal after a callback request from an external service, store the op modal component directly in the `session` in the controller action that performs by calling `OpModalFlashable#store_callback_op_modal_flash` bofore the open redirect and then extract them in the controller action that handles the callback via `OpTurbo::Flashable#retrieve_callback_op_modal_flash`.
 
 Ex.
 

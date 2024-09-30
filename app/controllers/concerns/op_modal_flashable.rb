@@ -26,24 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpModal
-  module Flashable
-    extend ActiveSupport::Concern
+module OpModalFlashable
+  extend ActiveSupport::Concern
 
-    included do
-      add_flash_types :op_modal
-    end
+  included do
+    add_flash_types :op_modal
+  end
 
-    def flash_op_modal(component:, parameters: {})
-      flash[:op_modal] = { component: component.name, parameters: }
-    end
+  def flash_op_modal(component:, parameters: {})
+    flash[:op_modal] = { component: component.name, parameters: }
+  end
 
-    def store_callback_op_modal_flash(component:, parameters: {})
-      session[:callback_op_modal] = { component: component.name, parameters: }
-    end
+  def store_callback_op_modal_flash(component:, parameters: {})
+    session[:callback_op_modal] = { component: component.name, parameters: }
+  end
 
-    def retrieve_callback_op_modal_flash
-      session.delete(:callback_op_modal) if session[:callback_op_modal].present?
-    end
+  def retrieve_callback_op_modal_flash
+    session.delete(:callback_op_modal) if session[:callback_op_modal].present?
   end
 end
