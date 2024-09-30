@@ -40,15 +40,20 @@ module FlashMessagesHelper
       .reject { |k, _| k.to_s == "op_primer_flash" }
       .reject { |k, _| k.start_with? "_" }
       .map do |k, v|
-      if k.to_sym == :modal
-        component = v[:type].constantize
-        component.new(**v.fetch(:parameters, {})).render_in(self)
+      if k.to_sym == :op_modal
+        render_op_modal_flash_component(component: v[:component], parameters: v.fetch(:parameters, {}))
       else
         render_flash_message(k, v)
       end
     end
 
     safe_join messages, "\n"
+  end
+
+  def render_op_modal_flash_component(component:, parameters: {})
+    component.constantize.new(**parameters).render_in(self)
+  rescue NameError => e
+    Rails.logger.error { "Could not render flash component #{component}: #{e.message}" }
   end
 
   def render_flash_message(type, message, html_options = {}) # rubocop:disable Metrics/AbcSize

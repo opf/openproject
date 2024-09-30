@@ -12,34 +12,30 @@ To flash a modal, set a `flash[:op_modal]` hash in your controller action. The h
 Ex.
 
 ```ruby
-flash[:op_modal] = {
-  type: ::Storages::ProjectStorages::OAuthAccessGrantedModalComponent.name,
-  parameters: { storage: storage.id }
-}
+flash_op_modal component: ::Storages::ProjectStorages::OAuthAccessGrantedModalComponent.name,
+               parameters: { storage: storage.id }
 ```
 
 Internally, the `FlashMessagesHelper#render_flash_messages` will select flash messages with the key `:op_modal` and render the modal component with the given parameters.
 
 ### Flash a modal on callback from external service
 
-When you want to display a modal after a callback request from an external service, set the `:op_modal` properties directly in the `session` in the controller action that performs the open redirect and then extract them in the controller action that handles the callback.
+When you want to display a modal after a callback request from an external service, store the op modal component directly in the `session` in the controller action that performs by calling `OpModal::Flashable#store_callback_op_modal_flash` bofore the open redirect and then extract them in the controller action that handles the callback via `OpTurbo::Flashable#retrieve_callback_op_modal_flash`.
 
 Ex.
 
 ```ruby
 # Controller action that performs the open redirect
 def redirect_to_external_service
-  session[:op_modal] = {
-    type: ::Storages::ProjectStorages::OAuthAccessGrantedModalComponent.name,
-    parameters: { storage: storage.id }
-  }
+  store_callback_op_modal_flash component: ::Storages::ProjectStorages::OAuthAccessGrantedModalComponent.name,
+                                parameters: { storage: storage.id }
   redirect_to external_service_url
 end
 
 # Controller action that handles the callback
 def callback_from_external_service
-  flash[:op_modal] = session.delete(:op_modal)
   # Handle the callback
+  redirect_to some_path, op_modal: retrieve_callback_op_modal_flash
 end
 ```
 
