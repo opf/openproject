@@ -5,6 +5,7 @@ services:
   backend:
     environment:
       OPENPROJECT_CLI_PROXY: "http://localhost:${FE_PORT:-4200}"
+      OPENPROJECT_HOST__NAME: "${HOST:-localhost}:${PORT:-3000}"
     ports:
       - "${PORT:-3000}:3000"
 
