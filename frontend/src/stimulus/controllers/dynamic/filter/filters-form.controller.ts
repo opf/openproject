@@ -142,6 +142,11 @@ export default class FiltersFormController extends Controller {
     this.displayFiltersValue = !this.displayFiltersValue;
   }
 
+  showDisplayFilters() {
+    this.displayFiltersValue = true;
+    this.displayFiltersValueChanged();
+  }
+
   displayFiltersValueChanged() {
     this.toggleButtonActive();
     this.toggleFilterFormVisible();
@@ -187,6 +192,10 @@ export default class FiltersFormController extends Controller {
 
   addFilter(event:Event) {
     const filterName = (event.target as HTMLSelectElement).value;
+    this.addFilterByName(filterName);
+  }
+
+  addFilterByName(filterName:string) {
     const selectedFilter = this.findTargetByName(filterName, this.filterTargets);
     if (selectedFilter) {
       selectedFilter.classList.remove('hidden');

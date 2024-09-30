@@ -67,6 +67,11 @@ module Projects
       helpers.projects_sort_header_tag(column, **options, param: :json)
     end
 
+    def build_new_sort_header(column, options)
+      helpers.projects_new_sort_header_tag(column, **options, param: :json)
+    end
+
+
     # We don't return the project row
     # but the [project, level] array from the helper
     def rows

@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <%= component_wrapper(tag: 'turbo-frame') do %>
-  <div class="project-list-page--table">
+  <div class="project-list-page--table" data-controller="table-action-menu" data-application-target="dynamic">
     <div class="generic-table--flex-container">
       <div class="generic-table--container <%= container_class %>">
         <div class="generic-table--results-container">
@@ -55,7 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
                       </div>
                     </th>
                   <% elsif sortable_column?(column) %>
-                    <%= build_sort_header column.attribute, order_options(column, turbo: true) %>
+                    <%= build_new_sort_header column.attribute, order_options(column, turbo: true) %>
                   <% elsif column.attribute == :favored %>
                     <th>
                       <div class="generic-table--header-outer">
