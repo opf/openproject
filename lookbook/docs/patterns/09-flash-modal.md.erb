@@ -6,8 +6,10 @@ This pattern defines use cases where a modal view component is rendered on the n
 ## Overview
 
 To flash a modal, set a `flash[:op_modal]` hash in your controller action. The hash should contain the following keys:
-  * `type:` - the modal component to render
+  * `component:` - the modal component to render
   * `parameters:` - the parameters to pass to the modal component
+
+You can use the helper method `flash_op_modal` to set the flash modal properties.
 
 Ex.
 
@@ -17,6 +19,23 @@ flash_op_modal component: ::Storages::ProjectStorages::OAuthAccessGrantedModalCo
 ```
 
 Internally, the `FlashMessagesHelper#render_flash_messages` will select flash messages with the key `:op_modal` and render the modal component with the given parameters.
+
+P.S. When the `component` is a `Primer::Alpha::Dialog` the `auto-show-dialog` stimulus controller should be declared in order to automatically show the dialog when the page is loaded.
+
+Ex.
+
+```ruby
+render(
+  Primer::Alpha::Dialog.new(
+    id: dialog_id,
+    title:,
+    data: {
+      controller: "auto-show-dialog",
+    }
+) do
+  # ....
+end
+```
 
 ### Flash a modal on callback from external service
 
