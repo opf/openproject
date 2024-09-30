@@ -122,7 +122,7 @@ RSpec.describe "adding a new budget", :js do
         new_budget_page.add_labor_costs! "0,5", user_name: user.name, comment: "attendance", expected_costs: "12,50 EUR"
 
         page.find('[data-test-selector="budgets-create-button"]').click
-        expect(page).to have_content(I18n.t(:notice_successful_create, locale: :de))
+        expect_and_dismiss_flash(message: I18n.t(:notice_successful_create, locale: :de))
 
         expect(new_budget_page.unit_costs_at(1)).to have_content "175,00 EUR"
         expect(new_budget_page.unit_costs_at(2)).to have_content "50.025,00 EUR"

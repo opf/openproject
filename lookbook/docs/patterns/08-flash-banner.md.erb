@@ -17,21 +17,31 @@ See below for available arguments.
 ## Render primer banner / flash from controllers
 
 In many views in OpenProject, you will find `flash[:notice], flash[:alert], flash[:error]` messages.
-These are rendered using the previous `op-flash` styles, and are not yet primerized.
+All of these are now rendered with primer banners by default.
 
-So if you find yourself in need to render a primerized flash. You can use this pattern instead:
+If you find the need to customize the rendering of the flash, you can also pass a hash to the flash:
 
 ```ruby
-flash[:op_primer_flash] = { message: "Successful update", scheme: :success, icon: :check }
+flash[:notice] = { message: "Successful update", icon: :check }
 ```
 
 Or for an error:
 
 ```ruby
-flash[:op_primer_flash] = { message: "Oh no! Something went wrong", scheme: :danger, icon: :alert }
+flash[:error] = { message: "Oh no! Something went wrong", icon: :alert }
 ```
 
-These are rendered in the layout through the `render_banner_messages` helper using the `OpPrimer::FlashComponent`.
+If you want to render multiple lines, `message` can also be an array that will be joined by breaklines for rendering:
+
+```ruby
+flash[:error] = { message: ["Oh no! Something went wrong", "Some more details here"], icon: :alert }
+```
+
+If you want to make the flash non-dismissable, you can pass `dismiss_scheme: :none`:
+
+```ruby
+flash[:error] = { message: "Oh no!", icon: :alert, dismiss_scheme: :none }
+```
 
 ## Usage in turbo streams
 

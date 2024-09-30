@@ -103,7 +103,7 @@ RSpec.describe "Copy work packages through Rails view", :js, :with_cuprite, with
 
           select budget.subject, from: "work_package_budget_id"
           click_on "Submit"
-          wp_table.expect_and_dismiss_toaster message: "Successful update."
+          expect_and_dismiss_flash message: "Successful update."
 
           expect(work_package.reload.budget_id).to eq(budget.id)
           expect(work_package2.reload.budget_id).to eq(budget.id)

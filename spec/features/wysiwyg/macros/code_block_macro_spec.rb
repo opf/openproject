@@ -74,7 +74,7 @@ RSpec.describe "Wysiwyg code block macro", :js do
         end
 
         click_on "Save"
-        expect(page).to have_css(".op-toast.-success")
+        expect_and_dismiss_flash(message: "Successful creation.")
 
         # Expect output widget
         within("#content") do
@@ -106,7 +106,7 @@ RSpec.describe "Wysiwyg code block macro", :js do
           expect(container).to have_css(".op-uc-code-block", text: "asdf")
 
           click_on "Save"
-          expect(page).to have_css(".op-toast.-success")
+          expect_and_dismiss_flash(message: "Successful creation.")
 
           wp = WikiPage.last
           expect(wp.text.gsub("\r\n", "\n")).to eq("```text\nasdf\n```")
@@ -119,7 +119,7 @@ RSpec.describe "Wysiwyg code block macro", :js do
           end
 
           click_on "Save"
-          expect(page).to have_css(".op-toast.-success")
+          expect_and_dismiss_flash(message: "Successful update.")
 
           wp.reload
           # Regression added two newlines before fence here
@@ -153,7 +153,7 @@ RSpec.describe "Wysiwyg code block macro", :js do
         # Save wiki page
         click_on "Save"
 
-        expect(page).to have_css(".op-toast.-success")
+        expect_and_dismiss_flash(message: "Successful creation.")
 
         wiki_page = project.wiki.find_page("wiki")
         text = wiki_page.text.gsub(/\r\n?/, "\n")
