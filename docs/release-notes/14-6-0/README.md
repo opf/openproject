@@ -40,7 +40,7 @@ A new tab navigation has been introduced under *Administration* > *Custom Fields
 
 Additionally, users can include sub-projects when adding, which automatically selects all sub-projects within the hierarchy. Already added projects are visible but deactivated in the dropdown.
 
-![Screenshot showing the new administration page to add custom fields to multiple projects](openproject-14-6-custom-field-highlighted.png)
+![Screenshot showing the new administration page to add custom fields to multiple projects](open-project-14-6-custom-fields-new-highlighted.png)
 
 Learn more about [custom fields and how to create them](../../user-guide/projects/project-settings/custom-fields/) in our user guide.
 
