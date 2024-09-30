@@ -10,14 +10,6 @@
       grid.with_area(:content, tag: :span, mr: 2) do
         if @meeting_agenda_item.visible_work_package?
           flex_layout(align_items: :center) do |flex|
-            # flex.with_column(mr: 2, flex: 1, classes: 'ellipsis') do
-            #   render(Primer::Beta::Link.new(href: work_package_path(@meeting_agenda_item.work_package), underline: false,
-            #                                 test_selector: 'op-meeting-agenda-title',
-            #                                 font_size: :normal, font_weight: :bold, target: "_blank")) do
-            #     @meeting_agenda_item.work_package.subject
-            #   end
-            # end
-
             flex.with_column(mr: 2) do
               render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
                 "##{@meeting_agenda_item.work_package.id} #{@meeting_agenda_item.work_package.type.name}"
@@ -55,7 +47,6 @@
         end
       end
 
-
       if @meeting_agenda_item.duration_in_minutes.present? && @meeting_agenda_item.duration_in_minutes > 0
         grid.with_area(:duration, Primer::Beta::Text, color: duration_color_scheme, mr: 2, font_size: :small) do
           I18n.t('datetime.distance_in_words.x_minutes_abbreviated', count: @meeting_agenda_item.duration_in_minutes)
@@ -71,8 +62,6 @@
           end
         end
       end
-
-
 
       grid.with_area(:actions, tag: :div, justify_self: :end, classes: "hide-when-print") do
         if edit_enabled?

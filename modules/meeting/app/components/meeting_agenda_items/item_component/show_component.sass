@@ -1,6 +1,7 @@
 @import 'helpers'
 
 $meeting-agenda-item--presenter-width: 300px
+$meeting-agenda-item--presenter-width--mobile: 150px
 
 .op-meeting-agenda-item
   display: grid
@@ -10,7 +11,9 @@ $meeting-agenda-item--presenter-width: 300px
   &--drag-handle,
   &--duration,
   &--content,
-  &--presenter,
+  &--presenter
+    align-self: start
+
   &--title
     align-self: center
 
@@ -33,8 +36,11 @@ $meeting-agenda-item--presenter-width: 300px
     overflow-wrap: anywhere
 
   @media screen and (max-width: $breakpoint-lg)
-    grid-template-columns: 20px auto 1fr calc($meeting-agenda-item--presenter-width - 50px) 50px
+    grid-template-columns: 20px auto 1fr 150px 50px
     grid-template-areas: "drag-handle content content content actions" ". duration . presenter presenter" ". title title title title" ". notes notes notes notes"
 
     &--author
       justify-self: stretch
+
+    &--presenter
+      max-width: $meeting-agenda-item--presenter-width--mobile
