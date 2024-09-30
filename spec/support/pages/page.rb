@@ -27,7 +27,7 @@
 #++
 
 require_relative "../toasts/expectations"
-require_relative "../primerized_flash/expectations"
+require_relative "../flash/expectations"
 
 module Pages
   class Page

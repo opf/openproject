@@ -60,7 +60,7 @@ RSpec.describe "Reset form configuration", :js do
       form.expect_attribute(key: cf_identifier)
 
       form.save_changes
-      expect_primerized_flash(message: "Successful update.")
+      expect_flash(message: "Successful update.")
 
       SeleniumHubWaiter.wait
       form.reset_button.click

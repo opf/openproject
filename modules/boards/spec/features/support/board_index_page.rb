@@ -72,7 +72,7 @@ module Pages
       new_board_page.set_board_type action
       new_board_page.click_on_submit
 
-      expect_and_dismiss_primerized_flash(message: I18n.t(:notice_successful_create))
+      expect_and_dismiss_flash(message: I18n.t(:notice_successful_create))
 
       if expect_empty
         expect(page).to have_css(".boards-list--add-item-text", wait: 10)

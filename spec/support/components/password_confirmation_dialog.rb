@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "support/primerized_flash/expectations"
+require "support/flash/expectations"
 
 module Components
   class PasswordConfirmationDialog
@@ -71,7 +71,7 @@ module Components
       end
 
       if should_fail
-        expect_primerized_flash(type: :error, message: I18n.t(:notice_password_confirmation_failed))
+        expect_flash(type: :error, message: I18n.t(:notice_password_confirmation_failed))
       else
         expect(page).to have_no_css(".op-toast.-error")
       end

@@ -148,7 +148,7 @@ RSpec.describe "Work package navigation", :js, :selenium do
   it "loading an unknown work package ID" do
     visit "/work_packages/999999999"
 
-    expect_primerized_flash type: :error, message: I18n.t(:notice_file_not_found)
+    expect_flash type: :error, message: I18n.t(:notice_file_not_found)
 
     visit "/projects/#{project.identifier}/work_packages/999999999"
     global_work_packages = Pages::WorkPackagesTable.new

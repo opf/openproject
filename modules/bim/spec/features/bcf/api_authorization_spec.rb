@@ -61,7 +61,7 @@ RSpec.describe "authorization for BCF api", :js, with_config: { edition: "bim" }
     fill_in "application_redirect_uri", with: "urn:ietf:wg:oauth:2.0:oob\nhttps://localhost/my/callback"
     click_on "Create"
 
-    expect_primerized_flash(message: "Successful creation.")
+    expect_flash(message: "Successful creation.")
 
     expect(page).to have_css(".attributes-key-value--key",
                              text: "Client ID")

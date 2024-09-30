@@ -50,7 +50,7 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
     editor.set_markdown "##{work_package.id}"
     click_on "Save"
 
-    expect_and_dismiss_primerized_flash(message: "Successful creation.")
+    expect_and_dismiss_flash(message: "Successful creation.")
 
     # Expect output widget
     within("#content") do
@@ -70,7 +70,7 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
     editor.set_markdown "###{work_package.id}"
     click_on "Save"
 
-    expect_and_dismiss_primerized_flash(message: "Successful creation.")
+    expect_and_dismiss_flash(message: "Successful creation.")
 
     # Expect output widget
     within("#content") do
@@ -93,7 +93,7 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
     editor.set_markdown "####{work_package.id}"
     click_on "Save"
 
-    expect_and_dismiss_primerized_flash(message: "Successful creation.")
+    expect_and_dismiss_flash(message: "Successful creation.")
 
     # Expect output widget
     within("#content") do

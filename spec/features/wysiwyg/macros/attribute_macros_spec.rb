@@ -114,7 +114,7 @@ RSpec.describe "Wysiwyg attribute macros", :js do
 
       click_on "Save"
 
-      expect_and_dismiss_primerized_flash(message: "Successful creation.")
+      expect_and_dismiss_flash(message: "Successful creation.")
 
       # Expect output widget
       within("#content") do
@@ -177,7 +177,7 @@ RSpec.describe "Wysiwyg attribute macros", :js do
 
         click_on "Save"
 
-        expect_primerized_flash(message: "Successful creation.")
+        expect_flash(message: "Successful creation.")
 
         within("#content") do
           expect(page).to have_css(".custom-option", count: 6)

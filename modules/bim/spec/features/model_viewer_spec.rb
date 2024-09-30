@@ -135,7 +135,7 @@ RSpec.describe "model viewer", :js, with_config: { edition: "bim" } do
 
     it "shows no viewer" do
       expected = "[Error 403] You are not authorized to access this page."
-      expect_primerized_flash(type: :error, message: expected)
+      expect_flash(type: :error, message: expected)
 
       show_model_page.model_viewer_visible false
       show_model_page.model_viewer_shows_a_toolbar false

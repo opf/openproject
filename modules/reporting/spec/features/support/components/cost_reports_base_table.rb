@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "support/primerized_flash/expectations"
+require "support/flash/expectations"
 
 module Components
   class CostReportsBaseTable
@@ -81,7 +81,7 @@ module Components
       SeleniumHubWaiter.wait
       fill_in("cost_entry_units", with: new_value)
       click_button "Save"
-      expect_primerized_flash(message: "Successful update.")
+      expect_flash(message: "Successful update.")
     end
 
     def delete_entry(row)

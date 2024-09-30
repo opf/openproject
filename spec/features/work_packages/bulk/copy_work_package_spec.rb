@@ -201,16 +201,16 @@ RSpec.describe "Copy work packages through Rails view", :js, :with_cuprite do
         it "fails, informing of the reasons" do
           click_on "Copy and follow"
 
-          expect_primerized_flash(type: :error, message: I18n.t("work_packages.bulk.none_could_be_saved", total: 3))
-          expect_primerized_flash(type: :error,
-                                  message: I18n.t(
-                                    "work_packages.bulk.selected_because_descendants", total: 3, selected: 2
-                                  ))
-          expect_primerized_flash(type: :error,
-                                  message: "#{work_package.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}")
-          expect_primerized_flash(type: :error,
-                                  message: "#{work_package2.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}")
-          expect_primerized_flash(type: :error, message:
+          expect_flash(type: :error, message: I18n.t("work_packages.bulk.none_could_be_saved", total: 3))
+          expect_flash(type: :error,
+                       message: I18n.t(
+                         "work_packages.bulk.selected_because_descendants", total: 3, selected: 2
+                       ))
+          expect_flash(type: :error,
+                       message: "#{work_package.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}")
+          expect_flash(type: :error,
+                       message: "#{work_package2.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}")
+          expect_flash(type: :error, message:
             "#{child.id} (descendant of selected): Type #{I18n.t('activerecord.errors.messages.inclusion')}")
         end
 
@@ -298,7 +298,7 @@ RSpec.describe "Copy work packages through Rails view", :js, :with_cuprite do
 
       click_on "Copy and follow"
 
-      expect_primerized_flash(message: I18n.t(:notice_successful_create))
+      expect_flash(message: I18n.t(:notice_successful_create))
 
       wp_page = Pages::FullWorkPackage.new(WorkPackage.last)
 

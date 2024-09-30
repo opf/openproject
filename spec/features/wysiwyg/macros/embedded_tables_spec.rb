@@ -107,7 +107,7 @@ RSpec.describe "Wysiwyg embedded work package tables",
         # Save wiki page
         click_on "Save"
 
-        expect_primerized_flash(message: "Successful creation.")
+        expect_flash(message: "Successful creation.")
 
         embedded_table = Pages::EmbeddedWorkPackagesTable.new find(".wiki-content")
         embedded_table.expect_work_package_listed wp_task
@@ -143,7 +143,7 @@ RSpec.describe "Wysiwyg embedded work package tables",
           # Save wiki page
           click_on "Save"
 
-          expect_and_dismiss_primerized_flash(message: "Successful creation.")
+          expect_and_dismiss_flash(message: "Successful creation.")
 
           # Embedded queries
           wikipage = project.wiki.pages.last

@@ -52,7 +52,7 @@ RSpec.describe "Types", :js, :with_cuprite do
 
     click_button "Create"
 
-    expect_primerized_flash(type: :error, message: "Name has already been taken.")
+    expect_flash(type: :error, message: "Name has already been taken.")
 
     # Values are retained
     expect(page)
@@ -122,7 +122,7 @@ RSpec.describe "Types", :js, :with_cuprite do
       end
 
       it "renders an error message with links to the archived project in the projects list" do
-        expect_primerized_flash type: :error, message: project.name
+        expect_flash type: :error, message: project.name
       end
     end
   end

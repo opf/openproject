@@ -40,7 +40,7 @@ RSpec.describe "create placeholder users", :selenium do
 
         new_placeholder_user_page.submit!
 
-        expect_primerized_flash(message: "Successful creation.")
+        expect_flash(message: "Successful creation.")
 
         new_placeholder_user = PlaceholderUser.order(Arel.sql("id DESC")).first
 

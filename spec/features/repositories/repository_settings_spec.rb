@@ -193,7 +193,7 @@ RSpec.describe "Repository Settings", :js do
 
       click_button(I18n.t(:button_save))
       expect(page).to have_css('[name="repository[login]"][value="foobar"]')
-      expect_primerized_flash(message: I18n.t("repositories.update_settings_successful"))
+      expect_flash(message: I18n.t("repositories.update_settings_successful"))
     end
   end
 end

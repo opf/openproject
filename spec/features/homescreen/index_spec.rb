@@ -71,7 +71,7 @@ RSpec.describe "Homescreen", "index", :with_cuprite do
       welcome_text_editor.click_and_type_slowly("Hello! ")
 
       general_settings_page.press_save_button
-      expect_and_dismiss_primerized_flash(message: "Successful update.")
+      expect_and_dismiss_flash(message: "Successful update.")
 
       visit root_url
       expect(page)

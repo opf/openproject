@@ -65,7 +65,7 @@ RSpec.describe "Projects module administration" do
     check "Calendar"
     click_button "Save"
 
-    expect_primerized_flash(type: :error, message:
+    expect_flash(type: :error, message:
       I18n.t(:"activerecord.errors.models.project.attributes.enabled_modules.dependency_missing",
              dependency: "Work packages",
              module: "Calendars"))

@@ -97,7 +97,7 @@ RSpec.describe "Meetings new", :js, with_cuprite: false do
 
           show_page = new_page.click_create
 
-          expect_primerized_flash(message: "Successful creation.")
+          expect_flash(message: "Successful creation.")
 
           show_page.expect_invited(user, other_user)
 
@@ -143,8 +143,8 @@ RSpec.describe "Meetings new", :js, with_cuprite: false do
         it "renders a validation error" do
           new_page.click_create
 
-          expect_primerized_flash(type: :error,
-                                  message: "#{Project.model_name.human} #{I18n.t('activerecord.errors.messages.blank')}")
+          expect_flash(type: :error,
+                       message: "#{Project.model_name.human} #{I18n.t('activerecord.errors.messages.blank')}")
 
           new_page.expect_project_dropdown
         end
@@ -178,7 +178,7 @@ RSpec.describe "Meetings new", :js, with_cuprite: false do
 
         show_page = new_page.click_create
 
-        expect_primerized_flash(message: "Successful creation.")
+        expect_flash(message: "Successful creation.")
 
         # Not sure if that is then intended behaviour but that is what is currently programmed
         show_page.expect_invited(admin)
@@ -194,7 +194,7 @@ RSpec.describe "Meetings new", :js, with_cuprite: false do
         it "renders a validation error" do
           new_page.click_create
 
-          expect_primerized_flash(
+          expect_flash(
             message: "#{Project.model_name.human} #{I18n.t('activerecord.errors.messages.blank')}",
             type: :error
           )
@@ -256,7 +256,7 @@ RSpec.describe "Meetings new", :js, with_cuprite: false do
 
           show_page = new_page.click_create
 
-          expect_primerized_flash(message: "Successful creation.")
+          expect_flash(message: "Successful creation.")
 
           show_page.expect_invited(user, other_user)
 
@@ -317,7 +317,7 @@ RSpec.describe "Meetings new", :js, with_cuprite: false do
 
         show_page = new_page.click_create
 
-        expect_primerized_flash(message: "Successful creation.")
+        expect_flash(message: "Successful creation.")
 
         # Not sure if that is then intended behaviour but that is what is currently programmed
         show_page.expect_invited(admin)
@@ -346,7 +346,7 @@ RSpec.describe "Meetings new", :js, with_cuprite: false do
 
         new_page.click_create
 
-        expect_primerized_flash(message: "Successful creation.")
+        expect_flash(message: "Successful creation.")
 
         meeting = Meeting.last
 
@@ -354,7 +354,7 @@ RSpec.describe "Meetings new", :js, with_cuprite: false do
 
         field.submit_by_enter
 
-        expect_primerized_flash(message: "Successful update")
+        expect_flash(message: "Successful update")
 
         meeting.reload
 
