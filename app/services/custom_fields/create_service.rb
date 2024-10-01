@@ -56,7 +56,7 @@ module CustomFields
 
       if cf.is_a?(ProjectCustomField)
         add_cf_to_visible_columns(cf)
-      elsif cf.field_format == "hierarchy"
+      elsif cf.field_format_hierarchy?
         # TODO: Use persistence service
         CustomField::Hierarchy::Item.create(custom_field: cf,
                                             label: nil,
