@@ -1445,8 +1445,8 @@ sl:
     failure_message: Soglasje ni uspelo in nadaljevanje ni mogoče.
     title: Soglasje uporabnika
     decline_warning_message: Odklonili ste soglasje in ste se odjavili.
-    user_has_consented: Uporabnik je v danem času privolil v vašo konfigurirano izjavo.
-    not_yet_consented: "Uporabnik še ni privolil, zahtevano bo ob naslednji prijavi.\n"
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Določite e-poštni naslov, da lahko uporabniki dosežejo krmilnik podatkov za izvajanje zahtev za spremembo ali odstranitev podatkov.
     contact_your_administrator: Če želite izbrisati svoj račun, se obrnite na svojega skrbnika.
     contact_this_mail_address: Če želite izbrisati svoj račun, se obrnite na %{mail_address}.
@@ -1520,8 +1520,8 @@ sl:
       - "avgust"
       - "september"
       - "oktober"
-      - "November"
-      - "December"
+      - "november"
+      - "december"
     order:
       - :leto
       - :mesec
@@ -1870,6 +1870,8 @@ sl:
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1897,6 +1899,10 @@ sl:
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
         totals_removed_from_childless_work_packages: >-
           Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Vodnik za konfiguracijo"
     get_in_touch: "Imate vprašanja? Stopite v stik z nami.\n"
@@ -3269,6 +3275,13 @@ sl:
   setting_sys_api_enabled: "Omogoči spletno storitev upravljanja repozitorija"
   setting_sys_api_description: "Spletna storitev za upravljanje skladišča nudi integracijo in pooblastilo uporabnika za dostop do repozitorija."
   setting_time_format: "Čas"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Omogoči način dostopa za anonimne uporabnike"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Uporabniški privzeti časovni pas"

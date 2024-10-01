@@ -1413,8 +1413,8 @@ fr:
     failure_message: Échec de l'accord, impossible de continuer.
     title: Accord de l'utilisateur
     decline_warning_message: Vous avez refusé l'accord et avez été déconnecté.
-    user_has_consented: L'utilisateur a accepté votre déclaration configurée au moment donné.
-    not_yet_consented: L'utilisateur n'a pas encore donné son accord, il sera demandé lors de la prochaine connexion.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Définissez l'adresse mail à laquelle les utilisateurs peuvent joindre un contrôleur de données pour effectuer des modifications de données ou des demandes de suppression.
     contact_your_administrator: Veuillez contacter votre administrateur si vous souhaitez que votre compte soit supprimé.
     contact_this_mail_address: Veuillez contacter %{mail_address} si vous voulez que votre compte soit supprimé.
@@ -1802,6 +1802,8 @@ fr:
       progress_mode_changed_to_status_based: "Mise à jour du calcul de la progression"
       status_changed: "Statut  « %{status_name} »"
       system_update: "Mise à jour du système OpenProject :"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: par changement vers le prédécesseur %{link}
       work_package_parent_changed_times: par changement vers le parent %{link}
@@ -1829,6 +1831,10 @@ fr:
           Le calcul de la progression est automatiquement <a href="%{href}" target="_blank">ajusté avec la mise à jour de la version</a>.
         totals_removed_from_childless_work_packages: >-
           Les totaux de travail et de progression sont automatiquement supprimés pour les lots de travaux non parents avec <a href="%{href}" target="_blank">la mise à jour de la version</a>. Il s'agit d'une tâche de maintenance qui peut être ignorée.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Guide de configuration"
     get_in_touch: "Vous avez des questions ? Contactez-nous."
@@ -3198,6 +3204,13 @@ fr:
   setting_sys_api_enabled: "Activer le service web de gestion de dépôt"
   setting_sys_api_description: "Le service web de gestion de dépôt fournit l'intégration et l'autorisation d'accès aux dépôts."
   setting_time_format: "Heure"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Activer le mode d'accessibilité pour les utilisateurs anonymes"
   setting_user_format: "Format du nom d'utilisateur"
   setting_user_default_timezone: "Fuseau horaire par défaut des utilisateurs"
