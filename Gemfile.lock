@@ -1022,7 +1022,7 @@ GEM
       rubocop (~> 1.61)
     rubocop-openproject (0.1.0)
       rubocop
-    rubocop-performance (1.22.0)
+    rubocop-performance (1.22.1)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-rails (2.26.2)
