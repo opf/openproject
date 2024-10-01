@@ -102,6 +102,15 @@ class Submenu
                                     show_enterprise_icon:)
   end
 
+  def menu_link(title:, href:, icon_key: nil, count: nil, show_enterprise_icon: false)
+    OpenProject::Menu::MenuItem.new(title:,
+                                    href:,
+                                    icon: icon_map.fetch(icon_key, icon_key),
+                                    count:,
+                                    selected: current_page?(href),
+                                    show_enterprise_icon:)
+  end
+
   def selected?(query_params)
     query_params.each_key do |filter_key|
       next if filter_key == :show_enterprise_icon

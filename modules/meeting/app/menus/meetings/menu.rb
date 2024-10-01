@@ -51,7 +51,9 @@ module Meetings
         menu_item(title: I18n.t(:label_upcoming_meetings),
                   query_params: { filters: upcoming_filter, sort: "start_time" }),
         menu_item(title: I18n.t(:label_past_meetings),
-                  query_params: { filters: past_filter, sort: "start_time:desc" })
+                  query_params: { filters: past_filter, sort: "start_time:desc" }),
+        menu_link(title: I18n.t(:label_recurring_meeting_plural),
+                  href: polymorphic_path([project, :recurring_meetings]))
       ]
     end
 

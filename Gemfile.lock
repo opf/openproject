@@ -7,13 +7,6 @@ GIT
       capybara (~> 3.36)
 
 GIT
-  remote: https://github.com/ice-cube-ruby/ice_cube.git
-  revision: 10ae8dc1c64ea23c9461f2b046cf7ee4513050b9
-  ref: 10ae8dc
-  specs:
-    ice_cube (0.16.4)
-
-GIT
   remote: https://github.com/opf/md-to-pdf
   revision: fe05b4f8bae8fd46f4fa93b8e0adee6295ef7388
   ref: fe05b4f8bae8fd46f4fa93b8e0adee6295ef7388
@@ -1267,7 +1260,7 @@ DEPENDENCIES
   httpx
   i18n-js (~> 4.2.3)
   i18n-tasks (~> 1.0.13)
-  ice_cube!
+  ice_cube (~> 0.17.0)
   json_schemer (~> 2.3.0)
   json_spec (~> 1.1.4)
   ladle
