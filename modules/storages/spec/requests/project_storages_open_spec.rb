@@ -113,8 +113,8 @@ RSpec.describe "projects/:project_id/project_storages/:id/open" do
                   expect(last_response.headers["Location"]).to eq("http://#{Setting.host_name}/projects/#{project.identifier}")
                   expect(last_request.session["flash"]["flashes"])
                     .to eq({
-                             "modal" => {
-                               type: "Storages::OpenProjectStorageModalComponent",
+                             "op_modal" => {
+                               component: "Storages::OpenProjectStorageModalComponent",
                                parameters: { project_storage_open_url: "/projects/#{project.identifier}/project_storages/#{project_storage.id}/open",
                                              redirect_url: expected_redirect_path,
                                              state: :waiting }
@@ -144,8 +144,8 @@ RSpec.describe "projects/:project_id/project_storages/:id/open" do
               expect(last_response.headers["Location"]).to eq("http://#{Setting.host_name}/projects/#{project.identifier}")
               expect(last_request.session["flash"]["flashes"])
                 .to eq({
-                         "modal" => {
-                           type: "Storages::OpenProjectStorageModalComponent",
+                         "op_modal" => {
+                           component: "Storages::OpenProjectStorageModalComponent",
                            parameters: { project_storage_open_url: "/projects/#{project.identifier}/project_storages/#{project_storage.id}/open",
                                          redirect_url: expected_redirect_path,
                                          state: :waiting }

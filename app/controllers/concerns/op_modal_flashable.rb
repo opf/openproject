@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,59 +25,23 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
 
-module FlashMessagesHelper
+module OpModalFlashable
   extend ActiveSupport::Concern
 
   included do
-    include FlashMessagesOutputSafetyHelper
+    add_flash_types :op_modal
   end
 
-  # Renders flash messages
-  def render_flash_messages
-    messages = flash
-      .reject { |k, _| k.start_with? "_" }
-      .reject { |k, _| k.to_s == "op_modal" }
-      .map { |k, v| render_flash_content(k.to_sym, v) }
-
-    safe_join messages, "\n"
+  def flash_op_modal(component:, parameters: {})
+    flash[:op_modal] = { component: component.name, parameters: }
   end
 
-  def render_flash_content(key, content)
-    case content
-    when Hash
-      render_flash_message(key, **content)
-    else
-      render_flash_message(key, message: content)
-    end
+  def store_callback_op_modal_flash(component:, parameters: {})
+    session[:callback_op_modal] = { component: component.name, parameters: }
   end
 
-  def render_flash_modal
-    return if (content = flash[:op_modal]).blank?
-
-    component = content[:component]
-    component = component.constantize if component.is_a?(String)
-
-    component.new(**content.fetch(:parameters, {})).render_in(self)
-  end
-
-  def mapped_flash_type(type)
-    case type
-    when :error, :danger
-      :danger
-    when :warning
-      :warning
-    when :success, :notice
-      :success
-    else
-      :default
-    end
-  end
-
-  def render_flash_message(type, message:, **args)
-    render(OpPrimer::FlashComponent.new(scheme: mapped_flash_type(type), **args)) do
-      join_flash_messages(message)
-    end
+  def retrieve_callback_op_modal_flash
+    session.delete(:callback_op_modal) if session[:callback_op_modal].present?
   end
 end
