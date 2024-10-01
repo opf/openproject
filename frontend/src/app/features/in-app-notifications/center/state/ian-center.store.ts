@@ -20,6 +20,8 @@ export interface IanCenterState {
 
   /** Number of elements not showing after max values loaded */
   notLoaded:number;
+
+  centerHidden:boolean;
 }
 
 export const IAN_FACET_FILTERS:Record<InAppNotificationFacet, ApiV3ListFilter[]> = {
@@ -37,6 +39,7 @@ export function createInitialState():IanCenterState {
     activeCollection: { ids: [] },
     activeFacet: 'unread',
     notLoaded: 0,
+    centerHidden: false,
   };
 }
 

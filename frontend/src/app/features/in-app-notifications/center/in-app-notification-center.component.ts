@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { filter, map } from 'rxjs/operators';
 import { StateService } from '@uirouter/angular';
@@ -50,7 +50,7 @@ import {
   styleUrls: ['./in-app-notification-center.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InAppNotificationCenterComponent implements OnInit {
+export class InAppNotificationCenterComponent implements OnInit, OnDestroy {
   maxSize = NOTIFICATIONS_MAX_SIZE;
 
   hasMoreThanPageSize$ = this.storeService.hasMoreThanPageSize$;
@@ -75,6 +75,8 @@ export class InAppNotificationCenterComponent implements OnInit {
     );
 
   selectedWorkPackage$ = this.storeService.selectedWorkPackage$;
+
+  handleVisibilityChangeBound:EventListener;
 
   reasonMenuItems = [
     {
@@ -158,6 +160,29 @@ export class InAppNotificationCenterComponent implements OnInit {
       filter: this.urlParams.get('filter'),
       name: this.urlParams.get('name'),
     });
+    this.checkNotificationPermissions();
+    this.setupEventListeners();
+  }
+
+  ngOnDestroy():void {
+    this.removeEventListeners();
+  }
+
+  setupEventListeners():void {
+    this.handleVisibilityChangeBound = () => { void this.handleVisibilityChange(); };
+    document.addEventListener('visibilitychange', this.handleVisibilityChangeBound);
+  }
+
+  removeEventListeners():void {
+    document.removeEventListener('visibilitychange', this.handleVisibilityChangeBound);
+  }
+
+  handleVisibilityChange() {
+    if (document.hidden) {
+      this.storeService.setCenterHidden(true);
+    } else {
+      this.storeService.setCenterHidden(false);
+    }
   }
 
   noNotificationText(hasNotifications:boolean):string {
@@ -170,5 +195,18 @@ export class InAppNotificationCenterComponent implements OnInit {
     }
 
     return this.text.no_notification_for_filter;
+  }
+
+  checkNotificationPermissions():void {
+    // Check if the browser supports notifications
+    if (!('Notification' in window)) {
+      return;
+    }
+    // if so, ask for permission if not already denied
+    if (Notification.permission !== 'denied') {
+      Notification.requestPermission().catch((error) => {
+        console.error(error);
+      });
+    }
   }
 }

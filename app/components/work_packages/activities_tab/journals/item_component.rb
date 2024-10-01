@@ -85,8 +85,12 @@ module WorkPackages
           journal.notifications.where(read_ian: false, recipient_id: User.current.id).any?
         end
 
-        def notification_on_details?
-          has_unread_notifications? && journal.notes.blank?
+        def has_read_notifications?
+          journal.notifications.where(read_ian: true, recipient_id: User.current.id).any?
+        end
+
+        def show_notification_on_details?
+          journal.notes.blank?
         end
 
         def allowed_to_edit?
