@@ -174,7 +174,7 @@ ro:
   label_expiration_hint: "%{date} sau la deconectare"
   label_actions: "Acțiuni"
   label_confirmed: "Confirmat"
-  button_continue: "Continuă"
+  button_continue: "Continuaţi"
   button_make_default: "Marcați ca implicit"
   label_unverified_phone: "Telefonul mobil nu a fost încă verificat"
   notice_phone_number_format: "Vă rugăm să introduceți numărul în următorul format: +XX XXXXXXXX."

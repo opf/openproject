@@ -28,7 +28,7 @@ ro:
       work_package:
         position: "Poziție"
         story_points: "Puncte"
-        backlogs_work_package_type: "Tipul de restante"
+        backlogs_work_package_type: "Tip restanță"
     errors:
       models:
         work_package:

@@ -36,11 +36,11 @@ zh-TW:
     info:
       title: "SAML 通訊協定組態參數"
       description: >
-        Use these parameters to configure your identity provider connection to OpenProject.
+        使用這些參數設定您與 OpenProject 的身分提供者連線。
     metadata_parser:
-      success: "Successfully updated the configuration using the identity provider metadata."
-      invalid_url: "Provided metadata URL is invalid. Provide a HTTP(s) URL."
-      error: "Failed to retrieve the identity provider metadata: %{error}"
+      success: "已成功使用身分提供者元資料更新配置設定。"
+      invalid_url: "提供的元資料 URL 無效。提供 HTTP(s) URL。"
+      error: "擷取身分提供者元資料失敗： %{error}"
     providers:
       label_empty_title: "尚未設定 SAML 提供商。"
       label_empty_description: "增加可供查詢之提供商"
@@ -56,57 +56,57 @@ zh-TW:
       label_mapping: 對應
       label_mapping_for: "對應為： %{attribute}"
       label_requested_attribute_for: "要求的屬性為： %{attribute}"
-      no_results_table: No SAML identity providers have been defined yet.
+      no_results_table: 目前尚未定義 SAML 身分提供者。
       plural: SAML 身分提供商
       singular: SAML 身分提供商
       requested_attributes: 要求的屬性
       attribute_mapping: 屬性對應
       attribute_mapping_text: >
-        The following fields control which attributes provided by the SAML identity provider are used to provide user attributes in OpenProject
+        下列欄位控制 SAML 身分提供者所提供的哪些屬性會被用來在 OpenProject 中提供使用者屬性
       metadata:
-        dialog: "This is the URL where the OpenProject SAML metadata is available. Optionally use it to configure your identity provider:"
+        dialog: "這是 OpenProject SAML 元資料可用的 URL。可選擇使用它來設定您的身分提供者："
       upsale:
-        description: Connect OpenProject to a SAML identity provider
+        description: 將 OpenProject 連接到 SAML 身分提供者
       request_attributes:
         title: '要求的屬性'
         legend: >
-          These attributes are added to the SAML XML metadata to signify to the identify provider which attributes OpenProject requires. You may still need to explicitly configure your identity provider to send these attributes. Please refer to your IdP's documentation.
+          這些屬性會新增至 SAML XML 元資料，以向識別供應商表示 OpenProject 需要哪些屬性。您可能仍需明確設定您的身分提供者以傳送這些屬性。請參閱您 IDP 的說明文件。
         name: '要求的屬性名稱'
         format: '屬性格式'
       section_headers:
         configuration: "主要設定"
         attributes: "属性"
       section_texts:
-        display_name: "Configure the display name of the SAML provider."
-        metadata: "Pre-fill configuration using a metadata URL or by pasting metadata XML"
-        metadata_form: "If your identity provider has a metadata endpoint or XML download, add it below to pre-fill the configuration."
-        metadata_form_banner: "Editing the metadata may override existing values in other sections. "
-        configuration: "Configure the endpoint URLs for the identity provider, certificates, and further SAML options."
-        configuration_metadata: "This information has been pre-filled using the supplied metadata. In most cases, they do not require editing."
-        encryption: "Configure assertion signatures and encryption for SAML requests and responses."
-        encryption_form: "You may optionally want to encrypt the assertion response, or have requests from OpenProject signed."
-        mapping: "Manually adjust the mapping between the SAML response and user attributes in OpenProject."
-        requested_attributes: "Define the set of attributes to be requested in the SAML request sent to your identity provider."
-      seeded_from_env: "This provider was seeded from the environment configuration. It cannot be edited."
+        display_name: "設定 SAML 提供者的顯示名稱。"
+        metadata: "使用 metadata URL 或貼上 metadata XML 預先填入組態"
+        metadata_form: "如果您的身分提供者有元資料端點或 XML 下載，請在下方新增以預先填入設定。"
+        metadata_form_banner: "編輯元資料可能會覆寫其他區段中的現有值。 "
+        configuration: "設定身分提供者、憑證和其他 SAML 選項的端點 URL。"
+        configuration_metadata: "這些資訊已使用提供的元資料預先填入。在大多數情況下，它們不需要編輯。"
+        encryption: "設定 SAML 請求與回應的斷言簽章與加密。"
+        encryption_form: "您可以選擇要對斷言回應加密，或對 OpenProject 的要求進行簽名。"
+        mapping: "在 OpenProject 中手動調整 SAML 回應與使用者屬性之間的對應。"
+        requested_attributes: "定義發送給您的身分提供者的 SAML 請求中要請求的屬性集。"
+      seeded_from_env: "此提供者是從環境組態中種下的。無法編輯。"
     settings:
       metadata_none: "我沒有後設資料"
       metadata_url: "後設資料 URL"
       metadata_xml: "後設資料 XML"
     instructions:
       documentation_link: >
-        Please refer to our [documentation on configuring SAML providers](docs_url) for more information on these configuration options.
+        有關這些設定選項的詳細資訊，請參閱我們的 [設定 SAML 提供者的文件](docs_url)。
       display_name: >
-        The name of the provider. This will be displayed as the login button and in the list of providers.
+        提供商的名稱。這將會顯示在登入按鈕及提供者清單中。
       metadata_none: >
-        Your identity provider does not have a metadata endpoint or XML download option. You can the configuration manually.
+        您的身分提供者沒有 metadata endpoint 或 XML 下載選項。您可以手動進行設定。
       metadata_url: >
-        Your identity provider provides a metadata URL.
+        您的身分提供者會提供一個 metadata URL。
       metadata_xml: >
-        Your identity provider provides a metadata XML download.
+        您的身分提供者會提供一個 metadata URL。
       limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+        如果啟用，使用者只能在自我註冊設定允許的情況下使用此提供者註冊。
       sp_entity_id: >
-        The entity ID of the service provider (SP). Sometimes also referred to as Audience. This is the unique client identifier of the OpenProject instance.
+        服務提供者 (SP) 的實體 ID。有時也稱為 Audience。這是 OpenProject 實例的唯一用戶端識別碼。
       idp_sso_service_url: >
         身分提供商登入端點的 URL。
       idp_slo_service_url: >
@@ -114,19 +114,19 @@ zh-TW:
       idp_cert: >
         輸入身分提供者的 X509 PEM 格式公開憑證。您可以輸入多個憑證，並以換行分隔。
       name_identifier_format: >
-        Set the name identifier format to be used for the SAML assertion.
+        設定 SAML 斷言要使用的名稱標識符格式。
       sp_metadata_endpoint: >
-        This is the URL where the OpenProject SAML metadata is available. Optionally use it to configure your identity provider.
+        這是 OpenProject SAML 元資料可用的 URL。可選擇使用它來設定您的身分提供者：
       mapping: >
-        Configure the mapping between the SAML response and user attributes in OpenProject. You can configure multiple attribute names to look for. OpenProject will choose the first available attribute from the SAML response.
+        在 OpenProject 中設定 SAML 回應與使用者屬性之間的對應。您可以設定要尋找的多個屬性名稱。OpenProject 會從 SAML 回應中選擇第一個可用的屬性。
       mapping_login: >
-        SAML attributes from the response used for the login.
+        用於登入的回應中的 SAML 屬性。
       mapping_mail: >
-        SAML attributes from the response used for the email of the user.
+        用於登入的回應中的 SAML 屬性。
       mapping_firstname: >
-        SAML attributes from the response used for the given name.
+        回應中用於指定名稱的 SAML 屬性。
       mapping_lastname: >
-        SAML attributes from the response used for the last name.
+        回應中用於指定名稱的 SAML 屬性。
       mapping_uid: >
         用於內部使用者 ID 的 SAML 屬性。留空可使用 name_id 屬性。
       request_uid: >
