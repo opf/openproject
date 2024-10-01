@@ -117,14 +117,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
     <div class="content-overlay"></div>
     <%= content_tag :main, id: "content-wrapper", class: initial_classes, data: stimulus_content_data do %>
-      <%# Primerized flash messages are being rendered separately  %>
-      <div id="primerized-flash-messages" class="op-primer-flash">
-        <%= render_primerized_flash %>
-      </div>
-      <%# Flash messages are being rendered using the old op-flash style %>
-      <turbo-frame id="flash-messages">
-        <%= render_flash_messages %>
-      </turbo-frame>
+      <%= render partial: "layouts/flashes" %>
       <% if show_onboarding_modal? %>
         <section data-augmented-model-wrapper
                  data-modal-initialize-now="true"

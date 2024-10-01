@@ -286,7 +286,6 @@ pl:
     label_active: Aktywny
     label_add_new_storage: Dodaj nowy magazyn
     label_automatic_folder: Nowy folder z automatycznie zarządzanymi uprawnieniami
-    label_completed: Ukończono
     label_creation_time: Czas utworzenia
     label_creator: Twórca
     label_delete_storage: Usuń magazyn
@@ -298,7 +297,6 @@ pl:
     label_file_storage: Magazyn plików
     label_host: Adres URL hosta
     label_inactive: Nieaktywny
-    label_incomplete: Niekompletny
     label_managed_project_folders:
       application_password: Hasło aplikacji
       automatically_managed_folders: Automatycznie zarządzane foldery

@@ -18,7 +18,7 @@ flash_op_modal component: ::Storages::ProjectStorages::OAuthAccessGrantedModalCo
                parameters: { storage: storage.id }
 ```
 
-Internally, the `FlashMessagesHelper#render_flash_messages` will select flash messages with the key `:op_modal` and render the modal component with the given parameters.
+Internally, the `FlashMessagesHelper#render_flash_modal` will select flash messages with the key `:op_modal` and render the modal component with the given parameters.
 
 P.S. When the `component` is a `Primer::Alpha::Dialog` the `auto-show-dialog` stimulus controller should be declared in order to automatically show the dialog when the page is loaded.
 

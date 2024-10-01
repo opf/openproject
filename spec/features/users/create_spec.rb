@@ -45,7 +45,7 @@ RSpec.describe "create users", :with_cuprite do
 
   shared_examples_for "successful user creation" do |redirect_to_edit_page: true|
     it "creates the user" do
-      expect(page).to have_css(".op-toast", text: "Successful creation.")
+      expect_flash(message: "Successful creation.")
 
       new_user = User.order(Arel.sql("id DESC")).first
 

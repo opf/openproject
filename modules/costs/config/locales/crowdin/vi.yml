@@ -110,6 +110,7 @@ vi:
   label_rate: "Tỷ lệ"
   label_rate_plural: "Các tỷ lệ"
   label_status_finished: "Hoàn thành"
+  label_show: "Show"
   label_units: "Đơn vị chi phí"
   label_user: "Người dùng"
   label_until: "đến"

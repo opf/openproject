@@ -533,7 +533,7 @@ hu:
       could_not_be_saved: "Az alábbi munkacsomagot nem lehet elmenteni:"
       none_could_be_saved: "%{total} munkacsomag közül egyik sem frissíthető."
       x_out_of_y_could_be_saved: "%{total} munkacsomag közül %{success} frissítése sikeres, %{failing} pedig sikertelen."
-      selected_because_descendants: "Míg %{selected} munkacsomag van kiválasztva, összesen %{total} munkacsomag érintett, beleértve a leszármazottakat is."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "a kijelöltek leszármazottja"
     move:
       no_common_statuses_exists: "Az összes kiválasztott feladatcsoporthoz nincs elérhető állapot. Státuszuk nem változtatható meg."
@@ -1359,6 +1359,7 @@ hu:
   button_expand_all: "Az összes kibontása"
   button_favorite: "Add to favorites"
   button_filter: "Szűrő"
+  button_finish_setup: "Finish setup"
   button_generate: "Generálás"
   button_list: "Lista"
   button_lock: "Tilt"
@@ -1411,8 +1412,8 @@ hu:
     failure_message: A hozzájárulás sikertelen a művelet nem folytatható.
     title: Felhasználói jóváhagyás
     decline_warning_message: Elutasította a beleegyezést ezért ki lett léptetve.
-    user_has_consented: A felhasználó beleegyezett a beállított nyilatkozathoz az adott időpontban.
-    not_yet_consented: A felhasználó még nem járult hozzá, a következő bejelentkezéskor ismét kérni fogjuk.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Határozza meg az e-mail címet, amellyel a felhasználók elérhetik az adatkezelőt adatcserére vagy eltávolítási kérelmekre.
     contact_your_administrator: Kérjük lépjen kapcsolatba a rendszergazdával, ha fiókját törölni szeretné.
     contact_this_mail_address: Kérjük, lépjen kapcsolatba %{mail_address}, ha fiókját törölni szeretné.
@@ -1800,6 +1801,8 @@ hu:
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject rendszerfrissítés:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1827,6 +1830,10 @@ hu:
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
         totals_removed_from_childless_work_packages: >-
           Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Konfigurációs útmutató"
     get_in_touch: "Kérdése van? Lépjen kapcsolatba velünk"
@@ -1990,6 +1997,7 @@ hu:
   label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Kalendárium mutatása"
   label_category: "Kategória"
+  label_completed: Completed
   label_consent_settings: "Felhasználói jóváhagyás"
   label_wiki_menu_item: Wiki menüpont
   label_select_main_menu_item: Válasszon ki új fő menüpontot
@@ -2138,6 +2146,7 @@ hu:
   label_here: itt
   label_hide: "Elrejt"
   label_history: "Előzmény"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Hierarchia szint"
   label_home: "Home"
   label_subject_or_id: "Tárgy, vagy azonosító"
@@ -2149,6 +2158,7 @@ hu:
   label_inactive: "Inaktív"
   label_incoming_emails: "Bejövő e-mailek"
   label_includes: "tartalmazza"
+  label_incomplete: Incomplete
   label_include_sub_projects: Include sub-projects
   label_index_by_date: "Index dátum szerint"
   label_index_by_title: "Index cím szerint"
@@ -2262,6 +2272,7 @@ hu:
   label_no_parent_page: "Nincs szülő oldal"
   label_nothing_display: "Nincs megjeleníthető"
   label_nobody: "senki sem"
+  label_not_configured: "Not configured"
   label_not_found: "nem található"
   label_none: "Egyik sem"
   label_none_parentheses: "(nincs)"
@@ -3195,6 +3206,13 @@ hu:
   setting_sys_api_enabled: "Csomagtároló webszolgáltatás bekapcsolva"
   setting_sys_api_description: "A csomagtároló webszolgáltatás integrációt és felhasználói hozzáférést biztosít a tároló eléréséhez."
   setting_time_format: "Idő"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Engedélyezi a kisegítő módot a névtelen felhasználók számára"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "A felhasználók alapértelmezett időzónája"

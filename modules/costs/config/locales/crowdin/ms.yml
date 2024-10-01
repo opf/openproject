@@ -110,6 +110,7 @@ ms:
   label_rate: "Kadar"
   label_rate_plural: "Kadar-kadar"
   label_status_finished: "Telah selesai"
+  label_show: "Show"
   label_units: "Unit kos"
   label_user: "Pengguna"
   label_until: "sehingga"

@@ -286,7 +286,6 @@ ca:
     label_active: Actiu
     label_add_new_storage: Add new storage
     label_automatic_folder: Nova carpeta amb administració de permisos automàtica
-    label_completed: Completat
     label_creation_time: Creation time
     label_creator: Autor
     label_delete_storage: Delete storage
@@ -298,7 +297,6 @@ ca:
     label_file_storage: File storage
     label_host: URL d'allotjament
     label_inactive: Inactiu
-    label_incomplete: Incomplete
     label_managed_project_folders:
       application_password: Application password
       automatically_managed_folders: Automatically managed folders

@@ -195,8 +195,9 @@ RSpec.describe "Boards",
           it "renders a required attribute validation error" do
             expect(Boards::Grid.all).to be_empty
 
-            new_board_page.expect_toast message: "Project #{I18n.t('activerecord.errors.messages.blank')}",
-                                        type: :error
+            expect_flash message: "Project #{I18n.t('activerecord.errors.messages.blank')}",
+                         type: :error
+
             new_board_page.expect_project_dropdown
           end
         end

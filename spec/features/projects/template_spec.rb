@@ -44,6 +44,7 @@ RSpec.describe "Project templates", :js, :with_cuprite,
 
       # Make a template
       find(".button", text: "Set as template").click
+      expect_and_dismiss_flash(message: "Successful update.")
 
       expect(page).to have_css(".button", text: "Remove from templates")
       project.reload

@@ -550,7 +550,7 @@ sk:
       could_not_be_saved: "Nasledujúce pracovné balíčky sa nepodarilo uložiť:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Pre všetky vybraté pracovné balíčky nie je k dispozícii žiadny stav. Ich stav nemožno zmeniť."
@@ -1396,6 +1396,7 @@ sk:
   button_expand_all: "Rozbaliť všetko"
   button_favorite: "Add to favorites"
   button_filter: "Filtrovať"
+  button_finish_setup: "Finish setup"
   button_generate: "Generovať"
   button_list: "Zoznam"
   button_lock: "Uzamknúť"
@@ -1448,8 +1449,8 @@ sk:
     failure_message: Súhlas zlyhal, nie je možné pokračovať.
     title: Súhlas užívateľa
     decline_warning_message: Odmietli ste súhlas a boli ste odhlásený.
-    user_has_consented: Používateľ súhlasil s nakonfigurovaným prehlásením v danom čase.
-    not_yet_consented: Používateľ zatiaľ neudelil svoj súhlas a bude požiadaný pri ďalšom prihlásení.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Definovať e-mailovú adresu, ktorý používatelia môžu vybavovať žiadosti o zmeny v dátumoch alebo odstránenie údajov.
     contact_your_administrator: Pokiaľ chcete svoj účet odstrániť, obráťte se na správcu systému.
     contact_this_mail_address: Ak chcete svoj účet odstrániť, obráťte sa na %{mail_address}.
@@ -1873,6 +1874,8 @@ sk:
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1900,6 +1903,10 @@ sk:
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
         totals_removed_from_childless_work_packages: >-
           Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Sprievodca konfiguráciou"
     get_in_touch: "You have questions? Get in touch with us."
@@ -2063,6 +2070,7 @@ sk:
   label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Zobraziť kalendár"
   label_category: "Kategória"
+  label_completed: Completed
   label_consent_settings: "Súhlas užívateľa"
   label_wiki_menu_item: Položka menu wiki
   label_select_main_menu_item: Vyberte novú položku hlavného menu
@@ -2211,6 +2219,7 @@ sk:
   label_here: tu
   label_hide: "Skryť"
   label_history: "História"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Úroveň hierarchie"
   label_home: "Úvod"
   label_subject_or_id: "Predmet alebo ID"
@@ -2222,6 +2231,7 @@ sk:
   label_inactive: "Neaktívny"
   label_incoming_emails: "Prichádzajúce e-maily"
   label_includes: "zahŕňa"
+  label_incomplete: Incomplete
   label_include_sub_projects: Include sub-projects
   label_index_by_date: "Indexovať podľa dátumu"
   label_index_by_title: "Indexovať podľa názvu"
@@ -2335,6 +2345,7 @@ sk:
   label_no_parent_page: "Žiadna nadradená stránka"
   label_nothing_display: "Nič na zobrazenie"
   label_nobody: "nikto"
+  label_not_configured: "Not configured"
   label_not_found: "nenájdené"
   label_none: "žiadne"
   label_none_parentheses: "(žiadny)"
@@ -3272,6 +3283,13 @@ sk:
   setting_sys_api_enabled: "Povoliť webovú službu pre správu úložiska"
   setting_sys_api_description: "Webová služba pre správu úložiska umožňuje integráciu a autorizáciu používateľa na prístup k repozitárom."
   setting_time_format: "Čas"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Zapnúť režim prístupnosti pre anonymných používateľov"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Predvolená časová zóna užívateľa"

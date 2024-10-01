@@ -149,8 +149,7 @@ RSpec.describe "Create repository", :js, :selenium do
 
         click_button(I18n.t(:button_create))
 
-        expect(page).to have_css("div.op-toast.-success",
-                                 text: I18n.t("repositories.create_successful"))
+        expect_flash(message: I18n.t("repositories.create_successful"))
         expect(page).to have_css("a.icon-delete", text: I18n.t(:button_delete))
       end
     end
@@ -162,8 +161,7 @@ RSpec.describe "Create repository", :js, :selenium do
 
         click_button(I18n.t(:button_create))
 
-        expect(page).to have_css("div.op-toast.-success",
-                                 text: I18n.t("repositories.create_successful"))
+        expect_flash(message: I18n.t("repositories.create_successful"))
         expect(page).to have_css('button[type="submit"]', text: I18n.t(:button_save))
         expect(page).to have_css("a.icon-remove", text: I18n.t(:button_remove))
       end

@@ -101,7 +101,7 @@ RSpec.describe "OAuth authorization code flow", :js do
     page.driver.browser.switch_to.alert.accept
 
     # Should be back on access_token path
-    expect(page).to have_css(".op-toast.-success")
+    expect_flash(message: "Revocation of application Cool API app! successful.")
     expect(page).to have_no_css("[id^=oauth-application-grant]")
 
     expect(page).to have_current_path /\/my\/access_token/

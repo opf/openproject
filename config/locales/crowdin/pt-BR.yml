@@ -534,7 +534,7 @@ pt-BR:
       could_not_be_saved: "Os seguintes pacotes de trabalho não puderam ser salvos:"
       none_could_be_saved: "Nenhum dos %{total} pacotes de trabalho pode ser atualizado."
       x_out_of_y_could_be_saved: "%{failing} dos %{total} pacotes de trabalho não puderam ser atualizados enquanto %{success} foram atualizados."
-      selected_because_descendants: "Enquanto %{selected} pacotes de trabalho são selecionados, no total de %{total} pacotes de trabalho são afetados, o que inclui descendentes."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendente de selecionados"
     move:
       no_common_statuses_exists: "Não há situação disponível para todos os pacotes de trabalho selecionados. Sua situação não pode ser alterada."
@@ -1360,6 +1360,7 @@ pt-BR:
   button_expand_all: "Expandir todos"
   button_favorite: "Adicionar aos favoritos"
   button_filter: "Filtro"
+  button_finish_setup: "Finish setup"
   button_generate: "Gerar"
   button_list: "Lista"
   button_lock: "Bloquear"
@@ -1412,8 +1413,8 @@ pt-BR:
     failure_message: Consentimento falhou, não pode continuar.
     title: Consentimento do usuário
     decline_warning_message: Você se recusou a consentir e foi desconectado.
-    user_has_consented: Usuário consentiu no momento determinado.
-    not_yet_consented: Usuário ainda não consentiu, será solicitado no próximo login.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Defina o endereço de e-mail que os usuários devem utilizar para solicitar alteração ou remoção de dados.
     contact_your_administrator: Por favor, entre em contato com o administrador se quiser ter sua conta excluída.
     contact_this_mail_address: Por favor, entre em contato com %{mail_address} se quiser ter sua conta excluída.
@@ -1801,6 +1802,8 @@ pt-BR:
       progress_mode_changed_to_status_based: "Cálculo de progresso atualizado"
       status_changed: "Status '%{status_name}'"
       system_update: "Atualização do sistema OpenProject:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: por alterações ao antecessor %{link}
       work_package_parent_changed_times: por alterações ao primário %{link}
@@ -1828,6 +1831,10 @@ pt-BR:
           Cálculo de progresso automaticamente <a href="%{href}" target="_blank"> ajustado com a atualização de versão</a>.
         totals_removed_from_childless_work_packages: >-
           Os totais de trabalho e progresso foram removidos automaticamente para pacotes de trabalho que não são principais com a <a href="%{href}" target="_blank">atualização de versão</a>. Esta é uma tarefa de manutenção e pode ser ignorada com segurança.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Guia de configuração"
     get_in_touch: "Com dúvidas? Entre em contato conosco."
@@ -1991,6 +1998,7 @@ pt-BR:
   label_calendars_and_dates: "Calendários e datas"
   label_calendar_show: "Mostrar Calendário"
   label_category: "Categoria"
+  label_completed: Completed
   label_consent_settings: "Consentimento do usuário"
   label_wiki_menu_item: Item do menu da wiki
   label_select_main_menu_item: Selecione novo item do menu principal
@@ -2139,6 +2147,7 @@ pt-BR:
   label_here: aqui
   label_hide: "Ocultar"
   label_history: "História"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Folha de hierarquia"
   label_home: "Início"
   label_subject_or_id: "Assunto ou ID"
@@ -2150,6 +2159,7 @@ pt-BR:
   label_inactive: "Inativo"
   label_incoming_emails: "E-mails recebidos"
   label_includes: "inclui"
+  label_incomplete: Incomplete
   label_include_sub_projects: Incluir subprojetos
   label_index_by_date: "Índice por data"
   label_index_by_title: "Índice por título"
@@ -2263,6 +2273,7 @@ pt-BR:
   label_no_parent_page: "Nenhuma página pai"
   label_nothing_display: "Nada para exibir"
   label_nobody: "ninguém"
+  label_not_configured: "Not configured"
   label_not_found: "não encontrado"
   label_none: "nenhum"
   label_none_parentheses: "(nenhum)"
@@ -3195,6 +3206,13 @@ pt-BR:
   setting_sys_api_enabled: "Habilitar o serviço web de gerenciamento de repositório"
   setting_sys_api_description: "O serviço de web de gerenciamento de repositório fornece integração e autorização de usuário para acessar repositórios."
   setting_time_format: "Horário"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Ativar o modo de acessibilidade para usuários anônimos"
   setting_user_format: "Formato do nome de usuário"
   setting_user_default_timezone: "Fuso horário padrão"

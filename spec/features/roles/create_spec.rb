@@ -55,8 +55,7 @@ RSpec.describe "Role creation", :js, :with_cuprite do
 
     click_button "Create"
 
-    expect(page)
-      .to have_css(".errorExplanation", text: "Name has already been taken")
+    expect_flash(type: :error, message: "Name has already been taken")
 
     fill_in "Name", with: "New role name"
 
@@ -65,17 +64,15 @@ RSpec.describe "Role creation", :js, :with_cuprite do
 
     click_button "Create"
 
-    expect(page)
-      .to have_css(".errorExplanation",
-                   text: "Permissions need to also include 'View members' as 'Manage members' is selected.")
+    expect_flash(type: :error,
+                 message: "Permissions need to also include 'View members' as 'Manage members' is selected.")
 
     check "View members"
     select existing_role.name, from: "Copy workflow from"
 
     click_button "Create"
 
-    expect(page)
-      .to have_css(".-success", text: "Successful creation.")
+    expect_and_dismiss_flash(message: "Successful creation.")
 
     expect(page)
       .to have_current_path(roles_path)

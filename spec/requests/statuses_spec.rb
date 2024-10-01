@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -28,27 +30,27 @@
 
 require "spec_helper"
 
-RSpec.describe "common/_validation_error" do
-  let(:base_error_messages) { ["Something went completely wrong!"] }
-  let(:fields_error_messages) { ["This field is incorrect.", "This cannot be blank."] }
+RSpec.describe "Statuses", :skip_csrf, type: :rails_request do
+  shared_let(:admin) { create(:admin) }
 
-  before do
-    view.content_for(:error_details, "Clear this!")
+  current_user { admin }
 
-    render partial: "common/validation_error",
-           locals: { base_error_messages:,
-                     fields_error_messages:,
-                     object_name: "Test" }
-  end
+  describe "POST /statuses" do
+    it "creates a new status" do
+      post statuses_path, params: { status: { name: "New Status" } }
 
-  it "flushes the buffer before rendering" do
-    # that means the same partial can be called multiple times without side effects
-    expect(rendered).not_to include("Clear this!")
-  end
+      expect(Status.find_by(name: "New Status")).not_to be_nil
+      expect(response).to redirect_to(statuses_path)
+    end
 
-  it "includes all given error messages" do
-    expect(rendered).to include("Something went completely wrong!")
-    expect(rendered).to include("This field is incorrect.")
-    expect(rendered).to include("This cannot be blank.")
+    context "with empty % Complete" do
+      it "displays an error" do
+        post statuses_path, params: { status: { name: "New status", default_done_ratio: "" } }
+
+        expect(response).to have_http_status(:success)
+        expect(response).to render_template("new")
+        expect(response.body).to include("% Complete must be between 0 and 100.")
+      end
+    end
   end
 end

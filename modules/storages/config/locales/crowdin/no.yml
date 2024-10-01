@@ -286,7 +286,6 @@
     label_active: Aktiv
     label_add_new_storage: Legg til nytt lagringssted
     label_automatic_folder: Ny mappe med automatisk administrerte tillatelser
-    label_completed: Fullført
     label_creation_time: Opprettingstidspunkt
     label_creator: Skaper
     label_delete_storage: Slett fillagring
@@ -298,7 +297,6 @@
     label_file_storage: Fillagring
     label_host: Vert URL
     label_inactive: Inaktiv
-    label_incomplete: Ufullstendig
     label_managed_project_folders:
       application_password: Applikasjonspassord
       automatically_managed_folders: Automatisk administrerte mapper

@@ -31,7 +31,11 @@ See COPYRIGHT and LICENSE files for more details.
   render(Primer::BaseComponent.new(
     tag: :div,
     classes: "op-primer-flash--item",
-    data: { unique_key: @unique_key }.compact
+    data: {
+      "flash-target": "item",
+      "autohide": @autohide,
+      unique_key: @unique_key
+    }.compact
   )) do
     render_parent
   end
