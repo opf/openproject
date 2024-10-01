@@ -26,29 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-##
-# This job gets called when internally using
+# OpenProject is configured to use this job when sending emails like this:
 #
 # ```
 # UserMailer.some_mail("some param").deliver_later
 # ```
 #
-# because we want to have the sending of the email run in an `ApplicationJob`
-# as opposed to using `ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper`.
-# We want it to run in an `ApplicationJob` because of the shared setup required
-# such as reloading the mailer configuration and resetting the request store.
+# This job is used because all our `XxxMailer` classes inherit from
+# `ApplicationMailer`, and `ApplicationMailer.delivery_job` is set to
+# `::Mails::MailerJob`.
+#
+# The `delivery_job` is customized because we want to have the sending of the
+# email run in an instance inheriting from `ApplicationJob` instead of a
+# `ActionMailer::MailDeliveryJob` (Rails default delivery job). Indeed
+# `ApplicationJob` contains all the shared setup required for OpenProject such
+# as reloading the mailer configuration and resetting the request store.
 class Mails::MailerJob < ApplicationJob
-  queue_as { ActionMailer::Base.deliver_later_queue_name }
-
   # Retry mailing jobs three times with polinomial backoff
   retry_on StandardError, wait: :polynomially_longer, attempts: 3
 
-  # If exception is handled in mail handler
-  # retry_on will be ignored
+  # The following lines are copied from ActionMailer::MailDeliveryJob
+  queue_as do
+    mailer_class = arguments.first.constantize
+    mailer_class.deliver_later_queue_name
+  end
+
   rescue_from StandardError, with: :handle_exception_with_mailer_class
 
-  def perform(mailer, mail_method, delivery, args:)
-    mailer.constantize.public_send(mail_method, *args).send(delivery)
+  def perform(mailer, mail_method, delivery_method, args:, kwargs: nil, params: nil)
+    mailer_class = params ? mailer.constantize.with(params) : mailer.constantize
+    message =
+      if kwargs
+        mailer_class.public_send(mail_method, *args, **kwargs)
+      else
+        mailer_class.public_send(mail_method, *args)
+      end
+    message.send(delivery_method)
   end
 
   private
