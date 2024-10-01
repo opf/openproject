@@ -10,7 +10,9 @@ keywords: Progress tracking, estimated time, remaining time, work, % complete, p
 
 OpenProject lets you track and monitor the progress of your work packages.
 
-> **Note:** Since OpenProject 14.0, the way progress is reported and calculated has changed significantly. Please read the documentation below to understand how OpenProject handles work and progress estimates.
+> [!IMPORTANT]
+> In OpenProject 14.0, the way progress is reported and calculated has changed significantly. Refer to [this blog article](https://www.openproject.org/blog/changes-progress-work-estimates/) to follow the changes. 
+> **In OpenProject 14.6 some of the changes made in 14.0 were removed and updated**. Please read the documentation below and [this blog post](https://www.openproject.org/blog/updates-to-progress-tracking-in-14-6-based-on-user-feedback/) to understand how OpenProject handles work and progress estimates.
 
 ## Terms
 
@@ -22,7 +24,8 @@ OpenProject lets you track and monitor the progress of your work packages.
 | Estimated time   | Work                  |
 | Remaining time   | Remaining work        |
 
->**Note**: You will still find the new attributes if you search using their older names (in the list of filters, for example).
+>[!NOTE]
+> You will still find the new attributes if you search using their older names (in the list of filters, for example).
 
 ## Units of measurement
 
@@ -50,14 +53,21 @@ The default setting is set to be 8 hours per day. Your administrator can change 
 
 OpenProject offers two modes for reporting progress:
 
-- **Work-based progress reporting** enables you to automatically derive progress based on the values you enter for Work and Remaining work
-- **Status-based progress reporting** allows you to assign fixed % Complete values to statuses, and automatically derive Remaining work based on the values for Work you can enter
+- **Work-based progress reporting** enables you to automatically derive progress based on the values you enter for Work and Remaining work. You can also manually enter a value for % Complete. 
+- **Status-based progress reporting** allows you to assign fixed % Complete values to statuses, and automatically derive Remaining work based on the values for Work you can enter.
 
->**Note:** The administrator of your instance will have selected a mode for the entire instance. If you are an administrator, you can modify this by following our [admin guide on work package settings](../../../system-admin-guide/manage-work-packages/work-package-settings).
+> [!NOTE]
+> The administrator of your instance will have selected a mode for the entire instance. If you are an administrator, you can modify this by following our [admin guide on work package settings](../../../system-admin-guide/manage-work-packages/work-package-settings).
 
 ### Work-based progress reporting
 
-%&nbsp;Complete is an automatically calculated value that is a function of Work and Remaining work, unless %&nbsp;Complete is configured to be [set by status](#status-based-progress-reporting).
+In the work-based progress reporting mode %&nbsp;Complete can either be automatically calculated based on the values of Work and Remaining work, or entered manually. 
+
+#### Manual values for % Complete
+
+If you you prefer to enter the values for % Complete manually, you can. 
+
+#### Automatic values for % Complete
 
 >**%&nbsp;Complete** is work done (**Work** - **Remaining work**) divided by **Work**, expressed as a percentage. For example, if Work is set at 50h and Remaining work is 30h, this means that %&nbsp;Complete is _(50h-30h)/50h))_ = **40%**. Please note that these calculations are independent and unrelated to the value of **Spent time** (which is based on actual time logged).
 
@@ -67,7 +77,8 @@ This means that for a work package to have a value for %&nbsp;Complete, both Wor
 
 This allows you to edit Work or Remaining work and get a preview of the updated %&nbsp;Complete value before saving changes. Changing any one field will automatically update the other two.
 
->**Note:** If you enter a value for Remaining work that is higher than Work, you will see an error message telling you that this is not possible. You will have to enter a value lower than Work to be able to save the new value.
+> [!NOTE]
+> If you enter a value for Remaining work that is higher than Work, you will see an error message telling you that this is not possible. You will have to enter a value lower than Work to be able to save the new value.
 >
 >Additionally, the value for Remaining work cannot be removed if a value for Work exists. If you wish to unset Remaining work, you need to also unset Work.
 
@@ -89,7 +100,8 @@ In Status-based progress reporting mode, Work is not a required value. However, 
 
 This allows you to edit %&nbsp;Complete (by changing status) or Work and get a preview of the updated Remaining work before saving changes.
 
->**Note:** In the upcoming version, statuses cannot have an empty %&nbsp;Complete value in status-based progress reporting mode.When upgrading, all statuses that do not have a value will take the default value of 0%.
+> [!NOTE]
+> In the upcoming version, statuses cannot have an empty %&nbsp;Complete value in status-based progress reporting mode.When upgrading, all statuses that do not have a value will take the default value of 0%.
 
 ## Hierarchy totals
 
@@ -97,7 +109,8 @@ OpenProject will automatically show totals for Work, Remaining work and % Comple
 
 ![Hierarchy totals for Work, Remaining work and % Complete](hierarchy-totals-days.png)
 
-> **Note**: The total %&nbsp;Complete value of a hierarchy is a weighted average tied to Work. For example, a feature with Work set to 50h that is 30% done will influence the total of %&nbsp;Complete of the parent more than a feature with Work set to 5h that is 70% done.
+> [!NOTE]
+> The total %&nbsp;Complete value of a hierarchy is a weighted average tied to Work. For example, a feature with Work set to 50h that is 30% done will influence the total of %&nbsp;Complete of the parent more than a feature with Work set to 5h that is 70% done.
 
 ### Excluding certain work packages from totals
 
