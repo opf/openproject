@@ -28,30 +28,10 @@
 
 module Admin
   module CustomFields
-    class EditFormHeaderComponent < ApplicationComponent
-      TAB_NAVS = %i[
-        edit
-        items
-        custom_field_projects
-      ].freeze
-
-      def initialize(custom_field:, selected:, **)
-        @custom_field = custom_field
-        @selected = selected
-        super(custom_field, **)
-      end
-
-      def tab_selected?(tab_name)
-        TAB_NAVS.include?(tab_name) && tab_name == @selected
-      end
-
-      private
-
-      def breadcrumbs_items
-        [{ href: admin_index_path, text: t(:label_administration) },
-         { href: custom_fields_path, text: t(:label_custom_field_plural) },
-         { href: custom_fields_path(tab: @custom_field.type), text: I18n.t(@custom_field.type_name) },
-         @custom_field.name]
+    module Hierarchy
+      class ItemComponent < ApplicationComponent
+        include OpTurbo::Streamable
+        include OpPrimer::ComponentHelpers
       end
     end
   end

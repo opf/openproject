@@ -27,35 +27,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  render(Primer::OpenProject::PageHeader.new(test_selector: "custom-fields--page-header")) do |header|
-    header.with_title { @custom_field.name }
+<% html_title t(:label_administration), "#{CustomField.model_name.human} #{h @custom_field.name}", t(:label_item_plural) %>
 
-    header.with_breadcrumbs(breadcrumbs_items)
+<%= render(Admin::CustomFields::EditFormHeaderComponent.new(custom_field: @custom_field, selected: :items)) %>
 
-    header.with_tab_nav(label: nil, test_selector: :custom_field_detail_header) do |tab_nav|
-      tab_nav.with_tab(
-        selected: tab_selected?(:edit),
-        href: edit_custom_field_path(@custom_field)
-      ) do |tab|
-        tab.with_text { t(:label_details) }
-      end
-
-      if @custom_field.field_format_hierarchy?
-        tab_nav.with_tab(
-          selected: tab_selected?(:items),
-          href: custom_field_items_path(@custom_field)
-        ) do |tab|
-          tab.with_text { t(:label_item_plural) }
-        end
-      end
-
-      tab_nav.with_tab(
-        selected: tab_selected?(:custom_field_projects),
-        href: custom_field_projects_path(@custom_field)
-      ) do |tab|
-        tab.with_text { t(:label_project_plural) }
-      end
-    end
-  end
-%>
+<%= render(Admin::CustomFields::Hierarchy::ItemComponent.new(custom_field: @custom_field)) %>
