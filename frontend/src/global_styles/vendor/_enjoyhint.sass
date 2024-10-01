@@ -134,12 +134,12 @@
   letter-spacing: 1px
   @include onboarding-button-styles
 
-.enjoyhint_btn-transparent
-  background: transparent
+.enjoyhint_btn-secondary
+  background: var(--button--primary-font-color)
   color: var(--primary-button-color)
-  &:hover
-    color: var(--button--primary-font-color)
-  &:active
+
+  &:hover,&:active
+    background: var(--button--primary-background-hover-color)
     color: var(--button--primary-font-color)
 
 #kinetic_container, .enjoyhint_canvas
