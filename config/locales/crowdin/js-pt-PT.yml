@@ -356,10 +356,10 @@ pt-PT:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_5":
+          "14_6":
             standard:
               new_features_html: >
-                A versão contém várias funcionalidades novas e melhorias, tais como: <br> <ul class="%{list_styling_class}"> <li>Manter e restaurar versões locais de alterações de conteúdo WYSIWYG.</li> <li>Permitir o armazenamento de vários projetos de uma só vez.</li> <li>Exportar pacotes de trabalho num modal atualizado com definições adicionais.</li> <li>Exibir colunas/filtros de campos personalizados em listas de projetos também na Community Edition.</li> <li>Oferecer suporte ao CloudFlare Turnstile como Captcha.</li> </ul>
+                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Benefit from more flexible progress reporting – thanks to user feedback.</li> <li>Receive an update notification with reload option for meetings.</li> <li>Enable a custom field for multiple projects at once.</li> <li>Use relative work package attribute macros.</li> <li>Show empty lines in saved rich text.</li> <li>See past meetings included in the number next to the Meetings tab.</li> </ul>
     ical_sharing_modal:
       title: "Subscrever o calendário"
       inital_setup_error_message: "Ocorreu um erro ao recuperar os dados."
