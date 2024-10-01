@@ -2,39 +2,39 @@ zh-TW:
   activemodel:
     attributes:
       saml/provider:
-        display_name: Name
-        identifier: Identifier
-        secret: Secret
-        scope: Scope
-        assertion_consumer_service_url: ACS (Assertion consumer service) URL
-        limit_self_registration: Limit self registration
-        sp_entity_id: Service entity ID
-        metadata_url: Identity provider metadata URL
-        name_identifier_format: Name identifier format
-        idp_sso_service_url: Identity provider login endpoint
-        idp_slo_service_url: Identity provider logout endpoint
-        idp_cert: Public certificate of identity provider
-        authn_requests_signed: Sign SAML AuthnRequests
-        want_assertions_signed: Require signed responses
-        want_assertions_encrypted: Require encrypted responses
-        certificate: Certificate used by OpenProject for SAML requests
-        private_key: Corresponding private key for OpenProject SAML requests
-        signature_method: Signature algorithm
-        digest_method: Digest algorithm
-        format: "Format"
-        icon: "Custom icon"
+        display_name: 名稱
+        identifier: 識別碼
+        secret: 金鑰
+        scope: 範圍
+        assertion_consumer_service_url: ACS(認證消費者服務) URL
+        limit_self_registration: 限制自行註冊
+        sp_entity_id: 服務實體 ID
+        metadata_url: 身分提供商後設資料 URL
+        name_identifier_format: 名稱識別碼格式
+        idp_sso_service_url: 身分提供商登入端點
+        idp_slo_service_url: 身分提供商登出端點
+        idp_cert: 身分提供商的公開證書
+        authn_requests_signed: 簽署 SAML AuthnRequests
+        want_assertions_signed: 要求簽署回覆
+        want_assertions_encrypted: 要求加密回應
+        certificate: OpenProject 用於 SAML 請求的憑證
+        private_key: OpenProject SAML 請求的對應私密金鑰
+        signature_method: 簽章演算法
+        digest_method: 摘要演算法
+        format: "格式"
+        icon: "自訂圖示"
   activerecord:
     errors:
       models:
         saml/provider:
-          invalid_certificate: "is not a valid PEM-formatted certificate: %{additional_message}"
-          invalid_private_key: "is not a valid PEM-formatted private key: %{additional_message}"
-          certificate_expired: "is expired and can no longer be used."
-          unmatched_private_key: "does not belong to the given certificate"
+          invalid_certificate: "不是有效的 PEM 格式證書： %{additional_message}"
+          invalid_private_key: "不是有效的 PEM 格式私密金鑰： %{additional_message}"
+          certificate_expired: "已過期，無法再使用。"
+          unmatched_private_key: "不屬於指定的憑證"
   saml:
-    menu_title: SAML providers
+    menu_title: SAML 提供商
     info:
-      title: "SAML Protocol Configuration Parameters"
+      title: "SAML 通訊協定組態參數"
       description: >
         Use these parameters to configure your identity provider connection to OpenProject.
     metadata_parser:
@@ -42,25 +42,25 @@ zh-TW:
       invalid_url: "Provided metadata URL is invalid. Provide a HTTP(s) URL."
       error: "Failed to retrieve the identity provider metadata: %{error}"
     providers:
-      label_empty_title: "No SAML providers configured yet."
-      label_empty_description: "Add a provider to see them here."
-      label_automatic_configuration: Automatic configuration
-      label_metadata: Metadata
-      label_metadata_endpoint: OpenProject metadata endpoint
-      label_openproject_information: OpenProject information
-      label_configuration_details: "Identity provider endpoints and certificates"
-      label_configuration_encryption: "Signatures and Encryption"
-      label_add_new: New SAML identity provider
-      label_edit: Edit SAML identity provider %{name}
-      label_uid: Internal user id
-      label_mapping: Mapping
-      label_mapping_for: "Mapping for: %{attribute}"
-      label_requested_attribute_for: "Requested attribute for: %{attribute}"
+      label_empty_title: "尚未設定 SAML 提供商。"
+      label_empty_description: "增加可供查詢之提供商"
+      label_automatic_configuration: 自動設定
+      label_metadata: 後設資料
+      label_metadata_endpoint: OpenProject 後設資料端點
+      label_openproject_information: OpenProject 資訊
+      label_configuration_details: "身分提供商端點與憑證"
+      label_configuration_encryption: "簽名與加密"
+      label_add_new: 新增 SAML 身分提供商
+      label_edit: 編輯 SAML 身分提供者 %{name}
+      label_uid: 內部使用者 id
+      label_mapping: 對應
+      label_mapping_for: "對應為： %{attribute}"
+      label_requested_attribute_for: "要求的屬性為： %{attribute}"
       no_results_table: No SAML identity providers have been defined yet.
-      plural: SAML identity providers
-      singular: SAML identity provider
-      requested_attributes: Requested attributes
-      attribute_mapping: Attribute mapping
+      plural: SAML 身分提供商
+      singular: SAML 身分提供商
+      requested_attributes: 要求的屬性
+      attribute_mapping: 屬性對應
       attribute_mapping_text: >
         The following fields control which attributes provided by the SAML identity provider are used to provide user attributes in OpenProject
       metadata:
@@ -68,14 +68,14 @@ zh-TW:
       upsale:
         description: Connect OpenProject to a SAML identity provider
       request_attributes:
-        title: 'Requested attributes'
+        title: '要求的屬性'
         legend: >
           These attributes are added to the SAML XML metadata to signify to the identify provider which attributes OpenProject requires. You may still need to explicitly configure your identity provider to send these attributes. Please refer to your IdP's documentation.
-        name: 'Requested attribute key'
-        format: 'Attribute format'
+        name: '要求的屬性名稱'
+        format: '屬性格式'
       section_headers:
-        configuration: "Primary configuration"
-        attributes: "Attributes"
+        configuration: "主要設定"
+        attributes: "属性"
       section_texts:
         display_name: "Configure the display name of the SAML provider."
         metadata: "Pre-fill configuration using a metadata URL or by pasting metadata XML"
@@ -89,9 +89,9 @@ zh-TW:
         requested_attributes: "Define the set of attributes to be requested in the SAML request sent to your identity provider."
       seeded_from_env: "This provider was seeded from the environment configuration. It cannot be edited."
     settings:
-      metadata_none: "I don't have metadata"
-      metadata_url: "Metadata URL"
-      metadata_xml: "Metadata XML"
+      metadata_none: "我沒有後設資料"
+      metadata_url: "後設資料 URL"
+      metadata_xml: "後設資料 XML"
     instructions:
       documentation_link: >
         Please refer to our [documentation on configuring SAML providers](docs_url) for more information on these configuration options.
@@ -108,11 +108,11 @@ zh-TW:
       sp_entity_id: >
         The entity ID of the service provider (SP). Sometimes also referred to as Audience. This is the unique client identifier of the OpenProject instance.
       idp_sso_service_url: >
-        The URL of the identity provider login endpoint.
+        身分提供商登入端點的 URL。
       idp_slo_service_url: >
-        The URL of the identity provider login endpoint.
+        身分提供商登入端點的 URL。
       idp_cert: >
-        Enter the X509 PEM-formatted public certificate of the identity provider. You can enter multiple certificates by separating them with a newline.
+        輸入身分提供者的 X509 PEM 格式公開憑證。您可以輸入多個憑證，並以換行分隔。
       name_identifier_format: >
         Set the name identifier format to be used for the SAML assertion.
       sp_metadata_endpoint: >
@@ -128,28 +128,28 @@ zh-TW:
       mapping_lastname: >
         SAML attributes from the response used for the last name.
       mapping_uid: >
-        SAML attribute to use for the internal user ID. Leave empty to use the name_id attribute instead
+        用於內部使用者 ID 的 SAML 屬性。留空可使用 name_id 屬性。
       request_uid: >
-        SAML attribute to request for the internal user ID. By default, the name_id will be used for this field.
+        請求內部使用者 ID 的 SAML 屬性。預設此欄位使用 name_id。
       requested_attributes: >
-        These attributes are added to the SAML request XML to communicate to the identity provider which attributes OpenProject requires.
+        這些屬性會新增至 SAML 請求 XML，以傳達 OpenProject 需要哪些屬性給身分提供者。
       requested_format: >
-        The format of the requested attribute. This is used to specify the format of the attribute in the SAML request. Please see [documentation on configuring requested attributes](docs_url) for more information.
+        請求屬性的格式。用來指定 SAML 請求中的屬性格式。詳情請參閱 [設定請求屬性的說明文件](docs_url)。
       authn_requests_signed: >
-        If checked, OpenProject will sign the SAML AuthnRequest. You will have to provide a signing certificate and private key using the fields below.
+        如果啟用，OpenProject 將簽署 SAML AuthnRequest。您必須使用以下欄位提供簽名憑證和私鑰。
       want_assertions_signed: >
-        If checked, OpenProject will required signed responses from the identity provider using it's own certificate keypair. OpenProject will verify the signature against the certificate from the basic configuration section.
+        如果啟用，OpenProject 將要求身分提供者使用自己的憑證金鑰對簽署回應。 OpenProject 將根據基本設定的憑證驗證簽章。
       want_assertions_encrypted: >
-        If enabled, require the identity provider to encrypt the assertion response using the certificate pair that you provide.
+        如果啟用，會要求身分提供商使用您提供的證書，對斷言回應加密。
       certificate: >
-        Enter the X509 PEM-formatted certificate used by OpenProject for signing SAML requests.
+        輸入 OpenProject 用於簽署 SAML 請求的 X509 PEM 格式證書。
       private_key: >
-        Enter the X509 PEM-formatted private key for the above certificate. This needs to be an RSA private key.
+        輸入上述證書的 X509 PEM 格式私密金鑰。這必須是 RSA 私密金鑰。
       signature_method: >
-        Select the signature algorithm to use for the SAML request signature performed by OpenProject (Default: %{default_option}).
+        選擇 OpenProject 執行的 SAML 請求簽章要使用的簽章演算法 (預設值: %{default_option})。
       digest_method: >
-        Select the digest algorithm to use for the SAML request signature performed by OpenProject (Default: %{default_option}).
+        選擇 OpenProject 執行的 SAML 請求簽章要使用的摘要演算法 (預設值: %{default_option})。
       icon: >
-        Optionally provide a public URL to an icon graphic that will be displayed next to the provider name.
+        （可選）提供圖標圖形的公共 URL，該圖標圖形將顯示在提供商名稱旁邊。
       metadata_for_idp: >
-        This information might be requested by your SAML identity provider.
+        您的 SAML 身分提供商可能會要求提供此資訊。
