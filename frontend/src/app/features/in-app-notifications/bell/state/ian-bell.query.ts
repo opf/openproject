@@ -8,6 +8,12 @@ import {
 export class IanBellQuery extends Query<IanBellState> {
   unread$ = this.select('totalUnread');
 
+  unreadCountChanged$ = this.unread$.pipe(
+    pairwise(),
+    filter(([last, curr]) => curr !== last),
+    map(([, curr]) => curr),
+  );
+
   unreadCountIncreased$ = this.unread$.pipe(
     pairwise(),
     filter(([last, curr]) => curr > last),
