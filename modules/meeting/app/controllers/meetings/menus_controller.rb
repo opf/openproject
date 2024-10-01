@@ -30,7 +30,7 @@ module Meetings
     before_action :load_and_authorize_in_optional_project
 
     def show
-      @submenu_menu_items = ::Meetings::Menu.new(project: @project, params:).menu_items
+      @submenu_menu_items = ::Meetings::Menu.new(project: @project, params:, request:).menu_items
       @create_btn_options = if @project.present? && User.current.allowed_in_project?(:create_meetings, @project)
                               { href: new_project_meeting_path(@project), module_key: "meeting" }
                             elsif @project.nil? && User.current.allowed_in_any_project?(:create_meetings)

@@ -27,11 +27,13 @@
 # ++
 class Submenu
   include Rails.application.routes.url_helpers
-  attr_reader :view_type, :project, :params
+  include ActionView::Helpers::UrlHelper
+  attr_reader :view_type, :project, :request, :params
 
-  def initialize(view_type:, project: nil, params: nil)
+  def initialize(view_type:, params:, request: nil, project: nil)
     @view_type = view_type
     @project = project
+    @request = request
     @params = params
   end
 
