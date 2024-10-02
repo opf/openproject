@@ -9,7 +9,7 @@ keywords: work package progress tracking, percentage complete, % complete
 
 # Manage work package progress tracking
 
-To manage the settings for progress tracking in work packages, navigate to  *Administration* → *Work packages → Progress tracking*. 
+To manage the settings for progress tracking in work packages, navigate to  *Administration* → *Work packages* → *Progress tracking*. 
 
 ![Progress tracking settings under OpenProject administration](openproject_system_guide_progress_tracking_settings.png)
 
