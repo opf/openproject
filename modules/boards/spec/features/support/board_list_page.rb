@@ -35,15 +35,11 @@ module Pages
     end
 
     def expect_create_button
-      within '[data-test-selector="add-board-button"]' do
-        expect(page).to have_link "Board"
-      end
+      expect(page).to have_css('[data-test-selector="add-board-button"]', text: "Board")
     end
 
     def expect_no_create_button
-      within '[data-test-selector="add-board-button"]' do
-        expect(page).to have_no_link "Board"
-      end
+      expect(page).to have_no_css('[data-test-selector="add-board-button"]', text: "Board")
     end
 
     def expect_delete_buttons(*boards)
