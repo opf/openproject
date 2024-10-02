@@ -571,6 +571,8 @@ Rails.application.routes.draw do
   resources :work_packages, only: [:index] do
     concerns :shareable
 
+    get "hover_card" => "work_packages/hover_card#show", on: :member
+
     # move bulk of wps
     get "move/new" => "work_packages/moves#new", on: :collection, as: "new_move"
     post "move" => "work_packages/moves#create", on: :collection, as: "move"

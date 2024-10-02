@@ -1,0 +1,17 @@
+<div
+  class="op-hover-card"
+  *ngIf="turboFrameSrc"
+>
+  <turbo-frame
+    loading="lazy"
+    id="op-hover-card-body"
+    [src]="turboFrameSrc">
+    <op-content-loader
+      viewBox="0 0 180 80"
+    >
+      <svg:rect x="10" y="10" width="80%" height="16" rx="1" />
+      <svg:rect x="10" y="30" width="80%" height="16" rx="1" />
+      <svg:rect x="10" y="50" width="60%" height="16" rx="1" />
+    </op-content-loader>
+  </turbo-frame>
+</div>

@@ -173,7 +173,7 @@ module WorkPackagesHelper
 
   # Returns a string of css classes that apply to the issue
   def work_package_css_classes(work_package)
-    s = "work_package preview-trigger".html_safe
+    s = "work_package op-hover-card--preview-trigger".html_safe
     s << " status-#{work_package.status.position}" if work_package.status
     s << " priority-#{work_package.priority.position}" if work_package.priority
     s << " closed" if work_package.closed?

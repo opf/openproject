@@ -28,10 +28,10 @@
 
 import { Injectable, Injector, NgZone } from '@angular/core';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { WpPreviewModalComponent } from 'core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal';
+import { HoverCardComponent } from 'core-app/shared/components/modals/preview-modal/hover-card-modal/hover-card.modal';
 
 @Injectable({ providedIn: 'root' })
-export class PreviewTriggerService {
+export class HoverCardTriggerService {
   private modalElement:HTMLElement;
 
   private mouseInModal = false;
@@ -44,7 +44,7 @@ export class PreviewTriggerService {
   }
 
   setupListener() {
-    jQuery(document.body).on('mouseover', '.preview-trigger', (e) => {
+    jQuery(document.body).on('mouseover', '.op-hover-card--preview-trigger', (e) => {
       e.preventDefault();
       e.stopPropagation();
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -58,8 +58,9 @@ export class PreviewTriggerService {
         }
 
         this.opModalService.show(
-          WpPreviewModalComponent,
+          HoverCardComponent,
           this.injector,
+          // TODO
           { workPackageLink: href, event: e },
           true,
         ).subscribe((previewModal) => {
@@ -69,16 +70,16 @@ export class PreviewTriggerService {
       }
     });
 
-    jQuery(document.body).on('mouseleave', '.preview-trigger', () => {
+    jQuery(document.body).on('mouseleave', '.op-hover-card--preview-trigger', () => {
       this.closeAfterTimeout();
     });
 
-    jQuery(document.body).on('mouseleave', '.op-wp-preview-modal', () => {
+    jQuery(document.body).on('mouseleave', '.op-hover-card', () => {
       this.mouseInModal = false;
       this.closeAfterTimeout();
     });
 
-    jQuery(document.body).on('mouseenter', '.op-wp-preview-modal', () => {
+    jQuery(document.body).on('mouseenter', '.op-hover-card', () => {
       this.mouseInModal = true;
     });
   }
@@ -91,22 +92,5 @@ export class PreviewTriggerService {
         }
       }, 100);
     });
-  }
-
-  private isMouseOverPreview(e:JQuery.MouseLeaveEvent) {
-    if (!this.modalElement) {
-      return false;
-    }
-
-    const previewElement = jQuery(this.modalElement.children[0]);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    if (previewElement && previewElement.offset()) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const horizontalHover = e.pageX >= Math.floor(previewElement.offset()!.left) && e.pageX < previewElement.offset()!.left + previewElement.width()!;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const verticalHover = e.pageY >= Math.floor(previewElement.offset()!.top) && e.pageY < previewElement.offset()!.top + previewElement.height()!;
-      return horizontalHover && verticalHover;
-    }
-    return false;
   }
 }

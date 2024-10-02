@@ -90,7 +90,7 @@ RSpec.describe "API v3 Render resource" do
               <<~HTML
                 <p class="op-uc-p">
                   Hello World! Have a look at
-                  <a class="issue work_package preview-trigger op-uc-link"
+                  <a class="issue work_package op-hover-card--preview-trigger op-uc-link"
                      target="_top"
                      href="#{href}">##{id}</a>
                 </p>
@@ -180,7 +180,7 @@ RSpec.describe "API v3 Render resource" do
 
           it_behaves_like "valid response" do
             let(:text) do
-              "<p>Hello *World*! Have a look at <a class=\"issue work_package preview-trigger\" href=\"/work_packages/1\">#1</a></p>\n\n<p>with two lines.</p>"
+              "<p>Hello *World*! Have a look at <a class=\"issue work_package op-hover-card--preview-trigger\" href=\"/work_packages/1\">#1</a></p>\n\n<p>with two lines.</p>"
             end
           end
         end

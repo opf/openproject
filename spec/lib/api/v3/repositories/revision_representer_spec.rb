@@ -95,7 +95,7 @@ RSpec.describe API::V3::Repositories::RevisionRepresenter do
         id = work_package.id
 
         str = "Totally references <a"
-        str << " class=\"issue work_package preview-trigger\""
+        str << " class=\"issue work_package op-hover-card--preview-trigger\""
         str << " href=\"/work_packages/#{id}\">"
         str << "##{id}</a>"
       end
