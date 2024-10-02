@@ -2,8 +2,9 @@ class RecurringMeetingsController < ApplicationController
   include Layout
 
   before_action :find_meeting, only: %i[show]
-  before_action :find_optional_project, only: %i[index new create]
+  before_action :find_optional_project, only: %i[index show new create]
   before_action :authorize_global, only: %i[index new create]
+  before_action :authorize, only: %i[show]
 
   menu_item :meetings
 

@@ -26,14 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Meetings
-  ::Queries::Register.register(MeetingQuery) do
-    filter Filters::ProjectFilter
-    filter Filters::TimeFilter
-    filter Filters::AttendedUserFilter
-    filter Filters::InvitedUserFilter
-    filter Filters::AuthorFilter
-    filter Filters::DatesIntervalFilter
-    filter Filters::TypeFilter
+class Queries::Meetings::Filters::TypeFilter < Queries::Meetings::Filters::MeetingFilter
+  def allowed_values
+    allowed = [
+      [I18n.t("meeting.types.classic"), "Meeting"],
+      [I18n.t("meeting.types.structured"), "DynamicMeeting"]
+    ]
+
+    if OpenProject::FeatureDecisions.recurring_meetings_active?
+      allowed + [[I18n.t("meeting.types.recurring"), "RecurringMeeting"]]
+    else
+      allowed
+    end
+  end
+
+  def type
+    :list
+  end
+
+  def self.key
+    :type
+  end
+
+  def apply_to(query_scope)
+    if operator == "="
+      query_scope.where(type: values)
+    else
+      query_scope.where.not(type: values)
+    end
   end
 end

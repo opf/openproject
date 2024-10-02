@@ -27,13 +27,11 @@
 # ++
 class Submenu
   include Rails.application.routes.url_helpers
-  include ActionView::Helpers::UrlHelper
-  attr_reader :view_type, :project, :request, :params
+  attr_reader :view_type, :project, :params
 
-  def initialize(view_type:, params:, request: nil, project: nil)
+  def initialize(view_type:, params:, project: nil)
     @view_type = view_type
     @project = project
-    @request = request
     @params = params
   end
 
@@ -101,15 +99,6 @@ class Submenu
                                     count:,
                                     selected: selected?(query_params),
                                     favored: favored?(query_params),
-                                    show_enterprise_icon:)
-  end
-
-  def menu_link(title:, href:, icon_key: nil, count: nil, show_enterprise_icon: false)
-    OpenProject::Menu::MenuItem.new(title:,
-                                    href:,
-                                    icon: icon_map.fetch(icon_key, icon_key),
-                                    count:,
-                                    selected: current_page?(href),
                                     show_enterprise_icon:)
   end
 
