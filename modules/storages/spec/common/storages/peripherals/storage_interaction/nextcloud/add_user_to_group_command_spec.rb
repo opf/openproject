@@ -31,16 +31,16 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::RemoveUserFromGroupCommand, :webmock do
+RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::AddUserToGroupCommand, :webmock do
   include NextcloudGroupUserHelper
 
   let(:storage) { create(:nextcloud_storage_with_local_connection, :as_automatically_managed, username: "vcr") }
   let(:auth_strategy) { Storages::Peripherals::Registry.resolve("nextcloud.authentication.userless").call }
 
   describe "basic command setup" do
-    it "is registered as commands.remove_user_from_group" do
+    it "is registered as commands.add_user_to_group" do
       expect(Storages::Peripherals::Registry
-               .resolve("#{storage}.commands.remove_user_from_group")).to eq(described_class)
+               .resolve("#{storage}.commands.add_user_to_group")).to eq(described_class)
     end
 
     it "responds to #call with correct parameters" do
@@ -65,69 +65,38 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::RemoveUserF
     end
   end
 
-  context "if user exists in target group", vcr: "nextcloud/remove_user_from_group_success" do
+  context "if group exists", vcr: "nextcloud/add_user_to_group_success" do
     let(:user) { "m.jade@death.star" }
     let(:group) { "Sith Assassins" }
 
     before do
       create_group(auth, storage, group)
-      add_user_to_group(user, group)
-
-      # There is a bug in the group folder API that does not allow to remove a user from a group,
-      # if this is its last group
-      create_group(auth, storage, "Sith Assassins Backup")
-      add_user_to_group(user, "Sith Assassins Backup")
     end
 
     after do
       remove_group(auth, storage, group)
-      remove_group(auth, storage, "Sith Assassins Backup")
     end
 
     it "returns a success" do
+      members = group_members(group)
+      expect(members).not_to include(user)
+
+      result = described_class.call(storage:, auth_strategy:, user:, group:)
+      expect(result).to be_success
+
       members = group_members(group)
       expect(members).to include(user)
-
-      result = described_class.call(storage:, auth_strategy:, user:, group:)
-      expect(result).to be_success
-
-      members = group_members(group)
-      expect(members).not_to include(user)
     end
   end
 
-  context "if user does not exist in target group", vcr: "nextcloud/remove_user_from_group_no_user" do
-    let(:user) { "m.jade@death.star" }
-    let(:group) { "Sith Assassins" }
-
-    before do
-      create_group(auth, storage, group)
-    end
-
-    after do
-      remove_group(auth, storage, group)
-    end
-
-    it "returns a success" do
-      members = group_members(group)
-      expect(members).not_to include(user)
-
-      result = described_class.call(storage:, auth_strategy:, user:, group:)
-      expect(result).to be_success
-
-      members = group_members(group)
-      expect(members).not_to include(user)
-    end
-  end
-
-  context "if target group does not exist", vcr: "nextcloud/remove_user_from_group_not_existing_group" do
+  context "if target group does not exist", vcr: "nextcloud/add_user_to_group_not_existing_group" do
     let(:user) { "m.jade@death.star" }
     let(:group) { "Sith Assassins" }
 
     it_behaves_like "failing request", error_code: :group_does_not_exist
   end
 
-  context "if user does not exist", vcr: "nextcloud/remove_user_from_group_not_existing_user" do
+  context "if user does not exist", vcr: "nextcloud/add_user_to_group_not_existing_user" do
     let(:user) { "this is not the user you are looking for" }
     let(:group) { "Sith Assassins" }
 
@@ -145,11 +114,6 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::RemoveUserF
   private
 
   def auth = Storages::Peripherals::StorageInteraction::Authentication[auth_strategy]
-
-  def add_user_to_group(user, group)
-    Storages::Peripherals::StorageInteraction::Nextcloud::AddUserToGroupCommand
-      .call(storage:, auth_strategy:, user:, group:)
-  end
 
   def group_members(group)
     Storages::Peripherals::StorageInteraction::Nextcloud::GroupUsersQuery
