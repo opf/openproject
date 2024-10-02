@@ -31,15 +31,48 @@
 module CustomFields
   module Hierarchy
     class HierarchicalItemService
+      include Dry::Monads[:result]
+
       def initialize(custom_field)
+        validation = ServiceInitializationContract.new.call(field_format: custom_field.field_format)
+        # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
+        raise ArgumentError, "Invalid custom field: #{validation.errors.to_h}" if validation.failure?
+        # rubocop:enable Rails/DeprecatedActiveModelErrorsMethods
+
         @custom_field = custom_field
+      end
 
-        contract = ServiceInitializationContract.new
-        result = contract.call(custom_field)
+      def generate_root
+        CustomFields::Hierarchy::GenerateRootContract
+          .new
+          .call(hierarchy_root: @custom_field.hierarchy_root)
+          .to_monad
+          .bind { create_root_item }
+      end
 
-        if result.failure?
-          raise ArgumentError, "Invalid custom field: #{result.errors.to_h}"
-        end
+      def insert_item(parent:, label:, short: nil)
+        CustomFields::Hierarchy::InsertItemContract
+          .new
+          .call(parent:, label:, short:)
+          .to_monad
+          .bind { |validation| create_child_item(validation) }
+      end
+
+      private
+
+      def create_root_item
+        item = CustomField::Hierarchy::Item.create(custom_field: @custom_field)
+        return Failure(item.errors) unless item.persisted?
+
+        Success(item)
+      end
+
+      def create_child_item(validation)
+        item = CustomField::Hierarchy::Item
+                 .create(parent: validation[:parent], label: validation[:label], short: validation[:short])
+        return Failure(item.errors) unless item.persisted?
+
+        Success(item)
       end
     end
   end
