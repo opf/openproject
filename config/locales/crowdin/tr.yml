@@ -211,6 +211,8 @@ tr:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Bir projeye yeni özel alanlar eklemeden önce onları oluşturmalısınız.
     is_enabled_globally: "Genel için etkinleştirildi"
@@ -625,6 +627,7 @@ tr:
         editable: "Düzenlenebilir"
         field_format: "Biçim"
         is_filter: "Filtre olarak kullanılan"
+        is_for_all: "For all projects"
         is_required: "Gerekli"
         max_length: "Maksimum uzunluk"
         min_length: "Minimum uzunluk"

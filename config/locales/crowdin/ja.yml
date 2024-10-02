@@ -209,6 +209,8 @@ ja:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       新しいカスタムフィールドをプロジェクトに追加するには、それをこのプロジェクトに追加する前に、まず作成する必要があります。
     is_enabled_globally: "グローバルで有効"
@@ -615,6 +617,7 @@ ja:
         editable: "編集可能"
         field_format: "書式"
         is_filter: "フィルタとして使用"
+        is_for_all: "For all projects"
         is_required: "必須"
         max_length: "最大値の長さ"
         min_length: "最短長"

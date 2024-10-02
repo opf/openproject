@@ -211,6 +211,8 @@ fi:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Jotta voit lisätä tälle projektille uusia muokattavia kenttiä, tulee sinun ensin luoda ne.
     is_enabled_globally: "On käytössä kaikkialla"
@@ -626,6 +628,7 @@ fi:
         editable: "Muokattava"
         field_format: "Kentän tyyppi"
         is_filter: "Käytetään suodattimena"
+        is_for_all: "For all projects"
         is_required: "Pakollinen tieto"
         max_length: "Enimmäispituus"
         min_length: "Vähimmäispituus"

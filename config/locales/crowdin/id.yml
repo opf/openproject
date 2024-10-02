@@ -205,6 +205,8 @@ id:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Untuk menambahkan kolom kustom baru untuk sebuah proyek, pertama-tama Anda harus membuatnya, sebelum Anda dapat menambahkannya ke proyek ini.
     is_enabled_globally: "Diaktifkan secara global"
@@ -612,6 +614,7 @@ id:
         editable: "Dapat diedit"
         field_format: "Format"
         is_filter: "Filter"
+        is_for_all: "For all projects"
         is_required: "Harus diisi"
         max_length: "Panjang maksimum"
         min_length: "Panjang minimum"

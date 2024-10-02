@@ -211,6 +211,8 @@ bg:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       За да добавите нови потребителски полета към даден проект, първо трябва да ги създадете, преди да можете да ги добавите към този проект.
     is_enabled_globally: "Активирано е глобално"
@@ -626,6 +628,7 @@ bg:
         editable: "Редактируемо"
         field_format: "Формат"
         is_filter: "Се използва като филтър"
+        is_for_all: "For all projects"
         is_required: "Задължително"
         max_length: "Максимална дължина"
         min_length: "Минимална дължина"

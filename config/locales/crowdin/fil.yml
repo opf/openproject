@@ -211,6 +211,8 @@ fil:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Upang magdagdag ng mga kustom na patlang sa isang proyekto kinakailangan mo muna likhain bago ka muna sila idagdag sa proyektong ito.
     is_enabled_globally: "Ay pinagana pandaigdigan"
@@ -626,6 +628,7 @@ fil:
         editable: "Pwedeng mabago"
         field_format: "Format"
         is_filter: "Gamitin bilang tagasala"
+        is_for_all: "For all projects"
         is_required: "Kinakailangan"
         max_length: "Ang pinaka mahaba"
         min_length: "Ang pinaka mababang sukat ng haba"

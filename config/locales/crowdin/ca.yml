@@ -208,6 +208,8 @@ ca:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Per afegir nous camps personalitzats a un projecte primer has de crear-los abans de poder-los afegir a aquest projecte.
     is_enabled_globally: "És habilitat globalment"
@@ -622,6 +624,7 @@ ca:
         editable: "Editable"
         field_format: "Format"
         is_filter: "Utilitzat com a filtre"
+        is_for_all: "For all projects"
         is_required: "Obligatori"
         max_length: "Longitud màxima"
         min_length: "Longitud mínima"
