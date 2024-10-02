@@ -57,7 +57,7 @@ OpenProject offers two modes for reporting progress:
 - **Status-based progress reporting** allows you to assign fixed % Complete values to statuses, and automatically derive Remaining work based on the values for Work you can enter.
 
 > [!NOTE]
-> The administrator of your instance will have selected a mode for the entire instance. If you are an administrator, you can modify this by following our [admin guide on work package settings](../../../system-admin-guide/manage-work-packages/work-package-settings).
+> The administrator of your instance will have selected a mode for the entire instance. If you are an administrator, you can modify this by following our [admin guide on work package settings](../../../system-admin-guide/manage-work-packages/work-package-progress-tracking).
 
 ### Work-based progress reporting
 
@@ -65,22 +65,67 @@ In the work-based progress reporting mode %&nbsp;Complete can either be automati
 
 #### Manual values for % Complete
 
-If you you prefer to enter the values for % Complete manually, you can. 
+If you you prefer to enter the values for % Complete manually, you can. You can do that in the table view and work package details view.  Values for *Work* and *Remaining work* are not required to enter  % Complete. 
+
+> [!IMPORTANT]
+>
+>  If you do not enter \*Work\* or \*Remaining work\*, the \*% Complete\* field will remain an independent, manually editable field and behave like it did prior to OpenProject 14.0.
+
+![Manually entering values for % Complete in OpenProject](openproject_user_guide_percentage_complete_manual.png)
+
+
 
 #### Automatic values for % Complete
 
+If you enter a value for *% Complete* and one other field (*Work* or *Remaining work*), the third one will automatically be derived based on the other two. This means that there can be one value (if % Complete is entered manually) or three values but never just two  values.
+
 >**%&nbsp;Complete** is work done (**Work** - **Remaining work**) divided by **Work**, expressed as a percentage. For example, if Work is set at 50h and Remaining work is 30h, this means that %&nbsp;Complete is _(50h-30h)/50h))_ = **40%**. Please note that these calculations are independent and unrelated to the value of **Spent time** (which is based on actual time logged).
 
-This means that for a work package to have a value for %&nbsp;Complete, both Work and Remaining work are required to be set. To make this link clear and transparent, clicking on *Work* or *Remaining work* to modify them will display the following pop-over:
+To make this link clear and transparent, clicking on *Work* or *Remaining work* to modify them will display the following pop-over:
 
 ![Work estimates and progress pop-over with work-based progress reporting](progress-popover-work-based-days.png)
 
 This allows you to edit Work or Remaining work and get a preview of the updated %&nbsp;Complete value before saving changes. Changing any one field will automatically update the other two.
 
+When you add, edit, or remove a value for *Work*, *Remaining Work*, or *% Complete*, and it affects another field, a helpful message will appear explaining what has changed and why.
+
+![Helpful hint on progress tracking calculation in OpenProject](openproject_user_guide_percentage_complete_calculation_hint.png)
+
+#### Calculation logic
+
+**When no field is set**
+
+When none of the three fields (% Complete, Work, or Remaining Work) have values set, the field you fill in first will determine how the others are calculated:
+
+- If you enter % Complete only, no other fields will be automatically updated. Work and Remaining Work will remain empty.
+- If you enter Work only, Remaining Work will automatically match the Work value, and % Complete will be set to 100%. You can manually clear these values if needed.
+- If you enter Remaining Work only, Work will automatically match the Remaining Work value, and % Complete will be set to 100%. You can manually clear these values if needed.
+
+**When one field is set**
+
+When one field is already set and you enter a value in a second field, the third field will be automatically calculated:
+
+- If Work is already set and you enter % Complete, Remaining Work will be automatically calculated.
+- If Remaining Work is already set and you enter % Complete, Work will be automatically calculated.
+- If you enter Remaining Work when Work is already set (or vice versa), % Complete will be automatically calculated.
+
 > [!NOTE]
 > If you enter a value for Remaining work that is higher than Work, you will see an error message telling you that this is not possible. You will have to enter a value lower than Work to be able to save the new value.
->
 >Additionally, the value for Remaining work cannot be removed if a value for Work exists. If you wish to unset Remaining work, you need to also unset Work.
+
+> [!NOTE]
+> **If you enter a % Complete value of 100% when Remaining work has a value**, this will also result in an error, since Remaining work must be 0h when % Complete is 100%.
+
+**When all values are set**
+
+- **Increasing Work**: When you increase the value of Work, the same amount is added to Remaining Work (since the total Work has increased). This change also updates the % Complete accordingly.
+- **Decreasing Work**:
+  -  If you decrease *Work*, *Remaining work* is lowered by the same amount:
+  - If you decrease *Work* by less than the current value for *Remaining work*, then *Remaining work* will be set to 0h and *% Complete* to 100%
+- **Changing Remaining work updates % Complete**
+- **Changing % Complete updates Remaining work**
+
+For more details and examples of progress tacking calculation please refer to this [blog article](https://www.openproject.org/blog/updates-to-progress-tracking-in-14-6-based-on-user-feedback/).
 
 ### Status-based progress reporting
 
@@ -109,8 +154,20 @@ OpenProject will automatically show totals for Work, Remaining work and % Comple
 
 ![Hierarchy totals for Work, Remaining work and % Complete](hierarchy-totals-days.png)
 
+OpenProject offers two modes for calculating *% Complete* in hierarchy totals:
+
+- **Weighted by work**: The total %&nbsp;Complete value of a hierarchy is a weighted average tied to Work. For example, a feature with Work set to 50h that is 30% done will influence the total of %&nbsp;Complete of the parent more than a feature with Work set to 5h that is 70% done. 
+
+  > [!TIP]
+  >
+  > Work packages without *Work* will be ignored.
+
+- **Simple average**: *Work* is ignored and the *total % Complete* is calculated as a simple average of the *% Complete* values from the work packages in the hierarchy.
+
 > [!NOTE]
-> The total %&nbsp;Complete value of a hierarchy is a weighted average tied to Work. For example, a feature with Work set to 50h that is 30% done will influence the total of %&nbsp;Complete of the parent more than a feature with Work set to 5h that is 70% done.
+> The administrator of your instance will have selected a mode for the entire instance. If you are an administrator, you can modify this by following our [admin guide on work package settings](../../../system-admin-guide/manage-work-packages/work-package-progress-tracking).
+
+
 
 ### Excluding certain work packages from totals
 
@@ -131,10 +188,12 @@ When switching from Work-based to Status-based mode, the previous value for %&nb
 - If Work was previously set, it will be retained and Remaining work will be re-calculated based on the other two values
 - If Work was previously empty, then Work and Remaining work will remain empty
 
+
+
 ## Status- to work-based
 
 In Status-based mode, it is possible for work packages to have a %&nbsp;Complete value (defined by the status) without having values for Work or Remaining work. In other words, the Work and Remaining work can be empty.
 
-When switching to Work-based mode, OpenProject will retain the value for %&nbsp;Complete that was set with status. It can then be modified by putting in Work and Remaining work, thereby overwriting the previous value with a new computed value:
+When switching to Work-based mode, OpenProject will retain the value for %&nbsp;Complete that was set with status. 
 
-![Work estimates and progress pop-over with only the previous % Complete value](progress-popover-percentage-complete-only.png)
+Changing progress calculation mode from status-based to work-based will make the *% Complete* field freely editable. If you optionally enter values for *Work* or *Remaining work*, they will also be linked to *% Complete*. Changing *Remaining work* can then update *% Complete*.
