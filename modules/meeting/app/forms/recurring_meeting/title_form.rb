@@ -30,14 +30,6 @@ class RecurringMeeting::TitleForm < ApplicationForm
   include OpenProject::StaticRouting::UrlHelpers
 
   form do |form|
-    form.text_field(
-      name: :title,
-      input_width: :medium,
-      placeholder: RecurringMeeting.human_attribute_name(:title),
-      label: RecurringMeeting.human_attribute_name(:title),
-      required: true,
-      autofocus: true
-    )
   end
 
   def initialize(meeting:)

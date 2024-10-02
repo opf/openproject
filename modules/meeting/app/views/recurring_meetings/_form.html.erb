@@ -29,6 +29,40 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= error_messages_for 'recurring_meeting' %>
 
-<%= render(RecurringMeeting::TitleForm.new(f, meeting: @meeting)) %>
+<%=
+  primer_form_with(url: "/foo") do |form_builder|
+    render_inline_form(form_builder) do |form|
+      form.text_field(
+        name: :title,
+        input_width: :medium,
+        placeholder: RecurringMeeting.human_attribute_name(:title),
+        label: RecurringMeeting.human_attribute_name(:title),
+        required: true,
+        autofocus: true
+      )
+
+      form.group(layout: :horizontal) do |date_form|
+        date_form.text_field(
+          name: :start_date,
+          full_width: false,
+          input_width: :medium,
+          placeholder: RecurringMeeting.human_attribute_name(:start_date),
+          label: RecurringMeeting.human_attribute_name(:start_date),
+          required: true
+        )
+
+        date_form.text_field(
+          type: :time,
+          name: :start_time,
+          full_width: false,
+          input_width: :medium,
+          placeholder: RecurringMeeting.human_attribute_name(:start_time),
+          label: RecurringMeeting.human_attribute_name(:start_time),
+          required: true
+        )
+      end
+    end
+  end
+%>
 
 <%= render(RecurringMeeting::ScheduleForm.new(f, meeting: @meeting)) %>
