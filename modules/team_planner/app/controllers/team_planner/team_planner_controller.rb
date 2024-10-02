@@ -10,10 +10,12 @@ module ::TeamPlanner
     menu_item :team_planner_view
 
     def index
+      @show_create_button = show_create_button
       @views = visible_plans(@project)
     end
 
     def overview
+      @show_create_button = show_create_button
       @views = visible_plans
       render layout: "global"
     end
@@ -103,6 +105,14 @@ module ::TeamPlanner
       end
 
       query
+    end
+
+    def show_create_button
+      if @project
+        User.current.allowed_in_project?(:manage_team_planner, @project)
+      else
+        User.current.allowed_in_any_project?(:manage_team_planner)
+      end
     end
   end
 end
