@@ -40,7 +40,8 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_title { render_widget Widget::Controls::QueryName, @query, :can_rename => allowed_in_report?(:rename, @query, current_user) }
     header.with_breadcrumbs([{ href: home_path, text: organization_name},
                              *([href: project_overview_path(@project.id), text: @project.name] if @project),
-                             t(:label_news_plural)])
+                             { href: url_for({ controller: "cost_reports" , action: :index, project_id: @project }), text: I18n.t(:cost_reports_title)},
+                             (@query.persisted? ? "#{@query.name}" : t(:label_new_report))])
   end
 %>
 <% if User.current.allowed_in_any_work_package?(:export_work_packages, in_project: @project) %>
