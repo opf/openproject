@@ -113,6 +113,7 @@ cs:
   label_rate: "Sazba"
   label_rate_plural: "Kurzy"
   label_status_finished: "Ukončeno"
+  label_show: "Show"
   label_units: "Jednotky nákladu"
   label_user: "Uživatel"
   label_until: "do"

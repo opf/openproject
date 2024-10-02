@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,19 +25,23 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
 
-module PrimerizedFlashHelper
+module OpModalFlashable
   extend ActiveSupport::Concern
 
-  def render_primerized_flash
-    return if flash[:op_primer_flash].blank?
+  included do
+    add_flash_types :op_modal
+  end
 
-    system_arguments = flash[:op_primer_flash]
-    message = system_arguments.delete(:message)
+  def flash_op_modal(component:, parameters: {})
+    flash[:op_modal] = { component: component.name, parameters: }
+  end
 
-    render(OpPrimer::FlashComponent.new(**system_arguments)) do
-      message
-    end
+  def store_callback_op_modal_flash(component:, parameters: {})
+    session[:callback_op_modal] = { component: component.name, parameters: }
+  end
+
+  def retrieve_callback_op_modal_flash
+    session.delete(:callback_op_modal) if session[:callback_op_modal].present?
   end
 end

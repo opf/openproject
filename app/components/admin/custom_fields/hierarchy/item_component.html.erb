@@ -27,27 +27,23 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<div class="op-toast--wrapper">
-  <div class="op-toast--casing">
-    <div id="errorExplanation"
-         data-members-form-target="errorExplanation"
-         class="op-toast errorExplanation -error <%= local_assigns[:classes] || '' %>"
-         tabindex="0"
-         role="alert">
-      <div class="op-toast--content">
-        <% if content_for?(:error_details) %>
-          <p>
-            <strong><%= error_message %></strong>
-          </p>
-          <%= content_for :error_details %>
-        <% else %>
-          <%= error_message %>
-        <% end %>
-      </div>
+<%=
+  component_wrapper do
+    flex_layout do |container|
+      container.with_row(mb: 3) do
+        render Primer::Beta::Blankslate.new(border: true) do |component|
+          component.with_visual_icon(icon: "list-ordered")
+          component.with_heading(tag: :h3).with_content(I18n.t("custom_fields.admin.items.blankslate.title"))
+          component.with_description { I18n.t("custom_fields.admin.items.blankslate.description") }
+        end
+      end
 
-      <span class="close-handler" role="button" tabindex="0" aria-label="{{ ::I18n.t('js.close_popup_title') }}">
-        <%= op_icon('icon-close') %>
-      </span>
-    </div>
-  </div>
-</div>
+      container.with_row do
+        render Primer::Beta::Button.new(scheme: :primary) do |button|
+          button.with_leading_visual_icon(icon: :plus)
+          I18n.t(:label_item)
+        end
+      end
+    end
+  end
+%>

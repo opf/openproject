@@ -286,7 +286,6 @@ ms:
     label_active: Aktif
     label_add_new_storage: Tambah storan baharu
     label_automatic_folder: Folder baharu dengan kebenaran yang dikendalikan secara automatik
-    label_completed: Selesai
     label_creation_time: Masa penciptaan
     label_creator: Pencipta
     label_delete_storage: Padamkan storan
@@ -298,7 +297,6 @@ ms:
     label_file_storage: Storan fail
     label_host: URL Hos
     label_inactive: Tidak aktif
-    label_incomplete: Tidak lengkap
     label_managed_project_folders:
       application_password: Kata laluan aplikasi
       automatically_managed_folders: Folder yang dikendalikan secara automatik

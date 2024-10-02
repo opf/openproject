@@ -211,6 +211,8 @@ cs:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Chcete-li přidat nová vlastní pole do projektu, musíte je nejprve vytvořit, než je budete moci přidat do tohoto projektu.
     is_enabled_globally: "Globálně povoleno"
@@ -550,7 +552,7 @@ cs:
       could_not_be_saved: "Následující pracovní balíčky nelze uložit:"
       none_could_be_saved: "Žádný z %{total} pracovních balíčků nemohl být aktualizován."
       x_out_of_y_could_be_saved: "%{failing} z pracovních balíčků %{total} nemohl být aktualizován, zatímco %{success} může."
-      selected_because_descendants: "Zatímco %{selected} vybraných pracovních balíčků má vliv na %{total} pracovních balíčků, které zahrnují potomky."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "potomek vybraného"
     move:
       no_common_statuses_exists: "Pro všechny vybrané pracovní balíčky není k dispozici žádný stav. Jejich stav nelze změnit."
@@ -640,6 +642,7 @@ cs:
         editable: "Upravitelné"
         field_format: "Formát"
         is_filter: "Používá jako filtr"
+        is_for_all: "For all projects"
         is_required: "Požadováno"
         max_length: "Maximální délka"
         min_length: "Minimální délka"
@@ -1396,6 +1399,7 @@ cs:
   button_expand_all: "Rozbalit vše"
   button_favorite: "Přidat k oblíbeným"
   button_filter: "Filtr"
+  button_finish_setup: "Finish setup"
   button_generate: "Generovat"
   button_list: "Seznam"
   button_lock: "Zámek"
@@ -1448,8 +1452,8 @@ cs:
     failure_message: Souhlas se nezdařil, nelze pokračovat.
     title: Souhlas uživatele
     decline_warning_message: Odmítli jste souhlas a byli jste odhlášeni.
-    user_has_consented: Uživatel udělil vámi nastavený souhlas v daném čase.
-    not_yet_consented: Uživatel ještě neudělil souhlas, ale při příštím přihlášení bude vyzván.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Definujte e-mailovou adresu správce údajů, který může vyřídit požadavky na změny v datech nebo žádosti o výmaz.
     contact_your_administrator: Pokud chcete svůj účet odstranit, obraťte se na správce systému.
     contact_this_mail_address: Pokud chcete svůj účet odstranit, obraťte se na %{mail_address}.
@@ -1873,6 +1877,8 @@ cs:
       progress_mode_changed_to_status_based: "Výpočet průběhu byl aktualizován"
       status_changed: "Stav '%{status_name}'"
       system_update: "Aktualizace systému OpenProject:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: podle změn na předchůdce %{link}
       work_package_parent_changed_times: podle změn na nadřazený %{link}
@@ -1900,6 +1906,10 @@ cs:
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
         totals_removed_from_childless_work_packages: >-
           Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Konfigurační manuál"
     get_in_touch: "Máte otázky? Spojte se s námi."
@@ -2063,6 +2073,7 @@ cs:
   label_calendars_and_dates: "Kalendáře a data"
   label_calendar_show: "Zobrazit kalendář"
   label_category: "Kategorie"
+  label_completed: Completed
   label_consent_settings: "Souhlas uživatele"
   label_wiki_menu_item: Položka Wiki menu
   label_select_main_menu_item: Vyberte novou hlavní položku nabídky
@@ -2197,7 +2208,7 @@ cs:
   label_force_user_language_to_default: "Nastavte jazyk uživatelů, kteří nemají povolený jazyk na výchozí"
   label_form_configuration: "Konfigurace formuláře"
   label_gantt_chart: "Ganttův diagram"
-  label_gantt_chart_plural: "Ganttovi diagramy"
+  label_gantt_chart_plural: "Ganttovy diagramy"
   label_general: "Obecné"
   label_generate_key: "Generovat klíč"
   label_git_path: "Cesta ke složce .git"
@@ -2211,6 +2222,7 @@ cs:
   label_here: zde
   label_hide: "Skrýt"
   label_history: "Historie"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Úroveň hierarchie"
   label_home: "Domů"
   label_subject_or_id: "Předmět nebo ID"
@@ -2222,6 +2234,7 @@ cs:
   label_inactive: "Neaktivní"
   label_incoming_emails: "Příchozí e-maily"
   label_includes: "zahrnuje"
+  label_incomplete: Incomplete
   label_include_sub_projects: Zahrnout všechny podprojekty
   label_index_by_date: "Index dle data"
   label_index_by_title: "Index dle názvu"
@@ -2335,6 +2348,7 @@ cs:
   label_no_parent_page: "Žádná nadřazená stránka"
   label_nothing_display: "Nic k zobrazení"
   label_nobody: "nikdo"
+  label_not_configured: "Not configured"
   label_not_found: "nenalezeno"
   label_none: "žádný"
   label_none_parentheses: "(žádný)"
@@ -3272,6 +3286,13 @@ cs:
   setting_sys_api_enabled: "Povolit webovou službu pro správu repositářů"
   setting_sys_api_description: "Webová služba pro správu repositářů poskytuje integraci a uživatelskou autorizaci pro přístup k repositářům."
   setting_time_format: "Čas"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Povolit režim usnadnění pro anonymní uživatele"
   setting_user_format: "Formát uživatelského jména"
   setting_user_default_timezone: "Výchozí časové pásmo uživatele"

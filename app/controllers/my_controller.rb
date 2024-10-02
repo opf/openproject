@@ -174,13 +174,13 @@ class MyController < ApplicationController
 
     # rubocop:disable Rails/ActionControllerFlashBeforeRender
     result.on_success do
-      flash[:op_primer_flash] = { message: t("my.access_token.notice_api_token_revoked") }
+      flash[:notice] = t("my.access_token.notice_api_token_revoked")
     end
 
     result.on_failure do |r|
       error = r.errors.map(&:message).join("; ")
       Rails.logger.error("Failed to revoke api token ##{current_user.id}: #{error}")
-      flash[:op_primer_flash] = { message: t("my.access_token.failed_to_revoke_token", error:), scheme: :danger }
+      flash[:error] = t("my.access_token.failed_to_revoke_token", error:)
     end
     # rubocop:enable Rails/ActionControllerFlashBeforeRender
 

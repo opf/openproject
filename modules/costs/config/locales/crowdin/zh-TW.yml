@@ -110,6 +110,7 @@ zh-TW:
   label_rate: "費率"
   label_rate_plural: "費率"
   label_status_finished: "已完成"
+  label_show: "顯示"
   label_units: "單位成本"
   label_user: "使用者"
   label_until: "到"

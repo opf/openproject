@@ -27,14 +27,19 @@
 #++
 
 module FrontendAssetHelper
-  CLI_DEFAULT_PROXY = "http://localhost:4200".freeze
+  CLI_DEFAULT_PROXY = begin
+    host = ENV.fetch("FE_HOST", "localhost")
+    port = ENV.fetch("FE_PORT", 4200)
+    "http://#{host}:#{port}"
+  end
+  CLI_PROXY = ENV.fetch("OPENPROJECT_CLI_PROXY", CLI_DEFAULT_PROXY)
 
   def self.assets_proxied?
     ENV["OPENPROJECT_DISABLE_DEV_ASSET_PROXY"].blank? && !Rails.env.production? && cli_proxy.present?
   end
 
   def self.cli_proxy
-    ENV.fetch("OPENPROJECT_CLI_PROXY", CLI_DEFAULT_PROXY)
+    CLI_PROXY
   end
 
   ##

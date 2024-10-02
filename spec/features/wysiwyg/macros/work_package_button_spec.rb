@@ -85,7 +85,7 @@ RSpec.describe "Wysiwyg work package button spec", :js do
         # Save wiki page
         click_on "Save"
 
-        expect(page).to have_css(".op-toast.-success")
+        expect_flash(message: "Successful creation.")
 
         within("#content") do
           expect(page).to have_css("a[href=\"/projects/my-project/work_packages/new?type=#{type.id}\"]")

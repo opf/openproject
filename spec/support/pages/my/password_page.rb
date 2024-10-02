@@ -55,8 +55,7 @@ module Pages
       end
 
       def expect_password_updated_message
-        expect(page)
-          .to have_css(".op-toast.-info", text: I18n.t(:notice_account_password_updated))
+        expect_and_dismiss_flash(type: :info, message: I18n.t(:notice_account_password_updated))
       end
 
       private

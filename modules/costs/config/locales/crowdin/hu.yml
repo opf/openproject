@@ -111,6 +111,7 @@ hu:
   label_rate: "Díj"
   label_rate_plural: "Díjak"
   label_status_finished: "Kész"
+  label_show: "Show"
   label_units: "Költség egységek"
   label_user: "Felhasználó"
   label_until: "-ig"

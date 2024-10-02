@@ -51,7 +51,7 @@ RSpec.describe "Progress tracking admin page", :js, :with_cuprite do
     expect(page).to have_text(expected_warning_text)
 
     click_on "Save"
-    expect_and_dismiss_toaster(message: "Successful update.")
+    expect_and_dismiss_flash(message: "Successful update.")
     expect(Setting.find_by(name: "work_package_done_ratio").value).to eq("status")
 
     # now change from status-based to work-based
@@ -65,7 +65,7 @@ RSpec.describe "Progress tracking admin page", :js, :with_cuprite do
     expect(page).to have_text(expected_warning_text)
 
     click_on "Save"
-    expect_and_dismiss_toaster(message: "Successful update.")
+    expect_and_dismiss_flash(message: "Successful update.")
     expect(Setting.find_by(name: "work_package_done_ratio").value).to eq("field")
   end
 

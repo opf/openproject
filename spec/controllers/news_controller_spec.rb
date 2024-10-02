@@ -133,7 +133,7 @@ RSpec.describe NewsController do
       expect(assigns(:news)).not_to be_nil
       expect(assigns(:news)).to be_new_record
 
-      expect(response.body).to have_css("div.op-toast.-error", text: /1 error/)
+      expect(response.body).to have_text /1 error/
     end
   end
 

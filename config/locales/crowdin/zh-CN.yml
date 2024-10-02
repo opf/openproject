@@ -208,6 +208,8 @@ zh-CN:
         is_for_all_blank_slate:
           heading: 适用于所有项目
           description: 由于选中了 "适用于所有项目 "选项，因此所有项目都启用了该自定义字段。单个项目无法停用。
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       要向项目添加新的自定义字段，您需要先创建字段，然后才能将其添加到此项目中。
     is_enabled_globally: "已全局启用"
@@ -615,6 +617,7 @@ zh-CN:
         editable: "可编辑"
         field_format: "格式"
         is_filter: "用作筛选器"
+        is_for_all: "For all projects"
         is_required: "必填"
         max_length: "最大长度"
         min_length: "最小长度"
@@ -1341,6 +1344,7 @@ zh-CN:
   button_expand_all: "全部展开"
   button_favorite: "添加至收藏夹"
   button_filter: "筛选器"
+  button_finish_setup: "完成设置"
   button_generate: "生成"
   button_list: "列表"
   button_lock: "锁定"
@@ -1393,8 +1397,8 @@ zh-CN:
     failure_message: 同意失败, 无法继续。
     title: 用户同意
     decline_warning_message: 您已拒绝同意并已注销。
-    user_has_consented: 用户已同意您在给定时间配置的语句。
-    not_yet_consented: 用户尚未同意, 将在下次登录时请求。
+    user_has_consented: 用户同意您的 [配置的同意信息文本](同意设置)。
+    not_yet_consented: 用户尚未同意[配置的同意信息](同意设置)。他们下次登录时会被提醒。
     contact_mail_instructions: 定义用户可以访问数据控制器以执行数据更改或删除请求的邮件地址。
     contact_your_administrator: 如果您想删除您的帐户, 请与您的管理员联系。
     contact_this_mail_address: 如果您想删除您的帐户, 请联系%{mail_address}。
@@ -1764,6 +1768,8 @@ zh-CN:
       progress_mode_changed_to_status_based: "更新进度计算"
       status_changed: "状态 '%{status_name}'"
       system_update: "OpenProject 系统更新："
+      total_percent_complete_mode_changed_to_work_weighted_average: "现在按工作加权计算的 完成% 总数。"
+      total_percent_complete_mode_changed_to_simple_average: "完成% 总数的计算现在仅基于完成% 值的简单平均值。"
     cause_descriptions:
       work_package_predecessor_changed_times: 根据前置任务 %{link}的更改
       work_package_parent_changed_times: 通过对父级的更改 %{link}
@@ -1791,6 +1797,10 @@ zh-CN:
           进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
         totals_removed_from_childless_work_packages: >-
           使用 <a href="%{href}" target="_blank">版本更新</a>的非父工作包的工作和进度总计自动移除。 这是一个维护任务，可以安全地被忽略。
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        无工时的子工作包被忽略。
+      total_percent_complete_mode_changed_to_simple_average: >-
+        忽略子工作包的工时值。
   links:
     configuration_guide: "配置指南"
     get_in_touch: "遇到问题了？与我们联系。"
@@ -1954,6 +1964,7 @@ zh-CN:
   label_calendars_and_dates: "日历和日期"
   label_calendar_show: "显示日历"
   label_category: "类别"
+  label_completed: 已完成
   label_consent_settings: "用户同意"
   label_wiki_menu_item: 维基菜单项
   label_select_main_menu_item: 选择新的主菜单项
@@ -2102,6 +2113,7 @@ zh-CN:
   label_here: 这里
   label_hide: "隐藏"
   label_history: "历史"
+  label_hierarchy: "层次"
   label_hierarchy_leaf: "层次结构叶"
   label_home: "首页"
   label_subject_or_id: "主题或ID"
@@ -2113,6 +2125,7 @@ zh-CN:
   label_inactive: "非活动"
   label_incoming_emails: "传入电子邮件"
   label_includes: "包括"
+  label_incomplete: 未完成
   label_include_sub_projects: 包含子项目
   label_index_by_date: "按日期索引"
   label_index_by_title: "按标题索引"
@@ -2226,6 +2239,7 @@ zh-CN:
   label_no_parent_page: "无父级页面"
   label_nothing_display: "不显示"
   label_nobody: "没人"
+  label_not_configured: "未配置"
   label_not_found: "未找到"
   label_none: "无"
   label_none_parentheses: "(无)"
@@ -3152,6 +3166,13 @@ zh-CN:
   setting_sys_api_enabled: "启用版本库管理 web 服务"
   setting_sys_api_description: "存储库管理网页服务提供了集成的，用户授权的存储库访问。"
   setting_time_format: "时间"
+  setting_total_percent_complete_mode: "计算 完成% 层次结构总数"
+  setting_total_percent_complete_mode_work_weighted_average: "按工作权重"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    <i>总完成%</i>将根据层次结构中每个工作包的<i>工时</i>加权计算。没有<i>工时</i>的工作包将被忽略。
+  setting_total_percent_complete_mode_simple_average: "简单平均值"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>工时</i> 将被忽略，<i>总完成%</i> 将是层次结构中各工作包的 <i>完成%</i> 值的简单平均值。
   setting_accessibility_mode_for_anonymous: "为匿名用户启用辅助功能模式"
   setting_user_format: "用户名格式"
   setting_user_default_timezone: "用户默认时区"

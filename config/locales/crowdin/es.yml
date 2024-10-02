@@ -208,6 +208,8 @@ es:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Para agregar nuevos campos personalizados a un proyecto, primero debe crearlos, y luego añadirlos a este proyecto.
     is_enabled_globally: "Está activado a nivel global"
@@ -533,7 +535,7 @@ es:
       could_not_be_saved: "Los siguientes paquetes de trabajo no pudieron guardarse:"
       none_could_be_saved: "Ninguno de los %{total} paquetes de trabajo pudo ser actualizado."
       x_out_of_y_could_be_saved: "%{failing} de %{total} paquetes de trabajo no pudieron ser actualizados mientras que %{success} pudieron."
-      selected_because_descendants: "Mientras que %{selected} paquetes de trabajo seleccionados, en total %{total} paquetes de trabajo son afectados incluyendo descendientes."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendiente seleccionado"
     move:
       no_common_statuses_exists: "No hay ningún estado disponible para todos los paquetes de trabajo seleccionados. Su estado no se puede cambiar."
@@ -623,6 +625,7 @@ es:
         editable: "Editable"
         field_format: "Formato"
         is_filter: "Usado como filtro"
+        is_for_all: "For all projects"
         is_required: "Obligatorio"
         max_length: "Longitud máxima"
         min_length: "Longitud mínima"
@@ -1359,6 +1362,7 @@ es:
   button_expand_all: "Expandir todos"
   button_favorite: "Añadir a favoritos"
   button_filter: "Filtro"
+  button_finish_setup: "Finish setup"
   button_generate: "Generar"
   button_list: "Lista"
   button_lock: "Bloquear"
@@ -1411,8 +1415,8 @@ es:
     failure_message: Consentimiento fallido, no puede continuar.
     title: Consentimiento del usuario
     decline_warning_message: Usted ha declinado consentir y ha sido desconectado.
-    user_has_consented: El usuario ha dado el consentimiento a su declaración configurada en el momento dado.
-    not_yet_consented: El usuario no ha validado todavía, se le solicitará en el próximo login.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Defina la dirección de correo a la que los usuarios pueden acceder a un controlador de datos a fin de realizar cambios de datos o solicitudes de eliminación.
     contact_your_administrator: Por favor, contacte su administrador si desea eliminar su cuenta.
     contact_this_mail_address: Por favor, contacte con %{mail_address} para eliminar su cuenta.
@@ -1800,6 +1804,8 @@ es:
       progress_mode_changed_to_status_based: "Cálculo del progreso actualizado"
       status_changed: "Estado «%{status_name}»"
       system_update: "Actualización del sistema OpenProject:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: por cambios al %{link} predecesor
       work_package_parent_changed_times: por cambios al %{link} principal
@@ -1827,6 +1833,10 @@ es:
           Cálculo de progreso automático <a href="%{href}" target="_blank">ajustado con la actualización de versión</a>.
         totals_removed_from_childless_work_packages: >-
           Los totales de trabajo y progreso se eliminan automáticamente para los paquetes de trabajo no padres con la <a href="%{href}" target="_blank">actualización de la versión</a>. Se trata de una tarea de mantenimiento y puede ignorarse con seguridad.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Guía de configuración"
     get_in_touch: "¿Tiene alguna pregunta? Póngase en contacto con nosotros."
@@ -1990,6 +2000,7 @@ es:
   label_calendars_and_dates: "Calendarios y fechas"
   label_calendar_show: "Mostrar Calendario"
   label_category: "Categoría"
+  label_completed: Completed
   label_consent_settings: "Consentimiento del usuario"
   label_wiki_menu_item: Elemento de menú wiki
   label_select_main_menu_item: Seleccione nuevo elemento de menú principal
@@ -2138,6 +2149,7 @@ es:
   label_here: aqui
   label_hide: "Ocultar"
   label_history: "Historial"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Hoja de jerarquía"
   label_home: "Inicio"
   label_subject_or_id: "Asunto o ID"
@@ -2149,6 +2161,7 @@ es:
   label_inactive: "Inactivo"
   label_incoming_emails: "Correos electrónicos entrantes"
   label_includes: "incluye"
+  label_incomplete: Incomplete
   label_include_sub_projects: Incluir subproyectos
   label_index_by_date: "Índice por fecha"
   label_index_by_title: "Índice por título"
@@ -2262,6 +2275,7 @@ es:
   label_no_parent_page: "Sin página principal"
   label_nothing_display: "Nada que mostrar"
   label_nobody: "nadie"
+  label_not_configured: "Not configured"
   label_not_found: "no encontrado"
   label_none: "ninguno"
   label_none_parentheses: "(ninguno)"
@@ -3195,6 +3209,13 @@ es:
   setting_sys_api_enabled: "Habilitar el servicio web de administración de repositorios"
   setting_sys_api_description: "El servicio web de administración de repositorios proporciona integración y autorización de usuario para acceder a los repositorios."
   setting_time_format: "Hora"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Activar el modo de accesibilidad para usuarios anónimos"
   setting_user_format: "Formato de nombre de usuarios"
   setting_user_default_timezone: "Zona horaria por defecto de los usuarios"

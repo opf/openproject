@@ -35,7 +35,7 @@ RSpec.describe "LDAP group sync administration spec", :js do
       check "synchronized_group_sync_users"
 
       click_on "Create"
-      expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_successful_create))
+      expect_flash(message: I18n.t(:notice_successful_create))
       expect(page).to have_css("td.dn", text: "cn=foo,ou=groups,dc=example,dc=com")
       expect(page).to have_css("td.ldap_auth_source", text: "ldap")
       expect(page).to have_css("td.group", text: "foo")
@@ -69,7 +69,7 @@ RSpec.describe "LDAP group sync administration spec", :js do
       SeleniumHubWaiter.wait
       click_on "Delete"
 
-      expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_successful_delete))
+      expect_flash(message: I18n.t(:notice_successful_delete))
       expect(page).to have_css ".generic-table--empty-row"
 
       expect(LdapGroups::Membership.where(id: memberships)).to be_empty

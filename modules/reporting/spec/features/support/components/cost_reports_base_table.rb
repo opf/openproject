@@ -26,11 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require "support/flash/expectations"
+
 module Components
   class CostReportsBaseTable
     include Capybara::DSL
     include Capybara::RSpecMatchers
     include RSpec::Matchers
+    include Flash::Expectations
 
     attr_reader :time_logging_modal
 
@@ -78,7 +81,7 @@ module Components
       SeleniumHubWaiter.wait
       fill_in("cost_entry_units", with: new_value)
       click_button "Save"
-      expect(page).to have_css(".op-toast.-success")
+      expect_flash(message: "Successful update.")
     end
 
     def delete_entry(row)

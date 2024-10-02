@@ -208,6 +208,8 @@ it:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Per aggiungere nuovi campi personalizzati a un progetto, è necessario prima crearli.
     is_enabled_globally: "Abilitato a livello globale"
@@ -533,7 +535,7 @@ it:
       could_not_be_saved: "Le seguenti macro-attività non possono essere salvate:"
       none_could_be_saved: "Nessuna delle %{total} macro-attività può essere aggiornata."
       x_out_of_y_could_be_saved: "%{failing} di %{total} macro-attività non possono essere aggiornate, mentre %{success} possono essere aggiornate."
-      selected_because_descendants: "Sono selezionate %{selected} macro-attività ma in totale sono interessate %{total} macro-attività, compresi i relativi figli."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "figlio della macro-attività selezionata"
     move:
       no_common_statuses_exists: "Nessuno stato disponibile per tutte le macro-attività selezionate. Non è possibile cambiare lo stato."
@@ -623,6 +625,7 @@ it:
         editable: "Modificabile"
         field_format: "Formato"
         is_filter: "Usato come filtro"
+        is_for_all: "For all projects"
         is_required: "Richiesto"
         max_length: "Lunghezza massima"
         min_length: "Lunghezza minima"
@@ -1359,6 +1362,7 @@ it:
   button_expand_all: "Espandi tutto"
   button_favorite: "Aggiunti ai preferiti"
   button_filter: "Filtro"
+  button_finish_setup: "Finish setup"
   button_generate: "Genera"
   button_list: "Elenca"
   button_lock: "Blocca"
@@ -1411,8 +1415,8 @@ it:
     failure_message: Consenso respinto, impossibile procedere.
     title: Consenso dell'utente
     decline_warning_message: Hai rifiutato il consenso e sei stato disconnesso.
-    user_has_consented: L'utente ha acconsentito al tuo stato configurato al momento stabilito.
-    not_yet_consented: L'utente non ha ancora acconsentito, verrà richiesto al prossimo accesso.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Definire l'indirizzo mail di un controllore che gli utenti possono raggiungere per eseguire la modifica dei dati o le richieste di rimozione.
     contact_your_administrator: Contattare l'amministratore se desideri che il tuo account venga eliminato.
     contact_this_mail_address: Per favore contatta %{mail_address} se desideri che il tuo account venga eliminato.
@@ -1800,6 +1804,8 @@ it:
       progress_mode_changed_to_status_based: "Calcolo dei progressi aggiornato"
       status_changed: "Stato '%{status_name}'"
       system_update: "Aggiornamento del sistema OpenProject:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: da modifiche al predecessore %{link}
       work_package_parent_changed_times: da modifiche al genitore %{link}
@@ -1827,6 +1833,10 @@ it:
           Il calcolo dei progressi è <a href="%{href}" target="_blank">modificato con l'aggiornamento della versione</a>.
         totals_removed_from_childless_work_packages: >-
           I totali di lavoro e avanzamento vengono rimossi automaticamente per le macro-attività non principali con l'<a href="%{href}" target="_blank">aggiornamento della versione</a>. Questa è un'attività di manutenzione e può essere tranquillamente ignorata.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Guida di configurazione"
     get_in_touch: "Hai dei dubbi? Mettiti in contatto con noi."
@@ -1990,6 +2000,7 @@ it:
   label_calendars_and_dates: "Calendari e date"
   label_calendar_show: "Mostra Calendario"
   label_category: "Categoria"
+  label_completed: Completed
   label_consent_settings: "Consenso dell'utente"
   label_wiki_menu_item: Voce di menu wiki
   label_select_main_menu_item: Seleziona una nuova voce del menu principale
@@ -2138,6 +2149,7 @@ it:
   label_here: qui
   label_hide: "Nascondi"
   label_history: "Registro cronologico"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Foglia della gerarchia"
   label_home: "Radice (home)"
   label_subject_or_id: "Oggetto o ID"
@@ -2149,6 +2161,7 @@ it:
   label_inactive: "Inattivo"
   label_incoming_emails: "Email in arrivo"
   label_includes: "include"
+  label_incomplete: Incomplete
   label_include_sub_projects: Includi sottoprogetti
   label_index_by_date: "Indicizza per data"
   label_index_by_title: "Indicizza per titolo"
@@ -2262,6 +2275,7 @@ it:
   label_no_parent_page: "Nessuna pagina genitore"
   label_nothing_display: "Niente da visualizzare"
   label_nobody: "nessuno"
+  label_not_configured: "Not configured"
   label_not_found: "non trovato"
   label_none: "nessuno"
   label_none_parentheses: "(nessuno)"
@@ -3196,6 +3210,13 @@ it:
   setting_sys_api_enabled: "Abilita la gestione di archivi via web service"
   setting_sys_api_description: "Il web service di gestione archivio fornisce servizi per integrare ed autorizzare gli utenti nell'accesso agli archivi."
   setting_time_format: "Tempo"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Abilita la modalità di accesso facilitato per utenti anonimi"
   setting_user_format: "Formato del nome utente"
   setting_user_default_timezone: "Orario predefinito utenti"

@@ -274,9 +274,9 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
 
         error_text = "Orders ><script src='/foobar js'></script> is not set to one of the allowed values. and does not exist."
         error_html = "Orders &gt;&lt;script src='/foobar js'&gt;&lt;/script&gt; is not set to one of the allowed values. and does not exist."
-        expect(page).to have_css(".op-toast.-error", text: error_text)
+        expect_flash(type: :error, message: error_text)
 
-        error_container = page.find(".op-toast.-error")
+        error_container = find_flash_element(type: :error)
         expect(error_container["innerHTML"]).to include error_html
       end
     end

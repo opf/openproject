@@ -44,7 +44,10 @@ See COPYRIGHT and LICENSE files for more details.
         <%= link_to(I18n.t('label_home'), home_url, class: 'op-logo--link') %>
       </div>
     </header>
-    <%= yield %>
+    <main id="content-wrapper">
+      <%= render partial: "layouts/flashes" %>
+      <%= yield %>
+    </main>
   </div>
 </body>
 </html>

@@ -60,7 +60,7 @@ RSpec.describe "Login with 2FA remember cookie", :js, with_settings: {
       visit my_2fa_devices_path
 
       find(".two-factor-authentication--remove-remember-cookie-link").click
-      expect(page).to have_css(".op-toast.-success")
+      expect_flash(message: I18n.t("two_factor_authentication.remember.cookie_removed"))
       expect(page).to have_no_css(".two-factor-authentication--remove-remember-cookie-link")
 
       # Log out and in again
