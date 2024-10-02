@@ -1,0 +1,799 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://nextcloud.local/ocs/v1.php/cloud/groups
+    body:
+      encoding: ASCII-8BIT
+      string: groupid=Sith+Assassins
+    headers:
+      Authorization:
+      - Basic <BASIC_AUTH>
+      Ocs-Apirequest:
+      - 'true'
+      User-Agent:
+      - httpx.rb/1.3.1
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Content-Length:
+      - '22'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Wed, 02 Oct 2024 08:50:34 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=9762849c349fec419d4d915242d15e12; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=DZ6L8GHmQgY2z%2B3foy2pUqmyeMgyiphLjNdRgVJ730AI27UtJHnhpTapN6kiLCTtskMoKUaXrPc15eL3LtZwYfw4Eve42BLZMzJG8s2unmeF%2B4cqZz%2FvWFGsYrDU4gj3;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=9762849c349fec419d4d915242d15e12;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=9762849c349fec419d4d915242d15e12;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=9762849c349fec419d4d915242d15e12;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=1e76183d834700018922edb625e879e2;
+        path=/; secure; HttpOnly; SameSite=Lax, cookie_test=test; expires=Wed, 02
+        Oct 2024 09:50:35 GMT; Max-Age=3600
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - TBw85AYaMZcZNiY5oEru
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '140'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <ocs>
+         <meta>
+          <status>ok</status>
+          <statuscode>100</statuscode>
+          <message>OK</message>
+          <totalitems></totalitems>
+          <itemsperpage></itemsperpage>
+         </meta>
+         <data/>
+        </ocs>
+  recorded_at: Wed, 02 Oct 2024 08:50:35 GMT
+- request:
+    method: post
+    uri: https://nextcloud.local/ocs/v1.php/cloud/users/m.jade@death.star/groups
+    body:
+      encoding: ASCII-8BIT
+      string: groupid=Sith+Assassins
+    headers:
+      Authorization:
+      - Basic <BASIC_AUTH>
+      Ocs-Apirequest:
+      - 'true'
+      User-Agent:
+      - httpx.rb/1.3.1
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Content-Length:
+      - '22'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Wed, 02 Oct 2024 08:50:35 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=6cc4b771ce27bb97b8f3238e7653da31; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=B2I0t1BGIs1gvjZeGy7jqq8c%2FIxKtkypUxnIhP5m2lJhvyGp5k8CDf%2F1Cqn4YtKlIkIH3nT%2Fm5WD3ShkVPf5pnCupGYQqyWEp3GCkGuQXt5i6QhhP3XNfD%2FU4VtGxUgf;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=6cc4b771ce27bb97b8f3238e7653da31;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=6cc4b771ce27bb97b8f3238e7653da31;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=6cc4b771ce27bb97b8f3238e7653da31;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=de374ccc4540ad2b501264cf9d57d7b0;
+        path=/; secure; HttpOnly; SameSite=Lax, cookie_test=test; expires=Wed, 02
+        Oct 2024 09:50:35 GMT; Max-Age=3600
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - 2OHmy14Z2uyX80wetXYp
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '140'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <ocs>
+         <meta>
+          <status>ok</status>
+          <statuscode>100</statuscode>
+          <message>OK</message>
+          <totalitems></totalitems>
+          <itemsperpage></itemsperpage>
+         </meta>
+         <data/>
+        </ocs>
+  recorded_at: Wed, 02 Oct 2024 08:50:36 GMT
+- request:
+    method: post
+    uri: https://nextcloud.local/ocs/v1.php/cloud/groups
+    body:
+      encoding: ASCII-8BIT
+      string: groupid=Sith+Assassins+Backup
+    headers:
+      Authorization:
+      - Basic <BASIC_AUTH>
+      Ocs-Apirequest:
+      - 'true'
+      User-Agent:
+      - httpx.rb/1.3.1
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Content-Length:
+      - '29'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Wed, 02 Oct 2024 08:50:36 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=a59820aa38fc321b9f172ac4176c1d55; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=tOAFguNR0Jp%2FxNtxIOqXQ%2F6DNz%2FxwIkdRbte7S0BC8lnDIib3RD3DxuoFtc0FxIsQEim0fze6h0sofcgU%2BhLps1nghETPItFWjqn75oa1BdUTk9lacQyzV3IlPGH6fEG;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=a59820aa38fc321b9f172ac4176c1d55;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=a59820aa38fc321b9f172ac4176c1d55;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=a59820aa38fc321b9f172ac4176c1d55;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=b8539104cd9a4e13ad6a8bad9d1ac0e5;
+        path=/; secure; HttpOnly; SameSite=Lax, cookie_test=test; expires=Wed, 02
+        Oct 2024 09:50:36 GMT; Max-Age=3600
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - Rhr2ktjrVgX7DNPKUMQ0
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '140'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <ocs>
+         <meta>
+          <status>ok</status>
+          <statuscode>100</statuscode>
+          <message>OK</message>
+          <totalitems></totalitems>
+          <itemsperpage></itemsperpage>
+         </meta>
+         <data/>
+        </ocs>
+  recorded_at: Wed, 02 Oct 2024 08:50:36 GMT
+- request:
+    method: post
+    uri: https://nextcloud.local/ocs/v1.php/cloud/users/m.jade@death.star/groups
+    body:
+      encoding: ASCII-8BIT
+      string: groupid=Sith+Assassins+Backup
+    headers:
+      Authorization:
+      - Basic <BASIC_AUTH>
+      Ocs-Apirequest:
+      - 'true'
+      User-Agent:
+      - httpx.rb/1.3.1
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Content-Length:
+      - '29'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Wed, 02 Oct 2024 08:50:36 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=c1b3c3f4214d9d8966f07f16711725ed; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=Y9itI1jA1U7ht32uGGWcKURt1KGYrNnp2bG2uJPZ3y9Te7JXG4vcw5ZBf6ZrZTLKv9dLwEnmABA0OlKdh10jEyMxWVJXYRgXrsdLiDlaTAFHC9%2FMz4bQ7Cy%2BoQ71jekj;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=c1b3c3f4214d9d8966f07f16711725ed;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=c1b3c3f4214d9d8966f07f16711725ed;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=c1b3c3f4214d9d8966f07f16711725ed;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=fb555d0ca125d098bfe72a357f752fb0;
+        path=/; secure; HttpOnly; SameSite=Lax, cookie_test=test; expires=Wed, 02
+        Oct 2024 09:50:37 GMT; Max-Age=3600
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - 0QVHV77irKMx1GSbQPVW
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '140'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <ocs>
+         <meta>
+          <status>ok</status>
+          <statuscode>100</statuscode>
+          <message>OK</message>
+          <totalitems></totalitems>
+          <itemsperpage></itemsperpage>
+         </meta>
+         <data/>
+        </ocs>
+  recorded_at: Wed, 02 Oct 2024 08:50:37 GMT
+- request:
+    method: get
+    uri: https://nextcloud.local/ocs/v1.php/cloud/groups/Sith%20Assassins
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic <BASIC_AUTH>
+      Ocs-Apirequest:
+      - 'true'
+      User-Agent:
+      - httpx.rb/1.3.1
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Wed, 02 Oct 2024 08:50:37 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=01da2b49d5abec2a8999bd0070130b04; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=LNjDQi4jb3HBPgwLDak3PZLcefxXWs1BL1%2FeQ0HB3ocStx7NYlMWsR6IrIfg8NqysVn%2BaDcibaS%2Bz72Go2OZw3kWyTF7hoEwPejH2nL3u7Pa%2FG708ecz3HUI%2FztROvZc;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=01da2b49d5abec2a8999bd0070130b04;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=01da2b49d5abec2a8999bd0070130b04;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=01da2b49d5abec2a8999bd0070130b04;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=615d677637cb137e351629b49d573d0c;
+        path=/; secure; HttpOnly; SameSite=Lax, cookie_test=test; expires=Wed, 02
+        Oct 2024 09:50:37 GMT; Max-Age=3600
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - dGJ5c48eHtcbGlNhi6fw
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '171'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <ocs>
+         <meta>
+          <status>ok</status>
+          <statuscode>100</statuscode>
+          <message>OK</message>
+          <totalitems></totalitems>
+          <itemsperpage></itemsperpage>
+         </meta>
+         <data>
+          <users>
+           <element>m.jade@death.star</element>
+          </users>
+         </data>
+        </ocs>
+  recorded_at: Wed, 02 Oct 2024 08:50:37 GMT
+- request:
+    method: delete
+    uri: https://nextcloud.local/ocs/v1.php/cloud/users/m.jade@death.star/groups?groupid=Sith%20Assassins
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic <BASIC_AUTH>
+      Ocs-Apirequest:
+      - 'true'
+      User-Agent:
+      - httpx.rb/1.3.1
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Wed, 02 Oct 2024 08:50:37 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=85dfa52e03afb69fbe548d3053d08e15; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=kOE0o2v1ep7XtIKKVnmqy8ck7Rbukw9NitYKaRPsLSS9b8mWIW%2Bwuw2dCZtEDmQdBZzItzOHZdRZim0v%2Bu06yNhj8xeY7dU0xqXzLKez9Zj%2BrA2KKmZl1jw6c9Ubx4PX;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=85dfa52e03afb69fbe548d3053d08e15;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=85dfa52e03afb69fbe548d3053d08e15;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=85dfa52e03afb69fbe548d3053d08e15;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=9f9f2207d2c10825f6ba2d6c07d2658b;
+        path=/; secure; HttpOnly; SameSite=Lax, cookie_test=test; expires=Wed, 02
+        Oct 2024 09:50:38 GMT; Max-Age=3600
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - HL85t6eG92CsTVcZzlkl
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '140'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <ocs>
+         <meta>
+          <status>ok</status>
+          <statuscode>100</statuscode>
+          <message>OK</message>
+          <totalitems></totalitems>
+          <itemsperpage></itemsperpage>
+         </meta>
+         <data/>
+        </ocs>
+  recorded_at: Wed, 02 Oct 2024 08:50:38 GMT
+- request:
+    method: get
+    uri: https://nextcloud.local/ocs/v1.php/cloud/groups/Sith%20Assassins
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic <BASIC_AUTH>
+      Ocs-Apirequest:
+      - 'true'
+      User-Agent:
+      - httpx.rb/1.3.1
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Wed, 02 Oct 2024 08:50:38 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=4311d7d8a7e8b3ba35b5d1fcff7d1b7a; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=GAzp%2FwJNf3dp%2BnY3U%2B4F4SXwmgC7f3Jqms%2FbwvIn2L7ztvCw3fPyMF8CAwno8o3xJ7O7Pbeu7IDG0ElNxKwl%2FBKviLvxlW4sa5woQEos5FRHFpMy93eMkNOsJjfBziTe;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=4311d7d8a7e8b3ba35b5d1fcff7d1b7a;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=4311d7d8a7e8b3ba35b5d1fcff7d1b7a;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=4311d7d8a7e8b3ba35b5d1fcff7d1b7a;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=f7715138d243dc8627e3b3647a74b419;
+        path=/; secure; HttpOnly; SameSite=Lax, cookie_test=test; expires=Wed, 02
+        Oct 2024 09:50:38 GMT; Max-Age=3600
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - DaZNZ94HD5CWPkX9ZTgQ
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '146'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <ocs>
+         <meta>
+          <status>ok</status>
+          <statuscode>100</statuscode>
+          <message>OK</message>
+          <totalitems></totalitems>
+          <itemsperpage></itemsperpage>
+         </meta>
+         <data>
+          <users/>
+         </data>
+        </ocs>
+  recorded_at: Wed, 02 Oct 2024 08:50:38 GMT
+- request:
+    method: delete
+    uri: https://nextcloud.local/ocs/v1.php/cloud/groups/Sith%20Assassins
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic <BASIC_AUTH>
+      Ocs-Apirequest:
+      - 'true'
+      User-Agent:
+      - httpx.rb/1.3.1
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Wed, 02 Oct 2024 08:50:38 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=fd4ecbd33c8c4056f827d54926c7d7e1; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=dIlm6nPh4GMsA38cZj2SyDxlQhuyL1CP86iZATnMY6OqdehoRJUgPfH27xShrr1yg5Hd2tC7h79f9lzwPh8DMjnmy%2FzR5qpY%2BkPmvvFohO00pSSbkhgIRVuJBJygpAJm;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=fd4ecbd33c8c4056f827d54926c7d7e1;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=fd4ecbd33c8c4056f827d54926c7d7e1;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=fd4ecbd33c8c4056f827d54926c7d7e1;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=9fb44996d3f7d257f11f151473b7b955;
+        path=/; secure; HttpOnly; SameSite=Lax, cookie_test=test; expires=Wed, 02
+        Oct 2024 09:50:39 GMT; Max-Age=3600
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - 4EQLXfbKAVqZkKshqVYc
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '140'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <ocs>
+         <meta>
+          <status>ok</status>
+          <statuscode>100</statuscode>
+          <message>OK</message>
+          <totalitems></totalitems>
+          <itemsperpage></itemsperpage>
+         </meta>
+         <data/>
+        </ocs>
+  recorded_at: Wed, 02 Oct 2024 08:50:39 GMT
+- request:
+    method: delete
+    uri: https://nextcloud.local/ocs/v1.php/cloud/groups/Sith%20Assassins%20Backup
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic <BASIC_AUTH>
+      Ocs-Apirequest:
+      - 'true'
+      User-Agent:
+      - httpx.rb/1.3.1
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Wed, 02 Oct 2024 08:50:39 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=38a807de0bfea4578a190796ea3679bf; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=ykYwdbn02mf%2B2FIYpFHhFhySmy5y1j4D9kX1We59HLdc50Otjzyj03S%2Fg11ZjBeD13%2BShKDXhMDDDQBf7K%2F%2B7cZjzB12b1LGlwjEIwGnIhBykM0QeIB2htLjvWZ1DdHw;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=38a807de0bfea4578a190796ea3679bf;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=38a807de0bfea4578a190796ea3679bf;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=38a807de0bfea4578a190796ea3679bf;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=899b9aecb6d1dc7c35ef9a847d0e7bfc;
+        path=/; secure; HttpOnly; SameSite=Lax, cookie_test=test; expires=Wed, 02
+        Oct 2024 09:50:39 GMT; Max-Age=3600
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.21
+      X-Request-Id:
+      - 52hU39z1usAaL575cnKp
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '140'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <ocs>
+         <meta>
+          <status>ok</status>
+          <statuscode>100</statuscode>
+          <message>OK</message>
+          <totalitems></totalitems>
+          <itemsperpage></itemsperpage>
+         </meta>
+         <data/>
+        </ocs>
+  recorded_at: Wed, 02 Oct 2024 08:50:39 GMT
+recorded_with: VCR 6.3.1

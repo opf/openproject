@@ -32,7 +32,6 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand, :webmock do
-  let(:user) { create(:user) }
   let(:storage) { create(:nextcloud_storage_with_local_connection, :as_automatically_managed, username: "vcr") }
   let(:auth_strategy) { Storages::Peripherals::Registry.resolve("nextcloud.authentication.userless").call }
 
@@ -78,7 +77,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::SetPermissi
   end
 
   context "if a user does not exist",
-          skip: "When setting permissions for a user that does not exists, nextcloud's response doesn't contain the" \
+          skip: "When setting permissions for a user that does not exists, nextcloud's response doesn't contain the " \
                 "needed information. We need to work around this by maybe having a separate request fetching ACLs " \
                 "after setting them.",
           vcr: "nextcloud/set_permissions_invalid_user_id" do
