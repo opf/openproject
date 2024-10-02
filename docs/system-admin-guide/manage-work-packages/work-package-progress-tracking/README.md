@@ -24,7 +24,7 @@ To manage the settings for progress tracking in work packages, navigate to  *Adm
  >
  > - Changing progress calculation mode from work-based to status-based will result in all existing *% Complete* values to be lost and replaced with values associated with each status. Existing values for *Remaining work* may also be recalculated to reflect this change. This action is not reversible.
  >
- > - Changing progress calculation mode from status-based to work-based will make % Complete a non-editable field whose value is derived from Work and Remaining work. Existing values for % Complete are preserved. If values for Work and Remaining work were not present, they will be required in order to change % Complete.
+ > - Changing progress calculation mode from status-based to work-based will make the *% Complete* field freely editable. If you optionally enter values for *Work* or *Remaining work*, they will also be linked to *% Complete*. Changing *Remaining work* can then update *% Complete*.
 
 ![Warning message when changing progress calculation mode in OpenProject administration](openproject_system_guide_progress_tracking_settings_warning_message.png)
 
