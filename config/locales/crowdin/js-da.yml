@@ -355,10 +355,10 @@ da:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_5":
+          "14_6":
             standard:
               new_features_html: >
-                The release contains various new features and improvements, such as: <br> <ul class="%{list_styling_class}"> <li>Keep and restore local versions of WYSIWYG content changes.</li> <li>Enable a storage for multiple projects at once.</li> <li>Export work packages in an updated modal with additional settings.</li> <li>Display custom field columns/filters in project lists also in the Community Edition.</li> <li>Support CloudFlare Turnstile as Captcha.</li> </ul>
+                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Benefit from more flexible progress reporting – thanks to user feedback.</li> <li>Receive an update notification with reload option for meetings.</li> <li>Enable a custom field for multiple projects at once.</li> <li>Use relative work package attribute macros.</li> <li>Show empty lines in saved rich text.</li> <li>See past meetings included in the number next to the Meetings tab.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."

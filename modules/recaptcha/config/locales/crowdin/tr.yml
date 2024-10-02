@@ -9,9 +9,9 @@ tr:
     verify_account: "Hesabınızı doğrulayın"
     error_captcha: "Hesabınız doğrulanamadı. Lütfen bir yöneticiye başvurun."
     settings:
-      website_key: 'Website key (May also be called "Site key")'
+      website_key: 'Website anahtarı ("Site anahtarı")'
       response_limit: 'HCaptcha için yanıt sınırı'
-      response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
+      response_limit_text: 'HCaptcha yanıtını geçerli olarak değerlendirmek için gereken maksimum karakter sayısı.'
       website_key_text: 'Bu etki alanı için reCAPTCHA yönetici konsolunda oluşturduğunuz web sitesi anahtarını girin.'
       secret_key: 'Gizli anahtar'
       secret_key_text: 'ReCAPTCHA yönetici konsolunda yarattığınız gizli anahtarı girin.'
@@ -22,4 +22,4 @@ tr:
       type_hcaptcha: 'HCaptcha '
       type_turnstile: 'Cloudflare Turnstile™'
       captcha_description_html: >
-        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link} <br/> Cloudflare Turnstile™ is another alternative that is more convenient for users while still providing the same level of security. See this link for more information: %{turnstile_link}
+        reCAPTCHA, OpenProject kurulumunuz için etkinleştirebileceğiniz Google tarafından sunulan ücretsiz bir hizmettir. Etkinleştirildiğinde, henüz captcha doğrulaması yapmamış tüm kullanıcılar için oturum açma sırasında bir captcha formu oluşturacaktır. <br/> reCAPTCHA ve sürümleri ile website ve gizli anahtar oluşturma hakkında detaylı bilgi için bu bağlantıya bakabilirsiniz: %{recaptcha_link} <br/> HCaptcha, reCAPTCHA yerine kullanabileceğiniz Google'dan bağımsız bir alternatiftir. Daha fazla bilgi için bu bağlantıya bakın: %{hcaptcha_link} <br/> Cloudflare Turnstile™ kullanıcılar için daha kullanışlı olup da aynı güvenliği sağlayana başka bir alternatiftir. Daha fazla bilgi için bu bağlantıya bakın: %{turnstile_link}
