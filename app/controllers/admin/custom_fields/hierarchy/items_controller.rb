@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -28,30 +30,25 @@
 
 module Admin
   module CustomFields
-    class EditFormHeaderComponent < ApplicationComponent
-      TAB_NAVS = %i[
-        edit
-        items
-        custom_field_projects
-      ].freeze
+    module Hierarchy
+      class ItemsController < ApplicationController
+        layout "admin"
 
-      def initialize(custom_field:, selected:, **)
-        @custom_field = custom_field
-        @selected = selected
-        super(custom_field, **)
-      end
+        model_object CustomField
 
-      def tab_selected?(tab_name)
-        TAB_NAVS.include?(tab_name) && tab_name == @selected
-      end
+        before_action :require_admin
+        before_action :find_model_object
 
-      private
+        menu_item :custom_fields
 
-      def breadcrumbs_items
-        [{ href: admin_index_path, text: t(:label_administration) },
-         { href: custom_fields_path, text: t(:label_custom_field_plural) },
-         { href: custom_fields_path(tab: @custom_field.type), text: I18n.t(@custom_field.type_name) },
-         @custom_field.name]
+        def index; end
+
+        private
+
+        def find_model_object(object_id = :custom_field_id)
+          super
+          @custom_field = @object
+        end
       end
     end
   end
