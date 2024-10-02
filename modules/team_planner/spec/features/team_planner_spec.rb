@@ -43,7 +43,7 @@ RSpec.describe "Team planner",
     end
 
     expect(page).to have_content "There is currently nothing to display."
-    click_on "Create", match: :first
+    find('[data-test-selector="add-team-planner-button"]').click
 
     team_planner.expect_title
 
