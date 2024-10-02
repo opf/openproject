@@ -29,8 +29,30 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title(t('boards.label_boards')) -%>
 
-<%= toolbar title: t('boards.label_boards') do %>
-  <%= render Boards::AddButtonComponent.new %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("boards.label_boards") }
+    header.with_breadcrumbs([{ href: home_path, text: organization_name},
+                             *([href: project_overview_path(@project.id), text: @project.name] if @project),
+                             t("boards.label_boards")])
+  end
+%>
+
+<% if @show_create_button %>
+  <%=
+    render Primer::OpenProject::SubHeader.new do |subheader|
+      subheader.with_action_button(scheme: :primary,
+                                   aria: { label: I18n.t("boards.label_create_new_board") },
+                                   title: I18n.t("boards.label_board"),
+                                   tag: :a,
+                                   id: "add-board-button",
+                                   href: polymorphic_path([:new, @project, :work_package_board]),
+                                   data: { "test-selector": "add-board-button"}) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        I18n.t("boards.label_board")
+      end
+    end
+  %>
 <% end %>
 
 <% if @board_grids.empty? -%>

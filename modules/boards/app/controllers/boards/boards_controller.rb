@@ -16,11 +16,20 @@ module ::Boards
     menu_item :boards
 
     def index
+      @show_create_button = show_create_button
       render "index", locals: { menu_name: project_or_global_menu }
     end
 
     def show
       render layout: "angular/angular"
+    end
+
+    def show_create_button
+      if @project
+        User.current.allowed_in_project?(:manage_board_views, @project)
+      else
+        User.current.allowed_in_any_project?(:manage_board_views)
+      end
     end
 
     def default_breadcrumb; end
