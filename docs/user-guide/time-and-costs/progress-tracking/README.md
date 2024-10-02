@@ -121,7 +121,7 @@ When one field is already set and you enter a value in a second field, the third
 - **Increasing Work**: When you increase the value of Work, the same amount is added to Remaining Work (since the total Work has increased). This change also updates the % Complete accordingly.
 - **Decreasing Work**:
   -  If you decrease *Work*, *Remaining work* is lowered by the same amount.
-  - If you decrease *Work* by less than the current value for *Remaining work*, then *Remaining work* will be set to 0h and *% Complete* to 100%
+  - If you decrease *Work* by more than the current value for *Remaining work*, then *Remaining work* will be set to 0h and *% Complete* to 100%
 - **Changing Remaining work updates % Complete**
 - **Changing % Complete updates Remaining work**
 
