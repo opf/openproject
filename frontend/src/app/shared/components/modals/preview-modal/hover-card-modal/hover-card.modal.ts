@@ -60,6 +60,7 @@ import {
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
 })
 export class HoverCardComponent extends OpModalComponent implements OnInit {
+  // TODO
   @Input() public turboFrameSrc:string = "/work_packages/50/hover_card";
 
   @Input() public alignment?:Placement = 'bottom-end';

@@ -1,0 +1,13 @@
+.op-wp-hover-card
+  display: grid
+  align-items: center
+  grid-template-columns: max-content max-content max-content auto auto 1fr
+  grid-template-rows: max-content 1fr auto
+  grid-row-gap: 5px
+  grid-column-gap: 5px
+  grid-template-areas: "status status id project project project" "type subject subject subject subject subject" "assignee assignee . . . ."
+  overflow: hidden
+
+  &--type,
+  &--subject
+    align-self: flex-start

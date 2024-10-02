@@ -1,0 +1,36 @@
+<%= if @work_package.present?
+  grid_layout('op-wp-hover-card', tag: :div) do |grid|
+    grid.with_area(:status, tag: :div, color: :muted) do
+      render WorkPackages::StatusButtonComponent.new(work_package: @work_package, button_arguments: { size: :small })
+    end
+
+    grid.with_area(:id, tag: :div, color: :muted) do
+      render(Primer::Beta::Text.new(font_size: :small)) { "##{@work_package.id}" }
+    end
+
+    grid.with_area(:project, tag: :div, color: :muted) do
+      render(Primer::Beta::Text.new(font_size: :small)) { "- #{@work_package.project.name}" }
+    end
+
+    grid.with_area(:type, tag: :div) do
+      render(WorkPackages::HighlightedTypeComponent.new(work_package: @work_package))
+    end
+
+    grid.with_area(:subject, tag: :div) do
+      render(Primer::Beta::Text.new(font_weight: :semibold)) { @work_package.subject }
+    end
+
+    if @assignee.present?
+      grid.with_area(:assignee, tag: :div) do
+        render(Users::AvatarComponent.new(user: @assignee, show_name: false, size: :medium))
+      end
+    end
+  end
+ else
+
+    render Primer::Beta::Blankslate.new(border: false, narrow: true) do |component|
+      component.with_visual_icon(icon: "x-circle")
+      component.with_heading(tag: :h3).with_content(I18n.t("api_v3.errors.not_found.work_package"))
+    end
+
+end %>
