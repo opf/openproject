@@ -162,7 +162,7 @@ OpenProject offers two modes for calculating *% Complete* in hierarchy totals:
   >
   > Work packages without *Work* will be ignored.
 
-- **Simple average**: *Work* is ignored and the *total % Complete* is calculated as a simple average of the *% Complete* values from the work packages in the hierarchy.
+- **Simple average**: *Work* is ignored and the *total % Complete* is calculated as a simple average of the *% Complete* values from the direct work packages children in the hierarchy. The value used on each direct child for computing the average is its *total % Complete* value, or its *% Complete* value if it has no children, or 0% if its *% Complete* value is not set.
 
 > [!NOTE]
 > The administrator of your instance will have selected a mode for the entire instance. If you are an administrator, you can modify this by following our [admin guide on work package settings](../../../system-admin-guide/manage-work-packages/work-package-progress-tracking).
