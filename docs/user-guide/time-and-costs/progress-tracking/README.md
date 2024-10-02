@@ -125,7 +125,7 @@ When one field is already set and you enter a value in a second field, the third
 - **Changing Remaining work updates % Complete**
 - **Changing % Complete updates Remaining work**
 
-For more details and examples of progress tacking calculation please refer to this [blog article](https://www.openproject.org/blog/updates-to-progress-tracking-in-14-6-based-on-user-feedback/).
+For more details and examples of progress tracking calculation please refer to this [blog article](https://www.openproject.org/blog/updates-to-progress-tracking-in-14-6-based-on-user-feedback/).
 
 ### Status-based progress reporting
 
