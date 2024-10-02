@@ -36,49 +36,34 @@
 # `ApplicationMailer`, and `ApplicationMailer.delivery_job` is set to
 # `::Mails::MailerJob`.
 #
-# The `delivery_job` is customized because we want to have the sending of the
-# email run in an instance inheriting from `ApplicationJob` instead of a
-# `ActionMailer::MailDeliveryJob` (Rails default delivery job). Indeed
-# `ApplicationJob` contains all the shared setup required for OpenProject such
-# as reloading the mailer configuration and resetting the request store.
-class Mails::MailerJob < ApplicationJob
-  # Retry mailing jobs three times with polinomial backoff
-  retry_on StandardError, wait: :polynomially_longer, attempts: 3
+# The `delivery_job` is customized to add the shared job setup required for
+# OpenProject such as reloading the mailer configuration and resetting the
+# request store on each job execution.
+#
+# It also adds retry logic to the job.
+class Mails::MailerJob < ActionMailer::MailDeliveryJob
+  include SharedJobSetup
 
-  # The following lines are copied from ActionMailer::MailDeliveryJob
-  queue_as do
-    mailer_class = arguments.first.constantize
-    mailer_class.deliver_later_queue_name
-  end
-
-  rescue_from StandardError, with: :handle_exception_with_mailer_class
-
-  def perform(mailer, mail_method, delivery_method, args:, kwargs: nil, params: nil)
-    mailer_class = params ? mailer.constantize.with(params) : mailer.constantize
-    message =
-      if kwargs
-        mailer_class.public_send(mail_method, *args, **kwargs)
-      else
-        mailer_class.public_send(mail_method, *args)
-      end
-    message.send(delivery_method)
-  end
-
-  private
-
-  # "Deserialize" the mailer class name by hand in case another argument
-  # (like a Global ID reference) raised DeserializationError.
-  def mailer_class
-    if mailer = Array(@serialized_arguments).first || Array(arguments).first
-      mailer.constantize
-    end
-  end
-
-  def handle_exception_with_mailer_class(exception)
-    if klass = mailer_class
-      klass.handle_exception exception
-    else
-      raise exception
-    end
-  end
+  # Retry mailing jobs 14 times with polynomial backoff (retries for ~ 1.5 days).
+  #
+  # with polynomial backoff, the formula to get wait_duration is:
+  #
+  #   ((executions**4) + (Kernel.rand * (executions**4) * jitter)) + 2
+  #
+  # as the default jitter is 0.0, the formula becomes:
+  #
+  #   ((executions**4) + 2)
+  #
+  # To get the numbers, run this:
+  #
+  #     (1..20).reduce(0) do |total_wait, i|
+  #       wait = (i**4) + 2
+  #       total_wait += wait
+  #       puts "Execution #{i} waits #{wait} secs. Total wait: #{total_wait} secs"
+  #       total_wait
+  #     end
+  #
+  # We set attemps to 14 to have it retry for 127715 seconds which is more than
+  # 1 day (~= 1 day 11 hours 30 min)
+  retry_on StandardError, wait: :polynomially_longer, attempts: 14
 end

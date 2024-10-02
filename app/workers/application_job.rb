@@ -30,13 +30,7 @@ require "active_job"
 
 class ApplicationJob < ActiveJob::Base
   include ::JobStatus::ApplicationJobWithStatus
-
-  ##
-  # By default, do not log the arguments of a background job
-  # to avoid leaking sensitive information to logs
-  self.log_arguments = false
-
-  around_perform :prepare_job_context
+  include SharedJobSetup
 
   ##
   # Return a priority number on the given payload
@@ -65,45 +59,7 @@ class ApplicationJob < ActiveJob::Base
     end
   end
 
-  # Resets the thread local request store.
-  # This should be done, because normal application code expects the RequestStore to be
-  # invalidated between multiple requests and does usually not care whether it is executed
-  # from a request or from a delayed job.
-  # For a delayed job, each job execution is the thing that comes closest to
-  # the concept of a new request.
-  def with_clean_request_store
-    store = RequestStore.store
-
-    begin
-      RequestStore.clear!
-      yield
-    ensure
-      # Reset to previous value
-      RequestStore.clear!
-      RequestStore.store.merge! store
-    end
-  end
-
-  # Reloads the thread local ActionMailer configuration.
-  # Since the email configuration is now done in the web app, we need to
-  # make sure that any changes to the configuration is correctly picked up
-  # by the background jobs at runtime.
-  def reload_mailer_settings!
-    Setting.reload_mailer_settings!
-  end
-
   def job_scheduled_at
     GoodJob::Job.where(id: job_id).pick(:scheduled_at)
-  end
-
-  private
-
-  def prepare_job_context
-    with_clean_request_store do
-      ::OpenProject::Appsignal.tag_request
-      reload_mailer_settings!
-
-      yield
-    end
   end
 end
