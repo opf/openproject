@@ -60,15 +60,12 @@ module Storages
             Util.ocs_api_request
           end
 
-          # rubocop:disable Metrics/AbcSize
           def handle_response(response)
             error_data = StorageErrorData.new(source: self.class, payload: response)
 
             case response
             in { status: 200..299 }
-              group_users = Nokogiri::XML(response.body.to_s).xpath("/ocs/data/users/element").map(&:text)
-              info "#{group_users.size} users found"
-              ServiceResult.success(result: group_users)
+              handle_success_response(response)
             in { status: 405 }
               Util.error(:not_allowed, "Outbound request method not allowed", error_data)
             in { status: 401 }
@@ -82,7 +79,22 @@ module Storages
             end
           end
 
-          # rubocop:enable Metrics/AbcSize
+          def handle_success_response(response)
+            error_data = StorageErrorData.new(source: self.class, payload: response)
+            xml = Nokogiri::XML(response.body.to_s)
+            statuscode = xml.xpath("/ocs/meta/statuscode").text
+
+            case statuscode
+            when "100"
+              group_users = xml.xpath("/ocs/data/users/element").map(&:text)
+              info "#{group_users.size} users found"
+              ServiceResult.success(result: group_users)
+            when "404"
+              Util.error(:group_does_not_exist, "Group does not exist", error_data)
+            else
+              Util.error(:error, "Unknown response body", error_data)
+            end
+          end
         end
       end
     end
