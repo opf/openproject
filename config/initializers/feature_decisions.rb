@@ -43,3 +43,6 @@ OpenProject::FeatureDecisions.add :built_in_oauth_applications,
 
 OpenProject::FeatureDecisions.add :custom_field_of_type_hierarchy,
                                   description: "Allows the use of the custom field type 'Hierarchy'."
+
+OpenProject::FeatureDecisions.add :recurring_meetings,
+                                  description: "Differentiate between one-time and recurring meetings."

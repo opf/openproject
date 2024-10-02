@@ -27,13 +27,8 @@
 # ++
 module Meetings
   class Menu < Submenu
-    attr_reader :view_type, :project
-
-    def initialize(project: nil, params: nil)
-      @project = project
-      @params = params
-
-      super(view_type:, project:, params:)
+    def initialize(params:, project: nil)
+      super(view_type: nil, project:, params:)
     end
 
     def menu_items
@@ -51,8 +46,16 @@ module Meetings
         menu_item(title: I18n.t(:label_upcoming_meetings),
                   query_params: { filters: upcoming_filter, sort: "start_time" }),
         menu_item(title: I18n.t(:label_past_meetings),
-                  query_params: { filters: past_filter, sort: "start_time:desc" })
-      ]
+                  query_params: { filters: past_filter, sort: "start_time:desc" }),
+        recurring_menu_item
+      ].compact
+    end
+
+    def recurring_menu_item
+      return unless OpenProject::FeatureDecisions.recurring_meetings_active?
+
+      menu_item(title: I18n.t(:label_recurring_meeting_plural),
+                query_params: { filters: recurring_meeting_type_filter, sort: "start_time:desc" })
     end
 
     def involvement_sidebar_menu_items
@@ -88,6 +91,10 @@ module Meetings
 
     def author_filter
       [{ author_id: { operator: "=", values: [User.current.id.to_s] } }].to_json
+    end
+
+    def recurring_meeting_type_filter
+      [{ type: { operator: "=", values: [RecurringMeeting.to_s] } }].to_json
     end
   end
 end

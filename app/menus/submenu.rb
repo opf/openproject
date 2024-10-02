@@ -29,7 +29,7 @@ class Submenu
   include Rails.application.routes.url_helpers
   attr_reader :view_type, :project, :params
 
-  def initialize(view_type:, project: nil, params: nil)
+  def initialize(view_type:, params:, project: nil)
     @view_type = view_type
     @project = project
     @params = params

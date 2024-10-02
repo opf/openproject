@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,52 +27,56 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-module Meetings
-  # rubocop:disable OpenProject/AddPreviewForViewComponent
-  class MeetingFiltersComponent < Filter::FilterComponent
-    # rubocop:enable OpenProject/AddPreviewForViewComponent
-    options :project
 
-    def allowed_filters
+module RecurringMeetings
+  class IndexPageHeaderComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include ApplicationHelper
+
+    def initialize(project: nil)
       super
-        .select { |f| allowed_filter?(f) }
-        .sort_by(&:human_name)
+      @project = project
     end
 
-    protected
-
-    def additional_filter_attributes(filter)
-      case filter
-      when Queries::Meetings::Filters::AuthorFilter,
-           Queries::Meetings::Filters::AttendedUserFilter,
-           Queries::Meetings::Filters::InvitedUserFilter
-        {
-          autocomplete_options: {
-            component: "opce-user-autocompleter",
-            resource: "principals"
-          }
-        }
+    def render_create_button?
+      if @project
+        User.current.allowed_in_project?(:create_meetings, @project)
       else
-        super
+        User.current.allowed_in_any_project?(:create_meetings)
       end
     end
 
-    private
+    def dynamic_path
+      polymorphic_path([:new, @project, :recurring_meeting])
+    end
 
-    def allowed_filter?(filter)
-      allowlist = [
-        Queries::Meetings::Filters::AttendedUserFilter,
-        Queries::Meetings::Filters::AuthorFilter,
-        Queries::Meetings::Filters::InvitedUserFilter,
-        Queries::Meetings::Filters::TimeFilter,
-        Queries::Meetings::Filters::TypeFilter
-      ]
+    def id
+      "add-recurring-meeting-button"
+    end
 
-      if project.nil?
-        allowlist << Queries::Meetings::Filters::ProjectFilter
+    def accessibility_label_text
+      I18n.t(:label_recurring_meeting_new)
+    end
+
+    def label_text
+      I18n.t(:label_recurring_meeting)
+    end
+
+    def page_title
+      I18n.t(:label_recurring_meeting_plural)
+    end
+
+    def breadcrumb_items
+      [parent_element,
+       page_title]
+    end
+
+    def parent_element
+      if @project.present?
+        { href: project_overview_path(@project.id), text: @project.name }
+      else
+        { href: home_path, text: I18n.t(:label_home) }
       end
-
-      allowlist.any? { |clazz| filter.is_a? clazz }
     end
   end
 end
