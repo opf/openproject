@@ -108,9 +108,6 @@ module Storages
 
       local_users = remote_identities_scope.order(:id).pluck(:origin_user_id)
 
-      puts "Remote users: #{remote_users}"
-      puts "Local users: #{local_users}"
-
       remove_users_from_remote_group(remote_users - local_users - [username])
       add_users_to_remote_group(local_users - remote_users - [username])
     end
