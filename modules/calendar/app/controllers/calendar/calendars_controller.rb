@@ -42,6 +42,8 @@ module ::Calendar
 
     def index
       @views = visible_views
+      @show_create_button = show_create_button?
+      @dynamic_path = dynamic_path
       render "index", locals: { menu_name: project_or_global_menu }
     end
 
@@ -108,6 +110,22 @@ module ::Calendar
                 .find(params[:id])
     rescue ActiveRecord::RecordNotFound
       render_404
+    end
+
+    def show_create_button?
+      if @project
+        User.current.allowed_in_project?(:manage_calendars, @project)
+      else
+        User.current.allowed_in_any_project?(:manage_calendars)
+      end
+    end
+
+    def dynamic_path
+      if @project
+        new_project_calendars_path(@project)
+      else
+        new_calendar_path
+      end
     end
   end
 end
