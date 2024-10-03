@@ -28,28 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::LastProjectFolders
-  class BulkCreateService < ::BulkServices::ProjectMappings::BaseCreateService
-    attr_reader :something
+module Storages
+  module LastProjectFolders
+    class ProjectStoragesProjectsMapper < BulkServices::ProjectMappings::ProjectsMapperBase
+      attr_reader :project_storages
 
-    def initialize(user:, project_storages:)
-      super(user:, projects: nil, model: nil, include_sub_projects: nil,
-            projects_mapper: ProjectStoragesProjectsMapper.new(project_storages))
-    end
+      def initialize(project_storages)
+        super()
+        @project_storages = project_storages
+      end
 
-    def permission = :manage_files_in_project
-    def mapping_model_class = ::Storages::LastProjectFolder
+      def mapping_attributes_for_all_projects(_params)
+        project_storages.map do |project_storage|
+          {
+            project_storage_id: project_storage.id,
+            origin_folder_id: project_storage.project_folder_id,
+            mode: project_storage.project_folder_mode
+          }
+        end
+      end
 
-    private
-
-    def perform_bulk_create(service_call)
-      bulk_insertion = mapping_model_class.insert_all(
-        service_call.result.map { |model| model.attributes.slice("project_storage_id", "origin_folder_id", "mode") },
-        returning: %w[id]
-      )
-      service_call.result = mapping_model_class.where(id: bulk_insertion.rows.flatten)
-
-      service_call
+      def incoming_projects
+        @incoming_projects ||= Project.where(id: project_storages.pluck(:project_id))
+      end
     end
   end
 end

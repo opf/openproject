@@ -28,20 +28,79 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# Gives the projects to map and the attributes to be used for the mapping.
+class ProjectsMapper
+  attr_reader :model,
+              :projects,
+              :mapping_model_class,
+              :model_foreign_key_id,
+              :include_sub_projects
+
+  def initialize(model:,
+                 projects:,
+                 mapping_model_class:,
+                 model_foreign_key_id:,
+                 include_sub_projects: false)
+    @model = model
+    @projects = projects
+    @mapping_model_class = mapping_model_class
+    @model_foreign_key_id = model_foreign_key_id
+    @include_sub_projects = include_sub_projects
+  end
+
+  def mapping_attributes_for_all_projects(params)
+    project_ids_to_map.map do |project_id|
+      {
+        project_id:,
+        model_foreign_key_id => model.id
+      }.merge(attributes_from_params(params))
+    end
+  end
+
+  def incoming_projects
+    projects.each_with_object(Set.new) do |project, projects_set|
+      next unless project.active?
+
+      projects_set << project
+      projects_set.merge(project.active_subprojects.to_a) if include_sub_projects
+    end.to_a
+  end
+
+  private
+
+  def project_ids_to_map
+    project_ids = incoming_projects.pluck(:id)
+    project_ids - project_ids_already_mapped(project_ids)
+  end
+
+  def project_ids_already_mapped(project_ids)
+    mapping_model_class.where(
+      model_foreign_key_id => @model.id,
+      project_id: project_ids
+    ).pluck(:project_id)
+  end
+end
+
 module BulkServices
   module ProjectMappings
     class BaseCreateService < ::BaseServices::BaseCallable
-      def initialize(user:, projects:, model:, include_sub_projects: false)
+      attr_reader :projects_mapper
+
+      def initialize(user:, projects:, model:, include_sub_projects: false, projects_mapper: nil)
         super()
         @user = user
-        @projects = projects
-        @model = model
-        @include_sub_projects = include_sub_projects
+        @projects_mapper = projects_mapper || ProjectsMapper.new(
+          model:,
+          projects:,
+          mapping_model_class:,
+          model_foreign_key_id:,
+          include_sub_projects:
+        )
       end
 
       def perform(params = {})
         service_call = validate_permissions
-        service_call = validate_contract(service_call, incoming_mapping_ids, params) if service_call.success?
+        service_call = validate_contract(service_call, nil, params) if service_call.success?
         service_call = perform_bulk_create(service_call) if service_call.success?
         service_call = after_perform(service_call, params) if service_call.success?
 
@@ -51,18 +110,18 @@ module BulkServices
       private
 
       def validate_permissions
-        return ServiceResult.failure(errors: I18n.t(:label_not_found)) if incoming_projects.empty?
+        return ServiceResult.failure(errors: I18n.t(:label_not_found)) if projects_mapper.incoming_projects.empty?
 
-        if @user.allowed_in_project?(permission, incoming_projects)
+        if @user.allowed_in_project?(permission, projects_mapper.incoming_projects)
           ServiceResult.success
         else
           ServiceResult.failure(errors: I18n.t("activerecord.errors.messages.error_unauthorized"))
         end
       end
 
-      def validate_contract(service_call, project_ids, _params)
-        set_attributes_results = project_ids.map do |id|
-          set_attributes(project_id: id, model_foreign_key_id => @model.id)
+      def validate_contract(service_call, _project_ids, params)
+        set_attributes_results = projects_mapper.mapping_attributes_for_all_projects(params).map do |mapping_attributes|
+          set_attributes(mapping_attributes)
         end
 
         if (failures = set_attributes_results.select(&:failure?)).any?
@@ -73,6 +132,11 @@ module BulkServices
         end
 
         service_call
+      end
+
+      # override in subclasses to pass additional parameters to the `SetAttributesService`.
+      def attributes_from_params(_params)
+        {}
       end
 
       def perform_bulk_create(service_call)
@@ -86,27 +150,6 @@ module BulkServices
 
       def after_perform(service_call, _params)
         service_call # Subclasses can override this method to add additional logic
-      end
-
-      def incoming_mapping_ids
-        project_ids = incoming_projects.pluck(:id)
-        project_ids - existing_project_mappings(project_ids)
-      end
-
-      def incoming_projects
-        @projects.each_with_object(Set.new) do |project, projects_set|
-          next unless project.active?
-
-          projects_set << project
-          projects_set.merge(project.active_subprojects.to_a) if @include_sub_projects
-        end.to_a
-      end
-
-      def existing_project_mappings(project_ids)
-        mapping_model_class.where(
-          model_foreign_key_id => @model.id,
-          project_id: project_ids
-        ).pluck(:project_id)
       end
 
       def set_attributes(params)

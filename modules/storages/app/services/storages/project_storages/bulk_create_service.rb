@@ -49,19 +49,17 @@ module Storages::ProjectStorages
     def default_contract_class = ::Storages::ProjectStorages::CreateContract
 
     def validate_contract(service_call, project_ids, params)
-      project_folder_params = params.slice(:project_folder_mode, :project_folder_id)
+      super_service_call = super
 
-      set_attributes_results = project_ids.map do |id|
-        set_attributes(project_id: id, storage_id: @model.id, **project_folder_params)
+      super_service_call.on_failure do
+        super_service_call.errors = super_service_call.errors.first
       end
 
-      if (failures = set_attributes_results.select(&:failure?)).any?
-        service_call = failures.first
-      else
-        service_call.result = set_attributes_results.map(&:result)
-      end
+      super_service_call
+    end
 
-      service_call
+    def attributes_from_params(params)
+      params.slice(:project_folder_mode, :project_folder_id)
     end
 
     def perform_bulk_create(service_call)
@@ -91,7 +89,7 @@ module Storages::ProjectStorages
         event: :created,
         project_folder_mode: params[:project_folder_mode],
         project_folder_mode_previously_was: nil,
-        storage: @model
+        storage: something.model
       )
     end
   end
