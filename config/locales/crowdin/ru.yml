@@ -739,7 +739,7 @@ ru:
         is_closed: "Пакет работ закрыт"
         is_readonly: "Пакет работ только для просмотра"
         excluded_from_totals: "Исключить из расчета итогов в иерархии"
-        default_done_ratio: "% Завершено"
+        default_done_ratio: "% Завершения"
       time_entry:
         activity: "Деятельность"
         hours: "Часы"
@@ -789,7 +789,7 @@ ru:
         derived_done_ratio: "Всего % завершено"
         derived_remaining_hours: "Всего оставшихся работ"
         derived_remaining_time: "Всего оставшихся работ"
-        done_ratio: "% Завершено"
+        done_ratio: "% Завершения"
         duration: "Продолжительность"
         end_insertion: "Завершение вставки"
         end_deletion: "Завершение удаления"
@@ -803,7 +803,7 @@ ru:
         parent_issue: "Родитель"
         parent_work_package: "Родитель"
         priority: "Приоритет"
-        progress: "% Завершено"
+        progress: "% Завершения"
         readonly: "Только для чтения"
         remaining_hours: "Оставшиеся часы"
         remaining_time: "Оставшиеся часы"
@@ -1447,8 +1447,8 @@ ru:
     failure_message: Согласие не получено, продолжение невозможно.
     title: Согласие пользователя
     decline_warning_message: Вы отказались согласиться и были занесены в журнал.
-    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
-    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
+    user_has_consented: Пользователь дал свое согласие на [настроенный текст информации о согласии](consent_settings).
+    not_yet_consented: Пользователь еще не дал своего согласия на [настроенный текст информации о согласии](consent_settings). При следующем входе в систему ему об этом напомнят.
     contact_mail_instructions: Укажите адрес электронной почты для контроля пользователями выполнения запросов на изменение или удаление данных.
     contact_your_administrator: Пожалуйста, обратитесь к администратору, если хотите, чтобы ваша учетная запись была удалена.
     contact_this_mail_address: Пожалуйста, свяжитесь по %{mail_address}, если хотите, чтобы ваша учетная запись была удалена.
@@ -1872,8 +1872,8 @@ ru:
       progress_mode_changed_to_status_based: "Расчет прогресса обновлен"
       status_changed: "Статус '%{status_name}'"
       system_update: "Обновление системы OpenProject:"
-      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
-      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
+      total_percent_complete_mode_changed_to_work_weighted_average: "Вычисление % Завершения теперь взвешивается по Работе."
+      total_percent_complete_mode_changed_to_simple_average: "Вычисление % Завершения теперь основано на среднем арифметическом % Завершения."
     cause_descriptions:
       work_package_predecessor_changed_times: внесением изменений в предшественника %{link}
       work_package_parent_changed_times: внесением изменений в родительский %{link}
@@ -1902,9 +1902,9 @@ ru:
         totals_removed_from_childless_work_packages: >-
           При <a href="%{href}" target="_blank">обновлении версии</a> автоматически удаляются итоги работы и прогресса для неродительских пакетов работ. Это задача по обслуживанию, и её можно смело игнорировать.
       total_percent_complete_mode_changed_to_work_weighted_average: >-
-        Child work packages without Work are ignored.
+        Дочерние пакеты работ без Работы игнорируются.
       total_percent_complete_mode_changed_to_simple_average: >-
-        Work values of child work packages are ignored.
+        Значения Работы дочерних пакетов работ игнорируются.
   links:
     configuration_guide: "Руководство по конфигурации"
     get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
@@ -3275,13 +3275,13 @@ ru:
   setting_sys_api_enabled: "Разрешить веб-сервис управления репозиторием"
   setting_sys_api_description: "Веб-сервис управления репозиторием обеспечивает интеграцию и авторизацию пользователя для доступа к репозиторию."
   setting_time_format: "Время"
-  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
-  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode: "Расчет общего % Завершения полной иерархии"
+  setting_total_percent_complete_mode_work_weighted_average: "Взвешенное по работе"
   setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
-    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
-  setting_total_percent_complete_mode_simple_average: "Simple average"
+    <i>Общий % Завершения</i> будет взвешен по  <i>Работе</i> каждого пакета работ в иерархии. Пакеты работ без <i>Работы</i> будут игнорироваться.
+  setting_total_percent_complete_mode_simple_average: "Среднее арифметическое"
   setting_total_percent_complete_mode_simple_average_caption_html: >-
-    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
+    <i>Работа</i> игнорируется, и <i>Общий % Завершения</i> будет средним арифметическим значением <i>% Завершения</i> пакетов работ в иерархии.
   setting_accessibility_mode_for_anonymous: "Разрешить режим доступа людей с ограниченными возможностями для анонимных пользователей"
   setting_user_format: "Формат имени пользователя"
   setting_user_default_timezone: "Часовой пояс пользователя по умолчанию"
@@ -3445,8 +3445,8 @@ ru:
   text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакет(-ы) работ?"
   text_work_packages_ref_in_commit_messages: "Привязка и фиксация пакетов работ в сообщениях коммитов"
   text_journal_added: "%{label} %{value} добавлено"
-  text_journal_attachment_added: "%{label} %{value} добавлено как вложение"
-  text_journal_attachment_deleted: "%{label} %{old} удален как вложение"
+  text_journal_attachment_added: "%{label} %{value} добавлено вложение"
+  text_journal_attachment_deleted: "%{label} %{old} удалено вложение"
   text_journal_changed_plain: "%{label} изменено с %{old} %{linebreak}на %{new}"
   text_journal_changed_no_detail: "%{label} обновлено"
   text_journal_changed_with_diff: "%{label} изменена (%{link})"
