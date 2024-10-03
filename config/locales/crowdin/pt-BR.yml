@@ -210,6 +210,10 @@ pt-BR:
         is_for_all_blank_slate:
           heading: Em todos os projetos
           description: Este campo personalizado é habilitado em todos os projetos, uma vez que a opção "para todos os projetos" está marcada. Ele não pode ser desativado para projetos individuais.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
       notice:
         remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
@@ -2173,6 +2177,8 @@ pt-BR:
   label_internal: "Interno"
   label_introduction_video: "Vídeo de introdução"
   label_invite_user: "Convidar usuário"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Compartilhar"
   label_share_project_list: "Compartilhar lista de projeto"
   label_share_work_package: "Compartilhar pacote de trabalho"
@@ -2249,7 +2255,7 @@ pt-BR:
   label_more: "Mais"
   label_more_than_ago: "mais do que dias atrás"
   label_move_work_package: "Mover pacote de trabalho"
-  label_my_account: "Minha conta"
+  label_my_account: "Account settings"
   label_my_activity: "Minha atividade"
   label_my_account_data: "Dados da minha conta"
   label_my_avatar: "Meu avatar"
