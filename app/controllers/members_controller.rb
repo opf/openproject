@@ -121,11 +121,13 @@ class MembersController < ApplicationController
   def build_members
     paths = API::V3::Utilities::PathHelper::ApiV3Path
     principals = @principals.map do |principal|
-      {
+      member = {
         id: principal.id,
         name: principal.name,
         href: paths.send(principal.type.underscore, principal.id)
       }
+      member[:email] = principal.mail if current_user.allowed_globally?(:view_user_email)
+      member
     end
 
     if @email
