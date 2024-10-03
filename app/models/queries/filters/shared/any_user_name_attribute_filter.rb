@@ -43,21 +43,23 @@ module Queries::Filters::Shared::AnyUserNameAttributeFilter
        Queries::Operators::NotContains]
     end
 
+    def email_field_allowed?
+      true
+    end
+
     private
 
     def sql_concat_name
-      <<-SQL.squish
-        LOWER(
-          CONCAT(
-            users.firstname, ' ', users.lastname,
-            ' ',
-            users.lastname, ' ', users.firstname,
-            ' ',
-            users.login,
-            ' ',
-            users.mail
-          )
-        )
+      fields = [
+        "users.firstname", "users.lastname",
+        "users.lastname", "users.firstname",
+        "users.login"
+      ]
+
+      fields << "users.mail" if email_field_allowed?
+
+      <<~SQL.squish
+        LOWER(CONCAT_WS(#{fields.join(',')}))
       SQL
     end
   end

@@ -118,6 +118,10 @@ class MembersController < ApplicationController
     current_user.allowed_in_project?({ controller:, action: }, @project)
   end
 
+  def user_allowed_to_view_emails?
+    current_user.allowed_globally?(:view_user_email)
+  end
+
   def build_members
     paths = API::V3::Utilities::PathHelper::ApiV3Path
     principals = @principals.map do |principal|
@@ -126,7 +130,7 @@ class MembersController < ApplicationController
         name: principal.name,
         href: paths.send(principal.type.underscore, principal.id)
       }
-      member[:email] = principal.mail if current_user.allowed_globally?(:view_user_email)
+      member[:email] = principal.mail if user_allowed_to_view_emails?
       member
     end
 
@@ -197,7 +201,7 @@ class MembersController < ApplicationController
   def possible_members(criteria, limit)
     Principal
       .possible_member(@project)
-      .like(criteria)
+      .like(criteria, email: user_allowed_to_view_emails?)
       .limit(limit)
   end
 

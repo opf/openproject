@@ -55,14 +55,9 @@ RSpec.shared_examples_for "available principals" do |principals, work_package_sc
   let(:permissions) { base_permissions }
 
   let(:assignable_permissions) { [:work_package_assigned] }
-
-  shared_context "request available #{principals}" do
-    before { get href }
-  end
-
   describe "response" do
     shared_examples_for "returns available #{principals}" do |total, count, klass|
-      include_context "request available #{principals}"
+      before { get href }
 
       it_behaves_like "API V3 collection response", total, count, klass
     end
@@ -83,10 +78,36 @@ RSpec.shared_examples_for "available principals" do |principals, work_package_sc
           # and the current user
         end
 
-        if work_package_scope
-          it_behaves_like "returns available #{principals}", 3, 3, "User"
-        else
-          it_behaves_like "returns available #{principals}", 2, 2, "User"
+        user_count = work_package_scope ? 3 : 2
+
+        it_behaves_like "returns available #{principals}", user_count, user_count, "User" do
+          let(:json_response) { JSON.parse(last_response.body) }
+
+          context "without permissions to view user email" do
+            it "returns no email key for other users" do
+              expect(json_response["_embedded"]["elements"])
+                .not_to include(
+                  a_hash_including(
+                    "id" => other_user.id,
+                    "email" => other_user.mail
+                  )
+                )
+            end
+          end
+
+          context "with permissions to view user email" do
+            let(:permissions) { base_permissions + assignable_permissions + [:view_user_email] }
+
+            it "returns email key for other users" do
+              expect(json_response["_embedded"]["elements"])
+                .to include(
+                  a_hash_including(
+                    "id" => other_user.id,
+                    "email" => other_user.mail
+                  )
+                )
+            end
+          end
         end
       end
 

@@ -98,7 +98,8 @@ RSpec.describe MembersController do
   end
 
   describe "#autocomplete_for_member" do
-    let(:params) { { "project_id" => project.identifier.to_s } }
+    let(:params) { { "project_id" => project.identifier.to_s, "q" => query } }
+    let(:query) { "" }
     let(:json_response) { response.parsed_body }
     let(:global_permissions) { [] }
     let(:project_permissions) { [] }
@@ -134,6 +135,15 @@ RSpec.describe MembersController do
             }
           )
         end
+
+        context "when searching email addresses" do
+          let(:query) { admin.mail }
+
+          it "does not return matches from emails" do
+            subject
+            expect(json_response).to be_empty
+          end
+        end
       end
 
       context "when the user is authorized to see email addresses" do
@@ -150,6 +160,22 @@ RSpec.describe MembersController do
               "href" => "/api/v3/users/#{admin.id}"
             }
           )
+        end
+
+        context "when searching email addresses" do
+          let(:query) { admin.mail }
+
+          it "returns matches from emails" do
+            subject
+            expect(json_response).to include(
+              {
+                "id" => admin.id,
+                "name" => admin.name,
+                "email" => admin.mail,
+                "href" => "/api/v3/users/#{admin.id}"
+              }
+            )
+          end
         end
       end
     end
