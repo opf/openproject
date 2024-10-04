@@ -42,7 +42,7 @@ module Storages::LastProjectFolders
 
     def perform_bulk_create(service_call)
       bulk_insertion = mapping_model_class.insert_all(
-        service_call.result.map { |model| model.attributes.slice("project_storage_id", "origin_folder_id", "mode") },
+        service_call.result.map { |model| model.attributes.compact },
         returning: %w[id]
       )
       service_call.result = mapping_model_class.where(id: bulk_insertion.rows.flatten)
