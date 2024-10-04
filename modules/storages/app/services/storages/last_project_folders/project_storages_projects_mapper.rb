@@ -34,7 +34,7 @@ module Storages
       attr_reader :project_storages
 
       def initialize(project_storages)
-        super()
+        super(mapping_model_class: ::Storages::LastProjectFolder)
         @project_storages = project_storages
       end
 

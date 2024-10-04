@@ -32,9 +32,9 @@ module Storages::ProjectStorages
   class BulkCreateService < ::BulkServices::ProjectMappings::BaseCreateService
     def initialize(user:, projects:, storage:, include_sub_projects: false)
       projects_mapper = ::BulkServices::ProjectMappings::ProjectsMapper.new(
+        mapping_model_class: ::Storages::ProjectStorage,
         model: storage,
         projects:,
-        mapping_model_class:,
         model_foreign_key_id:,
         include_sub_projects:
       )
@@ -52,7 +52,6 @@ module Storages::ProjectStorages
 
     def permission = :manage_files_in_project
     def model_foreign_key_id = :storage_id
-    def mapping_model_class = ::Storages::ProjectStorage
     def default_contract_class = ::Storages::ProjectStorages::CreateContract
 
     def validate_contract(service_call, params)

@@ -34,18 +34,17 @@ module BulkServices
     class ProjectsMapper < ProjectsMapperBase
       attr_reader :model,
                   :projects,
-                  :mapping_model_class,
                   :model_foreign_key_id,
                   :include_sub_projects
 
-      def initialize(model:,
+      def initialize(mapping_model_class:,
+                     model:,
                      projects:,
-                     mapping_model_class:,
                      model_foreign_key_id:,
                      include_sub_projects: false)
+        super(mapping_model_class:)
         @model = model
         @projects = projects
-        @mapping_model_class = mapping_model_class
         @model_foreign_key_id = model_foreign_key_id
         @include_sub_projects = include_sub_projects
       end
