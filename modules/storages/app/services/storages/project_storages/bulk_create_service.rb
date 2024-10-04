@@ -30,6 +30,8 @@
 
 module Storages::ProjectStorages
   class BulkCreateService < ::BulkServices::ProjectMappings::BaseCreateService
+    attr_reader :storage
+
     def initialize(user:, projects:, storage:, include_sub_projects: false)
       projects_mapper = ::BulkServices::ProjectMappings::ProjectsMapper.new(
         mapping_model_class: ::Storages::ProjectStorage,
@@ -39,6 +41,7 @@ module Storages::ProjectStorages
         include_sub_projects:
       )
       super(user:, projects_mapper:)
+      @storage = storage
     end
 
     def after_perform(service_call, params)
@@ -95,7 +98,7 @@ module Storages::ProjectStorages
         event: :created,
         project_folder_mode: params[:project_folder_mode],
         project_folder_mode_previously_was: nil,
-        storage: projects_mapper.model
+        storage:
       )
     end
   end
