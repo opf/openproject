@@ -33,14 +33,14 @@ module Storages::ProjectStorages
     attr_reader :storage
 
     def initialize(user:, projects:, storage:, include_sub_projects: false)
-      projects_mapper = ::BulkServices::ProjectMappings::ProjectsMapper.new(
+      mapping_context = ::BulkServices::ProjectMappings::MappingContext.new(
         mapping_model_class: ::Storages::ProjectStorage,
         model: storage,
         projects:,
         model_foreign_key_id:,
         include_sub_projects:
       )
-      super(user:, projects_mapper:)
+      super(user:, mapping_context:)
       @storage = storage
     end
 

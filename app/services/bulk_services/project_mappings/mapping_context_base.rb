@@ -31,7 +31,7 @@
 # Gives the projects to map and the attributes to be used for the mapping.
 module BulkServices
   module ProjectMappings
-    class ProjectsMapperBase
+    class MappingContextBase
       attr_reader :mapping_model_class
 
       def initialize(mapping_model_class:)
