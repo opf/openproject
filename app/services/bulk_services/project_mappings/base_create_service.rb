@@ -101,7 +101,7 @@ module BulkServices
                model: instance(params),
                contract_class: default_contract_class,
                contract_options: {})
-          .call(params)
+          .call
       end
 
       def instance(params)
