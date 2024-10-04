@@ -155,7 +155,7 @@ module WorkPackages
                      :"dot-fill", # color is set via CSS as requested by UI/UX Team
                      classes: "work-packages-activities-tab-journals-item-component-details--notification-dot-icon",
                      size: :medium,
-                     data: { test_selector: "op-journal-unread-notification" }
+                     data: { test_selector: "op-journal-unread-notification", "op-ian-center-update-immediate": true }
                    ))
           end
         end

@@ -33,7 +33,7 @@ import { AttachmentsResourceService } from 'core-app/core/state/attachments/atta
 import { HttpClient } from '@angular/common/http';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
-
+import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
  * in order to access services and parts of the core application
@@ -69,6 +69,7 @@ export class OpenProjectPluginContext {
     attachmentsResourceService: this.injector.get(AttachmentsResourceService),
     http: this.injector.get(HttpClient),
     turboRequests: this.injector.get(TurboRequestsService),
+    ianCenter: this.injector.get(IanCenterService),
   };
 
   public readonly helpers = {

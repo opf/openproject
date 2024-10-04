@@ -4,7 +4,8 @@ import {
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
+import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 
 interface CustomEventWithIdParam extends Event {
   params:{
@@ -54,11 +55,13 @@ export default class IndexController extends Controller {
   private turboRequests:TurboRequestsService;
 
   private apiV3Service:ApiV3Service;
+  private ianCenterService:IanCenterService;
 
   async connect() {
     const context = await window.OpenProject.getPluginContext();
     this.turboRequests = context.services.turboRequests;
     this.apiV3Service = context.services.apiV3Service;
+    this.ianCenterService = context.services.ianCenter;
 
     this.setLocalStorageKey();
     this.setLastUpdateTimestamp();
@@ -160,7 +163,8 @@ export default class IndexController extends Controller {
 
     const journalsContainerAtBottom = this.isJournalsContainerScrolledToBottom(this.journalsContainerTarget);
 
-    void this.performUpdateStreamsRequest(this.prepareUpdateStreamsUrl()).then((html) => {
+    void this.performUpdateStreamsRequest(this.prepareUpdateStreamsUrl())
+    .then((html) => {
       this.handleUpdateStreamsResponse(html as string, journalsContainerAtBottom);
     }).catch((error) => {
       console.error('Error updating activities list:', error);
@@ -189,6 +193,7 @@ export default class IndexController extends Controller {
   private handleUpdateStreamsResponse(html:string, journalsContainerAtBottom:boolean) {
     this.setLastUpdateTimestamp();
     this.checkForAndHandleWorkPackageUpdate(html);
+    this.checkForNewNotifications(html);
     this.performAutoScrolling(html, journalsContainerAtBottom);
   }
 
@@ -198,9 +203,19 @@ export default class IndexController extends Controller {
     }
   }
 
+  private checkForNewNotifications(html:string) {
+    if (html.includes('data-op-ian-center-update-immediate')) {
+      this.updateNotificationCenter();
+    }
+  }
+
   private updateDisplayedWorkPackageAttributes() {
     const wp = this.apiV3Service.work_packages.id(this.workPackageIdValue);
     void wp.refresh();
+  }
+
+  private updateNotificationCenter() {
+    this.ianCenterService.updateImmediate();
   }
 
   private performAutoScrolling(html:string, journalsContainerAtBottom:boolean) {
