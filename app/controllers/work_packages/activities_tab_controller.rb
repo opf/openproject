@@ -33,7 +33,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
   before_action :find_work_package
   before_action :find_project
-  before_action :find_journal, only: %i[edit cancel_edit update toggle_notification_read_status]
+  before_action :find_journal, only: %i[edit cancel_edit update]
   before_action :set_filter
   before_action :authorize
 
@@ -146,23 +146,6 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
     if call.success? && call.result
       update_item_component(call.result, state: :show)
-    else
-      handle_failed_update_call(call)
-    end
-
-    respond_with_turbo_streams
-  end
-
-  def toggle_notification_read_status
-    notification = Notification.find_by(recipient: User.current, journal: @journal)
-
-    call = Notifications::UpdateService.new(model: notification, user: User.current).call(
-      read_ian: !notification.read_ian
-    )
-
-    if call.success?
-      update_item_component(@journal.reload, state: :show)
-      update_activity_counter
     else
       handle_failed_update_call(call)
     end
@@ -310,43 +293,31 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def generate_time_based_update_streams(last_update_timestamp)
+    # TODO: prototypical implementation
     journals = @work_package.journals
 
     if @filter == :only_comments
       journals = journals.where.not(notes: "")
     end
 
-    rerender_updated_journals(journals, last_update_timestamp)
+    journals.where("updated_at > ?", last_update_timestamp).find_each do |journal|
+      update_via_turbo_stream(
+        # we need to update the whole component as the show part is not rendered for journals which originally have no notes
+        component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
+          journal:,
+          filter: @filter
+        )
+      )
+      # TODO: is it possible to loose an edit state this way?
+    end
 
-    rerender_journals_with_updated_notification(journals, last_update_timestamp)
-
-    append_or_prepend_new_journals(journals, last_update_timestamp)
+    journals.where("created_at > ?", last_update_timestamp).find_each do |journal|
+      append_or_prepend_latest_journal_via_turbo_stream(journal)
+    end
 
     if journals.any?
       remove_potential_empty_state
       update_activity_counter
-    end
-  end
-
-  def rerender_updated_journals(journals, last_update_timestamp)
-    journals.where("updated_at > ?", last_update_timestamp).find_each do |journal|
-      # we need to update the whole component as the show part is not rendered for journals which originally have no notes
-      update_journal_item(journal:)
-    end
-  end
-
-  def rerender_journals_with_updated_notification(journals, last_update_timestamp)
-    journals
-      .joins(:notifications)
-      .where("notifications.updated_at > ?", last_update_timestamp)
-      .find_each do |journal|
-      update_journal_item(journal:)
-    end
-  end
-
-  def append_or_prepend_new_journals(journals, last_update_timestamp)
-    journals.where("created_at > ?", last_update_timestamp).find_each do |journal|
-      append_or_prepend_latest_journal_via_turbo_stream(journal)
     end
   end
 
@@ -383,16 +354,6 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     # not targeting the legacy tab!
     replace_via_turbo_stream(
       component: WorkPackages::Details::UpdateCounterComponent.new(work_package: @work_package, menu_name: "activity")
-    )
-  end
-
-  def update_journal_item(journal:, filter: @filter, state: :show)
-    update_via_turbo_stream(
-      component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
-        journal:,
-        filter:,
-        state:
-      )
     )
   end
 
