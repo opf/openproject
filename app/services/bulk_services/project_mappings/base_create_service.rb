@@ -41,7 +41,7 @@ module BulkServices
 
       def perform(params = {})
         service_call = validate_permissions
-        service_call = validate_contract(service_call, nil, params) if service_call.success?
+        service_call = validate_contract(service_call, params) if service_call.success?
         service_call = perform_bulk_create(service_call) if service_call.success?
         service_call = after_perform(service_call, params) if service_call.success?
 
@@ -60,7 +60,7 @@ module BulkServices
         end
       end
 
-      def validate_contract(service_call, _project_ids, params)
+      def validate_contract(service_call, params)
         extra_attributes = attributes_from_params(params)
         mapping_attributes_for_all_projects = projects_mapper.mapping_attributes_for_all_projects(extra_attributes)
         set_attributes_results = mapping_attributes_for_all_projects.map do |mapping_attributes|
