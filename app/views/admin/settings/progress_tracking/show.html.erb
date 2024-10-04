@@ -26,9 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <% html_title t(:label_administration), t(:label_work_package_plural), t(:label_progress_tracking) -%>
-
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { t(:label_progress_tracking) }
@@ -37,7 +35,6 @@ See COPYRIGHT and LICENSE files for more details.
                              t(:label_progress_tracking)])
   end
 %>
-
 <%=
 primer_form_with(
   scope: :settings, action: :update, method: :patch,
@@ -64,6 +61,10 @@ primer_form_with(
         end
       end
     end
+    form.radio_button_group(
+      name: "total_percent_complete_mode",
+      values: WorkPackage::TOTAL_PERCENT_COMPLETE_MODE_OPTIONS
+    )
     form.radio_button_group(
       name: "percent_complete_on_status_closed",
       disabled: WorkPackage.status_based_mode?,

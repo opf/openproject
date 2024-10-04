@@ -62,8 +62,8 @@ RSpec.describe API::V3::UserPreferences::UserPreferenceRepresenter,
     context "without a timezone set" do
       let(:preference) { build(:user_preference, time_zone: "") }
 
-      it "shows the timeZone as nil" do
-        expect(subject).to be_json_eql(nil.to_json).at_path("timeZone")
+      it "shows the timeZone as utc" do
+        expect(subject).to be_json_eql("Etc/UTC".to_json).at_path("timeZone")
       end
     end
 

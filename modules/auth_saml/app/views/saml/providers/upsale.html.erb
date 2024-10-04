@@ -1,0 +1,9 @@
+<% html_title(t(:label_administration), t('saml.providers.plural')) -%>
+
+<%= render template: 'common/upsale',
+           locals: {
+               feature_title:  t('saml.providers.plural'),
+               feature_description: t('saml.providers.upsale.description'),
+               feature_reference: 'enterprise-openid-connect',
+               feature_image: 'enterprise/open-id-providers.jpg' # TODO
+           } %>

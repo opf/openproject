@@ -115,38 +115,25 @@ RSpec.describe "Custom Fields Multi-Project Activation", :js do
       expect(page).to have_text(subproject.name)
 
       aggregate_failures "pagination links maintain the correct url" do
-        within ".op-pagination" do
-          pagination_links = page.all(".op-pagination--item-link")
-          expect(pagination_links.size).to be_positive
-
-          pagination_links.each do |pagination_link|
-            uri = URI.parse(pagination_link["href"])
-            expect(uri.path).to eq(custom_field_projects_path(custom_field))
-          end
-        end
+        custom_field_projects_page.expect_page_sizes(model: custom_field)
       end
     end
 
-    it "allows unlinking a project from a custom field" do
-      project = create(:project)
-      create(:custom_fields_project, custom_field:, project:)
+    it "allows unlinking a project from a custom field", with_settings: { per_page_options: "2,5" } do
+      projects = create_list(:project, 4)
+      projects.each { |project| create(:custom_fields_project, custom_field:, project:) }
 
-      visit custom_field_projects_path(custom_field)
+      current_page = 3
+      visit custom_field_projects_path(custom_field, page: current_page)
 
+      project = custom_field_projects_page.project_in_first_row
       custom_field_projects_page.click_menu_item_of("Remove from project", project)
 
       expect(page).to have_no_text(project.name)
 
       aggregate_failures "pagination links maintain the correct url after unlinking is done" do
-        within ".op-pagination" do
-          pagination_links = page.all(".op-pagination--item-link")
-          expect(pagination_links.size).to be_positive
-
-          pagination_links.each do |pagination_link|
-            uri = URI.parse(pagination_link["href"])
-            expect(uri.path).to eq(custom_field_projects_path(custom_field))
-          end
-        end
+        custom_field_projects_page.expect_page_links(model: custom_field, current_page:)
+        custom_field_projects_page.expect_current_page_number(current_page)
       end
     end
 

@@ -29,7 +29,7 @@
 require "spec_helper"
 require "rack/test"
 
-RSpec.describe "OpenID Google provider callback", with_ee: %i[openid_providers] do
+RSpec.describe "OpenID Google provider callback", with_ee: %i[sso_auth_providers] do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

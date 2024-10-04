@@ -437,7 +437,7 @@ The `-t` option is the tag for your image. You can choose what ever you want.
 
 **5. Run the image**
 
-You can run the image just like the normal OpenProject image (as shown earlier).
+You can run the image just like the normal OpenProject image (as shown [here](#quick-start)).
 You just have to use your chosen tag instead of `openproject/openproject:14`.
 To just give it a quick try you can run this:
 
@@ -446,6 +446,57 @@ docker run -p 8080:80 --rm -it openproject-with-slack
 ```
 
 After which you can access OpenProject under `http://localhost:8080`.
+
+## Import self-signed root certificate
+
+If you want to connect OpenProject to an external server as example SMTP-Server or a Nextcloud-Server that uses a self-signed certificate, you need to import the root certificate that was used to create the self-signed certificate. There are two ways to archive this.
+
+The first way is to mount the root certificate via the ``` --mount``` option into the container and add the  certificate to the ```SSL_CERT_FILE``` variable.
+```shell
+sudo docker run -it -p 8080:80 \
+  -e OPENPROJECT_SECRET_KEY_BASE=secret \
+  -e OPENPROJECT_HOST__NAME=localhost:8080 \
+  -e OPENPROJECT_HTTPS=false \
+  -e OPENPROJECT_DEFAULT__LANGUAGE=en \
+  --mount type=bind,source=$(pwd)/my_root.crt,target=/tmp/my_root.crt \ #mount my_root.crt to /tmp
+  -e SSL_CERT_FILE=/tmp/my_root.crt \ #set the SSL_CERT_FILE to the path of my_root.crt 
+  openproject/openproject:14
+```
+
+The second way would be to build a new image of the ```openproject/openproject:14``` or the ```-slim``` image.
+
+**1. Create a new folder** with any name, for instance `custom-openproject`. Change into that folder.
+
+**2. Put your root SSL certificate** into the folder. In this example, we will name it ```my_root.crt```.
+
+**3. Create the `Dockerfile`** in the same folder. The contents have to look like this:
+```dockerfile
+FROM openproject/openproject:14
+
+COPY ./my_root.crt /usr/local/share/ca-certificates/
+RUN update-ca-certificates
+```
+
+If you are using the -slim tag, you will need to do the following to import your root certificate:
+```dockerfile
+FROM openproject/openproject:14-slim
+
+USER root
+COPY ./smtp.local_rootCA.crt /usr/local/share/ca-certificates/
+RUN update-ca-certificates
+USER $APP_USER
+```
+
+**4. Build the image**
+```shell
+docker build --pull -t openproject-with-custom-ca .
+```
+
+The `-t` option is the tag for your image. You can choose what ever you want.
+
+**5. Run the image**
+
+You can run the image just like the normal OpenProject image (as shown [here](#quick-start)). You just have to use your chosen tag instead of ```openproject/openproject:14```
 
 ## Offline/air-gapped installation
 

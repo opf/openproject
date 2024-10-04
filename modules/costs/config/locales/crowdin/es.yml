@@ -111,6 +111,7 @@ es:
   label_rate: "Proporción"
   label_rate_plural: "Tasas"
   label_status_finished: "Acabado"
+  label_show: "Mostrar"
   label_units: "Unidades de costo"
   label_user: "Usuario"
   label_until: "hasta"

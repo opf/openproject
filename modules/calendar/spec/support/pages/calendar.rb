@@ -140,7 +140,7 @@ module Pages
     end
 
     def click_on_create_button
-      within ".toolbar-items" do
+      within '[data-test-selector="add-calendar-button"]' do
         click_link "Calendar"
       end
     end

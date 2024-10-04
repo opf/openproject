@@ -30,6 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render Settings::TimeZoneSettingComponent.new(
     "time_zone",
     form: pref_fields,
+    include_blank: false,
     container_class: (defined? input_size) ? "-#{input_size}" : "-wide"
   )
   %>

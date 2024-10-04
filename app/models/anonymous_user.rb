@@ -27,31 +27,25 @@
 #++
 
 class AnonymousUser < User
-  validate :validate_unique_anonymous_user, on: :create
-
-  # There should be only one AnonymousUser in the database
-  def validate_unique_anonymous_user
-    errors.add :base, "An anonymous user already exists." if AnonymousUser.any?
-  end
-
-  def available_custom_fields
-    []
-  end
-
-  # Overrides a few properties
-  def logged?; false end
-
-  def builtin?; true end
-
-  def admin; false end
+  include Users::FunctionUser
 
   def name(*_args); I18n.t(:label_user_anonymous) end
 
-  def mail; nil end
+  def self.first
+    anonymous_user = super
 
-  def time_zone; nil end
+    if anonymous_user.nil?
+      (anonymous_user = new.tap do |u|
+        u.lastname = "Anonymous"
+        u.login = ""
+        u.firstname = ""
+        u.mail = ""
+        u.status = User.statuses[:active]
+      end).save
 
-  def rss_key; nil end
+      raise "Unable to create the anonymous user." if anonymous_user.new_record?
+    end
 
-  def destroy; false end
+    anonymous_user
+  end
 end

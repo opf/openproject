@@ -82,7 +82,7 @@ zh-CN:
         contact: "联系我们获取演示"
       enterprise_info_html: "是企业版的 <span class='spot-icon spot-icon_enterprise-addons'></span> 附加功能。"
       upgrade_info: "请升级到付费方案，以激活并开始在您的团队中使用该功能。"
-    jemalloc_allocator: Jemalloc memory allocator
+    jemalloc_allocator: 使用 jemalloc 内存分配器
     journal_aggregation:
       explanation:
         text: "如果用户的多项操作（例如，更新工作包两次）的时间间隔小于指定的时间跨度，则这些操作将被聚合为单个操作，并在应用程序中显示为单个操作。这也会将通知延迟同等的时间，从而减少电子邮件的发送数量，并且还会影响 %{webhook_link} 延迟。"
@@ -208,6 +208,12 @@ zh-CN:
         is_for_all_blank_slate:
           heading: 适用于所有项目
           description: 由于选中了 "适用于所有项目 "选项，因此所有项目都启用了该自定义字段。单个项目无法停用。
+      items:
+        blankslate:
+          title: "您的条目列表为空"
+          description: "首先，将条目添加到类型层次结构的自定义字段中。每个条目都可以用于在其下方创建一个层次结构。要导航并在层次结构中创建子条目，请点击已创建的条目。"
+      notice:
+        remember_items_and_projects: "请记住，在相应的选项卡中为此自定义字段设置条目和项目。"
     text_add_new_custom_field: >
       要向项目添加新的自定义字段，您需要先创建字段，然后才能将其添加到此项目中。
     is_enabled_globally: "已全局启用"
@@ -615,6 +621,7 @@ zh-CN:
         editable: "可编辑"
         field_format: "格式"
         is_filter: "用作筛选器"
+        is_for_all: "适用于所有项目"
         is_required: "必填"
         max_length: "最大长度"
         min_length: "最小长度"
@@ -911,7 +918,7 @@ zh-CN:
               blank: "是强制性的。请选择一个名称。"
               not_unique: "已被使用。请另选一个名称。"
         meeting:
-          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
+          error_conflict: "无法保存，因为会议已被其他人同时更新。请重新加载页面。"
         notifications:
           at_least_one_channel: "至少需要指定一个发送通知的通道。"
           attributes:
@@ -1341,6 +1348,7 @@ zh-CN:
   button_expand_all: "全部展开"
   button_favorite: "添加至收藏夹"
   button_filter: "筛选器"
+  button_finish_setup: "完成设置"
   button_generate: "生成"
   button_list: "列表"
   button_lock: "锁定"
@@ -1393,8 +1401,8 @@ zh-CN:
     failure_message: 同意失败, 无法继续。
     title: 用户同意
     decline_warning_message: 您已拒绝同意并已注销。
-    user_has_consented: 用户已同意您在给定时间配置的语句。
-    not_yet_consented: 用户尚未同意, 将在下次登录时请求。
+    user_has_consented: 用户同意您的 [配置的同意信息文本](同意设置)。
+    not_yet_consented: 用户尚未同意[配置的同意信息](同意设置)。他们下次登录时会被提醒。
     contact_mail_instructions: 定义用户可以访问数据控制器以执行数据更改或删除请求的邮件地址。
     contact_your_administrator: 如果您想删除您的帐户, 请与您的管理员联系。
     contact_this_mail_address: 如果您想删除您的帐户, 请联系%{mail_address}。
@@ -1764,6 +1772,8 @@ zh-CN:
       progress_mode_changed_to_status_based: "更新进度计算"
       status_changed: "状态 '%{status_name}'"
       system_update: "OpenProject 系统更新："
+      total_percent_complete_mode_changed_to_work_weighted_average: "现在按工作加权计算的 完成% 总数。"
+      total_percent_complete_mode_changed_to_simple_average: "完成% 总数的计算现在仅基于完成% 值的简单平均值。"
     cause_descriptions:
       work_package_predecessor_changed_times: 根据前置任务 %{link}的更改
       work_package_parent_changed_times: 通过对父级的更改 %{link}
@@ -1781,7 +1791,7 @@ zh-CN:
       progress_mode_changed_to_status_based: 进度计算模式设置为基于状态
       status_excluded_from_totals_set_to_false_message: 现在包含在层次结构总计中
       status_excluded_from_totals_set_to_true_message: 现在不包含在层次结构总计中
-      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
+      status_percent_complete_changed: "完成% 从 %{old_value}% 变为 %{new_value}%"
       system_update:
         file_links_journal: >
           从现在开始，与文件链接（存储在外部存储器中的文件）相关的活动将出现在“活动”选项卡中。以下是与已经存在的链接相关的活动的表示：
@@ -1791,6 +1801,10 @@ zh-CN:
           进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
         totals_removed_from_childless_work_packages: >-
           使用 <a href="%{href}" target="_blank">版本更新</a>的非父工作包的工作和进度总计自动移除。 这是一个维护任务，可以安全地被忽略。
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        无工时的子工作包被忽略。
+      total_percent_complete_mode_changed_to_simple_average: >-
+        忽略子工作包的工时值。
   links:
     configuration_guide: "配置指南"
     get_in_touch: "遇到问题了？与我们联系。"
@@ -1954,6 +1968,7 @@ zh-CN:
   label_calendars_and_dates: "日历和日期"
   label_calendar_show: "显示日历"
   label_category: "类别"
+  label_completed: 已完成
   label_consent_settings: "用户同意"
   label_wiki_menu_item: 维基菜单项
   label_select_main_menu_item: 选择新的主菜单项
@@ -2102,6 +2117,7 @@ zh-CN:
   label_here: 这里
   label_hide: "隐藏"
   label_history: "历史"
+  label_hierarchy: "层次"
   label_hierarchy_leaf: "层次结构叶"
   label_home: "首页"
   label_subject_or_id: "主题或ID"
@@ -2113,6 +2129,7 @@ zh-CN:
   label_inactive: "非活动"
   label_incoming_emails: "传入电子邮件"
   label_includes: "包括"
+  label_incomplete: 未完成
   label_include_sub_projects: 包含子项目
   label_index_by_date: "按日期索引"
   label_index_by_title: "按标题索引"
@@ -2123,6 +2140,8 @@ zh-CN:
   label_internal: "内部"
   label_introduction_video: "自我介绍视频"
   label_invite_user: "邀请用户"
+  label_item: "条目"
+  label_item_plural: "条目"
   label_share: "共享"
   label_share_project_list: "共享项目列表"
   label_share_work_package: "共享工作包"
@@ -2199,7 +2218,7 @@ zh-CN:
   label_more: "更多"
   label_more_than_ago: "更多天前"
   label_move_work_package: "移动工作包"
-  label_my_account: "我的账户"
+  label_my_account: "帐户设置"
   label_my_activity: "我的活动"
   label_my_account_data: "我的账户数据"
   label_my_avatar: "我的头像"
@@ -2226,6 +2245,7 @@ zh-CN:
   label_no_parent_page: "无父级页面"
   label_nothing_display: "不显示"
   label_nobody: "没人"
+  label_not_configured: "未配置"
   label_not_found: "未找到"
   label_none: "无"
   label_none_parentheses: "(无)"
@@ -3101,8 +3121,6 @@ zh-CN:
   setting_work_package_done_ratio_status: "基于状态"
   setting_work_package_done_ratio_status_caption_html: >-
     每个状态都有一个与之相关的<i>完成%</i>值。更改状态将改变<i>完成%</i>。
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    在<b>基于工时</b>模式下，“完成 %”是根据已完成的工时占总工时的比例计算出来的。在<b>基于状态</b>模式下，每个状态都有一个与之相关的“完成 %”。更改状态将改变“完成 %”。
   setting_work_package_done_ratio_explanation_html: >
     在<b>基于工作的</b>模式下，“完成 %”可以自由设置为任何值。如果选择输入 "工时 "值，则会自动得出 "剩余工时"。在<b>基于状态的</b>模式下，每个状态都有一个与之相关的“完成 %”值。更改状态将改变“完成 %”。
   setting_work_package_properties: "工作包属性"
@@ -3154,6 +3172,13 @@ zh-CN:
   setting_sys_api_enabled: "启用版本库管理 web 服务"
   setting_sys_api_description: "存储库管理网页服务提供了集成的，用户授权的存储库访问。"
   setting_time_format: "时间"
+  setting_total_percent_complete_mode: "计算 完成% 层次结构总数"
+  setting_total_percent_complete_mode_work_weighted_average: "按工作权重"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    <i>总完成%</i>将根据层次结构中每个工作包的<i>工时</i>加权计算。没有<i>工时</i>的工作包将被忽略。
+  setting_total_percent_complete_mode_simple_average: "简单平均值"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>工时</i> 将被忽略，<i>总完成%</i> 将是层次结构中各工作包的 <i>完成%</i> 值的简单平均值。
   setting_accessibility_mode_for_anonymous: "为匿名用户启用辅助功能模式"
   setting_user_format: "用户名格式"
   setting_user_default_timezone: "用户默认时区"
@@ -3493,7 +3518,6 @@ zh-CN:
       label_note: "注意："
       modal:
         work_based_help_text: "在可能的情况下，每个字段都会根据另外两个字段自动计算。"
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "“完成 %”由 \"工时\" 和 \"剩余工时\" 自动得出。"
         status_based_help_text: "完成百分比由工作包状态设定。"
         migration_warning_text: "在基于工时的进度计算模式下，完成百分比不能手动设置，而是与工时绑定。现有值已被保留，但无法编辑。请先输入工时。"
       derivation_hints:

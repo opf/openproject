@@ -31,9 +31,9 @@ ru:
     custom_styles:
       color_theme: "Цветовая тема"
       color_theme_custom: "(Пользовательская)"
-      tab_interface: "Interface"
-      tab_branding: "Branding"
-      tab_pdf_export_styles: "PDF export styles"
+      tab_interface: "Интерфейс"
+      tab_branding: "Фирменное оформление"
+      tab_pdf_export_styles: "Стили экспорта PDF"
       colors:
         primary-button-color: "Основная кнопка"
         accent-color: "Оттенок"
@@ -82,7 +82,7 @@ ru:
         contact: "Свяжитесь с нами для демо"
       enterprise_info_html: "является дополнением Корпоративной версии <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
       upgrade_info: "Пожалуйста, перейдите на платный тарифный план, чтобы активировать его и начать использовать в вашей команде."
-    jemalloc_allocator: Jemalloc memory allocator
+    jemalloc_allocator: Распределитель памяти Jemalloc
     journal_aggregation:
       explanation:
         text: "Личные действия пользователя (например, обновление пакета работ дважды) агрегируются в одно действие, если их разница во времени не больше указанной. Они будут отображаться как одно действие внутри приложения. Это также задерживает уведомление на такое же количество времени, уменьшая количество отправляемых писем и также повлияет на %{webhook_link} задержки."
@@ -210,6 +210,12 @@ ru:
         is_for_all_blank_slate:
           heading: Для всех проектов
           description: Это пользовательское поле включено во всех проектах, так как отмечена опция «Для всех проектов». Его нельзя отключить для отдельных проектов.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+      notice:
+        remember_items_and_projects: "Не забудьте задать элементы и проекты на соответствующих вкладках для этого настраиваемого поля."
     text_add_new_custom_field: >
       Прежде чем добавлять настраиваемые поля в проект, нужно создать их.
     is_enabled_globally: "Разрешено в глобальном масштабе"
@@ -549,7 +555,7 @@ ru:
       could_not_be_saved: "Не удалось сохранить следующие пакеты работ:"
       none_could_be_saved: "Ни один из пакетов работ %{total} не может быть обновлен."
       x_out_of_y_could_be_saved: "%{failing} из %{total} пакетов работ не может быть обновлен, в то время как %{success} может."
-      selected_because_descendants: "В то время как выбрано %{selected} пакетов работ, в общей сложности затрагиваются %{total} пакетов работ, включая дочерние."
+      selected_because_descendants: "Хотя были выбраны пакеты работ %{selected}, всего затронуто %{total} пакетов работ, включая потомков."
       descendant: "дочерний рабочий пакет выбранного элемента"
     move:
       no_common_statuses_exists: "Статус не доступен для всех выбранных пакетов работ. Их статус изменен быть не может."
@@ -639,6 +645,7 @@ ru:
         editable: "Доступно для правки"
         field_format: "Формат"
         is_filter: "Используется в качестве фильтра"
+        is_for_all: "Для всех проектов"
         is_required: "Обязательно"
         max_length: "Максимальная длина"
         min_length: "Минимальная длина"
@@ -739,7 +746,7 @@ ru:
         is_closed: "Пакет работ закрыт"
         is_readonly: "Пакет работ только для просмотра"
         excluded_from_totals: "Исключить из расчета итогов в иерархии"
-        default_done_ratio: "% Завершено"
+        default_done_ratio: "% Завершения"
       time_entry:
         activity: "Деятельность"
         hours: "Часы"
@@ -789,7 +796,7 @@ ru:
         derived_done_ratio: "Всего % завершено"
         derived_remaining_hours: "Всего оставшихся работ"
         derived_remaining_time: "Всего оставшихся работ"
-        done_ratio: "% Завершено"
+        done_ratio: "% Завершения"
         duration: "Продолжительность"
         end_insertion: "Завершение вставки"
         end_deletion: "Завершение удаления"
@@ -803,7 +810,7 @@ ru:
         parent_issue: "Родитель"
         parent_work_package: "Родитель"
         priority: "Приоритет"
-        progress: "% Завершено"
+        progress: "% Завершения"
         readonly: "Только для чтения"
         remaining_hours: "Оставшиеся часы"
         remaining_time: "Оставшиеся часы"
@@ -935,7 +942,7 @@ ru:
               blank: "является обязательным. Пожалуйста, выберите имя."
               not_unique: "уже используется. Пожалуйста, выберите другое имя."
         meeting:
-          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
+          error_conflict: "Невозможно сохранить, потому что встреча была обновлена кем-то другим за это время. Пожалуйста, перезагрузите страницу."
         notifications:
           at_least_one_channel: "Нужно указать хотя бы один канал для отправки уведомлений."
           attributes:
@@ -1395,6 +1402,7 @@ ru:
   button_expand_all: "Развернуть все"
   button_favorite: "Добавить в избранное"
   button_filter: "Фильтр"
+  button_finish_setup: "Завершить настройку"
   button_generate: "Генерировать"
   button_list: "Список"
   button_lock: "Заблокировать"
@@ -1447,8 +1455,8 @@ ru:
     failure_message: Согласие не получено, продолжение невозможно.
     title: Согласие пользователя
     decline_warning_message: Вы отказались согласиться и были занесены в журнал.
-    user_has_consented: На данный момент пользователь согласен с вашей формулировкой.
-    not_yet_consented: Согласие от пользователя пока не получено и будет у него запрошено при следующем его входе в систему.
+    user_has_consented: Пользователь дал свое согласие на [настроенный текст информации о согласии](consent_settings).
+    not_yet_consented: Пользователь еще не дал своего согласия на [настроенный текст информации о согласии](consent_settings). При следующем входе в систему ему об этом напомнят.
     contact_mail_instructions: Укажите адрес электронной почты для контроля пользователями выполнения запросов на изменение или удаление данных.
     contact_your_administrator: Пожалуйста, обратитесь к администратору, если хотите, чтобы ваша учетная запись была удалена.
     contact_this_mail_address: Пожалуйста, свяжитесь по %{mail_address}, если хотите, чтобы ваша учетная запись была удалена.
@@ -1717,7 +1725,7 @@ ru:
   error_menu_item_not_saved: Пункт меню не может быть сохранен
   error_wiki_root_menu_item_conflict: >
     Невозможно переименовать "%{old_name}" в "%{new_name}" из-за конфликта между получающимся и существующим пунктами меню "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
+  error_external_authentication_failed_message: "Во время внешней аутентификации произошла ошибка: %{message}"
   error_attribute_not_highlightable: "Атрибуты не выделяются: %{attributes}"
   events:
     changeset: "Набор изменений отредактирован"
@@ -1872,6 +1880,8 @@ ru:
       progress_mode_changed_to_status_based: "Расчет прогресса обновлен"
       status_changed: "Статус '%{status_name}'"
       system_update: "Обновление системы OpenProject:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Вычисление % Завершения теперь взвешивается по Работе."
+      total_percent_complete_mode_changed_to_simple_average: "Вычисление % Завершения теперь основано на среднем арифметическом % Завершения."
     cause_descriptions:
       work_package_predecessor_changed_times: внесением изменений в предшественника %{link}
       work_package_parent_changed_times: внесением изменений в родительский %{link}
@@ -1889,7 +1899,7 @@ ru:
       progress_mode_changed_to_status_based: Расчет прогресса установлен в режим "На основе статуса"
       status_excluded_from_totals_set_to_false_message: теперь включено в иерархию итогов
       status_excluded_from_totals_set_to_true_message: теперь исключено из иерархии итогов
-      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
+      status_percent_complete_changed: "% Завершения изменен с %{old_value}% на %{new_value}%"
       system_update:
         file_links_journal: >
           Теперь на вкладке Активность появится активность, связанная со ссылками файлов (файлы, хранящиеся во внешних хранилищах). Ниже описывается деятельность по уже существующим ссылкам:
@@ -1899,6 +1909,10 @@ ru:
           Расчет прогресса автоматически <a href="%{href}" target="_blank">корректируется при обновлении версии</a>.
         totals_removed_from_childless_work_packages: >-
           При <a href="%{href}" target="_blank">обновлении версии</a> автоматически удаляются итоги работы и прогресса для неродительских пакетов работ. Это задача по обслуживанию, и её можно смело игнорировать.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Дочерние пакеты работ без Работы игнорируются.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Значения Работы дочерних пакетов работ игнорируются.
   links:
     configuration_guide: "Руководство по конфигурации"
     get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
@@ -1998,8 +2012,8 @@ ru:
   label_additional_workflow_transitions_for_assignee: "Дополнительные переходы допускается, если пользователь является правопреемником"
   label_additional_workflow_transitions_for_author: "Дополнительные переходы допускаются, если пользователь является автором"
   label_administration: "Администрирование"
-  label_interface_colors: "Interface colors"
-  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
+  label_interface_colors: "Цвета интерфейса"
+  label_interface_colors_description: "Эти цвета определяют внешний вид приложения. Если вы их измените, то тема будет автоматически изменена на пользовательскую тему, Но мы не можем гарантировать соответствие минимальным требованиям по контрасту (WCAG 2.1). "
   label_age: "Возраст"
   label_ago: "дней назад"
   label_all: "все"
@@ -2062,6 +2076,7 @@ ru:
   label_calendars_and_dates: "Календари и даты"
   label_calendar_show: "Показать календарь"
   label_category: "Категория"
+  label_completed: Завершено
   label_consent_settings: "Согласие пользователя"
   label_wiki_menu_item: Пункт меню wiki
   label_select_main_menu_item: Выберите новый пункт главного меню
@@ -2113,7 +2128,7 @@ ru:
   label_custom_field_plural: "Пользовательские поля"
   label_custom_field_default_type: "Пустой тип"
   label_custom_style: "Дизайн"
-  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
+  label_custom_style_description: "Выберите, как OpenProject будет выглядеть с помощью тем, выберите цвета по умолчанию, которые Вы будете использовать в приложении, и как будет выглядеть экспорт."
   label_dashboard: "Панель"
   label_database_version: "Версия PostgreSQL"
   label_date: "Дата"
@@ -2210,6 +2225,7 @@ ru:
   label_here: здесь
   label_hide: "Скрыть"
   label_history: "История"
+  label_hierarchy: "Иерархия"
   label_hierarchy_leaf: "Уровень иерархии"
   label_home: "Главная"
   label_subject_or_id: "Тема или ID"
@@ -2221,6 +2237,7 @@ ru:
   label_inactive: "Неактивен"
   label_incoming_emails: "Входящие e-mail"
   label_includes: "включает"
+  label_incomplete: Не завершено
   label_include_sub_projects: Включить подпроекты
   label_index_by_date: "Индекс по дате"
   label_index_by_title: "Индекс по названию"
@@ -2231,12 +2248,14 @@ ru:
   label_internal: "Внутренние"
   label_introduction_video: "Вводное видео"
   label_invite_user: "Пригласить пользователя"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Поделиться"
   label_share_project_list: "Поделитесь списком проектов"
   label_share_work_package: "Поделиться пакетом работ"
   label_show_all_registered_users: "Показать всех зарегистрированных пользователей"
-  label_show_less: "Show less"
-  label_show_more: "Show more"
+  label_show_less: "Показать меньше"
+  label_show_more: "Показать больше"
   label_journal: "Журнал"
   label_journal_diff: "Описание сравнения"
   label_language: "Язык"
@@ -2307,7 +2326,7 @@ ru:
   label_more: "Более"
   label_more_than_ago: "больше, чем дней назад"
   label_move_work_package: "Переместить пакет работ"
-  label_my_account: "Моя учетная запись"
+  label_my_account: "Account settings"
   label_my_activity: "Моя активность"
   label_my_account_data: "Данные моей учетной записи"
   label_my_avatar: "Мой аватар"
@@ -2334,6 +2353,7 @@ ru:
   label_no_parent_page: "Без родительской страницы"
   label_nothing_display: "Нет данных для отображения"
   label_nobody: "никто"
+  label_not_configured: "Не настроено"
   label_not_found: "не найдено"
   label_none: "Ничего"
   label_none_parentheses: "(нет)"
@@ -3218,8 +3238,6 @@ ru:
   setting_work_package_done_ratio_status: "На основе статуса"
   setting_work_package_done_ratio_status_caption_html: >-
     С каждым статусом связано значение <i>% Завершения</i>. Изменение статуса приведет к изменению <i>% Завершения</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    В режиме <b>На основе трудозатрат</b>, % Завершения рассчитывается на основе того, сколько работы выполнено по отношению к общему объему работ. В режиме <b>На основе статуса</b>, каждый статус имеет связанное с ним значение % Завершения. Изменение статуса изменит % Завершения.
   setting_work_package_done_ratio_explanation_html: >
     В режиме <b>На основе трудозатрат</b> для параметра % Завершения можно свободно установить любое значение. Если вы дополнительно введете значение «Работа», «Оставшаяся работа» будет получена автоматически. В режиме <b>На основе статуса</b> с каждым статусом связано значение % Завершения. Изменение статуса приведет к изменению % Завершения.
   setting_work_package_properties: "Свойства пакета работ"
@@ -3240,13 +3258,13 @@ ru:
   setting_password_min_length: "Минимальная длина"
   setting_password_min_adhered_rules: "Минимальное количество необходимых классов"
   setting_per_page_options: "Количество объектов на страницу"
-  setting_percent_complete_on_status_closed: "% Complete when status is closed"
-  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed: "% Завершения, когда статус закрыт"
+  setting_percent_complete_on_status_closed_no_change: "Без изменений"
   setting_percent_complete_on_status_closed_no_change_caption_html: >-
-    The value of <i>% Complete</i> will not change even when a work package is closed.
-  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+    Значение <i>% Завершения</i> не изменится, даже если пакет работ будет закрыт.
+  setting_percent_complete_on_status_closed_set_100p: "Автоматически устанавливается на 100%"
   setting_percent_complete_on_status_closed_set_100p_caption: >-
-    A closed work package is considered complete.
+    Закрытый пакет работ считается завершенным.
   setting_plain_text_mail: "Обычный текст электронной почты (не HTML)"
   setting_protocol: "Протокол"
   setting_project_gantt_query: "Портфолио проекта в виде диаграммы Ганта"
@@ -3271,6 +3289,13 @@ ru:
   setting_sys_api_enabled: "Разрешить веб-сервис управления репозиторием"
   setting_sys_api_description: "Веб-сервис управления репозиторием обеспечивает интеграцию и авторизацию пользователя для доступа к репозиторию."
   setting_time_format: "Время"
+  setting_total_percent_complete_mode: "Расчет общего % Завершения полной иерархии"
+  setting_total_percent_complete_mode_work_weighted_average: "Взвешенное по работе"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    <i>Общий % Завершения</i> будет взвешен по  <i>Работе</i> каждого пакета работ в иерархии. Пакеты работ без <i>Работы</i> будут игнорироваться.
+  setting_total_percent_complete_mode_simple_average: "Среднее арифметическое"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Работа</i> игнорируется, и <i>Общий % Завершения</i> будет средним арифметическим значением <i>% Завершения</i> пакетов работ в иерархии.
   setting_accessibility_mode_for_anonymous: "Разрешить режим доступа людей с ограниченными возможностями для анонимных пользователей"
   setting_user_format: "Формат имени пользователя"
   setting_user_default_timezone: "Часовой пояс пользователя по умолчанию"
@@ -3434,8 +3459,8 @@ ru:
   text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакет(-ы) работ?"
   text_work_packages_ref_in_commit_messages: "Привязка и фиксация пакетов работ в сообщениях коммитов"
   text_journal_added: "%{label} %{value} добавлено"
-  text_journal_attachment_added: "%{label} %{value} добавлено как вложение"
-  text_journal_attachment_deleted: "%{label} %{old} удален как вложение"
+  text_journal_attachment_added: "%{label} %{value} добавлено вложение"
+  text_journal_attachment_deleted: "%{label} %{old} удалено вложение"
   text_journal_changed_plain: "%{label} изменено с %{old} %{linebreak}на %{new}"
   text_journal_changed_no_detail: "%{label} обновлено"
   text_journal_changed_with_diff: "%{label} изменена (%{link})"
@@ -3613,7 +3638,6 @@ ru:
       label_note: "Примечание:"
       modal:
         work_based_help_text: "Каждое поле автоматически рассчитывается от двух других, когда это возможно."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Завершения автоматически выводится из Работы и Оставшейся работы."
         status_based_help_text: "% Выполнения определяется статусом пакета работ."
         migration_warning_text: "В режиме расчета прогресса \"На основе трудозатрат\" процент завершения невозможно установить вручную, он привязан к трудозатратам. Существующее значение сохранено, но его нельзя изменить. Пожалуйста, сначала введите трудозатраты."
       derivation_hints:

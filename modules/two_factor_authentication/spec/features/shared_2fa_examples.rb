@@ -35,8 +35,8 @@ end
 
 RSpec.shared_examples "create enforced sms device" do
   it do
-    expect(page).to have_css(".op-toast.-info",
-                             text: I18n.t("two_factor_authentication.forced_registration.required_to_add_device"))
+    expect_flash(type: :info,
+                 message: I18n.t("two_factor_authentication.forced_registration.required_to_add_device"))
 
     SeleniumHubWaiter.wait
     # Create SMS device
@@ -46,7 +46,7 @@ RSpec.shared_examples "create enforced sms device" do
     click_on "Continue"
 
     # Expect error on invalid phone
-    expect(page).to have_css("#errorExplanation", text: "Phone number must be of format +XX XXXXXXXXX")
+    expect_flash(type: :error, message: "Phone number must be of format +XX XXXXXXXXX")
 
     SeleniumHubWaiter.wait
     fill_in "device_phone_number", with: "+49 123456789"
@@ -63,7 +63,7 @@ RSpec.shared_examples "create enforced sms device" do
     # Log token for next access
     sms_token = nil
     allow_any_instance_of(OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
-        .to receive(:create_mobile_otp).and_wrap_original do |m|
+      .to receive(:create_mobile_otp).and_wrap_original do |m|
       sms_token = m.call
     end
 
@@ -71,8 +71,7 @@ RSpec.shared_examples "create enforced sms device" do
 
     expect(page).to have_css("h2", text: I18n.t("two_factor_authentication.devices.confirm_device"))
     expect(page).to have_css("input#otp")
-    expect(page).to have_css(".op-toast.-error",
-                             text: I18n.t("two_factor_authentication.devices.registration_failed_token_invalid"))
+    expect_flash(type: :error, message: I18n.t("two_factor_authentication.devices.registration_failed_token_invalid"))
 
     SeleniumHubWaiter.wait
     # Fill in wrong token

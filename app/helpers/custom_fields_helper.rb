@@ -194,10 +194,15 @@ module CustomFieldsHelper
 
   # Return an array of custom field formats which can be used in select_tag
   def custom_field_formats_for_select(custom_field)
+    hierarchy_if_deactivated = lambda do |format|
+      format.name == "hierarchy" && !OpenProject::FeatureDecisions.custom_field_of_type_hierarchy_active?
+    end
+
     OpenProject::CustomFieldFormat
       .all_for_field(custom_field)
       .sort_by(&:order)
       .reject { |format| format.label.nil? }
+      .reject(&hierarchy_if_deactivated)
       .map do |custom_field_format|
         [label_for_custom_field_format(custom_field_format.name), custom_field_format.name]
       end

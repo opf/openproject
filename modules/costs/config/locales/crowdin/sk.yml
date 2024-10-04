@@ -113,6 +113,7 @@ sk:
   label_rate: "Sadzba"
   label_rate_plural: "Sadzby"
   label_status_finished: "Dokončené"
+  label_show: "Show"
   label_units: "Nákladové jednotky"
   label_user: "Užívateľ"
   label_until: "do"

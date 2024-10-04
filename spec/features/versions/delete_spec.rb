@@ -53,7 +53,7 @@ RSpec.describe "version delete", :js, :with_cuprite do
       end
     end
 
-    expect(page).to have_css(".op-toast.-error", text: I18n.t(:error_can_not_delete_in_use_archived_undisclosed))
+    expect_flash(type: :error, message: I18n.t(:error_can_not_delete_in_use_archived_undisclosed))
     expect(page).to have_no_css("a", text: "Archived child")
 
     user.update!(admin: true)
@@ -67,7 +67,7 @@ RSpec.describe "version delete", :js, :with_cuprite do
       end
     end
 
-    expect(page).to have_css(".op-toast.-error", text: "There are also work packages in archived projects.")
+    expect_flash(type: :error, message: "There are also work packages in archived projects.")
     expect(page).to have_css("a", text: "Archived child")
   end
 end

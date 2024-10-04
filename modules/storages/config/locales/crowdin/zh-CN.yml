@@ -226,6 +226,7 @@ zh-CN:
           nextcloud: 在管理组文件夹中发现意外内容。
           one_drive: 在驱动器中发现意外内容。
         unknown_error: 连接无法验证。出现未知错误。请查看服务器日志以获取更多信息。
+        userless_access_denied: 已配置的应用密码无效。
       label_error: 错误
       label_healthy: 健康
       label_pending: 待处理
@@ -285,7 +286,6 @@ zh-CN:
     label_active: 有效
     label_add_new_storage: 添加新存储
     label_automatic_folder: 新建具有自动管理权限的文件夹
-    label_completed: 已完成
     label_creation_time: 创建时间
     label_creator: 创建者
     label_delete_storage: 删除存储
@@ -297,7 +297,6 @@ zh-CN:
     label_file_storage: 文件存储
     label_host: 主机 URL
     label_inactive: 停用
-    label_incomplete: 不完整
     label_managed_project_folders:
       application_password: 应用程序密码
       automatically_managed_folders: 自动托管的文件夹

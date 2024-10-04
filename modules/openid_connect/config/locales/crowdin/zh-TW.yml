@@ -1,7 +1,7 @@
 zh-TW:
   plugin_openproject_openid_connect:
     name: "OpenProject OpenID 連接"
-    description: "新增 OmniAuth OpenID Connect 策略提供者至 OpenProject。"
+    description: "新增 OmniAuth OpenID 連線部署提供商至 OpenProject。"
   logout_warning: >
     你已被登出，你嘗試送出的內容可能都會遺失。請登入。
   activemodel:
@@ -14,13 +14,13 @@ zh-TW:
         scope: 範圍
         limit_self_registration: 限制自行註冊
   openid_connect:
-    menu_title: OpenID 提供者
+    menu_title: OpenID 提供商
     providers:
-      label_add_new: 新增 OpenID 提供者
-      label_edit: 編輯 OpenID 提供者：%{name}
-      no_results_table: 尚未定義任何提供者。
-      plural: OpenID 提供者
-      singular: OpenID 提供者
+      label_add_new: 新增 OpenID 提供商
+      label_edit: 編輯 OpenID 提供商：%{name}
+      no_results_table: 尚未定義任何提供商。
+      plural: OpenID 提供商
+      singular: OpenID 提供商
     setting_instructions:
       azure_deprecation_warning: >
         配置的 Azure 應用程序指向 Azure 中已棄用的 API 。請創建一個新的 Azure 應用程序，以確保未來的功能性。

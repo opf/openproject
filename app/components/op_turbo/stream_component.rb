@@ -28,9 +28,10 @@
 
 module OpTurbo
   class StreamComponent < ApplicationComponent
-    def initialize(template:, action:, target:)
+    def initialize(action:, target:, template: nil, **turbo_stream_args)
       super()
 
+      @turbo_stream_args = turbo_stream_args
       @template = template
       @action = action
       @target = target

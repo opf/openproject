@@ -111,6 +111,7 @@ ka:
   label_rate: "სიხშირე"
   label_rate_plural: "ტარიფები"
   label_status_finished: "დასრულებულია"
+  label_show: "Show"
   label_units: "ერთეულის ფასი"
   label_user: "მომხმარებელი"
   label_until: "დასასრულის დრო"

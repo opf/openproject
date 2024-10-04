@@ -48,14 +48,6 @@ export class WorkPackageNotificationService extends HalResourceNotificationServi
       type: 'success',
     };
 
-    // The WorkPackageNotificationService is injected for the whole wpIsolatedQuerySpace as the notification service.
-    // However, when logging time on a WP, the provided resource is a TimeEntryResource.
-    // Thus, the link in the toast would link to the WP with the ID of the TimeEntryResource (see #50731).
-    // That is why, we check for WorkPackageResources and show the link only for them.
-    if (resource.$halType === 'WorkPackage') {
-      this.addWorkPackageFullscreenLink(message, resource);
-    }
-
     this.ToastService.addSuccess(message);
   }
 
@@ -74,15 +66,5 @@ export class WorkPackageNotificationService extends HalResourceNotificationServi
     }
 
     return super.showCustomError(errorResource, resource);
-  }
-
-  private addWorkPackageFullscreenLink(message:IToast, resource:HalResource) {
-    // Don't show the 'Show in full screen' link  if we're there already
-    if (!this.$state.includes('work-packages.show')) {
-      message.link = {
-        target: () => this.$state.go('work-packages.show.tabs', { tabIdentifier: 'activity', workPackageId: resource.id }),
-        text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen'),
-      };
-    }
   }
 }

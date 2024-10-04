@@ -13,8 +13,8 @@
           end
         end
         if @meeting_section.agenda_items_sum_duration_in_minutes > 0
-          grid.with_area(:duration, Primer::Beta::Text, color: :subtle, mr: 1, font_size: :small) do
-            render(Primer::Beta::Text.new(font_size: :small, font_weight: :normal, color: :subtle)) do
+          grid.with_area(:duration, Primer::Beta::Text, color: :subtle, mr: 1) do
+            render(Primer::Beta::Text.new(font_weight: :normal, color: :subtle)) do
               render(OpenProject::Common::DurationComponent.new(@meeting_section.agenda_items_sum_duration_in_minutes, :minutes, abbreviated: true))
             end
           end

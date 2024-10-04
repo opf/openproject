@@ -31,9 +31,9 @@ de:
     custom_styles:
       color_theme: "Farbschema"
       color_theme_custom: "(Benutzerdefiniert)"
-      tab_interface: "Interface"
+      tab_interface: "Benutzeroberfläche"
       tab_branding: "Branding"
-      tab_pdf_export_styles: "PDF export styles"
+      tab_pdf_export_styles: "PDF-Exportstile"
       colors:
         primary-button-color: "Primäre Schaltfläche"
         accent-color: "Akzent"
@@ -82,7 +82,7 @@ de:
         contact: "Kontaktieren Sie uns für eine Demo"
       enterprise_info_html: "ist ein Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> Add-on."
       upgrade_info: "Bitte steigen Sie auf einen kostenpflichtigen Plan um, um diese Funktion zu aktivieren und in Ihrem Team zu verwenden."
-    jemalloc_allocator: Jemalloc memory allocator
+    jemalloc_allocator: Jemalloc Speicher allocator
     journal_aggregation:
       explanation:
         text: "Individuelle Aktionen eines Benutzers (z.B. ein Arbeitspaket zweimal aktualisieren) werden zu einer einzigen Aktion zusammengefasst, wenn ihr Altersunterschied kleiner ist als der angegebene Zeitraum. Sie werden als eine einzige Aktion innerhalb der Anwendung angezeigt. Dadurch werden Benachrichtigungen um die gleiche Zeit verzögert, wodurch die Anzahl der gesendeten E-Mails verringert wird. Dies wirkt sich auch auf die Verzögerung von %{webhook_link} aus."
@@ -208,6 +208,12 @@ de:
         is_for_all_blank_slate:
           heading: Für alle Projekte
           description: Dieses Projekt-Attribut ist in allen Projekten aktiviert, da die Option "Für alle Projekte" aktiviert ist. Es kann nicht für einzelne Projekte deaktiviert werden.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+      notice:
+        remember_items_and_projects: "Denken Sie daran, Einträge und Projekte in den jeweiligen Registerkarten für dieses benutzerdefinierte Feld festzulegen."
     text_add_new_custom_field: >
       Um neue benutzerdefinierte Felder einem Projekt zuzuweisen, müssen Sie diese erst global erstellen, um Sie dann an dieser Stelle aktivieren zu können.
     is_enabled_globally: "Für alle Projekte aktiviert"
@@ -530,7 +536,7 @@ de:
       could_not_be_saved: "Die folgenden Arbeitspakete konnten nicht gespeichert werden:"
       none_could_be_saved: "Keines der %{total} Arbeitspakete konnte aktualisiert werden."
       x_out_of_y_could_be_saved: "%{failing} von %{total} Arbeitspaketen konnten nicht aktualisiert werden, aber %{success} wurden aktualisiert."
-      selected_because_descendants: "Während %{selected} Arbeitspakete ausgewählt wurden, sind insgesamt %{total} Arbeitspakete betroffen, inklusive untergeordneter Arbeitspakete."
+      selected_because_descendants: "Obwohl nur %{selected} Arbeitspakete ausgewählt wurden, sind inklusive untergeordneter Arbeitspakete insgesamt %{total} Arbeitspakete betroffen."
       descendant: "untergeordnetes Arbeitspaket eines ausgewählten Arbeitspaketes"
     move:
       no_common_statuses_exists: "Es gibt keine gemeinsamen Status für die ausgewählten Arbeitspakete. Ihr Status kann daher nicht verändert werden."
@@ -620,6 +626,7 @@ de:
         editable: "Bearbeitbar"
         field_format: "Format"
         is_filter: "Als Filter benutzen"
+        is_for_all: "Für alle Projekte"
         is_required: "Erforderlich"
         max_length: "Maximale Länge"
         min_length: "Minimale Länge"
@@ -916,7 +923,7 @@ de:
               blank: "ist obligatorisch. Bitte wählen Sie einen Namen aus."
               not_unique: "ist bereits in Gebrauch. Bitte wählen Sie einen anderen Namen aus."
         meeting:
-          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
+          error_conflict: "Das Speichern ist nicht möglich, da die Besprechung in der Zwischenzeit von einem anderen Benutzer aktualisiert wurde. Bitte laden Sie die Seite neu."
         notifications:
           at_least_one_channel: "Mindestens ein Kanal zum Senden von Benachrichtigungen muss angegeben werden."
           attributes:
@@ -1356,6 +1363,7 @@ de:
   button_expand_all: "Alle ausklappen"
   button_favorite: "Zu Favoriten hinzufügen"
   button_filter: "Filter"
+  button_finish_setup: "Einrichtung abschließen"
   button_generate: "Generieren"
   button_list: "Liste"
   button_lock: "Sperren"
@@ -1408,8 +1416,8 @@ de:
     failure_message: Einwilligung fehlgeschlagen, kann nicht fortfahren.
     title: Nutzer-Einwilligung
     decline_warning_message: Sie haben die Einwilligung abgelehnt und wurden deshalb abgemeldet.
-    user_has_consented: Der Benutzer hat seine Einwilligung zu dem Statement dieser Instanz zu der angegebenen Zeit gegeben.
-    not_yet_consented: Der Benutzer hat seine Einwilligung noch nicht gegeben und wird beim nächsten Login dazu befragt.
+    user_has_consented: Der Benutzer hat Ihrem [konfigurierten Einwilligungstext](consent_settings) zugestimmt.
+    not_yet_consented: Der Benutzer hat seine Einwilligung zu Ihrem [konfigurierten Einwilligungstext](consent_settings) noch nicht gegeben. Er wird bei der nächsten Anmeldung daran erinnert werden.
     contact_mail_instructions: Definieren Sie die E-Mail-Adresse, über die Benutzer einen Daten-Controller erreichen können, um Anfragen zu Datenänderung oder -löschung einzureichen.
     contact_your_administrator: Bitte kontaktieren Sie Ihren Administrator um bspw. eine Löschung Ihres Accounts zu beantragen.
     contact_this_mail_address: 'Bitte kontaktieren Sie für Datenänderungs- oder Löschanfragen Ihren Administrator unter: %{mail_address}.'
@@ -1642,7 +1650,7 @@ de:
   error_menu_item_not_saved: Menüpunkt konnte nicht aktualisiert werden.
   error_wiki_root_menu_item_conflict: >
     Kann "%{old_name}" nicht in "%{new_name}" umbenennen, weil es mit dem bestehenden Menüeintrag "%{existing_caption}" (%{existing_identifier}) kollidiert.
-  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
+  error_external_authentication_failed_message: "Die externe Authentifizierung ist fehlgeschlagen: %{message}"
   error_attribute_not_highlightable: "Nicht hervorhebbare Attribut(e): %{attributes}"
   events:
     changeset: "Projektarchiv-Änderung bearbeitet"
@@ -1797,6 +1805,8 @@ de:
       progress_mode_changed_to_status_based: "Fortschrittsberechnung aktualisiert"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject-Systemaktualisierung:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Die Berechnung der Gesamtwerte für % abgeschlossen wird jetzt nach Aufwand gewichtet."
+      total_percent_complete_mode_changed_to_simple_average: "Die Berechnung der Gesamtwerte für % abgeschlossen basiert jetzt auf dem einfachen Durchschnitt der % abgeschlossen-Werte."
     cause_descriptions:
       work_package_predecessor_changed_times: durch Änderungen am Vorgänger %{link}
       work_package_parent_changed_times: durch Änderungen am übergeordneten Arbeitspaket %{link}
@@ -1814,7 +1824,7 @@ de:
       progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-basiert gesetzt
       status_excluded_from_totals_set_to_false_message: jetzt in den Gesamtwerten der Hierarchie enthalten
       status_excluded_from_totals_set_to_true_message: jetzt von den Hierarchie-Gesamtwerten ausgeschlossen
-      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
+      status_percent_complete_changed: "% abgeschlossen von %{old_value}% auf %{new_value} % geändert"
       system_update:
         file_links_journal: >
           Ab sofort erscheinen hier Aktivitäten, die sich auf Datei-Links beziehen (Dateien in externen Speichermedien) auf der Registerkarte Aktivität. Folgende Aktivitäten betreffen bereits existierende Links:
@@ -1824,6 +1834,10 @@ de:
           Die Fortschrittsberechnung wurde <a href=" %{href} " target="_blank">automatisch durch das Systemupdate angepasst</a>.
         totals_removed_from_childless_work_packages: >-
           Arbeits- und Fortschrittssummen werden bei der <a href="%{href}" target="_blank">Versionsaktualisierung</a> automatisch für nicht übergeordnete Arbeitspakete entfernt. Diese Änderung entstand durch ein Upgrade und kann ignoriert werden.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Untergeordnete Arbeitspakete ohne Arbeit werden ignoriert.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Arbeitswerte von untergeordneten Arbeitspaketen werden ignoriert.
   links:
     configuration_guide: "Konfigurationsanleitung"
     get_in_touch: "Sie haben Fragen? Nehmen Sie Kontakt mit uns auf."
@@ -1923,8 +1937,8 @@ de:
   label_additional_workflow_transitions_for_assignee: "Zusätzliche Workflow-Übergänge für den Nutzer, dem ein Arbeitspaket zugewiesen ist"
   label_additional_workflow_transitions_for_author: "Zusätzliche Workflow-Übergänge wenn der Nutzer der Autor des Arbeitspakets ist"
   label_administration: "Administration"
-  label_interface_colors: "Interface colors"
-  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
+  label_interface_colors: "Farben der Benutzeroberfläche"
+  label_interface_colors_description: "Diese Farben bestimmen, wie die Anwendung aussieht. Änderungen dieser Farben wirken sich auf das Design aus, aber wir können dadurch nicht mehr garantieren, dass die Mindestanforderungen an die Barrierefreiheit (WCAG 2.1) eingehalten werden. "
   label_age: "Geändert vor"
   label_ago: "vor (Tage)"
   label_all: "alle"
@@ -1987,6 +2001,7 @@ de:
   label_calendars_and_dates: "Kalendarien und Daten"
   label_calendar_show: "Kalender anzeigen"
   label_category: "Kategorie"
+  label_completed: Abgeschlossen
   label_consent_settings: "Nutzer-Einwilligung"
   label_wiki_menu_item: Wiki Menüpunkt
   label_select_main_menu_item: Neuen Hauptmenüpunkt auwählen
@@ -2038,7 +2053,7 @@ de:
   label_custom_field_plural: "Benutzerdefinierte Felder"
   label_custom_field_default_type: "Leerer Typ"
   label_custom_style: "Design"
-  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
+  label_custom_style_description: "Wählen Sie über Design und Farben aus, wie die OpenProject Benutzeroberfläche und Exporte aussehen sollen."
   label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL-Version"
   label_date: "Datum"
@@ -2135,6 +2150,7 @@ de:
   label_here: hier
   label_hide: "Verbergen"
   label_history: "Historie"
+  label_hierarchy: "Hierarchie"
   label_hierarchy_leaf: "Hierarchie-Blatt"
   label_home: "Hauptseite"
   label_subject_or_id: "Titel oder ID"
@@ -2146,6 +2162,7 @@ de:
   label_inactive: "Inaktiv"
   label_incoming_emails: "Eingehende E-Mails"
   label_includes: "enthält"
+  label_incomplete: Unvollständig
   label_include_sub_projects: Unterprojekte einbeziehen
   label_index_by_date: "Seiten nach Datum"
   label_index_by_title: "Seiten nach Titel"
@@ -2156,12 +2173,14 @@ de:
   label_internal: "Intern"
   label_introduction_video: "Einführungsvideo"
   label_invite_user: "Nutzer einladen"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Teilen"
   label_share_project_list: "Projektliste teilen"
   label_share_work_package: "Arbeitspaket teilen"
   label_show_all_registered_users: "Alle registrierten Benutzer anzeigen"
   label_show_less: "Weniger anzeigen"
-  label_show_more: "Show more"
+  label_show_more: "Mehr anzeigen"
   label_journal: "Änderungen"
   label_journal_diff: "Beschreibungsvergleich"
   label_language: "Sprache"
@@ -2232,7 +2251,7 @@ de:
   label_more: "Mehr"
   label_more_than_ago: "vor mehr als (Tage)"
   label_move_work_package: "Arbeitspaket verschieben"
-  label_my_account: "Mein Konto"
+  label_my_account: "Account settings"
   label_my_activity: "Meine Aktivität"
   label_my_account_data: "Meine Kontodaten"
   label_my_avatar: "Mein Avatar"
@@ -2259,6 +2278,7 @@ de:
   label_no_parent_page: "Keine übergeordnete Seite"
   label_nothing_display: "Nichts anzuzeigen"
   label_nobody: "Niemand"
+  label_not_configured: "Nicht konfiguriert"
   label_not_found: "nicht gefunden"
   label_none: "keine"
   label_none_parentheses: "(keiner)"
@@ -3142,8 +3162,6 @@ de:
   setting_work_package_done_ratio_status: "Statusbezogen"
   setting_work_package_done_ratio_status_caption_html: >-
     Jeder Status ist mit einem Wert für <i>% abgeschlossen</i> verbunden. Wenn Sie den Status ändern, ändert sich auch <i>% abgeschlossen</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    Im <b>arbeitsbezogenen</b> Modus beschreibt % abgeschlossen das Verhältnis zwischen verbeibendem Aufwand und Gesamtaufwand. Im <b>statusbasierten</b> Modus ist jedem Status ein Wert für % abgeschlossen zugeordnet. Wenn Sie den Status ändern, ändert sich % abgeschlossen.
   setting_work_package_done_ratio_explanation_html: >
     Im <b>arbeitsbezogenen</b> Modus ist % abgeschlossen frei wählbar. Falls Sie einen Wert für Aufwand angeben, wird Verbleibender Aufand automatisch abgeleitet. Im <b>statusbasierten</b> Modus ist jedem Status ein Wert für % abgeschlossen zugeordnet. Wenn Sie den Status ändern, ändert sich % abgeschlossen.
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
@@ -3164,13 +3182,13 @@ de:
   setting_password_min_length: "Minimale Länge"
   setting_password_min_adhered_rules: "Mindestanzahl zu verwendender Zeichenklassen"
   setting_per_page_options: "Objekte pro Seite"
-  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed: "% abgeschlossen, wenn der Status geschlossen ist"
   setting_percent_complete_on_status_closed_no_change: "Keine Änderung"
   setting_percent_complete_on_status_closed_no_change_caption_html: >-
-    The value of <i>% Complete</i> will not change even when a work package is closed.
+    Der Wert von <i>% abgeschlossen</i> ändert sich nicht, auch wenn ein Arbeitspaket geschlossen wird.
   setting_percent_complete_on_status_closed_set_100p: "Automatisch auf 100 % eingestellt"
   setting_percent_complete_on_status_closed_set_100p_caption: >-
-    A closed work package is considered complete.
+    Ein Arbeitspaket mit geschlossenem Status wird als vollständig betrachtet.
   setting_plain_text_mail: "Nur reinen Text (kein HTML) senden"
   setting_protocol: "Protokoll"
   setting_project_gantt_query: "Projekt-Portfolioübersicht"
@@ -3195,6 +3213,13 @@ de:
   setting_sys_api_enabled: "Den Web-Service zur Projektarchiv-Verwaltung aktivieren"
   setting_sys_api_description: "Der Web-Service für Projektarchiv-Verwaltung erlaubt Integration und Nutzer-Autorisierung für den Zugriff auf Projektarchive."
   setting_time_format: "Zeit"
+  setting_total_percent_complete_mode: "Berechnung des Gesamtwerts % abgeschlossen in Hierarchien"
+  setting_total_percent_complete_mode_work_weighted_average: "Nach Arbeit gewichtet"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    Der <i>Gesamtwert % abgeschlossen</i> wird gegen den <i>Aufwand</i> der einzelnen Arbeitspakete in der Hierarchie gewichtet. Arbeitspakete ohne <i>Aufwand</i> werden ignoriert.
+  setting_total_percent_complete_mode_simple_average: "Einfacher Durchschnitt"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    Der <i>Aufwand</i> wird ignoriert und der <i>Gesamtwert % abgeschlossen</i> ist der einfache Durchschnitt der <i>% abgeschlossen</i> Werte der Arbeitspakete in der Hierarchie.
   setting_accessibility_mode_for_anonymous: "Barrierefreien Modus für nicht angemeldete Nutzer aktivieren"
   setting_user_format: "Format des Benutzernamens"
   setting_user_default_timezone: "Standard-Zeitzone für Benutzer"
@@ -3535,7 +3560,6 @@ de:
       label_note: "Hinweis:"
       modal:
         work_based_help_text: "Jedes Feld wird, wenn möglich, automatisch aus den beiden anderen berechnet."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Abgeschlossen wird automatisch aus Aufwand und Verbleibender Aufwand abgeleitet."
         status_based_help_text: "% Abgeschlossen wird durch den Status des Arbeitspakets festgelegt."
         migration_warning_text: "Im aufwandsbezogenen Modus, kann % Fertig nicht manuell eingegeben werden und ist immer an den Aufwand gebunden. Der vorhandene Wert wurde beibehalten, kann aber nicht bearbeitet werden. Bitte geben Sie zuerst den Wert für Aufwand ein."
       derivation_hints:

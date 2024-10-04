@@ -118,14 +118,12 @@ class Storages::ProjectStoragesController < ApplicationController
   def redirect_to_project_overview_with_modal
     redirect_to(
       project_overview_path(project_id: @project.identifier),
-      flash: {
-        modal: {
-          type: "Storages::OpenProjectStorageModalComponent",
-          parameters: {
-            project_storage_open_url: request.path,
-            redirect_url: api_v3_project_storage_open,
-            state: :waiting
-          }
+      op_modal: {
+        component: Storages::OpenProjectStorageModalComponent.name,
+        parameters: {
+          project_storage_open_url: request.path,
+          redirect_url: api_v3_project_storage_open,
+          state: :waiting
         }
       }
     )

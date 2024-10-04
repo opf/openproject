@@ -178,6 +178,9 @@ Rails.application.routes.draw do
         resource :project,
                  controller: "/admin/custom_fields/custom_field_projects",
                  only: :destroy
+        resources :items,
+                  controller: "/admin/custom_fields/hierarchy/items",
+                  only: :index
       end
     end
   end

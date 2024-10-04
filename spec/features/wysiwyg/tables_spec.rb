@@ -67,7 +67,7 @@ RSpec.describe "Wysiwyg tables", :js do
         # Save wiki page
         click_on "Save"
 
-        expect(page).to have_css(".op-toast.-success")
+        expect_and_dismiss_flash(message: "Successful creation.")
 
         within("#content") do
           expect(page).to have_css("table td", text: "h1")
@@ -116,7 +116,7 @@ RSpec.describe "Wysiwyg tables", :js do
         # Save wiki page
         click_on "Save"
 
-        expect(page).to have_css(".op-toast.-success")
+        expect_and_dismiss_flash(message: "Successful creation.")
 
         within("#content") do
           expect(page).to have_css("table th", text: "h1")
@@ -181,7 +181,7 @@ RSpec.describe "Wysiwyg tables", :js do
         # Save wiki page
         click_on "Save"
 
-        expect(page).to have_css(".op-toast.-success")
+        expect_and_dismiss_flash(message: "Successful creation.")
 
         within("#content") do
           expect(page).to have_css('td[style*="background-color:#123456"]')
@@ -232,7 +232,7 @@ RSpec.describe "Wysiwyg tables", :js do
         # Save wiki page
         click_on "Save"
 
-        expect(page).to have_css(".op-toast.-success")
+        expect_and_dismiss_flash(message: "Successful update.")
 
         within("#content") do
           # table height and width is set on figure
@@ -297,7 +297,7 @@ RSpec.describe "Wysiwyg tables", :js do
         # Save wiki page
         click_on "Save"
 
-        expect(page).to have_css(".op-toast.-success")
+        expect_and_dismiss_flash(message: "Successful creation.")
 
         within("#content") do
           expect(page).to have_css('td[style*="width:250px"]')

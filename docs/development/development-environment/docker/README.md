@@ -106,8 +106,9 @@ directory will not end up with files owned by root.
 
 You also will want to create a `docker-compose.override.yml` file, which can contain the port exposure for your
 containers. Those are excluded from the main compose file `docker-compose.yml` for sanity reasons. If any port is
-already in use, `docker compose` won't start and as you cannot disable the exposed port in
-the `docker-compose.override.yml` file, you would have to alter the original `docker-compose.yml`.
+already in use, `docker compose` won't start and will require explicit override in the `docker-compose.override.yml`
+file (see instructions for [!reset](https://docs.docker.com/reference/compose-file/merge/#reset-value) and
+[!override](https://docs.docker.com/reference/compose-file/merge/#replace-value)).
 
 There is an example you can use out of the box.
 

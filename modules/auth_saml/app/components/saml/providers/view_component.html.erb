@@ -1,0 +1,152 @@
+<%= component_wrapper do %>
+  <% if provider.seeded_from_env? %>
+    <%=
+      render(Primer::Alpha::Banner.new(mb: 2, scheme: :default, icon: :bell, spacious: true)) do
+        I18n.t("saml.providers.seeded_from_env")
+      end
+    %>
+  <% end %>
+
+  <%= render(border_box_container) do |component|
+    component.with_header(color: :muted) do
+      render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t("activemodel.attributes.saml/provider.display_name") }
+    end
+
+    component.with_row(scheme: :default) do
+      if edit_state == :name
+        render(Saml::Providers::Sections::FormComponent.new(
+          provider,
+          form_class: Saml::Providers::NameInputForm,
+          edit_state:,
+          next_edit_state: :metadata,
+          edit_mode:,
+          heading: nil
+        ))
+      else
+        render(Saml::Providers::Sections::ShowComponent.new(
+          provider,
+          view_mode:,
+          target_state: :name,
+          heading: t("saml.providers.singular"),
+          description: t("saml.providers.section_texts.display_name")
+        ))
+      end
+    end
+
+    component.with_row(scheme: :neutral, color: :muted) do
+      render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t('saml.providers.label_automatic_configuration') }
+    end
+
+    component.with_row(scheme: :default) do
+      if edit_state == :metadata
+        render(Saml::Providers::Sections::MetadataFormComponent.new(
+          provider,
+          edit_mode:,
+        ))
+      else
+        render(Saml::Providers::Sections::ShowComponent.new(
+          provider,
+          target_state: :metadata,
+          view_mode:,
+          heading: t("saml.providers.label_metadata"),
+          description: t("saml.providers.section_texts.metadata"),
+          label: provider.has_metadata? ? t(:label_completed) : t(:label_not_configured),
+          label_scheme: provider.has_metadata? ? :success : :secondary
+        ))
+      end
+    end
+
+    component.with_row(scheme: :neutral, color: :muted) do
+      render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t('saml.providers.section_headers.configuration') }
+    end
+
+    component.with_row(scheme: :default) do
+      if edit_state == :configuration
+        render(Saml::Providers::Sections::FormComponent.new(
+          provider,
+          form_class: Saml::Providers::ConfigurationForm,
+          edit_state:,
+          next_edit_state: :encryption,
+          edit_mode:,
+          banner: provider.last_metadata_update ? t("saml.providers.section_texts.configuration_metadata") : nil,
+          banner_scheme: :default,
+          heading: nil
+        ))
+      else
+        render(Saml::Providers::Sections::ShowComponent.new(
+          provider,
+          target_state: :configuration,
+          view_mode:,
+          heading: t("saml.providers.label_configuration_details"),
+          description: t("saml.providers.section_texts.configuration"),
+          label: (provider.persisted? && !provider.configured?) ? t(:label_incomplete) : nil,
+        ))
+      end
+    end
+
+    component.with_row(scheme: :default) do
+      if edit_state == :encryption
+        render(Saml::Providers::Sections::FormComponent.new(
+          provider,
+          form_class: Saml::Providers::EncryptionForm,
+          edit_state:,
+          next_edit_state: :mapping,
+          edit_mode:,
+          heading: t("saml.providers.section_texts.encryption_form")
+        ))
+      else
+        render(Saml::Providers::Sections::ShowComponent.new(
+          provider,
+          target_state: :encryption,
+          view_mode:,
+          heading: t("saml.providers.label_configuration_encryption"),
+          description: t("saml.providers.section_texts.encryption")
+        ))
+      end
+    end
+
+    component.with_row(scheme: :neutral, color: :muted) do
+      render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t('saml.providers.section_headers.attributes') }
+    end
+
+    component.with_row(scheme: :default) do
+      if edit_state == :mapping
+        render(Saml::Providers::Sections::FormComponent.new(
+          provider,
+          form_class: Saml::Providers::MappingForm,
+          edit_state:,
+          next_edit_state: :requested_attributes,
+          edit_mode:,
+          heading: t("saml.instructions.mapping")
+        ))
+      else
+        render(Saml::Providers::Sections::ShowComponent.new(
+          provider,
+          target_state: :mapping,
+          view_mode:,
+          heading: t("saml.providers.label_mapping"),
+          description: t("saml.providers.section_texts.mapping"),
+          label: provider.mapping_configured? ? nil : t(:label_incomplete),
+          label_scheme: provider.mapping_configured? ? :success : :attention
+        ))
+      end
+    end
+    component.with_row(scheme: :default) do
+      if edit_state == :requested_attributes
+        render(Saml::Providers::Sections::RequestAttributesFormComponent.new(
+          provider,
+          edit_mode:
+        ))
+      else
+        render(Saml::Providers::Sections::ShowComponent.new(
+          provider,
+          target_state: :requested_attributes,
+          view_mode:,
+          heading: t("saml.providers.requested_attributes"),
+          description: t("saml.providers.section_texts.requested_attributes")
+        ))
+      end
+    end
+  end
+  %>
+<% end %>

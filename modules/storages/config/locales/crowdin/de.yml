@@ -91,8 +91,8 @@ de:
         rename_project_folder: 'Verwalteten Projektordner umbenennen:'
     errors:
       messages:
-        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+        error: Ein unerwarteter Fehler ist aufgetreten. Bitte überprüfen Sie die OpenProject Logdateien für weitere Informationen oder kontaktieren Sie einen Administrator
+        unauthorized: OpenProject konnte sich nicht mit dem Speicheranbieter authentifizieren. Bitte überprüfen Sie Ihre Speicherkonfiguration und dessen Zugang.
       models:
         copy_project_folders_service:
           conflict: Der Ordner %{destination_path} existiert bereits. Unterbrechen Sie den Prozess, um Überschreibungen zu vermeiden.
@@ -226,6 +226,7 @@ de:
           nextcloud: Unerwarteter Inhalt im verwalteten Gruppenordner gefunden.
           one_drive: Unerwarteter Inhalt auf dem Laufwerk gefunden.
         unknown_error: Die Verbindung konnte nicht validiert werden. Es ist ein unbekannter Fehler aufgetreten. Bitte prüfen Sie die Serverprotokolle für weitere Informationen.
+        userless_access_denied: Das konfigurierte App-Passwort ist ungültig.
       label_error: Fehler
       label_healthy: Fehlerfrei
       label_pending: Ausstehend
@@ -285,7 +286,6 @@ de:
     label_active: Aktiv
     label_add_new_storage: Neuen Dateispeicher hinzufügen
     label_automatic_folder: Neuer Ordner mit automatisch verwalteten Berechtigungen
-    label_completed: Abgeschlossen
     label_creation_time: Erstellungszeit
     label_creator: Ersteller
     label_delete_storage: Dateispeicher löschen
@@ -297,7 +297,6 @@ de:
     label_file_storage: Dateispeicher
     label_host: Host-URL
     label_inactive: Inaktiv
-    label_incomplete: Unvollständig
     label_managed_project_folders:
       application_password: Anwendungspasswort
       automatically_managed_folders: Automatisch verwaltete Projektordner

@@ -261,7 +261,7 @@ RSpec.describe "Manual sorting of WP table", :js do
       subject_field.submit_by_enter
 
       wp_table.expect_and_dismiss_toaster(
-        message: "Successful creation. Click here to open this work package in fullscreen view."
+        message: "Successful creation."
       )
 
       wp_table.expect_work_package_subject "Foobar!"

@@ -278,8 +278,6 @@ ko:
           변경 사항이 적용되는 데 시간이 걸릴 수 있습니다. 모든 관련 작업 패키지가 업데이트되면 알림이 전송됩니다.
           계속하시겠습니까?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          진행률 계산 모드를 상태 기반에서 작업 기반으로 변경하면 <i>완료 %</i>가 편집할 수 없는 필드가 되며 해당 값은 <i>작업</i> 및 <i>남은 작업</i>에서 파생됩니다. <i>완료 %</i>의 기존 값은 유지됩니다. <i>작업</i> 및 <i>남은 작업</i>의 값이 없는 경우, <i>완료 %</i>를 변경하려면 해당 값이 필요합니다.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
           진행률 계산 모드를 상태 기반에서 작업 기반으로 변경하면 <i>완료 %</i> 필드를 자유롭게 편집할 수 있습니다. 선택적으로 <i>작업</i> 또는 <i>남은 작업</i>에 대한 값을 입력하면 해당 값도 <i>완료 %</i>에 링크됩니다. <i>남은 작업</i>을 변경하면 <i>완료 %</i>가 업데이트될 수 있습니다.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
@@ -358,10 +356,10 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_5":
+          "14_6":
             standard:
               new_features_html: >
-                이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>로컬 버전의 WYSIWYG 콘텐츠 변경 사항을 유지하고 복원합니다.</li> <li>한 번에 여러 프로젝트의 저장소를 활성화합니다.</li> <li>추가 설정이 포함된 업데이트된 모달로 작업 패키지를 내보냅니다.</li> <li>Community Edition에서도 프로젝트 목록에 사용자 지정 필드 열/필터를 표시합니다.</li> <li>캡차로 CloudFlare Turnstile을 지원합니다.</li> </ul>
+                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Benefit from more flexible progress reporting – thanks to user feedback.</li> <li>Receive an update notification with reload option for meetings.</li> <li>Enable a custom field for multiple projects at once.</li> <li>Use relative work package attribute macros.</li> <li>Show empty lines in saved rich text.</li> <li>See past meetings included in the number next to the Meetings tab.</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."

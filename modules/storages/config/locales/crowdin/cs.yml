@@ -226,6 +226,7 @@ cs:
           nextcloud: Unexpected content found in the managed group folder.
           one_drive: Unexpected content found in the drive.
         unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
+        userless_access_denied: The configured app password is invalid.
       label_error: Chyba
       label_healthy: Zdravé
       label_pending: Nevyřízeno
@@ -285,7 +286,6 @@ cs:
     label_active: Aktivní
     label_add_new_storage: Přidat nové úložiště
     label_automatic_folder: Nová složka s automaticky spravovanými oprávněními
-    label_completed: Dokončeno
     label_creation_time:
     label_creator: Vytvořil
     label_delete_storage: Smazat úložiště
@@ -297,7 +297,6 @@ cs:
     label_file_storage: Úložiště souborů
     label_host: URL adresa hostitele
     label_inactive: Neaktivní
-    label_incomplete: Nekompletní
     label_managed_project_folders:
       application_password: Heslo aplikace
       automatically_managed_folders: Automaticky spravované složky

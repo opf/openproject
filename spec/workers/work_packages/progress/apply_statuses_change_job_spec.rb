@@ -131,6 +131,21 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
         )
       end
 
+      it "removes all totals when all work packages of the hierarchy are excluded" do
+        expect_performing_job_changes(
+          from: <<~TABLE,
+            hierarchy   | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            parent      | Excluded    |  10h |             3h |        70% |    20h |               5h |          75%
+              child     | Excluded    |  10h |             2h |        50% |        |                  |
+          TABLE
+          to: <<~TABLE
+            subject     | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            parent      | Excluded    |  10h |             3h |        70% |        |                  |
+              child     | Excluded    |  10h |             2h |        50% |        |                  |
+          TABLE
+        )
+      end
+
       it "keeps the totals unset if work, remaining work, and % complete are all nil" do
         expect_performing_job_changes(
           from: <<~TABLE,
@@ -268,7 +283,8 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
       end
     end
 
-    context "when in hierarchy" do
+    context "when in hierarchy in work-weighted average mode",
+            with_settings: { total_percent_complete_mode: "work_weighted_average" } do
       it "the total remaining work and total % complete values are recomputed" do
         # Simulating changing "Doing" status default % progress from 20% to 40%
         expect_performing_job_changes(
@@ -289,6 +305,71 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
                 child 3  | To do (0%)  |   5h |             5h |         0% |        |                  |
           TABLE
         )
+      end
+
+      context "when total work and remaining work values are null" do
+        it "recomputes the total % complete to null" do
+          expect_performing_job_changes(
+            from: <<~TABLE,
+              hierarchy    | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+              grandparent  | Doing (40%) |      |                |        40% |        |                  |          40%
+                parent     | Doing (40%) |      |                |        40% |        |                  |          40%
+            TABLE
+            to: <<~TABLE
+              hierarchy    | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+              grandparent  | Doing (40%) |      |                |        40% |        |                  |
+                parent     | Doing (40%) |      |                |        40% |        |                  |
+            TABLE
+          )
+        end
+      end
+    end
+
+    context "when in hierarchy in simple average mode",
+            with_settings: { total_percent_complete_mode: "simple_average" } do
+      it "the total remaining work and total % complete values are recomputed" do
+        # Simulating changing "Doing" status default % progress from 20% to 40%
+        expect_performing_job_changes(
+          from: <<~TABLE,
+            hierarchy    | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            grandparent  | Doing (40%) |   1h |           0.8h |        20% |    20h |             9.8h |          51%
+              parent     | Doing (40%) |      |                |        20% |    19h |               9h |          53%
+                child 1  | Done (100%) |   9h |             0h |       100% |        |                  |
+                child 2  | Doing (40%) |   5h |             4h |        20% |        |                  |
+                child 3  | To do (0%)  |   5h |             5h |         0% |        |                  |
+                excluded | Excluded    |   5h |             5h |         0% |        |                  |
+          TABLE
+          to: <<~TABLE
+            subject      | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            grandparent  | Doing (40%) |   1h |           0.6h |        40% |    20h |             8.6h |          42%
+              parent     | Doing (40%) |      |                |        40% |    19h |               8h |          45%
+                child 1  | Done (100%) |   9h |             0h |       100% |        |                  |
+                child 2  | Doing (40%) |   5h |             3h |        40% |        |                  |
+                child 3  | To do (0%)  |   5h |             5h |         0% |        |                  |
+                excluded | Excluded    |   5h |             5h |         0% |        |                  |
+          TABLE
+        )
+      end
+
+      context "when statuses are being excluded from progress calculation" do
+        it "recomputes totals without the values from work packages having the excluded status" do
+          expect_performing_job_changes(
+            from: <<~TABLE,
+              hierarchy    | status      | work | remaining work | % complete | ∑ work  | ∑ remaining work  | ∑ % complete
+              parent       | Excluded    |   4h |             4h |         0% |    90h  |               30h |          67%
+                child 1    | Excluded    |   9h |             9h |         0% |         |                   |
+                child 2    | Doing (40%) |   5h |             3h |        40% |         |                   |
+                child 3    | Done (100%) |   5h |             0h |       100% |         |                   |
+            TABLE
+            to: <<~TABLE
+              subject      | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+              parent       | Excluded    |   4h |             4h |         0% |    10h |               3h |          70%
+                child 1    | Excluded    |   9h |             9h |         0% |        |                  |
+                child 2    | Doing (40%) |   5h |             3h |        40% |        |                  |
+                child 3    | Done (100%) |   5h |             0h |       100% |        |                  |
+            TABLE
+          )
+        end
       end
     end
 

@@ -28,7 +28,9 @@
 
 require "spec_helper"
 
-RSpec.describe "Wysiwyg embedded work package tables", :js do
+RSpec.describe "Wysiwyg embedded work package tables",
+               :js,
+               :with_cuprite do
   shared_let(:admin) { create(:admin) }
   shared_let(:type_task) { create(:type_task) }
   shared_let(:type_bug) { create(:type_bug) }
@@ -105,7 +107,7 @@ RSpec.describe "Wysiwyg embedded work package tables", :js do
         # Save wiki page
         click_on "Save"
 
-        expect(page).to have_css(".op-toast.-success")
+        expect_flash(message: "Successful creation.")
 
         embedded_table = Pages::EmbeddedWorkPackagesTable.new find(".wiki-content")
         embedded_table.expect_work_package_listed wp_task
@@ -141,7 +143,7 @@ RSpec.describe "Wysiwyg embedded work package tables", :js do
           # Save wiki page
           click_on "Save"
 
-          expect(page).to have_css(".op-toast.-success")
+          expect_and_dismiss_flash(message: "Successful creation.")
 
           # Embedded queries
           wikipage = project.wiki.pages.last

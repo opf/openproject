@@ -209,6 +209,12 @@ pt-PT:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Para adicionar novos campos personalizados a um projeto, primeiro precisa de criá-los para depois adicioná-los a este projeto.
     is_enabled_globally: "Ativado a nível global"
@@ -534,7 +540,7 @@ pt-PT:
       could_not_be_saved: "Os seguintes pacotes de trabalho não puderam ser guardados:"
       none_could_be_saved: "Não foi possível atualizar nenhum dos %{total} pacotes de trabalho."
       x_out_of_y_could_be_saved: "%{failing} dos %{total} pacotes de trabalho não puderam ser atualizados, e %{success} puderam."
-      selected_because_descendants: "Enquanto %{selected} pacotes de trabalho foram selecionados, %{total} pacotes de trabalho foram afetados, o que inclui descendentes."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendente de selecionados"
     move:
       no_common_statuses_exists: "Não há nenhum status disponível para todos os pacotes de trabalho selecionados. O seu status não pode ser alterado."
@@ -624,6 +630,7 @@ pt-PT:
         editable: "Editável"
         field_format: "Formato"
         is_filter: "Usado como filtro"
+        is_for_all: "For all projects"
         is_required: "Obrigatório"
         max_length: "Tamanho máximo"
         min_length: "Tamanho mínimo"
@@ -1360,6 +1367,7 @@ pt-PT:
   button_expand_all: "Expandir Tudo"
   button_favorite: "Adicionar aos favoritos"
   button_filter: "Filtro"
+  button_finish_setup: "Finish setup"
   button_generate: "Gerar"
   button_list: "Lista"
   button_lock: "Bloquear"
@@ -1412,8 +1420,8 @@ pt-PT:
     failure_message: Consentimento falhou, não pode continuar.
     title: Consentimento do utilizador
     decline_warning_message: Recusou consentir e foi desligado.
-    user_has_consented: O utilizador consentiu o seu depoimento configurado no momento determinado.
-    not_yet_consented: O utilizador ainda não consentiu, será pedido no próximo início de sessão.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Defina o endereço de email que os utilizadores podem utilizar para contatar um controlador de dados a solicitar alteração ou remoção de dados.
     contact_your_administrator: Entre em contato com o administrador caso pretenda apagar a sua conta.
     contact_this_mail_address: Entre em contato com %{mail_address} caso pretenda apagar a sua conta.
@@ -1801,6 +1809,8 @@ pt-PT:
       progress_mode_changed_to_status_based: "Cálculo do progresso atualizado"
       status_changed: "Estado \"%{status_name}\""
       system_update: "Atualização do sistema OpenProject:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: por alterações no %{link} antecessor
       work_package_parent_changed_times: por alterações no %{link} principal
@@ -1828,6 +1838,10 @@ pt-PT:
           O cálculo do progresso é automaticamente <a href="%{href}" target="_blank">ajustado com a atualização da versão</a>.
         totals_removed_from_childless_work_packages: >-
           Os totais de trabalho e de progresso são automaticamente removidos dos pacotes de trabalho que não são principais com a <a href="%{href}" target="_blank">atualização da versão</a>. Esta é uma tarefa de manutenção e pode ser ignorada com segurança.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Guia de configuração"
     get_in_touch: "Tem questões? Entre em contato conosco."
@@ -1991,6 +2005,7 @@ pt-PT:
   label_calendars_and_dates: "Calendários e datas"
   label_calendar_show: "Mostrar calendário"
   label_category: "Categoria"
+  label_completed: Completed
   label_consent_settings: "Consentimento do utilizador"
   label_wiki_menu_item: Item do menu wiki
   label_select_main_menu_item: Seleccione novo item do menu principal
@@ -2139,6 +2154,7 @@ pt-PT:
   label_here: aqui
   label_hide: "Ocultar"
   label_history: "Histórico"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Folha da hierarquia"
   label_home: "Início"
   label_subject_or_id: "ID ou Assunto"
@@ -2150,6 +2166,7 @@ pt-PT:
   label_inactive: "Inativo"
   label_incoming_emails: "E-mails recebidos"
   label_includes: "inclui"
+  label_incomplete: Incomplete
   label_include_sub_projects: Incluir subprojetos
   label_index_by_date: "Índice por data"
   label_index_by_title: "Índice por título"
@@ -2160,6 +2177,8 @@ pt-PT:
   label_internal: "Interno"
   label_introduction_video: "Vídeo introdutório"
   label_invite_user: "Convidar utilizador"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Partilhar"
   label_share_project_list: "Partilhar lista de projetos"
   label_share_work_package: "Partilhar pacote de trabalho"
@@ -2236,7 +2255,7 @@ pt-PT:
   label_more: "Mais"
   label_more_than_ago: "mais do que dias atrás"
   label_move_work_package: "Mover tarefa"
-  label_my_account: "A minha conta"
+  label_my_account: "Account settings"
   label_my_activity: "A minha atividade"
   label_my_account_data: "Dados da minha conta"
   label_my_avatar: "O meu avatar"
@@ -2263,6 +2282,7 @@ pt-PT:
   label_no_parent_page: "Sem página pai"
   label_nothing_display: "Nada para exibir"
   label_nobody: "ninguém"
+  label_not_configured: "Not configured"
   label_not_found: "não encontrado"
   label_none: "nenhum"
   label_none_parentheses: "(nenhum)"
@@ -3143,8 +3163,6 @@ pt-PT:
   setting_work_package_done_ratio_status: "Baseado no estado"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    No modo <b>baseado no trabalho</b>, a % de conclusão é calculada a partir da quantidade de trabalho realizado em relação ao trabalho total. No modo <b>baseado no estado</b>, cada estado tem um valor de % de conclusão associado. A alteração do estado altera a % de conclusão.
   setting_work_package_done_ratio_explanation_html: >
     No modo <b>baseado no trabalho</b>, a % de conclusão pode ser definida livremente para qualquer valor. Se, opcionalmente, introduzir um valor para Trabalho, o Trabalho restante será automaticamente derivado. No modo <b>baseado no estado</b>, cada estado tem um valor de % de conclusão associado. A alteração do estado altera a % de conclusão.
   setting_work_package_properties: "Propriedades das tarefas"
@@ -3196,6 +3214,13 @@ pt-PT:
   setting_sys_api_enabled: "Habilitar o serviço web de gestão do repositório"
   setting_sys_api_description: "O serviço de web de gestão de repositório fornece integração e autorização ao utilizador para aceder a repositórios."
   setting_time_format: "Tempo"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Ativar modo de acessibilidade para utilizadores anónimos"
   setting_user_format: "Formato de nomes de utilizador"
   setting_user_default_timezone: "Fuso horário padrão dos utilizadores"
@@ -3537,7 +3562,6 @@ pt-PT:
       label_note: "Nota:"
       modal:
         work_based_help_text: "Cada campo é calculado automaticamente a partir dos outros dois, sempre que possível."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "A % de conclusão é derivada automaticamente do Trabalho e do Trabalho restante."
         status_based_help_text: "A % de conclusão é definida pelo estado do pacote de trabalho."
         migration_warning_text: "No modo de cálculo do progresso com base no trabalho, a % de conclusão não pode ser definida manualmente e está ligada ao Trabalho. O valor existente foi mantido, mas não pode ser editado. Introduza primeiro o Trabalho."
       derivation_hints:

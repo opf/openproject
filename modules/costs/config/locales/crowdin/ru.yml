@@ -113,6 +113,7 @@ ru:
   label_rate: "Ставка"
   label_rate_plural: "Тарифы"
   label_status_finished: "Завершенные"
+  label_show: "Показать"
   label_units: "Стоимость единицы"
   label_user: "Пользователь"
   label_until: "До"

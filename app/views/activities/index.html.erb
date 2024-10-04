@@ -29,8 +29,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= call_hook :activity_index_head %>
 
-<%= toolbar title: (@author.nil? ? t(:label_activity) : t(:label_user_activity, value: link_to_user(@author))).html_safe,
-            subtitle: t(:label_date_from_to, start: format_date(@date_to - @days), end: format_date(@date_to-1))
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { (@author.nil? ? t(:label_activity) : t(:label_user_activity, value: link_to_user(@author))).html_safe }
+    header.with_description { t(:label_date_from_to, start: format_date(@date_to - @days), end: format_date(@date_to-1)) }
+    header.with_breadcrumbs([{ href: home_path, text: organization_name},
+                             *([href: project_overview_path(@project.id), text: @project.name] if @project),
+                             t(:label_activity)])
+  end
 %>
 
 <%= render(Activities::DaysComponent.new(events: @events, current_project: @project, activity_page: @activity_page))  %>

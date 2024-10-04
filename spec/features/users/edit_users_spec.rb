@@ -127,7 +127,7 @@ RSpec.describe "edit users", :js, :with_cuprite do
 
       click_button "Save"
 
-      expect(page).to have_css(".op-toast.-success", text: "Successful update.")
+      expect_flash(message: "Successful update.")
 
       user.reload
 
@@ -140,7 +140,7 @@ RSpec.describe "edit users", :js, :with_cuprite do
 
       click_on "Send invitation"
 
-      expect(page).to have_css(".op-toast.-success", text: "An invitation has been sent to foo@example.com")
+      expect_flash(message: "An invitation has been sent to foo@example.com")
     end
 
     it "can not edit attributes of an admin user" do
