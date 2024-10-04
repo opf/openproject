@@ -30,21 +30,21 @@ module CustomField::OrderStatements
   # Returns a ORDER BY clause that can used to sort customized
   # objects by their value of the custom field.
   # Returns false, if the custom field can not be used for sorting.
-  def order_statements
+  def order_statement
     case field_format
     when "list"
-      [order_by_list_sql]
+      order_by_list_sql
     when "string", "date", "bool", "link"
-      [coalesce_select_custom_value_as_string]
+      coalesce_select_custom_value_as_string
     when "int", "float"
       # Make the database cast values into numeric
       # Postgresql will raise an error if a value can not be casted!
       # CustomValue validations should ensure that it doesn't occur
-      [select_custom_value_as_decimal]
+      select_custom_value_as_decimal
     when "user"
-      [order_by_user_sql]
+      order_by_user_sql
     when "version"
-      [order_by_version_sql]
+      order_by_version_sql
     end
   end
 
@@ -61,7 +61,7 @@ module CustomField::OrderStatements
   # which differ for multi-value select fields,
   # because in this case we do want the primary CV values
   def group_by_statement
-    return order_statements unless field_format == "list"
+    return order_statement unless field_format == "list"
 
     if multi_value?
       # We want to return the internal IDs in the case of grouping
