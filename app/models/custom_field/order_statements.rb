@@ -48,9 +48,9 @@ module CustomField::OrderStatements
     end
   end
 
-  ##
-  # Returns the null handling for the given direction
-  def null_handling(asc)
+  # Returns the ORDER BY option defining order of objects without value for the
+  # custom field.
+  def order_null_handling(asc)
     return unless %w[int float].include?(field_format)
 
     null_direction = asc ? "FIRST" : "LAST"

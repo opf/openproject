@@ -60,7 +60,7 @@ class Queries::Projects::Orders::CustomFieldOrder < Queries::Orders::Base
   def order(scope)
     order_statement = "#{custom_field.order_statement} #{direction}"
 
-    if (null_handling = custom_field.null_handling(direction == :asc))
+    if (null_handling = custom_field.order_null_handling(direction == :asc))
       order_statement = "#{order_statement} #{null_handling}"
     end
 

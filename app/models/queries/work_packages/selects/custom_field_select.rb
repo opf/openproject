@@ -46,7 +46,7 @@ class Queries::WorkPackages::Selects::CustomFieldSelect < Queries::WorkPackages:
     @cf.name
   end
 
-  delegate :null_handling, to: :custom_field
+  def null_handling(...) = custom_field.order_null_handling(...)
 
   def custom_field
     @cf
