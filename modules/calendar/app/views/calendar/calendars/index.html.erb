@@ -40,15 +40,11 @@ See COPYRIGHT and LICENSE files for more details.
 <% if @show_create_button %>
   <%=
     render Primer::OpenProject::SubHeader.new do |subheader|
-      subheader.with_action_button(scheme: :primary,
-                                   aria: { label: I18n.t("js.calendar.create_new") },
-                                   title: I18n.t(:label_calendar),
-                                   tag: :a,
-                                   id: "add-calendar-button",
-                                   href: @dynamic_path,
-                                   data: { "test-selector": "add-calendar-button"}) do |button|
-        button.with_leading_visual_icon(icon: :plus)
-        I18n.t(:label_calendar)
+      subheader.with_action_component do
+        render AddButtonComponent.new(test_selector: "add-calendar-button",
+                                      href: @dynamic_path,
+                                      aria_label: I18n.t("js.calendar.create_new"),
+                                      label_text: I18n.t(:label_calendar))
       end
     end
   %>

@@ -1,0 +1,10 @@
+<%= render(Primer::ButtonComponent.new(scheme: :primary,
+                                       aria: { label: aria_label },
+                                       title: aria_label,
+                                       data: { "test-selector": test_selector},
+                                       tag: :a,
+                                       href: href) ) do |button|
+  button.with_leading_visual_icon(icon: :plus)
+  label_text
+end
+%>
