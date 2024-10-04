@@ -98,14 +98,9 @@ module BulkServices
       def set_attributes(params)
         attributes_service_class
           .new(user: @user,
-               model: instance(params),
-               contract_class: default_contract_class,
-               contract_options: {})
-          .call
-      end
-
-      def instance(params)
-        mapping_model_class.new(params)
+               model: mapping_model_class.new,
+               contract_class: default_contract_class)
+          .call(params)
       end
 
       # @return [Symbol] the permission required to create the mapping
