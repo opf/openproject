@@ -1,7 +1,10 @@
 <%= if @work_package.present?
   grid_layout('op-wp-hover-card', tag: :div) do |grid|
     grid.with_area(:status, tag: :div, color: :muted) do
-      render WorkPackages::StatusButtonComponent.new(work_package: @work_package, button_arguments: { size: :small })
+      render WorkPackages::StatusButtonComponent.new(work_package: @work_package,
+                                                     user: helpers.current_user,
+                                                     readonly: true,
+                                                     button_arguments: { size: :small })
     end
 
     grid.with_area(:id, tag: :div, color: :muted) do

@@ -46,12 +46,6 @@ import {
   shift,
 } from '@floating-ui/dom';
 import { WorkPackageIsolatedQuerySpaceDirective } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
-import { fromEvent } from 'rxjs';
-import {
-  filter,
-  tap,
-  throttleTime,
-} from 'rxjs/operators';
 
 @Component({
   templateUrl: './hover-card.modal.html',
@@ -76,7 +70,7 @@ export class HoverCardComponent extends OpModalComponent implements OnInit {
 
   ngOnInit() {
     super.ngOnInit();
-    this.turboFrameSrc = this.locals.turboFrameSrc;
+    this.turboFrameSrc = this.locals.turboFrameSrc as string;
   }
 
   public async reposition(element:HTMLElement, target:HTMLElement) {
