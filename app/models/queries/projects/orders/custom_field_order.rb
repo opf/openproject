@@ -58,6 +58,10 @@ class Queries::Projects::Orders::CustomFieldOrder < Queries::Orders::Base
   private
 
   def order(scope)
+    if (join_statement = custom_field.order_join_statement)
+      scope = scope.joins(join_statement)
+    end
+
     order_statement = "#{custom_field.order_statement} #{direction}"
 
     if (null_handling = custom_field.order_null_handling(direction == :asc))
