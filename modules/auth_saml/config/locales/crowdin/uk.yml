@@ -2,27 +2,27 @@ uk:
   activemodel:
     attributes:
       saml/provider:
-        display_name: Name
-        identifier: Identifier
-        secret: Secret
-        scope: Scope
-        assertion_consumer_service_url: ACS (Assertion consumer service) URL
-        limit_self_registration: Limit self registration
-        sp_entity_id: Service entity ID
-        metadata_url: Identity provider metadata URL
-        name_identifier_format: Name identifier format
-        idp_sso_service_url: Identity provider login endpoint
-        idp_slo_service_url: Identity provider logout endpoint
-        idp_cert: Public certificate of identity provider
-        authn_requests_signed: Sign SAML AuthnRequests
-        want_assertions_signed: Require signed responses
-        want_assertions_encrypted: Require encrypted responses
-        certificate: Certificate used by OpenProject for SAML requests
-        private_key: Corresponding private key for OpenProject SAML requests
-        signature_method: Signature algorithm
+        display_name: Назва
+        identifier: Ідентифікатор
+        secret: Секретний ключ
+        scope: Область застосування
+        assertion_consumer_service_url: URL-адреса ACS (Служба підтримки споживачів)
+        limit_self_registration: Обмежити самостійну реєстрацію
+        sp_entity_id: ID сервісної організації
+        metadata_url: URL-адреса метаданих постачальника ідентифікаційних даних
+        name_identifier_format: Формат ідентифікатора імені
+        idp_sso_service_url: Кінцева точка входу постачальника ідентифікаційних даних
+        idp_slo_service_url: Кінцева точка виходу постачальника ідентифікаційних даних
+        idp_cert: Загальнодоступний сертифікат постачальника ідентифікаційних даних
+        authn_requests_signed: Підписувати запити автентифікації SAML
+        want_assertions_signed: Вимагати підписані відповіді
+        want_assertions_encrypted: Вимагати зашифровані відповіді
+        certificate: Сертифікат, який OpenProject використовує для запитів SAML
+        private_key: Відповідний приватний ключ для запитів SAML в OpenProject
+        signature_method: Алгоритм підпису
         digest_method: Digest algorithm
-        format: "Format"
-        icon: "Custom icon"
+        format: "Формат"
+        icon: "Користувацький значок"
   activerecord:
     errors:
       models:
@@ -84,14 +84,14 @@ uk:
         configuration: "Configure the endpoint URLs for the identity provider, certificates, and further SAML options."
         configuration_metadata: "This information has been pre-filled using the supplied metadata. In most cases, they do not require editing."
         encryption: "Configure assertion signatures and encryption for SAML requests and responses."
-        encryption_form: "You may optionally want to encrypt the assertion response, or have requests from OpenProject signed."
-        mapping: "Manually adjust the mapping between the SAML response and user attributes in OpenProject."
-        requested_attributes: "Define the set of attributes to be requested in the SAML request sent to your identity provider."
-      seeded_from_env: "This provider was seeded from the environment configuration. It cannot be edited."
+        encryption_form: "За бажанням ви можете зашифрувати відповідь підтвердження. Або ж отримуйте підписані запити з OpenProject."
+        mapping: "Вручну налаштуйте зіставлення відповіді SAML і атрибутів користувача в OpenProject."
+        requested_attributes: "Визначте набір атрибутів, які передаватимуться в запиті SAML, що надсилається вашому постачальнику ідентифікаційних даних."
+      seeded_from_env: "Цього постачальника додано з конфігурації середовища. Його не можна змінити."
     settings:
-      metadata_none: "I don't have metadata"
-      metadata_url: "Metadata URL"
-      metadata_xml: "Metadata XML"
+      metadata_none: "У мене немає метаданих"
+      metadata_url: "URL-адреса метаданих"
+      metadata_xml: "XML метаданих"
     instructions:
       documentation_link: >
         Please refer to our [documentation on configuring SAML providers](docs_url) for more information on these configuration options.
