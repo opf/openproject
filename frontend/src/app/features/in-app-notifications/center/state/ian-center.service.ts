@@ -371,11 +371,6 @@ export class IanCenterService extends UntilDestroyedMixin {
 
     if (state.centerHidden) {
       // notification center is not visible (as far as it can be determined - e.g. another browser tab is selected)
-      // try to notify user even when notification is associated with selected workpackage
-      if (this.browserNotificationsEnabled()) {
-        this.createBrowserNotification();
-      }
-
       this.showNotificationIndicatorInIcon();
       this.showNewNotificationToast();
     } else if (hasNewNotificationsForOtherThanSelectedWp) {
@@ -402,33 +397,6 @@ export class IanCenterService extends UntilDestroyedMixin {
     }
   }
 
-  private browserNotificationsEnabled():boolean {
-    let disabled = false;
-    // Check if the browser supports notifications
-    if (!('Notification' in window)) {
-      disabled = true;
-    }
-
-    if (Notification.permission === 'denied') {
-      disabled = true;
-    }
-
-    return !disabled;
-  }
-
-  private createBrowserNotification():void {
-    const notification = new Notification('OpenProject', {
-      body: this.I18n.t('js.notifications.center.new_notifications.message'),
-      tag: 'opNewNotification', // important: without a tag the notifications would sum up which would be highly annoying
-    });
-
-    notification.onclick = () => {
-      window.focus();
-      notification.close();
-      this.removeNotificationIndicatorInIcon();
-    };
-  }
-
   private showNotificationIndicatorInIcon():void {
     const iconLink = window.document.querySelector("link[rel*='icon']");
     if (iconLink) {
@@ -441,51 +409,6 @@ export class IanCenterService extends UntilDestroyedMixin {
     if (iconLink) {
       (iconLink as HTMLLinkElement).href = 'favicon.ico';
     }
-  }
-
-  private playNotificationSound():void {
-    const audioContext = new window.AudioContext();
-
-    const createOscillator = (freq:number, type:OscillatorType = 'sine') => {
-      const osc = audioContext.createOscillator();
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, audioContext.currentTime);
-      return osc;
-    };
-
-    const createEnvelope = () => {
-      const gain = audioContext.createGain();
-      gain.gain.setValueAtTime(0, audioContext.currentTime);
-      gain.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.005);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
-      return gain;
-    };
-
-    const oscillators = [
-      createOscillator(880), // A5
-      createOscillator(1108.73), // C#6
-      createOscillator(1318.51), // E6
-      createOscillator(1760, 'triangle'), // A6 (overtone)
-    ];
-
-    const masterGain = audioContext.createGain();
-    masterGain.gain.setValueAtTime(0.7, audioContext.currentTime);
-
-    oscillators.forEach((osc) => {
-      const envelope = createEnvelope();
-      osc.connect(envelope);
-      envelope.connect(masterGain);
-      osc.start();
-      osc.stop(audioContext.currentTime + 0.5);
-    });
-
-    masterGain.connect(audioContext.destination);
-
-    // Clean up
-    setTimeout(() => {
-      masterGain.disconnect();
-      void audioContext.close();
-    }, 1000);
   }
 
   /**
