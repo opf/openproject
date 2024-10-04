@@ -233,16 +233,12 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   markAsRead(notifications:ID[]):void {
-    this.hideNewNotifcationToast();
-
     this.actions$.dispatch(
       markNotificationsAsRead({ origin: this.id, notifications }),
     );
   }
 
   openSplitScreen(workPackageId:string, tabIdentifier:string = 'activity'):void {
-    this.hideNewNotifcationToast();
-
     const link = this.pathHelper.notificationsDetailsPath(workPackageId, tabIdentifier) + window.location.search;
     Turbo.visit(link, { frame: 'content-bodyRight', action: 'advance' });
   }
@@ -257,8 +253,6 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   showNextNotification():void {
-    this.hideNewNotifcationToast();
-
     void this
       .notifications$
       .pipe(take(1))
@@ -274,128 +268,58 @@ export class IanCenterService extends UntilDestroyedMixin {
       });
   }
 
-  // /**
-  //  * Check for updates after bell count increased
-  //  */
-  // @EffectCallback(notificationCountIncreased)
-  // private checkForNewNotifications() {
-  //   this.onReload.pipe(take(1)).subscribe((collection) => {
-  //     const { activeCollection } = this.query.getValue();
-  //     const hasNewNotifications = !collection.ids.reduce(
-  //       (allInOldCollection, id) => allInOldCollection && activeCollection.ids.includes(id),
-  //       true,
-  //     );
-
-  //     if (!hasNewNotifications) {
-  //       return;
-  //     }
-
-  //     if (this.activeReloadToast) {
-  //       this.toastService.remove(this.activeReloadToast);
-  //       this.activeReloadToast = null;
-  //     }
-
-  //     this.activeReloadToast = this.toastService.add({
-  //       type: 'info',
-  //       icon: 'bell',
-  //       message: this.I18n.t('js.notifications.center.new_notifications.message'),
-  //       link: {
-  //         text: this.I18n.t('js.notifications.center.new_notifications.link_text'),
-  //         target: () => {
-  //           this.store.update({ activeCollection: collection });
-  //           this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
-  //           this.activeReloadToast = null;
-  //         },
-  //       },
-  //     });
-  //   });
-  //   this.reload.next(false);
-  // }
-
   /**
-   * Handle updates after bell count changed
+   * Handle updates after bell count changed (+/-)
    */
   @EffectCallback(notificationCountChanged)
   private handleChangedNotificationCount() {
-    // update the UI state for increased AND decreased notifications
-    // decreasing the notification count could happen when the user
-    // itself marks notifications as read in the split view or on another tab
-    this.onReload.pipe(
-      take(1),
-      switchMap((collection) => {
-        this.store.update({ activeCollection: collection });
-        this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
-        return this.selectNotifications$.pipe(
-          map((notifications) => ({ notifications, collection })),
-        );
-      }),
-      switchMap(({ notifications, collection }) => {
-        return this.selectedWorkPackage$.pipe(
-          take(1),
-          map((selectedWpId) => ({ notifications, collection, selectedWpId })),
-        );
-      }),
-    ).subscribe(({ notifications, collection, selectedWpId }) => {
+    this.onReload.pipe(take(1)).subscribe((collection) => {
+      // check for new notifications and inform the user via desired notification method: currently red dot in icon
       const { activeCollection } = this.query.getValue();
-      const newNotificationIds = activeCollection.ids.filter(
-        (id) => !collection.ids.includes(id),
+      const hasNewNotifications = !collection.ids.reduce(
+        (allInOldCollection, id) => allInOldCollection && activeCollection.ids.includes(id),
+        true,
       );
-      const hasNewNotifications = newNotificationIds.length > 0;
 
-      if (!hasNewNotifications) {
-        return;
+      if (hasNewNotifications) {
+        this.informAboutUnreadNotification();
       }
-      const newNotifications = notifications.filter((n) => newNotificationIds.includes(n.id));
-      const newNotificationsForOtherWPs = newNotifications.filter((notification) => {
-        const wpId = this.getWorkPackageIdFromNotification(notification);
-        return wpId && wpId !== selectedWpId;
-      });
 
-      const hasNewNotificationsForOtherThanSelectedWp = newNotificationsForOtherWPs.length > 0;
-
-      this.informAboutUnreadNotification(hasNewNotificationsForOtherThanSelectedWp);
+      // update the UI state for increased AND decreased notifications, not only increased count
+      // decreasing the notification count could happen when the user itself
+      // marks notifications as read in the split view or on another tab
+      this.store.update({ activeCollection: collection });
+      this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
     });
-
     this.reload.next(false);
   }
 
-  private getWorkPackageIdFromNotification(notification:INotification):string | null {
-    if (notification._links.resource && notification._links.resource.href) {
-      return idFromLink(notification._links.resource.href);
-    }
-    return null;
-  }
-
-  private informAboutUnreadNotification(hasNewNotificationsForOtherThanSelectedWp:boolean):void {
+  private informAboutUnreadNotification():void {
     const state = this.store.getValue();
 
     if (state.centerHidden) {
       // notification center is not visible (as far as it can be determined - e.g. another browser tab is selected)
       this.showNotificationIndicatorInIcon();
-      this.showNewNotificationToast();
-    } else if (hasNewNotificationsForOtherThanSelectedWp) {
-      // notification center is visible (as far as it can be determined)
-      // then do not trigger the browser notification or such
-      // just render the toast in case the notifications are associated with a workpackage other than the selected
-      this.showNewNotificationToast();
     }
   }
 
-  private showNewNotificationToast():void {
-    this.hideNewNotifcationToast();
-    this.activeReloadToast = this.toastService.add({
-      type: 'info',
-      icon: 'bell',
-      message: this.I18n.t('js.notifications.center.new_notifications.message'),
-    });
-  }
+  // Leaving this here for future reference, currently we decided not to use this flash message anymore
+  //
+  // private showNewNotificationToast():void {
+  //   this.hideNewNotifcationToast();
+  //   this.activeReloadToast = this.toastService.add({
+  //     type: 'info',
+  //     icon: 'bell',
+  //     message: this.I18n.t('js.notifications.center.new_notifications.message'),
+  //   });
+  // }
 
-  private hideNewNotifcationToast():void {
-    if (this.activeReloadToast) {
-      this.toastService.remove(this.activeReloadToast);
-      this.activeReloadToast = null;
-    }
-  }
+  // private hideNewNotifcationToast():void {
+  //   if (this.activeReloadToast) {
+  //     this.toastService.remove(this.activeReloadToast);
+  //     this.activeReloadToast = null;
+  //   }
+  // }
 
   private showNotificationIndicatorInIcon():void {
     const iconLink = window.document.querySelector("link[rel*='icon']");
