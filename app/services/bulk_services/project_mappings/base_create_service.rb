@@ -33,16 +33,10 @@ module BulkServices
     class BaseCreateService < ::BaseServices::BaseCallable
       attr_reader :projects_mapper
 
-      def initialize(user:, projects:, model:, include_sub_projects: false, projects_mapper: nil)
+      def initialize(user:, projects_mapper: nil)
         super()
         @user = user
-        @projects_mapper = projects_mapper || ProjectsMapper.new(
-          model:,
-          projects:,
-          mapping_model_class:,
-          model_foreign_key_id:,
-          include_sub_projects:
-        )
+        @projects_mapper = projects_mapper
       end
 
       def perform(params = {})
