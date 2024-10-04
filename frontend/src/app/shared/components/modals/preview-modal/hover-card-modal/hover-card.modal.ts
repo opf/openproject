@@ -60,14 +60,11 @@ import {
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
 })
 export class HoverCardComponent extends OpModalComponent implements OnInit {
-  // TODO
-  @Input() public turboFrameSrc:string = "/work_packages/50/hover_card";
+  turboFrameSrc:string;
 
   @Input() public alignment?:Placement = 'bottom-end';
 
   @Input() public allowRepositioning? = true;
-
-  public test:string;
 
   constructor(
     readonly elementRef:ElementRef,
@@ -79,24 +76,7 @@ export class HoverCardComponent extends OpModalComponent implements OnInit {
 
   ngOnInit() {
     super.ngOnInit();
-
-    this.test = this.turboFrameSrc;
-
-    // TODO
-    fromEvent(document, 'turbo:frame-load')
-      .pipe(
-        filter((event:CustomEvent) => {
-          return (event.target as HTMLElement).id?.includes('op-hover-card-body');
-        }),
-        throttleTime(100),
-        tap(() => {
-          this.cdRef.detectChanges();
-
-          const modal = this.elementRef.nativeElement as HTMLElement;
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-explicit-any
-          void this.reposition(modal, this.locals.event.target as HTMLElement);
-        }),
-      );
+    this.turboFrameSrc = this.locals.turboFrameSrc;
   }
 
   public async reposition(element:HTMLElement, target:HTMLElement) {

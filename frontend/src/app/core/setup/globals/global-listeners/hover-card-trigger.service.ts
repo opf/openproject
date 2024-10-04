@@ -51,17 +51,16 @@ export class HoverCardTriggerService {
       const el = e.target as HTMLElement;
       if (el) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const href = el.getAttribute('href');
+        const turboFrameUrl = el.getAttribute('data-hover-card-url');
 
-        if (!href) {
+        if (!turboFrameUrl) {
           return;
         }
 
         this.opModalService.show(
           HoverCardComponent,
           this.injector,
-          // TODO
-          { workPackageLink: href, event: e },
+          { turboFrameSrc: turboFrameUrl, event: e },
           true,
         ).subscribe((previewModal) => {
           this.modalElement = previewModal.elementRef.nativeElement as HTMLElement;
