@@ -89,7 +89,7 @@ module Storages::ProjectStorages
         event: :created,
         project_folder_mode: params[:project_folder_mode],
         project_folder_mode_previously_was: nil,
-        storage: something.model
+        storage: projects_mapper.model
       )
     end
   end

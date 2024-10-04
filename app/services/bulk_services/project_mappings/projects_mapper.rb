@@ -50,12 +50,12 @@ module BulkServices
         @include_sub_projects = include_sub_projects
       end
 
-      def mapping_attributes_for_all_projects(params)
+      def mapping_attributes_for_all_projects(extra_attributes)
         project_ids_to_map.map do |project_id|
           {
             project_id:,
             model_foreign_key_id => model.id
-          }.merge(attributes_from_params(params))
+          }.merge(extra_attributes)
         end
       end
 

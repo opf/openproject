@@ -31,55 +31,13 @@
 # Gives the projects to map and the attributes to be used for the mapping.
 module BulkServices
   module ProjectMappings
-    class ProjectsMapper
-      attr_reader :model,
-                  :projects,
-                  :mapping_model_class,
-                  :model_foreign_key_id,
-                  :include_sub_projects
-
-      def initialize(model:,
-                     projects:,
-                     mapping_model_class:,
-                     model_foreign_key_id:,
-                     include_sub_projects: false)
-        @model = model
-        @projects = projects
-        @mapping_model_class = mapping_model_class
-        @model_foreign_key_id = model_foreign_key_id
-        @include_sub_projects = include_sub_projects
-      end
-
+    class ProjectsMapperBase
       def mapping_attributes_for_all_projects(params)
-        project_ids_to_map.map do |project_id|
-          {
-            project_id:,
-            model_foreign_key_id => model.id
-          }.merge(attributes_from_params(params))
-        end
+        raise NotImplementedError, "This method must be implemented in a subclass"
       end
 
       def incoming_projects
-        projects.each_with_object(Set.new) do |project, projects_set|
-          next unless project.active?
-
-          projects_set << project
-          projects_set.merge(project.active_subprojects.to_a) if include_sub_projects
-        end.to_a
-      end
-
-      private
-
-      def project_ids_to_map
-        project_ids = incoming_projects.pluck(:id)
-        project_ids - project_ids_already_mapped(project_ids)
-      end
-
-      def project_ids_already_mapped(project_ids)
-        mapping_model_class.where(
-          model_foreign_key_id => @model.id,
-          project_id: project_ids
-        ).pluck(:project_id)
+        raise NotImplementedError, "This method must be implemented in a subclass"
       end
     end
   end
