@@ -37,7 +37,6 @@ import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.s
 import {
   centerUpdatedInPlace,
   markNotificationsAsRead,
-  notificationCountIncreased,
   notificationsMarkedRead,
   notificationCountChanged,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
