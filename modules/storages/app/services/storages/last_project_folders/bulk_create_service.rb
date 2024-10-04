@@ -33,8 +33,7 @@ module Storages::LastProjectFolders
     attr_reader :something
 
     def initialize(user:, project_storages:)
-      super(user:, projects: nil, model: nil, include_sub_projects: nil,
-            projects_mapper: ProjectStoragesProjectsMapper.new(project_storages))
+      super(user:, projects_mapper: ProjectStoragesProjectsMapper.new(project_storages))
     end
 
     def permission = :manage_files_in_project

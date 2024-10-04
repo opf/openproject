@@ -31,7 +31,14 @@
 module Storages::ProjectStorages
   class BulkCreateService < ::BulkServices::ProjectMappings::BaseCreateService
     def initialize(user:, projects:, storage:, include_sub_projects: false)
-      super(user:, projects:, model: storage, include_sub_projects:)
+      projects_mapper = ::BulkServices::ProjectMappings::ProjectsMapper.new(
+        model: storage,
+        projects:,
+        mapping_model_class:,
+        model_foreign_key_id:,
+        include_sub_projects:
+      )
+      super(user:, projects_mapper:)
     end
 
     def after_perform(service_call, params)
