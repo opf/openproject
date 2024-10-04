@@ -34,6 +34,7 @@ FactoryBot.define do
       name { "Standard global role" }
       builtin { Role::BUILTIN_STANDARD_GLOBAL }
       initialize_with { GlobalRole.where(builtin: Role::BUILTIN_STANDARD_GLOBAL).first_or_initialize }
+      permissions { [:view_user_email] }
     end
   end
 end

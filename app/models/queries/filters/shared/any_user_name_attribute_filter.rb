@@ -50,16 +50,18 @@ module Queries::Filters::Shared::AnyUserNameAttributeFilter
     private
 
     def sql_concat_name
-      fields = [
-        "users.firstname", "users.lastname",
-        "users.lastname", "users.firstname",
-        "users.login"
-      ]
+      fields = <<~SQL.squish
+        users.firstname, ' ', users.lastname,
+        ' ',
+        users.lastname, ' ', users.firstname,
+        ' ',
+        users.login
+      SQL
 
-      fields << "users.mail" if email_field_allowed?
+      fields << ", ' ',users.mail" if email_field_allowed?
 
       <<~SQL.squish
-        LOWER(CONCAT_WS(#{fields.join(',')}))
+        LOWER(CONCAT(#{fields}))
       SQL
     end
   end

@@ -29,6 +29,7 @@
 require "spec_helper"
 
 RSpec.describe "Invite user modal", :js, :with_cuprite do
+  shared_let(:standard) { create(:standard_global_role) }
   shared_let(:project) { create(:project) }
   shared_let(:work_package) { create(:work_package, project:) }
 
