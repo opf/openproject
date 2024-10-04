@@ -31,14 +31,14 @@
 module ProjectCustomFieldProjectMappings
   class BulkCreateService < ::BulkServices::ProjectMappings::BaseCreateService
     def initialize(user:, projects:, model:, include_sub_projects: false)
-      projects_mapper = ::BulkServices::ProjectMappings::ProjectsMapper.new(
+      mapping_context = ::BulkServices::ProjectMappings::MappingContext.new(
         mapping_model_class: ProjectCustomFieldProjectMapping,
         model:,
         projects:,
         model_foreign_key_id:,
         include_sub_projects:
       )
-      super(user:, projects_mapper:)
+      super(user:, mapping_context:)
     end
 
     private

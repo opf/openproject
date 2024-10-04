@@ -30,7 +30,7 @@
 
 module Storages
   module LastProjectFolders
-    class ProjectStoragesProjectsMapper < BulkServices::ProjectMappings::ProjectsMapperBase
+    class ProjectStoragesMappingContext < BulkServices::ProjectMappings::MappingContextBase
       attr_reader :project_storages
 
       def initialize(project_storages)

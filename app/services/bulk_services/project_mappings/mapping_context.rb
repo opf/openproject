@@ -31,7 +31,7 @@
 # Gives the projects to map and the attributes to be used for the mapping.
 module BulkServices
   module ProjectMappings
-    class ProjectsMapper < ProjectsMapperBase
+    class MappingContext < MappingContextBase
       attr_reader :model,
                   :projects,
                   :model_foreign_key_id,

@@ -31,14 +31,14 @@
 module BulkServices
   module ProjectMappings
     class BaseCreateService < ::BaseServices::BaseCallable
-      attr_reader :projects_mapper
+      attr_reader :mapping_context
 
-      delegate :mapping_model_class, to: :projects_mapper
+      delegate :incoming_projects, :mapping_model_class, to: :mapping_context
 
-      def initialize(user:, projects_mapper: nil)
+      def initialize(user:, mapping_context: nil)
         super()
         @user = user
-        @projects_mapper = projects_mapper
+        @mapping_context = mapping_context
       end
 
       def perform(params = {})
@@ -53,9 +53,9 @@ module BulkServices
       private
 
       def validate_permissions
-        return ServiceResult.failure(errors: I18n.t(:label_not_found)) if projects_mapper.incoming_projects.empty?
+        return ServiceResult.failure(errors: I18n.t(:label_not_found)) if incoming_projects.empty?
 
-        if @user.allowed_in_project?(permission, projects_mapper.incoming_projects)
+        if @user.allowed_in_project?(permission, incoming_projects)
           ServiceResult.success
         else
           ServiceResult.failure(errors: I18n.t("activerecord.errors.messages.error_unauthorized"))
@@ -64,7 +64,7 @@ module BulkServices
 
       def validate_contract(service_call, params)
         extra_attributes = attributes_from_params(params)
-        mapping_attributes_for_all_projects = projects_mapper.mapping_attributes_for_all_projects(extra_attributes)
+        mapping_attributes_for_all_projects = mapping_context.mapping_attributes_for_all_projects(extra_attributes)
         set_attributes_results = mapping_attributes_for_all_projects.map do |mapping_attributes|
           set_attributes(mapping_attributes)
         end
