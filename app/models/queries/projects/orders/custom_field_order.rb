@@ -58,8 +58,12 @@ class Queries::Projects::Orders::CustomFieldOrder < Queries::Orders::Base
   private
 
   def order(scope)
-    joined_statement = Arel.sql("#{custom_field.order_statement} #{direction}")
+    order_statement = "#{custom_field.order_statement} #{direction}"
 
-    scope.order(joined_statement)
+    if (null_handling = custom_field.null_handling(direction == :asc))
+      order_statement = "#{order_statement} #{null_handling}"
+    end
+
+    scope.order(Arel.sql(order_statement))
   end
 end

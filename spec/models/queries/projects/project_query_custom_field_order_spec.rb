@@ -116,9 +116,9 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
 
       let(:projects) do
         [
+          project_without_cf_value,
           project_with_cf_value("6"),
-          project_with_cf_value("16"),
-          project_without_cf_value # TODO: should be at index 0
+          project_with_cf_value("16")
         ]
       end
     end
@@ -130,9 +130,9 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
 
       let(:projects) do
         [
+          project_without_cf_value,
           project_with_cf_value("6.25"),
-          project_with_cf_value("16"),
-          project_without_cf_value # TODO: should be at index 0
+          project_with_cf_value("16")
         ]
       end
     end
