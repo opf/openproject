@@ -33,6 +33,8 @@ module BulkServices
     class BaseCreateService < ::BaseServices::BaseCallable
       attr_reader :projects_mapper
 
+      delegate :mapping_model_class, to: :projects_mapper
+
       def initialize(user:, projects_mapper: nil)
         super()
         @user = user
@@ -113,10 +115,10 @@ module BulkServices
         raise NotImplementedError
       end
 
-      # @return [Class] the model class of the mapping
-      def mapping_model_class
-        raise NotImplementedError
-      end
+      # # @return [Class] the model class of the mapping
+      # def mapping_model_class
+      #   raise NotImplementedError
+      # end
 
       def attributes_service_class
         "#{namespace}::SetAttributesService".constantize

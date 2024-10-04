@@ -37,7 +37,6 @@ module Storages::LastProjectFolders
     end
 
     def permission = :manage_files_in_project
-    def mapping_model_class = ::Storages::LastProjectFolder
 
     private
 

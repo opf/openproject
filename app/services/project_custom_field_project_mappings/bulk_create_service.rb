@@ -32,9 +32,9 @@ module ProjectCustomFieldProjectMappings
   class BulkCreateService < ::BulkServices::ProjectMappings::BaseCreateService
     def initialize(user:, projects:, model:, include_sub_projects: false)
       projects_mapper = ::BulkServices::ProjectMappings::ProjectsMapper.new(
+        mapping_model_class: ProjectCustomFieldProjectMapping,
         model:,
         projects:,
-        mapping_model_class:,
         model_foreign_key_id:,
         include_sub_projects:
       )
@@ -45,6 +45,5 @@ module ProjectCustomFieldProjectMappings
 
     def permission = :select_project_custom_fields
     def model_foreign_key_id = :custom_field_id
-    def mapping_model_class = ProjectCustomFieldProjectMapping
   end
 end

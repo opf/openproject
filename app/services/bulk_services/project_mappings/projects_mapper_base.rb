@@ -32,6 +32,12 @@
 module BulkServices
   module ProjectMappings
     class ProjectsMapperBase
+      attr_reader :mapping_model_class
+
+      def initialize(mapping_model_class:)
+        @mapping_model_class = mapping_model_class
+      end
+
       def mapping_attributes_for_all_projects(params)
         raise NotImplementedError, "This method must be implemented in a subclass"
       end
