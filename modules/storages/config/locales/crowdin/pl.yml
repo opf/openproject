@@ -91,8 +91,8 @@ pl:
         rename_project_folder: 'Zmień nazwę zarządzanego folderu projektu:'
     errors:
       messages:
-        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+        error: Wystąpił nieoczekiwany błąd. Sprawdź dzienniki OpenProject, aby uzyskać więcej informacji lub skontaktuj się z administratorem
+        unauthorized: OpenProject nie mógł uwierzytelnić się z dostawcą magazynu. Upewnij się, że masz do niego dostęp.
       models:
         copy_project_folders_service:
           conflict: Folder %{destination_path} już istnieje. Przerywanie procesu, aby uniknąć zastąpień.
@@ -150,7 +150,7 @@ pl:
           unauthorized: OpenProject nie może zsynchronizować się z OneDrive. Sprawdź konfigurację magazynu i aplikacji Azure.
           user_does_not_exist: "Użytkownik %{user} nie istnieje w Nextcloud."
         upload_link_service:
-          not_found: The destination folder %{folder} could not be found on %{storage_name}.
+          not_found: Folder docelowy %{folder} nie został znaleziony na magazynie %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Ukończ bez tego
@@ -214,7 +214,7 @@ pl:
         client_id_wrong: Skonfigurowany identyfikator klienta OAuth 2 jest nieprawidłowy. Sprawdź konfigurację.
         client_secret_wrong: Skonfigurowany klucz tajny klienta OAuth 2 jest nieprawidłowy. Sprawdź konfigurację.
         drive_id_wrong: Nie można znaleźć skonfigurowanego Drive ID. Sprawdź konfigurację.
-        group_folder_not_found: The group folder could not be found.
+        group_folder_not_found: Folder grupy nie został znaleziony.
         group_folder_version_mismatch: Wersja folderu grupy jest nieobsługiwana. Zaktualizuj swój serwer Nextcloud.
         host_not_found: Nie znaleziono serwera Nextcloud pod skonfigurowanym adresem URL hosta. Sprawdź konfigurację.
         missing_dependencies: 'Brakuje wymaganej zależności magazynu plików. Dodaj następującą zależność: %{dependency}.'
@@ -223,10 +223,10 @@ pl:
         subtitle: Weryfikacja połączenia
         tenant_id_wrong: Skonfigurowany katalog (dzierżawca) jest nieprawidłowy. Sprawdź konfigurację.
         unexpected_content:
-          nextcloud: Unexpected content found in the managed group folder.
-          one_drive: Unexpected content found in the drive.
+          nextcloud: W folderze zarządzanej grupy znaleziono nieoczekiwaną zawartość.
+          one_drive: Na dysku znaleziono nieoczekiwaną zawartość.
         unknown_error: Nie można zweryfikować połączenia. Wystąpił nieznany błąd. Aby uzyskać dalsze informacje, sprawdź dzienniki serwera.
-        userless_access_denied: The configured app password is invalid.
+        userless_access_denied: Skonfigurowane hasło aplikacji jest nieprawidłowe.
       label_error: Błąd
       label_healthy: Zdrowe
       label_pending: Oczekujący
