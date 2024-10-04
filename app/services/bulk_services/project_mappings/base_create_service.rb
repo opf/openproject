@@ -87,7 +87,7 @@ module BulkServices
       def perform_bulk_create(service_call)
         mapping_model_class.insert_all(
           service_call.result.map { |model| model.attributes.slice("project_id", model_foreign_key_id.to_s) },
-          unique_by: %i[project_id].push(model_foreign_key_id.to_sym)
+          unique_by: [:project_id, model_foreign_key_id.to_sym]
         )
 
         service_call
