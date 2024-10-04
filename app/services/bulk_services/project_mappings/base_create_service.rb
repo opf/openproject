@@ -115,11 +115,6 @@ module BulkServices
         raise NotImplementedError
       end
 
-      # # @return [Class] the model class of the mapping
-      # def mapping_model_class
-      #   raise NotImplementedError
-      # end
-
       def attributes_service_class
         "#{namespace}::SetAttributesService".constantize
       end
