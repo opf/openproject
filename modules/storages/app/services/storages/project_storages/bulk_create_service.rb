@@ -55,7 +55,7 @@ module Storages::ProjectStorages
     def mapping_model_class = ::Storages::ProjectStorage
     def default_contract_class = ::Storages::ProjectStorages::CreateContract
 
-    def validate_contract(service_call, project_ids, params)
+    def validate_contract(service_call, params)
       super_service_call = super
 
       super_service_call.on_failure do
