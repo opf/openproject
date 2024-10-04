@@ -111,10 +111,6 @@ module WorkPackages
               render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) do
                 I18n.t("activities.work_packages.activity_tab.created_on")
               end
-            else
-              render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) do
-                I18n.t("activities.work_packages.activity_tab.changed_on")
-              end
             end
           end
         end
@@ -130,8 +126,17 @@ module WorkPackages
             ) do
               truncated_user_name(journal.user)
             end
-            user_name_and_time_container.with_row do
-              render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) { format_time(journal.updated_at) }
+            user_name_and_time_container.with_row(flex_layout: true) do |time_container|
+              if journal.initial?
+                time_container.with_column(mr: 1) do
+                  render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) do
+                    I18n.t("activities.work_packages.activity_tab.created_on")
+                  end
+                end
+              end
+              time_container.with_column do
+                render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) { format_time(journal.updated_at) }
+              end
             end
           end
         end
