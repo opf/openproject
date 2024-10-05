@@ -33,7 +33,7 @@ pl:
       color_theme_custom: "(Niestandardowe)"
       tab_interface: "Interfejs"
       tab_branding: "Branding"
-      tab_pdf_export_styles: "Styl eksportu PDF"
+      tab_pdf_export_styles: "Style eksportu PDF"
       colors:
         primary-button-color: "Przycisk główny"
         accent-color: "Akcent"
@@ -933,7 +933,7 @@ pl:
               blank: "jest obowiązkowy. Wybierz nazwę."
               not_unique: "jest już w użyciu. Wybierz inną nazwę."
         meeting:
-          error_conflict: "Nie można zapisać, ponieważ w tym czasie spotkanie zostało zaktualizowane przez kogoś innego. Odśwież stronę."
+          error_conflict: "Nie można zapisać, ponieważ w tym czasie spotkanie zostało zaktualizowane przez inną osobę. Odśwież stronę."
         notifications:
           at_least_one_channel: "Należy określić co najmniej jeden kanał dla wysyłania powiadomień."
           attributes:
@@ -1446,7 +1446,7 @@ pl:
     title: Zgoda użytkownika
     decline_warning_message: Odrzuciłeś zgodę i wylogowano Cię.
     user_has_consented: Użytkownik wyraził zgodę na Twój [skonfigurowany tekst informacji o zgodzie](consent_settings).
-    not_yet_consented: Użytkownik nie wyraził jeszcze zgody na Twój [skonfigurowany tekst informacji o zgodzie](consent_settings). Przypomni mu się o tym, gdy zaloguje się następnym razem.
+    not_yet_consented: Użytkownik nie wyraził jeszcze zgody na Twój [skonfigurowany tekst informacji o zgodzie](consent_settings). Otrzyma przypomnienie podczas kolejnego logowania.
     contact_mail_instructions: Zdefiniuj adres e-mail, na który użytkownicy mogą skontaktować się z administratorem danych w celu wykonania żądań zmiany lub usunięcia danych.
     contact_your_administrator: Jeśli chcesz usunąć swoje konto, skontaktuj się z administratorem.
     contact_this_mail_address: Jeśli chcesz usunąć swoje konto, skontaktuj się z %{mail_address}.
@@ -1870,7 +1870,7 @@ pl:
       progress_mode_changed_to_status_based: "Zaktualizowano obliczenie postępu"
       status_changed: "Status „%{status_name}”"
       system_update: "Aktualizacja systemu OpenProjekt:"
-      total_percent_complete_mode_changed_to_work_weighted_average: "Obliczenie % Ukończenia jest teraz ważone Pracą."
+      total_percent_complete_mode_changed_to_work_weighted_average: "Obliczanie % Ukończenia jest teraz ważone parametrem Praca."
       total_percent_complete_mode_changed_to_simple_average: "Obliczanie % Ukończenia opiera się teraz na średniej arytmetycznej % Ukończenia."
     cause_descriptions:
       work_package_predecessor_changed_times: przez zmiany poprzednika %{link}
@@ -1900,9 +1900,9 @@ pl:
         totals_removed_from_childless_work_packages: >-
           Sumy pracy i postępu są automatycznie usuwane dla pakietów pracy innych niż nadrzędne wraz z <a href="%{href}" target="_blank">aktualizacją wersji</a>. Jest to zadanie konserwacyjne i można je bezpiecznie zignorować.
       total_percent_complete_mode_changed_to_work_weighted_average: >-
-        Podrzędne pakiety robocze bez Pracy są ignorowane.
+        Podrzędne pakiety robocze bez parametru Praca są ignorowane.
       total_percent_complete_mode_changed_to_simple_average: >-
-        Wartości Pracy podrzędnych pakietów roboczych są ignorowane.
+        Wartości parametru Praca podrzędnych pakietów roboczych są ignorowane.
   links:
     configuration_guide: "Przewodnik po konfiguracji"
     get_in_touch: "Masz pytania? Skontaktuj się z nami."
@@ -2003,7 +2003,7 @@ pl:
   label_additional_workflow_transitions_for_author: "Dodatkowe przejścia dozwolone, gdy użytkownik jest autorem"
   label_administration: "Administracja"
   label_interface_colors: "Kolory interfejsu"
-  label_interface_colors_description: "Te kolory definiują wygląd aplikacji. Jeśli je zmodyfikujesz, motyw zostanie automatycznie zmieniony na niestandardowy motyw, ale nie możemy zapewnić zgodności z minimalnymi wymaganiami w kwestii kontrastu (WCAG 2)."
+  label_interface_colors_description: "Te kolory definiują wygląd aplikacji. Jeśli je zmodyfikujesz, motyw zostanie automatycznie zmieniony na niestandardowy, ale nie możemy zapewnić zgodności z minimalnymi wymaganiami w kwestii kontrastu (WCAG 2)."
   label_age: "Wiek"
   label_ago: "dni temu"
   label_all: "wszystkie"
@@ -2109,7 +2109,7 @@ pl:
   label_copy_project: "Kopiuj projekt"
   label_core_version: "Wersja bazowa"
   label_core_build: "Kompilacja bazowa"
-  label_created_by: "Utworzone przez %{user}"
+  label_created_by: "Autor: %{user}"
   label_current_status: "Aktualny stan"
   label_current_version: "Aktualna wersja"
   label_custom_field_add_no_type: "Dodaj to pole do typu zadania"
@@ -3279,7 +3279,7 @@ pl:
     Całkowity <i>% Ukończenia</i> będzie ważony względem parametru <i>Praca</i> każdego pakietu roboczego w hierarchii. Zadania bez parametru <i>Praca</i> zostaną zignorowane.
   setting_total_percent_complete_mode_simple_average: "Średnia arytmetyczna"
   setting_total_percent_complete_mode_simple_average_caption_html: >-
-    <i>Praca</i> jest ignorowana, a całkowita wartość <i>% Ukończenia</i> będzie średnią arytmetyczną z <i>% Ukończenia</i> wartości pakietów roboczych w hierarchii.
+    Parametr <i>Praca</i> jest ignorowany, a całkowita wartość <i>% Ukończenia</i> będzie średnią arytmetyczną <i>% Ukończenia</i> wartości pakietów roboczych w hierarchii.
   setting_accessibility_mode_for_anonymous: "Włącz tryb dostępu dla użytkowników anonimowych"
   setting_user_format: "Format nazw użytkowników"
   setting_user_default_timezone: "Domyślna strefa czasowa użytkowników"

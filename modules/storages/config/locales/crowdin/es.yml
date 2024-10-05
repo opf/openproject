@@ -92,7 +92,7 @@ es:
     errors:
       messages:
         error: Se ha producido un error inesperado. Compruebe los registros de OpenProject para obtener más información o póngase en contacto con un administrador
-        unauthorized: OpenProject no pudo autenticarse con el proveedor de almacenamiento. Por favor, asegúrese de que tiene acceso al mismo.
+        unauthorized: OpenProject no pudo autenticarse con el proveedor de almacenamiento. Asegúrese de que tiene acceso al mismo.
       models:
         copy_project_folders_service:
           conflict: La carpeta %{destination_path} ya existe. Interrumpiendo el proceso para evitar sobreescrituras.
@@ -223,7 +223,7 @@ es:
         subtitle: Validación de conexión
         tenant_id_wrong: El id de directorio (tenant) configurado no es válido. Por favor, compruebe la configuración.
         unexpected_content:
-          nextcloud: Contenido inesperado encontrado en la carpeta del grupo gestionado.
+          nextcloud: Se ha encontrado contenido inesperado en la carpeta del grupo gestionado.
           one_drive: Contenido inesperado encontrado dentro la unidad.
         unknown_error: No se ha podido validar la conexión. Se ha producido un error desconocido. Compruebe los registros del servidor para obtener más información.
         userless_access_denied: La contraseña configurada de la aplicación no es válida.
