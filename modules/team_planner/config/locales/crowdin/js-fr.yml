@@ -8,7 +8,7 @@ fr:
       create_title: 'Créer un nouveau planificateur d''équipe'
       unsaved_title: 'Planificateur d''équipe sans nom'
       no_data: 'Ajoutez des personnes pour configurer votre planificateur d''équipe.'
-      add_assignee: 'Assignee'
+      add_assignee: 'Attributaire'
       remove_assignee: 'Retirer l''assigné'
       two_weeks: '2 semaines'
       one_week: '1 semaine'

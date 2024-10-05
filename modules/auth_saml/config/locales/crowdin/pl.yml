@@ -38,7 +38,7 @@ pl:
       description: >
         Użyj tych parametrów, aby skonfigurować połączenie dostawcy tożsamości z OpenProject.
     metadata_parser:
-      success: "Pomyślnie zaktualizowano konfigurację używając metadanych dostawcy tożsamości."
+      success: "Pomyślnie zaktualizowano konfigurację, używając metadanych dostawcy tożsamości."
       invalid_url: "Podany adres URL metadanych jest nieprawidłowy. Podaj adres URL HTTP(s)."
       error: "Nie udało się pobrać metadanych dostawcy identyfikacji: %{error}"
     providers:
@@ -70,16 +70,16 @@ pl:
       request_attributes:
         title: 'Wymagane atrybuty'
         legend: >
-          Te atrybuty są dodawane do metadanych SAML XML, aby oznaczyć dostawcę tożsamości, którego atrybutów wymaga OpenProject. Nadal może być konieczne jednoznaczne skonfigurowanie dostawcy tożsamości do wysyłania tych atrybutów. Zapoznaj się z dokumentacją dostawcy tożsamości.
+          Te atrybuty są dodawane do metadanych SAML XML, aby pokazać dostawcy tożsamości, które atrybuty są wymagane przez OpenProject. Nadal może być konieczne jednoznaczne skonfigurowanie dostawcy tożsamości do wysyłania tych atrybutów. Zapoznaj się z dokumentacją swojego dostawcy tożsamości.
         name: 'Wymagany klucz atrybutu'
         format: 'Format atrybutu'
       section_headers:
-        configuration: "Podstawowa fkonfiguracja"
+        configuration: "Podstawowa konfiguracja"
         attributes: "Atrybuty"
       section_texts:
         display_name: "Skonfiguruj wyświetlaną nazwę dostawcy SAML."
         metadata: "Wstępnie wypełnij konfigurację, używając adresu URL metadanych lub wklej metadane XML"
-        metadata_form: "Jeśli Twój dostawca tożsamości ma punkt końcowy metadanych lub pobranie XML, dodaj go poniżej, aby wstępnie wypełnić konfigurację."
+        metadata_form: "Jeśli Twój dostawca tożsamości ma punkt końcowy metadanych lub możliwość pobrania XML, dodaj go poniżej, aby wstępnie wypełnić konfigurację."
         metadata_form_banner: "Edycja metadanych może zastąpić istniejące wartości w innych sekcjach. "
         configuration: "Skonfiguruj adresy URL punktu końcowego dla dostawcy tożsamości, certyfikatów i dalszych opcji SAML."
         configuration_metadata: "Te informacje zostały wypełnione przy użyciu dostarczonych metadanych. W większości przypadków nie wymagają one edycji."
@@ -136,11 +136,11 @@ pl:
       requested_format: >
         Format żądanego atrybutu. Jest używany do określenia formatu atrybutu w żądaniu SAML. Zobacz [dokumentację dotyczącą konfiguracji żądanych atrybutów](docs_url), aby uzyskać więcej informacji.
       authn_requests_signed: >
-        Jeśli zaznaczone, OpenProject podpisze SAML AuthnRequest. Będzie trzeba podać certyfikat podpisu i klucz prywatny, używając poniższych pól.
+        Jeśli zaznaczone, OpenProject podpisze SAML AuthnRequest. Wymagane będzie podanie certyfikatu podpisu i klucza prywatnego, wykorzystując poniższe pola.
       want_assertions_signed: >
         Jeśli zaznaczone, OpenProject będzie wymagał podpisanych odpowiedzi od dostawcy tożsamości, używając własnego klucza certyfikatu. OpenProject zweryfikuje podpis z certyfikatu z sekcji podstawowej konfiguracji.
       want_assertions_encrypted: >
-        Jeśli opcja jest włączona, wymaga od dostawcy tożsamości zaszyfrowania jego odpowiedzi za pomocą pary certyfikatów, którą podasz.
+        Jeśli opcja jest włączona, wymaga od dostawcy tożsamości zaszyfrowania jego odpowiedzi za pomocą podanej przez Ciebie pary certyfikatów.
       certificate: >
         Wprowadź certyfikat w formacie X509 PEM używany przez OpenProject do podpisywania żądań SAML.
       private_key: >
