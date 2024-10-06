@@ -120,36 +120,36 @@ ko:
       mapping: >
         OpenProject에서 SAML 응답과 사용자 특성 간 매핑을 구성합니다. 찾을 특성 이름을 여러 개 구성할 수 있습니다. OpenProject는 SAML 응답에서 사용 가능한 첫 번째 특성을 선택합니다.
       mapping_login: >
-        SAML attributes from the response used for the login.
+        로그인에 사용된 응답의 SAML 특성입니다.
       mapping_mail: >
-        SAML attributes from the response used for the email of the user.
+        사용자 이메일에 사용된 응답의 SAML 특성입니다.
       mapping_firstname: >
-        SAML attributes from the response used for the given name.
+        지정된 이름에 사용된 응답의 SAML 특성입니다.
       mapping_lastname: >
-        SAML attributes from the response used for the last name.
+        성에 사용된 응답의 SAML 특성입니다.
       mapping_uid: >
-        SAML attribute to use for the internal user ID. Leave empty to use the name_id attribute instead
+        내부 사용자 ID에 사용할 SAML 특성입니다. name_id 특성을 대신 사용하려면 비워 둡니다.
       request_uid: >
-        SAML attribute to request for the internal user ID. By default, the name_id will be used for this field.
+        내부 사용자 ID를 요청하는 SAML 특성입니다. 기본적으로 이 필드에는 name_id가 사용됩니다.
       requested_attributes: >
-        These attributes are added to the SAML request XML to communicate to the identity provider which attributes OpenProject requires.
+        이러한 특성은 SAML 요청 XML에 추가되어 OpenProject에 필요한 특성을 ID 공급자에게 전달합니다.
       requested_format: >
-        The format of the requested attribute. This is used to specify the format of the attribute in the SAML request. Please see [documentation on configuring requested attributes](docs_url) for more information.
+        요청된 특성의 형식입니다. SAML 요청에서 특성의 형식을 지정하는 데 사용됩니다. 자세한 내용은 [요청된 특성 구성에 대한 문서](docs_url)를 참조하세요.
       authn_requests_signed: >
-        If checked, OpenProject will sign the SAML AuthnRequest. You will have to provide a signing certificate and private key using the fields below.
+        이 옵션을 선택하면 OpenProject가 SAML AuthnRequest에 서명합니다. 아래 필드를 사용하여 서명 인증서와 비공개 키를 제공해야 합니다.
       want_assertions_signed: >
-        If checked, OpenProject will required signed responses from the identity provider using it's own certificate keypair. OpenProject will verify the signature against the certificate from the basic configuration section.
+        이 옵션을 선택하면 OpenProject가 고유한 인증서 키 쌍을 사용한 ID 공급자의 서명된 응답을 요구합니다. OpenProject는 기본 구성 섹션의 인증서와 비교하여 서명을 확인합니다.
       want_assertions_encrypted: >
-        If enabled, require the identity provider to encrypt the assertion response using the certificate pair that you provide.
+        이 옵션을 활성화하면 사용자가 제공하는 인증서 쌍을 사용하여 어설션 응답을 암호화하도록 ID 공급자에 요구합니다.
       certificate: >
-        Enter the X509 PEM-formatted certificate used by OpenProject for signing SAML requests.
+        OpenProject가 SAML 요청 서명에 사용하는 X509 PEM 형식 인증서를 입력합니다.
       private_key: >
-        Enter the X509 PEM-formatted private key for the above certificate. This needs to be an RSA private key.
+        위 인증서에 대한 X509 PEM 형식 비공개 키를 입력합니다. 이 키는 RSA 비공개 키여야 합니다.
       signature_method: >
-        Select the signature algorithm to use for the SAML request signature performed by OpenProject (Default: %{default_option}).
+        OpenProject에서 수행하는 SAML 요청 서명에 사용할 서명 알고리즘을 선택합니다(기본값: %{default_option}).
       digest_method: >
-        Select the digest algorithm to use for the SAML request signature performed by OpenProject (Default: %{default_option}).
+        OpenProject에서 수행하는 SAML 요청 서명에 사용할 다이제스트 알고리즘을 선택합니다(기본값: %{default_option}).
       icon: >
-        Optionally provide a public URL to an icon graphic that will be displayed next to the provider name.
+        공급자 이름 옆에 표시되는 아이콘 그래픽의 공개 URL을 선택적으로 제공합니다.
       metadata_for_idp: >
         이 정보는 SAML ID 공급자가 요청할 수 있습니다.

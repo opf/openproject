@@ -31,9 +31,9 @@ it:
     custom_styles:
       color_theme: "Tema a colori"
       color_theme_custom: "(Personalizzato)"
-      tab_interface: "Interface"
+      tab_interface: "Interfaccia"
       tab_branding: "Branding"
-      tab_pdf_export_styles: "PDF export styles"
+      tab_pdf_export_styles: "Stili di esportazione PDF"
       colors:
         primary-button-color: "Pulsante principale"
         accent-color: "Accento"
@@ -82,7 +82,7 @@ it:
         contact: "Contattaci per una demo"
       enterprise_info_html: "è un componente aggiuntivo di Imprese <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
       upgrade_info: "Esegui l'upgrade a un piano a pagamento per attivarlo e iniziare a usarlo nel tuo team."
-    jemalloc_allocator: Jemalloc memory allocator
+    jemalloc_allocator: Allocatore di memoria Jemalloc
     journal_aggregation:
       explanation:
         text: "Le singole azioni di un utente (es. l'aggiornamento di una macro-attività due volte) vengono aggregate in un'unica azione se il tempo intercorso tra esse è inferiore al periodo minimo di tempo impostato. Verranno visualizzate quindi come un'unica azione all'interno dell'applicazione. Questo ritarderà anche le notifiche della stessa quantità di tempo, riducendo così il numero di email inviate, e influirà anche sul ritardo di %{webhook_link}."
@@ -206,14 +206,14 @@ it:
     admin:
       custom_field_projects:
         is_for_all_blank_slate:
-          heading: For all projects
-          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: Per tutti i progetti
+          description: Questo campo personalizzato è attivato in tutti i progetti, poiché l'opzione "Per tutti i progetti" è selezionata. Non può essere disattivato per i singoli progetti.
       items:
         blankslate:
-          title: "Your list of items is empty"
-          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+          title: "La tua lista di elementi è vuota"
+          description: "Inizia aggiungendo elementi al campo personalizzato di tipo gerarchia. Ogni elemento può essere utilizzato per creare una gerarchia sottostante. Per navigare e creare sottoelementi all'interno di una gerarchia, fai clic sull'elemento creato."
       notice:
-        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
+        remember_items_and_projects: "Ricorda di impostare elementi e progetti nelle rispettive schede per questo campo personalizzato."
     text_add_new_custom_field: >
       Per aggiungere nuovi campi personalizzati a un progetto, è necessario prima crearli.
     is_enabled_globally: "Abilitato a livello globale"
@@ -539,7 +539,7 @@ it:
       could_not_be_saved: "Le seguenti macro-attività non possono essere salvate:"
       none_could_be_saved: "Nessuna delle %{total} macro-attività può essere aggiornata."
       x_out_of_y_could_be_saved: "%{failing} di %{total} macro-attività non possono essere aggiornate, mentre %{success} possono essere aggiornate."
-      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
+      selected_because_descendants: "Sono selezionate %{selected} macro-attività ma in totale sono interessate %{total} macro-attività, compresi i relativi figli."
       descendant: "figlio della macro-attività selezionata"
     move:
       no_common_statuses_exists: "Nessuno stato disponibile per tutte le macro-attività selezionate. Non è possibile cambiare lo stato."
@@ -629,7 +629,7 @@ it:
         editable: "Modificabile"
         field_format: "Formato"
         is_filter: "Usato come filtro"
-        is_for_all: "For all projects"
+        is_for_all: "Per tutti i progetti"
         is_required: "Richiesto"
         max_length: "Lunghezza massima"
         min_length: "Lunghezza minima"
@@ -644,8 +644,8 @@ it:
         uid: "Client ID"
         secret: "Chiave segreta del client"
         owner: "Proprietario"
-        builtin: "Builtin"
-        enabled: "Active"
+        builtin: "Integrato"
+        enabled: "Attivo"
         redirect_uri: "Reindirizzamento URI"
         client_credentials_user_id: "ID utente delle credenziali client"
         scopes: "Ambiti"
@@ -817,7 +817,7 @@ it:
         blank: "non può essere lasciato vuoto."
         blank_nested: "deve avere la proprietà '%{property}' impostata."
         cannot_delete_mapping: "è necessario. Non può essere cancellato."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "è per tutti. Non può essere modificato."
         cant_link_a_work_package_with_a_descendant: "Una macro-attività non può essere collegato a una delle sue sottoattività."
         circular_dependency: "Questa relazione creerebbe una dipendenza circolare."
         confirmation: "non coincide con %{attribute}."
@@ -894,7 +894,7 @@ it:
         custom_fields_project:
           attributes:
             project_ids:
-              blank: "Please select a project."
+              blank: "Seleziona un progetto."
         custom_actions:
           only_one_allowed: "(%{name}) solo un valore è permesso."
           empty: "(%{name}) valore non può essere vuoto."
@@ -926,7 +926,7 @@ it:
               blank: "è obbligatorio. Sei pregato di selezionare un nome."
               not_unique: "è già in uso. Sei pregato di selezionare un altro nome."
         meeting:
-          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
+          error_conflict: "Impossibile salvare perché la riunione è stata aggiornata da qualcun altro nel frattempo. Ricarica la pagina."
         notifications:
           at_least_one_channel: "Deve essere specificato almeno un canale per l'invio delle notifiche."
           attributes:
@@ -1366,7 +1366,7 @@ it:
   button_expand_all: "Espandi tutto"
   button_favorite: "Aggiunti ai preferiti"
   button_filter: "Filtro"
-  button_finish_setup: "Finish setup"
+  button_finish_setup: "Termina la configurazione"
   button_generate: "Genera"
   button_list: "Elenca"
   button_lock: "Blocca"
@@ -1419,8 +1419,8 @@ it:
     failure_message: Consenso respinto, impossibile procedere.
     title: Consenso dell'utente
     decline_warning_message: Hai rifiutato il consenso e sei stato disconnesso.
-    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
-    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
+    user_has_consented: L'utente ha dato il proprio consenso al [testo informativo sul consenso configurato](consent_settings).
+    not_yet_consented: L'utente non ha ancora dato il suo consenso al tuo [testo informativo sul consenso configurato](consent_settings). Riceverà un promemoria la prossima volta che effettuerà l'accesso.
     contact_mail_instructions: Definire l'indirizzo mail di un controllore che gli utenti possono raggiungere per eseguire la modifica dei dati o le richieste di rimozione.
     contact_your_administrator: Contattare l'amministratore se desideri che il tuo account venga eliminato.
     contact_this_mail_address: Per favore contatta %{mail_address} se desideri che il tuo account venga eliminato.
@@ -1653,7 +1653,7 @@ it:
   error_menu_item_not_saved: La voce di menu non può essere salvata
   error_wiki_root_menu_item_conflict: >
     Impossibile rinominare "%{old_name}" a "%{new_name}" a causa di un conflitto nella voce di menu risultante con la voce di menu esistente "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
+  error_external_authentication_failed_message: "Si è verificato un errore durante l'autenticazione esterna: %{message}"
   error_attribute_not_highlightable: "Attributo/i non sottolineabile/i: %{attributes}"
   events:
     changeset: "Changeset modificato"
@@ -1808,8 +1808,8 @@ it:
       progress_mode_changed_to_status_based: "Calcolo dei progressi aggiornato"
       status_changed: "Stato '%{status_name}'"
       system_update: "Aggiornamento del sistema OpenProject:"
-      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
-      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
+      total_percent_complete_mode_changed_to_work_weighted_average: "Il calcolo dei totali della % completamento è ora ponderato in base al Lavoro."
+      total_percent_complete_mode_changed_to_simple_average: "Il calcolo dei totali della % completamento si basa ora su una media semplice dei soli valori della % completamento."
     cause_descriptions:
       work_package_predecessor_changed_times: da modifiche al predecessore %{link}
       work_package_parent_changed_times: da modifiche al genitore %{link}
@@ -1827,7 +1827,7 @@ it:
       progress_mode_changed_to_status_based: La modalità di calcolo dell'avanzamento è impostata in funzione dello stato.
       status_excluded_from_totals_set_to_false_message: ora incluso nei totali della gerarchia
       status_excluded_from_totals_set_to_true_message: ora escluso dai totali della gerarchia
-      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
+      status_percent_complete_changed: "% completamento cambiata da %{old_value}% a %{new_value}%"
       system_update:
         file_links_journal: >
           D'ora in poi, l'attività relativa ai collegamenti ai file (file archiviati in archivi esterni) verrà visualizzata qui nella scheda Attività. Di seguito trovi attività riguardanti link già esistenti:
@@ -1838,9 +1838,9 @@ it:
         totals_removed_from_childless_work_packages: >-
           I totali di lavoro e avanzamento vengono rimossi automaticamente per le macro-attività non principali con l'<a href="%{href}" target="_blank">aggiornamento della versione</a>. Questa è un'attività di manutenzione e può essere tranquillamente ignorata.
       total_percent_complete_mode_changed_to_work_weighted_average: >-
-        Child work packages without Work are ignored.
+        Le macro-attività figlie senza Lavoro vengono ignorate.
       total_percent_complete_mode_changed_to_simple_average: >-
-        Work values of child work packages are ignored.
+        I valori di Lavoro delle macro-attività figlie vengono ignorati.
   links:
     configuration_guide: "Guida di configurazione"
     get_in_touch: "Hai dei dubbi? Mettiti in contatto con noi."
@@ -1940,8 +1940,8 @@ it:
   label_additional_workflow_transitions_for_assignee: "Transizioni aggiuntive consentite quando l'utente è l'assegnatario"
   label_additional_workflow_transitions_for_author: "Transizioni aggiuntive consentite quando l'utente è l'autore"
   label_administration: "Amministrazione"
-  label_interface_colors: "Interface colors"
-  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
+  label_interface_colors: "Colori dell'interfaccia"
+  label_interface_colors_description: "Questi colori controllano l'aspetto dell'applicazione. Se li modifichi, il tema verrà automaticamente cambiato in Tema personalizzato, ma non possiamo garantire la conformità ai minimi di contrasto di accessibilità (WCAG 2.1). "
   label_age: "Età"
   label_ago: "giorni fa"
   label_all: "tutti"
@@ -1974,7 +1974,7 @@ it:
   label_attribute_expand_text: "Testo completo per \"%{attribute}\""
   label_authentication: "Autenticazione"
   label_authentication_settings: "Impostazioni di autenticazione"
-  label_available_custom_fields_projects: "Available custom fields projects"
+  label_available_custom_fields_projects: "Progetti di campi personalizzati disponibili"
   label_available_global_roles: "Ruoli globali disponibili"
   label_available_project_attributes: "Attributi del progetto disponibili"
   label_available_project_forums: "Forum disponibili"
@@ -2004,7 +2004,7 @@ it:
   label_calendars_and_dates: "Calendari e date"
   label_calendar_show: "Mostra Calendario"
   label_category: "Categoria"
-  label_completed: Completed
+  label_completed: Completato
   label_consent_settings: "Consenso dell'utente"
   label_wiki_menu_item: Voce di menu wiki
   label_select_main_menu_item: Seleziona una nuova voce del menu principale
@@ -2048,7 +2048,7 @@ it:
   label_copy_project: "Copia progetto"
   label_core_version: "Versione core"
   label_core_build: "Core build"
-  label_created_by: "Created by %{user}"
+  label_created_by: "Creato da %{user}"
   label_current_status: "Stato attuale"
   label_current_version: "Versione corrente"
   label_custom_field_add_no_type: "Aggiungi questo campo a un tipo di macro-attività"
@@ -2056,7 +2056,7 @@ it:
   label_custom_field_plural: "Campo personalizzato"
   label_custom_field_default_type: "Tipo vuoto"
   label_custom_style: "Progettazione"
-  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
+  label_custom_style_description: "Scegli l'aspetto che vuoi dare a OpenProject con i temi, seleziona i colori predefiniti da utilizzare nell'app e l'aspetto delle esportazioni."
   label_dashboard: "Dashboard"
   label_database_version: "Versione di PostgreSQL"
   label_date: "Data"
@@ -2153,7 +2153,7 @@ it:
   label_here: qui
   label_hide: "Nascondi"
   label_history: "Registro cronologico"
-  label_hierarchy: "Hierarchy"
+  label_hierarchy: "Gerarchia"
   label_hierarchy_leaf: "Foglia della gerarchia"
   label_home: "Radice (home)"
   label_subject_or_id: "Oggetto o ID"
@@ -2165,7 +2165,7 @@ it:
   label_inactive: "Inattivo"
   label_incoming_emails: "Email in arrivo"
   label_includes: "include"
-  label_incomplete: Incomplete
+  label_incomplete: Incompleto
   label_include_sub_projects: Includi sottoprogetti
   label_index_by_date: "Indicizza per data"
   label_index_by_title: "Indicizza per titolo"
@@ -2176,14 +2176,14 @@ it:
   label_internal: "Interno"
   label_introduction_video: "Video introduttivo"
   label_invite_user: "Invita utente"
-  label_item: "Item"
-  label_item_plural: "Items"
+  label_item: "Elemento"
+  label_item_plural: "Elementi"
   label_share: "Condividi"
   label_share_project_list: "Condividi elenco progetti"
   label_share_work_package: "Condividi macro-attività"
   label_show_all_registered_users: "Mostra tutti gli utenti registrati"
-  label_show_less: "Show less"
-  label_show_more: "Show more"
+  label_show_less: "Mostra meno"
+  label_show_more: "Mostra di più"
   label_journal: "Diario"
   label_journal_diff: "Confronto Descrizione"
   label_language: "Linguaggio"
@@ -2254,7 +2254,7 @@ it:
   label_more: "Più"
   label_more_than_ago: "più di qualche giorno fa"
   label_move_work_package: "Sposta la macro-attività"
-  label_my_account: "Account settings"
+  label_my_account: "Impostazioni account"
   label_my_activity: "La mia attività"
   label_my_account_data: "I miei dati dell'account"
   label_my_avatar: "Il mio avatar"
@@ -2281,7 +2281,7 @@ it:
   label_no_parent_page: "Nessuna pagina genitore"
   label_nothing_display: "Niente da visualizzare"
   label_nobody: "nessuno"
-  label_not_configured: "Not configured"
+  label_not_configured: "Non configurato"
   label_not_found: "non trovato"
   label_none: "nessuno"
   label_none_parentheses: "(nessuno)"
@@ -2334,7 +2334,7 @@ it:
   label_product_version: "Versione del prodotto"
   label_profile: "Profilo"
   label_percent_complete: "% completamento"
-  label_progress_tracking: "Progress tracking"
+  label_progress_tracking: "Monitoraggio dei progressi"
   label_project: "Progetto"
   label_project_activity: "Attività del progetto"
   label_project_attribute_plural: "Attributi del progetto"
@@ -3158,13 +3158,13 @@ it:
   setting_hours_per_day_explanation: >-
     Definisce ciò che viene considerato un "giorno" quando si visualizza la durata in giorni e ore (per esempio, se un giorno è di 8 ore, 32 ore sono 4 giorni).
   setting_invitation_expiration_days: "L'email di attivazione scade dopo"
-  setting_work_package_done_ratio: "Progress calculation mode"
+  setting_work_package_done_ratio: "Modalità di calcolo dei progressi"
   setting_work_package_done_ratio_field: "Basato sul lavoro"
   setting_work_package_done_ratio_field_caption_html: >-
-    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
+    La <i>% completamento</i> può essere liberamente impostata su qualsiasi valore. Se si inserisce facoltativamente un valore per <i>Lavoro</i>, il <i>Lavoro residuo</i> verrà derivato automaticamente.
   setting_work_package_done_ratio_status: "Basato sullo stato"
   setting_work_package_done_ratio_status_caption_html: >-
-    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
+    Ogni stato ha un valore di <i>% completamento</i> associato a esso. Cambiando lo stato cambierà la <i>% completamento</i>.
   setting_work_package_done_ratio_explanation_html: >
     Nella modalità <b>basata sul lavoro</b>, la % completamento può assumere qualsiasi valore. Se inserisci facoltativamente un Lavoro, il Lavoro residuo verrà automaticamente calcolato. Nella modalità <b>basata sullo stato</b>, a ogni stato è associato un valore di % completamento. La modifica dello stato cambierà la % completamento.
   setting_work_package_properties: "Proprietà della macro-attività"
@@ -3185,13 +3185,13 @@ it:
   setting_password_min_length: "Lunghezza minima"
   setting_password_min_adhered_rules: "Numero minimo di classi richieste"
   setting_per_page_options: "Opzioni degli oggetti per pagina"
-  setting_percent_complete_on_status_closed: "% Complete when status is closed"
-  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed: "% completamento quando lo stato è chiuso"
+  setting_percent_complete_on_status_closed_no_change: "Nessun cambiamento"
   setting_percent_complete_on_status_closed_no_change_caption_html: >-
-    The value of <i>% Complete</i> will not change even when a work package is closed.
-  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+    Il valore della <i>% completamento</i> non cambierà nemmeno quando una macro-attività è chiusa.
+  setting_percent_complete_on_status_closed_set_100p: "Imposta automaticamente al 100%"
   setting_percent_complete_on_status_closed_set_100p_caption: >-
-    A closed work package is considered complete.
+    Una macro-attività chiusa è considerata completata.
   setting_plain_text_mail: "Posta in formato testo semplice (no HTML)"
   setting_protocol: "Protocollo"
   setting_project_gantt_query: "Visione Gantt portafoglio progetti"
@@ -3216,13 +3216,13 @@ it:
   setting_sys_api_enabled: "Abilita la gestione di archivi via web service"
   setting_sys_api_description: "Il web service di gestione archivio fornisce servizi per integrare ed autorizzare gli utenti nell'accesso agli archivi."
   setting_time_format: "Tempo"
-  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
-  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode: "Calcolo della % completamento totale della gerarchia"
+  setting_total_percent_complete_mode_work_weighted_average: "Ponderato in base al lavoro"
   setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
-    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
-  setting_total_percent_complete_mode_simple_average: "Simple average"
+    La <i>% completamento</i> totale sarà ponderata in base al <i>Lavoro</i> di ogni macro-attività nella gerarchia. Le macro-attività senza <i>Lavoro</i> verranno ignorate.
+  setting_total_percent_complete_mode_simple_average: "Media semplice"
   setting_total_percent_complete_mode_simple_average_caption_html: >-
-    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
+    Il <i>Lavoro</i> viene ignorato e la <i>% completamento</i> totale sarà una semplice media dei valori di <i>% completamento</i> delle macro-attività nella gerarchia.
   setting_accessibility_mode_for_anonymous: "Abilita la modalità di accesso facilitato per utenti anonimi"
   setting_user_format: "Formato del nome utente"
   setting_user_default_timezone: "Orario predefinito utenti"
@@ -3772,16 +3772,16 @@ it:
     close_warning: "Ignora questo avviso."
   oauth:
     application:
-      builtin: Built-in instance application
-      confidential: Confidential
+      builtin: Applicazione di istanza integrata
+      confidential: Confidenziale
       singular: "Applicazione OAuth"
       plural: "Applicazioni OAuth"
       named: "Applicazione OAuth \"%{name}\""
       new: "Nuova Applicazione OAuth"
-      non_confidential: Non confidential
+      non_confidential: Non confidenziale
       default_scopes: "(Ambiti predefiniti)"
       instructions:
-        enabled: "Enable this application, allowing users to perform authorization grants with it."
+        enabled: "Abilita questa applicazione, consentendo agli utenti di eseguire le autorizzazioni concesse con essa."
         name: "Il nome della tua applicazione. Verrà visualizzato dagli altri utenti all'autorizzazione."
         redirect_uri_html: >
           Gli URL consentiti a cui possono essere reindirizzati gli utenti autorizzati. Una voce per riga. <br/> Se stai registrando un'applicazione desktop, usa il seguente URL.
@@ -3791,9 +3791,9 @@ it:
         register_intro: "Se stai sviluppando un'applicazione client OAuth API per OpenProject è possibile registrarla utilizzando questo modulo per consentirne l'uso a tutti gli utenti."
         default_scopes: ""
     header:
-      builtin_applications: Built-in OAuth applications
-      other_applications: Other OAuth applications
-    empty_application_lists: No OAuth applications have been registered.
+      builtin_applications: Applicazioni OAuth integrate
+      other_applications: Altre applicazioni OAuth
+    empty_application_lists: Nessuna applicazione OAuth è stata registrata.
     client_id: "Client ID"
     client_secret_notice: >
       Questa è l'unico momento in cui possiamo stampare il segreto del client, abbi cura di annotarlo e tenerlo al sicuro. Dovrebbe essere trattato come una password e non può essere recuperato da OpenProject in un momento successivo.

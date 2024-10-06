@@ -612,7 +612,7 @@ it:
         assigned: "Assegnatario"
         #The enum value is named 'responsible' in the database and that is what is transported through the API
         #up to the frontend.
-        responsible: "Accountable"
+        responsible: "Responsabile"
         created: "Creato"
         scheduled: "Programmato"
         commented: "Commentato"
