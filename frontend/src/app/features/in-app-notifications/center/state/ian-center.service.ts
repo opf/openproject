@@ -62,6 +62,7 @@ import { FrameElement } from '@hotwired/turbo';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export interface INotificationPageQueryParameters {
   filter?:string|null;
@@ -194,6 +195,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     readonly deviceService:DeviceService,
     readonly pathHelper:PathHelperService,
     readonly ianBellService:IanBellService,
+    readonly configurationService:ConfigurationService,
   ) {
     super();
     this.reload.subscribe();
@@ -281,6 +283,9 @@ export class IanCenterService extends UntilDestroyedMixin {
    */
   @EffectCallback(notificationCountChanged)
   private handleChangedNotificationCount() {
+    // update the UI state for increased AND decreased notifications, not only increased count
+    // decreasing the notification count could happen when the user itself
+    // marks notifications as read in the split view or on another tab
     this.onReload.pipe(take(1)).subscribe((collection) => {
       // check for new notifications and inform the user via desired notification method: currently red dot in icon
       const { activeCollection } = this.query.getValue();
@@ -289,15 +294,35 @@ export class IanCenterService extends UntilDestroyedMixin {
         true,
       );
 
-      if (hasNewNotifications) {
-        this.informAboutUnreadNotification();
+      if (this.configurationService.activeFeatureFlags.includes('primerizedWorkPackageActivities')) {
+        // new concept for notification center:
+        if (hasNewNotifications) {
+          this.informAboutUnreadNotification();
+        }
+        // directly update the UI state in both cases (count increased or decreased)
+        this.store.update({ activeCollection: collection });
+        this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
+      } else {
+        // old concept for notification center:
+        // only proceed if there are actually new notifications (count increased)
+        if (!hasNewNotifications) {
+          return;
+        }
+        // show toast with and ask user to update the UI state explicitly
+        this.activeReloadToast = this.toastService.add({
+          type: 'info',
+          icon: 'bell',
+          message: this.I18n.t('js.notifications.center.new_notifications.message'),
+          link: {
+            text: this.I18n.t('js.notifications.center.new_notifications.link_text'),
+            target: () => {
+              this.store.update({ activeCollection: collection });
+              this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
+              this.activeReloadToast = null;
+            },
+          },
+        });
       }
-
-      // update the UI state for increased AND decreased notifications, not only increased count
-      // decreasing the notification count could happen when the user itself
-      // marks notifications as read in the split view or on another tab
-      this.store.update({ activeCollection: collection });
-      this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
     });
     this.reload.next(false);
   }
@@ -311,23 +336,21 @@ export class IanCenterService extends UntilDestroyedMixin {
     }
   }
 
-  // Leaving this here for future reference, currently we decided not to use this flash message anymore
-  //
-  // private showNewNotificationToast():void {
-  //   this.hideNewNotifcationToast();
-  //   this.activeReloadToast = this.toastService.add({
-  //     type: 'info',
-  //     icon: 'bell',
-  //     message: this.I18n.t('js.notifications.center.new_notifications.message'),
-  //   });
-  // }
+  private showNewNotificationToast():void {
+    this.hideNewNotifcationToast();
+    this.activeReloadToast = this.toastService.add({
+      type: 'info',
+      icon: 'bell',
+      message: this.I18n.t('js.notifications.center.new_notifications.message'),
+    });
+  }
 
-  // private hideNewNotifcationToast():void {
-  //   if (this.activeReloadToast) {
-  //     this.toastService.remove(this.activeReloadToast);
-  //     this.activeReloadToast = null;
-  //   }
-  // }
+  private hideNewNotifcationToast():void {
+    if (this.activeReloadToast) {
+      this.toastService.remove(this.activeReloadToast);
+      this.activeReloadToast = null;
+    }
+  }
 
   private showNotificationIndicatorInIcon():void {
     const iconLink = window.document.querySelector("link[rel*='icon']");
