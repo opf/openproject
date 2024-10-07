@@ -4,7 +4,7 @@ We are pleased that you are thinking about contributing to OpenProject! This gui
 
 ## Get in touch
 
-Please get in touch with us using our [develompment forum](https://community.openproject.org/projects/openproject/boards/7) or send us an email to info@openproject.com.
+Please get in touch with us using our [development forum](https://community.openproject.org/projects/openproject/boards/7) or send us an email to info@openproject.com.
 
 ## Issue tracking and coordination
 
@@ -61,7 +61,7 @@ git push origin <your feature branch>
 
 - Create a pull request against a branch of of the <opf/openproject> repository, containing a ***clear description*** of what the pull request attempts to change and/or fix.
 
-If your pull request **does not contain a description** for what it does and what it's intentions are,
+If your pull request **does not contain a description** for what it does and what its intentions are,
 we will reject it.
 If you are working on a specific work package from the [list](https://community.openproject.org/projects/openproject/work_packages),
 you may include a link to that work package in the description, so we can track your work.
@@ -100,11 +100,11 @@ A fix for the current version (called "Hotfix" and the branch ideally being name
 should target `release/*` and a fix for the former version
 (called "Backport" and the branch ideally being named `backport/XYZ`)
 should target `backport/*`. We will try to merge hotfixes into dev branch
-but if that is no trivial task, we might ask you to create another PR for that.
+but if that is a non-trivial task, we might ask you to create another PR for that.
 
 ## Inactive pull requests
 
-We want to keep the Pull request list as cleaned up as possible - we will aim close pull requests
+We want to keep the Pull request list as tidy as possible - we will aim close pull requests
 after an **inactivity period of 30 days** (no comments, no further pushes)
 which are not labelled as `work in progress` by us.
 
