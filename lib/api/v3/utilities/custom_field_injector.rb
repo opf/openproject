@@ -290,14 +290,16 @@ module API
           static_filters = allowed_users_static_filters
           instance_filters = method(:allowed_users_instance_filter)
 
-          represented_is_clazz = lambda do |represented, clazz|
-            represented.respond_to?(:model) && represented.model.is_a?(clazz)
+          represented_is_existent_instance = lambda do |represented, clazz|
+            represented.respond_to?(:model) &&
+              represented.model.is_a?(clazz) &&
+              represented.model.id.present?
           end
 
           ->(*) {
-            if represented_is_clazz.(represented, Project)
+            if represented_is_existent_instance.(represented, Project)
               api_v3_paths.available_assignees_in_project(represented.id)
-            elsif represented_is_clazz.(represented, WorkPackage)
+            elsif represented_is_existent_instance.(represented, WorkPackage)
               api_v3_paths.available_assignees_in_work_package(represented.id)
             else
               filters = static_filters + instance_filters.call(represented)
