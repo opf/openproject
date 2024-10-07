@@ -263,7 +263,7 @@ Rails.application.reloader.to_prepare do
 
       wpt.permission :edit_work_package_notes,
                      {
-                       "work_packages/activities_tab": %i[edit cancel_edit update toggle_notification_read_status]
+                       "work_packages/activities_tab": %i[edit cancel_edit update]
                      },
                      permissible_on: :project,
                      require: :loggedin,
@@ -271,7 +271,7 @@ Rails.application.reloader.to_prepare do
 
       wpt.permission :edit_own_work_package_notes,
                      {
-                       "work_packages/activities_tab": %i[edit cancel_edit update toggle_notification_read_status]
+                       "work_packages/activities_tab": %i[edit cancel_edit update]
                      },
                      permissible_on: %i[work_package project],
                      require: :loggedin,

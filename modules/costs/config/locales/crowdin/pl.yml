@@ -113,6 +113,7 @@ pl:
   label_rate: "Stawka"
   label_rate_plural: "Taryfy"
   label_status_finished: "Zakończone"
+  label_show: "Pokaż"
   label_units: "Koszt jednostki"
   label_user: "Użytkownik"
   label_until: "do"

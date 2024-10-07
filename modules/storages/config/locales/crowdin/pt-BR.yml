@@ -91,8 +91,8 @@ pt-BR:
         rename_project_folder: 'Renomear pasta do projeto gerido:'
     errors:
       messages:
-        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+        error: Ocorreu um erro inesperado. Verifique os registros do OpenProject para obter mais informações ou entre em contato com um administrador
+        unauthorized: O OpenProject não conseguiu se autenticar com o provedor de armazenamento. Verifique se você possui acesso a ele.
       models:
         copy_project_folders_service:
           conflict: A pasta %{destination_path} já existe. Interrompa o processo para evitar substituições.
@@ -150,7 +150,7 @@ pt-BR:
           unauthorized: O OpenProject não pôde sincronizar com o OneDrive. Verifique o armazenamento e a configuração do aplicativo Azure.
           user_does_not_exist: "%{user} não existe no Nextcloud."
         upload_link_service:
-          not_found: The destination folder %{folder} could not be found on %{storage_name}.
+          not_found: A pasta de destino %{folder} não foi encontrada em %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Concluir sem isso
@@ -214,7 +214,7 @@ pt-BR:
         client_id_wrong: O ID do cliente OAuth 2 configurado é inválido. Verifique a configuração.
         client_secret_wrong: O segredo do cliente OAuth 2 configurado é inválido. Verifique a configuração.
         drive_id_wrong: O drive ID configurado não foi encontrado. Verifique a configuração.
-        group_folder_not_found: The group folder could not be found.
+        group_folder_not_found: A pasta do grupo não pôde ser localizada.
         group_folder_version_mismatch: A versão da Pasta de Grupo não é suportada. Por favor, atualize seu servidor NextCloud.
         host_not_found: Nenhum servidor Nextcloud encontrado no URL do host configurado. Por favor, verifique a configuração.
         missing_dependencies: 'Está faltando uma dependência necessária do armazenamento de arquivos. Por favor, adicione a seguinte dependência: %{dependency}.'
@@ -223,9 +223,10 @@ pt-BR:
         subtitle: Validação de conexão
         tenant_id_wrong: O ID do diretório (inquilino) configurado é inválido. Verifique a configuração.
         unexpected_content:
-          nextcloud: Unexpected content found in the managed group folder.
-          one_drive: Unexpected content found in the drive.
+          nextcloud: Conteúdo inesperado encontrado na pasta do grupo gerenciado.
+          one_drive: Conteúdo inesperado encontrado na unidade.
         unknown_error: A conexão não pôde ser validada. Ocorreu um erro desconhecido. Verifique os registros do servidor para obter mais informações.
+        userless_access_denied: A senha configurada do aplicativo não é válida.
       label_error: Erro
       label_healthy: Saudável
       label_pending: Pendente
@@ -285,7 +286,6 @@ pt-BR:
     label_active: Ativo
     label_add_new_storage: Adicionar novo armazenamento
     label_automatic_folder: Nova pasta com permissões gerenciadas automaticamente
-    label_completed: Concluído
     label_creation_time: Hora de criação
     label_creator: Criador
     label_delete_storage: Excluir armazenamento
@@ -297,7 +297,6 @@ pt-BR:
     label_file_storage: Armazenamento de arquivos
     label_host: URL do host
     label_inactive: Inativo
-    label_incomplete: Incompleto
     label_managed_project_folders:
       application_password: Senha do aplicativo
       automatically_managed_folders: Pastas gerenciadas automaticamente

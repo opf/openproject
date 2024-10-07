@@ -63,7 +63,7 @@ RSpec.describe "Inline editing work packages", :js do
       subject_field.expect_text("New subject!")
 
       wp_table.expect_toast(
-        message: "Successful update. Click here to open this work package in fullscreen view."
+        message: "Successful update."
       )
 
       work_package.reload
@@ -187,7 +187,7 @@ RSpec.describe "Inline editing work packages", :js do
       cf_list.expect_inactive!
 
       wp_table.expect_toast(
-        message: "Successful update. Click here to open this work package in fullscreen view."
+        message: "Successful update."
       )
 
       work_package.reload

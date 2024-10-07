@@ -1,0 +1,10 @@
+<%# Primerized flash messages are being rendered separately  %>
+<div id="primerized-flash-messages"
+     class="op-primer-flash"
+     data-controller="flash"
+     data-flash-autohide-value="<%= User.current.pref.auto_hide_popups? %>">
+  <%= render_flash_messages %>
+</div>
+
+<%# Flash modals render modal components %>
+<%= render_flash_modal %>

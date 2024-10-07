@@ -115,6 +115,7 @@ ar:
   label_rate: "المعدل"
   label_rate_plural: "الأسعار"
   label_status_finished: "مكتمل"
+  label_show: "Show"
   label_units: "وحدات التكلفة"
   label_user: "المستخدم"
   label_until: "حتى"

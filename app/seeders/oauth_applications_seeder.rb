@@ -52,7 +52,7 @@ class OAuthApplicationsSeeder < Seeder
     OAuth::Applications::CreateService
       .new(user: User.system)
       .call(
-        enabled: true,
+        enabled: false,
         name: "OpenProject Mobile App",
         redirect_uri: "openprojectapp://oauth-callback",
         builtin: true,

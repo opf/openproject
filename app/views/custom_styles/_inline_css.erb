@@ -31,11 +31,28 @@ See COPYRIGHT and LICENSE files for more details.
     :root {
     <% DesignColor.overwritten.each do |design_color| %>
         --<%= design_color.variable %>: <%= design_color.hexcode %>;
-    <% if design_color.variable == "header-border-bottom-color" %>
+    <% if design_color.variable == "header-bg-color" %>
+      --header-item-font-color: <%= design_color.contrasting_font_color %>;
+      <% if design_color.bright? %>
         --header-border-bottom-width: 1px;
+        --header-border-bottom-color: #d0d7de;
+      <% end %>
     <% end %>
-    <% if design_color.variable == "main-menu-border-color" %>
+    <% if design_color.variable == "header-item-bg-hover-color" %>
+      --header-item-font-hover-color: <%= design_color.contrasting_font_color %>;
+    <% end %>
+    <% if design_color.variable == "main-menu-bg-color" %>
+      --main-menu-font-color: <%= design_color.contrasting_font_color %>;
+      <% if design_color.bright? %>
         --main-menu-border-width: 1px;
+        --main-menu-border-color: #d0d7de;
+      <% end %>
+    <% end %>
+    <% if design_color.variable == "main-menu-bg-selected-background" %>
+      --main-menu-selected-font-color: <%= design_color.contrasting_font_color %>;
+    <% end %>
+    <% if design_color.variable == "main-menu-bg-hover-background" %>
+      --main-menu-hover-font-color: <%= design_color.contrasting_font_color %>;
     <% end %>
     <% if design_color.variable == "primary-button-color" %>
         --primary-button-color--major1: <%= design_color.darken 0.18 %>;

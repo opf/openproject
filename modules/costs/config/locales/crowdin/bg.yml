@@ -111,6 +111,7 @@ bg:
   label_rate: "Ставка"
   label_rate_plural: "Цени"
   label_status_finished: "Завършено"
+  label_show: "Show"
   label_units: "Разходни единици"
   label_user: "Потребител"
   label_until: "докато"

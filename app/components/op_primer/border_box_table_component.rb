@@ -54,5 +54,25 @@ module OpPrimer
     def sortable?
       false
     end
+
+    def render_blank_slate
+      render(Primer::Beta::Blankslate.new(border: false)) do |component|
+        component.with_visual_icon(icon: blank_icon, size: :medium) if blank_icon
+        component.with_heading(tag: :h2) { blank_title }
+        component.with_description { blank_description }
+      end
+    end
+
+    def blank_title
+      I18n.t(:label_nothing_display)
+    end
+
+    def blank_description
+      I18n.t(:no_results_title_text)
+    end
+
+    def blank_icon
+      nil
+    end
   end
 end

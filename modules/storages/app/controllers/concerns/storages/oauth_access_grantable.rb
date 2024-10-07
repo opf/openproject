@@ -38,12 +38,12 @@ module Storages
         expires: 1.hour
       }
 
-      session[:oauth_callback_flash_modal] = case callback_modal_for
-                                             when :storage
-                                               storage_oauth_access_granted_modal(storage:)
-                                             when :project_storage
-                                               project_storage_oauth_access_granted_modal(storage:)
-                                             end
+      store_callback_op_modal_flash(**(case callback_modal_for
+                                       when :storage
+                                         storage_oauth_access_granted_modal(storage:)
+                                       when :project_storage
+                                         project_storage_oauth_access_granted_modal(storage:)
+                                       end))
 
       redirect_to(storage.oauth_configuration.authorization_uri(state: nonce), allow_other_host: true)
     end
@@ -54,21 +54,21 @@ module Storages
 
     def project_storage_oauth_access_grant_nudge_modal(project_storage:)
       {
-        type: ::Storages::ProjectStorages::OAuthAccessGrantNudgeModalComponent.name,
+        component: ::Storages::ProjectStorages::OAuthAccessGrantNudgeModalComponent,
         parameters: { project_storage: project_storage.id }
       }
     end
 
     def project_storage_oauth_access_granted_modal(storage:)
       {
-        type: ::Storages::ProjectStorages::OAuthAccessGrantedModalComponent.name,
+        component: ::Storages::ProjectStorages::OAuthAccessGrantedModalComponent,
         parameters: { storage: storage.id }
       }
     end
 
     def storage_oauth_access_granted_modal(storage:)
       {
-        type: ::Storages::Admin::Storages::OAuthAccessGrantedModalComponent.name,
+        component: ::Storages::Admin::Storages::OAuthAccessGrantedModalComponent,
         parameters: { storage: storage.id }
       }
     end

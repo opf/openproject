@@ -27,34 +27,34 @@
 #++
 
 module ErrorsHelper
-  def render_400(options = {})
-    @project = nil
+  def render_400(options = {}) # rubocop:disable Naming/VariableNumber
+    unset_template_magic
     render_error({ message: :notice_bad_request, status: 400 }.merge(options))
     false
   end
 
-  def render_403(options = {})
-    @project = nil
+  def render_403(options = {}) # rubocop:disable Naming/VariableNumber
+    unset_template_magic
     render_error({ message: :notice_not_authorized, status: 403 }.merge(options))
     false
   end
 
-  def render_404(options = {})
+  def render_404(options = {}) # rubocop:disable Naming/VariableNumber
     render_error({ message: :notice_file_not_found, status: 404 }.merge(options))
     false
   end
 
-  def render_500(options = {})
-    message = t(:notice_internal_server_error, app_title: Setting.app_title)
-
+  def render_500(options = {}) # rubocop:disable Naming/VariableNumber
     unset_template_magic
+
+    message = t(:notice_internal_server_error, app_title: Setting.app_title)
 
     # Append error information
     if current_user.admin?
       options[:message_details] = get_additional_message
     end
 
-    render_error({ message: }.merge(options))
+    render_error({ message:, status: 500 }.merge(options))
     false
   end
 
@@ -80,37 +80,34 @@ module ErrorsHelper
   end
 
   # Renders an error response
-  def render_error(arg)
+  def render_error(arg) # rubocop:disable Metrics/AbcSize
     arg = { message: arg } unless arg.is_a?(Hash)
 
-    @status = arg[:status] || 500
-    @message = arg[:message]
+    status = arg[:status] || 500
+    message = arg[:message]
 
-    if @status >= 500
-      op_handle_error(arg[:exception] || "[Error #@status] #@message", payload: arg[:payload])
+    if status >= 500
+      op_handle_error(arg[:exception] || "[Error #status] #message", payload: arg[:payload])
     end
 
-    @message = I18n.t(@message) if @message.is_a?(Symbol)
-    @message_details = arg[:message_details]
+    message = I18n.t(message) if message.is_a?(Symbol)
+    message_details = arg[:message_details]
     respond_to do |format|
       format.html do
-        render template: "common/error", layout: use_layout, status: @status
+        error_message = "[#{I18n.t(:error_code, code: status)}] #{message}\n#{message_details}"
+        flash.now[:error] = { message: error_message, dismiss_scheme: :none }
+        render template: "common/error",
+               layout: use_layout,
+               status:,
+               locals: { status:, params: }
       end
       format.any do
-        head @status
+        head status
       end
     end
   end
 
   def unset_template_magic
-    if $ERROR_INFO.is_a?(ActionView::ActionViewError)
-      @template.instance_variable_set(:@project, nil)
-      @template.instance_variable_set(:@status, 500)
-      @template.instance_variable_set(:@message, message)
-    else
-      @project = nil
-    end
-  rescue StandardError
-    # bad luck
+    @project = nil # rubocop:disable Rails/HelperInstanceVariable
   end
 end

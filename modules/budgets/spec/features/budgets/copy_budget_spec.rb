@@ -88,7 +88,7 @@ RSpec.describe "Copying a budget", :js do
 
     click_button "Create"
 
-    budget_page.expect_toast message: "Successful creation."
+    expect_flash message: "Successful creation."
 
     expect(page)
       .to have_css(".author", text: current_user.name)

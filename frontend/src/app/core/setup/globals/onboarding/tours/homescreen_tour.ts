@@ -4,7 +4,7 @@ export function homescreenOnboardingTourSteps():OnboardingStep[] {
   return [
     {
       'next .op-app-header': I18n.t('js.onboarding.steps.welcome'),
-      skipButton: { className: 'enjoyhint_btn-transparent', text: I18n.t('js.onboarding.buttons.skip') },
+      skipButton: { className: 'enjoyhint_btn-secondary', text: I18n.t('js.onboarding.buttons.skip') },
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
       containerClass: '-hidden-arrow',
       bottom: 7,

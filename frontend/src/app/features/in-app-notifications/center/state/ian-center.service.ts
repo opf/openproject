@@ -37,7 +37,6 @@ import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.s
 import {
   centerUpdatedInPlace,
   markNotificationsAsRead,
-  notificationCountIncreased,
   notificationsMarkedRead,
   notificationCountChanged,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
@@ -62,6 +61,7 @@ import { ApiV3ListFilter, ApiV3ListParameters } from 'core-app/core/apiv3/paths/
 import { FrameElement } from '@hotwired/turbo';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 
 export interface INotificationPageQueryParameters {
   filter?:string|null;
@@ -193,6 +193,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     readonly state:StateService,
     readonly deviceService:DeviceService,
     readonly pathHelper:PathHelperService,
+    readonly ianBellService:IanBellService,
   ) {
     super();
     this.reload.subscribe();
@@ -233,16 +234,12 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   markAsRead(notifications:ID[]):void {
-    this.hideNewNotifcationToast();
-
     this.actions$.dispatch(
       markNotificationsAsRead({ origin: this.id, notifications }),
     );
   }
 
   openSplitScreen(workPackageId:string, tabIdentifier:string = 'activity'):void {
-    this.hideNewNotifcationToast();
-
     const link = this.pathHelper.notificationsDetailsPath(workPackageId, tabIdentifier) + window.location.search;
     Turbo.visit(link, { frame: 'content-bodyRight', action: 'advance' });
   }
@@ -257,8 +254,6 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   showNextNotification():void {
-    this.hideNewNotifcationToast();
-
     void this
       .notifications$
       .pipe(take(1))
@@ -274,160 +269,65 @@ export class IanCenterService extends UntilDestroyedMixin {
       });
   }
 
-  // /**
-  //  * Check for updates after bell count increased
-  //  */
-  // @EffectCallback(notificationCountIncreased)
-  // private checkForNewNotifications() {
-  //   this.onReload.pipe(take(1)).subscribe((collection) => {
-  //     const { activeCollection } = this.query.getValue();
-  //     const hasNewNotifications = !collection.ids.reduce(
-  //       (allInOldCollection, id) => allInOldCollection && activeCollection.ids.includes(id),
-  //       true,
-  //     );
-
-  //     if (!hasNewNotifications) {
-  //       return;
-  //     }
-
-  //     if (this.activeReloadToast) {
-  //       this.toastService.remove(this.activeReloadToast);
-  //       this.activeReloadToast = null;
-  //     }
-
-  //     this.activeReloadToast = this.toastService.add({
-  //       type: 'info',
-  //       icon: 'bell',
-  //       message: this.I18n.t('js.notifications.center.new_notifications.message'),
-  //       link: {
-  //         text: this.I18n.t('js.notifications.center.new_notifications.link_text'),
-  //         target: () => {
-  //           this.store.update({ activeCollection: collection });
-  //           this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
-  //           this.activeReloadToast = null;
-  //         },
-  //       },
-  //     });
-  //   });
-  //   this.reload.next(false);
-  // }
+  /**
+   * Pull latest notifications from API directly and trigger all related UI updates
+   */
+  updateImmediate() {
+    this.ianBellService.fetchUnread().subscribe();
+  }
 
   /**
-   * Handle updates after bell count changed
+   * Handle updates after bell count changed (+/-)
    */
   @EffectCallback(notificationCountChanged)
   private handleChangedNotificationCount() {
-    // update the UI state for increased AND decreased notifications
-    // decreasing the notification count could happen when the user
-    // itself marks notifications as read in the split view or on another tab
-    this.onReload.pipe(
-      take(1),
-      switchMap((collection) => {
-        this.store.update({ activeCollection: collection });
-        this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
-        return this.selectNotifications$.pipe(
-          map((notifications) => ({ notifications, collection })),
-        );
-      }),
-      switchMap(({ notifications, collection }) => {
-        return this.selectedWorkPackage$.pipe(
-          take(1),
-          map((selectedWpId) => ({ notifications, collection, selectedWpId })),
-        );
-      }),
-    ).subscribe(({ notifications, collection, selectedWpId }) => {
+    this.onReload.pipe(take(1)).subscribe((collection) => {
+      // check for new notifications and inform the user via desired notification method: currently red dot in icon
       const { activeCollection } = this.query.getValue();
-      const newNotificationIds = activeCollection.ids.filter(
-        (id) => !collection.ids.includes(id),
+      const hasNewNotifications = !collection.ids.reduce(
+        (allInOldCollection, id) => allInOldCollection && activeCollection.ids.includes(id),
+        true,
       );
-      const hasNewNotifications = newNotificationIds.length > 0;
 
-      if (!hasNewNotifications) {
-        return;
+      if (hasNewNotifications) {
+        this.informAboutUnreadNotification();
       }
-      const newNotifications = notifications.filter((n) => newNotificationIds.includes(n.id));
-      const newNotificationsForOtherWPs = newNotifications.filter((notification) => {
-        const wpId = this.getWorkPackageIdFromNotification(notification);
-        return wpId && wpId !== selectedWpId;
-      });
 
-      const hasNewNotificationsForOtherThanSelectedWp = newNotificationsForOtherWPs.length > 0;
-
-      this.informAboutUnreadNotification(hasNewNotificationsForOtherThanSelectedWp);
+      // update the UI state for increased AND decreased notifications, not only increased count
+      // decreasing the notification count could happen when the user itself
+      // marks notifications as read in the split view or on another tab
+      this.store.update({ activeCollection: collection });
+      this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
     });
-
     this.reload.next(false);
   }
 
-  private getWorkPackageIdFromNotification(notification:INotification):string | null {
-    if (notification._links.resource && notification._links.resource.href) {
-      return idFromLink(notification._links.resource.href);
-    }
-    return null;
-  }
-
-  private informAboutUnreadNotification(hasNewNotificationsForOtherThanSelectedWp:boolean):void {
+  private informAboutUnreadNotification():void {
     const state = this.store.getValue();
 
     if (state.centerHidden) {
       // notification center is not visible (as far as it can be determined - e.g. another browser tab is selected)
-      // try to notify user even when notification is associated with selected workpackage
-      if (this.browserNotificationsEnabled()) {
-        this.createBrowserNotification();
-      }
-
       this.showNotificationIndicatorInIcon();
-      this.showNewNotificationToast();
-    } else if (hasNewNotificationsForOtherThanSelectedWp) {
-      // notification center is visible (as far as it can be determined)
-      // then do not trigger the browser notification or such
-      // just render the toast in case the notifications are associated with a workpackage other than the selected
-      this.showNewNotificationToast();
     }
   }
 
-  private showNewNotificationToast():void {
-    this.hideNewNotifcationToast();
-    this.activeReloadToast = this.toastService.add({
-      type: 'info',
-      icon: 'bell',
-      message: this.I18n.t('js.notifications.center.new_notifications.message'),
-    });
-  }
+  // Leaving this here for future reference, currently we decided not to use this flash message anymore
+  //
+  // private showNewNotificationToast():void {
+  //   this.hideNewNotifcationToast();
+  //   this.activeReloadToast = this.toastService.add({
+  //     type: 'info',
+  //     icon: 'bell',
+  //     message: this.I18n.t('js.notifications.center.new_notifications.message'),
+  //   });
+  // }
 
-  private hideNewNotifcationToast():void {
-    if (this.activeReloadToast) {
-      this.toastService.remove(this.activeReloadToast);
-      this.activeReloadToast = null;
-    }
-  }
-
-  private browserNotificationsEnabled():boolean {
-    let disabled = false;
-    // Check if the browser supports notifications
-    if (!('Notification' in window)) {
-      disabled = true;
-    }
-
-    if (Notification.permission === 'denied') {
-      disabled = true;
-    }
-
-    return !disabled;
-  }
-
-  private createBrowserNotification():void {
-    const notification = new Notification('OpenProject', {
-      body: this.I18n.t('js.notifications.center.new_notifications.message'),
-      tag: 'opNewNotification', // important: without a tag the notifications would sum up which would be highly annoying
-    });
-
-    notification.onclick = () => {
-      window.focus();
-      notification.close();
-      this.removeNotificationIndicatorInIcon();
-    };
-  }
+  // private hideNewNotifcationToast():void {
+  //   if (this.activeReloadToast) {
+  //     this.toastService.remove(this.activeReloadToast);
+  //     this.activeReloadToast = null;
+  //   }
+  // }
 
   private showNotificationIndicatorInIcon():void {
     const iconLink = window.document.querySelector("link[rel*='icon']");
@@ -441,51 +341,6 @@ export class IanCenterService extends UntilDestroyedMixin {
     if (iconLink) {
       (iconLink as HTMLLinkElement).href = 'favicon.ico';
     }
-  }
-
-  private playNotificationSound():void {
-    const audioContext = new window.AudioContext();
-
-    const createOscillator = (freq:number, type:OscillatorType = 'sine') => {
-      const osc = audioContext.createOscillator();
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, audioContext.currentTime);
-      return osc;
-    };
-
-    const createEnvelope = () => {
-      const gain = audioContext.createGain();
-      gain.gain.setValueAtTime(0, audioContext.currentTime);
-      gain.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.005);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
-      return gain;
-    };
-
-    const oscillators = [
-      createOscillator(880), // A5
-      createOscillator(1108.73), // C#6
-      createOscillator(1318.51), // E6
-      createOscillator(1760, 'triangle'), // A6 (overtone)
-    ];
-
-    const masterGain = audioContext.createGain();
-    masterGain.gain.setValueAtTime(0.7, audioContext.currentTime);
-
-    oscillators.forEach((osc) => {
-      const envelope = createEnvelope();
-      osc.connect(envelope);
-      envelope.connect(masterGain);
-      osc.start();
-      osc.stop(audioContext.currentTime + 0.5);
-    });
-
-    masterGain.connect(audioContext.destination);
-
-    // Clean up
-    setTimeout(() => {
-      masterGain.disconnect();
-      void audioContext.close();
-    }, 1000);
   }
 
   /**

@@ -226,6 +226,7 @@ it:
           nextcloud: Unexpected content found in the managed group folder.
           one_drive: Unexpected content found in the drive.
         unknown_error: Non è stato possibile verificare la connessione. Si è verificato un errore sconosciuto. Per maggiori informazioni consulta i log del server.
+        userless_access_denied: The configured app password is invalid.
       label_error: Errore
       label_healthy: Tutto ok
       label_pending: In sospeso
@@ -285,7 +286,6 @@ it:
     label_active: Attivo
     label_add_new_storage: Aggiungi nuovo archivio
     label_automatic_folder: Nuova cartella con i permessi gestiti automaticamente
-    label_completed: Completato
     label_creation_time: Data di creazione
     label_creator: Autore
     label_delete_storage: Elimina archivio
@@ -297,7 +297,6 @@ it:
     label_file_storage: Archiviazione file
     label_host: URL dell'host
     label_inactive: Inattivo
-    label_incomplete: Incompleto
     label_managed_project_folders:
       application_password: Password applicazione
       automatically_managed_folders: Cartelle gestite automaticamente

@@ -160,7 +160,6 @@ export class InAppNotificationCenterComponent implements OnInit, OnDestroy {
       filter: this.urlParams.get('filter'),
       name: this.urlParams.get('name'),
     });
-    this.checkNotificationPermissions();
     this.setupEventListeners();
   }
 
@@ -195,18 +194,5 @@ export class InAppNotificationCenterComponent implements OnInit, OnDestroy {
     }
 
     return this.text.no_notification_for_filter;
-  }
-
-  checkNotificationPermissions():void {
-    // Check if the browser supports notifications
-    if (!('Notification' in window)) {
-      return;
-    }
-    // if so, ask for permission if not already denied
-    if (Notification.permission !== 'denied') {
-      Notification.requestPermission().catch((error) => {
-        console.error(error);
-      });
-    }
   }
 }

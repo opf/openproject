@@ -226,6 +226,7 @@ ms:
           nextcloud: Unexpected content found in the managed group folder.
           one_drive: Unexpected content found in the drive.
         unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
+        userless_access_denied: The configured app password is invalid.
       label_error: Ralat
       label_healthy: Sihat
       label_pending: Dalam proses
@@ -285,7 +286,6 @@ ms:
     label_active: Aktif
     label_add_new_storage: Tambah storan baharu
     label_automatic_folder: Folder baharu dengan kebenaran yang dikendalikan secara automatik
-    label_completed: Selesai
     label_creation_time: Masa penciptaan
     label_creator: Pencipta
     label_delete_storage: Padamkan storan
@@ -297,7 +297,6 @@ ms:
     label_file_storage: Storan fail
     label_host: URL Hos
     label_inactive: Tidak aktif
-    label_incomplete: Tidak lengkap
     label_managed_project_folders:
       application_password: Kata laluan aplikasi
       automatically_managed_folders: Folder yang dikendalikan secara automatik

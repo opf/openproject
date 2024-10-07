@@ -1,0 +1,45 @@
+<%=
+  grid_layout('op-saml-view-row',
+              tag: :div,
+              test_selector: "saml_provider_#{@target_state}",
+              align_items: :center) do |grid|
+    grid.with_area(:title, mr: 3) do
+      concat render(Primer::Beta::Text.new(font_weight: :bold)) { @heading }
+      if @label
+        concat render(Primer::Beta::Label.new(scheme: @label_scheme, ml: 1)) { @label }
+      end
+    end
+
+    grid.with_area(:description) do
+      render(Primer::Beta::Text.new(tag: :p, font_size: :small, color: :subtle)) do
+        @description
+      end
+    end
+
+    disabled = provider.seeded_from_env?
+    if show_edit?
+      grid.with_area(:action) do
+        flex_layout(justify_content: :flex_end) do |icons_container|
+          if @action
+            icons_container.with_column do
+              render(@action)
+            end
+          end
+
+          icons_container.with_column do
+            render(
+              Primer::Beta::IconButton.new(
+                icon: disabled ? :eye : :pencil,
+                tag: :a,
+                scheme: :invisible,
+                href: edit_saml_provider_path(provider, edit_state: @target_state),
+                data: { turbo: true, turbo_stream: true },
+                aria: { label: I18n.t(disabled ? :label_show : :label_edit) }
+              )
+            )
+          end
+        end
+      end
+    end
+  end
+%>

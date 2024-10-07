@@ -111,27 +111,17 @@ RSpec.describe "Bulk update work packages through Rails view", :js, :with_cuprit
         fill_in "Parent", with: "-1"
         click_on "Submit"
 
-        expect(page)
-          .to have_css(
-            ".op-toast.-error",
-            text: I18n.t("work_packages.bulk.none_could_be_saved", total: 2)
-          )
+        expect_flash(type: :error, message: I18n.t("work_packages.bulk.none_could_be_saved", total: 2))
+        expect_flash(type: :error,
+                     message: "#{work_package.id}: Parent #{I18n.t('activerecord.errors.messages.does_not_exist')}")
 
-        expect(page)
-          .to have_css(
-            ".op-toast.-error",
-            text: "#{work_package.id}: Parent #{I18n.t('activerecord.errors.messages.does_not_exist')}"
-          )
-
-        expect(page)
-          .to have_css(
-            ".op-toast.-error",
-            text: <<~MSG.squish
-              #{work_package2.id}:
-              Parent #{I18n.t('activerecord.errors.messages.does_not_exist')}
-              Status #{I18n.t('activerecord.errors.models.work_package.attributes.status_id.status_transition_invalid')}
-            MSG
-          )
+        expect_flash(type: :error, message:
+          <<~MSG.squish
+            #{work_package2.id}:
+            Parent #{I18n.t('activerecord.errors.messages.does_not_exist')}
+            Status #{I18n.t('activerecord.errors.models.work_package.attributes.status_id.status_transition_invalid')}
+          MSG
+        )
 
         # Should not update the status
         work_package2.reload
@@ -153,21 +143,16 @@ RSpec.describe "Bulk update work packages through Rails view", :js, :with_cuprit
             fill_in custom_field.name, with: "Custom field text"
             click_on "Submit"
 
-            expect(page)
-              .to have_css(
-                ".op-toast.-error",
-                text: I18n.t("work_packages.bulk.x_out_of_y_could_be_saved", total: 2, failing: 1, success: 1)
-              )
+            expect_flash(type: :error, message:
+              I18n.t("work_packages.bulk.x_out_of_y_could_be_saved", total: 2, failing: 1, success: 1))
 
-            expect(page)
-              .to have_css(
-                ".op-toast.-error",
-                text: <<~MSG.squish
-                  #{work_package2.id}:
-                  #{custom_field.name} #{I18n.t('activerecord.errors.messages.error_readonly')}
-                  #{I18n.t('activerecord.errors.models.work_package.readonly_status')}
-                MSG
-              )
+            expect_flash(type: :error, message:
+              <<~MSG.squish
+                #{work_package2.id}:
+                #{custom_field.name} #{I18n.t('activerecord.errors.messages.error_readonly')}
+                #{I18n.t('activerecord.errors.models.work_package.readonly_status')}
+              MSG
+            )
 
             # Should update 1 work package custom field only
             work_package.reload
@@ -189,7 +174,7 @@ RSpec.describe "Bulk update work packages through Rails view", :js, :with_cuprit
             fill_in custom_field.name, with: "Custom field text"
             click_on "Submit"
 
-            expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_successful_update))
+            expect_and_dismiss_flash(message: I18n.t(:notice_successful_update))
 
             # Should update 2 work package custom fields
             work_package.reload

@@ -226,6 +226,7 @@ ko:
           nextcloud: Unexpected content found in the managed group folder.
           one_drive: Unexpected content found in the drive.
         unknown_error: 연결에 대한 유효성 검사를 할 수 없습니다. 알 수 없는 오류가 발생했습니다. 자세한 내용은 서버 로그를 확인하세요.
+        userless_access_denied: The configured app password is invalid.
       label_error: 오류
       label_healthy: 정상
       label_pending: 대기 중
@@ -285,7 +286,6 @@ ko:
     label_active: 활성
     label_add_new_storage: 새로운 저장소 추가
     label_automatic_folder: 자동으로 관리되는 권한이 있는 새 폴더
-    label_completed: 완료
     label_creation_time: 생성 시간
     label_creator: 생성자
     label_delete_storage: 저장소 삭제
@@ -297,7 +297,6 @@ ko:
     label_file_storage: 파일 저장소
     label_host: 호스트 URL
     label_inactive: 비활성
-    label_incomplete: 미완료
     label_managed_project_folders:
       application_password: 애플리케이션 암호
       automatically_managed_folders: 자동으로 관리되는 폴더

@@ -165,7 +165,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
   def redirect_to_project_storages_path_with_nudge_modal
     redirect_to(
       external_file_storages_project_settings_project_storages_path,
-      flash: { modal: project_storage_oauth_access_grant_nudge_modal(project_storage: @project_storage) }
+      op_modal: project_storage_oauth_access_grant_nudge_modal(project_storage: @project_storage)
     )
   end
 end

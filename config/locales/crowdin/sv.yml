@@ -211,6 +211,12 @@ sv:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Innan du kan lägga till nya anpassade fält till ett projekt måste du skapa dessa.
     is_enabled_globally: "Är aktiverad globalt"
@@ -282,7 +288,7 @@ sv:
       favored: "Favorite projects"
       archived: "Arkiverade projekt"
       shared: "Shared project lists"
-      my_lists: "My project lists"
+      my_lists: "Mina projektlistor"
       new:
         placeholder: "Ny projektlista"
       delete_modal:
@@ -535,7 +541,7 @@ sv:
       could_not_be_saved: "Följande arbetspaket kunde inte sparas:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Det finns ingen status för alla valda arbetspaket. Deras status kan inte ändras."
@@ -625,6 +631,7 @@ sv:
         editable: "Redigerbar"
         field_format: "Format"
         is_filter: "Används som ett filter"
+        is_for_all: "For all projects"
         is_required: "Krävs"
         max_length: "Maximal längd"
         min_length: "Minsta längd"
@@ -1361,6 +1368,7 @@ sv:
   button_expand_all: "Expandera alla"
   button_favorite: "Lägg till i favoriter"
   button_filter: "Filter"
+  button_finish_setup: "Finish setup"
   button_generate: "Generera"
   button_list: "Lista"
   button_lock: "Lås"
@@ -1413,8 +1421,8 @@ sv:
     failure_message: Samtycke misslyckades, kan inte fortsätta.
     title: Användarsamtycken
     decline_warning_message: Du har avböjt samtycke och loggats ut.
-    user_has_consented: Användaren har samtyckt till din konfigurerade redogörelse vid den angivna tidpunkten.
-    not_yet_consented: Användaren har ännu inte samtyckt till, kommer att begäras vid nästa inloggning.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Definiera den e-postadress som användarna kan nå en personuppgiftsansvarig för att utföra uppgifter, ändra eller ta bort förfrågningar.
     contact_your_administrator: Kontakta administratören om du vill att kontot ska tas bort.
     contact_this_mail_address: Kontakta %{mail_address} om du vill få ditt konto borttaget.
@@ -1802,6 +1810,8 @@ sv:
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1829,6 +1839,10 @@ sv:
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
         totals_removed_from_childless_work_packages: >-
           Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Konfigurationsguide"
     get_in_touch: "Har du frågor? Ta kontakt med oss."
@@ -1992,6 +2006,7 @@ sv:
   label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Visa kalendern"
   label_category: "Kategori"
+  label_completed: Completed
   label_consent_settings: "Användarsamtycken"
   label_wiki_menu_item: Wiki menyalternativ
   label_select_main_menu_item: Välj ny huvudmenypost
@@ -2140,6 +2155,7 @@ sv:
   label_here: här
   label_hide: "Dölj"
   label_history: "Historik"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Hierarki-blad"
   label_home: "Hem"
   label_subject_or_id: "Ämne eller ID"
@@ -2151,6 +2167,7 @@ sv:
   label_inactive: "Inaktiv"
   label_incoming_emails: "Inkommande E-post"
   label_includes: "inkluderar"
+  label_incomplete: Incomplete
   label_include_sub_projects: Include sub-projects
   label_index_by_date: "Index efter datum"
   label_index_by_title: "Index efter titel"
@@ -2161,12 +2178,14 @@ sv:
   label_internal: "Intern"
   label_introduction_video: "Introduktionsvideo"
   label_invite_user: "Bjud in användare"
+  label_item: "Objekt"
+  label_item_plural: "Objekt"
   label_share: "Dela"
   label_share_project_list: "Dela projektlista"
   label_share_work_package: "Share work package"
   label_show_all_registered_users: "Visa alla registrerade användare"
-  label_show_less: "Show less"
-  label_show_more: "Show more"
+  label_show_less: "Visa mindre"
+  label_show_more: "Visa mer"
   label_journal: "Journal"
   label_journal_diff: "Jämför beskrivning"
   label_language: "Språk"
@@ -2237,7 +2256,7 @@ sv:
   label_more: "Mer"
   label_more_than_ago: "mer än dagar sedan"
   label_move_work_package: "Flytta arbetspaket"
-  label_my_account: "Mitt konto"
+  label_my_account: "Kontoinställningar"
   label_my_activity: "Min aktivitet"
   label_my_account_data: "Min kontoinformation"
   label_my_avatar: "My avatar"
@@ -2264,6 +2283,7 @@ sv:
   label_no_parent_page: "Ingen överordnad sida"
   label_nothing_display: "Inget att visa"
   label_nobody: "ingen"
+  label_not_configured: "Not configured"
   label_not_found: "hittades inte"
   label_none: "inga"
   label_none_parentheses: "(ingen)"
@@ -3145,8 +3165,6 @@ sv:
   setting_work_package_done_ratio_status: "Status-based"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
     In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Egenskaper för arbetspaket"
@@ -3198,6 +3216,13 @@ sv:
   setting_sys_api_enabled: "Aktivera webbtjänsten arkivhantering"
   setting_sys_api_description: "Webtjänsten arkivhantering ger integrering och användarautentisering för att åtkomst av arkiv."
   setting_time_format: "Tid"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Aktivera hjälpmedelsläget för anonyma användare"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Standardtidszon för användarna"
@@ -3538,7 +3563,6 @@ sv:
       label_note: "Note:"
       modal:
         work_based_help_text: "Each field is automatically calculated from the two others when possible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
       derivation_hints:

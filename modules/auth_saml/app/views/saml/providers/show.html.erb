@@ -1,0 +1,42 @@
+<% html_title(t(:label_administration), t('saml.providers.plural'), @provider.display_name) -%>
+
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title { @provider.display_name } %>
+
+  <% header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                              { href: saml_providers_path, text: t('saml.providers.plural') },
+                              @provider.display_name]) %>
+
+  <%
+    header.with_action_button(
+      tag: :a,
+      scheme: :danger,
+      mobile_icon: :trash,
+      mobile_label: t(:button_delete),
+      size: :medium,
+      href: saml_provider_path(@provider),
+      aria: { label: I18n.t(:button_delete) },
+      data: {
+        confirm: t(:text_are_you_sure),
+        method: :delete,
+      },
+      title: I18n.t(:button_delete)
+    ) do |button|
+      button.with_leading_visual_icon(icon: :trash)
+      t(:button_delete)
+    end
+  %>
+
+<% end %>
+
+<%=
+  render(Primer::Alpha::Layout.new(stacking_breakpoint: :md)) do |content|
+    content.with_main do
+      render Saml::Providers::ViewComponent.new(@provider, view_mode: :show)
+    end
+
+    content.with_sidebar(row_placement: :start, col_placement: :end) do
+      render Saml::Providers::SidePanelComponent.new(@provider)
+    end
+  end
+%>

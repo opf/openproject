@@ -33,11 +33,7 @@ module CustomField::OrderStatements
   def order_statements
     case field_format
     when "list"
-      if multi_value?
-        [select_custom_values_joined_options_as_group]
-      else
-        [select_custom_option_position]
-      end
+      [order_by_list_sql]
     when "string", "date", "bool", "link"
       [coalesce_select_custom_value_as_string]
     when "int", "float"
@@ -46,13 +42,9 @@ module CustomField::OrderStatements
       # CustomValue validations should ensure that it doesn't occur
       [select_custom_value_as_decimal]
     when "user"
-      [
-        order_by_user_sql("lastname"),
-        order_by_user_sql("firstname"),
-        order_by_user_sql("id")
-      ]
+      [order_by_user_sql]
     when "version"
-      [order_by_version_sql("name")]
+      [order_by_version_sql]
     end
   end
 
@@ -83,77 +75,103 @@ module CustomField::OrderStatements
 
   def coalesce_select_custom_value_as_string
     # COALESCE is here to make sure that blank and NULL values are sorted equally
-    <<-SQL
+    <<-SQL.squish
       COALESCE(#{select_custom_value_as_string}, '')
     SQL
   end
 
   def select_custom_value_as_string
-    <<-SQL
-    (SELECT cv_sort.value FROM #{CustomValue.table_name} cv_sort
-        WHERE #{cv_sort_only_custom_field_condition_sql}
-        LIMIT 1)
-    SQL
-  end
-
-  def select_custom_option_position
-    <<-SQL
-    (SELECT co_sort.position FROM #{CustomOption.table_name} co_sort
-        LEFT JOIN #{CustomValue.table_name} cv_sort
-        ON co_sort.id = CAST(cv_sort.value AS decimal(60,3))
-        WHERE #{cv_sort_only_custom_field_condition_sql}
-        LIMIT 1
-    )
+    <<-SQL.squish
+      (
+        SELECT cv_sort.value
+          FROM #{CustomValue.quoted_table_name} cv_sort
+          WHERE #{cv_sort_only_custom_field_condition_sql}
+          LIMIT 1
+      )
     SQL
   end
 
   def select_custom_values_as_group
-    <<-SQL
-      COALESCE((SELECT string_agg(cv_sort.value, '.') FROM #{CustomValue.table_name} cv_sort
-        WHERE #{cv_sort_only_custom_field_condition_sql}
-          AND cv_sort.value IS NOT NULL), '')
-    SQL
-  end
-
-  def select_custom_values_joined_options_as_group
-    <<-SQL
-      COALESCE((SELECT string_agg(co_sort.value, '.' ORDER BY co_sort.position ASC) FROM #{CustomOption.table_name} co_sort
-        LEFT JOIN #{CustomValue.table_name} cv_sort
-        ON cv_sort.value IS NOT NULL AND co_sort.id = cv_sort.value::numeric
-        WHERE #{cv_sort_only_custom_field_condition_sql}), '')
+    <<-SQL.squish
+      COALESCE(
+        (
+          SELECT string_agg(cv_sort.value, '.')
+            FROM #{CustomValue.quoted_table_name} cv_sort
+            WHERE #{cv_sort_only_custom_field_condition_sql}
+              AND cv_sort.value IS NOT NULL
+        ),
+        ''
+      )
     SQL
   end
 
   def select_custom_value_as_decimal
-    <<-SQL
-    (SELECT CAST(cv_sort.value AS decimal(60,3)) FROM #{CustomValue.table_name} cv_sort
-      WHERE #{cv_sort_only_custom_field_condition_sql}
-      AND cv_sort.value <> ''
-      AND cv_sort.value IS NOT NULL
-    LIMIT 1)
+    <<-SQL.squish
+      (
+        SELECT CAST(cv_sort.value AS decimal(60,3))
+          FROM #{CustomValue.quoted_table_name} cv_sort
+          WHERE #{cv_sort_only_custom_field_condition_sql}
+            AND cv_sort.value <> ''
+            AND cv_sort.value IS NOT NULL
+          LIMIT 1
+      )
     SQL
   end
 
-  def order_by_user_sql(column)
-    <<-SQL
-    (SELECT #{column} user_cv_#{column} FROM #{User.table_name} cv_user
-     WHERE cv_user.id = #{select_custom_value_as_decimal}
-     LIMIT 1)
+  def order_by_list_sql
+    columns = multi_value? ? "array_agg(co_sort.position ORDER BY co_sort.position)" : "co_sort.position"
+    limit = multi_value? ? "" : "LIMIT 1"
+
+    <<-SQL.squish
+      (
+        SELECT #{columns}
+          FROM #{CustomOption.quoted_table_name} co_sort
+          INNER JOIN #{CustomValue.quoted_table_name} cv_sort
+            ON cv_sort.value IS NOT NULL AND cv_sort.value != '' AND co_sort.id = cv_sort.value::bigint
+          WHERE #{cv_sort_only_custom_field_condition_sql}
+          #{limit}
+      )
     SQL
   end
 
-  def order_by_version_sql(column)
-    <<-SQL
-    (SELECT #{column} version_cv_#{column} FROM #{Version.table_name} cv_version
-     WHERE cv_version.id = #{select_custom_value_as_decimal}
-     LIMIT 1)
+  def order_by_user_sql
+    columns_array = "ARRAY[cv_user.lastname, cv_user.firstname, cv_user.mail]"
+
+    columns = multi_value? ? "array_agg(#{columns_array} ORDER BY #{columns_array})" : columns_array
+    limit = multi_value? ? "" : "LIMIT 1"
+
+    <<-SQL.squish
+      (
+        SELECT #{columns}
+          FROM #{User.quoted_table_name} cv_user
+          INNER JOIN #{CustomValue.quoted_table_name} cv_sort
+            ON cv_sort.value IS NOT NULL AND cv_sort.value != '' AND cv_user.id = cv_sort.value::bigint
+          WHERE #{cv_sort_only_custom_field_condition_sql}
+          #{limit}
+      )
+    SQL
+  end
+
+  def order_by_version_sql
+    columns = multi_value? ? "array_agg(cv_version.name ORDER BY cv_version.name)" : "cv_version.name"
+    limit = multi_value? ? "" : "LIMIT 1"
+
+    <<-SQL.squish
+      (
+        SELECT #{columns}
+          FROM #{Version.quoted_table_name} cv_version
+          INNER JOIN #{CustomValue.quoted_table_name} cv_sort
+            ON cv_sort.value IS NOT NULL AND cv_sort.value != '' AND cv_version.id = cv_sort.value::bigint
+          WHERE #{cv_sort_only_custom_field_condition_sql}
+          #{limit}
+      )
     SQL
   end
 
   def cv_sort_only_custom_field_condition_sql
-    <<-SQL
+    <<-SQL.squish
       cv_sort.customized_type='#{self.class.customized_class.name}'
-      AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id
+      AND cv_sort.customized_id=#{self.class.customized_class.quoted_table_name}.id
       AND cv_sort.custom_field_id=#{id}
     SQL
   end

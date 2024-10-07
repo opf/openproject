@@ -37,20 +37,17 @@ module WorkPackages
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(journal:, filter:, show_notifications: false, has_unread_notifications: false,
-                       has_read_notifications: false)
+        def initialize(journal:, filter:, has_unread_notifications: false)
           super
 
           @journal = journal
-          @show_notifications = show_notifications
           @has_unread_notifications = has_unread_notifications
-          @has_read_notifications = has_read_notifications
           @filter = filter
         end
 
         private
 
-        attr_reader :journal, :show_notifications, :has_unread_notifications, :has_read_notifications, :filter
+        attr_reader :journal, :has_unread_notifications, :filter
 
         def wrapper_uniq_by
           journal.id
@@ -114,10 +111,6 @@ module WorkPackages
               render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) do
                 I18n.t("activities.work_packages.activity_tab.created_on")
               end
-            else
-              render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) do
-                I18n.t("activities.work_packages.activity_tab.changed_on")
-              end
             end
           end
         end
@@ -133,8 +126,17 @@ module WorkPackages
             ) do
               truncated_user_name(journal.user)
             end
-            user_name_and_time_container.with_row do
-              render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) { format_time(journal.updated_at) }
+            user_name_and_time_container.with_row(flex_layout: true) do |time_container|
+              if journal.initial?
+                time_container.with_column(mr: 1) do
+                  render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) do
+                    I18n.t("activities.work_packages.activity_tab.created_on")
+                  end
+                end
+              end
+              time_container.with_column do
+                render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) { format_time(journal.updated_at) }
+              end
             end
           end
         end
@@ -147,52 +149,19 @@ module WorkPackages
 
         def render_header_end(header_container)
           header_container.with_column(flex_layout: true) do |header_end_container|
-            render_notification_bubble(header_end_container)
+            render_notification_bubble(header_end_container) if has_unread_notifications
             render_activity_link(header_end_container)
           end
         end
 
         def render_notification_bubble(container)
-          return unless show_notifications
-
-          if has_unread_notifications
-            container.with_column(mr: 2) do
-              render(Primer::Beta::IconButton.new(
-                       scheme: :invisible, # color is set via CSS as requested by UI/UX Team
-                       classes: "work-packages-activities-tab-journals-item-component--notification-dot-icon",
-                       icon: "dot-fill",
-                       "aria-label": "mark notification as read",
-                       show_tooltip: true,
-                       href: toggle_notification_read_status_work_package_activity_path(work_package_id: journal.journable_id,
-                                                                                        id: journal.id),
-                       tag: :a,
-                       data: {
-                         test_selector: "op-journal-unread-notification",
-                         turbo: true,
-                         turbo_stream: true,
-                         turbo_method: :put
-                       }
-                     ))
-            end
-          end
-          if has_read_notifications
-            container.with_column(mr: 2) do
-              render(Primer::Beta::IconButton.new(
-                       scheme: :invisible, # color is set via CSS as requested by UI/UX Team
-                       icon: "dot-fill",
-                       "aria-label": "mark notification as unread",
-                       show_tooltip: true,
-                       href: toggle_notification_read_status_work_package_activity_path(work_package_id: journal.journable_id,
-                                                                                        id: journal.id),
-                       tag: :a,
-                       data: {
-                         test_selector: "op-journal-read-notification",
-                         turbo: true,
-                         turbo_stream: true,
-                         turbo_method: :put
-                       }
-                     ))
-            end
+          container.with_column(mr: 2) do
+            render(Primer::Beta::Octicon.new(
+                     :"dot-fill", # color is set via CSS as requested by UI/UX Team
+                     classes: "work-packages-activities-tab-journals-item-component-details--notification-dot-icon",
+                     size: :medium,
+                     data: { test_selector: "op-journal-unread-notification", "op-ian-center-update-immediate": true }
+                   ))
           end
         end
 

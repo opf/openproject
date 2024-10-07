@@ -226,6 +226,7 @@ vi:
           nextcloud: Unexpected content found in the managed group folder.
           one_drive: Unexpected content found in the drive.
         unknown_error: Kết nối không thể được xác thực. Đã xảy ra lỗi không xác định. Vui lòng kiểm tra nhật ký máy chủ để biết thêm thông tin.
+        userless_access_denied: The configured app password is invalid.
       label_error: Lỗi
       label_healthy: Khỏe
       label_pending: Đang chờ
@@ -285,7 +286,6 @@ vi:
     label_active: Đang hoạt động
     label_add_new_storage: Thêm lưu trữ mới
     label_automatic_folder: Thư mục mới với quyền quản lý tự động
-    label_completed: Đã hoàn tất
     label_creation_time: Thời gian tạo
     label_creator: Người tạo
     label_delete_storage: Xóa lưu trữ
@@ -297,7 +297,6 @@ vi:
     label_file_storage: Lưu trữ tệp
     label_host: URL máy chủ
     label_inactive: Không hoạt động
-    label_incomplete: Chưa hoàn tất
     label_managed_project_folders:
       application_password: Mật khẩu ứng dụng
       automatically_managed_folders: Thư mục được quản lý tự động

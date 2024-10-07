@@ -35,43 +35,35 @@ module OpenProject
     let(:format) { "%d/%m/%Y" }
     let(:user) { build_stubbed(:user) }
 
-    after do
-      Time.zone = nil
-    end
+    describe "#format_time_as_date" do
+      current_user { build_stubbed(:user, preferences: { time_zone: user_time_zone }) }
 
-    describe "with user time zone" do
-      before do
-        login_as user
-        allow(user).to receive(:time_zone).and_return(ActiveSupport::TimeZone["Athens"])
+      describe "with user time zone" do
+        let(:user_time_zone) { "Europe/Athens" }
+
+        it "returns a date string in the user timezone for a utc timestamp" do
+          time = ActiveSupport::TimeZone["UTC"].local(2013, 6, 30, 23, 59)
+          expect(format_time_as_date(time, format:)).to eq "01/07/2013"
+        end
+
+        it "returns a date string in the user timezone for a non-utc timestamp" do
+          time = ActiveSupport::TimeZone["Berlin"].local(2013, 6, 30, 23, 59)
+          expect(format_time_as_date(time, format:)).to eq "01/07/2013"
+        end
       end
 
-      it "returns a date in the user timezone for a utc timestamp" do
-        Time.zone = "UTC"
-        time = Time.zone.local(2013, 6, 30, 23, 59)
-        expect(format_time_as_date(time, format)).to eq "01/07/2013"
-      end
+      describe "without user time zone" do
+        let(:user_time_zone) { "" }
 
-      it "returns a date in the user timezone for a non-utc timestamp" do
-        Time.zone = "Berlin"
-        time = Time.zone.local(2013, 6, 30, 23, 59)
-        expect(format_time_as_date(time, format)).to eq "01/07/2013"
-      end
-    end
+        it "returns a date string in the utc timezone for a utc timestamp" do
+          time = ActiveSupport::TimeZone["UTC"].local(2013, 6, 30, 23, 59)
+          expect(format_time_as_date(time, format:)).to eq "30/06/2013"
+        end
 
-    describe "without user time zone" do
-      before { allow(User.current).to receive(:time_zone).and_return(nil) }
-
-      it "returns a date in the local system timezone for a utc timestamp" do
-        Time.zone = "UTC"
-        time = Time.zone.local(2013, 6, 30, 23, 59)
-        allow(time).to receive(:localtime).and_return(ActiveSupport::TimeZone["Athens"].local(2013, 7, 1, 1, 59))
-        expect(format_time_as_date(time, format)).to eq "01/07/2013"
-      end
-
-      it "returns a date in the original timezone for a non-utc timestamp" do
-        Time.zone = "Berlin"
-        time = Time.zone.local(2013, 6, 30, 23, 59)
-        expect(format_time_as_date(time, format)).to eq "30/06/2013"
+        it "returns a date string in the utc timezone for a non-utc timestamp" do
+          time = ActiveSupport::TimeZone["Berlin"].local(2013, 6, 30, 23, 59)
+          expect(format_time_as_date(time, format:)).to eq "30/06/2013"
+        end
       end
     end
 
@@ -271,7 +263,10 @@ module OpenProject
       time_format: "%H %M",
       date_format: "%d %m %Y"
     } do
-      let!(:now) { Time.parse("2011-02-20 15:45:22") }
+      let(:user_time_zone) { "" }
+      let(:now) { Time.zone.parse("2011-02-20 15:45:22") }
+
+      current_user { build_stubbed(:user, preferences: { time_zone: user_time_zone }) }
 
       it "with date and hours" do
         expect(format_time(now))
@@ -279,18 +274,33 @@ module OpenProject
       end
 
       it "with only hours" do
-        expect(format_time(now, false))
+        expect(format_time(now, include_date: false))
           .to eql now.strftime("%H %M")
       end
 
-      it "with a utc to date and hours" do
-        expect(format_time(now.utc))
-          .to eql now.localtime.strftime("%d %m %Y %H %M")
+      it "renders correctly for only hours and when providing a custom format" do
+        expect(format_time(now, include_date: false, format: "%H:%M"))
+          .to eql now.strftime("%H:%M")
       end
 
-      it "with a utce to only hours" do
-        expect(format_time(now.utc, false))
-          .to eql now.localtime.strftime("%H %M")
+      context "with another time zone configured for the user" do
+        # Kathmandu has a +05:45 offset
+        let(:user_time_zone) { "Kathmandu" }
+
+        it "renders correctly for data and hours" do
+          expect(format_time(now))
+            .to eql "20 02 2011 21 30"
+        end
+
+        it "renders correctly for only hours" do
+          expect(format_time(now, include_date: false))
+            .to eql "21 30"
+        end
+
+        it "renders correctly for only hours and when providing a custom format" do
+          expect(format_time(now, include_date: false, format: "%H:%M"))
+            .to eql "21:30"
+        end
       end
 
       context "with a different format defined", with_settings: {
@@ -303,7 +313,7 @@ module OpenProject
         end
 
         it "renders only hours" do
-          expect(format_time(now, false))
+          expect(format_time(now, include_date: false))
             .to eql "15:45"
         end
       end
@@ -318,7 +328,7 @@ module OpenProject
         end
 
         it "falls back to default for only hours" do
-          expect(format_time(now, false))
+          expect(format_time(now, include_date: false))
             .to eql "03:45 PM"
         end
 
@@ -333,7 +343,7 @@ module OpenProject
 
             it "raises no error for only hours" do
               described_class.with_locale lang do
-                expect { format_time(now, false) }
+                expect { format_time(now, include_date: false) }
                   .not_to raise_error
               end
             end
@@ -351,7 +361,7 @@ module OpenProject
         end
 
         it "falls back to default for only hours" do
-          expect(format_time(now, false))
+          expect(format_time(now, include_date: false))
             .to eql "03:45 PM"
         end
       end
@@ -366,8 +376,49 @@ module OpenProject
         end
 
         it "falls back to default for only hours" do
-          expect(format_time(now, false))
+          expect(format_time(now, include_date: false))
             .to eql "15:45"
+        end
+      end
+    end
+
+    describe "#formatted_time_zone_offset" do
+      current_user { build_stubbed(:user, preferences: { time_zone: user_time_zone }) }
+      let(:user_time_zone) { "" }
+
+      let(:berlin_gmt) { ActiveSupport::TimeZone["Europe/Berlin"].now.utc_offset == 7200 ? "UTC+02:00" : "UTC+01:00" }
+
+      context "with the current user having set a time zone" do
+        let(:user_time_zone) { "Europe/Berlin" }
+
+        it "renders the time zone of the user" do
+          expect(formatted_time_zone_offset).to eql berlin_gmt
+        end
+      end
+
+      context "without the current user having a time zone and no default one configured" do
+        let(:user_time_zone) { "" }
+
+        it "renders the UTC time zone" do
+          expect(formatted_time_zone_offset).to eql "UTC+00:00"
+        end
+      end
+
+      context "without the current user having a time zone but with a default one configured",
+              with_settings: { user_default_timezone: "Europe/Berlin" } do
+        let(:user_time_zone) { "" }
+
+        it "renders the default time zone" do
+          expect(formatted_time_zone_offset).to eql berlin_gmt
+        end
+      end
+
+      context "without the current user having a time zone and also a default one configured",
+              with_settings: { user_default_timezone: "America/Atlanta" } do
+        let(:user_time_zone) { "Europe/Berlin" }
+
+        it "renders the default time zone" do
+          expect(formatted_time_zone_offset).to eql berlin_gmt
         end
       end
     end

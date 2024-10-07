@@ -56,13 +56,10 @@ RSpec.describe "Upload attachment to wiki page", :js do
 
     click_on "Save"
 
-    expect(page).to have_text("Successful creation")
+    expect_and_dismiss_flash(message: "Successful creation")
     expect(page).to have_css("#content img", count: 1)
     expect(page).to have_content("Image uploaded the first time")
     attachments_list.expect_attached("image.png")
-
-    # required sleep otherwise clicking on the Edit button doesn't do anything
-    SeleniumHubWaiter.wait
 
     within ".toolbar-items" do
       click_on "Edit"
@@ -116,7 +113,7 @@ RSpec.describe "Upload attachment to wiki page", :js do
 
     click_on "Save"
 
-    expect(page).to have_text("Successful creation")
+    expect_and_dismiss_flash(message: "Successful creation")
     attachments_list.expect_attached("image.png")
 
     # required sleep otherwise clicking on the Edit button doesn't do anything

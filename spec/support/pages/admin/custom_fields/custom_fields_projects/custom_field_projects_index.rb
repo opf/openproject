@@ -33,17 +33,19 @@ module Pages
     module CustomFields
       module CustomFieldsProjects
         class CustomFieldProjectsIndex < ::Pages::Projects::Index
-          def path
+          def path(custom_field)
             "/custom_fields/#{custom_field.id}/projects"
           end
 
           def within_row(project)
-            row = page.find("#admin-custom-fields-custom-field-projects-row-component-project-#{project.id}")
+            row = page.find("#{row_id_prefix}-#{project.id}")
             row.hover
             within row do
               yield row
             end
           end
+
+          def row_id_prefix = "#admin-custom-fields-custom-field-projects-row-component-project"
         end
       end
     end

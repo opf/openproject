@@ -110,6 +110,7 @@ th:
   label_rate: "Rate"
   label_rate_plural: "Rates"
   label_status_finished: "Finished"
+  label_show: "Show"
   label_units: "Cost units"
   label_user: "ผู้ใช้"
   label_until: "until"

@@ -226,6 +226,7 @@ lt:
           nextcloud: Unexpected content found in the managed group folder.
           one_drive: Unexpected content found in the drive.
         unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
+        userless_access_denied: The configured app password is invalid.
       label_error: Klaida
       label_healthy: Sveikas
       label_pending: Laukiama
@@ -285,7 +286,6 @@ lt:
     label_active: Aktyvus
     label_add_new_storage: Pridėti naują saugyklą
     label_automatic_folder: Naujas aplankas su automatiškai valdomomis teisėmis
-    label_completed: Baigta
     label_creation_time: Sukūrimo laikas
     label_creator: Kūrėjas
     label_delete_storage: Trinti saugyklą
@@ -297,7 +297,6 @@ lt:
     label_file_storage: Failų saugykla
     label_host: Stoties URL
     label_inactive: Neaktyvus
-    label_incomplete: Nebaigtas
     label_managed_project_folders:
       application_password: Aplikacijos slaptažpdis
       automatically_managed_folders: Automatiškai valdomi aplankai

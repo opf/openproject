@@ -211,6 +211,12 @@ ko:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       프로젝트에 새 사용자 지정 필드를 추가하려면 먼저 해당 필드를 만들어야 합니다. 그래야 이 프로젝트에 해당 필드를 추가할 수 있습니다.
     is_enabled_globally: "는 세계적으로 사용 가능합니다."
@@ -528,7 +534,7 @@ ko:
       could_not_be_saved: "다음 작업 패키지를 저장할 수 없습니다:"
       none_could_be_saved: "%{total}개 작업 패키지 중 아무것도 업데이트할 수 없습니다."
       x_out_of_y_could_be_saved: "%{failing}/%{total}개 작업 패키지를 업데이트할 수 없지만 %{success}개는 성공했습니다."
-      selected_because_descendants: "%{selected}개 작업 패키지가 선택되었지만 하위 작업 패키지를 포함하여 총 %{total}개 작업 패키지가 영향을 받았습니다."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "선택한 항목의 하위 작업 패키지"
     move:
       no_common_statuses_exists: "선택한 모든 작업 패키지에 사용 가능한 상태가 없습니다. 해당 상태를 변경할 수 없습니다."
@@ -618,6 +624,7 @@ ko:
         editable: "편집 가능"
         field_format: "형식"
         is_filter: "필터사용"
+        is_for_all: "For all projects"
         is_required: "필수"
         max_length: "최대 길이"
         min_length: "최소 길이"
@@ -1344,6 +1351,7 @@ ko:
   button_expand_all: "모두 확장"
   button_favorite: "즐겨찾기에 추가"
   button_filter: "필터"
+  button_finish_setup: "Finish setup"
   button_generate: "생성"
   button_list: "목록"
   button_lock: "잠금"
@@ -1396,8 +1404,8 @@ ko:
     failure_message: 동의에 실패했습니다. 계속할 수 없습니다.
     title: 사용자 동의
     decline_warning_message: 동의를 거부하고 로그아웃했습니다.
-    user_has_consented: 지정된 시간에 사용자가 해당 구성 내용에 동의했습니다.
-    not_yet_consented: 사용자가 아직 동의하지 않았습니다. 다음에 로그인하면 동의를 요청할 것입니다.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: 사용자가 데이터 변경 또는 제거 요청을 수행하기 위해 데이터 컨트롤러에게 연락할 수 있는 메일 주소를 정의합니다.
     contact_your_administrator: 계정을 삭제하려는 경우 관리자에 문의하세요.
     contact_this_mail_address: 계정을 삭제하려는 경우 %{mail_address}에 문의하세요.
@@ -1767,6 +1775,8 @@ ko:
       progress_mode_changed_to_status_based: "진행률 계산 업데이트됨"
       status_changed: "상태 '%{status_name}'"
       system_update: "OpenProject 시스템 업데이트:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: 이전 %{link}에 대한 변경 사항 기준
       work_package_parent_changed_times: 부모 %{link}에 대한 변경 사항 기준
@@ -1794,6 +1804,10 @@ ko:
           진행률 계산은 자동으로 <a href="%{href}" target="_blank">버전 업데이트에 따라 조정됩니다</a>.
         totals_removed_from_childless_work_packages: >-
           <a href="%{href}" target="_blank">버전 업데이트</a>를 통해 부모가 아닌 작업 패키지의 작업 및 진행률 합계가 자동으로 제거됩니다. 유지 관리 작업이므로 무시해도 됩니다.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "구성 가이드"
     get_in_touch: "질문이 있으신가요? 문의해 주세요."
@@ -1957,6 +1971,7 @@ ko:
   label_calendars_and_dates: "캘린더와 날짜"
   label_calendar_show: "달력 표시"
   label_category: "카테고리"
+  label_completed: Completed
   label_consent_settings: "사용자 동의"
   label_wiki_menu_item: 위키 메뉴 항목
   label_select_main_menu_item: 새 기본 메뉴 항목 선택
@@ -2105,6 +2120,7 @@ ko:
   label_here: 여기
   label_hide: "숨기기"
   label_history: "기록"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "계층 구조 리프"
   label_home: "홈"
   label_subject_or_id: "제목 또는 ID"
@@ -2116,6 +2132,7 @@ ko:
   label_inactive: "비활성화"
   label_incoming_emails: "들어오는 이메일"
   label_includes: "포함"
+  label_incomplete: Incomplete
   label_include_sub_projects: 하위 프로젝트 포함
   label_index_by_date: "날짜별 색인"
   label_index_by_title: "제목별 색인"
@@ -2126,6 +2143,8 @@ ko:
   label_internal: "내부"
   label_introduction_video: "소개 동영상"
   label_invite_user: "사용자 초대"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "공유"
   label_share_project_list: "프로젝트 목록 공유"
   label_share_work_package: "작업 패키지 공유"
@@ -2202,7 +2221,7 @@ ko:
   label_more: "기타"
   label_more_than_ago: "일 이상 전"
   label_move_work_package: "작업 패키지 이동"
-  label_my_account: "내 계정"
+  label_my_account: "Account settings"
   label_my_activity: "내 활동"
   label_my_account_data: "내 계정 데이터"
   label_my_avatar: "내 아바타"
@@ -2229,6 +2248,7 @@ ko:
   label_no_parent_page: "부모 페이지 없음"
   label_nothing_display: "표시할 것이 없음"
   label_nobody: "아무도 없음"
+  label_not_configured: "Not configured"
   label_not_found: "찾을 수 없음"
   label_none: "없음"
   label_none_parentheses: "(없음)"
@@ -3107,8 +3127,6 @@ ko:
   setting_work_package_done_ratio_status: "상태 기반"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    <b>작업 기반</b> 모드에서 완료 %는 총 작업 대비 완료된 작업을 기준으로 계산됩니다. <b>상태 기반</b> 모드에서는 각 상태에 완료 % 값이 연결되어 있습니다. 상태를 변경하면 완료 %도 변경됩니다.
   setting_work_package_done_ratio_explanation_html: >
     <b>작업 기반</b> 모드에서 완료 %는 어떤 값으로든 자유롭게 설정할 수 있습니다. 선택적으로 작업에 대한 값을 입력하면 남은 작업이 자동으로 파생됩니다. <b>상태 기반</b> 모드에서는 각 상태에 완료 % 값이 연결되어 있습니다. 상태를 변경하면 완료 %도 변경됩니다.
   setting_work_package_properties: "작업 패키지 속성"
@@ -3160,6 +3178,13 @@ ko:
   setting_sys_api_enabled: "리포지토리 관리 웹 서비스 사용"
   setting_sys_api_description: "리포지토리 관리 웹 서비스는 리포지토리에 액세스하기 위한 통합 및 사용자 인증을 제공합니다."
   setting_time_format: "시간"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "익명 사용자에 대해 접근성 모드 사용"
   setting_user_format: "사용자 이름 형식"
   setting_user_default_timezone: "사용자의 기본 표준 시간대"
@@ -3500,7 +3525,6 @@ ko:
       label_note: "참고:"
       modal:
         work_based_help_text: "가능한 경우 각 필드는 다른 두 필드에서 자동으로 계산됩니다."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "완료 %는 작업 및 남은 작업에서 자동으로 파생됩니다."
         status_based_help_text: "완료 %는 작업 패키지 상태에 따라 설정됩니다."
         migration_warning_text: "작업 기반 진행률 계산 모드에서 완료 %는 수동으로 설정할 수 없으며 작업에 연결됩니다. 기존 값은 유지되지만 편집할 수 없습니다. 먼저 작업을 입력하세요."
       derivation_hints:
