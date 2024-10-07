@@ -828,7 +828,7 @@ uk:
         blank: "не може бути порожнім."
         blank_nested: "– потрібно встановити властивість «%{property}»."
         cannot_delete_mapping: "– обов’язкове. Неможливо видалити."
-        is_for_all_cannot_modify: "для всіх. Не можна змінити."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Робочий пакет не може бути пов'язаний з одним з підзадач."
         circular_dependency: "Це співвідношення створить кругову залежність."
         confirmation: "не збігається %{attribute}"

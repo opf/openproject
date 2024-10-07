@@ -98,7 +98,7 @@ it:
       display_name: >
         Il nome del fornitore. Questo verrà visualizzato come pulsante di accesso e nell'elenco dei fornitori.
       metadata_none: >
-        Il tuo fornitore di identità non dispone di un endpoint di metadati o di un'opzione di download dei metadati in XML. Effettua la configurazione manualmente.
+        Your identity provider does not have a metadata endpoint or XML download option. You can configure it manually.
       metadata_url: >
         Il tuo fornitore di identità fornisce un URL di metadati.
       metadata_xml: >

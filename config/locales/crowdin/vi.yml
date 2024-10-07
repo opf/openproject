@@ -815,7 +815,7 @@ vi:
         blank: "không được để trống"
         blank_nested: "cần có thuộc tính '%{property}' được thiết lập."
         cannot_delete_mapping: "là bắt buộc. Không thể xóa."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Một gói công việc không thể liên kết với một trong các nhiệm vụ con của nó."
         circular_dependency: "Mối quan hệ này sẽ tạo ra một sự phụ thuộc tuần hoàn."
         confirmation: "không khớp %{attribute}."

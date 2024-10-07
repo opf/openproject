@@ -817,7 +817,7 @@ es:
         blank: "no puede estar en blanco."
         blank_nested: "necesita tener la propiedad '%{property}' definida."
         cannot_delete_mapping: "es obligatorio. No se puede eliminar."
-        is_for_all_cannot_modify: "es para todos. No se puede modificar."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Un paquete de trabajo no puede ser vinculado a una de sus subtareas."
         circular_dependency: "Esta relación podría crear una dependencia circular."
         confirmation: "no coincide con %{attribute}."

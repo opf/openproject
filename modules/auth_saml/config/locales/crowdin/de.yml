@@ -6,21 +6,21 @@ de:
         identifier: Kennung
         secret: Geheim
         scope: Geltungsbereich
-        assertion_consumer_service_url: ACS (Assertion consumer service) URL
+        assertion_consumer_service_url: ACS (Assertion Consumer Service) URL
         limit_self_registration: Selbstregistrierung begrenzen
-        sp_entity_id: Service entity ID
+        sp_entity_id: Entity-ID des Services
         metadata_url: Metadaten-URL des Identitätsanbieters
         name_identifier_format: Format der Namenskennung
         idp_sso_service_url: Endpunkt für die Anmeldung beim Identitätsanbieter
         idp_slo_service_url: Endpunkt für die Abmeldung beim Identitätsanbieter
         idp_cert: Öffentliches Zertifikat des Identitätsanbieters
-        authn_requests_signed: Sign SAML AuthnRequests
+        authn_requests_signed: SAML AuthnRequests signieren
         want_assertions_signed: Signierte Antworten erfordern
         want_assertions_encrypted: Verschlüsselte Antworten erfordern
         certificate: Von OpenProject verwendetes Zertifikat für SAML-Anfragen
         private_key: Zugehöriger privater Schlüssel für OpenProject SAML-Anfragen
         signature_method: Signatur-Algorithmus
-        digest_method: Digest algorithm
+        digest_method: Digest-Algorithmus
         format: "Format"
         icon: "Benutzerdefiniertes Symbol"
   activerecord:
@@ -98,7 +98,7 @@ de:
       display_name: >
         The name of the provider. This will be displayed as the login button and in the list of providers.
       metadata_none: >
-        Your identity provider does not have a metadata endpoint or XML download option. You can the configuration manually.
+        Your identity provider does not have a metadata endpoint or XML download option. You can configure it manually.
       metadata_url: >
         Ihr Identitätsanbieter stellt eine Metadaten-URL zur Verfügung.
       metadata_xml: >

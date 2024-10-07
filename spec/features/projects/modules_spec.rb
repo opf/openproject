@@ -75,7 +75,7 @@ RSpec.describe "Projects module administration" do
     check "Work packages"
     click_button "Save"
 
-    settings_page.expect_toast message: I18n.t(:notice_successful_update)
+    expect_flash type: :success, message: I18n.t(:notice_successful_update)
 
     expect(page).to have_checked_field "Activity"
     expect(page).to have_checked_field "Calendars"

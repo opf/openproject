@@ -98,7 +98,7 @@ pl:
       display_name: >
         Nazwa dostawcy. Zostanie wyświetlona jako przycisk logowania i element listy dostawców.
       metadata_none: >
-        Dostawca Twojej tożsamości nie posiada punktu końcowego metadanych ani opcji pobierania XML. Możesz go skonfigurować ręcznie.
+        Your identity provider does not have a metadata endpoint or XML download option. You can configure it manually.
       metadata_url: >
         Dostawca tożsamości podaje adres URL metadanych.
       metadata_xml: >
