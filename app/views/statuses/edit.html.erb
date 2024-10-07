@@ -39,7 +39,8 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= labelled_tabular_form_for(@status) do |f| %>
-  <%= render partial: 'form', locals: { f: f } %>
-  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
+<%= error_messages_for :status %>
+
+<%= primer_form_with(model: @status) do |f| %>
+  <%= render Statuses::Form.new(f) %>
 <% end %>

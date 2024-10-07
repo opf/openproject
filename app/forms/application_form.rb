@@ -39,4 +39,16 @@ class ApplicationForm < Primer::Forms::Base
   def url_helpers
     Rails.application.routes.url_helpers
   end
+
+  # @return [ActiveRecord::Base] the model instance given to the form builder
+  def model
+    @builder.object
+  end
+
+  # @param field_name [Symbol] the name of the attribute for which to retrieve
+  #  the human-readable name
+  # @return [String] the human-readable name of the specified attribute
+  def attribute_name(field_name)
+    model.class.human_attribute_name(field_name)
+  end
 end
