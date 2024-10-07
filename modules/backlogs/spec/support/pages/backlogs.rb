@@ -290,9 +290,5 @@ module Pages
     def story_selector(story)
       "#story_#{story.id}"
     end
-
-    def toast_type
-      :ruby
-    end
   end
 end
