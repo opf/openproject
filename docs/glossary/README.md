@@ -398,7 +398,7 @@ The time tracking button in OpenProject is a feature to track time spent on work
 
 ### Theme
 
-A theme is a visual customization setting that changes the overall look and feel of the application. In OpenProject, [Enterprise customers can set a custom color theme along with a custom logo](../docs/system-admin-guide/design/). Please note: Users of all versions can choose a personal mode (e.g. [high contrast mode](#high-contrast-mode) or [dark mode](#dark-mode)), but the theme is set globally by an administrator in the design settings.
+A theme is a visual customization setting that changes the overall look and feel of the application. In OpenProject, [Enterprise customers can set a custom color theme along with a custom logo](../system-admin-guide/design/). Please note: Users of all versions can choose a personal mode (e.g. [high contrast mode](#high-contrast-mode) or [dark mode](#dark-mode)), but the theme is set globally by an administrator in the design settings.
 
 ## U
 
