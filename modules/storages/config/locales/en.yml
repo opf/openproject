@@ -324,9 +324,6 @@ en:
       not_connected: Not connected. The user should login to the storage via the following %{link}.
     members_no_results: No members to display.
     no_results: No storages set up yet.
-    notice_successful_storage_connection: |-
-      Storage connected successfully! Remember to activate the module and the specific storage in the project settings
-      of each desired project to use it.
     oauth_access_granted_modal:
       access_granted: Access granted
       project_settings:
@@ -391,6 +388,7 @@ en:
     storage_list_blank_slate:
       description: Add a storage to see them here.
       heading: You don't have any storages yet.
+    successful_storage_connection: Storage connected successfully! Remember to activate the storage in the Projects tab for each desired project to use it.
     upsale:
       description: |-
         Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to
