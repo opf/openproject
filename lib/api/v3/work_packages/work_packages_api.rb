@@ -38,8 +38,11 @@ module API
           # The endpoint needs to be mounted before the GET :work_packages/:id.
           # Otherwise, the matcher for the :id also seems to match available_projects.
           # This is also true when the :id param is declared to be of type: Integer.
+          # Note: Adding `requirements: /\d*/` to the :id definition matches numbers only.
           mount ::API::V3::WorkPackages::AvailableProjectsOnCreateAPI
           mount ::API::V3::WorkPackages::Schema::WorkPackageSchemasAPI
+          mount ::API::V3::WorkPackages::CreateFormAPI
+          mount ::API::V3::WorkPackages::Copy::CopyAPI
 
           get do
             authorize_in_any_work_package(:view_work_packages)
@@ -61,7 +64,7 @@ module API
                                                             })
                                                        .mount
 
-          route_param :id, type: Integer, desc: "Work package ID" do
+          route_param :id, type: Integer, requirements: { id: /[0-9]*/ }, desc: "Work package ID" do
             helpers WorkPackagesSharedHelpers
 
             helpers do
@@ -89,18 +92,16 @@ module API
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: WorkPackage)
                                                            .mount
 
-            mount ::API::V3::WorkPackages::WatchersAPI
             mount ::API::V3::Activities::ActivitiesByWorkPackageAPI
             mount ::API::V3::Attachments::AttachmentsByWorkPackageAPI
             mount ::API::V3::Repositories::RevisionsByWorkPackageAPI
-            mount ::API::V3::WorkPackages::UpdateFormAPI
             mount ::API::V3::WorkPackages::AvailableAssigneesAPI
             mount ::API::V3::WorkPackages::AvailableProjectsOnEditAPI
             mount ::API::V3::WorkPackages::AvailableRelationCandidatesAPI
+            mount ::API::V3::WorkPackages::UpdateFormAPI
+            mount ::API::V3::WorkPackages::WatchersAPI
             mount ::API::V3::WorkPackages::WorkPackageRelationsAPI
           end
-
-          mount ::API::V3::WorkPackages::CreateFormAPI
         end
       end
     end
