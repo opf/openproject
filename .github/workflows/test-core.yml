@@ -27,13 +27,18 @@ jobs:
       labels:
         - runs-on
         - runner=32cpu-linux-x64
-        - family=m7
+        - family=c6id
         - run-id=${{ github.run_id }}
     timeout-minutes: 40
     env:
       DOCKER_BUILDKIT: 1
       CI_RETRY_COUNT: 3
     steps:
+    - name: Update docker data root
+      run: |
+        echo '{"data-root": "/home/runner/_work/docker"}' | sudo tee /etc/docker/daemon.json > /dev/null
+        sudo systemctl restart docker
+        sudo cat /etc/docker/daemon.json
     - uses: actions/checkout@v4
     - name: Cache DOCKER
       id: cache_docker
