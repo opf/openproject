@@ -76,7 +76,7 @@ RSpec.describe "POST /api/v3/grids/form", content_type: :json do
         }
       end
 
-      it "contains default data in the payload" do
+      it "contains default data in the payload" do # rubocop:disable RSpec/ExampleLength
         expected = {
           rowCount: 1,
           columnCount: 2,

@@ -46,6 +46,11 @@ RSpec.describe "Custom text widget on my page", :js do
   let(:other_user) do
     create(:user, member_with_permissions: { project => permissions })
   end
+
+  let!(:my_page_grid) do
+    create(:my_page, :empty, user:)
+  end
+
   let(:my_page) do
     Pages::My::Page.new
   end
