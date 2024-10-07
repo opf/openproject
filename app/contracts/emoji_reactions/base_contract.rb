@@ -54,7 +54,7 @@ module EmojiReactions
     end
 
     def validate_reactable_exists
-      errors.add :reactable, :error_not_found unless model.reactable.present?
+      errors.add :reactable, :error_not_found if model.reactable.blank?
     end
 
     def validate_emoji_type

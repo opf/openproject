@@ -7,6 +7,7 @@ class CreateEmojiReactions < ActiveRecord::Migration[7.1]
       t.timestamps
     end
 
-    add_index :emoji_reactions, [:user_id, :reactable_type, :reactable_id, :emoji], unique: true, name: 'index_emoji_reactions_uniqueness'
+    add_index :emoji_reactions, %i[user_id reactable_type reactable_id emoji], unique: true,
+                                                                               name: "index_emoji_reactions_uniqueness"
   end
 end

@@ -60,19 +60,21 @@ module WorkPackages
           max_displayed_users_count = 5
 
           user_count = users.length
-          displayed_users = users.take(max_displayed_users_count).map { |u| u[:name] }
+          displayed_users = users.take(max_displayed_users_count).pluck(:name)
 
           result = if user_count <= max_displayed_users_count
-            displayed_users.join(', ')
-          elsif user_count == max_displayed_users_count + 1
-            "#{displayed_users.join(', ')} #{I18n.t("reactions.and_n_others_singular", n: 1)}"
-          else
-            "#{displayed_users.join(', ')} #{I18n.t("reactions.and_n_others_plural", n: user_count - max_displayed_users_count)}"
-          end
+                     displayed_users.join(", ")
+                   elsif user_count == max_displayed_users_count + 1
+                     "#{displayed_users.join(', ')} #{I18n.t('reactions.and_n_others_singular', n: 1)}"
+                   else
+                     "#{displayed_users.join(', ')} #{I18n.t('reactions.and_n_others_plural',
+                                                             n: user_count - max_displayed_users_count)}"
+                   end
 
           result += " "
 
           result += I18n.t("reactions.reacted_with", emoji_shortcode: EmojiReaction.shortcode(emoji))
+          result
         end
       end
     end
