@@ -116,28 +116,44 @@ module WorkPackages
         end
 
         def render_user_name_and_time_for_mobile(container)
-          container.with_column(
+          container.with_column(**mobile_container_options) do |user_name_and_time_container|
+            render_mobile_user_name(user_name_and_time_container)
+            render_mobile_time_info(user_name_and_time_container)
+          end
+        end
+
+        def mobile_container_options
+          {
             mr: 1,
             classes: "work-packages-activities-tab-journals-item-component-details--user-name-container hidden-for-desktop",
             flex_layout: true
-          ) do |user_name_and_time_container|
-            user_name_and_time_container.with_row(
-              classes: "work-packages-activities-tab-journals-item-component-details--user-name ellipsis"
-            ) do
-              truncated_user_name(journal.user)
+          }
+        end
+
+        def render_mobile_user_name(container)
+          container.with_row(classes: "work-packages-activities-tab-journals-item-component-details--user-name ellipsis") do
+            truncated_user_name(journal.user)
+          end
+        end
+
+        def render_mobile_time_info(container)
+          container.with_row(flex_layout: true) do |time_container|
+            render_mobile_journal_type(time_container) if journal.initial?
+            render_mobile_updated_time(time_container)
+          end
+        end
+
+        def render_mobile_journal_type(container)
+          container.with_column(mr: 1) do
+            render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) do
+              I18n.t("activities.work_packages.activity_tab.created_on")
             end
-            user_name_and_time_container.with_row(flex_layout: true) do |time_container|
-              if journal.initial?
-                time_container.with_column(mr: 1) do
-                  render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) do
-                    I18n.t("activities.work_packages.activity_tab.created_on")
-                  end
-                end
-              end
-              time_container.with_column do
-                render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) { format_time(journal.updated_at) }
-              end
-            end
+          end
+        end
+
+        def render_mobile_updated_time(container)
+          container.with_column do
+            render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) { format_time(journal.updated_at) }
           end
         end
 
