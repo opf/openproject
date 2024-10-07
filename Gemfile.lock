@@ -958,7 +958,7 @@ GEM
       psych (>= 4.0.0)
     recaptcha (5.17.0)
     redcarpet (3.6.0)
-    redis (5.2.0)
+    redis (5.3.0)
       redis-client (>= 0.22.0)
     redis-client (0.22.2)
       connection_pool
@@ -1341,7 +1341,7 @@ DEPENDENCIES
   rails-i18n (~> 7.0.0)
   rbtrace
   rdoc (>= 2.4.2)
-  redis (~> 5.2.0)
+  redis (~> 5.3.0)
   request_store (~> 1.7.0)
   responders (~> 3.0)
   retriable (~> 3.1.1)
