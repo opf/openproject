@@ -359,7 +359,7 @@ it:
           "14_6":
             standard:
               new_features_html: >
-                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Benefit from more flexible progress reporting – thanks to user feedback.</li> <li>Receive an update notification with reload option for meetings.</li> <li>Enable a custom field for multiple projects at once.</li> <li>Use relative work package attribute macros.</li> <li>Show empty lines in saved rich text.</li> <li>See past meetings included in the number next to the Meetings tab.</li> </ul>
+                Questa versione offre diverse funzionalità e miglioramenti, come: <br> <ul class="%{list_styling_class}"> <li>Report di avanzamento più flessibili, grazie al feedback degli utenti.</li> <li>Notifiche di aggiornamento con opzione di ricarica per le riunioni.</li> <li>Campi personalizzati per più progetti contemporaneamente.</li> <li>Procedure automatizzate (macro) sugli attributi relativi alle macro-attività.</li> <li>Righe vuote visibili in testi formattati salvati.</li> <li>Visualizzare il numero di riunioni passate accanto alla scheda Riunioni.</li> </ul>
     ical_sharing_modal:
       title: "Iscriviti al calendario"
       inital_setup_error_message: "Si è verificato un errore recuperando i dati."
