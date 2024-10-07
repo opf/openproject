@@ -387,6 +387,8 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_flag: { primeri
 
       first_journal.update!(notes: "First comment by member updated")
 
+      sleep 1 # avoid flaky test
+
       # properly updates the comment when the comment is updated
       activity_tab.expect_journal_notes(text: "First comment by member updated")
     end
