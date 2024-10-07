@@ -83,11 +83,9 @@ More on this topic can be found in our [blog post](https://www.openproject.org/h
 
 Please add tests to your code to verify functionality, especially if it is a new feature.
 
-Pull requests will be verified by TravisCI as well,
+Pull requests will be verified by GitHub Actions as well,
 but please run them locally as well and make sure they are green before creating your pull request.
 We have a lot of pull requests coming in and it takes some time to run the complete suite for each one.
-
-If you push to your branch in quick succession, please consider stopping the associated Travis builds, as Travis will run for each commit. This is especially true if you force push to the branch.
 
 Please also use `[ci skip]` in your commit message to suppress builds which are not necessary
 (e.g. after fixing a typo in the `README`).
