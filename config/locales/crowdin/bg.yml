@@ -820,7 +820,7 @@ bg:
         blank: "не може да бъде празно."
         blank_nested: "трябва да бъде зададено свойството '%{property}'."
         cannot_delete_mapping: "е необходимо. Не може да бъде изтрит."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Работния пакет не може да бъде свързан с една от неговите подзадачи."
         circular_dependency: "Тази връзка ще доведе до циклична зависимост."
         confirmation: "не съвпада с %{attribute}."

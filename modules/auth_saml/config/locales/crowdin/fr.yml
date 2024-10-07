@@ -98,7 +98,7 @@ fr:
       display_name: >
         Le nom du fournisseur. Il sera affiché comme bouton de connexion et dans la liste des fournisseurs.
       metadata_none: >
-        Votre fournisseur d'identité n'a pas de point de terminaison des métadonnées ou d'option de téléchargement XML. Vous pouvez effectuer la configuration manuellement.
+        Your identity provider does not have a metadata endpoint or XML download option. You can configure it manually.
       metadata_url: >
         Votre fournisseur d'identité fournit une URL de métadonnées.
       metadata_xml: >

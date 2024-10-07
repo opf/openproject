@@ -98,7 +98,7 @@ ko:
       display_name: >
         공급자 이름입니다. 로그인 버튼으로 표시되며 공급자 목록에 표시됩니다.
       metadata_none: >
-        ID 공급자에 메타데이터 엔드포인트 또는 XML 다운로드 옵션이 없습니다. 수동으로 구성할 수 있습니다.
+        Your identity provider does not have a metadata endpoint or XML download option. You can configure it manually.
       metadata_url: >
         ID 공급자가 메타데이터 URL을 제공합니다.
       metadata_xml: >

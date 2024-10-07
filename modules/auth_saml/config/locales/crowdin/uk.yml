@@ -98,7 +98,7 @@ uk:
       display_name: >
         Ім’я постачальника послуг. Відображатиметься як кнопка входу й пункт у списку постачальників послуг.
       metadata_none: >
-        Ваш постачальник ідентифікаційних даних не має кінцевої точки метаданих або не надає можливість завантаження XML. Ви можете налаштувати конфігурацію вручну.
+        Your identity provider does not have a metadata endpoint or XML download option. You can configure it manually.
       metadata_url: >
         Ваш постачальник ідентифікаційних надає URL-адресу метаданих.
       metadata_xml: >

@@ -98,7 +98,7 @@ es:
       display_name: >
         El nombre del proveedor. Aparecerá como botón de inicio de sesión y en la lista de proveedores.
       metadata_none: >
-        Su proveedor de identidad no dispone de un terminal de metadatos ni de una opción de descarga XML. Puede ajustar la configuración manualmente.
+        Your identity provider does not have a metadata endpoint or XML download option. You can configure it manually.
       metadata_url: >
         Su proveedor de identidad proporciona una URL de metadatos.
       metadata_xml: >
