@@ -5,7 +5,6 @@ import {
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
-import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 
 interface CustomEventWithIdParam extends Event {
   params:{
