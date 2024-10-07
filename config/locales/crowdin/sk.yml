@@ -827,7 +827,7 @@ sk:
         blank: "nemôže byť prázdne."
         blank_nested: "needs to have the property '%{property}' set."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Pracovný balíček nemôže byť previazaný na žiadny zo svojich podriadenými balíčkov."
         circular_dependency: "Tento vzťah by vytvoril cyklickú závislosť."
         confirmation: "%{attribute} sa nezhoduje."

@@ -799,7 +799,7 @@ id:
         blank: "harus di isi."
         blank_nested: "harus menyetel properti '%{property}'."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Work package tidak dapat dihubungkan dengan subtask-nya."
         circular_dependency: "Relasi ini menyebabkan dependensi circular."
         confirmation: "tidak sesuai dengan %{attribute}."

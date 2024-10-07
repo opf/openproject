@@ -804,7 +804,7 @@ ms:
         blank: "tidak boleh dibiarkan kosong."
         blank_nested: "perlu ada ciri-ciri '%{property}' yang ditetapkan."
         cannot_delete_mapping: "diperlukan. Tidak boleh dipadam."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Pakej kerja tidak boleh dipautkan ke salah satu subtugasnya."
         circular_dependency: "Hubungan ini akan mencipta kebergantungan bulat."
         confirmation: "tidak sepadan dengan %{attribute}."

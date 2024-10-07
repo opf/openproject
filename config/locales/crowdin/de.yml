@@ -807,7 +807,7 @@ de:
         blank: "muss ausgefüllt werden."
         blank_nested: "muss die Eigenschaft '%{property}' gesetzt haben."
         cannot_delete_mapping: "ist erforderlich. Kann nicht gelöscht werden."
-        is_for_all_cannot_modify: "ist für alle. Kann nicht geändert werden."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Ein Arbeitspaket kann nicht mit einer seiner Unteraufgaben verlinkt werden."
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen."
         confirmation: "stimmt nicht mit %{attribute} überein."

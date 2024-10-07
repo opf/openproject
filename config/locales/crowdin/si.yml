@@ -813,7 +813,7 @@ si:
         blank: "හිස් විය නොහැක."
         blank_nested: "needs to have the property '%{property}' set."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "වැඩ පැකේජයක් එහි එක් උප කර්තව්යයකට සම්බන්ධ කළ නොහැක."
         circular_dependency: "මෙම සම්බන්ධතාවය චක්රලේඛය යැපීමක් නිර්මාණය කරනු ඇත."
         confirmation: "%{attribute}නොගැලපේ."

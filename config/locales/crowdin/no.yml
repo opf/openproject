@@ -812,7 +812,7 @@
         blank: "kan ikke være blank."
         blank_nested: "må ha egenskapen '%{property}' aktivert."
         cannot_delete_mapping: "er påkrevd. Kan ikke slettes."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "En arbeidspakke kan ikke knyttes til en av sine deloppgaver."
         circular_dependency: "En slik relasjon ville lage en sirkulær avhengighet."
         confirmation: "samsvarer ikke med %{attribute}."

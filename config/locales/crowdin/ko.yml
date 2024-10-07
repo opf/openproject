@@ -805,7 +805,7 @@ ko:
         blank: "내용을 입력해주세요"
         blank_nested: "- '%{property}' 속성이 설정되어 있어야 합니다."
         cannot_delete_mapping: "- 필수입니다. 삭제할 수 없습니다."
-        is_for_all_cannot_modify: "- 모든 프로젝트용입니다. 수정할 수 없습니다."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "작업 패키지는 하위 작업패키지들 중 하나에 연결 될 수 없습니다."
         circular_dependency: "이 연계는 순환 종속관계를 만듭니다."
         confirmation: "%{attribute} 속성에 부합하지 않습니다."

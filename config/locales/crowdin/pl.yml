@@ -824,7 +824,7 @@ pl:
         blank: "nie może być puste."
         blank_nested: "musi mieć ustawioną właściwość '%{property}'."
         cannot_delete_mapping: "jest wymagane. Nie można usunąć."
-        is_for_all_cannot_modify: "jest przeznaczony dla wszystkich. Nie można modyfikować."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Zestaw zadań nie może być powiązany z jego podzadaniami."
         circular_dependency: "Ta relacja może wytworzyć zależność cykliczną."
         confirmation: "nie pasuje do %{attribute}."
