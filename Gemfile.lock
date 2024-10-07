@@ -614,7 +614,7 @@ GEM
       google-apis-core (>= 0.15.0, < 2.a)
     google-cloud-env (2.2.1)
       faraday (>= 1.0, < 3.a)
-    googleauth (1.11.0)
+    googleauth (1.11.1)
       faraday (>= 1.0, < 3.a)
       google-cloud-env (~> 2.1)
       jwt (>= 1.4, < 3.0)
@@ -693,7 +693,7 @@ GEM
     json_spec (1.1.5)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
-    jwt (2.8.2)
+    jwt (2.9.3)
       base64
     ladle (1.0.1)
       open4 (~> 1.0)
