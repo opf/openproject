@@ -84,7 +84,7 @@ RSpec.describe "POST /api/v3/grids/form", content_type: :json do
           widgets: [
             {
               _type: "GridWidget",
-              identifier: "work_packages_table",
+              identifier: "work_packages_assigned",
               options: {
                 name: "Work packages assigned to me",
                 queryProps: {
@@ -99,7 +99,7 @@ RSpec.describe "POST /api/v3/grids/form", content_type: :json do
             },
             {
               _type: "GridWidget",
-              identifier: "work_packages_table",
+              identifier: "work_packages_created",
               options: {
                 name: "Work packages created by me",
                 queryProps: {
