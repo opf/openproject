@@ -377,7 +377,17 @@ export default class IndexController extends Controller {
     const inputContainer = this.getInputContainer() as HTMLElement;
     setTimeout(() => {
       if (inputContainer) {
-        inputContainer.scrollIntoView({ behavior: 'smooth' });
+        if (this.sortingValue === 'desc') {
+          inputContainer.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+          });
+        } else {
+          inputContainer.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          });
+        }
       }
     }, timeout);
   }
