@@ -1,6 +1,7 @@
 name: "Test suite"
 # https://securitylab.github.com/research/github-actions-preventing-pwn-requests
 on:
+  workflow_dispatch:
   push:
     branches:
       - dev
