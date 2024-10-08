@@ -78,14 +78,12 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService do
     let(:short) { "Short Description" }
 
     context "with valid parameters" do
-      it "inserts an item successfully" do
+      it "inserts an item successfully without short" do
         result = service.insert_item(parent:, label:)
         expect(result).to be_success
       end
-    end
 
-    context "with invalid short" do
-      it "fails to insert an item" do
+      it "inserts an item successfully with short" do
         result = service.insert_item(parent:, label:, short:)
         expect(result).to be_success
       end
