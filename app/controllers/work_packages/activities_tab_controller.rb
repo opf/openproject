@@ -323,7 +323,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
     rerender_journals_with_updated_notification(journals, last_update_timestamp)
 
-    append_or_prepend_new_journals(journals, last_update_timestamp)
+    append_or_prepend_journals(journals, last_update_timestamp)
 
     if journals.any?
       remove_potential_empty_state
