@@ -28,6 +28,8 @@
 
 module Queries::Filters::Strategies
   class DateTimePast < Queries::Filters::Strategies::Integer
+    include DateHelpers
+
     self.supported_operators = [">t-", "<t-", "t-", "t", "w", "=d", "<>d"]
     self.default_operator = ">t-"
 
@@ -52,12 +54,12 @@ module Queries::Filters::Strategies
 
     def validate_values_all_datetime
       unless values.all? { |value| value.blank? || datetime?(value) }
-        errors.add(:values, I18n.t("activerecord.errors.messages.not_a_datetime"))
+        errors.add(:values, I18n.t("activerecord.errors.messages.not_a_datetime_or_out_of_range"))
       end
     end
 
     def datetime?(str)
-      true if ::DateTime.parse(str)
+      valid_date?(::DateTime.strptime(str))
     rescue ArgumentError
       false
     end
