@@ -355,10 +355,10 @@ pt-BR:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_5":
+          "14_6":
             standard:
               new_features_html: >
-                A versão inclui várias novas funcionalidades e melhorias, como: <br> <ul class="%{list_styling_class}"> <li>Manter e restaurar versões locais das alterações de conteúdo WYSIWYG.</li> <li>Habilitar o armazenamento para múltiplos projetos simultaneamente.</li> <li>Exportar pacotes de trabalho em um modal atualizado com configurações adicionais.</li> <li>Exibir colunas e filtros de campos personalizados nas listas de projetos também na Edição Comunitária.</li> <li>Suporte ao CloudFlare Turnstile como Captcha.</li> </ul>
+                A nova versão traz diversas funcionalidades e melhorias para você, como: <br> <ul class="%{list_styling_class}"> <li>Aproveite um relatório de progresso mais flexível – graças ao feedback dos usuários.</li> <li>Receba uma notificação de atualização com opção de recarregar para as reuniões.</li> <li>Ative um campo personalizado para vários projetos ao mesmo tempo.</li> <li>Utilize macros de atributos relativos dos pacotes de trabalho.</li> <li>Mostre linhas em branco em textos enriquecidos salvos.</li> <li>Veja reuniões passadas incluídas no número ao lado da aba Reuniões.</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."
@@ -611,7 +611,7 @@ pt-BR:
         assigned: "Cessionário"
         #The enum value is named 'responsible' in the database and that is what is transported through the API
         #up to the frontend.
-        responsible: "Accountable"
+        responsible: "Responsável"
         created: "Criado"
         scheduled: "Planejado"
         commented: "Comentado"

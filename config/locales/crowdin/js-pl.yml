@@ -356,10 +356,10 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_5":
+          "14_6":
             standard:
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia, takie jak: <br> <ul class="%{list_styling_class}"> <li>Zachowywanie i przywracanie lokalnych wersji zmian zawartości WYSIWYG.</li> <li>Włączanie magazynu dla wielu projektów naraz.</li> <li>Eksport pakietów roboczych w zaktualizowanym modalu z dodatkowymi ustawieniami.</li> <li>Wyświetlanie niestandardowych kolumny/filtrów pól na listach projektów również w wersji Community.</li> <li>Obsługa CloudFlare Turnstile jako mechanizmu Captcha.</li> </ul>
+                Ta wersja wprowadza różne funkcje i ulepszenia m.in. <br> <ul class="%{list_styling_class}"> <li>Korzystaj z bardziej elastycznej sprawozdawczości o postępach – dzięki opiniom użytkowników.</li> <li>Otrzymuj powiadomienia o aktualizacjach z opcją przeładowania spotkań.</li> <li>Włączaj pole niestandardowe dla wielu projektów jednocześnie.</li> <li>Używaj makr dla względnego atrybutu pakietu roboczego.</li> <li>Wyświetlaj puste linie w zapisanym formatowanym tekście.</li> <li>Oglądaj wcześniejsze spotkania znajdujące się na karcie Spotkania.</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -612,7 +612,7 @@ pl:
         assigned: "Przypisana osoba"
         #The enum value is named 'responsible' in the database and that is what is transported through the API
         #up to the frontend.
-        responsible: "Accountable"
+        responsible: "Osoba odpowiedzialna"
         created: "Utworzono"
         scheduled: "Zaplanowany"
         commented: "Skomentował"

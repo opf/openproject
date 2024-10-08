@@ -41,7 +41,7 @@ class Status < ApplicationRecord
             uniqueness: { case_sensitive: false },
             length: { maximum: 256 }
 
-  validates :default_done_ratio, inclusion: { in: 0..100, allow_nil: true }
+  validates :default_done_ratio, inclusion: { in: 0..100, allow_nil: false }
 
   validate :default_status_must_not_be_readonly
 
