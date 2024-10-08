@@ -16,7 +16,7 @@ To manage the settings for progress tracking in work packages, navigate to  *Adm
 ## Progress calculation mode
 *Progress calculation mode* lets you select between *work-based* and *status-based* modes.
 
-- **Work-based mode**: *%&nbsp;Complete* is either set manually or is automatically calculated based on *Work* and *Remaining work* values for that work package, both of which are then necessary to have a value for %&nbsp;Complete. Please refer to [progress tracking user guide](../../../user-guide/time-and-costs/progress-tracking/#work-based-progress-reporting) for more details and calculation examples.
+- **Work-based mode**: *%&nbsp;Complete* is either set manually or is automatically calculated based on *Work* and *Remaining work*, if they exist. Please refer to [progress tracking user guide](../../../user-guide/time-and-costs/progress-tracking/#work-based-progress-reporting) for more details and calculation examples.
 - **Status-based mode**: you will have to define fixed %&nbsp;Complete values for each [work package status](../work-package-status), which will update automatically when team members update the status of their work packages.
 
  > [!NOTE]
