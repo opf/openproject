@@ -101,27 +101,6 @@ RSpec.describe UserPreference do
     end
   end
 
-  describe "hide_mail" do
-    it_behaves_like "accepts real and false booleans",
-                    :hide_mail=,
-                    :hide_mail?
-
-    context "when a new pref instance" do
-      subject { described_class.new }
-
-      it "defaults to true" do
-        expect(subject.settings[:hide_mail]).to be_nil
-        expect(subject.hide_mail).to be true
-        expect(subject.hide_mail?).to be true
-
-        subject.hide_mail = false
-        expect(subject.settings[:hide_mail]).to be false
-        expect(subject.hide_mail).to be false
-        expect(subject.hide_mail?).to be false
-      end
-    end
-  end
-
   describe "#diff_type" do
     it "can be set and written" do
       expect(subject.diff_type)
