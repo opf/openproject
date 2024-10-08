@@ -150,7 +150,7 @@ pl:
           unauthorized: OpenProject nie może zsynchronizować się z OneDrive. Sprawdź konfigurację magazynu i aplikacji Azure.
           user_does_not_exist: "Użytkownik %{user} nie istnieje w Nextcloud."
         upload_link_service:
-          not_found: Folder docelowy %{folder} nie został znaleziony na magazynie %{storage_name}.
+          not_found: Folder docelowy %{folder} nie został znaleziony w magazynie %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Ukończ bez tego

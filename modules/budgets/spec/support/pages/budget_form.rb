@@ -179,9 +179,5 @@ module Pages
     def labor_rows
       @labor_rows ||= 0
     end
-
-    def toast_type
-      :rails
-    end
   end
 end

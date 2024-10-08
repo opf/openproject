@@ -211,7 +211,7 @@ es:
       items:
         blankslate:
           title: "Su lista de artículos está vacía"
-          description: "Comience añadiendo elementos al campo personalizado de tipo jerarquía. Cada elemento puede utilizarse para crear una jerarquía debajo de él. Para navegar y crear subelementos dentro de una jerarquía haga clic en el elemento creado."
+          description: "Comience añadiendo elementos al campo personalizado de tipo jerarquía. Cada elemento puede utilizarse para crear una jerarquía debajo de él. Para navegar y crear subelementos dentro de una jerarquía, haga clic en el elemento creado."
       notice:
         remember_items_and_projects: "Recuerde configurar los artículos y proyectos en las pestañas respectivas para este campo personalizado."
     text_add_new_custom_field: >
@@ -817,7 +817,7 @@ es:
         blank: "no puede estar en blanco."
         blank_nested: "necesita tener la propiedad '%{property}' definida."
         cannot_delete_mapping: "es obligatorio. No se puede eliminar."
-        is_for_all_cannot_modify: "es para todos. No se puede modificar."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Un paquete de trabajo no puede ser vinculado a una de sus subtareas."
         circular_dependency: "Esta relación podría crear una dependencia circular."
         confirmation: "no coincide con %{attribute}."
@@ -926,7 +926,7 @@ es:
               blank: "es obligatorio. Por favor, seleccione un nombre."
               not_unique: "ya está en uso. Por favor, seleccione otro nombre."
         meeting:
-          error_conflict: "No se ha podido guardar porque la reunión ha sido actualizada por otra persona mientras tanto. Por favor, vuelva a cargar la página."
+          error_conflict: "No se ha podido guardar porque otra persona ha actualizado la reunión mientras tanto. Vuelva a cargar la página."
         notifications:
           at_least_one_channel: "Debe especificarse al menos un canal para enviar notificaciones."
           attributes:
@@ -1808,8 +1808,8 @@ es:
       progress_mode_changed_to_status_based: "Cálculo del progreso actualizado"
       status_changed: "Estado «%{status_name}»"
       system_update: "Actualización del sistema OpenProject:"
-      total_percent_complete_mode_changed_to_work_weighted_average: "El cálculo de los totales de % Completo ahora se pondera por Trabajo."
-      total_percent_complete_mode_changed_to_simple_average: "El cálculo de los totales de % Completo se basa ahora en una media simple de sólo los valores de % Completo."
+      total_percent_complete_mode_changed_to_work_weighted_average: "El cálculo de los totales de % completado ahora se pondera por Trabajo."
+      total_percent_complete_mode_changed_to_simple_average: "El cálculo de los totales de % completado se basa ahora en una media simple de solo los valores de % completado."
     cause_descriptions:
       work_package_predecessor_changed_times: por cambios al %{link} predecesor
       work_package_parent_changed_times: por cambios al %{link} principal
@@ -1840,7 +1840,7 @@ es:
       total_percent_complete_mode_changed_to_work_weighted_average: >-
         Los paquetes de trabajo para niños sin Trabajo se ignoran.
       total_percent_complete_mode_changed_to_simple_average: >-
-        Se ignoran los valores de trabajo de los paquetes de trabajo hijos.
+        Se ignoran los valores de trabajo de los paquetes de trabajo secundarios.
   links:
     configuration_guide: "Guía de configuración"
     get_in_touch: "¿Tiene alguna pregunta? Póngase en contacto con nosotros."
@@ -1941,7 +1941,7 @@ es:
   label_additional_workflow_transitions_for_author: "Transiciones adicionales permitidas cuando el usuario es el autor"
   label_administration: "Administración"
   label_interface_colors: "Colores de la interfaz"
-  label_interface_colors_description: "Estos colores controlan el aspecto de la aplicación. Si los modifica, el tema cambiará automáticamente a Tema personalizado, pero no podemos asegurar el cumplimiento de los mínimos de contraste de accesibilidad (WCAG 2.1)."
+  label_interface_colors_description: "Estos colores controlan el aspecto de la aplicación. Si los modifica, el tema cambiará automáticamente a Tema personalizado, pero no podemos asegurar el cumplimiento de los mínimos de contraste de accesibilidad (WCAG 2.1). "
   label_age: "Edad"
   label_ago: "días antes"
   label_all: "todos"
@@ -3160,10 +3160,10 @@ es:
   setting_work_package_done_ratio: "Modo de cálculo del progreso"
   setting_work_package_done_ratio_field: "Basado en el trabajo"
   setting_work_package_done_ratio_field_caption_html: >-
-    <i>% Completo</i> puede fijarse libremente en cualquier valor. Si introduce opcionalmente un valor para <i>Trabajo</i>, se derivará automáticamente <i>Trabajo restante</i>.
+    <i>% completado</i> puede fijarse libremente en cualquier valor. Si introduce opcionalmente un valor para <i>Trabajo</i>, se derivará automáticamente <i>Trabajo restante</i>.
   setting_work_package_done_ratio_status: "Basado en el estado"
   setting_work_package_done_ratio_status_caption_html: >-
-    Cada estado tiene asociado un valor de <i>% Completo</i>. El cambio de estado modificará el <i>% Completo</i>.
+    Cada estado tiene asociado un valor de <i>% completado</i>. El cambio de estado modificará el <i>% completado</i>.
   setting_work_package_done_ratio_explanation_html: >
     En el modo <b>basado en trabajo</b>, el % completado puede fijarse libremente en cualquier valor. Si introduce opcionalmente un valor para Trabajo, se derivará automáticamente Trabajo restante. En el modo <b>basado en estados</b>, cada estado tiene asociado un valor de % completado. Si cambia de estado, cambiará el % completado.
   setting_work_package_properties: "Propiedades de paquete de trabajo"
@@ -3184,10 +3184,10 @@ es:
   setting_password_min_length: "Longitud mínima"
   setting_password_min_adhered_rules: "Numero mínimo de clases requeridas"
   setting_per_page_options: "Objetos por página de opciones"
-  setting_percent_complete_on_status_closed: "% Completo cuando el estado es cerrado"
+  setting_percent_complete_on_status_closed: "% completado cuando el estado es cerrado"
   setting_percent_complete_on_status_closed_no_change: "Sin cambios"
   setting_percent_complete_on_status_closed_no_change_caption_html: >-
-    El valor de <i>% Completo</i> no cambiará aunque se cierre un paquete de trabajo.
+    El valor de <i>% completado</i> no cambiará aunque se cierre un paquete de trabajo.
   setting_percent_complete_on_status_closed_set_100p: "Ajustado automáticamente al 100 %"
   setting_percent_complete_on_status_closed_set_100p_caption: >-
     Un paquete de trabajo cerrado se considera completo.
@@ -3215,13 +3215,13 @@ es:
   setting_sys_api_enabled: "Habilitar el servicio web de administración de repositorios"
   setting_sys_api_description: "El servicio web de administración de repositorios proporciona integración y autorización de usuario para acceder a los repositorios."
   setting_time_format: "Hora"
-  setting_total_percent_complete_mode: "Cálculo de los totales de la jerarquía % Completo"
+  setting_total_percent_complete_mode: "Cálculo de los totales de la jerarquía % completado"
   setting_total_percent_complete_mode_work_weighted_average: "Ponderado por trabajo"
   setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
-    El <i>Total % Completo</i> se ponderará con respecto al <i>Trabajo</i> de cada paquete de trabajo de la jerarquía. Los paquetes de trabajo sin <i>Trabajo</i> serán ignorados.
+    El <i>% total completado</i> se ponderará con respecto al <i>Trabajo</i> de cada paquete de trabajo de la jerarquía. Los paquetes de trabajo sin <i>Trabajo</i> se ignorarán.
   setting_total_percent_complete_mode_simple_average: "Media simple"
   setting_total_percent_complete_mode_simple_average_caption_html: >-
-    <i>Trabajo</i> se ignora y el <i>% Total Completo</i> será una media simple de los valores de <i>% Completo</i> de los paquetes de trabajo de la jerarquía.
+    <i>Trabajo</i> se ignora y el <i>% total completado</i> será una media simple de los valores de <i>% completado</i> de los paquetes de trabajo de la jerarquía.
   setting_accessibility_mode_for_anonymous: "Activar el modo de accesibilidad para usuarios anónimos"
   setting_user_format: "Formato de nombre de usuarios"
   setting_user_default_timezone: "Zona horaria por defecto de los usuarios"

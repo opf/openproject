@@ -172,12 +172,6 @@ module ApplicationHelper
     end.join.html_safe
   end
 
-  def html_hours(text)
-    html_safe_gsub(text,
-                   %r{(\d+)\.(\d+)},
-                   '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
-  end
-
   def html_safe_gsub(string, *gsub_args, &)
     html_safe = string.html_safe?
     result = string.gsub(*gsub_args, &)

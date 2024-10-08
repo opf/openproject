@@ -359,7 +359,7 @@ fr:
           "14_6":
             standard:
               new_features_html: >
-                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Benefit from more flexible progress reporting – thanks to user feedback.</li> <li>Receive an update notification with reload option for meetings.</li> <li>Enable a custom field for multiple projects at once.</li> <li>Use relative work package attribute macros.</li> <li>Show empty lines in saved rich text.</li> <li>See past meetings included in the number next to the Meetings tab.</li> </ul>
+                Cette version apporte diverses fonctionnalités et améliorations, p. ex., <br> <ul class="%{list_styling_class}"> <li>Bénéficiez de rapports de progression plus flexibles grâce aux commentaires des utilisateurs.</li> <li>Recevez une notification de mise à jour avec option de rechargement pour les réunions.</li> <li>Activez un champ personnalisé pour plusieurs projets à la fois.</li> <li>Utilisez des macros d'attributs relatifs pour les lots de travaux.</li> <li>Affichez les lignes vides dans le texte enrichi enregistré.</li> <li>Affichez les réunions passées incluses dans le nombre situé à côté de l'onglet Réunions.</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -612,7 +612,7 @@ fr:
         assigned: "Personne assignée"
         #The enum value is named 'responsible' in the database and that is what is transported through the API
         #up to the frontend.
-        responsible: "Accountable"
+        responsible: "Responsable"
         created: "Créé"
         scheduled: "Planifié"
         commented: "Commenté"

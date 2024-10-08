@@ -56,7 +56,7 @@ Macros such as *workPackageValue:assignee* have been implemented, allowing the d
 
 ![Screenshot showing a work package with macros in the description](openproject-14-6-macros.png)
 
-See our [documentation for a list of available attributes for work packages](../../user-guide/wysiwyg/#available-attributes-for-work-packages).
+See our [documentation for a list of available attributes for work packages](../../user-guide/wysiwyg/#available-attributes-for-work-packages) and take a look at [this blog article to learn more about using macros with OpenProject](https://www.openproject.org/blog/how-to-use-macros/).
 
 ### Show empty lines in saved rich text
 
@@ -138,6 +138,10 @@ On the Meetings tab in the split screen view, the number next to the “Meetings
 A very special thank you goes to City of Cologne again for sponsoring features in project lists. Also, a big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
 Special thanks for reporting and finding bugs go to Jan H, Joris Ceelen, André van Kaam, and Christian Jeschke.
 
-Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release, we would like to highlight [DKrukoff](https://crowdin.com/profile/dkrukoff), for an outstanding number of translations into Russian.
+Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings!  This release we would like to highlight
+- [DKrukoff](https://crowdin.com/profile/dkrukoff), for translations into Russian.
+- [Sara Ruela](https://crowdin.com/profile/Sara.PT), for translations into Portuguese.
+- [BigSeung](https://crowdin.com/profile/BigSeung), for translations into Korean.
+- [Raffaele Brevetti](https://crowdin.com/profile/rbrevetti), for translations into Italian.
 
 Would you like to help out with translations yourself? Then take a look at our [translation guide](../../development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
