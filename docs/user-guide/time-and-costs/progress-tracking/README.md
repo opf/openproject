@@ -146,7 +146,7 @@ In Status-based progress reporting mode, Work is not a required value. However, 
 This allows you to edit %&nbsp;Complete (by changing status) or Work and get a preview of the updated Remaining work before saving changes.
 
 > [!NOTE]
-> In the upcoming version, statuses cannot have an empty %&nbsp;Complete value in status-based progress reporting mode.When upgrading, all statuses that do not have a value will take the default value of 0%.
+> In the upcoming version, statuses cannot have an empty %&nbsp;Complete value in status-based progress reporting mode. When upgrading, all statuses that do not have a value will take the default value of 0%.
 
 ## Hierarchy totals
 
