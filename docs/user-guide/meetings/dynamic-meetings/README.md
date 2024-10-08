@@ -73,6 +73,12 @@ An edit screen will be displayed, where you can adjust the date, time, duration 
 
 Do not forget to save the changes by clicking the green **Save** button. Cancel will bring you back to the details view.
 
+> [!TIP]
+>
+> If someone else edits or updates the current meeting page at the same time and saves their changes, you and all other users on the same page will be notified of this with a small banner at the top of the page. Click the **Reload** button to load the updated version of the page.
+>
+![Banner notifying that a meeting has been updated while a user is editing it in OpenProject meetings module](openproject_dynamic_meetings_page_update_reload_button.png)
+
 In order to edit the title of the meeting select the dropdown menu behind the three dots and select the **Edit meeting title**.
 
 ![Edit a meeting title in OpenProject](openproject_userguid_dynamic_meeting_edit_title.png)
@@ -160,6 +166,8 @@ You can add a work package to both upcoming or past meetings as long as the work
 >  [!TIP]
 > The upcoming meetings are displayed in chronological order, from the nearest meeting to the most distant. 
 > The past meetings are displayed in reverse chronological order, from the most recent meeting to the oldest.
+
+
 
 ## Meeting participants
 
