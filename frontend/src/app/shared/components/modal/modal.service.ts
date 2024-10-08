@@ -82,6 +82,7 @@ export class OpModalService {
    * @param notFullscreen
    * @param mobileTopPosition
    * @param target An optional target override for the modal portal outlet
+   * @param anchor An optional HTML element that is fixed on opening the modal
    */
   public show<T extends OpModalComponent>(
     modal:ComponentType<T>,
@@ -90,6 +91,7 @@ export class OpModalService {
     notFullscreen = false,
     mobileTopPosition = false,
     target = PortalOutletTarget.Default,
+    anchor:HTMLElement|null = null,
   ):Observable<T> {
     this.close();
 
@@ -106,7 +108,7 @@ export class OpModalService {
       target,
     });
 
-    this.fixBodyPosition();
+    this.fixElementPosition(anchor);
 
     return this.activeModalInstance$
       .pipe(
@@ -118,23 +120,35 @@ export class OpModalService {
   /**
    * Closes currently open modal window
    */
-  public close():void {
-    this.unfixBodyPosition();
+  public close(anchor:HTMLElement|null = null):void {
+    this.unfixElementPosition(anchor);
 
     this.activeModalData$.next(null);
   }
 
-  private fixBodyPosition():void {
+  private fixElementPosition(element:HTMLElement|null):void {
+    let anchor = document.body;
+
+    if (element !== null) {
+      anchor = element;
+    }
+
     const scrollY:string = document.documentElement.style.getPropertyValue('--scroll-y');
-    this.bodyRenderer.setStyle(document.body, 'position', 'fixed');
-    this.bodyRenderer.setStyle(document.body, 'top', `-${scrollY}`);
+    this.bodyRenderer.setStyle(anchor, 'position', 'fixed');
+    this.bodyRenderer.setStyle(anchor, 'top', `-${scrollY}`);
   }
 
-  private unfixBodyPosition():void {
-    const scrollY:string = document.body.style.top;
+  private unfixElementPosition(element:HTMLElement|null):void {
+    let anchor = document.body;
 
-    this.bodyRenderer.setStyle(document.body, 'position', '');
-    this.bodyRenderer.setStyle(document.body, 'top', '');
+    if (element !== null) {
+      anchor = element;
+    }
+
+    const scrollY:string = anchor.style.top;
+
+    this.bodyRenderer.setStyle(anchor, 'position', '');
+    this.bodyRenderer.setStyle(anchor, 'top', '');
 
     window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
   }
