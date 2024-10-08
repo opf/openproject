@@ -93,7 +93,7 @@ gem "deckar01-task_list", "~> 2.3.1"
 # Requires escape-utils for faster escaping
 gem "escape_utils", "~> 1.3"
 # Syntax highlighting used in html-pipeline with rouge
-gem "rouge", "~> 4.3.0"
+gem "rouge", "~> 4.4.0"
 # HTML sanitization used for html-pipeline
 gem "sanitize", "~> 6.1.0"
 # HTML autolinking for mails and urls (replaces autolink)
@@ -167,7 +167,7 @@ gem "matrix", "~> 0.4.2"
 
 gem "meta-tags", "~> 2.22.0"
 
-gem "paper_trail", "~> 15.1.0"
+gem "paper_trail", "~> 15.2.0"
 
 gem "op-clamav-client", "~> 3.4", require: "clamav"
 
@@ -175,7 +175,7 @@ group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
   gem "dalli", "~> 3.2.0"
-  gem "redis", "~> 5.2.0"
+  gem "redis", "~> 5.3.0"
 end
 
 gem "i18n-js", "~> 4.2.3"
@@ -358,7 +358,7 @@ end
 gem "bootsnap", "~> 1.18.0", require: false
 
 # API gems
-gem "grape", "~> 2.1.0"
+gem "grape", "~> 2.2.0"
 gem "grape_logging", "~> 1.8.4"
 gem "roar", "~> 1.2.0"
 
