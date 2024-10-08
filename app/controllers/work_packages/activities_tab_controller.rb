@@ -97,13 +97,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
   def edit
     if allowed_to_edit?(@journal)
-      update_via_turbo_stream(
-        component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
-          journal: @journal,
-          state: :edit,
-          filter: @filter
-        )
-      )
+      update_item_component(journal: @journal, state: :edit)
     else
       @turbo_status = :forbidden
     end
@@ -113,13 +107,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
   def cancel_edit
     if allowed_to_edit?(@journal)
-      update_via_turbo_stream(
-        component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
-          journal: @journal,
-          state: :show,
-          filter: @filter
-        )
-      )
+      update_item_component(journal: @journal, state: :show)
     else
       @turbo_status = :forbidden
     end
@@ -146,7 +134,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     )
 
     if call.success? && call.result
-      update_item_component(call.result, state: :show)
+      update_item_component(journal: call.result, state: :show)
     else
       handle_failed_update_call(call)
     end
@@ -314,18 +302,17 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     ###
   end
 
-  def update_item_component(journal, state: :show)
+  def update_item_component(journal:, filter: @filter, state: :show)
     update_via_turbo_stream(
       component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
         journal:,
         state:,
-        filter: @filter
+        filter:
       )
     )
   end
 
   def generate_time_based_update_streams(last_update_timestamp)
-    # TODO: prototypical implementation
     journals = @work_package.journals
 
     if @filter == :only_comments
@@ -359,23 +346,23 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
   def rerender_updated_journals(journals, last_update_timestamp)
     journals.where("updated_at > ?", last_update_timestamp).find_each do |journal|
-      update_via_turbo_stream(
-        # we need to update the whole component as the show part is not rendered for journals which originally have no notes
-        component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
-          journal:,
-          filter: @filter
-        )
-      )
-      # TODO: is it possible to loose an edit state this way?
+      update_item_component(journal:)
     end
+  end
 
+  def rerender_journals_with_updated_notification(journals, last_update_timestamp)
+    # Case: the user marked the journal as read somewhere else and expects the bubble to disappear
+    journals
+      .joins(:notifications)
+      .where("notifications.updated_at > ?", last_update_timestamp)
+      .find_each do |journal|
+      update_item_component(journal:)
+    end
+  end
+
+  def append_or_prepend_journals(journals, last_update_timestamp)
     journals.where("created_at > ?", last_update_timestamp).find_each do |journal|
       append_or_prepend_latest_journal_via_turbo_stream(journal)
-    end
-
-    if journals.any?
-      remove_potential_empty_state
-      update_activity_counter
     end
   end
 
