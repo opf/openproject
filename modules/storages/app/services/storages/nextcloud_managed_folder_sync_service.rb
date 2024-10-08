@@ -308,7 +308,7 @@ module Storages
 
     def remote_group_users
       info "Retrieving users that a part of the #{@storage.group} group"
-      group_users.call(storage: @storage, group: @storage.group)
+      group_users.call(storage: @storage, auth_strategy:, group: @storage.group)
     end
 
     ### Model Scopes

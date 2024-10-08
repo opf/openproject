@@ -50,7 +50,7 @@ module Storages
                 info "Adding #{user} to #{group} through #{url}"
 
                 response = http.post(UrlBuilder.url(@storage.uri, "ocs/v1.php/cloud/users", user, "groups"),
-                                     form: { "groupid" => CGI.escapeURIComponent(group) })
+                                     form: { "groupid" => group })
 
                 handle_response(response)
               end
