@@ -1,4 +1,4 @@
-The HoverCard is a pattern related to the `Primer::Beta::Popover` and is used to show additional information on any kind of resource. The hover card is opened by hovering a certain trigger. When hovering outside of the card or its trigger, the popover is closed again.
+The HoverCard is a pattern related to the `Primer::Beta::Popover` and is used to show additional contexual information on certain kinds of resources like work packages and users. The hover card is opened by hovering over a certain trigger. When hovering outside of the card or its trigger, the popover is closed again.
 
 ## Overview
 
@@ -8,22 +8,21 @@ The HoverCard is a pattern related to the `Primer::Beta::Popover` and is used to
 
 The HoverCard always consists of two basic parts:
 
-1. A trigger: That can be anything that is hoverable
-2. The actual card: A small popover is opened directly next to the trigger. The actual content of the card depends on the resource that is hovered.
+1. A trigger: That can be anything that is hoverable, like a link or a chip
+2. The actual card: A small popover that is opened directly next to the trigger. The actual content of the card depends on the type of resource it is calling.
 
 
 ## Best practices
 
 **Do**
 
-- Have a slight delay between hovering and opening the card
-- Keep the content of the card simple
-
+- Put in a slight delay between hovering and displaying the card to avoid accidental triggering, which can be annoying.
+- Keep the content of the card simple. Only the essentials.
 
 **Don't**
 
-- Put interactive elements inside of the card. As the popover closes as soon as you move the mouse out, it will trigger users confusion.
-- Put too many triggers on one page, as it can otherwise become annoying.
+- Don't put additional interactive elements inside of the card. Since the popover closes as soon as you move the mouse out, users will find it frustrating if they try further interacting with it and have it keep disappearing
+- Don't put too many triggers on one page, as it can otherwise become annoying to have too many items trigger a card that blocks part of the screen
 
 ## Used in
 
