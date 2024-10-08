@@ -120,7 +120,7 @@ ru:
       label: 'Обработка?'
       pending: 'В ожидании'
       processing: 'В процессе'
-      completed: 'Выполнено'
+      completed: 'Завершено'
       error: 'Ошибка'
     processing_notice:
       processing_default: 'Следующие модели IFC по умолчанию еще обрабатываются и поэтому недоступны:'

@@ -73,12 +73,12 @@ See COPYRIGHT and LICENSE files for more details.
         <table>
           <tr>
             <td width="130px" align="right"><%= Version.human_attribute_name(:estimated_hours) %></td>
-            <td width="240px" class="total-hours" align="right"><%= html_hours(l_hours(@version.estimated_hours)) %></td>
+            <td width="240px" class="total-hours" align="right"><%= l_hours(@version.estimated_hours) %></td>
           </tr>
           <% if User.current.allowed_in_project?(:view_time_entries, @project) %>
             <tr>
               <td width="130px" align="right"><%= t(:label_spent_time) %></td>
-              <td width="240px" class="total-hours" align="right"><%= html_hours(l_hours(@version.spent_hours)) %></td>
+              <td width="240px" class="total-hours" align="right"><%= l_hours(@version.spent_hours) %></td>
             </tr>
           <% end %>
         </table>

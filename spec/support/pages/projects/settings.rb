@@ -83,10 +83,6 @@ module Pages
 
       private
 
-      def toast_type
-        :rails
-      end
-
       def path
         project_settings_general_path(project)
       end

@@ -211,6 +211,10 @@ cs:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
       notice:
         remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
@@ -830,7 +834,7 @@ cs:
         blank: "nemůže být prázdné."
         blank_nested: "musí mít nastavenou vlastnost '%{property}'."
         cannot_delete_mapping: "je povinné. Nelze odstranit."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Pracovní balíček nemůže být propojen s jedním z jeho podúkolů."
         circular_dependency: "Tento vztah by vytvořil kruhovou závislost."
         confirmation: "neshoduje se s %{attribute}."
@@ -2245,6 +2249,8 @@ cs:
   label_internal: "Interní"
   label_introduction_video: "Seznamovací video"
   label_invite_user: "Pozvat uživatele"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Sdílet"
   label_share_project_list: "Sdílet seznam projektů"
   label_share_work_package: "Sdílet pracovní balíček"
@@ -2321,7 +2327,7 @@ cs:
   label_more: "Více"
   label_more_than_ago: "před více jak (dny)"
   label_move_work_package: "Přesunout pracovní balíček"
-  label_my_account: "Můj účet"
+  label_my_account: "Account settings"
   label_my_activity: "Moje aktivita"
   label_my_account_data: "Data mého účtu"
   label_my_avatar: "Můj avatar"

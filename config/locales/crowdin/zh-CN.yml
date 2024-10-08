@@ -208,8 +208,12 @@ zh-CN:
         is_for_all_blank_slate:
           heading: 适用于所有项目
           description: 由于选中了 "适用于所有项目 "选项，因此所有项目都启用了该自定义字段。单个项目无法停用。
+      items:
+        blankslate:
+          title: "您的条目列表为空"
+          description: "首先，将条目添加到类型层次结构的自定义字段中。每个条目都可以用于在其下方创建一个层次结构。要导航并在层次结构中创建子条目，请点击已创建的条目。"
       notice:
-        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
+        remember_items_and_projects: "请记住，在相应的选项卡中为此自定义字段设置条目和项目。"
     text_add_new_custom_field: >
       要向项目添加新的自定义字段，您需要先创建字段，然后才能将其添加到此项目中。
     is_enabled_globally: "已全局启用"
@@ -617,7 +621,7 @@ zh-CN:
         editable: "可编辑"
         field_format: "格式"
         is_filter: "用作筛选器"
-        is_for_all: "For all projects"
+        is_for_all: "适用于所有项目"
         is_required: "必填"
         max_length: "最大长度"
         min_length: "最小长度"
@@ -805,7 +809,7 @@ zh-CN:
         blank: "不能为空。"
         blank_nested: "需要设置属性“%{property}”。"
         cannot_delete_mapping: "必需项，不能删除"
-        is_for_all_cannot_modify: "适用于全部。不可修改。"
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "工作包无法链接到它的子任务之一。"
         circular_dependency: "这种关系将创建循环依赖项。"
         confirmation: "不匹配 %{attribute}。"
@@ -2136,6 +2140,8 @@ zh-CN:
   label_internal: "内部"
   label_introduction_video: "自我介绍视频"
   label_invite_user: "邀请用户"
+  label_item: "条目"
+  label_item_plural: "条目"
   label_share: "共享"
   label_share_project_list: "共享项目列表"
   label_share_work_package: "共享工作包"
@@ -2212,7 +2218,7 @@ zh-CN:
   label_more: "更多"
   label_more_than_ago: "更多天前"
   label_move_work_package: "移动工作包"
-  label_my_account: "我的账户"
+  label_my_account: "帐户设置"
   label_my_activity: "我的活动"
   label_my_account_data: "我的账户数据"
   label_my_avatar: "我的头像"

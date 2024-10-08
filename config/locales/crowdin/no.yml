@@ -211,6 +211,10 @@
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
       notice:
         remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
@@ -815,7 +819,7 @@
         blank: "kan ikke være blank."
         blank_nested: "må ha egenskapen '%{property}' aktivert."
         cannot_delete_mapping: "er påkrevd. Kan ikke slettes."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "En arbeidspakke kan ikke knyttes til en av sine deloppgaver."
         circular_dependency: "En slik relasjon ville lage en sirkulær avhengighet."
         confirmation: "samsvarer ikke med %{attribute}."
@@ -2174,6 +2178,8 @@
   label_internal: "Intern"
   label_introduction_video: "Introduksjonsvideo"
   label_invite_user: "Inviter bruker"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Del"
   label_share_project_list: "Del prosjektliste"
   label_share_work_package: "Del arbeidspakke"
@@ -2250,7 +2256,7 @@
   label_more: "Mer"
   label_more_than_ago: "mer enn dager siden"
   label_move_work_package: "Flytt arbeidspakke"
-  label_my_account: "Min konto"
+  label_my_account: "Account settings"
   label_my_activity: "Min aktivitet"
   label_my_account_data: "Min kontoinformasjon"
   label_my_avatar: "Min avatar"

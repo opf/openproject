@@ -207,6 +207,10 @@ el:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
       notice:
         remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
@@ -812,7 +816,7 @@ el:
         blank: "δεν πρέπει να είναι κενό."
         blank_nested: "needs to have the property '%{property}' set."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Ένα πακέτο εργασίας δεν μπορεί να συνδεθεί με μια από τις υποεργασίες του."
         circular_dependency: "Αυτή η σχέση θα δημιουργήσει κυκλική εξάρτηση."
         confirmation: "δεν ταιριάζει με %{attribute}."
@@ -2171,6 +2175,8 @@ el:
   label_internal: "Εσωτερικό"
   label_introduction_video: "Εισαγωγικό βίντεο"
   label_invite_user: "Προσκαλέστε χρήστη"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Share"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
@@ -2247,7 +2253,7 @@ el:
   label_more: "Περισσότερα"
   label_more_than_ago: "σε περισσότερο από ημέρες πριν"
   label_move_work_package: "Μετακίνηση πακέτου εργασίας"
-  label_my_account: "Ο λογαριασμός μου"
+  label_my_account: "Account settings"
   label_my_activity: "My activity"
   label_my_account_data: "Τα δεδομένα του λογαριασμού μου"
   label_my_avatar: "My avatar"

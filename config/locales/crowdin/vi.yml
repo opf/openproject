@@ -213,6 +213,10 @@ vi:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
       notice:
         remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
@@ -811,7 +815,7 @@ vi:
         blank: "không được để trống"
         blank_nested: "cần có thuộc tính '%{property}' được thiết lập."
         cannot_delete_mapping: "là bắt buộc. Không thể xóa."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Một gói công việc không thể liên kết với một trong các nhiệm vụ con của nó."
         circular_dependency: "Mối quan hệ này sẽ tạo ra một sự phụ thuộc tuần hoàn."
         confirmation: "không khớp %{attribute}."
@@ -2142,6 +2146,8 @@ vi:
   label_internal: "Nội bộ"
   label_introduction_video: "Giới thiệu video"
   label_invite_user: "Mời người dùng"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Chia sẻ"
   label_share_project_list: "Chia sẻ danh sách dự án"
   label_share_work_package: "Chia sẻ gói công việc"
@@ -2218,7 +2224,7 @@ vi:
   label_more: "Xem thêm"
   label_more_than_ago: "nhiều hơn mấy ngày trước"
   label_move_work_package: "Di chuyển work package"
-  label_my_account: "Tài khoản của tôi"
+  label_my_account: "Account settings"
   label_my_activity: "Hoạt động của tôi"
   label_my_account_data: "Dữ liệu tài khoản của tôi"
   label_my_avatar: "Ảnh đại diện của tôi"

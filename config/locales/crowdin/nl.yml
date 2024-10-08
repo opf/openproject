@@ -208,6 +208,10 @@ nl:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
       notice:
         remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
@@ -813,7 +817,7 @@ nl:
         blank: "mag niet leeg zijn."
         blank_nested: "moet de eigenschap '%{property}' ingesteld hebben."
         cannot_delete_mapping: "is vereist. Kan niet worden verwijderd."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Een werkpakket kan niet worden gekoppeld aan een van de bijbehorende subtaken."
         circular_dependency: "Deze relatie zou een circulaire afhankelijkheid creëren."
         confirmation: "komt niet overeen met %{attribute}."
@@ -2172,6 +2176,8 @@ nl:
   label_internal: "Intern"
   label_introduction_video: "Introductie video"
   label_invite_user: "Gebruiker uitnodigen"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Deel"
   label_share_project_list: "Projectlijst delen"
   label_share_work_package: "Werkpakket delen"
@@ -2248,7 +2254,7 @@ nl:
   label_more: "Meer"
   label_more_than_ago: "meer dan dagen geleden"
   label_move_work_package: "Verplaatsen werkpakket"
-  label_my_account: "Mijn gegevens"
+  label_my_account: "Account settings"
   label_my_activity: "Mijn activiteit"
   label_my_account_data: "Mijn accountgegevens"
   label_my_avatar: "Mijn avatar"

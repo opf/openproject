@@ -210,8 +210,12 @@ zh-TW:
         is_for_all_blank_slate:
           heading: 對所有的專案
           description: 由於已勾選「適用於所有專案」選項，因此所有專案都會啟用此自訂欄位。個別專案無法停用。
+      items:
+        blankslate:
+          title: "您的欄位清單是空的"
+          description: "首先將項目新增至層次結構的自訂欄位。每個項目都可用於在其下方建立一個層次結構。若要在層次結構內導覽和建立子項目，請按一下已建立的項目。"
       notice:
-        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
+        remember_items_and_projects: "請記得在此自訂欄位索引標籤中設定項目和專案。"
     text_add_new_custom_field: >
       要加入客製欄位至一個專案，您必須先建立欄位才能將它們加入至此專案。
     is_enabled_globally: "已全域啟用"
@@ -619,7 +623,7 @@ zh-TW:
         editable: "可編輯"
         field_format: "格式"
         is_filter: "作為篩選條件"
-        is_for_all: "For all projects"
+        is_for_all: "適用於所有專案"
         is_required: "必填"
         max_length: "最大長度"
         min_length: "最小長度"
@@ -807,7 +811,7 @@ zh-TW:
         blank: "不可空白"
         blank_nested: "需要設置屬性  '%{property}' "
         cannot_delete_mapping: "必需項，不能刪除"
-        is_for_all_cannot_modify: "全域使用。無法修改。"
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "一個工作項目不能聯結到它的一個子項目"
         circular_dependency: "這個關係會建立一個循環依賴"
         confirmation: "不吻合 %{attribute}。"
@@ -2138,6 +2142,8 @@ zh-TW:
   label_internal: "內部"
   label_introduction_video: "簡介影片"
   label_invite_user: "邀請使用者"
+  label_item: "欄位"
+  label_item_plural: "欄位"
   label_share: "共用"
   label_share_project_list: "共用專案清單"
   label_share_work_package: "共用工作項目"
@@ -2214,7 +2220,7 @@ zh-TW:
   label_more: "更多"
   label_more_than_ago: "超過幾天"
   label_move_work_package: "移動工作項目"
-  label_my_account: "我的帳號"
+  label_my_account: "帳號設定"
   label_my_activity: "我的活動紀錄"
   label_my_account_data: "我的帳號資料"
   label_my_avatar: "我的大頭貼"

@@ -208,6 +208,10 @@ lt:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
       notice:
         remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
@@ -827,7 +831,7 @@ lt:
         blank: "negali būti tuščia."
         blank_nested: "reikalauja, kad savybė '%{property}' būtų nustatyta."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Darbų paketas negali būti susietas su viena iš savo vidinių užduočių."
         circular_dependency: "Šis ryšys sukurtų ciklinę priklausomybę."
         confirmation: "nesutampa su %{attribute}."
@@ -2242,6 +2246,8 @@ lt:
   label_internal: "Vidinis"
   label_introduction_video: "Įvado video"
   label_invite_user: "Pakviesti vartotoją"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Dalintis"
   label_share_project_list: "Share project list"
   label_share_work_package: "Dalintis darbo paketu"
@@ -2318,7 +2324,7 @@ lt:
   label_more: "Daugiau"
   label_more_than_ago: "daugiau nei prieš dieną"
   label_move_work_package: "Perkelti darbų paketą"
-  label_my_account: "Mano paskyra"
+  label_my_account: "Account settings"
   label_my_activity: "Mano veikla"
   label_my_account_data: "Mano paskyros duomenys"
   label_my_avatar: "Mano avataras"
