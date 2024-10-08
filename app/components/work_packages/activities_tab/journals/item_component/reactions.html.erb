@@ -5,6 +5,8 @@
         journal.detailed_grouped_emoji_reactions.each do |emoji, data|
           reactions_container.with_column(mr: 2) do
             render(Primer::Beta::Button.new(
+              scheme: button_scheme(data[:users]),
+              color: :default,
               bg: counter_color(data[:users]),
               id: "#{journal.id}-#{emoji}",
               tag: :a,

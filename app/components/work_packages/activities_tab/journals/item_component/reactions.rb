@@ -53,7 +53,11 @@ module WorkPackages
         end
 
         def counter_color(users)
-          reacted_by_current_user?(users) ? :accent : :default
+          reacted_by_current_user?(users) ? :accent : nil
+        end
+
+        def button_scheme(users)
+          reacted_by_current_user?(users) ? :default : :invisible
         end
 
         def tooltip_text(emoji, users)
