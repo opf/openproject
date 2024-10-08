@@ -50,8 +50,7 @@ module Members
     end
 
     def mail
-      return unless user?
-      return if principal.pref.hide_mail
+      return unless user? && current_user.allowed_globally?(:view_user_email)
 
       link = mail_to(principal.mail)
 

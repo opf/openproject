@@ -263,7 +263,7 @@ class PermittedParams
   end
 
   def pref
-    params.fetch(:pref, {}).permit(:hide_mail, :time_zone, :theme,
+    params.fetch(:pref, {}).permit(:time_zone, :theme,
                                    :comments_sorting, :warn_on_leaving_unsaved,
                                    :auto_hide_popups)
   end

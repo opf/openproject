@@ -53,7 +53,6 @@ module API
           }
         end
 
-        property :hide_mail
         property :time_zone,
                  render_nil: true
 

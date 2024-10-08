@@ -629,7 +629,6 @@ RSpec.describe UsersController do
             force_password_change: true
           },
           pref: {
-            hide_mail: "1",
             comments_sorting: "desc"
           }
         }
@@ -650,7 +649,6 @@ RSpec.describe UsersController do
         expect(some_user_from_db.firstname).to eq("Changed")
         expect(some_user_from_db.login).to eq("changed_login")
         expect(some_user_from_db.force_password_change).to be(true)
-        expect(some_user_from_db.pref[:hide_mail]).to be_truthy
         expect(some_user_from_db.pref[:comments_sorting]).to eq("desc")
       end
 

@@ -40,7 +40,7 @@ module Users
       end
 
       def render?
-        @user.pref.can_expose_mail? || @user.visible_custom_field_values.any? { _1.value.present? }
+        current_user.allowed_globally?(:view_user_email) || @user.visible_custom_field_values.any? { _1.value.present? }
       end
 
       def visible_custom_fields
