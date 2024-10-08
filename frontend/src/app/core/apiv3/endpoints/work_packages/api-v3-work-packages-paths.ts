@@ -47,8 +47,10 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
   // Base path
   public readonly path:string;
 
-  constructor(readonly apiRoot:ApiV3Service,
-    protected basePath:string) {
+  constructor(
+    readonly apiRoot:ApiV3Service,
+    protected basePath:string,
+  ) {
     super(apiRoot, basePath, 'work_packages', ApiV3WorkPackagePaths);
   }
 
@@ -56,6 +58,9 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
 
   // /api/v3/(projects/:projectIdentifier)/work_packages/form
   public readonly form:ApiV3WorkPackageForm = this.subResource('form', ApiV3WorkPackageForm);
+
+  // /api/v3/(projects/:projectIdentifier)/work_packages/copy/form
+  public readonly copy_form:ApiV3WorkPackageForm = this.subResource('copy/form', ApiV3WorkPackageForm);
 
   /**
    *

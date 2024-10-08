@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -28,14 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "work_packages/create_contract"
-
-module WorkPackages
-  class CopyContract < CreateContract
-    REQUIRED_PERMISSION = :copy_work_packages
-    # As % Complete can be set while Work and Remaining work are not, copying is
-    # a scenario where this field must be writable
-    attribute :done_ratio,
-              writable: true
+module API
+  module V3
+    module WorkPackages
+      module Copy
+        class CreateFormAPI < ::API::OpenProjectAPI
+          resource :form do
+            post &::API::V3::Utilities::Endpoints::CreateForm.new(model: WorkPackage,
+                                                                  parse_service: WorkPackages::ParseParamsService,
+                                                                  process_contract: ::WorkPackages::CopyContract)
+                                                             .mount
+          end
+        end
+      end
+    end
   end
 end

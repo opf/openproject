@@ -112,7 +112,7 @@ module API
         end
 
         link :copy,
-             cache_if: -> { add_work_packages_allowed? } do
+             cache_if: -> { copy_work_packages_allowed? } do
           next if represented.new_record?
 
           {
@@ -627,6 +627,11 @@ module API
         def add_work_packages_allowed?
           @add_work_packages_allowed ||=
             current_user.allowed_in_project?(:add_work_packages, represented.project)
+        end
+
+        def copy_work_packages_allowed?
+          @copy_work_packages_allowed ||=
+            current_user.allowed_in_project?(:copy_work_packages, represented.project)
         end
 
         def relations

@@ -520,6 +520,14 @@ module API
             "#{root}/work_packages/schemas/#{project_id}-#{type_id}"
           end
 
+          def self.work_package_copy(id)
+            "#{root}/work_packages/#{id}/copy"
+          end
+
+          def self.work_package_copy_form(id)
+            "#{root}/work_packages/#{id}/copy/form"
+          end
+
           def self.work_package_activities(id)
             "#{work_package(id)}/activities"
           end
