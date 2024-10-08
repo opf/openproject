@@ -105,7 +105,15 @@ class MeetingsController < ApplicationController
       redirect_to action: "show", id: call.result
     else
       @meeting = call.result
-      render template: "meetings/new", project_id: @project, locals: { copy_from: @copy_from }
+
+      respond_to do |format|
+        format.html do
+          render action: :new,
+                 status: :unprocessable_entity,
+                 project_id: @project,
+                 locals: { copy_from: @copy_from }
+        end
+      end
     end
   end
 
