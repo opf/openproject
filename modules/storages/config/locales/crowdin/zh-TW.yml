@@ -8,7 +8,7 @@ zh-TW:
         drive: Drive ID
         host: 主機
         name: 名稱
-        provider_type: 提供者類型
+        provider_type: 提供商類型
         tenant: 目錄 (租戶) ID
     errors:
       messages:
@@ -92,7 +92,7 @@ zh-TW:
     errors:
       messages:
         error: 發生意外錯誤。請檢查 OpenProject 記錄以獲得更多資訊，或聯絡管理員
-        unauthorized: OpenProject 無法驗證儲存服務提供者。請確認您有存取權。
+        unauthorized: OpenProject 無法驗證儲存服務提供商。請確認您有存取權。
       models:
         copy_project_folders_service:
           conflict: 資料夾 %{destination_path} 已經存在。中斷程序以避免覆寫。
@@ -167,7 +167,7 @@ zh-TW:
         one_drive: 允許 OpenProject 使用 OAuth 連接 OneDrive/Sharepoint 存取 Azure 資料。
       redirect_uri_incomplete:
         one_drive: 使用正確的 URI 重定向完成設定。
-    confirm_replace_oauth_application: 此操作將重設目前的 OAuth 憑證。 確認後，您必須在儲存空間提供者重新輸入憑證，並且所有遠端使用者都必須再次針對 OpenProject 進行授權。 您確定要繼續嗎？
+    confirm_replace_oauth_application: 此操作將重設目前的 OAuth 憑證。 確認後，您必須在儲存空間提供商重新輸入憑證，並且所有遠端使用者都必須再次針對 OpenProject 進行授權。 您確定要繼續嗎？
     confirm_replace_oauth_client: 此操作將重設目前的 OAuth 憑證。 確認後，您必須輸入儲存提供者的新憑證，並且所有使用者都必須再次針對 %{provider_type} 進行授權。 您確定要繼續嗎？
     delete_warning:
       input_delete_confirmation: 輸入檔案儲存名稱 %{file_storage} 以確認刪除。
@@ -186,7 +186,7 @@ zh-TW:
     enabled_in_projects:
       setup_incomplete_description: 此儲存的設定不完整。請先完成設定，再於多個專案中啟用。
       setup_incomplete_header: 儲存設定不完整
-    error_invalid_provider_type: 請選擇有效的儲存空間提供者。
+    error_invalid_provider_type: 請選擇有效的儲存空間提供商。
     file_storage_view:
       access_management:
         automatic_management: 自動管理的專案文件夾
@@ -205,7 +205,7 @@ zh-TW:
       openproject_oauth: OpenProject 開放授權 (OAuth)
       project_folders: 專案資料夾
       redirect_uri: 重新導向 URI
-      storage_provider: 儲存空間提供者
+      storage_provider: 儲存空間提供商
     health:
       checked: 上次檢查時間：%{datetime}
       connection_validation:
@@ -226,7 +226,7 @@ zh-TW:
           nextcloud: 在管理的群組資料夾中發現非預期內容。
           one_drive: 在儲存空間中發現預期之外內容。
         unknown_error: 連線無法驗證。發生未知錯誤。請檢查伺服器日誌以瞭解進一步資訊。
-        userless_access_denied: The configured app password is invalid.
+        userless_access_denied: 設定的應用程式密碼無效。
       label_error: 錯誤
       label_healthy: 健康的
       label_pending: 待處理
@@ -311,7 +311,7 @@ zh-TW:
     label_openproject_oauth_application_id: OpenProject OAuth 用戶端 ID
     label_openproject_oauth_application_secret: OpenProject OAuth 用戶端秘密
     label_project_folder: 專案資料夾
-    label_provider: 供應商
+    label_provider: 提供商
     label_redirect_uri: 重新導向 URI
     label_show_storage_redirect_uri: 顯示重定向 URI
     label_status: 狀態
@@ -371,7 +371,7 @@ zh-TW:
         title: 成員連線狀態
     permission_header_explanation: '外部存儲器上的文件權限僅適用於自動管理的項目文件夾內的文件夾和文件。請注意，並非所有存儲提供商都支持所有文件權限。更多信息請查看<a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>文件存儲權限</a>文檔。'
     provider_types:
-      label: 提供者類型
+      label: 提供商類型
       nextcloud:
         label_oauth_client_id: Nextcloud OAuth 客户端 ID
         label_oauth_client_secret: Nextcloud OAuth 客户端金鑰

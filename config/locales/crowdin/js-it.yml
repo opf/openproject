@@ -356,10 +356,10 @@ it:
           learn_about: "Scopri di più sulle nuove funzionalità"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_5":
+          "14_6":
             standard:
               new_features_html: >
-                Questa versione include varie nuove funzionalità e miglioramenti, come: <br> <ul class="%{list_styling_class}"> <li>Conservazione e ripristino delle versioni locali delle modifiche ai contenuti WYSIWYG.</li> <li>Abilitazione di un archivio per più progetti contemporaneamente.</li> <li>Esportazione di macro-attività in una nuova modalità con impostazioni aggiuntive.</li> <li>Visualizzazione di colonne/filtri di campi personalizzati negli elenchi di progetti anche nella Community Edition.</li> <li>Supporto a CloudFlare Turnstile come Captcha.</li> </ul>
+                Questa versione offre diverse funzionalità e miglioramenti, come: <br> <ul class="%{list_styling_class}"> <li>Report di avanzamento più flessibili, grazie al feedback degli utenti.</li> <li>Notifiche di aggiornamento con opzione di ricarica per le riunioni.</li> <li>Campi personalizzati per più progetti contemporaneamente.</li> <li>Procedure automatizzate (macro) sugli attributi relativi alle macro-attività.</li> <li>Righe vuote visibili in testi formattati salvati.</li> <li>Visualizzare il numero di riunioni passate accanto alla scheda Riunioni.</li> </ul>
     ical_sharing_modal:
       title: "Iscriviti al calendario"
       inital_setup_error_message: "Si è verificato un errore recuperando i dati."
@@ -612,7 +612,7 @@ it:
         assigned: "Assegnatario"
         #The enum value is named 'responsible' in the database and that is what is transported through the API
         #up to the frontend.
-        responsible: "Accountable"
+        responsible: "Responsabile"
         created: "Creato"
         scheduled: "Programmato"
         commented: "Commentato"
