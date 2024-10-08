@@ -68,14 +68,22 @@ class RepresentedWebhookJob < WebhookJob
     raise NotImplementedError
   end
 
-  def payload_representer
+  def represented_payload
+    User.system.run_given do |user|
+      payload_representer_class
+        .create(resource, current_user: user, embed_links: true)
+        .to_hash # to_hash needs to be called within the system user block
+    end
+  end
+
+  def payload_representer_class
     raise NotImplementedError
   end
 
   def request_body
     {
       :action => event_name,
-      payload_key => payload_representer
+      payload_key => represented_payload
     }.to_json
   end
 end
