@@ -36,6 +36,7 @@ class Queries::WorkPackages::Selects::CustomFieldSelect < Queries::WorkPackages:
     @sortable = custom_field.order_statement
     @sortable_join = custom_field.order_join_statement
     @groupable = custom_field.group_by_statement
+    @groupable_join = custom_field.group_by_join_statement
     @summable = summable_statement
   end
 

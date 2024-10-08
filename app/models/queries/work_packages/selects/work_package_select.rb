@@ -30,6 +30,7 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
   attr_reader :highlightable,
               :name,
               :sortable_join,
+              :groupable_join,
               :summable,
               :default_order,
               :association,
@@ -122,6 +123,7 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
       sortable_join
       displayable
       groupable
+      groupable_join
       summable
       summable_select
       summable_work_packages_select

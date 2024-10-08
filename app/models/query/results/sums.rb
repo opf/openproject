@@ -86,7 +86,7 @@ module ::Query::Results::Sums
             .select(sums_work_package_scope_selects(grouped))
 
     if grouped
-      scope.group(query.group_by_statement)
+      scope.joins(query.group_by_join_statement).group(query.group_by_statement)
     else
       scope
     end

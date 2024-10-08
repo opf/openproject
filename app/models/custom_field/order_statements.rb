@@ -64,20 +64,18 @@ module CustomField::OrderStatements
     Arel.sql("NULLS #{null_direction}")
   end
 
-  # Returns the grouping result
-  # which differ for multi-value select fields,
-  # because in this case we do want the primary CV values
+  # Returns the expression to use in GROUP BY (and ORDER BY) clause to group
+  # objects by their value of the custom field.
   def group_by_statement
     return unless field_format.in?(%w[list date bool int float string link])
 
-    return order_statement unless field_format == "list"
+    order_statement
+  end
 
-    if multi_value?
-      # We want to return the internal IDs in the case of grouping
-      select_custom_values_as_group
-    else
-      coalesce_select_custom_value_as_string
-    end
+  # Returns the join statement that is required to group objects by their value
+  # of the custom field.
+  def group_by_join_statement
+    order_join_statement
   end
 
   private
@@ -229,45 +227,5 @@ module CustomField::OrderStatements
           ON cf_order_#{id}.customized_id = #{self.class.customized_class.quoted_table_name}.id
       SQL
     end
-  end
-
-  def coalesce_select_custom_value_as_string
-    # COALESCE is here to make sure that blank and NULL values are sorted equally
-    <<-SQL.squish
-      COALESCE(#{select_custom_value_as_string}, '')
-    SQL
-  end
-
-  def select_custom_value_as_string
-    <<-SQL.squish
-      (
-        SELECT cv_sort.value
-          FROM #{CustomValue.quoted_table_name} cv_sort
-          WHERE #{cv_sort_only_custom_field_condition_sql}
-          LIMIT 1
-      )
-    SQL
-  end
-
-  def select_custom_values_as_group
-    <<-SQL.squish
-      COALESCE(
-        (
-          SELECT string_agg(cv_sort.value, '.')
-            FROM #{CustomValue.quoted_table_name} cv_sort
-            WHERE #{cv_sort_only_custom_field_condition_sql}
-              AND cv_sort.value IS NOT NULL
-        ),
-        ''
-      )
-    SQL
-  end
-
-  def cv_sort_only_custom_field_condition_sql
-    <<-SQL.squish
-      cv_sort.customized_type='#{self.class.customized_class.name}'
-      AND cv_sort.customized_id=#{self.class.customized_class.quoted_table_name}.id
-      AND cv_sort.custom_field_id=#{id}
-    SQL
   end
 end

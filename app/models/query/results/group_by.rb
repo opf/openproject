@@ -46,6 +46,7 @@ module ::Query::Results::GroupBy
 
   def group_counts_by_group
     work_packages_with_includes_for_count
+      .joins(query.group_by_join_statement)
       .group(group_by_for_count)
       .visible
       .references(:statuses, :projects)

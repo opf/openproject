@@ -82,6 +82,7 @@ class Query::Results
   def sorted_work_packages
     work_package_scope
       .joins(sort_criteria_joins)
+      .joins(query.group_by_join_statement)
       .order(order_option)
       .order(sort_criteria_array)
   end

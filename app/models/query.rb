@@ -359,7 +359,11 @@ class Query < ApplicationRecord
   end
 
   def group_by_statement
-    group_by_column.try(:groupable)
+    group_by_column&.groupable
+  end
+
+  def group_by_join_statement
+    group_by_column&.groupable_join
   end
 
   def statement
