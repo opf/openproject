@@ -45,14 +45,14 @@ Depending on the module, for which the new custom field is being  created, sligh
 
 > [!IMPORTANT]
 >
-> Custom fields need to be activated per work package type and added to project(s). Work package custom fields are only visible when two conditions are met:
+> Custom fields need to be activated per work package type and added to a project. Work package custom fields are only visible when two conditions are met:
 >
 > 1. Custom field has been added to the work package type (form configuration).
-> 2. Custom field is activated for a single or multiple projects.
+> 2. Custom field is activated for the project.
 
 ### Assign a custom field to a work package type (Enterprise add-on)
 
-You can[assign a custom field to a work package type](../manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on) (Form configuration) directly via the link in the custom field overview.
+You can [assign a custom field to a work package type](../manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on) (form configuration) directly via the link in the custom field overview.
 
 ![Add a custom field to a work package type](system-admin-add-field-to-wp-type.png)
 
