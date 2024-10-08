@@ -35,10 +35,6 @@ class Queries::Principals::Filters::TypeaheadFilter < Queries::Principals::Filte
     :search
   end
 
-  def email_field_allowed?
-    User.current.allowed_globally?(:view_user_email)
-  end
-
   def human_name
     I18n.t("label_search")
   end

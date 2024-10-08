@@ -96,18 +96,19 @@ RSpec.describe "group memberships through groups page", :js do
         expect(page).to have_no_css("td.mail", text: hannibal.mail)
         members_page.find_user "Peter Pan"
         members_page.find_mail peter.mail
-
         members_page.search_for_name "@example"
         # Does not find other users based on their email address
         expect(page).to have_no_css("tr", text: "Pan Hannibal")
         expect(page).to have_no_css("td.mail", text: hannibal.mail)
-        members_page.find_user "Peter Pan"
-        members_page.find_mail peter.mail
+        expect(page).to have_no_css("tr", text: "Peter Pan")
+        expect(page).to have_no_css("td.mail", text: peter.mail)
 
         members_page.search_for_name "@example.org"
-        members_page.find_user "Peter Pan"
-        members_page.find_mail peter.mail
+        # Does not find other users based on their email address
+        expect(page).to have_no_css("tr", text: "Pan Hannibal")
         expect(page).to have_no_css("td.mail", text: hannibal.mail)
+        expect(page).to have_no_css("tr", text: "Peter Pan")
+        expect(page).to have_no_css("td.mail", text: peter.mail)
       end
     end
 
