@@ -36,7 +36,7 @@ module CustomFields
       end
 
       rule(:field_format) do
-        key.failure("Custom field must have field format 'hierarchy'") unless value == "hierarchy"
+        key.failure("Custom field must have field format 'hierarchy'") if value != "hierarchy"
       end
     end
   end

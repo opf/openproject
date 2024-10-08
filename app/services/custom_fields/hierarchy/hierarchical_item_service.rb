@@ -53,7 +53,7 @@ module CustomFields
       def insert_item(parent:, label:, short: nil)
         CustomFields::Hierarchy::InsertItemContract
           .new
-          .call(parent:, label:, short:)
+          .call({ parent:, label:, short: }.compact)
           .to_monad
           .bind { |validation| create_child_item(validation) }
       end

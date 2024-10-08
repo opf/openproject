@@ -57,7 +57,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService do
       end
     end
 
-    context "with invalid hierarchy root" do
+    context "with persistence of hierarchy root fails" do
       it "fails to create a root item" do
         allow(CustomField::Hierarchy::Item)
           .to receive(:create)
@@ -79,12 +79,19 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService do
 
     context "with valid parameters" do
       it "inserts an item successfully" do
+        result = service.insert_item(parent:, label:)
+        expect(result).to be_success
+      end
+    end
+
+    context "with invalid short" do
+      it "fails to insert an item" do
         result = service.insert_item(parent:, label:, short:)
         expect(result).to be_success
       end
     end
 
-    context "with invalid parameters" do
+    context "with invalid item" do
       it "fails to insert an item" do
         allow(CustomField::Hierarchy::Item)
           .to receive(:create).and_return(instance_double(CustomField::Hierarchy::Item,
