@@ -357,7 +357,7 @@ zh-TW:
           "14_6":
             standard:
               new_features_html: >
-                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Benefit from more flexible progress reporting – thanks to user feedback.</li> <li>Receive an update notification with reload option for meetings.</li> <li>Enable a custom field for multiple projects at once.</li> <li>Use relative work package attribute macros.</li> <li>Show empty lines in saved rich text.</li> <li>See past meetings included in the number next to the Meetings tab.</li> </ul>
+                該版本為您帶來了各種功能和改進，例如：<br> <ul class="%{list_styling_class}"> <li>受益於更靈活的進度報告- 感謝用戶回饋。</li> <li>接收帶有會議重新載入選項的更新通知.</li> <li>同時為多個專案啟用自訂欄位。</li> <li>使用相關工作項目屬性巨集。</li> <li>已儲存文字已可顯示空白行。</li> <li>「會議」標籤旁的編號可查看過去的會議。</li> </ul>
     ical_sharing_modal:
       title: "訂閱日曆"
       inital_setup_error_message: "更新資料時發生錯誤"

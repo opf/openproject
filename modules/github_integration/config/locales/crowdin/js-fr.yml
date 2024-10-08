@@ -40,9 +40,9 @@ fr:
         empty: 'Il n''y a pas encore de demandes de pull liées. Liez une PR existante en utilisant le code <code>OP#%{wp_id}</code> dans la description de la PR ou créez une nouvelle PR.'
       github_actions: Actions
       pull_requests:
-        message: "La demande pull #%{pr_number} %{pr_link} pour %{repository_link} créée par %{github_user_link} a été %{pr_state}."
-        merged_message: "La demande pull #%{pr_number} %{pr_link} pour %{repository_link} a été %{pr_state} par %{github_user_link}."
-        referenced_message: "La demande pull #%{pr_number} %{pr_link} pour %{repository_link} créée par %{github_user_link} a référencé ce lot de travaux."
+        message: "La requête pull #%{pr_number} %{pr_link} pour %{repository_link} créée par %{github_user_link} a été %{pr_state}."
+        merged_message: "La requête pull #%{pr_number} %{pr_link} pour %{repository_link} a été %{pr_state} par %{github_user_link}."
+        referenced_message: "La requête pull #%{pr_number} %{pr_link} pour %{repository_link} créée par %{github_user_link} a référencé ce lot de travaux."
         states:
           opened: 'ouverte'
           closed: 'clôturé'

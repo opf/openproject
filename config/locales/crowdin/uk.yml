@@ -821,7 +821,7 @@ uk:
         blank: "не може бути порожнім."
         blank_nested: "– потрібно встановити властивість «%{property}»."
         cannot_delete_mapping: "– обов’язкове. Неможливо видалити."
-        is_for_all_cannot_modify: "для всіх. Не можна змінити."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Робочий пакет не може бути пов'язаний з одним з підзадач."
         circular_dependency: "Це співвідношення створить кругову залежність."
         confirmation: "не збігається %{attribute}"
@@ -1442,8 +1442,8 @@ uk:
     failure_message: Згода не отримана, продовження неможливе.
     title: Згода користувача
     decline_warning_message: Ви відхилили згоду і вийшли з системи.
-    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
-    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
+    user_has_consented: Користувач надав згоду на [налаштований текст інформації про згоду](consent_settings).
+    not_yet_consented: Користувач ще не надав згоду на [налаштований текст інформації про згоду] (consent_settings). Він отримає нагадування під час наступного входу.
     contact_mail_instructions: Визначте адресу електронної пошти, на яку користувачі можуть звертатися, для запитів на зміну або видалення даних.
     contact_your_administrator: Зверніться до свого адміністратора, якщо ви хочете, щоб ваш обліковий запис був видалений.
     contact_this_mail_address: Будь ласка зв'яжіться %{mail_address} якщо ви бажаєте, щоб ваш обліковий запис був видалений.
@@ -1867,8 +1867,8 @@ uk:
       progress_mode_changed_to_status_based: "Обчислення прогресу оновлено"
       status_changed: "Статус «%{status_name}»"
       system_update: "Оновлення системи OpenProject"
-      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
-      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
+      total_percent_complete_mode_changed_to_work_weighted_average: "Під час обчислення підсумків атрибута «% завершення» тепер враховується значення атрибута «Робота»."
+      total_percent_complete_mode_changed_to_simple_average: "Обчислення підсумків атрибута «% завершення» тепер ґрунтується на середньому арифметичному значень лише атрибута «% завершення»."
     cause_descriptions:
       work_package_predecessor_changed_times: внесенням змін у попередній елемент %{link}
       work_package_parent_changed_times: внесенням змін у батькіський елемент %{link}
@@ -1897,9 +1897,9 @@ uk:
         totals_removed_from_childless_work_packages: >-
           Результати обчислення обсягу й прогресу виконання роботи автоматично вилучено з небатьківських пакетів робіт з <a href="%{href}" target="_blank">оновленням версії</a>. Це завдання з технічного обслуговування, і його можна ігнорувати.
       total_percent_complete_mode_changed_to_work_weighted_average: >-
-        Child work packages without Work are ignored.
+        Дочірні пакети робіт без атрибута «Робота» ігноруються.
       total_percent_complete_mode_changed_to_simple_average: >-
-        Work values of child work packages are ignored.
+        Значення атрибута «Робота» дочірніх пакетів робіт ігноруються.
   links:
     configuration_guide: "Посібник з налаштування"
     get_in_touch: "У вас виникли запитання? Зв'яжіться з нами."
@@ -3270,13 +3270,13 @@ uk:
   setting_sys_api_enabled: "Увімкнути веб-службу керування сховищем"
   setting_sys_api_description: "Веб-сервіс управління сховищем забезпечує інтеграцію та авторизацію користувача для доступу до сховищ."
   setting_time_format: "Час"
-  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
-  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode: "Обчислення підсумків ієрархів «% завершення»"
+  setting_total_percent_complete_mode_work_weighted_average: "Зважено за роботою"
   setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
-    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
-  setting_total_percent_complete_mode_simple_average: "Simple average"
+    Атрибут <i>Загальний % завершення</i> буде зважено за атрибутом <i>Робота</i> кожного пакета робіт в ієрархії. Пакети робіт без атрибута <i>Робота</i> ігноруватимуться.
+  setting_total_percent_complete_mode_simple_average: "Середнє арифметичне"
   setting_total_percent_complete_mode_simple_average_caption_html: >-
-    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
+    Атрибут <i>Робота</i> ігнорується, а <i>Загальний % завершення</i> дорівнюватиме середньому арифметичному значень атрибута <i>% завершення</i> пакетів робіт в ієрархії.
   setting_accessibility_mode_for_anonymous: "Увімкніть режим доступності для анонімних користувачів"
   setting_user_format: "Формат імені користувача"
   setting_user_default_timezone: "Часовий пояс користувача за замовчуванням"

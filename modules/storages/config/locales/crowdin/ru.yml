@@ -286,7 +286,7 @@ ru:
     label_active: Активный
     label_add_new_storage: Добавить новое хранилище
     label_automatic_folder: Новая папка с автоматически управляемыми правами
-    label_completed: Выполнено
+    label_completed: Завершено
     label_creation_time: Время создания
     label_creator: Создатель
     label_delete_storage: Удалить хранилище
