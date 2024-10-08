@@ -13,7 +13,7 @@ Navigate to *Administration* -> *Design* in order to customize your OpenProject 
 
 The design page provides several options to customize your OpenProject Enterprise edition, grouped under three tabs, **Interface, Branding, PDF export styles**. You can [choose a color theme](#choose-a-color-theme) under any of these tabs. 
 
-Under **Interface** you can also set [the interface colors](#interface-colors) to configure **custom colors** to adjust nearly any aspect of OpenProject, such  as the color of the header and side menu, the link color and the hover color.
+Under **Interface** you can also choose [custom colors](#interface-colors) for elements of the interface such as the primary link colour, secondary accent colour, the background of the top navigation header and the main menu.
 
 ![Design interface settings in OpenProject adminstration](openproject_system_guide_design_interface.png)
 
@@ -30,8 +30,8 @@ Under **PDF export settings** you can set the preferences for [exporting work pa
 You can choose between the three default color themes for OpenProject:
 
 * OpenProject
-* OpenProject Gray (earlier called OpenProject Light)
-* OpenProject Navy Blue (earlier called OpenProject Dark)
+* OpenProject Gray (previously called OpenProject Light)
+* OpenProject Navy Blue (previously called OpenProject Dark)
 
 Press the Save button to apply your changes. The theme will then be changed.
 
@@ -69,7 +69,7 @@ When you bookmark your OpenProject environment’s URL, you will see that the up
 
 Aside from uploading logos and icons, you can also customize the colors used within your OpenProject environment.
 
-To do this change the color values (entered as color hex code) under *Interface* tab. In order to find the right hex code for a color, you can use a website, such as [color-hex.com](https://www.color-hex.com/).
+To do this, enter the hex value for any color you would like to change. You can use a website like [htmlcolorcodes.com](https://htmlcolorcodes.com/color-picker/) to help you find the perfect color.
 You can see the selected color in the preview area next to the color hex code. Therefore, it is possible to see the selected color before saving the changes.
 
 > [!TIP]
