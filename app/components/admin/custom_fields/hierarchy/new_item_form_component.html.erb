@@ -31,19 +31,36 @@ See COPYRIGHT and LICENSE files for more details.
   component_wrapper do
     flex_layout do |container|
       container.with_row(mb: 3) do
-        render Primer::Beta::Blankslate.new(border: true) do |component|
-          component.with_visual_icon(icon: "list-ordered")
-          component.with_heading(tag: :h3).with_content(I18n.t("custom_fields.admin.items.blankslate.title"))
-          component.with_description { I18n.t("custom_fields.admin.items.blankslate.description") }
-        end
-      end
+        primer_form_with(url: "/foo") do |f|
+          render_inline_form(f) do |new_item_form|
+            new_item_form.group(layout: :horizontal) do |input_group|
+              input_group.text_field(
+                name: :label,
+                label: "Label",
+                visually_hide_label: true,
+                required: true,
+                placeholder: "Item label"
+              )
+              input_group.text_field(
+                name: :short,
+                label: "Short",
+                visually_hide_label: true,
+                full_width: false,
+                required: false,
+                placeholder: "Short label"
+              )
+            end
 
-      container.with_row do
-        render Primer::Beta::Button.new(scheme: :primary) do |button|
-          button.with_leading_visual_icon(icon: :plus)
-          I18n.t(:label_item)
+            new_item_form.group(layout: :horizontal, align_self: :end) do |button_group|
+              button_group.button(name: :cancel, label: I18n.t(:button_cancel), scheme: :default)
+              button_group.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
+            end
+          end
         end
       end
     end
   end
 %>
+
+
+

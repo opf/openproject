@@ -27,8 +27,34 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{CustomField.model_name.human} #{h @custom_field.name}", t(:label_item_plural) %>
+<%=
+  component_wrapper do
+    flex_layout do |container|
 
-<%= render(Admin::CustomFields::EditFormHeaderComponent.new(custom_field: @custom_field, selected: :items)) %>
+      container.with_row(mb: 3) do
+        render(Primer::Beta::BorderBox.new) do |items|
+          items.with_header { @custom_field.name }
+          items.with_row { "hello" }
+          items.with_footer do
+            render Admin::CustomFields::Hierarchy::NewItemFormComponent.new(custom_field: @custom_field)
+          end
+        end
+      end
 
-<%= render(Admin::CustomFields::Hierarchy::ItemsComponent.new(custom_field: @custom_field)) %>
+      container.with_row(mb: 3) do
+        render Primer::Beta::Blankslate.new(border: true) do |component|
+          component.with_visual_icon(icon: "list-ordered")
+          component.with_heading(tag: :h3).with_content(I18n.t("custom_fields.admin.items.blankslate.title"))
+          component.with_description { I18n.t("custom_fields.admin.items.blankslate.description") }
+        end
+      end
+
+      container.with_row do
+        render Primer::Beta::Button.new(scheme: :primary) do |button|
+          button.with_leading_visual_icon(icon: :plus)
+          I18n.t(:label_item)
+        end
+      end
+    end
+  end
+%>

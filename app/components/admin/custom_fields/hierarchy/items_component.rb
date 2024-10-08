@@ -29,9 +29,14 @@
 module Admin
   module CustomFields
     module Hierarchy
-      class ItemComponent < ApplicationComponent
+      class ItemsComponent < ApplicationComponent
         include OpTurbo::Streamable
         include OpPrimer::ComponentHelpers
+
+        def initialize(custom_field:)
+          super
+          @custom_field = custom_field
+        end
       end
     end
   end
