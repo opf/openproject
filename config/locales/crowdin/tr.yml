@@ -31,8 +31,8 @@ tr:
     custom_styles:
       color_theme: "Renk teması"
       color_theme_custom: "(Özel)"
-      tab_interface: "Interface"
-      tab_branding: "Branding"
+      tab_interface: "Arayüz"
+      tab_branding: "Markalama"
       tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
@@ -68,7 +68,7 @@ tr:
       add_token: "Bir Enterprise sürümü destek belirteci yükleyin"
       delete_token_modal:
         text: "Kullanılan geçerli Enterprise sürümü belirtecini kaldırmak istediğinizden emin misiniz?"
-        title: "Belirteci sil"
+        title: "Anahtarı sil"
       replace_token: "Geçerli destek anahtarını değiştirin"
       order: "Enterprise on-premises edition sipariş edin"
       paste: "Enterprise sürümü destek belirtecinizi yapıştırın"
@@ -310,11 +310,11 @@ tr:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
           remove_from_project: "Remove from project"
-          label_enable_all: "Enable all"
-          label_disable_all: "Disable all"
+          label_enable_all: "Tümünü etkinleştir"
+          label_disable_all: "Tümünü devre dışı bırak"
         is_required_blank_slate:
-          heading: Required in all projects
-          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: Tüm projelerde zorunludur
+          description: '"Tüm projelerde zorunlu" seçeneği işaretli olduğu için bu proje niteliği tüm projelerde etkindir. Projeler için bağımsız olarak devre dışı bırakılamaz.'
       types:
         no_results_title_text: Şu anda hiçbir tip mevcut değil.
         form:
@@ -329,13 +329,13 @@ tr:
       success: "The modified list has been saved as a new list"
       failure: "The modified list cannot be saved: %{errors}"
     update:
-      success: "The modified list has been saved"
+      success: "Değiştirilen liste kaydedildi"
       failure: "The modified list cannot be saved: %{errors}"
     publish:
-      success: "The list has been made public"
+      success: "Liste herkese açık hale getirildi"
       failure: "The list cannot be made public: %{errors}"
     unpublish:
-      success: "The list has been made private"
+      success: "Liste gizli hale getirildi"
       failure: "The list cannot be made private: %{errors}"
     can_be_saved: "List modified:"
     can_be_saved_as: "The modifications can only be saved in a new list:"
@@ -366,8 +366,8 @@ tr:
       however_work_packages_shared_with_group_html:
         one: "However, %{shared_work_packages_link} has also been shared with this group."
         other: "However, %{shared_work_packages_link} have also been shared with this group."
-      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
-      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      remove_work_packages_shared_with_user_too: "Üyelikten kaldırılan bir kullanıcı paylaşılan iş paketlerine erişmeye devam edebilir. Paylaşımları da kaldırmak ister misiniz?"
+      remove_work_packages_shared_with_group_too: "Üyelikten kaldırılan bir grup paylaşılan iş paketlerine erişmeye devam edebilir. Paylaşımları da kaldırmak ister misiniz?"
       will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
       can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
       also_work_packages_shared_with_user_html:
@@ -404,11 +404,11 @@ tr:
         header: The %{type} token has been generated
         warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
-        token_name_blank: "Please provide an API token name"
-        token_name_in_use: "This API token name is already in use, please select a different one"
-      new_access_token_dialog_title: "Create new API token"
-      new_access_token_dialog_show_button_text: "API token"
-      new_access_token_dialog_text_field_placeholder_text: "My API token"
+        token_name_blank: "Lütfen API anahtarı için bir ad girin"
+        token_name_in_use: "Bu API anahtarı adı kullanılmaktadır, lütfen başka bir tane seçin"
+      new_access_token_dialog_title: "Yeni bir API anahtarı oluştur"
+      new_access_token_dialog_show_button_text: "API anahtarı"
+      new_access_token_dialog_text_field_placeholder_text: "API anahtarım"
       new_access_token_dialog_text_field_label: "İsim"
       new_access_token_dialog_submit_button_text: "Oluştur"
       new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
@@ -812,7 +812,7 @@ tr:
         blank: "boş bırakılamaz."
         blank_nested: "'%{property}' özelliğinin ayarlanmış olması gerekir."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "İş paketi alt görevlerinden birine bağlanamaz."
         circular_dependency: "Bu ilişki döngüsel bağımlılık oluşturacak."
         confirmation: "%{attribute} eşleşmiyor."
@@ -1184,8 +1184,8 @@ tr:
         other: "Yetkiler"
       status: "İş paketi durumu"
       token/api:
-        one: Access token
-        other: Access tokens
+        one: Erişim anahtarı
+        other: Erişim anahtarları
       type: "Tür"
       user: "Kullanıcı"
       version: "Sürüm"
@@ -1247,7 +1247,7 @@ tr:
     base: "Genel Hata:"
     blocks_ids: "Engellenen iş paketlerinin ID'leri"
     category: "Kategori"
-    comment: "Yorum"
+    comment: "Yorumlar"
     comments: "Yorum"
     content: "İçerik"
     color: "Renk"
@@ -1413,8 +1413,8 @@ tr:
     failure_message: Rıza alımı başarısız oldu, işlenemedi.
     title: Kullanıcı Rızası
     decline_warning_message: Onay vermeyi reddettiniz ve çıkış yaptınız.
-    user_has_consented: Kullanıcı, belirtilen zamanda yapılandırılmış ifadenize izin verdi.
-    not_yet_consented: Kullanıcı henüz onaylamadı, bir sonraki oturum açmada talep edilecek.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Veri değişikliği veya kaldırma isteklerini gerçekleştirmek için kullanıcıların bir veri denetleyicisine erişebilecekleri posta adresini tanımlayın.
     contact_your_administrator: Hesabınızın silinmesini istiyorsanız, lütfen yöneticinize başvurun.
     contact_this_mail_address: Hesabınızın silinmesini istiyorsanız, lütfen %{mail_address} ile iletişime geçin.
@@ -1802,6 +1802,8 @@ tr:
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1829,6 +1831,10 @@ tr:
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
         totals_removed_from_childless_work_packages: >-
           Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Yapılandırma rehberi"
     get_in_touch: "Senin soruların var? Bizimle temasa geçin."
@@ -3195,6 +3201,13 @@ tr:
   setting_sys_api_enabled: "Depo yönetimi web hizmetini etkinleştir"
   setting_sys_api_description: "Depo yönetimi web servisi depolara erişmek için entegrasyon ve kullanıcı yetkilendirmesi sağlar."
   setting_time_format: "Saat"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "İsimsiz kullanıcılar için erişilebilirlik modunu etkinleştir"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Kullanıcıların varsayılan saat dilimi"

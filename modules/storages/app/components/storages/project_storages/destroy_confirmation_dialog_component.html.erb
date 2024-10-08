@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   component_wrapper do
     primer_form_with(
       model: @project_storage,
-      url: admin_settings_storage_project_storage_path(id: @project_storage),
+      url: admin_settings_storage_project_storage_path(id: @project_storage, page: current_page),
       data: {
         turbo: true,
         controller: 'disable-when-checked',

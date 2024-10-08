@@ -33,7 +33,7 @@ module Pages
     module Storages
       module ProjectStorages
         class Index < ::Pages::Projects::Index
-          def path
+          def path(storage)
             "/admin/settings/storages/#{storage.id}/project_storages"
           end
 

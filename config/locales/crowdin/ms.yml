@@ -804,7 +804,7 @@ ms:
         blank: "tidak boleh dibiarkan kosong."
         blank_nested: "perlu ada ciri-ciri '%{property}' yang ditetapkan."
         cannot_delete_mapping: "diperlukan. Tidak boleh dipadam."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Pakej kerja tidak boleh dipautkan ke salah satu subtugasnya."
         circular_dependency: "Hubungan ini akan mencipta kebergantungan bulat."
         confirmation: "tidak sepadan dengan %{attribute}."
@@ -1395,8 +1395,8 @@ ms:
     failure_message: Persetujuan gagal, tidak boleh teruskan.
     title: Persetujuan Pengguna
     decline_warning_message: Anda telah menolak untuk memberi persetujuan dan telah dilog keluar.
-    user_has_consented: Pengguna telah bersetuju dengan kenyataan yang telah dikonfigurasi anda pada masa yang diberikan.
-    not_yet_consented: Pengguna masih belum memberi persetujuan, ia akan diminta pada log masuk seterusnya.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Tentukan alamat e-mel yang boleh dihubungi oleh pengguna untuk membuat permintaan perubahan atau pemindahan data kepada pengawal data.
     contact_your_administrator: Sila hubungi pentadbir anda jika anda mahu akaun anda dipadamkan.
     contact_this_mail_address: Sila hubungi %{mail_address} jika anda mahu akaun anda dipadamkan.
@@ -1766,6 +1766,8 @@ ms:
       progress_mode_changed_to_status_based: "Pengiraan perkembangan dikemas kini"
       status_changed: "Status '%{status_name}'"
       system_update: "Kemas kini sistem OpenProject:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: dengan perubahan pada pendahulu %{link}
       work_package_parent_changed_times: dengan perubahan pada induk %{link}
@@ -1793,6 +1795,10 @@ ms:
           Perkembangan pengiraan <a href="%{href}" target="_blank"> diselaraskan dengan versi kemas kini</a>.
         totals_removed_from_childless_work_packages: >-
           Jumlah kerja dan perkembangan dipadam untuk pakej kerja bukan induk secara automatik dengan <a href="%{href}" target="_blank">versi kemas kini</a>. Ini ialah tugasan penyelenggaraan dan boleh diabaikan dengan selamat.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Panduan konfigurasi"
     get_in_touch: "Anda mempunyai soalan? Sila hubungi kami."
@@ -3158,6 +3164,13 @@ ms:
   setting_sys_api_enabled: "Mengaktifkan pengurusan repositori perkhidmatan web"
   setting_sys_api_description: "Perkhidmatan web pengurusan repositori menyediakan integrasi dan kebenaran pengguna untuk mengakses repositori."
   setting_time_format: "Masa"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Mengaktifkan mod kebolehcapaian untuk pengguna anonim"
   setting_user_format: "Format nama pengguna"
   setting_user_default_timezone: "Zon masa default pengguna"

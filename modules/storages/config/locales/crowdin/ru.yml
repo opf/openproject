@@ -91,8 +91,8 @@ ru:
         rename_project_folder: 'Переименовать управляемую папку проекта:'
     errors:
       messages:
-        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+        error: Произошла непредвиденная ошибка. Пожалуйста, проверьте журналы OpenProject для получения дополнительной информации или свяжитесь с администратором
+        unauthorized: OpenProject не смог аутентифицироваться у поставщика хранилища. Пожалуйста, убедитесь, что у вас есть к нему доступ.
       models:
         copy_project_folders_service:
           conflict: Папка %{destination_path} уже существует. Прервите процесс, чтобы избежать перезаписи.
@@ -150,7 +150,7 @@ ru:
           unauthorized: OpenProject не удалось синхронизировать с OneDrive. Пожалуйста, проверьте конфигурацию хранилища в приложении Azure.
           user_does_not_exist: "%{user} не существует в Nextcloud."
         upload_link_service:
-          not_found: The destination folder %{folder} could not be found on %{storage_name}.
+          not_found: Папка %{folder} не найдена в хранилище %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Обходитесь без этого
@@ -214,7 +214,7 @@ ru:
         client_id_wrong: Настроенный идентификатор клиента OAuth 2 недействителен. Пожалуйста, проверьте конфигурацию.
         client_secret_wrong: Настроенный ключ клиента OAuth 2 недействителен. Пожалуйста, проверьте конфигурацию.
         drive_id_wrong: Настроенный идентификатор диска не найден. Пожалуйста, проверьте конфигурацию.
-        group_folder_not_found: The group folder could not be found.
+        group_folder_not_found: Папка группы не найдена.
         group_folder_version_mismatch: Версия групповой папки не поддерживается. Пожалуйста, обновите ваш сервер Nextcloud.
         host_not_found: По настроенному адресу хоста сервер Nextcloud не найден. Пожалуйста, проверьте конфигурацию.
         missing_dependencies: 'Для файлового хранилища отсутствует необходимая зависимость. Пожалуйста, добавьте следующую зависимость: %{dependency}.'
@@ -223,10 +223,10 @@ ru:
         subtitle: Проверка соединения
         tenant_id_wrong: Настроенный идентификатор каталога недействителен. Пожалуйста, проверьте конфигурацию.
         unexpected_content:
-          nextcloud: Unexpected content found in the managed group folder.
-          one_drive: Unexpected content found in the drive.
+          nextcloud: Неожиданное содержимое обнаружено в управляемой папке группы.
+          one_drive: На диске обнаружено неожидаемое содержимое.
         unknown_error: Соединение не удалось подтвердить. Произошла неизвестная ошибка. Пожалуйста, проверьте журналы сервера для получения дополнительной информации.
-        userless_access_denied: The configured app password is invalid.
+        userless_access_denied: Указанный пароль приложения неверен.
       label_error: Ошибка
       label_healthy: Здоровые
       label_pending: В ожидании
@@ -286,7 +286,7 @@ ru:
     label_active: Активный
     label_add_new_storage: Добавить новое хранилище
     label_automatic_folder: Новая папка с автоматически управляемыми правами
-    label_completed: Выполнено
+    label_completed: Завершено
     label_creation_time: Время создания
     label_creator: Создатель
     label_delete_storage: Удалить хранилище
