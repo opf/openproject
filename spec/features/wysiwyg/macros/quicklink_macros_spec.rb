@@ -55,7 +55,7 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
     # Expect output widget
     within("#content") do
       expect(page).to have_link("##{work_package.id}")
-      expect(page).to have_no_css(".op-hover-card--preview-trigger")
+      expect(page).to have_no_css("opce-macro-wp-quickinfo .op-hover-card--preview-trigger")
     end
 
     # Edit page again

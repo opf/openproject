@@ -96,6 +96,7 @@ RSpec.describe API::V3::Repositories::RevisionRepresenter do
 
         str = "Totally references <a"
         str << " class=\"issue work_package op-hover-card--preview-trigger\""
+        str << " data-hover-card-url=\"/work_packages/#{id}/hover_card\""
         str << " href=\"/work_packages/#{id}\">"
         str << "##{id}</a>"
       end
