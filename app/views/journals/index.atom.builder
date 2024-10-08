@@ -46,6 +46,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
         xml.name change.user.name
         if change.user.is_a?(User) && change.user.mail.present? && User.current.allowed_globally?(:view_user_email)
           xml.email(change.user.mail)
+        end
       end
       xml.content "type" => "html" do
         xml.text! "<ul>"
