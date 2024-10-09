@@ -130,7 +130,7 @@ RSpec.describe "model management", :js, with_config: { edition: "bim" } do
 
     it "I can't see any models and perform no actions" do
       expected = "[Error 403] You are not authorized to access this page."
-      expect(page).to have_css(".op-toast.-error", text: expected)
+      expect_flash(type: :error, message: expected)
 
       index_page.add_model_allowed false
     end

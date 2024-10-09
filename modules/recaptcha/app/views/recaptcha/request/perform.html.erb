@@ -1,8 +1,8 @@
 <% html_title t('recaptcha.label_recaptcha') %>
 <% breadcrumb_paths(t('recaptcha.label_recaptcha')) %>
 <div id="login-form" class="form -bordered">
+  <h2 class="mb-3"><%= t 'recaptcha.verify_account' %></h2>
   <%= styled_form_tag({ action: :verify }, { :autocomplete => "off", :id => 'submit_captcha' }) do %>
-    <h2><%= t 'recaptcha.verify_account' %></h2>
     <% if [OpenProject::Recaptcha::TYPE_V2, OpenProject::Recaptcha::TYPE_HCAPTCHA].include?(recaptcha_settings['recaptcha_type']) %>
       <% input_name = "g-recaptcha-response" %>
       <input type="hidden" name="<%= input_name %>" />

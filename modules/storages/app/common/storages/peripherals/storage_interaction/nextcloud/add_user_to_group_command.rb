@@ -35,66 +35,73 @@ module Storages
         class AddUserToGroupCommand
           include TaggedLogging
 
+          def self.call(storage:, auth_strategy:, user:, group:)
+            new(storage).call(auth_strategy:, user:, group:)
+          end
+
           def initialize(storage)
             @storage = storage
-            @username = storage.username
-            @password = storage.password
-            @group = storage.group
           end
 
-          # rubocop:disable Metrics/AbcSize
-          def self.call(storage:, user:, group: storage.group)
-            new(storage).call(user:, group:)
-          end
-
-          def call(user:, group: @group)
+          def call(auth_strategy:, user:, group:)
             with_tagged_logger do
-              url = UrlBuilder.url(@storage.uri, "ocs/v1.php/cloud/users", user, "groups")
-              info "Adding #{user} to #{group} through #{url}"
+              Authentication[auth_strategy].call(storage: @storage, http_options:) do |http|
+                url = UrlBuilder.url(@storage.uri, "ocs/v1.php/cloud/users", user, "groups")
+                info "Adding #{user} to #{group} through #{url}"
 
-              response = OpenProject.httpx
-                                    .basic_auth(@username, @password)
-                                    .with(headers: { "OCS-APIRequest" => "true" })
-                                    .post(
-                                      UrlBuilder.url(@storage.uri, "ocs/v1.php/cloud/users", user, "groups"),
-                                      form: { "groupid" => CGI.escapeURIComponent(group) }
-                                    )
+                response = http.post(UrlBuilder.url(@storage.uri, "ocs/v1.php/cloud/users", user, "groups"),
+                                     form: { "groupid" => group })
 
-              error_data = StorageErrorData.new(source: self.class, payload: response)
-
-              case response
-              in { status: 200..299 }
-                statuscode = Nokogiri::XML(response.body.to_s).xpath("/ocs/meta/statuscode").text
-
-                case statuscode
-                when "100"
-                  info "User has been added to the group"
-                  ServiceResult.success
-                when "101"
-                  Util.error(:error, "No group specified", error_data)
-                when "102"
-                  Util.error(:group_does_not_exist, "Group does not exist", error_data)
-                when "103"
-                  Util.error(:user_does_not_exist, "User does not exist", error_data)
-                when "104"
-                  Util.error(:insufficient_privileges, "Insufficient privileges", error_data)
-                when "105"
-                  Util.error(:failed_to_add, "Failed to add user to group", error_data)
-                end
-              in { status: 405 }
-                Util.error(:not_allowed, "Outbound request method not allowed", error_data)
-              in { status: 401 }
-                Util.error(:not_found, "Outbound request destination not found", error_data)
-              in { status: 404 }
-                Util.error(:unauthorized, "Outbound request not authorized", error_data)
-              in { status: 409 }
-                Util.error(:conflict, Util.error_text_from_response(response), error_data)
-              else
-                Util.error(:error, "Outbound request failed", error_data)
+                handle_response(response)
               end
             end
           end
-          # rubocop:enable Metrics/AbcSize
+
+          private
+
+          def http_options
+            Util.ocs_api_request
+          end
+
+          def handle_response(response)
+            error_data = StorageErrorData.new(source: self.class, payload: response)
+
+            case response
+            in { status: 200..299 }
+              handle_success_response(response)
+            in { status: 405 }
+              Util.error(:not_allowed, "Outbound request method not allowed", error_data)
+            in { status: 401 }
+              Util.error(:not_found, "Outbound request destination not found", error_data)
+            in { status: 404 }
+              Util.error(:unauthorized, "Outbound request not authorized", error_data)
+            in { status: 409 }
+              Util.error(:conflict, Util.error_text_from_response(response), error_data)
+            else
+              Util.error(:error, "Outbound request failed", error_data)
+            end
+          end
+
+          def handle_success_response(response)
+            error_data = StorageErrorData.new(source: self.class, payload: response)
+            statuscode = Nokogiri::XML(response.body.to_s).xpath("/ocs/meta/statuscode").text
+
+            case statuscode
+            when "100"
+              info "User has been added to the group"
+              ServiceResult.success
+            when "101"
+              Util.error(:error, "No group specified", error_data)
+            when "102"
+              Util.error(:group_does_not_exist, "Group does not exist", error_data)
+            when "103"
+              Util.error(:user_does_not_exist, "User does not exist", error_data)
+            when "104"
+              Util.error(:insufficient_privileges, "Insufficient privileges", error_data)
+            when "105"
+              Util.error(:failed_to_add, "Failed to add user to group", error_data)
+            end
+          end
         end
       end
     end

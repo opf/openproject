@@ -1,0 +1,21 @@
+<%=
+  component_wrapper do
+    flex_layout do |content|
+      content.with_row(mb: 3) do
+        render Primer::Alpha::Banner.new(scheme: :default, icon: :info, dismiss_scheme: :hide) do
+          I18n.t("custom_fields.admin.notice.remember_items_and_projects")
+        end
+      end
+
+      content.with_row do
+        primer_form_with(
+          model:,
+          scope: :custom_field,
+          id: "custom_field_form",
+          url: custom_field_path(model),
+          method: :put
+        ) { |form| render CustomFields::DetailsForm.new(form) }
+      end
+    end
+  end
+%>

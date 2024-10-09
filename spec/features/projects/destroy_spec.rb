@@ -53,7 +53,7 @@ RSpec.describe "Projects#destroy", :js, :with_cuprite do
     expect(danger_zone).not_to be_disabled
     danger_zone.danger_button.click
 
-    expect(page).to have_css ".op-toast.-success", text: I18n.t("projects.delete.scheduled")
+    expect_flash message: I18n.t("projects.delete.scheduled")
     expect(project.reload).to eq(project)
 
     perform_enqueued_jobs

@@ -356,10 +356,10 @@ es:
           learn_about: "Más información sobre las nuevas funciones"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_5":
+          "14_6":
             standard:
               new_features_html: >
-                La versión contiene varias características nuevas y mejoras, como: <br> <ul class="%{list_styling_class}"> <li>Mantener y restaurar las versiones locales de los cambios de contenido WYSIWYG.</li> <li>Habilitar un almacenamiento para múltiples proyectos a la vez.</li> <li>Exportar paquetes de trabajo en un modal actualizado con ajustes adicionales.</li> <li>Mostrar columnas/filtros de campos personalizados en las listas de proyectos también en la edición Community.</li> <li>Admitir CloudFlare Turnstile como Captcha.</li> </ul>
+                La versión trae varias características y mejoras para usted, por ejemplo <br> <ul class=«%{list_styling_class}»> <li>Benefíciese de informes de progreso más flexibles, gracias a los comentarios de los usuarios.</li> <li>Reciba una notificación de actualización con opción de recarga para las reuniones. </li> <li>Habilite un campo personalizado para varios proyectos a la vez.</li> <li>Utilice macros de atributos relativos del paquete de trabajo.</li> <li>Muestre las líneas vacías en el texto enriquecido guardado.</li> <li>Vea las reuniones anteriores incluidas en el número junto a la pestaña Reuniones.</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."
@@ -612,7 +612,7 @@ es:
         assigned: "Asignado a"
         #The enum value is named 'responsible' in the database and that is what is transported through the API
         #up to the frontend.
-        responsible: "Accountable"
+        responsible: "Responsable"
         created: "Creado"
         scheduled: "Programado"
         commented: "Comentado"

@@ -356,10 +356,10 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_5":
+          "14_6":
             standard:
               new_features_html: >
-                Випуск включає такі наведені нижче функції і поліпшення. <br> <ul class="%{list_styling_class}"> <li>Зберігайте й відновлюйте локальні версії змін вмісту WYSIWYG.</li> <li>Вмикайте сховище для кількох проєктів за раз.</li> <li>Експортуйте пакети робіт в оновлено модальному вікні з додатковими параметрами.</li> <li>Відображайте стовпці / фільтри користувацьких полів у списках проєктів у версії Community Edition.</li> <li>Використовуйте CloudFlare Turnstile для перевірки CAPTCHA.</li> </ul>
+                Цей випуск включає багато нових функцій і покращень. <br> <ul class="%{list_styling_class}"> <li>Використовуйте гнучкіші звіти про прогрес завдяки відгукам користувачів.</li> <li>Отримуйте сповіщення про оновлення з можливістю перезавантаження для нарад.</li> <li>Увімкніть користувацьке поле для кількох проектів одночасно.</li> <li>Використовуйте макроси атрибутів пов’язаних пакетів робіт.</li> <li>Відображайте порожні рядки в збереженому форматованому тексті.</li> <li>Переглядайте завершені наради, натиснувши число біля вкладки «Наради».</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -612,7 +612,7 @@ uk:
         assigned: "Виконавець"
         #The enum value is named 'responsible' in the database and that is what is transported through the API
         #up to the frontend.
-        responsible: "Accountable"
+        responsible: "Відповідальний"
         created: "Створено"
         scheduled: "Заплановано"
         commented: "Прокоментовано"

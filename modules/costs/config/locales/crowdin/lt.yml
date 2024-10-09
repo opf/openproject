@@ -113,6 +113,7 @@ lt:
   label_rate: "Koeficientas"
   label_rate_plural: "Koeficientai"
   label_status_finished: "Baigta"
+  label_show: "Show"
   label_units: "Kaštų vienetai"
   label_user: "Vartotojas"
   label_until: "iki"

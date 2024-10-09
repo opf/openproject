@@ -117,7 +117,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
       member_with_project_attributes_edit_permissions.reload
       dialog.submit
 
-      expect(page).to have_css("#errorExplanation", text: I18n.t(:notice_not_authorized))
+      expect_flash(type: :error, message: I18n.t(:notice_not_authorized))
     end
   end
 end

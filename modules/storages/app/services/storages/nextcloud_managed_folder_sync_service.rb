@@ -113,19 +113,23 @@ module Storages
     end
 
     def add_users_to_remote_group(users_to_add)
+      group = @storage.group
+
       users_to_add.each do |user|
-        add_user_to_group.call(storage: @storage, user:).error_and do |error|
-          add_error(:add_user_to_group, error, options: { user:, group: @storage.group, reason: error.log_message })
-          log_storage_error(error, group: @storage.group, user:, reason: error.log_message)
+        add_user_to_group.call(storage: @storage, auth_strategy:, user:, group:).error_and do |error|
+          add_error(:add_user_to_group, error, options: { user:, group:, reason: error.log_message })
+          log_storage_error(error, group:, user:, reason: error.log_message)
         end
       end
     end
 
     def remove_users_from_remote_group(users_to_remove)
+      group = @storage.group
+
       users_to_remove.each do |user|
-        remove_user_from_group.call(storage: @storage, user:).error_and do |error|
-          add_error(:remove_user_from_group, error, options: { user:, group: @storage.group, reason: error.log_message })
-          log_storage_error(error, group: @storage.group, user:, reason: error.log_message)
+        remove_user_from_group.call(storage: @storage, auth_strategy:, user:, group:).error_and do |error|
+          add_error(:remove_user_from_group, error, options: { user:, group:, reason: error.log_message })
+          log_storage_error(error, group:, user:, reason: error.log_message)
         end
       end
     end
@@ -304,7 +308,7 @@ module Storages
 
     def remote_group_users
       info "Retrieving users that a part of the #{@storage.group} group"
-      group_users.call(storage: @storage, group: @storage.group)
+      group_users.call(storage: @storage, auth_strategy:, group: @storage.group)
     end
 
     ### Model Scopes

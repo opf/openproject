@@ -111,6 +111,7 @@ fr:
   label_rate: "Tarif"
   label_rate_plural: "Tarifs"
   label_status_finished: "Terminé"
+  label_show: "Afficher"
   label_units: "Unités de coût"
   label_user: "Utilisateur"
   label_until: "jusque"

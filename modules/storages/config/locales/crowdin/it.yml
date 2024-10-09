@@ -91,8 +91,8 @@ it:
         rename_project_folder: 'Rinomina la cartella di progetto gestita:'
     errors:
       messages:
-        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+        error: Si è verificato un errore inatteso. Controlla i log di OpenProject per maggiori informazioni o contatta un amministratore
+        unauthorized: OpenProject non è riuscito ad autenticarsi con il fornitore di servizi di archiviazione. Assicurati di avervi accesso.
       models:
         copy_project_folders_service:
           conflict: La cartella %{destination_path} esiste già. Interrompi il processo per evitare sovrascritture.
@@ -150,7 +150,7 @@ it:
           unauthorized: OpenProject non è riuscito a sincronizzarsi con OneDrive. Verifica la configurazione dell'archiviazione e dell'applicazione Azure.
           user_does_not_exist: "%{user} non esiste in Nextcloud."
         upload_link_service:
-          not_found: The destination folder %{folder} could not be found on %{storage_name}.
+          not_found: Impossibile trovare la cartella di destinazione %{folder} su %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Completa senza
@@ -214,7 +214,7 @@ it:
         client_id_wrong: L'ID del client OAuth 2 non è valido. Verifica la configurazione.
         client_secret_wrong: Il codice segreto del client OAuth 2 non è valido. Verifica la configurazione.
         drive_id_wrong: Il Drive ID non è stato trovato. Verifica la configurazione.
-        group_folder_not_found: The group folder could not be found.
+        group_folder_not_found: Impossibile trovare la cartella del gruppo.
         group_folder_version_mismatch: La versione della cartella di gruppo non è supportata. Aggiorna il server Nextcloud.
         host_not_found: Non è stato trovato alcun server Nextcloud all'indirizzo host configurato. Controlla la configurazione.
         missing_dependencies: 'Manca una dipendenza necessaria per l''archiviazione dei file. Aggiungi la seguente dipendenza: %{dependency}.'
@@ -223,10 +223,10 @@ it:
         subtitle: Verifica della connessione
         tenant_id_wrong: L'ID della directory non è valido. Verifica la configurazione.
         unexpected_content:
-          nextcloud: Unexpected content found in the managed group folder.
-          one_drive: Unexpected content found in the drive.
+          nextcloud: Contenuto inatteso trovato nella cartella di gruppo gestita.
+          one_drive: Contenuto inatteso nello spazio di archiviazione.
         unknown_error: Non è stato possibile verificare la connessione. Si è verificato un errore sconosciuto. Per maggiori informazioni consulta i log del server.
-        userless_access_denied: The configured app password is invalid.
+        userless_access_denied: La password dell'app configurata non è valida.
       label_error: Errore
       label_healthy: Tutto ok
       label_pending: In sospeso
@@ -286,7 +286,6 @@ it:
     label_active: Attivo
     label_add_new_storage: Aggiungi nuovo archivio
     label_automatic_folder: Nuova cartella con i permessi gestiti automaticamente
-    label_completed: Completato
     label_creation_time: Data di creazione
     label_creator: Autore
     label_delete_storage: Elimina archivio
@@ -298,7 +297,6 @@ it:
     label_file_storage: Archiviazione file
     label_host: URL dell'host
     label_inactive: Inattivo
-    label_incomplete: Incompleto
     label_managed_project_folders:
       application_password: Password applicazione
       automatically_managed_folders: Cartelle gestite automaticamente

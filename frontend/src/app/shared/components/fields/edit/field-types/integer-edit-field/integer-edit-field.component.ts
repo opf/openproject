@@ -38,7 +38,6 @@ import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-
            [attr.lang]="locale"
            [(ngModel)]="value"
            (keydown)="handler.handleUserKeydown($event)"
-           (focusout)="handler.onFocusOut()"
            [id]="handler.htmlId" />
   `,
 })

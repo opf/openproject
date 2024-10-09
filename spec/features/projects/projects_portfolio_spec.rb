@@ -115,7 +115,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       # Save the page
       scroll_to_and_click(find(".button", text: "Save"))
 
-      expect(page).to have_css(".op-toast.-success", text: "Successful update.")
+      expect_flash(message: "Successful update.")
 
       RequestStore.clear!
       query = JSON.parse Setting.project_gantt_query

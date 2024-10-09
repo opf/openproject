@@ -354,10 +354,10 @@ zh-TW:
           learn_about: "瞭解更多新功能的資訊"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_5":
+          "14_6":
             standard:
               new_features_html: >
-                該版本包含多種新功能和改進，例如： <br> <ul class="%{list_styling_class}"> <li>保留並還原所見及所得內容變更之單機版本。</li> <li>一次啟用多個專案的儲存空間。</li> <li>以更新的模組匯出工作項目，並提供額外的設定。</li> <li>在專案清單中顯示自訂欄位列/篩選器，也適用於社群版。</li> <li>支援 CloudFlare Turnstile 作為 Captcha。</li> </ul>
+                該版本為您帶來了各種功能和改進，例如：<br> <ul class="%{list_styling_class}"> <li>受益於更靈活的進度報告- 感謝用戶回饋。</li> <li>接收帶有會議重新載入選項的更新通知.</li> <li>同時為多個專案啟用自訂欄位。</li> <li>使用相關工作項目屬性巨集。</li> <li>已儲存文字已可顯示空白行。</li> <li>「會議」標籤旁的編號可查看過去的會議。</li> </ul>
     ical_sharing_modal:
       title: "訂閱日曆"
       inital_setup_error_message: "更新資料時發生錯誤"

@@ -110,6 +110,7 @@ id:
   label_rate: "Rate"
   label_rate_plural: "Rate"
   label_status_finished: "Selesai"
+  label_show: "Show"
   label_units: "Biaya unit"
   label_user: "User"
   label_until: "hingga"

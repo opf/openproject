@@ -84,7 +84,7 @@ RSpec.describe "members pagination", :js do
       members_page.visit!
       SeleniumHubWaiter.wait
       members_page.remove_user! "Alice Alison"
-      members_page.expect_and_dismiss_toaster
+      expect_and_dismiss_flash message: "Removed Alice Alison from project"
       expect(members_page).to have_user "Bob Bobbit"
 
       SeleniumHubWaiter.wait

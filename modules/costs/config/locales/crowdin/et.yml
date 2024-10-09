@@ -111,6 +111,7 @@ et:
   label_rate: "Rate"
   label_rate_plural: "Kursid"
   label_status_finished: "Lõpetatud"
+  label_show: "Show"
   label_units: "Kuluühikud"
   label_user: "Kasutaja"
   label_until: "kuni"

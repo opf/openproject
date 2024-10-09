@@ -167,8 +167,7 @@ RSpec.describe MeetingsController do
             expect(response).to have_http_status :ok
             expect(response).to render_template :new
             expect(response.body)
-              .to have_css "#errorExplanation li",
-                           text: "Date #{I18n.t('activerecord.errors.messages.not_an_iso_date')}"
+              .to have_text("Date #{I18n.t('activerecord.errors.messages.not_an_iso_date')}")
           end
         end
 
@@ -181,8 +180,7 @@ RSpec.describe MeetingsController do
             expect(response).to have_http_status :ok
             expect(response).to render_template :new
             expect(response.body)
-              .to have_css "#errorExplanation li",
-                           text: "Start time #{I18n.t('activerecord.errors.messages.invalid_time_format')}"
+              .to have_text("Start time #{I18n.t('activerecord.errors.messages.invalid_time_format')}")
           end
         end
       end
@@ -194,8 +192,7 @@ RSpec.describe MeetingsController do
           expect(response).to have_http_status :ok
           expect(response).to render_template :new
           expect(response.body)
-            .to have_css "#errorExplanation li",
-                         text: "Project #{I18n.t('activerecord.errors.messages.blank')}"
+            .to have_text("Project #{I18n.t('activerecord.errors.messages.blank')}")
         end
       end
 
@@ -207,8 +204,7 @@ RSpec.describe MeetingsController do
           expect(response).to have_http_status :ok
           expect(response).to render_template :new
           expect(response.body)
-            .to have_css "#errorExplanation li",
-                         text: "Project #{I18n.t('activerecord.errors.messages.blank')}"
+            .to have_text("Project #{I18n.t('activerecord.errors.messages.blank')}")
         end
       end
     end

@@ -91,8 +91,8 @@ ko:
         rename_project_folder: '관리되는 프로젝트 폴더의 이름 바꾸기:'
     errors:
       messages:
-        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+        error: 예기치 않은 오류가 발생했습니다. OpenProject 로그에서 자세한 내용을 확인하거나 관리자에게 문의하세요
+        unauthorized: OpenProject가 저장소 공급자를 인증할 수 없습니다. 액세스 권한이 있는지 확인하세요.
       models:
         copy_project_folders_service:
           conflict: '%{destination_path} 폴더가 이미 존재합니다. 덮어쓰기를 방지하기 위해 프로세스가 중단됩니다.'
@@ -150,7 +150,7 @@ ko:
           unauthorized: OpenProject가 OneDrive와 동기화할 수 없습니다. 저장소 및 Azure 애플리케이션 구성을 확인하세요.
           user_does_not_exist: "%{user}이(가) Nextcloud에 없습니다."
         upload_link_service:
-          not_found: The destination folder %{folder} could not be found on %{storage_name}.
+          not_found: '%{storage_name}에서 대상 폴더 %{folder}을(를) 찾을 수 없습니다.'
   storages:
     buttons:
       complete_without_setup: 이것 없이 완료
@@ -214,7 +214,7 @@ ko:
         client_id_wrong: 구성된 OAuth 2 클라이언트 ID가 잘못되었습니다. 구성을 확인하세요.
         client_secret_wrong: 구성된 OAuth 2 클라이언트 비밀번호가 잘못되었습니다. 구성을 확인하세요.
         drive_id_wrong: 구성된 Drive ID를 찾을 수 없습니다. 구성을 확인하세요.
-        group_folder_not_found: The group folder could not be found.
+        group_folder_not_found: 그룹 폴더를 찾을 수 없습니다.
         group_folder_version_mismatch: 그룹 폴더 버전은 지원되지 않습니다. Nextcloud 서버를 업데이트하세요.
         host_not_found: 구성된 호스트 URL에서 Nextcloud 서버를 찾을 수 없습니다. 구성을 확인하세요.
         missing_dependencies: '파일 저장소에 필수 종속성이 누락되었습니다. 다음 종속성을 추가하세요: %{dependency}.'
@@ -223,10 +223,10 @@ ko:
         subtitle: 연결 유효성 검사
         tenant_id_wrong: 구성된 디렉터리(테넌트) ID가 잘못되었습니다. 구성을 확인하세요.
         unexpected_content:
-          nextcloud: Unexpected content found in the managed group folder.
-          one_drive: Unexpected content found in the drive.
+          nextcloud: 관리되는 그룹 폴더에서 예기치 않은 콘텐츠가 발견되었습니다.
+          one_drive: 드라이브에서 예기치 않은 콘텐츠가 발견되었습니다.
         unknown_error: 연결에 대한 유효성 검사를 할 수 없습니다. 알 수 없는 오류가 발생했습니다. 자세한 내용은 서버 로그를 확인하세요.
-        userless_access_denied: The configured app password is invalid.
+        userless_access_denied: 구성된 앱 암호가 잘못되었습니다.
       label_error: 오류
       label_healthy: 정상
       label_pending: 대기 중
@@ -286,7 +286,6 @@ ko:
     label_active: 활성
     label_add_new_storage: 새로운 저장소 추가
     label_automatic_folder: 자동으로 관리되는 권한이 있는 새 폴더
-    label_completed: 완료
     label_creation_time: 생성 시간
     label_creator: 생성자
     label_delete_storage: 저장소 삭제
@@ -298,7 +297,6 @@ ko:
     label_file_storage: 파일 저장소
     label_host: 호스트 URL
     label_inactive: 비활성
-    label_incomplete: 미완료
     label_managed_project_folders:
       application_password: 애플리케이션 암호
       automatically_managed_folders: 자동으로 관리되는 폴더

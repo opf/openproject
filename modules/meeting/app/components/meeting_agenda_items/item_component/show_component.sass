@@ -1,34 +1,59 @@
 @import 'helpers'
 
-$meeting-agenda-item--presenter-width: 300px
+$meeting-agenda-item--presenter-width: 170px
+$meeting-agenda-item--presenter-width--mobile: 150px
 
 .op-meeting-agenda-item
   display: grid
   grid-template-columns: 20px auto 1fr fit-content($meeting-agenda-item--presenter-width) fit-content(40px)
-  grid-template-areas: "drag-handle content duration presenter actions" ".notes notes notes notes"
+  grid-template-areas: "drag-handle content duration presenter actions" ". title title title title" ". notes notes notes notes"
 
   &--drag-handle,
   &--duration,
   &--content,
-  &--presenter
-    align-self: center
-
+  &--presenter,
   &--actions
+    align-self: start
+
+  &--duration
+    white-space: nowrap
     justify-self: end
+
+  &--content
+    overflow-wrap: anywhere
 
   &--presenter
     max-width: $meeting-agenda-item--presenter-width
     justify-self: end
 
-  &--duration
-    white-space: nowrap
+  &--actions
+    justify-self: end
+    margin-top: -5px // Needed because the invisible effect makes the button look misaligned otherwise
 
-  &--content
-    @include text-shortener
+  &--title
+    align-self: center
+    overflow-wrap: anywhere
+
+  .custom-presenter-flex
+    margin-left: auto
 
   @media screen and (max-width: $breakpoint-lg)
-    grid-template-columns: 20px auto 1fr calc($meeting-agenda-item--presenter-width - 50px) 50px
-    grid-template-areas: "drag-handle content content content actions" ". duration . presenter presenter" ". notes notes notes notes"
+    grid-template-columns: 20px auto 1fr auto 50px
+    grid-template-areas: "drag-handle content content content actions" ". title title title title" ". presenter duration . ."  ". notes notes notes notes"
 
     &--author
       justify-self: stretch
+
+    &--presenter
+      width: inherit
+      max-width: $meeting-agenda-item--presenter-width--mobile
+      margin-left: 0
+      margin-top: 5px
+
+    &--duration
+      justify-self: start
+      margin-top: 5px
+      margin-left: 8px
+
+    .custom-presenter-flex
+      margin-left: 0

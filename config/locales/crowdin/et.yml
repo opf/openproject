@@ -211,6 +211,12 @@ et:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before you can add them to this project.
     is_enabled_globally: "Is enabled globally"
@@ -536,7 +542,7 @@ et:
       could_not_be_saved: "The following work packages could not be saved:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
@@ -626,6 +632,7 @@ et:
         editable: "Muudetav"
         field_format: "Formaat"
         is_filter: "Kasutatakse filtrina"
+        is_for_all: "For all projects"
         is_required: "Nõutav"
         max_length: "Maksimaalne pikkus"
         min_length: "Lühima lubatud parooli pikkus"
@@ -813,7 +820,7 @@ et:
         blank: "ei tohi olla tühi."
         blank_nested: "needs to have the property '%{property}' set."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "doesn't match %{attribute}."
@@ -1362,6 +1369,7 @@ et:
   button_expand_all: "Laienda kõik"
   button_favorite: "Add to favorites"
   button_filter: "Filter"
+  button_finish_setup: "Finish setup"
   button_generate: "Genereeri"
   button_list: "Nimistu"
   button_lock: "Lukusta"
@@ -1414,8 +1422,8 @@ et:
     failure_message: Consent failed, cannot proceed.
     title: Kasutaja nõusolek
     decline_warning_message: Sa ei andnud nõusolekut ja sind on välja logitud.
-    user_has_consented: Kasutaja andis oma nõusoleku.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Define the mail address that users can reach a data controller to perform data change or removal requests.
     contact_your_administrator: Please contact your administrator if you want to have your account deleted.
     contact_this_mail_address: Please contact %{mail_address} if you want to have your account deleted.
@@ -1803,6 +1811,8 @@ et:
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1830,6 +1840,10 @@ et:
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
         totals_removed_from_childless_work_packages: >-
           Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Configuration guide"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1993,6 +2007,7 @@ et:
   label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Kuva kalender"
   label_category: "Kategooria"
+  label_completed: Completed
   label_consent_settings: "Kasutaja nõusolek"
   label_wiki_menu_item: Viki menüüvalik
   label_select_main_menu_item: Vali uus peamenüü valik
@@ -2141,6 +2156,7 @@ et:
   label_here: siin
   label_hide: "Peida"
   label_history: "Ajalugu"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Avaleht"
   label_subject_or_id: "Subject or ID"
@@ -2152,6 +2168,7 @@ et:
   label_inactive: "Inactive"
   label_incoming_emails: "Sissetulevad e-postisõnumid"
   label_includes: "includes"
+  label_incomplete: Incomplete
   label_include_sub_projects: Include sub-projects
   label_index_by_date: "Indeks kuupäeva järgi"
   label_index_by_title: "Indeks pealkirja järgi"
@@ -2162,6 +2179,8 @@ et:
   label_internal: "Sisemine"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Jaga"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
@@ -2238,7 +2257,7 @@ et:
   label_more: "Rohkem"
   label_more_than_ago: "vanem kui"
   label_move_work_package: "Tõsta teema ümber"
-  label_my_account: "Oma konto"
+  label_my_account: "Account settings"
   label_my_activity: "My activity"
   label_my_account_data: "Oma konto andmed"
   label_my_avatar: "My avatar"
@@ -2265,6 +2284,7 @@ et:
   label_no_parent_page: "No parent page"
   label_nothing_display: "Pole midagi näidata"
   label_nobody: "eikeegi"
+  label_not_configured: "Not configured"
   label_not_found: "not found"
   label_none: "pole"
   label_none_parentheses: "(pole)"
@@ -3199,6 +3219,13 @@ et:
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_time_format: "Aeg"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Võimalda külalistel kasutada hõlbustus- ja juurdepääsetavusrežiimi"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"

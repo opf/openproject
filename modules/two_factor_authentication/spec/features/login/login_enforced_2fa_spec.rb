@@ -36,7 +36,7 @@ RSpec.describe "Login with enforced 2FA", :js, with_settings: {
       first_login_step
       two_factor_step("whatever")
 
-      expect(page).to have_css(".op-toast.-error", text: I18n.t(:notice_account_otp_invalid))
+      expect_flash(type: :error, message: I18n.t(:notice_account_otp_invalid))
       expect(page).to have_current_path signin_path
     end
   end

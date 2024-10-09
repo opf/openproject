@@ -111,6 +111,7 @@ ca:
   label_rate: "Tarifa"
   label_rate_plural: "Tarifes"
   label_status_finished: "Finalitzat"
+  label_show: "Show"
   label_units: "Cost d'unitat"
   label_user: "Usuari"
   label_until: "fins a"

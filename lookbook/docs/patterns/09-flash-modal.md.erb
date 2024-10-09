@@ -1,0 +1,60 @@
+This pattern defines use cases where a modal view component is rendered on the next request via a [flash](https://api.rubyonrails.org/classes/ActionDispatch/Flash.html
+). This is useful when you want to display a modal after a user action, such as a form submission or on a callback request from an external service.
+
+> *_[Flash](https://api.rubyonrails.org/classes/ActionDispatch/Flash.html) provides a way to pass temporary primitive types between controller actions. Anything you place in the flash is stored in the session and will be exposed to the very next action and then cleared out._
+
+## Overview
+
+To flash a modal, set a `flash[:op_modal]` hash in your controller action. The hash should contain the following keys:
+  * `component:` - the modal component to render
+  * `parameters:` - the parameters to pass to the modal component
+
+You can use the helper method `flash_op_modal` to set the flash modal properties.
+
+Ex.
+
+```ruby
+flash_op_modal component: ::Storages::ProjectStorages::OAuthAccessGrantedModalComponent,
+               parameters: { storage: storage.id }
+```
+
+Internally, the `FlashMessagesHelper#render_flash_modal` will select flash messages with the key `:op_modal` and render the modal component with the given parameters.
+
+P.S. When the `component` is a `Primer::Alpha::Dialog` the `auto-show-dialog` stimulus controller should be declared in order to automatically show the dialog when the page is loaded.
+
+Ex.
+
+```ruby
+render(
+  Primer::Alpha::Dialog.new(
+    id: dialog_id,
+    title:,
+    data: {
+      controller: "auto-show-dialog",
+    }
+) do
+  # ....
+end
+```
+
+### Flash a modal on callback from external service
+
+When you want to display a modal after a callback request from an external service, store the op modal component directly in the `session` in the controller action that performs by calling `OpModalFlashable#store_callback_op_modal_flash` bofore the open redirect and then extract them in the controller action that handles the callback via `OpTurbo::Flashable#retrieve_callback_op_modal_flash`.
+
+Ex.
+
+```ruby
+# Controller action that performs the open redirect
+def redirect_to_external_service
+  store_callback_op_modal_flash component: ::Storages::ProjectStorages::OAuthAccessGrantedModalComponent,
+                                parameters: { storage: storage.id }
+  redirect_to external_service_url
+end
+
+# Controller action that handles the callback
+def callback_from_external_service
+  # Handle the callback
+  redirect_to some_path, op_modal: retrieve_callback_op_modal_flash
+end
+```
+

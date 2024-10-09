@@ -286,7 +286,6 @@ hi:
     label_active: सक्रिय
     label_add_new_storage: Add new storage
     label_automatic_folder: New folder with automatically managed permissions
-    label_completed: Completed
     label_creation_time: Creation time
     label_creator: Creator
     label_delete_storage: Delete storage
@@ -298,7 +297,6 @@ hi:
     label_file_storage: File storage
     label_host: Host URL
     label_inactive: Inactive
-    label_incomplete: Incomplete
     label_managed_project_folders:
       application_password: Application password
       automatically_managed_folders: Automatically managed folders

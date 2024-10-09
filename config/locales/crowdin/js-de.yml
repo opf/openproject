@@ -355,10 +355,10 @@ de:
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_5":
+          "14_6":
             standard:
               new_features_html: >
-                Die Version enthält verschiedene neue Funktionen und Verbesserungen, wie z.B.: <br> <ul class="%{list_styling_class}"> <li>Wiederherstellen lokaler Versionen von WYSIWYG-Inhaltsänderungen.</li> <li>Aktivieren Sie eine Speicherung für mehrere Projekte auf einmal.</li> <li>Exportieren Sie Arbeitspakete in einem aktualisierten Modal mit zusätzlichen Einstellungen.</li> <li>Anzeige von benutzerdefinierten Feldspalten & Filtern in Projektlisten auch in der Community Edition.</li> <li>Unterstützung von CloudFlare Turnstile als Captcha.</li> </ul>
+                Die Version bietet Ihnen verschiedene Funktionen und Verbesserungen, z.B. <br> <ul class="%{list_styling_class}"> <li>Profitieren Sie von flexibleren Fortschrittsberichten - dank des Feedbacks der Benutzer.</li> <li>Erhalten Sie eine Update-Benachrichtigung mit der Möglichkeit, Meetings neu zu laden.</li> <li>Aktivieren Sie ein benutzerdefiniertes Feld für mehrere Projekte auf einmal.</li> <li>Verwenden Sie Makros für relative Arbeitspaketattribute.</li> <li>Zeigen Sie leere Zeilen im gespeicherten Rich Text an.</li> <li>Sehen Sie vergangene Besprechungen, die jetzt in der Nummer neben der Registerkarte Besprechungen enthalten sind.</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
@@ -611,7 +611,7 @@ de:
         assigned: "Beauftragter"
         #The enum value is named 'responsible' in the database and that is what is transported through the API
         #up to the frontend.
-        responsible: "Accountable"
+        responsible: "Verantwortlich"
         created: "Erstellt"
         scheduled: "Geplant"
         commented: "Kommentiert"

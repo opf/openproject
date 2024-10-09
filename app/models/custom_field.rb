@@ -293,6 +293,10 @@ class CustomField < ApplicationRecord
     version? || user? || list?
   end
 
+  def field_format_hierarchy?
+    field_format == "hierarchy"
+  end
+
   def allow_non_open_versions_possible?
     version?
   end

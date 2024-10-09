@@ -91,8 +91,8 @@ uk:
         rename_project_folder: 'Перейменування папки керованого проекту:'
     errors:
       messages:
-        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+        error: Сталася неочікувана помилка. Будь ласка, перевірте журнали OpenProject для отримання додаткової інформації або зверніться до адміністратора
+        unauthorized: OpenProject не вдалося автентифікуватись у постачальника сховища. Переконайтеся, що ви маєте до нього доступ.
       models:
         copy_project_folders_service:
           conflict: Папка %{destination_path} уже існує. Перериваємо процес, щоб уникнути перезапису.
@@ -150,7 +150,7 @@ uk:
           unauthorized: Не вдалося синхронізувати OpenProject із OneDrive. Перевірте конфігурацію свого сховища й програми Azure.
           user_does_not_exist: "%{user} не існує в Nextcloud."
         upload_link_service:
-          not_found: The destination folder %{folder} could not be found on %{storage_name}.
+          not_found: Теку призначення %{folder} не вдалося знайти на %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Завершити без налаштування
@@ -214,7 +214,7 @@ uk:
         client_id_wrong: Налаштований ідентифікатор клієнта OAuth 2 недійсний. Перевірте конфігурацію.
         client_secret_wrong: Налаштований секретний ключ клієнта OAuth 2 недійсний. Перевірте конфігурацію.
         drive_id_wrong: Налаштований ідентифікатор Drive ID не знайдено. Перевірте конфігурацію.
-        group_folder_not_found: The group folder could not be found.
+        group_folder_not_found: Теку групи не знайдено.
         group_folder_version_mismatch: Версія папки групи не підтримується. Оновіть свій сервер Nextcloud.
         host_not_found: Сервер Nextcloud  не знайдено за вказаною URL-адресою. Перевірте конфігурацію.
         missing_dependencies: 'Відсутня обов’язкова залежність для файлового сховища. Додайте таку залежність: %{dependency}.'
@@ -223,10 +223,10 @@ uk:
         subtitle: Перевірка підключення
         tenant_id_wrong: Налаштований ідентифікатор каталогу (клієнта) недійсний. Перевірте конфігурацію.
         unexpected_content:
-          nextcloud: Unexpected content found in the managed group folder.
-          one_drive: Unexpected content found in the drive.
+          nextcloud: У теці керованої групи знайдено неочікуваний вміст.
+          one_drive: На диску знайдено неочікуваний вміст.
         unknown_error: Не вдалося перевірити підключення. Сталася невідома помилка. Щоб дізнатися більше, перегляньте журнали сервера.
-        userless_access_denied: The configured app password is invalid.
+        userless_access_denied: Налаштований пароль застосунку недійсний.
       label_error: Помилка
       label_healthy: Справність
       label_pending: Очікування
@@ -286,7 +286,6 @@ uk:
     label_active: Активні
     label_add_new_storage: Додати нове сховище
     label_automatic_folder: Нова папка з автоматичним керуванням дозволами
-    label_completed: Завершено
     label_creation_time: Час створення
     label_creator: Автор
     label_delete_storage: Видалити сховище
@@ -298,7 +297,6 @@ uk:
     label_file_storage: Файлове сховище
     label_host: URL-адреса хосту
     label_inactive: Неактивні
-    label_incomplete: Не завершено
     label_managed_project_folders:
       application_password: Пароль додатка
       automatically_managed_folders: Папки з автоматичним керуванням

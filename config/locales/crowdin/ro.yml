@@ -211,6 +211,12 @@ ro:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Dacă doriți să adăugați noi câmpuri personalizate în cadrul unui proiect va trebui, mai întâi, să le creați.
     is_enabled_globally: "Este activat/ă la nivel global"
@@ -543,7 +549,7 @@ ro:
       could_not_be_saved: "Următoarele pachete de lucru nu au putut fi salvate:"
       none_could_be_saved: "Niciunul dintre pachetele de lucru %{total} nu a putut fi actualizat."
       x_out_of_y_could_be_saved: "%{failing} din %{total} pachete de lucru nu au putut fi actualizate în timp ce %{success} ar putea fi actualizat."
-      selected_because_descendants: "În timp ce %{selected} pachete de lucru selectate, în total %{total} pachete de lucru sunt afectate care includ descendenții."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendent de selectat"
     move:
       no_common_statuses_exists: "Nu există o stare disponibilă pentru toate pachetele de lucru selectate. Starea acestora nu poate fi modificată."
@@ -633,6 +639,7 @@ ro:
         editable: "Editabil"
         field_format: "Format"
         is_filter: "Folosit ca filtru"
+        is_for_all: "For all projects"
         is_required: "Obligatoriu"
         max_length: "Lungime maximă"
         min_length: "Lungime minimă"
@@ -820,7 +827,7 @@ ro:
         blank: "nu poate fi gol."
         blank_nested: "trebuie să aibă setul '%{property}' al proprietății."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Un pachet de lucru nu poate fi legat de una din sub-activitățile sale."
         circular_dependency: "Această relație ar crea o dependință circulară."
         confirmation: "nu se potrivește cu %{attribute}."
@@ -1379,6 +1386,7 @@ ro:
   button_expand_all: "Extindere totală"
   button_favorite: "Adaugă la favorite"
   button_filter: "Filtrează"
+  button_finish_setup: "Finish setup"
   button_generate: "Generare"
   button_list: "Listă"
   button_lock: "Blocare"
@@ -1431,8 +1439,8 @@ ro:
     failure_message: Consimţământul a eșuat, nu putem continua.
     title: Consimţământul utilizatorului
     decline_warning_message: Ați refuzat să fiți de acord și ați fost delogat.
-    user_has_consented: Utilizatorul a consimțit la declarația dvs. configurată la momentul dat.
-    not_yet_consented: Utilizatorul nu și-a exprimat acordul încă, consimțământul va fi solicitat la următoarea conectare.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Definiți adresa de e-mail pe care utilizatorii o pot utiliza pentru a ajunge la un responsabil cu securitatea datelor, pentru a efectua modificări de date sau solicitări de eliminare din înregistrări.
     contact_your_administrator: Contactați administratorul dvs. dacă doriți ștergerea contului dvs.
     contact_this_mail_address: Vă rugăm să contactați %{mail_address} dacă doriți ștergerea contului dvs.
@@ -1838,6 +1846,8 @@ ro:
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
       system_update: "Actualizare sistem OpenProiect:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1865,6 +1875,10 @@ ro:
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
         totals_removed_from_childless_work_packages: >-
           Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Ghid de configurare"
     get_in_touch: "Aveți întrebări? Luați legătura cu noi."
@@ -2028,6 +2042,7 @@ ro:
   label_calendars_and_dates: "Calendare și dăți"
   label_calendar_show: "Afișare calendar"
   label_category: "Categorie"
+  label_completed: Completed
   label_consent_settings: "Consimțământ utilizator"
   label_wiki_menu_item: Meniu wiki
   label_select_main_menu_item: Selectare meniu wiki nou
@@ -2176,6 +2191,7 @@ ro:
   label_here: aici
   label_hide: "Ascunde"
   label_history: "Istoric"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Frunză de ierarhie"
   label_home: "Pagina de start"
   label_subject_or_id: "Subiect sau ID"
@@ -2187,6 +2203,7 @@ ro:
   label_inactive: "Inactiv"
   label_incoming_emails: "E-mailuri primite"
   label_includes: "Include"
+  label_incomplete: Incomplete
   label_include_sub_projects: Include sub-projects
   label_index_by_date: "Indexare după dată"
   label_index_by_title: "Indexare după titlu"
@@ -2197,6 +2214,8 @@ ro:
   label_internal: "Intern"
   label_introduction_video: "Video de introducere"
   label_invite_user: "Invitare utilizator"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Distribuie"
   label_share_project_list: "Distribuie lista de proiecte"
   label_share_work_package: "Share work package"
@@ -2273,7 +2292,7 @@ ro:
   label_more: "Mai mult"
   label_more_than_ago: "acum mai mult de zile"
   label_move_work_package: "Mutare pachet de lucru"
-  label_my_account: "Contul meu"
+  label_my_account: "Account settings"
   label_my_activity: "Activitatea mea"
   label_my_account_data: "Datele din contul meu"
   label_my_avatar: "My avatar"
@@ -2300,6 +2319,7 @@ ro:
   label_no_parent_page: "Pagină părinte:"
   label_nothing_display: "Nimic de afișat"
   label_nobody: "nimeni"
+  label_not_configured: "Not configured"
   label_not_found: "nu a fost găsit"
   label_none: "niciunul"
   label_none_parentheses: "(nimic)"
@@ -3235,6 +3255,13 @@ ro:
   setting_sys_api_enabled: "Activare serviciul web de administrare repo"
   setting_sys_api_description: "Serviciul web de administrare repo oferă integrare şi autorizare utilizatori pentru accesul la repo-uri."
   setting_time_format: "Ora"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Activează modul de accesibilitate pentru utilizatorii anonimi"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Fusul orar implicit al utilizatorilor"

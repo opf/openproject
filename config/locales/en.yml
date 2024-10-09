@@ -234,6 +234,12 @@ en:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
 
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before
@@ -599,7 +605,7 @@ en:
       could_not_be_saved: "The following work packages could not be saved:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendant of selected"
 
     move:
@@ -702,6 +708,7 @@ en:
         editable: "Editable"
         field_format: "Format"
         is_filter: "Used as a filter"
+        is_for_all: "For all projects"
         is_required: "Required"
         max_length: "Maximum length"
         min_length: "Minimum length"
@@ -890,7 +897,7 @@ en:
         blank: "can't be blank."
         blank_nested: "needs to have the property '%{property}' set."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "doesn't match %{attribute}."
@@ -1504,8 +1511,8 @@ en:
     failure_message: Consent failed, cannot proceed.
     title: User Consent
     decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Define the mail address that users can reach a data controller to perform data change or removal requests.
     contact_your_administrator: Please contact your administrator if you want to have your account deleted.
     contact_this_mail_address: Please contact %{mail_address} if you want to have your account deleted.
@@ -2291,6 +2298,8 @@ en:
   label_internal: "Internal"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Share"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
@@ -2367,7 +2376,7 @@ en:
   label_more: "More"
   label_more_than_ago: "more than days ago"
   label_move_work_package: "Move work package"
-  label_my_account: "My account"
+  label_my_account: "Account settings"
   label_my_activity: "My activity"
   label_my_account_data: "My account data"
   label_my_avatar: "My avatar"
@@ -3380,7 +3389,7 @@ en:
   setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
   setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
     The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy.
-    Work packages without <i>Work</i> will be ignored (current behaviour).
+    Work packages without <i>Work</i> will be ignored.
   setting_total_percent_complete_mode_simple_average: "Simple average"
   setting_total_percent_complete_mode_simple_average_caption_html: >-
     <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.

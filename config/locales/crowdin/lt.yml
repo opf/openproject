@@ -208,6 +208,12 @@ lt:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Norėdami pridėti naujus pritaikytus laukelius prie projekto, pirmiausia reikia juos sukurti. Tik tada yra galimybė juos pridėti prie šio projekto.
     is_enabled_globally: "Yra įgalintas globaliai"
@@ -547,7 +553,7 @@ lt:
       could_not_be_saved: "Nepavyko įrašyti šių darbo paketų:"
       none_could_be_saved: "Ne visus iš %{total} darbo paketų pavyko pakeisti."
       x_out_of_y_could_be_saved: "%{failing} iš %{total} darbo paketų nepavyko atnaujinti, o %{success} - pavyko."
-      selected_because_descendants: "Nors %{selected} darbo paketai buvo pažymėti, iš viso %{total} darbo paketai įtakoti, įskaitant ir palikuonis."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "pažymėto palikuonis"
     move:
       no_common_statuses_exists: "Parinkti darbo paketai neturi būsenos. Jų būsena negali pakeista."
@@ -637,6 +643,7 @@ lt:
         editable: "Galimas redaguoti"
         field_format: "Formatas"
         is_filter: "Naudojamas kaip filtras"
+        is_for_all: "For all projects"
         is_required: "Būtinas"
         max_length: "Maksimalus ilgis"
         min_length: "Minimalus ilgis"
@@ -824,7 +831,7 @@ lt:
         blank: "negali būti tuščia."
         blank_nested: "reikalauja, kad savybė '%{property}' būtų nustatyta."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Darbų paketas negali būti susietas su viena iš savo vidinių užduočių."
         circular_dependency: "Šis ryšys sukurtų ciklinę priklausomybę."
         confirmation: "nesutampa su %{attribute}."
@@ -1393,6 +1400,7 @@ lt:
   button_expand_all: "Išskleisti visus"
   button_favorite: "Pridėti prie mėgstamų"
   button_filter: "Filtras"
+  button_finish_setup: "Finish setup"
   button_generate: "Generuoti"
   button_list: "Sąrašas"
   button_lock: "Užrakinti"
@@ -1445,8 +1453,8 @@ lt:
     failure_message: Sutikimas negautas. Tęsti negalima.
     title: Naudotojo sutikimas
     decline_warning_message: Jūs nesutikote su sąlygomis, todėl buvote atjungtas nuo sistemos.
-    user_has_consented: Naudotojas sutiko su jūsų sukonfigūruotu teiginiu nurodytu metu.
-    not_yet_consented: Naudotojas dar nesutiko, jo bus paklausta kito prisijungimo metu.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Nurodyti pašto adresą, kuriuo naudotojai gali pasiekti duomenų valdytoją, kad prašytų duomenų pakeitimo ar pašalinimo.
     contact_your_administrator: Prašome susisiekti su jūsų administratoriumi, jei norite, kad jūsų paskyra būtų ištrinta.
     contact_this_mail_address: Prašome rašyti adresu %{mail_address}, jei norite, kad jūsų paskyra būtų ištrinta.
@@ -1870,6 +1878,8 @@ lt:
       progress_mode_changed_to_status_based: "Eigos skaičiavimas atnaujintas"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject sistemos atnaujinimas"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: dėl pirmtako pakeitimų %{link}
       work_package_parent_changed_times: dėl tėvo pakeitimų %{link}
@@ -1897,6 +1907,10 @@ lt:
           Eigos skaičiavimas automatiškai <a href="%{href}" target="_blank">pakeistas su versijos atnaujinimu</a>.
         totals_removed_from_childless_work_packages: >-
           Darbo ir eigos sumos automatiškai išimtos ne tėviniams darbų paketams <a href="%{href}" target="_blank">atnaujinant versiją</a>. Tai palaikymo užduotis ir ją galima saugiai ignoruoti.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Konfigūravimo vadovas"
     get_in_touch: "Turite klausimų? Susisiekite su mumis."
@@ -2060,6 +2074,7 @@ lt:
   label_calendars_and_dates: "Kalendoriai ir datos"
   label_calendar_show: "Rodyti kalendorių"
   label_category: "Kategorija"
+  label_completed: Completed
   label_consent_settings: "Naudotojo sutikimas"
   label_wiki_menu_item: Wiki meniu punktas
   label_select_main_menu_item: Pasirinkti naują pagrindinio meniu punktą
@@ -2208,6 +2223,7 @@ lt:
   label_here: čia
   label_hide: "Paslėpti"
   label_history: "Istorija"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Hierarchijos lapas"
   label_home: "Namai"
   label_subject_or_id: "Tema arba ID"
@@ -2219,6 +2235,7 @@ lt:
   label_inactive: "Neaktyvus"
   label_incoming_emails: "Gauti el. laiškai"
   label_includes: "turi savyje"
+  label_incomplete: Incomplete
   label_include_sub_projects: Include sub-projects
   label_index_by_date: "Rūšiuoti pagal datą"
   label_index_by_title: "Rūšiuoti pagal pavadinimą"
@@ -2229,6 +2246,8 @@ lt:
   label_internal: "Vidinis"
   label_introduction_video: "Įvado video"
   label_invite_user: "Pakviesti vartotoją"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Dalintis"
   label_share_project_list: "Share project list"
   label_share_work_package: "Dalintis darbo paketu"
@@ -2305,7 +2324,7 @@ lt:
   label_more: "Daugiau"
   label_more_than_ago: "daugiau nei prieš dieną"
   label_move_work_package: "Perkelti darbų paketą"
-  label_my_account: "Mano paskyra"
+  label_my_account: "Account settings"
   label_my_activity: "Mano veikla"
   label_my_account_data: "Mano paskyros duomenys"
   label_my_avatar: "Mano avataras"
@@ -2332,6 +2351,7 @@ lt:
   label_no_parent_page: "Nėra tėvinio puslapio"
   label_nothing_display: "Nėra ką rodyti"
   label_nobody: "niekas"
+  label_not_configured: "Not configured"
   label_not_found: "nerasta"
   label_none: "joks"
   label_none_parentheses: "(nėra)"
@@ -3266,6 +3286,13 @@ lt:
   setting_sys_api_enabled: "Įgalinti repozitorijos valdymo web tarnybą"
   setting_sys_api_description: "Repozitorijos valdymo web tarnyba teikia integraciją ir vartotojų autorizaciją bandant pasiekti repozitorijas."
   setting_time_format: "Laikas"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Leisti lengvos prieigos režimą anoniminiams vartotojams"
   setting_user_format: "Naudotojų vardo formatas"
   setting_user_default_timezone: "Numatytoji vartotojo laiko juosta"
