@@ -29,9 +29,8 @@ module WorkPackages
   class Menu < Submenu
     attr_reader :view_type, :project, :params
 
-    def initialize(project: nil, params: nil, request: nil)
+    def initialize(project: nil, params: nil)
       @view_type = "work_packages_table"
-      @request = request
 
       super(view_type:, project:, params:)
     end
@@ -69,7 +68,7 @@ module WorkPackages
 
       if query_params[:work_package_default] &&
         (%i[filters query_props query_id name].none? { |k| params.key? k }) &&
-        @request.referer.include?("work_packages")
+        params[:on_work_package_path] == "true"
         return true
       end
 
