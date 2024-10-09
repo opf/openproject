@@ -8,7 +8,7 @@ zh-TW:
         drive: Drive ID
         host: 主機
         name: 名稱
-        provider_type: 提供者類型
+        provider_type: 提供商類型
         tenant: 目錄 (租戶) ID
     errors:
       messages:
@@ -90,6 +90,9 @@ zh-TW:
         remote_folders: '讀取群組資料夾的內容：'
         rename_project_folder: '重新命名託管的專案資料夾：'
     errors:
+      messages:
+        error: 發生意外錯誤。請檢查 OpenProject 記錄以獲得更多資訊，或聯絡管理員
+        unauthorized: OpenProject 無法驗證儲存服務提供商。請確認您有存取權。
       models:
         copy_project_folders_service:
           conflict: 資料夾 %{destination_path} 已經存在。中斷程序以避免覆寫。
@@ -111,8 +114,8 @@ zh-TW:
             hide_inactive_folders:
               permission_not_set: 無法在 %{path} 上設定權限。
             remote_folders:
-              not_allowed: '%{username} 無法存取 %{group_folder}。請檢查 Nextcloud 上的資料夾權限。'
-              not_found: "%{group_folder} 未找到。請檢查您的 Nextcloud 設定。"
+              not_allowed: The %{username} doesn't have access to the %{group_folder} folder. Please check the folder permissions on Nextcloud.
+              not_found: "%{group_folder} folder wasn't found. Please check your Nextcloud setup."
             remove_user_from_group:
               conflict: '使用者 %{user} 無法從 %{group} 群組中移除，原因如下： %{reason}'
               failed_to_remove: '使用者 %{user} 無法從 %{group} 群組中移除，原因如下： %{reason}'
@@ -125,7 +128,7 @@ zh-TW:
           group_does_not_exist: "%{group} 不存在。請檢查您的 Nextcloud 實例配置。"
           insufficient_privileges: OpenProject 沒有足夠的權限將 %{user} 加入 %{group}。請檢查 Nextcloud 中的群組設定。
           not_allowed: Nextcloud 封鎖該請求。
-          unauthorized: OpenProject 無法與 Nextcloud 同步。請檢查您的儲存空間和 Nextcloud 設定。
+          unauthorized: OpenProject could not sync with Nextcloud. Please check your storage and Nextcloud configuration.
           user_does_not_exist: "%{user} 在 Nextcloud 中不存在。"
         one_drive_sync_service:
           attributes:
@@ -144,8 +147,10 @@ zh-TW:
               permission_not_set: 無法在 %{path} 上設定權限。
           error: 發生意外錯誤。請確保您的 Nextcloud 可以連線，並檢查 OpenProject 日誌以取得更多資訊。
           not_allowed: OpenProject 不允許存取您的 OneDrive 磁碟機。請檢查 Azure 應用程式上設定的權限。
-          unauthorized: OpenProject 無法與 OneDrive 同步。請檢查您的儲存空間和 Azure 應用程式設定。
+          unauthorized: OpenProject could not sync with OneDrive. Please check your storage and Azure Application configuration.
           user_does_not_exist: "%{user} 在 Nextcloud 中不存在。"
+        upload_link_service:
+          not_found: 在 %{storage_name} 上找不到目標資料夾 %{folder}。
   storages:
     buttons:
       complete_without_setup: 排除它完成
@@ -162,7 +167,7 @@ zh-TW:
         one_drive: 允許 OpenProject 使用 OAuth 連接 OneDrive/Sharepoint 存取 Azure 資料。
       redirect_uri_incomplete:
         one_drive: 使用正確的 URI 重定向完成設定。
-    confirm_replace_oauth_application: 此操作將重設目前的 OAuth 憑證。 確認後，您必須在儲存空間提供者重新輸入憑證，並且所有遠端使用者都必須再次針對 OpenProject 進行授權。 您確定要繼續嗎？
+    confirm_replace_oauth_application: 此操作將重設目前的 OAuth 憑證。 確認後，您必須在儲存空間提供商重新輸入憑證，並且所有遠端使用者都必須再次針對 OpenProject 進行授權。 您確定要繼續嗎？
     confirm_replace_oauth_client: 此操作將重設目前的 OAuth 憑證。 確認後，您必須輸入儲存提供者的新憑證，並且所有使用者都必須再次針對 %{provider_type} 進行授權。 您確定要繼續嗎？
     delete_warning:
       input_delete_confirmation: 輸入檔案儲存名稱 %{file_storage} 以確認刪除。
@@ -181,7 +186,7 @@ zh-TW:
     enabled_in_projects:
       setup_incomplete_description: 此儲存的設定不完整。請先完成設定，再於多個專案中啟用。
       setup_incomplete_header: 儲存設定不完整
-    error_invalid_provider_type: 請選擇有效的儲存空間提供者。
+    error_invalid_provider_type: 請選擇有效的儲存空間提供商。
     file_storage_view:
       access_management:
         automatic_management: 自動管理的專案文件夾
@@ -200,7 +205,7 @@ zh-TW:
       openproject_oauth: OpenProject 開放授權 (OAuth)
       project_folders: 專案資料夾
       redirect_uri: 重新導向 URI
-      storage_provider: 儲存空間提供者
+      storage_provider: 儲存空間提供商
     health:
       checked: 上次檢查時間：%{datetime}
       connection_validation:
@@ -209,6 +214,7 @@ zh-TW:
         client_id_wrong: 設定的 OAuth 2 客戶端 ID 無效。請檢查設定。
         client_secret_wrong: 設定的 OAuth 2 用戶端密鑰無效。請檢查設定。
         drive_id_wrong: 找不到設定的儲存空間id。請檢查設定。
+        group_folder_not_found: 無法找到群組資料夾。
         group_folder_version_mismatch: 不支援群組資料夾版本。請更新您的 Nextcloud 伺服器。
         host_not_found: 在設定的主機網址未找到 Nextcloud 伺服器。請檢查設定。
         missing_dependencies: '檔案儲存中缺少所需的相依性。請新增下列相依性： %{dependency}。'
@@ -216,8 +222,11 @@ zh-TW:
         placeholder: 根據伺服器檢查您的連線。
         subtitle: 連線驗證
         tenant_id_wrong: 設定的目錄 (租戶) id 無效。請檢查設定。
-        unexpected_content: 在儲存空間中發現預期之外內容。
+        unexpected_content:
+          nextcloud: 在管理的群組資料夾中發現非預期內容。
+          one_drive: 在儲存空間中發現預期之外內容。
         unknown_error: 連線無法驗證。發生未知錯誤。請檢查伺服器日誌以瞭解進一步資訊。
+        userless_access_denied: 設定的應用程式密碼無效。
       label_error: 錯誤
       label_healthy: 健康的
       label_pending: 待處理
@@ -302,7 +311,7 @@ zh-TW:
     label_openproject_oauth_application_id: OpenProject OAuth 用戶端 ID
     label_openproject_oauth_application_secret: OpenProject OAuth 用戶端秘密
     label_project_folder: 專案資料夾
-    label_provider: 供應商
+    label_provider: 提供商
     label_redirect_uri: 重新導向 URI
     label_show_storage_redirect_uri: 顯示重定向 URI
     label_status: 狀態
@@ -314,9 +323,6 @@ zh-TW:
       not_connected: 未連線。使用者應透過下列方式登入儲存設備 %{link}。
     members_no_results: 沒有可顯示的成員
     no_results: 尚未設定檔案儲存區
-    notice_successful_storage_connection: |-
-      儲存已成功連接！請記得在每個所需專案的專案設定
-      中啟用模組和特定儲存設備，以便使用。
     oauth_access_granted_modal:
       access_granted: 已授權存取
       project_settings:
@@ -362,7 +368,7 @@ zh-TW:
         title: 成員連線狀態
     permission_header_explanation: '外部存儲器上的文件權限僅適用於自動管理的項目文件夾內的文件夾和文件。請注意，並非所有存儲提供商都支持所有文件權限。更多信息請查看<a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>文件存儲權限</a>文檔。'
     provider_types:
-      label: 提供者類型
+      label: 提供商類型
       nextcloud:
         label_oauth_client_id: Nextcloud OAuth 客户端 ID
         label_oauth_client_secret: Nextcloud OAuth 客户端金鑰
@@ -379,6 +385,7 @@ zh-TW:
     storage_list_blank_slate:
       description: 新增的儲存空間將在此顯示
       heading: 目前沒有任何儲存空間
+    successful_storage_connection: Storage connected successfully! Remember to activate the storage in the Projects tab for each desired project to use it.
     upsale:
       description: |-
         整合您的 OneDrive/SharePoint 作為 OpenProject 的檔案儲存空間。上傳檔案並將其直接連結至專案中的

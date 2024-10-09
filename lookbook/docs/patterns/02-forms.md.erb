@@ -1,0 +1,285 @@
+A form is a series of components that require user input that will then be submitted. Forms are notably common in settings pages but are also present elsewhere like in individual modals (edit project attribute section, edit meeting details) and the filter panel.
+
+## Overview
+
+<%= embed Patterns::FormsPreview, :custom_width_fields_form %>
+
+## Form elements
+
+A form may be composed of these elements:
+
+- Text input
+- Text area
+- Select
+- Toggle switch
+- Checkbox
+- Checkbox group
+- Radio button
+- Radio groups
+
+Additional elements like Banners might also be used.
+
+## Grouping and hierarchy
+
+Form elements that are related need to be grouped together. For this, use a [form group](https://primer-lookbook.github.com/view-components/lookbook/pages/forms/groups_layouts).
+
+If a form is particularly long, split it into different form groups and use a [`Subhead`](https://primer-lookbook.github.com/view-components/lookbook/inspect/primer/beta/subhead/default) at the start of each to give it a title. When using Subheads, we recommend implementing individual Save buttons for each section (using the <em>Secondary</em> style). If a section only contains `Toggle switch` elements, a separate Save button is not necessarily (since the Toggle sends its own server request on interaction).
+
+If a form does not use Subhead sections, then there should be a single 'Save' (using the <em>Primary</em> style) button at the end.
+
+## Form width
+
+In Primer, form elements automatically take the width of the container. In certain cases (especially Settings pages), full-width input fields will look strange. In this case, form inputs will need to have a smaller width. A good rule of thumb is to fit the size of the fields to the expected length of the user input. Date fields can for example be rather small, as they are limited in length. The name of an object on the other hand can be quite long, so the field is expected to be larger.
+
+In OpenProject, each form element has its own container. It is thus possible to define the container width for each input. This width will define both the visual width of the field but also the max width of the caption field (where the line breaks).
+
+The options are:
+
+- <strong>:auto</strong> => width: auto
+- <strong>:small</strong> => max-width: min(256px, 100vw - 2rem)
+- <strong>:medium</strong> =>  max-width: min(320px, 100vw - 2rem)
+- <strong>:large</strong> => max-width: min(480px, 100vw - 2rem)
+- <strong>:xlarge</strong> => max-width: min(640px, 100vw - 2rem)
+- <strong>:xxlarge</strong> => max-width: min(960px, 100vw - 2rem)
+
+
+<%= embed Patterns::FormsPreview, :default, panels: %i[] %>
+
+## Technical notes
+
+### Usage
+
+To create forms, you need 2 basic things:
+
+- A form instance to render fields
+- A `primer_form_with` call to get a form builder and render the form instance
+
+```ruby
+class TextFieldAndCheckboxForm < ApplicationForm
+  form do |my_form|
+    my_form.text_field(
+      name: :ultimate_answer,
+      label: "Ultimate answer",
+      required: true,
+      caption: "The answer to life, the universe, and everything"
+    )
+
+    my_form.check_box(
+      name: :enable_ipd,
+      label: "Enable the Infinite Improbability Drive",
+      caption: "Cross interstellar distances in a mere nothingth of a second."
+    )
+  end
+end
+```
+
+```erb
+<%%= primer_form_with(url: "/foo") do |f| %>
+  <%%= render(TextFieldAndCheckboxForm.new(f)) %>
+<%% end %>
+```
+
+Multiple form instances can be rendered within the same `primer_form_with` call,
+allowing to put some content in between:
+
+```erb
+<%%= primer_form_with(url: "/foo") do |f| %>
+  <%%= render(TextFieldAndCheckboxForm.new(f)) %>
+  <%%= render(MessageComponent.new(icon: :info, message: "This will be fine!")) %>
+  <%%= render(SubmitButtonForm.new(f)) %>
+<%% end %>
+```
+
+This is the regular way of using Primer forms.
+
+### OpenProject helpers
+
+OpenProject provides some helpers to make building and rendering forms easier.
+
+#### `render_inline_form` to avoid creating form classes
+
+This helper allows to render an anymous form instance, avoiding the need to
+create a dedicated form class. This can be useful for simple forms or when you
+don't want to pollute the form class namespace.
+
+The above example which was needing a dedicated `TextFieldAndCheckboxForm` form
+class can be rewritten like this:
+
+```erb
+<%%=
+primer_form_with(url: "/foo") do |f|
+  render_inline_form(f) do |my_form|
+    my_form.text_field(
+      name: :ultimate_answer,
+      label: "Ultimate answer",
+      required: true,
+      caption: "The answer to life, the universe, and everything"
+    )
+
+    my_form.check_box(
+      name: :enable_ipd,
+      label: "Enable the Infinite Improbability Drive",
+      caption: "Cross interstellar distances in a mere nothingth of a second."
+    )
+  end
+end
+%>
+```
+
+#### `FormObject#html_content` to mix form fields and html content
+
+This helper allows to render non-form content in a form. For instance it can be
+used to render a description box inside a form, an image, or whatever makes
+sense for the form being built.
+
+```ruby
+class TextFieldWithWarningForm < ApplicationForm
+  attr_reader :warning
+
+  def initialize(warning: nil)
+    super()
+    @warning = warning
+  end
+
+  form do |my_form|
+    my_form.text_field(
+      name: :full_name,
+      label: "Full name",
+      required: true
+    )
+
+    if warning
+      my_form.html_content do
+        tag.div(class: "flash flash-warn") { warning }
+      end
+    end
+
+    my_form.submit(name: :submit, label: "Save")
+  end
+end
+```
+
+### Forms for administration pages
+
+Administration pages forms are used to change the values of `Settings`. The name
+and labels being used are standardized making them very repetitive.
+
+Here is how the form of the General tab of the system administration page could
+look like:
+
+```ruby
+class Admin::Settings::GeneralSettingsForm < ApplicationForm
+  attr_reader :guessed_host
+
+  def initialize(guessed_host:)
+    super()
+    @guessed_host = guessed_host
+  end
+
+  form do |general_form|
+    general_form.text_field(
+      name: :app_title,
+      label: I18n.t("setting_app_title"),
+      value: Setting[:app_title],
+      disabled: !Setting.app_title_writable?
+    )
+    general_form.text_field(
+      name: :per_page_options,
+      label: I18n.t("setting_per_page_options"),
+      value: Setting[:per_page_options],
+      caption: "#{I18n.t(:text_comma_separated)}<br/>" \
+               "#{I18n.t(:text_notice_too_many_values_are_inperformant)}".html_safe)
+      disabled: !Setting.per_page_options_writable?
+    )
+    general_form.text_field(
+      name: :activity_days_default,
+      label: I18n.t("setting_activity_days_default"),
+      value: Setting[:activity_days_default],
+      type: :number,
+      disabled: !Setting.activity_days_default_writable?
+    )
+    general_form.text_field(
+      name: :host_name,
+      label: I18n.t("setting_host_name"),
+      value: Setting[:host_name],
+      caption: "#{I18n.t(:label_example)}: #{guessed_host}"),
+      disabled: !Setting.host_name_writable?
+    )
+    #
+    # and so on...
+    #
+    general_form.submit(
+      name: 'submit',
+      label: I18n.t('button_save'),
+      scheme: :primary
+    )
+  end
+end
+```
+
+There is a lot of repetition in the form above: the field can be disabled for
+read-only settings (which happens for settings set through environment variables
+or configuration files), the field name has to be translated and the value must
+be read from `Settings`. Entering all this information manually is tedious and
+error prone.
+
+In this case, `settings_form` can be used instead of `form` to get a form
+instance with knowledge about how render fields for settings.
+
+The above example then becomes:
+
+```ruby
+class Admin::Settings::GeneralSettingsForm < ApplicationForm
+  attr_reader :guessed_host
+
+  def initialize(guessed_host:)
+    super()
+    @guessed_host = guessed_host
+  end
+
+  settings_form do |general_form|
+    general_form.text_field(name: :app_title)
+    general_form.text_field(name: :per_page_options,
+                            caption: "#{I18n.t(:text_comma_separated)}<br/>" \
+                                     "#{I18n.t(:text_notice_too_many_values_are_inperformant)}".html_safe)
+    general_form.text_field(name: :activity_days_default,
+                            type: :number)
+    general_form.text_field(name: :host_name,
+                            caption: "#{I18n.t(:label_example)}: #{guessed_host}")
+    #
+    # and so on...
+    #
+    general_form.submit
+  end
+end
+```
+
+It is easier to write and read.
+
+Under the hood, the form object is decorated with `SettingsFormDecorator`.
+That's where all the helper methods are defined. There aren't many for now, but
+this is intended to grow to support more advanced form features for
+administration pages.
+
+So far, the following helpers are available:
+
+  * `text_field(name:, **options)`: renders a text field for the setting called
+  `name`, automatically setting the label, value, and disabled state from the
+  setting's attributes.
+
+  * `check_box(name:, **options)`: renders a checkbox for the setting called
+  `name`, automatically setting the label, checked state, and disabled state
+  from the setting's attributes.
+
+  * `radio_button_group(name:, values:, button_options: {}, **options)`: renders
+  a radio button group for the setting called `name` and radio button for each
+  element of `values`, automatically setting the label, checked state, html
+  caption, and disabled state from the setting's attributes.
+
+  * `submit`: renders a submit button with the label "Save" and the primary
+  scheme.
+
+  * `form`: the form builder instance if you need to render some form elements
+  normally handled by the settings form decorator in another way than intended.
+  Any call to a method that is not defined on the settings form decorator will
+  be forwarded to this form builder instance so its usage is transparent.

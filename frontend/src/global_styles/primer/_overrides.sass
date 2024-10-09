@@ -83,15 +83,15 @@ sub-header,
       flex-direction: column
       row-gap: 1rem
 
-// Todo: Fix this as soon as possible in the primer repo!
-.SubHeader-leftPane
-  [class*="FormControl-input-width--"]:not(.FormControl-input-width--auto)
-    width: 100vw
-
 .Button.op-app-header--primer-button,
 .Button.op-app-header--primer-button .Button-visual
   color: var(--header-item-font-color)
+  width: auto
 
   &:hover
     background: var(--header-item-bg-hover-color)
     color: var(--header-item-font-hover-color)
+  
+// Todo: Remove once https://github.com/primer/view_components/pull/3087 is merged
+.FormControl-spacingWrapper
+  row-gap: var(--stack-gap-normal)

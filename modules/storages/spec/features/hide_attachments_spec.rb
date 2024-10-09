@@ -62,12 +62,12 @@ RSpec.describe "Hide attachments", :js, :with_cuprite do
 
       click_on(class: "ToggleSwitch-track")
       expect(page).to have_css("toggle-switch", text: "On")
-      wait_for(page).to have_css('svg[data-target="toggle-switch.loadingSpinner"][hidden="hidden"]', visible: :hidden)
+      wait_for { page }.to have_css('[data-target="toggle-switch.loadingSpinner"][hidden="hidden"] svg', visible: :hidden)
       expect(project.reload).not_to be_deactivate_work_package_attachments
 
       click_on(class: "ToggleSwitch-track")
       expect(page).to have_css("toggle-switch", text: "Off")
-      wait_for(page).to have_css('svg[data-target="toggle-switch.loadingSpinner"][hidden="hidden"]', visible: :hidden)
+      wait_for { page }.to have_css('[data-target="toggle-switch.loadingSpinner"][hidden="hidden"] svg', visible: :hidden)
       expect(project.reload).to be_deactivate_work_package_attachments
     end
 
@@ -135,7 +135,7 @@ RSpec.describe "Hide attachments", :js, :with_cuprite do
       page.visit_tab!(:files)
 
       # wait for storage title to appear. it means Files tab has been loaded.
-      wait_for(page).to have_xpath(storage_title_xpath, wait: 35)
+      wait_for { page }.to have_xpath(storage_title_xpath, wait: 35)
 
       expect(page).to have_no_css("op-attachments")
       expect(page).to have_no_text("ATTACHMENTS")
@@ -151,7 +151,7 @@ RSpec.describe "Hide attachments", :js, :with_cuprite do
       page.visit!
 
       # wait for storage title to appear(op-attachments is in the same section usually)
-      wait_for(page).to have_xpath(storage_title_xpath, wait: 35)
+      wait_for { page }.to have_xpath(storage_title_xpath, wait: 35)
 
       expect(page).to have_no_css("op-attachments")
       expect(page).to have_no_text("ATTACHMENTS")

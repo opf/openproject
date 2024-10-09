@@ -30,6 +30,8 @@ class WorkPackages::UpdateAncestors::Loader
     parent_id: "parent_id",
     estimated_hours: "estimated_hours",
     remaining_hours: "remaining_hours",
+    done_ratio: "done_ratio",
+    derived_done_ratio: "derived_done_ratio",
     status_excluded_from_totals: "statuses.excluded_from_totals",
     schedule_manually: "schedule_manually",
     ignore_non_working_days: "ignore_non_working_days"

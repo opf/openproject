@@ -39,11 +39,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::UploadLinkQu
 
   it_behaves_like "upload_link_query: basic query setup"
 
-  it_behaves_like "upload_link_query: validating input data"
-
   context "when requesting an upload link for an existing file", vcr: "one_drive/upload_link_success" do
     let(:upload_data) do
-      Storages::UploadData.new(folder_id: "01AZJL5PN6Y2GOVW7725BZO354PWSELRRZ", file_name: "DeathStart_blueprints.tiff")
+      Storages::Peripherals::StorageInteraction::Inputs::UploadData
+        .build(folder_id: "01AZJL5PN6Y2GOVW7725BZO354PWSELRRZ", file_name: "DeathStart_blueprints.tiff").value!
     end
     let(:token) do
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXVkIjoiMDAwMDA" \
@@ -69,7 +68,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::UploadLinkQu
 
   context "when requesting an upload link for a not existing file", vcr: "one_drive/upload_link_not_found" do
     let(:upload_data) do
-      Storages::UploadData.new(folder_id: "04AZJL5PN6Y2GOVW7725BZO354PWSELRRZ", file_name: "DeathStart_blueprints.tiff")
+      Storages::Peripherals::StorageInteraction::Inputs::UploadData
+        .build(folder_id: "04AZJL5PN6Y2GOVW7725BZO354PWSELRRZ", file_name: "DeathStart_blueprints.tiff").value!
     end
     let(:error_source) { described_class }
 

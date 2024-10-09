@@ -33,31 +33,23 @@ RSpec.describe "API v3 Root resource with the github integration extension", wit
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) do
-    create(:user, member_with_roles: { project => role })
-  end
-  let(:role) { create(:project_role, permissions: []) }
-  let(:project) { create(:project, public: false) }
-
-  before do
-    # reset permissions cache, otherwise the introspection permissions enabled with the
-    # deploy_targets feature flag won't be registered
-    OpenProject::AccessControl.instance_variable_set(:@permissions, nil)
-  end
+  shared_let(:current_user) { create(:user) }
+  let(:core_sha) { "b86f391bf02c345e934ca8a945d83fc82d2063ef" }
 
   describe "#get" do
-    let(:response) { last_response }
-    let(:get_path) { api_v3_paths.root }
+    let(:response) do
+      get api_v3_paths.root
+      last_response
+    end
 
     subject { response.body }
 
+    before do
+      allow(OpenProject::VERSION).to receive(:core_sha).and_return core_sha
+      allow(User).to receive(:current).and_return(current_user)
+    end
+
     context "without introspection permission" do
-      before do
-        allow(User).to receive(:current).and_return(current_user)
-
-        get get_path
-      end
-
       it "responds with 200" do
         expect(response).to have_http_status(:ok)
       end
@@ -68,14 +60,9 @@ RSpec.describe "API v3 Root resource with the github integration extension", wit
     end
 
     context "with introspection permission" do
-      let(:current_user) { create(:user, global_permissions: [:introspection]) }
-      let(:core_sha) { "b86f391bf02c345e934ca8a945d83fc82d2063ef" }
-
       before do
-        allow(OpenProject::VERSION).to receive(:core_sha).and_return core_sha
-        allow(User).to receive(:current).and_return(current_user)
-
-        get get_path
+        global_role = create(:global_role, permissions: [:introspection])
+        create(:global_member, user: current_user, roles: [global_role])
       end
 
       it "responds with 200" do

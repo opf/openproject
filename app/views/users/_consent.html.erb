@@ -1,10 +1,12 @@
 <section class="form--section">
   <h3 class="form--section-title"><%=t('consent.title')%></h3>
+  <% consent_link = admin_settings_users_path(anchor: 'consent_settings') %>
+
   <%= render ::Components::OnOffStatusComponent.new({
                is_on: @user.consented_at.present?,
                on_text: format_time(@user.consented_at),
-               on_description: t('consent.user_has_consented'),
+               on_description: link_translate('consent.user_has_consented', links: { consent_settings: consent_link }),
                off_text: t(:label_never),
-               off_description: t('consent.not_yet_consented')
+               off_description: link_translate('consent.not_yet_consented', links: { consent_settings: consent_link })
              }) %>
 </section>

@@ -29,20 +29,103 @@
 require "spec_helper"
 
 RSpec.describe Queries::Projects::Orders::CustomFieldOrder do
-  let!(:cf_text) { FactoryBot.create(:text_project_custom_field) }
-  let!(:cf_int) { FactoryBot.create(:integer_project_custom_field) }
+  describe ".key" do
+    before do
+      where = double
+      where_not = double
+      visible = double
 
-  before do
-    allow(User).to receive(:current).and_return build_stubbed(:admin)
+      allow(ProjectCustomField).to receive(:where).and_return(where)
+      allow(where).to receive(:not).with(field_format: %w[text]).and_return(where_not)
+      allow(where_not).to receive(:visible).and_return(visible)
+      allow(visible).to receive(:pluck).with(:id).and_return([42])
+    end
+
+    it "matches key in correct format for existing custom field" do
+      expect(described_class.key).to match("cf_42")
+    end
+
+    it "doesn't match key in correct format for not found custom field" do
+      expect(described_class.key).not_to match("cf_43")
+    end
+
+    it "doesn't match non numerical id" do
+      expect(described_class.key).not_to match("cf_cf")
+    end
+
+    it "doesn't match with prefix" do
+      expect(described_class.key).not_to match("xcf_42")
+    end
+
+    it "doesn't match with suffix" do
+      expect(described_class.key).not_to match("cf_42x")
+    end
   end
 
-  it "does not allow to sort by the text field" do
-    cf = described_class.new("cf_#{cf_text.id}")
-    expect(cf).not_to be_available
+  describe "#available?" do
+    let(:instance) { described_class.new("cf_#{custom_field.id}") }
+
+    current_user { build_stubbed(:admin) }
+
+    context "for int custom field" do
+      let!(:custom_field) { create(:project_custom_field, :integer) }
+
+      it "allows to sort by it" do
+        expect(instance).to be_available
+      end
+    end
+
+    context "for text custom field" do
+      let!(:custom_field) { create(:project_custom_field, :text) }
+
+      it "does not allow to sort by it" do
+        expect(instance).not_to be_available
+      end
+    end
   end
 
-  it "allows to sort by all other fields" do
-    cf = described_class.new("cf_#{cf_int.id}")
-    expect(cf).to be_available
+  describe "#custom_field" do
+    let(:instance) { described_class.new(name) }
+    let(:name) { "cf_42" }
+    let(:id) { 42 }
+
+    before do
+      where = double
+      where_not = double
+      visible = double
+
+      allow(ProjectCustomField).to receive(:where).and_return(where)
+      allow(where).to receive(:not).with(field_format: %w[text]).and_return(where_not)
+      allow(where_not).to receive(:visible).and_return(visible)
+      allow(visible).to receive(:find_by).with(id: id.to_s).and_return(custom_field)
+    end
+
+    context "when custom field exists" do
+      let(:custom_field) { instance_double(ProjectCustomField) }
+
+      it "returns the custom field" do
+        expect(instance.custom_field).to eq(custom_field)
+      end
+
+      it "memoizes the custom field" do
+        2.times { instance.custom_field }
+
+        expect(ProjectCustomField).to have_received(:where).once
+      end
+    end
+
+    context "when custom field doesn't exist" do
+      let(:custom_field) { nil }
+
+      it "returns the custom field" do
+        expect(instance.custom_field).to be_nil
+      end
+
+      it "memoizes the custom field" do
+        2.times { instance.custom_field }
+
+        expect(ProjectCustomField).to have_received(:where).once
+      end
+    end
   end
 end

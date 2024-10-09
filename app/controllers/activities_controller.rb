@@ -45,20 +45,18 @@ class ActivitiesController < ApplicationController
 
   accept_key_auth :index
 
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    op_handle_warning "Failed to find all resources in activities: #{exception.message}"
+    render_404(message: I18n.t(:error_can_not_find_all_resources))
+  end
+
   def index
     @events = @activity.events(from: @date_from.to_datetime, to: @date_to.to_datetime)
 
     respond_to do |format|
-      format.html do
-        respond_html
-      end
-      format.atom do
-        respond_atom
-      end
+      format.html { respond_html }
+      format.atom { respond_atom }
     end
-  rescue ActiveRecord::RecordNotFound => e
-    op_handle_warning "Failed to find all resources in activities: #{e.message}"
-    render_404 I18n.t(:error_can_not_find_all_resources)
   end
 
   def menu

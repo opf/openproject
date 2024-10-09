@@ -32,7 +32,7 @@ require Rails.root.join("db/migrate/20240805104004_rename_visible_to_admin_only_
 RSpec.describe RenameVisibleToAdminOnlyInCustomFields, type: :model do
   after do
     # Reset after each spec to ensure we have the column information up to date.
-    ProjectCustomField.reset_column_information
+    CustomField.reset_column_information
   end
 
   context "when migrating up" do

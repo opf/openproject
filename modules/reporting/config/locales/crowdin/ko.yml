@@ -23,7 +23,7 @@ ko:
   plugin_openproject_reporting:
     name: "OpenProject 보고"
     description: "이 플러그인을 사용하면 OpenProject 시간 및 비용 플러그인에서 생성된 필터링 및 그룹화를 사용하여 사용자 지정 비용 보고서를 생성할 수 있습니다."
-  button_save_as: "다른 이름으로 보고서로 저장..."
+  button_save_report_as: "다른 이름으로 보고서로 저장..."
   comments: "코멘트"
   cost_reports_title: "시간 및 비용"
   label_cost_report: "비용 보고서"

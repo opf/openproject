@@ -46,7 +46,7 @@ module Meetings
 
     # Define the interval so it can be overriden through tests
     def check_for_updates_interval
-      OpenProject::FeatureDecisions.meeting_updated_notification_active? ? 10_000 : 0
+      10_000
     end
 
     private

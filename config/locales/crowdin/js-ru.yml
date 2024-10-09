@@ -277,8 +277,6 @@ ru:
           Для вступления изменений в силу может потребоваться некоторое время. Вы будете уведомлены, когда все соответствующие пакеты работ будут обновлены.
           Хотите продолжить?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          При изменении расчета прогресса с режима "На основе статуса" на режим "На основе трудозатрат" поле <i>% Завершения</i> станет нередактируемым, его значение будет получено из значений <i>Работа</i> и <i>Оставшаяся работа</i>. Существующие значения для <i>% Завершения</i> сохраняются. Если значения для <i>Работа</i> и <i>Оставшаяся работа</i> отсутствуют, они потребуются для изменения <i>% Завершения</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
           При изменении расчета прогресса с режима "На основе статуса" на режим "На основе трудозатрат" поле <i>% Завершения</i> станет редактируемым. Если Вы дополнительно введете значения для <i>Работы</i> или <i>Оставшейся работы</i>, они также будут связаны с <i>% Завершения</i>. Изменение значения <i>Оставшейся работы</i> может привести к обновлению <i>% Завершения</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
@@ -357,10 +355,10 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_5":
+          "14_6":
             standard:
               new_features_html: >
-                Этот выпуск содержит различные новые функции и улучшения, такие как: <br> <ul class="%{list_styling_class}"> <li>Сохранение и восстановление локальных версий изменений содержимого WYSIWYG.</li> <li>Включение хранилища для нескольких проектов одновременно.</li> <li>Экспорт пакетов работ в обновленном модальном окне с дополнительными настройками.</li> <li>Отображение столбцов/фильтров настраиваемых полей в списках проектов.</li> <li>Поддержка CloudFlare Turnstile в качестве Captcha.</li> </ul>
+                В этом выпуске представлены различные функции и улучшения, например, <br> <ul class="%{list_styling_class}"> <li>Воспользуйтесь преимуществами более гибких отчетов о проделанной работе.</li> <li>Получайте уведомления об обновлениях с возможностью перезагрузки собраний.</li> <li>Включайте настраиваемое поле для нескольких проектов одновременно.</li> <li>Используйте макросы относительно атрибутов пакетов работ.</li> <li>Отображение пустых строк в сохраненном форматированном тексте.</li> <li>Просматривайте прошедшие встречи на вкладке «Совещания».</li> </ul>
     ical_sharing_modal:
       title: "Подписаться на календарь"
       inital_setup_error_message: "Произошла ошибка при получении данных."
@@ -418,7 +416,7 @@ ru:
     label_committed_at: "%{committed_revision_link} в %{date}"
     label_committed_link: "завершенная версия %{revision_identifier}"
     label_contains: "содержит"
-    label_created_on: "создано на"
+    label_created_on: "создано"
     label_edit_comment: "Редактировать этот комментарий"
     label_edit_status: "Изменить статус пакета работ"
     label_email: "Эл. почта"
@@ -611,7 +609,9 @@ ru:
         mentioned: "Упомянутый"
         watched: "Наблюдатель"
         assigned: "Назначенный"
-        accountable: "Ответственный"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Ответственный"
         created: "Создано"
         scheduled: "Запланировано"
         commented: "Прокомментировано"
@@ -642,7 +642,7 @@ ru:
           with_current_filter: "На данный момент в этом представлении нет уведомлений"
         mark_all_read: "Отметить всё как прочитанное"
         mark_as_read: "Отметить как прочитанное"
-        text_update_date_by: "по %{date}"
+        text_update_date_by: "%{date}"
         total_count_warning: "Показаны %{newest_count} самые последние уведомления. Ещё %{more_count} не отображаются."
         empty_state:
           no_notification: "Похоже, вы все сделали."

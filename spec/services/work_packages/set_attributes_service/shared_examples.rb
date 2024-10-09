@@ -60,6 +60,19 @@ RSpec.shared_examples_for "update progress values" do |description:, expected_hi
     described_class.new(work_package).call
   end
 
+  def compact_progress_hints(work_package)
+    %i[estimated_hours remaining_hours done_ratio]
+      .index_with { |field_name| work_package.derived_progress_hint(field_name) }
+      .compact
+      .to_h do |field_name, progress_hint|
+        if progress_hint.params.none?
+          [field_name, progress_hint.reason.to_sym]
+        else
+          [field_name, { progress_hint.reason.to_sym => progress_hint.params }]
+        end
+      end
+  end
+
   it description do
     work_package.attributes = set_attributes
     all_expected_attributes = {}
@@ -81,7 +94,7 @@ RSpec.shared_examples_for "update progress values" do |description:, expected_hi
       expect(work_package).to have_attributes(set_attributes.except(*all_expected_attributes.keys))
       if expected_hints
         expected_hints = expected_hints.transform_keys { to_work_package_field(_1) }
-        expect(work_package.derived_progress_hints).to eq(expected_hints)
+        expect(compact_progress_hints(work_package)).to eq(expected_hints)
       end
       # work package is not saved and no errors are created
       expect(work_package).not_to have_received(:save)

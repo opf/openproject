@@ -11,7 +11,10 @@
 
 <% content_for :content_body do %>
   <%= angular_component_tag "opce-notification-center" %>
-
 <% end %>
 
-<% optional_work_package_split_view %>
+<% content_for :content_body_right do %>
+  <%# When we update the split screen from a turbo frame requset, the title is not correctly updated (Hack for #57705) %>
+  <%= turbo_stream.set_title(title: page_title(*html_title_parts)) if turbo_frame_request? %>
+  <%= render(split_view_instance) if render_work_package_split_view? %>
+<% end %>

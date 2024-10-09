@@ -46,9 +46,9 @@ module Accounts::Authorization
   private
 
   def authorization_check_required
-    unless authorization_is_ensured?(params[:action])
+    unless authorization_is_ensured?(action_name)
       raise <<-MESSAGE
-        Authorization check required for #{self.class.name}##{params[:action]}.
+        Authorization check required for #{self.class.name}##{action_name}.
 
         Use any method of
           #{METHODS_ENFORCING_AUTHORIZATION.join(', ')}
@@ -62,20 +62,20 @@ module Accounts::Authorization
   # Authorize the user for the requested controller action.
   # To be used in before_action hooks
   def authorize
-    do_authorize({ controller: params[:controller], action: params[:action] }, global: false)
+    do_authorize({ controller: controller_path, action: action_name }, global: false)
   end
 
   # Authorize the user for the requested controller action outside a project
   # To be used in before_action hooks
   def authorize_global
-    do_authorize({ controller: params[:controller], action: params[:action] }, global: true)
+    do_authorize({ controller: controller_path, action: action_name }, global: true)
   end
 
   # Find a project based on params[:project_id]
   def load_and_authorize_in_optional_project
     @project = Project.find(params[:project_id]) if params[:project_id].present?
 
-    do_authorize({ controller: params[:controller], action: params[:action] }, global: params[:project_id].blank?)
+    do_authorize({ controller: controller_path, action: action_name }, global: params[:project_id].blank?)
   rescue ActiveRecord::RecordNotFound
     render_404
   end

@@ -33,6 +33,7 @@ module ApplicationHelper
   include OpenProject::TextFormatting
   include OpenProject::ObjectLinking
   include OpenProject::SafeParams
+  include OpPrimer::FormHelpers
   include I18n
   include ERB::Util
   include Redmine::I18n
@@ -63,7 +64,7 @@ module ApplicationHelper
     html_options = args.shift
     parameters_for_method_reference = args
 
-    return unless authorize_for(options[:controller] || params[:controller], options[:action])
+    return unless authorize_for(options[:controller] || controller_path, options[:action])
 
     if block_given?
       link_to(options, html_options, *parameters_for_method_reference, &)
@@ -171,21 +172,15 @@ module ApplicationHelper
     end.join.html_safe
   end
 
-  def html_hours(text)
-    html_safe_gsub(text,
-                   %r{(\d+)\.(\d+)},
-                   '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
-  end
-
   def html_safe_gsub(string, *gsub_args, &)
     html_safe = string.html_safe?
-    string.gsub(*gsub_args, &)
+    result = string.gsub(*gsub_args, &)
 
     # We only mark the string as safe if the previous string was already safe
     if html_safe
-      string.html_safe # rubocop:disable Rails/OutputSafety
+      result.html_safe # rubocop:disable Rails/OutputSafety
     else
-      string
+      result
     end
   end
 
@@ -241,11 +236,11 @@ module ApplicationHelper
   # Returns the theme, controller name, and action as css classes for the
   # HTML body.
   def body_css_classes
-    css = ["theme-" + OpenProject::CustomStyles::Design.identifier.to_s]
+    css = ["theme-#{OpenProject::CustomStyles::Design.identifier}"]
 
-    if params[:controller] && params[:action]
-      css << ("controller-" + params[:controller])
-      css << ("action-" + params[:action])
+    if controller_path && action_name
+      css << ("controller-#{controller_path}")
+      css << ("action-#{action_name}")
     end
 
     css << "ee-banners-#{EnterpriseToken.show_banners? ? 'visible' : 'hidden'}"

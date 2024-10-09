@@ -31,6 +31,10 @@ module OmniauthHelper
     direct_login_provider.is_a? String
   end
 
+  def direct_login_provider_url(params = {})
+    omni_auth_start_url(direct_login_provider, params)
+  end
+
   ##
   # Per default the user may choose the usual password login as well as several omniauth providers
   # on the login page and in the login drop down menu.

@@ -29,9 +29,10 @@
 class AccountController < ApplicationController
   include CustomFieldsHelper
   include OmniauthHelper
-  include Accounts::OmniauthLogin
+  include Accounts::Registration
   include Accounts::UserConsent
   include Accounts::UserLimits
+  include Accounts::UserLogin
   include Accounts::UserPasswordChange
 
   # prevents login action to be filtered by check_if_login_required application scope filter
@@ -346,49 +347,6 @@ class AccountController < ApplicationController
       .result
   end
 
-  def register_plain_user(user)
-    user.attributes = permitted_params.user.transform_values do |val|
-      if val.is_a? String
-        val.strip!
-      end
-
-      val
-    end
-    user.login = params[:user][:login].strip if params[:user][:login].present?
-    user.password = params[:user][:password]
-    user.password_confirmation = params[:user][:password_confirmation]
-
-    respond_for_registered_user(user)
-  end
-
-  def register_with_auth_source(user)
-    # on-the-fly registration via omniauth or via auth source
-    if pending_omniauth_registration?
-      user.assign_attributes permitted_params.user_register_via_omniauth
-      register_via_omniauth(session, user.attributes)
-    else
-      user.attributes = permitted_params.user
-      user.activate
-      user.login = session[:auth_source_registration][:login]
-      user.ldap_auth_source_id = session[:auth_source_registration][:ldap_auth_source_id]
-
-      respond_for_registered_user(user)
-    end
-  end
-
-  def respond_for_registered_user(user)
-    call = ::Users::RegisterUserService.new(user).call
-
-    if call.success?
-      flash[:notice] = call.message.presence
-      login_user_if_active(call.result, just_registered: true)
-    else
-      flash[:error] = error = call.message
-      Rails.logger.error "Registration of user #{user.login} failed: #{error}"
-      onthefly_creation_failed(user)
-    end
-  end
-
   def user_with_placeholder_name?(user)
     user.firstname == user.login and user.login == user.mail
   end
@@ -451,61 +409,6 @@ class AccountController < ApplicationController
     else
       # Valid user
       successful_authentication(user)
-    end
-  end
-
-  def login_user_if_active(user, just_registered:)
-    if user.active?
-      successful_authentication(user, just_registered:)
-      return
-    end
-
-    # Show an appropriate error unless
-    # the user was just registered
-    if !(just_registered && user.registered?)
-      account_inactive(user, flash_now: false)
-    end
-
-    redirect_to signin_path(back_url: params[:back_url])
-  end
-
-  def pending_auth_source_registration?
-    session[:auth_source_registration] && !pending_omniauth_registration?
-  end
-
-  def pending_omniauth_registration?
-    Hash(session[:auth_source_registration])[:omniauth]
-  end
-
-  # Onthefly creation failed, display the registration form to fill/fix attributes
-  def onthefly_creation_failed(user, auth_source_options = {})
-    @user = user
-    session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?
-    render action: "register"
-  end
-
-  def self_registration_disabled
-    flash[:error] = I18n.t("account.error_self_registration_disabled")
-    redirect_to signin_url
-  end
-
-  # Call if an account is inactive - either registered or locked
-  def account_inactive(user, flash_now: true)
-    if user.registered?
-      account_not_activated(flash_now:)
-    else
-      flash_and_log_invalid_credentials(flash_now:)
-    end
-  end
-
-  # Log an attempt to log in to an account in "registered" state and show a flash message.
-  def account_not_activated(flash_now: true)
-    flash_error_message(log_reason: "NOT ACTIVATED", flash_now:) do
-      if Setting::SelfRegistration.by_email?
-        "account.error_inactive_activation_by_mail"
-      else
-        "account.error_inactive_manual_activation"
-      end
     end
   end
 

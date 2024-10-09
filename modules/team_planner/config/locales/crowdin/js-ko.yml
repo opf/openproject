@@ -8,7 +8,7 @@ ko:
       create_title: '새로운 팀 플래너 만들기'
       unsaved_title: '이름 없는 팀 플래너'
       no_data: '담당자를 추가하여 팀 플래너를 설정하세요.'
-      add_assignee: '담당자 추가'
+      add_assignee: '담당자'
       remove_assignee: '담당자 제거'
       two_weeks: '2주'
       one_week: '1주'

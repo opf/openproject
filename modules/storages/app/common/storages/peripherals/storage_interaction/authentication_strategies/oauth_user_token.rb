@@ -33,6 +33,12 @@ module Storages
     module StorageInteraction
       module AuthenticationStrategies
         class OAuthUserToken
+          REFRESH_TOKEN_TIMEOUT_SECONDS = 4
+
+          def self.mutex_refresh_token_key(token)
+            "Refreshing OAuth token stored in #{token.class}##{token.id}"
+          end
+
           def self.strategy
             Strategy.new(:oauth_user_token)
           end
@@ -78,7 +84,7 @@ module Storages
             end
 
             # Uncached block is used here because in case of concurrent update on the second try we need a fresh token.
-            # Otherwise token ends up in an invalid state which leads to an undesired token deletion.
+            # Otherwise token ends up in an invalid state which could lead to an undesired token deletion.
             current_token = OAuthClientToken.uncached do
               OAuthClientToken.find_by(user: @user, oauth_client: storage.oauth_configuration.oauth_client)
             end
@@ -93,35 +99,40 @@ module Storages
 
           # rubocop:disable Metrics/AbcSize
           def refresh_and_retry(config, http_options, token, &)
-            begin
+            http_session = nil
+            lock_was_acquired = OpenProject::Mutex.with_advisory_lock(OAuthClientToken,
+                                                                      self.class.mutex_refresh_token_key(token),
+                                                                      timeout_seconds: REFRESH_TOKEN_TIMEOUT_SECONDS) do
               http_session = OpenProject.httpx
-                                        .oauth_auth(issuer: config.issuer,
-                                                    client_id: config.client_id,
-                                                    client_secret: config.client_secret,
-                                                    scope: config.scope,
-                                                    refresh_token: token.refresh_token,
-                                                    token_endpoint_auth_method: "client_secret_post")
-                                        .with_access_token
-                                        .with(http_options)
+                               .oauth_auth(issuer: config.issuer,
+                                           client_id: config.client_id,
+                                           client_secret: config.client_secret,
+                                           scope: config.scope,
+                                           refresh_token: token.refresh_token,
+                                           token_endpoint_auth_method: "client_secret_post")
+                               .with_access_token
+                               .with(http_options)
+              if update_refreshed_token(token, http_session)
+                true
+              else
+                return Failures::Builder.call(code: :error,
+                                              log_message: "Error while persisting updated access token.",
+                                              data: ::Storages::StorageErrorData.new(source: self.class))
+              end
             rescue HTTPX::HTTPError => e
               return handle_http_error_on_refresh(token, e)
             rescue HTTPX::TimeoutError => e
               return handle_timeout_on_refresh(token, e)
             end
 
-            response = yield http_session
-
-            if response.success?
-              success = update_refreshed_token(token, http_session)
-              unless success
-                data = ::Storages::StorageErrorData.new(source: self.class)
-                return Failures::Builder.call(code: :error,
-                                              log_message: "Error while persisting updated access token.",
-                                              data:)
-              end
+            if lock_was_acquired
+              yield http_session
+            else
+              Failures::Builder.call(code: :error,
+                                     log_message: "Lock has not been acquired in #{REFRESH_TOKEN_TIMEOUT_SECONDS} seconds. " \
+                                                  "Refresh token is being updated at the moment by another thread.",
+                                     data: ::Storages::StorageErrorData.new(source: self.class))
             end
-
-            response
           end
 
           # rubocop:enable Metrics/AbcSize

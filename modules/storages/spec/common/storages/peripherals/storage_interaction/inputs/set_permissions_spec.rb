@@ -43,9 +43,14 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Inputs::SetPermissions
       expect(described_class.build(file_id: "1337", user_permissions: [])).to be_success
       expect(described_class.build(file_id: "1337",
                                    user_permissions: [{ user_id: "dart_vader", permissions: [] }])).to be_success
-      expect(described_class.build(file_id: "1337",
-                                   user_permissions: [{ user_id: "dart_vader",
-                                                        permissions: [:read_files] }])).to be_success
+      expect(described_class
+               .build(
+                 file_id: "1337",
+                 user_permissions: [
+                   { user_id: "dart_vader", permissions: %i[read_files write_files delete_files] },
+                   { group_id: "stormtroopers", permissions: [:read_files] }
+                 ]
+               )).to be_success
     end
 
     it "creates a failure result for invalid input data" do
@@ -60,6 +65,13 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Inputs::SetPermissions
                                    user_permissions: [{ user_id: "rey", permissions: [:read] }])).to be_failure
       expect(described_class.build(file_id: "1337",
                                    user_permissions: [{ user_id: "rey", permissions: {} }])).to be_failure
+
+      expect(described_class.build(file_id: "1337", user_permissions: [{ permissions: [:read_files] }])).to be_failure
+      expect(described_class
+               .build(
+                 file_id: "1337",
+                 user_permissions: [{ user_id: "rey", group_id: "jedi", permissions: [:read_files] }]
+               )).to be_failure
     end
   end
 end

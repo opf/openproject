@@ -61,7 +61,7 @@ gem "friendly_id", "~> 5.5.0"
 
 gem "acts_as_list", "~> 1.2.0"
 gem "acts_as_tree", "~> 2.9.0"
-gem "awesome_nested_set", "~> 3.6.0"
+gem "awesome_nested_set", "~> 3.7.0"
 gem "closure_tree", "~> 7.4.0"
 gem "rubytree", "~> 2.1.0"
 # Only used in down migrations now.
@@ -158,7 +158,7 @@ gem "structured_warnings", "~> 0.4.0"
 gem "airbrake", "~> 13.0.0", require: false
 
 gem "markly", "~> 0.10" # another markdown parser like commonmarker, but with AST support used in PDF export
-gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "32603f09a249999a00e8ca23eb17215b46a26c0f"
+gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "fe05b4f8bae8fd46f4fa93b8e0adee6295ef7388"
 gem "prawn", "~> 2.4"
 gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
 
@@ -225,7 +225,7 @@ gem "view_component"
 gem "lookbook", "~> 2.3.0"
 
 # Require factory_bot for usage with openproject plugins testing
-gem "factory_bot", "~> 6.4.0", require: false
+gem "factory_bot", "~> 6.5.0", require: false
 # require factory_bot_rails for convenience in core development
 gem "factory_bot_rails", "~> 6.4.0", require: false
 
@@ -247,7 +247,7 @@ group :test do
   gem "rack_session_access"
   gem "rspec", "~> 3.13.0"
   # also add to development group, so 'spec' rake task gets loaded
-  gem "rspec-rails", "~> 6.1.0", group: :development
+  gem "rspec-rails", "~> 7.0.0", group: :development
 
   # Retry failures within the same environment
   gem "retriable", "~> 3.1.1"
@@ -272,6 +272,7 @@ group :test do
   gem "capybara_accessible_selectors", git: "https://github.com/citizensadvice/capybara_accessible_selectors", branch: "main"
   gem "capybara-screenshot", "~> 1.0.17"
   gem "cuprite", "~> 0.15.0"
+  gem "rspec-wait"
   gem "selenium-devtools"
   gem "selenium-webdriver", "~> 4.20"
 
@@ -348,7 +349,7 @@ group :development, :test do
   gem "erblint-github", require: false
 
   # Brakeman scanner
-  gem "brakeman", "~> 6.1.0"
+  gem "brakeman", "~> 6.2.0"
 
   # i18n-tasks helps find and manage missing and unused translations.
   gem "i18n-tasks", "~> 1.0.13", require: false
@@ -398,4 +399,4 @@ end
 
 gem "openproject-octicons", "~>19.18.0"
 gem "openproject-octicons_helper", "~>19.18.0"
-gem "openproject-primer_view_components", "~>0.43.1"
+gem "openproject-primer_view_components", "~>0.47.1"

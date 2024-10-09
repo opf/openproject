@@ -23,7 +23,7 @@ tr:
   plugin_openproject_reporting:
     name: "OpenProject Reporting"
     description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
-  button_save_as: "Raporu... şeklinde kaydet"
+  button_save_report_as: "Farklı kaydet..."
   comments: "Yorum"
   cost_reports_title: "Zaman ve maliyetler"
   label_cost_report: "Maliyet raporu"

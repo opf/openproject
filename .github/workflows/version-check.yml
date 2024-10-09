@@ -1,0 +1,52 @@
+name: Check work package version
+
+on:
+  pull_request:
+    types: [labeled, synchronize]
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
+  pull-requests: write  # to comment on the PR
+
+jobs:
+  version-check:
+    if: contains(github.event.pull_request.labels.*.name, 'needs review')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+
+      - name: Verify linked version matches core version
+        id: version-check
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: ./script/ci/version_check.sh "$PR_BODY"
+
+      - name: Add comment if versions differ
+        if: steps.version-check.outputs.version_mismatch == 'true'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: version-mismatch-comment
+          message: |
+            > [!CAUTION]
+            > The provided work package version does not match the core version
+
+            Details:
+
+             - Work package URL: ${{ steps.version-check.outputs.wp_url }}
+             - Work package version: ${{steps.version-check.outputs.wp_version}}
+             - Core version: ${{steps.version-check.outputs.core_version}}
+
+            Please make sure that:
+
+             - The work package version OR your pull request target branch is correct
+      - name: Version check passed
+        if: steps.version-check.outputs.version_mismatch != 'true'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: version-mismatch-comment
+          delete: true

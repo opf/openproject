@@ -33,6 +33,8 @@ module Storages
     module StorageInteraction
       module Nextcloud
         class UploadLinkQuery
+          include TaggedLogging
+
           using ServiceResultRefinements
 
           def self.call(storage:, auth_strategy:, upload_data:)
@@ -44,13 +46,13 @@ module Storages
           end
 
           def call(auth_strategy:, upload_data:)
-            return upload_data_failure if invalid?(upload_data:)
+            with_tagged_logger do
+              Authentication[auth_strategy].call(storage: @storage) do |http|
+                response = http.post(base_uri, json: payload_from(upload_data:))
 
-            Authentication[auth_strategy].call(storage: @storage) do |http|
-              response = http.post(base_uri, json: payload_from(upload_data:))
-
-              handle_response(response).map do |rsp|
-                UploadLink.new(URI("#{upload_base_uri}/#{rsp[:token]}"), :post)
+                handle_response(response).map do |rsp|
+                  UploadLink.new(URI("#{upload_base_uri}/#{rsp[:token]}"), :post)
+                end
               end
             end
           end
@@ -65,12 +67,6 @@ module Storages
             UrlBuilder.url(@storage.uri, "index.php/apps/integration_openproject/direct-upload")
           end
 
-          def upload_data_failure
-            Util.failure(code: :error,
-                         data: StorageErrorData.new(source: self.class),
-                         log_message: "Invalid upload data!")
-          end
-
           def invalid?(upload_data:)
             upload_data.folder_id.blank? || upload_data.file_name.blank?
           end
@@ -82,16 +78,20 @@ module Storages
           def handle_response(response)
             case response
             in { status: 200..299 }
+              info "Request successful"
               ServiceResult.success(result: response.json(symbolize_keys: true))
             in { status: 404 }
+              info "The parent folder was not found."
               Util.failure(code: :not_found,
                            data: Util.error_data_from_response(caller: self.class, response:),
                            log_message: "Outbound request destination not found!")
             in { status: 401 }
+              info "User authorization failed."
               Util.failure(code: :unauthorized,
                            data: Util.error_data_from_response(caller: self.class, response:),
                            log_message: "Outbound request not authorized!")
             else
+              info "Unknown error happened."
               Util.failure(code: :error,
                            data: Util.error_data_from_response(caller: self.class, response:),
                            log_message: "Outbound request failed with unknown error!")

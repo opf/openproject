@@ -23,7 +23,7 @@ de:
   plugin_openproject_reporting:
     name: "OpenProject Berichterstattung"
     description: "Dieses Plugin ermöglicht die Erstellung benutzerdefinierter Kostenberichte mit Filtern und Gruppierungen"
-  button_save_as: "Speichern unter ..."
+  button_save_report_as: "Speichern unter ..."
   comments: "Kommentar"
   cost_reports_title: "Zeit und Kosten"
   label_cost_report: "Report"

@@ -52,7 +52,7 @@ RSpec.describe JournalsController do
       let(:params) { { id: work_package.last_journal.id.to_s, field: :description, format: "js" } }
 
       before do
-        work_package.update_attribute :description, "description"
+        work_package.update_attribute :description, "description\nmore changes"
       end
 
       describe "with a user having :view_work_package permission" do
@@ -62,7 +62,11 @@ RSpec.describe JournalsController do
           expect(response.body.strip).to be_html_eql <<-HTML
             <div class="text-diff">
               <label class="hidden-for-sighted">Begin of the insertion</label>
-              <ins class="diffmod">description</ins>
+              <ins class="diffmod">
+                description
+                <br/>
+                more changes
+              </ins>
               <label class="hidden-for-sighted">End of the insertion</label>
             </div>
           HTML

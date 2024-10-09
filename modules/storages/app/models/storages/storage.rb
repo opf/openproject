@@ -110,7 +110,7 @@ module Storages
     def self.extract_part_from_piped_string(text, index)
       return if text.nil?
 
-      split_reason = text.split("|")
+      split_reason = text.split(/[|:]/)
       if split_reason.length > index
         split_reason[index].strip
       end
@@ -186,6 +186,10 @@ module Storages
 
     def short_provider_type
       @short_provider_type ||= self.class.shorten_provider_type(provider_type)
+    end
+
+    def to_s
+      short_provider_type
     end
 
     def provider_type_nextcloud?

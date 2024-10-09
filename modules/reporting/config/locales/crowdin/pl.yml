@@ -23,7 +23,7 @@ pl:
   plugin_openproject_reporting:
     name: "Raportowanie OpenProject"
     description: "Ta wtyczka umożliwia tworzenie niestandardowych raportów kosztów z filtrowaniem i grupowaniem utworzonym przez wtyczkę OpenProject Czas i koszty."
-  button_save_as: "Zapisz raport jako..."
+  button_save_report_as: "Zapisz raport jako..."
   comments: "Komentarz"
   cost_reports_title: "Czas i koszty"
   label_cost_report: "Raport kosztów"

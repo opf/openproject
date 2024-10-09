@@ -33,7 +33,7 @@ module Pages
     class Index < ::Pages::Page
       include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
-      def path
+      def path(*)
         "/projects"
       end
 
@@ -124,6 +124,39 @@ module Pages
       def expect_page_link(text)
         within ".op-pagination--pages" do
           expect(page).to have_css("a.op-pagination--item-link", text:)
+        end
+      end
+
+      def expect_page_links(model:, current_page: 1)
+        within ".op-pagination--pages" do
+          pagination_links = page.all(".op-pagination--item-link")
+          expect(pagination_links.size).to be_positive
+
+          page_number_links = pagination_links.reject { |link| link.text =~ /previous|next/i }
+          page_number_links.each.with_index(1) do |pagination_link, page_number|
+            uri = URI.parse(pagination_link["href"])
+            expect(uri.path).to eq(path(model))
+            expect(uri.query).to include("page=#{page_number}")
+          end
+
+          if current_page > 1
+            expect(page).to have_link("Previous", href: "#{path(model)}?#{{ page: current_page - 1 }.to_query}")
+          else
+            expect(page).to have_link("Next", href: "#{path(model)}?#{{ page: current_page + 1 }.to_query}")
+          end
+        end
+      end
+
+      def expect_page_sizes(model:)
+        within ".op-pagination--options" do
+          pagination_links = page.all(".op-pagination--item-link")
+          expect(pagination_links.size).to be_positive
+          expect(page).to have_css(".op-pagination--item_current")
+
+          pagination_links.each do |pagination_link|
+            uri = URI.parse(pagination_link["href"])
+            expect(uri.path).to eq(path(model))
+          end
         end
       end
 
@@ -523,8 +556,17 @@ module Pages
         within(field_component, &)
       end
 
+      def submit_config_view_dialog
+        page.find('[data-test-selector="op-project-list-configure-dialog-submit"]').click
+      end
+
       def within_table(&)
         within "#project-table", &
+      end
+
+      def project_in_first_row(column_text_separator: "\n")
+        first_row = within("#projects-table") { find(".op-project-row-component", match: :first) }
+        Project.find_by!(name: first_row.text.split(column_text_separator).first)
       end
 
       def within_row(project)

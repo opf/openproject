@@ -90,6 +90,9 @@ uk:
         remote_folders: 'Читання контенту папки групи:'
         rename_project_folder: 'Перейменування папки керованого проекту:'
     errors:
+      messages:
+        error: Сталася неочікувана помилка. Будь ласка, перевірте журнали OpenProject для отримання додаткової інформації або зверніться до адміністратора
+        unauthorized: OpenProject не вдалося автентифікуватись у постачальника сховища. Переконайтеся, що ви маєте до нього доступ.
       models:
         copy_project_folders_service:
           conflict: Папка %{destination_path} уже існує. Перериваємо процес, щоб уникнути перезапису.
@@ -111,8 +114,8 @@ uk:
             hide_inactive_folders:
               permission_not_set: не вдалося встановити дозволи за шляхом %{path}.
             remote_folders:
-              not_allowed: '%{username} не має доступу до %{group_folder}. Перевірте права доступу до папок у Nextcloud.'
-              not_found: "%{group_folder} не знайдено. Перевірте налаштування Nextcloud."
+              not_allowed: The %{username} doesn't have access to the %{group_folder} folder. Please check the folder permissions on Nextcloud.
+              not_found: "%{group_folder} folder wasn't found. Please check your Nextcloud setup."
             remove_user_from_group:
               conflict: 'Користувача %{user} не вдалося вилучити з групи «%{group}» з такої причини: %{reason}'
               failed_to_remove: 'Користувача %{user} не вдалося вилучити з групи «%{group}» з такої причини: %{reason}'
@@ -125,7 +128,7 @@ uk:
           group_does_not_exist: "Групи «%{group}» не існує. Перевірте конфігурацію свого екземпляра Nextcloud."
           insufficient_privileges: OpenProject не має достатніх привілеїв, щоб додати користувача %{user} в групу «%{group}». Перевірте налаштування своєї групи в Nextcloud.
           not_allowed: Nextcloud блокує запит.
-          unauthorized: Не вдалося синхронізувати OpenProject із Nextcloud. Перевірте своє сховище й конфігурацію Nextcloud.
+          unauthorized: OpenProject could not sync with Nextcloud. Please check your storage and Nextcloud configuration.
           user_does_not_exist: "%{user} не існує в Nextcloud."
         one_drive_sync_service:
           attributes:
@@ -144,8 +147,10 @@ uk:
               permission_not_set: не вдалося встановити дозволи за шляхом %{path}.
           error: Сталася неочікувана помилка. Щоб дізнатися більше, переконайтеся, що маєте доступ до свого екземпляра Nextcloud, і перевірте журнали працівників OpenProject.
           not_allowed: OpenProject не має дозволу на доступ до вашого диска OneDrive. Перевірте дозволи, установлені в програмі Azure.
-          unauthorized: Не вдалося синхронізувати OpenProject із OneDrive. Перевірте конфігурацію свого сховища й програми Azure.
+          unauthorized: OpenProject could not sync with OneDrive. Please check your storage and Azure Application configuration.
           user_does_not_exist: "%{user} не існує в Nextcloud."
+        upload_link_service:
+          not_found: Теку призначення %{folder} не вдалося знайти на %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Завершити без налаштування
@@ -209,6 +214,7 @@ uk:
         client_id_wrong: Налаштований ідентифікатор клієнта OAuth 2 недійсний. Перевірте конфігурацію.
         client_secret_wrong: Налаштований секретний ключ клієнта OAuth 2 недійсний. Перевірте конфігурацію.
         drive_id_wrong: Налаштований ідентифікатор Drive ID не знайдено. Перевірте конфігурацію.
+        group_folder_not_found: Теку групи не знайдено.
         group_folder_version_mismatch: Версія папки групи не підтримується. Оновіть свій сервер Nextcloud.
         host_not_found: Сервер Nextcloud  не знайдено за вказаною URL-адресою. Перевірте конфігурацію.
         missing_dependencies: 'Відсутня обов’язкова залежність для файлового сховища. Додайте таку залежність: %{dependency}.'
@@ -216,8 +222,11 @@ uk:
         placeholder: Перевірте підключення до сервера.
         subtitle: Перевірка підключення
         tenant_id_wrong: Налаштований ідентифікатор каталогу (клієнта) недійсний. Перевірте конфігурацію.
-        unexpected_content: На диску виявлено неочікуваний вміст.
+        unexpected_content:
+          nextcloud: У теці керованої групи знайдено неочікуваний вміст.
+          one_drive: На диску знайдено неочікуваний вміст.
         unknown_error: Не вдалося перевірити підключення. Сталася невідома помилка. Щоб дізнатися більше, перегляньте журнали сервера.
+        userless_access_denied: Налаштований пароль застосунку недійсний.
       label_error: Помилка
       label_healthy: Справність
       label_pending: Очікування
@@ -314,9 +323,6 @@ uk:
       not_connected: 'Не підключено. Користувач має ввійти в сховище за цим посиланням: %{link}.'
     members_no_results: Немає учасників.
     no_results: Сховища поки не створено.
-    notice_successful_storage_connection: |-
-      Сховище підключено. Щоб користуватися ним, активуйте модуль і визначене сховище в налаштуваннях
-      кожного потрібного проєкту.
     oauth_access_granted_modal:
       access_granted: Доступ надано
       project_settings:
@@ -379,6 +385,7 @@ uk:
     storage_list_blank_slate:
       description: Додайте сховище, щоб воно з’явилося тут.
       heading: У вас ще немає жодного сховища.
+    successful_storage_connection: Storage connected successfully! Remember to activate the storage in the Projects tab for each desired project to use it.
     upsale:
       description: |-
         Інтегруйте OneDrive і/або SharePoint як файлове сховище в OpenProject. Додайте файли й прив’яжіть їх безпосередньо до

@@ -42,7 +42,7 @@ module Storages
           end
 
           def call(auth_strategy:, folder:)
-            validate_input_data(auth_strategy, folder).on_failure { return _1 }
+            validate_input_data(folder).on_failure { return _1 }
 
             origin_user = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
                               .on_failure { return _1 }
@@ -56,12 +56,10 @@ module Storages
 
           private
 
-          def validate_input_data(auth_strategy, folder)
+          def validate_input_data(folder)
             error_data = StorageErrorData.new(source: self.class)
 
-            if auth_strategy.user.nil?
-              Util.error(:error, "Cannot execute query without user context.", error_data)
-            elsif folder.is_a?(ParentFolder)
+            if folder.is_a?(ParentFolder)
               ServiceResult.success
             else
               Util.error(:error, "Folder input is not a ParentFolder object.", error_data)

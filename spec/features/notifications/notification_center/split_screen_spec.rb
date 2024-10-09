@@ -91,10 +91,7 @@ RSpec.describe "Split screen in the notification center", :js, :with_cuprite do
       # The split view should be closed and html title should change to the previous title
       split_screen.close
 
-      ##
-      # TODO: This got broken with frame-based navigation
-      # global_html_title.expect_first_segment "Notifications"
-      ##
+      global_html_title.expect_first_segment "Notifications"
 
       # Html title should be updated with next WP data after making the current one as read
       second_title = "#{second_work_package.type.name}: #{second_work_package.subject} (##{second_work_package.id})"

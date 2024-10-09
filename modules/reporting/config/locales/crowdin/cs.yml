@@ -23,7 +23,7 @@ cs:
   plugin_openproject_reporting:
     name: "Reportování OpenProject"
     description: "Tento modul umožňuje vytvářet vlastní přehledy nákladů s filtrováním a seskupením vytvořených OpenProject plugin čas & náklady ."
-  button_save_as: "Uložit report jako..."
+  button_save_report_as: "Save report as..."
   comments: "Komentář"
   cost_reports_title: "Čas a náklady"
   label_cost_report: "Výkaz nákladů"

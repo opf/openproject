@@ -23,7 +23,7 @@ uk:
   plugin_openproject_reporting:
     name: "Звіти OpenProject"
     description: "Цей плагін дає змогу створювати звіти про витрати з можливостями фільтрування й групування, створеними плагіном «Час і витрати» в OpenProject."
-  button_save_as: "Зберегти звіт до:"
+  button_save_report_as: "Зберегти звіт як..."
   comments: "Коментар"
   cost_reports_title: "Час і витрати"
   label_cost_report: "Звіт про витрати"

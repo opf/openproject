@@ -23,7 +23,7 @@ pt-PT:
   plugin_openproject_reporting:
     name: "Relatórios do OpenProject"
     description: "Este plugin permite criar relatórios de custos personalizados com filtragem e agrupamento criados pelo plugin OpenProject Time e custos."
-  button_save_as: "Guardar relatório como..."
+  button_save_report_as: "Guardar relatório como..."
   comments: "Comentário"
   cost_reports_title: "Tempo e custos"
   label_cost_report: "Relatório de custo"

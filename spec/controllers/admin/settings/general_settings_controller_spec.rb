@@ -31,10 +31,10 @@
 
 require "spec_helper"
 
-RSpec.describe Admin::Settings::GeneralSettingsController do # rubocop:disable RSpec/EmptyExampleGroup
+RSpec.describe Admin::Settings::GeneralSettingsController do
   shared_let(:user) { create(:admin) }
 
   current_user { user }
 
-  require_admin_and_render_template("general_settings")
+  include_examples "GET #show requires admin permission and renders template", path: "general_settings"
 end

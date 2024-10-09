@@ -23,7 +23,7 @@ it:
   plugin_openproject_reporting:
     name: "Reportistica OpenProject"
     description: "Questo plugin consente di creare report di costo personalizzati con filtraggio e raggruppamento creato dal plugin OpenProject Time and costs."
-  button_save_as: "Salvare il report come..."
+  button_save_report_as: "Salva il report come..."
   comments: "Commento"
   cost_reports_title: "Tempi e costi"
   label_cost_report: "Relazione sui costi"

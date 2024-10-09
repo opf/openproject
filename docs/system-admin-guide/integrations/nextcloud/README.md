@@ -373,6 +373,17 @@ sudo systemctl restart apache2
 
 If that also not work please check the [instructions for setting up pretty URLs in Nextcloud](https://docs.nextcloud.com/server/22/admin_manual/installation/source_installation.html#pretty-urls). This usually also resolves the issue of stripped `Authorization` headers.
 
+#### Files are not encrypted when using Nextcloud server-side encryption
+
+> [!NOTE]
+> If your Nextcloud server uses server-side encryption, the GroupFolder encryption needs to be manually enabled. 
+> This is relevant for automatically managed project folders, as the GroupFolder app is used in these cases. 
+To enable encryption for GroupFolders, run the following command on your Nextcloud server:
+
+```shell
+occ config:app:set groupfolders enable_encryption --value="true"
+```
+
 #### Project folders are not created or you do not have access
 
 You have setup the *Project folder* in both environments (Nextcloud and OpenProject), but you cannot see any folder named `OpenProject` in the root directory of **Files** app in Nextcloud.

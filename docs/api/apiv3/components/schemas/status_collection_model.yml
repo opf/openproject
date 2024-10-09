@@ -4,21 +4,8 @@ allOf:
   - $ref: './collection_model.yml'
   - type: object
     required:
-      - _links
       - _embedded
     properties:
-      _links:
-        type: object
-        required:
-          - self
-        properties:
-          self:
-            allOf:
-              - $ref: './link.yml'
-              - description: |-
-                  This file links collection
-                  
-                  **Resource**: StatusCollectionModel
       _embedded:
         type: object
         required:

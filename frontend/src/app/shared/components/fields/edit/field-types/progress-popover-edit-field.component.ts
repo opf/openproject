@@ -260,6 +260,7 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
 
   public onModalClosed():void {
     this.opened = false;
+    this.frameSrc = '';
 
     if (!this.handler.inEditMode) {
       this.handler.deactivate(false);

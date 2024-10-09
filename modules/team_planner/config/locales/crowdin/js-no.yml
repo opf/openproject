@@ -8,7 +8,7 @@
       create_title: 'Opprett ny teamplanlegger'
       unsaved_title: 'Navnløs teamplanlegger'
       no_data: 'Legg til utførende for å sette opp din teamplanlegger.'
-      add_assignee: 'Legg til utførende'
+      add_assignee: 'Assignee'
       remove_assignee: 'Fjern utførende'
       two_weeks: 'Andre uke'
       one_week: 'Første uke'

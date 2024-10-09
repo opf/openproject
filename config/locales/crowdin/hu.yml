@@ -31,6 +31,9 @@ hu:
     custom_styles:
       color_theme: "Színséma"
       color_theme_custom: "(Egyéni)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Elsődleges gomb"
         accent-color: "Kiemelőszín"
@@ -79,6 +82,7 @@ hu:
         contact: "Keressen fel minket a próbaverzióért"
       enterprise_info_html: "egy Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> kiegészítő."
       upgrade_info: "Kérjük, válasszon egy fizetős csomagot az aktiváláshoz, hogy mihamarabb használhassa a csapatában."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "A felhasználó egyes műveletei (pl. egy munkacsomag kétszeri frissítése) egyetlen műveletté egyesülnek, ha korkülönbségük kisebb, mint a megadott időtartam. Ezek egyetlen műveletként jelennek meg az alkalmazásban. Ez ugyanannyi idővel késlelteti az értesítéseket, csökkenti az elküldött emailek számát, valamint befolyásolja a %{webhook_link} késleltetését is.\n"
@@ -201,6 +205,11 @@ hu:
       title: "Egyéni műveletek"
       description: "Az egyéni műveletek egy kattintással elérhető parancsikonok előre meghatározott műveletek csoportjához, amelyeket állapot, szerep, típus vagy projekt alapján elérhetővé tehet bizonyos munkacsomagokon."
   custom_fields:
+    admin:
+      custom_field_projects:
+        is_for_all_blank_slate:
+          heading: For all projects
+          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
     text_add_new_custom_field: >
       Új egyéni mezők hozzáadásához először létre kell hozni őket, még mielőtt felvenné azokat a projekthez.
     is_enabled_globally: "Globálisan engedélyezve van"
@@ -628,6 +637,8 @@ hu:
         uid: "Ügyfél azonosító"
         secret: "Kliens titok"
         owner: "Tulajdonos"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Átirányítás URI"
         client_credentials_user_id: "Ügyféladatok Felhasználói azonosító\n"
         scopes: "Hatáskörök"
@@ -799,6 +810,7 @@ hu:
         blank: "nem lehet üres."
         blank_nested: "be kell állítani a '%{property}' tulajdonságot.\n"
         cannot_delete_mapping: "is required. Cannot be deleted."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "A feladatcsoport nem kapcsolható saját részfeladatához."
         circular_dependency: "Ez a kapcsolat egy körkörös függőséget eredményezne."
         confirmation: "%{attribute} nem egyezik."
@@ -872,6 +884,10 @@ hu:
               minimum: "tartalmaznia kell legalább egy szűrőt a fő, kontextus vagy azonosító számára a '=' operátorral.\n"
         custom_field:
           at_least_one_custom_option: "Minimum egy opciónak elérhetőnek kell lennie."
+        custom_fields_project:
+          attributes:
+            project_ids:
+              blank: "Please select a project."
         custom_actions:
           only_one_allowed: "(%{name}) csak egy érték megengedett."
           empty: "(%{name}) az érték nem lehet üres."
@@ -902,6 +918,8 @@ hu:
             name:
               blank: "kötelező. Kérjük, válasszon egy nevet."
               not_unique: "is already in use. Please select another name."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Legalább egy csatornát meg kell adni az értesítések küldésére.\n"
           attributes:
@@ -1099,7 +1117,7 @@ hu:
               confirmation: "A két jelszó nem egyezik!"
               format: "%{message}\n"
             password:
-              weak: "Az alábbi karakter típusokból tartalmaznia kell karaktert (legalább %{min_count} a %{all_count} típusból): %{rules}."
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "Kisbetű (pl. 'a')"
               uppercase: "Nagybetű (pl. 'A')"
               numeric: "Szám (pl. '1')"
@@ -1393,8 +1411,8 @@ hu:
     failure_message: A hozzájárulás sikertelen a művelet nem folytatható.
     title: Felhasználói jóváhagyás
     decline_warning_message: Elutasította a beleegyezést ezért ki lett léptetve.
-    user_has_consented: A felhasználó beleegyezett a beállított nyilatkozathoz az adott időpontban.
-    not_yet_consented: A felhasználó még nem járult hozzá, a következő bejelentkezéskor ismét kérni fogjuk.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Határozza meg az e-mail címet, amellyel a felhasználók elérhetik az adatkezelőt adatcserére vagy eltávolítási kérelmekre.
     contact_your_administrator: Kérjük lépjen kapcsolatba a rendszergazdával, ha fiókját törölni szeretné.
     contact_this_mail_address: Kérjük, lépjen kapcsolatba %{mail_address}, ha fiókját törölni szeretné.
@@ -1627,7 +1645,7 @@ hu:
   error_menu_item_not_saved: Menüelem nem menthető
   error_wiki_root_menu_item_conflict: >
     Nem lehet átnevezni "%{old_name}", mert "%{new_name}" menü egy már létező menüvel "%{existing_caption}" (%{existing_identifier}) ütközik.
-  error_external_authentication_failed: "Hiba történt a külső hitelesítés során. Kérjük, próbálja meg újra."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Tulajdonság(ok) nem kiemelhetők: %{attributes}"
   events:
     changeset: "Commit szerkesztve"
@@ -1782,6 +1800,8 @@ hu:
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject rendszerfrissítés:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1799,7 +1819,7 @@ hu:
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1809,6 +1829,10 @@ hu:
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
         totals_removed_from_childless_work_packages: >-
           Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Konfigurációs útmutató"
     get_in_touch: "Kérdése van? Lépjen kapcsolatba velünk"
@@ -1908,7 +1932,8 @@ hu:
   label_additional_workflow_transitions_for_assignee: "A következő státuszváltások engedélyezettek ha a felhasználó jogosult rá"
   label_additional_workflow_transitions_for_author: "A következő státuszváltások engedélyezettek a szerzők számára"
   label_administration: "Adminisztráció"
-  label_advanced_settings: "Speciális beállítások"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Életkor"
   label_ago: "nappal ezelőtt"
   label_all: "mind"
@@ -1941,6 +1966,7 @@ hu:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Hitelesítés"
   label_authentication_settings: "Authentication settings"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Elérhető fórumok"
@@ -2013,6 +2039,7 @@ hu:
   label_copy_project: "Projekt másolása"
   label_core_version: "Core verzió"
   label_core_build: "Core build"
+  label_created_by: "Created by %{user}"
   label_current_status: "Jelenlegi állapot"
   label_current_version: "Jelenlegi verzió"
   label_custom_field_add_no_type: "Mező hozzáadása egy feladatcsoport típushoz"
@@ -2020,6 +2047,7 @@ hu:
   label_custom_field_plural: "Választható mezők"
   label_custom_field_default_type: "Üres típus"
   label_custom_style: "Kinézet"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Vezérlőpult"
   label_database_version: "PostgreSQL verzió"
   label_date: "dátum"
@@ -2140,9 +2168,9 @@ hu:
   label_share: "Megosztás"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
-  label_show_hide: "Megjelenítés/Elrejtés"
-  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Minden regisztrált felhasználó megjelenítése"
+  label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Hírközlés"
   label_journal_diff: "Leírás összehasonlítás"
   label_language: "Nyelv"
@@ -2292,6 +2320,7 @@ hu:
   label_product_version: "Termékverzió"
   label_profile: "Profil"
   label_percent_complete: "%-ban kész"
+  label_progress_tracking: "Progress tracking"
   label_project: "Projekt"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Projekt attribútumok"
@@ -2477,7 +2506,6 @@ hu:
   label_work_package_new: "Új munkacsomag"
   label_work_package_edit: "Munkacsomag %{name} szerkesztése"
   label_work_package_plural: "Munkacsomagok"
-  label_work_packages_settings: "Work packages settings"
   label_work_package_status: "Feladatcsoport állapot"
   label_work_package_status_new: "Új állapot"
   label_work_package_status_plural: "A munkacsomag állapotai"
@@ -3115,11 +3143,13 @@ hu:
   setting_hours_per_day_explanation: >-
     This defines what is considered a "day" when displaying duration in days and hours (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Az aktivációs email lejár ekkor"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_field_caption_html: >-
+    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
   setting_work_package_done_ratio_status: "Status-based"
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+  setting_work_package_done_ratio_status_caption_html: >-
+    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_done_ratio_explanation_html: >
     In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "feladatcsoport tulajdonságok"
@@ -3140,6 +3170,13 @@ hu:
   setting_password_min_length: "Minimum hosszúság"
   setting_password_min_adhered_rules: "Minimális számú szükséges ezekhez az osztályokhoz"
   setting_per_page_options: "Objektum per oldal opció"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Egyszerű szöveges e-mail (nem HTML)"
   setting_protocol: "Protokol"
   setting_project_gantt_query: "Projekt portfólió Gantt nézet"
@@ -3164,6 +3201,13 @@ hu:
   setting_sys_api_enabled: "Csomagtároló webszolgáltatás bekapcsolva"
   setting_sys_api_description: "A csomagtároló webszolgáltatás integrációt és felhasználói hozzáférést biztosít a tároló eléréséhez."
   setting_time_format: "Idő"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Engedélyezi a kisegítő módot a névtelen felhasználók számára"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "A felhasználók alapértelmezett időzónája"
@@ -3505,7 +3549,6 @@ hu:
       label_note: "Note:"
       modal:
         work_based_help_text: "Each field is automatically calculated from the two others when possible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
       derivation_hints:
@@ -3520,9 +3563,9 @@ hu:
         remaining_hours:
           cleared_because_work_is_empty: "Cleared because Work is empty."
           cleared_because_percent_complete_is_empty: "Cleared because % Complete is empty."
-          decreased_like_work: "Decreased by the same amount as Work."
+          decreased_by_delta_like_work: "Decreased by %{delta}, matching the reduction in Work."
           derived: "Derived from Work and % Complete."
-          increased_like_work: "Increased by the same amount as Work."
+          increased_by_delta_like_work: "Increased by %{delta}, matching the increase in Work."
           same_as_work: "Set to same value as Work."
     permissions:
       comment: "Vélemény"
@@ -3714,12 +3757,16 @@ hu:
     close_warning: "Figyelmeztetés figyelmen kívül hagyása."
   oauth:
     application:
+      builtin: Built-in instance application
+      confidential: Confidential
       singular: "OAuth alkalmazás"
       plural: "OAuth alkalmazások"
       named: "OAuth-alkalmazás neve %{name}"
       new: "Új OAuth alkalmazás"
+      non_confidential: Non confidential
       default_scopes: "Alapértelmezett hatáskörök"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "Az alkalmazás neve. Ez más felhasználók számára jelenik meg engedélyezéskor.\n"
         redirect_uri_html: >
           Az engedélyezett URL -címek átirányíthatók a jogosult felhasználókra. Soronként egy bejegyzés. <br/> Ha asztali alkalmazást regisztrál, használja a következő URL -t.
@@ -3728,6 +3775,10 @@ hu:
         client_credential_user_id: "Választható felhasználói azonosító, amelyet az ügyfelek az alkalmazás használatakor megszemélyesíthetnek. Üresen hagyva csak nyilvános hozzáférést engedélyez\n"
         register_intro: "Ha OAuth API kliensalkalmazást fejleszt az OpenProject számára, akkor ezen az űrlapon regisztrálhatja azt, hogy minden felhasználó használhassa."
         default_scopes: ""
+    header:
+      builtin_applications: Built-in OAuth applications
+      other_applications: Other OAuth applications
+    empty_application_lists: No OAuth applications have been registered.
     client_id: "Ügyfél azonosító"
     client_secret_notice: >
       Ez az egyetlen alkalom, amikor kinyomtathatjuk az ügyfél titkát, jegyezze fel és tartsa biztonságban. Jelszóként kell kezelni, és az OpenProject később nem tudja lekérni.

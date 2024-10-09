@@ -32,6 +32,33 @@
 # migrations, as some methods in `WorkPackages::Progress::SqlCommands` rely on
 # fields that may not exist yet.
 module WorkPackages::Progress::SqlCommandsForMigration
+  def with_temporary_progress_table
+    WorkPackage.transaction do
+      create_temporary_progress_table
+      yield
+    ensure
+      drop_temporary_progress_table
+    end
+  end
+
+  # Create temporary tables with the columns that existed in version 14.0
+  # (version where the migration is run).
+  def create_temporary_progress_table
+    execute(<<~SQL.squish)
+      CREATE UNLOGGED TABLE temp_wp_progress_values
+      AS SELECT
+        id,
+        status_id,
+        estimated_hours,
+        remaining_hours,
+        done_ratio,
+        NULL::double precision AS total_work,
+        NULL::double precision AS total_remaining_work,
+        NULL::integer AS total_p_complete
+      FROM work_packages
+    SQL
+  end
+
   # Computes total work, total remaining work and total % complete for all work
   # packages having children.
   def update_totals
