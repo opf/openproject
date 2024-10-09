@@ -31,7 +31,17 @@ module Admin
     module Hierarchy
       class NewItemFormComponent < ApplicationComponent
         include OpTurbo::Streamable
-        include OpPrimer::ComponentHelpers
+
+        def initialize(custom_field:, label: nil, short: nil)
+          super
+          @custom_field = custom_field
+          @label = label
+          @short = short
+        end
+
+        def items_path
+          custom_field_items_path(@custom_field)
+        end
       end
     end
   end

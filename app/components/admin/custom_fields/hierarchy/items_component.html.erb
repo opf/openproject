@@ -28,29 +28,41 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  component_wrapper do
+  component_wrapper(tag: 'turbo-frame') do
     flex_layout do |container|
+      if items.empty? && !show_new_item_form?
+        container.with_row(mb: 3) do
+          render Primer::Beta::Blankslate.new(border: true) do |component|
+            component.with_visual_icon(icon: "list-ordered")
+            component.with_heading(tag: :h3).with_content(I18n.t("custom_fields.admin.items.blankslate.title"))
+            component.with_description { I18n.t("custom_fields.admin.items.blankslate.description") }
+          end
+        end
+      else
+        container.with_row(mb: 3) do
+          render(Primer::Beta::BorderBox.new) do |item_box|
+            item_box.with_header { @custom_field.name }
 
-      container.with_row(mb: 3) do
-        render(Primer::Beta::BorderBox.new) do |items|
-          items.with_header { @custom_field.name }
-          items.with_row { "hello" }
-          items.with_footer do
-            render Admin::CustomFields::Hierarchy::NewItemFormComponent.new(custom_field: @custom_field)
+            items.each do |item|
+              item_box.with_row { render Admin::CustomFields::Hierarchy::ItemComponent.new(hierarchy_item: item) }
+            end
+
+            if show_new_item_form?
+              item_box.with_footer do
+                render Admin::CustomFields::Hierarchy::NewItemFormComponent.new(custom_field: @custom_field,
+                                                                                label: @new_item_form_data[:label],
+                                                                                short: @new_item_form_data[:short])
+              end
+            end
           end
         end
       end
 
-      container.with_row(mb: 3) do
-        render Primer::Beta::Blankslate.new(border: true) do |component|
-          component.with_visual_icon(icon: "list-ordered")
-          component.with_heading(tag: :h3).with_content(I18n.t("custom_fields.admin.items.blankslate.title"))
-          component.with_description { I18n.t("custom_fields.admin.items.blankslate.description") }
-        end
-      end
-
       container.with_row do
-        render Primer::Beta::Button.new(scheme: :primary) do |button|
+        render Primer::Beta::Button.new(scheme: :primary,
+                                        tag: :a,
+                                        data: { turbo_stream: true },
+                                        href: new_custom_field_item_path(@custom_field)) do |button|
           button.with_leading_visual_icon(icon: :plus)
           I18n.t(:label_item)
         end

@@ -238,6 +238,9 @@ en:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+        placeholder:
+          label: "Item label"
+          short: "Short name"
       notice:
         remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
 
@@ -268,6 +271,14 @@ en:
 
   concatenation:
     single: "or"
+
+  dry_validation:
+    errors:
+      rules:
+        label:
+          duplicate: "must be unique within the same hierarchy level."
+    rules:
+      label: "Label"
 
   global_search:
     placeholder: "Search in %{app_title}"
@@ -1538,7 +1549,7 @@ en:
   create_new_page: "Wiki page"
 
   date:
-    abbr_day_names: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    abbr_day_names: [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ]
     abbr_month_names:
       [
         ~,

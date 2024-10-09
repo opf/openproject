@@ -33,9 +33,19 @@ module Admin
         include OpTurbo::Streamable
         include OpPrimer::ComponentHelpers
 
-        def initialize(custom_field:)
+        def initialize(custom_field:, new_item_form_data: { show: false })
           super
           @custom_field = custom_field
+          @new_item_form_data = new_item_form_data
+        end
+
+        def items
+          # TODO: This must be context aware (breadcrumbs)
+          @custom_field.hierarchy_root.children
+        end
+
+        def show_new_item_form?
+          @new_item_form_data[:show] || false
         end
       end
     end

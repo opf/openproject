@@ -28,10 +28,28 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  primer_form_with(
-    url: custom_field_items_path(@custom_field),
-    method: :post,
-  ) do |f|
-    render(CustomFields::Hierarchy::NewItemForm.new(f, custom_field: @custom_field, label: @label, short: @short))
+  component_wrapper do
+    flex_layout(align_items: :center, justify_content: :space_between) do |item_container|
+      item_container.with_column(flex_layout: true) do |item_information|
+        item_information.with_column(mr: 2) do
+          render(Primer::Beta::Text.new(font_weight: :bold)) do
+            @hierarchy_item.label
+          end
+        end
+
+        unless @hierarchy_item.short.nil?
+          item_information.with_column(mr: 2) do
+            render(Primer::Beta::Text.new(color: :subtle)) { short_text }
+          end
+        end
+      end
+
+      # Actions
+      item_container.with_column do
+        render(Primer::Beta::IconButton.new(scheme: :default,
+                                            icon: "kebab-horizontal",
+                                            "aria-label": "some aria"))
+      end
+    end
   end
 %>

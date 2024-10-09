@@ -26,47 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  class CreateService < ::BaseServices::Create
-    def self.careful_new_custom_field(type)
-      if /.+CustomField\z/.match?(type.to_s)
-        klass = type.to_s.constantize
-        klass.new if klass.ancestors.include? CustomField
+module Admin
+  module CustomFields
+    module Hierarchy
+      class ItemComponent < ApplicationComponent
+        include OpTurbo::Streamable
+        include OpPrimer::ComponentHelpers
+
+        def initialize(hierarchy_item:)
+          super
+          @hierarchy_item = hierarchy_item
+        end
+
+        def short_text
+          "(#{@hierarchy_item.short})"
+        end
       end
-    rescue NameError => e
-      Rails.logger.error "#{e.message}:\n#{e.backtrace.join("\n")}"
-      nil
-    end
-
-    def perform(params)
-      super
-    rescue StandardError => e
-      ServiceResult.failure(message: e.message)
-    end
-
-    def instance(params)
-      cf = self.class.careful_new_custom_field(params[:type])
-      raise ArgumentError.new("Invalid CF type") unless cf
-
-      cf
-    end
-
-    def after_perform(call)
-      cf = call.result
-
-      if cf.is_a?(ProjectCustomField)
-        add_cf_to_visible_columns(cf)
-      elsif cf.field_format_hierarchy?
-        CustomFields::Hierarchy::HierarchicalItemService.new(cf).generate_root
-      end
-
-      call
-    end
-
-    private
-
-    def add_cf_to_visible_columns(custom_field)
-      Setting.enabled_projects_columns = (Setting.enabled_projects_columns + [custom_field.column_name]).uniq
     end
   end
 end
