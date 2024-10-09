@@ -42,16 +42,32 @@ module Meetings
     end
 
     def breadcrumb_items
-      [parent_element,
-       page_title]
+      [
+        { href: home_path, text: helpers.organization_name },
+        *([{ href: project_overview_path(@project.id), text: @project.name }] if @project.present?),
+        { href: meetings_path(@project), text: I18n.t(:label_meeting_plural) },
+        current_breadcrumb_element
+      ]
     end
 
-    def parent_element
-      if @project.present?
-        { href: project_overview_path(@project.id), text: @project.name }
+    def current_breadcrumb_element
+      if current_section
+        selected_menu = current_section.children.find(&:selected)
+        if current_section.header.present?
+          I18n.t("menus.breadcrumb.nested_element", section_header: current_section.header, title: selected_menu.title).html_safe
+        else
+          selected_menu.title
+        end
       else
-        { href: home_path, text: helpers.organization_name }
+        page_title
       end
+    end
+
+    def current_section
+      return @current_section if defined?(@current_section)
+
+      meetings_menu = Meetings::Menu.new(params:)
+      @current_section = meetings_menu.menu_items.find { |section| section.children.any?(&:selected) }
     end
   end
 end
