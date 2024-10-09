@@ -65,14 +65,15 @@ module WorkPackages
 
     def selected?(query_params)
       return true if check_for_redirected_urls(query_params)
-
-      if query_params[:work_package_default] &&
-        (%i[filters query_props query_id name].none? { |k| params.key? k }) &&
-        params[:on_work_package_path] == "true"
-        return true
-      end
+      return true if highlight_on_work_packages?(query_params)
 
       super
+    end
+
+    def highlight_on_work_packages?(query_params)
+      query_params[:work_package_default] &&
+        (%i[filters query_props query_id name].none? { |k| params.key? k }) &&
+        params[:on_work_package_path] == "true"
     end
 
     def ee_upsale_path(query_params)
