@@ -833,7 +833,7 @@ ru:
         blank: "не может быть пустым."
         blank_nested: "должно быть установлено свойство '%{property}'."
         cannot_delete_mapping: "требуется. Невозможно удалить."
-        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
+        is_for_all_cannot_modify: "предназначено для всех проектов и поэтому не может быть изменено."
         cant_link_a_work_package_with_a_descendant: "Пакет работ не может быть связан с одной из своих подзадач."
         circular_dependency: "Это отношение создаст циклическую зависимость."
         confirmation: "не совпадает со значением поля %{attribute}."
