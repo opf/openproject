@@ -55,7 +55,7 @@ module MyPage
         column_count: 2,
         widgets: [
           {
-            identifier: "work_packages_table",
+            identifier: "work_packages_assigned",
             start_row: 1,
             end_row: 2,
             start_column: 1,
@@ -70,7 +70,7 @@ module MyPage
             }
           },
           {
-            identifier: "work_packages_table",
+            identifier: "work_packages_created",
             start_row: 1,
             end_row: 2,
             start_column: 2,

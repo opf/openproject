@@ -161,6 +161,10 @@ RSpec.describe "Arbitrary WorkPackage query table widget on my page", :js do
   context "without the permission to save queries" do
     let(:permissions) { %i[view_work_packages add_work_packages] }
 
+    let!(:my_page_grid) do
+      create(:my_page, :empty, user:)
+    end
+
     it "cannot add the widget" do
       my_page.expect_unable_to_add_widget(1, 1, :within, "Work packages table")
     end
