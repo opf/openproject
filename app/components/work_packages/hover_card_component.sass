@@ -1,0 +1,15 @@
+.op-wp-hover-card
+  display: grid
+  align-items: center
+  grid-template-columns: max-content max-content max-content auto 1fr
+  grid-template-rows: max-content 1fr auto
+  grid-row-gap: 5px
+  grid-column-gap: 5px
+  grid-template-areas: "status status id project project" "middleRow middleRow middleRow middleRow middleRow" "assignee assignee dates dates dates"
+  overflow: hidden
+
+  &--middleRow
+    align-self: flex-start
+
+  &--dates
+    justify-self: flex-end

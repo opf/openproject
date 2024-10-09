@@ -280,6 +280,10 @@ export class PathHelperService {
     return `${this.workPackagePath(workPackageId)}/shares`;
   }
 
+  public workPackageHoverCardPath(workPackageId:string|number) {
+    return `${this.workPackagePath(workPackageId)}/hover_card`;
+  }
+
   public workPackageProgressModalPath(workPackageId:string|number) {
     if (workPackageId === 'new') {
       return `${this.workPackagePath(workPackageId)}/progress/new`;
