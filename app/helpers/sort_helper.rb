@@ -339,12 +339,7 @@ module SortHelper
     options[:title] = sort_header_title(column, caption, options)
 
     within_sort_header_tag_hierarchy(options, sort_class(column)) do
-      # FIXME: always render the action menu
-      # if %w(name project_status public created_at).include?(column.to_s)
-        action_menu(column, caption, default_order, allowed_params:, param:, lang:, title: options[:title], data:)
-      # else
-      #   sort_link(column, caption, default_order, allowed_params:, param:, lang:, title: options[:title], data:)
-      # end
+      action_menu(column, caption, default_order, allowed_params:, param:, lang:, title: options[:title], data:)
     end
   end
 
@@ -381,34 +376,36 @@ module SortHelper
     projects_path(safe_query_params(allowed_params).merge(columns: columns.join(" "), sort_key => params[sort_key]))
   end
 
-  def shift_element(arr, str, direction=:left)
+  def shift_element(arr, str, direction = :left)
     arr = arr.dup
     index = arr.index(str)
     return arr unless index
 
-    case direction
-    when :left
-      if index > 0
-        arr[index], arr[index - 1] = arr[index - 1], arr[index]
-      end
-    when :right
-      if index < arr.size - 1
-        arr[index], arr[index + 1] = arr[index + 1], arr[index]
-      end
-    end
+    step = direction == :left ? -1 : 1
+
+    new_index = index + step
+    return arr if new_index.negative? || new_index >= arr.size
+
+    arr[index], arr[new_index] = arr[new_index], arr[index]
 
     arr
+  end
+
+  def menu_options(label:, content_args:, **extra_args)
+    {
+      label:,
+      content_arguments: content_args.merge(title: label)
+    }.merge(extra_args)
   end
 
   def filter_conversion(column)
     col = column.to_s
 
-    # FIXME: description and project_status_description have NO action menu right now. Should be nil here, too.
     {
       "name" => "id",
       "project_status" => "project_status_code",
       "identifier" => nil,
-      "required_disk_space" => nil,
+      "required_disk_space" => nil
     }.fetch(col, col)
   end
 
@@ -426,6 +423,8 @@ module SortHelper
     right_shift = shift_element(selected_columns, column, :right)
     shift_right_link = build_columns_link(right_shift, allowed_params:, **html_options)
 
+    config_view_modal_link = configure_view_modal_project_queries_path(projects_query_params)
+
     all_columns_except_this = selected_columns.reject { _1 == column }
     rm_column_link = build_columns_link(all_columns_except_this, allowed_params:, **html_options)
 
@@ -435,65 +434,60 @@ module SortHelper
 
     content_args = html_options.merge(rel: :nofollow)
 
-    render Primer::Alpha::ActionMenu.new(menu_id: "menu-#{column.to_s}") do |menu|
+    render Primer::Alpha::ActionMenu.new(menu_id: "menu-#{column}") do |menu|
       menu.with_show_button(scheme: :link, color: :default, text_transform: :uppercase,
                             underline: false, display: :inline_flex) do |button|
         button.with_trailing_action_icon(icon: :"triangle-down")
-        "#{h(caption)}"
+        h(caption).to_s
       end
-      menu.with_item(label: t(:label_sort_descending),
-                     content_arguments: content_args.merge(title: t(:label_sort_descending)),
-                     href: desc_sort_link) do |item|
+      menu.with_item(**menu_options(label: t(:label_sort_descending),
+                                    content_args:,
+                                    href: desc_sort_link)) do |item|
         item.with_leading_visual_icon(icon: "sort-desc")
       end
-      # FIXME: the title must be unique per link! Else the href will be duplicated.
-      # TODO: move the title creation to another method.
-      menu.with_item(label: t(:label_sort_ascending),
-                     content_arguments: content_args.merge(title: t(:label_sort_ascending)),
-                     href: asc_sort_link) do |item|
+      menu.with_item(**menu_options(label: t(:label_sort_ascending),
+                                    content_args:,
+                                    href: asc_sort_link)) do |item|
         item.with_leading_visual_icon(icon: "sort-asc")
       end
 
       # Some columns do not offer a filter. Only show the option when filtering is possible.
       if filter
         menu.with_divider
-        menu.with_item(label: t(:label_filter_by),
-                       content_arguments: content_args.merge(
-                         data: {
-                           action: "table-action-menu#filterBy",
-                           filter_name: filter
-                         },
-                         title: t(:label_filter_by)
-                       )) do |item|
+        menu.with_item(**menu_options(label: t(:label_filter_by),
+                                      content_args: content_args.merge(
+                                        data: {
+                                          action: "table-action-menu#filterBy",
+                                          filter_name: filter
+                                        }
+                                      ))) do |item|
           item.with_leading_visual_icon(icon: "filter")
         end
       end
 
       menu.with_divider
-      menu.with_item(label: t(:label_move_column_left),
-                     content_arguments: content_args.merge(title: t(:label_move_column_left)),
-                     href: shift_left_link) do |item|
+      menu.with_item(**menu_options(label: t(:label_move_column_left),
+                                    content_args:,
+                                    href: shift_left_link)) do |item|
         item.with_leading_visual_icon(icon: "op-columns-left")
       end
-      menu.with_item(label: t(:label_move_column_right),
-                     content_arguments: content_args.merge(title: t(:label_move_column_right)),
-                     href: shift_right_link) do |item|
+      menu.with_item(**menu_options(label: t(:label_move_column_right),
+                                    content_args:,
+                                    href: shift_right_link)) do |item|
         item.with_leading_visual_icon(icon: "op-columns-right")
       end
-      # TODO: title?
-      menu.with_item(label: t(:label_add_column),
-                     href: configure_view_modal_project_queries_path(projects_query_params),
-                     content_arguments: content_args.merge(
-                       data: { controller: "async-dialog" },
-                       title: t(:label_add_column)
-                     )) do |item|
+      menu.with_item(**menu_options(label: t(:label_add_column),
+                                    content_args: content_args.merge(
+                                      data: { controller: "async-dialog" }
+                                    ),
+                                    href: config_view_modal_link)) do |item|
         item.with_leading_visual_icon(icon: "columns")
       end
       menu.with_divider
-      menu.with_item(label: t(:label_remove_column),
-                     scheme: :danger,
-                     content_arguments: content_args.merge(title: t(:label_remove_column)),
-                     href: rm_column_link) do |item|
+      menu.with_item(**menu_options(label: t(:label_remove_column),
+                                    content_args:,
+                                    scheme: :danger,
+                                    href: rm_column_link)) do |item|
         item.with_leading_visual_icon(icon: "trash")
       end
     end
