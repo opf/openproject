@@ -75,6 +75,8 @@ module CustomField::OrderStatements
   # Returns the join statement that is required to group objects by their value
   # of the custom field.
   def group_by_join_statement
+    return join_for_group_by_list_sql if field_format == "list"
+
     order_join_statement
   end
 
@@ -148,6 +150,38 @@ module CustomField::OrderStatements
             FROM #{CustomValue.quoted_table_name} cv
             INNER JOIN #{CustomOption.quoted_table_name} co
               ON co.id = cv.value::bigint
+            WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
+              AND cv.custom_field_id = #{id}
+              AND cv.value IS NOT NULL
+              AND cv.value != ''
+            ORDER BY cv.customized_id, cv.id
+        ) cf_order_#{id}
+          ON cf_order_#{id}.customized_id = #{self.class.customized_class.quoted_table_name}.id
+      SQL
+    end
+  end
+
+  def join_for_group_by_list_sql
+    if multi_value?
+      <<-SQL.squish
+        LEFT OUTER JOIN (
+          SELECT cv.customized_id, array_to_string(array_agg(cv.value ORDER BY co.position), '.') "value"
+            FROM #{CustomValue.quoted_table_name} cv
+            INNER JOIN #{CustomOption.quoted_table_name} co
+              ON co.id = cv.value::bigint
+            WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
+              AND cv.custom_field_id = #{id}
+              AND cv.value IS NOT NULL
+              AND cv.value != ''
+            GROUP BY cv.customized_id
+        ) cf_order_#{id}
+          ON cf_order_#{id}.customized_id = #{self.class.customized_class.quoted_table_name}.id
+      SQL
+    else
+      <<-SQL.squish
+        LEFT OUTER JOIN (
+          SELECT DISTINCT ON (cv.customized_id) cv.customized_id, cv.value "value"
+            FROM #{CustomValue.quoted_table_name} cv
             WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
               AND cv.custom_field_id = #{id}
               AND cv.value IS NOT NULL
