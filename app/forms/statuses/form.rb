@@ -49,6 +49,7 @@ module Statuses
       statuses_form.text_field(
         label: attribute_name(:default_done_ratio),
         name: :default_done_ratio,
+        caption: percent_complete_field_caption,
         required: true,
         type: :number,
         min: 0,
@@ -113,6 +114,11 @@ module Statuses
 
     def already_default_status?
       status.is_default_was == true
+    end
+
+    def percent_complete_field_caption
+      I18n.t("statuses.edit.status_percent_complete_text",
+             href: url_helpers.admin_settings_progress_tracking_path).html_safe
     end
 
     def readonly_work_packages_restricted?
