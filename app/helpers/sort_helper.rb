@@ -412,84 +412,102 @@ module SortHelper
   def action_menu(column, caption, default_order, allowed_params: nil, **html_options)
     caption ||= column.to_s.humanize
 
+    selected_columns = selected_columns_for_action_menu
+    filter = filter_conversion(column)
+
+    # `param` is not needed in the `content_arguments`, but should remain in the `html_options`.
+    # It is important for keeping the current state in the GET parameters of each link used in
+    # the action menu.
+    content_args = html_options.merge(rel: :nofollow, param: nil)
+
+    render Primer::Alpha::ActionMenu.new(menu_id: "menu-#{column}") do |menu|
+      action_button(menu, caption)
+      sort_actions(menu, column, default_order, content_args:, allowed_params:, **html_options)
+
+      # Some columns do not offer a filter. Only show the option when filtering is possible.
+      filter_action(menu, filter, content_args:) if filter
+
+      move_column_actions(menu, column, selected_columns, content_args:, allowed_params:, **html_options)
+      add_and_remove_column_actions(menu, column, selected_columns, content_args:, allowed_params:, **html_options)
+    end
+  end
+
+  def action_button(menu, caption)
+    menu.with_show_button(scheme: :link, color: :default, text_transform: :uppercase,
+                          underline: false, display: :inline_flex) do |button|
+      button.with_trailing_action_icon(icon: :"triangle-down")
+      h(caption).to_s
+    end
+  end
+
+  def sort_actions(menu, column, default_order, content_args:, allowed_params: nil, **html_options)
     desc_sort_link = projects_path(sort_by_options(column, "desc", default_order, allowed_params:, **html_options))
     asc_sort_link = projects_path(sort_by_options(column, "asc", default_order, allowed_params:, **html_options))
 
-    selected_columns = selected_columns_for_action_menu
+    menu.with_item(**menu_options(label: t(:label_sort_descending),
+                                  content_args:,
+                                  href: desc_sort_link)) do |item|
+      item.with_leading_visual_icon(icon: "sort-desc")
+    end
+    menu.with_item(**menu_options(label: t(:label_sort_ascending),
+                                  content_args:,
+                                  href: asc_sort_link)) do |item|
+      item.with_leading_visual_icon(icon: "sort-asc")
+    end
+  end
 
+  def filter_action(menu, filter, content_args:)
+    menu.with_divider
+    menu.with_item(**menu_options(label: t(:label_filter_by),
+                                  content_args: content_args.merge(
+                                    data: {
+                                      action: "table-action-menu#filterBy",
+                                      filter_name: filter
+                                    }
+                                  ))) do |item|
+      item.with_leading_visual_icon(icon: "filter")
+    end
+  end
+
+  def move_column_actions(menu, column, selected_columns, content_args:, allowed_params: nil, **html_options)
     left_shift = shift_element(selected_columns, column)
     shift_left_link = build_columns_link(left_shift, allowed_params:, **html_options)
 
     right_shift = shift_element(selected_columns, column, :right)
     shift_right_link = build_columns_link(right_shift, allowed_params:, **html_options)
 
+    menu.with_divider
+    menu.with_item(**menu_options(label: t(:label_move_column_left),
+                                  content_args:,
+                                  href: shift_left_link)) do |item|
+      item.with_leading_visual_icon(icon: "op-columns-left")
+    end
+    menu.with_item(**menu_options(label: t(:label_move_column_right),
+                                  content_args:,
+                                  href: shift_right_link)) do |item|
+      item.with_leading_visual_icon(icon: "op-columns-right")
+    end
+  end
+
+  def add_and_remove_column_actions(menu, column, selected_columns, content_args:, allowed_params: nil, **html_options)
     config_view_modal_link = configure_view_modal_project_queries_path(projects_query_params)
 
     all_columns_except_this = selected_columns.reject { _1 == column }
     rm_column_link = build_columns_link(all_columns_except_this, allowed_params:, **html_options)
 
-    filter = filter_conversion(column)
-
-    html_options.delete(:param)
-
-    content_args = html_options.merge(rel: :nofollow)
-
-    render Primer::Alpha::ActionMenu.new(menu_id: "menu-#{column}") do |menu|
-      menu.with_show_button(scheme: :link, color: :default, text_transform: :uppercase,
-                            underline: false, display: :inline_flex) do |button|
-        button.with_trailing_action_icon(icon: :"triangle-down")
-        h(caption).to_s
-      end
-      menu.with_item(**menu_options(label: t(:label_sort_descending),
-                                    content_args:,
-                                    href: desc_sort_link)) do |item|
-        item.with_leading_visual_icon(icon: "sort-desc")
-      end
-      menu.with_item(**menu_options(label: t(:label_sort_ascending),
-                                    content_args:,
-                                    href: asc_sort_link)) do |item|
-        item.with_leading_visual_icon(icon: "sort-asc")
-      end
-
-      # Some columns do not offer a filter. Only show the option when filtering is possible.
-      if filter
-        menu.with_divider
-        menu.with_item(**menu_options(label: t(:label_filter_by),
-                                      content_args: content_args.merge(
-                                        data: {
-                                          action: "table-action-menu#filterBy",
-                                          filter_name: filter
-                                        }
-                                      ))) do |item|
-          item.with_leading_visual_icon(icon: "filter")
-        end
-      end
-
-      menu.with_divider
-      menu.with_item(**menu_options(label: t(:label_move_column_left),
-                                    content_args:,
-                                    href: shift_left_link)) do |item|
-        item.with_leading_visual_icon(icon: "op-columns-left")
-      end
-      menu.with_item(**menu_options(label: t(:label_move_column_right),
-                                    content_args:,
-                                    href: shift_right_link)) do |item|
-        item.with_leading_visual_icon(icon: "op-columns-right")
-      end
-      menu.with_item(**menu_options(label: t(:label_add_column),
-                                    content_args: content_args.merge(
-                                      data: { controller: "async-dialog" }
-                                    ),
-                                    href: config_view_modal_link)) do |item|
-        item.with_leading_visual_icon(icon: "columns")
-      end
-      menu.with_divider
-      menu.with_item(**menu_options(label: t(:label_remove_column),
-                                    content_args:,
-                                    scheme: :danger,
-                                    href: rm_column_link)) do |item|
-        item.with_leading_visual_icon(icon: "trash")
-      end
+    menu.with_item(**menu_options(label: t(:label_add_column),
+                                  content_args: content_args.merge(
+                                    data: { controller: "async-dialog" }
+                                  ),
+                                  href: config_view_modal_link)) do |item|
+      item.with_leading_visual_icon(icon: "columns")
+    end
+    menu.with_divider
+    menu.with_item(**menu_options(label: t(:label_remove_column),
+                                  content_args:,
+                                  scheme: :danger,
+                                  href: rm_column_link)) do |item|
+      item.with_leading_visual_icon(icon: "trash")
     end
   end
 
