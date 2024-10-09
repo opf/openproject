@@ -34,6 +34,7 @@ import {
   Inject,
   Input,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
@@ -54,6 +55,17 @@ import { WorkPackageIsolatedQuerySpaceDirective } from 'core-app/features/work-p
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
 })
 export class HoverCardComponent extends OpModalComponent implements OnInit {
+  @ViewChild('turboFrame')
+  set turboFrame(frame:ElementRef<HTMLIFrameElement>|undefined) {
+    if (frame !== undefined) {
+      frame.nativeElement?.addEventListener('turbo:frame-load', () => {
+        const modal = this.elementRef.nativeElement as HTMLElement;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-explicit-any
+        void this.reposition(modal, this.locals.event.target as HTMLElement);
+      });
+    }
+  }
+
   turboFrameSrc:string;
 
   @Input() public alignment?:Placement = 'bottom-end';
