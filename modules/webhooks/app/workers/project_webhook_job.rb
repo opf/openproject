@@ -39,10 +39,7 @@ class ProjectWebhookJob < RepresentedWebhookJob
     end
   end
 
-  def payload_representer
-    User.system.run_given do |user|
-      ::API::V3::Projects::ProjectRepresenter
-        .create(resource, current_user: user, embed_links: true)
-    end
+  def payload_representer_class
+    ::API::V3::Projects::ProjectRepresenter
   end
 end
