@@ -68,7 +68,7 @@ module CustomField::OrderStatements
   # which differ for multi-value select fields,
   # because in this case we do want the primary CV values
   def group_by_statement
-    return unless field_format.in?(%w[list date bool int])
+    return unless field_format.in?(%w[list date bool int float string link])
 
     return order_statement unless field_format == "list"
 
