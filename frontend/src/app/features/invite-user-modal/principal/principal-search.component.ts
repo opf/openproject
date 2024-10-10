@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
   EventEmitter,
@@ -39,7 +40,9 @@ interface NgSelectPrincipalOption {
 
 @Component({
   selector: 'op-ium-principal-search',
+  styleUrls: ['./principal-search.component.sass'],
   templateUrl: './principal-search.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnInit {
   @Input() spotFormBinding:UntypedFormControl;
