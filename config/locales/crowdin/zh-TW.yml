@@ -374,7 +374,7 @@ zh-TW:
       will_remove_all_group_access_priveleges: "刪除該成員將刪除該組對項目的所有訪問權限。該組仍將作為實例的一部分存在。"
       cannot_delete_inherited_membership: "您不能刪除此成員，因為他們所屬的組本身就是此項目的成員。"
       cannot_delete_inherited_membership_note_admin_html: "您可以在 %{administration_settings_link} 中刪除作為項目成員的組或組中的特定成員。"
-      cannot_delete_inherited_membership_note_non_admin: "您可以將該組作為項目成員移除，或者聯繫管理員將該特定成員從組中移除。"
+      cannot_delete_inherited_membership_note_non_admin: "您可以將該群組作為專案成員移除，或者聯繫管理員將該特定成員從組中移除。"
     delete_work_package_shares_dialog:
       title: "撤銷已共用的工作項目"
       shared_with_this_user_html:
@@ -804,7 +804,7 @@ zh-TW:
         blank: "不可空白"
         blank_nested: "需要設置屬性  '%{property}' "
         cannot_delete_mapping: "必需項，不能刪除"
-        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
+        is_for_all_cannot_modify: "適用於所有專案，因此無法修改。"
         cant_link_a_work_package_with_a_descendant: "一個工作項目不能聯結到它的一個子項目"
         circular_dependency: "這個關係會建立一個循環依賴"
         confirmation: "不吻合 %{attribute}。"
@@ -2628,7 +2628,7 @@ zh-TW:
     body: "您的 %{app_title} 帳戶已關聯到外部身份驗證服務提供商 (%{name})。"
     subtext: "無法在應用程序中更改外部帳戶的密碼。請使用您的身份驗證服務提供商的密碼丟失功能。"
   mail_body_register: "歡迎使用 %{app_title}。請點擊此鏈接啟用您的帳戶："
-  mail_body_register_header_title: "項目成員邀請電子郵件"
+  mail_body_register_header_title: "專案成員邀請電子郵件"
   mail_body_register_user: "親 %{name}，"
   mail_body_register_links_html: |
     請隨時瀏覽我們提供網絡研討會 (%{webinar_link}) 的 YouTube 頻道 (%{youtube_link})
