@@ -2,15 +2,18 @@
 
 .op-autocompleter
   &__option-principal-details
-    display: inline-flex
-    align-items: flex-start
-    gap: 8px
+    display: inline
 
   &__option-principal-email
     color: var(--fgColor-muted)
-    font-size: 0.75rem
+    font-size: var(--font-size-small)
+    margin-left: var(--stack-gap-condensed)
 
   @media screen and (max-width: $breakpoint-sm)
     &__option-principal-details
+      display: inline-flex
       flex-direction: column
       gap: 4px
+
+    &__option-principal-email
+      margin-left: 0
