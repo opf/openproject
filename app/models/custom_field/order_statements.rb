@@ -67,7 +67,7 @@ module CustomField::OrderStatements
   # Returns the expression to use in GROUP BY (and ORDER BY) clause to group
   # objects by their value of the custom field.
   def group_by_statement
-    return unless field_format.in?(%w[list date bool int float string link])
+    return unless can_be_used_for_grouping?
 
     order_statement
   end
@@ -75,12 +75,16 @@ module CustomField::OrderStatements
   # Returns the join statement that is required to group objects by their value
   # of the custom field.
   def group_by_join_statement
+    return unless can_be_used_for_grouping?
+
     return join_for_group_by_list_sql if field_format == "list"
 
     order_join_statement
   end
 
   private
+
+  def can_be_used_for_grouping? = field_format.in?(%w[list date bool int float string link])
 
   def join_for_order_sql(value:, join: nil, multi_value: false)
     <<-SQL.squish
