@@ -139,7 +139,7 @@ To avoid processing these items, preceding them with a bang `!` character such a
 
 > [!TIP]
 >
-> For more information on using macros take a look at this [blog article](https://www.openproject.org/blog/how-to-use-macros/).
+> For more information on using macros, take a look at this [blog article](https://www.openproject.org/blog/how-to-use-macros/).
 
 ### Autocompletion for work packages and users
 

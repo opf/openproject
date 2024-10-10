@@ -54,4 +54,4 @@ If a work package is then in the defined condition, the button will appear on to
 
 > [!TIP]
 >
-> Read this [blog article](https://www.openproject.org/blog/custom-action-self-assign/) for an example of custom actions used within OpenProject team.
+> Read this [blog article](https://www.openproject.org/blog/custom-action-self-assign/) for an example of custom actions used within OpenProject team to quickly self-assign a work package.
