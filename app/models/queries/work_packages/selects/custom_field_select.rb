@@ -89,7 +89,7 @@ class Queries::WorkPackages::Selects::CustomFieldSelect < Queries::WorkPackages:
 
       ->(query, grouped) {
         Queries::WorkPackages::Selects::WorkPackageSelect
-          .scoped_column_sum(summable_scope(query), select, grouped && query.group_by_statement)
+          .scoped_column_sum(summable_scope(query), select, grouped:, query:)
       }
     else
       false

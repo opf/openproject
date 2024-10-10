@@ -49,12 +49,14 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
     "#{group_by} id"
   end
 
-  def self.scoped_column_sum(scope, select, group_by)
-    scope = scope
-              .except(:order, :select)
+  def self.scoped_column_sum(scope, select, grouped:, query:)
+    scope = scope.except(:order, :select)
 
-    if group_by
+    if grouped
+      group_by = query.group_by_statement
+
       scope
+        .joins(query.group_by_join_statement)
         .group(group_by)
         .select(select_group_by(group_by), select)
     else

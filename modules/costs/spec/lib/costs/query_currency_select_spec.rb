@@ -95,6 +95,10 @@ RSpec.describe Costs::QueryCurrencySelect, type: :model do
           .and_return(WorkPackage.all)
 
         allow(query)
+          .to receive(:group_by_join_statement)
+          .and_return(nil)
+
+        allow(query)
           .to receive(:group_by_statement)
           .and_return("author_id")
 
@@ -132,6 +136,10 @@ RSpec.describe Costs::QueryCurrencySelect, type: :model do
         allow(result)
           .to receive(:work_packages)
           .and_return(WorkPackage.all)
+
+        allow(query)
+          .to receive(:group_by_join_statement)
+          .and_return(nil)
 
         allow(query)
           .to receive(:group_by_statement)
