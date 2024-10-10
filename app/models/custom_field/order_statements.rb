@@ -82,184 +82,66 @@ module CustomField::OrderStatements
 
   private
 
-  def join_for_order_by_string_sql
+  def join_for_order_sql(value:, join: nil, multi_value: false)
     <<-SQL.squish
       LEFT OUTER JOIN (
-        SELECT DISTINCT ON (cv.customized_id) cv.customized_id, cv.value "value"
+        SELECT
+          #{multi_value ? '' : 'DISTINCT ON (cv.customized_id)'}
+            cv.customized_id,
+            #{value} "value"
           FROM #{CustomValue.quoted_table_name} cv
+          #{join}
           WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
             AND cv.custom_field_id = #{id}
             AND cv.value IS NOT NULL
             AND cv.value != ''
-          ORDER BY cv.customized_id, cv.id
+          #{multi_value ? 'GROUP BY cv.customized_id' : 'ORDER BY cv.customized_id, cv.id'}
       ) cf_order_#{id}
         ON cf_order_#{id}.customized_id = #{self.class.customized_class.quoted_table_name}.id
     SQL
   end
 
-  def join_for_order_by_int_sql
-    <<-SQL.squish
-      LEFT OUTER JOIN (
-        SELECT DISTINCT ON (cv.customized_id) cv.customized_id, cv.value::decimal(60) "value"
-          FROM #{CustomValue.quoted_table_name} cv
-          WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
-            AND cv.custom_field_id = #{id}
-            AND cv.value IS NOT NULL
-            AND cv.value != ''
-          ORDER BY cv.customized_id, cv.id
-      ) cf_order_#{id}
-        ON cf_order_#{id}.customized_id = #{self.class.customized_class.quoted_table_name}.id
-    SQL
-  end
+  def join_for_order_by_string_sql = join_for_order_sql(value: "cv.value")
 
-  def join_for_order_by_float_sql
-    <<-SQL.squish
-      LEFT OUTER JOIN (
-        SELECT DISTINCT ON (cv.customized_id) cv.customized_id, cv.value::double precision "value"
-          FROM #{CustomValue.quoted_table_name} cv
-          WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
-            AND cv.custom_field_id = #{id}
-            AND cv.value IS NOT NULL
-            AND cv.value != ''
-          ORDER BY cv.customized_id, cv.id
-      ) cf_order_#{id}
-        ON cf_order_#{id}.customized_id = #{self.class.customized_class.quoted_table_name}.id
-    SQL
-  end
+  def join_for_order_by_int_sql = join_for_order_sql(value: "cv.value::decimal(60)")
+
+  def join_for_order_by_float_sql = join_for_order_sql(value: "cv.value::double precision")
 
   def join_for_order_by_list_sql
-    if multi_value?
-      <<-SQL.squish
-        LEFT OUTER JOIN (
-          SELECT cv.customized_id, array_agg(co.position ORDER BY co.position) "value"
-            FROM #{CustomValue.quoted_table_name} cv
-            INNER JOIN #{CustomOption.quoted_table_name} co
-              ON co.id = cv.value::bigint
-            WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
-              AND cv.custom_field_id = #{id}
-              AND cv.value IS NOT NULL
-              AND cv.value != ''
-            GROUP BY cv.customized_id
-        ) cf_order_#{id}
-          ON cf_order_#{id}.customized_id = #{self.class.customized_class.quoted_table_name}.id
-      SQL
-    else
-      <<-SQL.squish
-        LEFT OUTER JOIN (
-          SELECT DISTINCT ON (cv.customized_id) cv.customized_id, co.position "value"
-            FROM #{CustomValue.quoted_table_name} cv
-            INNER JOIN #{CustomOption.quoted_table_name} co
-              ON co.id = cv.value::bigint
-            WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
-              AND cv.custom_field_id = #{id}
-              AND cv.value IS NOT NULL
-              AND cv.value != ''
-            ORDER BY cv.customized_id, cv.id
-        ) cf_order_#{id}
-          ON cf_order_#{id}.customized_id = #{self.class.customized_class.quoted_table_name}.id
-      SQL
-    end
+    join_for_order_sql(
+      value: multi_value? ? "ARRAY_AGG(co.position ORDER BY co.position)" : "co.position",
+      join: "INNER JOIN #{CustomOption.quoted_table_name} co ON co.id = cv.value::bigint",
+      multi_value:
+    )
   end
 
   def join_for_group_by_list_sql
     if multi_value?
-      <<-SQL.squish
-        LEFT OUTER JOIN (
-          SELECT cv.customized_id, array_to_string(array_agg(cv.value ORDER BY co.position), '.') "value"
-            FROM #{CustomValue.quoted_table_name} cv
-            INNER JOIN #{CustomOption.quoted_table_name} co
-              ON co.id = cv.value::bigint
-            WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
-              AND cv.custom_field_id = #{id}
-              AND cv.value IS NOT NULL
-              AND cv.value != ''
-            GROUP BY cv.customized_id
-        ) cf_order_#{id}
-          ON cf_order_#{id}.customized_id = #{self.class.customized_class.quoted_table_name}.id
-      SQL
+      join_for_order_sql(
+        value: "ARRAY_TO_STRING(ARRAY_AGG(cv.value ORDER BY co.position), '.')",
+        join: "INNER JOIN #{CustomOption.quoted_table_name} co ON co.id = cv.value::bigint",
+        multi_value:
+      )
     else
-      <<-SQL.squish
-        LEFT OUTER JOIN (
-          SELECT DISTINCT ON (cv.customized_id) cv.customized_id, cv.value "value"
-            FROM #{CustomValue.quoted_table_name} cv
-            WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
-              AND cv.custom_field_id = #{id}
-              AND cv.value IS NOT NULL
-              AND cv.value != ''
-            ORDER BY cv.customized_id, cv.id
-        ) cf_order_#{id}
-          ON cf_order_#{id}.customized_id = #{self.class.customized_class.quoted_table_name}.id
-      SQL
+      join_for_order_by_string_sql
     end
   end
 
   def join_for_order_by_user_sql
     columns_array = "ARRAY[users.lastname, users.firstname, users.mail]"
 
-    if multi_value?
-      <<-SQL.squish
-        LEFT OUTER JOIN (
-          SELECT cv.customized_id, ARRAY_AGG(#{columns_array} ORDER BY #{columns_array}) "value"
-            FROM #{CustomValue.quoted_table_name} cv
-            INNER JOIN #{User.quoted_table_name} users
-              ON users.id = cv.value::bigint
-            WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
-              AND cv.custom_field_id = #{id}
-              AND cv.value IS NOT NULL
-              AND cv.value != ''
-            GROUP BY cv.customized_id
-        ) cf_order_#{id}
-          ON cf_order_#{id}.customized_id = #{self.class.customized_class.quoted_table_name}.id
-      SQL
-    else
-      <<-SQL.squish
-        LEFT OUTER JOIN (
-          SELECT DISTINCT ON (cv.customized_id) cv.customized_id, #{columns_array} "value"
-            FROM #{CustomValue.quoted_table_name} cv
-            INNER JOIN #{User.quoted_table_name} users
-              ON users.id = cv.value::bigint
-            WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
-              AND cv.custom_field_id = #{id}
-              AND cv.value IS NOT NULL
-              AND cv.value != ''
-            ORDER BY cv.customized_id, cv.id
-        ) cf_order_#{id}
-          ON cf_order_#{id}.customized_id = #{self.class.customized_class.quoted_table_name}.id
-      SQL
-    end
+    join_for_order_sql(
+      value: multi_value? ? "ARRAY_AGG(#{columns_array} ORDER BY #{columns_array})" : columns_array,
+      join: "INNER JOIN #{User.quoted_table_name} users ON users.id = cv.value::bigint",
+      multi_value:
+    )
   end
 
   def join_for_order_by_version_sql
-    if multi_value?
-      <<-SQL.squish
-        LEFT OUTER JOIN (
-          SELECT cv.customized_id, array_agg(versions.name ORDER BY versions.name) "value"
-            FROM #{CustomValue.quoted_table_name} cv
-            INNER JOIN #{Version.quoted_table_name} versions
-              ON versions.id = cv.value::bigint
-            WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
-              AND cv.custom_field_id = #{id}
-              AND cv.value IS NOT NULL
-              AND cv.value != ''
-            GROUP BY cv.customized_id
-        ) cf_order_#{id}
-          ON cf_order_#{id}.customized_id = #{self.class.customized_class.quoted_table_name}.id
-      SQL
-    else
-      <<-SQL.squish
-        LEFT OUTER JOIN (
-          SELECT DISTINCT ON (cv.customized_id) cv.customized_id, versions.name "value"
-            FROM #{CustomValue.quoted_table_name} cv
-            INNER JOIN #{Version.quoted_table_name} versions
-              ON versions.id = cv.value::bigint
-            WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
-              AND cv.custom_field_id = #{id}
-              AND cv.value IS NOT NULL
-              AND cv.value != ''
-            ORDER BY cv.customized_id, cv.id
-        ) cf_order_#{id}
-          ON cf_order_#{id}.customized_id = #{self.class.customized_class.quoted_table_name}.id
-      SQL
-    end
+    join_for_order_sql(
+      value: multi_value? ? "array_agg(versions.name ORDER BY versions.name)" : "versions.name",
+      join: "INNER JOIN #{Version.quoted_table_name} versions ON versions.id = cv.value::bigint",
+      multi_value:
+    )
   end
 end
