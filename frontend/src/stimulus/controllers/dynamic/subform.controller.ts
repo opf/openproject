@@ -38,12 +38,12 @@ export default class SubformController extends Controller {
 
   declare readonly tableTarget:HTMLTableElement;
 
-  private rowTemplate:HTMLElement;
+  private rowTemplate:string;
 
   connect() {
     // We can't use a target as we duplicate the "template" without  much cleaning up
     const item = this.element.querySelector('[data-row-target]') as HTMLElement;
-    this.rowTemplate = item;
+    this.rowTemplate = item.outerHTML;
     item.remove();
   }
 
@@ -54,13 +54,16 @@ export default class SubformController extends Controller {
 
   addRow() {
     const index = this.itemCount;
-    const newRow = this.rowTemplate.cloneNode(true) as HTMLElement;
-    this.tableTarget.appendChild(newRow);
-    newRow.style.removeProperty('display');
-    newRow.outerHTML = newRow.outerHTML.replace(/INDEX/g, index.toString());
+    const newRow = this.rowTemplate.replace(/INDEX/g, index.toString());
+    this.tableTarget.insertAdjacentHTML('beforeend', newRow);
+
+    const last = this.tableTarget.lastElementChild as HTMLElement;
+    last.style.removeProperty('display'); // Show the row
 
     // Autofocus
-    setTimeout(() => newRow.querySelector<HTMLElement>('input')?.focus(), 10);
+    setTimeout(() => {
+      last.querySelector<HTMLElement>('input')?.focus();
+    }, 50);
   }
 
   get itemCount():number {
