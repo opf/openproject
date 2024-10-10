@@ -29,21 +29,20 @@
 #++
 
 module Meetings
-  class RowComponent < ::RowComponent
+  class RowComponent < ::OpPrimer::BorderBoxRowComponent
+    def column_args(column)
+      if column == :title
+        { style: "grid-column: span 2" }
+      else
+        super
+      end
+    end
     def project_name
       helpers.link_to_project model.project, {}, {}, false
     end
 
     def title
       link_to model.title, project_meeting_path(model.project, model)
-    end
-
-    def type
-      if model.is_a?(StructuredMeeting)
-        I18n.t("meeting.types.structured")
-      else
-        I18n.t("meeting.types.classic")
-      end
     end
 
     def start_time

@@ -32,12 +32,6 @@ module OpPrimer
   class BorderBoxTableComponent < TableComponent
     include ComponentHelpers
 
-    def before_render
-      raise ArgumentError, "BorderBoxTableComponent cannot be #sortable?" if sortable?
-
-      super
-    end
-
     def header_args(_column)
       {}
     end
