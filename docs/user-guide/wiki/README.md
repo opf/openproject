@@ -86,7 +86,7 @@ The attachment will be automatically uploaded and stored as an attachment.
 
 ## Macros
 
-OpenProject has supported macros on textile formatted pages and continues to do so with the [WYSIWYG](../wysiwig) editor. Note that macros are not expanded while editing the page, instead a placeholder is shown.
+OpenProject has supported macros on textile formatted pages and continues to do so with the [WYSIWYG](../wysiwyg) editor. Note that macros are not expanded while editing the page, instead a placeholder is shown.
 
 ### Table of contents
 
