@@ -1,19 +1,13 @@
 @import '../../global_styles/openproject/variables'
 
 .op-autocompleter
-  &__option-principal-details
-    display: inline
-
   &__option-principal-email
     color: var(--fgColor-muted)
     font-size: var(--font-size-small)
     margin-left: var(--stack-gap-condensed)
 
   @media screen and (max-width: $breakpoint-sm)
-    &__option-principal-details
-      display: inline-flex
-      flex-direction: column
-      gap: 4px
-
     &__option-principal-email
-      margin-left: 0
+      display: block
+      margin-left: var(--control-small-size)
+      margin-top: var(--control-xsmall-gap)
