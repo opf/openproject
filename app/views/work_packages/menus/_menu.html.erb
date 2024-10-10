@@ -1,5 +1,14 @@
+<%
+  on_work_package_path = request.path.include?('/work_packages')
+  path =
+    if @project
+      menu_project_work_packages_path(@project, **params.permit(:query_props, :query_id, :name), on_work_package_path:)
+    else
+      work_packages_menu_path(**params.permit(:query_props, :query_id, :name), on_work_package_path:)
+    end
+%>
 <%= turbo_frame_tag "work_packages_sidemenu",
-                    src: @project ? menu_project_work_packages_path(@project, params.permit(:query_props, :query_id, :name)) : work_packages_menu_path(params.permit(:query_props, :query_id, :name)),
+                    src: path,
                     target: "_top",
                     data: { turbo: false },
                     loading: :lazy %>

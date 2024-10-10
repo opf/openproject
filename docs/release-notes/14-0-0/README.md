@@ -41,7 +41,7 @@ methods. For more information, see [#51212](https://community.openproject.org/wo
 
 ### Reduced number of configurable design variables
 
-We have changed the number and naming of the [configurable design variables](../../system-admin-guide/design/#advanced-settings). This simplifies the process of setting the desired color scheme for users. It also allows us to get closer to the **Primer design system** in order to benefit from its other modes such as the dark mode or the colorblind mode in the future.
+We have changed the number and naming of the [configurable design variables](../../system-admin-guide/design/#interface-colors). This simplifies the process of setting the desired color scheme for users. It also allows us to get closer to the **Primer design system** in order to benefit from its other modes such as the dark mode or the colorblind mode in the future.
 
 The following variables have been changed:
 

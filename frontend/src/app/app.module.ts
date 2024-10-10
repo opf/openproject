@@ -57,7 +57,7 @@ import { OpenprojectCalendarModule } from 'core-app/features/calendar/openprojec
 import { OpenprojectGlobalSearchModule } from 'core-app/core/global_search/openproject-global-search.module';
 import { OpenprojectDashboardsModule } from 'core-app/features/dashboards/openproject-dashboards.module';
 import { OpenprojectWorkPackageGraphsModule } from 'core-app/shared/components/work-package-graphs/openproject-work-package-graphs.module';
-import { PreviewTriggerService } from 'core-app/core/setup/globals/global-listeners/preview-trigger.service';
+import { HoverCardTriggerService } from 'core-app/core/setup/globals/global-listeners/hover-card-trigger.service';
 import { OpenprojectOverviewModule } from 'core-app/features/overview/openproject-overview.module';
 import { OpenprojectMyPageModule } from 'core-app/features/my-page/openproject-my-page.module';
 import { OpenprojectProjectsModule } from 'core-app/features/projects/openproject-projects.module';
@@ -74,10 +74,9 @@ import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-
 import { ConfirmDialogModalComponent } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 import { DynamicContentModalComponent } from 'core-app/shared/components/modals/modal-wrapper/dynamic-content.modal';
 import { PasswordConfirmationModalComponent } from 'core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal';
-import { WpPreviewModalComponent } from 'core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal';
+import { HoverCardComponent } from 'core-app/shared/components/modals/preview-modal/hover-card-modal/hover-card.modal';
 import { OpHeaderProjectSelectComponent } from 'core-app/shared/components/header-project-select/header-project-select.component';
 import { OpHeaderProjectSelectListComponent } from 'core-app/shared/components/header-project-select/list/header-project-select-list.component';
-
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 import { MainMenuResizerComponent } from 'core-app/shared/components/resizer/resizer/main-menu-resizer.component';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
@@ -169,7 +168,7 @@ import { WorkPackageSplitCreateEntryComponent } from 'core-app/features/work-pac
 
 export function initializeServices(injector:Injector) {
   return () => {
-    const PreviewTrigger = injector.get(PreviewTriggerService);
+    const PreviewTrigger = injector.get(HoverCardTriggerService);
     const topMenuService = injector.get(TopMenuService);
     const keyboardShortcuts = injector.get(KeyboardShortcutService);
     // Conditionally add the Revit Add-In settings button
@@ -299,7 +298,7 @@ export function initializeServices(injector:Injector) {
     ConfirmDialogModalComponent,
     DynamicContentModalComponent,
     PasswordConfirmationModalComponent,
-    WpPreviewModalComponent,
+    HoverCardComponent,
 
     // Main menu
     MainMenuResizerComponent,

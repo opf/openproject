@@ -182,8 +182,8 @@ RSpec.describe "Admin Create a new file storage",
         expect(page).to have_current_path(edit_admin_settings_storage_path(Storages::Storage.last))
         expect(page).to have_test_selector(
           "op-primer-flash-message",
-          text: "Storage connected successfully! Remember to activate the module and the specific " \
-                "storage in the project settings of each desired project to use it."
+          text: "Storage connected successfully! " \
+                "Remember to activate the storage in the Projects tab for each desired project to use it."
         )
       end
     end
@@ -319,8 +319,8 @@ RSpec.describe "Admin Create a new file storage",
         expect(page).to have_current_path(edit_admin_settings_storage_path(Storages::Storage.last))
         wait_for { page }.to have_test_selector(
           "op-primer-flash-message",
-          text: "Storage connected successfully! Remember to activate the module and the specific " \
-                "storage in the project settings of each desired project to use it."
+          text: "Storage connected successfully! " \
+                "Remember to activate the storage in the Projects tab for each desired project to use it."
         )
       end
     end

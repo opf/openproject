@@ -114,8 +114,8 @@ de:
             hide_inactive_folders:
               permission_not_set: konnte keine Berechtigungen auf %{path} setzen.
             remote_folders:
-              not_allowed: Der %{username} hat keinen Zugriff auf die %{group_folder}. Bitte überprüfen Sie die Ordnerberechtigungen auf Nextcloud.
-              not_found: "%{group_folder} wurde nicht gefunden. Bitte überprüfen Sie Ihre Nextcloud-Konfiguration."
+              not_allowed: The %{username} doesn't have access to the %{group_folder} folder. Please check the folder permissions on Nextcloud.
+              not_found: "%{group_folder} folder wasn't found. Please check your Nextcloud setup."
             remove_user_from_group:
               conflict: 'Der Benutzer %{user} konnte aus folgendem Grund nicht aus der %{group} Gruppe entfernt werden: %{reason}'
               failed_to_remove: 'Der Benutzer %{user} konnte aus folgendem Grund nicht aus der %{group} Gruppe entfernt werden: %{reason}'
@@ -128,7 +128,7 @@ de:
           group_does_not_exist: "%{group} existiert nicht. Überprüfen Sie Ihre Nextcloud Instanz-Konfiguration."
           insufficient_privileges: OpenProject hat nicht genügend Rechte, um %{user} zu %{group} hinzuzufügen. Überprüfen Sie Ihre Gruppeneinstellungen in Nextcloud.
           not_allowed: Nextcloud blockiert die Anfrage.
-          unauthorized: OpenProject konnte nicht mit Nextcloud synchronisiert werden. Bitte überprüfen Sie Ihren Dateispeicher und die Nextcloud-Konfiguration.
+          unauthorized: OpenProject could not sync with Nextcloud. Please check your storage and Nextcloud configuration.
           user_does_not_exist: "%{user} existiert nicht in Nextcloud."
         one_drive_sync_service:
           attributes:
@@ -147,7 +147,7 @@ de:
               permission_not_set: konnte keine Berechtigungen auf %{path} setzen.
           error: Ein unerwarteter Fehler ist aufgetreten. Bitte stellen Sie sicher, dass Ihre Nextcloud Instanz erreichbar ist und überprüfen Sie die OpenProject Worker Logs auf weitere Informationen
           not_allowed: OpenProject konnte nicht auf dein OneDrive-Laufwerk zugreifen. Bitte überprüfe die Berechtigungen der Azure Anwendung.
-          unauthorized: OpenProject konnte nicht mit OneDrive synchronisiert werden. Bitte überprüfen Sie den Speicher und die Konfiguration der Azure Anwendung.
+          unauthorized: OpenProject could not sync with OneDrive. Please check your storage and Azure Application configuration.
           user_does_not_exist: "%{user} existiert nicht in Nextcloud."
         upload_link_service:
           not_found: Der Zielordner %{folder} konnte nicht auf %{storage_name} gefunden werden.
@@ -321,8 +321,6 @@ de:
       not_connected: Nicht verbunden. Der Benutzer sollte sich über diesen %{link} anmelden.
     members_no_results: Keine Mitglieder zum Anzeigen.
     no_results: Noch keine Dateispeicher eingerichtet.
-    notice_successful_storage_connection: |-
-      Dateispeicher erfolgreich verbunden! Denken Sie daran, das Modul und den spezifischen Dateispeicher in den Projekteinstellungen jedes gewünschten Projekts zu aktivieren, um ihn zu benutzen.
     oauth_access_granted_modal:
       access_granted: Zugriff gewährt
       project_settings:
@@ -384,6 +382,7 @@ de:
     storage_list_blank_slate:
       description: Fügen Sie einen Dateispeicher hinzu, um ihn hier zu sehen.
       heading: Sie haben noch keine Dateispeicher.
+    successful_storage_connection: Storage connected successfully! Remember to activate the storage in the Projects tab for each desired project to use it.
     upsale:
       description: |-
         Integrieren Sie Ihr OneDrive/SharePoint als Dateispeicher mit OpenProject. Laden Sie Dateien hoch und verknüpfen Sie diese direkt mit Arbeitspaketen in einem Projekt.

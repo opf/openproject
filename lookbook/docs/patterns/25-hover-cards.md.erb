@@ -1,0 +1,73 @@
+The HoverCard is a pattern related to the `Primer::Beta::Popover` and is used to show additional contexual information on certain kinds of resources like work packages and users. The hover card is opened by hovering over a certain trigger. When hovering outside of the card or its trigger, the popover is closed again.
+
+## Overview
+
+![Exemplary hover card](<%= image_path('lookbook/hover_card.png') %>)
+
+## Anatomy
+
+The HoverCard always consists of two basic parts:
+
+1. A trigger: That can be anything that is hoverable, like a link or a chip
+2. The actual card: A small popover that is opened directly next to the trigger. The actual content of the card depends on the type of resource it is calling.
+
+
+## Best practices
+
+**Do**
+
+- Put in a slight delay between hovering and displaying the card to avoid accidental triggering, which can be annoying.
+- Keep the content of the card simple. Only the essentials.
+
+**Don't**
+
+- Don't put additional interactive elements inside of the card. Since the popover closes as soon as you move the mouse out, users will find it frustrating if they try further interacting with it and have it keep disappearing
+- Don't put too many triggers on one page, as it can otherwise become annoying to have too many items trigger a card that blocks part of the screen
+
+## Used in
+
+- WorkPackage preview when linking via `#ID`
+- Soon: User preview when hovering the avatar
+
+## Technical notes
+
+Unfortunately, we could not easily use the `Primer::Beta::Popover` component.
+That is why, the `HoverCard` is technically an Angular modal which renders inside a `turboFrame`.
+This modal is triggered by a class called `op-hover-card--preview-trigger` which can be set in any element.
+A global event listener is registered on all elements with this class and triggers the modal when being hovered.
+Additionally, the trigger element needs to pass the URL for the `turboFrame` as a data attribute called `data-hover-card-url`.
+
+### Code structure
+
+**Angular modal**:
+```html
+ <!-- frontend/src/app/shared/components/modals/preview-modal/hover-card-modal/hover-card.modal.html -->
+<div
+  class="op-hover-card"
+>
+  <turbo-frame
+    loading="lazy"
+    id="op-hover-card-body"
+    [src]="turboFrameSrc">
+  </turbo-frame>
+</div>
+```
+
+**Trigger**:
+```html
+  <!-- app/views/module_a/index.html.erb -->
+  <a href="work_packages/14/activity"
+     data-hover-card-url="work_packages/14/hover_card"
+     class="op-hover-card--preview-trigger">
+    #14
+  </a>
+```
+
+**Actually rendered card content**:
+```html
+  <!-- app/components/work_packages/hover_card/show.html.erb -->
+  <turbo-frame id="op-hover-card-body">
+    &lt;%= render WorkPackages::HoverCardComponent.new(id: 14) %&gt;
+  </turbo-frame>
+  %&gt;
+```
