@@ -10,7 +10,8 @@ keywords: baseline comparison, work package changes
 
 Baseline is a powerful feature that allows you to view changes to work package tables within a given period. This can be a saved view or a new filter query. Project managers can use baseline to get a quick overview of what has changed over time, making it easier to report on project progress and status.
 
->**Note:** Baseline comparison with yesterday is included in the Community version. Other comparison dates are Enterprise add-ons that are available with Enterprise cloud or Enterprise on-premises. An upgrade from the free Community edition is easily possible.
+> [!NOTE]
+> Baseline comparison with yesterday is included in the Community version. Other comparison dates are Enterprise add-ons that are available with Enterprise cloud or Enterprise on-premises. An upgrade from the free Community edition is easily possible.
 
 ![Work package table list with Baseline enabled](13-0_Baseline_overview.png)
 
@@ -48,7 +49,8 @@ Baseline offers these preset time ranges:
 
 By default, Baseline will compare to 8 AM local time of the relevant day. You can change this to any other time of your choosing.
 
->**Note:** These are relative comparison points, which means that _Yesterday_ will always refer to the day before the current day, and not a specific date. You can use these to set up "running" baselines that show you all changes within the past day or week.
+>[!NOTE]
+>These are relative comparison points, which means that _Yesterday_ will always refer to the day before the current day, and not a specific date. You can use these to set up "running" baselines that show you all changes within the past day or week.
 
 ### A specific date
 
@@ -56,7 +58,9 @@ By default, Baseline will compare to 8 AM local time of the relevant day. You ca
 
 If you want to compare between now and a specific date in the past, you can select "a specific date" in the dropdown and select a particular date. With this option, the comparison will always be between the current state and that specific date in the past.
 
->**Note:** You can use this to "freeze" the baseline comparison point so that the view always shows changes in comparison to that specific date, regardless of when you access it.
+>[!NOTE]
+>
+>You can use this to "freeze" the baseline comparison point so that the view always shows changes in comparison to that specific date, regardless of when you access it.
 
 ### Between two specific dates
 
@@ -64,7 +68,9 @@ If you want to compare between now and a specific date in the past, you can sele
 
 OpenProject also allows you to compare between two specific dates in the past. To select a custom date range, choose "between two specific dates" in the dropdown and select two dates in the date picker below.
 
->**Note**: This will create a fixed baseline view that will remain the same regardless of when you accesses it, since both points are fixed in the past.
+>[!NOTE]
+>
+>This will create a fixed baseline view that will remain the same regardless of when you accesses it, since both points are fixed in the past.
 
 ## Understanding the comparison results
 
@@ -89,7 +95,9 @@ When Baseline is enabled, you will see a legend at the top of the page which sho
 
 Work packages that meet the filter criteria now but did not in the past are marked with an "Added" icon. These work packages were added to the current query after the selected comparison point, either because they were newly created since then or certain attributes changed such that they meet the filter criteria.
 
-> **Note**: These do not necessarily represent _newly created_ work packages; simply those that are new to this particular view because they now meet the filter criteria.
+> [!NOTE]
+>
+> These do not necessarily represent _newly created_ work packages; simply those that are new to this particular view because they now meet the filter criteria.
 
 #### No longer meets filter criteria
 
@@ -97,7 +105,9 @@ Work packages that meet the filter criteria now but did not in the past are mark
 
 Work packages that no longer meet the filter criteria now are marked with a "Removed" icon. These work packages were filtered out within the comparison period.
 
->**Note**: These do _not_ represent deleted work packages, which are not visible at all since no history of deleted work packages is maintained. Deleted work packages are simply ignored by Baseline.
+>[!NOTE]
+>
+>These do _not_ represent deleted work packages, which are not visible at all since no history of deleted work packages is maintained. Deleted work packages are simply ignored by Baseline.
 
 #### Maintained with changes
 
@@ -119,9 +129,11 @@ Each attribute that has changed will have a grey background, with the old value 
 
 This allows you to have a complete view of what has changed in the comparison period.
 
->**Note**: Some attributes like _Spent time_ and _Progress_ are not tracked by Baseline and do not show the old values in the work package table. If any of the columns in your work package table are not tracked, a small warning icon in the column header will indicate this.
+>[!NOTE]
 >
-> ![Unsupported columns have a warning icon next to them](13_0_Baseline_unsupportedColumn.png)
+>Some attributes like _Spent time_ and _Progress_ are not tracked by Baseline and do not show the old values in the work package table. If any of the columns in your work package table are not tracked, a small warning icon in the column header will indicate this.
+>
+>![Unsupported columns have a warning icon next to them](13_0_Baseline_unsupportedColumn.png)
 
 ## Relation to active filters
 
@@ -129,6 +141,10 @@ Baseline always compares work packages between the two comparison points in rela
 
 It is not possible to compare between two different filter queries.
 
->**Note**: Some filter attributes are not tracked by Baseline and changes to them will not be taken into consideration. These include _Watcher_, _Attachment content_, _Attachment file name_ and _Comment_. These attributes are marked with a small warning icon next to them in the filter panel.
+>[!NOTE]
 >
-> ![An icon and a message warning that certain filter criteria are not taken into account by Baseline](13-0_Baseline_activeFilters.png)
+>Some filter attributes are not tracked by Baseline and changes to them will not be taken into consideration. These include _Watcher_, _Attachment content_, _Attachment file name_ and _Comment_. These attributes are marked with a small warning icon next to them in the filter panel.
+>
+>![An icon and a message warning that certain filter criteria are not taken into account by Baseline](13-0_Baseline_activeFilters.png)
+
+If you are interested in Baseline, please also take a look at this [blog article](https://www.openproject.org/blog/view-changes-on-project-baseline/).
