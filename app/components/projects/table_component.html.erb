@@ -55,7 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
                       </div>
                     </th>
                   <% elsif sortable_column?(column) %>
-                    <%= build_new_sort_header column.attribute, order_options(column, turbo: true) %>
+                    <%= build_sort_header column.attribute, order_options(column, turbo: true) %>
                   <% elsif column.attribute == :favored %>
                     <th>
                       <div class="generic-table--header-outer">

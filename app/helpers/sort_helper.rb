@@ -314,21 +314,20 @@ module SortHelper
   #     </th>
   #
   def sort_header_tag(column, allowed_params: nil, **options)
-    caption = get_caption(column, options)
-
-    default_order = options.delete(:default_order) || "asc"
-    lang = options.delete(:lang) || nil
-    param = options.delete(:param) || :sort
-    data = options.delete(:data) || {}
-
-    options[:title] = sort_header_title(column, caption, options)
-
-    within_sort_header_tag_hierarchy(options, sort_class(column)) do
-      sort_link(column, caption, default_order, allowed_params:, param:, lang:, title: options[:title], data:)
+    with_sort_header_options(column, allowed_params:, **options) do |col, cap, default_ord, **opts|
+      sort_link(col, cap, default_ord, **opts)
     end
   end
 
   def sort_header_with_action_menu(column, allowed_params: nil, **options)
+    with_sort_header_options(column, allowed_params:, **options) do |col, cap, default_ord, **opts|
+      action_menu(col, cap, default_ord, **opts)
+    end
+  end
+
+  # Extracts the given `options` and provides them to a block.
+  # See #sort_header_tag and #sort_header_with_action_menu for usage examples.
+  def with_sort_header_options(column, allowed_params: nil, **options)
     caption = get_caption(column, options)
 
     default_order = options.delete(:default_order) || "asc"
@@ -339,7 +338,7 @@ module SortHelper
     options[:title] = sort_header_title(column, caption, options)
 
     within_sort_header_tag_hierarchy(options, sort_class(column)) do
-      action_menu(column, caption, default_order, allowed_params:, param:, lang:, title: options[:title], data:)
+      yield(column, caption, default_order, allowed_params:, param:, lang:, title: options[:title], data:)
     end
   end
 
@@ -398,6 +397,9 @@ module SortHelper
     }.merge(extra_args)
   end
 
+  # Accepts a column and returns the corresponding filter name.
+  # For some columns, there is no such filter. The method returns nil for these cases.
+  # TODO: move project specific logic to a project specific file.
   def filter_conversion(column)
     col = column.to_s
 
