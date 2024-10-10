@@ -588,16 +588,17 @@ Rails.application.routes.draw do
     # move individual wp
     resource :move, controller: "work_packages/moves", only: %i[new create]
 
-    # states managed by client-side routing on work_package#index
-    get "details/*state" => "work_packages#index", on: :collection, as: :details
-
     resource :progress, only: %i[new edit update], controller: "work_packages/progress"
     collection do
+      concerns :with_split_view, base_route: :work_packages_path
+      concerns :with_split_create, base_route: :work_packages_path
+
       resource :progress,
                only: :create,
                controller: "work_packages/progress",
                as: :work_package_progress
     end
+
     get "/export_dialog" => "work_packages#export_dialog", on: :collection, as: "export_dialog"
 
     get "/split_view/update_counter" => "work_packages/split_view#update_counter",
@@ -605,10 +606,9 @@ Rails.application.routes.draw do
 
     # states managed by client-side (angular) routing on work_package#show
     get "/" => "work_packages#index", on: :collection, as: "index"
-    get "/create_new" => "work_packages#index", on: :collection, as: "new_split"
     get "/new" => "work_packages#index", on: :collection, as: "new", state: "new"
     # We do not want to match the work package export routes
-    get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!(shares|split_view)).+/ }
+    get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!(shares|split_view|split_create)).+/ }
     get "/share_upsale" => "work_packages#index", on: :collection, as: "share_upsale"
     get "/edit" => "work_packages#show", on: :member, as: "edit"
   end

@@ -212,7 +212,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
 
   public showNewWorkPackage(wp:WorkPackageResource) {
     if (wp.id) {
-      const link = this.pathHelper.workPackageDetailsPath(this.stateParams.projectPath, wp.id) + window.location.search;
+      const link = this.pathHelper.workPackageDetailsPath(wp.project.identifier, wp.id) + window.location.search;
       Turbo.visit(link, { frame: 'content-bodyRight', action: 'advance' });
     }
   }

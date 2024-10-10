@@ -51,8 +51,7 @@ module WorkPackages
         if @project
           split_create_project_work_packages_path(@project, type: type.id)
         else
-          # TODO
-          # split_create_work_packages_path(type: type.id)
+          split_create_work_packages_path(type: type.id)
         end
       end
 

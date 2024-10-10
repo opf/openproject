@@ -81,14 +81,7 @@ export class WorkPackagePrimerizedListViewComponent extends WorkPackageListViewC
   }
 
   openSplitScreen(workPackageId:string, tabIdentifier:string = 'activity'):void {
-    let link:string;
-
-    if (this.currentProject.identifier) {
-      link = this.pathHelper.workPackagePrimerDetailsPath(this.currentProject.identifier, workPackageId, tabIdentifier);
-    } else {
-      link = this.pathHelper.workPackageDetailsPath(workPackageId, tabIdentifier);
-    }
-
+    let link = this.pathHelper.workPackagePrimerDetailsPath(this.currentProject.identifier, workPackageId, tabIdentifier);
     Turbo.visit(link + window.location.search, { frame: 'content-bodyRight', action: 'advance' });
   }
 
