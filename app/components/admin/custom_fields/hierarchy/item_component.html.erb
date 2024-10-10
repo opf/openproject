@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
       item_container.with_column do
         render(Primer::Beta::IconButton.new(scheme: :default,
                                             icon: "kebab-horizontal",
-                                            "aria-label": "some aria"))
+                                            "aria-label": I18n.t("custom_fields.admin.items.more_actions")))
       end
     end
   end

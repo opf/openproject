@@ -51,7 +51,7 @@ module CustomFields
 
       rule(:label) do
         if CustomField::Hierarchy::Item.exists?(parent_id: values[:parent], label: value)
-          key.failure(:duplicate)
+          key.failure(:not_unique)
         end
       end
     end

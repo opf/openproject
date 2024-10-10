@@ -51,7 +51,7 @@ module CustomFields
           )
         end
 
-        new_item_form.group(layout: :horizontal, align_self: :end) do |button_group|
+        new_item_form.group(layout: :horizontal) do |button_group|
           button_group.button(name: :cancel,
                               tag: :a,
                               label: I18n.t(:button_cancel),
