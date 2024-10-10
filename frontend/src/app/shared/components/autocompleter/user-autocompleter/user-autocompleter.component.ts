@@ -26,15 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Component,
-  EventEmitter,
-  forwardRef,
-  Input,
-  OnInit,
-  Output,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   filter,
@@ -61,6 +53,7 @@ export const usersAutocompleterSelector = 'op-user-autocompleter';
 export interface IUserAutocompleteItem {
   id:ID;
   name:string;
+  email?:string|null;
   href:string|null;
   avatar?:string|null;
 }
@@ -68,6 +61,7 @@ export interface IUserAutocompleteItem {
 @Component({
   templateUrl: '../op-autocompleter/op-autocompleter.component.html',
   selector: usersAutocompleterSelector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -113,7 +107,7 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
     const filteredURL = this.buildFilteredURL(searchTerm);
 
     filteredURL.searchParams.set('pageSize', '-1');
-    filteredURL.searchParams.set('select', 'elements/id,elements/name,elements/self,total,count,pageSize');
+    filteredURL.searchParams.set('select', 'elements/id,elements/name,elements/email,elements/self,total,count,pageSize');
 
     return this
       .http
@@ -122,7 +116,7 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
         map((res) => _.uniqBy(res._embedded.elements, (el) => el._links.self?.href || el.id)),
         map((users) => {
           return users.map((user) => {
-              return { id: user.id, name: user.name, href: user._links.self?.href };
+              return { id: user.id, name: user.name, href: user._links.self?.href, email: user.email };
             });
           }),
       );

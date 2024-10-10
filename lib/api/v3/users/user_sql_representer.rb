@@ -72,6 +72,9 @@ module API
         property :name,
                  representation: method(:user_name_projection)
 
+        property :email,
+                 column: :mail
+
         property :firstname,
                  render_if: method(:render_if_manage_user_or_self)
 

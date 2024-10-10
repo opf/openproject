@@ -42,6 +42,9 @@ module API
 
         property :name,
                  column: :lastname
+
+        property :email,
+                 column: :mail
       end
     end
   end

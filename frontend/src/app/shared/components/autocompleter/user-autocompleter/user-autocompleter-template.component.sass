@@ -1,0 +1,16 @@
+@import '../../global_styles/openproject/variables'
+
+.op-autocompleter
+  &__option-principal-details
+    display: inline-flex
+    align-items: flex-start
+    gap: 8px
+
+  &__option-principal-email
+    color: var(--fgColor-muted)
+    font-size: 0.75rem
+
+  @media screen and (max-width: $breakpoint-sm)
+    &__option-principal-details
+      flex-direction: column
+      gap: 4px
