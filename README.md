@@ -8,7 +8,7 @@
 
 OpenProject is a web-based project management software. Use OpenProject to manage your projects, tasks and goals. Collaborate via work packages and link them to your pull requests on Github. [Read more about the OpenProject GitHub integration](https://www.openproject.org/docs/system-admin-guide/integrations/github-integration/).
 
-![Screenshot of OpenProject, showing the GitHub tab on a work package](GitHub-tab.png)
+![Screenshot of OpenProject, showing the GitHub tab on a work package](GitHub-tab-new.png)
 
 OpenProject's key features are:
 
