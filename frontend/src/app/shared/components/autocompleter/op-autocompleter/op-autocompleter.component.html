@@ -195,6 +195,10 @@
   <ng-container
     *ngSwitchCase="resource ==='subproject' || resource ==='version' || resource ==='status' || resource ==='default' || !resource">
     <span [ngOptionHighlight]="search">{{ item.name }}</span>
+    <span
+      class="op-autocompleter__option-principal-email"
+      *ngIf="item.email"
+      [ngOptionHighlight]="search">{{ item.email }}</span>
   </ng-container>
 </ng-template>
 
