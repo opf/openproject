@@ -49,11 +49,6 @@
     white-space: nowrap
     text-overflow: ellipsis
 
-  &--option-principal
-    &-wrapper
-      display: flex
-      overflow: hidden
-
   &__option-principal-email
     color: var(--fgColor-muted)
     font-size: var(--font-size-small)
@@ -64,3 +59,5 @@
       display: block
       margin-left: 0
       margin-top: var(--control-xsmall-gap)
+    &--option-principal-avatar + span + &__option-principal-email
+      margin-left: var(--control-small-size)
