@@ -49,9 +49,10 @@ module WorkPackages
       def create_href_for_type(type)
         # TODO: make configurable for other modules
         if @project
-          new_split_project_work_packages_path(@project, type: type.id)
+          split_create_project_work_packages_path(@project, type: type.id)
         else
-          new_split_work_packages_path(type: type.id)
+          # TODO
+          # split_create_work_packages_path(type: type.id)
         end
       end
 

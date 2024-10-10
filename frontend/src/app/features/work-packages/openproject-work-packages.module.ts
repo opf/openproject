@@ -419,6 +419,7 @@ import {
 import {
   WorkPackagePrimerizedListViewComponent,
 } from 'core-app/features/work-packages/routing/wp-list-view/wp-primerized-list-view.component';
+import { WorkPackageSplitCreateEntryComponent } from 'core-app/features/work-packages/routing/wp-split-create/wp-split-view-entry.component';
 
 @NgModule({
   imports: [
@@ -612,6 +613,7 @@ import {
     WorkPackageDetailsViewButtonComponent,
     WorkPackageSplitViewComponent,
     WorkPackageSplitViewEntryComponent,
+    WorkPackageSplitCreateEntryComponent,
     WorkPackageBreadcrumbComponent,
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,

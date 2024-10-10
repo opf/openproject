@@ -26,15 +26,35 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { StateService } from '@uirouter/angular';
+import { ChangeDetectionStrategy, Component, ElementRef, Input } from '@angular/core';
+import {
+  WorkPackageIsolatedQuerySpaceDirective,
+} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 /**
- * Returns the path to the split view based on the current route
- *
- * @param state State service
+ * An entry component to be rendered by Rails which opens an isolated query space
+ * for the work package split view
  */
-export function splitViewRoute(state:StateService, target:'details'|'new' = 'details'):string {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
-  const baseRoute:string = state?.current?.data?.baseRoute || '';
-  return `${baseRoute}.${target}`;
+@Component({
+  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
+  template: `
+    <wp-new-split-view
+      [stateParams]="{ type: type, parent_id: parentId, projectPath: projectIdentifier }"
+      [resizerClass]="resizerClass"
+      [routedFromAngular]="routedFromAngular"
+    ></wp-new-split-view>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class WorkPackageSplitCreateEntryComponent {
+  @Input() type:string;
+  @Input() parentId?:string;
+  @Input() projectIdentifier?:string;
+  @Input() resizerClass:string;
+  @Input() routedFromAngular:boolean;
+
+  constructor(readonly elementRef:ElementRef) {
+    populateInputsFromDataset(this);
+  }
 }

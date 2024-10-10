@@ -101,6 +101,13 @@ Rails.application.routes.draw do
         work_package_split_view: true
   end
 
+  concern :with_split_create do |options|
+    get "split_create",
+        action: options.fetch(:action, :split_create),
+        as: :split_create,
+        work_package_split_create: true
+  end
+
   scope controller: "account" do
     get "/account/force_password_change", action: "force_password_change"
     post "/account/change_password", action: "change_password"
@@ -331,12 +338,12 @@ Rails.application.routes.draw do
     resources :work_packages, only: %i[index show new] do
       collection do
         concerns :with_split_view, base_route: :project_work_packages_path
+        concerns :with_split_create, base_route: :project_work_packages_path
 
         get "/report/:detail" => "work_packages/reports#report_details"
         get "/report" => "work_packages/reports#report"
         get "menu" => "work_packages/menus#show"
         get "/export_dialog" => "work_packages#export_dialog"
-        get :new_split
       end
     end
 

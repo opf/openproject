@@ -27,10 +27,15 @@
 //++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Output,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Output,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 @Component({
   templateUrl: './wp-edit-actions-bar.html',
@@ -38,7 +43,7 @@ import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-f
   selector: 'wp-edit-actions-bar',
 })
 export class WorkPackageEditActionsBarComponent {
-  @Output('onSave') public onSave = new EventEmitter<void>();
+  @Output('onSave') public onSave = new EventEmitter<WorkPackageResource>();
 
   @Output('onCancel') public onCancel = new EventEmitter<void>();
 
@@ -49,10 +54,11 @@ export class WorkPackageEditActionsBarComponent {
     cancel: this.I18n.t('js.button_cancel'),
   };
 
-  constructor(private I18n:I18nService,
+  constructor(
+    private I18n:I18nService,
     private editForm:EditFormComponent,
-    private cdRef:ChangeDetectorRef) {
-  }
+    private cdRef:ChangeDetectorRef,
+  ) {}
 
   public set saving(active:boolean) {
     this._saving = active;
@@ -71,9 +77,9 @@ export class WorkPackageEditActionsBarComponent {
     this.saving = true;
     this.editForm
       .submit()
-      .then(() => {
+      .then((value:WorkPackageResource) => {
         this.saving = false;
-        this.onSave.emit();
+        this.onSave.emit(value);
       })
       .catch(() => {
         this.saving = false;

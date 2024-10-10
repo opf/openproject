@@ -264,6 +264,10 @@ export class PathHelperService {
     return `${this.workPackagePath(workPackageId)}/copy`;
   }
 
+  public workPackageNewPath():string {
+    return `${this.staticBase}/work_packages/new`;
+  }
+
   public workPackageDetailsPath(projectIdentifier:string, workPackageId:string|number, tab?:string) {
     if (tab) {
       return `${this.projectWorkPackagePath(projectIdentifier, workPackageId)}/details/${tab}`;

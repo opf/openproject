@@ -27,7 +27,11 @@
 //++
 
 import { WorkPackageCreateComponent } from 'core-app/features/work-packages/components/wp-new/wp-create.component';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+} from '@angular/core';
 
 @Component({
   selector: 'wp-new-split-view',
@@ -35,4 +39,5 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageNewSplitViewComponent extends WorkPackageCreateComponent {
+  @Input() public resizerClass:string = 'work-packages-partitioned-page--content-right';
 }

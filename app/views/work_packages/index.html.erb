@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
 <% content_for :content_body_right do %>
-  <%= render(split_view_instance) if render_work_package_split_view? %>
+  <%= render(split_view_instance(project: @project)) if render_work_package_split_view? %>
 <% end %>
 
 <%= call_hook(:view_work_packages_index_bottom, { project: project, query: query }) %>
