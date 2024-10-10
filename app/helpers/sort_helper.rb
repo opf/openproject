@@ -266,6 +266,19 @@ module SortHelper
     @sort_default.criteria == @sort_criteria.criteria
   end
 
+  def build_sort_options(column, order, default_order, allowed_params: nil, **html_options)
+    order ||= order_string(column, inverted: true) || default_order
+    sort_by = html_options.delete(:param)
+
+    sort_param = @sort_criteria.add(column.to_s, order).to_param(sort_by)
+
+    sort_options = { sort_key(sort_by) => sort_param }
+    allowed_params ||= %w[filters per_page expand columns]
+
+    # Don't lose other params.
+    safe_query_params(allowed_params).merge(sort_options)
+  end
+
   # Returns a link which sorts by the named column.
   #
   # - column is the name of an attribute in the sorted record collection.
@@ -273,20 +286,10 @@ module SortHelper
   # - 2 CSS classes reflect the state of the link: sort and asc or desc
   #
   def sort_link(column, caption, default_order, allowed_params: nil, **html_options)
-    order = order_string(column, inverted: true) || default_order
     caption ||= column.to_s.humanize
 
-    sort_by = html_options.delete(:param)
-
-    sort_param = @sort_criteria.add(column.to_s, order).to_param(sort_by)
-    sort_key = sort_by == :json ? :sortBy : :sort
-
-    sort_options = { sort_key => sort_param }
-
-    allowed_params ||= %w[filters per_page expand columns]
-
-    # Don't lose other params.
-    link_to_content_update(h(caption), safe_query_params(allowed_params).merge(sort_options), html_options.merge(rel: :nofollow))
+    sort_options = build_sort_options(column, nil, default_order, allowed_params:, **html_options)
+    link_to_content_update(h(caption), sort_options, html_options.merge(rel: :nofollow))
   end
 
   # Returns a table header <th> tag with a sort link for the named column
@@ -314,14 +317,19 @@ module SortHelper
   #     </th>
   #
   def sort_header_tag(column, allowed_params: nil, **options)
-    with_sort_header_options(column, allowed_params:, **options) do |col, cap, default_ord, **opts|
-      sort_link(col, cap, default_ord, **opts)
+    with_sort_header_options(column, allowed_params:, **options) do |col, cap, default_order, **opts|
+      sort_link(col, cap, default_order, **opts)
     end
   end
 
-  def sort_header_with_action_menu(column, allowed_params: nil, **options)
-    with_sort_header_options(column, allowed_params:, **options) do |col, cap, default_ord, **opts|
-      action_menu(col, cap, default_ord, **opts)
+  # Returns a clickable column header. When clicked, an action menu with multiple possible actions will
+  # pop up. These actions include sorting, reordering the columns, filtering, etc.
+  #
+  # This is a more specific version of #sort_header_tag.
+  # For "filter by" to work properly, you must pass a Hash for `filter_column_mapping`.
+  def sort_header_with_action_menu(column, filter_column_mapping = {}, allowed_params: nil, **options)
+    with_sort_header_options(column, allowed_params:, **options) do |col, cap, default_order, **opts|
+      action_menu(col, cap, default_order, filter_column_mapping, **opts)
     end
   end
 
@@ -347,17 +355,7 @@ module SortHelper
   end
 
   def sort_by_options(column, order, default_order, allowed_params: nil, **html_options)
-    order ||= order_string(column, inverted: true) || default_order
-
-    sort_by = html_options.delete(:param)
-
-    sort_param = @sort_criteria.add(column.to_s, order).to_param(sort_by)
-    sort_key = sort_key(sort_by)
-
-    sort_options = { sort_key => sort_param }
-    allowed_params ||= %w[filters per_page expand columns]
-
-    safe_query_params(allowed_params).merge(sort_options)
+    build_sort_options(column, order, default_order, allowed_params:, **html_options)
   end
 
   # FIXME: copied from ConfigureViewModalComponent
@@ -397,25 +395,28 @@ module SortHelper
     }.merge(extra_args)
   end
 
-  # Accepts a column and returns the corresponding filter name.
-  # For some columns, there is no such filter. The method returns nil for these cases.
-  # TODO: move project specific logic to a project specific file.
-  def filter_conversion(column)
+  # Tries to find the correct filter name for a column.
+  #
+  # Most columns play it safe and have their filter named just like them. This is the default.
+  # Some filters have a different name than the column. For these cases, the correct filter name for the column
+  # is read from the `filter_mapping`.
+  # As a special case, some columns do not have any filter at all. For these, the `filter_mapping` defines `nil`
+  # as filter name.
+  #
+  # @param column [Column] the column model that you would like to look up the filter name for
+  # @param filter_mapping [Hash{String => String, nil} column name to filter name (to nil if no filter)
+  # @return [String, nil] the correct filter name for the column. Returns nil if the column has no filter.
+  def find_filter_for_column(column, filter_mapping)
     col = column.to_s
 
-    {
-      "name" => "id",
-      "project_status" => "project_status_code",
-      "identifier" => nil,
-      "required_disk_space" => nil
-    }.fetch(col, col)
+    filter_mapping.fetch(col, col)
   end
 
-  def action_menu(column, caption, default_order, allowed_params: nil, **html_options)
+  def action_menu(column, caption, default_order, filter_column_mapping = {}, allowed_params: nil, **html_options)
     caption ||= column.to_s.humanize
 
     selected_columns = selected_columns_for_action_menu
-    filter = filter_conversion(column)
+    filter = find_filter_for_column(column, filter_column_mapping)
 
     # `param` is not needed in the `content_arguments`, but should remain in the `html_options`.
     # It is important for keeping the current state in the GET parameters of each link used in
