@@ -41,6 +41,9 @@ The menu on the left will allow you to filter for upcoming or past meetings. You
 
 ![Meetings overview in openproject global modules](openproject_userguide_dynamic_meetings_overview.png)
 
+> [!TIP]
+> If you are interested in how the Meetings module is used by the OpenProject team, please take a look at [this blog article](https://www.openproject.org/blog/meeting-management-example/).
+
 ## Create and edit dynamic meetings
 
 ### Create a new meeting
