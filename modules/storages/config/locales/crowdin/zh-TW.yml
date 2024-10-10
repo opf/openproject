@@ -114,8 +114,8 @@ zh-TW:
             hide_inactive_folders:
               permission_not_set: 無法在 %{path} 上設定權限。
             remote_folders:
-              not_allowed: The %{username} doesn't have access to the %{group_folder} folder. Please check the folder permissions on Nextcloud.
-              not_found: "%{group_folder} folder wasn't found. Please check your Nextcloud setup."
+              not_allowed: '%{username} 無法存取 %{group_folder}。請檢查 Nextcloud 上的資料夾權限。'
+              not_found: "%{group_folder} 未找到。請檢查您的 Nextcloud 設定。"
             remove_user_from_group:
               conflict: '使用者 %{user} 無法從 %{group} 群組中移除，原因如下： %{reason}'
               failed_to_remove: '使用者 %{user} 無法從 %{group} 群組中移除，原因如下： %{reason}'
@@ -128,7 +128,7 @@ zh-TW:
           group_does_not_exist: "%{group} 不存在。請檢查您的 Nextcloud 實例配置。"
           insufficient_privileges: OpenProject 沒有足夠的權限將 %{user} 加入 %{group}。請檢查 Nextcloud 中的群組設定。
           not_allowed: Nextcloud 封鎖該請求。
-          unauthorized: OpenProject could not sync with Nextcloud. Please check your storage and Nextcloud configuration.
+          unauthorized: OpenProject 無法與 Nextcloud 同步。請檢查您的儲存空間和 Nextcloud 設定。
           user_does_not_exist: "%{user} 在 Nextcloud 中不存在。"
         one_drive_sync_service:
           attributes:
@@ -147,7 +147,7 @@ zh-TW:
               permission_not_set: 無法在 %{path} 上設定權限。
           error: 發生意外錯誤。請確保您的 Nextcloud 可以連線，並檢查 OpenProject 日誌以取得更多資訊。
           not_allowed: OpenProject 不允許存取您的 OneDrive 磁碟機。請檢查 Azure 應用程式上設定的權限。
-          unauthorized: OpenProject could not sync with OneDrive. Please check your storage and Azure Application configuration.
+          unauthorized: OpenProject 無法與 OneDrive 同步。請檢查您的儲存空間和 Azure 應用程式設定。
           user_does_not_exist: "%{user} 在 Nextcloud 中不存在。"
         upload_link_service:
           not_found: 在 %{storage_name} 上找不到目標資料夾 %{folder}。
@@ -383,7 +383,7 @@ zh-TW:
     storage_list_blank_slate:
       description: 新增的儲存空間將在此顯示
       heading: 目前沒有任何儲存空間
-    successful_storage_connection: Storage connected successfully! Remember to activate the storage in the Projects tab for each desired project to use it.
+    successful_storage_connection: 儲存已成功連接！請記住在每個所需專案的專案索引標籤中啟動儲存，以便使用。
     upsale:
       description: |-
         整合您的 OneDrive/SharePoint 作為 OpenProject 的檔案儲存空間。上傳檔案並將其直接連結至專案中的
