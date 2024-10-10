@@ -48,6 +48,8 @@ module WorkPackages
           journal.id
         end
 
+        def work_package = journal.journable
+
         def reacted_by_current_user?(users)
           users.any? { |u| u[:id] == User.current.id }
         end
@@ -80,6 +82,22 @@ module WorkPackages
           result += I18n.t("reactions.reacted_with", emoji_shortcode: EmojiReaction.shortcode(emoji))
           result
         end
+
+        def href(emoji:)
+          return if current_user_cannot_react?
+
+          toggle_reaction_work_package_activity_path(journal.journable.id, id: journal.id, emoji:)
+        end
+
+        def emoji_alias(emoji)
+          EmojiReaction::EMOJI_MAP.invert[emoji].to_s
+        end
+
+        def current_user_can_react?
+          User.current.allowed_in_work_package?(:add_work_package_notes, work_package)
+        end
+
+        def current_user_cannot_react? = !current_user_can_react?
       end
     end
   end

@@ -29,22 +29,47 @@
 module Components
   module WorkPackages
     class EmojiReactions < Activities
-      def can_add_emoji_reaction_for_journal(journal, emoji, expected_emoji_count: 1)
+      def add_first_emoji_reaction_for_journal(journal, emoji)
         within_journal_entry(journal) do
           click_on "Add reaction"
           click_on emoji
+        end
+      end
 
+      def toggle_emoji_reaction_for_journal(journal, emoji)
+        within_journal_entry(journal) do
           page.within_test_selector("emoji-reactions") do
-            expect(page).to have_text("#{emoji} #{expected_emoji_count}")
+            click_on emoji
           end
         end
       end
+      alias add_emoji_reaction_for_journal toggle_emoji_reaction_for_journal
+      alias remove_emoji_reaction_for_journal toggle_emoji_reaction_for_journal
 
       def can_remove_emoji_reaction_for_journal(journal, emoji)
         within_journal_entry(journal) do
           page.within_test_selector("emoji-reactions") do
             click_on emoji
             expect(page).to have_no_text(emoji)
+          end
+        end
+      end
+
+      def expect_emoji_reactions_for_journal(journal, emojis_with_expected_options)
+        within_journal_entry(journal) do
+          page.within_test_selector("emoji-reactions") do
+            emojis_with_expected_options.each do |emoji, expected_emoji_options|
+              case expected_emoji_options
+              when Integer
+                expected_emoji_count = expected_emoji_options
+                capybara_options = {}
+              when Hash
+                expected_emoji_count = expected_emoji_options[:count]
+                capybara_options = expected_emoji_options.except(:count)
+              end
+
+              expect(page).to have_selector(:link_or_button, text: "#{emoji} #{expected_emoji_count}", **capybara_options)
+            end
           end
         end
       end

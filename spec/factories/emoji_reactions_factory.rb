@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,31 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackages
-  module ActivitiesTab
-    module Journals
-      class ItemComponent::AddReactions < ApplicationComponent
-        include ApplicationHelper
-        include OpPrimer::ComponentHelpers
-        include OpTurbo::Streamable
-
-        def initialize(journal:)
-          super
-
-          @journal = journal
-        end
-
-        def render?
-          User.current.allowed_in_work_package?(:add_work_package_notes, work_package)
-        end
-
-        private
-
-        attr_reader :journal
-
-        def work_package = journal.journable
-        def wrapper_uniq_by = journal.id
-      end
+FactoryBot.define do
+  factory :emoji_reaction do
+    transient do
+      emoji_alias { EmojiReaction::EMOJI_MAP.keys.sample }
     end
+
+    user
+    emoji { EmojiReaction::EMOJI_MAP[emoji_alias] }
+    reactable factory: :work_package_journal
   end
 end

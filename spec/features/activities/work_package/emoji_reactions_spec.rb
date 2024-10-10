@@ -36,6 +36,7 @@ RSpec.describe "Emoji reactions on work package activity", :js, :with_cuprite,
   let(:viewer) { create_user_with_view_work_packages_permission }
   let(:viewer_with_commenting_permission) { create_user_with_view_and_commenting_permission }
 
+  let(:work_package) { create(:work_package, project:, author: admin) }
   let(:first_comment) do
     create(:work_package_journal, user: admin, notes: "First comment by admin", journable: work_package,
                                   version: 2)
@@ -54,18 +55,87 @@ RSpec.describe "Emoji reactions on work package activity", :js, :with_cuprite,
     before do
       first_comment
 
+      create(:emoji_reaction, user: admin, reactable: first_comment, emoji_alias: :thumbs_down)
+
       wp_page.visit!
       wp_page.wait_for_activity_tab
     end
 
-    it "can add an emoji reactions" do
-      activity_tab.can_add_emoji_reaction_for_journal(first_comment, "👍")
+    it "can add emoji reactions and remove own reactions" do
+      activity_tab.add_first_emoji_reaction_for_journal(first_comment, "👍")
+      activity_tab.add_emoji_reaction_for_journal(first_comment, "👎")
+      activity_tab.expect_emoji_reactions_for_journal(first_comment, "👍" => 1, "👎" => 2)
+
+      activity_tab.remove_emoji_reaction_for_journal(first_comment, "👎")
+      activity_tab.expect_emoji_reactions_for_journal(first_comment, "👍" => 1, "👎" => 1)
     end
   end
 
-  context "when user only has `view_work_packages` permissions"
-  context "when a user has `add_work_package_notes` and `edit_own_work_package_notes` permission"
-  context "with anonymouse user"
+  context "when user only has `view_work_packages` permissions" do
+    current_user { viewer }
+
+    before do
+      first_comment
+
+      create(:emoji_reaction, user: admin, reactable: first_comment, emoji_alias: :thumbs_down)
+
+      wp_page.visit!
+      wp_page.wait_for_activity_tab
+    end
+
+    it "cannot add an emoji reactions but can view emoji reactions by other users" do
+      activity_tab.expect_no_add_reactions_button
+
+      activity_tab.expect_emoji_reactions_for_journal(first_comment, "👎" => { count: 1, disabled: true })
+    end
+  end
+
+  context "when a user has `add_work_package_notes` and `edit_own_work_package_notes` permission" do
+    current_user { viewer_with_commenting_permission }
+
+    before do
+      first_comment
+
+      create(:emoji_reaction, user: admin, reactable: first_comment, emoji_alias: :rocket)
+
+      wp_page.visit!
+      wp_page.wait_for_activity_tab
+    end
+
+    it "can add emoji reactions and remove own reactions" do
+      activity_tab.add_first_emoji_reaction_for_journal(first_comment, "😄")
+      activity_tab.add_emoji_reaction_for_journal(first_comment, "🚀")
+      activity_tab.expect_emoji_reactions_for_journal(first_comment, "😄" => 1, "🚀" => 2)
+
+      activity_tab.remove_emoji_reaction_for_journal(first_comment, "🚀")
+      activity_tab.expect_emoji_reactions_for_journal(first_comment, "😄" => 1, "🚀" => 1)
+    end
+  end
+
+  context "when project is public", with_settings: { login_required: false } do
+    let(:project) { create(:project, public: true) }
+    let!(:anonymous_role) do
+      create(:anonymous_role, permissions: %i[view_project view_work_packages])
+    end
+
+    context "when visited by an anonymous visitor" do
+      before do
+        first_comment
+        create(:emoji_reaction, user: admin, reactable: first_comment, emoji_alias: :party_popper)
+
+        login_as User.anonymous
+
+        wp_page.visit!
+        wp_page.wait_for_activity_tab
+      end
+
+      it "cannot add an emoji reactions but can view emoji reactions by other users" do
+        activity_tab.expect_no_add_reactions_button
+
+        activity_tab.expect_emoji_reactions_for_journal(first_comment, "🎉" => { count: 1, disabled: true })
+      end
+    end
+  end
 
   def create_user_as_project_member
     member_role = create(:project_role,
