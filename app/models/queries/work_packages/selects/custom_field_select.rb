@@ -77,9 +77,9 @@ class Queries::WorkPackages::Selects::CustomFieldSelect < Queries::WorkPackages:
 
   def summable_select_statement
     if custom_field.field_format == "int"
-      "COALESCE(SUM(value::BIGINT)::BIGINT, 0) #{name}"
+      "COALESCE(SUM(#{CustomValue.quoted_table_name}.value::BIGINT)::BIGINT, 0) #{name}"
     else
-      "COALESCE(ROUND(SUM(value::NUMERIC), 2)::FLOAT, 0.0) #{name}"
+      "COALESCE(ROUND(SUM(#{CustomValue.quoted_table_name}.value::NUMERIC), 2)::FLOAT, 0.0) #{name}"
     end
   end
 
