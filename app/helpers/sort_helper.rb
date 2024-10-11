@@ -266,7 +266,7 @@ module SortHelper
     @sort_default.criteria == @sort_criteria.criteria
   end
 
-  def build_sort_options(column, order, default_order, allowed_params: nil, **html_options)
+  def sort_by_options(column, order, default_order, allowed_params: nil, **html_options)
     order ||= order_string(column, inverted: true) || default_order
     sort_by = html_options.delete(:param)
 
@@ -288,7 +288,7 @@ module SortHelper
   def sort_link(column, caption, default_order, allowed_params: nil, **html_options)
     caption ||= column.to_s.humanize
 
-    sort_options = build_sort_options(column, nil, default_order, allowed_params:, **html_options)
+    sort_options = sort_by_options(column, nil, default_order, allowed_params:, **html_options)
     link_to_content_update(h(caption), sort_options, html_options.merge(rel: :nofollow))
   end
 
@@ -354,10 +354,6 @@ module SortHelper
     key == :json ? :sortBy : :sort
   end
 
-  def sort_by_options(column, order, default_order, allowed_params: nil, **html_options)
-    build_sort_options(column, order, default_order, allowed_params:, **html_options)
-  end
-
   # FIXME: copied from ConfigureViewModalComponent
   def selected_columns_for_action_menu
     @selected_columns ||= @query
@@ -371,28 +367,6 @@ module SortHelper
 
     allowed_params ||= %w[filters per_page expand columns]
     projects_path(safe_query_params(allowed_params).merge(columns: columns.join(" "), sort_key => params[sort_key]))
-  end
-
-  def shift_element(arr, str, direction = :left)
-    arr = arr.dup
-    index = arr.index(str)
-    return arr unless index
-
-    step = direction == :left ? -1 : 1
-
-    new_index = index + step
-    return arr if new_index.negative? || new_index >= arr.size
-
-    arr[index], arr[new_index] = arr[new_index], arr[index]
-
-    arr
-  end
-
-  def menu_options(label:, content_args:, **extra_args)
-    {
-      label:,
-      content_arguments: content_args.merge(title: label)
-    }.merge(extra_args)
   end
 
   # Tries to find the correct filter name for a column.
@@ -450,12 +424,12 @@ module SortHelper
     menu.with_item(**menu_options(label: t(:label_sort_descending),
                                   content_args:,
                                   href: desc_sort_link)) do |item|
-      item.with_leading_visual_icon(icon: "sort-desc")
+      item.with_leading_visual_icon(icon: :"sort-desc")
     end
     menu.with_item(**menu_options(label: t(:label_sort_ascending),
                                   content_args:,
                                   href: asc_sort_link)) do |item|
-      item.with_leading_visual_icon(icon: "sort-asc")
+      item.with_leading_visual_icon(icon: :"sort-asc")
     end
   end
 
@@ -468,7 +442,7 @@ module SortHelper
                                       filter_name: filter
                                     }
                                   ))) do |item|
-      item.with_leading_visual_icon(icon: "filter")
+      item.with_leading_visual_icon(icon: :filter)
     end
   end
 
@@ -483,12 +457,12 @@ module SortHelper
     menu.with_item(**menu_options(label: t(:label_move_column_left),
                                   content_args:,
                                   href: shift_left_link)) do |item|
-      item.with_leading_visual_icon(icon: "op-columns-left")
+      item.with_leading_visual_icon(icon: :"op-columns-left")
     end
     menu.with_item(**menu_options(label: t(:label_move_column_right),
                                   content_args:,
                                   href: shift_right_link)) do |item|
-      item.with_leading_visual_icon(icon: "op-columns-right")
+      item.with_leading_visual_icon(icon: :"op-columns-right")
     end
   end
 
@@ -503,15 +477,40 @@ module SortHelper
                                     data: { controller: "async-dialog" }
                                   ),
                                   href: config_view_modal_link)) do |item|
-      item.with_leading_visual_icon(icon: "columns")
+      item.with_leading_visual_icon(icon: :columns)
     end
     menu.with_divider
     menu.with_item(**menu_options(label: t(:label_remove_column),
                                   content_args:,
                                   scheme: :danger,
                                   href: rm_column_link)) do |item|
-      item.with_leading_visual_icon(icon: "trash")
+      item.with_leading_visual_icon(icon: :trash)
     end
+  end
+
+  # Searches for `item` in the given `array` and shifts the item
+  # one index to the left or right (depending on `direction`).
+  # Returns a copy of `array` with the shifted item order.
+  def shift_element(array, item, direction = :left)
+    array = array.dup
+    index = array.index(item)
+    return array unless index
+
+    step = direction == :left ? -1 : 1
+
+    new_index = index + step
+    return array if new_index.negative? || new_index >= array.size
+
+    array[index], array[new_index] = array[new_index], array[index]
+
+    array
+  end
+
+  def menu_options(label:, content_args:, **extra_args)
+    {
+      label:,
+      content_arguments: content_args.merge(title: label)
+    }.merge(extra_args)
   end
 
   def sort_class(column)
