@@ -345,6 +345,8 @@ Rails.application.routes.draw do
         get "menu" => "work_packages/menus#show"
         get "/export_dialog" => "work_packages#export_dialog"
       end
+
+      get "/copy" => "work_packages#copy", on: :member, as: "copy"
     end
 
     resources :activity, :activities, only: :index, controller: "activities" do
@@ -606,11 +608,13 @@ Rails.application.routes.draw do
     get "/split_view/update_counter" => "work_packages/split_view#update_counter",
         on: :member
 
+    get "/copy" => "work_packages#copy", on: :member, as: "copy"
+
     # states managed by client-side (angular) routing on work_package#show
     get "/" => "work_packages#index", on: :collection, as: "index"
     get "/new" => "work_packages#index", on: :collection, as: "new", state: "new"
     # We do not want to match the work package export routes
-    get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!(shares|split_view|split_create)).+/ }
+    get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!(shares|split_view|split_create|copy)).+/ }
     get "/share_upsale" => "work_packages#index", on: :collection, as: "share_upsale"
     get "/edit" => "work_packages#show", on: :member, as: "edit"
   end

@@ -82,7 +82,7 @@ export class WorkPackageAuthorization {
     if (stateName.indexOf('work-packages.partitioned.list.details') === 0) {
       return this.PathHelper.workPackageDetailsCopyPath(this.project.identifier, this.workPackage.id as string);
     }
-    return this.PathHelper.workPackageCopyPath(this.workPackage.id as string);
+    return this.PathHelper.workPackageCopyPath(this.project.identifier, this.workPackage.id as string);
   }
 
   private shortLink() {

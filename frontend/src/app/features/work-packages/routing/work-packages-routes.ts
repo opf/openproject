@@ -89,19 +89,6 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     },
   },
   {
-    name: 'work-packages.copy',
-    url: '/{copiedFromWorkPackageId:[0-9]+}/copy',
-    component: WorkPackageCopyFullViewComponent,
-    reloadOnSearch: false,
-    data: {
-      baseRoute: 'work-packages',
-      allowMovingInEditMode: true,
-      bodyClasses: 'router--work-packages-full-create',
-      menuItem: menuItemClass,
-      sideMenuOptions,
-    },
-  },
-  {
     name: 'work-packages.show',
     url: '/{workPackageId:[0-9]+}',
     // Redirect to 'activity' by default.

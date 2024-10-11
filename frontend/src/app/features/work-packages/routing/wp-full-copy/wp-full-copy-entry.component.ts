@@ -39,23 +39,23 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
 @Component({
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
   template: `
-    <op-wp-split-view
-      [workPackageId]="workPackageId"
-      [activeTab]="activeTab"
-      [showTabs]="false"
-      [resizerClass]="resizerClass"
-    ></op-wp-split-view>
+    <wp-copy-full-view
+      [stateParams]="{ type: type, parent_id: parentId, projectPath: projectIdentifier, copiedFromWorkPackageId: copiedFromWorkPackageId }"
+      [routedFromAngular]="routedFromAngular"
+    ></wp-copy-full-view>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkPackageSplitViewEntryComponent {
-  @Input() workPackageId:string;
-  @Input() activeTab:string;
-  @Input() resizerClass:string;
+export class WorkPackageFullCopyEntryComponent {
+  @Input() type:string;
+  @Input() copiedFromWorkPackageId:string;
+  @Input() parentId?:string;
+  @Input() projectIdentifier?:string;
+  @Input() routedFromAngular:boolean;
 
   constructor(readonly elementRef:ElementRef) {
     populateInputsFromDataset(this);
 
-    document.body.classList.add('router--work-packages-partitioned-split-view-details');
+    document.body.classList.add('router--work-packages-full-create');
   }
 }

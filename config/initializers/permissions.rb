@@ -214,7 +214,7 @@ Rails.application.reloader.to_prepare do
                      {
                        versions: %i[index show status_by],
                        journals: %i[index],
-                       work_packages: %i[show index],
+                       work_packages: %i[show index copy],
                        work_packages_api: [:get],
                        "work_packages/reports": %i[report report_details],
                        "work_packages/menus": %i[show],

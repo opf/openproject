@@ -41,10 +41,10 @@ class WorkPackagesController < ApplicationController
   before_action :load_and_authorize_in_optional_project,
                 :check_allowed_export,
                 :protect_from_unauthorized_export, only: %i[index export_dialog]
-  before_action :find_optional_project, only: %i[split_view split_create]
-  authorization_checked! :index, :show, :export_dialog, :split_view, :split_create
+  before_action :find_optional_project, only: %i[split_view split_create copy]
+  authorization_checked! :index, :show, :copy, :export_dialog, :split_view, :split_create
 
-  before_action :load_and_validate_query, only: %i[index split_view split_create]
+  before_action :load_and_validate_query, only: %i[index split_view split_create copy]
   before_action :load_work_packages, only: :index, if: -> { request.format.atom? }
   before_action :load_and_validate_query_for_export, only: :export_dialog
 
@@ -93,6 +93,15 @@ class WorkPackagesController < ApplicationController
 
   def split_create
     render_split_view
+  end
+
+  def copy
+    respond_to do |format|
+      format.html do
+        render :copy,
+               locals: { query: @query, project: @project, menu_name: project_or_global_menu }
+      end
+    end
   end
 
   def export_dialog
