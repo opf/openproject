@@ -28,16 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require "dry/monads/all"
+
 require "rails_helper"
 
 RSpec.describe CustomFields::Hierarchy::HierarchicalItemService do
   let(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root: nil) }
   let(:invalid_custom_field) { create(:custom_field, field_format: "text", hierarchy_root: nil) }
 
+  subject { described_class.new(custom_field) }
+
   describe "#initialize" do
     context "with valid custom field" do
       it "initializes successfully" do
-        expect { described_class.new(custom_field) }.not_to raise_error
+        expect { subject }.not_to raise_error
       end
     end
 
@@ -49,11 +53,9 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService do
   end
 
   describe "#generate_root" do
-    let(:service) { described_class.new(custom_field) }
-
     context "with valid hierarchy root" do
       it "creates a root item successfully" do
-        expect(service.generate_root).to be_success
+        expect(subject.generate_root).to be_success
       end
     end
 
@@ -63,7 +65,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService do
           .to receive(:create)
                 .and_return(instance_double(CustomField::Hierarchy::Item, persisted?: false, errors: "some errors"))
 
-        result = service.generate_root
+        result = subject.generate_root
         expect(result).to be_failure
       end
     end
@@ -71,7 +73,6 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService do
 
   describe "#insert_item" do
     let(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root: parent) }
-    let(:service) { described_class.new(custom_field) }
 
     let(:parent) { create(:hierarchy_item) }
     let(:label) { "Child Item" }
@@ -79,23 +80,84 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService do
 
     context "with valid parameters" do
       it "inserts an item successfully without short" do
-        result = service.insert_item(parent:, label:)
+        result = subject.insert_item(parent:, label:)
         expect(result).to be_success
       end
 
       it "inserts an item successfully with short" do
-        result = service.insert_item(parent:, label:, short:)
+        result = subject.insert_item(parent:, label:, short:)
         expect(result).to be_success
       end
     end
 
     context "with invalid item" do
       it "fails to insert an item" do
-        allow(CustomField::Hierarchy::Item)
-          .to receive(:create).and_return(instance_double(CustomField::Hierarchy::Item,
-                                                          persisted?: false, errors: "some errors"))
+        # rubocop:disable RSpec/VerifiedDoubles
+        children = double(create: instance_double(CustomField::Hierarchy::Item, persisted?: false, errors: "some errors"))
+        # rubocop:enable RSpec/VerifiedDoubles
 
-        result = service.insert_item(parent:, label:, short:)
+        allow(parent).to receive(:children).and_return(children)
+
+        result = subject.insert_item(parent:, label:, short:)
+        expect(result).to be_failure
+      end
+    end
+  end
+
+  describe "#update_item" do
+    let(:items) do
+      Dry::Monads::Do.() do
+        root = Dry::Monads::Do.bind subject.generate_root
+        luke = Dry::Monads::Do.bind subject.insert_item(parent: root, label: "luke")
+        leia = Dry::Monads::Do.bind subject.insert_item(parent: root, label: "leia")
+
+        Dry::Monads::Success({ root:, luke:, leia: })
+      end
+    end
+
+    context "with valid parameters" do
+      it "updates the item with new attributes" do
+        result = subject.update_item(item: items.value![:luke], label: "Luke Skywalker", short: "LS")
+        expect(result).to be_success
+      end
+    end
+
+    context "with invalid parameters" do
+      it "refuses to update the item with new attributes" do
+        result = subject.update_item(item: items.value![:luke], label: "leia", short: "LS")
+        expect(result).to be_failure
+      end
+    end
+  end
+
+  describe "#delete_branch" do
+    let(:items) do
+      Dry::Monads::Do.() do
+        root = Dry::Monads::Do.bind subject.generate_root
+        luke = Dry::Monads::Do.bind subject.insert_item(parent: root, label: "luke")
+        leia = Dry::Monads::Do.bind subject.insert_item(parent: luke, label: "leia")
+
+        Dry::Monads::Success({ root:, luke:, leia: })
+      end
+    end
+
+    before do
+      items
+    end
+
+    context "with valid item to destroy" do
+      it "deletes the entire branch" do
+        result = subject.delete_branch(item: items.value![:luke])
+        expect(result).to be_success
+        expect(items.value![:luke]).to be_frozen
+        expect(CustomField::Hierarchy::Item.all).to be_one
+        expect(items.value![:root].reload.children).to be_empty
+      end
+    end
+
+    context "with root item" do
+      it "refuses to delete the item" do
+        result = subject.delete_branch(item: items.value![:root])
         expect(result).to be_failure
       end
     end

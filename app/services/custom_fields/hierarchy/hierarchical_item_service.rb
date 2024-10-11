@@ -55,7 +55,22 @@ module CustomFields
           .new
           .call({ parent:, label:, short: }.compact)
           .to_monad
-          .bind { |validation| create_child_item(validation) }
+          .bind { |validation| create_child_item(validation:) }
+      end
+
+      def update_item(item:, label: nil, short: nil)
+        CustomFields::Hierarchy::UpdateItemContract
+          .new
+          .call({ item:, label:, short: }.compact)
+          .to_monad
+          .bind { |attributes| update_item_attributes(item:, attributes:) }
+      end
+
+      def delete_branch(item:)
+        return Failure(:item_is_root) if item.root?
+
+        # CustomField::Hierarchy::Item sets "dependent: :destroy"
+        item.destroy ? Success() : Failure(item.errors)
       end
 
       private
@@ -67,12 +82,17 @@ module CustomFields
         Success(item)
       end
 
-      def create_child_item(validation)
-        item = CustomField::Hierarchy::Item
-                 .create(parent: validation[:parent], label: validation[:label], short: validation[:short])
+      def create_child_item(validation:)
+        item = validation[:parent].children.create(label: validation[:label], short: validation[:short])
         return Failure(item.errors) unless item.persisted?
 
         Success(item)
+      end
+
+      def update_item_attributes(item:, attributes:)
+        item.update(label: attributes[:label], short: attributes[:short])
+
+        item.errors.empty? ? Success(item) : Failure(item.errors)
       end
     end
   end

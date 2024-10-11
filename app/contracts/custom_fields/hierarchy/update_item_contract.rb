@@ -28,9 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CustomField::Hierarchy::Item < ApplicationRecord
-  self.table_name = "hierarchical_items"
+module CustomFields
+  module Hierarchy
+    class UpdateItemContract < Dry::Validation::Contract
+      params do
+        required(:item).filled
+        optional(:label).filled(:string)
+        optional(:short).filled(:string)
+      end
 
-  belongs_to :custom_field
-  has_closure_tree order: "sort_order", numeric_order: true, dependent: :delete_all
+      rule(:item) do
+        if value.is_a?(CustomField::Hierarchy::Item)
+          if !value.persisted?
+            key.failure("Item must exist")
+          elsif value.parent.nil?
+            key.failure("Item must not be a root item")
+          end
+        else
+          key.failure("Item must be of type 'Item'")
+        end
+      end
+
+      rule(:label) do
+        next unless key?
+
+        if CustomField::Hierarchy::Item.exists?(parent_id: values[:item].parent, label: value)
+          key.failure("Label must be unique within the same hierarchy level")
+        end
+      end
+    end
+  end
 end
