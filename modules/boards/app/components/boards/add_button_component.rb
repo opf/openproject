@@ -47,6 +47,10 @@ module Boards
       "add-board-button"
     end
 
+    def test_selector
+      "add-board-button"
+    end
+
     def accessibility_label_text
       I18n.t("boards.label_create_new_board")
     end

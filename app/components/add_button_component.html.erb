@@ -1,9 +1,11 @@
-<a href="<%= dynamic_path %>"
-   id="<%= id %>"
-   title="<%= title %>"
-   arial-label="<%= aria_label %>"
-   class="<%= link_css_class %>">
-  <%= icon %>
-  <%= label %>
-</a>
-
+<%= render(Primer::ButtonComponent.new(scheme: :primary,
+                                       aria: { label: aria_label },
+                                       title:,
+                                       test_selector:,
+                                       tag: :a,
+                                       id:,
+                                       href: dynamic_path) ) do |button|
+  button.with_leading_visual_icon(icon: :plus)
+  label_text
+end
+%>
