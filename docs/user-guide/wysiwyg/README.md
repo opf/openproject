@@ -137,6 +137,10 @@ To avoid processing these items, preceding them with a bang `!` character such a
 > [!NOTE]
 > All these macros need to be written as a new word (i.e., with at least one space before it or at the beginning of a paragraph/sentence). Macros contained within a word such as `somethingmeeting#4` will not be parsed.
 
+> [!TIP]
+>
+> For more information on using macros, take a look at this [blog article](https://www.openproject.org/blog/how-to-use-macros/).
+
 ### Autocompletion for work packages and users
 
 For work packages and users, typing `#` or `@` will open an autocomplete dropdown for visible work packages and users, respectively.
