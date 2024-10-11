@@ -28,7 +28,10 @@
 
 require "spec_helper"
 
-RSpec.describe "authorization for BCF api", :js, with_config: { edition: "bim" } do
+RSpec.describe "authorization for BCF api",
+               :js,
+               :with_cuprite,
+               with_config: { edition: "bim" } do
   let!(:user) { create(:admin) }
   let(:client_secret) { app.plaintext_secret }
   let(:scope) { "bcf_v2_1" }
@@ -40,6 +43,7 @@ RSpec.describe "authorization for BCF api", :js, with_config: { edition: "bim" }
 
   before do
     login_with user.login, "adminADMIN!"
+    wait_for_network_idle
 
     visit oauth_applications_path
   end
@@ -126,7 +130,8 @@ RSpec.describe "authorization for BCF api", :js, with_config: { edition: "bim" }
     expect(page)
       .to have_content(JSON.dump({ project_id: project.id, name: project.name }))
 
-    logout
+    visit signout_path
+    wait_for_network_idle
 
     # A basic auth alert is displayed asking to enter name and password Register
     # some basic auth credentials
