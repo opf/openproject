@@ -98,7 +98,7 @@ RSpec.describe "SAML administration CRUD",
       expect(provider.private_key.strip.gsub("\r\n", "\n")).to eq CertificateHelper.private_key.private_to_pem.strip
       expect(provider.idp_sso_service_url).to eq "https://example.com/sso"
       expect(provider.idp_slo_service_url).to eq "https://example.com/slo"
-      expect(provider.mapping_login).to eq "login\nmail"
+      expect(provider.mapping_login).to eq "login\r\nmail"
       expect(provider.mapping_mail).to eq "mail"
       expect(provider.mapping_firstname).to eq "myName"
       expect(provider.mapping_lastname).to eq "myLastName"
