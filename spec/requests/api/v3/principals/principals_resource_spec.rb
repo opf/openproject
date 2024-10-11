@@ -88,8 +88,8 @@ RSpec.describe "API v3 Principals resource" do
     end
 
     it "succeeds" do
-      expect(response.status)
-        .to eq(200)
+      expect(response)
+        .to have_http_status(200)
     end
 
     it_behaves_like "API V3 collection response", 4, 4 do
@@ -143,6 +143,27 @@ RSpec.describe "API v3 Principals resource" do
       end
 
       it_behaves_like "API V3 collection response", 1, 1, "User"
+    end
+
+    context "with a filter for typeahead" do
+      let(:permissions) { [:view_user_email] }
+      let(:filter) do
+        [{ typeahead: { operator: "**", values: ["aaaa@example.com"] } }]
+      end
+
+      before do
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_globally(*permissions)
+        end
+      end
+
+      it_behaves_like "API V3 collection response", 1, 1, "User"
+
+      context "when user does not have permission to view user emails" do
+        let(:permissions) { [] }
+
+        it_behaves_like "API V3 collection response", 0, 0
+      end
     end
 
     context "with a filter for id" do

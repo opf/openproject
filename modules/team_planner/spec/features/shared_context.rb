@@ -30,6 +30,7 @@ require "spec_helper"
 require_relative "../support/pages/team_planner"
 
 RSpec.shared_context "with team planner full access" do
+  shared_let(:standard) { create(:standard_global_role) }
   shared_let(:project) do
     create(:project)
   end
