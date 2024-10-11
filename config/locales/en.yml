@@ -1556,7 +1556,7 @@ en:
   create_new_page: "Wiki page"
 
   date:
-    abbr_day_names: [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ]
+    abbr_day_names: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     abbr_month_names:
       [
         ~,
