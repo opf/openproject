@@ -76,7 +76,7 @@ module AuthenticationHelpers
     if !using_cuprite? || RSpec.current_example.metadata[:signout_via_visit]
       visit signout_path
     else
-      page.driver.cookies.clear
+      page.driver.clear_cookies
     end
   end
 
