@@ -386,6 +386,7 @@ class AccountController < ApplicationController
         # correct password
         if not user.active?
           account_inactive(user, flash_now: true)
+          render status: :unprocessable_entity
         elsif user.force_password_change
           return if redirect_if_password_change_not_allowed(user)
 
