@@ -476,17 +476,21 @@ es:
       no_results_content_text: Añadir un informe de estado
   statuses:
     edit:
+      status_color_text: |
+        Haga clic para asignar o cambiar el color de este estado.
+        Se muestra en el botón de estado y puede usarse para resaltar paquetes de trabajo en la tabla.
+      status_excluded_from_totals_text: |-
+        Marque esta opción para excluir los paquetes de trabajo con este estado de los totales de Trabajo,
+        Trabajo restante y % completado en una jerarquía.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Seleccione esta opción para marcar los paquetes de trabajo que tengan este estado como de solo lectura.
         Excepto el estado, ningún otro atributo se puede modificar.
         <br/>
         <strong>Nota</strong>: Los valores heredados (por ejemplo, de elementos secundarios o relaciones) seguirán aplicándose.
-      status_excluded_from_totals_text: |-
-        Marque esta opción para excluir los paquetes de trabajo con este estado de los totales de Trabajo,
-        Trabajo restante y % completado en una jerarquía.
-      status_color_text: |
-        Haga clic para asignar o cambiar el color de este estado.
-        Se muestra en el botón de estado y puede usarse para resaltar paquetes de trabajo en la tabla.
     index:
       no_results_title_text: Actualmente no hay estados de paquetes de trabajo.
       no_results_content_text: Añadir un nuevo estado

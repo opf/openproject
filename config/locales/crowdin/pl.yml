@@ -488,17 +488,21 @@ pl:
       no_results_content_text: Dodaj status zgłoszenia
   statuses:
     edit:
+      status_color_text: |
+        Kliknij, aby przypisać lub zmienić kolor tego stanu.
+        Jest on wyświetlany w przycisku stanu i można go używać do wyróżniania pakietów roboczych w tabeli.
+      status_excluded_from_totals_text: |-
+        Zaznacz tę opcję, aby wykluczyć pakiety robocze o tym statusie z sum atrybutów Praca,
+        Pozostała praca i % ukończenia w hierarchii.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Zaznacz tę opcję, aby oznaczyć pakiety robocze o tym stanie jako tylko do odczytu.
         Nie można zmienić żadnych atrybutów z wyjątkiem stanu.
         <br/>
         <strong>Uwaga</strong>: wartości dziedziczone (np. po elementach podrzędnych lub relacjach) będą nadal stosowane.
-      status_excluded_from_totals_text: |-
-        Zaznacz tę opcję, aby wykluczyć pakiety robocze o tym statusie z sum atrybutów Praca,
-        Pozostała praca i % ukończenia w hierarchii.
-      status_color_text: |
-        Kliknij, aby przypisać lub zmienić kolor tego stanu.
-        Jest on wyświetlany w przycisku stanu i można go używać do wyróżniania pakietów roboczych w tabeli.
     index:
       no_results_title_text: Nie ma aktualnie żadnych statusów Zestawu zadań.
       no_results_content_text: Dodaj nowy status

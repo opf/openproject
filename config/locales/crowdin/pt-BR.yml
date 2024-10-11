@@ -478,16 +478,20 @@ pt-BR:
       no_results_content_text: Adicionar um relatório de situação
   statuses:
     edit:
+      status_color_text: |
+        Clique para atribuir ou alterar a cor desta situação.
+        É exibido no botão de situação e pode ser usado para destacar pacotes de trabalho na tabela.
+      status_excluded_from_totals_text: |-
+        Selecione esta opção para excluir pacotes de trabalho com este status dos totais de Trabalho, Trabalho Restante e % de conclusão em uma hierarquia.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Use esta opção para marcar pacotes de trabalho com situação como somente leitura.
         Nenhum atributo pode ser alterado com exceção da situação.
         <br/>
         <strong>Nota</strong>: valores herdados (por exemplo, de filhos ou relações) ainda serão aplicados.
-      status_excluded_from_totals_text: |-
-        Selecione esta opção para excluir pacotes de trabalho com este status dos totais de Trabalho, Trabalho Restante e % de conclusão em uma hierarquia.
-      status_color_text: |
-        Clique para atribuir ou alterar a cor desta situação.
-        É exibido no botão de situação e pode ser usado para destacar pacotes de trabalho na tabela.
     index:
       no_results_title_text: Atualmente, não há nenhuma situação de pacote de trabalho.
       no_results_content_text: Adicionar uma nova situação

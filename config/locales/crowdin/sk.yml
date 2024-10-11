@@ -491,17 +491,21 @@ sk:
       no_results_content_text: Pridať hlásenie o stave
   statuses:
     edit:
+      status_color_text: |
+        Kliknite na položku priradiť alebo zmeniť farbu tejto priority.
+        Zobrazuje sa v tlačidle stavu a dá sa použiť na zvýraznenie pracovných balíčkov v tabuľke.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Zaškrtnite túto voľbu k označeniu pracovných balíčkov s týmto stavom len ako na čítanie.
         Nie je možné meniť žiadne atribúty s výnimkou stavu samotného.
         <br/>
         <strong>Poznámka</strong>: zdedené hodnoty (napr. z podradených alebo ďalších relácií) budú platné i naďalej.
-      status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
-      status_color_text: |
-        Kliknite na položku priradiť alebo zmeniť farbu tejto priority.
-        Zobrazuje sa v tlačidle stavu a dá sa použiť na zvýraznenie pracovných balíčkov v tabuľke.
     index:
       no_results_title_text: Momentálne nie sú žiadne stavy pracovného balíka.
       no_results_content_text: Pridať nový stav

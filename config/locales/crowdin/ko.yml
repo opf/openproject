@@ -473,16 +473,20 @@ ko:
       no_results_content_text: 상태 보고 추가
   statuses:
     edit:
+      status_color_text: |
+        이 상태 색상을 할당하거나 변경하려면 클릭하세요.
+        상태 버튼에 표시되고 테이블의 작업 패키지를 강조 표시하는 데 사용할 수 있습니다.
+      status_excluded_from_totals_text: |-
+        계층의 총 작업, 남은 작업 및 완료 %에서 이 상태의 작업 패키지를
+        제외하려면 이 옵션을 선택하세요.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         이 상태를 읽기 전용으로 작업 패키지에 표시하려면 이 옵션을 선택합니다. 상태를 제외하고 특성은 변경할 수 없습니다.
         <br/>
         <strong>참고</strong>: 상속된 값(예: 자식 또는 관계)은 계속 적용됩니다.
-      status_excluded_from_totals_text: |-
-        계층의 총 작업, 남은 작업 및 완료 %에서 이 상태의 작업 패키지를
-        제외하려면 이 옵션을 선택하세요.
-      status_color_text: |
-        이 상태 색상을 할당하거나 변경하려면 클릭하세요.
-        상태 버튼에 표시되고 테이블의 작업 패키지를 강조 표시하는 데 사용할 수 있습니다.
     index:
       no_results_title_text: 작업 패키지 상태가 없습니다.
       no_results_content_text: 새 상태 추가

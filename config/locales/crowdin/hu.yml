@@ -478,16 +478,20 @@ hu:
       no_results_content_text: Állapot jelentés hozzáadása
   statuses:
     edit:
+      status_color_text: |
+        Ide kattintva rendelhet vagy változtathatja meg a színét az állapotnak.
+        Az állapot gomb látható és kiemelhető a feladatcsoport táblázatban.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Jelölje be ezt az opciót, ha ezt az állapotot tartalmazó munkacsomagokat csak olvashatóvá kívánja jelölni. Az állapot kivételével semmilyen attribútum nem módosítható.
         <br/>
         <strong>Megjegyzés</strong>: az örökölt értékek (például a gyermekobjektum vagy a kapcsolatok) továbbra is érvényesek.
-      status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
-      status_color_text: |
-        Ide kattintva rendelhet vagy változtathatja meg a színét az állapotnak.
-        Az állapot gomb látható és kiemelhető a feladatcsoport táblázatban.
     index:
       no_results_title_text: Jelenleg nincsenek feladatcsoport státuszok.
       no_results_content_text: Új státusz hozzáadása

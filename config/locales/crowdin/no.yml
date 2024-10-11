@@ -479,16 +479,20 @@
       no_results_content_text: Legg til statusrapportering
   statuses:
     edit:
+      status_color_text: |
+        Klikk for å tilknytte eller endre fargen på denne statusen.
+        Den vises i statusknappen og kan brukes til å fremheve arbeidspakker i tabellen.
+      status_excluded_from_totals_text: |-
+        Velg denne innstillingen for å utelukke arbeidspakker med denne statusen fra oppsummeringer for Arbeid, Gjenstående arbeid og % Ferdig i et hierarki.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Merk dette alternativet for å merke arbeidspakker med denne statusen som skrivebeskyttet.
         Ingen attributter kan endres med unntak av status.
         <br/>
         <strong>Merknad</strong>: Arvede verdier (for eksempel fra barn eller relasjoner) vil fortsatt gjelde.
-      status_excluded_from_totals_text: |-
-        Velg denne innstillingen for å utelukke arbeidspakker med denne statusen fra oppsummeringer for Arbeid, Gjenstående arbeid og % Ferdig i et hierarki.
-      status_color_text: |
-        Klikk for å tilknytte eller endre fargen på denne statusen.
-        Den vises i statusknappen og kan brukes til å fremheve arbeidspakker i tabellen.
     index:
       no_results_title_text: Det er for tiden ingen status for arbeidspakken.
       no_results_content_text: Legg til en ny status
