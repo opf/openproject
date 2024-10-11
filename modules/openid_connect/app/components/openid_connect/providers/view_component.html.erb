@@ -1,0 +1,205 @@
+<% ns = OpenIDConnect::Providers %>
+<%= component_wrapper do %>
+  <% if provider.seeded_from_env? %>
+    <%=
+      render(Primer::Alpha::Banner.new(mb: 2, scheme: :default, icon: :bell, spacious: true)) do
+        I18n.t("openid_connect.providers.seeded_from_env")
+      end
+    %>
+  <% end %>
+
+  <%= render(border_box_container) do |component|
+    case provider.oidc_provider
+    when 'google'
+      component.with_row(scheme: :default) do
+        basic_details_component = if edit_state == :name
+                                     ns::Sections::FormComponent.new(
+                                       provider,
+                                       form_class: ns::NameInputForm,
+                                       edit_state:,
+                                       next_edit_state: :client_details,
+                                       edit_mode:,
+                                       heading: nil
+                                     )
+                                  else
+                                    ns::Sections::ShowComponent.new(
+                                      provider,
+                                      view_mode:,
+                                      target_state: :name,
+                                      heading: t("activemodel.attributes.openid_connect/provider.display_name"),
+                                      description: t("openid_connect.providers.section_texts.display_name")
+                                    )
+                                  end
+        render(basic_details_component)
+      end
+
+      component.with_row(scheme: :default) do
+        if edit_state == :client_details
+          render(ns::Sections::FormComponent.new(
+            provider,
+            form_class: ns::ClientDetailsForm,
+            edit_state:,
+            edit_mode:,
+            heading: nil,
+          ))
+        else
+          render(ns::Sections::ShowComponent.new(
+            provider,
+            target_state: :client_details,
+            view_mode:,
+            heading: t("openid_connect.providers.label_client_details"),
+            label: provider.advanced_details_configured? ? t(:label_completed) : t(:label_not_configured),
+            label_scheme: provider.advanced_details_configured? ? :success : :secondary,
+            description: t("openid_connect.providers.client_details_description")
+          ))
+        end
+      end
+    when 'microsoft_entra'
+      component.with_row(scheme: :default) do
+        basic_details_component = if edit_state == :name
+                                     ns::Sections::FormComponent.new(
+                                       provider,
+                                       form_class: ns::NameInputAndTenantForm,
+                                       edit_state:,
+                                       next_edit_state: :client_details,
+                                       edit_mode:,
+                                       heading: nil
+                                     )
+                                  else
+                                    ns::Sections::ShowComponent.new(
+                                      provider,
+                                      view_mode:,
+                                      target_state: :name,
+                                      heading: t("activemodel.attributes.openid_connect/provider.display_name"),
+                                      description: t("openid_connect.providers.section_texts.display_name")
+                                    )
+                                  end
+        render(basic_details_component)
+      end
+
+      component.with_row(scheme: :default) do
+        if edit_state == :client_details
+          render(ns::Sections::FormComponent.new(
+            provider,
+            form_class: ns::ClientDetailsForm,
+            edit_state:,
+            edit_mode:,
+            heading: nil
+          ))
+        else
+          render(ns::Sections::ShowComponent.new(
+            provider,
+            target_state: :client_details,
+            view_mode:,
+            heading: t("openid_connect.providers.label_client_details"),
+            label: provider.advanced_details_configured? ? t(:label_completed) : t(:label_not_configured),
+            label_scheme: provider.advanced_details_configured? ? :success : :secondary,
+            description: t("openid_connect.providers.client_details_description")
+          ))
+        end
+      end
+    else # custom
+#     component.with_header(color: :muted) do
+#       render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t('openid_connect.providers.label_basic_details') }
+#     end
+
+      component.with_row(scheme: :default) do
+        basic_details_component =
+          if edit_state == :name
+            ns::Sections::FormComponent.new(
+              provider,
+              form_class: ns::NameInputForm,
+              edit_state:,
+              next_edit_state: :metadata,
+              edit_mode:,
+              heading: nil
+            )
+          else
+            ns::Sections::ShowComponent.new(
+              provider,
+              view_mode:,
+              target_state: :name,
+              heading: t("activemodel.attributes.openid_connect/provider.display_name"),
+              description: t("openid_connect.providers.section_texts.display_name")
+            )
+          end
+        render(basic_details_component)
+      end
+
+#     component.with_row(scheme: :neutral, color: :muted) do
+#       render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t('openid_connect.providers.label_automatic_configuration') }
+#     end
+
+      component.with_row(scheme: :default) do
+        if edit_state == :metadata
+          render(ns::Sections::MetadataFormComponent.new(
+            provider,
+            edit_mode:,
+          ))
+        else
+          render(ns::Sections::ShowComponent.new(
+            provider,
+            target_state: :metadata,
+            view_mode:,
+            heading: t("openid_connect.providers.label_metadata"),
+            description: t("openid_connect.providers.section_texts.metadata"),
+            label: provider.metadata_url.present? ? t(:label_completed) : t(:label_not_configured),
+            label_scheme: provider.metadata_url.present? ? :success : :secondary
+          ))
+        end
+      end
+
+#     component.with_row(scheme: :neutral, color: :muted) do
+#       render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t('openid_connect.providers.label_advanced_configuration') }
+#     end
+
+      component.with_row(scheme: :default) do
+        if edit_state == :metadata_details
+          render(ns::Sections::FormComponent.new(
+            provider,
+            form_class: ns::MetadataDetailsForm,
+            edit_state:,
+            next_edit_state: :client_details,
+            edit_mode:,
+            banner: provider.metadata_configured? ? t("openid_connect.providers.section_texts.configuration_metadata") : nil,
+            banner_scheme: :default,
+            heading: nil
+          ))
+        else
+          render(ns::Sections::ShowComponent.new(
+            provider,
+            target_state: :metadata_details,
+            view_mode:,
+            heading: t("openid_connect.providers.label_configuration_details"),
+            description: t("openid_connect.providers.section_texts.configuration"),
+            label: provider.metadata_configured? ? t(:label_completed) : t(:label_not_configured),
+            label_scheme: provider.metadata_configured? ? :success : :secondary
+          ))
+        end
+      end
+
+      component.with_row(scheme: :default) do
+        if edit_state == :client_details
+          render(ns::Sections::FormComponent.new(
+            provider,
+            form_class: ns::ClientDetailsForm,
+            edit_state:,
+            next_edit_state: :mapping,
+            edit_mode:,
+            heading: nil
+          ))
+        else
+          render(ns::Sections::ShowComponent.new(
+            provider,
+            target_state: :client_details,
+            view_mode:,
+            heading: t("openid_connect.providers.label_client_details"),
+            description: t("openid_connect.providers.client_details_description"),
+            label: provider.advanced_details_configured? ? t(:label_completed) : t(:label_not_configured),
+            label_scheme: provider.advanced_details_configured? ? :success : :secondary
+          ))
+        end
+      end
+    end
+    end %>
+<% end %>

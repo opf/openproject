@@ -366,28 +366,7 @@ RSpec.describe "API V3 Authentication" do
     end
   end
 
-  describe(
-    "OIDC",
-    :webmock,
-    with_settings: {
-      plugin_openproject_openid_connect: {
-        "providers" => {
-          "keycloak" => {
-            "display_name" => "Keycloak",
-            "identifier" => "https://openproject.local",
-            "secret" => "9AWjVC3A4U1HLrZuSP4xiwHfw6zmgECn",
-            "host" => "keycloak.local",
-            "issuer" => "https://keycloak.local/realms/master",
-            "authorization_endpoint" => "/realms/master/protocol/openid-connect/auth",
-            "token_endpoint" => "/realms/master/protocol/openid-connect/token",
-            "userinfo_endpoint" => "/realms/master/protocol/openid-connect/userinfo",
-            "end_session_endpoint" => "https://keycloak.local/realms/master/protocol/openid-connect/logout",
-            "jwks_uri" => "https://keycloak.local/realms/master/protocol/openid-connect/certs"
-          }
-        }
-      }
-    }
-  ) do
+  describe("OIDC", :webmock) do
     let(:rsa_signed_access_token_without_aud) do
       "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI5N0FteXZvUzhCRkZSZm01ODVHUGdBMTZHMUgyVjIyRWR4eHVBWVV1b0trIn0.eyJleHAiOjE3MjEyODM0MzAsImlhdCI6MTcyMTI4MzM3MCwianRpIjoiYzUyNmI0MzUtOTkxZi00NzRhLWFkMWItYzM3MTQ1NmQxZmQwIiwiaXNzIjoiaHR0cHM6Ly9rZXljbG9hay5sb2NhbC9yZWFsbXMvbWFzdGVyIiwiYXVkIjpbIm1hc3Rlci1yZWFsbSIsImFjY291bnQiXSwic3ViIjoiYjcwZTJmYmYtZWE2OC00MjBjLWE3YTUtMGEyODdjYjY4OWM2IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiaHR0cHM6Ly9vcGVucHJvamVjdC5sb2NhbCIsInNlc3Npb25fc3RhdGUiOiJlYjIzNTI0MC0wYjQ3LTQ4ZmEtOGIzZS1mM2IzMTBkMzUyZTMiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHBzOi8vb3BlbnByb2plY3QubG9jYWwiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImNyZWF0ZS1yZWFsbSIsImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJhZG1pbiIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsibWFzdGVyLXJlYWxtIjp7InJvbGVzIjpbInZpZXctcmVhbG0iLCJ2aWV3LWlkZW50aXR5LXByb3ZpZGVycyIsIm1hbmFnZS1pZGVudGl0eS1wcm92aWRlcnMiLCJpbXBlcnNvbmF0aW9uIiwiY3JlYXRlLWNsaWVudCIsIm1hbmFnZS11c2VycyIsInF1ZXJ5LXJlYWxtcyIsInZpZXctYXV0aG9yaXphdGlvbiIsInF1ZXJ5LWNsaWVudHMiLCJxdWVyeS11c2VycyIsIm1hbmFnZS1ldmVudHMiLCJtYW5hZ2UtcmVhbG0iLCJ2aWV3LWV2ZW50cyIsInZpZXctdXNlcnMiLCJ2aWV3LWNsaWVudHMiLCJtYW5hZ2UtYXV0aG9yaXphdGlvbiIsIm1hbmFnZS1jbGllbnRzIiwicXVlcnktZ3JvdXBzIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJzaWQiOiJlYjIzNTI0MC0wYjQ3LTQ4ZmEtOGIzZS1mM2IzMTBkMzUyZTMiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIn0.cLgbN9kygRwthUx0R0FazPfIUeEUVnw4HnDgN-Hsnm9oXVr6MqmfTRKEI-6n62dlnVKsdadF_tWf3jp26d6neLj1zlR-vojwaHm8A08S9m6IeMr9e0CGiYVHjrJtEeTgq6P9cJJfe7uuhSSvlG3ltFPDxaAe14Dz3BjhLO3iaCRkWfAZjKmnW-IMzzzHfGH-7of7qCAlF5ObEax38mf1Q0OmsPA4_5po-FFtw7H7FfDjsr6EXgtdwloDePkk2XIHs2XsIo0YugVHC9GqCWgBA8MBvCirFivqM53paZMnjhpQH-xgTpYGWlw3WNbG2Rny2GoEwIxdYOUO2amDQ_zkrQ"
     end
@@ -400,6 +379,7 @@ RSpec.describe "API V3 Authentication" do
     let(:keys_request_stub) { nil }
 
     before do
+      create(:oidc_provider, slug: "keycloak")
       create(:user, identity_url: "keycloak:#{token_sub}")
       keys_request_stub
 
