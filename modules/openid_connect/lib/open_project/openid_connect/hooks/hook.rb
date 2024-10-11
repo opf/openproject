@@ -35,6 +35,7 @@ module OpenProject::OpenIDConnect
       def user_logged_in(context)
         session = context[:session]
         oidc_sid = session["omniauth.oidc_sid"]
+
         return if oidc_sid.nil?
 
         ::OpenProject::OpenIDConnect::SessionMapper.handle_login(oidc_sid, session)
@@ -43,7 +44,20 @@ module OpenProject::OpenIDConnect
       ##
       # Called once omniauth has returned with an auth hash
       # NOTE: It's a passthrough as we no longer persist the access token into the cookie
-      def omniauth_user_authorized(_context); end
+      def omniauth_user_authorized(context)
+        auth_hash = context[:auth_hash]
+        controller = context[:controller]
+        _user = context[:user]
+        credentials = auth_hash[:credentials]
+        access_token = credentials[:token]
+        refresh_token = credentials[:refresh_token]
+        session = controller.session
+        session["omniauth.oidc_access_token"] = access_token
+        session["omniauth.oidc_refresh_token"] = refresh_token
+        nil
+      rescue StandardError => e
+        Rails.logger.info "Something went wrong in omniauth_user_authorized hook: #{e}"
+      end
     end
   end
 end

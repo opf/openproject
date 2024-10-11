@@ -14,7 +14,9 @@ module OpenProject::OpenIDConnect
         return
       end
 
-      link = ::OpenIDConnect::UserSessionLink.new(oidc_session:)
+      link = ::OpenIDConnect::UserSessionLink.new(oidc_session:,
+                                                  access_token: session["omniauth.oidc_access_token"],
+                                                  refresh_token: session["omniauth.oidc_refresh_token"])
       new(link).link_to_internal!(session)
     rescue StandardError => e
       Rails.logger.error { "Failed to map OIDC session to internal: #{e.message}" }

@@ -49,7 +49,11 @@ module OpenProject::OpenIDConnect
           end
 
           # Remember oidc session values when logging in user
-          h[:retain_from_session] = %w[omniauth.oidc_sid]
+          h[:retain_from_session] = %w[
+            omniauth.oidc_sid
+            omniauth.oidc_access_token
+            omniauth.oidc_refresh_token
+          ]
 
           h[:backchannel_logout_callback] = ->(logout_token) do
             ::OpenProject::OpenIDConnect::SessionMapper.handle_logout(logout_token)
