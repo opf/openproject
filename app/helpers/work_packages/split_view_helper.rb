@@ -6,13 +6,13 @@ module WorkPackages::SplitViewHelper
   def split_view_instance(view_type:, project: nil)
     case view_type
     when "work_package_split_view"
-      WorkPackages::SplitViewComponent.new(id: params[:work_package_id],
-                                           tab: params[:tab],
-                                           base_route: split_view_base_route)
+      WorkPackages::SplitView::ShowComponent.new(id: params[:work_package_id],
+                                                 tab: params[:tab],
+                                                 base_route: split_view_base_route)
     when "work_package_split_create"
-      WorkPackages::SplitCreateComponent.new(type: params[:type],
-                                             project:,
-                                             base_route: split_view_base_route)
+      WorkPackages::SplitView::CreateComponent.new(type: params[:type],
+                                                   project:,
+                                                   base_route: split_view_base_route)
     else
       # TODO
     end
