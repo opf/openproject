@@ -57,6 +57,7 @@ RSpec.describe API::V3::Groups::GroupSqlRepresenter, "rendering" do
         _type: "Group",
         id: group.id,
         name: group.name,
+        email: "",
         _links: {
           self: {
             href: api_v3_paths.group(group.id),

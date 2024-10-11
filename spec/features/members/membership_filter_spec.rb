@@ -37,8 +37,7 @@ RSpec.describe "group memberships through groups page", :js do
            firstname: "Peter",
            lastname: "Pan",
            mail: "foo@example.org",
-           member_with_roles: { project => role },
-           preferences: { hide_mail: false })
+           member_with_roles: { project => role })
   end
 
   let!(:hannibal) do
@@ -46,36 +45,77 @@ RSpec.describe "group memberships through groups page", :js do
            firstname: "Pan",
            lastname: "Hannibal",
            mail: "foo@example.com",
-           member_with_roles: { project => role },
-           preferences: { hide_mail: true })
+           member_with_roles: { project => role })
   end
-  let(:role) { create(:project_role, permissions: %i(add_work_packages)) }
+  let(:role) { create(:project_role, permissions: %i(add_work_packages view_members)) }
   let(:members_page) { Pages::Members.new project.identifier }
+  let(:user_to_login) { admin }
+  let(:standard_global_role) { nil }
 
   before do
-    login_as(admin)
+    standard_global_role
+    login_as user_to_login
     members_page.visit!
     expect_angular_frontend_initialized
   end
 
-  it "filters users based on some name attribute" do
-    members_page.open_filters!
+  shared_examples "it filters users" do
+    it "filters users based on some name attribute" do
+      members_page.open_filters!
 
-    members_page.search_for_name "pan"
-    members_page.find_user "Pan Hannibal"
-    expect(page).to have_no_css("td.mail", text: hannibal.mail)
-    members_page.find_user "Peter Pan"
-    members_page.find_mail peter.mail
+      members_page.search_for_name "pan"
+      members_page.find_user "Pan Hannibal"
+      expect(page).to have_no_css("td.mail", text: hannibal.mail)
+      members_page.find_user "Peter Pan"
+      members_page.find_mail peter.mail
 
-    members_page.search_for_name "@example"
-    members_page.find_user "Pan Hannibal"
-    expect(page).to have_no_css("td.mail", text: hannibal.mail)
-    members_page.find_user "Peter Pan"
-    members_page.find_mail peter.mail
+      members_page.search_for_name "@example"
+      members_page.find_user "Pan Hannibal"
+      expect(page).to have_no_css("td.mail", text: hannibal.mail)
+      members_page.find_user "Peter Pan"
+      members_page.find_mail peter.mail
 
-    members_page.search_for_name "@example.org"
-    members_page.find_user "Peter Pan"
-    members_page.find_mail peter.mail
-    expect(page).to have_no_css("td.mail", text: hannibal.mail)
+      members_page.search_for_name "@example.org"
+      members_page.find_user "Peter Pan"
+      members_page.find_mail peter.mail
+      expect(page).to have_no_css("td.mail", text: hannibal.mail)
+    end
+  end
+
+  it_behaves_like "it filters users"
+
+  context "with a user" do
+    let(:user_to_login) { peter }
+
+    context "without view_user_email permission" do
+      it "filters users based on some name attribute" do
+        members_page.open_filters!
+
+        members_page.search_for_name "pan"
+        members_page.find_user "Pan Hannibal"
+        expect(page).to have_no_css("td.mail", text: hannibal.mail)
+        members_page.find_user "Peter Pan"
+        members_page.find_mail peter.mail
+        members_page.search_for_name "@example"
+        # Does not find other users based on their email address
+        expect(page).to have_no_css("tr", text: "Pan Hannibal")
+        expect(page).to have_no_css("td.mail", text: hannibal.mail)
+        expect(page).to have_no_css("tr", text: "Peter Pan")
+        expect(page).to have_no_css("td.mail", text: peter.mail)
+
+        members_page.search_for_name "@example.org"
+        # Does not find other users based on their email address
+        expect(page).to have_no_css("tr", text: "Pan Hannibal")
+        expect(page).to have_no_css("td.mail", text: hannibal.mail)
+        expect(page).to have_no_css("tr", text: "Peter Pan")
+        expect(page).to have_no_css("td.mail", text: peter.mail)
+      end
+    end
+
+    context "with view_user_email permission" do
+      let(:standard_global_role) { create :standard_global_role }
+
+      it_behaves_like "it filters users"
+    end
   end
 end

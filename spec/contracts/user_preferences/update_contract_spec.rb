@@ -41,7 +41,6 @@ RSpec.describe UserPreferences::UpdateContract do
   end
   let(:settings) do
     {
-      hide_mail: true,
       auto_hide_popups: true,
       comments_sorting: "desc",
       daily_reminders: {
@@ -105,16 +104,6 @@ RSpec.describe UserPreferences::UpdateContract do
       end
 
       it_behaves_like "contract is valid"
-    end
-
-    context "with a string for hide_mail" do
-      let(:settings) do
-        {
-          hide_mail: "yes please"
-        }
-      end
-
-      it_behaves_like "contract is invalid", hide_mail: :type_mismatch
     end
 
     context "with a field within the daily_reminders having the wrong type" do
@@ -205,7 +194,6 @@ RSpec.describe UserPreferences::UpdateContract do
     context "without a time_zone" do
       let(:settings) do
         {
-          hide_mail: true,
           auto_hide_popups: true,
           comments_sorting: "desc",
           daily_reminders: {

@@ -90,14 +90,6 @@ class UserPreference < ApplicationRecord
     settings.fetch(:diff_type, "inline")
   end
 
-  def hide_mail
-    settings.fetch(:hide_mail, true)
-  end
-
-  def can_expose_mail?
-    !hide_mail
-  end
-
   def auto_hide_popups=(value)
     settings[:auto_hide_popups] = to_boolean(value)
   end

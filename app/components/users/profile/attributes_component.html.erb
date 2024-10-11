@@ -4,7 +4,7 @@
 
     component_wrapper do
       flex_layout do |details_container|
-        if @user.pref.can_expose_mail?
+        if user_is_allowed_to_see_email
           details_container.with_row(font_weight: :bold) do
             User.human_attribute_name(:mail)
           end

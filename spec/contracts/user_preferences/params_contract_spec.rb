@@ -45,7 +45,6 @@ RSpec.describe UserPreferences::ParamsContract do
   end
   let(:params) do
     {
-      hide_mail: true,
       auto_hide_popups: true,
       comments_sorting: "desc",
       daily_reminders: {
@@ -204,7 +203,6 @@ RSpec.describe UserPreferences::ParamsContract do
     context "when notification_settings empty" do
       let(:params) do
         {
-          hide_mail: true,
           auto_hide_popups: true,
           comments_sorting: "desc",
           daily_reminders: {

@@ -19,7 +19,6 @@ get:
                     method: "patch"
                 _type: "UserPreferences"
                 commentSortDescending: true
-                hideMail: false
                 timeZone: "Europe/Berlin"
                 warnOnLeavingUnsaved: true
                 notifications:
@@ -83,7 +82,6 @@ patch:
                     method: "patch"
                 _type: UserPreferences
                 commentSortDescending: true
-                hideMail: false
                 timeZone: Europe/Berlin
                 warnOnLeavingUnsaved: true
                 notifications:

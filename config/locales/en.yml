@@ -841,7 +841,6 @@ en:
         consented_at: "Consented at"
       user_preference:
         comments_sorting: "Display comments"
-        hide_mail: "Hide my email address"
         impaired: "Accessibility mode"
         time_zone: "Time zone"
         auto_hide_popups: "Auto-hide success notifications"

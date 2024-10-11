@@ -59,6 +59,7 @@ RSpec.describe API::V3::Users::UserSqlRepresenter, "rendering" do
         name: current_user.name,
         firstname: current_user.firstname,
         lastname: current_user.lastname,
+        email: current_user.mail,
         _links: {
           self: {
             href: api_v3_paths.user(current_user.id),

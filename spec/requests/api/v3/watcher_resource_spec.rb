@@ -305,6 +305,7 @@ RSpec.describe "API v3 Watcher resource", content_type: :json do
                 _type: "User",
                 id: available_watcher.id,
                 name: available_watcher.name,
+                email: available_watcher.mail,
                 _links: {
                   self: {
                     href: api_v3_paths.user(available_watcher.id),
@@ -318,6 +319,7 @@ RSpec.describe "API v3 Watcher resource", content_type: :json do
                 name: current_user.name,
                 firstname: current_user.firstname,
                 lastname: current_user.lastname,
+                email: current_user.mail,
                 _links: {
                   self: {
                     href: api_v3_paths.user(current_user.id),

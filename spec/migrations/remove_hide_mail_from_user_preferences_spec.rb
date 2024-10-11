@@ -1,4 +1,4 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -24,18 +24,38 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class Queries::Principals::Filters::TypeaheadFilter < Queries::Principals::Filters::AnyNameAttributeFilter
-  def self.key
-    :typeahead
+require "spec_helper"
+require Rails.root.join("db/migrate/20241002151949_remove_hide_mail_from_user_preferences.rb")
+
+RSpec.describe RemoveHideMailFromUserPreferences, type: :model do
+  # Silencing migration logs, since we are not interested in that during testing
+  subject(:run_migration) do
+    perform_enqueued_jobs do
+      ActiveRecord::Migration.suppress_messages { described_class.new.up }
+    end
   end
 
-  def type
-    :search
+  context "when hide_mail user preference exists" do
+    before do
+      create(:user_preference, settings: { hide_mail: true, other: "setting" })
+    end
+
+    it "removes the flag" do
+      run_migration
+      expect(UserPreference.first.settings).to eq({ "other" => "setting" })
+    end
   end
 
-  def human_name
-    I18n.t("label_search")
+  context "when hide_mail user preference does not exists" do
+    before do
+      create(:user_preference, settings: { other: "setting" })
+    end
+
+    it "does nothing" do
+      run_migration
+      expect(UserPreference.first.settings).to eq({ "other" => "setting" })
+    end
   end
 end

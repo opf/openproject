@@ -52,7 +52,6 @@ RSpec.describe API::V3::UserPreferences::UserPreferenceRepresenter,
 
   subject(:generated) { representer.to_json }
 
-  it { expect(subject).to have_json_path("hideMail") }
   it { expect(subject).to have_json_path("timeZone") }
   it { expect(subject).to have_json_path("commentSortDescending") }
   it { expect(subject).to have_json_path("warnOnLeavingUnsaved") }

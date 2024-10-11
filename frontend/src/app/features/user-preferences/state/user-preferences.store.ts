@@ -36,7 +36,6 @@ function createInitialState():IUserPreference {
   return {
     autoHidePopups: true,
     commentSortDescending: false,
-    hideMail: true,
     timeZone: null,
     warnOnLeavingUnsaved: true,
     notifications: [],

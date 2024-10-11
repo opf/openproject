@@ -458,14 +458,12 @@ RSpec.describe "my", :js, :with_cuprite do
         expect(page).to have_text(I18n.t("user.text_change_disabled_for_ldap_login"), count: 3)
 
         fill_in "Hobbies", with: "Ruby, DCS"
-        uncheck "pref[hide_mail]"
         click_on "Save"
 
         expect(page).to have_content I18n.t(:notice_account_updated)
 
         user.reload
         expect(user.custom_values.find_by(custom_field_id: string_cf).value).to eql "Ruby, DCS"
-        expect(user.pref.hide_mail).to be false
       end
     end
 

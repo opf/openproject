@@ -29,7 +29,6 @@
 FactoryBot.define do
   factory :user_preference do
     user
-    hide_mail { true }
     transient do
       others { {} }
     end

@@ -1,3 +1,5 @@
+@import '../../global_styles/openproject/variables'
+
 .op-autocompleter
   &--option-wrapper
     padding: 5px 5px
@@ -47,7 +49,15 @@
     white-space: nowrap
     text-overflow: ellipsis
 
-  &--option-principal
-    &-wrapper
-      display: flex
-      overflow: hidden
+  &__option-principal-email
+    color: var(--fgColor-muted)
+    font-size: var(--font-size-small)
+    margin-left: var(--stack-gap-condensed)
+
+  @media screen and (max-width: $breakpoint-sm)
+    &__option-principal-email
+      display: block
+      margin-left: 0
+      margin-top: var(--control-xsmall-gap)
+    &--option-principal-avatar + span + &__option-principal-email
+      margin-left: var(--control-small-size)

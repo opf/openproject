@@ -21,13 +21,16 @@
       class="ng-option-label"
     >
       <!--Selectable option-->
-      <div [ngOptionHighlight]="search">{{ item.principal.name }}</div>
+      <span [ngOptionHighlight]="search">{{ item.principal.name }}</span>
+      <span
+        class="op-autocompleter__option-principal-email"
+        *ngIf="item.principal.email"
+        [ngOptionHighlight]="search">{{ item.principal.email }}</span>
 
       <!-- Already a member of the project -->
       <div
         *ngIf="item.disabled"
-        class="ellipsis"
-      >{{ text.alreadyAMember() }}</div>
+        class="ellipsis">{{ text.alreadyAMember() }}</div>
     </div>
   </ng-template>
 
