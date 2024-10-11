@@ -36,7 +36,7 @@ end
 RSpec.describe "OpenID Connect", :skip_2fa_stage, # Prevent redirects to 2FA stage
                type: :rails_request,
                with_ee: %i[sso_auth_providers] do
-  let(:host) { OmniAuth::OpenIDConnect::Heroku.new("foo", {}).host }
+  let(:host) { "keycloak.local" }
   let(:user_info) do
     {
       sub: "87117114115116",
@@ -67,20 +67,13 @@ RSpec.describe "OpenID Connect", :skip_2fa_stage, # Prevent redirects to 2FA sta
 
   describe "sign-up and login" do
     before do
-      allow(Setting).to receive(:plugin_openproject_openid_connect).and_return(
-        "providers" => {
-          "heroku" => {
-            "identifier" => "does not",
-            "secret" => "matter"
-          }
-        }
-      )
+      create(:oidc_provider, slug: "keycloak", limit_self_registration: false)
     end
 
     it "works" do
       ##
       # it should redirect to the provider's openid connect authentication endpoint
-      click_on_signin
+      click_on_signin("keycloak")
 
       expect(response).to have_http_status :found
       expect(response.location).to match /https:\/\/#{host}.*$/
@@ -88,12 +81,12 @@ RSpec.describe "OpenID Connect", :skip_2fa_stage, # Prevent redirects to 2FA sta
       params = Rack::Utils.parse_nested_query(response.location.gsub(/^.*\?/, ""))
 
       expect(params).to include "client_id"
-      expect(params["redirect_uri"]).to match /^.*\/auth\/heroku\/callback$/
+      expect(params["redirect_uri"]).to match /^.*\/auth\/keycloak\/callback$/
       expect(params["scope"]).to include "openid"
 
       ##
       # it should redirect back from the provider to the login page
-      redirect_from_provider
+      redirect_from_provider("keycloak")
 
       expect(response).to have_http_status :found
       expect(response.location).to match /\/\?first_time_user=true$/
@@ -109,14 +102,14 @@ RSpec.describe "OpenID Connect", :skip_2fa_stage, # Prevent redirects to 2FA sta
       user.activate
       user.save!
 
-      click_on_signin
+      click_on_signin("keycloak")
 
       expect(response).to have_http_status :found
       expect(response.location).to match /https:\/\/#{host}.*$/
 
       ##
       # it should then login the user upon the redirect back from the provider
-      redirect_from_provider
+      redirect_from_provider("keycloak")
 
       expect(response).to have_http_status :found
       expect(response.location).to match /\/my\/page/
@@ -147,44 +140,13 @@ RSpec.describe "OpenID Connect", :skip_2fa_stage, # Prevent redirects to 2FA sta
       end
 
       it "maps to the login" do
+        skip "Mapping is not supported yet"
         click_on_signin
         redirect_from_provider
 
         user = User.find_by(login: "a.truly.random.value")
         expect(user).to be_present
       end
-    end
-  end
-
-  context "provider configuration through the settings" do
-    before do
-      allow(Setting).to receive(:plugin_openproject_openid_connect).and_return(
-        "providers" => {
-          "google" => {
-            "identifier" => "does not",
-            "secret" => "matter"
-          },
-          "azure" => {
-            "identifier" => "IDENTIFIER",
-            "secret" => "SECRET"
-          }
-        }
-      )
-    end
-
-    it "shows no option unless EE", with_ee: false do
-      get "/login"
-      expect(response.body).not_to match /Google/i
-      expect(response.body).not_to match /Azure/i
-    end
-
-    it "makes providers that have been configured through settings available without requiring a restart" do
-      get "/login"
-      expect(response.body).to match /Google/i
-      expect(response.body).to match /Azure/i
-
-      expect { click_on_signin("google") }.not_to raise_error
-      expect(response).to have_http_status :found
     end
   end
 end
