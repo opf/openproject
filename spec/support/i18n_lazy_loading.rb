@@ -60,6 +60,8 @@ module I18nLazyLoading
 
   def self.install
     return if ENV["TEST_NO_I18N_LAZY_LOADING"].present?
+    return if ENV["CI"].present?
+    return if ENV["EAGER_LOAD"].present?
 
     # copy original I18n load path
     @@original_load_path = I18n.config.load_path.dup
