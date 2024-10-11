@@ -38,8 +38,8 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { render_widget Widget::Controls::QueryName, @query, :can_rename => allowed_in_report?(:rename, @query, current_user) }
-    header.with_breadcrumbs([{ href: home_path, text: organization_name},
-                             *([href: project_overview_path(@project.id), text: @project.name] if @project),
+    header.with_breadcrumbs([*([ href: home_path, text: organization_name ] unless @project),
+                             *([ href: project_overview_path(@project.id), text: @project.name ] if @project),
                              { href: url_for({ controller: "cost_reports" , action: :index, project_id: @project }), text: I18n.t(:cost_reports_title)},
                              (@query.persisted? ? "#{@query.name}" : t(:label_new_report))])
 
