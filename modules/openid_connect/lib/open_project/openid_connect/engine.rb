@@ -22,7 +22,7 @@ module OpenProject::OpenIDConnect
     assets %w(
       openid_connect/auth_provider-azure.png
       openid_connect/auth_provider-google.png
-      openid_connect/auth_provider-heroku.png
+      openid_connect/auth_provider-custom.png
     )
 
     class_inflection_override("openid_connect" => "OpenIDConnect")
@@ -62,7 +62,8 @@ module OpenProject::OpenIDConnect
 
     initializer "openid_connect.configure" do
       ::Settings::Definition.add(
-        OpenProject::OpenIDConnect::CONFIG_KEY, default: {}, writable: false
+        OpenProject::OpenIDConnect::CONFIG_KEY,
+        **OpenProject::OpenIDConnect::CONFIG_OPTIONS
       )
     end
 
@@ -70,7 +71,9 @@ module OpenProject::OpenIDConnect
       # If response_mode 'form_post' is chosen,
       # the IP sends a POST to the callback. Only if
       # the sameSite flag is not set on the session cookie, is the cookie send along with the request.
-      if OpenProject::Configuration["openid_connect"]&.any? { |_, v| v["response_mode"]&.to_s == "form_post" }
+      if OpenProject::Configuration[OpenProject::OpenIDConnect::CONFIG_KEY]&.any? do |_, v|
+        v["response_mode"]&.to_s == "form_post"
+      end
         SecureHeaders::Configuration.default.cookies[:samesite][:lax] = false
         # Need to reload the secure_headers config to
         # avoid having set defaults (e.g. https) when changing the cookie values
