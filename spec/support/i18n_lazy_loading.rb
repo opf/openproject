@@ -28,16 +28,19 @@
 
 # Lazy loads translations based on the current locale.
 # It avoids a 2 to 4 seconds penalty when all locales are loaded.
-I18n.backend = I18n::Backend::LazyLoadable.new(lazy_load: true)
-
 # Need to make LocaleExtractor recognize our js-<locale>.yaml file format
-module LocaleExtractorPatch
+
+require "i18n/backend/lazy_loadable"
+
+class I18n::Backend::LocaleExtractor
   def self.locale_from_path(path)
-    locale = super
-    locale.to_s.delete_prefix("js-").to_sym if locale
-    # name = File.basename(path, ".*")
-    # locale = name.split("_").first.delete_prefix("js-")
-    # locale&.to_sym
+    name = File.basename(path, ".*")
+    locale = name.split("_").first
+
+    return if locale.nil?
+
+    locale.tr("js-", "").to_sym
   end
 end
-I18n::Backend::LocaleExtractor.prepend(LocaleExtractorPatch)
+
+I18n.backend = I18n::Backend::LazyLoadable.new(lazy_load: true)
