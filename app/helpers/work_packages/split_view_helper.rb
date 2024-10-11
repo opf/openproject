@@ -1,17 +1,20 @@
 module WorkPackages::SplitViewHelper
   def render_work_package_split_view?
-    params[:work_package_split_view].present? || params[:work_package_split_create].present?
+    params[:view_type].present?
   end
 
-  def split_view_instance(project: nil)
-    if params[:work_package_split_view]
+  def split_view_instance(view_type:, project: nil)
+    case view_type
+    when "work_package_split_view"
       WorkPackages::SplitViewComponent.new(id: params[:work_package_id],
                                            tab: params[:tab],
                                            base_route: split_view_base_route)
-    elsif params[:work_package_split_create].present?
+    when "work_package_split_create"
       WorkPackages::SplitCreateComponent.new(type: params[:type],
                                              project:,
                                              base_route: split_view_base_route)
+    else
+      # TODO
     end
   end
 

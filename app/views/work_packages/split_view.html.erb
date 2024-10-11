@@ -1,3 +1,3 @@
 <%= turbo_frame_tag "content-bodyRight" do %>
-  <%= render(split_view_instance(project: @project)) %>
+  <%= render(split_view_instance(view_type: params[:view_type], project: @project)) %>
 <% end %>

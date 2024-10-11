@@ -98,14 +98,14 @@ Rails.application.routes.draw do
         action: options.fetch(:action, :split_view),
         defaults: { tab: :overview },
         as: :details,
-        work_package_split_view: true
+        view_type: "work_package_split_view"
   end
 
   concern :with_split_create do |options|
     get "split_create",
         action: options.fetch(:action, :split_create),
         as: :split_create,
-        work_package_split_create: true
+        view_type: "work_package_split_create"
   end
 
   scope controller: "account" do

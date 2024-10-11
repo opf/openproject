@@ -88,27 +88,11 @@ class WorkPackagesController < ApplicationController
   end
 
   def split_view
-    respond_to do |format|
-      format.html do
-        if turbo_frame_request?
-          render "work_packages/split_view", layout: false
-        else
-          render :index, locals: { query: @query, project: @project, menu_name: project_or_global_menu }
-        end
-      end
-    end
+    render_split_view
   end
 
   def split_create
-    respond_to do |format|
-      format.html do
-        if turbo_frame_request?
-          render "work_packages/split_view", layout: false
-        else
-          render :index, locals: { query: @query, project: @project, menu_name: project_or_global_menu }
-        end
-      end
-    end
+    render_split_view
   end
 
   def export_dialog
@@ -225,5 +209,17 @@ class WorkPackagesController < ApplicationController
 
   def login_back_url_params
     params.permit(:query_id, :state, :query_props)
+  end
+
+  def render_split_view
+    respond_to do |format|
+      format.html do
+        if turbo_frame_request?
+          render "work_packages/split_view", layout: false
+        else
+          render :index, locals: { query: @query, project: @project, menu_name: project_or_global_menu }
+        end
+      end
+    end
   end
 end
