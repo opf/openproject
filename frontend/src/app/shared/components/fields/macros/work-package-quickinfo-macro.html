@@ -9,10 +9,11 @@
                  [displayFieldOptions]="{ writable: false }"
                  fieldName="type">
   </display-field>
-  <a class="work-package--quickinfo preview-trigger"
+  <a class="op-hover-card--preview-trigger"
      target="_top"
      [href]="workPackageLink"
-     [attr.data-work-package-id]="workPackage.id">
+     [attr.data-work-package-id]="workPackage.id"
+     [attr.data-hover-card-url]="workPackageHoverCardUrl">
     #{{workPackage.id}}:
   </a>
   <display-field [resource]="workPackage"

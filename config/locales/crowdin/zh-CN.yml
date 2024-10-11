@@ -470,17 +470,21 @@ zh-CN:
       no_results_content_text: 添加状态报告
   statuses:
     edit:
+      status_color_text: |
+        单击可以分配或更改此状态的颜色。
+        颜色显示在状态按钮中，可用于突出显示表中的工作包。
+      status_excluded_from_totals_text: |-
+        选中此选项可将具有此状态的工作包排除在层次结构中的 "工时"、"
+        剩余工时 "和 "完成百分比 "总数之外。
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         选中此选项可将此状态的工作包标记为只读。
         除状态外，不能更改任何属性。
         <br/>
         <strong>注</strong>：继承值（例如，来自子级或关系的值）仍然适用。
-      status_excluded_from_totals_text: |-
-        选中此选项可将具有此状态的工作包排除在层次结构中的 "工时"、"
-        剩余工时 "和 "完成百分比 "总数之外。
-      status_color_text: |
-        单击可以分配或更改此状态的颜色。
-        颜色显示在状态按钮中，可用于突出显示表中的工作包。
     index:
       no_results_title_text: 目前没有工作包状态。
       no_results_content_text: 添加新的状态
@@ -809,7 +813,7 @@ zh-CN:
         blank: "不能为空。"
         blank_nested: "需要设置属性“%{property}”。"
         cannot_delete_mapping: "必需项，不能删除"
-        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
+        is_for_all_cannot_modify: "适用于所有项目，因此不能修改。"
         cant_link_a_work_package_with_a_descendant: "工作包无法链接到它的子任务之一。"
         circular_dependency: "这种关系将创建循环依赖项。"
         confirmation: "不匹配 %{attribute}。"

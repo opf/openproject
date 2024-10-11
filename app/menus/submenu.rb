@@ -44,6 +44,20 @@ class Submenu
     ]
   end
 
+  def selected_menu_group
+    menu_items.detect do |group|
+      group.children.detect(&:selected)
+    end
+  end
+
+  def selected_menu_item
+    menu_items.each do |group|
+      group.children.each do |item|
+        return item if item.selected
+      end
+    end
+  end
+
   def starred_queries
     base_query
       .where("starred" => "t")

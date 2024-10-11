@@ -478,16 +478,20 @@ hi:
       no_results_content_text: Add a status reporting
   statuses:
     edit:
+      status_color_text: |
+        इस प्राथमिकता का रंग असाइन करने या बदलने के लिए क्लिक करें । यह तालिका में कार्य पैकेज हाइलाइटिंग के लिए उपयोग किया जा सकता है ।
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Check this option to mark work packages with this status as read-only.
         No attributes can be changed with the exception of the status.
         <br/>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
-      status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
-      status_color_text: |
-        इस प्राथमिकता का रंग असाइन करने या बदलने के लिए क्लिक करें । यह तालिका में कार्य पैकेज हाइलाइटिंग के लिए उपयोग किया जा सकता है ।
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status

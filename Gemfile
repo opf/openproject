@@ -32,7 +32,7 @@ source "https://rubygems.org"
 # then we can use the new bundler syntax `ruby file: '.ruby-version'`.
 # https://github.com/heroku/heroku-buildpack-ruby/issues/1408#issuecomment-1841596215
 
-ruby File.read(".ruby-version").strip
+ruby File.read(File.expand_path(".ruby-version", __dir__)).strip
 
 gem "actionpack-xml_parser", "~> 2.0.0"
 gem "activemodel-serializers-xml", "~> 1.0.1"

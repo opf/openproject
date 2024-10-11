@@ -476,17 +476,21 @@ it:
       no_results_content_text: Aggiungi una relazione sullo stato
   statuses:
     edit:
+      status_color_text: |
+        Clicca per assegnare o modificare il colore di questo stato.
+        Viene mostrato come tasto di stato e può essere utilizzato per evidenziare le macro-attività nella tabella.
+      status_excluded_from_totals_text: |-
+        Seleziona questa opzione per escludere i pacchetti di lavoro con questo stato dai totali di Lavoro,
+        Lavoro rimanente e % Completamento in una gerarchia.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Seleziona questa opzione per contrassegnare i pacchetti di lavoro con questo stato come di sola lettura.
         Nessun attributo può essere modificato ad eccezione dello stato.
         <br/>
         <strong> Nota </strong>: i valori ereditati (ad esempio, dai figli o dalle relazioni) verranno comunque applicati.
-      status_excluded_from_totals_text: |-
-        Seleziona questa opzione per escludere i pacchetti di lavoro con questo stato dai totali di Lavoro,
-        Lavoro rimanente e % Completamento in una gerarchia.
-      status_color_text: |
-        Clicca per assegnare o modificare il colore di questo stato.
-        Viene mostrato come tasto di stato e può essere utilizzato per evidenziare le macro-attività nella tabella.
     index:
       no_results_title_text: Al momento non vi sono relazioni sullo stato delle macro-attività.
       no_results_content_text: Aggiungi un nuovo stato

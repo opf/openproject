@@ -130,9 +130,9 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   def current_section
     return @current_section if defined?(@current_section)
 
-    projects_menu = Projects::Menu.new(controller_path:, params:, current_user:)
-
-    @current_section = projects_menu.menu_items.find { |section| section.children.any?(&:selected) }
+    @current_section = Projects::Menu
+      .new(controller_path:, params:, current_user:)
+      .selected_menu_group
   end
 
   def header_save_action(header:, message:, label:, href:, method: nil)

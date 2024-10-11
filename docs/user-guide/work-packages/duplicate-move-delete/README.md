@@ -52,6 +52,10 @@ The *Move to another project* option moves a work package to another project or 
 
 ![Move work package to a different project in OpenProject](openproject_user_guide_copy_move_delete_warning_message_missing_wp_type.png)
 
+> [!TIP]
+>
+> If the work package you are moving has children work packages, they will be moved as well.
+
 ## Delete a work package
 
 The right to delete work packages is tied to specified roles (for example system administrators). The roles and permission may vary from project to project.

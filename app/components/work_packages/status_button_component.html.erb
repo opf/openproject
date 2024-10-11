@@ -1,0 +1,24 @@
+<%=
+  if @readonly
+    render(Primer::Beta::Button.new(**button_arguments)) do |button|
+      button.with_leading_visual_icon(icon: "lock") if readonly?
+      @status.name
+    end
+  else
+    render(Primer::Alpha::ActionMenu.new(**@menu_arguments)) do |menu|
+      menu.with_show_button(**button_arguments) do |button|
+        button.with_trailing_action_icon(icon: "triangle-down")
+        button.with_leading_visual_icon(icon: "lock") if readonly?
+        @status.name
+      end
+
+      @items.each do |item|
+        menu.with_item(label: item.name,
+                       content_arguments: { classes: "__hl_inline_status_#{item.id}",
+                                            align_items: :center }) do |menu_item|
+          menu_item.with_trailing_visual_icon(icon: :lock) if item.is_readonly?
+        end
+      end
+    end
+  end
+%>

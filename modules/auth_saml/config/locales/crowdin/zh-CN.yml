@@ -98,7 +98,7 @@ zh-CN:
       display_name: >
         提供商的名称。这将作为登录按钮和供应商列表显示。
       metadata_none: >
-        Your identity provider does not have a metadata endpoint or XML download option. You can configure it manually.
+        您的身份提供商没有元数据端点或 XML 下载选项。您可以手动配置它。
       metadata_url: >
         您的身份提供商提供了一个元数据 URL 。
       metadata_xml: >

@@ -114,8 +114,8 @@ vi:
             hide_inactive_folders:
               permission_not_set: không thể thiết lập quyền trên %{path}.
             remote_folders:
-              not_allowed: '%{username} không có quyền truy cập vào %{group_folder}. Vui lòng kiểm tra quyền thư mục trên Nextcloud.'
-              not_found: "Không tìm thấy %{group_folder}. Vui lòng kiểm tra thiết lập Nextcloud của bạn."
+              not_allowed: The %{username} doesn't have access to the %{group_folder} folder. Please check the folder permissions on Nextcloud.
+              not_found: "%{group_folder} folder wasn't found. Please check your Nextcloud setup."
             remove_user_from_group:
               conflict: 'Không thể xóa người dùng %{user} khỏi nhóm %{group} vì lý do sau: %{reason}'
               failed_to_remove: 'Không thể xóa người dùng %{user} khỏi nhóm %{group} vì lý do sau: %{reason}'
@@ -128,7 +128,7 @@ vi:
           group_does_not_exist: "%{group} không tồn tại. Kiểm tra cấu hình phiên bản Nextcloud của bạn."
           insufficient_privileges: OpenProject không có đủ quyền để thêm %{user} vào %{group}. Kiểm tra cài đặt nhóm của bạn trong Nextcloud.
           not_allowed: Nextcloud chặn yêu cầu.
-          unauthorized: OpenProject không thể đồng bộ với Nextcloud. Vui lòng kiểm tra bộ nhớ và cấu hình Nextcloud của bạn.
+          unauthorized: OpenProject could not sync with Nextcloud. Please check your storage and Nextcloud configuration.
           user_does_not_exist: "%{user} không tồn tại trong Nextcloud."
         one_drive_sync_service:
           attributes:
@@ -147,7 +147,7 @@ vi:
               permission_not_set: không thể thiết lập quyền trên %{path}.
           error: Đã xảy ra lỗi không mong muốn. Vui lòng đảm bảo rằng phiên bản Nextcloud của bạn có thể truy cập được và kiểm tra nhật ký công nhân OpenProject để biết thêm thông tin
           not_allowed: OpenProject không được phép truy cập ổ đĩa OneDrive của bạn. Vui lòng kiểm tra các quyền được thiết lập trên Ứng dụng Azure.
-          unauthorized: OpenProject không thể đồng bộ với OneDrive. Vui lòng kiểm tra cấu hình lưu trữ và ứng dụng Azure của bạn.
+          unauthorized: OpenProject could not sync with OneDrive. Please check your storage and Azure Application configuration.
           user_does_not_exist: "%{user} không tồn tại trong Nextcloud."
         upload_link_service:
           not_found: The destination folder %{folder} could not be found on %{storage_name}.
@@ -321,8 +321,6 @@ vi:
       not_connected: Chưa kết nối. Người dùng nên đăng nhập vào lưu trữ qua %{link}.
     members_no_results: Không có thành viên nào để hiển thị.
     no_results: Chưa có lưu trữ nào được thiết lập.
-    notice_successful_storage_connection: |-
-      Lưu trữ đã được kết nối thành công! Hãy nhớ kích hoạt module và lưu trữ cụ thể trong cài đặt dự án của từng dự án mong muốn để sử dụng.
     oauth_access_granted_modal:
       access_granted: Đã cấp quyền truy cập
       project_settings:
@@ -384,6 +382,7 @@ vi:
     storage_list_blank_slate:
       description: Thêm một lưu trữ để thấy chúng ở đây.
       heading: Bạn chưa có lưu trữ nào.
+    successful_storage_connection: Storage connected successfully! Remember to activate the storage in the Projects tab for each desired project to use it.
     upsale:
       description: |-
         Tích hợp OneDrive/SharePoint của bạn như một lưu trữ tệp với OpenProject. Tải lên các tệp và liên kết chúng trực tiếp đến các gói công việc trong một dự án.

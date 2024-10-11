@@ -32,17 +32,13 @@ import {
   Component,
   ElementRef,
   Inject,
-  OnInit,
   Input,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken, OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { StateService } from '@uirouter/core';
 import {
   computePosition,
   flip,
@@ -50,22 +46,27 @@ import {
   Placement,
   shift,
 } from '@floating-ui/dom';
-import {
-  WorkPackageIsolatedQuerySpaceDirective,
-} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
+import { WorkPackageIsolatedQuerySpaceDirective } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 
 @Component({
-  templateUrl: './wp-preview.modal.html',
-  styleUrls: ['./wp-preview.modal.sass'],
+  templateUrl: './hover-card.modal.html',
+  styleUrls: ['./hover-card.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
 })
-export class WpPreviewModalComponent extends OpModalComponent implements OnInit {
-  public workPackage:WorkPackageResource;
+export class HoverCardComponent extends OpModalComponent implements OnInit {
+  @ViewChild('turboFrame')
+  set turboFrame(frame:ElementRef<HTMLIFrameElement>|undefined) {
+    if (frame !== undefined) {
+      frame.nativeElement?.addEventListener('turbo:frame-load', () => {
+        const modal = this.elementRef.nativeElement as HTMLElement;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-explicit-any
+        void this.reposition(modal, this.locals.event.target as HTMLElement);
+      });
+    }
+  }
 
-  public text = {
-    created_by: this.i18n.t('js.label_created_by'),
-  };
+  turboFrameSrc:string;
 
   @Input() public alignment?:Placement = 'bottom-end';
 
@@ -75,32 +76,13 @@ export class WpPreviewModalComponent extends OpModalComponent implements OnInit 
     readonly elementRef:ElementRef,
     @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
-    readonly i18n:I18nService,
-    readonly apiV3Service:ApiV3Service,
-    readonly opModalService:OpModalService,
-    readonly $state:StateService,
   ) {
     super(locals, cdRef, elementRef);
   }
 
   ngOnInit() {
     super.ngOnInit();
-    const { workPackageLink } = this.locals;
-    const workPackageId = idFromLink(workPackageLink as string|null);
-
-    this
-      .apiV3Service
-      .work_packages
-      .id(workPackageId)
-      .requireAndStream()
-      .subscribe((workPackage:WorkPackageResource) => {
-        this.workPackage = workPackage;
-        this.cdRef.detectChanges();
-
-        const modal = this.elementRef.nativeElement as HTMLElement;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-explicit-any
-        void this.reposition(modal, this.locals.event.target as HTMLElement);
-      });
+    this.turboFrameSrc = this.locals.turboFrameSrc as string;
   }
 
   public async reposition(element:HTMLElement, target:HTMLElement) {
@@ -124,10 +106,5 @@ export class WpPreviewModalComponent extends OpModalComponent implements OnInit 
       left: `${x}px`,
       top: `${y}px`,
     });
-  }
-
-  public openStateLink(event:{ workPackageId:string; requestedState:string }) {
-    const params = { workPackageId: event.workPackageId };
-    void this.$state.go(event.requestedState, params);
   }
 }

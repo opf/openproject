@@ -73,7 +73,10 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     service_result = call_update_service
 
     if service_result.success?
-      flash[:notice] = I18n.t(:"storages.notice_successful_storage_connection")
+      flash[:op_primer_flash] = {
+        message: I18n.t(:"storages.successful_storage_connection"),
+        scheme: :success
+      }
       redirect_to edit_admin_settings_storage_path(@storage)
     else
       respond_with_ampf_form_turbo_stream_or_edit_html

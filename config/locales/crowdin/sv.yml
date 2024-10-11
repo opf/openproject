@@ -479,16 +479,20 @@ sv:
       no_results_content_text: Lägg till en statusrapport
   statuses:
     edit:
+      status_color_text: |
+        Välj för att tilldela eller ändra färgen för denna status.
+        Den visas i statusknappen och och kan användas för markering av arbetspaket i tabellen.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Välj detta val för att markera arbetspaket med denna status som skrivskyddade.
         Inga attribut kan ändras förutom status.
         <br/><strong>Notera</strong>Ärvda värden (t. ex. från barn eller relationer) kommer fortfarande gälla.
-      status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
-      status_color_text: |
-        Välj för att tilldela eller ändra färgen för denna status.
-        Den visas i statusknappen och och kan användas för markering av arbetspaket i tabellen.
     index:
       no_results_title_text: Det finns för närvarande inga statusar för arbetspaket.
       no_results_content_text: Lägg till ny status

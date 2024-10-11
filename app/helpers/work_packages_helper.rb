@@ -171,20 +171,6 @@ module WorkPackagesHelper
     end
   end
 
-  # Returns a string of css classes that apply to the issue
-  def work_package_css_classes(work_package)
-    s = "work_package preview-trigger".html_safe
-    s << " status-#{work_package.status.position}" if work_package.status
-    s << " priority-#{work_package.priority.position}" if work_package.priority
-    s << " closed" if work_package.closed?
-    s << " overdue" if work_package.overdue?
-    s << " child" if work_package.child?
-    s << " parent" unless work_package.leaf?
-    s << " created-by-me" if User.current.logged? && work_package.author_id == User.current.id
-    s << " assigned-to-me" if User.current.logged? && work_package.assigned_to_id == User.current.id
-    s
-  end
-
   def work_package_associations_to_address(associated)
     ret = "".html_safe
 
