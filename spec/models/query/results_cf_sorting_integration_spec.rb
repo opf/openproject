@@ -188,11 +188,11 @@ RSpec.describe Query::Results, "Sorting by custom field" do
 
         let(:work_packages) do
           [
+            wp_without_cf_value,
             # sorting is done by position, and not by value
             wp_with_cf_value(id_by_value.fetch("100")),
             wp_with_cf_value(id_by_value.fetch("3")),
             wp_with_cf_value(id_by_value.fetch("20")),
-            wp_without_cf_value # TODO: should be at index 0
           ]
         end
       end
@@ -204,6 +204,7 @@ RSpec.describe Query::Results, "Sorting by custom field" do
 
         let(:work_packages) do
           [
+            wp_without_cf_value,
             wp_with_cf_value(id_by_value.fetch_values("100")),            # 100
             wp_with_cf_value(id_by_value.fetch_values("3", "100")),       # 100, 3
             wp_with_cf_value(id_by_value.fetch_values("3", "20", "100")), # 100, 3, 20
@@ -216,14 +217,13 @@ RSpec.describe Query::Results, "Sorting by custom field" do
             wp_with_cf_value(id_by_value.fetch_values("3")),              # 3
             wp_with_cf_value(id_by_value.fetch_values("3", "20")),        # 3, 20
             wp_with_cf_value(id_by_value.fetch_values("20")),             # 20
-            wp_without_cf_value # TODO: decide on order of absent values
           ]
         end
 
         let(:work_packages_desc) do
           indexes = work_packages.each_index.to_a
-          # order of values for a project is ignored, so ordered by falling back on id asc
-          indexes[2...8] = indexes[2...8].reverse
+          # order of projects with same values in different order falls back on next column (id asc)
+          indexes[3...9] = indexes[3...9].reverse
           work_packages.values_at(*indexes.reverse)
         end
       end
@@ -255,11 +255,11 @@ RSpec.describe Query::Results, "Sorting by custom field" do
 
         let(:work_packages) do
           [
+            wp_without_cf_value,
             wp_with_cf_value(id_by_login.fetch("ax")),
             wp_with_cf_value(id_by_login.fetch("ba")),
             wp_with_cf_value(id_by_login.fetch("bb1")),
             wp_with_cf_value(id_by_login.fetch("bb2")),
-            wp_without_cf_value # TODO: should be at index 0
           ]
         end
       end
@@ -271,20 +271,20 @@ RSpec.describe Query::Results, "Sorting by custom field" do
 
         let(:work_packages) do
           [
+            wp_without_cf_value,
             wp_with_cf_value(id_by_login.fetch_values("ax")),        # ax
             wp_with_cf_value(id_by_login.fetch_values("bb1", "ax")), # ax, bb1
             wp_with_cf_value(id_by_login.fetch_values("ax", "bb1")), # ax, bb1
             wp_with_cf_value(id_by_login.fetch_values("ba")),        # ba
             wp_with_cf_value(id_by_login.fetch_values("bb1", "ba")), # ba, bb1
             wp_with_cf_value(id_by_login.fetch_values("ba", "bb2")), # ba, bb2
-            wp_without_cf_value # TODO: should be at index 0
           ]
         end
 
         let(:work_packages_desc) do
           indexes = work_packages.each_index.to_a
-          # order of values for a project is ignored, so ordered by falling back on id asc
-          indexes[1...3] = indexes[1...3].reverse
+          # order of projects with same values in different order falls back on next column (id asc)
+          indexes[2...4] = indexes[2...4].reverse
           work_packages.values_at(*indexes.reverse)
         end
       end
@@ -308,11 +308,11 @@ RSpec.describe Query::Results, "Sorting by custom field" do
 
         let(:work_packages) do
           [
+            wp_without_cf_value,
             wp_with_cf_value(id_by_name.fetch("10.10.10")),
             wp_with_cf_value(id_by_name.fetch("10.10.2")),
             wp_with_cf_value(id_by_name.fetch("10.2")),
             wp_with_cf_value(id_by_name.fetch("9")),
-            wp_without_cf_value # TODO: should be at index 0
           ]
         end
       end
@@ -324,20 +324,20 @@ RSpec.describe Query::Results, "Sorting by custom field" do
 
         let(:work_packages) do
           [
+            wp_without_cf_value,
             wp_with_cf_value(id_by_name.fetch_values("10.10.10")),        # 10.10.10
             wp_with_cf_value(id_by_name.fetch_values("9", "10.10.10")),   # 10.10.10, 9
             wp_with_cf_value(id_by_name.fetch_values("10.10.10", "9")),   # 10.10.10, 9
             wp_with_cf_value(id_by_name.fetch_values("10.10.2")),         # 10.10.2
             wp_with_cf_value(id_by_name.fetch_values("10.2", "10.10.2")), # 10.10.2, 10.2
             wp_with_cf_value(id_by_name.fetch_values("10.10.2", "9")),    # 10.10.2, 9
-            wp_without_cf_value # TODO: should be at index 0
           ]
         end
 
         let(:work_packages_desc) do
           indexes = work_packages.each_index.to_a
-          # order of values for a project is ignored, so ordered by falling back on id asc
-          indexes[1...3] = indexes[1...3].reverse
+          # order of projects with same values in different order falls back on next column (id asc)
+          indexes[2...4] = indexes[2...4].reverse
           work_packages.values_at(*indexes.reverse)
         end
       end

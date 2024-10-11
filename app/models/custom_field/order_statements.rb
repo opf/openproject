@@ -58,8 +58,6 @@ module CustomField::OrderStatements
   # Returns the ORDER BY option defining order of objects without value for the
   # custom field.
   def order_null_handling(asc)
-    return unless %w[int float string date bool link].include?(field_format)
-
     null_direction = asc ? "FIRST" : "LAST"
     Arel.sql("NULLS #{null_direction}")
   end
