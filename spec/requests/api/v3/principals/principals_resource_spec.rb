@@ -228,6 +228,7 @@ RSpec.describe "API v3 Principals resource" do
                 _type: "PlaceholderUser",
                 id: placeholder_user.id,
                 name: placeholder_user.name,
+                email: "",
                 _links: {
                   self: {
                     href: api_v3_paths.placeholder_user(placeholder_user.id),
@@ -239,6 +240,7 @@ RSpec.describe "API v3 Principals resource" do
                 _type: "Group",
                 id: group.id,
                 name: group.name,
+                email: "",
                 _links: {
                   self: {
                     href: api_v3_paths.group(group.id),
@@ -250,6 +252,7 @@ RSpec.describe "API v3 Principals resource" do
                 _type: "User",
                 id: other_user.id,
                 name: other_user.name,
+                email: other_user.mail,
                 _links: {
                   self: {
                     href: api_v3_paths.user(other_user.id),
@@ -263,6 +266,7 @@ RSpec.describe "API v3 Principals resource" do
                 name: user.name,
                 firstname: user.firstname,
                 lastname: user.lastname,
+                email: user.mail,
                 _links: {
                   self: {
                     href: api_v3_paths.user(user.id),
