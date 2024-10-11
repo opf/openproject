@@ -42,6 +42,7 @@ en:
       color_theme_custom: "(Custom)"
       tab_interface: "Interface"
       tab_branding: "Branding"
+      tab_default_colors: "Default colors"
       tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
