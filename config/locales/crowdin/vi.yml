@@ -2880,6 +2880,7 @@ vi:
   permission_view_shared_work_packages: "Xem chia sẻ gói công việc"
   permission_view_time_entries: "Xem thời gian đã chi tiêu"
   permission_view_timelines: "Xem mốc thời gian"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Xem lịch sử chỉnh sửa wiki"
   permission_view_wiki_pages: "Xem wiki"
   permission_work_package_assigned: "Trở thành người được chỉ định/chịu trách nhiệm"

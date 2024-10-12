@@ -2912,6 +2912,7 @@ it:
   permission_view_shared_work_packages: "Mostra condivisioni della macro-attività"
   permission_view_time_entries: "Visualizza il tempo impiegato"
   permission_view_timelines: "Visualizza le cronologie"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Visualizza il registro della wiki"
   permission_view_wiki_pages: "Visualizza la wiki"
   permission_work_package_assigned: "Diventa assegnatario/responsabile"

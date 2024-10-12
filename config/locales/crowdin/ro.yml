@@ -2951,6 +2951,7 @@ ro:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Vizualizare timp consumat"
   permission_view_timelines: "Vizualizare linii de timp"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Vizualizare istoric wiki"
   permission_view_wiki_pages: "Vizualizare wiki"
   permission_work_package_assigned: "Deveniți cesionar/responsabil"

@@ -477,9 +477,8 @@ zh-CN:
         选中此选项可将具有此状态的工作包排除在层次结构中的 "工时"、"
         剩余工时 "和 "完成百分比 "总数之外。
       status_percent_complete_text: |-
-        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
-        package is automatically set to this value when this status is selected.
-        Ignored in work-based mode.
+        在<a href="%{href}">基于状态的进度计算模式</a>下，当选择该状态时，工作包的 完成% 会自动设置为该值。
+        在基于工作的模式下忽略。
       status_readonly_html: |
         选中此选项可将此状态的工作包标记为只读。
         除状态外，不能更改任何属性。
@@ -2870,6 +2869,7 @@ zh-CN:
   permission_view_shared_work_packages: "查看工作包共享"
   permission_view_time_entries: "查看消耗时间"
   permission_view_timelines: "查看时间线"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "查看维基历史记录"
   permission_view_wiki_pages: "查看维基"
   permission_work_package_assigned: "成为受理人/责任人"

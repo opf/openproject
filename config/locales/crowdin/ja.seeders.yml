@@ -67,6 +67,8 @@ ja:
       global_roles:
         item_0:
           name: スタッフとプロジェクトマネージャー
+        item_1:
+          name: Standard global role
     standard:
       priorities:
         item_0:

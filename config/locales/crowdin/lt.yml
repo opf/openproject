@@ -2984,6 +2984,7 @@ lt:
   permission_view_shared_work_packages: "Žiūrėti darbo paketo bendrinimus"
   permission_view_time_entries: "Peržiūrėti dirbtą laiką"
   permission_view_timelines: "Peržiūrėti laiko juostas"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Peržiūrėti wiki istoriją"
   permission_view_wiki_pages: "Peržiūrėti wiki"
   permission_work_package_assigned: "Tapti paskirtuoju/atsakinguoju"

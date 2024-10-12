@@ -2988,6 +2988,7 @@ cs:
   permission_view_shared_work_packages: "Zobrazit sdílení pracovních balíčků"
   permission_view_time_entries: "Zobrazit strávený čas"
   permission_view_timelines: "Zobrazit časové osy"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Zobrazit historii wiki"
   permission_view_wiki_pages: "Zobrazit wiki"
   permission_work_package_assigned: "Staňte se řešitelem/odpovědným"

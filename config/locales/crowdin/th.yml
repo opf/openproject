@@ -2878,6 +2878,7 @@ th:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "ดูเวลาที่ใช้"
   permission_view_timelines: "ดูแผนภูมิเวลา"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "ดูประวัติวิกิ"
   permission_view_wiki_pages: "ดูวิกิ"
   permission_work_package_assigned: "Become assignee/responsible"

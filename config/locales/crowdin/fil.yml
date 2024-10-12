@@ -2915,6 +2915,7 @@ fil:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Tanawin ang ginugol na oras"
   permission_view_timelines: "Tingnan ang mga timeline"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Tingnan ang mga kasaysayan ng wiki"
   permission_view_wiki_pages: "Tanawin ang wiki"
   permission_work_package_assigned: "Become assignee/responsible"

@@ -2915,6 +2915,7 @@ bg:
   permission_view_shared_work_packages: "Преглед споеделянията на работния пакет"
   permission_view_time_entries: "Преглед на прекараното време"
   permission_view_timelines: "Преглед на хронологиите"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Преглед на историята на уикипедията"
   permission_view_wiki_pages: "Преглед на уикипедия"
   permission_work_package_assigned: "Станете правоприемник/отговорник"

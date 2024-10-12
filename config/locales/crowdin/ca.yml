@@ -2906,6 +2906,7 @@ ca:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Visualitzar el temps invertit"
   permission_view_timelines: "Veure els terminis"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Visualitza l'historial de la wiki"
   permission_view_wiki_pages: "Visualitzar la wiki"
   permission_work_package_assigned: "Esdevé assignat/responsable"

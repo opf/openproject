@@ -2873,6 +2873,7 @@ zh-TW:
   permission_view_shared_work_packages: "檢視分享的工作項目"
   permission_view_time_entries: "檢視耗時"
   permission_view_timelines: "檢視時間軸"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "檢視維基歷史"
   permission_view_wiki_pages: "檢視維基"
   permission_work_package_assigned: "成為執行者/負責人"

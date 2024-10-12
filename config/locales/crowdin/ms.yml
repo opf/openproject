@@ -2874,6 +2874,7 @@ ms:
   permission_view_shared_work_packages: "Lihat perkongsian pakej kerja"
   permission_view_time_entries: "Lihat masa yang digunakan"
   permission_view_timelines: "Lihat garis masa"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Lihat sejarah wiki"
   permission_view_wiki_pages: "Lihat wiki"
   permission_work_package_assigned: "Menjadi penerima tugasan/bertanggungjawab"

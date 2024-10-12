@@ -2914,6 +2914,7 @@
   permission_view_shared_work_packages: "Vis delte arbeidspakke"
   permission_view_time_entries: "Vis tidsbruk"
   permission_view_timelines: "Vis tidslinjer"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Vis wiki-historikk"
   permission_view_wiki_pages: "Vis wiki"
   permission_work_package_assigned: "Bli utførende/ansvarlig"

@@ -67,6 +67,8 @@ hu:
       global_roles:
         item_0:
           name: A vezetőség és a projekt menedzser
+        item_1:
+          name: Standard global role
     standard:
       priorities:
         item_0:

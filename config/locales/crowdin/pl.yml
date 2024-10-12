@@ -2985,6 +2985,7 @@ pl:
   permission_view_shared_work_packages: "Wyświetl udostępnienia pakietu roboczego"
   permission_view_time_entries: "Widok czasu pracy"
   permission_view_timelines: "Widok osi czasu"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "WIdok historii wiki"
   permission_view_wiki_pages: "Widok wiki"
   permission_work_package_assigned: "Zostań osobą przypisaną/odpowiedzialną"

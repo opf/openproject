@@ -2911,6 +2911,7 @@ nl:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Verbruikte tijd weergeven"
   permission_view_timelines: "Weergave tijdlijnen"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Wiki weergavegeschiedenis"
   permission_view_wiki_pages: "Weergave wiki"
   permission_work_package_assigned: "Toewijzer/verantwoordelijk worden"

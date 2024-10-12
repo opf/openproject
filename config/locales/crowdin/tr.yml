@@ -2911,6 +2911,7 @@ tr:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Harcanan süreyi görüntüleme"
   permission_view_timelines: "Zaman çizelgelerini görüntüle"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Wiki geçmişini görüntüle"
   permission_view_wiki_pages: "Wiki'yi görüntüle"
   permission_work_package_assigned: "Atanan/sorumlu olun"

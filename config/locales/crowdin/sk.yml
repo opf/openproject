@@ -2988,6 +2988,7 @@ sk:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Zobrazenie stráveného času"
   permission_view_timelines: "Zobrazenie časovej osi"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Zobrazenie histórie wiki"
   permission_view_wiki_pages: "Zobraziť wiki"
   permission_work_package_assigned: "Become assignee/responsible"

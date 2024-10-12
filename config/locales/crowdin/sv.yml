@@ -2914,6 +2914,7 @@ sv:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Visa förbrukad tid"
   permission_view_timelines: "Visa tidslinjer"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Visa historik över wiki"
   permission_view_wiki_pages: "Visa wiki"
   permission_work_package_assigned: "Become assignee/responsible"
