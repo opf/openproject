@@ -6,3 +6,7 @@ interface IGroupsCollapseEvent {
   allGroupsChanged:boolean;
   groupedBy:string|null;
 }
+
+interface IHierarchiesCollapseEvent {
+  allHierarchiesChanged:boolean;
+}

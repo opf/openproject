@@ -127,6 +127,9 @@ import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/
 import {
   WorkPackageViewCollapsedGroupsService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
+import {
+  WorkPackageViewCollapsedHierarchiesService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-hierarchies.service';
 import { WorkPackageService } from 'core-app/features/work-packages/services/work-package.service';
 import {
   WorkPackageViewBaselineService,
@@ -158,6 +161,7 @@ import { TimeEntryEditService } from 'core-app/shared/components/time_entries/ed
     WorkPackageViewPaginationService,
     WorkPackageViewGroupByService,
     WorkPackageViewCollapsedGroupsService,
+    WorkPackageViewCollapsedHierarchiesService,
     WorkPackageViewHierarchiesService,
     WorkPackageViewSortByService,
     WorkPackageViewColumnsService,
