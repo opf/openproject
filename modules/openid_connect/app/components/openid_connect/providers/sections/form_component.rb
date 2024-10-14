@@ -53,9 +53,17 @@ module OpenIDConnect::Providers::Sections
 
     def url
       if provider.new_record?
-        openid_connect_providers_path(edit_state:, edit_mode:, next_edit_state:)
+        openid_connect_providers_path(**form_url_params)
       else
-        openid_connect_provider_path(edit_state:, edit_mode:, next_edit_state:, id: provider.id)
+        openid_connect_provider_path(provider, **form_url_params)
+      end
+    end
+
+    def form_url_params
+      if edit_mode
+        { edit_state:, edit_mode:, next_edit_state: }
+      else
+        { edit_state: }
       end
     end
 
