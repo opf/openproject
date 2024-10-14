@@ -90,7 +90,7 @@ RSpec.describe "Emoji reactions on work package activity", :js, :with_cuprite,
     end
   end
 
-  context "when a user has `add_work_package_notes` and `edit_own_work_package_notes` permission" do
+  context "when a user has `add_work_package_notes` permission" do
     current_user { viewer_with_commenting_permission }
 
     before do
