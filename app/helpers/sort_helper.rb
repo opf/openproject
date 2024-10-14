@@ -401,7 +401,7 @@ module SortHelper
       sort_actions(menu, column, default_order, content_args:, allowed_params:, **html_options)
 
       # Some columns do not offer a filter. Only show the option when filtering is possible.
-      filter_action(menu, filter, content_args:) if filter
+      filter_action(menu, column, filter, content_args:) if filter
 
       move_column_actions(menu, column, table_columns, content_args:, allowed_params:, **html_options)
       add_and_remove_column_actions(menu, column, table_columns, content_args:, allowed_params:, **html_options)
@@ -421,22 +421,31 @@ module SortHelper
     asc_sort_link = projects_path(sort_by_options(column, "asc", default_order, allowed_params:, **html_options))
 
     menu.with_item(**menu_options(label: t(:label_sort_descending),
-                                  content_args:,
+                                  content_args: content_args.merge(
+                                    data: {
+                                      "test-selector" => "#{column}-sort-desc"
+                                    }
+                                  ),
                                   href: desc_sort_link)) do |item|
       item.with_leading_visual_icon(icon: :"sort-desc")
     end
     menu.with_item(**menu_options(label: t(:label_sort_ascending),
-                                  content_args:,
+                                  content_args: content_args.merge(
+                                    data: {
+                                      "test-selector" => "#{column}-sort-asc"
+                                    }
+                                  ),
                                   href: asc_sort_link)) do |item|
       item.with_leading_visual_icon(icon: :"sort-asc")
     end
   end
 
-  def filter_action(menu, filter, content_args:)
+  def filter_action(menu, column, filter, content_args:)
     menu.with_divider
     menu.with_item(**menu_options(label: t(:label_filter_by),
                                   content_args: content_args.merge(
                                     data: {
+                                      "test-selector" => "#{column}-filter-by",
                                       action: "table-action-menu#filterBy",
                                       filter_name: filter
                                     }
@@ -446,22 +455,41 @@ module SortHelper
   end
 
   def move_column_actions(menu, column, selected_columns, content_args:, allowed_params: nil, **html_options)
-    left_shift = shift_element(selected_columns, column)
-    shift_left_link = build_columns_link(left_shift, allowed_params:, **html_options)
-
-    right_shift = shift_element(selected_columns, column, :right)
-    shift_right_link = build_columns_link(right_shift, allowed_params:, **html_options)
+    column_pos = selected_columns.index(column)
+    return unless column_pos
 
     menu.with_divider
-    menu.with_item(**menu_options(label: t(:label_move_column_left),
-                                  content_args:,
-                                  href: shift_left_link)) do |item|
-      item.with_leading_visual_icon(icon: :"op-columns-left")
+
+    # Only offer the option of moving the column left if it is not already the leftmost column.
+    if column_pos > 0
+      left_shift = shift_element(selected_columns, column)
+      shift_left_link = build_columns_link(left_shift, allowed_params:, **html_options)
+
+      menu.with_item(**menu_options(label: t(:label_move_column_left),
+                                    content_args: content_args.merge(
+                                      data: {
+                                        "test-selector" => "#{column}-move-col-left"
+                                      }
+                                    ),
+                                    href: shift_left_link)) do |item|
+        item.with_leading_visual_icon(icon: :"op-columns-left")
+      end
     end
-    menu.with_item(**menu_options(label: t(:label_move_column_right),
-                                  content_args:,
-                                  href: shift_right_link)) do |item|
-      item.with_leading_visual_icon(icon: :"op-columns-right")
+
+    # Only offer the option of moving the column right if it is not already the rightmost column.
+    if column_pos < selected_columns.length - 1
+      right_shift = shift_element(selected_columns, column, :right)
+      shift_right_link = build_columns_link(right_shift, allowed_params:, **html_options)
+
+      menu.with_item(**menu_options(label: t(:label_move_column_right),
+                                    content_args: content_args.merge(
+                                      data: {
+                                        "test-selector" => "#{column}-move-col-right"
+                                      }
+                                    ),
+                                    href: shift_right_link)) do |item|
+        item.with_leading_visual_icon(icon: :"op-columns-right")
+      end
     end
   end
 
@@ -473,14 +501,21 @@ module SortHelper
 
     menu.with_item(**menu_options(label: t(:label_add_column),
                                   content_args: content_args.merge(
-                                    data: { controller: "async-dialog" }
+                                    data: {
+                                      controller: "async-dialog",
+                                      "test-selector" => "#{column}-add-column"
+                                    }
                                   ),
                                   href: config_view_modal_link)) do |item|
       item.with_leading_visual_icon(icon: :columns)
     end
     menu.with_divider
     menu.with_item(**menu_options(label: t(:label_remove_column),
-                                  content_args:,
+                                  content_args: content_args.merge(
+                                    data: {
+                                      "test-selector" => "#{column}-remove-column"
+                                    }
+                                  ),
                                   scheme: :danger,
                                   href: rm_column_link)) do |item|
       item.with_leading_visual_icon(icon: :trash)
