@@ -327,9 +327,9 @@ module SortHelper
   #
   # This is a more specific version of #sort_header_tag.
   # For "filter by" to work properly, you must pass a Hash for `filter_column_mapping`.
-  def sort_header_with_action_menu(column, filter_column_mapping = {}, allowed_params: nil, **options)
+  def sort_header_with_action_menu(column, all_columns, filter_column_mapping = {}, allowed_params: nil, **options)
     with_sort_header_options(column, allowed_params:, **options) do |col, cap, default_order, **opts|
-      action_menu(col, cap, default_order, filter_column_mapping, **opts)
+      action_menu(col, all_columns, cap, default_order, filter_column_mapping, **opts)
     end
   end
 
@@ -352,13 +352,6 @@ module SortHelper
 
   def sort_key(key)
     key == :json ? :sortBy : :sort
-  end
-
-  # FIXME: copied from ConfigureViewModalComponent
-  def selected_columns_for_action_menu
-    @selected_columns ||= @query
-                            .selects
-                            .map(&:attribute)
   end
 
   def build_columns_link(columns, allowed_params: nil, **html_options)
@@ -386,10 +379,13 @@ module SortHelper
     filter_mapping.fetch(col, col)
   end
 
-  def action_menu(column, caption, default_order, filter_column_mapping = {}, allowed_params: nil, **html_options)
+  # Renders an ActionMenu for a specific column. The ActionMenu offers options such as sorting, moving a column to
+  # the left or right, filtering by the column (not available for all columns) or removing it.
+  # Some of the method arguments are only needed for specific actions.
+  def action_menu(column, table_columns, caption, default_order, filter_column_mapping = {},
+                  allowed_params: nil, **html_options)
     caption ||= column.to_s.humanize
 
-    selected_columns = selected_columns_for_action_menu
     filter = find_filter_for_column(column, filter_column_mapping)
 
     # `param` is not needed in the `content_arguments`, but should remain in the `html_options`.
@@ -404,8 +400,8 @@ module SortHelper
       # Some columns do not offer a filter. Only show the option when filtering is possible.
       filter_action(menu, filter, content_args:) if filter
 
-      move_column_actions(menu, column, selected_columns, content_args:, allowed_params:, **html_options)
-      add_and_remove_column_actions(menu, column, selected_columns, content_args:, allowed_params:, **html_options)
+      move_column_actions(menu, column, table_columns, content_args:, allowed_params:, **html_options)
+      add_and_remove_column_actions(menu, column, table_columns, content_args:, allowed_params:, **html_options)
     end
   end
 

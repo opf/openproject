@@ -64,7 +64,7 @@ module Projects
     ##
     # The project sort by is handled differently
     def build_sort_header(column, options)
-      helpers.projects_sort_header_tag(column, **options, param: :json)
+      helpers.projects_sort_header_tag(column, query.selects.map(&:attribute), **options, param: :json)
     end
 
     # We don't return the project row
