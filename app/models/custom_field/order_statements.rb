@@ -75,7 +75,9 @@ module CustomField::OrderStatements
   def group_by_select_statement
     return unless field_format == "list"
 
-    "ANY_VALUE(cf_order_#{id}.ids)"
+    # MIN needed to not add this column to group by, ANY_VALUE can be used when
+    # minimum required PostgreSQL becomes 16
+    "MIN(cf_order_#{id}.ids)"
   end
 
   # Returns the join statement that is required to group objects by their value
