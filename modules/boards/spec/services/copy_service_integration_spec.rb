@@ -128,6 +128,36 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
     end
   end
 
+  describe "for a board filtered by version" do
+    let(:current_user) do
+      create(:user, member_with_roles: { source => role })
+    end
+    let(:expected_error) do
+      "Widget contained in Grid Board 'Subproject board': Only subproject filter has invalid values."
+    end
+    let!(:version) { create(:version, project: source) }
+    let!(:board_view) do
+      create(:board_grid, project: source)
+    end
+    let(:only_args) { %w[work_packages boards versions] }
+
+    before do
+      board_view.update! options: {
+        filters: [{ version: { operator: "=", values: [version.id.to_s] } }]
+      }
+      login_as current_user
+    end
+
+    it "maps the filters in the board options" do
+      expect(subject).to be_success
+      expect(board_copies.count).to eq 1
+
+      version_filter = board_copy.options[:filters].first[:version]
+      copied_version = project_copy.versions.first
+      expect(version_filter[:values]).to eq [copied_version.id.to_s]
+    end
+  end
+
   describe "for ordered work packages" do
     let!(:board_view) { create(:board_grid_with_query, project: source, name: "My Board") }
     let!(:wp_1) { create(:work_package, project: source, subject: "Second") }
