@@ -2869,7 +2869,7 @@ zh-CN:
   permission_view_shared_work_packages: "查看工作包共享"
   permission_view_time_entries: "查看消耗时间"
   permission_view_timelines: "查看时间线"
-  permission_view_user_email: "View users' mail addresses"
+  permission_view_user_email: "查看用户的邮件地址"
   permission_view_wiki_edits: "查看维基历史记录"
   permission_view_wiki_pages: "查看维基"
   permission_work_package_assigned: "成为受理人/责任人"

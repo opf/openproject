@@ -68,7 +68,7 @@ zh-CN:
         item_0:
           name: 员工和项目经理
         item_1:
-          name: Standard global role
+          name: 默认全局角色
     standard:
       priorities:
         item_0:
