@@ -28,26 +28,28 @@
 
 module Queries::Copy
   class FiltersMapper
-    attr_reader :state, :filters, :mappers
+    attr_reader :state, :mappers
 
-    def initialize(state, filters)
+    def initialize(state)
       @state = state
-      @filters = filters
       @mappers = build_filter_mappers
     end
 
     ##
-    # Returns the mapped filter array for either
-    # hash-based APIv3 filters or filter clasess
-    def map_filters!
-      filters.map! do |input|
-        if input.is_a?(Hash)
-          filter = input.dup.with_indifferent_access
-          map_api_filter_hash(filter)
-        else
-          map_filter_class(input)
-          input
-        end
+    # Returns the mapped filter array for
+    # an array of hash-based APIv3 filters
+    def map_filters(filters)
+      filters.map do |input|
+        filter = input.dup.with_indifferent_access
+        map_api_filter_hash(filter)
+      end
+    end
+
+    ##
+    # Maps the given query instance
+    def map_query!(query)
+      query.filters.each do |filter|
+        filter.values = mapped_values(filter.name, filter.values)
       end
     end
 
@@ -65,10 +67,6 @@ module Queries::Copy
       subhash["values"] = mapped_values(ar_name, subhash["values"])
 
       filter
-    end
-
-    def map_filter_class(filter)
-      filter.values = mapped_values(filter.name, filter.values)
     end
 
     def mapped_values(ar_name, values)
