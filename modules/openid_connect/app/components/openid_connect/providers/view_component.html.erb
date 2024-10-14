@@ -159,7 +159,7 @@
             provider,
             form_class: ns::MetadataDetailsForm,
             edit_state:,
-            next_edit_state: :client_details,
+            next_edit_state: :attribute_mapping,
             edit_mode:,
             banner: provider.metadata_configured? ? t("openid_connect.providers.section_texts.configuration_metadata") : nil,
             banner_scheme: :default,
@@ -173,6 +173,29 @@
             heading: t("openid_connect.providers.label_configuration_details"),
             description: t("openid_connect.providers.section_texts.configuration"),
             label: provider.metadata_configured? ? t(:label_completed) : t(:label_not_configured),
+            label_scheme: provider.metadata_configured? ? :success : :secondary
+          ))
+        end
+      end
+
+      component.with_row(scheme: :default) do
+        if edit_state == :attribute_mapping
+          render(ns::Sections::FormComponent.new(
+            provider,
+            form_class: ns::AttributeMappingForm,
+            edit_state:,
+            next_edit_state: :client_details,
+            edit_mode:,
+            heading: nil
+          ))
+        else
+          render(ns::Sections::ShowComponent.new(
+            provider,
+            target_state: :attribute_mapping,
+            view_mode:,
+            heading: t("openid_connect.providers.label_attribute_mapping"),
+            description: t("openid_connect.providers.section_texts.attribute_mapping"),
+            label: provider.metadata_configured? ? t(:label_completed) : nil,
             label_scheme: provider.metadata_configured? ? :success : :secondary
           ))
         end

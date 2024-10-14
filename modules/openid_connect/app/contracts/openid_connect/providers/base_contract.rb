@@ -71,6 +71,10 @@ module OpenIDConnect
       validates :jwks_uri,
                 url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },
                 if: -> { model.jwks_uri_changed? }
+
+      OpenIDConnect::Provider::MAPPABLE_ATTRIBUTES.each do |attr|
+        attribute :"mapping_#{attr}"
+      end
     end
   end
 end

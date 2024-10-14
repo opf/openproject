@@ -10,11 +10,18 @@ module OpenIDConnect
     DISCOVERABLE_ATTRIBUTES_OPTIONAL = %i[end_session_endpoint].freeze
     DISCOVERABLE_ATTRIBUTES_MANDATORY = DISCOVERABLE_ATTRIBUTES_ALL - %i[end_session_endpoint jwks_uri]
 
+    MAPPABLE_ATTRIBUTES = %i[login email first_name last_name].freeze
+
     store_attribute :options, :oidc_provider, :string
     store_attribute :options, :metadata_url, :string
+
     DISCOVERABLE_ATTRIBUTES_ALL.each do |attribute|
       store_attribute :options, attribute, :string
     end
+    MAPPABLE_ATTRIBUTES.each do |attribute|
+      store_attribute :options, "#{attribute}_mapping", :string
+    end
+
     store_attribute :options, :client_id, :string
     store_attribute :options, :client_secret, :string
     store_attribute :options, :tenant, :string

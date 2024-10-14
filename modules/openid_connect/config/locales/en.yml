@@ -21,7 +21,6 @@ en:
         end_session_endpoint: End session endpoint
         jwks_uri: JWKS URI
         issuer: Issuer
-        limit_self_registration: Limit self-registration
         tenant: Tenant
         metadata_url: Metadata URL
   activerecord:
@@ -46,6 +45,14 @@ en:
       limit_self_registration: If enabled, users can only register using this provider if configuration on the prvoder's end allows it.
       display_name: Then name of the provider. This will be displayed as the login button and in the list of providers.
       tenant: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
+      mapping_login: >
+        Provide a custom mapping in the userinfo response to be used for the login attribute.
+      mapping_email: >
+        Provide a custom mapping in the userinfo response to be used for the email attribute.
+      mapping_first_name: >
+        Provide a custom mapping in the userinfo response to be used for the first name.
+      mapping_last_name: >
+        Provide a custom mapping in the userinfo response to be used for the last name.
     settings:
       metadata_none: I don't have this information
       metadata_url: I have a discovery endpoint URL
@@ -68,6 +75,7 @@ en:
       label_advanced_configuration: Advanced configuration
       label_configuration_details: Metadata
       label_client_details: Client details
+      label_attribute_mapping: Attribute mapping
       client_details_description: Configuration details of OpenProject as an OIDC client
       no_results_table: No providers have been defined yet.
       plural: OpenID providers
@@ -80,6 +88,7 @@ en:
         configuration_metadata: The information has been pre-filled using the supplied discovery endpoint. In most cases, they do not require editing.
         configuration: Configuration details of the OpenID Connect provider
         display_name: The display name visible to users.
+        attribute_mapping: Configure the mapping of attributes between OpenProject and the OpenID Connect provider.
     setting_instructions:
       limit_self_registration: >
         If enabled users can only register using this provider if the self registration setting allows for it.
