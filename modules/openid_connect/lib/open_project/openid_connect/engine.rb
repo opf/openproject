@@ -60,24 +60,10 @@ module OpenProject::OpenIDConnect
       end
     end
 
-    initializer "openid_connect.form_post_method" do
-      # If response_mode 'form_post' is chosen,
-      # the IP sends a POST to the callback. Only if
-      # the sameSite flag is not set on the session cookie, is the cookie send along with the request.
-      if OpenProject::Configuration[OpenProject::OpenIDConnect::CONFIG_KEY]&.any? do |_, v|
-        v["response_mode"]&.to_s == "form_post"
-      end
-        SecureHeaders::Configuration.default.cookies[:samesite][:lax] = false
-        # Need to reload the secure_headers config to
-        # avoid having set defaults (e.g. https) when changing the cookie values
-        load Rails.root.join("config/initializers/secure_headers.rb")
-      end
-    end
-
     initializer "openid_connect.configuration" do
       ::Settings::Definition.add :seed_oidc_provider,
                                  description: "Provide a OIDC provider and sync its settings through ENV",
-                                 env_alias: "OPENPROJECT_OIDC",
+                                 env_alias: "OPENPROJECT_OPENID__CONNECT",
                                  writable: false,
                                  default: {},
                                  format: :hash
