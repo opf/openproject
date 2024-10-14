@@ -5,7 +5,7 @@
   overflow: hidden
 
   &--search
-    margin: 12px
+    margin: 12px var(--main-menu-x-spacing)
     color: var(--main-menu-font-color)
     display: flex
     flex-direction: column
@@ -42,7 +42,7 @@
     color: var(--main-menu-fieldset-header-color)
     border: 1px solid transparent
     text-transform: uppercase
-    padding: 8px 12px 8px 24px
+    padding: 8px var(--main-menu-x-spacing) 8px var(--main-menu-x-spacing)
     margin-top: 12px
     font-size: 12px
     cursor: pointer
@@ -80,6 +80,9 @@
 
     &_with_icon
       padding-left: 12px
+
+  &--item-icon
+    margin-right: var(--main-menu-x-spacing)
 
   &--item-title
     flex-grow: 1
