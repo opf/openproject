@@ -1,4 +1,4 @@
 <%= render(Primer::OpenProject::PageHeader.new) do |header|
   header.with_title { page_title }
-  header.with_breadcrumbs(breadcrumb_items)
+  header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: section_present? ? :normal : :bold)
 end %>

@@ -56,6 +56,8 @@ class Submenu
         return item if item.selected
       end
     end
+
+    nil
   end
 
   def starred_queries
