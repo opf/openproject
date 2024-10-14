@@ -460,36 +460,33 @@ module SortHelper
 
     menu.with_divider
 
-    # Only offer the option of moving the column left if it is not already the leftmost column.
+    # Add left shift action if possible (i.e. current column is not the leftmost one)
     if column_pos > 0
-      left_shift = shift_element(selected_columns, column)
-      shift_left_link = build_columns_link(left_shift, allowed_params:, **html_options)
-
-      menu.with_item(**menu_options(label: t(:label_move_column_left),
-                                    content_args: content_args.merge(
-                                      data: {
-                                        "test-selector" => "#{column}-move-col-left"
-                                      }
-                                    ),
-                                    href: shift_left_link)) do |item|
-        item.with_leading_visual_icon(icon: :"op-columns-left")
-      end
+      add_shift_action(menu, column, selected_columns, content_args, allowed_params, html_options, direction: :left)
     end
 
-    # Only offer the option of moving the column right if it is not already the rightmost column.
+    # Add right shift action if possible (i.e. current column is not the rightmost one)
     if column_pos < selected_columns.length - 1
-      right_shift = shift_element(selected_columns, column, :right)
-      shift_right_link = build_columns_link(right_shift, allowed_params:, **html_options)
+      add_shift_action(menu, column, selected_columns, content_args, allowed_params, html_options, direction: :right)
+    end
+  end
 
-      menu.with_item(**menu_options(label: t(:label_move_column_right),
-                                    content_args: content_args.merge(
-                                      data: {
-                                        "test-selector" => "#{column}-move-col-right"
-                                      }
-                                    ),
-                                    href: shift_right_link)) do |item|
-        item.with_leading_visual_icon(icon: :"op-columns-right")
-      end
+  def add_shift_action(menu, column, selected_columns, content_args, allowed_params, html_options, direction:)
+    icon = direction == :left ? :"op-columns-left" : :"op-columns-right"
+    label_key = direction == :left ? :label_move_column_left : :label_move_column_right
+    test_selector = direction == :left ? "#{column}-move-col-left" : "#{column}-move-col-right"
+
+    shifted_columns = shift_element(selected_columns, column, direction == :right ? :right : :left)
+    shift_link = build_columns_link(shifted_columns, allowed_params:, **html_options)
+
+    menu.with_item(**menu_options(label: t(label_key),
+                                  content_args: content_args.merge(
+                                    data: {
+                                      "test-selector" => test_selector
+                                    }
+                                  ),
+                                  href: shift_link)) do |item|
+      item.with_leading_visual_icon(icon:)
     end
   end
 
