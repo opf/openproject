@@ -36,7 +36,12 @@ RSpec.describe EnvData::OpenIDConnect::ProviderSeeder, :settings_reset do
   subject(:seeder) { described_class.new(seed_data) }
 
   before do
-    reset(OpenProject::OpenIDConnect::CONFIG_KEY, **OpenProject::OpenIDConnect::CONFIG_OPTIONS)
+    reset(:seed_oidc_provider,
+          description: "Provide a OIDC provider and sync its settings through ENV",
+          env_alias: "OPENPROJECT_OPENID__CONNECT",
+          writable: false,
+          default: {},
+          format: :hash)
   end
 
   context "when not provided" do
