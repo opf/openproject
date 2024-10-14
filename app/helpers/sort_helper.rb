@@ -291,6 +291,7 @@ module SortHelper
     caption ||= column.to_s.humanize
 
     sort_options = sort_by_options(column, nil, default_order, allowed_params:, **html_options)
+    html_options.delete(:param) # remove the `param` as we do not want it on our link-tag
     link_to_content_update(h(caption), sort_options, html_options.merge(rel: :nofollow))
   end
 
