@@ -60,10 +60,13 @@ class MigrateOidcSettingsToProviders < ActiveRecord::Migration[7.1]
       raise <<~ERROR
         Failed to create or update OpenID provider #{name} from previous settings format.
         The error message was: #{call.message}
+
         Please check the logs for more information and open a bug report in our community:
         https://www.openproject.org/docs/development/report-a-bug/
+
         If you would like to skip migrating the OpenID provider setting and discard them instead, you can use our documentation
         to unset any previous OpenID provider settings:
+
         https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/
       ERROR
     end
