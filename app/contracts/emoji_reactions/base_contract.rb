@@ -37,11 +37,8 @@ module EmojiReactions
     validate :validate_user_exists
     validate :validate_acting_user
     validate :validate_reactable_exists
-    validate :validate_emoji_type
 
-    def self.model
-      EmojiReaction
-    end
+    def self.model = EmojiReaction
 
     private
 
@@ -55,10 +52,6 @@ module EmojiReactions
 
     def validate_reactable_exists
       errors.add :reactable, :error_not_found if model.reactable.blank?
-    end
-
-    def validate_emoji_type
-      errors.add :emoji, :inclusion unless EmojiReaction::AVAILABLE_EMOJIS.include?(model.emoji)
     end
 
     def manage_emoji_reactions_permission?
