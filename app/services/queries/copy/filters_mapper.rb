@@ -40,10 +40,10 @@ module Queries::Copy
     # Returns the mapped filter array for either
     # hash-based APIv3 filters or filter clasess
     def map_filters!
-      filters.map do |input|
+      filters.map! do |input|
         if input.is_a?(Hash)
           filter = input.dup.with_indifferent_access
-          filter.tap(&method(:map_api_filter_hash))
+          map_api_filter_hash(filter)
         else
           map_filter_class(input)
           input
@@ -63,6 +63,8 @@ module Queries::Copy
       ar_name = ::API::Utilities::QueryFiltersNameConverter.to_ar_name(name, refer_to_ids: true)
 
       subhash["values"] = mapped_values(ar_name, subhash["values"])
+
+      filter
     end
 
     def map_filter_class(filter)
