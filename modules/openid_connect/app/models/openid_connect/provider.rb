@@ -1,5 +1,7 @@
 module OpenIDConnect
   class Provider < AuthProvider
+    include HashBuilder
+
     OIDC_PROVIDERS = %w[google microsoft_entra custom].freeze
     DISCOVERABLE_ATTRIBUTES_ALL = %i[authorization_endpoint
                                      userinfo_endpoint
@@ -19,7 +21,7 @@ module OpenIDConnect
       store_attribute :options, attribute, :string
     end
     MAPPABLE_ATTRIBUTES.each do |attribute|
-      store_attribute :options, "#{attribute}_mapping", :string
+      store_attribute :options, "mapping_#{attribute}", :string
     end
 
     store_attribute :options, :client_id, :string
@@ -50,32 +52,7 @@ module OpenIDConnect
       basic_details_configured? && advanced_details_configured? && metadata_configured?
     end
 
-    def to_h
-      h = {
-        name: slug,
-        icon:,
-        display_name:,
-        userinfo_endpoint:,
-        authorization_endpoint:,
-        jwks_uri:,
-        host: URI(issuer).host,
-        issuer:,
-        identifier: client_id,
-        secret: client_secret,
-        token_endpoint:,
-        limit_self_registration:,
-        end_session_endpoint:
-      }.to_h
 
-      if oidc_provider == "google"
-        h.merge!({
-                   client_auth_method: :not_basic,
-                   send_nonce: false, # use state instead of nonce
-                   state: lambda { SecureRandom.hex(42) }
-                 })
-      end
-      h
-    end
 
     def icon
       case oidc_provider
