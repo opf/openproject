@@ -41,6 +41,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= error_messages_for :status %>
 
-<%= primer_form_with(model: @status) do |f| %>
-  <%= render Statuses::Form.new(f) %>
-<% end %>
+<%=
+primer_form_with(
+  model: @status,
+  data: {
+    application_target: "dynamic",
+    controller: "admin--statuses"
+  }
+) do |f|
+  render Statuses::Form.new(f)
+end
+%>
