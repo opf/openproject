@@ -34,7 +34,7 @@ module OpenIDConnect
           attribute_name = User.human_attribute_name(attr == :email ? :mail : attr)
 
           f.text_field(
-            name: "#{attr}_mapping",
+            name: :"mapping_#{attr}",
             label: I18n.t("label_mapping_for", attribute: attribute_name),
             caption: I18n.t("openid_connect.instructions.mapping_#{attr}"),
             disabled: provider.seeded_from_env?,
