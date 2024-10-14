@@ -47,9 +47,9 @@ export default class TableActionMenuController extends Controller {
     }
   }
 
-  filterBy(event: Event) {
+  filterBy(event:Event) {
     // Sometimes the filterController was not loaded during `connect`, so we try again here:
-    if (!this.filterController) { this.findFilterController() }
+    if (!this.filterController) { this.findFilterController(); }
 
     const button = event.currentTarget as HTMLElement;
 

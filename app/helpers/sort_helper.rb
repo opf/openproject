@@ -77,7 +77,9 @@
 # - Introduces instance variables: @sort_default, @sort_criteria
 # - Introduces param :sort
 #
-
+# rubocop:disable Lint/RedundantCopDisableDirective, Rails/HelperInstanceVariable
+# TODO: We should not use instance variables in our rails helpers. Since this is a bigger piece of work, for now
+# we just disable the respective cop. Due to a bug, we must also disable the redundancy cop.
 module SortHelper
   class SortCriteria
     attr_reader :criteria
@@ -554,3 +556,4 @@ module SortHelper
     caption
   end
 end
+# rubocop:enable Rails/HelperInstanceVariable, Lint/RedundantCopDisableDirective
