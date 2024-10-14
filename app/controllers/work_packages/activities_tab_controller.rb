@@ -30,6 +30,7 @@
 
 class WorkPackages::ActivitiesTabController < ApplicationController
   include OpTurbo::ComponentStream
+  include FlashMessagesOutputSafetyHelper
 
   before_action :find_work_package
   before_action :find_project
@@ -142,31 +143,32 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     respond_with_turbo_streams
   end
 
-  def toggle_reaction
-    call = if @journal.emoji_reactions.exists?(user: User.current, emoji: params[:emoji])
-             EmojiReactions::DeleteService.new(
-               user: User.current,
-               model: @journal.emoji_reactions.find_by(user: User.current, emoji: params[:emoji])
-             ).call
-           else
-             EmojiReactions::CreateService.new(
-               user: User.current
-             ).call(
-               user: User.current,
-               reactable: @journal,
-               emoji: params[:emoji]
-             )
-           end
+  def toggle_reaction # rubocop:disable Metrics/AbcSize
+    emoji_reaction_service =
+      if @journal.emoji_reactions.exists?(user: User.current, emoji: params[:emoji])
+        EmojiReactions::DeleteService
+         .new(user: User.current,
+              model: @journal.emoji_reactions.find_by(user: User.current, emoji: params[:emoji]))
+         .call
+      else
+        EmojiReactions::CreateService
+         .new(user: User.current)
+         .call(user: User.current, reactable: @journal, emoji: params[:emoji])
+      end
 
-    if call.success?
+    emoji_reaction_service.on_success do
       update_via_turbo_stream(
         component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Show.new(
           journal: @journal,
           filter: params[:filter]&.to_sym || :all
         )
       )
-    else
-      # TODO: handle errors
+    end
+
+    emoji_reaction_service.on_failure do
+      render_error_flash_message_via_turbo_stream(
+        message: join_flash_messages(emoji_reaction_service.errors.full_messages)
+      )
     end
 
     respond_with_turbo_streams
