@@ -31,7 +31,7 @@ module EnvData
   module OpenIDConnect
     class ProviderSeeder < Seeder
       def seed_data!
-        Setting.seed_openid_connect_provider.each do |name, configuration|
+        Setting.seed_oidc_provider.each do |name, configuration|
           print_status "    ↳ Creating or Updating OpenID provider #{name}" do
             call = ::OpenIDConnect::SyncService.new(name, configuration).call
 
@@ -45,7 +45,7 @@ module EnvData
       end
 
       def applicable?
-        Setting.seed_openid_connect_provider.present?
+        Setting.seed_oidc_provider.present?
       end
     end
   end

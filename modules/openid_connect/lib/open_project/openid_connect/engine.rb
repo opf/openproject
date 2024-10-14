@@ -60,13 +60,6 @@ module OpenProject::OpenIDConnect
       end
     end
 
-    initializer "openid_connect.configure" do
-      ::Settings::Definition.add(
-        OpenProject::OpenIDConnect::CONFIG_KEY,
-        **OpenProject::OpenIDConnect::CONFIG_OPTIONS
-      )
-    end
-
     initializer "openid_connect.form_post_method" do
       # If response_mode 'form_post' is chosen,
       # the IP sends a POST to the callback. Only if
@@ -79,6 +72,15 @@ module OpenProject::OpenIDConnect
         # avoid having set defaults (e.g. https) when changing the cookie values
         load Rails.root.join("config/initializers/secure_headers.rb")
       end
+    end
+
+    initializer "openid_connect.configuration" do
+      ::Settings::Definition.add :seed_oidc_provider,
+                                 description: "Provide a OIDC provider and sync its settings through ENV",
+                                 env_alias: "OPENPROJECT_OIDC",
+                                 writable: false,
+                                 default: {},
+                                 format: :hash
     end
 
     config.to_prepare do
