@@ -23,6 +23,7 @@ en:
         issuer: Issuer
         tenant: Tenant
         metadata_url: Metadata URL
+        icon: Custom icon
   activerecord:
     errors:
       models:
