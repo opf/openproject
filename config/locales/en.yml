@@ -2356,6 +2356,7 @@ en:
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Sign out"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Side Menu"
   label_manage: "Manage"
   label_manage_groups: "Manage groups"
