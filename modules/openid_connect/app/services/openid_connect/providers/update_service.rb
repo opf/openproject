@@ -42,14 +42,7 @@ module OpenIDConnect
 
       def after_validate(_params, call)
         model = call.result
-        metadata_url = case model.oidc_provider
-                       when "google"
-                         "https://accounts.google.com/.well-known/openid-configuration"
-                       when "microsoft_entra"
-                         "https://login.microsoftonline.com/#{model.tenant || 'common'}/v2.0/.well-known/openid-configuration"
-                       else
-                         model.metadata_url
-                       end
+        metadata_url = get_metadata_url(model)
         return call if metadata_url.blank?
 
         case (response = OpenProject.httpx.get(metadata_url))
@@ -78,10 +71,25 @@ module OpenIDConnect
           call.errors.add(:metadata_url, :response_is_not_successful, status: response.status)
           call.success = false
         in {error: error}
-          raise error
+          call.message = error.message
+          call.success = false
+        else
+          call.message = I18n.t(:notice_internal_server_error)
+          call.success = false
         end
 
         call
+      end
+
+      def get_metadata_url(model)
+        case model.oidc_provider
+        when "google"
+          "https://accounts.google.com/.well-known/openid-configuration"
+        when "microsoft_entra"
+          "https://login.microsoftonline.com/#{model.tenant || 'common'}/v2.0/.well-known/openid-configuration"
+        else
+          model.metadata_url
+        end
       end
     end
   end
