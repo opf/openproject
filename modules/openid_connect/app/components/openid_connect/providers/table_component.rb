@@ -16,7 +16,7 @@ module OpenIDConnect
       end
 
       def has_actions?
-        true
+        false
       end
 
       def sortable?
