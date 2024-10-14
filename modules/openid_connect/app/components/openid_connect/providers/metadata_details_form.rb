@@ -39,6 +39,15 @@ module OpenIDConnect
             input_width: :large
           )
         end
+
+        f.text_field(
+          name: :icon,
+          label: I18n.t("activemodel.attributes.openid_connect/provider.icon"),
+          caption: I18n.t("saml.instructions.icon"),
+          disabled: provider.seeded_from_env?,
+          required: false,
+          input_width: :large
+        )
       end
     end
   end

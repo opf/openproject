@@ -16,6 +16,7 @@ module OpenIDConnect
 
     store_attribute :options, :oidc_provider, :string
     store_attribute :options, :metadata_url, :string
+    store_attribute :options, :icon, :string
 
     DISCOVERABLE_ATTRIBUTES_ALL.each do |attribute|
       store_attribute :options, attribute, :string
@@ -52,8 +53,6 @@ module OpenIDConnect
       basic_details_configured? && advanced_details_configured? && metadata_configured?
     end
 
-
-
     def icon
       case oidc_provider
       when "google"
@@ -61,7 +60,7 @@ module OpenIDConnect
       when "microsoft_entra"
         "openid_connect/auth_provider-azure.png"
       else
-        "openid_connect/auth_provider-custom.png"
+        super.presence || "openid_connect/auth_provider-custom.png"
       end
     end
   end
