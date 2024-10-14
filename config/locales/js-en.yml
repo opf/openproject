@@ -121,6 +121,7 @@ en:
     button_uncheck_all: "Uncheck all"
     button_update: "Update"
     button_export-pdf: "Download PDF"
+    button_generate-pdf: "Generate PDF"
     button_export-atom: "Download Atom"
     button_create: "Create"
 

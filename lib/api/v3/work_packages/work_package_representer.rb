@@ -133,6 +133,19 @@ module API
           }
         end
 
+        link :generate_pdf,
+             cache_if: -> { export_work_packages_allowed? } do
+          next if represented.new_record?
+
+          next unless OpenProject::FeatureDecisions.generate_pdf_from_work_package_active?
+
+          {
+            href: work_package_path(id: represented.id, format: :generate_pdf),
+            type: "application/pdf",
+            title: "Generate PDF"
+          }
+        end
+
         link :atom,
              cache_if: -> { export_work_packages_allowed? } do
           next if represented.new_record? || !Setting.feeds_enabled?

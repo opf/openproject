@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::PDFExport::Gantt
+module WorkPackage::PDFExport::Export::Gantt
   class GanttPainter
     GANTT_GRID_COLOR = "9b9ea3".freeze
     GANTT_LINE_COLOR = "2b8bd5".freeze

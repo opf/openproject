@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::PDFExport::Style
+module WorkPackage::PDFExport::Export::Style
   include MarkdownToPDF::StyleValidation
 
   class PDFStyles
@@ -308,7 +308,6 @@ module WorkPackage::PDFExport::Style
   end
 
   def styles_asset_path
-    # TODO: where to put & load yml & json file
     File.dirname(File.expand_path(__FILE__))
   end
 end

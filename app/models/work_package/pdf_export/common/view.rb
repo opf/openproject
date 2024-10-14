@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackage::PDFExport::View
+class WorkPackage::PDFExport::Common::View
   include Prawn::View
   include Redmine::I18n
 

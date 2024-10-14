@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::PDFExport::Gantt
+module WorkPackage::PDFExport::Export::Gantt
   class GanttBuilder
     include Redmine::I18n
     BAR_CELL_PADDING = 5.to_f

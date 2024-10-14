@@ -28,7 +28,7 @@
 
 require "mini_magick"
 
-module WorkPackage::PDFExport::Attachments
+module WorkPackage::PDFExport::Common::Attachments
   def resize_image(file_path)
     tmp_file = Tempfile.new(["temp_image", File.extname(file_path)])
     @resized_images = [] if @resized_images.nil?
@@ -50,5 +50,28 @@ module WorkPackage::PDFExport::Attachments
   def delete_all_resized_images
     @resized_images&.each(&:close!)
     @resized_images = []
+  end
+
+  def attachment_image_local_file(attachment)
+    attachment.file.local_file
+  rescue StandardError => e
+    Rails.logger.error "Failed to access attachment #{attachment.id} file: #{e}"
+    nil # return nil as if the id was wrong and the attachment obj has not been found
+  end
+
+  def attachment_image_filepath(work_package, src)
+    # images are embedded into markup with the api-path as img.src
+    attachment = attachment_by_api_content_src(work_package, src)
+    return nil if attachment.nil? || !pdf_embeddable?(attachment.content_type)
+
+    local_file = attachment_image_local_file(attachment)
+    return nil if local_file.nil?
+
+    resize_image(local_file.path)
+  end
+
+  def attachment_by_api_content_src(work_package, src)
+    # find attachment by api-path
+    work_package.attachments.detect { |a| api_url_helpers.attachment_content(a.id) == src }
   end
 end

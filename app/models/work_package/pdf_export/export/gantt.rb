@@ -43,7 +43,7 @@
 # 1. Build the data classes, do the layout, measuring, etc.
 # 2. Paint the Gantt chart into the PDF
 
-module WorkPackage::PDFExport::Gantt
+module WorkPackage::PDFExport::Export::Gantt
   GANTT_DAY_COLUMN_WIDTHS = [64, 32, 24, 18].freeze
   GANTT_COLUMN_WIDTHS = [128, 64, 32, 24].freeze
   GANTT_COLUMN_WIDTHS_NAMES = %w[very_wide wide medium narrow].freeze

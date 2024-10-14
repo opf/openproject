@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,27 +28,54 @@
 
 require "md_to_pdf/core"
 
-module WorkPackage::PDFExport::Markdown
-  class MD2PDF
+module WorkPackage::PDFExport::Generator::Generator
+  class MD2PDFGenerator
     include MarkdownToPDF::Core
     include MarkdownToPDF::Parser
+    include MarkdownToPDF::StyleSchema
 
-    def initialize(styling_yml, pdf)
-      @styles = MarkdownToPDF::Styles.new(styling_yml)
+    def initialize(styling_yml)
+      symbol_yml = symbolize(styling_yml)
+      validate_schema!(symbol_yml, styles_schema)
+      @styles = MarkdownToPDF::Styles.new(symbol_yml)
       init_options({ auto_generate_header_ids: false })
-      pdf_init_md2pdf_fonts(pdf)
-      # @hyphens = Hyphen.new('en', false)
     end
 
-    def draw_markdown(markdown, pdf, image_loader)
+    def init_pdf(pdf)
       @pdf = pdf
-      @image_loader = image_loader
-      root = parse_markdown(markdown)
-      begin
-        draw_node(root, pdf_root_options(@styles.page), true)
-      rescue Prawn::Errors::CannotFit => e
-        Rails.logger.error "Failed to draw markdown field to pdf because of non fitting content: #{e}"
+      init_pdf_page_styles(pdf)
+      pdf_init_md2pdf_fonts(pdf)
+    end
+
+    def init_pdf_page_styles(pdf)
+      page_style = @styles.page
+      page_margins = opts_margin(page_style)
+      pdf.options[:page_layout] = (page_style[:page_layout] || "portrait").to_sym
+      pdf.options[:page_size] = options[:paper_size] || page_style[:page_size]
+      %i[top_margin left_margin bottom_margin right_margin].each do |margin|
+        pdf.options[margin] = page_margins[margin]
       end
+    end
+
+    def generate!(markdown, options, image_loader)
+      @image_loader = image_loader
+      fields = {}
+                 .merge(@styles.default_fields)
+                 .merge(options)
+      doc = parse_frontmatter_markdown(markdown, fields)
+      @hyphens = Hyphen.new(doc[:language], doc[:hyphenation])
+      render_doc(doc)
+    end
+
+    def render_doc(doc)
+      style = @styles.page
+      opts = pdf_root_options(style)
+      root = doc[:root]
+      draw_node(root, opts, true)
+      draw_footnotes(opts)
+      repeating_page_footer(doc, opts)
+      repeating_page_header(doc, opts)
+      repeating_page_logo(doc[:logo], root, opts)
     end
 
     def image_url_to_local_file(url, _node = nil)
@@ -96,35 +123,30 @@ module WorkPackage::PDFExport::Markdown
     end
   end
 
-  def write_markdown!(work_package, markdown)
-    md2pdf = MD2PDF.new(styles.wp_markdown_styling_yml, pdf)
-    md2pdf.draw_markdown(markdown, pdf, ->(src) {
-      with_images? ? attachment_image_filepath(work_package, src) : nil
+  def generate_doc!(work_package, markdown, styling_file)
+    styling = YAML::load_file(File.join(styling_asset_path, styling_file))
+    md2pdf = MD2PDFGenerator.new(styling)
+    md2pdf.init_pdf(pdf)
+    # rubocop:disable Naming/VariableNumber
+    options = {
+      pdf_footer: footer_date,
+      pdf_footer_2: footer_title,
+      pdf_footer_3: I18n.t("export.page_nr_footer", page: "<page>", total: "<total>"),
+      pdf_header_logo: logo_image_filename
+    }
+    # rubocop:enable Naming/VariableNumber
+    md2pdf.generate!(markdown, options, ->(src) {
+      if src == logo_image_filename
+        logo_image_filename
+      else
+        attachment_image_filepath(work_package, src)
+      end
     })
   end
 
   private
 
-  def attachment_image_local_file(attachment)
-    attachment.file.local_file
-  rescue StandardError => e
-    Rails.logger.error "Failed to access attachment #{attachment.id} file: #{e}"
-    nil # return nil as if the id was wrong and the attachment obj has not been found
-  end
-
-  def attachment_image_filepath(work_package, src)
-    # images are embedded into markup with the api-path as img.src
-    attachment = attachment_by_api_content_src(work_package, src)
-    return nil if attachment.nil? || !pdf_embeddable?(attachment.content_type)
-
-    local_file = attachment_image_local_file(attachment)
-    return nil if local_file.nil?
-
-    resize_image(local_file.path)
-  end
-
-  def attachment_by_api_content_src(work_package, src)
-    # find attachment by api-path
-    work_package.attachments.detect { |a| api_url_helpers.attachment_content(a.id) == src }
+  def styling_asset_path
+    File.dirname(File.expand_path(__FILE__))
   end
 end

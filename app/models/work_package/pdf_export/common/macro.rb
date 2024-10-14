@@ -26,27 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::PDFExport::MarkdownField
-  include WorkPackage::PDFExport::Markdown
+module WorkPackage::PDFExport::Common::Macro
   PREFORMATTED_BLOCKS = %w(pre code).freeze
-
-  def write_markdown_field!(work_package, markdown, label)
-    return if markdown.blank?
-
-    write_optional_page_break
-    with_margin(styles.wp_markdown_label_margins) do
-      pdf.formatted_text([styles.wp_markdown_label.merge({ text: label })])
-    end
-    with_margin(styles.wp_markdown_margins) do
-      write_markdown! work_package, apply_markdown_field_macros(markdown, work_package)
-    end
-  end
-
-  private
 
   def apply_markdown_field_macros(markdown, work_package)
     apply_macros(markdown, work_package, WorkPackage::Exports::Macros::Attributes)
   end
+
+  private
 
   def apply_macros(markdown, work_package, formatter)
     return markdown unless formatter.applicable?(markdown)

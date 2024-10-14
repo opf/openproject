@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::PDFExport::WorkPackageDetail
-  include WorkPackage::PDFExport::MarkdownField
+module WorkPackage::PDFExport::Export::WorkPackageDetail
+  include WorkPackage::PDFExport::Export::MarkdownField
 
   def write_work_packages_details!(work_packages, id_wp_meta_map)
     work_packages.each do |work_package|
