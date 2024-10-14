@@ -490,16 +490,20 @@ sl:
       no_results_content_text: Dodajte poročanje o stanju.
   statuses:
     edit:
+      status_color_text: |
+        Kliknite, če želite dodeliti ali spremeniti barvo tega stanja.
+        Prikazana je v gumbu stanja in se lahko uporablja za označevanje delovnih paketov v tabeli.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Označite to možnost, da delovne pakete s tem statusom označite kot "samo za branje".
         Nobenih lastnosti ni mogoče spremeniti, razen statusa.
         <br/><strong>Note</strong>: Prevzete vrednosti (npr. od otrok ali odnosov) bodo še vedno veljale.
-      status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
-      status_color_text: |
-        Kliknite, če želite dodeliti ali spremeniti barvo tega stanja.
-        Prikazana je v gumbu stanja in se lahko uporablja za označevanje delovnih paketov v tabeli.
     index:
       no_results_title_text: Trenutno ni statusov delovnega paketa.
       no_results_content_text: Dodaj nov status
@@ -831,7 +835,7 @@ sl:
         blank: "ne sme biti prazno."
         blank_nested: "mora imeti nastavljeno lastnost '%{property}'."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Zahtevek ne more biti povezan s svojo podnalogo"
         circular_dependency: "Ta povezava bi ustvarila krožno odvisnost."
         confirmation: "se ne ujema %{attribute}"
@@ -2982,6 +2986,7 @@ sl:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Porabljen čas"
   permission_view_timelines: "Oglejte si časovnice"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Poglej wiki zgodovino"
   permission_view_wiki_pages: "Poglej wiki"
   permission_work_package_assigned: "Become assignee/responsible"

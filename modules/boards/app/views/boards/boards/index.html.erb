@@ -32,15 +32,15 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { t("boards.label_boards") }
-    header.with_breadcrumbs([{ href: home_path, text: organization_name},
-                             *([href: project_overview_path(@project.id), text: @project.name] if @project),
+    header.with_breadcrumbs([*([ href: home_path, text: organization_name ] unless @project),
+                             *([ href: project_overview_path(@project.id), text: @project.name ] if @project),
                              t("boards.label_boards")])
   end
 %>
 
 <%=
   render Primer::OpenProject::SubHeader.new do |subheader|
-    subheader.with_action_component(data: { "test-selector": "add-board-button"}) do
+    subheader.with_action_component do
        render Boards::AddButtonComponent.new(current_project: @project)
     end
   end

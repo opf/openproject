@@ -139,7 +139,7 @@ A custom query in OpenProject consists of saved [filters](#filters), sort criter
 
 ### Dark mode
 
-The dark mode for OpenProject is a personal setting to display the application in a dark theme. Other available modes are the regular light mode and the (light) [high contrast mode](#high-contrast-mode). [Read in our documentation how to enable dark mode](../user-guide/my-account/#select-the-dark-mode).
+The dark mode for OpenProject is a personal setting to display the application in a dark [theme](#theme). Other available modes are the regular light mode and the (light) [high contrast mode](#high-contrast-mode). [Read in our documentation how to enable dark mode](../user-guide/my-account/#select-the-dark-mode).
 
 ### Dashboard
 
@@ -218,6 +218,15 @@ Hybrid project management is an approach that combines elements of both classic 
 In OpenProject, you can choose from several integrations, such as the [Excel synchronization](#excel-synchronization) or the [Nextcloud integration](#nextcloud-integration). In contrast to a plugin, an integration refers to cross features between two software products (e.g., OpenProject and Nextcloud), where both pieces of software have code that is responsible for interacting with the other software, through e.g., an API. Whereas a [plugin](#plugin) is installed on top of / as part of the OpenProject installation. You'll need to actively install it. [See all available plugins and integrations for OpenProject](../system-admin-guide/integrations/).
 
 ## M
+
+### Macro
+
+Macros in OpenProject are dynamic shortcuts that help automate repetitive tasks. They work in editors like [work package](#work-package) descriptions, [wikis](#wiki) or [forums](#forum). For example, users can type 'workPackageValue:1234:subject' into a work package description and once saved, OpenProject will display the title of the work package with the ID 1234.
+
+**More information on macros in OpenProject**
+- [See a list of all possible work package attributes that can be used as macros in OpenProject](../user-guide/wysiwyg/#available-attributes-for-work-packages)
+- [Read a blog article with detailed descriptions and examples on how to use macros in OpenProject](https://www.openproject.org/blog/how-to-use-macros/)
+- [Learn about options for using macros in OpenProject's wikis](../user-guide/wiki/#macros)
 
 ### Meetings
 
@@ -386,6 +395,10 @@ Time and costs in OpenProject is defined as a [module](#module) which allows use
 ### Time tracking button
 
 The time tracking button in OpenProject is a feature to track time spent on work packages in real time. [Read more about logging time via the time tracking button in OpenProject](../user-guide/time-and-costs/time-tracking/#log-time-via-the-time-tracking-button).
+
+### Theme
+
+A theme is a visual customization setting that changes the overall look and feel of the application. In OpenProject, [Enterprise customers can set a custom color theme along with a custom logo](../system-admin-guide/design/). Please note: Users of all versions can choose a personal mode (e.g. [high contrast mode](#high-contrast-mode) or [dark mode](#dark-mode)), but the theme is set globally by an administrator in the design settings.
 
 ## U
 

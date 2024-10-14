@@ -1,0 +1,7 @@
+self-hosted-runner:
+  # Labels of self-hosted runner in array of strings.
+  labels:
+    - runner=4cpu-linux-x64
+    - runner=4cpu-linux-arm64
+    - ssh=false
+    - runs-on

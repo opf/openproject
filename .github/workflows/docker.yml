@@ -308,3 +308,20 @@ jobs:
     with:
       subject: "Docker build failed"
       body: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  trigger_helm_release:
+    needs: [setup, build, merge]
+    permissions:
+      contents: none
+    if: ${{ github.repository == 'opf/openproject' && inputs.tag != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Helm charts release
+        env:
+          TOKEN: ${{ secrets.OPENPROJECT_CI_TOKEN }}
+          REPOSITORY: opf/helm-charts
+          WORKFLOW_ID: core_release.yml
+        run: |
+          curl -i --fail-with-body -H"authorization: Bearer $TOKEN" \
+            -XPOST -H"Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/$REPOSITORY/actions/workflows/$WORKFLOW_ID/dispatches \
+            -d '{"ref": "main", "inputs": { "tag" : "${{ needs.setup.outputs.version }}" }}'

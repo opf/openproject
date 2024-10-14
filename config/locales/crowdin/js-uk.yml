@@ -359,7 +359,7 @@ uk:
           "14_6":
             standard:
               new_features_html: >
-                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Benefit from more flexible progress reporting – thanks to user feedback.</li> <li>Receive an update notification with reload option for meetings.</li> <li>Enable a custom field for multiple projects at once.</li> <li>Use relative work package attribute macros.</li> <li>Show empty lines in saved rich text.</li> <li>See past meetings included in the number next to the Meetings tab.</li> </ul>
+                Цей випуск включає багато нових функцій і покращень. <br> <ul class="%{list_styling_class}"> <li>Використовуйте гнучкіші звіти про прогрес завдяки відгукам користувачів.</li> <li>Отримуйте сповіщення про оновлення з можливістю перезавантаження для нарад.</li> <li>Увімкніть користувацьке поле для кількох проектів одночасно.</li> <li>Використовуйте макроси атрибутів пов’язаних пакетів робіт.</li> <li>Відображайте порожні рядки в збереженому форматованому тексті.</li> <li>Переглядайте завершені наради, натиснувши число біля вкладки «Наради».</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."

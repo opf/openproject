@@ -3,15 +3,14 @@
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { t('team_planner.label_team_planner_plural') }
-    header.with_breadcrumbs([{ href: home_path, text: organization_name},
-                             { href: project_overview_path(@project.id), text: @project.name },
+    header.with_breadcrumbs([{ href: project_overview_path(@project.id), text: @project.name },
                              t('team_planner.label_team_planner_plural')])
   end
 %>
 
 <%=
   render Primer::OpenProject::SubHeader.new do |subheader|
-    subheader.with_action_component(data: { "test-selector": "add-team-planner-button"}) do
+    subheader.with_action_component do
       render ::TeamPlanner::AddButtonComponent.new(current_project: @project)
     end
   end

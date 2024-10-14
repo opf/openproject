@@ -53,7 +53,7 @@ import { OpenprojectDashboardsModule } from 'core-app/features/dashboards/openpr
 import {
   OpenprojectWorkPackageGraphsModule,
 } from 'core-app/shared/components/work-package-graphs/openproject-work-package-graphs.module';
-import { PreviewTriggerService } from 'core-app/core/setup/globals/global-listeners/preview-trigger.service';
+import { HoverCardTriggerService } from 'core-app/core/setup/globals/global-listeners/hover-card-trigger.service';
 import { OpenprojectOverviewModule } from 'core-app/features/overview/openproject-overview.module';
 import { OpenprojectMyPageModule } from 'core-app/features/my-page/openproject-my-page.module';
 import { OpenprojectProjectsModule } from 'core-app/features/projects/openproject-projects.module';
@@ -77,8 +77,8 @@ import {
   PasswordConfirmationModalComponent,
 } from 'core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal';
 import {
-  WpPreviewModalComponent,
-} from 'core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal';
+  HoverCardComponent,
+} from 'core-app/shared/components/modals/preview-modal/hover-card-modal/hover-card.modal';
 import {
   OpHeaderProjectSelectComponent,
 } from 'core-app/shared/components/header-project-select/header-project-select.component';
@@ -240,7 +240,7 @@ import { SpotSwitchComponent } from 'core-app/spot/components/switch/switch.comp
 
 export function initializeServices(injector:Injector) {
   return () => {
-    const PreviewTrigger = injector.get(PreviewTriggerService);
+    const PreviewTrigger = injector.get(HoverCardTriggerService);
     const topMenuService = injector.get(TopMenuService);
     const keyboardShortcuts = injector.get(KeyboardShortcutService);
     // Conditionally add the Revit Add-In settings button
@@ -370,7 +370,7 @@ export function initializeServices(injector:Injector) {
     ConfirmDialogModalComponent,
     DynamicContentModalComponent,
     PasswordConfirmationModalComponent,
-    WpPreviewModalComponent,
+    HoverCardComponent,
 
     // Main menu
     MainMenuResizerComponent,

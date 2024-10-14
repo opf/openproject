@@ -82,10 +82,6 @@ module Pages
       def canonical_name(type)
         type.respond_to?(:name) ? type.name : type
       end
-
-      def toast_type
-        :rails
-      end
     end
   end
 end

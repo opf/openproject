@@ -38,7 +38,6 @@ import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-
            [disabled]="inFlight"
            [(ngModel)]="value"
            (keydown)="handler.handleUserKeydown($event)"
-           (focusout)="handler.onFocusOut()"
            [attr.lang]="locale"
            [id]="handler.htmlId" />
   `,

@@ -40,7 +40,7 @@ RSpec.describe "Global role: Global role assignment", :js, :with_cuprite do
 
     let!(:global_role1) { create(:global_role, name: "global_role1", permissions: %i[global1]) }
     let!(:global_role2) { create(:global_role, name: "global_role2", permissions: %i[global2]) }
-
+    let!(:standard_global_role) { create(:standard_global_role) }
     let!(:user) { create(:user) }
     let!(:global_member) do
       create(:global_member,
@@ -57,9 +57,12 @@ RSpec.describe "Global role: Global role assignment", :js, :with_cuprite do
       page.within("#table_principal_roles") do
         expect(page).to have_text "global_role1"
       end
+
+      # And I should not see "Standard global role" within "#available_principal_roles"
       # And I should not see "global_role1" within "#available_principal_roles"
       # And I should see "global_role2" within "#available_principal_roles"
       page.within("#available_principal_roles") do
+        expect(page).to have_no_text "Standard global role"
         expect(page).to have_no_text "global_role1"
         expect(page).to have_text "global_role2"
       end
@@ -78,9 +81,11 @@ RSpec.describe "Global role: Global role assignment", :js, :with_cuprite do
         expect(page).to have_text "global_role2"
       end
 
+      # And I should not see "Standard global role" within "#available_principal_roles"
       # And I should not see "global_role1" within "#available_principal_roles"
       # And I should not see "global_role2" within "#available_principal_roles"
       page.within("#available_principal_roles") do
+        expect(page).to have_no_text "Standard global role"
         expect(page).to have_no_text "global_role1"
         expect(page).to have_no_text "global_role2"
       end
@@ -92,9 +97,11 @@ RSpec.describe "Global role: Global role assignment", :js, :with_cuprite do
 
       wait_for_network_idle
 
+      # And I should not see "Standard global role" within "#available_principal_roles"
       # Then I should see "global_role1" within "#available_principal_roles"
       # And I should not see "global_role2" within "#available_principal_roles"
       page.within("#available_principal_roles") do
+        expect(page).to have_no_text "Standard global role"
         expect(page).to have_text "global_role1"
         expect(page).to have_no_text "global_role2"
       end

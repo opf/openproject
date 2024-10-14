@@ -479,16 +479,20 @@
       no_results_content_text: Legg til statusrapportering
   statuses:
     edit:
+      status_color_text: |
+        Klikk for å tilknytte eller endre fargen på denne statusen.
+        Den vises i statusknappen og kan brukes til å fremheve arbeidspakker i tabellen.
+      status_excluded_from_totals_text: |-
+        Velg denne innstillingen for å utelukke arbeidspakker med denne statusen fra oppsummeringer for Arbeid, Gjenstående arbeid og % Ferdig i et hierarki.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Merk dette alternativet for å merke arbeidspakker med denne statusen som skrivebeskyttet.
         Ingen attributter kan endres med unntak av status.
         <br/>
         <strong>Merknad</strong>: Arvede verdier (for eksempel fra barn eller relasjoner) vil fortsatt gjelde.
-      status_excluded_from_totals_text: |-
-        Velg denne innstillingen for å utelukke arbeidspakker med denne statusen fra oppsummeringer for Arbeid, Gjenstående arbeid og % Ferdig i et hierarki.
-      status_color_text: |
-        Klikk for å tilknytte eller endre fargen på denne statusen.
-        Den vises i statusknappen og kan brukes til å fremheve arbeidspakker i tabellen.
     index:
       no_results_title_text: Det er for tiden ingen status for arbeidspakken.
       no_results_content_text: Legg til en ny status
@@ -819,7 +823,7 @@
         blank: "kan ikke være blank."
         blank_nested: "må ha egenskapen '%{property}' aktivert."
         cannot_delete_mapping: "er påkrevd. Kan ikke slettes."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "En arbeidspakke kan ikke knyttes til en av sine deloppgaver."
         circular_dependency: "En slik relasjon ville lage en sirkulær avhengighet."
         confirmation: "samsvarer ikke med %{attribute}."
@@ -2910,6 +2914,7 @@
   permission_view_shared_work_packages: "Vis delte arbeidspakke"
   permission_view_time_entries: "Vis tidsbruk"
   permission_view_timelines: "Vis tidslinjer"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Vis wiki-historikk"
   permission_view_wiki_pages: "Vis wiki"
   permission_work_package_assigned: "Bli utførende/ansvarlig"

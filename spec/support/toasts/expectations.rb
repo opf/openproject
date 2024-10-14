@@ -1,21 +1,7 @@
 module Toasts
   module Expectations
     def expect_toast(message:, type: :success, wait: 20)
-      if toast_type == :angular
-        expect(page).to have_css(".op-toast.-#{type}", text: message, wait:)
-      elsif type == :error
-        ActiveSupport::Deprecation.warn(
-          "Use `expect_flash(type: :error, message: message)` instead of expect_toast with type: :error"
-        )
-        expect_flash(type: :error, message:)
-      elsif type == :success
-        ActiveSupport::Deprecation.warn(
-          "Use `expect_flash(type: :success, message:)` instead of expect_toast with type: :success"
-        )
-        expect_flash(message:)
-      else
-        raise NotImplementedError
-      end
+      expect(page).to have_css(".op-toast.-#{type}", text: message, wait:)
     end
 
     def expect_and_dismiss_toaster(message: nil, type: :success, wait: 20)
@@ -42,10 +28,6 @@ module Toasts
       else
         expect(page).to have_no_css(".op-toast.-#{type}", text: message, wait:)
       end
-    end
-
-    def toast_type
-      :angular
     end
   end
 end

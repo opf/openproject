@@ -91,8 +91,8 @@ it:
         rename_project_folder: 'Rinomina la cartella di progetto gestita:'
     errors:
       messages:
-        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+        error: Si è verificato un errore inatteso. Controlla i log di OpenProject per maggiori informazioni o contatta un amministratore
+        unauthorized: OpenProject non è riuscito ad autenticarsi con il fornitore di servizi di archiviazione. Assicurati di avervi accesso.
       models:
         copy_project_folders_service:
           conflict: La cartella %{destination_path} esiste già. Interrompi il processo per evitare sovrascritture.
@@ -114,8 +114,8 @@ it:
             hide_inactive_folders:
               permission_not_set: impossibile impostare i permessi su %{path}.
             remote_folders:
-              not_allowed: '%{username} non ha accesso a %{group_folder}. Verifica i permessi della cartella su Nextcloud.'
-              not_found: "Impossibile trovare %{group_folder}. Verifica la configurazione di Nextcloud."
+              not_allowed: The %{username} doesn't have access to the %{group_folder} folder. Please check the folder permissions on Nextcloud.
+              not_found: "%{group_folder} folder wasn't found. Please check your Nextcloud setup."
             remove_user_from_group:
               conflict: 'Impossibile rimuovere l''utente %{user} dal gruppo %{group} per il seguente motivo: %{reason}'
               failed_to_remove: 'Impossibile rimuovere l''utente %{user} dal gruppo %{group} per il seguente motivo: %{reason}'
@@ -128,7 +128,7 @@ it:
           group_does_not_exist: "%{group} non esiste. Controlla la configurazione della tua istanza Nextcloud."
           insufficient_privileges: OpenProject non ha privilegi sufficienti per aggiungere %{user} a %{group}. Controlla le impostazioni del gruppo in Nextcloud.
           not_allowed: Nextcloud blocca la richiesta.
-          unauthorized: OpenProject non è riuscito a sincronizzarsi con Nextcloud. Verifica la configurazione dell'archiviazione e di Nextcloud.
+          unauthorized: OpenProject could not sync with Nextcloud. Please check your storage and Nextcloud configuration.
           user_does_not_exist: "%{user} non esiste in Nextcloud."
         one_drive_sync_service:
           attributes:
@@ -147,10 +147,10 @@ it:
               permission_not_set: impossibile impostare i permessi su %{path}.
           error: Si è verificato un errore imprevisto. Assicurati che la tua istanza Nextcloud sia raggiungibile e controlla i log dei worker di OpenProject per ulteriori informazioni
           not_allowed: OpenProject non è stato autorizzato ad accedere al tuo drive OneDrive. Verifica le autorizzazioni impostate sull'applicazione Azure.
-          unauthorized: OpenProject non è riuscito a sincronizzarsi con OneDrive. Verifica la configurazione dell'archiviazione e dell'applicazione Azure.
+          unauthorized: OpenProject could not sync with OneDrive. Please check your storage and Azure Application configuration.
           user_does_not_exist: "%{user} non esiste in Nextcloud."
         upload_link_service:
-          not_found: The destination folder %{folder} could not be found on %{storage_name}.
+          not_found: Impossibile trovare la cartella di destinazione %{folder} su %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Completa senza
@@ -214,7 +214,7 @@ it:
         client_id_wrong: L'ID del client OAuth 2 non è valido. Verifica la configurazione.
         client_secret_wrong: Il codice segreto del client OAuth 2 non è valido. Verifica la configurazione.
         drive_id_wrong: Il Drive ID non è stato trovato. Verifica la configurazione.
-        group_folder_not_found: The group folder could not be found.
+        group_folder_not_found: Impossibile trovare la cartella del gruppo.
         group_folder_version_mismatch: La versione della cartella di gruppo non è supportata. Aggiorna il server Nextcloud.
         host_not_found: Non è stato trovato alcun server Nextcloud all'indirizzo host configurato. Controlla la configurazione.
         missing_dependencies: 'Manca una dipendenza necessaria per l''archiviazione dei file. Aggiungi la seguente dipendenza: %{dependency}.'
@@ -223,10 +223,10 @@ it:
         subtitle: Verifica della connessione
         tenant_id_wrong: L'ID della directory non è valido. Verifica la configurazione.
         unexpected_content:
-          nextcloud: Unexpected content found in the managed group folder.
-          one_drive: Unexpected content found in the drive.
+          nextcloud: Contenuto inatteso trovato nella cartella di gruppo gestita.
+          one_drive: Contenuto inatteso nello spazio di archiviazione.
         unknown_error: Non è stato possibile verificare la connessione. Si è verificato un errore sconosciuto. Per maggiori informazioni consulta i log del server.
-        userless_access_denied: The configured app password is invalid.
+        userless_access_denied: La password dell'app configurata non è valida.
       label_error: Errore
       label_healthy: Tutto ok
       label_pending: In sospeso
@@ -321,9 +321,6 @@ it:
       not_connected: Non connesso. L'utente dovrebbe accedere all'archivio tramite il seguente %{link}.
     members_no_results: Nessun membro da visualizzare.
     no_results: Ancora nessun'archiviazione configurata.
-    notice_successful_storage_connection: |-
-      Spazio di archiviazione connesso correttamente! Ricordati di attivare il modulo e lo spazio di archiviazione specifico nelle impostazioni di progetto
-      di ciascun progetto desiderato per utilizzarlo.
     oauth_access_granted_modal:
       access_granted: Accesso autorizzato
       project_settings:
@@ -386,6 +383,7 @@ it:
     storage_list_blank_slate:
       description: Aggiungi un archivio per vederli qui.
       heading: Non hai ancora archivi.
+    successful_storage_connection: Storage connected successfully! Remember to activate the storage in the Projects tab for each desired project to use it.
     upsale:
       description: |-
         Integra il tuo OneDrive/SharePoint come archivio file con OpenProject. Carica i file e collegali direttamente

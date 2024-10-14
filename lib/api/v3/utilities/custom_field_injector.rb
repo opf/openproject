@@ -58,7 +58,7 @@ module API
           "user" => "::API::V3::Principals::PrincipalRepresenterFactory",
           "version" => "::API::V3::Versions::VersionRepresenter",
           "list" => "::API::V3::CustomOptions::CustomOptionRepresenter",
-          "hierarchy" => "::API::V3::HierarchyItems::HierarchyItemRepresenter"
+          "hierarchy" => "::API::V3::CustomFields::Hierarchy::HierarchyItemRepresenter"
         }.freeze
 
         class << self

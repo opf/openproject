@@ -67,6 +67,8 @@ es:
       global_roles:
         item_0:
           name: Administrador de proyectos y personal
+        item_1:
+          name: Standard global role
     standard:
       priorities:
         item_0:

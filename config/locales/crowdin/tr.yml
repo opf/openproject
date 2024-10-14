@@ -31,8 +31,8 @@ tr:
     custom_styles:
       color_theme: "Renk teması"
       color_theme_custom: "(Özel)"
-      tab_interface: "Interface"
-      tab_branding: "Branding"
+      tab_interface: "Arayüz"
+      tab_branding: "Markalama"
       tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
@@ -68,7 +68,7 @@ tr:
       add_token: "Bir Enterprise sürümü destek belirteci yükleyin"
       delete_token_modal:
         text: "Kullanılan geçerli Enterprise sürümü belirtecini kaldırmak istediğinizden emin misiniz?"
-        title: "Belirteci sil"
+        title: "Anahtarı sil"
       replace_token: "Geçerli destek anahtarını değiştirin"
       order: "Enterprise on-premises edition sipariş edin"
       paste: "Enterprise sürümü destek belirtecinizi yapıştırın"
@@ -213,7 +213,7 @@ tr:
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
       items:
         blankslate:
-          title: "Your list of items is empty"
+          title: "Öğeler listeniz boş"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
       notice:
         remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
@@ -316,11 +316,11 @@ tr:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
           remove_from_project: "Remove from project"
-          label_enable_all: "Enable all"
-          label_disable_all: "Disable all"
+          label_enable_all: "Tümünü etkinleştir"
+          label_disable_all: "Tümünü devre dışı bırak"
         is_required_blank_slate:
-          heading: Required in all projects
-          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: Tüm projelerde zorunludur
+          description: '"Tüm projelerde zorunlu" seçeneği işaretli olduğu için bu proje niteliği tüm projelerde etkindir. Projeler için bağımsız olarak devre dışı bırakılamaz.'
       types:
         no_results_title_text: Şu anda hiçbir tip mevcut değil.
         form:
@@ -335,13 +335,13 @@ tr:
       success: "The modified list has been saved as a new list"
       failure: "The modified list cannot be saved: %{errors}"
     update:
-      success: "The modified list has been saved"
+      success: "Değiştirilen liste kaydedildi"
       failure: "The modified list cannot be saved: %{errors}"
     publish:
-      success: "The list has been made public"
+      success: "Liste herkese açık hale getirildi"
       failure: "The list cannot be made public: %{errors}"
     unpublish:
-      success: "The list has been made private"
+      success: "Liste gizli hale getirildi"
       failure: "The list cannot be made private: %{errors}"
     can_be_saved: "List modified:"
     can_be_saved_as: "The modifications can only be saved in a new list:"
@@ -372,8 +372,8 @@ tr:
       however_work_packages_shared_with_group_html:
         one: "However, %{shared_work_packages_link} has also been shared with this group."
         other: "However, %{shared_work_packages_link} have also been shared with this group."
-      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
-      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      remove_work_packages_shared_with_user_too: "Üyelikten kaldırılan bir kullanıcı paylaşılan iş paketlerine erişmeye devam edebilir. Paylaşımları da kaldırmak ister misiniz?"
+      remove_work_packages_shared_with_group_too: "Üyelikten kaldırılan bir grup paylaşılan iş paketlerine erişmeye devam edebilir. Paylaşımları da kaldırmak ister misiniz?"
       will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
       can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
       also_work_packages_shared_with_user_html:
@@ -410,11 +410,11 @@ tr:
         header: The %{type} token has been generated
         warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
-        token_name_blank: "Please provide an API token name"
-        token_name_in_use: "This API token name is already in use, please select a different one"
-      new_access_token_dialog_title: "Create new API token"
-      new_access_token_dialog_show_button_text: "API token"
-      new_access_token_dialog_text_field_placeholder_text: "My API token"
+        token_name_blank: "Lütfen API anahtarı için bir ad girin"
+        token_name_in_use: "Bu API anahtarı adı kullanılmaktadır, lütfen başka bir tane seçin"
+      new_access_token_dialog_title: "Yeni bir API anahtarı oluştur"
+      new_access_token_dialog_show_button_text: "API anahtarı"
+      new_access_token_dialog_text_field_placeholder_text: "API anahtarım"
       new_access_token_dialog_text_field_label: "İsim"
       new_access_token_dialog_submit_button_text: "Oluştur"
       new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
@@ -479,17 +479,21 @@ tr:
       no_results_content_text: Durum bildirme ekleme
   statuses:
     edit:
+      status_color_text: |
+        Bu durumun rengini atamak veya değiştirmek için tıklayın.
+        Durum düğmesinde gösterilir ve tablodaki iş paketlerini vurgulamak için kullanılabilir.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Bu durumdaki iş paketlereni salt okunur olarak işaretlemek için bu seçeneği işaretleyin.
         Durum haricindeki başka özellikler değiştirilemez.
         <br/>
         <strong>Uyarı</strong>: Devralınan değerler (örneğin; çocuklardan ve bağlantılardan) hala geçerli olacaktır.
-      status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
-      status_color_text: |
-        Bu durumun rengini atamak veya değiştirmek için tıklayın.
-        Durum düğmesinde gösterilir ve tablodaki iş paketlerini vurgulamak için kullanılabilir.
     index:
       no_results_title_text: Şu anda çalışma paketi durumu yok.
       no_results_content_text: Yeni durum ekle
@@ -819,7 +823,7 @@ tr:
         blank: "boş bırakılamaz."
         blank_nested: "'%{property}' özelliğinin ayarlanmış olması gerekir."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "İş paketi alt görevlerinden birine bağlanamaz."
         circular_dependency: "Bu ilişki döngüsel bağımlılık oluşturacak."
         confirmation: "%{attribute} eşleşmiyor."
@@ -1191,8 +1195,8 @@ tr:
         other: "Yetkiler"
       status: "İş paketi durumu"
       token/api:
-        one: Access token
-        other: Access tokens
+        one: Erişim anahtarı
+        other: Erişim anahtarları
       type: "Tür"
       user: "Kullanıcı"
       version: "Sürüm"
@@ -2907,6 +2911,7 @@ tr:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Harcanan süreyi görüntüleme"
   permission_view_timelines: "Zaman çizelgelerini görüntüle"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Wiki geçmişini görüntüle"
   permission_view_wiki_pages: "Wiki'yi görüntüle"
   permission_work_package_assigned: "Atanan/sorumlu olun"

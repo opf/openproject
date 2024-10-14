@@ -59,11 +59,9 @@ module Pages
 
     def create_board(action: "Basic", title: "#{action} Board", expect_empty: false, via_toolbar: true)
       if via_toolbar
-        within '[data-test-selector="add-board-button"]' do
-          click_link "Board"
-        end
+        page.find_test_selector("add-board-button").click
       else
-        find('[data-test-selector="boards--create-button"]').click
+        page.find_test_selector("boards--create-button").click
       end
 
       new_board_page = NewBoard.new

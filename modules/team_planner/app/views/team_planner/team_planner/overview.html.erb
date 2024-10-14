@@ -9,7 +9,7 @@
 
 <%=
   render Primer::OpenProject::SubHeader.new do |subheader|
-    subheader.with_action_component(data: { "test-selector": "add-team-planner-button"}) do
+    subheader.with_action_component do
       render ::TeamPlanner::AddButtonComponent.new
     end
   end

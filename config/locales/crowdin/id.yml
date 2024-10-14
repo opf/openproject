@@ -467,17 +467,21 @@ id:
       no_results_content_text: Add a status reporting
   statuses:
     edit:
+      status_color_text: |
+        Klik untuk ditugaskan atau mengubah warna status ini.
+        Itu ditampilkan di tombol status dan dapat digunakan untuk menyorot paket kerja di tabel.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Centang opsi ini untuk menandai paket pekerjaan dengan status ini sebagai hanya-baca.
         Tidak ada atribut yang dapat diubah kecuali status.
         <br/>
         <strong>Catatan</strong>: Nilai yang diwariskan (mis., dari anak atau relasi) akan tetap berlaku.
-      status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
-      status_color_text: |
-        Klik untuk ditugaskan atau mengubah warna status ini.
-        Itu ditampilkan di tombol status dan dapat digunakan untuk menyorot paket kerja di tabel.
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
@@ -806,7 +810,7 @@ id:
         blank: "harus di isi."
         blank_nested: "harus menyetel properti '%{property}'."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Work package tidak dapat dihubungkan dengan subtask-nya."
         circular_dependency: "Relasi ini menyebabkan dependensi circular."
         confirmation: "tidak sesuai dengan %{attribute}."
@@ -2865,6 +2869,7 @@ id:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Lihat durasi"
   permission_view_timelines: "Lihat Timeline"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Lihat Wiki histori"
   permission_view_wiki_pages: "Lihat Wiki"
   permission_work_package_assigned: "Menjadi penerima tugas/penanggung jawab"

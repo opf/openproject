@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% available_roles = GlobalRole.all - (global_member&.roles || []) %>
+<% available_roles = GlobalRole.givable - (global_member&.roles || []) %>
 
 <div class="grid-content" id="available_principal_roles">
   <fieldset class="form--fieldset">

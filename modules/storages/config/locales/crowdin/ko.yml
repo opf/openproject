@@ -91,8 +91,8 @@ ko:
         rename_project_folder: '관리되는 프로젝트 폴더의 이름 바꾸기:'
     errors:
       messages:
-        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+        error: 예기치 않은 오류가 발생했습니다. OpenProject 로그에서 자세한 내용을 확인하거나 관리자에게 문의하세요
+        unauthorized: OpenProject가 저장소 공급자를 인증할 수 없습니다. 액세스 권한이 있는지 확인하세요.
       models:
         copy_project_folders_service:
           conflict: '%{destination_path} 폴더가 이미 존재합니다. 덮어쓰기를 방지하기 위해 프로세스가 중단됩니다.'
@@ -114,8 +114,8 @@ ko:
             hide_inactive_folders:
               permission_not_set: '- %{path}에 대한 권한을 설정할 수 없습니다.'
             remote_folders:
-              not_allowed: '%{username}에게는 %{group_folder}에 대한 액세스 권한이 없습니다. Nextcloud의 폴더 권한을 확인하세요.'
-              not_found: "%{group_folder}을(를) 찾을 수 없습니다. Nextcloud 설정을 확인하세요."
+              not_allowed: The %{username} doesn't have access to the %{group_folder} folder. Please check the folder permissions on Nextcloud.
+              not_found: "%{group_folder} folder wasn't found. Please check your Nextcloud setup."
             remove_user_from_group:
               conflict: '다음과 같은 이유로 %{user} 사용자를 %{group} 그룹에서 제거할 수 없습니다: %{reason}'
               failed_to_remove: '다음과 같은 이유로 %{user} 사용자를 %{group} 그룹에서 제거할 수 없습니다: %{reason}'
@@ -128,7 +128,7 @@ ko:
           group_does_not_exist: "%{group}이(가) 없습니다. Nextcloud 인스턴스 구성을 확인하세요."
           insufficient_privileges: OpenProject에는 %{user}을(를) %{group}에 추가할 수 있는 권한이 충분하지 않습니다. Nextcloud에서 그룹 설정을 확인하세요.
           not_allowed: Nextcloud가 요청을 차단합니다.
-          unauthorized: OpenProject가 Nextcloud와 동기화할 수 없습니다. 저장소 및 Nextcloud 구성을 확인하세요.
+          unauthorized: OpenProject could not sync with Nextcloud. Please check your storage and Nextcloud configuration.
           user_does_not_exist: "%{user}이(가) Nextcloud에 없습니다."
         one_drive_sync_service:
           attributes:
@@ -147,10 +147,10 @@ ko:
               permission_not_set: '- %{path}에 대한 권한을 설정할 수 없습니다.'
           error: 예기치 않은 오류가 발생했습니다. Nextcloud 인스턴스에 연결할 수 있는지 확인하고 OpenProject 작업자 로그에서 자세한 내용을 확인하세요
           not_allowed: OpenProject가 OneDrive 드라이브에 액세스하도록 허용되지 않았습니다. Azure 애플리케이션에 설정된 권한을 확인하세요.
-          unauthorized: OpenProject가 OneDrive와 동기화할 수 없습니다. 저장소 및 Azure 애플리케이션 구성을 확인하세요.
+          unauthorized: OpenProject could not sync with OneDrive. Please check your storage and Azure Application configuration.
           user_does_not_exist: "%{user}이(가) Nextcloud에 없습니다."
         upload_link_service:
-          not_found: The destination folder %{folder} could not be found on %{storage_name}.
+          not_found: '%{storage_name}에서 대상 폴더 %{folder}을(를) 찾을 수 없습니다.'
   storages:
     buttons:
       complete_without_setup: 이것 없이 완료
@@ -214,7 +214,7 @@ ko:
         client_id_wrong: 구성된 OAuth 2 클라이언트 ID가 잘못되었습니다. 구성을 확인하세요.
         client_secret_wrong: 구성된 OAuth 2 클라이언트 비밀번호가 잘못되었습니다. 구성을 확인하세요.
         drive_id_wrong: 구성된 Drive ID를 찾을 수 없습니다. 구성을 확인하세요.
-        group_folder_not_found: The group folder could not be found.
+        group_folder_not_found: 그룹 폴더를 찾을 수 없습니다.
         group_folder_version_mismatch: 그룹 폴더 버전은 지원되지 않습니다. Nextcloud 서버를 업데이트하세요.
         host_not_found: 구성된 호스트 URL에서 Nextcloud 서버를 찾을 수 없습니다. 구성을 확인하세요.
         missing_dependencies: '파일 저장소에 필수 종속성이 누락되었습니다. 다음 종속성을 추가하세요: %{dependency}.'
@@ -223,10 +223,10 @@ ko:
         subtitle: 연결 유효성 검사
         tenant_id_wrong: 구성된 디렉터리(테넌트) ID가 잘못되었습니다. 구성을 확인하세요.
         unexpected_content:
-          nextcloud: Unexpected content found in the managed group folder.
-          one_drive: Unexpected content found in the drive.
+          nextcloud: 관리되는 그룹 폴더에서 예기치 않은 콘텐츠가 발견되었습니다.
+          one_drive: 드라이브에서 예기치 않은 콘텐츠가 발견되었습니다.
         unknown_error: 연결에 대한 유효성 검사를 할 수 없습니다. 알 수 없는 오류가 발생했습니다. 자세한 내용은 서버 로그를 확인하세요.
-        userless_access_denied: The configured app password is invalid.
+        userless_access_denied: 구성된 앱 암호가 잘못되었습니다.
       label_error: 오류
       label_healthy: 정상
       label_pending: 대기 중
@@ -321,8 +321,6 @@ ko:
       not_connected: 연결되지 않았습니다. 사용자는 다음 %{link}을(를) 통해 저장소에 로그인해야 합니다.
     members_no_results: 표시할 멤버가 없습니다.
     no_results: 아직 저장소가 설정되지 않았습니다.
-    notice_successful_storage_connection: |-
-      저장소가 연결되었습니다! 이 저장소를 사용하려면 원하는 각 프로젝트의 프로젝트 설정에서 모듈과 특정 저장소를 활성화해야 합니다.
     oauth_access_granted_modal:
       access_granted: 엑세스 권한 부여됨
       project_settings:
@@ -384,6 +382,7 @@ ko:
     storage_list_blank_slate:
       description: 여기에서 보려면 저장소를 추가합니다.
       heading: 아직 저장소가 없습니다.
+    successful_storage_connection: Storage connected successfully! Remember to activate the storage in the Projects tab for each desired project to use it.
     upsale:
       description: |-
         OpenProject를 사용하여 OneDrive/SharePoint를 파일 저장소로 통합합니다. 파일을 업로드하고 프로젝트의 작업 패키지에 직접 링크합니다.

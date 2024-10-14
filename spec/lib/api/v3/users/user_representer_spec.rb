@@ -106,7 +106,7 @@ RSpec.describe API::V3::Users::UserRepresenter do
     end
 
     describe "email" do
-      let(:user) { build_stubbed(:user, status: 1, preference:) }
+      let(:user) { build_stubbed(:user, status: 1) }
 
       shared_examples_for "shows the users E-Mail address" do
         it do
@@ -114,18 +114,19 @@ RSpec.describe API::V3::Users::UserRepresenter do
         end
       end
 
-      context "if user shows his E-Mail address" do
-        let(:preference) { build(:user_preference, hide_mail: false) }
+      context "when the current user can view user emails" do
+        before do
+          mock_permissions_for(current_user) do |mock|
+            mock.allow_globally(:view_user_email)
+          end
+        end
 
         it_behaves_like "shows the users E-Mail address"
       end
 
-      context "if user hides his E-Mail address" do
-        let(:preference) { build(:user_preference, hide_mail: true) }
-
+      context "when the current user cannot view user emails" do
         it "does not render the users E-Mail address" do
-          expect(subject)
-            .not_to have_json_path("email")
+          expect(subject).not_to have_json_path("email")
         end
 
         context "if an admin inquires" do
@@ -134,8 +135,16 @@ RSpec.describe API::V3::Users::UserRepresenter do
           it_behaves_like "shows the users E-Mail address"
         end
 
-        context "if the user inquires himself" do
+        context "if the user inquires about themselves" do
           let(:current_user) { user }
+
+          it_behaves_like "shows the users E-Mail address"
+        end
+
+        context "if the user is new" do
+          before do
+            allow(user).to receive(:new_record?).and_return(true)
+          end
 
           it_behaves_like "shows the users E-Mail address"
         end

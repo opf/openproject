@@ -67,6 +67,8 @@ tr:
       global_roles:
         item_0:
           name: Personel ve proje yöneticisi
+        item_1:
+          name: Standard global role
     standard:
       priorities:
         item_0:

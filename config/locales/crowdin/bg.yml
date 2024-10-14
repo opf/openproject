@@ -479,17 +479,21 @@ bg:
       no_results_content_text: Добавете отчет за статус
   statuses:
     edit:
+      status_color_text: |
+        Щракнете, за да зададете или промените цвета на това състояние.
+        То се показва в бутона за състоянието и може да се използва за подчертаване на работните пакети в таблицата.
+      status_excluded_from_totals_text: |-
+        Отбележете тази опция, за да изключите работните пакети с този статус от общите стойности на Работа,
+        Оставаща работа и % Завършено в йерархията.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Отбележете тази опция, за да маркирате работните пакети с този статус като такива само за четене.
         Не могат да се променят никакви атрибути, с изключение на статуса.
         <br/>
         <strong>Забележка</strong>: Наследените стойности (например от деца или връзки) все още ще се прилагат.
-      status_excluded_from_totals_text: |-
-        Отбележете тази опция, за да изключите работните пакети с този статус от общите стойности на Работа,
-        Оставаща работа и % Завършено в йерархията.
-      status_color_text: |
-        Щракнете, за да зададете или промените цвета на това състояние.
-        То се показва в бутона за състоянието и може да се използва за подчертаване на работните пакети в таблицата.
     index:
       no_results_title_text: Има в момента няма статуси за работни пакети.
       no_results_content_text: Добавяне на ново състояние
@@ -820,7 +824,7 @@ bg:
         blank: "не може да бъде празно."
         blank_nested: "трябва да бъде зададено свойството '%{property}'."
         cannot_delete_mapping: "е необходимо. Не може да бъде изтрит."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Работния пакет не може да бъде свързан с една от неговите подзадачи."
         circular_dependency: "Тази връзка ще доведе до циклична зависимост."
         confirmation: "не съвпада с %{attribute}."
@@ -2911,6 +2915,7 @@ bg:
   permission_view_shared_work_packages: "Преглед споеделянията на работния пакет"
   permission_view_time_entries: "Преглед на прекараното време"
   permission_view_timelines: "Преглед на хронологиите"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Преглед на историята на уикипедията"
   permission_view_wiki_pages: "Преглед на уикипедия"
   permission_work_package_assigned: "Станете правоприемник/отговорник"

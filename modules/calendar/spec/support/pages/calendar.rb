@@ -140,9 +140,7 @@ module Pages
     end
 
     def click_on_create_button
-      within '[data-test-selector="add-calendar-button"]' do
-        click_link "Calendar"
-      end
+      page.find_test_selector("add-calendar-button").click
     end
 
     def click_on_cancel_button
@@ -150,19 +148,19 @@ module Pages
     end
 
     def expect_create_button
-      expect(page).to have_css ".button", text: "Calendar"
+      expect(page).to have_test_selector "add-calendar-button"
     end
 
     def expect_no_create_button
-      expect(page).to have_no_css ".button", text: "Calendar"
+      expect(page).not_to have_test_selector "add-calendar-button"
     end
 
     def expect_delete_button(query)
-      expect(page).to have_css "[data-test-selector='calendar-remove-#{query.id}']"
+      expect(page).to have_test_selector "calendar-remove-#{query.id}"
     end
 
     def expect_no_delete_button(query)
-      expect(page).to have_no_css "[data-test-selector='calendar-remove-#{query.id}']"
+      expect(page).not_to have_test_selector "calendar-remove-#{query.id}"
     end
 
     def expect_no_views_visible

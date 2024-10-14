@@ -67,6 +67,8 @@ cs:
       global_roles:
         item_0:
           name: Manažer zaměstnanců a projektů
+        item_1:
+          name: Standard global role
     standard:
       priorities:
         item_0:

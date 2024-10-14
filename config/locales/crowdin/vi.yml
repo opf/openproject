@@ -475,17 +475,21 @@ vi:
       no_results_content_text: Thêm một báo cáo trạng thái
   statuses:
     edit:
+      status_color_text: |
+        Nhấp để gán hoặc thay đổi màu của trạng thái này.
+        Nó được hiển thị trên nút trạng thái và có thể được sử dụng để làm nổi bật các gói công việc trong bảng.
+      status_excluded_from_totals_text: |-
+        Đánh dấu tùy chọn này để loại trừ các gói công việc có trạng thái này khỏi tổng số Công việc,
+        Công việc còn lại, và % Hoàn thành trong một cấu trúc phân cấp.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Đánh dấu tùy chọn này để đánh dấu các gói công việc với trạng thái này là chỉ đọc.
         Không thể thay đổi các thuộc tính ngoại trừ trạng thái.
         <br/>
         <strong>Lưu ý</strong>: Các giá trị kế thừa (ví dụ: từ các mục con hoặc mối quan hệ) vẫn sẽ được áp dụng.
-      status_excluded_from_totals_text: |-
-        Đánh dấu tùy chọn này để loại trừ các gói công việc có trạng thái này khỏi tổng số Công việc,
-        Công việc còn lại, và % Hoàn thành trong một cấu trúc phân cấp.
-      status_color_text: |
-        Nhấp để gán hoặc thay đổi màu của trạng thái này.
-        Nó được hiển thị trên nút trạng thái và có thể được sử dụng để làm nổi bật các gói công việc trong bảng.
     index:
       no_results_title_text: Hiện tại không có trạng thái gói công việc nào.
       no_results_content_text: Thêm trạng thái mới
@@ -815,7 +819,7 @@ vi:
         blank: "không được để trống"
         blank_nested: "cần có thuộc tính '%{property}' được thiết lập."
         cannot_delete_mapping: "là bắt buộc. Không thể xóa."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Một gói công việc không thể liên kết với một trong các nhiệm vụ con của nó."
         circular_dependency: "Mối quan hệ này sẽ tạo ra một sự phụ thuộc tuần hoàn."
         confirmation: "không khớp %{attribute}."
@@ -2876,6 +2880,7 @@ vi:
   permission_view_shared_work_packages: "Xem chia sẻ gói công việc"
   permission_view_time_entries: "Xem thời gian đã chi tiêu"
   permission_view_timelines: "Xem mốc thời gian"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Xem lịch sử chỉnh sửa wiki"
   permission_view_wiki_pages: "Xem wiki"
   permission_work_package_assigned: "Trở thành người được chỉ định/chịu trách nhiệm"
