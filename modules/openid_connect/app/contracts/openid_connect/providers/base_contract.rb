@@ -46,6 +46,31 @@ module OpenIDConnect
       validates :metadata_url,
                 url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },
                 if: -> { model.metadata_url_changed? }
+
+      attribute :authorization_endpoint
+      validates :authorization_endpoint,
+                url: { allow_blank: false, allow_nil: false, schemes: %w[http https] },
+                if: -> { model.authorization_endpoint_changed? }
+
+      attribute :userinfo_endpoint
+      validates :userinfo_endpoint,
+                url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },
+                if: -> { model.userinfo_endpoint_changed? }
+
+      attribute :token_endpoint
+      validates :token_endpoint,
+                url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },
+                if: -> { model.token_endpoint_changed? }
+
+      attribute :end_session_endpoint
+      validates :end_session_endpoint,
+                url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },
+                if: -> { model.end_session_endpoint_changed? }
+
+      attribute :jwks_uri
+      validates :jwks_uri,
+                url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },
+                if: -> { model.jwks_uri_changed? }
     end
   end
 end

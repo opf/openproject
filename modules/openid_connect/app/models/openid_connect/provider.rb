@@ -1,6 +1,6 @@
 module OpenIDConnect
   class Provider < AuthProvider
-    OIDC_PROVIDERS = ["google", "microsoft_entra", "custom"].freeze
+    OIDC_PROVIDERS = %w[google microsoft_entra custom].freeze
     DISCOVERABLE_ATTRIBUTES_ALL = %i[authorization_endpoint
                                      userinfo_endpoint
                                      token_endpoint
@@ -8,7 +8,7 @@ module OpenIDConnect
                                      jwks_uri
                                      issuer].freeze
     DISCOVERABLE_ATTRIBUTES_OPTIONAL = %i[end_session_endpoint].freeze
-    DISCOVERABLE_ATTRIBUTES_MANDATORY = DISCOVERABLE_ATTRIBUTES_ALL - %i[end_session_endpoint]
+    DISCOVERABLE_ATTRIBUTES_MANDATORY = DISCOVERABLE_ATTRIBUTES_ALL - %i[end_session_endpoint jwks_uri]
 
     store_attribute :options, :oidc_provider, :string
     store_attribute :options, :metadata_url, :string
