@@ -31,6 +31,7 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
               :name,
               :sortable_join,
               :groupable_join,
+              :groupable_select,
               :summable,
               :default_order,
               :association,

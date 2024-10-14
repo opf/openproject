@@ -68,7 +68,7 @@ module ::Query::Results::GroupBy
   end
 
   def pluck_for_count
-    Array(query.group_by_statement).map { |statement| Arel.sql(statement) } +
+    Array(query.group_by_select).map { |statement| Arel.sql(statement) } +
       [Arel.sql('COUNT(DISTINCT "work_packages"."id")')]
   end
 

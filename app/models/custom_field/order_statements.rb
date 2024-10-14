@@ -70,12 +70,18 @@ module CustomField::OrderStatements
     order_statement
   end
 
+  # Returns the expression to use in SELECT clause if it differs from one used
+  # to group by
+  def group_by_select_statement
+    return unless field_format == "list"
+
+    "ANY_VALUE(cf_order_#{id}.ids)"
+  end
+
   # Returns the join statement that is required to group objects by their value
   # of the custom field.
   def group_by_join_statement
     return unless can_be_used_for_grouping?
-
-    return join_for_group_by_list_sql if field_format == "list"
 
     order_join_statement
   end
@@ -84,13 +90,14 @@ module CustomField::OrderStatements
 
   def can_be_used_for_grouping? = field_format.in?(%w[list date bool int float string link])
 
-  def join_for_order_sql(value:, join: nil, multi_value: false)
+  def join_for_order_sql(value:, add_select: nil, join: nil, multi_value: false)
     <<-SQL.squish
       LEFT OUTER JOIN (
         SELECT
           #{multi_value ? '' : 'DISTINCT ON (cv.customized_id)'}
-            cv.customized_id,
-            #{value} "value"
+            cv.customized_id
+            , #{value} "value"
+            #{", #{add_select}" if add_select}
           FROM #{CustomValue.quoted_table_name} cv
           #{join}
           WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
@@ -112,21 +119,10 @@ module CustomField::OrderStatements
   def join_for_order_by_list_sql
     join_for_order_sql(
       value: multi_value? ? "ARRAY_AGG(co.position ORDER BY co.position)" : "co.position",
+      add_select: "#{multi_value? ? "ARRAY_TO_STRING(ARRAY_AGG(cv.value ORDER BY co.position), '.')" : 'cv.value'} ids",
       join: "INNER JOIN #{CustomOption.quoted_table_name} co ON co.id = cv.value::bigint",
       multi_value:
     )
-  end
-
-  def join_for_group_by_list_sql
-    if multi_value?
-      join_for_order_sql(
-        value: "ARRAY_TO_STRING(ARRAY_AGG(cv.value ORDER BY co.position), '.')",
-        join: "INNER JOIN #{CustomOption.quoted_table_name} co ON co.id = cv.value::bigint",
-        multi_value:
-      )
-    else
-      join_for_order_by_string_sql
-    end
   end
 
   def join_for_order_by_user_sql

@@ -362,6 +362,10 @@ class Query < ApplicationRecord
     group_by_column&.groupable
   end
 
+  def group_by_select
+    group_by_column&.groupable_select || group_by_statement
+  end
+
   def group_by_join_statement
     group_by_column&.groupable_join
   end
