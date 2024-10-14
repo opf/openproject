@@ -68,10 +68,12 @@ module OpenIDConnect::Providers::Sections
     end
 
     def button_label
-      if edit_mode
-        I18n.t(:button_continue)
+      return I18n.t(:button_save) unless edit_mode
+
+      if next_edit_state.nil?
+        I18n.t(:button_finish_setup)
       else
-        I18n.t(:button_update)
+        I18n.t(:button_continue)
       end
     end
   end
