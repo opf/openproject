@@ -39,7 +39,7 @@ class I18n::Backend::LocaleExtractor
 
     return if locale.nil?
 
-    locale.tr("js-", "").to_sym
+    locale.delete_prefix("js-").delete_suffix(".seeders").to_sym
   end
 end
 
