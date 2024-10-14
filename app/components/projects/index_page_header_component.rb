@@ -112,6 +112,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
 
   def breadcrumb_items
     [
+      { href: home_path, text: helpers.organization_name },
       { href: projects_path, text: t(:label_project_plural) },
       current_breadcrumb_element
     ]

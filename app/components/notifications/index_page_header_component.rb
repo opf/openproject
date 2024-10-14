@@ -47,7 +47,7 @@ module Notifications
     end
 
     def parent_element
-      { href: home_path, text: I18n.t(:label_home) }
+      { href: home_path, text: helpers.organization_name }
     end
   end
 end
