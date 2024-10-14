@@ -4,15 +4,6 @@ require "open_project/openid_connect/engine"
 
 module OpenProject
   module OpenIDConnect
-    CONFIG_KEY = :seed_openid_connect_provider
-    CONFIG_OPTIONS = {
-      description: "Provide a OpenIDConnect provider and sync its settings through ENV",
-      env_alias: "OPENPROJECT_OPENID__CONNECT",
-      default: {},
-      writable: false,
-      format: :hash
-    }.freeze
-
     def providers
       # update base redirect URI in case settings changed
       ::OmniAuth::OpenIDConnect::Providers.configure(
