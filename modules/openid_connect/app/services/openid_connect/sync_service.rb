@@ -32,34 +32,21 @@ module OpenIDConnect
 
     def initialize(name, configuration)
       @name = name
-      @provider_attributes =
-        {
-          "slug" => name,
-          "oidc_provider" => "custom",
-          "display_name" => configuration["display_name"],
-          "client_id" => configuration["identifier"],
-          "client_secret" => configuration["secret"],
-          "issuer" => configuration["issuer"],
-          "authorization_endpoint" => configuration["authorization_endpoint"],
-          "token_endpoint" => configuration["token_endpoint"],
-          "userinfo_endpoint" => configuration["userinfo_endpoint"],
-          "end_session_endpoint" => configuration["end_session_endpoint"],
-          "jwks_uri" => configuration["jwks_uri"]
-        }
+      @configuration = ::OpenIDConnect::ConfigurationMapper.new(configuration).call!
     end
 
-    def call
+    def call # rubocop:disable Metrics/AbcSize
       provider = ::OpenIDConnect::Provider.find_by(slug: name)
       if provider
         ::OpenIDConnect::Providers::UpdateService
           .new(model: provider, user: User.system)
-          .call(@provider_attributes)
+          .call(@configuration)
           .on_success { |call| call.message = "Successfully updated OpenID provider #{name}." }
           .on_failure { |call| call.message = "Failed to update OpenID provider: #{call.message}" }
       else
         ::OpenIDConnect::Providers::CreateService
           .new(user: User.system)
-          .call(@provider_attributes)
+          .call(@configuration)
           .on_success { |call| call.message = "Successfully created OpenID provider #{name}." }
           .on_failure { |call| call.message = "Failed to create OpenID provider: #{call.message}" }
       end

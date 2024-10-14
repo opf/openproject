@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Saml
+module OpenIDConnect
   class ConfigurationMapper
     attr_reader :configuration
 
@@ -36,60 +36,38 @@ module Saml
 
     def call!
       options = mapped_options(configuration.deep_stringify_keys)
+
       {
-        "options" => options,
         "slug" => options.delete("name"),
-        "display_name" => options.delete("display_name") || "SAML"
+        "display_name" => options.delete("display_name") || "OpenID Connect",
+        "oidc_provider" => "custom",
+        "client_id" => options["identifier"],
+        "client_secret" => options["secret"],
+        "issuer" => options["issuer"],
+        "authorization_endpoint" => options["authorization_endpoint"],
+        "token_endpoint" => options["token_endpoint"],
+        "userinfo_endpoint" => options["userinfo_endpoint"],
+        "end_session_endpoint" => options["end_session_endpoint"],
+        "jwks_uri" => options["jwks_uri"]
       }
     end
 
     private
 
     def mapped_options(options)
-      options["idp_sso_service_url"] ||= options.delete("idp_sso_target_url")
-      options["idp_slo_service_url"] ||= options.delete("idp_slo_target_url")
-      options["sp_entity_id"] ||= options.delete("issuer")
-
-      build_idp_cert(options)
-      extract_security_options(options)
       extract_mapping(options)
 
       options.compact
     end
 
     def extract_mapping(options)
-      return unless options["attribute_statements"]
+      return unless options["attribute_map"]
 
-      options["mapping_login"] = extract_mapping_attribute(options, "login")
-      options["mapping_mail"] = extract_mapping_attribute(options, "email")
-      options["mapping_firstname"] = extract_mapping_attribute(options, "first_name")
-      options["mapping_lastname"] = extract_mapping_attribute(options, "last_name")
-      options["mapping_uid"] = extract_mapping_attribute(options, "uid")
-    end
-
-    def extract_mapping_attribute(options, key)
-      value = options["attribute_statements"][key]
-
-      if value.present?
-        Array(value).join("\n")
-      end
-    end
-
-    def build_idp_cert(options)
-      if options["idp_cert"]
-        options["idp_cert"] = OneLogin::RubySaml::Utils.format_cert(options["idp_cert"])
-      elsif options["idp_cert_multi"]
-        options["idp_cert"] = options["idp_cert_multi"]["signing"]
-          .map { |cert| OneLogin::RubySaml::Utils.format_cert(cert) }
-          .join("\n")
-      end
-    end
-
-    def extract_security_options(options)
-      return unless options["security"]
-
-      options.merge! options["security"].slice("authn_requests_signed", "want_assertions_signed",
-                                               "want_assertions_encrypted", "digest_method", "signature_method")
+      options["mapping_login"] = options["attribute_map"]["login"]
+      options["mapping_mail"] = options["attribute_map"]["email"]
+      options["mapping_firstname"] = options["attribute_map"]["first_name"]
+      options["mapping_lastname"] = options["attribute_map"]["last_name"]
+      options["mapping_uid"] = options["attribute_map"]["uid"]
     end
   end
 end
