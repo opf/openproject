@@ -26,21 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Lazy loads translations based on the current locale.
-# It avoids a 2 to 4 seconds penalty when all locales are loaded.
-# Need to make LocaleExtractor recognize our js-<locale>.yaml file format
+module Admin
+  module CustomFields
+    module Hierarchy
+      class ItemsComponent < ApplicationComponent
+        include OpTurbo::Streamable
+        include OpPrimer::ComponentHelpers
 
-require "i18n/backend/lazy_loadable"
+        def initialize(custom_field:, new_item_form_data: { show: false })
+          super
+          @custom_field = custom_field
+          @new_item_form_data = new_item_form_data
+        end
 
-class I18n::Backend::LocaleExtractor
-  def self.locale_from_path(path)
-    name = File.basename(path, ".*")
-    locale = name.split("_").first
+        def items
+          # TODO: This must be context aware (breadcrumbs)
+          @custom_field.hierarchy_root.children
+        end
 
-    return if locale.nil?
-
-    locale.delete_prefix("js-").delete_suffix(".seeders").to_sym
+        def show_new_item_form?
+          @new_item_form_data[:show] || false
+        end
+      end
+    end
   end
 end
-
-I18n.backend = I18n::Backend::LazyLoadable.new(lazy_load: true)
