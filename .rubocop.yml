@@ -248,6 +248,7 @@ RSpec/DescribeMethod:
 # to match the exact file name
 RSpec/SpecFilePathFormat:
   CustomTransform:
+    OpenIDConnect: openid_connect
     OAuthClients: oauth_clients
   IgnoreMethods: true
 
