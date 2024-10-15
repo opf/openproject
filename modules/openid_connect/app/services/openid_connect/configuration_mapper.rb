@@ -44,15 +44,36 @@ module OpenIDConnect
         "client_id" => options["identifier"],
         "client_secret" => options["secret"],
         "issuer" => options["issuer"],
-        "authorization_endpoint" => options["authorization_endpoint"],
-        "token_endpoint" => options["token_endpoint"],
-        "userinfo_endpoint" => options["userinfo_endpoint"],
+        "authorization_endpoint" => extract_url(options, "authorization_endpoint"),
+        "token_endpoint" => extract_url(options, "token_endpoint"),
+        "userinfo_endpoint" => extract_url(options, "userinfo_endpoint"),
         "end_session_endpoint" => options["end_session_endpoint"],
         "jwks_uri" => options["jwks_uri"]
       }
     end
 
     private
+
+    def extract_url(options, key)
+      value = options[key]
+      return value if value.start_with?('http')
+      unless value.start_with?("/")
+        raise ArgumentError.new("Provided #{key} '#{value}' needs to be http(s) URL or path starting with a slash.")
+      end
+
+      URI
+        .join(base_url(options), value)
+        .to_s
+    end
+
+    def base_url(options)
+      raise ArgumentError.new("Missing host in configuration") unless options["host"]
+      URI::Generic.build(
+        host: options["host"],
+        port: options["port"],
+        scheme: options["scheme"] || "https"
+      ).to_s
+    end
 
     def mapped_options(options)
       extract_mapping(options)
