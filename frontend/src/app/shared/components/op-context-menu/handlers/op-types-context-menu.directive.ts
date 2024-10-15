@@ -69,11 +69,6 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
     if (!this.active) {
       return;
     }
-
-    // Force full-view create if in mobile view
-    if (this.browserDetector.isMobile) {
-      this.stateName = 'work-packages.new';
-    }
   }
 
   protected open(evt:JQuery.TriggeredEvent) {

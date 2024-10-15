@@ -26,15 +26,35 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { WorkPackageCreateComponent } from 'core-app/features/work-packages/components/wp-new/wp-create.component';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input } from '@angular/core';
+import {
+  WorkPackageIsolatedQuerySpaceDirective,
+} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
+/**
+ * An entry component to be rendered by Rails which opens an isolated query space
+ * for the work package split view
+ */
 @Component({
-  selector: 'wp-new-full-view',
-  host: { class: 'work-packages-page--ui-view' },
-  templateUrl: './wp-new-full-view.html',
+  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
+  template: `
+    <wp-new-full-view
+      [stateParams]="{ type: type, parent_id: parentId, projectPath: projectIdentifier }"
+      [routedFromAngular]="routedFromAngular"
+    ></wp-new-full-view>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkPackageNewFullViewComponent extends WorkPackageCreateComponent {
-  public successState = (this.$state?.current?.data?.successState as string) || '';
+export class WorkPackageFullCreateEntryComponent {
+  @Input() type:string;
+  @Input() parentId?:string;
+  @Input() projectIdentifier?:string;
+  @Input() routedFromAngular:boolean;
+
+  constructor(readonly elementRef:ElementRef) {
+    populateInputsFromDataset(this);
+
+    document.body.classList.add('router--work-packages-full-create');
+  }
 }

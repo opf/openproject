@@ -166,6 +166,7 @@ import { SpotSwitchComponent } from 'core-app/spot/components/switch/switch.comp
 import { WorkPackagePrimerizedListViewComponent } from 'core-app/features/work-packages/routing/wp-list-view/wp-primerized-list-view.component';
 import { WorkPackageSplitCreateEntryComponent } from 'core-app/features/work-packages/routing/wp-split-create/wp-split-create-entry.component';
 import { WorkPackageFullCopyEntryComponent } from 'core-app/features/work-packages/routing/wp-full-copy/wp-full-copy-entry.component';
+import { WorkPackageFullCreateEntryComponent } from 'core-app/features/work-packages/routing/wp-full-create/wp-full-create-entry.component';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -359,6 +360,7 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-share-upsale', ShareUpsaleComponent, { injector });
     registerCustomElement('opce-wp-split-view', WorkPackageSplitViewEntryComponent, { injector });
     registerCustomElement('opce-wp-split-create', WorkPackageSplitCreateEntryComponent, { injector });
+    registerCustomElement('opce-wp-full-create', WorkPackageFullCreateEntryComponent, { injector });
     registerCustomElement('opce-wp-full-copy', WorkPackageFullCopyEntryComponent, { injector });
     registerCustomElement('opce-timer-account-menu', TimerAccountMenuComponent, { injector });
     registerCustomElement('opce-remote-field-updater', RemoteFieldUpdaterComponent, { injector });

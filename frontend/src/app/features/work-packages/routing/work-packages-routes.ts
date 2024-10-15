@@ -27,7 +27,6 @@
 //++
 
 import { WpTabWrapperComponent } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/wp-tab-wrapper.component';
-import { WorkPackageNewFullViewComponent } from 'core-app/features/work-packages/components/wp-new/wp-new-full-view.component';
 import { WorkPackagesFullViewComponent } from 'core-app/features/work-packages/routing/wp-full-view/wp-full-view.component';
 import { WorkPackageSplitViewComponent } from 'core-app/features/work-packages/routing/wp-split-view/wp-split-view.component';
 import { Ng2StateDeclaration } from '@uirouter/angular';
@@ -67,25 +66,6 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
       // Optional initial tour param
       start_onboarding_tour: { type: 'query', squash: true, value: undefined },
       name: { type: 'string', dynamic: true },
-    },
-  },
-  {
-    name: 'work-packages.new',
-    url: '/new?type&parent_id',
-    component: WorkPackageNewFullViewComponent,
-    reloadOnSearch: false,
-    params: {
-      defaults: {
-        value: null,
-      },
-    },
-    data: {
-      baseRoute: 'work-packages',
-      allowMovingInEditMode: true,
-      bodyClasses: 'router--work-packages-full-create',
-      menuItem: menuItemClass,
-      successState: 'work-packages.show',
-      sideMenuOptions,
     },
   },
   {

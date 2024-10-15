@@ -27,7 +27,9 @@
     <wp-single-view [workPackage]="newWorkPackage"
                     [showProject]="copying">
     </wp-single-view>
-    <wp-edit-actions-bar (onCancel)="cancelAndBackToList()">
+    <wp-edit-actions-bar
+      (onSave)="showNewFullWorkPackage($event)"
+      (onCancel)="cancelAndBackToList()">
     </wp-edit-actions-bar>
   </edit-form>
 </div>

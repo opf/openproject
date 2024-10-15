@@ -418,6 +418,7 @@ import {
 } from 'core-app/features/work-packages/routing/wp-list-view/wp-primerized-list-view.component';
 import { WorkPackageSplitCreateEntryComponent } from 'core-app/features/work-packages/routing/wp-split-create/wp-split-create-entry.component';
 import { WorkPackageFullCopyEntryComponent } from 'core-app/features/work-packages/routing/wp-full-copy/wp-full-copy-entry.component';
+import { WorkPackageFullCreateEntryComponent } from 'core-app/features/work-packages/routing/wp-full-create/wp-full-create-entry.component';
 
 @NgModule({
   imports: [
@@ -611,7 +612,6 @@ import { WorkPackageFullCopyEntryComponent } from 'core-app/features/work-packag
     WorkPackageSplitViewComponent,
     WorkPackageSplitViewEntryComponent,
     WorkPackageSplitCreateEntryComponent,
-    WorkPackageFullCopyEntryComponent,
     WorkPackageBreadcrumbComponent,
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,
@@ -620,6 +620,8 @@ import { WorkPackageFullCopyEntryComponent } from 'core-app/features/work-packag
 
     // Full view
     WorkPackagesFullViewComponent,
+    WorkPackageFullCopyEntryComponent,
+    WorkPackageFullCreateEntryComponent,
 
     // Modals
     WpTableConfigurationModalComponent,

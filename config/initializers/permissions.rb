@@ -219,7 +219,7 @@ Rails.application.reloader.to_prepare do
                      {
                        versions: %i[index show status_by],
                        journals: %i[index],
-                       work_packages: %i[show index copy],
+                       work_packages: %i[show index],
                        work_packages_api: [:get],
                        "work_packages/reports": %i[report report_details],
                        "work_packages/menus": %i[show],
@@ -230,7 +230,9 @@ Rails.application.reloader.to_prepare do
                      contract_actions: { work_packages: %i[read] }
 
       wpt.permission :add_work_packages,
-                     {},
+                     {
+                       work_packages: %i[new]
+                     },
                      permissible_on: :project,
                      dependencies: :view_work_packages,
                      contract_actions: { work_packages: %i[create] }
@@ -252,7 +254,9 @@ Rails.application.reloader.to_prepare do
                      contract_actions: { work_packages: %i[move] }
 
       wpt.permission :copy_work_packages,
-                     {},
+                     {
+                       work_packages: %i[copy]
+                     },
                      permissible_on: %i[work_package project],
                      require: :loggedin,
                      dependencies: :view_work_packages

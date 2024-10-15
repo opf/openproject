@@ -38,10 +38,10 @@ class WorkPackagesController < ApplicationController
 
   before_action :authorize_on_work_package,
                 :project, only: :show
-  before_action :load_and_authorize_in_optional_project,
-                :check_allowed_export,
+  before_action :check_allowed_export,
                 :protect_from_unauthorized_export, only: %i[index export_dialog]
-  before_action :find_optional_project, only: %i[split_view split_create copy]
+  before_action :find_optional_project, only: %i[split_view split_create]
+  before_action :load_and_authorize_in_optional_project, only: %i[index export_dialog new copy]
   authorization_checked! :index, :show, :copy, :export_dialog, :split_view, :split_create
 
   before_action :load_and_validate_query, only: %i[index split_view split_create copy]
@@ -99,6 +99,15 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html do
         render :copy,
+               locals: { query: @query, project: @project, menu_name: project_or_global_menu }
+      end
+    end
+  end
+
+  def new
+    respond_to do |format|
+      format.html do
+        render :new,
                locals: { query: @query, project: @project, menu_name: project_or_global_menu }
       end
     end

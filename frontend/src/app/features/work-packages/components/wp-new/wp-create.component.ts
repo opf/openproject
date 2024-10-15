@@ -53,14 +53,10 @@ import * as URI from 'urijs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import {
-  HalResource,
-  HalSource,
-} from 'core-app/features/hal/resources/hal-resource';
+import { HalSource } from 'core-app/features/hal/resources/hal-resource';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
 import { WorkPackageCreateService } from './wp-create.service';
 import { HalError } from 'core-app/features/hal/services/hal-error';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit {
@@ -125,13 +121,8 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
   }
 
   public switchToFullscreen() {
-    if (this.routedFromAngular) {
-      const type = idFromLink(this.change.value<HalResource>('type')?.href);
-      void this.$state.go('work-packages.new', { ...this.$state.params, type });
-    } else {
-      const link = this.stateParams.projectPath ? this.pathHelper.projectWorkPackageNewPath(this.stateParams.projectPath) : this.pathHelper.workPackageNewPath();
-      window.location.href = link + window.location.search;
-    }
+    const link = this.stateParams.projectPath ? this.pathHelper.projectWorkPackageNewPath(this.stateParams.projectPath) : this.pathHelper.workPackageNewPath();
+    window.location.href = link + window.location.search;
   }
 
   public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
@@ -210,10 +201,16 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
     }
   }
 
-  public showNewWorkPackage(wp:WorkPackageResource) {
+  public showNewSplitWorkPackage(wp:WorkPackageResource) {
     if (wp.id) {
       const link = this.pathHelper.workPackageDetailsPath(wp.project.identifier, wp.id) + window.location.search;
       Turbo.visit(link, { frame: 'content-bodyRight', action: 'advance' });
+    }
+  }
+
+  public showNewFullWorkPackage(wp:WorkPackageResource) {
+    if (wp.id) {
+      window.location.href = this.pathHelper.projectWorkPackagePath(wp.project.identifier, wp.id) + window.location.search;
     }
   }
 
