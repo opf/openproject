@@ -35,9 +35,7 @@ module CustomFields
 
       def initialize(custom_field)
         validation = ServiceInitializationContract.new.call(field_format: custom_field.field_format)
-        # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
-        raise ArgumentError, "Invalid custom field: #{validation.errors.to_h}" if validation.failure?
-        # rubocop:enable Rails/DeprecatedActiveModelErrorsMethods
+        raise ArgumentError, "Invalid custom field: #{validation.errors(full: true).to_h}" if validation.failure?
 
         @custom_field = custom_field
       end
@@ -63,14 +61,32 @@ module CustomFields
           .new
           .call({ item:, label:, short: }.compact)
           .to_monad
-          .bind { |attributes| update_item_attributes(item:, attributes:) }
+          .fmap { |attributes| update_item_attributes(item:, attributes:) }
       end
 
       def delete_branch(item:)
         return Failure(:item_is_root) if item.root?
 
-        # CustomField::Hierarchy::Item sets "dependent: :destroy"
         item.destroy ? Success() : Failure(item.errors)
+      end
+
+      def get_branch(item:)
+        Success(item.ancestors.reverse)
+      end
+
+      def move_item(item:, new_parent:, sort_order:)
+        # Move with all the children
+        raise NotImplementedError
+      end
+
+      def reorder_item(item:, new_sort_order:)
+        # move it around. Check closure_tree
+        raise NotImplementedError
+      end
+
+      def soft_delete_item(item)
+        # Soft delete the item and children?
+        raise NotImplementedError
       end
 
       private

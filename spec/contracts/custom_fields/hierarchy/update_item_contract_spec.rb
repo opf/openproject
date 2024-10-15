@@ -62,7 +62,7 @@ RSpec.describe CustomFields::Hierarchy::UpdateItemContract do
       it("is invalid") do
         result = subject.call(params)
         expect(result).to be_failure
-        expect(result.errors.to_h).to include(item: ["Item must not be a root item"])
+        expect(result.errors.to_h).to include(item: ["must not be a root item"])
       end
     end
 
@@ -73,18 +73,18 @@ RSpec.describe CustomFields::Hierarchy::UpdateItemContract do
       it("is invalid") do
         result = subject.call(params)
         expect(result).to be_failure
-        expect(result.errors.to_h).to include(item: ["Item must be of type 'Item'"])
+        expect(result.errors.to_h).to include(item: ["must be CustomField::Hierarchy::Item"])
       end
     end
 
     context "when item is not persisted" do
-      let(:item) { build(:hierarchy_item) }
+      let(:item) { build(:hierarchy_item, parent: vader) }
       let(:params) { { item: } }
 
       it "is invalid" do
         result = subject.call(params)
         expect(result).to be_failure
-        expect(result.errors.to_h).to include(item: ["Item must exist"])
+        expect(result.errors.to_h).to include(item: ["must exist"])
       end
     end
 
@@ -94,7 +94,7 @@ RSpec.describe CustomFields::Hierarchy::UpdateItemContract do
       it "is invalid" do
         result = subject.call(params)
         expect(result).to be_failure
-        expect(result.errors.to_h).to include(label: ["Label must be unique within the same hierarchy level"])
+        expect(result.errors.to_h).to include(label: ["must be unique at the same hierarchical level"])
       end
     end
 

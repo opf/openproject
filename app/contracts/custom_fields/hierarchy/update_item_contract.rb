@@ -32,28 +32,21 @@ module CustomFields
   module Hierarchy
     class UpdateItemContract < Dry::Validation::Contract
       params do
-        required(:item).filled
+        required(:item).filled(type?: CustomField::Hierarchy::Item)
         optional(:label).filled(:string)
         optional(:short).filled(:string)
       end
 
       rule(:item) do
-        if value.is_a?(CustomField::Hierarchy::Item)
-          if !value.persisted?
-            key.failure("Item must exist")
-          elsif value.parent.nil?
-            key.failure("Item must not be a root item")
-          end
-        else
-          key.failure("Item must be of type 'Item'")
-        end
+        key.failure("must exist") unless value.persisted?
+        key.failure("must not be a root item") if value.root?
       end
 
       rule(:label) do
         next unless key?
 
         if CustomField::Hierarchy::Item.exists?(parent_id: values[:item].parent, label: value)
-          key.failure("Label must be unique within the same hierarchy level")
+          key.failure("must be unique at the same hierarchical level")
         end
       end
     end

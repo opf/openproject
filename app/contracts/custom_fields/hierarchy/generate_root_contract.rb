@@ -32,7 +32,7 @@ module CustomFields
   module Hierarchy
     class GenerateRootContract < Dry::Validation::Contract
       params do
-        required(:hierarchy_root)
+        required(:hierarchy_root).value(:nil?)
       end
 
       rule(:hierarchy_root) do
