@@ -42,6 +42,10 @@ module Meetings
       %i[start_time asc]
     end
 
+    def has_actions?
+      true
+    end
+
     def header_args(column)
       if column == :title
         { style: "grid-column: span 2" }
