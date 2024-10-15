@@ -109,7 +109,7 @@ module ::Query::Results::Sums
   def sums_work_package_scope_selects(grouped)
     group_statement =
       if grouped
-        [Queries::WorkPackages::Selects::WorkPackageSelect.select_group_by(query.group_by_statement)]
+        [Queries::WorkPackages::Selects::WorkPackageSelect.select_group_by(query.group_by_select)]
       else
         []
       end

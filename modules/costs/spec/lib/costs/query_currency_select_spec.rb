@@ -93,6 +93,7 @@ RSpec.describe Costs::QueryCurrencySelect, type: :model do
         allow(query).to receive_messages(
           results: result,
           group_by_join_statement: nil,
+          group_by_select: "author_id",
           group_by_statement: "author_id"
         )
 
@@ -130,6 +131,7 @@ RSpec.describe Costs::QueryCurrencySelect, type: :model do
         allow(query).to receive_messages(
           results: result,
           group_by_join_statement: nil,
+          group_by_select: "author_id",
           group_by_statement: "author_id"
         )
 

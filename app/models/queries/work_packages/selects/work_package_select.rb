@@ -54,12 +54,10 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
     scope = scope.except(:order, :select)
 
     if grouped
-      group_by = query.group_by_statement
-
       scope
         .joins(query.group_by_join_statement)
-        .group(group_by)
-        .select(select_group_by(group_by), select)
+        .group(query.group_by_statement)
+        .select(select_group_by(query.group_by_select), select)
     else
       scope
         .select(select)
