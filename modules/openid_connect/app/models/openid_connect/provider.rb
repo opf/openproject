@@ -44,6 +44,8 @@ module OpenIDConnect
     end
 
     def metadata_configured?
+      return false unless metadata_url.present?
+
       DISCOVERABLE_ATTRIBUTES_MANDATORY.all? do |mandatory_attribute|
         public_send(mandatory_attribute).present?
       end
