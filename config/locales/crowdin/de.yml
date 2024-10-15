@@ -3219,7 +3219,7 @@ de:
   setting_sys_api_description: "Der Web-Service für Projektarchiv-Verwaltung erlaubt Integration und Nutzer-Autorisierung für den Zugriff auf Projektarchive."
   setting_time_format: "Zeit"
   setting_total_percent_complete_mode: "Berechnung des Gesamtwerts % abgeschlossen in Hierarchien"
-  setting_total_percent_complete_mode_work_weighted_average: "Nach Arbeit gewichtet"
+  setting_total_percent_complete_mode_work_weighted_average: "Nach Aufwand gewichtet"
   setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
     Der <i>Gesamtwert % abgeschlossen</i> wird gegen den <i>Aufwand</i> der einzelnen Arbeitspakete in der Hierarchie gewichtet. Arbeitspakete ohne <i>Aufwand</i> werden ignoriert.
   setting_total_percent_complete_mode_simple_average: "Einfacher Durchschnitt"

@@ -479,9 +479,8 @@ zh-TW:
         選中此選項可將具有此狀態的工作包排除在層次結構中的 "工時"、"
         剩餘工時 "和 "完成百分比 "總數之外。
       status_percent_complete_text: |-
-        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
-        package is automatically set to this value when this status is selected.
-        Ignored in work-based mode.
+        在<a href="%{href}">基於狀態的進度計算模式</a>下，工作項目的完成百分比會自動設定為此值。
+        而基於工作的模式則會被忽略。
       status_readonly_html: |
         選中此選項可將具有此狀態的工作項目設定為唯讀。
         不能更改任何屬性, 但狀態除外。
@@ -2873,7 +2872,7 @@ zh-TW:
   permission_view_shared_work_packages: "檢視分享的工作項目"
   permission_view_time_entries: "檢視耗時"
   permission_view_timelines: "檢視時間軸"
-  permission_view_user_email: "View users' mail addresses"
+  permission_view_user_email: "檢視使用者的郵件地址"
   permission_view_wiki_edits: "檢視維基歷史"
   permission_view_wiki_pages: "檢視維基"
   permission_work_package_assigned: "成為執行者/負責人"
