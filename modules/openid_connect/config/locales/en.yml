@@ -66,9 +66,11 @@ en:
         name: Microsoft Entra
       custom:
         name: Custom
+      upsale:
+        description: Connect OpenProject to an OpenID connect identity provider
       label_add_new: Add a new OpenID provider
       label_edit: Edit OpenID provider %{name}
-      label_empty_title: No OIDC providers configured yet.
+      label_empty_title: No OpenID providers configured yet.
       label_empty_description: Add a provider to see them here.
       label_metadata: OpenID Connect Discovery Endpoint
       label_automatic_configuration: Automatic configuration

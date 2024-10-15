@@ -50,7 +50,8 @@ module OpenIDConnect
           json = begin
             response.json
           rescue HTTPX::Error
-            call.errors.add(:metadata_url, :response_is_json)
+            binding.pry
+            call.errors.add(:metadata_url, :response_is_not_json)
             call.success = false
           end
           result = AttributesContract.new.call(json)
