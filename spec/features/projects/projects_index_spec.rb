@@ -427,7 +427,8 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       projects_page.expect_no_columns("Status")
 
       # Sorts ASC by name
-      projects_page.sort_by_via_table_header("Name")
+      projects_page.click_table_header_to_open_action_menu("Name")
+      projects_page.sort_via_action_menu("Name", direction: :asc)
       wait_for_reload
       projects_page.expect_sort_order_via_table_header("Name", direction: :asc)
 
@@ -461,7 +462,8 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       projects_page.expect_total_pages(2) # Filters kept active, so there is no third page.
 
       # Sorts DESC by name
-      projects_page.sort_by_via_table_header("Name")
+      projects_page.click_table_header_to_open_action_menu("Name")
+      projects_page.sort_via_action_menu("Name", direction: :desc)
       wait_for_reload
       projects_page.expect_sort_order_via_table_header("Name", direction: :desc)
 
@@ -646,12 +648,14 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
         login_as(admin)
         projects_page.visit!
 
-        click_link_or_button('Sort by "Status"')
+        projects_page.click_table_header_to_open_action_menu("project_status")
+        projects_page.sort_via_action_menu("project_status", direction: :asc)
 
         projects_page.expect_project_at_place(green_project, 1)
         expect(page).to have_text("(1 - 5/5)")
 
-        click_link_or_button('Ascending sorted by "Status"')
+        projects_page.click_table_header_to_open_action_menu("project_status")
+        projects_page.sort_via_action_menu("project_status", direction: :desc)
 
         projects_page.expect_project_at_place(green_project, 5)
         expect(page).to have_text("(1 - 5/5)")
@@ -1254,7 +1258,8 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                   child_project_z,
                                   public_project)
 
-      click_link_or_button("Name")
+      projects_page.click_table_header_to_open_action_menu("Name")
+      projects_page.sort_via_action_menu("Name", direction: :asc)
       wait_for_reload
 
       # Projects ordered by name asc
@@ -1266,7 +1271,8 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                   public_project,
                                   child_project_z)
 
-      click_link_or_button("Name")
+      projects_page.click_table_header_to_open_action_menu("Name")
+      projects_page.sort_via_action_menu("Name", direction: :desc)
       wait_for_reload
 
       # Projects ordered by name desc
@@ -1278,7 +1284,8 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                   development_project,
                                   child_project_a)
 
-      click_link_or_button(integer_custom_field.name)
+      projects_page.click_table_header_to_open_action_menu(integer_custom_field.column_name)
+      projects_page.sort_via_action_menu(integer_custom_field.column_name, direction: :asc)
       wait_for_reload
 
       # Projects ordered by cf asc first then project name desc
@@ -1304,7 +1311,8 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     end
 
     it "sorts projects by latest_activity_at" do
-      click_link_or_button('Sort by "Latest activity at"')
+      projects_page.click_table_header_to_open_action_menu("latest_activity_at")
+      projects_page.sort_via_action_menu("latest_activity_at", direction: :asc)
       wait_for_reload
 
       projects_page.expect_project_at_place(project, 1)

@@ -472,14 +472,20 @@ module Pages
         end
       end
 
-      def sort_by_via_table_header(column_name)
-        find(".generic-table--sort-header a", text: column_name.upcase).click
+      def click_table_header_to_open_action_menu(column_name)
+        find(".generic-table--sort-header #menu-#{column_name.downcase}-button").click
+      end
+
+      def sort_via_action_menu(column_name, direction:)
+        raise ArgumentError, "direction should be :asc or :desc" unless %i[asc desc].include?(direction)
+
+        find(".generic-table--sort-header a[data-test-selector='#{column_name.downcase}-sort-#{direction}']").click
       end
 
       def expect_sort_order_via_table_header(column_name, direction:)
         raise ArgumentError, "direction should be :asc or :desc" unless %i[asc desc].include?(direction)
 
-        find(".generic-table--sort-header .#{direction} a", text: column_name.upcase)
+        find(".generic-table--sort-header .#{direction} .Button-label", text: column_name.upcase)
       end
 
       def set_page_size(size)
