@@ -30,9 +30,7 @@
 
 module CustomActions
   class TableComponent < ::TableComponent
-    columns :name,
-            :description,
-            :sort
+    columns :name, :description, :sort
 
     def headers
       [
@@ -40,6 +38,10 @@ module CustomActions
         ["description", { caption: CustomAction.human_attribute_name(:description) }],
         ["sort", { caption: I18n.t(:label_sort) }]
       ]
+    end
+
+    def sortable?
+      false
     end
 
     def inline_create_link
