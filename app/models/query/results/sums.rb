@@ -42,7 +42,13 @@ module ::Query::Results::Sums
   def all_group_sums
     return nil unless query.grouped?
 
-    sums_by_id = sums_select(true).inject({}) do |result, group_sum|
+    transform_group_keys(sums_by_group_id)
+  end
+
+  private
+
+  def sums_by_group_id
+    sums_select(true).inject({}) do |result, group_sum|
       result[group_sum["group_id"]] = {}
 
       query.summed_up_columns.each do |column|
@@ -51,11 +57,7 @@ module ::Query::Results::Sums
 
       result
     end
-
-    transform_group_keys(sums_by_id)
   end
-
-  private
 
   def sums_select(grouped = false)
     select = if grouped
