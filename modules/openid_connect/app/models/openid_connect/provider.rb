@@ -49,6 +49,12 @@ module OpenIDConnect
       end
     end
 
+    def mapping_configured?
+      MAPPABLE_ATTRIBUTES.any? do |mandatory_attribute|
+        public_send(:"mapping_#{mandatory_attribute}").present?
+      end
+    end
+
     def configured?
       basic_details_configured? && advanced_details_configured? && metadata_configured?
     end

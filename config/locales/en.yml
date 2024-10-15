@@ -2141,6 +2141,7 @@ en:
   label_api_doc: "API documentation"
   label_backup: "Backup"
   label_backup_code: "Backup code"
+  label_basic_details: "Basic details"
   label_between: "between"
   label_blocked_by: "blocked by"
   label_blocks: "blocks"
