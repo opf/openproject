@@ -45,12 +45,15 @@ module OpenIDConnect
         metadata_url = get_metadata_url(model)
         return call if metadata_url.blank?
 
+        extract_metadata(call, metadata_url, model)
+      end
+
+      def extract_metadata(call, metadata_url, model) # rubocop:disable Metrics/AbcSize
         case (response = OpenProject.httpx.get(metadata_url))
         in {status: 200..299}
           json = begin
             response.json
           rescue HTTPX::Error
-            binding.pry
             call.errors.add(:metadata_url, :response_is_not_json)
             call.success = false
           end

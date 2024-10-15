@@ -11,7 +11,6 @@ FactoryBot.define do
         "jwks_uri" => "https://keycloak.local/realms/master/protocol/openid-connect/certs",
         "client_id" => "https://openproject.local",
         "client_secret" => "9AWjVC3A4U1HLrZuSP4xiwHfw6zmgECn",
-        "metadata_url" => "https://keycloak.local/realms/master/.well-known/openid-configuration",
         "oidc_provider" => "custom",
         "token_endpoint" => "https://keycloak.local/realms/master/protocol/openid-connect/token",
         "userinfo_endpoint" => "https://keycloak.local/realms/master/protocol/openid-connect/userinfo",
