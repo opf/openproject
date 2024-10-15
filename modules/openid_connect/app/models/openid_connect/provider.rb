@@ -32,7 +32,7 @@ module OpenIDConnect
     def self.slug_fragment = "oidc"
 
     def seeded_from_env?
-      (Setting.seed_openid_connect_provider || {}).key?(slug)
+      (Setting.seed_oidc_provider || {}).key?(slug)
     end
 
     def basic_details_configured?
