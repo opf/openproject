@@ -33,7 +33,7 @@ module EnvData
       def seed_data!
         Setting.seed_oidc_provider.each do |name, configuration|
           print_status "    ↳ Creating or Updating OpenID provider #{name}" do
-            call = ::OpenIDConnect::SyncService.new(name, configuration).call
+            call = ::OpenIDConnect::SyncService.new(name, configuration.merge(name:)).call
 
             if call.success
               print_status "   - #{call.message}"
