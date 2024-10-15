@@ -1553,9 +1553,9 @@ ru:
       half_a_minute: "полминуты"
       less_than_x_minutes:
         one: "менее минуты"
-        few: "менее %{count} минуты"
-        many: "менее %{count} минуты"
-        other: "менее %{count} минуты"
+        few: "менее %{count} минут"
+        many: "менее %{count} минут"
+        other: "менее %{count} минут"
       less_than_x_seconds:
         one: "меньше секунды"
         few: "менее %{count} секунд"
@@ -1587,10 +1587,10 @@ ru:
         many: "%{count} часов"
         other: "%{count} часов"
       x_hours_abbreviated:
-        one: "1 час"
-        few: "%{count} часов"
-        many: "%{count} часов"
-        other: "%{count} часов"
+        one: "1 ч"
+        few: "%{count} ч"
+        many: "%{count} ч"
+        other: "%{count} ч"
       x_weeks:
         one: "1 неделя"
         few: "%{count} недель"
