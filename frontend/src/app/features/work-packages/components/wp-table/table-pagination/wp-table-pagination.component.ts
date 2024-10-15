@@ -64,7 +64,7 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
     readonly wpTableSortBy:WorkPackageViewSortByService,
     readonly I18n:I18nService,
   ) {
-    super(paginationService, cdRef, I18n);
+    super(paginationService, cdRef, I18n, wpTableSortBy);
   }
 
   ngOnInit() {
@@ -109,8 +109,7 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
 
   public paginationInfoText(work_packages:WorkPackageCollectionResource) {
     if (this.isManualSortingMode && (work_packages.count < work_packages.total)) {
-      return I18n.t('js.work_packages.limited_results',
-        { count: work_packages.count });
+      return I18n.t('js.work_packages.endless_scroll');
     }
     return undefined;
   }

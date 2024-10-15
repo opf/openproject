@@ -166,10 +166,18 @@ module API
       def handle_offset_paging_params(params)
         if query.manually_sorted?
           params[:query_id] = query.id
-          params[:offset] = 1
-          # Force the setting value in all cases except when 0 is requested explicitly. Fetching with pageSize = 0
-          # is done for performance reasons to simply get the query without the results.
-          params[:pageSize] = pageSizeParam(params) == 0 ? pageSizeParam(params) : Setting.forced_single_page_size
+          params[:offset] = to_i_or_nil(params[:offset])
+          
+          if params[:offset] == 1
+            # Force the setting value in all cases except when 0 is requested explicitly. Fetching with pageSize = 0
+            # is done for performance reasons to simply get the query without the results.
+            params[:pageSize] = pageSizeParam(params) == 0 ? pageSizeParam(params) : Setting.forced_single_page_size
+          else
+            # Since we are using pagination for loading more items, so we are adjusting offset here accordingly.
+            params[:offset] = (params[:offset] - 1) + (Setting.forced_single_page_size / Setting.forced_load_more_size) 
+            # Force the setting value in all cases except when 0 is requested explicitly.
+            params[:pageSize] = pageSizeParam(params) == 0 ? pageSizeParam(params) : Setting.forced_load_more_size
+          end
         else
           params[:offset] = to_i_or_nil(params[:offset])
           params[:pageSize] = pageSizeParam(params)

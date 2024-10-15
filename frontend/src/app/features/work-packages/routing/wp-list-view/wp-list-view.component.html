@@ -7,6 +7,8 @@
 <wp-table *ngIf="tableInformationLoaded && showTableView"
           [projectIdentifier]="CurrentProject.identifier"
           [configuration]="wpTableConfiguration"
+          [manualSortForcedPageSize]="manualSortForcedPageSize"
+          (manualSortForcedPageSizeChange)="setManualSortForcedPageSize($event)"
           (itemClicked)="handleWorkPackageClicked($event)"
           (stateLinkClicked)="openStateLink($event)"
           class="work-packages-split-view--tabletimeline-content">
@@ -28,5 +30,5 @@
 <!-- Footer -->
 <div class="work-packages-split-view--tabletimeline-footer hide-when-print"
      *ngIf="tableInformationLoaded">
-     <wp-table-pagination></wp-table-pagination>
+     <wp-table-pagination [manualSortForcedPageSize]="manualSortForcedPageSize"></wp-table-pagination>
 </div>

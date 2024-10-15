@@ -245,6 +245,8 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
     if (visibly) {
       promise = promise.then((loadedQuery:QueryResource) => {
+        this.appendToExistingIfManualSorted(loadedQuery);
+
         this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
         return this.additionalLoadingTime()
           .then(() => loadedQuery);
@@ -304,5 +306,14 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   private queryTitle(query:QueryResource):string {
     return isPersistedResource(query) ? query.name : this.staticQueryName(query);
+  }
+
+  private appendToExistingIfManualSorted(loadedQuery:QueryResource):void {
+    const loadedWorkPackages = loadedQuery.results;
+
+    if (this.querySpace.query.value && loadedWorkPackages.offset != 1 && loadedQuery.sortBy[0].column.href!.endsWith('/manualSorting')) {
+      loadedQuery.results.elements = this.querySpace.query.value.results.elements.concat(loadedWorkPackages.elements)
+      loadedQuery.results.offset = this.wpTablePagination.current.page;
+    }
   }
 }

@@ -228,6 +228,8 @@ export class WorkPackagesListService {
    * Load the query from the given state params
    */
   public loadCurrentQueryFromParams(projectIdentifier?:string):Promise<QueryResource> {
+    this.adjustQueryPropsForManualSort();
+
     return firstValueFrom(this.fromQueryParams(this.$state.params as { query_id?:string|null, query_props?:string }, projectIdentifier));
   }
 
@@ -464,5 +466,18 @@ export class WorkPackagesListService {
 
   private reloadSidemenu(selectedQueryId:string|null):void {
     this.submenuService.reloadSubmenu(selectedQueryId);
+  }
+
+  private adjustQueryPropsForManualSort():void {
+    if (!this.$state.params.query_props) {
+      return;
+    }
+    
+    const query_props = JSON.parse(this.$state.params.query_props);
+    
+    if (query_props && query_props['t'] == 'manualSorting:asc') {
+      query_props['pa'] = 1
+      this.$state.params.query_props = JSON.stringify(query_props);
+    }
   }
 }

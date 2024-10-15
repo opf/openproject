@@ -40,6 +40,10 @@ export class PaginationInstance {
     return Math.min(this.perPage * this.page, limit);
   }
 
+  public getUpperPageBoundForManualSort(limit:number, firstPageSize:number) {
+    return Math.min(this.perPage * (this.page - 1) + firstPageSize, limit);
+  }
+
   public nextPage() {
     this.page += 1;
   }

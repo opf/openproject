@@ -1047,6 +1047,7 @@ en:
         title: No work packages to display.
         description: Either none have been created or all work packages are filtered out.
       limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      endless_scroll: Scroll to the bottom to load more work packages.
       property_groups:
         details: "Details"
         people: "People"
