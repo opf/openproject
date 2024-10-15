@@ -646,20 +646,16 @@ class WorkPackage < ApplicationRecord
       # Don't re-close it if it's already closed
       next if duplicate.closed?
 
-      # Implicitly creates a new journal
-      duplicate.update_attribute :status, status
-
-      override_last_journal_notes_and_user_of!(duplicate)
+      # Close the duplicate
+      close_duplicate(duplicate)
     end
   end
 
-  def override_last_journal_notes_and_user_of!(other_work_package)
-    journal = other_work_package.journals.last
-    # Same user and notes
-    journal.user = last_journal.user
-    journal.notes = last_journal.notes
-
-    journal.save
+  def close_duplicate(duplicate)
+    WorkPackages::UpdateService
+      .new(user: User.system, model: duplicate, contract_class: EmptyContract)
+      .call(status:, journal_cause: Journal::CausedByDuplicateWorkPackageClose.new(work_package: self))
+      .on_failure { |res| Rails.logger.error "Failed to close duplicate ##{duplicate.id} of ##{id}: #{res.message}" }
   end
 
   # Query generator for selecting groups of issue counts for a project
