@@ -49,6 +49,7 @@ module BasicData
       case value
       when :non_member then Role::BUILTIN_NON_MEMBER
       when :anonymous then Role::BUILTIN_ANONYMOUS
+      when :standard_global then Role::BUILTIN_STANDARD_GLOBAL
       when :work_package_editor then Role::BUILTIN_WORK_PACKAGE_EDITOR
       when :work_package_commenter then Role::BUILTIN_WORK_PACKAGE_COMMENTER
       when :work_package_viewer then Role::BUILTIN_WORK_PACKAGE_VIEWER

@@ -475,15 +475,19 @@ de:
       no_results_content_text: Statusbericht hinzufügen
   statuses:
     edit:
+      status_color_text: |
+        Klicken zum Zuweisen einer Farbe für diesen Status. Diese wird für die Hervorhebung von Arbeitspaketen in Tabellen verwendet.
+      status_excluded_from_totals_text: |-
+        Aktivieren Sie diese Option, um Arbeitspakete mit diesem Status aus den Summen von Aufwand, Verbleibender Aufwand und % Abgeschlossen in Hierarchien auszuschließen.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Wählen Sie diese Option um Bearbeitung von Arbeitspaketen in diesem Status zu sperren.
         Außer dem Status selbst können dann keine Attribute verändert werden.
         <br/>
         <strong>Hinweis</strong>: Vererbte Attribute (z.B. von Kinderelementen oder Relationen) werden auch auf Arbeitspakete in diesen Status angewandt.
-      status_excluded_from_totals_text: |-
-        Aktivieren Sie diese Option, um Arbeitspakete mit diesem Status aus den Summen von Aufwand, Verbleibender Aufwand und % Abgeschlossen in Hierarchien auszuschließen.
-      status_color_text: |
-        Klicken zum Zuweisen einer Farbe für diesen Status. Diese wird für die Hervorhebung von Arbeitspaketen in Tabellen verwendet.
     index:
       no_results_title_text: Derzeit gibt es keine Arbeitspaket-Status.
       no_results_content_text: Neuen Status hinzufügen
@@ -2905,6 +2909,7 @@ de:
   permission_view_shared_work_packages: "Arbeitspaket-Freigaben sehen"
   permission_view_time_entries: "Gebuchte Aufwände ansehen"
   permission_view_timelines: "Zeitplan-Reporte anzeigen"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Wiki-Versionsgeschichte ansehen"
   permission_view_wiki_pages: "Wiki ansehen"
   permission_work_package_assigned: "Zugewiesener/Verantwortlicher werden"
@@ -3214,7 +3219,7 @@ de:
   setting_sys_api_description: "Der Web-Service für Projektarchiv-Verwaltung erlaubt Integration und Nutzer-Autorisierung für den Zugriff auf Projektarchive."
   setting_time_format: "Zeit"
   setting_total_percent_complete_mode: "Berechnung des Gesamtwerts % abgeschlossen in Hierarchien"
-  setting_total_percent_complete_mode_work_weighted_average: "Nach Arbeit gewichtet"
+  setting_total_percent_complete_mode_work_weighted_average: "Nach Aufwand gewichtet"
   setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
     Der <i>Gesamtwert % abgeschlossen</i> wird gegen den <i>Aufwand</i> der einzelnen Arbeitspakete in der Hierarchie gewichtet. Arbeitspakete ohne <i>Aufwand</i> werden ignoriert.
   setting_total_percent_complete_mode_simple_average: "Einfacher Durchschnitt"

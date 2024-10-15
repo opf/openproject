@@ -472,17 +472,20 @@ zh-TW:
       no_results_content_text: 新增一個狀態回報
   statuses:
     edit:
+      status_color_text: |
+        按一下以分配或更改此優先順序的顏色。
+        它可用於突出顯示表中的工作包。
+      status_excluded_from_totals_text: |-
+        選中此選項可將具有此狀態的工作包排除在層次結構中的 "工時"、"
+        剩餘工時 "和 "完成百分比 "總數之外。
+      status_percent_complete_text: |-
+        在<a href="%{href}">基於狀態的進度計算模式</a>下，工作項目的完成百分比會自動設定為此值。
+        而基於工作的模式則會被忽略。
       status_readonly_html: |
         選中此選項可將具有此狀態的工作項目設定為唯讀。
         不能更改任何屬性, 但狀態除外。
         123 _ 2 _
         <strong>筆記</strong>: 繼承的值 (例如, 來自子項或關係) 仍將適用。
-      status_excluded_from_totals_text: |-
-        選中此選項可將具有此狀態的工作包排除在層次結構中的 "工時"、"
-        剩餘工時 "和 "完成百分比 "總數之外。
-      status_color_text: |
-        按一下以分配或更改此優先順序的顏色。
-        它可用於突出顯示表中的工作包。
     index:
       no_results_title_text: 目前沒有工作項目狀態
       no_results_content_text: 新增一個狀態
@@ -2869,6 +2872,7 @@ zh-TW:
   permission_view_shared_work_packages: "檢視分享的工作項目"
   permission_view_time_entries: "檢視耗時"
   permission_view_timelines: "檢視時間軸"
+  permission_view_user_email: "檢視使用者的郵件地址"
   permission_view_wiki_edits: "檢視維基歷史"
   permission_view_wiki_pages: "檢視維基"
   permission_work_package_assigned: "成為執行者/負責人"

@@ -38,20 +38,54 @@ module Meetings
     end
 
     def page_title
-      I18n.t(:label_meeting_plural)
+      if current_item.present?
+        current_item.title
+      else
+        I18n.t(:label_meeting_plural)
+      end
     end
 
     def breadcrumb_items
       [parent_element,
-       page_title]
+       { href: url_for({ controller: "meetings", action: :index, project_id: @project }),
+         text: I18n.t(:label_meeting_plural) },
+       current_breadcrumb_element]
     end
 
     def parent_element
       if @project.present?
         { href: project_overview_path(@project.id), text: @project.name }
       else
-        { href: home_path, text: I18n.t(:label_home) }
+        { href: home_path, text: helpers.organization_name }
       end
+    end
+
+    def current_breadcrumb_element
+      if section_present?
+        I18n.t("menus.breadcrumb.nested_element", section_header: current_section.header, title: page_title).html_safe
+      else
+        page_title
+      end
+    end
+
+    def section_present?
+      current_section && current_section.header.present?
+    end
+
+    def current_section
+      return @current_section if defined?(@current_section)
+
+      @current_section = Meetings::Menu
+                           .new(project: @project, params:)
+                           .selected_menu_group
+    end
+
+    def current_item
+      return @current_item if defined?(@current_item)
+
+      @current_item = Meetings::Menu
+                        .new(project: @project, params:)
+                        .selected_menu_item
     end
   end
 end

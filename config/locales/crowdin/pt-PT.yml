@@ -477,17 +477,21 @@ pt-PT:
       no_results_content_text: Adicionar um relatório de estado
   statuses:
     edit:
+      status_color_text: |
+        Clique para atribuir ou alterar a cor deste status.
+        É mostrada no botão de status e pode ser usada para destacar os pacotes de trabalho na tabela.
+      status_excluded_from_totals_text: |-
+        Assinale esta opção para excluir pacotes de trabalho com este estado dos totais de Trabalho,
+        Trabalho restante e % Completo numa hierarquia.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Verifique esta opção para marcar pacotes de trabalho com este estado como só de leitura.
         Nenhum atributo pode ser alterado com a exceção do estado.
         <br/>
         <strong>Nota</strong>: Valores herdados (ex: por crianças ou relações) ainda serão aplicados.
-      status_excluded_from_totals_text: |-
-        Assinale esta opção para excluir pacotes de trabalho com este estado dos totais de Trabalho,
-        Trabalho restante e % Completo numa hierarquia.
-      status_color_text: |
-        Clique para atribuir ou alterar a cor deste status.
-        É mostrada no botão de status e pode ser usada para destacar os pacotes de trabalho na tabela.
     index:
       no_results_title_text: Atualmente, não existem estados de pacote de trabalho.
       no_results_content_text: Adicione um novo estado
@@ -2908,6 +2912,7 @@ pt-PT:
   permission_view_shared_work_packages: "Ver partilhas do pacote de trabalho"
   permission_view_time_entries: "Ver o tempo gasto"
   permission_view_timelines: "Ver cronogramas"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Ver histórico da wiki"
   permission_view_wiki_pages: "Ver wiki"
   permission_work_package_assigned: "Torne-se responsável"

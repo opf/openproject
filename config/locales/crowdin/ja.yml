@@ -471,15 +471,19 @@ ja:
       no_results_content_text: ステータス報告を追加
   statuses:
     edit:
-      status_readonly_html: |
-        このステータスのワークパッケージを読み取り専用としてマークするにはこのオプションを選択します。ステータスを除く属性は変更できません。<br/>
-        <strong>注</strong>：継承された値（子や関係）は引き続き適用されます。
-      status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         このステータスの色を割り当てたり変更する場合にクリックします。
         ステータスボタンに表示され、テーブル内のワークパッケージを強調表示するために使用できます。
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
+      status_readonly_html: |
+        このステータスのワークパッケージを読み取り専用としてマークするにはこのオプションを選択します。ステータスを除く属性は変更できません。<br/>
+        <strong>注</strong>：継承された値（子や関係）は引き続き適用されます。
     index:
       no_results_title_text: 現在、ワークパッケージのステータスはありません。
       no_results_content_text: 新しいステータスを追加
@@ -2870,6 +2874,7 @@ ja:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "作業時間記録の閲覧"
   permission_view_timelines: "タイムラインの閲覧"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Wiki履歴の閲覧"
   permission_view_wiki_pages: "Wikiの閲覧"
   permission_work_package_assigned: "Become assignee/responsible"

@@ -476,17 +476,21 @@ ca:
       no_results_content_text: Afegir un informe d'estat
   statuses:
     edit:
+      status_color_text: |
+        Clica per a assignar o canviar el color d'aquest estat.
+        Es mostra al botó d'estat i es pot fer servir per a destacar paquets de treball a la taula.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Activeu aquesta opció per a marcar paquets de treball amb els seus estats com a sols lectura.
         No es poden canviar els atributs amb l'excepció de l'atribut estat-
         <br/>
         <strong>Nota</strong> : Els valors heretats (p.e., de fills o relacions) es continuaran aplicant.
-      status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
-      status_color_text: |
-        Clica per a assignar o canviar el color d'aquest estat.
-        Es mostra al botó d'estat i es pot fer servir per a destacar paquets de treball a la taula.
     index:
       no_results_title_text: Actualment no hi ha cap estat de paquet de treball.
       no_results_content_text: Afegir un nou estat
@@ -2902,6 +2906,7 @@ ca:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Visualitzar el temps invertit"
   permission_view_timelines: "Veure els terminis"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Visualitza l'historial de la wiki"
   permission_view_wiki_pages: "Visualitzar la wiki"
   permission_work_package_assigned: "Esdevé assignat/responsable"

@@ -121,9 +121,9 @@
       agenda: "Kopier saksliste"
       agenda_text: "Kopier sakslisten fra det forrige møtet"
     email:
-      send_emails: "Email participants"
+      send_emails: "Send e-post til deltakere"
       send_invitation_emails: >
-        Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
+        Send en e-postinvitasjon til deltakerne som er valgt over. Du kan også gjøre dette manuelt når som helst senere.
       open_meeting_link: "Åpent møte"
       invited:
         summary: "%{actor} har sendt deg en invitasjon til møtet %{title}"
@@ -148,7 +148,7 @@
     empty_text: "Dra punkter hit eller opprett et nytt"
   notice_successful_notification: "Påminning sendt"
   notice_timezone_missing: Ingen tidssone angis og %{zone} antas. Vennligst klikk her for å velge egen tidssone.
-  notice_meeting_updated: "This page has been updated by someone else. Reload to view changes."
+  notice_meeting_updated: "Denne siden er oppdatert av noen andre. Last siden på nytt for å se endringer."
   permission_create_meetings: "Opprett møter"
   permission_edit_meetings: "Rediger møter"
   permission_delete_meetings: "Slett møter"
@@ -180,7 +180,7 @@
   label_meeting_delete: "Slett møte"
   label_meeting_created_by: "Opprettet av"
   label_meeting_last_updated: "Sist oppdatert"
-  label_meeting_reload: "Reload"
+  label_meeting_reload: "Last på nytt"
   label_agenda_items: "Dagsordenens poster"
   label_agenda_items_reordered: "omsortert"
   label_agenda_item_remove: "Fjern fra dagsorden"

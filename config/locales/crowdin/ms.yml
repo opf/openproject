@@ -472,16 +472,20 @@ ms:
       no_results_content_text: Tambah status laporan
   statuses:
     edit:
+      status_color_text: |
+        Klik untuk menugaskan atau menukar warna status ini.
+        Ia ditunjukkan pada butang status dan boleh digunakan untuk menyoroti pakej kerja dalam jadual.
+      status_excluded_from_totals_text: |-
+        Tandakan pilihan ini untuk mengecualikan pakej kerja dengan status ini dari jumlah Kerja, Kerja yang berbaki, dan % Selesai dalam hierarki.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Tandakan pilihan ini untuk menanda pakej kerja dengan status ini sebagai baca-sahaja.
         Tiada atribut yang boleh diubah dengan pengecualian status.
         <br/>
         <strong>Perhatian</strong>: Nilai yang diwarisi (cth, dari anak-anak atau saudara) masih akan digunakan.
-      status_excluded_from_totals_text: |-
-        Tandakan pilihan ini untuk mengecualikan pakej kerja dengan status ini dari jumlah Kerja, Kerja yang berbaki, dan % Selesai dalam hierarki.
-      status_color_text: |
-        Klik untuk menugaskan atau menukar warna status ini.
-        Ia ditunjukkan pada butang status dan boleh digunakan untuk menyoroti pakej kerja dalam jadual.
     index:
       no_results_title_text: Tiada status pakej kerja buat masa ini.
       no_results_content_text: Tambah status baharu
@@ -2870,6 +2874,7 @@ ms:
   permission_view_shared_work_packages: "Lihat perkongsian pakej kerja"
   permission_view_time_entries: "Lihat masa yang digunakan"
   permission_view_timelines: "Lihat garis masa"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Lihat sejarah wiki"
   permission_view_wiki_pages: "Lihat wiki"
   permission_work_package_assigned: "Menjadi penerima tugasan/bertanggungjawab"

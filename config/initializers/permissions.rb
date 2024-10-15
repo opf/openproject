@@ -81,6 +81,11 @@ Rails.application.reloader.to_prepare do
                      require: :loggedin,
                      contract_actions: { placeholder_users: %i[create read update] }
 
+      map.permission :view_user_email,
+                     {},
+                     permissible_on: :global,
+                     require: :loggedin
+
       map.permission :view_project,
                      { projects: [:show] },
                      permissible_on: :project,

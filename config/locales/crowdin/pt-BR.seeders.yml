@@ -67,6 +67,8 @@ pt-BR:
       global_roles:
         item_0:
           name: Equipe e gerente de projetos
+        item_1:
+          name: Standard global role
     standard:
       priorities:
         item_0:

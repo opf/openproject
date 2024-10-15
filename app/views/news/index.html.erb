@@ -33,9 +33,9 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { t(:label_news_plural) }
-    header.with_breadcrumbs([{ href: home_path, text: organization_name},
-                               *([href: project_overview_path(@project.id), text: @project.name] if @project),
-                               t(:label_news_plural)])
+    header.with_breadcrumbs([*([ href: home_path, text: organization_name ] unless @project),
+                             *([ href: project_overview_path(@project.id), text: @project.name ] if @project),
+                             t(:label_news_plural)])
   end
 %>
 <% if managable %>

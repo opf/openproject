@@ -47,6 +47,10 @@ module TeamPlanner
       "add-team-planner-button"
     end
 
+    def test_selector
+      "add-team-planner-button"
+    end
+
     def accessibility_label_text
       I18n.t("team_planner.label_create_new_team_planner")
     end

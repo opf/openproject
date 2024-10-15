@@ -491,17 +491,21 @@ cs:
       no_results_content_text: Přidat hlášení o stavu
   statuses:
     edit:
+      status_color_text: |
+        Klikněte na přiřadit nebo změnit barvu této priority.
+        lze použít ke zvýraznění pracovních balíčků v tabulce.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Zaškrtněte tuto volbu k označení pracovních balíčků s tímto stavem jako jen pro čtení.
         Žádné atributy nelze změnit s výjimkou stavu samotného.
         <br/>
         <strong>Poznámka</strong>: zděděné hodnoty (např. z potomků či dalších vztahů) budou platné i nadále.
-      status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
-      status_color_text: |
-        Klikněte na přiřadit nebo změnit barvu této priority.
-        lze použít ke zvýraznění pracovních balíčků v tabulce.
     index:
       no_results_title_text: Momentálně zde nejsou žádné stavy pracovního balíčku.
       no_results_content_text: Přidat nový stav
@@ -2984,6 +2988,7 @@ cs:
   permission_view_shared_work_packages: "Zobrazit sdílení pracovních balíčků"
   permission_view_time_entries: "Zobrazit strávený čas"
   permission_view_timelines: "Zobrazit časové osy"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Zobrazit historii wiki"
   permission_view_wiki_pages: "Zobrazit wiki"
   permission_work_package_assigned: "Staňte se řešitelem/odpovědným"

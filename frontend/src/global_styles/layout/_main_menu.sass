@@ -99,7 +99,7 @@ $arrow-left-width: 40px
     li a
       // work around due to dom manipulation on document: ready:
       // this isn't scoped to .main-item-wrapper to avoid flickering
-      padding-left: 12px
+      padding-left: var(--main-menu-x-spacing)
 
       &.toggler
         // explicitly reset to zero to avoid selector precedence problems
@@ -107,7 +107,7 @@ $arrow-left-width: 40px
 
     .main-menu--children li a:not(.Button)
       // children have no icon so we need to push them right.
-      padding-left: 24px
+      padding-left: var(--main-menu-x-spacing)
 
   a:not(.Button)
     text-decoration: none
@@ -119,7 +119,7 @@ $arrow-left-width: 40px
     font-weight: normal
     font-size: var(--main-menu-font-size)
     font-style: normal
-    padding: 0 12px
+    padding: 0 var(--main-menu-x-spacing)
 
     &:hover
       text-decoration: none
@@ -188,25 +188,25 @@ $arrow-left-width: 40px
         @include main-menu-hover
 
 .main-menu--children-menu-header
-  padding: 10px 10px 0 10px
+  padding: 10px 10px 0 4px
   height: calc(var(--main-menu-item-height) + 10px)
 
-  .main-menu--arrow-left-to-project
+  .main-menu--arrow-left-to-project:not(.Button)
     display: inline-block
     width: $arrow-left-width
     float: left
     border-radius: 3px
-    padding-left: 14px
-    padding-right: 14px
+    padding-left: var(--main-menu-x-spacing-small)
+    padding-right: var(--main-menu-x-spacing-small)
     border: 1px solid transparent
 
     &:hover, &:focus, &:active
       @include main-menu-hover
 
-a.main-menu--parent-node
+a.main-menu--parent-node:not(.Button)
   border: 1px solid transparent
   display: inline-block
-  padding: 0 11px 0 11px
+  padding: 0 var(--main-menu-x-spacing-small)
   font-size: var(--main-menu-font-size)
   font-weight: var(--base-text-weight-bold)
   width: calc(100% - #{$arrow-left-width})

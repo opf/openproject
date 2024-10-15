@@ -479,16 +479,20 @@ fr:
       no_results_content_text: Ajouter un rapport d'état
   statuses:
     edit:
+      status_color_text: |
+        Cliquez pour assigner ou modifier la couleur de ce statut.
+        Elle peut être utilisée pour mettre en évidence les lots de travaux dans le tableau.
+      status_excluded_from_totals_text: |-
+        Cochez cette option pour exclure les lots de travaux ayant ce statut des totaux de Travail, Travail restant et % réalisé dans une hiérarchie.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Cochez cette option pour marquer les paquets de travail avec ce statut en lecture seule.
         Aucuns attributs ne peut être changés à l’exception de l’État.
         <br/>
         <strong>Note</strong>: les valeurs héritées (ex: des enfants ou relations) continueront de s’appliquer.
-      status_excluded_from_totals_text: |-
-        Cochez cette option pour exclure les lots de travaux ayant ce statut des totaux de Travail, Travail restant et % réalisé dans une hiérarchie.
-      status_color_text: |
-        Cliquez pour assigner ou modifier la couleur de ce statut.
-        Elle peut être utilisée pour mettre en évidence les lots de travaux dans le tableau.
     index:
       no_results_title_text: Aucun statut de lots de travaux pour le moment.
       no_results_content_text: Ajouter un nouveau statut
@@ -2910,6 +2914,7 @@ fr:
   permission_view_shared_work_packages: "Voir les partages du lot des travaux"
   permission_view_time_entries: "Voir temps passé"
   permission_view_timelines: "Voir les lignes du temps"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Voir l'historique du wiki"
   permission_view_wiki_pages: "Voir le wiki"
   permission_work_package_assigned: "Devenir assigné/responsable"

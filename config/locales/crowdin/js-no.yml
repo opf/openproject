@@ -359,7 +359,7 @@
           "14_6":
             standard:
               new_features_html: >
-                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Benefit from more flexible progress reporting – thanks to user feedback.</li> <li>Receive an update notification with reload option for meetings.</li> <li>Enable a custom field for multiple projects at once.</li> <li>Use relative work package attribute macros.</li> <li>Show empty lines in saved rich text.</li> <li>See past meetings included in the number next to the Meetings tab.</li> </ul>
+                Versjonen gir ulike funksjoner og forbedringer for deg, for eksempel <br> <ul class="%{list_styling_class}"> <li>Dra nytte av mer fleksibel fremdriftsrapportering – takket være brukertilbakemeldinger.</li> <li>Motta en oppdatering for møter med valg for oppdatering.</li> <li>Aktiver et egendefinert felt for flere prosjekter samtidig.</li> <li>Bruk relativ arbeidspakkeattributt.</li> <li>Vis tomme linjer i lagret, rik tekst.</li> <li>Se tidligere møter som er inkludert i nummeret ved siden av møtene under.</li> </ul>
     ical_sharing_modal:
       title: "Abonner på kalender"
       inital_setup_error_message: "En feil oppstod under henting av data."
