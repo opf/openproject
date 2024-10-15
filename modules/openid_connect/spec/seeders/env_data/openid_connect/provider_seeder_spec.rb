@@ -53,7 +53,7 @@ RSpec.describe EnvData::OpenIDConnect::ProviderSeeder, :settings_reset do
   context "when providing seed variables",
           with_env: {
             OPENPROJECT_OPENID__CONNECT_KEYCLOAK_DISPLAY__NAME: "Keycloak",
-            OPENPROJECT_OPENID__CONNECT_KEYCLOAK_HOST: "keycloak.internal",
+            OPENPROJECT_OPENID__CONNECT_KEYCLOAK_HOST: "keycloak.local",
             OPENPROJECT_OPENID__CONNECT_KEYCLOAK_IDENTIFIER: "https://openproject.internal",
             OPENPROJECT_OPENID__CONNECT_KEYCLOAK_SECRET: "9AWjVC3A4U1HLrZuSP4xiwHfw6zmgECn",
             OPENPROJECT_OPENID__CONNECT_KEYCLOAK_ISSUER: "https://keycloak.local/realms/master",
@@ -73,9 +73,9 @@ RSpec.describe EnvData::OpenIDConnect::ProviderSeeder, :settings_reset do
       expect(provider.client_id).to eq "https://openproject.internal"
       expect(provider.client_secret).to eq "9AWjVC3A4U1HLrZuSP4xiwHfw6zmgECn"
       expect(provider.issuer).to eq "https://keycloak.local/realms/master"
-      expect(provider.authorization_endpoint).to eq "/realms/master/protocol/openid-connect/auth"
-      expect(provider.token_endpoint).to eq "/realms/master/protocol/openid-connect/token"
-      expect(provider.userinfo_endpoint).to eq "/realms/master/protocol/openid-connect/userinfo"
+      expect(provider.authorization_endpoint).to eq "https://keycloak.local/realms/master/protocol/openid-connect/auth"
+      expect(provider.token_endpoint).to eq "https://keycloak.local/realms/master/protocol/openid-connect/token"
+      expect(provider.userinfo_endpoint).to eq "https://keycloak.local/realms/master/protocol/openid-connect/userinfo"
       expect(provider.end_session_endpoint).to eq "https://keycloak.local/realms/master/protocol/openid-connect/logout"
       expect(provider.jwks_uri).to eq "https://keycloak.local/realms/master/protocol/openid-connect/certs"
       expect(provider.seeded_from_env?).to be true
@@ -96,9 +96,9 @@ RSpec.describe EnvData::OpenIDConnect::ProviderSeeder, :settings_reset do
         expect(provider.client_id).to eq "https://openproject.internal"
         expect(provider.client_secret).to eq "9AWjVC3A4U1HLrZuSP4xiwHfw6zmgECn"
         expect(provider.issuer).to eq "https://keycloak.local/realms/master"
-        expect(provider.authorization_endpoint).to eq "/realms/master/protocol/openid-connect/auth"
-        expect(provider.token_endpoint).to eq "/realms/master/protocol/openid-connect/token"
-        expect(provider.userinfo_endpoint).to eq "/realms/master/protocol/openid-connect/userinfo"
+        expect(provider.authorization_endpoint).to eq "https://keycloak.local/realms/master/protocol/openid-connect/auth"
+        expect(provider.token_endpoint).to eq "https://keycloak.local/realms/master/protocol/openid-connect/token"
+        expect(provider.userinfo_endpoint).to eq "https://keycloak.local/realms/master/protocol/openid-connect/userinfo"
         expect(provider.end_session_endpoint).to eq "https://keycloak.local/realms/master/protocol/openid-connect/logout"
         expect(provider.jwks_uri).to eq "https://keycloak.local/realms/master/protocol/openid-connect/certs"
         expect(provider.seeded_from_env?).to be true
@@ -109,7 +109,7 @@ RSpec.describe EnvData::OpenIDConnect::ProviderSeeder, :settings_reset do
   context "when providing multiple variables",
           with_env: {
             OPENPROJECT_OPENID__CONNECT_KEYCLOAK_DISPLAY__NAME: "Keycloak",
-            OPENPROJECT_OPENID__CONNECT_KEYCLOAK_HOST: "keycloak.internal",
+            OPENPROJECT_OPENID__CONNECT_KEYCLOAK_HOST: "keycloak.local",
             OPENPROJECT_OPENID__CONNECT_KEYCLOAK_IDENTIFIER: "https://openproject.internal",
             OPENPROJECT_OPENID__CONNECT_KEYCLOAK_SECRET: "9AWjVC3A4U1HLrZuSP4xiwHfw6zmgECn",
             OPENPROJECT_OPENID__CONNECT_KEYCLOAK_ISSUER: "https://keycloak.local/realms/master",
@@ -120,7 +120,7 @@ RSpec.describe EnvData::OpenIDConnect::ProviderSeeder, :settings_reset do
             OPENPROJECT_OPENID__CONNECT_KEYCLOAK_JWKS__URI: "https://keycloak.local/realms/master/protocol/openid-connect/certs",
 
             OPENPROJECT_OPENID__CONNECT_KEYCLOAK123_DISPLAY__NAME: "Keycloak 123",
-            OPENPROJECT_OPENID__CONNECT_KEYCLOAK123_HOST: "keycloak.internal",
+            OPENPROJECT_OPENID__CONNECT_KEYCLOAK123_HOST: "keycloak.local",
             OPENPROJECT_OPENID__CONNECT_KEYCLOAK123_IDENTIFIER: "https://openproject.internal",
             OPENPROJECT_OPENID__CONNECT_KEYCLOAK123_SECRET: "9AWjVC3A4U1HLrZuSP4xiwHfw6zmgECn",
             OPENPROJECT_OPENID__CONNECT_KEYCLOAK123_ISSUER: "https://keycloak.local/realms/master",
