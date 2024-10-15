@@ -51,7 +51,7 @@ RSpec.describe CustomFields::Hierarchy::GenerateRootContract do
         result = subject.call(hierarchy_root: custom_field.hierarchy_root)
         expect(result).to be_failure
         # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
-        expect(result.errors.to_h).to include(hierarchy_root: ["Hierarchical root already set"])
+        expect(result.errors.to_h).to include(hierarchy_root: ["cannot be defined"])
         # rubocop:enable Rails/DeprecatedActiveModelErrorsMethods
       end
     end

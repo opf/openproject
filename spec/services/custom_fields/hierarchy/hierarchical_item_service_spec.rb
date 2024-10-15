@@ -65,7 +65,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService do
       it "fails to create a root item" do
         allow(CustomField::Hierarchy::Item)
           .to receive(:create)
-                .and_return(instance_double(CustomField::Hierarchy::Item, persisted?: false, errors: "some errors"))
+                .and_return(instance_double(CustomField::Hierarchy::Item, new_record?: true, errors: "some errors"))
 
         result = service.generate_root
         expect(result).to be_failure
@@ -91,7 +91,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService do
 
     context "with invalid item" do
       it "fails to insert an item" do
-        child = instance_double(CustomField::Hierarchy::Item, persisted?: false, errors: "some errors")
+        child = instance_double(CustomField::Hierarchy::Item, new_record?: true, errors: "some errors")
         allow(root.children).to receive(:create).and_return(child)
 
         result = service.insert_item(parent: root, label:, short:)
@@ -159,6 +159,34 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService do
         expect(result).to be_success
         expect(result.value!).to be_empty
       end
+    end
+  end
+
+  describe "#move_item" do
+    let(:lando) { service.insert_item(parent: root, label: "lando").value! }
+
+    it "move the node to the new parent" do
+      expect { service.move_item(item: leia, new_parent: lando) }.to change { leia.reload.ancestors.first }.to(lando)
+    end
+
+    it "all child nodes follow" do
+      service.move_item(item: luke, new_parent: lando)
+
+      expect(luke.reload.ancestors).to contain_exactly(root, lando)
+      expect(leia.reload.ancestors).to contain_exactly(root, lando, luke)
+    end
+  end
+
+  describe "reorder_item" do
+    let!(:lando) { service.insert_item(parent: root, label: "lando").value! }
+    let!(:chewbacca) { service.insert_item(parent: root, label: "AWOOO").value! }
+
+    it "moves the note to the requested position" do
+      service.reorder_item(item: chewbacca, new_sort_order: 1)
+
+      expect(luke.reload.sort_order).to eq(0)
+      expect(chewbacca.reload.sort_order).to eq(1)
+      expect(lando.reload.sort_order).to eq(2)
     end
   end
 end

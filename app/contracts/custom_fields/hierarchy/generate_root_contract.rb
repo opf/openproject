@@ -34,10 +34,6 @@ module CustomFields
       params do
         required(:hierarchy_root).value(:nil?)
       end
-
-      rule(:hierarchy_root) do
-        key.failure("Hierarchical root already set") unless value.nil?
-      end
     end
   end
 end

@@ -38,14 +38,14 @@ module CustomFields
       end
 
       rule(:item) do
-        key.failure("must exist") unless value.persisted?
+        key.failure("must exist") if value.new_record?
         key.failure("must not be a root item") if value.root?
       end
 
       rule(:label) do
         next unless key?
 
-        if CustomField::Hierarchy::Item.exists?(parent_id: values[:item].parent, label: value)
+        if CustomField::Hierarchy::Item.exists?(parent_id: values[:item].parent_id, label: value)
           key.failure("must be unique at the same hierarchical level")
         end
       end

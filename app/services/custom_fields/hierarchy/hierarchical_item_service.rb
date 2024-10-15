@@ -34,6 +34,7 @@ module CustomFields
       include Dry::Monads[:result]
 
       def initialize(custom_field)
+        # Is this overkill? We are only checking `custom_field.field_format`
         validation = ServiceInitializationContract.new.call(field_format: custom_field.field_format)
         raise ArgumentError, "Invalid custom field: #{validation.errors(full: true).to_h}" if validation.failure?
 
@@ -61,7 +62,7 @@ module CustomFields
           .new
           .call({ item:, label:, short: }.compact)
           .to_monad
-          .fmap { |attributes| update_item_attributes(item:, attributes:) }
+          .bind { |attributes| update_item_attributes(item:, attributes:) }
       end
 
       def delete_branch(item:)
@@ -74,18 +75,17 @@ module CustomFields
         Success(item.ancestors.reverse)
       end
 
-      def move_item(item:, new_parent:, sort_order:)
-        # Move with all the children
-        raise NotImplementedError
+      def move_item(item:, new_parent:)
+        Success(new_parent.append_child(item))
       end
 
       def reorder_item(item:, new_sort_order:)
-        # move it around. Check closure_tree
-        raise NotImplementedError
+        old_item = item.siblings.where(sort_order: new_sort_order).first
+        old_item.prepend_sibling(item)
       end
 
       def soft_delete_item(item)
-        # Soft delete the item and children?
+        # Soft delete the item and children
         raise NotImplementedError
       end
 
@@ -93,22 +93,24 @@ module CustomFields
 
       def create_root_item
         item = CustomField::Hierarchy::Item.create(custom_field: @custom_field)
-        return Failure(item.errors) unless item.persisted?
+        return Failure(item.errors) if item.new_record?
 
         Success(item)
       end
 
       def create_child_item(validation:)
         item = validation[:parent].children.create(label: validation[:label], short: validation[:short])
-        return Failure(item.errors) unless item.persisted?
+        return Failure(item.errors) if item.new_record?
 
         Success(item)
       end
 
       def update_item_attributes(item:, attributes:)
-        item.update(label: attributes[:label], short: attributes[:short])
-
-        item.errors.empty? ? Success(item) : Failure(item.errors)
+        if item.update(label: attributes[:label], short: attributes[:short])
+          Success(item)
+        else
+          Failure(item.errors)
+        end
       end
     end
   end
