@@ -165,7 +165,7 @@
             edit_state:,
             next_edit_state: :client_details,
             edit_mode:,
-            banner: provider.metadata_configured? ? t("openid_connect.providers.section_texts.configuration_metadata") : nil,
+            banner: provider.metadata_url.present? ? t("openid_connect.providers.section_texts.configuration_metadata") : nil,
             banner_scheme: :default,
             heading: nil
           ))
