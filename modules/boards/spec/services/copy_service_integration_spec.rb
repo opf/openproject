@@ -90,6 +90,68 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
     end
   end
 
+  describe "for a version board" do
+    let(:current_user) do
+      create(:user, member_with_roles: { source => role })
+    end
+    let!(:version) { create(:version, project: source) }
+    let!(:board_view) do
+      create(:version_board, project: source, version_columns: [version])
+    end
+    let(:only_args) { %w[work_packages boards versions] }
+
+    before do
+      login_as current_user
+    end
+
+    it "succeeds to copy the version column" do
+      expect(subject).to be_success
+      expect(board_copies.count).to eq 1
+
+      expect(board_view.widgets.count).to eq(1)
+      expect(board_copy.widgets.count).to eq(1)
+
+      widget_source = board_view.widgets.first.options
+      widget_copy = board_copy.widgets.first.options
+
+      filter_source = widget_source["filters"].first["version_id"]
+      filter_copy = widget_copy["filters"].first["version_id"]
+
+      expect(widget_source["queryId"]).not_to eq(widget_copy["queryId"])
+      expect(filter_source["values"]).to eq [version.id.to_s]
+
+      copied_version = project_copy.versions.first
+      expect(filter_copy["values"]).to eq [copied_version.id.to_s]
+    end
+  end
+
+  describe "for a board filtered by version" do
+    let(:current_user) do
+      create(:user, member_with_roles: { source => role })
+    end
+    let!(:version) { create(:version, project: source) }
+    let!(:board_view) do
+      create(:board_grid, project: source)
+    end
+    let(:only_args) { %w[work_packages boards versions] }
+
+    before do
+      board_view.update! options: {
+        filters: [{ version: { operator: "=", values: [version.id.to_s] } }]
+      }
+      login_as current_user
+    end
+
+    it "maps the filters in the board options" do
+      expect(subject).to be_success
+      expect(board_copies.count).to eq 1
+
+      version_filter = board_copy.options[:filters].first[:version]
+      copied_version = project_copy.versions.first
+      expect(version_filter[:values]).to eq [copied_version.id.to_s]
+    end
+  end
+
   describe "for ordered work packages" do
     let!(:board_view) { create(:board_grid_with_query, project: source, name: "My Board") }
     let!(:wp_1) { create(:work_package, project: source, subject: "Second") }
