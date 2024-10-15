@@ -43,10 +43,10 @@ module ::Query::Results::Sums
     return nil unless query.grouped?
 
     sums_by_id = sums_select(true).inject({}) do |result, group_sum|
-      result[group_sum["id"]] = {}
+      result[group_sum["group_id"]] = {}
 
       query.summed_up_columns.each do |column|
-        result[group_sum["id"]][column] = group_sum[column.name.to_s]
+        result[group_sum["group_id"]][column] = group_sum[column.name.to_s]
       end
 
       result
@@ -59,7 +59,7 @@ module ::Query::Results::Sums
 
   def sums_select(grouped = false)
     select = if grouped
-               ["work_packages.id"]
+               ["work_packages.group_id"]
              else
                []
              end
@@ -96,7 +96,8 @@ module ::Query::Results::Sums
     callable_summed_up_columns
       .map do |c|
         join_condition = if grouped
-                           "#{c.name}.id = work_packages.id OR #{c.name}.id IS NULL AND work_packages.id IS NULL"
+                           "#{c.name}.group_id = work_packages.group_id OR " \
+                             "#{c.name}.group_id IS NULL AND work_packages.group_id IS NULL"
                          else
                            "TRUE"
                          end

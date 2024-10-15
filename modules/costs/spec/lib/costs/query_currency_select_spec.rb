@@ -98,7 +98,7 @@ RSpec.describe Costs::QueryCurrencySelect, type: :model do
         )
 
         expect(ActiveRecord::Base.connection.select_all(instance.summable.(query, true).to_sql).columns)
-          .to match_array %w(id material_costs)
+          .to match_array %w(group_id material_costs)
       end
     end
   end
@@ -136,7 +136,7 @@ RSpec.describe Costs::QueryCurrencySelect, type: :model do
         )
 
         expect(ActiveRecord::Base.connection.select_all(instance.summable.(query, true).to_sql).columns)
-          .to match_array %w(id labor_costs)
+          .to match_array %w(group_id labor_costs)
       end
     end
   end

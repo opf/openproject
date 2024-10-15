@@ -47,7 +47,7 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
     group_by = group_by_statement
     group_by = group_by.first if group_by.is_a?(Array)
 
-    "#{group_by} id"
+    "#{group_by} group_id"
   end
 
   def self.scoped_column_sum(scope, select, grouped:, query:)
