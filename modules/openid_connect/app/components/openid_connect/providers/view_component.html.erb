@@ -9,6 +9,10 @@
   <% end %>
 
   <%= render(border_box_container) do |component|
+    component.with_header(color: :muted) do
+      render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t(:label_basic_details) }
+    end
+
     case provider.oidc_provider
     when 'google'
       component.with_row(scheme: :default) do
@@ -99,10 +103,6 @@
         end
       end
     else # custom
-#     component.with_header(color: :muted) do
-#       render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t('openid_connect.providers.label_basic_details') }
-#     end
-
       component.with_row(scheme: :default) do
         basic_details_component =
           if edit_state == :name
@@ -126,9 +126,9 @@
         render(basic_details_component)
       end
 
-#     component.with_row(scheme: :neutral, color: :muted) do
-#       render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t('openid_connect.providers.label_automatic_configuration') }
-#     end
+      component.with_row(scheme: :neutral, color: :muted) do
+        render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t('openid_connect.providers.label_automatic_configuration') }
+      end
 
       component.with_row(scheme: :default) do
         if edit_state == :metadata
@@ -153,9 +153,9 @@
         end
       end
 
-#     component.with_row(scheme: :neutral, color: :muted) do
-#       render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t('openid_connect.providers.label_advanced_configuration') }
-#     end
+      component.with_row(scheme: :neutral, color: :muted) do
+        render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t('openid_connect.providers.label_advanced_configuration') }
+      end
 
       component.with_row(scheme: :default) do
         if edit_state == :metadata_details
@@ -205,6 +205,10 @@
         end
       end
 
+      component.with_row(scheme: :neutral, color: :muted) do
+        render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t('openid_connect.providers.label_optional_configuration') }
+      end
+
       component.with_row(scheme: :default) do
         if edit_state == :attribute_mapping
           render(ns::Sections::FormComponent.new(
@@ -221,8 +225,8 @@
             view_mode:,
             heading: t("openid_connect.providers.label_attribute_mapping"),
             description: t("openid_connect.providers.section_texts.attribute_mapping"),
-            label: provider.metadata_configured? ? t(:label_completed) : nil,
-            label_scheme: provider.metadata_configured? ? :success : :secondary
+            label: provider.mapping_configured? ? t(:label_completed) : nil,
+            label_scheme: provider.mapping_configured? ? :success : :secondary
           ))
         end
       end

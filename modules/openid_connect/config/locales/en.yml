@@ -70,9 +70,9 @@ en:
       label_edit: Edit OpenID provider %{name}
       label_empty_title: No OIDC providers configured yet.
       label_empty_description: Add a provider to see them here.
-      label_basic_details: Basic details
       label_metadata: OpenID Connect Discovery Endpoint
       label_automatic_configuration: Automatic configuration
+      label_optional_configuration: Optional configuration
       label_advanced_configuration: Advanced configuration
       label_configuration_details: Metadata
       label_client_details: Client details
