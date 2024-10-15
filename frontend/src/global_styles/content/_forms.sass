@@ -173,6 +173,13 @@ form
     .-columns-2
       column-count: 2
 
+  // follows new board page columns width (which uses -wide class (500px) for its tiles)
+  .boards-enterprise-banner-wide
+    max-width: calc(2*500px + 1rem)
+
+  @media screen and (max-width: $breakpoint-md)
+    .boards-enterprise-banner-wide
+      max-width: 500px
 
 hr
   width: 100%
