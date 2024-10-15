@@ -94,9 +94,6 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
     let(:current_user) do
       create(:user, member_with_roles: { source => role })
     end
-    let(:expected_error) do
-      "Widget contained in Grid Board 'Subproject board': Only subproject filter has invalid values."
-    end
     let!(:version) { create(:version, project: source) }
     let!(:board_view) do
       create(:version_board, project: source, version_columns: [version])
@@ -131,9 +128,6 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
   describe "for a board filtered by version" do
     let(:current_user) do
       create(:user, member_with_roles: { source => role })
-    end
-    let(:expected_error) do
-      "Widget contained in Grid Board 'Subproject board': Only subproject filter has invalid values."
     end
     let!(:version) { create(:version, project: source) }
     let!(:board_view) do
