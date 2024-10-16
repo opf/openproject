@@ -48,41 +48,22 @@ module OpenIDConnect
 
       attribute :acr_values
 
-      attribute :metadata_url
-      validates :metadata_url,
-                url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },
-                if: -> { model.metadata_url_changed? }
-
-      attribute :authorization_endpoint
-      validates :authorization_endpoint,
-                url: { allow_blank: false, allow_nil: false, schemes: %w[http https] },
-                if: -> { model.authorization_endpoint_changed? }
-
-      attribute :userinfo_endpoint
-      validates :userinfo_endpoint,
-                url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },
-                if: -> { model.userinfo_endpoint_changed? }
-
-      attribute :token_endpoint
-      validates :token_endpoint,
-                url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },
-                if: -> { model.token_endpoint_changed? }
-
-      attribute :end_session_endpoint
-      validates :end_session_endpoint,
-                url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },
-                if: -> { model.end_session_endpoint_changed? }
-
-      attribute :jwks_uri
-      validates :jwks_uri,
-                url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },
-                if: -> { model.jwks_uri_changed? }
+      %i[metadata_url authorization_endpoint userinfo_endpoint token_endpoint end_session_endpoint jwks_uri].each do |attr|
+        attribute attr
+        validates attr,
+                  url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },
+                  if: -> { model.public_send(:"#{attr}_changed?") && !path_attribute?(model.public_send(attr)) }
+      end
 
       OpenIDConnect::Provider::MAPPABLE_ATTRIBUTES.each do |attr|
         attribute :"mapping_#{attr}"
       end
 
       private
+
+      def path_attribute?(attr)
+        attr.blank? || attr.start_with?("/")
+      end
 
       def claims_are_json
         return if claims.blank?
