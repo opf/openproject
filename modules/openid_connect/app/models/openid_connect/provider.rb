@@ -32,6 +32,9 @@ module OpenIDConnect
     store_attribute :options, :claims, :string
     store_attribute :options, :acr_values, :string
 
+    # azure specific option
+    store_attribute :options, :use_graph_api, :boolean
+
     def self.slug_fragment = "oidc"
 
     def seeded_from_env?
