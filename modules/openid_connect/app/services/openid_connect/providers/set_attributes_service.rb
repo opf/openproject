@@ -31,8 +31,9 @@ module OpenIDConnect
     class SetAttributesService < BaseServices::SetAttributes
       private
 
-      def set_default_attributes(*)
+      def set_default_attributes(*) # rubocop:disable Metrics/AbcSize
         model.change_by_system do
+          model.issuer ||= OpenProject::StaticRouting::StaticUrlHelpers.new.root_url
           model.creator ||= user
           model.slug ||= "#{model.class.slug_fragment}-#{model.display_name.to_url}" if model.display_name
         end
