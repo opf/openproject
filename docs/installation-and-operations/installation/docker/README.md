@@ -38,9 +38,9 @@ OpenProject provides two container flavors with a number of target tags:
 
 OpenProject follows semantic versioning, and tags are pushed on [Docker Hub openproject/openproject](https://hub.docker.com/r/openproject/openproject/tags) in the following way:
 
-- `X.Y.Z`, `X.Y.Z-slim` : **non-floating** tags to provide exactly one release of OpenProject, and you have to update these tags when a new release is made
--  `X.Y`,  `X-Y.slim` **floating** tags that get pushed whenever a new patch release is made. Please keep in mind that in case of urgent fixes, database migrations might still occur in patch releases, so you need to be able to run the seeder/migrations job. Refer to the installation method of your choice for information on how to do that.
-- `X`,  `X-Y.slim` **floating** tags that get pushed whenever a new patch or minor release is made. If you use these tags, you are aware that application changes will occur.
+- `X.Y.Z`, `X.Y.Z-slim` : **non-floating** tags to provide exactly one release of OpenProject, and you have to update these tags when a new release is made.
+- `X.Y`, `X.Y-slim` **floating** tags that get pushed whenever a new patch release is made. Please keep in mind that in case of urgent fixes, database migrations might still occur in patch releases, so you need to be able to run the seeder/migrations job. Refer to the installation method of your choice for information on how to do that.
+- `X`, `X-slim` **floating** tags that get pushed whenever a new patch or minor release is made. If you use these tags, you are aware that application changes will occur.
 - `dev`, `dev-slim` **floating** tag that gets pushed nightly with the latest development version. These tags are automatically deployed to our QA instances, and are useful for testing and _early_ feedback. We try to keep these versions usable, but we strongly recommend against using them for anything with production data.
 
 
@@ -479,7 +479,7 @@ sudo docker run -it -p 8080:80 \
   -e OPENPROJECT_HTTPS=false \
   -e OPENPROJECT_DEFAULT__LANGUAGE=en \
   --mount type=bind,source=$(pwd)/my_root.crt,target=/tmp/my_root.crt \ #mount my_root.crt to /tmp
-  -e SSL_CERT_FILE=/tmp/my_root.crt \ #set the SSL_CERT_FILE to the path of my_root.crt 
+  -e SSL_CERT_FILE=/tmp/my_root.crt \ #set the SSL_CERT_FILE to the path of my_root.crt
   openproject/openproject:14
 ```
 
