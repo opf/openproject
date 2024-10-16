@@ -39,16 +39,9 @@ zh-TW:
         accent-color: "強調（Accent）"
         header-bg-color: "頁首背景"
         header-item-bg-hover-color: "頁首背景（滑鼠停留）"
-        header-item-font-color: "頁首字型"
-        header-item-font-hover-color: "頁首字型（滑鼠移入時）"
-        header-border-bottom-color: "頁首邊框"
         main-menu-bg-color: "主畫面背景"
         main-menu-bg-selected-background: "主畫面背景（當選擇時）"
         main-menu-bg-hover-background: "主要選單（滑鼠移入時）"
-        main-menu-font-color: "主功能表字型"
-        main-menu-selected-font-color: "主功能表字型（當選擇時）"
-        main-menu-hover-font-color: "主功能表字型（當滑鼠移入時）"
-        main-menu-border-color: "主功能表邊框"
       custom_colors: "自訂顏色"
       customize: "客製OpenProject中專屬您的標誌(logo)與顏色"
       enterprise_notice: "這個插件僅對企業版支持訂閱者開放，以感謝他們對開發 OpenProject 的贊助。"
@@ -214,6 +207,10 @@ zh-TW:
         blankslate:
           title: "您的欄位清單是空的"
           description: "首先將項目新增至層次結構的自訂欄位。每個項目都可用於在其下方建立一個層次結構。若要在層次結構內導覽和建立子項目，請按一下已建立的項目。"
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
       notice:
         remember_items_and_projects: "請記得在此自訂欄位索引標籤中設定項目和專案。"
     text_add_new_custom_field: >
@@ -228,6 +225,7 @@ zh-TW:
       is_required: "將此欄位定義成必填。\n"
       is_required_for_project: "勾選以啟用此屬性，並使其成為所有專案的必要屬性。個別專案無法停用。"
       is_for_all: "將客製欄位標記為「所有現有專案」和「新專案」中可用。"
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "使用全域搜尋功能時包含此欄位。"
       searchable_for_project: "勾選可使此屬性在專案清單中作為篩選條件。"
       editable: "允許使用者自行編輯此欄位"
@@ -239,6 +237,14 @@ zh-TW:
       no_results_content_text: 建立一個新的自定義欄位
   concatenation:
     single: "或者"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "在 %{app_title} 搜尋"
     overwritten_tabs:
@@ -475,6 +481,8 @@ zh-TW:
       status_color_text: |
         按一下以分配或更改此優先順序的顏色。
         它可用於突出顯示表中的工作包。
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
       status_excluded_from_totals_text: |-
         選中此選項可將具有此狀態的工作包排除在層次結構中的 "工時"、"
         剩餘工時 "和 "完成百分比 "總數之外。
@@ -1777,6 +1785,7 @@ zh-TW:
       progress_mode_changed_to_status_based: "更新計算後的進度"
       status_changed: "狀態 '%{status_name}'"
       system_update: "OpenProject 系統更新："
+      work_package_duplicate_closed: "Duplicate work package updated:"
       total_percent_complete_mode_changed_to_work_weighted_average: "完成百分比總計的計算現在以工作加權。"
       total_percent_complete_mode_changed_to_simple_average: "完成百分比總數的計算現在僅基於完成百分比值的簡單平均值。"
     cause_descriptions:
@@ -1784,6 +1793,7 @@ zh-TW:
       work_package_parent_changed_times: 因上層%{link}而異動
       work_package_children_changed_times: 因子工作項目%{link}而異動
       work_package_related_changed_times: 因與%{link}相關而異動
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: 因相關工作項目而異動
       working_days_changed:
         changed: "因工作天數 (%{changes})變更而異動"
@@ -1916,7 +1926,7 @@ zh-TW:
   label_all: "所有"
   label_all_time: "所有的時間"
   label_all_words: "所以的詞"
-  label_all_open_wps: "所有「進行中」工作項目"
+  label_all_open_wps: "所有「未關閉」工作項目"
   label_always_visible: "總是顯示"
   label_announcement: "公告"
   label_angular: "AngularJS"

@@ -39,16 +39,9 @@ zh-CN:
         accent-color: "强调色"
         header-bg-color: "标题背景"
         header-item-bg-hover-color: "悬停时的标题背景"
-        header-item-font-color: "标题字体"
-        header-item-font-hover-color: "悬停时的标题字体"
-        header-border-bottom-color: "标题边框"
         main-menu-bg-color: "主菜单背景"
         main-menu-bg-selected-background: "选择时的主菜单"
         main-menu-bg-hover-background: "悬停时的主菜单"
-        main-menu-font-color: "主菜单字体"
-        main-menu-selected-font-color: "选择时的主菜单字体"
-        main-menu-hover-font-color: "悬停时的主菜单字体"
-        main-menu-border-color: "主菜单边框"
       custom_colors: "自定义颜色"
       customize: "使用您自己的徽标和颜色自定义 OpenProject 安装。"
       enterprise_notice: "这个插件仅对企业版支持订阅者开放，以感谢他们对开发 OpenProject 的赞助。"
@@ -212,6 +205,10 @@ zh-CN:
         blankslate:
           title: "您的条目列表为空"
           description: "首先，将条目添加到类型层次结构的自定义字段中。每个条目都可以用于在其下方创建一个层次结构。要导航并在层次结构中创建子条目，请点击已创建的条目。"
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
       notice:
         remember_items_and_projects: "请记住，在相应的选项卡中为此自定义字段设置条目和项目。"
     text_add_new_custom_field: >
@@ -226,6 +223,7 @@ zh-CN:
       is_required: "将自定义字段标记为必填项。这将使在创建新资源或更新现有资源时，填写该字段成为强制要求。"
       is_required_for_project: "选中可启用此属性，并使其成为所有项目的必选项。单个项目不能停用该属性。"
       is_for_all: "将自定义字段标记为在所有现有项目和新项目中可用。"
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "使用全局搜索功能时包含字段值。"
       searchable_for_project: "选中可将此属性作为项目列表中的过滤器。"
       editable: "允许用户自行编辑该字段。"
@@ -237,6 +235,14 @@ zh-CN:
       no_results_content_text: 创建新的自定义字段
   concatenation:
     single: "或"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "在%{app_title}中搜索"
     overwritten_tabs:
@@ -473,6 +479,8 @@ zh-CN:
       status_color_text: |
         单击可以分配或更改此状态的颜色。
         颜色显示在状态按钮中，可用于突出显示表中的工作包。
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
       status_excluded_from_totals_text: |-
         选中此选项可将具有此状态的工作包排除在层次结构中的 "工时"、"
         剩余工时 "和 "完成百分比 "总数之外。
@@ -1775,6 +1783,7 @@ zh-CN:
       progress_mode_changed_to_status_based: "更新进度计算"
       status_changed: "状态 '%{status_name}'"
       system_update: "OpenProject 系统更新："
+      work_package_duplicate_closed: "Duplicate work package updated:"
       total_percent_complete_mode_changed_to_work_weighted_average: "现在按工作加权计算的 完成% 总数。"
       total_percent_complete_mode_changed_to_simple_average: "完成% 总数的计算现在仅基于完成% 值的简单平均值。"
     cause_descriptions:
@@ -1782,6 +1791,7 @@ zh-CN:
       work_package_parent_changed_times: 通过对父级的更改 %{link}
       work_package_children_changed_times: 通过对子级的更改 %{link}
       work_package_related_changed_times: 通过对相关内容的更改 %{link}
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: 通过对相关工作包的更改
       working_days_changed:
         changed: "通过更改工作日（%{changes}）"
