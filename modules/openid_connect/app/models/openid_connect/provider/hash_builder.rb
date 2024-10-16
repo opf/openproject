@@ -32,8 +32,7 @@ module OpenIDConnect
       when "google"
         {
           client_auth_method: :not_basic,
-          send_nonce: false, # use state instead of nonce
-          state: lambda { SecureRandom.hex(42) }
+          send_nonce: false
         }
       when "microsoft_entra"
         {
