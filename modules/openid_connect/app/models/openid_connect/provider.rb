@@ -41,15 +41,13 @@ module OpenIDConnect
       (Setting.seed_oidc_provider || {}).key?(slug)
     end
 
-    def basic_details_configured?
-      display_name.present? && (oidc_provider == "microsoft_entra" ? tenant.present? : true)
-    end
-
     def advanced_details_configured?
       client_id.present? && client_secret.present?
     end
 
     def metadata_configured?
+      return true if google? || entra_id?
+
       DISCOVERABLE_ATTRIBUTES_MANDATORY.all? do |mandatory_attribute|
         public_send(mandatory_attribute).present?
       end
@@ -61,8 +59,16 @@ module OpenIDConnect
       end
     end
 
+    def google?
+      oidc_provider == "google"
+    end
+
+    def entra_id?
+      oidc_provider == "microsoft_entra"
+    end
+
     def configured?
-      basic_details_configured? && advanced_details_configured? && metadata_configured?
+      display_name.present? && advanced_details_configured? && metadata_configured?
     end
 
     def icon
