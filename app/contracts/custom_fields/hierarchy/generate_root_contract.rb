@@ -32,7 +32,12 @@ module CustomFields
   module Hierarchy
     class GenerateRootContract < Dry::Validation::Contract
       params do
-        required(:hierarchy_root).value(:nil?)
+        required(:custom_field).filled(type?: CustomField)
+      end
+
+      rule(:custom_field) do
+        key.failure("must have field format 'hierarchy'") if value.field_format != "hierarchy"
+        key.failure("cannot be defined") if value.hierarchy_root.present?
       end
     end
   end

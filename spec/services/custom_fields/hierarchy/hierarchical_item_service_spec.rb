@@ -34,31 +34,23 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService do
   let(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root: nil) }
   let(:invalid_custom_field) { create(:custom_field, field_format: "text", hierarchy_root: nil) }
 
-  let!(:root) { service.generate_root.value! }
+  let!(:root) { service.generate_root(custom_field).value! }
   let!(:luke) { service.insert_item(parent: root, label: "luke").value! }
   let!(:leia) { service.insert_item(parent: luke, label: "leia").value! }
 
-  subject(:service) { described_class.new(custom_field) }
-
-  describe "#initialize" do
-    context "with valid custom field" do
-      it "initializes successfully" do
-        expect { service }.not_to raise_error
-      end
-    end
-
-    context "with invalid custom field" do
-      it "raises an ArgumentError" do
-        expect { described_class.new(invalid_custom_field) }.to raise_error(ArgumentError, /Invalid custom field/)
-      end
-    end
-  end
+  subject(:service) { described_class.new }
 
   describe "#generate_root" do
     context "with valid hierarchy root" do
       it "creates a root item successfully" do
-        expect(service.generate_root).to be_success
+        expect(service.generate_root(custom_field)).to be_success
       end
+    end
+
+    it "requires a custom field of type hierarchy" do
+      result = service.generate_root(invalid_custom_field).failure
+
+      expect(result.errors[:custom_field]).to eq(["must have field format 'hierarchy'"])
     end
 
     context "with persistence of hierarchy root fails" do
@@ -67,7 +59,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService do
           .to receive(:create)
                 .and_return(instance_double(CustomField::Hierarchy::Item, new_record?: true, errors: "some errors"))
 
-        result = service.generate_root
+        result = service.generate_root(custom_field)
         expect(result).to be_failure
       end
     end
@@ -79,8 +71,9 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService do
 
     context "with valid parameters" do
       it "inserts an item successfully without short" do
-        result = service.insert_item(parent: root, label:)
+        result = service.insert_item(parent: luke, label:)
         expect(result).to be_success
+        expect(luke.reload.children.count).to eq(2)
       end
 
       it "inserts an item successfully with short" do
