@@ -67,7 +67,17 @@ RSpec.describe CustomFields::Hierarchy::InsertItemContract do
       it "is invalid" do
         result = subject.call(params)
         expect(result).to be_failure
-        expect(result.errors.to_h).to include(label: ["Label must be unique within the same hierarchy level"])
+        expect(result.errors.to_h).to include(label: ["must be unique within the same hierarchy level"])
+      end
+
+      context "if locale is set to 'de'", skip: "Skipped until the german localization is available" do
+        it "is invalid with localized validation errors" do
+          I18n.with_locale(:de) do
+            result = subject.call(params)
+            expect(result).to be_failure
+            expect(result.errors.to_h).to include(label: ["muss einzigartig innerhalb derselben Hierarchieebene sein"])
+          end
+        end
       end
     end
 

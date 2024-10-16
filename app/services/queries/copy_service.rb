@@ -42,8 +42,8 @@ module Queries
       new_query.sort_criteria = source.sort_criteria if source.sort_criteria
 
       ::Queries::Copy::FiltersMapper
-        .new(state, new_query.filters)
-        .map_filters!
+        .new(state)
+        .map_query!(new_query)
 
       ServiceResult.new(success: new_query.valid?, result: new_query)
     end

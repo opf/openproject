@@ -108,11 +108,11 @@ module Grids::Copy
     end
 
     def map_query_filters(filters, _params)
-      ::Queries::Copy::FiltersMapper
-        .new(state, filters)
-        .map_filters!
+      result = ::Queries::Copy::FiltersMapper
+        .new(state)
+        .map_filters(filters)
 
-      ServiceResult.success result: filters
+      ServiceResult.success(result:)
     end
 
     def duplicate_query(query_id, params)

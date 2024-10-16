@@ -997,7 +997,7 @@ RSpec.describe Notifications::CreateFromModelService,
         context "when there is already a notification for the journal (because it was aggregated)" do
           let(:note) { "Hello user:\"#{recipient_login}\"" }
           let!(:existing_notification) do
-            create(:notification, resource:, journal:, recipient:, reason: :mentioned, read_ian: true)
+            create(:notification, resource:, journal:, recipient:, reason: :mentioned, read_ian: true, mail_alert_sent: nil)
           end
 
           it_behaves_like "creates no notification"
@@ -1006,7 +1006,27 @@ RSpec.describe Notifications::CreateFromModelService,
             call
 
             expect(existing_notification.reload.read_ian)
-              .to be_falsey
+              .to be(false)
+          end
+
+          it "changes the mail_alert_sent of the existing notification from nil to false" do
+            call
+
+            expect(existing_notification.reload.mail_alert_sent)
+              .to be(false)
+          end
+
+          context "and the mail alert has already been sent" do
+            before do
+              existing_notification.update(mail_alert_sent: true)
+            end
+
+            it "keeps the mail_alert_sent of the existing notification to true" do
+              call
+
+              expect(existing_notification.reload.mail_alert_sent)
+                .to be(true)
+            end
           end
         end
 

@@ -31,6 +31,8 @@
 module CustomFields
   module Hierarchy
     class InsertItemContract < Dry::Validation::Contract
+      config.messages.backend = :i18n
+
       params do
         required(:parent).filled
         required(:label).filled(:string)
@@ -49,7 +51,7 @@ module CustomFields
 
       rule(:label) do
         if CustomField::Hierarchy::Item.exists?(parent_id: values[:parent], label: value)
-          key.failure("Label must be unique within the same hierarchy level")
+          key.failure(:not_unique)
         end
       end
     end

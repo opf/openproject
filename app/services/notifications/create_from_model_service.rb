@@ -129,6 +129,7 @@ class Notifications::CreateFromModelService
     Notifications::UpdateService
       .new(model: existing_notification, user:, contract_class: EmptyContract)
       .call(read_ian: strategy.supports_ian?(reason) ? false : nil,
+            mail_alert_sent: existing_notification.mail_alert_sent || (strategy.supports_mail?(reason) ? false : nil),
             reason:)
   end
 

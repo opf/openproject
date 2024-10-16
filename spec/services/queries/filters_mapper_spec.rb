@@ -30,9 +30,8 @@ require "spec_helper"
 
 RSpec.describe Queries::Copy::FiltersMapper do
   let(:state) { Shared::ServiceState.new }
-  let(:instance) { described_class.new(state, filters) }
+  let(:instance) { described_class.new(state) }
 
-  subject { instance.map_filters! }
 
   describe "with a query filters array" do
     let(:query) do
@@ -43,7 +42,8 @@ RSpec.describe Queries::Copy::FiltersMapper do
 
       query
     end
-    let(:filters) { query.filters }
+
+    subject { instance.map_query!(query) }
 
     context "when mapping state exists" do
       before do
@@ -77,6 +77,8 @@ RSpec.describe Queries::Copy::FiltersMapper do
       ]
     end
 
+    subject { instance.map_filters(filters) }
+
     context "when mapping state exists" do
       before do
         state.work_package_id_lookup = { 1 => 11 }
@@ -106,6 +108,8 @@ RSpec.describe Queries::Copy::FiltersMapper do
         { parent: { operator: "=", values: ["1"] } }
       ]
     end
+
+    subject { instance.map_filters(filters) }
 
     context "when mapping state exists" do
       before do

@@ -64,18 +64,26 @@ module Statuses
         name: :is_closed
       )
 
-      unless already_default_status?
-        statuses_form.check_box(
-          label: attribute_name(:is_default),
-          name: :is_default
-        )
-      end
+      statuses_form.check_box(
+        label: attribute_name(:is_default),
+        name: :is_default,
+        disabled: already_default_status?,
+        caption: I18n.t("statuses.edit.status_default_text"),
+        data: {
+          "admin--statuses-target": "isDefaultCheckbox",
+          action: "admin--statuses#updateReadonlyCheckboxDisabledState"
+        }
+      )
 
       statuses_form.check_box(
         label: attribute_name(:is_readonly),
         name: :is_readonly,
-        disabled: readonly_work_packages_restricted?,
-        caption: I18n.t("statuses.edit.status_readonly_html").html_safe
+        disabled: readonly_disabled?,
+        caption: I18n.t("statuses.edit.status_readonly_html").html_safe,
+        data: {
+          "admin--statuses-target": "isReadonlyCheckbox",
+          restricted: readonly_work_packages_restricted?
+        }
       )
 
       if readonly_work_packages_restricted?
@@ -112,17 +120,21 @@ module Statuses
       model
     end
 
-    def already_default_status?
-      status.is_default_was == true
-    end
-
     def percent_complete_field_caption
       I18n.t("statuses.edit.status_percent_complete_text",
              href: url_helpers.admin_settings_progress_tracking_path).html_safe
     end
 
+    def already_default_status?
+      status.is_default_was == true
+    end
+
+    def readonly_disabled?
+      readonly_work_packages_restricted? || already_default_status?
+    end
+
     def readonly_work_packages_restricted?
-      !EnterpriseToken.allows_to?(:readonly_work_packages)
+      !status.can_readonly?
     end
   end
 end

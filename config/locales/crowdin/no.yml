@@ -39,16 +39,9 @@
         accent-color: "Uthevet"
         header-bg-color: "Topp bakgrunn"
         header-item-bg-hover-color: "Topp bakgrunn på hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Overskrift på hover"
-        header-border-bottom-color: "Overskrift ramme"
         main-menu-bg-color: "Bakgrunn på hovedmeny"
         main-menu-bg-selected-background: "Hovedmeny når valgt"
         main-menu-bg-hover-background: "Hovedmeny ved peking"
-        main-menu-font-color: "Skrifttype i hovedmeny"
-        main-menu-selected-font-color: "Skrifttype i hovedmeny når valgt"
-        main-menu-hover-font-color: "Skrifttype i hovedmeny ved peking"
-        main-menu-border-color: "Kantlinje for hovedmeny"
       custom_colors: "Egendefinerte farger"
       customize: "Tilpass OpenProject-installasjonen med din egen logo og farger."
       enterprise_notice: "Som en spesiell 'takk!' for deres økonomiske bidrag til å utvikle OpenProject, er dette lille tillegget bare tilgjengelig for Enterprise edition abonnenter."
@@ -215,6 +208,10 @@
         blankslate:
           title: "Din liste over elementer er tom"
           description: "Start ved å legge elementer til i det tilpassede feltet av typehierarkiet. Hvert element kan brukes til å opprette et hierarkisk buk på det. For å navigere og opprette underelementer i et hierarki, klikk på det opprettede elementet."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
       notice:
         remember_items_and_projects: "Husk å angi elementer og prosjekter i de respektive fanene for dette egendefinerte feltet."
     text_add_new_custom_field: >
@@ -229,6 +226,7 @@
       is_required: "Marker det egendefinerte feltet som påkrevd. Dette vil gjøre det obligatorisk å fylle ut feltet når du oppretter nye eller oppdaterer eksisterende ressurser."
       is_required_for_project: "Marker for å aktivere denne attributten og gjøre den påkrevd i alle prosjekter. Det kan ikke deaktiveres for enkeltprosjekter."
       is_for_all: "Merk egendefinert felt som tilgjengelig for alle eksisterende og nye prosjekter."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "Inkluder feltverdier ved bruk av den globale søkefunksjonaliteten."
       searchable_for_project: "Marker for å gjøre denne attributten tilgjengelig som filter i prosjektlister."
       editable: "La feltet være redigerbart av brukere selv."
@@ -240,6 +238,14 @@
       no_results_content_text: Opprett nytt egendefinert felt
   concatenation:
     single: "eller"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "Søk i %{app_title}"
     overwritten_tabs:
@@ -482,6 +488,8 @@
       status_color_text: |
         Klikk for å tilknytte eller endre fargen på denne statusen.
         Den vises i statusknappen og kan brukes til å fremheve arbeidspakker i tabellen.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
       status_excluded_from_totals_text: |-
         Velg denne innstillingen for å utelukke arbeidspakker med denne statusen fra oppsummeringer for Arbeid, Gjenstående arbeid og % Ferdig i et hierarki.
       status_percent_complete_text: |-
@@ -1814,6 +1822,7 @@
       progress_mode_changed_to_status_based: "Fremdriftsberegning oppdatert"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system oppdatering:"
+      work_package_duplicate_closed: "Duplicate work package updated:"
       total_percent_complete_mode_changed_to_work_weighted_average: "Beregning av % Komplette totaler er nå vektet av arbeid."
       total_percent_complete_mode_changed_to_simple_average: "Beregning av % fullstendige summer nå basert på et enkelt gjennomsnitt av bare % fullført verdier."
     cause_descriptions:
@@ -1821,6 +1830,7 @@
       work_package_parent_changed_times: etter endringer til overordnet %{link}
       work_package_children_changed_times: etter endringer i underordnet %{link}
       work_package_related_changed_times: etter endringer i relatert %{link}
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: etter endringer i en relatert arbeidspakke
       working_days_changed:
         changed: "av endringer i arbeidsdager (%{changes})"

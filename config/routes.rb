@@ -195,7 +195,7 @@ Rails.application.routes.draw do
                  only: :destroy
         resources :items,
                   controller: "/admin/custom_fields/hierarchy/items",
-                  only: :index
+                  only: %i[index new create]
       end
     end
   end
