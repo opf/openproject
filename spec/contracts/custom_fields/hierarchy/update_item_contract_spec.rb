@@ -30,65 +30,83 @@
 
 require "rails_helper"
 
-RSpec.describe CustomFields::Hierarchy::ServiceInitializationContract do
+RSpec.describe CustomFields::Hierarchy::UpdateItemContract do
   subject { described_class.new }
 
   # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
   describe "#call" do
-    context "when field_format is 'hierarchy'" do
-      let(:params) { { field_format: "hierarchy" } }
+    let(:vader) { create(:hierarchy_item) }
+    let(:luke) { create(:hierarchy_item, label: "luke", short: "ls", parent: vader) }
+    let(:leia) { create(:hierarchy_item, label: "leia", short: "lo", parent: vader) }
 
+    before do
+      luke
+      leia
+    end
+
+    context "when all required fields are valid" do
       it "is valid" do
-        result = subject.call(params)
-        expect(result).to be_success
-      end
-    end
-
-    context "when field_format is not 'hierarchy'" do
-      let(:params) { { field_format: "text" } }
-
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(field_format: ["Custom field must have field format 'hierarchy'"])
-      end
-    end
-
-    context "when field_format is missing" do
-      let(:params) { {} }
-
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(field_format: ["is missing"])
-      end
-    end
-
-    context "when field_format is nil" do
-      let(:params) { { field_format: nil } }
-
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(field_format: ["must be filled"])
-      end
-    end
-
-    context "when inputs are valid" do
-      it "creates a success result" do
         [
-          { field_format: "hierarchy" }
+          { item: luke, label: "Luke Skywalker", short: "LS" },
+          { item: luke, label: "Luke Skywalker" },
+          { item: luke, short: "LS" },
+          { item: luke, short: "lo" },
+          { item: luke }
         ].each { |params| expect(subject.call(params)).to be_success }
       end
     end
 
-    context "when inputs are invalid" do
-      it "creates a failure result" do
+    context "when item is a root item" do
+      let(:params) { { item: vader } }
+
+      it("is invalid") do
+        result = subject.call(params)
+        expect(result).to be_failure
+        expect(result.errors.to_h).to include(item: ["must not be a root item"])
+      end
+    end
+
+    context "when item is not of type 'Item'" do
+      let(:invalid_item) { create(:custom_field) }
+      let(:params) { { item: invalid_item } }
+
+      it("is invalid") do
+        result = subject.call(params)
+        expect(result).to be_failure
+        expect(result.errors.to_h).to include(item: ["must be CustomField::Hierarchy::Item"])
+      end
+    end
+
+    context "when item is not persisted" do
+      let(:item) { build(:hierarchy_item, parent: vader) }
+      let(:params) { { item: } }
+
+      it "is invalid" do
+        result = subject.call(params)
+        expect(result).to be_failure
+        expect(result.errors.to_h).to include(item: ["must exist"])
+      end
+    end
+
+    context "when the label already exist in the same hierarchy level" do
+      let(:params) { { item: luke, label: "leia" } }
+
+      it "is invalid" do
+        result = subject.call(params)
+        expect(result).to be_failure
+        expect(result.errors.to_h).to include(label: ["must be unique at the same hierarchical level"])
+      end
+    end
+
+    context "when fields are invalid" do
+      it "is invalid" do
         [
           {},
-          { field_format: "text" },
-          { field_format: nil },
-          { field_format: 42 }
+          { item: nil },
+          { item: luke, label: nil },
+          { item: luke, label: 42 },
+          { item: luke, short: nil },
+          { item: luke, short: 42 }
         ].each { |params| expect(subject.call(params)).to be_failure }
       end
     end
