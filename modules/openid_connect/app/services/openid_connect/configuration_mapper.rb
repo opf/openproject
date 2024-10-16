@@ -44,6 +44,8 @@ module OpenIDConnect
         "client_id" => options["identifier"],
         "client_secret" => options["secret"],
         "issuer" => options["issuer"],
+        "claims" => options["claims"],
+        "acr_values" => options["acr_values"],
         "authorization_endpoint" => extract_url(options, "authorization_endpoint"),
         "token_endpoint" => extract_url(options, "token_endpoint"),
         "userinfo_endpoint" => extract_url(options, "userinfo_endpoint"),

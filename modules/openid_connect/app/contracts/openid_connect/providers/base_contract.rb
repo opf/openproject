@@ -42,6 +42,12 @@ module OpenIDConnect
       attribute :slug
       attribute :options
       attribute :limit_self_registration
+
+      attribute :claims
+      validate :claims_are_json
+
+      attribute :acr_values
+
       attribute :metadata_url
       validates :metadata_url,
                 url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },
@@ -74,6 +80,16 @@ module OpenIDConnect
 
       OpenIDConnect::Provider::MAPPABLE_ATTRIBUTES.each do |attr|
         attribute :"mapping_#{attr}"
+      end
+
+      private
+
+      def claims_are_json
+        return if claims.blank?
+
+        JSON.parse(claims)
+      rescue JSON::ParserError
+        errors.add(:claims, :not_json)
       end
     end
   end

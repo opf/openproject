@@ -29,6 +29,9 @@ module OpenIDConnect
     store_attribute :options, :client_secret, :string
     store_attribute :options, :tenant, :string
 
+    store_attribute :options, :claims, :string
+    store_attribute :options, :acr_values, :string
+
     def self.slug_fragment = "oidc"
 
     def seeded_from_env?
@@ -44,7 +47,7 @@ module OpenIDConnect
     end
 
     def metadata_configured?
-      return false unless metadata_url.present?
+      return false if metadata_url.blank?
 
       DISCOVERABLE_ATTRIBUTES_MANDATORY.all? do |mandatory_attribute|
         public_send(mandatory_attribute).present?

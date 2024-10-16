@@ -68,7 +68,7 @@ module OpenIDConnect
           else
             call.errors.add(:metadata_url,
                             :response_misses_required_attributes,
-                            missing_attributes: result.errors.to_h.keys.join(", "))
+                            missing_attributes: result.errors.attribute_names.join(", "))
             call.success = false
           end
         in {status: 300..}

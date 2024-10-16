@@ -273,6 +273,15 @@ module OpenProject
             sysadmin_docs: {
               saml: {
                 href: "https://www.openproject.org/docs/system-admin-guide/authentication/saml/"
+              },
+              oidc: {
+                href: "https://www.openproject.org/docs/installation-and-operations/misc/custom-openid-connect-providers/"
+              },
+              oidc_claims: {
+                href: "https://www.openproject.org/docs/installation-and-operations/misc/custom-openid-connect-providers/#claims"
+              },
+              oidc_acr_values: {
+                href: "https://www.openproject.org/docs/installation-and-operations/misc/custom-openid-connect-providers/#non-essential-claims"
               }
             },
             storage_docs: {
