@@ -24,6 +24,8 @@ en:
         tenant: Tenant
         metadata_url: Metadata URL
         icon: Custom icon
+        claims: Claims
+        acr_values: ACR values
   activerecord:
     errors:
       models:
@@ -46,6 +48,10 @@ en:
       limit_self_registration: If enabled, users can only register using this provider if configuration on the prvoder's end allows it.
       display_name: Then name of the provider. This will be displayed as the login button and in the list of providers.
       tenant: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
+      claims: >
+        You can request additional claims for the userinfo and id token endpoints. Please see [our OpenID connect documentation](docs_url) for more information.
+      acr_values: >
+        Request non-essential claims in an easier format. See [our documentation on acr_values](docs_url) for more information.
       mapping_login: >
         Provide a custom mapping in the userinfo response to be used for the login attribute.
       mapping_email: >
@@ -92,6 +98,7 @@ en:
         configuration: Configuration details of the OpenID Connect provider
         display_name: The display name visible to users.
         attribute_mapping: Configure the mapping of attributes between OpenProject and the OpenID Connect provider.
+        claims: Request additional claims for the ID token or userinfo response.
     setting_instructions:
       limit_self_registration: >
         If enabled users can only register using this provider if the self registration setting allows for it.

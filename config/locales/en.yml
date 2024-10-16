@@ -962,6 +962,7 @@ en:
         not_a_datetime: "is not a valid date time."
         not_a_number: "is not a number."
         not_allowed: "is invalid because of missing permissions."
+        not_json: "is not a valid JSON object."
         not_an_integer: "is not an integer."
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "doesn't belong to the same project."
