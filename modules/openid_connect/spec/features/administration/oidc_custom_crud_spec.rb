@@ -70,6 +70,13 @@ RSpec.describe "OIDC administration CRUD",
       fill_in "Mapping for: Email", with: "mail"
       fill_in "Mapping for: First name", with: "myName"
       fill_in "Mapping for: Last name", with: "myLastName"
+
+      click_link_or_button "Continue"
+
+      # Claims
+      fill_in "Claims", with: '{"foo": "bar"}'
+      fill_in "ACR values", with: "foo bar"
+
       click_link_or_button "Finish setup"
 
       # We're now on the show page
