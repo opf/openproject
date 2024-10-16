@@ -31,23 +31,15 @@
 module Admin
   module CustomFields
     module Hierarchy
-      class ItemsComponent < ApplicationComponent
+      class DeleteItemDialogComponent < ApplicationComponent
         include OpTurbo::Streamable
-        include OpPrimer::ComponentHelpers
 
-        def initialize(custom_field:, new_item_form_data: { show: false })
+        DIALOG_ID = "op-hierarchy-item--deletion-confirmation"
+
+        def initialize(custom_field:, hierarchy_item:)
           super
           @custom_field = custom_field
-          @new_item_form_data = new_item_form_data
-        end
-
-        def items
-          # TODO: This must be context aware (breadcrumbs)
-          @custom_field.hierarchy_root.children
-        end
-
-        def show_new_item_form?
-          @new_item_form_data[:show] || false
+          @hierarchy_item = hierarchy_item
         end
       end
     end
