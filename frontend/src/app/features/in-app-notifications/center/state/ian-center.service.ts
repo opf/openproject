@@ -37,8 +37,9 @@ import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.s
 import {
   centerUpdatedInPlace,
   markNotificationsAsRead,
-  notificationsMarkedRead,
+  notificationCountIncreased,
   notificationCountChanged,
+  notificationsMarkedRead
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { EffectCallback, EffectHandler } from 'core-app/core/state/effects/effect-handler.decorator';
@@ -302,27 +303,51 @@ export class IanCenterService extends UntilDestroyedMixin {
         // directly update the UI state in both cases (count increased or decreased)
         this.store.update({ activeCollection: collection });
         this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
-      } else {
-        // old concept for notification center:
-        // only proceed if there are actually new notifications (count increased)
-        if (!hasNewNotifications) {
-          return;
-        }
-        // show toast with and ask user to update the UI state explicitly
-        this.activeReloadToast = this.toastService.add({
-          type: 'info',
-          icon: 'bell',
-          message: this.I18n.t('js.notifications.center.new_notifications.message'),
-          link: {
-            text: this.I18n.t('js.notifications.center.new_notifications.link_text'),
-            target: () => {
-              this.store.update({ activeCollection: collection });
-              this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
-              this.activeReloadToast = null;
-            },
-          },
-        });
       }
+    });
+    this.reload.next(false);
+  }
+
+  /**
+   * Check for updates after bell count increased
+   */
+  @EffectCallback(notificationCountIncreased)
+  private checkForNewNotifications() {
+    this.onReload.pipe(take(1)).subscribe((collection) => {
+      // There is a new concept for primerized work package activities bound to notificationCountChanged
+      // See @EffectCallback(notificationCountChanged)
+      if (this.configurationService.activeFeatureFlags.includes('primerizedWorkPackageActivities')) {
+        return;
+      }
+
+      const { activeCollection } = this.query.getValue();
+      const hasNewNotifications = !collection.ids.reduce(
+        (allInOldCollection, id) => allInOldCollection && activeCollection.ids.includes(id),
+        true,
+      );
+
+      if (!hasNewNotifications) {
+        return;
+      }
+
+      if (this.activeReloadToast) {
+        this.toastService.remove(this.activeReloadToast);
+        this.activeReloadToast = null;
+      }
+
+      this.activeReloadToast = this.toastService.add({
+        type: 'info',
+        icon: 'bell',
+        message: this.I18n.t('js.notifications.center.new_notifications.message'),
+        link: {
+          text: this.I18n.t('js.notifications.center.new_notifications.link_text'),
+          target: () => {
+            this.store.update({ activeCollection: collection });
+            this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
+            this.activeReloadToast = null;
+          },
+        },
+      });
     });
     this.reload.next(false);
   }
