@@ -40,6 +40,10 @@ module Costs
              settings: {
                default: { "costs_currency" => "EUR", "costs_currency_format" => "%n %u" },
                partial: "settings/costs",
+               page_title_key: :label_setting_plural,
+               breadcrumb_elements: -> {
+                 [{ href: admin_settings_show_plugin_path(:costs), text: I18n.t(:project_module_costs) }]
+               },
                menu_item: :costs_setting
              } do
       project_module :costs do
