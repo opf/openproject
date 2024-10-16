@@ -10,7 +10,9 @@ module OpenIDConnect
     before_action :find_provider, only: %i[edit update destroy]
     before_action :set_edit_state, only: %i[create edit update]
 
-    def index; end
+    def index
+      @providers = ::OpenIDConnect::Provider.all
+    end
 
     def new
       oidc_provider = case params[:oidc_provider]
@@ -81,16 +83,10 @@ module OpenIDConnect
     end
 
     def find_provider
-      @provider = providers.where(id: params[:id]).first
-      if @provider.nil?
-        render_404
-      end
+      @provider = OpenIDConnect::Provider.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render_404
     end
-
-    def providers
-      @providers ||= ::OpenIDConnect::Provider.where(available: true)
-    end
-    helper_method :providers
 
     def default_breadcrumb; end
 
