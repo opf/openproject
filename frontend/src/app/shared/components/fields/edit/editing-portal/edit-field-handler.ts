@@ -144,11 +144,6 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
    */
   public abstract isChanged():boolean;
 
-  /**
-   * Handle focus loss
-   */
-  public abstract onFocusOut():void;
-
   public abstract setErrors(newErrors:string[]):void;
 
   public previewContext(resource:HalResource):string|undefined {

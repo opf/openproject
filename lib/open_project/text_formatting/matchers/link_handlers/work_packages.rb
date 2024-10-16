@@ -66,7 +66,8 @@ module OpenProject::TextFormatting::Matchers
       def render_work_package_link(wp_id)
         link_to("##{wp_id}",
                 work_package_path_or_url(id: wp_id, only_path: context[:only_path]),
-                class: "issue work_package preview-trigger")
+                class: "issue work_package op-hover-card--preview-trigger",
+                data: { "hover-card-url": hover_card_work_package_path(wp_id) })
       end
     end
   end

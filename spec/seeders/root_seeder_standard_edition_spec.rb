@@ -57,7 +57,7 @@ RSpec.describe RootSeeder,
       expect(Query.count).to eq 26
       expect(ProjectRole.count).to eq 5
       expect(WorkPackageRole.count).to eq 3
-      expect(GlobalRole.count).to eq 1
+      expect(GlobalRole.count).to eq 2
       expect(Grids::Overview.count).to eq 2
       expect(Version.count).to eq 4
       expect(VersionSetting.count).to eq 4
@@ -126,7 +126,7 @@ RSpec.describe RootSeeder,
 
     include_examples "it creates records", model: Color, expected_count: 144
     include_examples "it creates records", model: DocumentCategory, expected_count: 3
-    include_examples "it creates records", model: GlobalRole, expected_count: 1
+    include_examples "it creates records", model: GlobalRole, expected_count: 2
     include_examples "it creates records", model: WorkPackageRole, expected_count: 3
     include_examples "it creates records", model: ProjectRole, expected_count: 5
     include_examples "it creates records", model: ProjectQueryRole, expected_count: 2
@@ -166,7 +166,7 @@ RSpec.describe RootSeeder,
         expect(Query.count).to eq 26
         expect(ProjectRole.count).to eq 5
         expect(WorkPackageRole.count).to eq 3
-        expect(GlobalRole.count).to eq 1
+        expect(GlobalRole.count).to eq 2
         expect(Grids::Overview.count).to eq 2
         expect(Version.count).to eq 4
         expect(VersionSetting.count).to eq 4

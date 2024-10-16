@@ -41,6 +41,15 @@ See COPYRIGHT and LICENSE files for more details.
         tab.with_text { t(:label_details) }
       end
 
+      if @custom_field.field_format_hierarchy?
+        tab_nav.with_tab(
+          selected: tab_selected?(:items),
+          href: custom_field_items_path(@custom_field)
+        ) do |tab|
+          tab.with_text { t(:label_item_plural) }
+        end
+      end
+
       tab_nav.with_tab(
         selected: tab_selected?(:custom_field_projects),
         href: custom_field_projects_path(@custom_field)

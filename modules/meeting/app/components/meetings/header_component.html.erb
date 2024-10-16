@@ -1,16 +1,17 @@
 <%=
-  params = {
-      controller: "poll-for-changes",
-      poll_for_changes_reference_value: @meeting.changed_hash,
-      poll_for_changes_url_value: check_for_updates_meeting_path(@meeting),
-      poll_for_changes_interval_value: check_for_updates_interval
-  }
+  helpers.content_controller "poll-for-changes",
+                     poll_for_changes_url_value: check_for_updates_meeting_path(@meeting),
+                     poll_for_changes_interval_value: check_for_updates_interval,
+                     poll_for_changes_autoscroll_enabled_value: true
 
   component_wrapper do
     render(Primer::OpenProject::PageHeader.new(
       test_selector: "meeting-page-header",
       state: @state,
-      data: OpenProject::FeatureDecisions.meeting_updated_notification_active? ? params : {}
+      data: {
+        poll_for_changes_target: "reference",
+        reference_value: @meeting.changed_hash
+      }
     )) do |header|
       header.with_title do |title|
         title.with_editable_form(model: @meeting,
@@ -48,8 +49,7 @@
           item.with_leading_visual_icon(icon: :download)
         end
 
-        if User.current.allowed_in_project?(:send_meeting_agendas_notification, @meeting.project
-        )
+        if @meeting.open? && User.current.allowed_in_project?(:send_meeting_agendas_notification, @meeting.project)
           menu.with_item(label: t('meeting.label_mail_all_participants'),
                          href: notify_meeting_path(@meeting),
                          form_arguments: { method: :post, data: { turbo: 'false' } }) do |item|

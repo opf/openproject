@@ -47,10 +47,6 @@ module Pages
         within("#menu-sidebar", &)
       end
 
-      def toast_type
-        :rails
-      end
-
       def visit_page
         visit path
       end

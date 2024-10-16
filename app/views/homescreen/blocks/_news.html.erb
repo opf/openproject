@@ -8,7 +8,7 @@
         <%= link_to_project(news.project) + ': ' %>
         <%= link_to h(news.title), news_path(news) %>
       </div>
-      <div class="widget-box--author news-author"><%= authoring_at Date.strptime(news.created_at.to_s), news.author %></div>
+      <div class="widget-box--author news-author"><%= authoring_at format_date(news.created_at), news.author %></div>
       <p class="widget-box--additional-info"><%=  news.summary %></p>
     </li>
   <% end %>

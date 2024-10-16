@@ -52,6 +52,9 @@ action-menu
   @media screen and (min-width: $breakpoint-sm)
     scroll-behavior: smooth
 
+ul.SegmentedControl
+  margin-left: 0
+
 /* Remove margin-left: 2rem from Breadcrumbs */
 #breadcrumb,
 page-header,
@@ -86,7 +89,12 @@ sub-header,
 .Button.op-app-header--primer-button,
 .Button.op-app-header--primer-button .Button-visual
   color: var(--header-item-font-color)
+  width: auto
 
   &:hover
     background: var(--header-item-bg-hover-color)
     color: var(--header-item-font-hover-color)
+  
+// Todo: Remove once https://github.com/primer/view_components/pull/3087 is merged
+.FormControl-spacingWrapper
+  row-gap: var(--stack-gap-normal)

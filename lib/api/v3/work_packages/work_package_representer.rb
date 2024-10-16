@@ -410,7 +410,7 @@ module API
                    datetime_formatter.format_duration_from_hours(represented.remaining_hours,
                                                                  allow_nil: true)
                  end,
-                 writable: ->(*) { !WorkPackage.use_status_for_done_ratio? },
+                 writable: ->(*) { !WorkPackage.status_based_mode? },
                  render_nil: false
 
         property :derived_remaining_time,

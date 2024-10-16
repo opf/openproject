@@ -7,24 +7,16 @@
         end
       end
 
-      grid.with_area(:content, tag: :span) do
+      grid.with_area(:content, tag: :span, mr: 2) do
         if @meeting_agenda_item.visible_work_package?
           flex_layout(align_items: :center) do |flex|
-            flex.with_column(mr: 2, flex: 1, classes: 'ellipsis') do
-              render(Primer::Beta::Link.new(href: work_package_path(@meeting_agenda_item.work_package), underline: false,
-                                            test_selector: 'op-meeting-agenda-title',
-                                            font_size: :normal, font_weight: :bold, target: "_blank")) do
-                @meeting_agenda_item.work_package.subject
-              end
-            end
-
-            flex.with_column(mr: 2, classes: 'hidden-for-mobile') do
+            flex.with_column(mr: 2) do
               render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
-                "#{@meeting_agenda_item.work_package.type.name} ##{@meeting_agenda_item.work_package.id}"
+                "##{@meeting_agenda_item.work_package.id} #{@meeting_agenda_item.work_package.type.name}"
               end
             end
 
-            flex.with_column(mr: 2, classes: 'hidden-for-mobile') do
+            flex.with_column(mr: 2) do
               render(Primer::Beta::Label.new(font_weight: :bold)) do
                 @meeting_agenda_item.work_package.status.name
               end
@@ -45,16 +37,26 @@
         end
       end
 
+      grid.with_area(:title, tag: :div) do
+        if @meeting_agenda_item.visible_work_package?
+          render(Primer::Beta::Link.new(href: work_package_path(@meeting_agenda_item.work_package), underline: false,
+                                        test_selector: 'op-meeting-agenda-title',
+                                        font_size: :normal, font_weight: :bold, target: "_blank")) do
+            @meeting_agenda_item.work_package.subject
+          end
+        end
+      end
+
       if @meeting_agenda_item.duration_in_minutes.present? && @meeting_agenda_item.duration_in_minutes > 0
-        grid.with_area(:duration, Primer::Beta::Text, color: duration_color_scheme, mr: 1, font_size: :small) do
+        grid.with_area(:duration, Primer::Beta::Text, color: duration_color_scheme, mr: 2) do
           I18n.t('datetime.distance_in_words.x_minutes_abbreviated', count: @meeting_agenda_item.duration_in_minutes)
         end
       end
 
       if @meeting_agenda_item.presenter
         grid.with_area(:presenter, tag: :div, classes: 'ellipsis') do
-          flex_layout do |flex|
-            flex.with_column(classes: 'ellipsis') do
+          flex_layout(align_items: :flex_end) do |flex|
+            flex.with_column(classes: 'ellipsis custom-presenter-flex') do
               render(Users::AvatarComponent.new(user: @meeting_agenda_item.presenter, size: 'mini', title:, classes: 'op-principal_flex'))
             end
           end

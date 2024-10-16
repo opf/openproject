@@ -63,9 +63,9 @@ Rails.application.routes.draw do
 
   # Add catch method for Rack OmniAuth to allow route helpers
   # Note: This renders a 404 in rails but is caught by omniauth in Rack before
-  get "/auth/failure", to: "account#omniauth_failure"
-  get "/auth/:provider", to: proc { [404, {}, [""]] }, as: "omniauth_start"
-  match "/auth/:provider/callback", to: "account#omniauth_login", as: "omniauth_login", via: %i[get post]
+  get "/auth/failure", to: "omni_auth_login#failure", as: "omni_auth_failure"
+  get "/auth/:provider", to: proc { [404, {}, [""]] }, as: "omni_auth_start"
+  match "/auth/:provider/callback", to: "omni_auth_login#callback", as: "omni_auth_callback", via: %i[get post]
 
   # In case assets are actually delivered by a node server (e.g. in test env)
   # forward requests to the proxy
@@ -174,6 +174,12 @@ Rails.application.routes.draw do
       scope module: :custom_fields do
         resources :projects,
                   controller: "/admin/custom_fields/custom_field_projects",
+                  only: %i[index new create]
+        resource :project,
+                 controller: "/admin/custom_fields/custom_field_projects",
+                 only: :destroy
+        resources :items,
+                  controller: "/admin/custom_fields/hierarchy/items",
                   only: %i[index new create]
       end
     end
@@ -564,6 +570,8 @@ Rails.application.routes.draw do
 
   resources :work_packages, only: [:index] do
     concerns :shareable
+
+    get "hover_card" => "work_packages/hover_card#show", on: :member
 
     # move bulk of wps
     get "move/new" => "work_packages/moves#new", on: :collection, as: "new_move"

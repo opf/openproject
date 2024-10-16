@@ -31,21 +31,17 @@ ca:
     custom_styles:
       color_theme: "Tema de color"
       color_theme_custom: "(Personalitzat)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Botó principal"
         accent-color: "Accent"
         header-bg-color: "Fons de capçalera"
         header-item-bg-hover-color: "Fons de capçalera en passar el ratolí"
-        header-item-font-color: "Font de capçalera"
-        header-item-font-hover-color: "Font de capçalera en passar el ratolí"
-        header-border-bottom-color: "Vora de capçalera"
         main-menu-bg-color: "Fons del menú principal"
         main-menu-bg-selected-background: "Menú principal quan es selecciona"
         main-menu-bg-hover-background: "Menú principal en passar el ratolí"
-        main-menu-font-color: "Font del menú principal"
-        main-menu-selected-font-color: "Font del menú principal quan es selecciona"
-        main-menu-hover-font-color: "Font del menú principal en passar el ratolí"
-        main-menu-border-color: "Vora del menú principal"
       custom_colors: "Colors personalitzats"
       customize: "Personalitza la teva instal·lació d'OpenProject amb el teu propi logotip i colors."
       enterprise_notice: "Com un \"Gràcies!\" especial per la contribució financera al desenvolupament d'OpenProject, aquesta petita extensió només està disponible pels subscriptors de l'edició Enterprise."
@@ -79,6 +75,7 @@ ca:
         contact: "Contacta amb nosaltres per una demostració"
       enterprise_info_html: "és una extensió de l'edició Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'>."
       upgrade_info: "Si us plau, actualitza a una versió de pagament per tal d'activar i començar a utilitzar aquesta funcionalitat en el teu equip."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Les accions individuals d'un sol usuari (per exemple actualitzar dos cops un paquet de treball) seran agregades en una sola acció si la diferència temporal és menor a l'especificada. Aquests seran exposats com una acció individual dins l'aplicació. Això, també reduïra el número d'emails enviats i el retràs en el %{webhook_link} ja que les notificacións també seran retrasades."
@@ -204,6 +201,16 @@ ca:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Per afegir nous camps personalitzats a un projecte primer has de crear-los abans de poder-los afegir a aquest projecte.
     is_enabled_globally: "És habilitat globalment"
@@ -216,6 +223,7 @@ ca:
       is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
       is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Mark the custom field as available in all existing and new projects."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "Include the field values when using the global search functionality."
       searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Allow the field to be editable by users themselves."
@@ -227,6 +235,14 @@ ca:
       no_results_content_text: Crea un camp personalitzat nou
   concatenation:
     single: "o"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "Cerca a %{app_title}"
     overwritten_tabs:
@@ -466,17 +482,23 @@ ca:
       no_results_content_text: Afegir un informe d'estat
   statuses:
     edit:
+      status_color_text: |
+        Clica per a assignar o canviar el color d'aquest estat.
+        Es mostra al botó d'estat i es pot fer servir per a destacar paquets de treball a la taula.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Activeu aquesta opció per a marcar paquets de treball amb els seus estats com a sols lectura.
         No es poden canviar els atributs amb l'excepció de l'atribut estat-
         <br/>
         <strong>Nota</strong> : Els valors heretats (p.e., de fills o relacions) es continuaran aplicant.
-      status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
-      status_color_text: |
-        Clica per a assignar o canviar el color d'aquest estat.
-        Es mostra al botó d'estat i es pot fer servir per a destacar paquets de treball a la taula.
     index:
       no_results_title_text: Actualment no hi ha cap estat de paquet de treball.
       no_results_content_text: Afegir un nou estat
@@ -528,7 +550,7 @@ ca:
       could_not_be_saved: "Els següents paquets de treball no s'han pogut desar:"
       none_could_be_saved: "Cap dels %{total} paquets de treball s'ha pogut actualitzar."
       x_out_of_y_could_be_saved: "%{failing} de %{total} paquets de treball no s'han pogut actualitzar mentre %{success} s'han actualitzat."
-      selected_because_descendants: "Mentre %{selected} paquets de treball estaven seleccionats, un total de %{total} paquets de treball estan afectats incloent els seus descendents."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendent dels seleccionats"
     move:
       no_common_statuses_exists: "No hi ha estats disponibles per a tots els paquets de treball seleccionats. El seus estats no es poden canviar."
@@ -618,6 +640,7 @@ ca:
         editable: "Editable"
         field_format: "Format"
         is_filter: "Utilitzat com a filtre"
+        is_for_all: "For all projects"
         is_required: "Obligatori"
         max_length: "Longitud màxima"
         min_length: "Longitud mínima"
@@ -805,7 +828,7 @@ ca:
         blank: "no pot estar en blanc."
         blank_nested: "és necessari de definir la propietat  '%{property}' ."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Un paquet de treball no es pot enllaçar a una de les seves subtasques."
         circular_dependency: "Aquesta relació crearia una dependència circular."
         confirmation: "no coincideix amb el %{attribute}."
@@ -913,6 +936,8 @@ ca:
             name:
               blank: "és obligatori. Si us plau, selecciona un nom."
               not_unique: "ja està en ús. Si us plau, selecciona un altre nom."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "És necessari d'especificar almenys un canal per enviar notificacions."
           attributes:
@@ -1352,6 +1377,7 @@ ca:
   button_expand_all: "Expandeix tot"
   button_favorite: "Add to favorites"
   button_filter: "Filtre"
+  button_finish_setup: "Finish setup"
   button_generate: "Generar"
   button_list: "Llista"
   button_lock: "Bloquejar"
@@ -1404,8 +1430,8 @@ ca:
     failure_message: Error de concentiment, no es pot procedir.
     title: Consentiment d'usuari
     decline_warning_message: Has declinat el consentiment i per tant s'ha tancat la sessió.
-    user_has_consented: L'usuari ha consentit la teva declaració configurada amb el temps requerit.
-    not_yet_consented: L'usuari encara no ha donat el seu consentiment, se li tornarà a demanar en el pròxim inici de sessió.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Defineix l'adreça de correu electrònic que els usuaris poden utilitzar per accedir al controlador de dades per poder canviar dades o fer peticions d'eliminació.
     contact_your_administrator: Si us plau, contacte el teu administrador si vols eliminar el teu compte.
     contact_this_mail_address: Si us plau, contacte %{mail_address} si vols eliminar el teu compte.
@@ -1638,7 +1664,7 @@ ca:
   error_menu_item_not_saved: No es pot desar l'element de menú
   error_wiki_root_menu_item_conflict: >
     No es pot reanomenar "%{old_name}" a "%{new_name}" a causa d'un conflicte resultant en l'element de menú amb l'element de menú existent "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "S'ha produït un error durant l'autentificació externa. Torneu-ho a provar."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Atribut(s) no destacables: %{attributes}"
   events:
     changeset: "Conjunt de canvis editat"
@@ -1793,11 +1819,15 @@ ca:
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
+      work_package_duplicate_closed: "Duplicate work package updated:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: per canvis en el predecessor %{link}
       work_package_parent_changed_times: per canvis en el pare %{link}
       work_package_children_changed_times: per canvis en el fill %{link}
       work_package_related_changed_times: per canvis en el relacionat %{link}
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: per canvis a un paquet de treball relacionat
       working_days_changed:
         changed: "per canvis en els dies laborals (%{changes})"
@@ -1810,7 +1840,7 @@ ca:
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1820,6 +1850,10 @@ ca:
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
         totals_removed_from_childless_work_packages: >-
           Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Guia de configuració"
     get_in_touch: "Tens preguntes? Posa't en contacte amb nosaltres."
@@ -1919,7 +1953,8 @@ ca:
   label_additional_workflow_transitions_for_assignee: "Transicions addicionals permeses quan l'usuari és l'assignat"
   label_additional_workflow_transitions_for_author: "Transicions addicionals permeses quan l'usuari és l'autor"
   label_administration: "Administració"
-  label_advanced_settings: "Configuració avançada"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Edat"
   label_ago: "dies abans"
   label_all: "tot"
@@ -1982,6 +2017,7 @@ ca:
   label_calendars_and_dates: "Calendaris i dates"
   label_calendar_show: "Mostreu el calendari"
   label_category: "Categoria"
+  label_completed: Completed
   label_consent_settings: "Consentiment d'usuari"
   label_wiki_menu_item: Element de menú Wiki
   label_select_main_menu_item: Seleccioneu nou element de menú principal
@@ -2033,6 +2069,7 @@ ca:
   label_custom_field_plural: "Camps personalitzats"
   label_custom_field_default_type: "Tipus buit"
   label_custom_style: "Disseny"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Tauler de control"
   label_database_version: "Versió PostgreSQL"
   label_date: "Data"
@@ -2129,6 +2166,7 @@ ca:
   label_here: aquí
   label_hide: "Amagar"
   label_history: "Història"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Branca de jerarquia"
   label_home: "Inici"
   label_subject_or_id: "Subjecte o ID"
@@ -2140,6 +2178,7 @@ ca:
   label_inactive: "Inactiu"
   label_incoming_emails: "Correu electrònics d'entrada"
   label_includes: "inclou"
+  label_incomplete: Incomplete
   label_include_sub_projects: Include sub-projects
   label_index_by_date: "Índex per data"
   label_index_by_title: "Índex per títol"
@@ -2150,12 +2189,14 @@ ca:
   label_internal: "Intern"
   label_introduction_video: "Vídeo de presentació"
   label_invite_user: "Invitar usuari"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Compartir"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
-  label_show_hide: "Mostrae/ocultar"
-  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Mostra tots els usuaris registrats"
+  label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Diari"
   label_journal_diff: "Descripció de comparació"
   label_language: "Idioma"
@@ -2226,7 +2267,7 @@ ca:
   label_more: "Més"
   label_more_than_ago: "fa més dies"
   label_move_work_package: "Moure el paquet de treball"
-  label_my_account: "El meu compte"
+  label_my_account: "Account settings"
   label_my_activity: "La meva activitat"
   label_my_account_data: "Dades del meu compte"
   label_my_avatar: "El meu avatar"
@@ -2253,6 +2294,7 @@ ca:
   label_no_parent_page: "Sense pàgina pare"
   label_nothing_display: "Res a mostrar"
   label_nobody: "ningú"
+  label_not_configured: "Not configured"
   label_not_found: "no trobat"
   label_none: "cap"
   label_none_parentheses: "(cap)"
@@ -2874,6 +2916,7 @@ ca:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Visualitzar el temps invertit"
   permission_view_timelines: "Veure els terminis"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Visualitza l'historial de la wiki"
   permission_view_wiki_pages: "Visualitzar la wiki"
   permission_work_package_assigned: "Esdevé assignat/responsable"
@@ -3129,8 +3172,6 @@ ca:
   setting_work_package_done_ratio_status: "Status-based"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
     In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Propietats de paquet de treball"
@@ -3151,6 +3192,13 @@ ca:
   setting_password_min_length: "Longitud mínima"
   setting_password_min_adhered_rules: "Nombre mínim de classes exigides"
   setting_per_page_options: "Opcions d'objectes per pàgina"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Només text pla (no HTML)"
   setting_protocol: "Protocol"
   setting_project_gantt_query: "Cartera de projecte en diagrama Gantt"
@@ -3175,6 +3223,13 @@ ca:
   setting_sys_api_enabled: "Activar el servei web de gestió del repositori"
   setting_sys_api_description: "La gestió del repositori per servei web proporciona integració i autorització d'usuaris per l'accés a repositoris."
   setting_time_format: "Hora"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Activar el mode d'accessibilitat per a usuaris anònims"
   setting_user_format: "Format de nom d'usuari"
   setting_user_default_timezone: "Zona horària per defecte de l'usuari"
@@ -3516,7 +3571,6 @@ ca:
       label_note: "Note:"
       modal:
         work_based_help_text: "Each field is automatically calculated from the two others when possible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
       derivation_hints:

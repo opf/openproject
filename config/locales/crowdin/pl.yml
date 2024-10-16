@@ -31,21 +31,17 @@ pl:
     custom_styles:
       color_theme: "Kolor motywu"
       color_theme_custom: "(Niestandardowe)"
+      tab_interface: "Interfejs"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "Style eksportu PDF"
       colors:
         primary-button-color: "Przycisk główny"
         accent-color: "Akcent"
         header-bg-color: "Tło nagłówka"
         header-item-bg-hover-color: "Tło nagłowka po najechaniu myszą"
-        header-item-font-color: "Czcionka nagłówka"
-        header-item-font-hover-color: "Czcionka nagłówka po najechaniu myszą"
-        header-border-bottom-color: "Obramowanie nagłówka"
         main-menu-bg-color: "Tło menu głównego"
         main-menu-bg-selected-background: "Menu główne po wybraniu"
         main-menu-bg-hover-background: "Menu główne po najechaniu myszą"
-        main-menu-font-color: "Czcionka menu głównego"
-        main-menu-selected-font-color: "Czcionka menu głównego po wybraniu"
-        main-menu-hover-font-color: "Czcionka menu głównego po najechaniu myszą"
-        main-menu-border-color: "Obramowanie menu głównego"
       custom_colors: "Kolory użytkownika"
       customize: "Dostosuj swoją instalację OpenProject do własnego logo i kolorów."
       enterprise_notice: "Jako specjalne podziękowania za ich wkład finansowy, który umożliwia rozwijanie OpenProject, ten mały dodatek jest dostępny tylko dla subskrybentów wersji Enterprise."
@@ -79,6 +75,7 @@ pl:
         contact: "Skontaktuj się z nami, aby uzyskać demo"
       enterprise_info_html: "jest dodatkiem wersji Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
       upgrade_info: "Aby ją aktywować i zacząć korzystać z niej w zespole, przejdź na plan płatny."
+    jemalloc_allocator: Alokator pamięci Jemalloc
     journal_aggregation:
       explanation:
         text: "Indywidualne działania użytkownika (np. dwukrotna aktualizacja pakietu roboczego) są agregowane w jedno działanie, jeśli różnica czasowa między nimi jest mniejsza niż określony przedział czasowy. Będą one wyświetlane jako jedno działanie w aplikacji. Spowoduje to również opóźnienie powiadomień o tę samą ilość czasu, zmniejszając liczbę wysyłanych wiadomości e-mail i wpłynie też na opóźnienie %{webhook_link}."
@@ -202,8 +199,18 @@ pl:
     admin:
       custom_field_projects:
         is_for_all_blank_slate:
-          heading: For all projects
-          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: Dla wszystkich projektów
+          description: To pole niestandardowe jest włączone we wszystkich projektach, ponieważ jest zaznaczona opcja „Dla wszystkich projektów”. Nie można go wyłączyć dla poszczególnych projektów.
+      items:
+        blankslate:
+          title: "Twoja lista elementów jest pusta"
+          description: "Zacznij od dodawania elementów do pola niestandardowego typu hierarchii. Każdy element może być użyty do tworzenia hierarchii poniżej niego. Aby nawigować i tworzyć podelementy wewnątrz hierarchii, kliknij utworzony element."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
+      notice:
+        remember_items_and_projects: "Pamiętaj, aby ustawić elementy i projekty w odpowiednich zakładkach dla tego pola niestandardowego."
     text_add_new_custom_field: >
       Aby dodać do projektu nowe pola niestandardowe, najpierw należy je utworzyć.
     is_enabled_globally: "Jest włączony globalnie"
@@ -216,6 +223,7 @@ pl:
       is_required: "Oznacz pole niestandardowe jako wymagane. To spowoduje obowiązkowe wypełnianie pola podczas tworzenia nowych lub aktualizacji istniejących zasobów."
       is_required_for_project: "Zaznacz, aby włączyć ten atrybut i uczynić go wymaganym we wszystkich projektach. Nie można go wyłączyć dla poszczególnych projektów."
       is_for_all: "Zaznacz pole niestandardowe jako dostępne we wszystkich istniejących i nowych projektach."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "Uwzględnij wartości pól podczas korzystania z funkcji wyszukiwania globalnego."
       searchable_for_project: "Zaznacz, aby ten atrybut był dostępny jako filtr na listach projektów."
       editable: "Zezwól na edycję pola przez samych użytkowników."
@@ -227,6 +235,14 @@ pl:
       no_results_content_text: Utwórz pole użytkownika
   concatenation:
     single: "lub"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "Wyszukaj w %{app_title}"
     overwritten_tabs:
@@ -478,17 +494,23 @@ pl:
       no_results_content_text: Dodaj status zgłoszenia
   statuses:
     edit:
+      status_color_text: |
+        Kliknij, aby przypisać lub zmienić kolor tego stanu.
+        Jest on wyświetlany w przycisku stanu i można go używać do wyróżniania pakietów roboczych w tabeli.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
+      status_excluded_from_totals_text: |-
+        Zaznacz tę opcję, aby wykluczyć pakiety robocze o tym statusie z sum atrybutów Praca,
+        Pozostała praca i % ukończenia w hierarchii.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Zaznacz tę opcję, aby oznaczyć pakiety robocze o tym stanie jako tylko do odczytu.
         Nie można zmienić żadnych atrybutów z wyjątkiem stanu.
         <br/>
         <strong>Uwaga</strong>: wartości dziedziczone (np. po elementach podrzędnych lub relacjach) będą nadal stosowane.
-      status_excluded_from_totals_text: |-
-        Zaznacz tę opcję, aby wykluczyć pakiety robocze o tym statusie z sum atrybutów Praca,
-        Pozostała praca i % ukończenia w hierarchii.
-      status_color_text: |
-        Kliknij, aby przypisać lub zmienić kolor tego stanu.
-        Jest on wyświetlany w przycisku stanu i można go używać do wyróżniania pakietów roboczych w tabeli.
     index:
       no_results_title_text: Nie ma aktualnie żadnych statusów Zestawu zadań.
       no_results_content_text: Dodaj nowy status
@@ -633,6 +655,7 @@ pl:
         editable: "Edytowalne"
         field_format: "Format"
         is_filter: "Używany jako filtr"
+        is_for_all: "Dla wszystkich projektów"
         is_required: "Wymagane"
         max_length: "Maksymalna długość"
         min_length: "Minimalna długość"
@@ -647,8 +670,8 @@ pl:
         uid: "Numer klienta"
         secret: "Hasło klienta"
         owner: "Właściciel"
-        builtin: "Builtin"
-        enabled: "Active"
+        builtin: "Wbudowany"
+        enabled: "Aktywny"
         redirect_uri: "Identyfikator URI przekerowania"
         client_credentials_user_id: "Identyfikator użytkownika poświadczeń klienta"
         scopes: "Zakresy"
@@ -820,7 +843,7 @@ pl:
         blank: "nie może być puste."
         blank_nested: "musi mieć ustawioną właściwość '%{property}'."
         cannot_delete_mapping: "jest wymagane. Nie można usunąć."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Zestaw zadań nie może być powiązany z jego podzadaniami."
         circular_dependency: "Ta relacja może wytworzyć zależność cykliczną."
         confirmation: "nie pasuje do %{attribute}."
@@ -897,7 +920,7 @@ pl:
         custom_fields_project:
           attributes:
             project_ids:
-              blank: "Please select a project."
+              blank: "Wybierz projekt."
         custom_actions:
           only_one_allowed: "(%{name}) – dozwolona jest tylko jedna wartość."
           empty: "(%{name}) – wartość nie może być pusta."
@@ -928,6 +951,8 @@ pl:
             name:
               blank: "jest obowiązkowy. Wybierz nazwę."
               not_unique: "jest już w użyciu. Wybierz inną nazwę."
+        meeting:
+          error_conflict: "Nie można zapisać, ponieważ w tym czasie spotkanie zostało zaktualizowane przez inną osobę. Odśwież stronę."
         notifications:
           at_least_one_channel: "Należy określić co najmniej jeden kanał dla wysyłania powiadomień."
           attributes:
@@ -1387,6 +1412,7 @@ pl:
   button_expand_all: "Rozwiń wszystkie"
   button_favorite: "Dodaj do ulubionych"
   button_filter: "Filtr"
+  button_finish_setup: "Zakończ konfigurację"
   button_generate: "Utwórz"
   button_list: "Lista"
   button_lock: "Blokada"
@@ -1439,8 +1465,8 @@ pl:
     failure_message: Zgoda nie powiodła się, nie można kontynuować.
     title: Zgoda użytkownika
     decline_warning_message: Odrzuciłeś zgodę i wylogowano Cię.
-    user_has_consented: Użytkownik wyraził zgodę na twoje skonfigurowane oświadczenie w określonym czasie.
-    not_yet_consented: Użytkownik nie wyraził zgody, zostanie o to poproszony przy następnym logowaniu.
+    user_has_consented: Użytkownik wyraził zgodę na Twój [skonfigurowany tekst informacji o zgodzie](consent_settings).
+    not_yet_consented: Użytkownik nie wyraził jeszcze zgody na Twój [skonfigurowany tekst informacji o zgodzie](consent_settings). Otrzyma przypomnienie podczas kolejnego logowania.
     contact_mail_instructions: Zdefiniuj adres e-mail, na który użytkownicy mogą skontaktować się z administratorem danych w celu wykonania żądań zmiany lub usunięcia danych.
     contact_your_administrator: Jeśli chcesz usunąć swoje konto, skontaktuj się z administratorem.
     contact_this_mail_address: Jeśli chcesz usunąć swoje konto, skontaktuj się z %{mail_address}.
@@ -1709,7 +1735,7 @@ pl:
   error_menu_item_not_saved: Nie można zapisać elementu menu
   error_wiki_root_menu_item_conflict: >
     Nie można zmienić nazwy "%{old_name}" na "%{new_name}", ze względu na konflikt w istniejącym elemencie menu "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Podczas uwierzytelniania zewnętrznego wystąpił błąd. Spróbuj ponownie."
+  error_external_authentication_failed_message: "Podczas uwierzytelniania zewnętrznego wystąpił błąd: %{message}"
   error_attribute_not_highlightable: "Atrybuty, których nie można wyróżnić: %{attributes}"
   events:
     changeset: "Komentarze edytowane"
@@ -1864,11 +1890,15 @@ pl:
       progress_mode_changed_to_status_based: "Zaktualizowano obliczenie postępu"
       status_changed: "Status „%{status_name}”"
       system_update: "Aktualizacja systemu OpenProjekt:"
+      work_package_duplicate_closed: "Duplicate work package updated:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Obliczanie % Ukończenia jest teraz ważone parametrem Praca."
+      total_percent_complete_mode_changed_to_simple_average: "Obliczanie % Ukończenia opiera się teraz na średniej arytmetycznej % Ukończenia."
     cause_descriptions:
       work_package_predecessor_changed_times: przez zmiany poprzednika %{link}
       work_package_parent_changed_times: przez zmiany elementu nadrzędnego %{link}
       work_package_children_changed_times: przez zmiany elementu podrzędnego %{link}
       work_package_related_changed_times: przez zmiany powiązanego %{link}
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: poprzez zmiany powiązanego pakietu roboczego
       working_days_changed:
         changed: "przez zmiany dni roboczych (%{changes})"
@@ -1881,7 +1911,7 @@ pl:
       progress_mode_changed_to_status_based: Tryb obliczania postępu ustawiono na oparty na statusie
       status_excluded_from_totals_set_to_false_message: teraz uwzględniono w sumach hierarchii
       status_excluded_from_totals_set_to_true_message: teraz wyłączono z sum hierarchii
-      status_percent_complete_changed: "% ukończenia zmienił się z %{old_value}% na %{new_value}%"
+      status_percent_complete_changed: "% Ukończenia zmienił się z %{old_value}% na %{new_value}%"
       system_update:
         file_links_journal: >
           Od teraz aktywność związana z linkami do plików (plików przechowywanych w magazynach zewnętrznych) będzie wyświetlana na karcie Aktywność. Poniżej przedstawiono aktywność dotyczącą linków, które już istniały:
@@ -1891,6 +1921,10 @@ pl:
           Obliczanie postępu jest automatycznie <a href="%{href}" target="_blank">dostosowywane wraz z aktualizacją wersji</a>.
         totals_removed_from_childless_work_packages: >-
           Sumy pracy i postępu są automatycznie usuwane dla pakietów pracy innych niż nadrzędne wraz z <a href="%{href}" target="_blank">aktualizacją wersji</a>. Jest to zadanie konserwacyjne i można je bezpiecznie zignorować.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Podrzędne pakiety robocze bez parametru Praca są ignorowane.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Wartości parametru Praca podrzędnych pakietów roboczych są ignorowane.
   links:
     configuration_guide: "Przewodnik po konfiguracji"
     get_in_touch: "Masz pytania? Skontaktuj się z nami."
@@ -1990,7 +2024,8 @@ pl:
   label_additional_workflow_transitions_for_assignee: "Dodatkowe przejścia dozwolone, gdy użytkownik jest cesjonariuszem"
   label_additional_workflow_transitions_for_author: "Dodatkowe przejścia dozwolone, gdy użytkownik jest autorem"
   label_administration: "Administracja"
-  label_advanced_settings: "Zaawansowane ustawienia"
+  label_interface_colors: "Kolory interfejsu"
+  label_interface_colors_description: "Te kolory definiują wygląd aplikacji. Jeśli je zmodyfikujesz, motyw zostanie automatycznie zmieniony na niestandardowy, ale nie możemy zapewnić zgodności z minimalnymi wymaganiami w kwestii kontrastu (WCAG 2)."
   label_age: "Wiek"
   label_ago: "dni temu"
   label_all: "wszystkie"
@@ -2023,7 +2058,7 @@ pl:
   label_attribute_expand_text: "Pełny tekst atrybutu „%{attribute}”"
   label_authentication: "Uwierzytelnianie"
   label_authentication_settings: "Ustawienia uwierzytelniania"
-  label_available_custom_fields_projects: "Available custom fields projects"
+  label_available_custom_fields_projects: "Dostępne niestandardowe projekty pól"
   label_available_global_roles: "Dostępne role globalne"
   label_available_project_attributes: "Dostępne atrybuty projektu"
   label_available_project_forums: "Dostępne fora"
@@ -2053,6 +2088,7 @@ pl:
   label_calendars_and_dates: "Kalendarze i daty"
   label_calendar_show: "Pokaż kalendarz"
   label_category: "Kategoria"
+  label_completed: Ukończono
   label_consent_settings: "Zgoda użytkownika"
   label_wiki_menu_item: Element menu Wiki
   label_select_main_menu_item: Wybierz nową pozycję menu głównego
@@ -2096,7 +2132,7 @@ pl:
   label_copy_project: "Kopiuj projekt"
   label_core_version: "Wersja bazowa"
   label_core_build: "Kompilacja bazowa"
-  label_created_by: "Created by %{user}"
+  label_created_by: "Autor: %{user}"
   label_current_status: "Aktualny stan"
   label_current_version: "Aktualna wersja"
   label_custom_field_add_no_type: "Dodaj to pole do typu zadania"
@@ -2104,6 +2140,7 @@ pl:
   label_custom_field_plural: "Pola niestandardowe"
   label_custom_field_default_type: "Typ pusty"
   label_custom_style: "Kompozycja"
+  label_custom_style_description: "Skonfiguruj wygląd OpenProject za pomocą motywów, wybierz domyślne kolory do wykorzystania w aplikacji i zaprojektuj wygląd eksportu produktów."
   label_dashboard: "Pulpit nawigacyjny"
   label_database_version: "Wersja PostgreSQL"
   label_date: "Data"
@@ -2200,6 +2237,7 @@ pl:
   label_here: tutaj
   label_hide: "Ukryj"
   label_history: "Historia"
+  label_hierarchy: "Hierarchia"
   label_hierarchy_leaf: "Liść hierarchii"
   label_home: "Strona główna"
   label_subject_or_id: "Temat lub identyfikator"
@@ -2211,6 +2249,7 @@ pl:
   label_inactive: "Nieaktywny"
   label_incoming_emails: "Przychodzące e-maile"
   label_includes: "obejmuje"
+  label_incomplete: Nie ukończono
   label_include_sub_projects: Uwzględnij podprojekty
   label_index_by_date: "Indeks wg daty"
   label_index_by_title: "Indeks tytułów"
@@ -2221,12 +2260,14 @@ pl:
   label_internal: "Wewnętrzne"
   label_introduction_video: "Film wprowadzający"
   label_invite_user: "Zaproś użytkownika"
+  label_item: "Element"
+  label_item_plural: "Elementy"
   label_share: "Udostępnij"
   label_share_project_list: "Udostępnij listę projektów"
   label_share_work_package: "Udostępnij pakiet roboczy"
-  label_show_hide: "Pokaż/Ukryj"
-  label_show_hide_n_items: "Pokaż/ukryj elementy (%{count})"
   label_show_all_registered_users: "Pokaż wszystkich zarejestrowanych użytkowników"
+  label_show_less: "Pokaż mniej"
+  label_show_more: "Pokaż więcej"
   label_journal: "Dziennik"
   label_journal_diff: "Opis porównania"
   label_language: "Język"
@@ -2297,7 +2338,7 @@ pl:
   label_more: "Więcej"
   label_more_than_ago: "Więcej niż dni temu"
   label_move_work_package: "Przenieś pakiet roboczy"
-  label_my_account: "Moje konto"
+  label_my_account: "Ustawienia konta"
   label_my_activity: "Moja aktywność"
   label_my_account_data: "Moje dane konta"
   label_my_avatar: "Mój awatar"
@@ -2324,6 +2365,7 @@ pl:
   label_no_parent_page: "Bez strony nadrzędnej"
   label_nothing_display: "Brak danych do pokazania"
   label_nobody: "nikt"
+  label_not_configured: "Nie skonfigurowano"
   label_not_found: "nie znaleziono"
   label_none: "Brak"
   label_none_parentheses: "(brak)"
@@ -2376,7 +2418,7 @@ pl:
   label_product_version: "Wersja produktu"
   label_profile: "Profil"
   label_percent_complete: "% ukończenia"
-  label_progress_tracking: "Progress tracking"
+  label_progress_tracking: "Śledzenie postępów"
   label_project: "Projekt"
   label_project_activity: "Aktywność projektu"
   label_project_attribute_plural: "Cechy projektu"
@@ -2953,6 +2995,7 @@ pl:
   permission_view_shared_work_packages: "Wyświetl udostępnienia pakietu roboczego"
   permission_view_time_entries: "Widok czasu pracy"
   permission_view_timelines: "Widok osi czasu"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "WIdok historii wiki"
   permission_view_wiki_pages: "Widok wiki"
   permission_work_package_assigned: "Zostań osobą przypisaną/odpowiedzialną"
@@ -3201,15 +3244,13 @@ pl:
   setting_hours_per_day_explanation: >-
     To definiuje, co jest uważane za „dzień” podczas wyświetlania czasu trwania w dniach i godzinach (na przykład, jeśli dzień ma 8 godzin, 32 godziny będą 4 dniami).
   setting_invitation_expiration_days: "Ważność aktywacyjnej waidomości e-mail wygasa po"
-  setting_work_package_done_ratio: "Progress calculation mode"
+  setting_work_package_done_ratio: "Tryb obliczania postępów"
   setting_work_package_done_ratio_field: "Oparte na pracy"
   setting_work_package_done_ratio_field_caption_html: >-
-    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
+    <i>% Ukończenia</i> można ustawić na dowolną wartość. Jeśli opcjonalnie wprowadzisz wartość dla parametru <i>Praca</i>, automatycznie zostanie wyprowadzona wartość dla parametru <i>Pozostała praca</i>.
   setting_work_package_done_ratio_status: "Oparte na statusie"
   setting_work_package_done_ratio_status_caption_html: >-
-    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    W trybie <b>opartym na pracy</b> % ukończenia jest obliczany na podstawie ilości wykonanej pracy w stosunku do pracy całkowitej. W trybie <b>opartym na statusie</b> każdy status ma powiązaną wartość % ukończenia. Zmiana statusu spowoduje zmianę % ukończenia.
+    Każdy status ma powiązaną wartość parametru <i>% Ukończenia</i>. Zmiana statusu zmieni <i>% Ukończenia</i>.
   setting_work_package_done_ratio_explanation_html: >
     W trybie <b>opartym na pracy</b> % ukończenia można swobodnie ustawić na dowolną wartość. Jeśli opcjonalnie wprowadzisz wartość Praca, Pozostała praca zostanie wyprowadzona automatycznie. W trybie <b>opartym na statusie</b> każdy status ma powiązaną wartość % ukończenia. Zmiana statusu spowoduje zmianę wartości % ukończenia.
   setting_work_package_properties: "Właściwości pakietu roboczego"
@@ -3230,6 +3271,13 @@ pl:
   setting_password_min_length: "Minimalna długość"
   setting_password_min_adhered_rules: "Minimalna liczba wymaganych klas"
   setting_per_page_options: "Obiektów na stronie"
+  setting_percent_complete_on_status_closed: "% Ukończenia, gdy status jest zamknięty"
+  setting_percent_complete_on_status_closed_no_change: "Bez zmian"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    Wartość <i>% Ukończenia</i> nie zmieni się nawet, gdy pakiet roboczy jest zamknięty.
+  setting_percent_complete_on_status_closed_set_100p: "Automatycznie ustaw na 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    Zamknięty pakiet roboczy jest uważany za ukończony.
   setting_plain_text_mail: "Poczta czystym tekstem (bez HTML)"
   setting_protocol: "Protokół"
   setting_project_gantt_query: "Widok wykresu Gantta portfolio projektu"
@@ -3254,6 +3302,13 @@ pl:
   setting_sys_api_enabled: "Uaktywnij zarządzanie repozytoriami przez www"
   setting_sys_api_description: "Zarządzanie repozytoriami przez www umożliwia integrację i autoryzację użytkowników do dostępu do repozytoriów."
   setting_time_format: "Czas"
+  setting_total_percent_complete_mode: "Obliczenie % Ukończenia pełnej hierarchii"
+  setting_total_percent_complete_mode_work_weighted_average: "Ważone według pracy"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    Całkowity <i>% Ukończenia</i> będzie ważony względem parametru <i>Praca</i> każdego pakietu roboczego w hierarchii. Zadania bez parametru <i>Praca</i> zostaną zignorowane.
+  setting_total_percent_complete_mode_simple_average: "Średnia arytmetyczna"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    Parametr <i>Praca</i> jest ignorowany, a całkowita wartość <i>% Ukończenia</i> będzie średnią arytmetyczną <i>% Ukończenia</i> wartości pakietów roboczych w hierarchii.
   setting_accessibility_mode_for_anonymous: "Włącz tryb dostępu dla użytkowników anonimowych"
   setting_user_format: "Format nazw użytkowników"
   setting_user_default_timezone: "Domyślna strefa czasowa użytkowników"
@@ -3597,7 +3652,6 @@ pl:
       label_note: "Uwaga:"
       modal:
         work_based_help_text: "Każde pole jest automatycznie obliczane na podstawie dwóch innych, jeśli to możliwe."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% ukończenia jest automatycznie wyprowadzany z wartości Praca i Pozostała praca."
         status_based_help_text: "% ukończenia jest ustawiany na podstawie statusu pakietu roboczego."
         migration_warning_text: "W trybie obliczania postępu na podstawie pracy wartości % ukończenia nie można ustawić ręcznie i jest ona powiązana z wartością Praca. Istniejąca wartość została zachowana, ale nie można jej edytować. Najpierw wprowadź wartość Praca."
       derivation_hints:
@@ -3806,16 +3860,16 @@ pl:
     close_warning: "Zignoruj to ostrzeżenie."
   oauth:
     application:
-      builtin: Built-in instance application
-      confidential: Confidential
+      builtin: Wbudowana aplikacja
+      confidential: Poufne
       singular: "Aplikacje OAuth"
       plural: "Aplikacje OAuth"
       named: "Aplikacja OAuth „%{name}”"
       new: "Nowa aplikacja OAuth"
-      non_confidential: Non confidential
+      non_confidential: Niepoufne
       default_scopes: "(Zakresy domyślne)"
       instructions:
-        enabled: "Enable this application, allowing users to perform authorization grants with it."
+        enabled: "Włącz tę aplikację, aby pozwolić użytkownikom na przeprowadzanie autoryzacji z jej pomocą."
         name: "Nazwa aplikacji. Będzie wyświetlana innym użytkownikom po autoryzacji."
         redirect_uri_html: >
           Dozwolone adresy URL, do których mogą być przekierowywani autoryzowani użytkownicy. Jeden wpis w każdym wierszu. <br/> Jeśli rejestrujesz aplikację komputerową, użyj następującego adresu URL.
@@ -3825,9 +3879,9 @@ pl:
         register_intro: "Jeśli tworzysz aplikację kliencką interfejsu API OAuth do OpenProject, możesz zarejestrować ją za pomocą tego formularza do użytku wszystkich użytkowników."
         default_scopes: ""
     header:
-      builtin_applications: Built-in OAuth applications
-      other_applications: Other OAuth applications
-    empty_application_lists: No OAuth applications have been registered.
+      builtin_applications: Wbudowane aplikacje OAuth
+      other_applications: Inne aplikacje OAuth
+    empty_application_lists: Nie zarejestrowano żadnych aplikacji OAuth.
     client_id: "Numer klienta"
     client_secret_notice: >
       Jest to jedyny moment, w którym możemy wydrukować tajne hasło klienta, zanotuj je i przechowuj w bezpiecznym miejscu. Należy je traktować jak hasło i nie można go później odzyskać przez OpenProject.

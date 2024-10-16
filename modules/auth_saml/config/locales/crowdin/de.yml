@@ -1,0 +1,155 @@
+de:
+  activemodel:
+    attributes:
+      saml/provider:
+        display_name: Name
+        identifier: Kennung
+        secret: Geheim
+        scope: Geltungsbereich
+        assertion_consumer_service_url: ACS (Assertion Consumer Service) URL
+        limit_self_registration: Selbstregistrierung begrenzen
+        sp_entity_id: Entity-ID des Services
+        metadata_url: Metadaten-URL des Identitätsanbieters
+        name_identifier_format: Format der Namenskennung
+        idp_sso_service_url: Endpunkt für die Anmeldung beim Identitätsanbieter
+        idp_slo_service_url: Endpunkt für die Abmeldung beim Identitätsanbieter
+        idp_cert: Öffentliches Zertifikat des Identitätsanbieters
+        authn_requests_signed: SAML AuthnRequests signieren
+        want_assertions_signed: Signierte Antworten erfordern
+        want_assertions_encrypted: Verschlüsselte Antworten erfordern
+        certificate: Von OpenProject verwendetes Zertifikat für SAML-Anfragen
+        private_key: Zugehöriger privater Schlüssel für OpenProject SAML-Anfragen
+        signature_method: Signatur-Algorithmus
+        digest_method: Digest-Algorithmus
+        format: "Format"
+        icon: "Benutzerdefiniertes Symbol"
+  activerecord:
+    errors:
+      models:
+        saml/provider:
+          invalid_certificate: "ist kein gültiges PEM-formatiertes Zertifikat: %{additional_message}"
+          invalid_private_key: "ist kein gültiger PEM-formatierter privater Schlüssel: %{additional_message}"
+          certificate_expired: "ist abgelaufen und kann nicht mehr verwendet werden."
+          unmatched_private_key: "gehört nicht zum angegebenen Zertifikat"
+  saml:
+    menu_title: SAML-Anbieter
+    info:
+      title: "Konfigurationsparameter für das SAML-Protokoll"
+      description: >
+        Verwenden Sie diese Parameter, um Ihre Identitätsanbieter-Verbindung zu OpenProject zu konfigurieren.
+    metadata_parser:
+      success: "Die Konfiguration wurde unter Verwendung der Metadaten des Identitätsanbieters erfolgreich aktualisiert."
+      invalid_url: "Die angegebene Metadaten-URL ist ungültig. Geben Sie eine HTTP(s)-URL an."
+      error: "Abrufen der Metadaten des Identitätsanbieters fehlgeschlagen: %{error}"
+    providers:
+      label_empty_title: "Noch keine SAML-Anbieter konfiguriert."
+      label_empty_description: "Fügen Sie einen Anbieter hinzu, um sie hier zu sehen."
+      label_automatic_configuration: Automatische Konfiguration
+      label_metadata: Metadaten
+      label_metadata_endpoint: Endpunkt für OpenProject-Metadaten
+      label_openproject_information: OpenProject-Informationen
+      label_configuration_details: "Identitätsanbieter-Endpunkte und -Zertifikate"
+      label_configuration_encryption: "Signaturen und Verschlüsselung"
+      label_add_new: Neuer SAML-Identitätsanbieter
+      label_edit: SAML-Identitätsanbieter %{name} bearbeiten
+      label_uid: Interne Benutzerkennung
+      label_mapping: Zuordnung
+      label_mapping_for: "Zuordnung für: %{attribute}"
+      label_requested_attribute_for: "Angefordertes Attribut für: %{attribute}"
+      no_results_table: Es wurden noch keine SAML-Identitätsanbieter definiert.
+      plural: SAML-Identitätsanbieter
+      singular: SAML-Identitätsanbieter
+      requested_attributes: Angeforderte Attribute
+      attribute_mapping: Attributzuordnung
+      attribute_mapping_text: >
+        Die folgenden Felder steuern, welche vom SAML-Identitätsanbieter bereitgestellten Attribute verwendet werden, um Benutzerattribute in OpenProject bereitzustellen
+      metadata:
+        dialog: "Dies ist die URL, unter der die OpenProject SAML-Metadaten verfügbar sind. Sie können sie auch verwenden, um Ihren Identitätsanbieter zu konfigurieren:"
+      upsale:
+        description: OpenProject mit einem SAML-Identitätsanbieter verbinden
+      request_attributes:
+        title: 'Angeforderte Attribute'
+        legend: >
+          Diese Attribute werden zu den SAML-XML-Metadaten hinzugefügt, um dem Identitätsanbieter zu signalisieren, welche Attribute OpenProject benötigt. Möglicherweise müssen Sie Ihren Identitätsanbieter noch explizit so konfigurieren, dass er diese Attribute sendet. Bitte lesen Sie dazu die Dokumentation Ihres Anbieters.
+        name: 'Angeforderter Attributschlüssel'
+        format: 'Attributformat'
+      section_headers:
+        configuration: "Primäre Konfiguration"
+        attributes: "Attribute"
+      section_texts:
+        display_name: "Konfigurieren Sie den Anzeigenamen des SAML-Anbieters."
+        metadata: "Vorkonfigurieren der SAML-Anbindung mithilfe einer Metadaten-URL oder durch Hochladen von Metadaten-XML"
+        metadata_form: "Wenn Ihr Identitätsanbieter über einen Metadaten-Endpunkt oder einen XML-Download verfügt, fügen Sie ihn unten hinzu, um die Konfiguration daraus zu erzeugen."
+        metadata_form_banner: "Die Bearbeitung der Metadaten kann bestehende Werte in anderen Abschnitten überschreiben."
+        configuration: "Konfigurieren Sie die URLs für den Identitätsanbieter, dessen Zertifikate sowie weitere SAML-Optionen."
+        configuration_metadata: "Diese Informationen wurden bereits mit den mitgelieferten Metadaten ausgefüllt. In den meisten Fällen müssen sie nicht bearbeitet werden."
+        encryption: "Konfigurieren Sie Signaturen der SAML-Assertions sowie Verschlüsselung für SAML-Anfragen und -Antworten."
+        encryption_form: "Optional können Sie die Antworten des Identitätsproviders verschlüsseln oder Anfragen von OpenProject signieren lassen."
+        mapping: "Passen Sie die Zuordnung von Benutzerattributen zwischen der SAML-Antwort und OpenProject manuell an."
+        requested_attributes: "Definieren Sie die Attribute, die in der an Ihren Identitätsanbieter gesendeten SAML-Anfrage angefordert werden sollen."
+      seeded_from_env: "Dieser Anbieter wurde über Umgebungsvariablen konfiguriert. Er kann nicht in der Oberfläche bearbeitet werden."
+    settings:
+      metadata_none: "Ich habe keine Metadaten"
+      metadata_url: "Metadaten-URL"
+      metadata_xml: "Metadaten-XML"
+    instructions:
+      documentation_link: >
+        Weitere Informationen zu diesen Optionen finden Sie in unserer [Dokumentation zur Konfiguration von SAML](docs_url).
+      display_name: >
+        Der Name des Anbieters. Dieser wird in der Login-Schaltfläche und in der Liste der Anbieter angezeigt.
+      metadata_none: >
+        Ihr Identitätsanbieter verfügt nicht über einen Metadaten-Endpunkt oder eine XML-Download-Option. Sie können die Konfiguration händisch fortsetzen.
+      metadata_url: >
+        Ihr Identitätsanbieter stellt eine Metadaten-URL zur Verfügung.
+      metadata_xml: >
+        Ihr Identitätsanbieter bietet einen XML-Download für Metadaten an.
+      limit_self_registration: >
+        Wenn aktiviert, können sich Benutzer nur dann mit diesem Anbieter registrieren, wenn die Einstellung zur Selbstregistrierung dies zulässt.
+      sp_entity_id: >
+        Die Entity-ID des Services Providers (SP). Wird manchmal auch als Audience bezeichnet. Dies ist der eindeutige Client-Identifier der OpenProject-Instanz.
+      idp_sso_service_url: >
+        Die URL des Endpunkts für die Anmeldung beim Identitätsanbieter.
+      idp_slo_service_url: >
+        Die URL des Endpunkts für die Anmeldung beim Identitätsanbieter.
+      idp_cert: >
+        Geben Sie das öffentliche X509 PEM formatierte Zertifikat des Identitätsanbieters ein. Sie können mehrere Zertifikate eingeben, indem Sie sie durch einen Zeilenumbruch trennen.
+      name_identifier_format: >
+        Legen Sie das Format des Namensbezeichners (Name identifier) fest, der für die SAML-Assertion verwendet werden soll.
+      sp_metadata_endpoint: >
+        Dies ist die URL, unter der die OpenProject SAML-Metadaten verfügbar sind. Sie können sie auch verwenden, um Ihren Identitätsanbieter zu konfigurieren.
+      mapping: >
+        Konfigurieren Sie die Zuordnung der Benutzerattribute zwischen der SAML-Antwort und OpenProject. Sie können mehrere Attributnamen konfigurieren, nach denen gesucht werden soll. OpenProject wird das erste verfügbare Attribut aus der SAML-Antwort auswählen.
+      mapping_login: >
+        Als Login des Nutzers genutztes Attribut der SAML-Response.
+      mapping_mail: >
+        Als E-Mail-Adresse des Nutzers genutztes Attribut der SAML-Response.
+      mapping_firstname: >
+        Als Vorname des Nutzers genutztes Attribut der SAML-Response.
+      mapping_lastname: >
+        Als Nachname des Nutzers genutztes Attribut der SAML-Response.
+      mapping_uid: >
+        Name des Attributs in der SAML-Antwort, das für die interne Benutzer-ID verwendet werden soll. Leer lassen, um stattdessen das Attribut des Namensbezeichners (Name identifier) zu verwenden
+      request_uid: >
+        Attribut aus der SAML-Antwort, das für die interne Benutzer-ID abgefragt wird. Standardmäßig wird der Namensbezeichner (Name identifier) für dieses Feld verwendet.
+      requested_attributes: >
+        Diese Attribute werden der SAML-Anfrage-XML hinzugefügt, um dem Identitätsanbieter mitzuteilen, welche Attribute OpenProject benötigt.
+      requested_format: >
+        Das Format des angeforderten Attributs. Damit wird das Format des Attributs in der SAML-Anfrage angegeben. Weitere Informationen finden Sie in der [Dokumentation zur Konfiguration von angeforderten Attributen](docs_url).
+      authn_requests_signed: >
+        Wenn diese Option aktiviert ist, signiert OpenProject den SAML AuthnRequest. Sie müssen ein Signierzertifikat und einen privaten Schlüssel in den unten stehenden Feldern angeben.
+      want_assertions_signed: >
+        Wenn diese Option aktiviert ist, verlangt OpenProject signierte Antworten vom Identitätsanbieter unter Verwendung seines eigenen Zertifikat-Schlüsselpaars. OpenProject prüft die Signatur anhand des Zertifikats aus der Konfiguration des Identitätsanbieters.
+      want_assertions_encrypted: >
+        Falls aktiviert, erwartet OpenProject eine verschlüsselte Antwort des Identitätsanbieters mit dem von Ihnen bereitgestellten Zertifikatspaar.
+      certificate: >
+        Geben Sie das X509 PEM formatierte Zertifikat ein, das OpenProject zum Signieren von SAML-Anfragen verwendet.
+      private_key: >
+        Geben Sie den zugehörigen privaten Schlüssel im X509 PEM-Format für das obige Zertifikat ein. Dies muss ein privater RSA-Schlüssel sein.
+      signature_method: >
+        Wählen Sie den Signaturalgorithmus, der für die von OpenProject durchgeführte Signatur der SAML-Anfrage verwendet werden soll (Standard: %{default_option}).
+      digest_method: >
+        Wählen Sie den Algorithmus für den Digest, der für die von OpenProject durchgeführte Signatur der SAML-Anfrage verwendet werden soll (Standard: %{default_option}).
+      icon: >
+        Geben Sie optional eine öffentliche URL zu einer Symbolgrafik an, die neben dem Anbieternamen angezeigt wird.
+      metadata_for_idp: >
+        Diese Informationen werden möglicherweise von Ihrem SAML-Identitätsanbieter angefordert.

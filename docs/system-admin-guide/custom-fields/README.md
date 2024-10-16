@@ -45,18 +45,30 @@ Depending on the module, for which the new custom field is being  created, sligh
 
 > [!IMPORTANT]
 >
-> Custom fields need to be activated per work package type and per project. Work package custom fields are only visible when two conditions are met:
+> Custom fields need to be activated per work package type and added to a project. Work package custom fields are only visible when two conditions are met:
 >
 > 1. Custom field has been added to the work package type (form configuration).
 > 2. Custom field is activated for the project.
 
-1. [Assign a custom field to a work package type](../manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on) (Form configuration). You can do this directly via the link in the custom field overview.
+### Assign a custom field to a work package type (Enterprise add-on)
+
+You can [assign a custom field to a work package type](../manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on) (form configuration) directly via the link in the custom field overview.
 
 ![Add a custom field to a work package type](system-admin-add-field-to-wp-type.png)
 
-2. Activate the custom field for a project in the [project settings](../../user-guide/projects/project-settings/custom-fields/). This is not relevant if the setting **For all projects** has been configured for the custom field.
+### Add a custom field to one or multiple projects
 
-With these additional settings, you have absolute freedom which custom fields are relevant for your projects and types. You can customize only those types that are relevant and create a whole set of custom attributes for your work packages.
+You can activate the custom field for specific projects under the respective [project settings](../../user-guide/projects/project-settings/custom-fields/). 
+
+>[!TIP]
+>This is not relevant if the setting **For all projects** has been configured for the custom field.
+
+You can active a custom field for multiple projects at once by opening the custom field in question and selecting the *Projects* tab. Click the **Add projects** button.
+![Add a custom field to multiple projects at once in OpenProject administration](openproject_system_guide_new_custom_field_add_to_projects.png)
+
+Use the search field to identify the projects and select multiple projects at once. You can also include the sub-projects by checking the respective option. Click the **Add** button to active the custom fields in all of the selected projects.
+
+![](openproject_system_guide_new_custom_field_add_to_projects_search.png)
 
 ## Edit or remove a custom field
 

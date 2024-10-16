@@ -1,0 +1,21 @@
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { render_widget Widget::Controls::QueryName, @query }
+    header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: :normal)
+
+    if show_export_button?
+      header.with_action_button(scheme: :default,
+                                aria: { label: t(:export_to_excel)},
+                                title: t(:export_to_excel),
+                                mobile_icon: "op-file-xls-descriptions",
+                                mobile_label: t(:export_to_excel),
+                                tag: :a,
+                                href: url_for({ controller: "cost_reports" , action: :index, format: 'xls', project_id: @project })
+      ) do |button|
+        button.with_leading_visual_icon(icon: "op-file-xls-descriptions")
+        t(:export_to_excel)
+      end
+      call_hook(:view_cost_report_toolbar)
+    end
+  end
+%>

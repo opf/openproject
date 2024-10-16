@@ -44,7 +44,7 @@ RSpec.describe "Test mail notification", :js, :with_cuprite do
     click_link "Send a test email"
 
     expected = "An error occurred while sending mail (#{error_message})"
-    expect(page).to have_css(".op-toast.-error", text: expected)
+    expect_flash(type: :error, message: expected)
     expect(page).to have_no_css(".op-toast.-error strong")
   end
 end

@@ -31,21 +31,17 @@ el:
     custom_styles:
       color_theme: "Χρωματικό θέμα"
       color_theme_custom: "(Προσαρμοσμένο)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
         accent-color: "Accent"
         header-bg-color: "Φόντο κεφαλίδας"
         header-item-bg-hover-color: "Φόντο κεφαλίδας κατά το πέρασμα του ποντικιού"
-        header-item-font-color: "Γραμματοσειρά κεφαλίδας"
-        header-item-font-hover-color: "Γραμματοσειρά κεφαλίδας κατά το πέρασμα του ποντικιού"
-        header-border-bottom-color: "Περίγραμμα κεφαλίδας"
         main-menu-bg-color: "Φόντο κύριου μενού"
         main-menu-bg-selected-background: "Κύριο μενού όταν είναι επιλεγμένο"
         main-menu-bg-hover-background: "Κύριο μενού κατά το πέρασμα του ποντικιού"
-        main-menu-font-color: "Γραμματοσειρά κύριου μενού"
-        main-menu-selected-font-color: "Γραμματοσειρά κύριου μενού όταν είναι επιλεγμένο"
-        main-menu-hover-font-color: "Γραμματοσειρά κύριου μενού κατά το πέρασμα του ποντικιού"
-        main-menu-border-color: "Περίγραμμα κύριου μενού"
       custom_colors: "Προσαρμοσμένα χρώματα"
       customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
@@ -79,6 +75,7 @@ el:
         contact: "Επικοινωνήστε μαζί μας για μια επίδειξη"
       enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
@@ -203,6 +200,16 @@ el:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Για να προσθέσετε νέα προσαρμοσμένα πεδία σε ένα έργο, πρέπει πρώτα να τα δημιουργήσετε για να τα προσθέσετε σε αυτό το έργο.
     is_enabled_globally: "Είναι ενεργοποιημένο σε όλο το σύστημα"
@@ -215,6 +222,7 @@ el:
       is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
       is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Mark the custom field as available in all existing and new projects."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "Include the field values when using the global search functionality."
       searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Allow the field to be editable by users themselves."
@@ -226,6 +234,14 @@ el:
       no_results_content_text: Δημιουργία νέου προσαρμοσμένου πεδίου
   concatenation:
     single: "ή"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "Search in %{app_title}"
     overwritten_tabs:
@@ -465,17 +481,23 @@ el:
       no_results_content_text: Προσθέστε αναφορά κατάστασης
   statuses:
     edit:
+      status_color_text: |
+        Κάντε κλικ για να αντιστοιχίσετε ή να αλλάξετε το χρώμα αυτής της κατάστασης.
+        Εμφανίζεται στο κουμπί κατάστασης και μπορεί να χρησιμοποιηθεί για την επισήμανση πακέτων εργασίας στον πίνακα.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Επιλέξτε το για να επισημάνετε εργασίες μόνο για ανάγνωση.
         Δεν θα είναι δυνατή η αλλαγή ιδιοτήτων εκτός από την κατάσταση.
         <br/>
         <strong>Σημείωση</strong>: Μεταβιβαζόμενες τιμές (π.χ., από τα παιδιά ή σχέσεις) θα εξακολουθούν να ισχύουν.
-      status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
-      status_color_text: |
-        Κάντε κλικ για να αντιστοιχίσετε ή να αλλάξετε το χρώμα αυτής της κατάστασης.
-        Εμφανίζεται στο κουμπί κατάστασης και μπορεί να χρησιμοποιηθεί για την επισήμανση πακέτων εργασίας στον πίνακα.
     index:
       no_results_title_text: Προς το παρόν δεν υπάρχουν καταστάσεις για το πακέτο εργασίας.
       no_results_content_text: Προσθέσετε μια νέα κατάσταση
@@ -528,7 +550,7 @@ el:
       could_not_be_saved: "Δεν ήταν δυνατή η αποθήκευση των ακόλουθων πακέτων εργασίας:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Δεν υπάρχει διαθέσιμη κατάσταση για όλα τα επιλεγμένα πακέτα εργασίας. Η κατάσταση τους δεν μπορεί να αλλάξει."
@@ -618,6 +640,7 @@ el:
         editable: "Επεξεργάσιμο"
         field_format: "Μορφοποίηση"
         is_filter: "Χρησιμοποιήθηκε ως φίλτρο"
+        is_for_all: "For all projects"
         is_required: "Απαιτείται"
         max_length: "Μέγιστο μήκος"
         min_length: "Ελάχιστο μήκος"
@@ -805,7 +828,7 @@ el:
         blank: "δεν πρέπει να είναι κενό."
         blank_nested: "needs to have the property '%{property}' set."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Ένα πακέτο εργασίας δεν μπορεί να συνδεθεί με μια από τις υποεργασίες του."
         circular_dependency: "Αυτή η σχέση θα δημιουργήσει κυκλική εξάρτηση."
         confirmation: "δεν ταιριάζει με %{attribute}."
@@ -913,6 +936,8 @@ el:
             name:
               blank: "is mandatory. Please select a name."
               not_unique: "is already in use. Please select another name."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "At least one channel for sending notifications needs to be specified."
           attributes:
@@ -1352,6 +1377,7 @@ el:
   button_expand_all: "Ανάπτυξη όλων"
   button_favorite: "Add to favorites"
   button_filter: "Φίλτρο"
+  button_finish_setup: "Finish setup"
   button_generate: "Παραγωγή"
   button_list: "Προβολή λίστας"
   button_lock: "Κλείδωμα"
@@ -1404,8 +1430,8 @@ el:
     failure_message: Η συναίνεση απέτυχε, δεν μπορείτε να προχωρήσετε.
     title: Συναίνεση χρήστη
     decline_warning_message: Έχετε αρνηθεί να συναινέσετε και αποσυνδεθήκατε.
-    user_has_consented: Ο χρήστης έχει συναινέσει στην τροποποιημένη δήλωση στο δοσμένο χρόνο.
-    not_yet_consented: Ο χρήστης δεν έχει συναινέσει ακόμη, θα ζητηθεί στην επόμενη σύνδεση του.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Ορίστε τη διεύθυνση email που θα χρησιμοποιούν οι χρήστες για να επικοινωνήσουν με ένα χειριστή δεδομένων ώστε να εκτελέσουν αλλαγές στα δεδομένα ή να αφαιρέσουν αιτήματα.
     contact_your_administrator: Παρακαλούμε επικοινωνήστε με τον διαχειριστή σας αν θέλετε να διαγραφεί ο λογαριασμός σας.
     contact_this_mail_address: Παρακαλούμε επικοινωνήστε με το %{mail_address} αν θέλετε να διαγραφεί ο λογαριασμός σας.
@@ -1638,7 +1664,7 @@ el:
   error_menu_item_not_saved: Δεν ήταν δυνατή η αποθήκευση του αντικειμένου μενού
   error_wiki_root_menu_item_conflict: >
     Δεν είναι δυνατή η μετονομασία από "%{old_name}" σε "%{new_name}" λόγω μιας σύγκρουσης του αντικειμένου μενού που προκύπτει με ένα υπάρχον αντικείμενο μενού "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Παρουσιάστηκε σφάλμα κατά τη διάρκεια της εξωτερικής ταυτοποίησης. Παρακαλούμε προσπαθήστε ξανά."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Δεν είναι δυνατή η επισήμανση του(-ών) χαρακτηριστικού(-ών): %{attributes}"
   events:
     changeset: "Οι αλλαγές επεξεργάστηκαν"
@@ -1793,11 +1819,15 @@ el:
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
+      work_package_duplicate_closed: "Duplicate work package updated:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
       work_package_children_changed_times: by changes to child %{link}
       work_package_related_changed_times: by changes to related %{link}
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: by changes to a related work package
       working_days_changed:
         changed: "by changes to working days (%{changes})"
@@ -1810,7 +1840,7 @@ el:
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1820,6 +1850,10 @@ el:
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
         totals_removed_from_childless_work_packages: >-
           Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Οδηγός διαμόρφωσης"
     get_in_touch: "Έχετε απορίες; Επικοινωνήστε μαζί μας."
@@ -1919,7 +1953,8 @@ el:
   label_additional_workflow_transitions_for_assignee: "Επιτρέπονται επιπλέον μεταβάσεις όταν ο χρήστης είναι το άτομο που του έχει ανατεθεί"
   label_additional_workflow_transitions_for_author: "Επιτρέπονται επιπλέον μεταβάσεις όταν ο χρήστης είναι ο συγγραφέας"
   label_administration: "Διαχείριση"
-  label_advanced_settings: "Προηγμένες ρυθμίσεις"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Ηλικία"
   label_ago: "ημέρες πριν"
   label_all: "όλα"
@@ -1982,6 +2017,7 @@ el:
   label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Εμφάνιση Ημερολογίου"
   label_category: "Κατηγορία"
+  label_completed: Completed
   label_consent_settings: "Συναίνεση χρήστη"
   label_wiki_menu_item: Αντικείμενο μενού Wiki
   label_select_main_menu_item: Επιλέξτε νέο αντικείμενο κύριου μενού
@@ -2033,6 +2069,7 @@ el:
   label_custom_field_plural: "Προσαρμοσμένα πεδία"
   label_custom_field_default_type: "Άδειος τύπος"
   label_custom_style: "Σχεδιασμός"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Πίνακας Ελέγχου"
   label_database_version: "Έκδοση PostgreSQL"
   label_date: "Ημερομηνία"
@@ -2129,6 +2166,7 @@ el:
   label_here: εδώ
   label_hide: "Απόκρυψη"
   label_history: "Ιστορικό"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Φύλλο ιεραρχίας"
   label_home: "Αρχική"
   label_subject_or_id: "Θέμα ή ταυτότητα"
@@ -2140,6 +2178,7 @@ el:
   label_inactive: "Ανενεργό"
   label_incoming_emails: "Εισερχόμενα email"
   label_includes: "περιλαμβάνει"
+  label_incomplete: Incomplete
   label_include_sub_projects: Include sub-projects
   label_index_by_date: "Δείκτης ανά ημερομηνία"
   label_index_by_title: "Δείκτης ανά τίτλο"
@@ -2150,12 +2189,14 @@ el:
   label_internal: "Εσωτερικό"
   label_introduction_video: "Εισαγωγικό βίντεο"
   label_invite_user: "Προσκαλέστε χρήστη"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Share"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
-  label_show_hide: "Εμφάνιση/απόκρυψη"
-  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Εμφάνιση όλων των εγγεγραμμένων χρηστών"
+  label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Ημερολόγιο"
   label_journal_diff: "Σύγκριση Περιγραφών"
   label_language: "Γλώσσα"
@@ -2226,7 +2267,7 @@ el:
   label_more: "Περισσότερα"
   label_more_than_ago: "σε περισσότερο από ημέρες πριν"
   label_move_work_package: "Μετακίνηση πακέτου εργασίας"
-  label_my_account: "Ο λογαριασμός μου"
+  label_my_account: "Account settings"
   label_my_activity: "My activity"
   label_my_account_data: "Τα δεδομένα του λογαριασμού μου"
   label_my_avatar: "My avatar"
@@ -2253,6 +2294,7 @@ el:
   label_no_parent_page: "Δεν υπάρχει σελίδα γονέα"
   label_nothing_display: "Δεν υπάρχει κάτι για εμφάνιση"
   label_nobody: "κανένας"
+  label_not_configured: "Not configured"
   label_not_found: "δεν βρέθηκε"
   label_none: "κανένα"
   label_none_parentheses: "(κανένα)"
@@ -2878,6 +2920,7 @@ el:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Προβολή χρόνου που δαπανήθηκε"
   permission_view_timelines: "Προβολή χρονοδιαγραμμάτων"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Προβολή ιστορικού wiki"
   permission_view_wiki_pages: "Προβολή wiki"
   permission_work_package_assigned: "Become assignee/responsible"
@@ -3135,8 +3178,6 @@ el:
   setting_work_package_done_ratio_status: "Status-based"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
     In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Ιδιότητες πακέτου εργασίας"
@@ -3157,6 +3198,13 @@ el:
   setting_password_min_length: "Ελάχιστο μήκος"
   setting_password_min_adhered_rules: "Ελάχιστος αριθμός των απαιτούμενων κλάσεων"
   setting_per_page_options: "Αντικείμενα ανά σελίδα επιλογών"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Email απλού κειμένου (χωρίς HTML)"
   setting_protocol: "Πρωτόκολλο"
   setting_project_gantt_query: "Προβολή Gantt για portfolio έργου"
@@ -3181,6 +3229,13 @@ el:
   setting_sys_api_enabled: "Ενεργοποίηση του web service διαχείρισης αποθετηρίων"
   setting_sys_api_description: "Το web service διαχείρισης αποθετηρίων παρέχει ενσωμάτωση και αυθεντικοποίηση χρήστη για την πρόσβαση σε αποθετήρια."
   setting_time_format: "Ώρα"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Ενεργοποίηση της λειτουργίας προσβασιμότητας για ανώνυμους χρήστες"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Προεπιλεγμένη ζώνη ώρας του χρήστη"
@@ -3521,7 +3576,6 @@ el:
       label_note: "Note:"
       modal:
         work_based_help_text: "Each field is automatically calculated from the two others when possible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
       derivation_hints:

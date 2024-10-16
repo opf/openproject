@@ -29,6 +29,7 @@
 require "spec_helper"
 
 RSpec.describe "Inviting user in project the current user is lacking permission in", :js, :with_cuprite do
+  shared_let(:standard) { create(:standard_global_role) }
   let(:modal) do
     Components::Users::InviteUserModal.new project: invite_project,
                                            principal: other_user,

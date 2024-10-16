@@ -110,6 +110,7 @@ zh-CN:
   label_rate: "费率"
   label_rate_plural: "费率"
   label_status_finished: "已完成"
+  label_show: "显示"
   label_units: "成本单位"
   label_user: "用户"
   label_until: "到"

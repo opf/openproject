@@ -75,7 +75,7 @@ RSpec.describe "Admin Create a new file storage",
         expect(page).not_to have_test_selector("label-openproject_oauth_application_configured-status")
 
         # OAuth client
-        wait_for(page).to have_test_selector("storage-oauth-client-label", text: "Nextcloud OAuth")
+        wait_for { page }.to have_test_selector("storage-oauth-client-label", text: "Nextcloud OAuth")
         expect(page).not_to have_test_selector("label-storage_oauth_client_configured-status")
         expect(page).to have_test_selector("storage-oauth-client-id-description",
                                            text: "Allow OpenProject to access Nextcloud data using OAuth.")
@@ -181,9 +181,9 @@ RSpec.describe "Admin Create a new file storage",
 
         expect(page).to have_current_path(edit_admin_settings_storage_path(Storages::Storage.last))
         expect(page).to have_test_selector(
-          "primer-banner-message-component",
-          text: "Storage connected successfully! Remember to activate the module and the specific " \
-                "storage in the project settings of each desired project to use it."
+          "op-primer-flash-message",
+          text: "Storage connected successfully! " \
+                "Remember to activate the storage in the Projects tab for each desired project to use it."
         )
       end
     end
@@ -203,7 +203,7 @@ RSpec.describe "Admin Create a new file storage",
       end
 
       expect(page).to have_current_path(upsale_admin_settings_storages_path)
-      wait_for(page).to have_text("OneDrive/SharePoint integration")
+      wait_for { page }.to have_text("OneDrive/SharePoint integration")
     end
   end
 
@@ -235,14 +235,14 @@ RSpec.describe "Admin Create a new file storage",
                                                  "Azure application or use an existing one for authentication.")
 
         # Access Management
-        wait_for(page).to have_test_selector("access-management-label", text: "Access management")
+        wait_for { page }.to have_test_selector("access-management-label", text: "Access management")
         expect(page).not_to have_test_selector("label-access_management_configured-status")
         expect(page).to have_text("Select the type of management of user access and folder creation.")
         expect(page).to have_test_selector("access-management-description",
                                            text: "Select the type of management of user access and folder creation.")
 
         # OAuth client
-        wait_for(page).to have_test_selector("storage-oauth-client-label", text: "Azure OAuth")
+        wait_for { page }.to have_test_selector("storage-oauth-client-label", text: "Azure OAuth")
         expect(page).not_to have_test_selector("label-storage_oauth_client_configured-status")
         expect(page).to have_test_selector("storage-oauth-client-id-description",
                                            text: "Allow OpenProject to access Azure data using OAuth " \
@@ -268,8 +268,8 @@ RSpec.describe "Admin Create a new file storage",
           click_on "Save and continue"
         end
 
-        wait_for(page).to have_test_selector("label-name_configured-storage_tenant_drive_configured-status",
-                                             text: "Completed")
+        wait_for { page }.to have_test_selector("label-name_configured-storage_tenant_drive_configured-status",
+                                                text: "Completed")
         expect(page).to have_test_selector("storage-description", text: "OneDrive/SharePoint - My OneDrive")
       end
 
@@ -287,7 +287,7 @@ RSpec.describe "Admin Create a new file storage",
           click_on "Save and continue"
         end
 
-        wait_for(page).to have_test_selector("label-access_management_configured-status", text: "Completed")
+        wait_for { page }.to have_test_selector("label-access_management_configured-status", text: "Completed")
         expect(page).to have_test_selector("access-management-description", text: "Manually managed access and folders")
       end
 
@@ -317,10 +317,10 @@ RSpec.describe "Admin Create a new file storage",
         end
 
         expect(page).to have_current_path(edit_admin_settings_storage_path(Storages::Storage.last))
-        wait_for(page).to have_test_selector(
-          "primer-banner-message-component",
-          text: "Storage connected successfully! Remember to activate the module and the specific " \
-                "storage in the project settings of each desired project to use it."
+        wait_for { page }.to have_test_selector(
+          "op-primer-flash-message",
+          text: "Storage connected successfully! " \
+                "Remember to activate the storage in the Projects tab for each desired project to use it."
         )
       end
     end
@@ -332,7 +332,7 @@ RSpec.describe "Admin Create a new file storage",
         visit select_provider_admin_settings_storages_path
 
         expect(page).to have_current_path(admin_settings_storages_path)
-        wait_for(page).to have_text("Please select a valid storage provider.")
+        wait_for { page }.to have_text("Please select a valid storage provider.")
       end
     end
 
@@ -341,7 +341,7 @@ RSpec.describe "Admin Create a new file storage",
         visit select_provider_admin_settings_storages_path(provider: "foobar")
 
         expect(page).to have_current_path(admin_settings_storages_path)
-        wait_for(page).to have_text("Please select a valid storage provider.")
+        wait_for { page }.to have_text("Please select a valid storage provider.")
       end
     end
   end

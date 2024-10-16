@@ -36,7 +36,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::RenameFileC
   let(:storage) do
     create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed, oauth_client_token_user: user)
   end
-  let(:auth_strategy) { Storages::Peripherals::Registry.resolve("nextcloud.authentication.userbound").call(user:) }
+  let(:auth_strategy) { Storages::Peripherals::Registry.resolve("nextcloud.authentication.user_bound").call(user:) }
 
   it_behaves_like "rename_file_command: basic command setup"
 

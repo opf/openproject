@@ -55,6 +55,7 @@ class User < Principal
      inverse_of: :user
   has_one :rss_token, class_name: "::Token::RSS", dependent: :destroy
   has_many :api_tokens, class_name: "::Token::API", dependent: :destroy
+  has_many :oauth_client_tokens, dependent: :destroy
 
   # The user might have one invitation token
   has_one :invitation_token, class_name: "::Token::Invitation", dependent: :destroy
@@ -398,7 +399,7 @@ class User < Principal
   end
 
   def log_successful_login
-    update_attribute(:last_login_on, Time.now)
+    update_attribute(:last_login_on, Time.current)
   end
 
   def pref
@@ -406,7 +407,13 @@ class User < Principal
   end
 
   def time_zone
-    @time_zone ||= (pref.time_zone.blank? ? nil : ActiveSupport::TimeZone[pref.time_zone])
+    @time_zone ||= ActiveSupport::TimeZone[pref.time_zone] || ActiveSupport::TimeZone["Etc/UTC"]
+  end
+
+  def reload(*)
+    @time_zone = nil
+
+    super
   end
 
   def wants_comments_in_reverse_order?
@@ -537,46 +544,12 @@ class User < Principal
 
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
   # one anonymous user per database.
-  def self.anonymous # rubocop:disable Metrics/AbcSize
-    RequestStore[:anonymous_user] ||=
-      begin
-        anonymous_user = AnonymousUser.first
-
-        if anonymous_user.nil?
-          (anonymous_user = AnonymousUser.new.tap do |u|
-            u.lastname = "Anonymous"
-            u.login = ""
-            u.firstname = ""
-            u.mail = ""
-            u.status = User.statuses[:active]
-          end).save
-
-          raise "Unable to create the anonymous user." if anonymous_user.new_record?
-        end
-        anonymous_user
-      end
+  def self.anonymous
+    RequestStore[:anonymous_user] ||= AnonymousUser.first
   end
 
   def self.system
-    system_user = SystemUser.first
-
-    if system_user.nil?
-      system_user = SystemUser.new(
-        firstname: "",
-        lastname: "System",
-        login: "",
-        mail: "",
-        admin: true,
-        status: User.statuses[:active],
-        first_login: false
-      )
-
-      system_user.save(validate: false)
-
-      raise "Unable to create the automatic migration user." unless system_user.persisted?
-    end
-
-    system_user
+    SystemUser.first
   end
 
   protected
@@ -688,6 +661,6 @@ class User < Principal
   end
 
   def self.default_admin_account_changed?
-    !User.active.find_by_login("admin").try(:current_password).try(:matches_plaintext?, "admin") # rubocop:disable Rails/DynamicFindBy
+    !User.active.find_by_login("admin").try(:current_password).try(:matches_plaintext?, "admin")
   end
 end

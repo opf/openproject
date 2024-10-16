@@ -68,7 +68,8 @@ module Storages::ProjectStorages::Projects
         icon: :trash,
         label: I18n.t("project_storages.remove_project.label"),
         href: destroy_confirmation_dialog_admin_settings_storage_project_storage_path(
-          id: project_storage.id
+          id: project_storage.id,
+          page: current_page
         ),
         data: {
           controller: "async-dialog"

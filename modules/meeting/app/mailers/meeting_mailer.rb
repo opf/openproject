@@ -63,8 +63,6 @@ class MeetingMailer < UserMailer
     set_headers @meeting
 
     with_attached_ics(meeting, user) do
-      timezone = Time.zone || Time.zone_default
-      @formatted_timezone = format_timezone_offset timezone, @meeting.start_time
       subject = "[#{@meeting.project.name}] #{@meeting.title}"
       mail(to: user, subject:)
     end
@@ -94,10 +92,5 @@ class MeetingMailer < UserMailer
     open_project_headers "Project" => meeting.project.identifier, "Meeting-Id" => meeting.id
     headers["Content-Type"] = 'text/calendar; charset=utf-8; method="PUBLISH"; name="meeting.ics"'
     headers["Content-Transfer-Encoding"] = "8bit"
-  end
-
-  def format_timezone_offset(timezone, time)
-    offset = ::ActiveSupport::TimeZone.seconds_to_utc_offset time.utc_offest_for_timezone(timezone), true
-    "(GMT#{offset}) #{timezone.name}"
   end
 end

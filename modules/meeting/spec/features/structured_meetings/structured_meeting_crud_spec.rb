@@ -42,7 +42,7 @@ RSpec.describe "Structured meetings CRUD",
            lastname: "First",
            member_with_permissions: { project => %i[view_meetings create_meetings edit_meetings delete_meetings manage_agendas
                                                     view_work_packages] }).tap do |u|
-      u.pref[:time_zone] = "utc"
+      u.pref[:time_zone] = "Etc/UTC"
 
       u.save!
     end
@@ -86,7 +86,7 @@ RSpec.describe "Structured meetings CRUD",
   end
 
   it "can create a structured meeting and add agenda items" do
-    show_page.expect_toast(message: "Successful creation")
+    expect_flash(type: :success, message: "Successful creation")
 
     # Does not send invitation mails by default
     perform_enqueued_jobs
@@ -248,7 +248,7 @@ RSpec.describe "Structured meetings CRUD",
   end
 
   it "shows an error toast trying to update an outdated item" do
-    show_page.expect_toast(message: "Successful creation")
+    expect_flash(type: :success, message: "Successful creation")
 
     # Can add and edit a single item
     show_page.add_agenda_item do
@@ -271,7 +271,7 @@ RSpec.describe "Structured meetings CRUD",
   end
 
   it "can copy the meeting" do
-    show_page.expect_toast(message: "Successful creation")
+    expect_flash(type: :success, message: "Successful creation")
 
     # Can add and edit a single item
     show_page.add_agenda_item do
@@ -327,7 +327,7 @@ RSpec.describe "Structured meetings CRUD",
 
     context "when starting with empty sections" do
       it "can add, edit and delete sections" do
-        show_page.expect_toast(message: "Successful creation")
+        expect_flash(type: :success, message: "Successful creation")
 
         # create the first section
         show_page.add_section do

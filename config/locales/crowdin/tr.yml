@@ -31,21 +31,17 @@ tr:
     custom_styles:
       color_theme: "Renk teması"
       color_theme_custom: "(Özel)"
+      tab_interface: "Arayüz"
+      tab_branding: "Markalama"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
         accent-color: "Accent"
         header-bg-color: "Üstbilgi arka planı"
         header-item-bg-hover-color: "Fareyle üzerine gelindiğinde başlık arka planı"
-        header-item-font-color: "Başlık yazı tipi"
-        header-item-font-hover-color: "Fareyle üzerine gelindiğinde başlık yazı tipi"
-        header-border-bottom-color: "Başlık kenarlığı"
         main-menu-bg-color: "Ana menü arka planı"
         main-menu-bg-selected-background: "Seçildiğinde ana menü"
         main-menu-bg-hover-background: "Fareyle üzerine gelindiğinde ana menü"
-        main-menu-font-color: "Ana menü yazı tipi"
-        main-menu-selected-font-color: "Seçildiğinde ana menü yazı tipi"
-        main-menu-hover-font-color: "Fareyle üzerine gelindiğinde ana menü yazı tipi"
-        main-menu-border-color: "Ana menü kenarlığı"
       custom_colors: "Özel renkler"
       customize: "OpenProject kurulumunuzu kendi logonuz ve renklerinizle özelleştirin."
       enterprise_notice: "OpenProject'in geliştirilmesine finansal destek verenlere özel olarak 'Teşekkür ederiz!'. Bu küçük özellik sadece Enterprise Sürüm alan destekçilerimize özeldir."
@@ -65,7 +61,7 @@ tr:
       add_token: "Bir Enterprise sürümü destek belirteci yükleyin"
       delete_token_modal:
         text: "Kullanılan geçerli Enterprise sürümü belirtecini kaldırmak istediğinizden emin misiniz?"
-        title: "Belirteci sil"
+        title: "Anahtarı sil"
       replace_token: "Geçerli destek anahtarını değiştirin"
       order: "Enterprise on-premises edition sipariş edin"
       paste: "Enterprise sürümü destek belirtecinizi yapıştırın"
@@ -79,6 +75,7 @@ tr:
         contact: "Demo için bizimle iletişime geçin"
       enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Etkinleştirmek ve ekibinizde kullanmaya başlamak için lütfen ücretli bir plana yükseltin."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Bir kullanıcının bireysel eylemleri (örneğin, bir iş paketini iki kez güncelleme), yaş farkı belirtilen zaman aralığından azsa tek bir eylemde toplanır. Uygulama içinde tek bir eylem olarak görüntülenecektir. Bu aynı zamanda gönderilen e-posta sayısını azaltarak bildirimleri aynı süre kadar geciktirecek ve ayrıca %{webhook_link} gecikmesini etkileyecektir."
@@ -207,6 +204,16 @@ tr:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Öğeler listeniz boş"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Bir projeye yeni özel alanlar eklemeden önce onları oluşturmalısınız.
     is_enabled_globally: "Genel için etkinleştirildi"
@@ -219,6 +226,7 @@ tr:
       is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
       is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Mark the custom field as available in all existing and new projects."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "Include the field values when using the global search functionality."
       searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Allow the field to be editable by users themselves."
@@ -230,6 +238,14 @@ tr:
       no_results_content_text: Yeni bir özel alan oluştur
   concatenation:
     single: "ya da"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "Search in %{app_title}"
     overwritten_tabs:
@@ -306,11 +322,11 @@ tr:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
           remove_from_project: "Remove from project"
-          label_enable_all: "Enable all"
-          label_disable_all: "Disable all"
+          label_enable_all: "Tümünü etkinleştir"
+          label_disable_all: "Tümünü devre dışı bırak"
         is_required_blank_slate:
-          heading: Required in all projects
-          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: Tüm projelerde zorunludur
+          description: '"Tüm projelerde zorunlu" seçeneği işaretli olduğu için bu proje niteliği tüm projelerde etkindir. Projeler için bağımsız olarak devre dışı bırakılamaz.'
       types:
         no_results_title_text: Şu anda hiçbir tip mevcut değil.
         form:
@@ -325,13 +341,13 @@ tr:
       success: "The modified list has been saved as a new list"
       failure: "The modified list cannot be saved: %{errors}"
     update:
-      success: "The modified list has been saved"
+      success: "Değiştirilen liste kaydedildi"
       failure: "The modified list cannot be saved: %{errors}"
     publish:
-      success: "The list has been made public"
+      success: "Liste herkese açık hale getirildi"
       failure: "The list cannot be made public: %{errors}"
     unpublish:
-      success: "The list has been made private"
+      success: "Liste gizli hale getirildi"
       failure: "The list cannot be made private: %{errors}"
     can_be_saved: "List modified:"
     can_be_saved_as: "The modifications can only be saved in a new list:"
@@ -362,8 +378,8 @@ tr:
       however_work_packages_shared_with_group_html:
         one: "However, %{shared_work_packages_link} has also been shared with this group."
         other: "However, %{shared_work_packages_link} have also been shared with this group."
-      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
-      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      remove_work_packages_shared_with_user_too: "Üyelikten kaldırılan bir kullanıcı paylaşılan iş paketlerine erişmeye devam edebilir. Paylaşımları da kaldırmak ister misiniz?"
+      remove_work_packages_shared_with_group_too: "Üyelikten kaldırılan bir grup paylaşılan iş paketlerine erişmeye devam edebilir. Paylaşımları da kaldırmak ister misiniz?"
       will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
       can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
       also_work_packages_shared_with_user_html:
@@ -400,11 +416,11 @@ tr:
         header: The %{type} token has been generated
         warning: Note that this is the only time you will see this token, make sure to copy it now.
       errors:
-        token_name_blank: "Please provide an API token name"
-        token_name_in_use: "This API token name is already in use, please select a different one"
-      new_access_token_dialog_title: "Create new API token"
-      new_access_token_dialog_show_button_text: "API token"
-      new_access_token_dialog_text_field_placeholder_text: "My API token"
+        token_name_blank: "Lütfen API anahtarı için bir ad girin"
+        token_name_in_use: "Bu API anahtarı adı kullanılmaktadır, lütfen başka bir tane seçin"
+      new_access_token_dialog_title: "Yeni bir API anahtarı oluştur"
+      new_access_token_dialog_show_button_text: "API anahtarı"
+      new_access_token_dialog_text_field_placeholder_text: "API anahtarım"
       new_access_token_dialog_text_field_label: "İsim"
       new_access_token_dialog_submit_button_text: "Oluştur"
       new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
@@ -469,17 +485,23 @@ tr:
       no_results_content_text: Durum bildirme ekleme
   statuses:
     edit:
+      status_color_text: |
+        Bu durumun rengini atamak veya değiştirmek için tıklayın.
+        Durum düğmesinde gösterilir ve tablodaki iş paketlerini vurgulamak için kullanılabilir.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Bu durumdaki iş paketlereni salt okunur olarak işaretlemek için bu seçeneği işaretleyin.
         Durum haricindeki başka özellikler değiştirilemez.
         <br/>
         <strong>Uyarı</strong>: Devralınan değerler (örneğin; çocuklardan ve bağlantılardan) hala geçerli olacaktır.
-      status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
-      status_color_text: |
-        Bu durumun rengini atamak veya değiştirmek için tıklayın.
-        Durum düğmesinde gösterilir ve tablodaki iş paketlerini vurgulamak için kullanılabilir.
     index:
       no_results_title_text: Şu anda çalışma paketi durumu yok.
       no_results_content_text: Yeni durum ekle
@@ -531,7 +553,7 @@ tr:
       could_not_be_saved: "Aşağıdaki iş paketleri kaydedilemedi:"
       none_could_be_saved: "%{total} iş paketlerinin hiçbiri güncellenemedi."
       x_out_of_y_could_be_saved: "%{total} iş paketinden %{failing} tanesi güncellenemezken %{success} güncellenebildi."
-      selected_because_descendants: "Seçilen yerlerde %{selected} iş paketi bulunurken, alt paketleri de içeren toplam %{total} iş paketi etkilenir."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "seçilmiş nesil"
     move:
       no_common_statuses_exists: "Seçilen tüm iş paketleri için uygun bir durum yoktur. Durumları değiştirilemez."
@@ -621,6 +643,7 @@ tr:
         editable: "Düzenlenebilir"
         field_format: "Biçim"
         is_filter: "Filtre olarak kullanılan"
+        is_for_all: "For all projects"
         is_required: "Gerekli"
         max_length: "Maksimum uzunluk"
         min_length: "Minimum uzunluk"
@@ -808,7 +831,7 @@ tr:
         blank: "boş bırakılamaz."
         blank_nested: "'%{property}' özelliğinin ayarlanmış olması gerekir."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "İş paketi alt görevlerinden birine bağlanamaz."
         circular_dependency: "Bu ilişki döngüsel bağımlılık oluşturacak."
         confirmation: "%{attribute} eşleşmiyor."
@@ -916,6 +939,8 @@ tr:
             name:
               blank: "is mandatory. Please select a name."
               not_unique: "is already in use. Please select another name."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Bildirim göndermek için en az bir kanal belirtilmelidir."
           attributes:
@@ -1178,8 +1203,8 @@ tr:
         other: "Yetkiler"
       status: "İş paketi durumu"
       token/api:
-        one: Access token
-        other: Access tokens
+        one: Erişim anahtarı
+        other: Erişim anahtarları
       type: "Tür"
       user: "Kullanıcı"
       version: "Sürüm"
@@ -1355,6 +1380,7 @@ tr:
   button_expand_all: "Tümünü genişlet"
   button_favorite: "Favorilere Ekle"
   button_filter: "Filtre"
+  button_finish_setup: "Finish setup"
   button_generate: "Üretmek"
   button_list: "Liste"
   button_lock: "Kilitle"
@@ -1407,8 +1433,8 @@ tr:
     failure_message: Rıza alımı başarısız oldu, işlenemedi.
     title: Kullanıcı Rızası
     decline_warning_message: Onay vermeyi reddettiniz ve çıkış yaptınız.
-    user_has_consented: Kullanıcı, belirtilen zamanda yapılandırılmış ifadenize izin verdi.
-    not_yet_consented: Kullanıcı henüz onaylamadı, bir sonraki oturum açmada talep edilecek.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Veri değişikliği veya kaldırma isteklerini gerçekleştirmek için kullanıcıların bir veri denetleyicisine erişebilecekleri posta adresini tanımlayın.
     contact_your_administrator: Hesabınızın silinmesini istiyorsanız, lütfen yöneticinize başvurun.
     contact_this_mail_address: Hesabınızın silinmesini istiyorsanız, lütfen %{mail_address} ile iletişime geçin.
@@ -1641,7 +1667,7 @@ tr:
   error_menu_item_not_saved: Menü öğesi kaydedilemez
   error_wiki_root_menu_item_conflict: >
     Var olan menü üyesi "%{existing_caption}" (%{existing_identifier}) ile çakıştığından, "%{old_name}" adı "%{new_name}" olarak değiştirilemiyor.
-  error_external_authentication_failed: "Harici kimlik doğrulama sırasında bir hata oluştu. Lütfen tekrar deneyin."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Nitelikler vurgulanmıyor: %{attributes}"
   events:
     changeset: "Değişiklikler düzenlendi"
@@ -1796,11 +1822,15 @@ tr:
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
+      work_package_duplicate_closed: "Duplicate work package updated:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
       work_package_children_changed_times: by changes to child %{link}
       work_package_related_changed_times: by changes to related %{link}
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: by changes to a related work package
       working_days_changed:
         changed: "by changes to working days (%{changes})"
@@ -1813,7 +1843,7 @@ tr:
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1823,6 +1853,10 @@ tr:
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
         totals_removed_from_childless_work_packages: >-
           Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Yapılandırma rehberi"
     get_in_touch: "Senin soruların var? Bizimle temasa geçin."
@@ -1922,7 +1956,8 @@ tr:
   label_additional_workflow_transitions_for_assignee: "Kullanıcı atanan olduğu zaman tanınacak ek yetkiler"
   label_additional_workflow_transitions_for_author: "Kullanıcı oluşturan olduğunda izin verilen ek geçişler"
   label_administration: "Yönetim"
-  label_advanced_settings: "Gelişmiş ayarlar"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Yaş"
   label_ago: "gün önce"
   label_all: "tüm"
@@ -1985,6 +2020,7 @@ tr:
   label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Takvimi Göster"
   label_category: "Kategori"
+  label_completed: Completed
   label_consent_settings: "Kullanıcı Rızası"
   label_wiki_menu_item: Viki menü öğesi
   label_select_main_menu_item: Yeni ana menü öğesi seç
@@ -2036,6 +2072,7 @@ tr:
   label_custom_field_plural: "Özel alanlar"
   label_custom_field_default_type: "Boş tür"
   label_custom_style: "Tasarım"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Gösterge paneli"
   label_database_version: "PostgreSQL sürümü"
   label_date: "Tarih"
@@ -2132,6 +2169,7 @@ tr:
   label_here: buraya
   label_hide: "Saklamak"
   label_history: "Geçmiş"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Hiyerarşi ağacı"
   label_home: "Ana sayfa"
   label_subject_or_id: "Konu ya da ID"
@@ -2143,6 +2181,7 @@ tr:
   label_inactive: "Etkin değil"
   label_incoming_emails: "Gelen e-postalar"
   label_includes: "içerir"
+  label_incomplete: Incomplete
   label_include_sub_projects: Include sub-projects
   label_index_by_date: "Tarihe göre diz"
   label_index_by_title: "Başlığa göre dizin"
@@ -2153,12 +2192,14 @@ tr:
   label_internal: "Dahili"
   label_introduction_video: "Tanıtım videosu"
   label_invite_user: "Kullanıcı davet et"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Paylaş"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
-  label_show_hide: "Göster/gizle"
-  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Tüm kayıtlı kullanıcıları göster"
+  label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Günlük"
   label_journal_diff: "Açıklama Karşılaştırması"
   label_language: "Dil"
@@ -2229,7 +2270,7 @@ tr:
   label_more: "Fazlası"
   label_more_than_ago: "günler önce"
   label_move_work_package: "İş paketini taşı"
-  label_my_account: "Hesabım"
+  label_my_account: "Account settings"
   label_my_activity: "My activity"
   label_my_account_data: "Hesap verilerim"
   label_my_avatar: "My avatar"
@@ -2256,6 +2297,7 @@ tr:
   label_no_parent_page: "Üst sayfa yok"
   label_nothing_display: "Görüntülenecek bir şey yok"
   label_nobody: "hiçkimse"
+  label_not_configured: "Not configured"
   label_not_found: "bulunamadı"
   label_none: "hiçbiri"
   label_none_parentheses: "(yok)"
@@ -2879,6 +2921,7 @@ tr:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Harcanan süreyi görüntüleme"
   permission_view_timelines: "Zaman çizelgelerini görüntüle"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Wiki geçmişini görüntüle"
   permission_view_wiki_pages: "Wiki'yi görüntüle"
   permission_work_package_assigned: "Atanan/sorumlu olun"
@@ -3136,8 +3179,6 @@ tr:
   setting_work_package_done_ratio_status: "Status-based"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
     In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "İş paketi özellikleri"
@@ -3158,6 +3199,13 @@ tr:
   setting_password_min_length: "Minimum uzunluk"
   setting_password_min_adhered_rules: "Minimum zorunlu ders sayısı"
   setting_per_page_options: "Sayfa başı nesne seçenekleri"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Düz metin postası (HTML yok)"
   setting_protocol: "Protokol"
   setting_project_gantt_query: "Proje portföyü Gantt görünümü"
@@ -3182,6 +3230,13 @@ tr:
   setting_sys_api_enabled: "Depo yönetimi web hizmetini etkinleştir"
   setting_sys_api_description: "Depo yönetimi web servisi depolara erişmek için entegrasyon ve kullanıcı yetkilendirmesi sağlar."
   setting_time_format: "Saat"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "İsimsiz kullanıcılar için erişilebilirlik modunu etkinleştir"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Kullanıcıların varsayılan saat dilimi"
@@ -3522,7 +3577,6 @@ tr:
       label_note: "Note:"
       modal:
         work_based_help_text: "Each field is automatically calculated from the two others when possible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
       derivation_hints:

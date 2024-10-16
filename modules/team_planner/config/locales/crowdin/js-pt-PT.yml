@@ -8,7 +8,7 @@ pt-PT:
       create_title: 'Criar novo planeador de equipa'
       unsaved_title: 'Planeador de equipa sem nome'
       no_data: 'Adicione responsáveis para configurar o planeador da sua equipa.'
-      add_assignee: 'Adicionar destinatário'
+      add_assignee: 'Pessoa atribuída'
       remove_assignee: 'Remover responsável'
       two_weeks: '2 semanas'
       one_week: '1 semana'

@@ -67,6 +67,8 @@ pt-PT:
       global_roles:
         item_0:
           name: Equipa e gestor de projetos
+        item_1:
+          name: Standard global role
     standard:
       priorities:
         item_0:

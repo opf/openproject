@@ -16,7 +16,7 @@ module OpenProject::OpenIDConnect
            :openid_connect_providers_path,
            parent: :authentication,
            caption: ->(*) { I18n.t("openid_connect.menu_title") },
-           enterprise_feature: "openid_providers"
+           enterprise_feature: "sso_auth_providers"
     end
 
     assets %w(
@@ -45,7 +45,7 @@ module OpenProject::OpenIDConnect
           h[:single_sign_out_callback] = Proc.new do
             next unless h[:end_session_endpoint]
 
-            redirect_to "#{omniauth_start_path(h[:name])}/logout"
+            redirect_to "#{omni_auth_start_path(h[:name])}/logout"
           end
 
           # Remember oidc session values when logging in user

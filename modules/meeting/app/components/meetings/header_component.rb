@@ -46,7 +46,7 @@ module Meetings
 
     # Define the interval so it can be overriden through tests
     def check_for_updates_interval
-      OpenProject::FeatureDecisions.meeting_updated_notification_active? ? 10_000 : 0
+      10_000
     end
 
     private
@@ -66,7 +66,7 @@ module Meetings
       if @project.present?
         { href: project_overview_path(@project.id), text: @project.name }
       else
-        { href: home_path, text: I18n.t(:label_home) }
+        { href: home_path, text: helpers.organization_name }
       end
     end
   end

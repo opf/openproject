@@ -8,7 +8,7 @@ es:
       create_title: 'Crear nuevo planificador de equipos'
       unsaved_title: 'Planificador de equipo sin nombre'
       no_data: 'Añadir asignados para configurar su planificador de equipo.'
-      add_assignee: 'Añadir asignado'
+      add_assignee: 'Asignado a'
       remove_assignee: 'Eliminar asignado'
       two_weeks: '2 semanas'
       one_week: '1 semana'

@@ -98,25 +98,91 @@ RSpec.describe MembersController do
   end
 
   describe "#autocomplete_for_member" do
-    let(:params) { { "project_id" => project.identifier.to_s } }
+    let(:params) { { "project_id" => project.identifier.to_s, "q" => query } }
+    let(:query) { "" }
+    let(:json_response) { response.parsed_body }
+    let(:global_permissions) { [] }
+    let(:project_permissions) { [] }
 
-    before { login_as(user) }
+    subject { post(:autocomplete_for_member, xhr: true, params:) }
 
-    describe "WHEN the user is authorized WHEN a project is provided" do
-      before do
-        role.add_permission! :manage_members
-        member
+    before do
+      mock_permissions_for(user) do |mock|
+        mock.allow_globally(*global_permissions)
+        mock.allow_in_project(*project_permissions, project:)
       end
 
+      login_as(user)
+    end
+
+    describe "WHEN the user is authorized WHEN a project is provided" do
+      let(:project_permissions) { [:manage_members] }
+
       it "is success" do
-        post(:autocomplete_for_member, xhr: true, params:)
+        subject
         expect(response).to be_successful
+      end
+
+      context "when the user is not authorized to see email addresses" do
+        it "returns id, name and href" do
+          subject
+          expect(json_response).to be_an(Array)
+          expect(json_response).to include(
+            {
+              "id" => admin.id,
+              "name" => admin.name,
+              "href" => "/api/v3/users/#{admin.id}"
+            }
+          )
+        end
+
+        context "when searching email addresses" do
+          let(:query) { admin.mail }
+
+          it "does not return matches from emails" do
+            subject
+            expect(json_response).to be_empty
+          end
+        end
+      end
+
+      context "when the user is authorized to see email addresses" do
+        let(:global_permissions) { [:view_user_email] }
+
+        it "returns id, name, email and href" do
+          subject
+          expect(json_response).to be_an(Array)
+          expect(json_response).to include(
+            {
+              "id" => admin.id,
+              "name" => admin.name,
+              "email" => admin.mail,
+              "href" => "/api/v3/users/#{admin.id}"
+            }
+          )
+        end
+
+        context "when searching email addresses" do
+          let(:query) { admin.mail }
+
+          it "returns matches from emails" do
+            subject
+            expect(json_response).to include(
+              {
+                "id" => admin.id,
+                "name" => admin.name,
+                "email" => admin.mail,
+                "href" => "/api/v3/users/#{admin.id}"
+              }
+            )
+          end
+        end
       end
     end
 
     describe "WHEN the user is not authorized" do
       it "is forbidden" do
-        post(:autocomplete_for_member, xhr: true, params:)
+        subject
         expect(response.response_code).to eq(403)
       end
     end

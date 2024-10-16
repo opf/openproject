@@ -1,0 +1,56 @@
+<%=
+  primer_form_with(
+    model: provider,
+    id: "saml-providers-edit-form",
+    url: import_metadata_saml_provider_path(provider, edit_mode:),
+    data: {
+      controller: "show-when-value-selected"
+    },
+    method: :post,
+  ) do |form|
+    flex_layout do |flex|
+      if edit_mode
+        flex.with_row do
+          render(Primer::Beta::Text.new(tag: :p, mb: 4, font_size: :small)) do
+            t("saml.providers.section_texts.metadata_form")
+          end
+        end
+      else
+        flex.with_row do
+          render(Primer::Alpha::Banner.new(mb: 2, scheme: :warning, icon: :alert)) do
+            t("saml.providers.section_texts.metadata_form_banner")
+          end
+        end
+      end
+
+      flex.with_row do
+        render(Saml::Providers::MetadataOptionsForm.new(form, provider:))
+      end
+
+      flex.with_row(
+        mt: 2,
+        hidden: provider.metadata_url.blank?,
+        data: { value: :url, 'show-when-value-selected-target': "effect" }
+      ) do
+        render(Saml::Providers::MetadataUrlForm.new(form, provider:))
+      end
+
+      flex.with_row(
+        mt: 2,
+        hidden: provider.metadata_xml.blank?,
+        data: { value: :xml, 'show-when-value-selected-target': "effect" }
+      ) do
+        render(Saml::Providers::MetadataXmlForm.new(form, provider:))
+      end
+
+      flex.with_row(mt: 4) do
+        render(Saml::Providers::SubmitOrCancelForm.new(
+          form,
+          provider:,
+          submit_button_options: { label: button_label },
+          cancel_button_options: { hidden: edit_mode },
+          state: :metadata))
+      end
+    end
+  end
+%>

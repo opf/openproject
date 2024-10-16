@@ -51,7 +51,7 @@ RSpec.describe OpenIDConnect::ProvidersController do
     end
   end
 
-  context "with an EE token", with_ee: %i[openid_providers] do
+  context "with an EE token", with_ee: %i[sso_auth_providers] do
     before do
       login_as user
     end

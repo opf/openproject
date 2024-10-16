@@ -140,7 +140,7 @@ RSpec.describe "Admin lists project mappings for a storage",
       page.within("dialog") do
         click_on "Add"
 
-        wait_for(page).to have_text("Please select a project.")
+        wait_for { page }.to have_text("Please select a project.")
       end
     end
 
@@ -209,7 +209,7 @@ RSpec.describe "Admin lists project mappings for a storage",
             expect(page.find_by_id("storages_project_storage_project_folder_mode_automatic")).to be_checked
 
             choose "Existing folder with manually managed permissions"
-            wait_for(page).to have_text("No selected folder")
+            wait_for { page }.to have_text("No selected folder")
             click_on "Select folder"
 
             location_picker.expect_open
@@ -228,6 +228,10 @@ RSpec.describe "Admin lists project mappings for a storage",
 
           expect(page).to have_text(project.name)
           expect(page).to have_text(subproject.name)
+
+          aggregate_failures "pagination links maintain the correct url" do
+            project_storages_index_page.expect_page_sizes(model: storage)
+          end
         end
 
         context "when the user does not select a folder" do
@@ -243,7 +247,7 @@ RSpec.describe "Admin lists project mappings for a storage",
               check "Include sub-projects"
 
               choose "Existing folder with manually managed permissions"
-              wait_for(page).to have_text("No selected folder")
+              wait_for { page }.to have_text("No selected folder")
 
               click_on "Add"
 
@@ -262,12 +266,12 @@ RSpec.describe "Admin lists project mappings for a storage",
           click_on "Add projects"
 
           within("dialog") do
-            wait_for(page).to have_button("Nextcloud log in")
+            wait_for { page }.to have_button("Nextcloud log in")
 
             expect(page).to have_text("Login to Nextcloud required")
             click_on("Nextcloud log in")
 
-            wait_for(page).to have_current_path(
+            wait_for { page }.to have_current_path(
               %r{/index.php/apps/oauth2/authorize\?client_id=.*&redirect_uri=.*&response_type=code&state=.*}
             )
           end
@@ -297,6 +301,10 @@ RSpec.describe "Admin lists project mappings for a storage",
         project_storages_index_page.within_the_table_row_containing(project.name) do
           expect(page).to have_text("No specific folder")
         end
+
+        aggregate_failures "pagination links maintain the correct url" do
+          project_storages_index_page.expect_page_sizes(model: storage)
+        end
       end
 
       context "when oauth access has not been granted and manual selection" do
@@ -311,9 +319,9 @@ RSpec.describe "Admin lists project mappings for a storage",
 
           within("dialog") do
             choose "Existing folder with manually managed permissions"
-            wait_for(page).to have_button("Nextcloud login")
+            wait_for { page }.to have_button("Nextcloud login")
             click_on("Nextcloud login")
-            wait_for(page).to have_current_path(
+            wait_for { page }.to have_current_path(
               %r{/index.php/apps/oauth2/authorize\?client_id=.*&redirect_uri=.*&response_type=code&state=.*}
             )
           end
@@ -363,8 +371,15 @@ RSpec.describe "Admin lists project mappings for a storage",
         expect(page).to have_text(project.name)
       end
 
-      it "is possible to remove the project after checking the confirmation checkbox in the dialog" do
-        expect(page).to have_text(project.name)
+      it "is possible to remove the project after checking the confirmation checkbox in the dialog",
+         with_settings: { per_page_options: "2,5" } do
+        projects = create_list(:project, 4)
+        projects.each { |project| create(:project_storage, storage:, project:) }
+
+        current_page = 3
+        visit admin_settings_storage_project_storages_path(storage, page: current_page)
+
+        project = project_storages_index_page.project_in_first_row(column_text_separator: "\t")
         project_storages_index_page.click_menu_item_of("Remove project", project)
 
         # The original DeleteService would try to remove actual files from actual storages,
@@ -388,6 +403,10 @@ RSpec.describe "Admin lists project mappings for a storage",
         expect(page).to have_no_selector("dialog")
         expect(page).to have_text("Successful deletion.")
         expect(page).to have_no_text(project.name)
+
+        aggregate_failures "pagination links maintain the correct url" do
+          project_storages_index_page.expect_page_links(model: storage, current_page:)
+        end
       end
     end
   end

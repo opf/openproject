@@ -30,7 +30,7 @@ module OpenProject::CustomStyles
   module ColorThemes
     module_function
 
-    OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME = "OpenProject".freeze
+    OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME = "OpenProject (default)".freeze
 
     DEPRECATED_ALTERNATIVE_COLOR = "#35C53F".freeze
     DEPRECATED_PRIMARY_COLOR = "#1A67A3".freeze
@@ -48,55 +48,34 @@ module OpenProject::CustomStyles
           "accent-color" => ACCENT_COLOR,
           "header-bg-color" => "#1A67A3",
           "header-item-bg-hover-color" => "#175A8E",
-          "header-item-font-color" => "#FFFFFF",
-          "header-item-font-hover-color" => "#FFFFFF",
-          "header-border-bottom-color" => "",
           "main-menu-bg-color" => "#333739",
           "main-menu-bg-selected-background" => "#175A8E",
           "main-menu-bg-hover-background" => "#124E7C",
-          "main-menu-font-color" => "#FFFFFF",
-          "main-menu-hover-font-color" => "#FFFFFF",
-          "main-menu-selected-font-color" => "#FFFFFF",
-          "main-menu-border-color" => "#EAEAEA"
         }
       },
       {
-        theme: "OpenProject Light",
+        theme: "OpenProject Gray",
         colors: {
           "primary-button-color" => PRIMER_PRIMARY_BUTTON_COLOR,
           "accent-color" => ACCENT_COLOR,
           "header-bg-color" => "#FAFAFA",
           "header-item-bg-hover-color" => "#E1E1E1",
-          "header-item-font-color" => "#313131",
-          "header-item-font-hover-color" => "#313131",
-          "header-border-bottom-color" => "#E1E1E1",
           "main-menu-bg-color" => "#ECECEC",
           "main-menu-bg-selected-background" => "#A9A9A9",
           "main-menu-bg-hover-background" => "#FFFFFF",
-          "main-menu-font-color" => "#000000",
-          "main-menu-hover-font-color" => "#000000",
-          "main-menu-selected-font-color" => "#000000",
-          "main-menu-border-color" => "#EAEAEA"
         },
         logo: "logo_openproject.png"
       },
       {
-        theme: "OpenProject Dark",
+        theme: "OpenProject Navy Blue",
         colors: {
           "primary-button-color" => PRIMER_PRIMARY_BUTTON_COLOR,
           "accent-color" => ACCENT_COLOR,
           "header-bg-color" => "#05002C",
           "header-item-bg-hover-color" => "#163473",
-          "header-item-font-color" => "#FFFFFF",
-          "header-item-font-hover-color" => "#FFFFFF",
-          "header-border-bottom-color" => "",
           "main-menu-bg-color" => "#0E2045",
           "main-menu-bg-selected-background" => "#3270DB",
           "main-menu-bg-hover-background" => "#163473",
-          "main-menu-font-color" => "#FFFFFF",
-          "main-menu-hover-font-color" => "#FFFFFF",
-          "main-menu-selected-font-color" => "#FFFFFF",
-          "main-menu-border-color" => "#EAEAEA"
         }
       }
     ].freeze

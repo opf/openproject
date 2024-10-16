@@ -54,15 +54,14 @@ RSpec.describe "Wysiwyg attribute macros", :js do
         </tr>
         <tr>
           <td>invalid subject workPackageValue:"Invalid":subject</td>
+          <td>invalid relative subject workPackageValue:subject</td>
           <td>invalid project projectValue:"does not exist":identifier</td>
         </tr>
-
         <tr>
           <td>work package start date workPackageValue:"Foo Bar":startDate</td>
           <td>work package due date workPackageValue:"Foo Bar":dueDate</td>
           <td>work package date workPackageValue:"Foo Bar":date</td>
         </tr>
-
         <tr>
           <td>milestone start date workPackageValue:"Milestone":startDate</td>
           <td>milestone due date workPackageValue:"Milestone":dueDate</td>
@@ -115,7 +114,7 @@ RSpec.describe "Wysiwyg attribute macros", :js do
 
       click_on "Save"
 
-      expect(page).to have_css(".op-toast.-success")
+      expect_and_dismiss_flash(message: "Successful creation.")
 
       # Expect output widget
       within("#content") do
@@ -125,6 +124,8 @@ RSpec.describe "Wysiwyg attribute macros", :js do
         expect(page).to have_css("td", text: "some-project")
 
         expect(page).to have_css("td", text: "invalid subject Cannot expand macro: Requested resource could not be found")
+        expect(page).to have_css("td",
+                                 text: "invalid relative subject Cannot expand macro: Requested resource could not be found")
         expect(page).to have_css("td", text: "invalid project Cannot expand macro: Requested resource could not be found")
 
         expect(page).to have_css("td", text: "work package start date 01/01/2023")
@@ -176,7 +177,7 @@ RSpec.describe "Wysiwyg attribute macros", :js do
 
         click_on "Save"
 
-        expect(page).to have_css(".op-toast.-success")
+        expect_flash(message: "Successful creation.")
 
         within("#content") do
           expect(page).to have_css(".custom-option", count: 6)

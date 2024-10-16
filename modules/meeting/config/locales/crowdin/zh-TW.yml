@@ -191,9 +191,9 @@ zh-TW:
   label_agenda_item_move_up: "向上移 "
   label_agenda_item_move_down: "向下移 "
   label_agenda_item_add_notes: "新增註記"
-  label_agenda_item_work_package: "議程項目工作包"
+  label_agenda_item_work_package: "議程工作項目"
   text_agenda_item_title: '議程項目 "%{title}"'
-  text_agenda_work_package_deleted: '已刪除工作包的議程項目'
+  text_agenda_work_package_deleted: '已刪除工作項目議程'
   text_deleted_agenda_item: '已刪除的議程項目'
   label_initial_meeting_details: "會議"
   label_meeting_details: "會議詳情"

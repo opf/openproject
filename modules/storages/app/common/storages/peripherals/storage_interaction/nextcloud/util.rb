@@ -62,20 +62,6 @@ module Storages
               )
             end
 
-            def token(user:, configuration:, &)
-              connection_manager = OAuthClients::ConnectionManager.new(user:, configuration:)
-              connection_manager.get_access_token.match(
-                on_success: lambda do |token|
-                  connection_manager.request_with_token_refresh(token) { yield token }
-                end,
-                on_failure: lambda do |_|
-                  error(:unauthorized,
-                        "Query could not be created! No access token found!",
-                        StorageErrorData.new(source: connection_manager))
-                end
-              )
-            end
-
             def error_text_from_response(response)
               response.xml.xpath("//s:message").text
             end

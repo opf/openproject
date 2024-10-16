@@ -1,0 +1,19 @@
+<%=
+  render(Primer::OpenProject::SidePanel::Section.new) do |section|
+    section.with_title { I18n.t("saml.providers.label_metadata_endpoint") }
+    section.with_description { I18n.t("saml.instructions.sp_metadata_endpoint") }
+
+    flex_layout do |flex|
+      flex.with_column(classes: "ellipsis") do
+        render(Primer::Beta::Link.new(
+          href: metadata_endpoint,
+          title: metadata_endpoint,
+          target: :_blank
+        )) { metadata_endpoint }
+      end
+      flex.with_column(ml: 1) do
+        render(Primer::Beta::ClipboardCopy.new(value: metadata_endpoint, "aria-label": t(:button_copy_to_clipboard)))
+      end
+    end
+  end
+%>

@@ -31,7 +31,6 @@ module Admin::Settings
     include CustomFields::SharedActions
     include OpTurbo::ComponentStream
     include OpTurbo::DialogStreamHelper
-    include ApplicationComponentStreams
     include FlashMessagesOutputSafetyHelper
     include Admin::Settings::ProjectCustomFields::ComponentStreams
 
@@ -90,9 +89,8 @@ module Admin::Settings
       create_service.on_success { render_project_list(url_for_action: :project_mappings) }
 
       create_service.on_failure do
-        update_flash_message_via_turbo_stream(
-          message: join_flash_messages(create_service.errors),
-          full: true, dismiss_scheme: :hide, scheme: :danger
+        render_error_flash_message_via_turbo_stream(
+          message: join_flash_messages(create_service.errors)
         )
       end
 
@@ -107,9 +105,8 @@ module Admin::Settings
       delete_service.on_success { render_project_list(url_for_action: :project_mappings) }
 
       delete_service.on_failure do
-        update_flash_message_via_turbo_stream(
-          message: join_flash_messages(delete_service.errors.full_messages),
-          full: true, dismiss_scheme: :hide, scheme: :danger
+        render_error_flash_message_via_turbo_stream(
+          message: join_flash_messages(delete_service.errors.full_messages)
         )
       end
 
@@ -159,7 +156,7 @@ module Admin::Settings
       update_via_turbo_stream(
         component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
           query: project_custom_field_mappings_query,
-          params: { custom_field: @custom_field, url_for_action: }
+          params: params.merge({ custom_field: @custom_field, url_for_action: })
         )
       )
     end
@@ -181,18 +178,12 @@ module Admin::Settings
     end
 
     def find_unlink_project_custom_field_mapping
-      @project = Project.find(permitted_params.project_custom_field_project_mapping[:project_id])
-      @project_custom_field_mapping = @custom_field.project_custom_field_project_mappings.find_by!(project: @project)
+      @project_custom_field_mapping = @custom_field.project_custom_field_project_mappings.find_by!(
+        project_id: permitted_params.project_custom_field_project_mapping[:project_id]
+      )
     rescue ActiveRecord::RecordNotFound
-      update_flash_message_via_turbo_stream(
-        message: t(:notice_file_not_found), full: true, dismiss_scheme: :hide, scheme: :danger
-      )
-      replace_via_turbo_stream(
-        component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
-          query: project_custom_field_mappings_query,
-          params: { custom_field: @custom_field }
-        )
-      )
+      render_error_flash_message_via_turbo_stream(message: t(:notice_file_not_found))
+      render_project_list(url_for_action: :project_mappings)
 
       respond_with_turbo_streams
     end
@@ -213,10 +204,8 @@ module Admin::Settings
         false
       end
     rescue ActiveRecord::RecordNotFound
-      update_flash_message_via_turbo_stream(
-        message: t(:notice_project_not_found), full: true, dismiss_scheme: :hide, scheme: :danger
-      )
-      render_project_list
+      render_error_flash_message_via_turbo_stream(message: t(:notice_project_not_found))
+      render_project_list(url_for_action: :project_mappings)
 
       respond_with_turbo_streams
     end

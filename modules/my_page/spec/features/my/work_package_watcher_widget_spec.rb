@@ -46,6 +46,10 @@ RSpec.describe "Work package watched widget on My page", :js do
     Pages::My::Page.new
   end
 
+  let!(:my_page_grid) do
+    create(:my_page, :empty, user:)
+  end
+
   before do
     login_as user
     work_package.add_watcher(user)

@@ -51,6 +51,10 @@ module Calendar
       "add-calendar-button"
     end
 
+    def test_selector
+      "add-calendar-button"
+    end
+
     def accessibility_label_text
       I18n.t("js.calendar.create_new")
     end

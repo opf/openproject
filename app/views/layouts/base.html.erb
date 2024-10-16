@@ -116,12 +116,8 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
     <% end %>
     <div class="content-overlay"></div>
-    <main id="content-wrapper" class="<%= initial_classes %>">
-      <%= render_primer_banner_message %>
-      <%= render_streameable_primer_banner_message %>
-      <turbo-frame id="flash-messages">
-        <%= render_flash_messages %>
-      </turbo-frame>
+    <%= content_tag :main, id: "content-wrapper", class: initial_classes, data: stimulus_content_data do %>
+      <%= render partial: "layouts/flashes" %>
       <% if show_onboarding_modal? %>
         <section data-augmented-model-wrapper
                  data-modal-initialize-now="true"
@@ -131,8 +127,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
       <%= content_tag :div,
                       id: 'content',
-                      class: "#{initial_classes} #{'content--split' if content_for?(:content_body_right)}",
-                      data: stimulus_content_data do %>
+                      class: "#{initial_classes} #{'content--split' if content_for?(:content_body_right)}" do %>
         <h1 class="hidden-for-sighted accessibility-helper"><%= t(:label_content) %></h1>
         <% if content_for?(:content_header) %>
           <div id="content-header">
@@ -159,7 +154,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= content_for :content_body_right %>
         <% end %>
       <% end %>
-    </main>
+    <% end %>
   </div>
   <div id="ajax-indicator" style="display:none;"><span><%= t(:label_loading) %></span></div>
 </div>

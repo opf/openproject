@@ -277,8 +277,6 @@ zh-CN:
         warning: >
           更改可能需要一些时间才能生效。当更新完所有相关工作包时，您将收到通知。
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          将进度计算模式从基于状态改为基于工时，将使<i>完成 %</i>变为不可编辑字段，其值来自<i>工时</i>和<i>剩余工时</i>。<i>完成 %</i>现有值将保留。如果没有 <i>工时</i>和<i>剩余工时</i>的值，则需要这些值才能更改 <i>完成 %</i>。
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
           将进度计算模式从基于状态改为基于工时，将使<i>完成 %</i>字段可自由编辑。如果您选择输入<i>工时</i>或<i>剩余工时</i>的值，它们也将与<i>完成 %</i>相关联。更改<i>剩余工时</i>就可以更新<i>完成 %</i>。
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
@@ -357,10 +355,10 @@ zh-CN:
           learn_about: "详细了解新功能"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_5":
+          "14_6":
             standard:
               new_features_html: >
-                该版本包含各种新功能和改进，例如 <br> <ul class="%{list_styling_class}"> <li>编辑器保留和恢复所见即所得内容更改的本地版本。</li> <li>同时打开多个项目的文件存储。</li> <li>更新了导出工作包的模态对话框，并提供更多设置。</li> <li>在社区版的项目列表中显示自定义字段列/过滤器。</li> <li>支持 CloudFlare Turnstile 验证码。</li> </ul>
+                此版本为您带来了各种功能和改进，例如：<br><ul class="%{list_styling_class}"> <li>得益于用户反馈，从更灵活的进度报告中受益。</li> <li>接收带有会议重新加载选项的更新通知。</li> <li>同时为多个项目启用自定义字段。</li> <li>使用相对工作包属性宏。</li> <li>在已保存的富文本中显示空行。</li> <li>查看“会议”选项卡旁边的数字中包含的过往会议。</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
@@ -611,7 +609,9 @@ zh-CN:
         mentioned: "被提及"
         watched: "关注者"
         assigned: "指定人"
-        accountable: "负责人"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "负责人"
         created: "已创建"
         scheduled: "已计划"
         commented: "已评论"

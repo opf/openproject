@@ -120,13 +120,43 @@ class WorkPackages::UpdateAncestorsService
   end
 
   def compute_derived_done_ratio(work_package, loader)
+    return if no_children?(work_package, loader)
+
+    case Setting.total_percent_complete_mode
+    when "work_weighted_average"
+      calculate_work_weighted_average_percent_complete(work_package)
+    when "simple_average"
+      calculate_simple_average_percent_complete(work_package, loader)
+    end
+  end
+
+  def calculate_work_weighted_average_percent_complete(work_package)
     return if work_package.derived_estimated_hours.nil? || work_package.derived_remaining_hours.nil?
     return if work_package.derived_estimated_hours.zero?
-    return if no_children?(work_package, loader)
 
     work_done = (work_package.derived_estimated_hours - work_package.derived_remaining_hours)
     progress = (work_done.to_f / work_package.derived_estimated_hours) * 100
     progress.round
+  end
+
+  def calculate_simple_average_percent_complete(work_package, loader)
+    all_done_ratios = children_done_ratio_values(work_package, loader)
+
+    if work_package.done_ratio.present? && !work_package.status.excluded_from_totals
+      all_done_ratios << work_package.done_ratio
+    end
+
+    return if all_done_ratios.empty?
+
+    progress = all_done_ratios.sum.to_f / all_done_ratios.count
+    progress.round
+  end
+
+  def children_done_ratio_values(work_package, loader)
+    loader
+      .children_of(work_package)
+      .filter(&:included_in_totals_calculation?)
+      .map { |child| child.derived_done_ratio || child.done_ratio || 0 }
   end
 
   # Sets the ignore_non_working_days to true if any descendant has its value set to true.

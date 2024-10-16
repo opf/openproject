@@ -29,9 +29,24 @@
 require "spec_helper"
 require "rack/test"
 
-RSpec.describe "SAML provider callback", with_ee: %i[openid_providers] do
+RSpec.describe "SAML provider callback",
+               type: :rails_request,
+               with_ee: %i[sso_auth_providers] do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
+
+  let!(:provider) do
+    create(:saml_provider,
+           display_name: "SAML",
+           slug: "saml",
+           digest_method: "http://www.w3.org/2001/04/xmlenc#sha256",
+           sp_entity_id: "https://foobar.org",
+           idp_cert:,
+           idp_cert_fingerprint:)
+  end
+
+  let(:idp_cert) { nil }
+  let(:idp_cert_fingerprint) { "B7:11:A4:22:A0:57:9D:A6:30:06:3C:BF:AC:44:8F:90:BE:5A:E2:3F" }
 
   let(:saml_response) do
     xml = File.read("#{File.dirname(__FILE__)}/../fixtures/saml_response.xml")
@@ -42,53 +57,31 @@ RSpec.describe "SAML provider callback", with_ee: %i[openid_providers] do
     { SAMLResponse: saml_response }
   end
 
-  let(:issuer) { "https://foobar.org" }
-  let(:fingerprint) { "b711a422a0579da630063cbfac448f90be5ae23f" }
-
-  let(:config) do
-    {
-      "name" => "saml",
-      "display_name" => "SAML",
-      "assertion_consumer_service_url" => "http://localhost:3000/auth/saml/callback",
-      "issuer" => issuer,
-      "idp_cert_fingerprint" => fingerprint,
-      "idp_sso_target_url" => "https://foobar.org/login",
-      "idp_slo_target_url" => "https://foobar.org/logout",
-      "security" => {
-        "digest_method" => "http://www.w3.org/2001/04/xmlenc#sha256",
-        "check_idp_cert_expiration" => false
-      },
-      "attribute_statements" => {
-        "email" => ["email", "urn:oid:0.9.2342.19200300.100.1.3"],
-        "login" => ["uid", "email", "urn:oid:0.9.2342.19200300.100.1.3"],
-        "first_name" => ["givenName", "urn:oid:2.5.4.42"],
-        "last_name" => ["sn", "urn:oid:2.5.4.4"]
-      }
-    }
+  let(:request) do
+    post "/auth/saml/callback", body
   end
-
-  let(:request) { post "/auth/saml/callback", body }
 
   subject do
-    Timecop.freeze("2023-04-19T09:37:00Z".to_datetime) { request }
+    Timecop.freeze("2024-08-22T09:22:00Z".to_datetime) { request }
   end
 
-  before do
-    Setting.plugin_openproject_auth_saml = {
-      "providers" => { "saml" => config }
-    }
-  end
-
-  shared_examples "request fails" do
+  shared_examples "request fails" do |message|
     it "redirects to the failure page" do
       expect(subject.status).to eq(302)
-      expect(subject.headers["Location"]).to eq("/auth/failure?message=invalid_ticket&strategy=saml")
+      follow_redirect!
+      expect(last_response.body).to have_text message
     end
   end
 
-  it "redirects user when no errors occured" do
-    expect(subject.status).to eq(302)
-    expect(subject.headers["Location"]).to eq("http://#{Setting.host_name}/two_factor_authentication/request")
+  shared_examples "request succeeds" do
+    it "redirects user when no errors occured" do
+      expect(subject.status).to eq(302)
+      expect(subject.headers["Location"]).to eq("http://#{Setting.host_name}/two_factor_authentication/request")
+    end
+  end
+
+  context "with valid basic configuration" do
+    it_behaves_like "request succeeds"
   end
 
   context "with an invalid timestamp" do
@@ -98,13 +91,27 @@ RSpec.describe "SAML provider callback", with_ee: %i[openid_providers] do
       end
     end
 
-    it_behaves_like "request fails"
+    it_behaves_like "request fails", "Current time is earlier than NotBefore condition"
   end
 
   context "with an invalid fingerprint" do
-    let(:fingerprint) { "invalid" }
+    let(:idp_cert_fingerprint) { "invalid" }
 
     it_behaves_like "request fails"
+  end
+
+  context "when providing the valid certificate" do
+    let(:idp_cert) { File.read(Rails.root.join("modules/auth_saml/spec/fixtures/idp_cert_plain.txt").to_s) }
+    let(:idp_cert_fingerprint) { nil }
+
+    it_behaves_like "request succeeds"
+  end
+
+  context "when providing an invalid certificate" do
+    let(:idp_cert) { CertificateHelper.expired_certificate.to_pem }
+    let(:idp_cert_fingerprint) { nil }
+
+    it_behaves_like "request fails", "Fingerprint mismatch"
   end
 
   context "with a RelayState present" do

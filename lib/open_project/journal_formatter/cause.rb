@@ -77,6 +77,10 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       status_changed_message
     when "progress_mode_changed_to_status_based"
       progress_mode_changed_to_status_based_message
+    when "total_percent_complete_mode_changed_to_work_weighted_average"
+      total_percent_complete_mode_changed_to_work_weighted_average_message
+    when "total_percent_complete_mode_changed_to_simple_average"
+      total_percent_complete_mode_changed_to_simple_average_message
     else
       related_work_package_changed_message
     end
@@ -141,6 +145,14 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
 
   def progress_mode_changed_to_status_based_message
     I18n.t("journals.cause_descriptions.progress_mode_changed_to_status_based")
+  end
+
+  def total_percent_complete_mode_changed_to_work_weighted_average_message
+    I18n.t("journals.cause_descriptions.total_percent_complete_mode_changed_to_work_weighted_average")
+  end
+
+  def total_percent_complete_mode_changed_to_simple_average_message
+    I18n.t("journals.cause_descriptions.total_percent_complete_mode_changed_to_simple_average")
   end
 
   def related_work_package_changed_message

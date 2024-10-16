@@ -156,6 +156,18 @@ module Components
         end
       end
 
+      def expect_error(field_name, error_message)
+        field(field_name).expect_error(error_message)
+      end
+
+      def expect_errors(**field_error_pairs)
+        aggregate_failures("progress popover errors expectations") do
+          field_error_pairs.each do |field_name, error_message|
+            expect_error(field_name, error_message)
+          end
+        end
+      end
+
       private
 
       def field(field_name)

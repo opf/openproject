@@ -32,7 +32,7 @@ source "https://rubygems.org"
 # then we can use the new bundler syntax `ruby file: '.ruby-version'`.
 # https://github.com/heroku/heroku-buildpack-ruby/issues/1408#issuecomment-1841596215
 
-ruby File.read(".ruby-version").strip
+ruby File.read(File.expand_path(".ruby-version", __dir__)).strip
 
 gem "actionpack-xml_parser", "~> 2.0.0"
 gem "activemodel-serializers-xml", "~> 1.0.1"
@@ -93,7 +93,7 @@ gem "deckar01-task_list", "~> 2.3.1"
 # Requires escape-utils for faster escaping
 gem "escape_utils", "~> 1.3"
 # Syntax highlighting used in html-pipeline with rouge
-gem "rouge", "~> 4.3.0"
+gem "rouge", "~> 4.4.0"
 # HTML sanitization used for html-pipeline
 gem "sanitize", "~> 6.1.0"
 # HTML autolinking for mails and urls (replaces autolink)
@@ -158,7 +158,7 @@ gem "structured_warnings", "~> 0.4.0"
 gem "airbrake", "~> 13.0.0", require: false
 
 gem "markly", "~> 0.10" # another markdown parser like commonmarker, but with AST support used in PDF export
-gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "32603f09a249999a00e8ca23eb17215b46a26c0f"
+gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "fe05b4f8bae8fd46f4fa93b8e0adee6295ef7388"
 gem "prawn", "~> 2.4"
 gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
 
@@ -167,7 +167,7 @@ gem "matrix", "~> 0.4.2"
 
 gem "meta-tags", "~> 2.22.0"
 
-gem "paper_trail", "~> 15.1.0"
+gem "paper_trail", "~> 15.2.0"
 
 gem "op-clamav-client", "~> 3.4", require: "clamav"
 
@@ -175,7 +175,7 @@ group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
   gem "dalli", "~> 3.2.0"
-  gem "redis", "~> 5.2.0"
+  gem "redis", "~> 5.3.0"
 end
 
 gem "i18n-js", "~> 4.2.3"
@@ -272,6 +272,7 @@ group :test do
   gem "capybara_accessible_selectors", git: "https://github.com/citizensadvice/capybara_accessible_selectors", branch: "main"
   gem "capybara-screenshot", "~> 1.0.17"
   gem "cuprite", "~> 0.15.0"
+  gem "rspec-wait"
   gem "selenium-devtools"
   gem "selenium-webdriver", "~> 4.20"
 
@@ -357,7 +358,7 @@ end
 gem "bootsnap", "~> 1.18.0", require: false
 
 # API gems
-gem "grape", "~> 2.1.0"
+gem "grape", "~> 2.2.0"
 gem "grape_logging", "~> 1.8.4"
 gem "roar", "~> 1.2.0"
 
@@ -398,4 +399,4 @@ end
 
 gem "openproject-octicons", "~>19.18.0"
 gem "openproject-octicons_helper", "~>19.18.0"
-gem "openproject-primer_view_components", "~>0.47.0"
+gem "openproject-primer_view_components", "~>0.48.0"

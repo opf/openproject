@@ -1,7 +1,5 @@
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
-import {
-  ElementRef, Injector, OnInit, Directive,
-} from '@angular/core';
+import { Directive, ElementRef, Injector, OnInit } from '@angular/core';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { Subject } from 'rxjs';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
@@ -84,9 +82,6 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
   focus():void {
     const trigger = this.elementRef.nativeElement.querySelector('.inplace-editing--trigger-container');
     trigger && trigger.focus();
-  }
-
-  onFocusOut():void {
   }
 
   handleUserKeydown(event:JQuery.TriggeredEvent, onlyCancel?:boolean):void {

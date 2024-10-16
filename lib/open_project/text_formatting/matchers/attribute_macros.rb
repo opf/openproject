@@ -30,7 +30,9 @@ module OpenProject::TextFormatting
   module Matchers
     # OpenProject attribute macros syntax
     # Examples:
+    #   workPackageLabel:subject      # Outputs work package label attribute "Subject" + help text
     #   workPackageLabel:1234:subject # Outputs work package label attribute "Subject" + help text
+    #   workPackageValue:subject      # Outputs the actual subject of #1234 of the current work package 1234 if applicable
     #   workPackageValue:1234:subject # Outputs the actual subject of #1234
     #
     #   projectLabel:statusExplanation # Outputs current project label attribute "Status description" + help text
@@ -50,14 +52,43 @@ module OpenProject::TextFormatting
         content.include?("Label:") || content.include?("Value:")
       end
 
-      def self.process_match(m, _matched_string, _context)
+      def self.work_package_context?(context)
+        #  workPackageValue can be used in e.g. wiki and meeting notes without a work package,
+        #  relative embedding is not supported in these cases
+        #  work package list view or the work package fullscreen view use the wrapper via API calls, not the WorkPackage model
+        context[:object].is_a?(API::V3::WorkPackages::WorkPackageEagerLoadingWrapper) || context[:object].is_a?(WorkPackage)
+      end
+
+      def self.work_package_embed?(macro_attributes)
+        macro_attributes[:model] == "workPackage"
+      end
+
+      def self.project_embed?(macro_attributes)
+        macro_attributes[:model] == "project"
+      end
+
+      def self.relative_embed?(macro_attributes)
+        macro_attributes[:id].nil?
+      end
+
+      def self.relative_id(macro_attributes, context)
+        if project_embed?(macro_attributes) && context[:project].present?
+          context[:project].try(:id)
+        elsif work_package_embed?(macro_attributes) && work_package_context?(context)
+          context[:object].try(:id)
+        end
+      end
+
+      def self.process_match(match, _matched_string, context)
         # Leading string before match
         macro_attributes = {
-          model: m[1],
-          id: m[4] || m[3],
-          attribute: m[6] || m[5]
+          model: match[1],
+          id: match[4] || match[3],
+          attribute: match[6] || match[5]
         }
-        type = m[2].downcase
+        type = match[2].downcase
+
+        macro_attributes[:id] = relative_id(macro_attributes, context) if relative_embed?(macro_attributes)
 
         ApplicationController.helpers.content_tag "opce-macro-attribute-#{type}",
                                                   "",

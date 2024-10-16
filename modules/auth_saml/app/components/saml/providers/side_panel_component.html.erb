@@ -1,0 +1,12 @@
+<%=
+  component_wrapper do
+    render(Primer::OpenProject::SidePanel.new(spacious: true)) do |panel|
+      [
+        Saml::Providers::SidePanel::MetadataComponent.new(@provider),
+        Saml::Providers::SidePanel::InformationComponent.new(@provider),
+      ].each do |component|
+        panel.with_section(component)
+      end
+    end
+  end
+%>

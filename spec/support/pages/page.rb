@@ -27,6 +27,7 @@
 #++
 
 require_relative "../toasts/expectations"
+require_relative "../flash/expectations"
 
 module Pages
   class Page
@@ -36,6 +37,7 @@ module Pages
     include RSpec::Matchers
     include OpenProject::StaticRouting::UrlHelpers
     include Toasts::Expectations
+    include Flash::Expectations
 
     def current_page?
       URI.parse(current_url).path == path

@@ -31,21 +31,17 @@ ms:
     custom_styles:
       color_theme: "Tema warna"
       color_theme_custom: "(Tersuai)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Butang utama"
         accent-color: "Aksen"
         header-bg-color: "Latar belakang pengepala"
         header-item-bg-hover-color: "Latar belakang pengepala pada hover"
-        header-item-font-color: "Fon pengepala"
-        header-item-font-hover-color: "Fon pengepala pada hover"
-        header-border-bottom-color: "Sempadan pengepala"
         main-menu-bg-color: "Latar belakang menu utama"
         main-menu-bg-selected-background: "Menu utama apabila dipilih"
         main-menu-bg-hover-background: "Menu utama pada hover"
-        main-menu-font-color: "Fon menu utama"
-        main-menu-selected-font-color: "Fon menu utama apabila dipilih"
-        main-menu-hover-font-color: "Fon menu utama pada hover"
-        main-menu-border-color: "Sempadan menu utama"
       custom_colors: "Pilihan warna tersuai"
       customize: "Ubah suai pemasangan OpenProject dengan logo dan warna anda sendiri."
       enterprise_notice: "'Terima kasih!' sebagai tanda istimewa atas kontribusi kewangan mereka untuk membangunkan OpenProject, penambahan kecil ini hanya tersedia untuk pelanggan sokongan edisi Enterprise."
@@ -79,6 +75,7 @@ ms:
         contact: "Hubungi kami untuk demo"
       enterprise_info_html: "ialah tambahan Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'>."
       upgrade_info: "Sila naik taraf ke pelan berbayar untuk mengaktifkan dan mula menggunakannya dalam pasukan anda."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Tindakan individu pengguna (cth. mengemas kini pakej kerja dua kali) dikumpulkan ke dalam satu tindakan tunggal jika perbezaan umur mereka kurang daripada tempoh masa yang ditetapkan. Mereka akan dipaparkan sebagai tindakan tunggal dalam aplikasi. Ini juga akan menangguhkan pemberitahuan dengan jumlah masa yang sama, mengurangkan bilangan e-mel yang dihantar serta akan memberi kesan kepada penagguhan %{webhook_link}."
@@ -206,6 +203,16 @@ ms:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Untuk menambah ruang tersuai ke projek, anda perlu menciptanya terlebih dahulu sebelum anda boleh menambahnya ke projek ini.
     is_enabled_globally: "Adalah diaktifkan secara global"
@@ -218,6 +225,7 @@ ms:
       is_required: "Tandakan ruang yang tersuai seperti yang diperlukan. Ini akan buatkan ia wajib untuk isikan ruang tersebut apabila membuat sumber yang baharu atau kemas kini sumber sedia ada."
       is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Tandakan ruang tersuai sebagai tersedia di semua projek baharu dan sedia ada."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "Sertakan nilai-nilai ruangan apabila gunakan fungsi pencarian global."
       searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Benarkan ruangan tersebut boleh diedit oleh pengguna sendiri."
@@ -229,6 +237,14 @@ ms:
       no_results_content_text: Cipta ruangan tersuai baharu
   concatenation:
     single: "atau"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "Cari dalam %{app_title}"
     overwritten_tabs:
@@ -462,16 +478,22 @@ ms:
       no_results_content_text: Tambah status laporan
   statuses:
     edit:
+      status_color_text: |
+        Klik untuk menugaskan atau menukar warna status ini.
+        Ia ditunjukkan pada butang status dan boleh digunakan untuk menyoroti pakej kerja dalam jadual.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
+      status_excluded_from_totals_text: |-
+        Tandakan pilihan ini untuk mengecualikan pakej kerja dengan status ini dari jumlah Kerja, Kerja yang berbaki, dan % Selesai dalam hierarki.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Tandakan pilihan ini untuk menanda pakej kerja dengan status ini sebagai baca-sahaja.
         Tiada atribut yang boleh diubah dengan pengecualian status.
         <br/>
         <strong>Perhatian</strong>: Nilai yang diwarisi (cth, dari anak-anak atau saudara) masih akan digunakan.
-      status_excluded_from_totals_text: |-
-        Tandakan pilihan ini untuk mengecualikan pakej kerja dengan status ini dari jumlah Kerja, Kerja yang berbaki, dan % Selesai dalam hierarki.
-      status_color_text: |
-        Klik untuk menugaskan atau menukar warna status ini.
-        Ia ditunjukkan pada butang status dan boleh digunakan untuk menyoroti pakej kerja dalam jadual.
     index:
       no_results_title_text: Tiada status pakej kerja buat masa ini.
       no_results_content_text: Tambah status baharu
@@ -523,7 +545,7 @@ ms:
       could_not_be_saved: "Pakej kerja yang berikut tidak dapat disimpan:"
       none_could_be_saved: "Tiada pakej kerja %{total} yang boleh dikemas kini."
       x_out_of_y_could_be_saved: "%{failing} daripada %{total} pakej kerja tidak dapat dikemas kini manakala %{success} boleh."
-      selected_because_descendants: "Semasa %{selected} pakej kerja dipilih, sebanyak %{total} pakej kerja terjejas, termasuk keturunannya."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "keturunan yang dipilih"
     move:
       no_common_statuses_exists: "Tiada status tersedia untuk semua pakej kerja yang terpilih. Status mereka tidak dapat diubah."
@@ -613,6 +635,7 @@ ms:
         editable: "Boleh diedit"
         field_format: "Format"
         is_filter: "Digunakan sebagai penyaring"
+        is_for_all: "For all projects"
         is_required: "Diperlukan"
         max_length: "Panjang maksima"
         min_length: "Panjang minimum"
@@ -800,7 +823,7 @@ ms:
         blank: "tidak boleh dibiarkan kosong."
         blank_nested: "perlu ada ciri-ciri '%{property}' yang ditetapkan."
         cannot_delete_mapping: "diperlukan. Tidak boleh dipadam."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Pakej kerja tidak boleh dipautkan ke salah satu subtugasnya."
         circular_dependency: "Hubungan ini akan mencipta kebergantungan bulat."
         confirmation: "tidak sepadan dengan %{attribute}."
@@ -908,6 +931,8 @@ ms:
             name:
               blank: "adalah wajib. Sila pilih nama."
               not_unique: "sudah digunakan. Sila pilih nama lain."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Sekurang-kurangnya satu saluran untuk menghantar pemberitahuan perlu ditentukan."
           attributes:
@@ -1337,6 +1362,7 @@ ms:
   button_expand_all: "Kembangkan semua"
   button_favorite: "Tambah ke kegemaran"
   button_filter: "Saring"
+  button_finish_setup: "Finish setup"
   button_generate: "Menjana"
   button_list: "Senarai"
   button_lock: "Kunci"
@@ -1389,8 +1415,8 @@ ms:
     failure_message: Persetujuan gagal, tidak boleh teruskan.
     title: Persetujuan Pengguna
     decline_warning_message: Anda telah menolak untuk memberi persetujuan dan telah dilog keluar.
-    user_has_consented: Pengguna telah bersetuju dengan kenyataan yang telah dikonfigurasi anda pada masa yang diberikan.
-    not_yet_consented: Pengguna masih belum memberi persetujuan, ia akan diminta pada log masuk seterusnya.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Tentukan alamat e-mel yang boleh dihubungi oleh pengguna untuk membuat permintaan perubahan atau pemindahan data kepada pengawal data.
     contact_your_administrator: Sila hubungi pentadbir anda jika anda mahu akaun anda dipadamkan.
     contact_this_mail_address: Sila hubungi %{mail_address} jika anda mahu akaun anda dipadamkan.
@@ -1605,7 +1631,7 @@ ms:
   error_menu_item_not_saved: Item menu tidak dapat disimpan
   error_wiki_root_menu_item_conflict: >
     Tidak dapat menamakan semula "%{old_name}" ke "%{new_name}" disebabkan konflik dalam item menu yang dihasilkan dengan item menu yang sedia ada "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Ralat berlaku semasa pengesahan luaran. Sila cuba sekali lagi."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Atribut tidak boleh disorotkan: %{attributes}"
   events:
     changeset: "Set perubahan telah diedit"
@@ -1760,11 +1786,15 @@ ms:
       progress_mode_changed_to_status_based: "Pengiraan perkembangan dikemas kini"
       status_changed: "Status '%{status_name}'"
       system_update: "Kemas kini sistem OpenProject:"
+      work_package_duplicate_closed: "Duplicate work package updated:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: dengan perubahan pada pendahulu %{link}
       work_package_parent_changed_times: dengan perubahan pada induk %{link}
       work_package_children_changed_times: dengan perubahan pada anak %{link}
       work_package_related_changed_times: dengan perubahan pada %{link} yang berkaitan
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: dengan perubahan pada pakej kerja yang berkaitan
       working_days_changed:
         changed: "dengan perubahan pada hari bekerja (%{changes})"
@@ -1777,7 +1807,7 @@ ms:
       progress_mode_changed_to_status_based: Mod pengiraan perkembangan ditetapkan kepada berasaskan status
       status_excluded_from_totals_set_to_false_message: kini termasuk dalam jumlah hierarki
       status_excluded_from_totals_set_to_true_message: kini dikeluarkan daripada jumlah hierarki
-      status_percent_complete_changed: "% selesai ditukar daripada %{old_value}% kepada %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           Mulai sekarang, aktiviti berkaitan dengan pautan fail (fail-fail yang disimpan di storan luaran) akan muncul dalam tab Aktiviti. Yang berikut mewakili aktiviti berkenaan pautan yang sudah sedia ada:
@@ -1787,6 +1817,10 @@ ms:
           Perkembangan pengiraan <a href="%{href}" target="_blank"> diselaraskan dengan versi kemas kini</a>.
         totals_removed_from_childless_work_packages: >-
           Jumlah kerja dan perkembangan dipadam untuk pakej kerja bukan induk secara automatik dengan <a href="%{href}" target="_blank">versi kemas kini</a>. Ini ialah tugasan penyelenggaraan dan boleh diabaikan dengan selamat.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Panduan konfigurasi"
     get_in_touch: "Anda mempunyai soalan? Sila hubungi kami."
@@ -1886,7 +1920,8 @@ ms:
   label_additional_workflow_transitions_for_assignee: "Peralihan tambahan dibenarkan jika pengguna ialah penerima tugasan"
   label_additional_workflow_transitions_for_author: "Peralihan tambahan dibenarkan apabila pengguna ialah pengarang"
   label_administration: "Pentadbiran"
-  label_advanced_settings: "Tetapan lanjutan"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Umur"
   label_ago: "hari yang lalu"
   label_all: "semua"
@@ -1949,6 +1984,7 @@ ms:
   label_calendars_and_dates: "Kalendar dan tarikh"
   label_calendar_show: "Paparkan Kalendar"
   label_category: "Kategori"
+  label_completed: Completed
   label_consent_settings: "Persetujuan Pengguna"
   label_wiki_menu_item: Item menu wiki
   label_select_main_menu_item: Pilih item menu utama baharu
@@ -2000,6 +2036,7 @@ ms:
   label_custom_field_plural: "Ruang tersuai"
   label_custom_field_default_type: "Jenis kosong"
   label_custom_style: "Reka bentuk"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Papan Pemuka"
   label_database_version: "Versi PostgreSQL"
   label_date: "Tarikh"
@@ -2096,6 +2133,7 @@ ms:
   label_here: di sini
   label_hide: "Sembunyi"
   label_history: "Sejarah"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Daun hierarki"
   label_home: "Utama"
   label_subject_or_id: "Subjek atau ID"
@@ -2107,6 +2145,7 @@ ms:
   label_inactive: "Tidak aktif"
   label_incoming_emails: "E-mel masuk"
   label_includes: "termasuk"
+  label_incomplete: Incomplete
   label_include_sub_projects: Sertakan sub-projek
   label_index_by_date: "Indeks mengikut tarikh"
   label_index_by_title: "Indeks mengikut tajuk"
@@ -2117,12 +2156,14 @@ ms:
   label_internal: "Dalaman"
   label_introduction_video: "Video pengenalan"
   label_invite_user: "Jemput pengguna"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Kongsi"
   label_share_project_list: "Share project list"
   label_share_work_package: "Kongsi pakej kerja"
-  label_show_hide: "Papar/sembunyi"
-  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Paparkan semua pengguna berdaftar"
+  label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Jurnal"
   label_journal_diff: "Perbandingan Deskripsi"
   label_language: "Bahasa"
@@ -2193,7 +2234,7 @@ ms:
   label_more: "Lagi"
   label_more_than_ago: "lebih dari beberapa hari yang lalu"
   label_move_work_package: "Alih pakej kerja"
-  label_my_account: "Akaun saya"
+  label_my_account: "Account settings"
   label_my_activity: "Aktiviti saya"
   label_my_account_data: "Data akaun saya"
   label_my_avatar: "Avatar saya"
@@ -2220,6 +2261,7 @@ ms:
   label_no_parent_page: "Tiada halaman induk"
   label_nothing_display: "Tiada apa untuk dipaparkan"
   label_nobody: "tiada siapa"
+  label_not_configured: "Not configured"
   label_not_found: "tidak ditemui"
   label_none: "tiada"
   label_none_parentheses: "(tiada)"
@@ -2842,6 +2884,7 @@ ms:
   permission_view_shared_work_packages: "Lihat perkongsian pakej kerja"
   permission_view_time_entries: "Lihat masa yang digunakan"
   permission_view_timelines: "Lihat garis masa"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Lihat sejarah wiki"
   permission_view_wiki_pages: "Lihat wiki"
   permission_work_package_assigned: "Menjadi penerima tugasan/bertanggungjawab"
@@ -3099,8 +3142,6 @@ ms:
   setting_work_package_done_ratio_status: "Berasaskan status"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
     In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Ciri-ciri pakej kerja"
@@ -3121,6 +3162,13 @@ ms:
   setting_password_min_length: "Panjang minimum"
   setting_password_min_adhered_rules: "Bilangan minimum kelas yang diperlukan"
   setting_per_page_options: "Pilihan objek setiap halaman"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Teks mel biasa (tiada HTML)"
   setting_protocol: "Protokol"
   setting_project_gantt_query: "Paparan Gantt portfolio projek"
@@ -3145,6 +3193,13 @@ ms:
   setting_sys_api_enabled: "Mengaktifkan pengurusan repositori perkhidmatan web"
   setting_sys_api_description: "Perkhidmatan web pengurusan repositori menyediakan integrasi dan kebenaran pengguna untuk mengakses repositori."
   setting_time_format: "Masa"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Mengaktifkan mod kebolehcapaian untuk pengguna anonim"
   setting_user_format: "Format nama pengguna"
   setting_user_default_timezone: "Zon masa default pengguna"
@@ -3485,7 +3540,6 @@ ms:
       label_note: "Perhatian:"
       modal:
         work_based_help_text: "Each field is automatically calculated from the two others when possible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Selesai ditetapkan oleh status pakej kerja."
         migration_warning_text: "Dalam mod pengiraan perkembangan berdasarkan kerja, % Selesai tidak boleh ditetapkan secara manual dan ianya terikat kepada Kerja. Nilai sedia ada tersebut telah disimpan tetapi tidak boleh diedit. Sila input Kerja dahulu."
       derivation_hints:

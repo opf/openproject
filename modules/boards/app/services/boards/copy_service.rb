@@ -31,8 +31,23 @@ module Boards
     protected
 
     def set_attributes_params(params)
-      super
-        .merge(project: state.project || model.project)
+      super.deep_symbolize_keys.tap do |hash|
+        hash[:project] = state.project || model.project
+
+        hash[:options] = mapped_options(hash[:options]) if hash.key?(:options)
+      end
+    end
+
+    def mapped_options(options)
+      options[:filters] = mapped_filters(options[:filters]) if options.key?(:filters)
+
+      options
+    end
+
+    def mapped_filters(filters)
+      ::Queries::Copy::FiltersMapper
+        .new(state)
+        .map_filters(filters)
     end
   end
 end

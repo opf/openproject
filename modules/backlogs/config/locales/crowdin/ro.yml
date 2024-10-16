@@ -28,7 +28,7 @@ ro:
       work_package:
         position: "Poziție"
         story_points: "Puncte"
-        backlogs_work_package_type: "Tipul de restante"
+        backlogs_work_package_type: "Tip restanță"
     errors:
       models:
         work_package:
@@ -37,7 +37,7 @@ ro:
               can_only_contain_work_packages_of_current_sprint: "poate conține numai ID-uri ale pachetelor de lucru din sprintul curent."
               must_block_at_least_one_work_package: "trebuie să conțină ID-ul a cel puțin un bilet."
             version_id:
-              task_version_must_be_the_same_as_story_version: "trebuie să fie aceeași cu versiunea povestirii-mamă."
+              task_version_must_be_the_same_as_story_version: "trebuie să fie aceeași cu versiunea cerinței părinte."
         sprint:
           cannot_end_before_it_starts: "Sprint nu se poate termina înainte de a începe."
   backlogs:
@@ -68,7 +68,7 @@ ro:
     remaining_hours_ideal: "Munca rămasă (ideal)"
     show_burndown_chart: "Size Chart"
     story: "Articol"
-    story_points: "Puncte"
+    story_points: "Puncte cerință"
     story_points_ideal: "Puncte"
     task: "Sarcină"
     task_color: "Sarcină"
@@ -86,7 +86,7 @@ ro:
   backlogs_sprint_unestimated: "Sprinturi închise sau active cu povești neestimate"
   backlogs_sprint_unsized: "Proiectul are povești pe sprinturi active sau recent închise care nu au fost dimensionate"
   backlogs_sprints: "Sprinturi"
-  backlogs_story: "Articol"
+  backlogs_story: "Cerință"
   backlogs_story_type: "Tipuri de povești"
   backlogs_task: "Sarcină"
   backlogs_task_type: "Sarcină"
@@ -134,7 +134,7 @@ ro:
   label_wiki: "Wiki"
   permission_view_master_backlog: "Vizualizare master backlog"
   permission_view_taskboards: "Vizualizați tablourile de sarcini"
-  permission_select_done_statuses: "Selectați statusuri terminate"
+  permission_select_done_statuses: "Selectează stările realizate"
   permission_update_sprints: "Sprinturi"
   points_accepted: "puncte acceptate"
   points_committed: "puncte comise"
@@ -144,7 +144,7 @@ ro:
   project_module_backlogs: "Restanțe"
   rb_label_copy_tasks: "Copierea pachetelor de lucru"
   rb_label_copy_tasks_all: "Toate"
-  rb_label_copy_tasks_none: "Nimic"
+  rb_label_copy_tasks_none: "Niciuna"
   rb_label_copy_tasks_open: "Deschis"
   rb_label_link_to_original: "Includeți un link către povestea originală"
   remaining_hours: "muncă rămasă"
@@ -152,7 +152,7 @@ ro:
   required_burn_rate_points: "rata de ardere necesară (puncte)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
   todo_work_package_summary: "%{type}: %{summary}"
-  version_settings_display_label: "Coloană în backlog"
+  version_settings_display_label: "Coloană în restanță"
   version_settings_display_option_left: "stanga"
   version_settings_display_option_none: "niciuna"
   version_settings_display_option_right: "dreapta"

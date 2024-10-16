@@ -14,7 +14,7 @@
           method: :get
         ) do |form| %>
       <% helpers.projects_query_params.except(:columns, :sortBy).each do |name, value| %>
-        <%= hidden_field_tag name, value %>
+        <%= hidden_field_tag name, value, data: {"sort-by-config-target" => name} %>
       <% end %>
       <%= render(Primer::Alpha::TabPanels.new(label: "label")) do |tab_panel| %>
         <% tab_panel.with_tab(selected: true, id: "tab-selects--columns") do |tab| %>
@@ -47,6 +47,9 @@
   <% end %>
   <%= render(Primer::Alpha::Dialog::Footer.new) do %>
     <%= render(Primer::ButtonComponent.new(data: { "close-dialog-id": MODAL_ID })) { I18n.t(:button_cancel) } %>
-    <%= render(Primer::ButtonComponent.new(scheme: :primary, type: :submit, form: QUERY_FORM_ID)) { I18n.t(:button_apply) } %>
+    <%= render(Primer::ButtonComponent.new(scheme: :primary,
+                                           type: :submit,
+                                           data: { "test-selector": "#{MODAL_ID}-submit"},
+                                           form: QUERY_FORM_ID)) { I18n.t(:button_apply) } %>
   <% end %>
 <% end %>

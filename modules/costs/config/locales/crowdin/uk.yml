@@ -113,6 +113,7 @@ uk:
   label_rate: "Оцінити"
   label_rate_plural: "Тариф"
   label_status_finished: "Готово"
+  label_show: "Показати"
   label_units: "Одиниці витрат"
   label_user: "Користувач"
   label_until: "до"

@@ -148,11 +148,11 @@ RSpec.describe "Work package navigation", :js, :selenium do
   it "loading an unknown work package ID" do
     visit "/work_packages/999999999"
 
-    page404 = Pages::Page.new
-    page404.expect_toast type: :error, message: I18n.t(:notice_file_not_found)
+    expect_flash type: :error, message: I18n.t(:notice_file_not_found)
 
     visit "/projects/#{project.identifier}/work_packages/999999999"
-    page404.expect_and_dismiss_toaster type: :error, message: I18n.t("api_v3.errors.not_found.work_package")
+    global_work_packages = Pages::WorkPackagesTable.new
+    global_work_packages.expect_toast type: :error, message: I18n.t("api_v3.errors.not_found.work_package")
   end
 
   # Regression #29994

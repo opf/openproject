@@ -31,7 +31,7 @@
 RSpec.shared_examples_for "upload_link_query: basic query setup" do
   it "is registered as queries.upload_link" do
     expect(Storages::Peripherals::Registry
-             .resolve("#{storage.short_provider_type}.queries.upload_link")).to eq(described_class)
+             .resolve("#{storage}.queries.upload_link")).to eq(described_class)
   end
 
   it "responds to #call with correct parameters" do
@@ -79,38 +79,5 @@ RSpec.shared_examples_for "upload_link_query: error" do
     error = result.errors
     expect(error.code).to eq(:error)
     expect(error.data.source).to eq(error_source)
-  end
-end
-
-RSpec.shared_examples_for "upload_link_query: validating input data" do
-  let(:upload_data) { Storages::UploadData.new(folder_id:, file_name:) }
-  let(:error_source) { described_class }
-
-  context "if folder id being empty" do
-    let(:folder_id) { "" }
-    let(:file_name) { "DeathStart_blueprints.tiff" }
-
-    it_behaves_like "upload_link_query: error"
-  end
-
-  context "if folder id being nil" do
-    let(:folder_id) { nil }
-    let(:file_name) { "DeathStart_blueprints.tiff" }
-
-    it_behaves_like "upload_link_query: error"
-  end
-
-  context "if file name being empty" do
-    let(:folder_id) { "42" }
-    let(:file_name) { "" }
-
-    it_behaves_like "upload_link_query: error"
-  end
-
-  context "if file name being nil" do
-    let(:folder_id) { "42" }
-    let(:file_name) { nil }
-
-    it_behaves_like "upload_link_query: error"
   end
 end

@@ -27,14 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% if @message_details %>
-  <% content_for :error_details do %>
-    <p><%= @message_details %></p>
-  <% end %>
-<% end %>
-
-<% error_message = "[#{I18n.t(:error_code, code: @status)}] #{@message}" %>
-<%= render partial: "common/error_base", locals: { error_message: error_message } %>
 <%= call_hook(:view_common_error_details, { params: params, project: ((defined? @project) ? @project : nil) }) %>
 
-<% html_title h(@status) %>
+<% html_title h(status) %>

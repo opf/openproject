@@ -8,7 +8,7 @@ ms:
       create_title: 'Cipta perancang pasukan baharu'
       unsaved_title: 'Perancangan pasukan yang belum dinamakan'
       no_data: 'Tambah penerima tugasan untuk penyediaan perancang pasukan anda.'
-      add_assignee: 'Tambah penerima tugasan'
+      add_assignee: 'Assignee'
       remove_assignee: 'Keluarkan penerima tugasan'
       two_weeks: '2-minggu'
       one_week: '1-minggu'

@@ -40,7 +40,7 @@ RSpec.describe "Manage webhooks through UI", :js do
       # 1st webhook created
       #
 
-      expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_successful_create))
+      expect_flash(message: I18n.t(:notice_successful_create))
       expect(page).to have_css(".webhooks--outgoing-webhook-row .name", text: "My webhook")
       webhook = Webhooks::Webhook.last
       expect(webhook.event_names).to eq %w(work_package:created)
@@ -65,7 +65,7 @@ RSpec.describe "Manage webhooks through UI", :js do
       find(".webhooks--selected-project-ids[value='#{project.id}']").set true
 
       click_on "Save"
-      expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_successful_update))
+      expect_flash(message: I18n.t(:notice_successful_update))
       expect(page).to have_css(".webhooks--outgoing-webhook-row .name", text: "My webhook")
       webhook = Webhooks::Webhook.last
       expect(webhook.event_names).to eq %w(work_package:updated)
@@ -77,7 +77,7 @@ RSpec.describe "Manage webhooks through UI", :js do
       find(".webhooks--outgoing-webhook-row-#{webhook.id} .icon-delete").click
       page.driver.browser.switch_to.alert.accept
 
-      expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_successful_delete))
+      expect_flash(message: I18n.t(:notice_successful_delete))
       expect(page).to have_css(".generic-table--empty-row")
     end
 

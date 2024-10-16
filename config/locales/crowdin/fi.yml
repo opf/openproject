@@ -31,21 +31,17 @@ fi:
     custom_styles:
       color_theme: "Väriteema"
       color_theme_custom: "(Mukautettu)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
         accent-color: "Accent"
         header-bg-color: "Header background"
         header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
         main-menu-bg-color: "Main menu background"
         main-menu-bg-selected-background: "Main menu when selected"
         main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Päävalikon kirjasin"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
       custom_colors: "Mukautetut värit"
       customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
@@ -79,6 +75,7 @@ fi:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
@@ -207,6 +204,16 @@ fi:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Jotta voit lisätä tälle projektille uusia muokattavia kenttiä, tulee sinun ensin luoda ne.
     is_enabled_globally: "On käytössä kaikkialla"
@@ -219,6 +226,7 @@ fi:
       is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
       is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Mark the custom field as available in all existing and new projects."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "Include the field values when using the global search functionality."
       searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Allow the field to be editable by users themselves."
@@ -230,6 +238,14 @@ fi:
       no_results_content_text: Luo uusi mukautettu kenttä
   concatenation:
     single: "tai"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "Search in %{app_title}"
     overwritten_tabs:
@@ -469,17 +485,23 @@ fi:
       no_results_content_text: Lisää tilanneraportti
   statuses:
     edit:
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Valitse tämä valinta, jos haluat merkitä tehtävät tällä tilalla vain luku tilaan.
         Attribuutteja ei voi muuttaa lukuunottamatta tilaa.
         <br/>
         <strong>Huomautus</strong>: Perittyjä arvoja (esim. alitehtehtäviltä tai riippuvuuksista) sovelletaan.
-      status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
-      status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: Ei tehtävien tiloja.
       no_results_content_text: Lisää uusi tila
@@ -532,7 +554,7 @@ fi:
       could_not_be_saved: "The following work packages could not be saved:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Kaikkien valittujen tehtävien tilaa ei ole saatavilla. Niiden tilaa ei voi muuttaa."
@@ -622,6 +644,7 @@ fi:
         editable: "Muokattava"
         field_format: "Kentän tyyppi"
         is_filter: "Käytetään suodattimena"
+        is_for_all: "For all projects"
         is_required: "Pakollinen tieto"
         max_length: "Enimmäispituus"
         min_length: "Vähimmäispituus"
@@ -809,7 +832,7 @@ fi:
         blank: "ei voi olla sisällötön."
         blank_nested: "needs to have the property '%{property}' set."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Tehtävää ei voida yhdistää alitehtäviin."
         circular_dependency: "Tämä riippuvuus loisi kehän."
         confirmation: "ei vastaa %{attribute}."
@@ -917,6 +940,8 @@ fi:
             name:
               blank: "is mandatory. Please select a name."
               not_unique: "is already in use. Please select another name."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "At least one channel for sending notifications needs to be specified."
           attributes:
@@ -1356,6 +1381,7 @@ fi:
   button_expand_all: "Laajenna kaikki"
   button_favorite: "Add to favorites"
   button_filter: "Suodata"
+  button_finish_setup: "Finish setup"
   button_generate: "Luo"
   button_list: "Lista"
   button_lock: "Lukitse"
@@ -1408,8 +1434,8 @@ fi:
     failure_message: Suostumuksen antaminen epäonnistui, ei voida jatkaa.
     title: Käyttäjän suostumus
     decline_warning_message: Et hyväksynyt ehtoja ja sinut on kirjattu ulos järjestelmästä.
-    user_has_consented: Käyttäjä on antanut suostumuksen konfiguroituun ilmoitukseen ilmoitettuna ajankohtana.
-    not_yet_consented: Käyttäjä ei ole vielä antanut suostumusta, pyydetään seuraavan kirjautumisen yhteydessä.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Määritä sähköpostiosoite, jonka käyttäjät voivat tavoittaa rekisterinpitäjän suorittamaan tietojen muutos- tai poistopyyntöjä.
     contact_your_administrator: Ota yhteyttä järjestelmänvalvojaan mikäli haluat että tilisi poistetaan.
     contact_this_mail_address: Ota yhteyttä %{mail_address} mikäli haluat että tilisi poistetaan.
@@ -1642,7 +1668,7 @@ fi:
   error_menu_item_not_saved: Valikkokohta ei voitu tallentaa
   error_wiki_root_menu_item_conflict: >
     Arvoa "%{old_name}" ei voi uudelleennimetä arvoksi "%{new_name}" koska se olisi konfliktissa valikkoarvon "%{existing_caption}" (%{existing_identifier}) kanssa.
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
     changeset: "Changeset edited"
@@ -1797,11 +1823,15 @@ fi:
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
+      work_package_duplicate_closed: "Duplicate work package updated:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
       work_package_children_changed_times: by changes to child %{link}
       work_package_related_changed_times: by changes to related %{link}
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: by changes to a related work package
       working_days_changed:
         changed: "by changes to working days (%{changes})"
@@ -1814,7 +1844,7 @@ fi:
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1824,6 +1854,10 @@ fi:
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
         totals_removed_from_childless_work_packages: >-
           Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Configuration guide"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1923,7 +1957,8 @@ fi:
   label_additional_workflow_transitions_for_assignee: "Vastuulliselle käyttäjälle on olemassa lisää siirtymiä"
   label_additional_workflow_transitions_for_author: "Aloittajalle on olemassa lisää siirtymiä"
   label_administration: "Ylläpito"
-  label_advanced_settings: "Lisäasetukset"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Ikä"
   label_ago: "päiviä sitten"
   label_all: "kaikki"
@@ -1986,6 +2021,7 @@ fi:
   label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Näytä kalenteri"
   label_category: "Kategoria"
+  label_completed: Completed
   label_consent_settings: "Käyttäjän suostumus"
   label_wiki_menu_item: Wiki-valikkovaihtoehto
   label_select_main_menu_item: Valitse uusi valikkovaihtoehto päävalikkoon
@@ -2037,6 +2073,7 @@ fi:
   label_custom_field_plural: "Mukautetut kentät"
   label_custom_field_default_type: "Tyhjä tyyppi"
   label_custom_style: "Ulkoasu"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "Päivämäärä"
@@ -2133,6 +2170,7 @@ fi:
   label_here: tässä
   label_hide: "Piilota"
   label_history: "Historia"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Koti"
   label_subject_or_id: "Aihe tai ID"
@@ -2144,6 +2182,7 @@ fi:
   label_inactive: "Inactive"
   label_incoming_emails: "Saapuvat sähköpostiviestit"
   label_includes: "sisältää"
+  label_incomplete: Incomplete
   label_include_sub_projects: Include sub-projects
   label_index_by_date: "Hakemisto päivittäin"
   label_index_by_title: "Hakemisto otsikoittain"
@@ -2154,12 +2193,14 @@ fi:
   label_internal: "Sisäinen"
   label_introduction_video: "Introduction video"
   label_invite_user: "Kutsu käyttäjä"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Jaa"
   label_share_project_list: "Share project list"
   label_share_work_package: "Share work package"
-  label_show_hide: "Näytä/piilota"
-  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Show all registered users"
+  label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Journal"
   label_journal_diff: "Kuvauksen vertailu"
   label_language: "Kieli"
@@ -2230,7 +2271,7 @@ fi:
   label_more: "Lisää"
   label_more_than_ago: "enemän kuin päivää sitten"
   label_move_work_package: "Siirrä tehtävä"
-  label_my_account: "Tiliasetukset"
+  label_my_account: "Account settings"
   label_my_activity: "My activity"
   label_my_account_data: "Tilini tiedot"
   label_my_avatar: "My avatar"
@@ -2257,6 +2298,7 @@ fi:
   label_no_parent_page: "Ei yläsivua"
   label_nothing_display: "Ei näytettävää"
   label_nobody: "ei kukaan"
+  label_not_configured: "Not configured"
   label_not_found: "ei löydetty"
   label_none: "ei mitään"
   label_none_parentheses: "(none)"
@@ -2883,6 +2925,7 @@ fi:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Näytä käytetty aika"
   permission_view_timelines: "Tarkastele aikajanoja"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Näytä wiki historia"
   permission_view_wiki_pages: "Näytä wiki"
   permission_work_package_assigned: "Become assignee/responsible"
@@ -3140,8 +3183,6 @@ fi:
   setting_work_package_done_ratio_status: "Status-based"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
     In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Tehtävän ominaisuudet"
@@ -3162,6 +3203,13 @@ fi:
   setting_password_min_length: "Vähimmäispituus"
   setting_password_min_adhered_rules: "Luokkien vähimmäismäärä"
   setting_per_page_options: "Sivun objektien määrän asetukset"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "vain muotoilematonta tekstiä (ei HTML)"
   setting_protocol: "Protokolla"
   setting_project_gantt_query: "Project portfolio Gantt view"
@@ -3186,6 +3234,13 @@ fi:
   setting_sys_api_enabled: "Salli WS tietovaraston hallintaan"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_time_format: "Aika"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Ota helppokäyttötila anonyymeille käyttäjille"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
@@ -3527,7 +3582,6 @@ fi:
       label_note: "Note:"
       modal:
         work_based_help_text: "Each field is automatically calculated from the two others when possible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
       derivation_hints:

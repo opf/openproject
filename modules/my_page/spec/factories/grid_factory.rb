@@ -21,5 +21,11 @@ FactoryBot.define do
         )
       ]
     end
+
+    trait :empty do
+      widgets { [] }
+      row_count { 1 }
+      column_count { 1 }
+    end
   end
 end

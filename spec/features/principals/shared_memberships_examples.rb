@@ -30,7 +30,7 @@ RSpec.shared_examples "principal membership management flows" do
     principal_page.expect_project(project.name)
     principal_page.edit_roles!(member, %w())
 
-    expect(page).to have_css(".op-toast.-error", text: "Roles need to be assigned.")
+    expect_flash(type: :error, message: "Roles need to be assigned.")
 
     # Remove the user from the project
     principal_page.remove_from_project!(project.name)

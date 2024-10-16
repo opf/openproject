@@ -31,21 +31,17 @@ ro:
     custom_styles:
       color_theme: "Culoarea temei"
       color_theme_custom: "(Personalizat)"
+      tab_interface: "Interface"
+      tab_branding: "Branding"
+      tab_pdf_export_styles: "PDF export styles"
       colors:
         primary-button-color: "Primary button"
         accent-color: "Accent"
         header-bg-color: "Fundal antet"
         header-item-bg-hover-color: "Fundal antet la plutire"
-        header-item-font-color: "Font Antet"
-        header-item-font-hover-color: "Font antet la plutire"
-        header-border-bottom-color: "Frontieră antet"
         main-menu-bg-color: "Fundal meniu principal"
         main-menu-bg-selected-background: "Meniul principal când este selectat"
         main-menu-bg-hover-background: "Meniul principal la plutire"
-        main-menu-font-color: "Fontul meniului principal"
-        main-menu-selected-font-color: "Fontul meniului principal când este selectat"
-        main-menu-hover-font-color: "Fontul meniului principal la plutire"
-        main-menu-border-color: "Frontieră meniu principal"
       custom_colors: "Culori personalizate"
       customize: "Personalizează-ți instalația OpenProject cu propriul logo și culori."
       enterprise_notice: "Ca un 'Mulțumesc!' special pentru contribuția lor financiară la dezvoltarea OpenProject, acest mic add-on este disponibil doar pentru abonații la ediția Enterprise."
@@ -79,6 +75,7 @@ ro:
         contact: "Contactați-ne pentru o demonstrație"
       enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Vă rugăm să treceți la un plan plătit pentru a-l activa și a începe să îl utilizați în echipa dumneavoastră."
+    jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
       explanation:
         text: "Acțiunile individuale ale unui utilizator (de exemplu, actualizarea de două ori a unui pachet de lucru) sunt agregate într-o singură acțiune dacă diferența de vârstă dintre ele este mai mică decât intervalul de timp specificat. Acestea vor fi afișate ca o singură acțiune în cadrul aplicației. De asemenea, acest lucru va întârzia notificările cu aceeași perioadă de timp, reducând numărul de e-mailuri trimise și va afecta, de asemenea, întârzierea %{webhook_link}."
@@ -207,6 +204,16 @@ ro:
         is_for_all_blank_slate:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
+      items:
+        blankslate:
+          title: "Your list of items is empty"
+          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
+      notice:
+        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
       Dacă doriți să adăugați noi câmpuri personalizate în cadrul unui proiect va trebui, mai întâi, să le creați.
     is_enabled_globally: "Este activat/ă la nivel global"
@@ -219,6 +226,7 @@ ro:
       is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
       is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Mark the custom field as available in all existing and new projects."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "Include valorile câmpului atunci când utilizezi funcționalitatea globală de căutare."
       searchable_for_project: "Bifează pentru a face acest atribut disponibil sub formă de filtru în listele de proiecte."
       editable: "Allow the field to be editable by users themselves."
@@ -230,6 +238,14 @@ ro:
       no_results_content_text: Creare câmp personalizat nou
   concatenation:
     single: "sau"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "Caută în %{app_title}"
     overwritten_tabs:
@@ -475,17 +491,23 @@ ro:
       no_results_content_text: Adăugare raport de stare
   statuses:
     edit:
+      status_color_text: |
+        Faceți click pentru a desemna sau schimba culoarea pentru acest flux de lucru.
+        Acesta este afișat în butonul de statut și poate fi folosit pentru a evidenția pachetele de lucru din tabel.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Bifați această opțiune pentru a marca pachetele de lucru cu acest statut ca fiind numai pentru citire.
         Nu se poate modifica niciun atribut, cu excepția statutului.
         <br/>
         <strong>Notă</strong>: Valorile moștenite (de exemplu, de la copii sau relații) se vor aplica în continuare.
-      status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
-      status_color_text: |
-        Faceți click pentru a desemna sau schimba culoarea pentru acest flux de lucru.
-        Acesta este afișat în butonul de statut și poate fi folosit pentru a evidenția pachetele de lucru din tabel.
     index:
       no_results_title_text: În acest moment nu există stări pentru pachetele de lucru.
       no_results_content_text: Adăugare stare nouă
@@ -539,7 +561,7 @@ ro:
       could_not_be_saved: "Următoarele pachete de lucru nu au putut fi salvate:"
       none_could_be_saved: "Niciunul dintre pachetele de lucru %{total} nu a putut fi actualizat."
       x_out_of_y_could_be_saved: "%{failing} din %{total} pachete de lucru nu au putut fi actualizate în timp ce %{success} ar putea fi actualizat."
-      selected_because_descendants: "În timp ce %{selected} pachete de lucru selectate, în total %{total} pachete de lucru sunt afectate care includ descendenții."
+      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendent de selectat"
     move:
       no_common_statuses_exists: "Nu există o stare disponibilă pentru toate pachetele de lucru selectate. Starea acestora nu poate fi modificată."
@@ -629,6 +651,7 @@ ro:
         editable: "Editabil"
         field_format: "Format"
         is_filter: "Folosit ca filtru"
+        is_for_all: "For all projects"
         is_required: "Obligatoriu"
         max_length: "Lungime maximă"
         min_length: "Lungime minimă"
@@ -816,7 +839,7 @@ ro:
         blank: "nu poate fi gol."
         blank_nested: "trebuie să aibă setul '%{property}' al proprietății."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Un pachet de lucru nu poate fi legat de una din sub-activitățile sale."
         circular_dependency: "Această relație ar crea o dependință circulară."
         confirmation: "nu se potrivește cu %{attribute}."
@@ -924,6 +947,8 @@ ro:
             name:
               blank: "is mandatory. Please select a name."
               not_unique: "is already in use. Please select another name."
+        meeting:
+          error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         notifications:
           at_least_one_channel: "Trebuie specificat cel puţin un canal pentru trimiterea notificărilor."
           attributes:
@@ -1373,6 +1398,7 @@ ro:
   button_expand_all: "Extindere totală"
   button_favorite: "Adaugă la favorite"
   button_filter: "Filtrează"
+  button_finish_setup: "Finish setup"
   button_generate: "Generare"
   button_list: "Listă"
   button_lock: "Blocare"
@@ -1425,8 +1451,8 @@ ro:
     failure_message: Consimţământul a eșuat, nu putem continua.
     title: Consimţământul utilizatorului
     decline_warning_message: Ați refuzat să fiți de acord și ați fost delogat.
-    user_has_consented: Utilizatorul a consimțit la declarația dvs. configurată la momentul dat.
-    not_yet_consented: Utilizatorul nu și-a exprimat acordul încă, consimțământul va fi solicitat la următoarea conectare.
+    user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+    not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     contact_mail_instructions: Definiți adresa de e-mail pe care utilizatorii o pot utiliza pentru a ajunge la un responsabil cu securitatea datelor, pentru a efectua modificări de date sau solicitări de eliminare din înregistrări.
     contact_your_administrator: Contactați administratorul dvs. dacă doriți ștergerea contului dvs.
     contact_this_mail_address: Vă rugăm să contactați %{mail_address} dacă doriți ștergerea contului dvs.
@@ -1677,7 +1703,7 @@ ro:
   error_menu_item_not_saved: Meniul nu a putut fi salvat
   error_wiki_root_menu_item_conflict: >
     Nu se poate redenumi %{old_name} în %{new_name} datorită unui conflict între noul meniu și meniul deja existent "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "A apărut o eroare în timpul autentificării externe. Vă rugăm să încercați din nou."
+  error_external_authentication_failed_message: "An error occurred during external authentication: %{message}"
   error_attribute_not_highlightable: "Atributul (atributele) nu poate (pot) fi evidențiat(e): %{attributes}"
   events:
     changeset: "Set de schimbări editat"
@@ -1832,11 +1858,15 @@ ro:
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_changed: "Status '%{status_name}'"
       system_update: "Actualizare sistem OpenProiect:"
+      work_package_duplicate_closed: "Duplicate work package updated:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
+      total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
       work_package_children_changed_times: by changes to child %{link}
       work_package_related_changed_times: by changes to related %{link}
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: by changes to a related work package
       working_days_changed:
         changed: "by changes to working days (%{changes})"
@@ -1849,7 +1879,7 @@ ro:
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_percent_complete_changed: "% Complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1859,6 +1889,10 @@ ro:
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
         totals_removed_from_childless_work_packages: >-
           Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Child work packages without Work are ignored.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Work values of child work packages are ignored.
   links:
     configuration_guide: "Ghid de configurare"
     get_in_touch: "Aveți întrebări? Luați legătura cu noi."
@@ -1922,7 +1956,7 @@ ro:
       shared: "Partajat"
       watched: "Observator"
     facets:
-      unread: "necitită"
+      unread: "Necitite"
       unread_title: "Afișare necitite"
       all: "Toate"
       all_title: "Afișare toate"
@@ -1958,7 +1992,8 @@ ro:
   label_additional_workflow_transitions_for_assignee: "Tranziții suplimentare permise când utilizatorul este executantul"
   label_additional_workflow_transitions_for_author: "Tranziții suplimentare permise când utilizatorul este autorul"
   label_administration: "Administrare"
-  label_advanced_settings: "Setări avansate"
+  label_interface_colors: "Interface colors"
+  label_interface_colors_description: "These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). "
   label_age: "Vârstă"
   label_ago: "zile în urmă"
   label_all: "toate"
@@ -2021,6 +2056,7 @@ ro:
   label_calendars_and_dates: "Calendare și dăți"
   label_calendar_show: "Afișare calendar"
   label_category: "Categorie"
+  label_completed: Completed
   label_consent_settings: "Consimțământ utilizator"
   label_wiki_menu_item: Meniu wiki
   label_select_main_menu_item: Selectare meniu wiki nou
@@ -2072,6 +2108,7 @@ ro:
   label_custom_field_plural: "Câmpuri personalizate"
   label_custom_field_default_type: "Golire tip"
   label_custom_style: "Design"
+  label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
   label_dashboard: "Panou de control"
   label_database_version: "Versiunea PostgreSQL"
   label_date: "Data"
@@ -2168,6 +2205,7 @@ ro:
   label_here: aici
   label_hide: "Ascunde"
   label_history: "Istoric"
+  label_hierarchy: "Hierarchy"
   label_hierarchy_leaf: "Frunză de ierarhie"
   label_home: "Pagina de start"
   label_subject_or_id: "Subiect sau ID"
@@ -2179,6 +2217,7 @@ ro:
   label_inactive: "Inactiv"
   label_incoming_emails: "E-mailuri primite"
   label_includes: "Include"
+  label_incomplete: Incomplete
   label_include_sub_projects: Include sub-projects
   label_index_by_date: "Indexare după dată"
   label_index_by_title: "Indexare după titlu"
@@ -2189,12 +2228,14 @@ ro:
   label_internal: "Intern"
   label_introduction_video: "Video de introducere"
   label_invite_user: "Invitare utilizator"
+  label_item: "Item"
+  label_item_plural: "Items"
   label_share: "Distribuie"
   label_share_project_list: "Distribuie lista de proiecte"
   label_share_work_package: "Share work package"
-  label_show_hide: "Afișare/ascundere"
-  label_show_hide_n_items: "Show/hide %{count} items"
   label_show_all_registered_users: "Afișați toți utilizatorii înregistrați"
+  label_show_less: "Show less"
+  label_show_more: "Show more"
   label_journal: "Jurnal"
   label_journal_diff: "Comparare descriere"
   label_language: "Limbă"
@@ -2265,7 +2306,7 @@ ro:
   label_more: "Mai mult"
   label_more_than_ago: "acum mai mult de zile"
   label_move_work_package: "Mutare pachet de lucru"
-  label_my_account: "Contul meu"
+  label_my_account: "Account settings"
   label_my_activity: "Activitatea mea"
   label_my_account_data: "Datele din contul meu"
   label_my_avatar: "My avatar"
@@ -2274,7 +2315,7 @@ ro:
   label_never: "Niciodată"
   label_new: "Nou"
   label_new_features: "Caracteristici noi"
-  label_new_statuses_allowed: "Stări noi permise"
+  label_new_statuses_allowed: "Setări noi permise"
   label_news_singular: "Noutăţi"
   label_news_added: "Noutăți adăugate"
   label_news_comment_added: "Comentariu adăugat la noutăți"
@@ -2292,6 +2333,7 @@ ro:
   label_no_parent_page: "Pagină părinte:"
   label_nothing_display: "Nimic de afișat"
   label_nobody: "nimeni"
+  label_not_configured: "Not configured"
   label_not_found: "nu a fost găsit"
   label_none: "niciunul"
   label_none_parentheses: "(nimic)"
@@ -2422,7 +2464,7 @@ ro:
   label_send_test_email: "Trimite e-mail de test"
   label_session: "Sesiune"
   label_setting_plural: "Setări"
-  label_system_settings: "Setări de sistem"
+  label_system_settings: "Setări sistem"
   label_show_completed_versions: "Afișare versiuni complete"
   label_columns: "Coloane"
   label_sort: "Sortare"
@@ -2532,7 +2574,7 @@ ro:
   label_work_package_plural: "Pachete de lucru"
   label_work_package_status: "Stare pachet de lucru"
   label_work_package_status_new: "Stare nouă"
-  label_work_package_status_plural: "Stări pachete de lucru"
+  label_work_package_status_plural: "Setări pachete de lucru"
   label_work_package_types: "Tipuri de pachete de lucru"
   label_work_package_tracking: "Urmărire pachete de lucru"
   label_work_package_view_all: "Toate pachetele de lucru"
@@ -2597,7 +2639,7 @@ ro:
     digests:
       including_mention_singular: "inclusiv o mențiune"
       including_mention_plural: "inclusiv %{number_mentioned} menționări"
-      unread_notification_singular: "1 notificare necitită"
+      unread_notification_singular: "o notificare necitită"
       unread_notification_plural: "%{number_unread} notificări necitite"
       you_have: "Aveți"
     logo_alt_text: "Logo-ul"
@@ -2901,7 +2943,7 @@ ro:
   permission_rename_wiki_pages: "Redenumire pagini wiki"
   permission_save_queries: "Salvați vizualizările"
   permission_search_project: "Caută proiect"
-  permission_select_custom_fields: "Selectați câmpurile personalizate"
+  permission_select_custom_fields: "Selectează câmpuri personalizate"
   permission_select_project_custom_fields: "Select project attributes"
   permission_select_project_modules: "Selectare module proiect"
   permission_share_work_packages: "Share work packages"
@@ -2919,6 +2961,7 @@ ro:
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Vizualizare timp consumat"
   permission_view_timelines: "Vizualizare linii de timp"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Vizualizare istoric wiki"
   permission_view_wiki_pages: "Vizualizare wiki"
   permission_work_package_assigned: "Deveniți cesionar/responsabil"
@@ -3176,8 +3219,6 @@ ro:
   setting_work_package_done_ratio_status: "Status-based"
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_done_ratio_explanation_html: >
     In <b>work-based</b> mode, % Complete can be freely set to any value. If you optionally enter a value for Work, Remaining work will automatically be derived. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Proprietăți pachet de lucru"
@@ -3198,6 +3239,13 @@ ro:
   setting_password_min_length: "Lungime minimă"
   setting_password_min_adhered_rules: "Numărul minim de clase necesare"
   setting_per_page_options: "Opțiuni pentru obiecte pe pagină"
+  setting_percent_complete_on_status_closed: "% Complete when status is closed"
+  setting_percent_complete_on_status_closed_no_change: "No change"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    The value of <i>% Complete</i> will not change even when a work package is closed.
+  setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    A closed work package is considered complete.
   setting_plain_text_mail: "Text e-mail simplu (fără HTML)"
   setting_protocol: "Protocol"
   setting_project_gantt_query: "Portofoliu de proiecte vedere Gantt"
@@ -3222,6 +3270,13 @@ ro:
   setting_sys_api_enabled: "Activare serviciul web de administrare repo"
   setting_sys_api_description: "Serviciul web de administrare repo oferă integrare şi autorizare utilizatori pentru accesul la repo-uri."
   setting_time_format: "Ora"
+  setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
+  setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
+  setting_total_percent_complete_mode_simple_average: "Simple average"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
   setting_accessibility_mode_for_anonymous: "Activează modul de accesibilitate pentru utilizatorii anonimi"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Fusul orar implicit al utilizatorilor"
@@ -3275,7 +3330,7 @@ ro:
       mode_long:
         inline: "Evidențiați atributul (atributele) inline"
         none: "Fără evidențiere"
-        status: "Rândul întreg după statut"
+        status: "Întregul rând după Stare"
         type: "Întregul rând pe tipuri"
         priority: "Întregul rând în funcție de Prioritate"
     icalendar:
@@ -3316,7 +3371,7 @@ ro:
     markdown: "Markdown"
     plain: "Text simplu"
   status_active: "activ"
-  status_archived: "Arhivat"
+  status_archived: "arhivat"
   status_blocked: "blocked"
   status_invited: invitat
   status_locked: blocat
@@ -3512,7 +3567,7 @@ ro:
     registered: "înregistrat"
     reset_failed_logins: "Resetare autentificări eşuate"
     status_user_and_brute_force: "%{user} şi %{brute_force}"
-    status_change: "Schimbare de stare"
+    status_change: "Schimbare stare"
     text_change_disabled_for_provider_login: "Numele este setat de furnizorul de logare și, prin urmare, nu poate fi modificat."
     text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Deblochează"
@@ -3564,7 +3619,6 @@ ro:
       label_note: "Note:"
       modal:
         work_based_help_text: "Each field is automatically calculated from the two others when possible."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Complete is set by work package status."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
       derivation_hints:

@@ -398,3 +398,9 @@ global_roles:
       - :create_user
       - :manage_user
       - :manage_placeholder_user
+  - reference: :default_role_standard_global
+    t_name: Standard global role
+    position: 7
+    builtin: :standard_global
+    permissions:
+      - :view_user_email

@@ -50,8 +50,8 @@ RSpec.describe "Boards",
     end
 
     context "with a Community Edition", with_ee: %i[] do
-      it "renders an enterprise banner and disables all restriced board types", :aggregate_failures do
-        expect(page).to have_css("op-enterprise-banner")
+      it "renders an enterprise banner and disables all restricted board types", :aggregate_failures do
+        expect(page).to have_enterprise_banner
         expect(page).to have_selector(:radio_button, "Basic")
 
         %w[Status Assignee Version Subproject Parent-child].each do |restricted_board_type|
@@ -195,8 +195,9 @@ RSpec.describe "Boards",
           it "renders a required attribute validation error" do
             expect(Boards::Grid.all).to be_empty
 
-            new_board_page.expect_toast message: "Project #{I18n.t('activerecord.errors.messages.blank')}",
-                                        type: :error
+            expect_flash message: "Project #{I18n.t('activerecord.errors.messages.blank')}",
+                         type: :error
+
             new_board_page.expect_project_dropdown
           end
         end

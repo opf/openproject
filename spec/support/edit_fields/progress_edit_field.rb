@@ -129,10 +129,11 @@ class ProgressEditField < EditField
   end
 
   def input_caption_element
-    input_element["aria-describedby"]
-      .split
-      .find { _1.start_with?("caption-") }
-      &.then { |caption_id| find(id: caption_id) }
+    input_aria_related_element(describedby: "caption")
+  end
+
+  def input_validation_element
+    input_aria_related_element(describedby: "validation")
   end
 
   def trigger_element
@@ -183,7 +184,12 @@ class ProgressEditField < EditField
   # If they are the same, it means the modal field is in focus.
   # @return [Boolean] true if the modal field is in focus, false otherwise.
   def expect_modal_field_in_focus
-    expect(focused?).to be(true)
+    # Use capybara `synchronize` helper to wait until the modal field is in focus
+    page.document.synchronize do
+      unless focused?
+        raise Capybara::ExpectationNotMet, "Input #{input_element} does not have focus"
+      end
+    end
   end
 
   def focused?
@@ -239,6 +245,15 @@ class ProgressEditField < EditField
     end
   end
 
+  def expect_error(expected_error)
+    if expected_error.nil?
+      expect(input_validation_element).to be_nil, "Expected no error message for #{@human_field_name} field, " \
+                                                  "got \"#{input_validation_element&.text}\""
+    else
+      expect(input_validation_element).to have_text(expected_error)
+    end
+  end
+
   def expect_select_field_with_options(*expected_options)
     within modal_element do
       expect(page).to have_select(field_name, with_options: expected_options)
@@ -253,24 +268,18 @@ class ProgressEditField < EditField
     end
   end
 
-  # to be removed in 15.0 with :percent_complete_edition feature flag removal
-  def expect_migration_warning_banner(should_render: true)
-    within modal_element do
-      if should_render
-        expect(page)
-          .to have_text(I18n.t("work_package.progress.modal.migration_warning_text"))
-      else
-        expect(page)
-          .to have_no_text(I18n.t("work_package.progress.modal.migration_warning_text"))
-      end
-    end
-  end
-
   private
 
   attr_reader :field_name
 
   def modal_element
     page.find(MODAL_SELECTOR)
+  end
+
+  def input_aria_related_element(describedby:)
+    input_element["aria-describedby"]
+      .split
+      .find { _1.start_with?("#{describedby}-") }
+      &.then { |id| find(id:) }
   end
 end

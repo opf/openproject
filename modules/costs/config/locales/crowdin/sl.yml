@@ -113,6 +113,7 @@ sl:
   label_rate: "Stopnja"
   label_rate_plural: "Cene"
   label_status_finished: "Končano"
+  label_show: "Show"
   label_units: "Stroškovne enote"
   label_user: "Uporabnik"
   label_until: "do"

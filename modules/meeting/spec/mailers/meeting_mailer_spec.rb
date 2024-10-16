@@ -47,6 +47,8 @@ RSpec.describe MeetingMailer do
   let(:meeting_agenda) do
     create(:meeting_agenda, meeting:)
   end
+  let(:tokyo_offset) { "UTC#{ActiveSupport::TimeZone['Asia/Tokyo'].now.formatted_offset}" }
+  let(:berlin_offset) { "UTC#{ActiveSupport::TimeZone['Europe/Berlin'].now.formatted_offset}" }
 
   before do
     User.current = author
@@ -88,11 +90,9 @@ RSpec.describe MeetingMailer do
     context "with a recipient with another time zone" do
       let!(:preference) { watcher1.pref.update(time_zone: "Asia/Tokyo") }
 
-      it "renders the mail with the correcet locale" do
-        expect(mail.text_part.body).to include("Tokyo")
-        expect(mail.text_part.body).to include("GMT+09:00")
-        expect(mail.html_part.body).to include("Tokyo")
-        expect(mail.html_part.body).to include("GMT+09:00")
+      it "renders the mail with the correct locale" do
+        expect(mail.text_part.body).to include(tokyo_offset)
+        expect(mail.html_part.body).to include(tokyo_offset)
 
         expect(mail.to).to contain_exactly(watcher1.mail)
       end
@@ -111,8 +111,8 @@ RSpec.describe MeetingMailer do
 
         it "renders the mail with the correct locale" do
           expect(mail.html_part.body).to include("11/09/2021 11:00 PM")
-          expect(mail.html_part.body).to include("12:00 AM (GMT+01:00) Europe/Berlin")
-          expect(mail.text_part.body).to include("11/09/2021 11:00 PM-12:00 AM (GMT+01:00) Europe/Berlin")
+          expect(mail.html_part.body).to include("12:00 AM (#{berlin_offset})")
+          expect(mail.text_part.body).to include("11/09/2021 11:00 PM-12:00 AM (#{berlin_offset})")
 
           expect(mail.to).to contain_exactly(author.mail)
         end
@@ -124,9 +124,9 @@ RSpec.describe MeetingMailer do
 
         it "renders the mail with the correct locale" do
           expect(mail.html_part.body).to include("11/10/2021 07:00 AM")
-          expect(mail.html_part.body).to include("08:00 AM (GMT+09:00) Asia/Tokyo")
+          expect(mail.html_part.body).to include("08:00 AM (#{tokyo_offset})")
 
-          expect(mail.text_part.body).to include("11/10/2021 07:00 AM-08:00 AM (GMT+09:00) Asia/Tokyo")
+          expect(mail.text_part.body).to include("11/10/2021 07:00 AM-08:00 AM (#{tokyo_offset})")
 
           expect(mail.to).to contain_exactly(watcher1.mail)
         end
@@ -160,7 +160,7 @@ RSpec.describe MeetingMailer do
         expect(body).to include(meeting.project.name)
         expect(body).to include(meeting.title)
         expect(body).to include(meeting.location)
-        expect(body).to include("01/19/2021 11:00 AM-12:00 PM (GMT+01:00) Europe/Berlin")
+        expect(body).to include("01/19/2021 11:00 AM-12:00 PM (#{berlin_offset})")
         expect(body).to include(meeting.participants[0].name)
         expect(body).to include(meeting.participants[1].name)
       end
@@ -174,7 +174,7 @@ RSpec.describe MeetingMailer do
         expect(body).to include(meeting.title)
         expect(body).to include(meeting.location)
         expect(body).to include("01/19/2021 11:00 AM")
-        expect(body).to include("12:00 PM (GMT+01:00) Europe/Berlin")
+        expect(body).to include("12:00 PM (#{berlin_offset})")
         expect(body).to include(meeting.participants[0].name)
         expect(body).to include(meeting.participants[1].name)
       end
@@ -207,9 +207,9 @@ RSpec.describe MeetingMailer do
       let(:mail) { described_class.icalendar_notification(meeting, watcher1, author) }
 
       it "renders the mail with the correct locale" do
-        expect(mail.text_part.body).to include("01/19/2021 07:00 PM-08:00 PM (GMT+09:00) Asia/Tokyo")
+        expect(mail.text_part.body).to include("01/19/2021 07:00 PM-08:00 PM (#{tokyo_offset})")
         expect(mail.html_part.body).to include("01/19/2021 07:00 PM")
-        expect(mail.html_part.body).to include("08:00 PM (GMT+09:00) Asia/Tokyo")
+        expect(mail.html_part.body).to include("08:00 PM (#{tokyo_offset})")
 
         expect(mail.to).to contain_exactly(watcher1.mail)
       end
@@ -227,9 +227,9 @@ RSpec.describe MeetingMailer do
         let(:mail) { described_class.icalendar_notification(meeting, author, author) }
 
         it "renders the mail with the correct locale" do
-          expect(mail.text_part.body).to include("11/09/2021 11:00 PM-12:00 AM (GMT+01:00) Europe/Berlin")
+          expect(mail.text_part.body).to include("11/09/2021 11:00 PM-12:00 AM (#{berlin_offset})")
           expect(mail.html_part.body).to include("11/09/2021 11:00 PM")
-          expect(mail.html_part.body).to include("12:00 AM (GMT+01:00) Europe/Berlin")
+          expect(mail.html_part.body).to include("12:00 AM (#{berlin_offset})")
 
           expect(mail.to).to contain_exactly(author.mail)
         end
@@ -240,8 +240,8 @@ RSpec.describe MeetingMailer do
         let!(:preference) { watcher1.pref.update(time_zone: "Asia/Tokyo") }
 
         it "renders the mail with the correct locale" do
-          expect(mail.text_part.body).to include("11/10/2021 07:00 AM-08:00 AM (GMT+09:00) Asia/Tokyo")
-          expect(mail.html_part.body).to include("11/10/2021 07:00 AM-08:00 AM (GMT+09:00) Asia/Tokyo")
+          expect(mail.text_part.body).to include("11/10/2021 07:00 AM-08:00 AM (#{tokyo_offset})")
+          expect(mail.html_part.body).to include("11/10/2021 07:00 AM-08:00 AM (#{tokyo_offset})")
 
           expect(mail.to).to contain_exactly(watcher1.mail)
         end
@@ -253,8 +253,9 @@ RSpec.describe MeetingMailer do
     expect(body).to include(meeting.project.name)
     expect(body).to include(meeting.title)
     expect(body).to include(i18n.format_date(meeting.start_date))
-    expect(body).to include(i18n.format_time(meeting.start_time, false))
-    expect(body).to include(i18n.format_time(meeting.end_time, false))
+    expect(body).to include(i18n.format_time(meeting.start_time, include_date: false))
+    expect(body).to include(i18n.format_time(meeting.end_time, include_date: false))
+    expect(body).to include(i18n.formatted_time_zone_offset)
     expect(body).to include(meeting.participants[0].name)
     expect(body).to include(meeting.participants[1].name)
   end

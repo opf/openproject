@@ -281,7 +281,7 @@ RSpec.describe "Board management spec", :js, with_ee: %i[board_view] do
       queries = board_page.board(reload: true).contained_queries
       first = queries.find_by(name: "List 1")
       second = queries.find_by(name: "List 2")
-      wait_for(first.ordered_work_packages).to be_empty
+      wait_for { first.reload.ordered_work_packages }.to be_empty
       expect(second.ordered_work_packages.count).to eq(1)
 
       # Expect work package to be saved in query first
@@ -300,7 +300,7 @@ RSpec.describe "Board management spec", :js, with_ee: %i[board_view] do
 
     it "does not allow viewing of boards" do
       visit project_work_package_board_path(project, board_view)
-      expect(page).to have_css("#errorExplanation", text: I18n.t(:notice_not_authorized))
+      expect_flash(type: :error, message: I18n.t(:notice_not_authorized))
 
       board_index.expect_editable false
     end
@@ -311,7 +311,7 @@ RSpec.describe "Board management spec", :js, with_ee: %i[board_view] do
 
     it "does not allow viewing of boards" do
       board_index.visit!
-      expect(page).to have_css("#errorExplanation", text: I18n.t(:notice_not_authorized))
+      expect_flash(type: :error, message: I18n.t(:notice_not_authorized))
     end
   end
 end

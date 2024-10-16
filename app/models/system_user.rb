@@ -31,31 +31,35 @@
 #
 
 class SystemUser < User
-  validate :validate_unique_system_user, on: :create
-
-  # There should be only one SystemUser in the database
-  def validate_unique_system_user
-    errors.add :base, "A SystemUser already exists." if SystemUser.any?
-  end
-
-  # Overrides a few properties
-  def logged?; false end
-
-  def builtin?; true end
+  include Users::FunctionUser
 
   def name(*_args); "System" end
-
-  def mail; nil end
-
-  def time_zone; nil end
-
-  def rss_key; nil end
-
-  def destroy; false end
 
   def run_given
     User.execute_as(self) do
       yield self
     end
+  end
+
+  def self.first
+    system_user = super
+
+    if system_user.nil?
+      system_user = new(
+        firstname: "",
+        lastname: "System",
+        login: "",
+        mail: "",
+        admin: true,
+        status: User.statuses[:active],
+        first_login: false
+      )
+
+      system_user.save
+
+      raise "Unable to create the system user." unless system_user.persisted?
+    end
+
+    system_user
   end
 end

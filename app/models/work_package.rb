@@ -45,6 +45,7 @@ class WorkPackage < ApplicationRecord
   include OpenProject::Journal::AttachmentHelper
 
   DONE_RATIO_OPTIONS = %w[field status].freeze
+  TOTAL_PERCENT_COMPLETE_MODE_OPTIONS = %w[work_weighted_average simple_average].freeze
 
   belongs_to :project
   belongs_to :type
@@ -212,12 +213,8 @@ class WorkPackage < ApplicationRecord
     Setting.work_package_done_ratio == "field"
   end
 
-  def self.use_status_for_done_ratio?
-    Setting.work_package_done_ratio == "status"
-  end
-
-  def self.use_field_for_done_ratio?
-    Setting.work_package_done_ratio == "field"
+  def self.complete_on_status_closed?
+    Setting.percent_complete_on_status_closed == "set_100p"
   end
 
   # Returns true if usr or current user is allowed to view the work_package
@@ -305,7 +302,7 @@ class WorkPackage < ApplicationRecord
   end
 
   def done_ratio
-    if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
+    if WorkPackage.status_based_mode? && status && status.default_done_ratio
       status.default_done_ratio
     else
       read_attribute(:done_ratio)
@@ -380,7 +377,7 @@ class WorkPackage < ApplicationRecord
   # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
   # even if the user turns off the setting later
   def update_done_ratio_from_status
-    if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
+    if WorkPackage.status_based_mode? && status && status.default_done_ratio
       self.done_ratio = status.default_done_ratio
     end
   end
@@ -649,20 +646,16 @@ class WorkPackage < ApplicationRecord
       # Don't re-close it if it's already closed
       next if duplicate.closed?
 
-      # Implicitly creates a new journal
-      duplicate.update_attribute :status, status
-
-      override_last_journal_notes_and_user_of!(duplicate)
+      # Close the duplicate
+      close_duplicate(duplicate)
     end
   end
 
-  def override_last_journal_notes_and_user_of!(other_work_package)
-    journal = other_work_package.journals.last
-    # Same user and notes
-    journal.user = last_journal.user
-    journal.notes = last_journal.notes
-
-    journal.save
+  def close_duplicate(duplicate)
+    WorkPackages::UpdateService
+      .new(user: User.system, model: duplicate, contract_class: EmptyContract)
+      .call(status:, journal_cause: Journal::CausedByDuplicateWorkPackageClose.new(work_package: self))
+      .on_failure { |res| Rails.logger.error "Failed to close duplicate ##{duplicate.id} of ##{id}: #{res.message}" }
   end
 
   # Query generator for selecting groups of issue counts for a project

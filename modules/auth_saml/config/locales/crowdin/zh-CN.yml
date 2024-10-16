@@ -1,0 +1,155 @@
+zh-CN:
+  activemodel:
+    attributes:
+      saml/provider:
+        display_name: 名称
+        identifier: 标识符
+        secret: 密钥
+        scope: 范围
+        assertion_consumer_service_url: ACS (断言消费服务) URL
+        limit_self_registration: 限制自注册
+        sp_entity_id: 服务实体 ID
+        metadata_url: 身份提供商元数据URL
+        name_identifier_format: 名称标识符格式
+        idp_sso_service_url: 身份供应商登录终端
+        idp_slo_service_url: 身份供应商注销终端
+        idp_cert: 身份提供商公共证书
+        authn_requests_signed: 签名 SAML 认证请求
+        want_assertions_signed: 需要签名回复
+        want_assertions_encrypted: 需要加密响应
+        certificate: OpenProject 用于 SAML 请求的证书
+        private_key: OpenProject SAML 请求的相应私钥
+        signature_method: 签名算法
+        digest_method: 摘要算法
+        format: "格式"
+        icon: "自定义图标"
+  activerecord:
+    errors:
+      models:
+        saml/provider:
+          invalid_certificate: "不是有效的 PEM 格式证书： %{additional_message}"
+          invalid_private_key: "不是有效的 PEM 格式私钥： %{additional_message}"
+          certificate_expired: "已过期且无法再使用。"
+          unmatched_private_key: "不属于给定证书"
+  saml:
+    menu_title: SAML 提供商
+    info:
+      title: "SAML 协议配置参数"
+      description: >
+        使用这些参数配置您的身份提供商与 OpenProject 的连接。
+    metadata_parser:
+      success: "使用身份提供商元数据成功更新配置。"
+      invalid_url: "提供的元数据 URL 无效。请提供一个 HTTP(s) URL。"
+      error: "检索身份提商元数据失败： %{error}"
+    providers:
+      label_empty_title: "尚未配置 SAML 提供商。"
+      label_empty_description: "在这里添加一个提供商以查看它们。"
+      label_automatic_configuration: 自动配置
+      label_metadata: 元数据
+      label_metadata_endpoint: OpenProject 元数据端点
+      label_openproject_information: OpenProject 信息
+      label_configuration_details: "身份供应商端点和证书"
+      label_configuration_encryption: "签名和加密"
+      label_add_new: 新的 SAML 身份提供商
+      label_edit: 编辑 SAML 身份提供商 %{name}
+      label_uid: 内部用户ID
+      label_mapping: 映射
+      label_mapping_for: "映射： %{attribute}"
+      label_requested_attribute_for: "请求属性： %{attribute}"
+      no_results_table: 尚未定义 SAML 身份提供商。
+      plural: SAML 身份供应商
+      singular: SAML 身份提供商
+      requested_attributes: 请求的属性
+      attribute_mapping: 属性映射
+      attribute_mapping_text: >
+        以下字段控制由 SAML 身份提供商提供的属性以在 OpenProject 中提供用户属性
+      metadata:
+        dialog: "这是可用的 OpenProject SAML 元数据的 URL。可选使用它来配置您的身份提供商："
+      upsale:
+        description: 将 OpenProject 连接到 SAML 身份提供商
+      request_attributes:
+        title: '请求的属性'
+        legend: >
+          这些属性被添加到 SAML XML 元数据中，以指示身份提供商 OpenProject 需要哪些属性。您可能仍需要明确配置您的身份提供商以发送这些属性。请参阅您的 IdP 文档。
+        name: '请求的属性键'
+        format: '属性格式'
+      section_headers:
+        configuration: "主要配置"
+        attributes: "属性"
+      section_texts:
+        display_name: "配置 SAML 提供商的显示名称。"
+        metadata: "使用元数据 URL 或粘贴元数据 XML 预填充配置"
+        metadata_form: "如果您的身份提供商有一个元数据端点或 XML 下载，请在下面添加到预填写配置。"
+        metadata_form_banner: "编辑元数据可能会覆盖其他部分中的现有值。 "
+        configuration: "配置身份提供商、证书和进一步的 SAML 选项的端点 URL 。"
+        configuration_metadata: "这种信息已经用所提供的元数据预先填写，在大多数情况下，它们不需要编辑。"
+        encryption: "配置 SAML 请求和响应的验证签名和加密。"
+        encryption_form: "您可以选择性地想要加密您的断言响应，或者签名了 OpenProject 的请求。"
+        mapping: "手动调整在 OpenProject 中的 SAML 响应和用户属性之间的映射。"
+        requested_attributes: "定义发送给您身份提供商的 SAML 请求中要请求的属性集。"
+      seeded_from_env: "此提供商是从环境配置中生成的。它无法被编辑。"
+    settings:
+      metadata_none: "我没有元数据"
+      metadata_url: "元数据 URL"
+      metadata_xml: "元数据 XML"
+    instructions:
+      documentation_link: >
+        关于这些配置选项的更多信息，请参阅我们的 [Configuring SAML providers](docs_url)。
+      display_name: >
+        提供商的名称。这将作为登录按钮和供应商列表显示。
+      metadata_none: >
+        您的身份提供商没有元数据端点或 XML 下载选项。您可以手动配置它。
+      metadata_url: >
+        您的身份提供商提供了一个元数据 URL 。
+      metadata_xml: >
+        您的身份提供商提供了一个元数据 XML 下载。
+      limit_self_registration: >
+        如果启用，只有在允许自助注册设置的情况下，用户才能使用此提供商进行注册。
+      sp_entity_id: >
+        服务提供商的实体 ID(SP) 。有时也被称为听众。这是 OpenProject 实例独特的客户端标识符。
+      idp_sso_service_url: >
+        身份提供商登录端点的 URL 。
+      idp_slo_service_url: >
+        身份提供商登录端点的 URL 。
+      idp_cert: >
+        输入身份提供商的 X509 PEM 格式公开证书。您可以用换行符输入多个证书。
+      name_identifier_format: >
+        设置 SAML 断言使用的名称标识格式。
+      sp_metadata_endpoint: >
+        这是可用的 OpenProject SAML 元数据的 URL。可选使用它来配置您的身份提供商。
+      mapping: >
+        配置 OpenProject 的 SAML 响应和用户属性之间的映射。 您可以配置多个属性名称来查找。OpenProject 将从SAML响应中选择第一个可用的属性。
+      mapping_login: >
+        用于登录响应的 SAML 属性。
+      mapping_mail: >
+        来自用户电子邮件响应的 SAML 属性。
+      mapping_firstname: >
+        用于给定名称的 SAML 属性来自响应。
+      mapping_lastname: >
+        来自姓氏响应的 SAML 属性。
+      mapping_uid: >
+        用于内部用户 ID 的 SAML 属性。留空则使用名称 _id 属性
+      request_uid: >
+        请求内部用户 ID 的 SAML 属性。默认情况下，名称_id 将用于此字段。
+      requested_attributes: >
+        这些属性被添加到 SAML 请求的 XML 中，以告知身份提供商 OpenProject 需要哪些属性。
+      requested_format: >
+        请求属性的格式。这用于指定 SAML 请求中的属性格式。 详情请查看[配置请求属性的文档](docs_url)。
+      authn_requests_signed: >
+        如果选中，OpenProject 将签署 SAML 作者请求。您必须提供签名证书和私人密钥，使用下面的字段。
+      want_assertions_signed: >
+        如果选中，OpenProject 将要求身份提供商使用其自身的证书密钥对提供签名的响应。OpenProject 将使用基础配置部分中的证书来验证签名。
+      want_assertions_encrypted: >
+        如果启用，则要求身份提供商使用您提供的证书对加密断言响应。
+      certificate: >
+        输入 OpenProject 用于签署 SAML 请求的 X509 PEM 格式证书。
+      private_key: >
+        为上述证书输入 X509 PEM 格式的私钥。这需要是一个 RSA 私钥。
+      signature_method: >
+        选择 OpenProject 执行 SAML 请求签名时要使用的签名算法 (默认值： %{default_option})。
+      digest_method: >
+        选择 OpenProject 执行 SAML 请求签名时要使用的摘要算法 (默认值： %{default_option})。
+      icon: >
+        可选的提供图标图的公共 URL，它将显示在提供商名称旁边。
+      metadata_for_idp: >
+        您的 SAML 身份提供商可能会请求此信息。

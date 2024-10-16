@@ -238,7 +238,7 @@ module Pages
       loading_indicator_saveguard
       # The 'id' column should have enough space to be clicked
       click_target = row(work_package).find(".inline-edit--display-field.id")
-      page.driver.browser.action.double_click(click_target.native).perform
+      click_target.double_click
 
       FullWorkPackage.new(work_package, project)
     end

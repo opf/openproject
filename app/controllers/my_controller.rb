@@ -174,13 +174,13 @@ class MyController < ApplicationController
 
     # rubocop:disable Rails/ActionControllerFlashBeforeRender
     result.on_success do
-      flash[:primer_banner] = { message: t("my.access_token.notice_api_token_revoked") }
+      flash[:notice] = t("my.access_token.notice_api_token_revoked")
     end
 
     result.on_failure do |r|
       error = r.errors.map(&:message).join("; ")
       Rails.logger.error("Failed to revoke api token ##{current_user.id}: #{error}")
-      flash[:primer_banner] = { message: t("my.access_token.failed_to_revoke_token", error:), scheme: :danger }
+      flash[:error] = t("my.access_token.failed_to_revoke_token", error:)
     end
     # rubocop:enable Rails/ActionControllerFlashBeforeRender
 
@@ -238,7 +238,7 @@ class MyController < ApplicationController
 
   def handle_email_changes
     # If mail changed, expire all other sessions
-    if @user.previous_changes['mail']
+    if @user.previous_changes["mail"]
       Users::DropTokensService.new(current_user: @user).call!
       Sessions::DropOtherSessionsService.call!(@user, session)
 

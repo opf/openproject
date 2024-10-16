@@ -29,7 +29,27 @@ The OpenProject **BIM Edition** is only supported on AMD64, however.
 Note that the docker container setup does not allow for integration of repositories within OpenProject. You can reference external repositories, but cannot set them up through OpenProject itself.
 For that feature to work, you need to use the packaged installation method.
 
-## Overview
+## Available containers
+
+OpenProject provides two container flavors with a number of target tags:
+
+- **slim**:  Contains just the application image and application server used for starting behind a proxy, or within the [OpenProject for Docker compose](../docker-compose/) or [OpenProject Helm chart](../helm-chart/) installation methods. We recommend using this image for production systems.
+- **all-in-one**: Starts internal PostgreSQL, memcached servers alongside the application in order to provide a quick-start for testing or getting started with OpenProject. The lower part of this documentation focused on this installation method.
+
+OpenProject follows semantic versioning, and tags are pushed on [Docker Hub openproject/openproject](https://hub.docker.com/r/openproject/openproject/tags) in the following way:
+
+- `X.Y.Z`, `X.Y.Z-slim` : **non-floating** tags to provide exactly one release of OpenProject, and you have to update these tags when a new release is made
+-  `X.Y`,  `X-Y.slim` **floating** tags that get pushed whenever a new patch release is made. Please keep in mind that in case of urgent fixes, database migrations might still occur in patch releases, so you need to be able to run the seeder/migrations job. Refer to the installation method of your choice for information on how to do that.
+- `X`,  `X-Y.slim` **floating** tags that get pushed whenever a new patch or minor release is made. If you use these tags, you are aware that application changes will occur.
+- `dev`, `dev-slim` **floating** tag that gets pushed nightly with the latest development version. These tags are automatically deployed to our QA instances, and are useful for testing and _early_ feedback. We try to keep these versions usable, but we strongly recommend against using them for anything with production data.
+
+
+
+We recommend to use non-floating tags for production systems, and use the built-in version check, or our release notes (subscribe to them through GitHub, or release newsletters) to be informed of updates.
+
+
+
+## Installation overview
 
 OpenProject's docker setup can be launched in two ways:
 
@@ -437,7 +457,7 @@ The `-t` option is the tag for your image. You can choose what ever you want.
 
 **5. Run the image**
 
-You can run the image just like the normal OpenProject image (as shown earlier).
+You can run the image just like the normal OpenProject image (as shown [here](#quick-start)).
 You just have to use your chosen tag instead of `openproject/openproject:14`.
 To just give it a quick try you can run this:
 
@@ -446,6 +466,57 @@ docker run -p 8080:80 --rm -it openproject-with-slack
 ```
 
 After which you can access OpenProject under `http://localhost:8080`.
+
+## Import self-signed root certificate
+
+If you want to connect OpenProject to an external server as example SMTP-Server or a Nextcloud-Server that uses a self-signed certificate, you need to import the root certificate that was used to create the self-signed certificate. There are two ways to archive this.
+
+The first way is to mount the root certificate via the ``` --mount``` option into the container and add the  certificate to the ```SSL_CERT_FILE``` variable.
+```shell
+sudo docker run -it -p 8080:80 \
+  -e OPENPROJECT_SECRET_KEY_BASE=secret \
+  -e OPENPROJECT_HOST__NAME=localhost:8080 \
+  -e OPENPROJECT_HTTPS=false \
+  -e OPENPROJECT_DEFAULT__LANGUAGE=en \
+  --mount type=bind,source=$(pwd)/my_root.crt,target=/tmp/my_root.crt \ #mount my_root.crt to /tmp
+  -e SSL_CERT_FILE=/tmp/my_root.crt \ #set the SSL_CERT_FILE to the path of my_root.crt 
+  openproject/openproject:14
+```
+
+The second way would be to build a new image of the ```openproject/openproject:14``` or the ```-slim``` image.
+
+**1. Create a new folder** with any name, for instance `custom-openproject`. Change into that folder.
+
+**2. Put your root SSL certificate** into the folder. In this example, we will name it ```my_root.crt```.
+
+**3. Create the `Dockerfile`** in the same folder. The contents have to look like this:
+```dockerfile
+FROM openproject/openproject:14
+
+COPY ./my_root.crt /usr/local/share/ca-certificates/
+RUN update-ca-certificates
+```
+
+If you are using the -slim tag, you will need to do the following to import your root certificate:
+```dockerfile
+FROM openproject/openproject:14-slim
+
+USER root
+COPY ./smtp.local_rootCA.crt /usr/local/share/ca-certificates/
+RUN update-ca-certificates
+USER $APP_USER
+```
+
+**4. Build the image**
+```shell
+docker build --pull -t openproject-with-custom-ca .
+```
+
+The `-t` option is the tag for your image. You can choose what ever you want.
+
+**5. Run the image**
+
+You can run the image just like the normal OpenProject image (as shown [here](#quick-start)). You just have to use your chosen tag instead of ```openproject/openproject:14```
 
 ## Offline/air-gapped installation
 

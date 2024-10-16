@@ -28,16 +28,15 @@
 
 require "spec_helper"
 
-RSpec.describe "Progress tracking admin page", :cuprite, :js,
-               with_flag: { percent_complete_edition: true } do
+RSpec.describe "Progress tracking admin page", :js, :with_cuprite do
   include ActionView::Helpers::SanitizeHelper
   include Toasts::Expectations
 
   shared_let(:admin) { create(:admin) }
+  current_user { admin }
 
   it "displays a warning when changing progress calculation mode" do
     Setting.work_package_done_ratio = "field"
-    login_as(admin)
     visit admin_settings_progress_tracking_path
 
     # change from work-based to status-based
@@ -52,7 +51,7 @@ RSpec.describe "Progress tracking admin page", :cuprite, :js,
     expect(page).to have_text(expected_warning_text)
 
     click_on "Save"
-    expect_and_dismiss_toaster(message: "Successful update.")
+    expect_and_dismiss_flash(message: "Successful update.")
     expect(Setting.find_by(name: "work_package_done_ratio").value).to eq("status")
 
     # now change from status-based to work-based
@@ -66,7 +65,27 @@ RSpec.describe "Progress tracking admin page", :cuprite, :js,
     expect(page).to have_text(expected_warning_text)
 
     click_on "Save"
-    expect_and_dismiss_toaster(message: "Successful update.")
+    expect_and_dismiss_flash(message: "Successful update.")
     expect(Setting.find_by(name: "work_package_done_ratio").value).to eq("field")
+  end
+
+  it "disables the status closed radio button when changing to status-based" do
+    Setting.work_package_done_ratio = "field"
+    visit admin_settings_progress_tracking_path
+    expect(page).to have_field("No change", disabled: false)
+    expect(page).to have_field("Automatically set to 100%", disabled: false)
+
+    find(:radio_button, "Status-based").click
+    expect(page).to have_field("No change", disabled: true)
+    expect(page).to have_field("Automatically set to 100%", disabled: true)
+
+    find(:radio_button, "Work-based").click
+    expect(page).to have_field("No change", disabled: false)
+    expect(page).to have_field("Automatically set to 100%", disabled: false)
+
+    Setting.work_package_done_ratio = "status"
+    visit admin_settings_progress_tracking_path
+    expect(page).to have_field("No change", disabled: true)
+    expect(page).to have_field("Automatically set to 100%", disabled: true)
   end
 end

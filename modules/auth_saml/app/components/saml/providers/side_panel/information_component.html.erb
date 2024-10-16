@@ -1,0 +1,24 @@
+<%=
+  render(Primer::OpenProject::SidePanel::Section.new) do |section|
+    section.with_title { I18n.t("saml.providers.label_openproject_information") }
+    section.with_description { I18n.t("saml.instructions.metadata_for_idp") }
+
+    component_collection do |collection|
+      collection.with_component(Primer::Beta::Heading.new(tag: :h5, mb: 1)) do
+        I18n.t("activemodel.attributes.saml/provider.sp_entity_id")
+      end
+
+      collection.with_component(
+        OpPrimer::CopyToClipboardComponent.new(provider.sp_entity_id, scheme: :input)
+      )
+
+      collection.with_component(Primer::Beta::Heading.new(tag: :h5, mt: 4, mb: 1)) do
+        I18n.t("activemodel.attributes.saml/provider.assertion_consumer_service_url")
+      end
+
+      collection.with_component(
+        OpPrimer::CopyToClipboardComponent.new(provider.callback_url, scheme: :link)
+      )
+    end
+  end
+%>

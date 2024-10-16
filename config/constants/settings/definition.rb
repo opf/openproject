@@ -231,6 +231,11 @@ module Settings
         default: nil,
         writable: false
       },
+      total_percent_complete_mode: {
+        description: "Mode in which the total % Complete for work packages in a hierarchy is calculated",
+        default: "work_weighted_average",
+        allowed: %w[work_weighted_average simple_average]
+      },
       commit_fix_keywords: {
         description: "Keywords to look for in commit for fixing work packages",
         default: "fixes,closes"
@@ -532,7 +537,7 @@ module Settings
       },
       host_name: {
         format: :string,
-        default: "localhost:3000",
+        default: -> { "#{ENV.fetch('HOST', 'localhost')}:#{ENV.fetch('PORT', 3000)}" },
         default_by_env: {
           # We do not want to set a localhost host name in production
           production: nil
@@ -740,6 +745,11 @@ module Settings
       # replace Setting#per_page_options_array
       per_page_options: {
         default: "20, 100"
+      },
+      percent_complete_on_status_closed: {
+        description: "Describes how % complete should change when setting a work package status to a closed one",
+        default: "no_change",
+        allowed: %w[no_change set_100p]
       },
       plain_text_mail: {
         default: false

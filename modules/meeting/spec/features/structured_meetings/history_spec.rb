@@ -355,6 +355,6 @@ RSpec.describe "history",
     visit history_meeting_path(meeting)
 
     expected = "[Error 403] You are not authorized to access this page."
-    expect(page).to have_css(".op-toast.-error", text: expected)
+    expect_flash(type: :error, message: expected)
   end
 end

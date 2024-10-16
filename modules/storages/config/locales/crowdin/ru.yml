@@ -90,6 +90,9 @@ ru:
         remote_folders: 'Чтение содержимого групповой папки:'
         rename_project_folder: 'Переименовать управляемую папку проекта:'
     errors:
+      messages:
+        error: Произошла непредвиденная ошибка. Пожалуйста, проверьте журналы OpenProject для получения дополнительной информации или свяжитесь с администратором
+        unauthorized: OpenProject не смог аутентифицироваться у поставщика хранилища. Пожалуйста, убедитесь, что у вас есть к нему доступ.
       models:
         copy_project_folders_service:
           conflict: Папка %{destination_path} уже существует. Прервите процесс, чтобы избежать перезаписи.
@@ -111,8 +114,8 @@ ru:
             hide_inactive_folders:
               permission_not_set: не удалось установить разрешения на %{path}.
             remote_folders:
-              not_allowed: '%{username} не имеет доступа к %{group_folder}. Пожалуйста, проверьте права доступа к папкам в Nextcloud.'
-              not_found: "%{group_folder} не найдена. Пожалуйста, проверьте настройки Nextcloud."
+              not_allowed: '%{username} не имеет доступа к папке %{group_folder}. Пожалуйста, проверьте права доступа к папкам на Nextcloud.'
+              not_found: "Папка %{group_folder} не найдена. Пожалуйста, проверьте настройки Nextcloud."
             remove_user_from_group:
               conflict: 'Пользователь %{user} не может быть удален из группы %{group} по следующей причине: %{reason}'
               failed_to_remove: 'Пользователь %{user} не может быть удален из группы %{group} по следующей причине: %{reason}'
@@ -144,8 +147,10 @@ ru:
               permission_not_set: не удалось установить разрешения на %{path}.
           error: Произошла непредвиденная ошибка. Пожалуйста, убедитесь, что Nextcloud доступен и проверьте журналы работы OpenProject для дополнительной информации
           not_allowed: OpenProject не был разрешен доступ к OneDrive. Пожалуйста, проверьте разрешения, установленные в приложении Azure.
-          unauthorized: OpenProject не удалось синхронизировать с OneDrive. Пожалуйста, проверьте конфигурацию хранилища в приложении Azure.
+          unauthorized: OpenProject не удалось синхронизировать с OneDrive. Пожалуйста, проверьте конфигурацию хранилища и приложения Azure.
           user_does_not_exist: "%{user} не существует в Nextcloud."
+        upload_link_service:
+          not_found: Папка %{folder} не найдена в хранилище %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Обходитесь без этого
@@ -209,6 +214,7 @@ ru:
         client_id_wrong: Настроенный идентификатор клиента OAuth 2 недействителен. Пожалуйста, проверьте конфигурацию.
         client_secret_wrong: Настроенный ключ клиента OAuth 2 недействителен. Пожалуйста, проверьте конфигурацию.
         drive_id_wrong: Настроенный идентификатор диска не найден. Пожалуйста, проверьте конфигурацию.
+        group_folder_not_found: Папка группы не найдена.
         group_folder_version_mismatch: Версия групповой папки не поддерживается. Пожалуйста, обновите ваш сервер Nextcloud.
         host_not_found: По настроенному адресу хоста сервер Nextcloud не найден. Пожалуйста, проверьте конфигурацию.
         missing_dependencies: 'Для файлового хранилища отсутствует необходимая зависимость. Пожалуйста, добавьте следующую зависимость: %{dependency}.'
@@ -216,8 +222,11 @@ ru:
         placeholder: Проверьте подключение к серверу.
         subtitle: Проверка соединения
         tenant_id_wrong: Настроенный идентификатор каталога недействителен. Пожалуйста, проверьте конфигурацию.
-        unexpected_content: На диске обнаружено неожидаемое содержимое.
+        unexpected_content:
+          nextcloud: Неожиданное содержимое обнаружено в управляемой папке группы.
+          one_drive: На диске обнаружено неожидаемое содержимое.
         unknown_error: Соединение не удалось подтвердить. Произошла неизвестная ошибка. Пожалуйста, проверьте журналы сервера для получения дополнительной информации.
+        userless_access_denied: Указанный пароль приложения неверен.
       label_error: Ошибка
       label_healthy: Здоровые
       label_pending: В ожидании
@@ -277,7 +286,6 @@ ru:
     label_active: Активный
     label_add_new_storage: Добавить новое хранилище
     label_automatic_folder: Новая папка с автоматически управляемыми правами
-    label_completed: Выполнено
     label_creation_time: Время создания
     label_creator: Создатель
     label_delete_storage: Удалить хранилище
@@ -289,7 +297,6 @@ ru:
     label_file_storage: Файловое хранилище
     label_host: URL хоста
     label_inactive: Неактивный
-    label_incomplete: Не завершено
     label_managed_project_folders:
       application_password: Пароль приложения
       automatically_managed_folders: Автоматически управляемые папки
@@ -314,8 +321,6 @@ ru:
       not_connected: Не подключено. Пользователь должен войти в хранилище с помощью следующего %{link}.
     members_no_results: Нет участников для отображения.
     no_results: Хранилища еще не настроены.
-    notice_successful_storage_connection: |-
-      Хранилище подключено успешно! Не забудьте активировать модуль и конкретное хранилище в настройках проекта для его дальнейшего использования.
     oauth_access_granted_modal:
       access_granted: Доступ разрешен
       project_settings:
@@ -377,6 +382,7 @@ ru:
     storage_list_blank_slate:
       description: Добавьте хранилище, чтобы увидеть его здесь.
       heading: У вас пока нет хранилищ.
+    successful_storage_connection: Хранилище успешно подключено! Не забудьте активировать хранилище на вкладке Проекты для каждого желаемого проекта, чтобы использовать его.
     upsale:
       description: |-
         Интегрируйте OneDrive / SharePoint как хранилище файлов OpenProject. Загружайте файлы и связывайте их напрямую с пакетами работ проекта.

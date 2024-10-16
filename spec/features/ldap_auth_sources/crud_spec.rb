@@ -52,7 +52,7 @@ RSpec.describe "CRUD LDAP connections", :js, :with_cuprite do
 
     click_on "Create"
 
-    ldap_page.expect_and_dismiss_toaster message: "Successful creation."
+    expect_and_dismiss_flash message: "Successful creation."
     expect(page).to have_css("td.name", text: "My LDAP connection")
     expect(page).to have_css("td.host", text: "localhost")
 
@@ -71,7 +71,7 @@ RSpec.describe "CRUD LDAP connections", :js, :with_cuprite do
       accept_prompt { click_on "Delete" }
     end
 
-    ldap_page.expect_and_dismiss_toaster message: "Successful deletion."
+    expect_and_dismiss_flash message: "Successful deletion."
 
     expect(page).to have_no_text "My LDAP connection"
     expect(page).to have_text "Admin connection"
@@ -88,7 +88,7 @@ RSpec.describe "CRUD LDAP connections", :js, :with_cuprite do
     fill_in "ldap_auth_source_name", with: "Updated Admin connection"
     click_on "Save"
 
-    ldap_page.expect_and_dismiss_toaster message: "Successful update."
+    expect_flash(message: "Successful update.")
     expect(page).to have_css("td.name", text: "Updated Admin connection")
   end
 

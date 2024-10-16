@@ -278,8 +278,6 @@ vi:
           Các thay đổi có thể mất một thời gian để có hiệu lực. Bạn sẽ được thông báo khi tất cả các công việc liên quan đã được cập nhật.
           Bạn có chắc chắn muốn tiếp tục không?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          Thay đổi chế độ tính toán tiến độ từ dựa trên trạng thái sang dựa trên công việc sẽ biến <i>% Hoàn thành</i> thành trường không thể chỉnh sửa có giá trị được lấy từ <i>Công việc</i> và <i>Công việc còn lại</i>. Các giá trị hiện tại cho <i>% Hoàn thành</i> được giữ nguyên. Nếu các giá trị cho <i>Công việc</i> và <i>Công việc còn lại</i> không có, chúng sẽ được yêu cầu để thay đổi <i>% Hoàn thành</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
           Thay đổi chế độ tính toán tiến độ từ dựa trên trạng thái sang dựa trên công việc sẽ làm cho trường <i>% Hoàn thành</i> có thể chỉnh sửa tự do. Nếu bạn tùy ý nhập giá trị cho <i>Công việc</i> hoặc <i>Công việc còn lại</i>, chúng cũng sẽ được liên kết với <i>% Hoàn thành</i>. Thay đổi <i>Công việc còn lại</i> sau đó có thể cập nhật <i>% Hoàn thành</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
@@ -358,10 +356,10 @@ vi:
           learn_about: "Tìm hiểu thêm về các tính năng mới"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_5":
+          "14_6":
             standard:
               new_features_html: >
-                Bản phát hành bao gồm nhiều tính năng và cải tiến mới, chẳng hạn như: <br> <ul class="%{list_styling_class}"> <li>Lưu giữ và khôi phục các phiên bản cục bộ của các thay đổi nội dung WYSIWYG.</li> <li>Cho phép lưu trữ nhiều dự án cùng lúc.</li> <li>Xuất các gói công việc trong một hộp thoại được cập nhật với các cài đặt bổ sung.</li> <li>Hiển thị các cột/bộ lọc trường tùy chỉnh trong danh sách dự án ngay cả trong Phiên bản cộng đồng.</li> <li>Hỗ trợ CloudFlare Turnstile dưới dạng Captcha.</li> </ul>
+                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Benefit from more flexible progress reporting – thanks to user feedback.</li> <li>Receive an update notification with reload option for meetings.</li> <li>Enable a custom field for multiple projects at once.</li> <li>Use relative work package attribute macros.</li> <li>Show empty lines in saved rich text.</li> <li>See past meetings included in the number next to the Meetings tab.</li> </ul>
     ical_sharing_modal:
       title: "Đăng ký lịch"
       inital_setup_error_message: "Đã xảy ra lỗi khi lấy dữ liệu."
@@ -612,7 +610,9 @@ vi:
         mentioned: "nhắc đến"
         watched: "người theo dõi"
         assigned: "người được giao"
-        accountable: "Có trách nhiệm"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Accountable"
         created: "được tạo"
         scheduled: "được lên lịch"
         commented: "bình luận"

@@ -1,0 +1,155 @@
+zh-TW:
+  activemodel:
+    attributes:
+      saml/provider:
+        display_name: 名稱
+        identifier: 識別碼
+        secret: 金鑰
+        scope: 範圍
+        assertion_consumer_service_url: ACS(認證消費者服務) URL
+        limit_self_registration: 限制自行註冊
+        sp_entity_id: 服務實體 ID
+        metadata_url: 身分提供商後設資料 URL
+        name_identifier_format: 名稱識別碼格式
+        idp_sso_service_url: 身分提供商登入端點
+        idp_slo_service_url: 身分提供商登出端點
+        idp_cert: 身分提供商的公開證書
+        authn_requests_signed: 簽署 SAML AuthnRequests
+        want_assertions_signed: 要求簽署回覆
+        want_assertions_encrypted: 要求加密回應
+        certificate: OpenProject 用於 SAML 請求的憑證
+        private_key: OpenProject SAML 請求的對應私密金鑰
+        signature_method: 簽章演算法
+        digest_method: 摘要演算法
+        format: "格式"
+        icon: "自訂圖示"
+  activerecord:
+    errors:
+      models:
+        saml/provider:
+          invalid_certificate: "不是有效的 PEM 格式證書： %{additional_message}"
+          invalid_private_key: "不是有效的 PEM 格式私密金鑰： %{additional_message}"
+          certificate_expired: "已過期，無法再使用。"
+          unmatched_private_key: "不屬於指定的憑證"
+  saml:
+    menu_title: SAML 提供商
+    info:
+      title: "SAML 通訊協定組態參數"
+      description: >
+        使用這些參數設定您與 OpenProject 的身分提供者連線。
+    metadata_parser:
+      success: "已成功使用身分提供者元資料更新配置設定。"
+      invalid_url: "提供的元資料 URL 無效。提供 HTTP(s) URL。"
+      error: "擷取身分提供者元資料失敗： %{error}"
+    providers:
+      label_empty_title: "尚未設定 SAML 提供商。"
+      label_empty_description: "增加可供查詢之提供商"
+      label_automatic_configuration: 自動設定
+      label_metadata: 後設資料
+      label_metadata_endpoint: OpenProject 後設資料端點
+      label_openproject_information: OpenProject 資訊
+      label_configuration_details: "身分提供商端點與憑證"
+      label_configuration_encryption: "簽名與加密"
+      label_add_new: 新增 SAML 身分提供商
+      label_edit: 編輯 SAML 身分提供者 %{name}
+      label_uid: 內部使用者 id
+      label_mapping: 對應
+      label_mapping_for: "對應為： %{attribute}"
+      label_requested_attribute_for: "要求的屬性為： %{attribute}"
+      no_results_table: 目前尚未定義 SAML 身分提供者。
+      plural: SAML 身分提供商
+      singular: SAML 身分提供商
+      requested_attributes: 要求的屬性
+      attribute_mapping: 屬性對應
+      attribute_mapping_text: >
+        下列欄位控制 SAML 身分提供者所提供的哪些屬性會被用來在 OpenProject 中提供使用者屬性
+      metadata:
+        dialog: "這是 OpenProject SAML 元資料可用的 URL。可選擇使用它來設定您的身分提供者："
+      upsale:
+        description: 將 OpenProject 連接到 SAML 身分提供者
+      request_attributes:
+        title: '要求的屬性'
+        legend: >
+          這些屬性會新增至 SAML XML 元資料，以向識別供應商表示 OpenProject 需要哪些屬性。您可能仍需明確設定您的身分提供者以傳送這些屬性。請參閱您 IDP 的說明文件。
+        name: '要求的屬性名稱'
+        format: '屬性格式'
+      section_headers:
+        configuration: "主要設定"
+        attributes: "属性"
+      section_texts:
+        display_name: "設定 SAML 提供者的顯示名稱。"
+        metadata: "使用 metadata URL 或貼上 metadata XML 預先填入組態"
+        metadata_form: "如果您的身分提供者有元資料端點或 XML 下載，請在下方新增以預先填入設定。"
+        metadata_form_banner: "編輯元資料可能會覆寫其他區段中的現有值。 "
+        configuration: "設定身分提供者、憑證和其他 SAML 選項的端點 URL。"
+        configuration_metadata: "這些資訊已使用提供的元資料預先填入。在大多數情況下，它們不需要編輯。"
+        encryption: "設定 SAML 請求與回應的斷言簽章與加密。"
+        encryption_form: "您可以選擇要對斷言回應加密，或對 OpenProject 的要求進行簽名。"
+        mapping: "在 OpenProject 中手動調整 SAML 回應與使用者屬性之間的對應。"
+        requested_attributes: "定義發送給您的身分提供者的 SAML 請求中要請求的屬性集。"
+      seeded_from_env: "此提供者是從環境組態中種下的。無法編輯。"
+    settings:
+      metadata_none: "我沒有後設資料"
+      metadata_url: "後設資料 URL"
+      metadata_xml: "後設資料 XML"
+    instructions:
+      documentation_link: >
+        有關這些設定選項的詳細資訊，請參閱我們的 [設定 SAML 提供者的文件](docs_url)。
+      display_name: >
+        提供商的名稱。這將會顯示在登入按鈕及提供者清單中。
+      metadata_none: >
+        您的身分提供者沒有後設資料端點或 XML 下載選項。您可以手動設定。
+      metadata_url: >
+        您的身分提供者會提供一個 metadata URL。
+      metadata_xml: >
+        您的身分提供者會提供一個 metadata URL。
+      limit_self_registration: >
+        如果啟用，使用者只能在自我註冊設定允許的情況下使用此提供者註冊。
+      sp_entity_id: >
+        服務提供者 (SP) 的實體 ID。有時也稱為 Audience。這是 OpenProject 實例的唯一用戶端識別碼。
+      idp_sso_service_url: >
+        身分提供商登入端點的 URL。
+      idp_slo_service_url: >
+        身分提供商登入端點的 URL。
+      idp_cert: >
+        輸入身分提供者的 X509 PEM 格式公開憑證。您可以輸入多個憑證，並以換行分隔。
+      name_identifier_format: >
+        設定 SAML 斷言要使用的名稱標識符格式。
+      sp_metadata_endpoint: >
+        這是 OpenProject SAML 元資料可用的 URL。可選擇使用它來設定您的身分提供者：
+      mapping: >
+        在 OpenProject 中設定 SAML 回應與使用者屬性之間的對應。您可以設定要尋找的多個屬性名稱。OpenProject 會從 SAML 回應中選擇第一個可用的屬性。
+      mapping_login: >
+        用於登入的回應中的 SAML 屬性。
+      mapping_mail: >
+        用於登入的回應中的 SAML 屬性。
+      mapping_firstname: >
+        回應中用於指定名稱的 SAML 屬性。
+      mapping_lastname: >
+        回應中用於指定名稱的 SAML 屬性。
+      mapping_uid: >
+        用於內部使用者 ID 的 SAML 屬性。留空可使用 name_id 屬性。
+      request_uid: >
+        請求內部使用者 ID 的 SAML 屬性。預設此欄位使用 name_id。
+      requested_attributes: >
+        這些屬性會新增至 SAML 請求 XML，以傳達 OpenProject 需要哪些屬性給身分提供者。
+      requested_format: >
+        請求屬性的格式。用來指定 SAML 請求中的屬性格式。詳情請參閱 [設定請求屬性的說明文件](docs_url)。
+      authn_requests_signed: >
+        如果啟用，OpenProject 將簽署 SAML AuthnRequest。您必須使用以下欄位提供簽名憑證和私鑰。
+      want_assertions_signed: >
+        如果啟用，OpenProject 將要求身分提供者使用自己的憑證金鑰對簽署回應。 OpenProject 將根據基本設定的憑證驗證簽章。
+      want_assertions_encrypted: >
+        如果啟用，會要求身分提供商使用您提供的證書，對斷言回應加密。
+      certificate: >
+        輸入 OpenProject 用於簽署 SAML 請求的 X509 PEM 格式證書。
+      private_key: >
+        輸入上述證書的 X509 PEM 格式私密金鑰。這必須是 RSA 私密金鑰。
+      signature_method: >
+        選擇 OpenProject 執行的 SAML 請求簽章要使用的簽章演算法 (預設值: %{default_option})。
+      digest_method: >
+        選擇 OpenProject 執行的 SAML 請求簽章要使用的摘要演算法 (預設值: %{default_option})。
+      icon: >
+        （可選）提供圖標圖形的公共 URL，該圖標圖形將顯示在提供商名稱旁邊。
+      metadata_for_idp: >
+        您的 SAML 身分提供商可能會要求提供此資訊。

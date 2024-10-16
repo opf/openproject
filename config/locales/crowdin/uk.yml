@@ -31,21 +31,17 @@ uk:
     custom_styles:
       color_theme: "Колірна тема"
       color_theme_custom: "(Власний)"
+      tab_interface: "Інтерфейс"
+      tab_branding: "Брендування"
+      tab_pdf_export_styles: "Стилі експорту PDF"
       colors:
         primary-button-color: "Основна кнопка"
         accent-color: "Акцент"
         header-bg-color: "Фон заголовка"
         header-item-bg-hover-color: "Фон заголовка в разі наведення курсора"
-        header-item-font-color: "Шрифт заголовка"
-        header-item-font-hover-color: "Шрифт заголовка в разі наведення курсора"
-        header-border-bottom-color: "Контур заголовка"
         main-menu-bg-color: "Фон головного меню"
         main-menu-bg-selected-background: "Головне меню в разі вибору"
         main-menu-bg-hover-background: "Головне меню в разі наведення"
-        main-menu-font-color: "Шрифт головного меню"
-        main-menu-selected-font-color: "Шрифт головного меню в разі вибору"
-        main-menu-hover-font-color: "Шрифт головного меню в разі наведення"
-        main-menu-border-color: "Контур головного меню"
       custom_colors: "Кольори за власними вподобаннями"
       customize: "Персоналізуйте свій екземпляр OpenProject за допомогою власного логотипа й кольорів."
       enterprise_notice: "Це крихітне доповнення доступне тільки для підписників версії Enterprise як особлива подяка за їхню фінансову підтримку розвитку OpenProject."
@@ -79,6 +75,7 @@ uk:
         contact: "Зв’яжіться з нами, щоб отримати демоверсію"
       enterprise_info_html: "– це доповнення версії Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
       upgrade_info: "Перейдіть на платний план, щоб активувати його та почати використовувати його у своїй команді."
+    jemalloc_allocator: Розподіл пам'яті Jemalloc
     journal_aggregation:
       explanation:
         text: "Окремі дії користувача (напр., оновлення робочого пакета двічі) зводяться в одну дію, якщо відмінність у часі між ними менша за вказаний проміжок часу. Їх буде виведено як окремі дії в межах додатка. Крім того, це призведе до затримки сповіщень на такий самий проміжок часу, що зменшить кількість електронних листів, які надсилатимуться, а також вплине на затримку %{webhook_link}."
@@ -202,6 +199,16 @@ uk:
         is_for_all_blank_slate:
           heading: Для всіх проєктів
           description: Це користувацьке поле активовано в усіх проєктах, оскільки встановлено прапорець «Для всіх проєктів». Його не можна деактивувати для окремих проєктів.
+      items:
+        blankslate:
+          title: "Ваш список елементів порожній"
+          description: "Спочатку додайте елементи до користувацького поля ієрархії типів. Створити ієрархію можна для кожного елемента. Щоб переходити між піделементами ієрархії і додавати\nїх, натисніть створений елемент."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
+      notice:
+        remember_items_and_projects: "Обов’язково задайте елементи й проєкти на відповідних вкладках для цього користувацького поля."
     text_add_new_custom_field: >
       Щоб додати нові користувальницькі поля до проекту, спочатку потрібно створити їх, перш ніж ви зможете додати їх до цього проекту.
     is_enabled_globally: "Увімкнено у всьому світі"
@@ -214,6 +221,7 @@ uk:
       is_required: "Позначте користувацьке поле як обов’язкове. Так його потрібно буде заповнювати під час створення нових або оновлення наявних ресурсів."
       is_required_for_project: "Установіть прапорець, щоб увімкнути цей атрибут і зробити його обов’язковим в усіх проєктах. Його не можна деактивувати для окремих проєктів."
       is_for_all: "Позначте користувацьке поле як доступне в усіх наявних і нових проєктах."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "Включіть значення полів під час використання функції глобального пошуку."
       searchable_for_project: "Установіть прапорець, щоб зробити цей атрибут доступним як фільтр у списках проєктів."
       editable: "Дозвольте користувачам самостійно редагувати це поле."
@@ -225,6 +233,14 @@ uk:
       no_results_content_text: Створіть нове спеціальне поле
   concatenation:
     single: "або"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "Пошук у додатку %{app_title}"
     overwritten_tabs:
@@ -476,16 +492,22 @@ uk:
       no_results_content_text: Додати звіт про стан
   statuses:
     edit:
+      status_color_text: |
+        Натисніть, щоб призначити або змінити колір цього статусу.
+        Він відображається в кнопці стану і може використовуватися для виділення робочих пакетів у таблиці.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
+      status_excluded_from_totals_text: |-
+        Поставте цей прапорець, щоб виключити пакети робіт із цим статусом із підсумків атрибутів «Робота», «Залишок роботи» й «% завершення» в ієрархії.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Відмітьте цю опцію, щоб позначити пакети робіт з таким статусом, як доступні лише для перегляду.
         Жоден атрибут не можуть бути змінені за виключенням статусу.
         <br/>
         <strong>Примітки</strong>: Будуть застосовані успадковані значення (наприклад, елементів попередників чи нащадків).
-      status_excluded_from_totals_text: |-
-        Поставте цей прапорець, щоб виключити пакети робіт із цим статусом із підсумків атрибутів «Робота», «Залишок роботи» й «% завершення» в ієрархії.
-      status_color_text: |
-        Натисніть, щоб призначити або змінити колір цього статусу.
-        Він відображається в кнопці стану і може використовуватися для виділення робочих пакетів у таблиці.
     index:
       no_results_title_text: Наразі немає статусів робочих пакетів.
       no_results_content_text: Додати новий статус
@@ -540,7 +562,7 @@ uk:
       could_not_be_saved: "Не вдалося зберегти такі робочі пакети:"
       none_could_be_saved: "Жоден із пакетів робіт (%{total}) не можна оновити."
       x_out_of_y_could_be_saved: "Не вдалось оновити пакетів робіт: %{failing} із %{total}. Оновлено: %{success}."
-      selected_because_descendants: "Хоча вибрано кілька (%{selected}) пакетів робіт, змінено всього %{total}, включно з нащадками."
+      selected_because_descendants: "Хоча вибрано кілька %{selected} пакетів робіт, змінено всього %{total}, включно з нащадками."
       descendant: "нащадок вибраного елемента"
     move:
       no_common_statuses_exists: "Немає доступного статусу для всіх вибраних робочих пакетів. Їх статус не може бути змінений."
@@ -630,6 +652,7 @@ uk:
         editable: "Може бути відредаговане"
         field_format: "Формат"
         is_filter: "Використовується як фільтр"
+        is_for_all: "Для всіх проєктів"
         is_required: "Обов'язкове поле"
         max_length: "Максимальна довжина"
         min_length: "Мінімальна довжина"
@@ -644,8 +667,8 @@ uk:
         uid: "Ідентифікатор клієнта"
         secret: "Секретний ключ клієнта"
         owner: "Власник"
-        builtin: "Builtin"
-        enabled: "Active"
+        builtin: "Вбудований"
+        enabled: "Активний"
         redirect_uri: "Перенаправити URI (Automatic Translation)"
         client_credentials_user_id: "Ідентифікатор користувача для облікових даних клієнта"
         scopes: "Область дії"
@@ -817,7 +840,7 @@ uk:
         blank: "не може бути порожнім."
         blank_nested: "– потрібно встановити властивість «%{property}»."
         cannot_delete_mapping: "– обов’язкове. Неможливо видалити."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Робочий пакет не може бути пов'язаний з одним з підзадач."
         circular_dependency: "Це співвідношення створить кругову залежність."
         confirmation: "не збігається %{attribute}"
@@ -894,7 +917,7 @@ uk:
         custom_fields_project:
           attributes:
             project_ids:
-              blank: "Please select a project."
+              blank: "Будь ласка, виберіть проєкт."
         custom_actions:
           only_one_allowed: "(%{name}) дозволено лише одне значення."
           empty: "(%{name})  значення не може бути порожнім."
@@ -925,6 +948,8 @@ uk:
             name:
               blank: "– обов’язковий атрибут. Виберіть ім’я."
               not_unique: "уже використовується. Виберіть інше ім’я."
+        meeting:
+          error_conflict: "Не вдалося зберегти, тому що зустріч була оновлена кимось іншим в цей час. Будь ласка, перезавантажте сторінку."
         notifications:
           at_least_one_channel: "Необхідно вказати принаймні один канал для надсилання сповіщень."
           attributes:
@@ -1384,6 +1409,7 @@ uk:
   button_expand_all: "Розгорнути все"
   button_favorite: "Додати в обране"
   button_filter: "Фільтр"
+  button_finish_setup: "Завершити налаштування"
   button_generate: "Згенерувати"
   button_list: "Список"
   button_lock: "Заблокувати"
@@ -1436,8 +1462,8 @@ uk:
     failure_message: Згода не отримана, продовження неможливе.
     title: Згода користувача
     decline_warning_message: Ви відхилили згоду і вийшли з системи.
-    user_has_consented: На даний час користувач погодився з Вашим формулюванням.
-    not_yet_consented: Користувач ще не погодився, запит буде надіслано після наступного входу.
+    user_has_consented: Користувач надав згоду на [налаштований текст інформації про згоду](consent_settings).
+    not_yet_consented: Користувач ще не надав згоду на [налаштований текст інформації про згоду] (consent_settings). Він отримає нагадування під час наступного входу.
     contact_mail_instructions: Визначте адресу електронної пошти, на яку користувачі можуть звертатися, для запитів на зміну або видалення даних.
     contact_your_administrator: Зверніться до свого адміністратора, якщо ви хочете, щоб ваш обліковий запис був видалений.
     contact_this_mail_address: Будь ласка зв'яжіться %{mail_address} якщо ви бажаєте, щоб ваш обліковий запис був видалений.
@@ -1706,7 +1732,7 @@ uk:
   error_menu_item_not_saved: Не вдалося зберегти пункт меню
   error_wiki_root_menu_item_conflict: >
     Неможливо перейменувати %{old_name} для %{new_name} через конфлікт у результуючому пункті меню з існуючим пунктом меню %{existing_caption} %{existing_identifier}
-  error_external_authentication_failed: "Під час зовнішньої автентифікації сталася помилка. Повторіть спробу."
+  error_external_authentication_failed_message: "Під час зовнішньої автентифікації сталася помилка: %{message}"
   error_attribute_not_highlightable: "Атрибут(и) не виділено: %{attributes}"
   events:
     changeset: "Набір змін відредаговано"
@@ -1861,11 +1887,15 @@ uk:
       progress_mode_changed_to_status_based: "Обчислення прогресу оновлено"
       status_changed: "Статус «%{status_name}»"
       system_update: "Оновлення системи OpenProject"
+      work_package_duplicate_closed: "Duplicate work package updated:"
+      total_percent_complete_mode_changed_to_work_weighted_average: "Під час обчислення підсумків атрибута «% завершення» тепер враховується значення атрибута «Робота»."
+      total_percent_complete_mode_changed_to_simple_average: "Обчислення підсумків атрибута «% завершення» тепер ґрунтується на середньому арифметичному значень лише атрибута «% завершення»."
     cause_descriptions:
       work_package_predecessor_changed_times: внесенням змін у попередній елемент %{link}
       work_package_parent_changed_times: внесенням змін у батькіський елемент %{link}
       work_package_children_changed_times: внесенням змін у дочірній елемент %{link}
       work_package_related_changed_times: внесенням змін у пов’язаний елемент %{link}
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: внесенням змін у пов’язаний пакет робіт
       working_days_changed:
         changed: "внесенням змін у робочі дні (%{changes})"
@@ -1878,7 +1908,7 @@ uk:
       progress_mode_changed_to_status_based: Установлено режим обчислення прогресу на основі статусу
       status_excluded_from_totals_set_to_false_message: тепер включено в підсумки ієрархії
       status_excluded_from_totals_set_to_true_message: тепер виключено з підсумків ієрархії
-      status_percent_complete_changed: "«% завершення» змінено з %{old_value}% на %{new_value}%"
+      status_percent_complete_changed: "% Повністю змінено з %{old_value}% на %{new_value}%"
       system_update:
         file_links_journal: >
           Тепер дії, пов’язані з посиланнями на файли (файли, що зберігаються в зовнішніх сховищах), з’являтимуться на вкладці «Активність». Наявні дії, пов’язані із посиланнями:
@@ -1888,6 +1918,10 @@ uk:
           Результати обчислення прогресу автоматично <a href="%{href}" target="_blank">скориговано відповідно до оновленої версії</a>.
         totals_removed_from_childless_work_packages: >-
           Результати обчислення обсягу й прогресу виконання роботи автоматично вилучено з небатьківських пакетів робіт з <a href="%{href}" target="_blank">оновленням версії</a>. Це завдання з технічного обслуговування, і його можна ігнорувати.
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        Дочірні пакети робіт без атрибута «Робота» ігноруються.
+      total_percent_complete_mode_changed_to_simple_average: >-
+        Значення атрибута «Робота» дочірніх пакетів робіт ігноруються.
   links:
     configuration_guide: "Посібник з налаштування"
     get_in_touch: "У вас виникли запитання? Зв'яжіться з нами."
@@ -1987,7 +2021,8 @@ uk:
   label_additional_workflow_transitions_for_assignee: "Додаткові переходи можна коли користувач є правонаступником"
   label_additional_workflow_transitions_for_author: "Додаткові переходи дозволені користувачу, який є автором"
   label_administration: "Адміністрування"
-  label_advanced_settings: "Розширені налаштування"
+  label_interface_colors: "Кольори інтерфейсу"
+  label_interface_colors_description: "Ці кольори визначають зовнішній вигляд застосунку. Якщо ви зміните їх, тему буде автоматично змінено на користувацьку тему, але ми не можемо гарантувати дотримання доступності мінімального контрасту (WCAG 2.1). "
   label_age: "Вік"
   label_ago: "днів тому"
   label_all: "всі"
@@ -2050,6 +2085,7 @@ uk:
   label_calendars_and_dates: "Календарі й дати"
   label_calendar_show: "Показати календар"
   label_category: "Категорія"
+  label_completed: Завершено
   label_consent_settings: "Згода користувача"
   label_wiki_menu_item: Пункт меню Wiki
   label_select_main_menu_item: Виберіть новий пункт головного меню
@@ -2093,7 +2129,7 @@ uk:
   label_copy_project: "Копіювати проект"
   label_core_version: "Версія ядра"
   label_core_build: "Збірка ядра"
-  label_created_by: "Created by %{user}"
+  label_created_by: "Створено %{user}"
   label_current_status: "Поточний статус"
   label_current_version: "Поточна версія"
   label_custom_field_add_no_type: "Додайте це поле до типу робочого пакета"
@@ -2101,6 +2137,7 @@ uk:
   label_custom_field_plural: "Індивідуальні поля"
   label_custom_field_default_type: "Порожній тип"
   label_custom_style: "Дизайн"
+  label_custom_style_description: "Виберіть, як OpenProject виглядає для вас із темами, виберіть ваші кольори за замовчуванням для використання в застосунку та як виглядатимуть експорти."
   label_dashboard: "Панель керування"
   label_database_version: "Версія PostgreSQL"
   label_date: "Дата"
@@ -2197,6 +2234,7 @@ uk:
   label_here: тут
   label_hide: "Приховати"
   label_history: "Історія"
+  label_hierarchy: "Ієрархія"
   label_hierarchy_leaf: "Ієрархічний лист"
   label_home: "Додому"
   label_subject_or_id: "Тема або ідентифікатор"
@@ -2208,6 +2246,7 @@ uk:
   label_inactive: "Неактивний"
   label_incoming_emails: "Вхідні повідомлення"
   label_includes: "Включити"
+  label_incomplete: Не завершено
   label_include_sub_projects: Включити підпроєкти
   label_index_by_date: "Індекс за датою"
   label_index_by_title: "Індекс за назвою"
@@ -2218,12 +2257,14 @@ uk:
   label_internal: "Власне"
   label_introduction_video: "Введення відео"
   label_invite_user: "Запросити користувача"
+  label_item: "Елемент"
+  label_item_plural: "Елементи"
   label_share: "Поділитися"
   label_share_project_list: "Поділитися списком проєктів"
   label_share_work_package: "Поділитися пакетом робіт"
-  label_show_hide: "Показати сховати"
-  label_show_hide_n_items: "Показати / приховати елементи (%{count})"
   label_show_all_registered_users: "Усі зареєстровані користувачі"
+  label_show_less: "Показати менше"
+  label_show_more: "Показати більше"
   label_journal: "Журнал"
   label_journal_diff: "Опис Порівняння"
   label_language: "Мова"
@@ -2294,7 +2335,7 @@ uk:
   label_more: "Більше"
   label_more_than_ago: "більш ніж днів(я) назад"
   label_move_work_package: "Перемістити робочий пакет"
-  label_my_account: "Мій обліковий запис"
+  label_my_account: "Налаштування облікового запису"
   label_my_activity: "Мої дії"
   label_my_account_data: "Мої дані облікового запису"
   label_my_avatar: "Мій аватар"
@@ -2321,6 +2362,7 @@ uk:
   label_no_parent_page: "Немає початкової сторінки"
   label_nothing_display: "Нічого не відображається"
   label_nobody: "жодні"
+  label_not_configured: "Не налаштовано"
   label_not_found: "не знайдено"
   label_none: "нічого"
   label_none_parentheses: "(нічого)"
@@ -2373,7 +2415,7 @@ uk:
   label_product_version: "Версія продукту"
   label_profile: "Профіль"
   label_percent_complete: "% завершення"
-  label_progress_tracking: "Progress tracking"
+  label_progress_tracking: "Відстеження прогресу"
   label_project: "Проєкт"
   label_project_activity: "Дії в проєкті"
   label_project_attribute_plural: "Атрибути проєкту"
@@ -2948,6 +2990,7 @@ uk:
   permission_view_shared_work_packages: "Переглянути дозволи на доступ до пакета робіт"
   permission_view_time_entries: "Перегляд трудовитрат"
   permission_view_timelines: "Переглянути часові рамки"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Перегляд історії wiki"
   permission_view_wiki_pages: "Перегляд wiki"
   permission_work_package_assigned: "Стати виконавцем / відповідальним"
@@ -3198,15 +3241,13 @@ uk:
   setting_hours_per_day_explanation: >-
     Визначає, що вважати днем, якщо тривалість представлено в днях і годинах (наприклад, якщо день триває 8 годин, то 32 години – це 4 дні).
   setting_invitation_expiration_days: "Повідомлення про активацію закінчується"
-  setting_work_package_done_ratio: "Progress calculation mode"
+  setting_work_package_done_ratio: "Режим обчислення прогресу"
   setting_work_package_done_ratio_field: "На основі роботи"
   setting_work_package_done_ratio_field_caption_html: >-
-    <i>% Complete</i> can be freely set to any value. If you optionally enter a value for <i>Work</i>, <i>Remaining work</i> will automatically be derived.
+    Для <i>% Завершення</i> можна вільно встановити будь-яке значення. Якщо ви додатково введете значення для параметра <i>Робота</i>, <i>Залишок роботи</i> буде виведено автоматично.
   setting_work_package_done_ratio_status: "На основі статусу"
   setting_work_package_done_ratio_status_caption_html: >-
-    Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    У режимі <b>на основі роботи</b> значення атрибута «% завершення» залежить від частки виконаної роботи відносно загального обсягу робіт. У режимі <b>на основі статусу</b> кожен статус має пов’язане з ним значення атрибута «% завершення». У разі змінення статусу змінюється й значення атрибута «% завершення».
+    Кожен статус <i>% Завершення</i> має пов'язане з ним значення. Зміна статусу змінить <i>% Завершення</i>.
   setting_work_package_done_ratio_explanation_html: >
     У режимі <b>на основі роботи</b> атрибут «% завершення» може мати будь-яке значення. Якщо визначено атрибут «Робота», з нього автоматично виводиться значення атрибута «Залишок роботи». У режимі <b>на основі статусу</b> кожен статус має пов’язане з ним значення атрибута «% завершення». У разі змінення статусу змінюється й значення атрибута «% завершення».
   setting_work_package_properties: "Властивості робочого пакета"
@@ -3227,6 +3268,13 @@ uk:
   setting_password_min_length: "Мінімальна довжина"
   setting_password_min_adhered_rules: "Мінімальна кількість необхідних класів"
   setting_per_page_options: "Кількість записів на сторінку"
+  setting_percent_complete_on_status_closed: "% Завершення, коли статус закрито"
+  setting_percent_complete_on_status_closed_no_change: "Без змін"
+  setting_percent_complete_on_status_closed_no_change_caption_html: >-
+    Значення <i>% Завершення</i> не зміниться, навіть якщо робочий пакет закрито.
+  setting_percent_complete_on_status_closed_set_100p: "Автоматично встановити на 100%"
+  setting_percent_complete_on_status_closed_set_100p_caption: >-
+    Закритий робочий пакет вважається завершеним.
   setting_plain_text_mail: "Простий текстовий лист (без HTML)"
   setting_protocol: "Протокол"
   setting_project_gantt_query: "Подання Ґанта портфеля проєкту "
@@ -3251,6 +3299,13 @@ uk:
   setting_sys_api_enabled: "Увімкнути веб-службу керування сховищем"
   setting_sys_api_description: "Веб-сервіс управління сховищем забезпечує інтеграцію та авторизацію користувача для доступу до сховищ."
   setting_time_format: "Час"
+  setting_total_percent_complete_mode: "Обчислення підсумків ієрархів «% завершення»"
+  setting_total_percent_complete_mode_work_weighted_average: "Зважено за роботою"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    Атрибут <i>Загальний % завершення</i> буде зважено за атрибутом <i>Робота</i> кожного пакета робіт в ієрархії. Пакети робіт без атрибута <i>Робота</i> ігноруватимуться.
+  setting_total_percent_complete_mode_simple_average: "Середнє арифметичне"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    Атрибут <i>Робота</i> ігнорується, а <i>Загальний % завершення</i> дорівнюватиме середньому арифметичному значень атрибута <i>% завершення</i> пакетів робіт в ієрархії.
   setting_accessibility_mode_for_anonymous: "Увімкніть режим доступності для анонімних користувачів"
   setting_user_format: "Формат імені користувача"
   setting_user_default_timezone: "Часовий пояс користувача за замовчуванням"
@@ -3593,7 +3648,6 @@ uk:
       label_note: "Примітка."
       modal:
         work_based_help_text: "Кожне поле автоматично обчислюється на основі двох інших, коли це можливо."
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "Значення атрибута «% завершення» автоматично виводиться з атрибутів «Робота» й «Залишок роботи»."
         status_based_help_text: "Значення параметра «% завершення» визначається статусом пакета робіт."
         migration_warning_text: "У режимі обчислення прогресу на основі робіт значення параметра «% завершення» не можна встановити вручну й прив’язати до значення параметра «Робота». Наявне значення збережено, але його не можна змінити. Спочатку визначте параметр «Робота»."
       derivation_hints:
@@ -3802,16 +3856,16 @@ uk:
     close_warning: "Ігнорувати це попередження."
   oauth:
     application:
-      builtin: Built-in instance application
-      confidential: Confidential
+      builtin: Вбудований екземпляр застосунку
+      confidential: Конфіденційний
       singular: "Програма OAuth"
       plural: "Програми OAuth"
       named: " Програми OAuth '%{name}'"
       new: "Нова програма OAuth"
-      non_confidential: Non confidential
+      non_confidential: Не конфіденційний
       default_scopes: "(Області за умовчанням)"
       instructions:
-        enabled: "Enable this application, allowing users to perform authorization grants with it."
+        enabled: "Увімкнути цей застосунок, дозволяючи користувачам надання авторизації з ним."
         name: "Назва вашої програми. Це буде показано іншим користувачам після авторизації."
         redirect_uri_html: >
           Дозволені URL-адреси, дозволені користувачам, можна перенаправити. Один запис на рядок.  <br/>  Якщо ви реєструєте настільну програму, використовуйте таку URL-адресу.
@@ -3821,9 +3875,9 @@ uk:
         register_intro: "Якщо ви розробляєте клієнтське додаток OAuth для OpenProject, ви можете зареєструвати його, використовуючи цю форму для всіх користувачів."
         default_scopes: ""
     header:
-      builtin_applications: Built-in OAuth applications
-      other_applications: Other OAuth applications
-    empty_application_lists: No OAuth applications have been registered.
+      builtin_applications: Вбудовані застосунки OAuth
+      other_applications: Інші застосунки OAuth
+    empty_application_lists: Жодного застосунку OAuth не зареєстровано.
     client_id: "Ідентифікатор клієнта"
     client_secret_notice: >
       Це єдиний раз, коли ми можемо надати клієнтську таємницю, зауважте її та збережіть її в безпеці. Він повинен розглядатися як пароль і не може бути отриманий OpenProject пізніше.
