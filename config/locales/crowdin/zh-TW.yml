@@ -1905,7 +1905,7 @@ zh-TW:
   label_all: "所有"
   label_all_time: "所有的時間"
   label_all_words: "所以的詞"
-  label_all_open_wps: "所有「進行中」工作項目"
+  label_all_open_wps: "所有「未關閉」工作項目"
   label_always_visible: "總是顯示"
   label_announcement: "公告"
   label_angular: "AngularJS"
