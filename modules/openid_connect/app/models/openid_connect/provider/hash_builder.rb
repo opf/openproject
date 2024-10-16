@@ -7,14 +7,14 @@ module OpenIDConnect
     end
 
     def to_h # rubocop:disable Metrics/AbcSize
-      h = {
+      {
         name: slug,
+        oidc_provider:,
         icon:,
         display_name:,
         userinfo_endpoint:,
         authorization_endpoint:,
         jwks_uri:,
-        host: URI(issuer).host,
         issuer:,
         identifier: client_id,
         secret: client_secret,
@@ -22,21 +22,26 @@ module OpenIDConnect
         limit_self_registration:,
         end_session_endpoint:,
         attribute_map:
-      }
-        .merge(attribute_map)
-        .compact_blank
+      }.merge(attribute_map)
+       .merge(provider_specific_to_h)
+       .compact_blank
+    end
 
-      if oidc_provider == "google"
-        h.merge!(
-          {
-            client_auth_method: :not_basic,
-            send_nonce: false, # use state instead of nonce
-            state: lambda { SecureRandom.hex(42) }
-          }
-        )
+    def provider_specific_to_h
+      case oidc_provider
+      when "google"
+        {
+          client_auth_method: :not_basic,
+          send_nonce: false, # use state instead of nonce
+          state: lambda { SecureRandom.hex(42) }
+        }
+      when "microsoft_entra"
+        {
+          use_graph_api:
+        }
+      else
+        {}
       end
-
-      h
     end
   end
 end

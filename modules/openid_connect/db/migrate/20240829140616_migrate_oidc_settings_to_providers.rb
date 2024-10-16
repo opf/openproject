@@ -34,7 +34,6 @@ class MigrateOidcSettingsToProviders < ActiveRecord::Migration[7.1]
     return if providers.blank?
 
     providers.each do |name, configuration|
-      configuration.delete(:name)
       migrate_provider!(name, configuration)
     end
   end
