@@ -4,17 +4,36 @@ require "open_project/openid_connect/engine"
 
 module OpenProject
   module OpenIDConnect
-    def providers
+    def self.configuration
+      providers = ::OpenIDConnect::Provider.where(available: true)
+
+      OpenProject::Cache.fetch(providers.cache_key) do
+        providers.each_with_object({}) do |provider, hash|
+          hash[provider.slug.to_sym] = provider.to_h
+        end
+      end
+    end
+
+    def self.providers
       # update base redirect URI in case settings changed
       ::OmniAuth::OpenIDConnect::Providers.configure(
         base_redirect_uri: "#{Setting.protocol}://#{Setting.host_name}#{OpenProject::Configuration['rails_relative_url_root']}"
       )
-      providers = ::OpenIDConnect::Provider.where(available: true).select(&:configured?)
-      configuration = providers.each_with_object({}) do |provider, hash|
-        hash[provider.slug] = provider.to_h
+
+      configuration.map do |slug, configuration|
+        provider = configuration.delete(:oidc_provider)
+        clazz =
+          case provider
+          when "google"
+            ::OmniAuth::OpenIDConnect::Google
+          when "microsoft_entra"
+            ::OmniAuth::OpenIDConnect::Azure
+          else
+            ::OmniAuth::OpenIDConnect::Provider
+          end
+
+        clazz.new(slug, configuration)
       end
-      ::OmniAuth::OpenIDConnect::Providers.load(configuration)
     end
-    module_function :providers
   end
 end

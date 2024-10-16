@@ -34,17 +34,18 @@ module OpenIDConnect
       @configuration = configuration
     end
 
-    def call!
+    def call! # rubocop:disable Metrics/AbcSize
       options = mapped_options(configuration.deep_stringify_keys)
 
       {
-        "slug" => options.delete("name"),
-        "display_name" => options.delete("display_name") || "OpenID Connect",
-        "oidc_provider" => "custom",
+        "slug" => options["name"],
+        "display_name" => options["display_name"].presence || "OpenID Connect",
+        "oidc_provider" => oidc_provider(options),
         "client_id" => options["identifier"],
         "client_secret" => options["secret"],
         "issuer" => options["issuer"],
         "claims" => options["claims"],
+        "use_graph_api" => options["use_graph_api"],
         "acr_values" => options["acr_values"],
         "authorization_endpoint" => extract_url(options, "authorization_endpoint"),
         "token_endpoint" => extract_url(options, "token_endpoint"),
@@ -56,12 +57,29 @@ module OpenIDConnect
 
     private
 
+    def oidc_provider(options)
+      case options["name"]
+      when /azure/
+        "microsoft_entra"
+      when /google/
+        "google"
+      else
+        "custom"
+      end
+    end
+
     def extract_url(options, key)
       value = options[key]
       return value if value.blank? || value.start_with?("http")
 
       unless value.start_with?("/")
         raise ArgumentError.new("Provided #{key} '#{value}' needs to be http(s) URL or path starting with a slash.")
+      end
+
+      # Allow returning the value as is for built-in providers
+      # with fixed host names
+      if oidc_provider(options) != "custom"
+        return value
       end
 
       URI
