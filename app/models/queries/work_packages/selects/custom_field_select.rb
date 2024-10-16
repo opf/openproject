@@ -32,21 +32,20 @@ class Queries::WorkPackages::Selects::CustomFieldSelect < Queries::WorkPackages:
 
     @cf = custom_field
 
-    set_name!
-    set_sortable!
-    set_groupable!
-    set_summable!
-  end
-
-  def groupable_custom_field?(custom_field)
-    %w(list date bool int).include?(custom_field.field_format)
+    @name = custom_field.column_name.to_sym
+    @sortable = custom_field.order_statement
+    @sortable_join = custom_field.order_join_statement
+    @groupable = custom_field.group_by_statement
+    @groupable_join = custom_field.group_by_join_statement
+    @groupable_select = custom_field.group_by_select_statement
+    @summable = summable_statement
   end
 
   def caption
     @cf.name
   end
 
-  delegate :null_handling, to: :custom_field
+  def null_handling(...) = custom_field.order_null_handling(...)
 
   def custom_field
     @cf
@@ -68,32 +67,6 @@ class Queries::WorkPackages::Selects::CustomFieldSelect < Queries::WorkPackages:
 
   private
 
-  def set_name!
-    self.name = custom_field.column_name.to_sym
-  end
-
-  def set_sortable!
-    self.sortable = custom_field.order_statements || false
-  end
-
-  def set_groupable!
-    self.groupable = custom_field.group_by_statement if groupable_custom_field?(custom_field)
-    self.groupable ||= false
-  end
-
-  def set_summable!
-    self.summable = if %w(float int).include?(custom_field.field_format)
-                      select = summable_select_statement
-
-                      ->(query, grouped) {
-                        Queries::WorkPackages::Selects::WorkPackageSelect
-                          .scoped_column_sum(summable_scope(query), select, grouped && query.group_by_statement)
-                      }
-                    else
-                      false
-                    end
-  end
-
   def summable_scope(query)
     WorkPackage
       .where(id: query.results.work_packages)
@@ -105,9 +78,22 @@ class Queries::WorkPackages::Selects::CustomFieldSelect < Queries::WorkPackages:
 
   def summable_select_statement
     if custom_field.field_format == "int"
-      "COALESCE(SUM(value::BIGINT)::BIGINT, 0) #{name}"
+      "COALESCE(SUM(#{CustomValue.quoted_table_name}.value::BIGINT)::BIGINT, 0) #{name}"
     else
-      "COALESCE(ROUND(SUM(value::NUMERIC), 2)::FLOAT, 0.0) #{name}"
+      "COALESCE(ROUND(SUM(#{CustomValue.quoted_table_name}.value::NUMERIC), 2)::FLOAT, 0.0) #{name}"
+    end
+  end
+
+  def summable_statement
+    if %w[float int].include?(custom_field.field_format)
+      select = summable_select_statement
+
+      ->(query, grouped) {
+        Queries::WorkPackages::Selects::WorkPackageSelect
+          .scoped_column_sum(summable_scope(query), select, grouped:, query:)
+      }
+    else
+      false
     end
   end
 end

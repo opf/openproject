@@ -86,20 +86,19 @@ RSpec.describe Costs::QueryCurrencySelect, type: :model do
         query = double("query")
         result = double("result")
 
-        allow(query)
-          .to receive(:results)
-          .and_return result
-
         allow(result)
           .to receive(:work_packages)
           .and_return(WorkPackage.all)
 
-        allow(query)
-          .to receive(:group_by_statement)
-          .and_return("author_id")
+        allow(query).to receive_messages(
+          results: result,
+          group_by_join_statement: nil,
+          group_by_select: "author_id",
+          group_by_statement: "author_id"
+        )
 
         expect(ActiveRecord::Base.connection.select_all(instance.summable.(query, true).to_sql).columns)
-          .to match_array %w(id material_costs)
+          .to match_array %w(group_id material_costs)
       end
     end
   end
@@ -125,20 +124,19 @@ RSpec.describe Costs::QueryCurrencySelect, type: :model do
         query = double("query")
         result = double("result")
 
-        allow(query)
-          .to receive(:results)
-          .and_return result
-
         allow(result)
           .to receive(:work_packages)
           .and_return(WorkPackage.all)
 
-        allow(query)
-          .to receive(:group_by_statement)
-          .and_return("author_id")
+        allow(query).to receive_messages(
+          results: result,
+          group_by_join_statement: nil,
+          group_by_select: "author_id",
+          group_by_statement: "author_id"
+        )
 
         expect(ActiveRecord::Base.connection.select_all(instance.summable.(query, true).to_sql).columns)
-          .to match_array %w(id labor_costs)
+          .to match_array %w(group_id labor_costs)
       end
     end
   end

@@ -28,12 +28,9 @@
 
 class Queries::WorkPackages::Selects::RelationOfTypeSelect < Queries::WorkPackages::Selects::RelationSelect
   def initialize(type)
-    self.type = type
-    super(name)
-  end
+    super(:"relations_of_type_#{type[:sym]}")
 
-  def name
-    :"relations_of_type_#{type[:sym]}"
+    @type = type
   end
 
   def sym

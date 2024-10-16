@@ -28,14 +28,9 @@
 
 class Queries::WorkPackages::Selects::RelationToTypeSelect < Queries::WorkPackages::Selects::RelationSelect
   def initialize(type)
-    super
+    super(:"relations_to_type_#{type.id}")
 
-    set_name! type
-    self.type = type
-  end
-
-  def set_name!(type)
-    self.name = :"relations_to_type_#{type.id}"
+    @type = type
   end
 
   def caption

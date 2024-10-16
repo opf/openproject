@@ -46,6 +46,7 @@ module ::Query::Results::GroupBy
 
   def group_counts_by_group
     work_packages_with_includes_for_count
+      .joins(query.group_by_join_statement)
       .group(group_by_for_count)
       .visible
       .references(:statuses, :projects)
@@ -67,7 +68,7 @@ module ::Query::Results::GroupBy
   end
 
   def pluck_for_count
-    Array(query.group_by_statement).map { |statement| Arel.sql(statement) } +
+    Array(query.group_by_select).map { |statement| Arel.sql(statement) } +
       [Arel.sql('COUNT(DISTINCT "work_packages"."id")')]
   end
 
@@ -98,7 +99,7 @@ module ::Query::Results::GroupBy
 
     groups.transform_keys do |key|
       if custom_field.multi_value?
-        key.split(".").map do |subkey|
+        (key ? key.split(".") : []).map do |subkey|
           options[subkey].first
         end
       else
@@ -108,7 +109,7 @@ module ::Query::Results::GroupBy
   end
 
   def custom_options_for_keys(custom_field, groups)
-    keys = groups.keys.map { |k| k.split(".") }
+    keys = groups.keys.map { |k| k ? k.split(".") : [] }
     # Because of multi select cfs we might end up having overlapping groups
     # (e.g group "1" and group "1.3" and group "3" which represent concatenated ids).
     # This can result in us having ids in the keys array multiple times (e.g. ["1", "1", "3", "3"]).
