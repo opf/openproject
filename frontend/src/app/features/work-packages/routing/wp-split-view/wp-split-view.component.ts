@@ -71,9 +71,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   /** Reference to the base route e.g., work-packages.partitioned.list or bim.partitioned.split */
   private baseRoute:string = this.$state.current?.data?.baseRoute as string;
 
-  @Input() workPackageId:string;
   @Input() showTabs = true;
-  @Input() activeTab?:string;
 
   @Input() resizerClass = 'work-packages-partitioned-page--content-right';
 
@@ -90,7 +88,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
     readonly backRouting:BackRoutingService,
     readonly wpTabs:WorkPackageTabsService,
   ) {
-    super(injector, $state.params.workPackageId);
+    super(injector);
   }
 
   ngOnInit():void {

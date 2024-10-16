@@ -68,67 +68,67 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
       name: { type: 'string', dynamic: true },
     },
   },
-  {
-    name: 'work-packages.show',
-    url: '/{workPackageId:[0-9]+}',
-    // Redirect to 'activity' by default.
-    redirectTo: (trans) => {
-      const params = trans.params('to');
-      const keepTab = trans.injector().get(KeepTabService) as KeepTabService;
-      const tabIdentifier = keepTab.currentShowTab;
-      return {
-        state: 'work-packages.show.tabs',
-        params: { ...params, tabIdentifier: tabIdentifier || 'activity' },
-      };
-    },
-    component: WorkPackagesFullViewComponent,
-    data: {
-      baseRoute: 'work-packages',
-      bodyClasses: ['router--work-packages-full-view', 'router--work-packages-base'],
-      newRoute: 'work-packages.new',
-      menuItem: menuItemClass,
-      sideMenuOptions,
-    },
-  },
-  {
-    name: 'work-packages.show.tabs',
-    url: '/:tabIdentifier',
-    component: WpTabWrapperComponent,
-    data: {
-      parent: 'work-packages.show',
-      menuItem: menuItemClass,
-      sideMenuOptions,
-    },
-  },
-  {
-    name: 'work-packages.partitioned',
-    component: WorkPackageViewPageComponent,
-    url: '',
-    data: {
-      // This has to be empty to avoid inheriting the parent bodyClasses
-      bodyClasses: '',
-      sideMenuOptions,
-    },
-  },
-  {
-    name: 'work-packages.partitioned.list',
-    url: '',
-    reloadOnSearch: false,
-    views: {
-      'content-left': { component: WorkPackageListViewComponent },
-    },
-    data: {
-      bodyClasses: ['router--work-packages-partitioned-split-view', 'router--work-packages-base'],
-      menuItem: menuItemClass,
-      partition: '-left-only',
-      sideMenuOptions,
-    },
-  },
-  ...makeSplitViewRoutes(
-    'work-packages.partitioned.list',
-    menuItemClass,
-    WorkPackageSplitViewComponent,
-  ),
+  // {
+  //   name: 'work-packages.show',
+  //   url: '/{workPackageId:[0-9]+}',
+  //   // Redirect to 'activity' by default.
+  //   redirectTo: (trans) => {
+  //     const params = trans.params('to');
+  //     const keepTab = trans.injector().get(KeepTabService) as KeepTabService;
+  //     const tabIdentifier = keepTab.currentShowTab;
+  //     return {
+  //       state: 'work-packages.show.tabs',
+  //       params: { ...params, tabIdentifier: tabIdentifier || 'activity' },
+  //     };
+  //   },
+  //   component: WorkPackagesFullViewComponent,
+  //   data: {
+  //     baseRoute: 'work-packages',
+  //     bodyClasses: ['router--work-packages-full-view', 'router--work-packages-base'],
+  //     newRoute: 'work-packages.new',
+  //     menuItem: menuItemClass,
+  //     sideMenuOptions,
+  //   },
+  // },
+  // {
+  //   name: 'work-packages.show.tabs',
+  //   url: '/:tabIdentifier',
+  //   component: WpTabWrapperComponent,
+  //   data: {
+  //     parent: 'work-packages.show',
+  //     menuItem: menuItemClass,
+  //     sideMenuOptions,
+  //   },
+  // },
+  // {
+  //   name: 'work-packages.partitioned',
+  //   component: WorkPackageViewPageComponent,
+  //   url: '',
+  //   data: {
+  //     // This has to be empty to avoid inheriting the parent bodyClasses
+  //     bodyClasses: '',
+  //     sideMenuOptions,
+  //   },
+  // },
+  // {
+  //   name: 'work-packages.partitioned.list',
+  //   url: '',
+  //   reloadOnSearch: false,
+  //   views: {
+  //     'content-left': { component: WorkPackageListViewComponent },
+  //   },
+  //   data: {
+  //     bodyClasses: ['router--work-packages-partitioned-split-view', 'router--work-packages-base'],
+  //     menuItem: menuItemClass,
+  //     partition: '-left-only',
+  //     sideMenuOptions,
+  //   },
+  // },
+  // ...makeSplitViewRoutes(
+  //   'work-packages.partitioned.list',
+  //   menuItemClass,
+  //   WorkPackageSplitViewComponent,
+  // ),
   {
     url: '/share_upsale',
     name: 'work-packages.share_upsale',

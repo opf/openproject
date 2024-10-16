@@ -419,6 +419,7 @@ import {
 import { WorkPackageSplitCreateEntryComponent } from 'core-app/features/work-packages/routing/wp-split-create/wp-split-create-entry.component';
 import { WorkPackageFullCopyEntryComponent } from 'core-app/features/work-packages/routing/wp-full-copy/wp-full-copy-entry.component';
 import { WorkPackageFullCreateEntryComponent } from 'core-app/features/work-packages/routing/wp-full-create/wp-full-create-entry.component';
+import { WorkPackageFullViewEntryComponent } from 'core-app/features/work-packages/routing/wp-full-view/wp-full-view-entry.component';
 
 @NgModule({
   imports: [
@@ -620,6 +621,7 @@ import { WorkPackageFullCreateEntryComponent } from 'core-app/features/work-pack
 
     // Full view
     WorkPackagesFullViewComponent,
+    WorkPackageFullViewEntryComponent,
     WorkPackageFullCopyEntryComponent,
     WorkPackageFullCreateEntryComponent,
 

@@ -26,29 +26,33 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { ChangeDetectionStrategy, Component, ElementRef, Input } from '@angular/core';
 import {
-  Component,
-  Input,
-} from '@angular/core';
-import { UIRouterGlobals } from '@uirouter/core';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { randomString } from 'core-app/shared/helpers/random-string';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+  WorkPackageIsolatedQuerySpaceDirective,
+} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
+/**
+ * An entry component to be rendered by Rails which opens an isolated query space
+ * for the work package full view
+ */
 @Component({
-  selector: 'wp-subject',
-  templateUrl: './wp-subject.html',
+  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
+  template: `
+    <op-wp-full-view
+      [workPackageId]="workPackageId"
+    ></op-wp-full-view>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkPackageSubjectComponent extends UntilDestroyedMixin {
-  @Input('workPackage') workPackage:WorkPackageResource;
+export class WorkPackageFullViewEntryComponent {
+  @Input() workPackageId:string;
+  @Input() activeTab:string;
+  @Input() routedFromAngular:boolean;
 
-  public readonly uniqueElementIdentifier = `work-packages--subject-type-row-${randomString(16)}`;
+  constructor(readonly elementRef:ElementRef) {
+    populateInputsFromDataset(this);
 
-  constructor(
-    protected uiRouterGlobals:UIRouterGlobals,
-    protected apiV3Service:ApiV3Service,
-  ) {
-    super();
+    document.body.classList.add('router--work-packages-full-view', 'router--work-packages-base');
   }
 }

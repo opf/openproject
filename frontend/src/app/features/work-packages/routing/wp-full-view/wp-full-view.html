@@ -16,7 +16,7 @@
       </op-back-button>
 
       <div class="subject-header wp-show--header-container--subject">
-        <wp-subject></wp-subject>
+        <wp-subject [workPackage]="workPackage"></wp-subject>
       </div>
 
       <ul id="toolbar-items" class="toolbar-items hide-when-print wp-show--header-container--toolbar-items">
@@ -73,9 +73,13 @@
       <div class="work-packages--panel-inner">
         <span class="hidden-for-sighted" tabindex="-1" opAutofocus [textContent]="focusAnchorLabel"></span>
         <op-wp-tabs [workPackage]="workPackage" [view]="'full'"></op-wp-tabs>
+
         <div class="tabcontent"
-             data-notification-selector='notification-scroll-container'
-             ui-view>
+             data-notification-selector='notification-scroll-container'>
+          <op-wp-tab
+            [workPackageId]="workPackage.id!"
+            [tabIdentifier]="activeTab"
+          ></op-wp-tab>
         </div>
       </div>
 
