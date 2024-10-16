@@ -37,6 +37,28 @@ module OpenIDConnect
           model.slug ||= "#{model.class.slug_fragment}-#{model.display_name.to_url}" if model.display_name
         end
       end
+
+      def set_attributes(params)
+        update_options(params.delete(:options)) if params.key?(:options)
+
+        super
+
+        update_available_state
+      end
+
+      def update_available_state
+        model.change_by_system do
+          model.available = model.configured?
+        end
+      end
+
+      def update_options(options)
+        options
+          .select { |key, _| Saml::Provider.stored_attributes[:options].include?(key.to_s) }
+          .each do |key, value|
+          model.public_send(:"#{key}=", value)
+        end
+      end
     end
   end
 end

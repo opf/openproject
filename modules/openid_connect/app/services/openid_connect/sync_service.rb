@@ -32,6 +32,7 @@ module OpenIDConnect
 
     def initialize(name, configuration)
       @name = name
+      configuration[:name] = name
       @configuration = ::OpenIDConnect::ConfigurationMapper.new(configuration).call!
     end
 
