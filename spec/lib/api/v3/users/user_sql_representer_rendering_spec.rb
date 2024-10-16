@@ -187,4 +187,43 @@ RSpec.describe API::V3::Users::UserSqlRepresenter, "rendering" do
       end
     end
   end
+
+  describe "email property" do
+    let(:select) { { "email" => {} } }
+
+    context "when the user is the current user" do
+      it "renders the email" do
+        expect(json)
+          .to be_json_eql(
+            {
+              email: rendered_user.mail
+            }.to_json
+          )
+      end
+    end
+
+    context "when the user has view_user_email permission" do
+      let(:current_user) { create(:user, global_permissions: [:view_user_email]) }
+      let(:rendered_user) { create(:user) }
+
+      it "renders the email" do
+        expect(json)
+          .to be_json_eql(
+            {
+              email: rendered_user.mail
+            }.to_json
+          )
+      end
+    end
+
+    context "when the user has no view_user_email permission" do
+      let(:current_user) { create(:user, global_permissions: []) }
+      let(:rendered_user) { create(:user) }
+
+      it "hides the email" do
+        expect(json)
+          .to be_json_eql({}.to_json)
+      end
+    end
+  end
 end

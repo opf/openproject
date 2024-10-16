@@ -384,7 +384,8 @@ RSpec.describe "Work package sharing",
   end
 
   context "when having global invite permission" do
-    let(:global_manager_user) { create(:user, global_permissions: %i[manage_user create_user]) }
+    let(:global_permissions) { %i[manage_user create_user] }
+    let(:global_manager_user) { create(:user, global_permissions:) }
     let(:current_user) { global_manager_user }
     let(:locked_user) { create(:user, mail: "holly@openproject.com", status: :locked) }
 
@@ -451,6 +452,30 @@ RSpec.describe "Work package sharing",
       # The number of shared people has not changed, but an error message is shown
       share_modal.expect_shared_count_of(6)
       share_modal.expect_error_message(I18n.t("sharing.warning_locked_user", user: locked_user.name))
+    end
+
+    describe "filtering and displaying user email addresses" do
+      context "when having view email permissions" do
+        let(:global_permissions) { %i[manage_user create_user view_user_email] }
+
+        it "allows filtering by and displaying user emails" do
+          share_modal.search_user(richard.mail)
+          share_modal.expect_ng_option("", "Richard Hendricks#{richard.mail}", results_selector: "body")
+        end
+      end
+
+      context "when having no view email permissions" do
+        it "does not allow filtering by and displaying user emails" do
+          # does not display any email addresses
+          share_modal.search_user("Richard Hendricks")
+          share_modal.expect_ng_option("", "Richard Hendricks", results_selector: "body")
+          share_modal.expect_no_ng_option("", "Richard Hendricks#{richard.mail}", results_selector: "body")
+
+          # does not allow filtering by email
+          share_modal.search_user(richard.mail)
+          share_modal.expect_no_ng_option("", "Richard Hendricks", results_selector: "body")
+        end
+      end
     end
   end
 
