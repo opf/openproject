@@ -69,6 +69,7 @@ export class WorkPackagePrimerizedListViewComponent extends WorkPackageListViewC
 
   ngOnInit() {
     this.loadInitialQuery();
+    document.body.classList.add('router--work-packages-base');
     super.ngOnInit();
   }
 

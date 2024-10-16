@@ -46,28 +46,28 @@ export const sideMenuOptions = {
 };
 
 export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
-  {
-    name: 'work-packages',
-    parent: 'optional_project',
-    url: '/work_packages?query_id&query_props&name&start_onboarding_tour',
-    redirectTo: 'work-packages.partitioned.list',
-    views: {
-      '!$default': { component: WorkPackagesBaseComponent },
-    },
-    data: {
-      bodyClasses: 'router--work-packages-base',
-      menuItem: menuItemClass,
-      sideMenuOptions,
-    },
-    params: {
-      query_id: { type: 'query', dynamic: true },
-      // Use custom encoder/decoder that ensures validity of URL string
-      query_props: { type: 'opQueryString' },
-      // Optional initial tour param
-      start_onboarding_tour: { type: 'query', squash: true, value: undefined },
-      name: { type: 'string', dynamic: true },
-    },
-  },
+  // {
+  //   name: 'work-packages',
+  //   parent: 'optional_project',
+  //   url: '/work_packages?query_id&query_props&name&start_onboarding_tour',
+  //   redirectTo: 'work-packages.partitioned.list',
+  //   views: {
+  //     '!$default': { component: WorkPackagesBaseComponent },
+  //   },
+  //   data: {
+  //     bodyClasses: 'router--work-packages-base',
+  //     menuItem: menuItemClass,
+  //     sideMenuOptions,
+  //   },
+  //   params: {
+  //     query_id: { type: 'query', dynamic: true },
+  //     // Use custom encoder/decoder that ensures validity of URL string
+  //     query_props: { type: 'opQueryString' },
+  //     // Optional initial tour param
+  //     start_onboarding_tour: { type: 'query', squash: true, value: undefined },
+  //     name: { type: 'string', dynamic: true },
+  //   },
+  // },
   // {
   //   name: 'work-packages.show',
   //   url: '/{workPackageId:[0-9]+}',
