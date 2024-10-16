@@ -109,7 +109,6 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent i
       component: WorkPackageCreateButtonComponent,
       inputs: {
         stateName$: of(this.newRoute),
-        allowed: ['work_packages.createWorkPackage', 'work_package.copy'],
       },
     },
     {

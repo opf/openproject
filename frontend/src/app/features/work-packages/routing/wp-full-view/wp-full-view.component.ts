@@ -31,6 +31,7 @@ import { StateService } from '@uirouter/core';
 import {
   Component,
   Injector,
+  Input,
   OnInit,
 } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -55,6 +56,8 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
   ],
 })
 export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase implements OnInit {
+  @Input() routedFromAngular:boolean = true;
+
   // Watcher properties
   public isWatched:boolean;
 

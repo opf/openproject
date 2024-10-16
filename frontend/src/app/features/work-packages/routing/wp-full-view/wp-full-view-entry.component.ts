@@ -42,6 +42,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
     <op-wp-full-view
       [workPackageId]="workPackageId"
       [activeTab]="activeTab"
+      [routedFromAngular]="routedFromAngular"
     ></op-wp-full-view>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

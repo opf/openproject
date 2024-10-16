@@ -22,8 +22,8 @@
       <ul id="toolbar-items" class="toolbar-items hide-when-print wp-show--header-container--toolbar-items">
         <li class="toolbar-item hidden-for-tablet">
           <wp-create-button
-            [allowed]="['work_package.addChild', 'work_package.copy']"
-            [stateName$]="stateName$">
+            [routedFromAngular]="routedFromAngular"
+          >
           </wp-create-button>
         </li>
         <li class="toolbar-item"

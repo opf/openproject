@@ -66,7 +66,6 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
       component: WorkPackageCreateButtonComponent,
       inputs: {
         stateName$: of(this.stateName),
-        allowed: ['work_packages.createWorkPackage'],
       },
     },
     {
