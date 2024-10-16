@@ -102,7 +102,7 @@ RSpec.describe Users::RegisterUserService do
               self_registration: 0,
             } do
       it "fails to activate due to disabled self registration" do
-        create(:oidc_provider, slug: 'azure')
+        create(:oidc_provider, slug: "azure")
         call = instance.call
         expect(call).not_to be_success
         expect(call.result).to eq user
@@ -115,7 +115,7 @@ RSpec.describe Users::RegisterUserService do
               self_registration: 2,
             } do
       it "registers the user, but does not activate it" do
-        create(:oidc_provider, slug: 'azure')
+        create(:oidc_provider, slug: "azure")
         call = instance.call
         expect(call).to be_success
         expect(call.result).to eq user
@@ -130,7 +130,7 @@ RSpec.describe Users::RegisterUserService do
               self_registration: 1,
             } do
       it "registers the user, but does not activate it" do
-        create(:oidc_provider, slug: 'azure')
+        create(:oidc_provider, slug: "azure")
 
         call = instance.call
         expect(call).to be_success
@@ -146,7 +146,7 @@ RSpec.describe Users::RegisterUserService do
               self_registration: 3,
             } do
       it "activates the user" do
-        create(:oidc_provider, slug: 'azure')
+        create(:oidc_provider, slug: "azure")
         call = instance.call
         expect(call).to be_success
         expect(call.result).to eq user

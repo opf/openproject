@@ -47,7 +47,8 @@ module OpenIDConnect
     def update
       update_params = params
                         .require(:openid_connect_provider)
-                        .permit(:display_name, :oidc_provider, :limit_self_registration, *OpenIDConnect::Provider.stored_attributes[:options])
+                        .permit(:display_name, :oidc_provider, :limit_self_registration,
+                                *OpenIDConnect::Provider.stored_attributes[:options])
       call = OpenIDConnect::Providers::UpdateService
         .new(model: @provider, user: User.current)
         .call(update_params)

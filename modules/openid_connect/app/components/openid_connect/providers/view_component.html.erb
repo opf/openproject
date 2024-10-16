@@ -1,4 +1,3 @@
-<% ns = OpenIDConnect::Providers %>
 <%= component_wrapper do %>
   <% if provider.seeded_from_env? %>
     <%=
@@ -17,16 +16,16 @@
     when 'google'
       component.with_row(scheme: :default) do
         basic_details_component = if edit_state == :name
-                                     ns::Sections::FormComponent.new(
+                                     OpenIDConnect::Providers::Sections::FormComponent.new(
                                        provider,
-                                       form_class: ns::NameInputForm,
+                                       form_class: OpenIDConnect::Providers::NameInputForm,
                                        edit_state:,
                                        next_edit_state: :client_details,
                                        edit_mode:,
                                        heading: nil
                                      )
                                   else
-                                    ns::Sections::ShowComponent.new(
+                                    OpenIDConnect::Providers::Sections::ShowComponent.new(
                                       provider,
                                       view_mode:,
                                       target_state: :name,
@@ -39,15 +38,15 @@
 
       component.with_row(scheme: :default) do
         if edit_state == :client_details
-          render(ns::Sections::FormComponent.new(
+          render(OpenIDConnect::Providers::Sections::FormComponent.new(
             provider,
-            form_class: ns::ClientDetailsForm,
+            form_class: OpenIDConnect::Providers::ClientDetailsForm,
             edit_state:,
             edit_mode:,
             heading: nil,
           ))
         else
-          render(ns::Sections::ShowComponent.new(
+          render(OpenIDConnect::Providers::Sections::ShowComponent.new(
             provider,
             target_state: :client_details,
             view_mode:,
@@ -61,16 +60,16 @@
     when 'microsoft_entra'
       component.with_row(scheme: :default) do
         basic_details_component = if edit_state == :name
-                                     ns::Sections::FormComponent.new(
+                                     OpenIDConnect::Providers::Sections::FormComponent.new(
                                        provider,
-                                       form_class: ns::NameInputAndTenantForm,
+                                       form_class: OpenIDConnect::Providers::NameInputAndTenantForm,
                                        edit_state:,
                                        next_edit_state: :client_details,
                                        edit_mode:,
                                        heading: nil
                                      )
                                   else
-                                    ns::Sections::ShowComponent.new(
+                                    OpenIDConnect::Providers::Sections::ShowComponent.new(
                                       provider,
                                       view_mode:,
                                       target_state: :name,
@@ -83,15 +82,15 @@
 
       component.with_row(scheme: :default) do
         if edit_state == :client_details
-          render(ns::Sections::FormComponent.new(
+          render(OpenIDConnect::Providers::Sections::FormComponent.new(
             provider,
-            form_class: ns::ClientDetailsForm,
+            form_class: OpenIDConnect::Providers::ClientDetailsForm,
             edit_state:,
             edit_mode:,
             heading: nil
           ))
         else
-          render(ns::Sections::ShowComponent.new(
+          render(OpenIDConnect::Providers::Sections::ShowComponent.new(
             provider,
             target_state: :client_details,
             view_mode:,
@@ -106,16 +105,16 @@
       component.with_row(scheme: :default) do
         basic_details_component =
           if edit_state == :name
-            ns::Sections::FormComponent.new(
+            OpenIDConnect::Providers::Sections::FormComponent.new(
               provider,
-              form_class: ns::NameInputForm,
+              form_class: OpenIDConnect::Providers::NameInputForm,
               edit_state:,
               next_edit_state: :metadata,
               edit_mode:,
               heading: nil
             )
           else
-            ns::Sections::ShowComponent.new(
+            OpenIDConnect::Providers::Sections::ShowComponent.new(
               provider,
               view_mode:,
               target_state: :name,
@@ -132,7 +131,7 @@
 
       component.with_row(scheme: :default) do
         if edit_state == :metadata
-          render(ns::Sections::MetadataFormComponent.new(
+          render(OpenIDConnect::Providers::Sections::MetadataFormComponent.new(
             provider,
             form_class: nil,
             heading: nil,
@@ -141,7 +140,7 @@
             next_edit_state: :metadata_details
           ))
         else
-          render(ns::Sections::ShowComponent.new(
+          render(OpenIDConnect::Providers::Sections::ShowComponent.new(
             provider,
             target_state: :metadata,
             view_mode:,
@@ -159,9 +158,9 @@
 
       component.with_row(scheme: :default) do
         if edit_state == :metadata_details
-          render(ns::Sections::FormComponent.new(
+          render(OpenIDConnect::Providers::Sections::FormComponent.new(
             provider,
-            form_class: ns::MetadataDetailsForm,
+            form_class: OpenIDConnect::Providers::MetadataDetailsForm,
             edit_state:,
             next_edit_state: :client_details,
             edit_mode:,
@@ -170,7 +169,7 @@
             heading: nil
           ))
         else
-          render(ns::Sections::ShowComponent.new(
+          render(OpenIDConnect::Providers::Sections::ShowComponent.new(
             provider,
             target_state: :metadata_details,
             view_mode:,
@@ -184,16 +183,16 @@
 
       component.with_row(scheme: :default) do
         if edit_state == :client_details
-          render(ns::Sections::FormComponent.new(
+          render(OpenIDConnect::Providers::Sections::FormComponent.new(
             provider,
-            form_class: ns::ClientDetailsForm,
+            form_class: OpenIDConnect::Providers::ClientDetailsForm,
             edit_state:,
             next_edit_state: :attribute_mapping,
             edit_mode:,
             heading: nil
           ))
         else
-          render(ns::Sections::ShowComponent.new(
+          render(OpenIDConnect::Providers::Sections::ShowComponent.new(
             provider,
             target_state: :client_details,
             view_mode:,
@@ -211,15 +210,16 @@
 
       component.with_row(scheme: :default) do
         if edit_state == :attribute_mapping
-          render(ns::Sections::FormComponent.new(
+          render(OpenIDConnect::Providers::Sections::FormComponent.new(
             provider,
-            form_class: ns::AttributeMappingForm,
+            form_class: OpenIDConnect::Providers::AttributeMappingForm,
             edit_state:,
+            next_edit_state: :claims,
             edit_mode:,
             heading: nil
           ))
         else
-          render(ns::Sections::ShowComponent.new(
+          render(OpenIDConnect::Providers::Sections::ShowComponent.new(
             provider,
             target_state: :attribute_mapping,
             view_mode:,
@@ -227,6 +227,26 @@
             description: t("openid_connect.providers.section_texts.attribute_mapping"),
             label: provider.mapping_configured? ? t(:label_completed) : nil,
             label_scheme: provider.mapping_configured? ? :success : :secondary
+          ))
+        end
+      end
+
+      component.with_row(scheme: :default) do
+        if edit_state == :claims
+          render(OpenIDConnect::Providers::Sections::FormComponent.new(
+            provider,
+            form_class: OpenIDConnect::Providers::ClaimsForm,
+            edit_state:,
+            edit_mode:,
+            heading: nil
+          ))
+        else
+          render(OpenIDConnect::Providers::Sections::ShowComponent.new(
+            provider,
+            target_state: :claims,
+            view_mode:,
+            heading: t("activemodel.attributes.openid_connect/provider.claims"),
+            description: t("openid_connect.providers.section_texts.claims")
           ))
         end
       end

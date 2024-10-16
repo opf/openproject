@@ -46,7 +46,7 @@ RSpec.describe OpenIDConnect::Providers::SetAttributesService, type: :model do
   subject { call.result }
 
   describe "new instance" do
-    let(:model_instance) { OpenIDConnect::Provider.new(oidc_provider: 'custom', display_name: "foo") }
+    let(:model_instance) { OpenIDConnect::Provider.new(oidc_provider: "custom", display_name: "foo") }
     let(:contract_class) { OpenIDConnect::Providers::CreateContract }
 
     describe "default attributes" do
@@ -61,6 +61,66 @@ RSpec.describe OpenIDConnect::Providers::SetAttributesService, type: :model do
         expect(subject.mapping_first_name).to be_blank
         expect(subject.mapping_last_name).to be_blank
         expect(subject.mapping_login).to be_blank
+      end
+    end
+
+    describe "setting claims" do
+      let(:params) do
+        {
+          claims: value
+        }
+      end
+
+      context "when nil" do
+        let(:value) { nil }
+
+        it "is valid" do
+          expect(call).to be_success
+          expect(call.errors).to be_empty
+
+          expect(subject.claims).to be_nil
+        end
+      end
+
+      context "when blank" do
+        let(:value) { "" }
+
+        it "is valid" do
+          expect(call).to be_success
+          expect(call.errors).to be_empty
+
+          expect(subject.claims).to eq ""
+        end
+      end
+
+      context "when invalid JSON" do
+        let(:value) { "foo" }
+
+        it "is invalid" do
+          expect(call).not_to be_success
+          expect(call.errors.details[:claims])
+            .to contain_exactly({ error: :not_json })
+        end
+      end
+
+      context "when valid JSON" do
+        let(:value) do
+          {
+            id_token: {
+              acr: {
+                essential: true,
+                values: %w[phr phrh Multi_Factor]
+              }
+            }
+          }.to_json
+        end
+
+        it "is valid" do
+          expect(call).to be_success
+          expect(call.errors).to be_empty
+
+          expect(subject.claims).to eq value
+        end
       end
     end
 
