@@ -37,6 +37,10 @@ module OpenIDConnect
 
     def self.slug_fragment = "oidc"
 
+    def human_type
+      "OpenID Connect"
+    end
+
     def seeded_from_env?
       (Setting.seed_oidc_provider || {}).key?(slug)
     end
