@@ -29,19 +29,22 @@
 #++
 
 module Storages::ProjectStorages
-  class BulkCreateService < ::BaseServices::BaseCallable
+  class BulkCreateService < ::BulkServices::ProjectMappings::BaseCreateService
+    attr_reader :storage
+
     def initialize(user:, projects:, storage:, include_sub_projects: false)
-      super()
-      @user = user
-      @projects = projects
+      mapping_context = ::BulkServices::ProjectMappings::MappingContext.new(
+        mapping_model_class: ::Storages::ProjectStorage,
+        model: storage,
+        projects:,
+        model_foreign_key_id:,
+        include_sub_projects:
+      )
+      super(user:, mapping_context:)
       @storage = storage
-      @include_sub_projects = include_sub_projects
     end
 
-    def perform(params = {})
-      service_call = validate_permissions
-      service_call = validate_contract(service_call, incoming_activations_ids, params) if service_call.success?
-      service_call = perform_bulk_create(service_call) if service_call.success?
+    def after_perform(service_call, params)
       service_call = create_last_project_folders(service_call, params) if service_call.success?
       broadcast_project_storages_created(params) if service_call.success?
 
@@ -50,30 +53,22 @@ module Storages::ProjectStorages
 
     private
 
-    def validate_permissions
-      return ServiceResult.failure(errors: I18n.t(:label_not_found)) if incoming_projects.empty?
+    def permission = :manage_files_in_project
+    def model_foreign_key_id = :storage_id
+    def default_contract_class = ::Storages::ProjectStorages::CreateContract
 
-      if @user.allowed_in_project?(:manage_files_in_project, incoming_projects)
-        ServiceResult.success
-      else
-        ServiceResult.failure(errors: I18n.t("activerecord.errors.messages.error_unauthorized"))
+    def validate_contract(service_call, params)
+      super_service_call = super
+
+      super_service_call.on_failure do
+        super_service_call.errors = super_service_call.errors.first
       end
+
+      super_service_call
     end
 
-    def validate_contract(service_call, project_ids, params)
-      project_folder_params = params.slice(:project_folder_mode, :project_folder_id)
-
-      set_attributes_results = project_ids.map do |id|
-        set_attributes(project_id: id, storage_id: @storage.id, **project_folder_params)
-      end
-
-      if (failures = set_attributes_results.select(&:failure?)).any?
-        service_call = failures.first
-      else
-        service_call.result = set_attributes_results.map(&:result)
-      end
-
-      service_call
+    def attributes_from_params(params)
+      params.slice(:project_folder_mode, :project_folder_id)
     end
 
     def perform_bulk_create(service_call)
@@ -103,49 +98,8 @@ module Storages::ProjectStorages
         event: :created,
         project_folder_mode: params[:project_folder_mode],
         project_folder_mode_previously_was: nil,
-        storage: @storage
+        storage:
       )
-    end
-
-    def incoming_activations_ids
-      project_ids = incoming_projects.pluck(:id)
-      project_ids - existing_project_storages(project_ids)
-    end
-
-    def incoming_projects
-      @projects.each_with_object(Set.new) do |project, projects_set|
-        next unless project.active?
-
-        projects_set << project
-        projects_set.merge(project.active_subprojects.to_a) if @include_sub_projects
-      end.to_a
-    end
-
-    def existing_project_storages(project_ids)
-      ::Storages::ProjectStorage
-        .where(storage_id: @storage.id, project_id: project_ids)
-        .pluck(:project_id)
-    end
-
-    def set_attributes(params)
-      attributes_service_class
-        .new(user: @user,
-             model: instance(params),
-             contract_class: default_contract_class,
-             contract_options: {})
-        .call(params)
-    end
-
-    def instance(params)
-      ::Storages::ProjectStorage.new(params)
-    end
-
-    def attributes_service_class
-      ::Storages::ProjectStorages::SetAttributesService
-    end
-
-    def default_contract_class
-      ::Storages::ProjectStorages::CreateContract
     end
   end
 end
