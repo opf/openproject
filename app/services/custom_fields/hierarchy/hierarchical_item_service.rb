@@ -112,7 +112,7 @@ module CustomFields
       private
 
       def create_root_item(custom_field)
-        item = CustomField::Hierarchy::Item.create(custom_field.hierarchy_root)
+        item = CustomField::Hierarchy::Item.create(custom_field: custom_field)
         return Failure(item.errors) if item.new_record?
 
         Success(item)
