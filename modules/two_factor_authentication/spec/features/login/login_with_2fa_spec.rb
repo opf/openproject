@@ -1,11 +1,14 @@
 require_relative "../../spec_helper"
 require_relative "../shared_2fa_examples"
 
-RSpec.describe "Login with 2FA device", :js, with_settings: {
-  plugin_openproject_two_factor_authentication: {
-    "active_strategies" => [:developer]
-  }
-} do
+RSpec.describe "Login with 2FA device",
+               :js,
+               :with_cuprite,
+               with_settings: {
+                 plugin_openproject_two_factor_authentication: {
+                   "active_strategies" => [:developer]
+                 }
+               } do
   let(:user_password) { "bob!" * 4 }
   let(:user) do
     create(:user,

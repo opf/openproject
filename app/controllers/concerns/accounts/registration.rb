@@ -118,7 +118,7 @@ module Accounts::Registration
   def onthefly_creation_failed(user, auth_source_options = {})
     @user = user
     session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?
-    render action: "register"
+    render action: "register", status: :unprocessable_entity
   end
 
   def self_registration_disabled

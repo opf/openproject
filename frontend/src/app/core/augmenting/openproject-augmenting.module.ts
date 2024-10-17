@@ -37,5 +37,9 @@ export class OpenprojectAugmentingModule {
   constructor(modalWrapper:OpModalWrapperAugmentService) {
     // Setup augmenting services
     modalWrapper.setupListener();
+
+    document.addEventListener('turbo:load', () => {
+      modalWrapper.setupListener();
+    });
   }
 }

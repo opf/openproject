@@ -17,4 +17,12 @@ export function addTurboEventListeners() {
       }
     }
   });
+
+  // Append turbo nonce for drive requests
+  document.addEventListener('turbo:before-fetch-request', (event) => {
+    // Turbo Drive does not send a referrer like turbolinks used to, so let's simulate it here
+    const headers = event.detail.fetchOptions.headers as Record<string, string>;
+    headers['Turbo-Referrer'] = window.location.href;
+    headers['X-Turbo-Nonce'] = document.getElementsByName('csp-nonce')[0]?.getAttribute('content') || '';
+  });
 }

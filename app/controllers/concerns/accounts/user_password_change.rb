@@ -65,7 +65,7 @@ module Accounts::UserPasswordChange
     flash[:error] = message unless message.nil?
     @user = user
     @username = user.login
-    render "my/password", locals: { show_user_name: }
+    render "my/password", locals: { show_user_name: }, status: :unprocessable_entity
   end
 
   ##

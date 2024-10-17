@@ -57,7 +57,9 @@ class MeetingsController < ApplicationController
   def index
     @query = load_query
     @meetings = load_meetings(@query)
-    render "index", locals: { menu_name: project_or_global_menu }
+
+    render "index",
+           locals: { menu_name: project_or_global_menu }
   end
 
   current_menu_item :index do
@@ -67,7 +69,11 @@ class MeetingsController < ApplicationController
   def show
     html_title "#{t(:label_meeting)}: #{@meeting.title}"
     if @meeting.is_a?(StructuredMeeting)
-      render(Meetings::ShowComponent.new(meeting: @meeting, project: @project))
+      respond_to do |format|
+        format.html do
+          render(Meetings::ShowComponent.new(meeting: @meeting, project: @project), layout: true)
+        end
+      end
     elsif @meeting.agenda.present? && @meeting.agenda.locked?
       params[:tab] ||= "minutes"
     end
@@ -105,7 +111,15 @@ class MeetingsController < ApplicationController
       redirect_to action: "show", id: call.result
     else
       @meeting = call.result
-      render template: "meetings/new", project_id: @project, locals: { copy_from: @copy_from }
+
+      respond_to do |format|
+        format.html do
+          render action: :new,
+                 status: :unprocessable_entity,
+                 project_id: @project,
+                 locals: { copy_from: @copy_from }
+        end
+      end
     end
   end
 
@@ -122,7 +136,7 @@ class MeetingsController < ApplicationController
       .call(save: false)
 
     @meeting = call.result
-    render action: "new", project_id: @project, locals: { copy_from: }
+    render action: :new, status: :unprocessable_entity, project_id: @project, locals: { copy_from: }
   end
 
   def destroy
@@ -167,7 +181,7 @@ class MeetingsController < ApplicationController
       redirect_to action: "show", id: @meeting
     else
       @meeting = call.result
-      render action: "edit"
+      render action: :edit, status: :unprocessable_entity
     end
   end
 

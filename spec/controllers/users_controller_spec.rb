@@ -642,7 +642,7 @@ RSpec.describe UsersController do
       end
 
       it "redirects to the edit page" do
-        expect(response).to render_template :edit
+        expect(response).to redirect_to(action: :edit)
       end
 
       it "is assigned their new values" do
@@ -689,12 +689,9 @@ RSpec.describe UsersController do
           }
         end
 
-        it "is success" do
+        it "renders the edit template with errors", :aggregate_failures do
           expect(response)
-            .to have_http_status(:ok)
-        end
-
-        it "renders the edit template with errors" do
+            .to have_http_status(:unprocessable_entity)
           expect(response)
             .to have_rendered("edit")
           expect(assigns(:user).errors.first)

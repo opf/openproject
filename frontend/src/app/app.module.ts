@@ -76,9 +76,7 @@ import { DynamicContentModalComponent } from 'core-app/shared/components/modals/
 import {
   PasswordConfirmationModalComponent,
 } from 'core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal';
-import {
-  HoverCardComponent,
-} from 'core-app/shared/components/modals/preview-modal/hover-card-modal/hover-card.modal';
+import { HoverCardComponent } from 'core-app/shared/components/modals/preview-modal/hover-card-modal/hover-card.modal';
 import {
   OpHeaderProjectSelectComponent,
 } from 'core-app/shared/components/header-project-select/header-project-select.component';
@@ -247,8 +245,13 @@ export function initializeServices(injector:Injector) {
     injector.get(RevitAddInSettingsButtonService);
 
     topMenuService.register();
-
     PreviewTrigger.setupListener();
+
+    // Re-register on turbo:load
+    document.addEventListener('turbo:load', () => {
+      topMenuService.register();
+      PreviewTrigger.setupListener();
+    });
 
     keyboardShortcuts.register();
 
@@ -387,13 +390,24 @@ export function initializeServices(injector:Injector) {
 export class OpenProjectModule implements DoBootstrap {
   // noinspection JSUnusedGlobalSymbols
   ngDoBootstrap(appRef:ApplicationRef) {
+
+    this.runBootstrap(appRef);
+
+    // Connect ui router to turbo drive
+    document.addEventListener('turbo:load', () => {
+      this.runBootstrap(appRef);
+    });
+
+    this.registerCustomElements(appRef.injector);
+  }
+
+  private runBootstrap(appRef:ApplicationRef) {
     // Try to bootstrap a dynamic root element
     const root = document.querySelector(appBaseSelector);
     if (root) {
       appRef.bootstrap(ApplicationBaseComponent, root);
     }
 
-    this.registerCustomElements(appRef.injector);
   }
 
   private registerCustomElements(injector:Injector) {
@@ -433,7 +447,6 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-remote-field-updater', RemoteFieldUpdaterComponent, { injector });
     registerCustomElement('opce-modal-single-date-picker', OpModalSingleDatePickerComponent, { injector });
     registerCustomElement('opce-basic-single-date-picker', OpBasicSingleDatePickerComponent, { injector });
-    registerCustomElement('opce-storage-login-button', StorageLoginButtonComponent, { injector });
     registerCustomElement('opce-spot-drop-modal-portal', SpotDropModalPortalComponent, { injector });
     registerCustomElement('opce-spot-switch', SpotSwitchComponent, { injector });
     registerCustomElement('opce-modal-overlay', OpModalOverlayComponent, { injector });

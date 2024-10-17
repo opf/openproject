@@ -52,7 +52,7 @@ class WorkPackages::BulkController < ApplicationController
     else
       flash[:error] = bulk_error_message(@work_packages, @call)
       setup_edit
-      render action: :edit
+      render action: :edit, status: :unprocessable_entity
     end
   end
 

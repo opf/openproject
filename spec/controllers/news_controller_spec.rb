@@ -128,7 +128,7 @@ RSpec.describe NewsController do
              }
            }
 
-      expect(response).to be_successful
+      expect(response).to have_http_status(:unprocessable_entity)
       expect(response).to render_template "new"
       expect(assigns(:news)).not_to be_nil
       expect(assigns(:news)).to be_new_record

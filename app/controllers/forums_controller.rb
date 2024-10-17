@@ -111,7 +111,7 @@ class ForumsController < ApplicationController
       flash[:notice] = t(:notice_successful_update)
     else
       flash.now[:error] = t("forum_could_not_be_saved")
-      render action: "edit"
+      render action: :edit, status: :unprocessable_entity
     end
     redirect_to action: "index"
   end

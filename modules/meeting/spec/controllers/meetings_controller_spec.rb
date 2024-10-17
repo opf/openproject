@@ -164,7 +164,7 @@ RSpec.describe MeetingsController do
           end
 
           it "renders an error" do
-            expect(response).to have_http_status :ok
+            expect(response).to have_http_status :unprocessable_entity
             expect(response).to render_template :new
             expect(response.body)
               .to have_text("Date #{I18n.t('activerecord.errors.messages.not_an_iso_date')}")
@@ -177,7 +177,7 @@ RSpec.describe MeetingsController do
           end
 
           it "renders an error" do
-            expect(response).to have_http_status :ok
+            expect(response).to have_http_status :unprocessable_entity
             expect(response).to render_template :new
             expect(response.body)
               .to have_text("Start time #{I18n.t('activerecord.errors.messages.invalid_time_format')}")
@@ -189,7 +189,7 @@ RSpec.describe MeetingsController do
         let(:project) { nil }
 
         it "renders an error" do
-          expect(response).to have_http_status :ok
+          expect(response).to have_http_status :unprocessable_entity
           expect(response).to render_template :new
           expect(response.body)
             .to have_text("Project #{I18n.t('activerecord.errors.messages.blank')}")
@@ -201,7 +201,7 @@ RSpec.describe MeetingsController do
         let(:project) { nil }
 
         it "renders an error" do
-          expect(response).to have_http_status :ok
+          expect(response).to have_http_status :unprocessable_entity
           expect(response).to render_template :new
           expect(response.body)
             .to have_text("Project #{I18n.t('activerecord.errors.messages.blank')}")

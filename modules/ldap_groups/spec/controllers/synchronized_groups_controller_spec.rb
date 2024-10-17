@@ -135,7 +135,7 @@ RSpec.describe LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups
 
         context "and saving fails" do
           it "renders new page" do
-            expect(response).to have_http_status(:ok)
+            expect(response).to have_http_status(:unprocessable_entity)
             expect(response).to render_template :new
           end
         end

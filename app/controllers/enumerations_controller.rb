@@ -58,7 +58,7 @@ class EnumerationsController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to action: "index", type: @enumeration.type
     else
-      render action: "new"
+      render action: :new, status: :unprocessable_entity
     end
   end
 
@@ -70,7 +70,7 @@ class EnumerationsController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to enumerations_path(type: @enumeration.type)
     else
-      render action: "edit"
+      render action: :edit, status: :unprocessable_entity
     end
   end
 
@@ -96,7 +96,7 @@ class EnumerationsController < ApplicationController
       redirect_to enumerations_path
     else
       flash.now[:error] = I18n.t(:error_type_could_not_be_saved)
-      render action: "edit"
+      render action: :edit, status: :unprocessable_entity
     end
   end
 

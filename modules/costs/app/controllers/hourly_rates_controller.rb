@@ -78,7 +78,7 @@ class HourlyRatesController < ApplicationController
       @rates << @user.rates.build(valid_from: Date.today, project: @project) if @rates.empty?
     end
 
-    render action: "edit", layout: !request.xhr?
+    render action: :edit, layout: !request.xhr?
   end
 
   current_menu_item :edit do
@@ -123,7 +123,7 @@ class HourlyRatesController < ApplicationController
                  .sort { |a, b| b.valid_from || Date.today <=> a.valid_from || Date.today }
         @rates << @user.rates.build(valid_from: Date.today, project: @project) if @rates.empty?
       end
-      render action: "edit", layout: !request.xhr?
+      render action: :edit, layout: !request.xhr?
     end
   end
 

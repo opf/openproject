@@ -21,6 +21,7 @@
 <% if Setting.boards_demo_data_available %><meta name="boards_demo_data_available" content="true"/><% end %>
 <% if Setting.demo_view_of_type_team_planner_seeded %><meta name="demo_view_of_type_team_planner_seeded" content="true"/><% end %>
 <%= csrf_meta_tags %>
+<%= secure_header_csp_meta_tag %>
 <%= initializer_meta_tag %>
 
 <!-- global meta hooks before any scripts are loaded-->

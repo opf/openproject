@@ -159,7 +159,7 @@ class VersionsController < ApplicationController
       flash[:notice] = t(success_message)
       redirect_back_or_version_settings
     else
-      render action: failure_action
+      render action: failure_action, status: :unprocessable_entity
     end
   end
 

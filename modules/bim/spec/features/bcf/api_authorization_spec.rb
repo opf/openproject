@@ -28,7 +28,10 @@
 
 require "spec_helper"
 
-RSpec.describe "authorization for BCF api", :js, with_config: { edition: "bim" } do
+RSpec.describe "authorization for BCF api",
+               :js,
+               :with_cuprite,
+               with_config: { edition: "bim" } do
   let!(:user) { create(:admin) }
   let(:client_secret) { app.plaintext_secret }
   let(:scope) { "bcf_v2_1" }
@@ -40,6 +43,7 @@ RSpec.describe "authorization for BCF api", :js, with_config: { edition: "bim" }
 
   before do
     login_with user.login, "adminADMIN!"
+    wait_for_network_idle
 
     visit oauth_applications_path
   end
@@ -128,17 +132,11 @@ RSpec.describe "authorization for BCF api", :js, with_config: { edition: "bim" }
 
     logout
 
-    # A basic auth alert is displayed asking to enter name and password Register
-    # some basic auth credentials
-    # - A non-matching url is used so that capybara will issue a CancelAuth
-    #   instead of trying to authenticate
-    # - The register method is not recognized by selenium-webdriver with Chrome
-    #   120 with old headless
-    if page.driver.browser.respond_to?(:register)
-      page.driver.browser.register(username: "foo", password: "bar", uri: /does_not_match/)
-    end
+    page.driver.basic_authorize("foo", "bar")
+
     # While not being logged in and without a token, the api cannot be accessed
     visit("/api/bcf/2.1/projects/#{project.id}")
+
     # Cancel button of basic auth should have been chosen now
     expect(page)
       .to have_content(JSON.dump({ message: "You need to be authenticated to access this resource." }))

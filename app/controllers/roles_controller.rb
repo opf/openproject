@@ -65,7 +65,7 @@ class RolesController < ApplicationController
     else
       @roles = roles_scope
 
-      render action: "new"
+      render action: :new, status: :unprocessable_entity
     end
   end
 
@@ -77,7 +77,7 @@ class RolesController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: "index"
     else
-      render action: "edit"
+      render action: :edit, status: :unprocessable_entity
     end
   end
 
@@ -111,7 +111,7 @@ class RolesController < ApplicationController
     else
       @calls = calls
       @permissions = visible_permissions
-      render action: "report"
+      render action: "report", status: :unprocessable_entity
     end
   end
 
