@@ -308,10 +308,10 @@ RSpec.describe Query::Results, "Sorting by custom field" do
 
         let(:work_packages) do
           [
-            wp_with_cf_value(id_by_name.fetch("10.10.10")),
-            wp_with_cf_value(id_by_name.fetch("10.10.2")),
-            wp_with_cf_value(id_by_name.fetch("10.2")),
             wp_with_cf_value(id_by_name.fetch("9")),
+            wp_with_cf_value(id_by_name.fetch("10.2")),
+            wp_with_cf_value(id_by_name.fetch("10.10.2")),
+            wp_with_cf_value(id_by_name.fetch("10.10.10")),
             wp_without_cf_value # TODO: should be at index 0
           ]
         end
@@ -324,12 +324,12 @@ RSpec.describe Query::Results, "Sorting by custom field" do
 
         let(:work_packages) do
           [
-            wp_with_cf_value(id_by_name.fetch_values("10.10.10")),        # 10.10.10
-            wp_with_cf_value(id_by_name.fetch_values("9", "10.10.10")),   # 10.10.10, 9
-            wp_with_cf_value(id_by_name.fetch_values("10.10.10", "9")),   # 10.10.10, 9
+            wp_with_cf_value(id_by_name.fetch_values("10.10.2", "9")),    # 9, 10.10.2
+            wp_with_cf_value(id_by_name.fetch_values("10.10.10", "9")),   # 9, 10.10.10
+            wp_with_cf_value(id_by_name.fetch_values("9", "10.10.10")),   # 9, 10.10.10
+            wp_with_cf_value(id_by_name.fetch_values("10.2", "10.10.2")), # 10.2, 10.10.2
             wp_with_cf_value(id_by_name.fetch_values("10.10.2")),         # 10.10.2
-            wp_with_cf_value(id_by_name.fetch_values("10.2", "10.10.2")), # 10.10.2, 10.2
-            wp_with_cf_value(id_by_name.fetch_values("10.10.2", "9")),    # 10.10.2, 9
+            wp_with_cf_value(id_by_name.fetch_values("10.10.10")),        # 10.10.10
             wp_without_cf_value # TODO: should be at index 0
           ]
         end
