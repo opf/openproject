@@ -40,6 +40,7 @@ import {
   map,
   mergeMap,
   shareReplay,
+  switchMap,
   take,
 } from 'rxjs/operators';
 
@@ -158,7 +159,28 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
       }),
     );
 
-  public numberOfProjectsInFilter$ = this.projectsInFilter$.pipe(map((selected) => selected.length));
+  public numberOfProjectsInFilter$ = this.projectsInFilter$.pipe(
+      switchMap((selected) => this.projects$.pipe(
+        map((projects) => {
+          if (this.includeSubprojects && projects.length > 0) {
+            const selectedParents = projects.filter((project) => selected.includes(project.href));
+            const hrefs:string[] = [];
+            // Function to traverse projects and collect hrefs
+            const traverse = (nodes:IProjectData[]) => {
+              nodes.forEach((node) => {
+                hrefs.push(node.href);
+                if (node.children && node.children.length > 0) {
+                  traverse(node.children);
+                }
+              });
+            };
+            traverse(selectedParents);
+            selected = [...new Set([...selected, ...hrefs])];
+          }
+          return selected.length;
+        }),
+      )),
+    );
 
   public projects$ = combineLatest([
     this.searchableProjectListService.allProjects$,
@@ -298,6 +320,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
       )
       .subscribe((includeSubprojects) => {
         this.includeSubprojects = includeSubprojects;
+        this.searchableProjectListService.loadAllProjects();
       });
   }
 
