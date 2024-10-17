@@ -50,8 +50,8 @@ RSpec.describe "Boards",
     end
 
     context "with a Community Edition", with_ee: %i[] do
-      it "renders an enterprise banner and disables all restriced board types", :aggregate_failures do
-        expect(page).to have_css("op-enterprise-banner")
+      it "renders an enterprise banner and disables all restricted board types", :aggregate_failures do
+        expect(page).to have_enterprise_banner
         expect(page).to have_selector(:radio_button, "Basic")
 
         %w[Status Assignee Version Subproject Parent-child].each do |restricted_board_type|

@@ -23,7 +23,7 @@
   plugin_openproject_reporting:
     name: "OpenProject rapportering"
     description: "Dette programtillegget gjør det mulig å lage egendefinerte kostnadsrapporter med filtrering og gruppering opprettet av OpenProject -utvidelsen Tid og kostnad."
-  button_save_report_as: "Save report as..."
+  button_save_report_as: "Lagre rapport som..."
   comments: "Kommentar"
   cost_reports_title: "Tid og kostnader"
   label_cost_report: "Kostnadsrapport"

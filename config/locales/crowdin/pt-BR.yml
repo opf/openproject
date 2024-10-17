@@ -39,16 +39,9 @@ pt-BR:
         accent-color: "Destaque"
         header-bg-color: "Fundo do cabeçalho"
         header-item-bg-hover-color: "Fundo do cabeçalho ao passar o mouse"
-        header-item-font-color: "Fonte do cabeçalho"
-        header-item-font-hover-color: "Fonte do cabeçalho ao passar o mouse"
-        header-border-bottom-color: "Margem do cabeçalho"
         main-menu-bg-color: "Fundo do menu principal"
         main-menu-bg-selected-background: "Menu principal quando selecionado"
         main-menu-bg-hover-background: "Menu principal ao passar o mouse"
-        main-menu-font-color: "Fonte do menu principal"
-        main-menu-selected-font-color: "Fonte do menu principal quando selecionado"
-        main-menu-hover-font-color: "Fonte do menu principal ao passar o mouse"
-        main-menu-border-color: "Margem do menu principal"
       custom_colors: "Cores personalizadas"
       customize: "Personalize a instalação de seu OpenProject com seu logotipo e cores."
       enterprise_notice: "Como agradecimento especial por sua contribuição financeira para o desenvolvimento do OpenProject, este singelo complemento está disponível apenas para assinantes que deram suporte à edição Enterprise."
@@ -214,6 +207,10 @@ pt-BR:
         blankslate:
           title: "Sua lista de itens está vazia"
           description: "Comece adicionando itens ao campo personalizado do tipo hierarquia. Cada item pode ser utilizado para construir uma hierarquia abaixo dele. Para navegar e criar subitens dentro dessa hierarquia, clique no item que você criou."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
       notice:
         remember_items_and_projects: "Lembre-se de configurar itens e projetos nas respectivas abas para este campo personalizado."
     text_add_new_custom_field: >
@@ -228,6 +225,7 @@ pt-BR:
       is_required: "Marcar o campo personalizado como obrigatório. Isto tornará obrigatório o preenchimento do campo ao criar novos recursos ou ao atualizar recursos existentes."
       is_required_for_project: "Marque esta opção para ativar este atributo e torná-lo obrigatório em todos os projetos. Este atributo não pode ser desativado em projetos individuais."
       is_for_all: "Marcar o campo personalizado como disponível em todos os projetos existentes e novos."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "Incluir os valores dos campos ao utilizar a funcionalidade de busca global."
       searchable_for_project: "Marque esta opção para disponibilizar este atributo como um filtro nas listas de projetos."
       editable: "Permita que o campo seja editável pelos próprios usuários."
@@ -239,6 +237,14 @@ pt-BR:
       no_results_content_text: Criar um novo campo personalizado
   concatenation:
     single: "ou"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "Buscar em %{app_title}"
     overwritten_tabs:
@@ -478,16 +484,22 @@ pt-BR:
       no_results_content_text: Adicionar um relatório de situação
   statuses:
     edit:
+      status_color_text: |
+        Clique para atribuir ou alterar a cor desta situação.
+        É exibido no botão de situação e pode ser usado para destacar pacotes de trabalho na tabela.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
+      status_excluded_from_totals_text: |-
+        Selecione esta opção para excluir pacotes de trabalho com este status dos totais de Trabalho, Trabalho Restante e % de conclusão em uma hierarquia.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Use esta opção para marcar pacotes de trabalho com situação como somente leitura.
         Nenhum atributo pode ser alterado com exceção da situação.
         <br/>
         <strong>Nota</strong>: valores herdados (por exemplo, de filhos ou relações) ainda serão aplicados.
-      status_excluded_from_totals_text: |-
-        Selecione esta opção para excluir pacotes de trabalho com este status dos totais de Trabalho, Trabalho Restante e % de conclusão em uma hierarquia.
-      status_color_text: |
-        Clique para atribuir ou alterar a cor desta situação.
-        É exibido no botão de situação e pode ser usado para destacar pacotes de trabalho na tabela.
     index:
       no_results_title_text: Atualmente, não há nenhuma situação de pacote de trabalho.
       no_results_content_text: Adicionar uma nova situação
@@ -818,7 +830,7 @@ pt-BR:
         blank: "não pode ficar em branco."
         blank_nested: "precisa ter a propriedade '%{property}' definida. "
         cannot_delete_mapping: "é obrigatório. Não pode ser excluído."
-        is_for_all_cannot_modify: "é para todos. Não pode ser modificado."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Um pacote de trabalho não pode ser vinculado a uma das suas subtarefas."
         circular_dependency: "Esta relação vai criar uma dependência circular."
         confirmation: "não coincide com %{attribute}."
@@ -1809,6 +1821,7 @@ pt-BR:
       progress_mode_changed_to_status_based: "Cálculo de progresso atualizado"
       status_changed: "Status '%{status_name}'"
       system_update: "Atualização do sistema OpenProject:"
+      work_package_duplicate_closed: "Duplicate work package updated:"
       total_percent_complete_mode_changed_to_work_weighted_average: "O cálculo dos totais de % de conclusão agora é ponderado pelo Trabalho."
       total_percent_complete_mode_changed_to_simple_average: "O cálculo dos totais de % de conclusão agora é feito com base na média simples dos valores de % de conclusão."
     cause_descriptions:
@@ -1816,6 +1829,7 @@ pt-BR:
       work_package_parent_changed_times: por alterações ao primário %{link}
       work_package_children_changed_times: por alterações ao secundário %{link}
       work_package_related_changed_times: por alterações ao %{link} relacionado
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: por alterações a um pacote de trabalho relacionado
       working_days_changed:
         changed: "por alterações a dias úteis (%{changes})"
@@ -2907,6 +2921,7 @@ pt-BR:
   permission_view_shared_work_packages: "Ver pacotes de trabalho compartilhado"
   permission_view_time_entries: "Ver tempo gasto"
   permission_view_timelines: "Ver cronogramas"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Ver histórico do wiki"
   permission_view_wiki_pages: "Ver wiki"
   permission_work_package_assigned: "Torne-se responsável"

@@ -67,6 +67,8 @@ zh-TW:
       global_roles:
         item_0:
           name: 成員和專案管理員
+        item_1:
+          name: 標準全域角色
     standard:
       priorities:
         item_0:

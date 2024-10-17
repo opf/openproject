@@ -54,7 +54,7 @@ RSpec.describe "Resolved status" do
     check status.name
     click_button "Save"
 
-    settings_page.expect_toast(message: "Successful update")
+    expect_flash(type: :success, message: "Successful update")
 
     expect(page)
       .to have_checked_field(status.name)

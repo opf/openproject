@@ -1,39 +1,24 @@
 <% manager = ::OpenProject::Avatars::AvatarManager %>
 
-<%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { I18n.t(:label_avatar_plural) }
-    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
-                             { href: admin_settings_users_path, text: t(:label_user_and_permission) },
-                             I18n.t(:label_avatar_plural)])
-  end
-%>
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend" title="<%= t 'avatars.label_gravatar'  %>"><%= t 'avatars.label_gravatar'  %></legend>
 
-<div id="settings">
-  <%= styled_form_tag({controller: '/admin/settings', action: 'update_plugin' }) do %>
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend" title="<%= t 'avatars.label_gravatar'  %>"><%= t 'avatars.label_gravatar'  %></legend>
+  <div class="form--field">
+    <%= styled_label_tag 'settings-enable-gravatars', t('avatars.settings.enable_gravatars') %>
+    <%= hidden_field_tag  'settings[enable_gravatars]', 0 %>
+    <div class="form--field-container">
+      <%= styled_check_box_tag 'settings[enable_gravatars]', 1, manager.gravatar_enabled?, container_class: '-xslim', id: 'settings-enable-gravatars' %>
+    </div>
+  </div>
+</fieldset>
 
-      <div class="form--field">
-        <%= styled_label_tag 'settings-enable-gravatars', t('avatars.settings.enable_gravatars') %>
-        <%= hidden_field_tag  'settings[enable_gravatars]', 0 %>
-        <div class="form--field-container">
-          <%= styled_check_box_tag 'settings[enable_gravatars]', 1, manager.gravatar_enabled?, container_class: '-xslim', id: 'settings-enable-gravatars' %>
-        </div>
-      </div>
-    </fieldset>
-
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend" title="<%= t 'avatars.label_local_avatar'  %>"><%= t 'avatars.label_local_avatar'  %></legend>
-      <div class="form--field">
-        <%= styled_label_tag 'settings-enable-local-avatars', t('avatars.settings.enable_local_avatars')  %>
-        <%= hidden_field_tag  'settings[enable_local_avatars]', 0 %>
-        <div class="form--field-container">
-          <%= styled_check_box_tag 'settings[enable_local_avatars]', 1, manager.local_avatars_enabled?, container_class: '-xslim', id: 'settings-enable-local-avatars' %>
-        </div>
-      </div>
-    </fieldset>
-
-    <%= styled_submit_tag t(:button_apply), class: '-primary' %>
-  <% end %>
-</div>
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend" title="<%= t 'avatars.label_local_avatar'  %>"><%= t 'avatars.label_local_avatar'  %></legend>
+  <div class="form--field">
+    <%= styled_label_tag 'settings-enable-local-avatars', t('avatars.settings.enable_local_avatars')  %>
+    <%= hidden_field_tag  'settings[enable_local_avatars]', 0 %>
+    <div class="form--field-container">
+      <%= styled_check_box_tag 'settings[enable_local_avatars]', 1, manager.local_avatars_enabled?, container_class: '-xslim', id: 'settings-enable-local-avatars' %>
+    </div>
+  </div>
+</fieldset>

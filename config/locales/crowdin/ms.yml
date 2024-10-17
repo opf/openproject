@@ -39,16 +39,9 @@ ms:
         accent-color: "Aksen"
         header-bg-color: "Latar belakang pengepala"
         header-item-bg-hover-color: "Latar belakang pengepala pada hover"
-        header-item-font-color: "Fon pengepala"
-        header-item-font-hover-color: "Fon pengepala pada hover"
-        header-border-bottom-color: "Sempadan pengepala"
         main-menu-bg-color: "Latar belakang menu utama"
         main-menu-bg-selected-background: "Menu utama apabila dipilih"
         main-menu-bg-hover-background: "Menu utama pada hover"
-        main-menu-font-color: "Fon menu utama"
-        main-menu-selected-font-color: "Fon menu utama apabila dipilih"
-        main-menu-hover-font-color: "Fon menu utama pada hover"
-        main-menu-border-color: "Sempadan menu utama"
       custom_colors: "Pilihan warna tersuai"
       customize: "Ubah suai pemasangan OpenProject dengan logo dan warna anda sendiri."
       enterprise_notice: "'Terima kasih!' sebagai tanda istimewa atas kontribusi kewangan mereka untuk membangunkan OpenProject, penambahan kecil ini hanya tersedia untuk pelanggan sokongan edisi Enterprise."
@@ -214,6 +207,10 @@ ms:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
       notice:
         remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
@@ -228,6 +225,7 @@ ms:
       is_required: "Tandakan ruang yang tersuai seperti yang diperlukan. Ini akan buatkan ia wajib untuk isikan ruang tersebut apabila membuat sumber yang baharu atau kemas kini sumber sedia ada."
       is_required_for_project: "Check to enable this attribute and make it required in all projects. It cannot be deactived for individual projects."
       is_for_all: "Tandakan ruang tersuai sebagai tersedia di semua projek baharu dan sedia ada."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "Sertakan nilai-nilai ruangan apabila gunakan fungsi pencarian global."
       searchable_for_project: "Check to make this attribute available as a filter in project lists."
       editable: "Benarkan ruangan tersebut boleh diedit oleh pengguna sendiri."
@@ -239,6 +237,14 @@ ms:
       no_results_content_text: Cipta ruangan tersuai baharu
   concatenation:
     single: "atau"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "Cari dalam %{app_title}"
     overwritten_tabs:
@@ -472,16 +478,22 @@ ms:
       no_results_content_text: Tambah status laporan
   statuses:
     edit:
+      status_color_text: |
+        Klik untuk menugaskan atau menukar warna status ini.
+        Ia ditunjukkan pada butang status dan boleh digunakan untuk menyoroti pakej kerja dalam jadual.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
+      status_excluded_from_totals_text: |-
+        Tandakan pilihan ini untuk mengecualikan pakej kerja dengan status ini dari jumlah Kerja, Kerja yang berbaki, dan % Selesai dalam hierarki.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Tandakan pilihan ini untuk menanda pakej kerja dengan status ini sebagai baca-sahaja.
         Tiada atribut yang boleh diubah dengan pengecualian status.
         <br/>
         <strong>Perhatian</strong>: Nilai yang diwarisi (cth, dari anak-anak atau saudara) masih akan digunakan.
-      status_excluded_from_totals_text: |-
-        Tandakan pilihan ini untuk mengecualikan pakej kerja dengan status ini dari jumlah Kerja, Kerja yang berbaki, dan % Selesai dalam hierarki.
-      status_color_text: |
-        Klik untuk menugaskan atau menukar warna status ini.
-        Ia ditunjukkan pada butang status dan boleh digunakan untuk menyoroti pakej kerja dalam jadual.
     index:
       no_results_title_text: Tiada status pakej kerja buat masa ini.
       no_results_content_text: Tambah status baharu
@@ -811,7 +823,7 @@ ms:
         blank: "tidak boleh dibiarkan kosong."
         blank_nested: "perlu ada ciri-ciri '%{property}' yang ditetapkan."
         cannot_delete_mapping: "diperlukan. Tidak boleh dipadam."
-        is_for_all_cannot_modify: "is for all. Cannot be modified."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Pakej kerja tidak boleh dipautkan ke salah satu subtugasnya."
         circular_dependency: "Hubungan ini akan mencipta kebergantungan bulat."
         confirmation: "tidak sepadan dengan %{attribute}."
@@ -1774,6 +1786,7 @@ ms:
       progress_mode_changed_to_status_based: "Pengiraan perkembangan dikemas kini"
       status_changed: "Status '%{status_name}'"
       system_update: "Kemas kini sistem OpenProject:"
+      work_package_duplicate_closed: "Duplicate work package updated:"
       total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
       total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
@@ -1781,6 +1794,7 @@ ms:
       work_package_parent_changed_times: dengan perubahan pada induk %{link}
       work_package_children_changed_times: dengan perubahan pada anak %{link}
       work_package_related_changed_times: dengan perubahan pada %{link} yang berkaitan
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: dengan perubahan pada pakej kerja yang berkaitan
       working_days_changed:
         changed: "dengan perubahan pada hari bekerja (%{changes})"
@@ -2870,6 +2884,7 @@ ms:
   permission_view_shared_work_packages: "Lihat perkongsian pakej kerja"
   permission_view_time_entries: "Lihat masa yang digunakan"
   permission_view_timelines: "Lihat garis masa"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Lihat sejarah wiki"
   permission_view_wiki_pages: "Lihat wiki"
   permission_work_package_assigned: "Menjadi penerima tugasan/bertanggungjawab"

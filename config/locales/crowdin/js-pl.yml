@@ -359,7 +359,7 @@ pl:
           "14_6":
             standard:
               new_features_html: >
-                Ta wersja zawiera różne funkcje i ulepszenia m.in. <br> <ul class="%{list_styling_class}"> <li>Korzystaj z bardziej elastycznej sprawozdawczości o postępach – dzięki opiniom użytkowników.</li> <li>Otrzymuj powiadomienia o aktualizacjach z opcją przeładowania spotkań.</li> <li>Włączaj pole niestandardowe dla wielu projektów jednocześnie.</li> <li>Używaj makr dla względnego atrybutu pakietu roboczego.</li> <li>Wyświetlaj puste linie w zapisanym formatowanym tekście.</li> <li>Oglądaj wcześniejsze spotkania znajdujące się w karcie Spotkania.</li> </ul>
+                Ta wersja wprowadza różne funkcje i ulepszenia m.in. <br> <ul class="%{list_styling_class}"> <li>Korzystaj z bardziej elastycznej sprawozdawczości o postępach – dzięki opiniom użytkowników.</li> <li>Otrzymuj powiadomienia o aktualizacjach z opcją przeładowania spotkań.</li> <li>Włączaj pole niestandardowe dla wielu projektów jednocześnie.</li> <li>Używaj makr dla względnego atrybutu pakietu roboczego.</li> <li>Wyświetlaj puste linie w zapisanym formatowanym tekście.</li> <li>Oglądaj wcześniejsze spotkania znajdujące się na karcie Spotkania.</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."

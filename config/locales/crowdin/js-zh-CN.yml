@@ -358,7 +358,7 @@ zh-CN:
           "14_6":
             standard:
               new_features_html: >
-                此版本为您带来了各种功能和改进，例如：<br><ul class="%{list_styling_class}"> <li>凭借用户反馈从更灵活的进度报告中受益。</li> <li>接收带有会议重新加载选项的更新通知。</li> <li>同时为多个项目启用自定义字段。</li> <li>使用相对工作包属性宏。</li> <li>在已保存的富文本中显示空行。</li> <li>查看“会议”选项卡旁边的数字中包含的过往会议。</li> </ul>
+                此版本为您带来了各种功能和改进，例如：<br><ul class="%{list_styling_class}"> <li>得益于用户反馈，从更灵活的进度报告中受益。</li> <li>接收带有会议重新加载选项的更新通知。</li> <li>同时为多个项目启用自定义字段。</li> <li>使用相对工作包属性宏。</li> <li>在已保存的富文本中显示空行。</li> <li>查看“会议”选项卡旁边的数字中包含的过往会议。</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"

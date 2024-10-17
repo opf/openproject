@@ -66,6 +66,11 @@ export class CKEditorSetupService {
       openProject: this.createConfig(context),
       removePlugins: context.removePlugins,
       initialData,
+      ui: {
+        poweredBy: {
+          side: 'left',
+        },
+      },
       language: {
         ui: uiLocale,
         content: contentLanguage,

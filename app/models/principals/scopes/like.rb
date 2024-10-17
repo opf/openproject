@@ -36,21 +36,27 @@ module Principals::Scopes
     extend ActiveSupport::Concern
 
     class_methods do
-      def like(query)
+      def like(query, email: true)
         firstnamelastname = "((firstname || ' ') || lastname)"
         lastnamefirstname = "((lastname || ' ') || firstname)"
 
         s = "%#{query.to_s.downcase.strip.tr(',', '')}%"
 
-        sql = <<~SQL
+        sql = <<~SQL.squish
           LOWER(login) LIKE :s
           OR unaccent(LOWER(#{firstnamelastname})) LIKE unaccent(:s)
           OR unaccent(LOWER(#{lastnamefirstname})) LIKE unaccent(:s)
-          OR LOWER(mail) LIKE :s
         SQL
 
+        order_clause = %i[type login lastname firstname]
+
+        if email
+          sql += " OR LOWER(mail) LIKE :s"
+          order_clause << :mail
+        end
+
         where([sql, { s: }])
-          .order(:type, :login, :lastname, :firstname, :mail)
+          .order(*order_clause)
       end
     end
   end

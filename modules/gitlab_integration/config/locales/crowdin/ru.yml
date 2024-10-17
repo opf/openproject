@@ -31,36 +31,36 @@ ru:
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "должен быть массив хэшей с помощью ключей: цвет, заголовок"
+              invalid_schema: "должен представлять собой массив хэшей с ключами: color и title"
   project_module_gitlab: "GitLab"
   permission_show_gitlab_content: "Показать содержимое GitLab"
   gitlab_integration:
     merge_request_opened_comment: >
-      **MR Opened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR Открыт:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) в репозитории [%{repository}](%{repository_url}) открыт пользователем [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_closed_comment: >
-      **MR Closed:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR Закрыт:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) в репозитории [%{repository}](%{repository_url}) закрыт пользователем [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_merged_comment: >
-      **MR Merged:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been merged by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR влит:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) в репозитории [%{repository}](%{repository_url}) влит пользователем [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_reopened_comment: >
-      **MR Reopened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR Переоткрыт:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) в репозитории [%{repository}](%{repository_url}) открыт заново пользователем [%{gitlab_user}](%{gitlab_user_url}).
     note_commit_referenced_comment: >
-      **Referenced in Commit:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in a Commit Note [%{commit_id}](%{commit_url}) on [%{repository}](%{repository_url}): %{commit_note}
+      **Упоминание в коммите:** [%{gitlab_user}](%{gitlab_user_url}) упомянул этот РП в комментарии к коммиту [%{commit_id}](%{commit_url}) в репозитории [%{repository}](%{repository_url}): %{commit_note}
     note_mr_referenced_comment: >
-      **Referenced in MR:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}
+      **Упоминание в MR:** [%{gitlab_user}](%{gitlab_user_url}) упомянут в этом РП в Merge Request %{mr_number} [%{mr_title}](%{mr_url}) в репозитории [%{repository}](%{repository_url}): %{mr_note}
     note_mr_commented_comment: >
-      **Commented in MR:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}
+      **Комментарий в MR:** [%{gitlab_user}](%{gitlab_user_url}) оставил комментарий в РП в Merge Request %{mr_number} [%{mr_title}](%{mr_url}) в репозитории [%{repository}](%{repository_url}): %{mr_note}
     note_issue_referenced_comment: >
-      **Referenced in Issue:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}
+      **Упоминание в проблеме:** [%{gitlab_user}](%{gitlab_user_url}) упомянут в этом РП в проблеме %{issue_number} [%{issue_title}](%{issue_url}) в репозитории [%{repository}](%{repository_url}): %{issue_note}
     note_issue_commented_comment: >
-      **Commented in Issue:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}
+      **Комментарий в проблеме:** [%{gitlab_user}](%{gitlab_user_url}) прокомментировал этот РП в проблеме %{issue_number} [%{issue_title}](%{issue_url}) в репозитории [%{repository}](%{repository_url}): %{issue_note}
     note_snippet_referenced_comment: >
       **Ссылка в сниппете:** [%{gitlab_user}](%{gitlab_user_url}) ссылается на этот WP в сниппете %{snippet_number} [%{snippet_title}](%{snippet_url}) на [%{repository}](%{repository_url}): %{snippet_note}
     issue_opened_referenced_comment: >
-      **Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).
+      **Проблема открыта:** Проблема %{issue_number} [%{issue_title}](%{issue_url}) в репозитории [%{repository}](%{repository_url}) открыта пользователем [%{gitlab_user}](%{gitlab_user_url}).
     issue_closed_referenced_comment: >
-      **Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).
+      **Проблема закрыта:** Проблема %{issue_number} [%{issue_title}](%{issue_url}) в репозитории [%{repository}](%{repository_url}) закрыта пользователем [%{gitlab_user}](%{gitlab_user_url}).
     issue_reopened_referenced_comment: >
-      **Issue Reopened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).
+      **Проблема открыта заново:** Проблема %{issue_number} [%{issue_title}](%{issue_url}) в репозитории [%{repository}](%{repository_url}) открыта заново пользователем [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
       **Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
     push_single_commit_comment_with_ref: >

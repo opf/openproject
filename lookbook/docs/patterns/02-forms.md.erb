@@ -31,27 +31,18 @@ If a form does not use Subhead sections, then there should be a single 'Save' (u
 
 In Primer, form elements automatically take the width of the container. In certain cases (especially Settings pages), full-width input fields will look strange. In this case, form inputs will need to have a smaller width. A good rule of thumb is to fit the size of the fields to the expected length of the user input. Date fields can for example be rather small, as they are limited in length. The name of an object on the other hand can be quite long, so the field is expected to be larger.
 
-In OpenProject, each form element has its own container. It is thus possible to define the container width for each input. This width will define both the visual width of the field but also the max width of the caption field (where the line breaks).
+In OpenProject, each form element has its own container. It is thus possible to define the container width for each input with the `:input_width` parameter. This width will define both the visual width of the field but also the max width of the caption field (where the line breaks).
 
 The options are:
 
-- <strong>:auto</strong> => width: auto
-- <strong>:small</strong> => max-width: min(256px, 100vw - 2rem)
-- <strong>:medium</strong> =>  max-width: min(320px, 100vw - 2rem)
-- <strong>:large</strong> => max-width: min(480px, 100vw - 2rem)
-- <strong>:xlarge</strong> => max-width: min(640px, 100vw - 2rem)
-- <strong>:xxlarge</strong> => max-width: min(960px, 100vw - 2rem)
-
+- `input_width: :auto` => `width: auto`
+- `input_width: :small` => `max-width: min(256px, 100vw - 2rem)`
+- `input_width: :medium` => `max-width: min(320px, 100vw - 2rem)`
+- `input_width: :large` => `max-width: min(480px, 100vw - 2rem)`
+- `input_width: :xlarge` => `max-width: min(640px, 100vw - 2rem)`
+- `input_width: :xxlarge` => `max-width: min(960px, 100vw - 2rem)`
 
 <%= embed Patterns::FormsPreview, :default, panels: %i[] %>
-
-## Vertical spacing
-
-By default, form elements do not have proper vertical spacing in Primer. We recommend a 16px (`stack/gap/normal`) vertical separate between individual elements. There is an [open issue in Primer's GitHub](https://github.com/primer/view_components/issues/3042) to fix this.
-
-Until this is fixed at a component level, please do not manually apply form padding.
-
-An alternative approach is to wrap individual form elements using `Form group`. Please only use this sparingly and only when it is absolutely necessarily.
 
 ## Technical notes
 
@@ -99,6 +90,51 @@ allowing to put some content in between:
 ```
 
 This is the regular way of using Primer forms.
+
+### Accessing the form model
+
+When defining a form, the model sometimes needs to be accessed, for instance to remove or add some fields depending on the state of the model.
+
+One way to do so is to pass the model to the form instance at initialization:
+
+```erb
+<%%= primer_form_with(model: post, url: "/foo") do |f| %>
+  <%%= render(MyForm.new(f, model: post)) %>
+<%% end %>
+```
+
+```ruby
+class MyForm < ApplicationForm
+  def initialize(model:)
+    super()
+    @model = model
+  end
+
+  form do |f|
+    f.text_field name: :name, disabled: @model.is_readonly
+    f.check_box name: :is_readonly
+  end
+end
+```
+
+Actually, it is not necessary: to access the model object, use `model` directly.
+It returns the model which was passed as parameter when `primer_form_with`
+was called. It is defined in `ApplicationForm` and is available on all forms.
+
+Here is an example of an inline form where the `name` field is disabled if the
+model is read-only. This is done without having to create an intermediary class
+with model given as parameter.
+
+```erb
+<%%=
+primer_form_with(model: post, url: "/foo") do |f|
+  render_inline_form do |form|
+    form.text_field name: :name, disabled: model.is_readonly
+    form.check_box name: :is_readonly
+  end
+end
+%>
+```
 
 ### OpenProject helpers
 

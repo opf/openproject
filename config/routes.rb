@@ -180,7 +180,7 @@ Rails.application.routes.draw do
                  only: :destroy
         resources :items,
                   controller: "/admin/custom_fields/hierarchy/items",
-                  only: :index
+                  only: %i[index new create]
       end
     end
   end
@@ -533,7 +533,7 @@ Rails.application.routes.draw do
       get "/", to: redirect("/admin/settings/general")
 
       # Plugin settings
-      get "plugin/:id", action: :show_plugin
+      get "plugin/:id", action: :show_plugin, as: :show_plugin
       post "plugin/:id", action: :update_plugin
     end
 
@@ -570,6 +570,8 @@ Rails.application.routes.draw do
 
   resources :work_packages, only: [:index] do
     concerns :shareable
+
+    get "hover_card" => "work_packages/hover_card#show", on: :member
 
     # move bulk of wps
     get "move/new" => "work_packages/moves#new", on: :collection, as: "new_move"

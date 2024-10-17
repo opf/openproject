@@ -51,3 +51,6 @@ You can get a summary of the allowed status transitions of a work package type f
 You will then view a summary of all the workflows. The number of possible status transitions for each type and role are shown in a matrix.
 
 ![Overview of work package workflow summary in OpenProject administration](System-admin-guide-work-package-workflows_overview.png)
+
+> [!TIP]
+> For more examples on using workflows in OpenProject take a look at [this blog article](https://www.openproject.org/blog/status-and-workflows/).

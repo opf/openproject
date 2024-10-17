@@ -71,7 +71,8 @@ body[class*="router--"]
   div.row-hovered
     // Use important to override the background styles from __hl classes
     // That also have to be important (cf. 30863)
-    background: var(--bgColor-neutral-muted) !important
+    background: var(--codeMirror-selection-bgColor) !important
+    color: var(--body-font-color) !important
 
     &.-checked
       background-color: hsl(from var(--codeMirror-selection-bgColor) h calc(s - 30) l) !important

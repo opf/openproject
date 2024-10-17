@@ -39,16 +39,9 @@ de:
         accent-color: "Akzent"
         header-bg-color: "Hintergrund der Kopfzeile"
         header-item-bg-hover-color: "Hintergrund der Kopfzeile bei Hover"
-        header-item-font-color: "Textfarbe der Kopfzeile"
-        header-item-font-hover-color: "Textfarbe der Kopfzeile bei Hover"
-        header-border-bottom-color: "Rahmenfarbe der Kopfzeile"
         main-menu-bg-color: "Hintergrundfarbe des Hauptmenüs"
         main-menu-bg-selected-background: "Hintergrundfarbe des Hauptmenüs bei Auswahl"
         main-menu-bg-hover-background: "Hintergrundfarbe des Hauptmenüs bei Hover"
-        main-menu-font-color: "Schriftfarbe des Hauptmenüs"
-        main-menu-selected-font-color: "Schriftfarbe des Hauptmenüs bei Auswahl"
-        main-menu-hover-font-color: "Schriftfarbe des Hauptmenüs bei Hover"
-        main-menu-border-color: "Rahmenfarbe des Hauptmenüs"
       custom_colors: "Benutzerdefinierte Farben"
       customize: "Passen Sie Ihre OpenProject Installation mit Ihrem eigenen Logo und eigenen Farben an."
       enterprise_notice: "Diese kleine Erweiterung steht den Abonnenten der Enterprise edition ganz exklusiv als kleines Dankeschön für deren finanzielle Unterstützung zur Verfügung."
@@ -212,6 +205,10 @@ de:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
       notice:
         remember_items_and_projects: "Denken Sie daran, Einträge und Projekte in den jeweiligen Registerkarten für dieses benutzerdefinierte Feld festzulegen."
     text_add_new_custom_field: >
@@ -226,6 +223,7 @@ de:
       is_required: "Markieren Sie das benutzerdefinierte Feld als erforderlich. Dies macht es zwingend erforderlich, das Feld auszufüllen, wenn neue oder aktualisierte Ressourcen erstellt werden."
       is_required_for_project: "Das Attribut in allen Projekten erforderlich machen. Es kann dann nicht für einzelne Projekte deaktiviert werden."
       is_for_all: "Markieren Sie das benutzerdefinierte Feld als verfügbar in allen bestehenden und neuen Projekten."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "Fügen Sie die Feldwerte hinzu, wenn Sie die globale Suchfunktion verwenden."
       searchable_for_project: "Das Attribut kann als Filter in Projektlisten ausgewählt werden."
       editable: "Feld darf von den Benutzern selbst bearbeitet werden."
@@ -237,6 +235,14 @@ de:
       no_results_content_text: Neues benutzerdefiniertes Feld anlegen
   concatenation:
     single: "oder"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "Suche in %{app_title}"
     overwritten_tabs:
@@ -475,15 +481,21 @@ de:
       no_results_content_text: Statusbericht hinzufügen
   statuses:
     edit:
+      status_color_text: |
+        Klicken zum Zuweisen einer Farbe für diesen Status. Diese wird für die Hervorhebung von Arbeitspaketen in Tabellen verwendet.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
+      status_excluded_from_totals_text: |-
+        Aktivieren Sie diese Option, um Arbeitspakete mit diesem Status aus den Summen von Aufwand, Verbleibender Aufwand und % Abgeschlossen in Hierarchien auszuschließen.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Wählen Sie diese Option um Bearbeitung von Arbeitspaketen in diesem Status zu sperren.
         Außer dem Status selbst können dann keine Attribute verändert werden.
         <br/>
         <strong>Hinweis</strong>: Vererbte Attribute (z.B. von Kinderelementen oder Relationen) werden auch auf Arbeitspakete in diesen Status angewandt.
-      status_excluded_from_totals_text: |-
-        Aktivieren Sie diese Option, um Arbeitspakete mit diesem Status aus den Summen von Aufwand, Verbleibender Aufwand und % Abgeschlossen in Hierarchien auszuschließen.
-      status_color_text: |
-        Klicken zum Zuweisen einer Farbe für diesen Status. Diese wird für die Hervorhebung von Arbeitspaketen in Tabellen verwendet.
     index:
       no_results_title_text: Derzeit gibt es keine Arbeitspaket-Status.
       no_results_content_text: Neuen Status hinzufügen
@@ -814,7 +826,7 @@ de:
         blank: "muss ausgefüllt werden."
         blank_nested: "muss die Eigenschaft '%{property}' gesetzt haben."
         cannot_delete_mapping: "ist erforderlich. Kann nicht gelöscht werden."
-        is_for_all_cannot_modify: "ist für alle. Kann nicht geändert werden."
+        is_for_all_cannot_modify: "is for all projects and can therefore not be modified."
         cant_link_a_work_package_with_a_descendant: "Ein Arbeitspaket kann nicht mit einer seiner Unteraufgaben verlinkt werden."
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen."
         confirmation: "stimmt nicht mit %{attribute} überein."
@@ -1805,6 +1817,7 @@ de:
       progress_mode_changed_to_status_based: "Fortschrittsberechnung aktualisiert"
       status_changed: "Status '%{status_name}'"
       system_update: "OpenProject-Systemaktualisierung:"
+      work_package_duplicate_closed: "Duplicate work package updated:"
       total_percent_complete_mode_changed_to_work_weighted_average: "Die Berechnung der Gesamtwerte für % abgeschlossen wird jetzt nach Aufwand gewichtet."
       total_percent_complete_mode_changed_to_simple_average: "Die Berechnung der Gesamtwerte für % abgeschlossen basiert jetzt auf dem einfachen Durchschnitt der % abgeschlossen-Werte."
     cause_descriptions:
@@ -1812,6 +1825,7 @@ de:
       work_package_parent_changed_times: durch Änderungen am übergeordneten Arbeitspaket %{link}
       work_package_children_changed_times: durch Änderungen an Kind-Arbeitspaket %{link}
       work_package_related_changed_times: durch Änderungen an verwandtem Arbeitspaket %{link}
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: nach Änderungen an einem zugehörigen Arbeitspaket
       working_days_changed:
         changed: "Durch Änderungen an Werktagen (%{changes})"
@@ -2251,7 +2265,7 @@ de:
   label_more: "Mehr"
   label_more_than_ago: "vor mehr als (Tage)"
   label_move_work_package: "Arbeitspaket verschieben"
-  label_my_account: "Account settings"
+  label_my_account: "Kontoeinstellungen"
   label_my_activity: "Meine Aktivität"
   label_my_account_data: "Meine Kontodaten"
   label_my_avatar: "Mein Avatar"
@@ -2905,6 +2919,7 @@ de:
   permission_view_shared_work_packages: "Arbeitspaket-Freigaben sehen"
   permission_view_time_entries: "Gebuchte Aufwände ansehen"
   permission_view_timelines: "Zeitplan-Reporte anzeigen"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Wiki-Versionsgeschichte ansehen"
   permission_view_wiki_pages: "Wiki ansehen"
   permission_work_package_assigned: "Zugewiesener/Verantwortlicher werden"
@@ -3156,14 +3171,14 @@ de:
     Dies legt fest, was als "Tag" angesehen wird, wenn eine zeitliche Dauer angezeigt werden (zum Beispiel: Wenn die Länge eines Tages 8 Stunden beträgt, wird eine Eingabe von 32 Stunden als 4 Tage angezeigt).
   setting_invitation_expiration_days: "Aktivierungs-Mail läuft ab nach"
   setting_work_package_done_ratio: "Modus der Fortschrittsberechnung"
-  setting_work_package_done_ratio_field: "Arbeitsbezogen"
+  setting_work_package_done_ratio_field: "Aufwandsbezogen"
   setting_work_package_done_ratio_field_caption_html: >-
     <i>% abgeschlossen</i> kann auf jeden beliebigen Wert gesetzt werden. Wenn Sie optional einen Wert für <i>Aufwand</i> eingeben, wird <i>verbleibender Aufwand</i> automatisch abgeleitet.
   setting_work_package_done_ratio_status: "Statusbezogen"
   setting_work_package_done_ratio_status_caption_html: >-
     Jeder Status ist mit einem Wert für <i>% abgeschlossen</i> verbunden. Wenn Sie den Status ändern, ändert sich auch <i>% abgeschlossen</i>.
   setting_work_package_done_ratio_explanation_html: >
-    Im <b>arbeitsbezogenen</b> Modus ist % abgeschlossen frei wählbar. Falls Sie einen Wert für Aufwand angeben, wird Verbleibender Aufand automatisch abgeleitet. Im <b>statusbasierten</b> Modus ist jedem Status ein Wert für % abgeschlossen zugeordnet. Wenn Sie den Status ändern, ändert sich % abgeschlossen.
+    Im <b>aufwandsbezogenen</b> Modus ist % abgeschlossen frei wählbar. Falls Sie einen Wert für Aufwand angeben, wird Verbleibender Aufand automatisch abgeleitet. Im <b>statusbasierten</b> Modus ist jedem Status ein Wert für % abgeschlossen zugeordnet. Wenn Sie den Status ändern, ändert sich % abgeschlossen.
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
   setting_work_package_startdate_is_adddate: "Neue Arbeitspakete haben \"Heute\" als Anfangsdatum"
   setting_work_packages_projects_export_limit: "Arbeitspakete / Exportlimit für Projekte"
@@ -3214,7 +3229,7 @@ de:
   setting_sys_api_description: "Der Web-Service für Projektarchiv-Verwaltung erlaubt Integration und Nutzer-Autorisierung für den Zugriff auf Projektarchive."
   setting_time_format: "Zeit"
   setting_total_percent_complete_mode: "Berechnung des Gesamtwerts % abgeschlossen in Hierarchien"
-  setting_total_percent_complete_mode_work_weighted_average: "Nach Arbeit gewichtet"
+  setting_total_percent_complete_mode_work_weighted_average: "Nach Aufwand gewichtet"
   setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
     Der <i>Gesamtwert % abgeschlossen</i> wird gegen den <i>Aufwand</i> der einzelnen Arbeitspakete in der Hierarchie gewichtet. Arbeitspakete ohne <i>Aufwand</i> werden ignoriert.
   setting_total_percent_complete_mode_simple_average: "Einfacher Durchschnitt"

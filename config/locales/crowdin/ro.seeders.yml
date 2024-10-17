@@ -67,6 +67,8 @@ ro:
       global_roles:
         item_0:
           name: Manager de personal și de proiecte
+        item_1:
+          name: Standard global role
     standard:
       priorities:
         item_0:

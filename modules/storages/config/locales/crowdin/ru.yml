@@ -114,8 +114,8 @@ ru:
             hide_inactive_folders:
               permission_not_set: не удалось установить разрешения на %{path}.
             remote_folders:
-              not_allowed: '%{username} не имеет доступа к %{group_folder}. Пожалуйста, проверьте права доступа к папкам в Nextcloud.'
-              not_found: "%{group_folder} не найдена. Пожалуйста, проверьте настройки Nextcloud."
+              not_allowed: '%{username} не имеет доступа к папке %{group_folder}. Пожалуйста, проверьте права доступа к папкам на Nextcloud.'
+              not_found: "Папка %{group_folder} не найдена. Пожалуйста, проверьте настройки Nextcloud."
             remove_user_from_group:
               conflict: 'Пользователь %{user} не может быть удален из группы %{group} по следующей причине: %{reason}'
               failed_to_remove: 'Пользователь %{user} не может быть удален из группы %{group} по следующей причине: %{reason}'
@@ -147,7 +147,7 @@ ru:
               permission_not_set: не удалось установить разрешения на %{path}.
           error: Произошла непредвиденная ошибка. Пожалуйста, убедитесь, что Nextcloud доступен и проверьте журналы работы OpenProject для дополнительной информации
           not_allowed: OpenProject не был разрешен доступ к OneDrive. Пожалуйста, проверьте разрешения, установленные в приложении Azure.
-          unauthorized: OpenProject не удалось синхронизировать с OneDrive. Пожалуйста, проверьте конфигурацию хранилища в приложении Azure.
+          unauthorized: OpenProject не удалось синхронизировать с OneDrive. Пожалуйста, проверьте конфигурацию хранилища и приложения Azure.
           user_does_not_exist: "%{user} не существует в Nextcloud."
         upload_link_service:
           not_found: Папка %{folder} не найдена в хранилище %{storage_name}.
@@ -321,8 +321,6 @@ ru:
       not_connected: Не подключено. Пользователь должен войти в хранилище с помощью следующего %{link}.
     members_no_results: Нет участников для отображения.
     no_results: Хранилища еще не настроены.
-    notice_successful_storage_connection: |-
-      Хранилище подключено успешно! Не забудьте активировать модуль и конкретное хранилище в настройках проекта для его дальнейшего использования.
     oauth_access_granted_modal:
       access_granted: Доступ разрешен
       project_settings:
@@ -384,6 +382,7 @@ ru:
     storage_list_blank_slate:
       description: Добавьте хранилище, чтобы увидеть его здесь.
       heading: У вас пока нет хранилищ.
+    successful_storage_connection: Хранилище успешно подключено! Не забудьте активировать хранилище на вкладке Проекты для каждого желаемого проекта, чтобы использовать его.
     upsale:
       description: |-
         Интегрируйте OneDrive / SharePoint как хранилище файлов OpenProject. Загружайте файлы и связывайте их напрямую с пакетами работ проекта.

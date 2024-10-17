@@ -2,7 +2,7 @@
 fa:
   js:
     calendar:
-      create_new: 'Create new calendar'
+      create_new: 'ساخت تقویم جدید'
       title: 'تقویم'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
-      unsaved_title: 'Unnamed calendar'
+      too_many: 'در کل %{count} بسته کاری وجود دارد، اما فقط %{max} می‌تواند نشان داده شود.'
+      unsaved_title: 'تقویم بی نام'

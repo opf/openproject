@@ -32,6 +32,8 @@ module Admin
   module CustomFields
     module Hierarchy
       class ItemsController < ApplicationController
+        include OpTurbo::ComponentStream
+
         layout "admin"
 
         model_object CustomField
@@ -43,7 +45,42 @@ module Admin
 
         def index; end
 
+        def new
+          update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field,
+                                                                new_item_form_data: { show: true }))
+          respond_with_turbo_streams
+        end
+
+        def create
+          ::CustomFields::Hierarchy::HierarchicalItemService
+            .new
+            .insert_item(**item_input)
+            .either(
+              ->(_) { update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field)) },
+              ->(validation_result) { add_errors_to_form(validation_result) }
+            )
+
+          respond_with_turbo_streams
+        end
+
         private
+
+        def item_input
+          input = { parent: @custom_field.hierarchy_root, label: params[:label] }
+          input[:short] = params[:short] unless params[:short].empty?
+
+          input
+        end
+
+        def add_errors_to_form(validation_result)
+          validation_result.errors(full: true).to_h.each do |attribute, errors|
+            @custom_field.errors.add(attribute, errors.join(", "))
+          end
+
+          new_item_form_data = { show: true, label: validation_result[:label], short: validation_result[:short] }
+          update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field, new_item_form_data:),
+                                  status: :unprocessable_entity)
+        end
 
         def find_model_object(object_id = :custom_field_id)
           super

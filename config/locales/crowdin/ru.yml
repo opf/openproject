@@ -39,16 +39,9 @@ ru:
         accent-color: "Оттенок"
         header-bg-color: "Фон заголовка"
         header-item-bg-hover-color: "Фон заголовка при наведении курсора"
-        header-item-font-color: "Шрифт заголовка"
-        header-item-font-hover-color: "Шрифт заголовка при наведении курсора"
-        header-border-bottom-color: "Граница заголовка"
         main-menu-bg-color: "Фон главного меню"
         main-menu-bg-selected-background: "Главное меню при выборе"
         main-menu-bg-hover-background: "Главное меню при наведении"
-        main-menu-font-color: "Шрифт главного меню"
-        main-menu-selected-font-color: "Шрифт главного меню при выборе"
-        main-menu-hover-font-color: "Шрифт главного меню при наведении"
-        main-menu-border-color: "Граница главного меню"
       custom_colors: "Настроить цвета"
       customize: "Установите в вашем OpenProject свой логотип и цвета."
       enterprise_notice: "В качестве особого \"Спасибо!\" за их финансовый вклад в разработку OpenProject, это крошечное дополнение доступно только для подписчиков службы поддержки Корпоративной версии."
@@ -212,8 +205,12 @@ ru:
           description: Это пользовательское поле включено во всех проектах, так как отмечена опция «Для всех проектов». Его нельзя отключить для отдельных проектов.
       items:
         blankslate:
-          title: "Your list of items is empty"
-          description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+          title: "Ваш список элементов пуст"
+          description: "Начните с добавления элементов в настраиваемое поле иерархии. Каждый элемент может быть использован для создания иерархии ниже его. Чтобы переместить и создать подпункты внутри иерархии, нажмите на созданный элемент."
+        more_actions: "Еще действия"
+        placeholder:
+          label: "Название элемента"
+          short: "Краткое имя"
       notice:
         remember_items_and_projects: "Не забудьте задать элементы и проекты на соответствующих вкладках для этого настраиваемого поля."
     text_add_new_custom_field: >
@@ -228,6 +225,7 @@ ru:
       is_required: ""
       is_required_for_project: "Установите флажок, чтобы включить этот атрибут и сделать его обязательным для всех проектов. Он не может быть отключен для отдельных проектов."
       is_for_all: ""
+      multi_select: "Позволяет пользователю присвоить несколько значений этому пользовательскому полю."
       searchable: "Включать значения полей при использовании функции глобального поиска."
       searchable_for_project: "Установите флажок, чтобы сделать этот атрибут доступным в качестве фильтра в списках проектов."
       editable: "Разрешить редактирование поля самими пользователями."
@@ -239,6 +237,14 @@ ru:
       no_results_content_text: Создать новое настраиваемое поле
   concatenation:
     single: "или"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "должно быть заполнено"
+          not_unique: "должно быть уникальным в пределах одного уровня иерархии"
+    rules:
+      label: "Метка"
   global_search:
     placeholder: "Поиск в %{app_title}"
     overwritten_tabs:
@@ -490,17 +496,23 @@ ru:
       no_results_content_text: Добавить статус отчёта
   statuses:
     edit:
+      status_color_text: |
+        Щелкните, чтобы задать или изменить цвет этого статуса.
+        Этот цвет отображается на кнопке статуса и может использоваться для выделения пакетов работ в таблице.
+      status_default_text: |-
+        Новые пакеты работ установлены по умолчанию с этим типом. Такие пакеты работ не могут быть доступны только для чтения.
+      status_excluded_from_totals_text: |-
+        Отметьте эту опцию, чтобы исключить пакеты работ с этим статусом из итогов Работы,
+        Оставшейся работы и % Завершения в иерархии.
+      status_percent_complete_text: |-
+        В <a href="%{href}">режиме расчета прогресса на основе статуса</a>% Завершения работы
+        автоматически устанавливается на это значение, когда выбран этот статус.
+        Игнорируется в режиме, основанном на работе.
       status_readonly_html: |
         Установите этот флажок, чтобы пометить пакеты работ как доступные только для чтения.
         Никакие атрибуты не могут быть изменены за исключением статуса.
         <br/>
         <strong>Примечание</ strong>: Будут применены унаследованные значения (например, элементов предков или потомков).
-      status_excluded_from_totals_text: |-
-        Отметьте эту опцию, чтобы исключить пакеты работ с этим статусом из итогов Работы,
-        Оставшейся работы и % Завершения в иерархии.
-      status_color_text: |
-        Щелкните, чтобы задать или изменить цвет этого статуса.
-        Этот цвет отображается на кнопке статуса и может использоваться для выделения пакетов работ в таблице.
     index:
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
       no_results_content_text: Добавить новый статус
@@ -833,7 +845,7 @@ ru:
         blank: "не может быть пустым."
         blank_nested: "должно быть установлено свойство '%{property}'."
         cannot_delete_mapping: "требуется. Невозможно удалить."
-        is_for_all_cannot_modify: "предназначен для всех. Не может быть изменен."
+        is_for_all_cannot_modify: "предназначено для всех проектов и поэтому не может быть изменено."
         cant_link_a_work_package_with_a_descendant: "Пакет работ не может быть связан с одной из своих подзадач."
         circular_dependency: "Это отношение создаст циклическую зависимость."
         confirmation: "не совпадает со значением поля %{attribute}."
@@ -1561,9 +1573,9 @@ ru:
       half_a_minute: "полминуты"
       less_than_x_minutes:
         one: "менее минуты"
-        few: "менее %{count} минуты"
-        many: "менее %{count} минуты"
-        other: "менее %{count} минуты"
+        few: "менее %{count} минут"
+        many: "менее %{count} минут"
+        other: "менее %{count} минут"
       less_than_x_seconds:
         one: "меньше секунды"
         few: "менее %{count} секунд"
@@ -1595,10 +1607,10 @@ ru:
         many: "%{count} часов"
         other: "%{count} часов"
       x_hours_abbreviated:
-        one: "1 час"
-        few: "%{count} часов"
-        many: "%{count} часов"
-        other: "%{count} часов"
+        one: "1 ч"
+        few: "%{count} ч"
+        many: "%{count} ч"
+        other: "%{count} ч"
       x_weeks:
         one: "1 неделя"
         few: "%{count} недель"
@@ -1880,6 +1892,7 @@ ru:
       progress_mode_changed_to_status_based: "Расчет прогресса обновлен"
       status_changed: "Статус '%{status_name}'"
       system_update: "Обновление системы OpenProject:"
+      work_package_duplicate_closed: "Дубликат пакета работ обновлён:"
       total_percent_complete_mode_changed_to_work_weighted_average: "Вычисление % Завершения теперь взвешивается по Работе."
       total_percent_complete_mode_changed_to_simple_average: "Вычисление % Завершения теперь основано на среднем арифметическом % Завершения."
     cause_descriptions:
@@ -1887,6 +1900,7 @@ ru:
       work_package_parent_changed_times: внесением изменений в родительский %{link}
       work_package_children_changed_times: внесением изменений в дочерний элемент %{link}
       work_package_related_changed_times: внесением изменений в связанный элемент %{link}
+      work_package_duplicate_closed: Статус был автоматически обновлен дубликатом пакета работ %{link}
       unaccessable_work_package_changed: внесением изменений в связанный пакет работ
       working_days_changed:
         changed: "внесением изменений в рабочие дни (%{changes})"
@@ -2248,8 +2262,8 @@ ru:
   label_internal: "Внутренние"
   label_introduction_video: "Вводное видео"
   label_invite_user: "Пригласить пользователя"
-  label_item: "Item"
-  label_item_plural: "Items"
+  label_item: "Элемент"
+  label_item_plural: "Элементы"
   label_share: "Поделиться"
   label_share_project_list: "Поделитесь списком проектов"
   label_share_work_package: "Поделиться пакетом работ"
@@ -2326,7 +2340,7 @@ ru:
   label_more: "Более"
   label_more_than_ago: "больше, чем дней назад"
   label_move_work_package: "Переместить пакет работ"
-  label_my_account: "Account settings"
+  label_my_account: "Настройки учетной записи"
   label_my_activity: "Моя активность"
   label_my_account_data: "Данные моей учетной записи"
   label_my_avatar: "Мой аватар"
@@ -2983,6 +2997,7 @@ ru:
   permission_view_shared_work_packages: "Просмотр общих ресурсов пакета работ"
   permission_view_time_entries: "Просмотр потраченного времени"
   permission_view_timelines: "Просмотр графиков"
+  permission_view_user_email: "Просмотр почтовых адресов пользователей"
   permission_view_wiki_edits: "Просмотр истории wiki"
   permission_view_wiki_pages: "Просмотр wiki"
   permission_work_package_assigned: "Назначиться/стать отвественным"

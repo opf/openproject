@@ -98,7 +98,7 @@ pt-BR:
       display_name: >
         O nome do provedor. Isso será exibido como o botão de login e na lista de provedores.
       metadata_none: >
-        Seu provedor de identidade não tem um ponto de extremidade de metadados nem a opção de download de XML. Você pode fazer a configuração manualmente.
+        Your identity provider does not have a metadata endpoint or XML download option. You can configure it manually.
       metadata_url: >
         Seu provedor de identidade fornece uma URL de metadados.
       metadata_xml: >

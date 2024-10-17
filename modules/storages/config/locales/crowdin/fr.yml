@@ -91,8 +91,8 @@ fr:
         rename_project_folder: 'Renommer le dossier du projet géré :'
     errors:
       messages:
-        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+        error: Une erreur inattendue s'est produite. Veuillez consulter les journaux d'OpenProject pour obtenir plus d'informations ou contactez un administrateur
+        unauthorized: OpenProject n'a pas pu s'authentifier auprès du fournisseur de stockage. Veuillez vous assurer que vous y avez accès.
       models:
         copy_project_folders_service:
           conflict: Le dossier %{destination_path} existe déjà. Interruption du processus pour éviter les écrasements.
@@ -114,8 +114,8 @@ fr:
             hide_inactive_folders:
               permission_not_set: n'a pas pu définir les autorisations sur %{path}.
             remote_folders:
-              not_allowed: L'utilisateur %{username} n'a pas accès au dossier %{group_folder}. Veuillez vérifier les autorisations du dossier sur Nextcloud.
-              not_found: "%{group_folder} n'a pas été trouvé. Veuillez vérifier votre configuration Nextcloud."
+              not_allowed: The %{username} doesn't have access to the %{group_folder} folder. Please check the folder permissions on Nextcloud.
+              not_found: "%{group_folder} folder wasn't found. Please check your Nextcloud setup."
             remove_user_from_group:
               conflict: 'L''utilisateur %{user} n''a pas pu être retiré du groupe %{group} pour la raison suivante : %{reason}'
               failed_to_remove: 'L''utilisateur %{user} n''a pas pu être retiré du groupe %{group} pour la raison suivante : %{reason}'
@@ -128,7 +128,7 @@ fr:
           group_does_not_exist: "%{group} n'existe pas. Vérifiez la configuration de votre instance Nextcloud."
           insufficient_privileges: OpenProject n'a pas assez de privilèges pour ajouter %{user} au groupe %{group}. Vérifiez les paramètres de votre groupe dans Nextcloud.
           not_allowed: Nextcloud bloque la demande.
-          unauthorized: OpenProject n'a pas pu se synchroniser avec Nextcloud. Veuillez vérifier votre espace de stockage et la configuration de Nextcloud.
+          unauthorized: OpenProject could not sync with Nextcloud. Please check your storage and Nextcloud configuration.
           user_does_not_exist: "%{user} n'existe pas dans Nextcloud."
         one_drive_sync_service:
           attributes:
@@ -147,10 +147,10 @@ fr:
               permission_not_set: n'a pas pu définir les autorisations sur %{path}.
           error: Une erreur inattendue s'est produite. Veuillez vous assurer que votre instance Nextcloud est joignable et vérifiez les journaux des processus OpenProject pour obtenir plus d'informations.
           not_allowed: L'application OpenProject n'a pas été autorisée à accéder à votre lecteur OneDrive. Veuillez vérifier les autorisations définies dans l'application Azure.
-          unauthorized: OpenProject n'a pas pu se synchroniser avec OneDrive. Veuillez vérifier votre espace de stockage et la configuration de l'application Azure.
+          unauthorized: OpenProject could not sync with OneDrive. Please check your storage and Azure Application configuration.
           user_does_not_exist: "%{user} n'existe pas dans Nextcloud."
         upload_link_service:
-          not_found: The destination folder %{folder} could not be found on %{storage_name}.
+          not_found: Le dossier de destination %{folder} n'a pas été trouvé sur %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Compléter sans
@@ -214,7 +214,7 @@ fr:
         client_id_wrong: L'identifiant du client OAuth 2 configuré n'est pas valide. Veuillez vérifier la configuration.
         client_secret_wrong: Le secret client OAuth 2 configuré n'est pas valide. Veuillez vérifier la configuration.
         drive_id_wrong: L'identifiant du lecteur configuré est introuvable. Veuillez vérifier la configuration.
-        group_folder_not_found: The group folder could not be found.
+        group_folder_not_found: Le dossier du groupe est introuvable.
         group_folder_version_mismatch: La version du dossier de groupe n'est pas prise en charge. Veuillez mettre à jour votre serveur Nextcloud.
         host_not_found: Aucun serveur Nextcloud n'a été trouvé à l'adresse configurée. Veuillez vérifier la configuration.
         missing_dependencies: 'Une dépendance requise est manquante dans l''espace de stockage de fichiers. Veuillez ajouter la dépendance suivante : %{dependency}.'
@@ -223,10 +223,10 @@ fr:
         subtitle: Validation de la connexion
         tenant_id_wrong: L'identifiant du répertoire (locataire) configuré n'est pas valide. Veuillez vérifier la configuration.
         unexpected_content:
-          nextcloud: Unexpected content found in the managed group folder.
-          one_drive: Unexpected content found in the drive.
+          nextcloud: Contenu inattendu trouvé dans le dossier du groupe géré.
+          one_drive: Contenu inattendu trouvé dans le lecteur.
         unknown_error: La connexion n'a pas pu être validée. Une erreur inconnue s'est produite. Veuillez consulter les journaux du serveur pour en savoir plus.
-        userless_access_denied: The configured app password is invalid.
+        userless_access_denied: Le mot de passe de l'application configurée n'est pas valide.
       label_error: Erreur
       label_healthy: Sain
       label_pending: En attente
@@ -321,8 +321,6 @@ fr:
       not_connected: 'Non connecté. L''utilisateur doit se connecter au stockage via le lien suivant : %{link}'
     members_no_results: Aucun membre à afficher.
     no_results: Aucun espace de stockage n'est configuré pour le moment.
-    notice_successful_storage_connection: |-
-      Stockage connecté avec succès ! N'oubliez pas d'activer le module et le stockage spécifique dans les paramètres de chaque projet où vous souhaitez l'utiliser.
     oauth_access_granted_modal:
       access_granted: Accès accordé
       project_settings:
@@ -384,6 +382,7 @@ fr:
     storage_list_blank_slate:
       description: Ajoutez un stockage pour les voir ici.
       heading: Vous n'avez pas encore d'espace de stockage.
+    successful_storage_connection: Storage connected successfully! Remember to activate the storage in the Projects tab for each desired project to use it.
     upsale:
       description: |-
         Intégrez votre OneDrive/SharePoint en tant que espace de stockage de fichiers avec OpenProject. Téléchargez des fichiers et liez-les directement aux lots de travaux d'un projet.

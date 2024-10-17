@@ -41,6 +41,11 @@ RSpec.describe "Favorite projects", :js do
   end
   let(:projects_page) { Pages::Projects::Index.new }
   let(:top_menu) { Components::Projects::TopMenu.new }
+
+  let!(:my_page_grid) do
+    create(:my_page, :empty, user:)
+  end
+
   let(:my_page) do
     Pages::My::Page.new
   end

@@ -255,12 +255,11 @@ RSpec.describe "edit work package", :js do
       subject_field.expect_state_text "My new subject!"
     end
 
-    it "submits the edit mode when changing the focus" do
+    it "does not close the edit mode when changing the focus" do
       page.find("body").click
 
-      wp_page.expect_toast(message: "Successful update")
-      subject_field.expect_inactive!
-      subject_field.expect_state_text "My new subject!"
+      subject_field.expect_active!
+      wp_page.expect_no_toaster(type: :success, message: "Successful update", wait: 1)
     end
   end
 end

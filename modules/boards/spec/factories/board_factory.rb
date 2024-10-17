@@ -100,4 +100,38 @@ FactoryBot.define do
       board.save!
     end
   end
+
+  factory :version_board, class: "Boards::Grid" do
+    project
+    name { "My version board" }
+    row_count { 1 }
+    column_count { 4 }
+
+    transient do
+      version_columns { [create(:version, project:)] }
+    end
+
+    callback(:after_create) do |board, evaluator|
+      evaluator.version_columns.each do |version|
+        query = build(:public_query, name: version.name, project: board.project).tap do |q|
+          q.sort_criteria = [[:manual_sorting, "asc"]]
+          q.save!
+        end
+
+        filters = [{ "version_id" => { "operator" => "=", "values" => [version.id.to_s] } }]
+
+        board.widgets << create(:grid_widget,
+                                identifier: "work_package_query",
+                                start_row: 1,
+                                end_row: 2,
+                                start_column: 1,
+                                end_column: 1,
+                                options: { "queryId" => query.id,
+                                           "filters" => filters })
+      end
+
+      board.options = { "type" => "action", "attribute" => "version" }
+      board.save!
+    end
+  end
 end

@@ -98,7 +98,7 @@ zh-TW:
       display_name: >
         提供商的名稱。這將會顯示在登入按鈕及提供者清單中。
       metadata_none: >
-        您的身分提供者沒有 metadata endpoint 或 XML 下載選項。您可以手動進行設定。
+        您的身分提供者沒有後設資料端點或 XML 下載選項。您可以手動設定。
       metadata_url: >
         您的身分提供者會提供一個 metadata URL。
       metadata_xml: >

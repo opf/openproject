@@ -61,6 +61,18 @@ module Admin
     def show_plugin
       @partial = @plugin.settings[:partial]
       @settings = Setting["plugin_#{@plugin.id}"]
+
+      page_title_key = @plugin.settings[:page_title_key]
+      @page_title = page_title_key ? I18n.t(page_title_key) : @plugin.name
+
+      additional_breadcrumb_elements = @plugin.settings[:breadcrumb_elements]
+      if additional_breadcrumb_elements.present?
+        @breadcrumb_elements = if additional_breadcrumb_elements.respond_to?(:call)
+                                 instance_exec(&additional_breadcrumb_elements)
+                               else
+                                 additional_breadcrumb_elements
+                               end
+      end
     end
 
     def update_plugin

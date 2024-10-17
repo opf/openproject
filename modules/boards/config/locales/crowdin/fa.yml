@@ -27,13 +27,13 @@ fa:
       status: >
         ستون هایی برای وضعیت هایی مانند To Do، در حال انجام، انجام شد.
       assignee: >
-        تابلو با ستون های خودکار بر اساس کاربران اختصاص داده شده. ایده آل برای ارسال بسته های کاری
+        تابلو با ستون های خودکار بر اساس کاربران اختصاص داده شده. ایده آل برای ارسال بسته های کاری.
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        تابلویی با ستون های خودکار بر اساس ویژگی نسخه. ایده آل برای برنامه ریزی توسعه محصول.
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        تابلویی با ستون های خودکار برای پروژه های فرعی. کشیدن بسته های کاری به لیست های دیگر، پروژه(فرعی) را بر این اساس به روز می کند.
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        تابلویی با ستون های خودکار برای عناصر فرعی. کشیدن بسته‌های کاری به فهرست‌های دیگر، والد را متناسب با آن به‌روزرسانی می‌کند.
     upsale:
-      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+      teaser_text: 'آیا می خواهید گردش کار خود را با تابلوها خودکار کنید؟ بردهای پیشرفته یک افزونه Enterprise هستند. لطفاً به یک طرح پولی ارتقا دهید.'
       upgrade: 'هم اکنون ارتقا داده شود'
