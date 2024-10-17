@@ -84,17 +84,17 @@ module Pages::Meetings
     end
 
     def expect_meetings_listed_in_order(*meetings)
-      within ".generic-table tbody" do
-        listed_meeting_titles = all("tr td.title").map(&:text)
+      within "[data-test-selector='Meetings::TableComponent']" do
+        listed_meeting_titles = all("li div.title").map(&:text)
 
         expect(listed_meeting_titles).to eq(meetings.map(&:title))
       end
     end
 
     def expect_meetings_listed(*meetings)
-      within ".generic-table tbody" do
+      within "[data-test-selector='Meetings::TableComponent']" do
         meetings.each do |meeting|
-          expect(page).to have_css("td.title",
+          expect(page).to have_css("div.title",
                                    text: meeting.title)
         end
       end
@@ -103,7 +103,7 @@ module Pages::Meetings
     def expect_meetings_not_listed(*meetings)
       within "#content-wrapper" do
         meetings.each do |meeting|
-          expect(page).to have_no_css("td.title",
+          expect(page).to have_no_css("div.title",
                                       text: meeting.title)
         end
       end
