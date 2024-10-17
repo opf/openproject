@@ -55,5 +55,7 @@ export class WorkPackageSplitViewEntryComponent {
 
   constructor(readonly elementRef:ElementRef) {
     populateInputsFromDataset(this);
+
+    document.body.classList.add('router--work-packages-partitioned-split-view-details');
   }
 }

@@ -197,6 +197,10 @@ class Query < ApplicationRecord
     filter
   end
 
+  def find_active_filter(name)
+    filters.detect { |f| f.name == name }
+  end
+
   # Removes the filter with the given name
   # from the query without persisting the change.
   #

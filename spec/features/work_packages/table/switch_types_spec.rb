@@ -272,7 +272,7 @@ RSpec.describe "Switching types in work package table", :js do
       workflow
       login_as(user)
 
-      visit new_project_work_packages_path(project.identifier, type: type.id)
+      visit new_project_work_package_path(project.identifier, type: type.id)
       expect_angular_frontend_initialized
       SeleniumHubWaiter.wait
     end

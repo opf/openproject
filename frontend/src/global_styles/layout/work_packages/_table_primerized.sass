@@ -26,13 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { WorkPackageCopyController } from 'core-app/features/work-packages/components/wp-copy/wp-copy.controller';
+.op-primerized-work-packages-list
+  .op-wp-list-view,
+  .op-wp-list-view--loading
+    height: 100%
 
-@Component({
-  selector: 'wp-copy-split-view',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: '../wp-new/wp-new-split-view.html',
-})
-export class WorkPackageCopySplitViewComponent extends WorkPackageCopyController {
-}
+
+  wp-table
+    height: calc(100% - 55px)

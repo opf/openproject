@@ -16,5 +16,5 @@
 <% content_for :content_body_right do %>
   <%# When we update the split screen from a turbo frame requset, the title is not correctly updated (Hack for #57705) %>
   <%= turbo_stream.set_title(title: page_title(*html_title_parts)) if turbo_frame_request? %>
-  <%= render(split_view_instance) if render_work_package_split_view? %>
+  <%= render(split_view_instance(view_type: "work_package_split_view")) if render_work_package_split_view? %>
 <% end %>

@@ -43,7 +43,7 @@ class WorkPackagesPage
   end
 
   def visit_new
-    visit new_project_work_packages_path(@project)
+    visit new_project_work_package_path(@project)
   end
 
   def visit_show(id)

@@ -134,7 +134,7 @@ RSpec.describe "form query configuration", :js, :with_cuprite do
         expect_flash(message: "Successful update.")
 
         # Visit new wp page
-        visit new_project_work_packages_path(project)
+        visit new_project_work_package_path(project)
 
         wp_page.expect_no_group "Subtasks"
         expect(page).to have_no_text "Subtasks"

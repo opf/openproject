@@ -38,3 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
                               { format: 'atom', key: User.current.rss_key },
                               title: "#{work_package.project} - #{work_package.to_s}") %>
 <% end %>
+
+<% content_for :content_body do %>
+  <%= render WorkPackages::FullView::ShowComponent.new(id: work_package.id, tab: params[:tab] || "activity") %>
+<% end %>
