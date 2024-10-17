@@ -410,7 +410,8 @@ module SortHelper
 
   def action_button(menu, caption)
     menu.with_show_button(scheme: :link, color: :default, text_transform: :uppercase,
-                          underline: false, display: :inline_flex) do |button|
+                          underline: false, display: :inline_flex,
+                          classes: "generic-table--action-menu-button") do |button|
       button.with_trailing_action_icon(icon: :"triangle-down")
       h(caption).to_s
     end
