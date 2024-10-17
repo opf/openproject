@@ -152,7 +152,7 @@ class CostReportsController < ApplicationController
     else
       raise ActiveRecord::RecordNotFound
     end
-    redirect_to action: "index", default: 1
+    redirect_to action: "index", default: 1, id: nil
   end
 
   ##

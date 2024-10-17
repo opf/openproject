@@ -90,6 +90,9 @@ jobs:
           path: public/
           name: public-assets-${{ github.sha }}
           overwrite: true
+          # Since v4.4, hidden files are excluded by default.
+          # We need to include public/assets/.sprockets-manifest-*.json
+          include-hidden-files: true
     outputs:
       version: ${{ steps.extract_version.outputs.version }}
       checkout_ref: ${{ steps.extract_version.outputs.checkout_ref }}

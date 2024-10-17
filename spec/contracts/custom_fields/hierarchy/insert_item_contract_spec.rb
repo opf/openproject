@@ -53,7 +53,7 @@ RSpec.describe CustomFields::Hierarchy::InsertItemContract do
       it "is invalid" do
         result = subject.call(params)
         expect(result).to be_failure
-        expect(result.errors.to_h).to include(parent: ["Parent must be of type 'Item'"])
+        expect(result.errors.to_h).to include(parent: ["must be CustomField::Hierarchy::Item"])
       end
     end
 

@@ -39,16 +39,9 @@ vi:
         accent-color: "Nhấn mạnh"
         header-bg-color: "Nền của tiêu đề"
         header-item-bg-hover-color: "Màu nền tiêu đề khi trỏ chuột"
-        header-item-font-color: "Phông chữ tiêu đề"
-        header-item-font-hover-color: "Phông chữ tiêu đề khi trỏ chuột"
-        header-border-bottom-color: "Viền của tiêu đề"
         main-menu-bg-color: "Nền menu chính"
         main-menu-bg-selected-background: "Menu chính khi được chọn"
         main-menu-bg-hover-background: "Menu khi trỏ chuột"
-        main-menu-font-color: "Phông chữ menu chính"
-        main-menu-selected-font-color: "Phông chữ menu chính khi được chọn"
-        main-menu-hover-font-color: "Phông chữ menu chính khi trỏ chuột"
-        main-menu-border-color: "Đường viền menu chính"
       custom_colors: "Tùy chỉnh màu sắc"
       customize: "Tùy chỉnh cài đặt OpenProject của bạn với logo và màu sắc riêng."
       enterprise_notice: "Như một lời 'Cảm ơn!' đặc biệt cho sự đóng góp tài chính của họ để phát triển OpenProject, tiện ích nhỏ này chỉ có sẵn cho người đăng ký hỗ trợ phiên bản Enterprise."
@@ -217,6 +210,10 @@ vi:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
       notice:
         remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
@@ -231,6 +228,7 @@ vi:
       is_required: "Đánh dấu trường tùy chỉnh là bắt buộc. Điều này sẽ làm cho việc điền vào trường là bắt buộc khi tạo mới hoặc cập nhật tài nguyên hiện có."
       is_required_for_project: "Tích để bật thuộc tính này và yêu cầu nó trong tất cả các dự án. Không thể hủy kích hoạt nó cho từng dự án."
       is_for_all: "Đánh dấu trường tùy chỉnh là khả dụng trong tất cả các dự án hiện có và mới."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "Bao gồm giá trị trường khi sử dụng chức năng tìm kiếm toàn cầu."
       searchable_for_project: "Bao gồm giá trị trường khi sử dụng chức năng tìm kiếm toàn cầu."
       editable: "Cho phép trường có thể chỉnh sửa bởi người dùng tự mình."
@@ -242,6 +240,14 @@ vi:
       no_results_content_text: Tạo trường tùy chỉnh mới
   concatenation:
     single: "hoặc"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "Tìm kiếm trong %{app_title}"
     overwritten_tabs:
@@ -478,6 +484,8 @@ vi:
       status_color_text: |
         Nhấp để gán hoặc thay đổi màu của trạng thái này.
         Nó được hiển thị trên nút trạng thái và có thể được sử dụng để làm nổi bật các gói công việc trong bảng.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
       status_excluded_from_totals_text: |-
         Đánh dấu tùy chọn này để loại trừ các gói công việc có trạng thái này khỏi tổng số Công việc,
         Công việc còn lại, và % Hoàn thành trong một cấu trúc phân cấp.
@@ -1782,6 +1790,7 @@ vi:
       progress_mode_changed_to_status_based: "Cập nhật tính toán tiến độ"
       status_changed: "Trạng thái '%{status_name}'"
       system_update: "Cập nhật hệ thống OpenProject:"
+      work_package_duplicate_closed: "Duplicate work package updated:"
       total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
       total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
     cause_descriptions:
@@ -1789,6 +1798,7 @@ vi:
       work_package_parent_changed_times: bởi các thay đổi đối với cha %{link}
       work_package_children_changed_times: bởi các thay đổi đối với con %{link}
       work_package_related_changed_times: bởi các thay đổi đối với liên quan %{link}
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: bởi các thay đổi đối với một gói công việc liên quan
       working_days_changed:
         changed: "bởi các thay đổi đối với ngày làm việc (%{changes})"

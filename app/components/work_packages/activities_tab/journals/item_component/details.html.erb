@@ -1,0 +1,29 @@
+<%= 
+  component_wrapper(class: "work-packages-activities-tab-journals-item-component-details") do
+    flex_layout(my: 0, border: :left, classes: "work-packages-activities-tab-journals-item-component-details--journal-details-container") do |details_container|
+      case filter
+      when :only_comments
+        render_empty_line(details_container) unless journal.notes.blank? && !journal.noop?
+      when :only_changes
+        if journal.details.any?
+          render_details_header(details_container)
+          render_details(details_container)
+        end
+      else
+        if journal.details.any?
+          if journal.notes.present?
+            render_details(details_container)
+          else
+            render_details_header(details_container)
+            render_details(details_container)
+          end
+        elsif journal.notes.present?
+          render_details(details_container)
+        else
+          # empty row to render the flex layout with its minimal height
+          render_empty_line(details_container)
+        end
+      end
+    end
+  end 
+%>

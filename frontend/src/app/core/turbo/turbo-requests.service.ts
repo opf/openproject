@@ -19,7 +19,11 @@ export class TurboRequestsService {
 
         return response.text();
       })
-      .then((html) => renderStreamMessage(html))
+      .then((html) => {
+        renderStreamMessage(html);
+
+        return html; // enable further processing wherever this is called
+  })
       .catch((error) => this.toast.addError(error as string));
   }
 

@@ -1,0 +1,7 @@
+<%=
+  content_tag("turbo-frame", id: "work-package-activities-tab-content") do
+    unless error_message.blank?
+      render(Primer::Alpha::Banner.new(scheme: :danger)) { error_message }
+    end
+  end
+%>

@@ -55,7 +55,7 @@ module Admin
 
         def create
           ::CustomFields::Hierarchy::HierarchicalItemService
-            .new(@custom_field)
+            .new
             .insert_item(**item_input)
             .either(
               ->(_) { update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field)) },

@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,17 +25,11 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
-module CustomFields
-  module Hierarchy
-    class ServiceInitializationContract < Dry::Validation::Contract
-      params do
-        required(:field_format).filled(:string)
-      end
-
-      rule(:field_format) do
-        key.failure("Custom field must have field format 'hierarchy'") if value != "hierarchy"
-      end
+module WorkPackages::ActivitiesTab::Journals
+  class Submit < ApplicationForm
+    form do |notes_form|
+      notes_form.submit(name: :submit, label: "Save", scheme: :primary,
+                        data: { test_selector: "op-submit-work-package-journal-form" })
     end
   end
 end

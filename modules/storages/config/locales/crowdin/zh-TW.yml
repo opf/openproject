@@ -53,7 +53,7 @@ zh-TW:
   permission_manage_file_links: 管理文件鏈接
   permission_manage_files_in_project: 管理專案中的檔案
   permission_read_files: '自動管理專案資料夾 : 讀取檔案'
-  permission_share_files: '自動管理專案資料夾 : 共用檔案'
+  permission_share_files: '自動管理專案資料夾: 分享檔案'
   permission_share_files_explanation:
   permission_view_file_links: 查看文件鏈接
   permission_write_files: '自動管理專案資料夾 : 寫入檔案'
