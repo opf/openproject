@@ -58,6 +58,9 @@ RSpec.describe AddValidityPeriodToJournals, type: :model do
 
   let(:user) { create(:user) }
 
+  # The validity_periods defined herein are completely irrelevant for the specs.
+  # They are just added here so that the inserted journals are valid.
+  # The migration will remove the validity_period column on its down migration so that data will be lost then.
   let!(:initial_journal) do
     create(:work_package_journal,
            version: 1,
@@ -122,6 +125,20 @@ RSpec.describe AddValidityPeriodToJournals, type: :model do
            journable: work_package).reload
   end
 
+  # Comparing DateTime objects with a precision of 1 ms proves to be difficult.
+  # Attempting to just do DateTime.current - 0.001.seconds fails due to floating point inaccuracies.
+  RSpec::Matchers.define :be_x_ms_earlier_than do |reference_time, ms|
+    match do |time|
+      reference_time.strftime("%s%L").to_i - time.strftime("%s%L").to_i == ms
+    end
+
+    failure_message do |time|
+      "expected #{time.strftime('%Y-%m-%d %H:%M:%S.%N')} to be #{ms} ms " \
+        "before #{reference_time.strftime('%Y-%m-%d %H:%M:%S.%N')}, " \
+        "but has a difference of #{reference_time.strftime('%s%L').to_i - time.strftime('%s%L').to_i} ms"
+    end
+  end
+
   it "resets the overlapping journals", :aggregate_failures do # rubocop:disable RSpec/ExampleLength
     subject
 
@@ -133,51 +150,51 @@ RSpec.describe AddValidityPeriodToJournals, type: :model do
     sixth_journal.reload
     seventh_journal.reload
 
-    expect(initial_journal.created_at).to eql initial_journal_time
-    expect(initial_journal.updated_at).to eql initial_journal_time
-    expect(initial_journal.validity_period.begin).to eql initial_journal_time
-    expect(initial_journal.validity_period.end.strftime("%s%L").to_i).to eql second_journal_time.strftime("%s%L").to_i - 1
+    expect(initial_journal.created_at).to be_x_ms_earlier_than initial_journal_time, 0
+    expect(initial_journal.updated_at).to be_x_ms_earlier_than initial_journal_time, 0
+    expect(initial_journal.validity_period.begin).to be_x_ms_earlier_than initial_journal_time, 0
+    expect(initial_journal.validity_period.end).to be_x_ms_earlier_than second_journal_time, 1
 
-    expect(second_journal.created_at.strftime("%s%L").to_i).to eql third_journal_time.strftime("%s%L").to_i - 1
-    expect(second_journal.updated_at.strftime("%s%L").to_i).to eql third_journal_time.strftime("%s%L").to_i - 1
-    expect(second_journal.validity_period.begin.strftime("%s%L").to_i).to eql third_journal_time.strftime("%s%L").to_i - 1
-    expect(second_journal.validity_period.end.strftime("%s%L").to_i).to eql third_journal_time.strftime("%s%L").to_i
+    expect(second_journal.created_at).to be_x_ms_earlier_than third_journal_time, 1
+    expect(second_journal.updated_at).to be_x_ms_earlier_than third_journal_time, 1
+    expect(second_journal.validity_period.begin).to be_x_ms_earlier_than third_journal_time, 1
+    expect(second_journal.validity_period.end).to be_x_ms_earlier_than third_journal_time, 0
 
-    expect(third_journal.created_at.strftime("%s%L").to_i).to eql third_journal_time.strftime("%s%L").to_i
-    expect(third_journal.updated_at.strftime("%s%L").to_i).to eql third_journal_time.strftime("%s%L").to_i
-    expect(third_journal.validity_period.begin.strftime("%s%L").to_i).to eql third_journal_time.strftime("%s%L").to_i
+    expect(third_journal.created_at).to be_x_ms_earlier_than third_journal_time, 0
+    expect(third_journal.updated_at).to be_x_ms_earlier_than third_journal_time, 0
+    expect(third_journal.validity_period.begin).to be_x_ms_earlier_than third_journal_time, 0
     # Since the fourth journal had to be moved 3 times (by 3 ms in total) to avoid conflicts with its subsequent 3 journals,
     # the validity period ends at the old fourth journal time minus 3 ms.
-    expect(third_journal.validity_period.end.strftime("%s%L").to_i).to eql fourth_journal_time.strftime("%s%L").to_i - 3
+    expect(third_journal.validity_period.end).to be_x_ms_earlier_than fourth_journal_time, 3
 
     # The fourth journal had to be moved 3 times to avoid conflicts with its subsequent 3 journals.
     # All timestamps had to be moved by 1 ms each time.
-    expect(fourth_journal.created_at.strftime("%s%L").to_i).to eql fourth_journal_time.strftime("%s%L").to_i - 3
+    expect(fourth_journal.created_at).to be_x_ms_earlier_than fourth_journal_time, 3
     # This time is not updated at all. It already had a different time than the created_at.
     # It now overlaps with the fifth, sixth and seventh journal. This can happen and is okay.
     # It might e.g. be, that the comment on the journal was updated.
-    expect(fourth_journal.updated_at.strftime("%s%L").to_i).to eql fourth_journal_update_time.strftime("%s%L").to_i
-    expect(fourth_journal.validity_period.begin.strftime("%s%L").to_i).to eql fourth_journal_time.strftime("%s%L").to_i - 3
-    expect(fourth_journal.validity_period.end.strftime("%s%L").to_i).to eql fifth_journal_time.strftime("%s%L").to_i - 2
+    expect(fourth_journal.updated_at).to be_x_ms_earlier_than fourth_journal_update_time, 0
+    expect(fourth_journal.validity_period.begin).to be_x_ms_earlier_than fourth_journal_time, 3
+    expect(fourth_journal.validity_period.end).to be_x_ms_earlier_than fifth_journal_time, 2
 
     # The fifth journal had to be moved 2 times to avoid conflicts with its subsequent 2 journals.
     # All timestamps had to be moved by 1 ms each time.
-    expect(fifth_journal.created_at.strftime("%s%L").to_i).to eql fifth_journal_time.strftime("%s%L").to_i - 2
-    expect(fifth_journal.updated_at.strftime("%s%L").to_i).to eql fifth_journal_time.strftime("%s%L").to_i - 2
-    expect(fifth_journal.validity_period.begin.strftime("%s%L").to_i).to eql fifth_journal_time.strftime("%s%L").to_i - 2
-    expect(fifth_journal.validity_period.end.strftime("%s%L").to_i).to eql sixth_journal_time.strftime("%s%L").to_i - 1
+    expect(fifth_journal.created_at).to be_x_ms_earlier_than fifth_journal_time, 2
+    expect(fifth_journal.updated_at).to be_x_ms_earlier_than fifth_journal_time, 2
+    expect(fifth_journal.validity_period.begin).to be_x_ms_earlier_than fifth_journal_time, 2
+    expect(fifth_journal.validity_period.end).to be_x_ms_earlier_than sixth_journal_time, 1
 
     # The sixth journal had to be moved 1 times to avoid conflicts with its subsequent 1 journals.
     # All timestamps had to be moved by 1 ms.
-    expect(sixth_journal.created_at.strftime("%s%L").to_i).to eql sixth_journal_time.strftime("%s%L").to_i - 1
-    expect(sixth_journal.updated_at.strftime("%s%L").to_i).to eql sixth_journal_time.strftime("%s%L").to_i - 1
-    expect(sixth_journal.validity_period.begin.strftime("%s%L").to_i).to eql sixth_journal_time.strftime("%s%L").to_i - 1
-    expect(sixth_journal.validity_period.end.strftime("%s%L").to_i).to eql seventh_journal_time.strftime("%s%L").to_i
+    expect(sixth_journal.created_at).to be_x_ms_earlier_than sixth_journal_time, 1
+    expect(sixth_journal.updated_at).to be_x_ms_earlier_than sixth_journal_time, 1
+    expect(sixth_journal.validity_period.begin).to be_x_ms_earlier_than sixth_journal_time, 1
+    expect(sixth_journal.validity_period.end).to be_x_ms_earlier_than seventh_journal_time, 0
 
     # The seventh journal is the last in the list of conflicting journals so it itself had not to be moved.
-    expect(seventh_journal.created_at.strftime("%s%L").to_i).to eql seventh_journal_time.strftime("%s%L").to_i
-    expect(seventh_journal.updated_at.strftime("%s%L").to_i).to eql seventh_journal_time.strftime("%s%L").to_i
-    expect(seventh_journal.validity_period.begin.strftime("%s%L").to_i).to eql seventh_journal_time.strftime("%s%L").to_i
+    expect(seventh_journal.created_at).to be_x_ms_earlier_than seventh_journal_time, 0
+    expect(seventh_journal.updated_at).to be_x_ms_earlier_than seventh_journal_time, 0
+    expect(seventh_journal.validity_period.begin).to be_x_ms_earlier_than seventh_journal_time, 0
     # Since it is the currently last journal, it's range is open-ended.
     expect(seventh_journal.validity_period.end).to be_nil
   end
