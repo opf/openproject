@@ -277,7 +277,7 @@ RSpec.describe SortHelper do
                                           %w[name id description], {}, **options)
     end
 
-    let(:options) { { param: :json } }
+    let(:options) { { param: :json, sortable: true } }
     let(:sort_criteria) { SortHelper::SortCriteria.new }
 
     let(:action_menu) do
@@ -308,6 +308,16 @@ RSpec.describe SortHelper do
       sort_asc = action_menu.at_css("action-list .ActionListItem a[data-test-selector='id-sort-asc']")
       expect(sort_asc.at_css(".ActionListItem-label").text.strip).to eq("Sort ascending")
       expect(sort_asc["href"]).to eq("/projects?sortBy=%5B%5B%22id%22%2C%22asc%22%5D%5D")
+    end
+
+    context "with a column that is not sortable" do
+      let(:options) { { param: :json, sortable: false } }
+
+      it "does not show the sorting actions in the action-menu" do
+        expect(action_menu.at_css("action-list .ActionListItem a[data-test-selector='id-sort-desc']")).to be_nil
+
+        expect(action_menu.at_css("action-list .ActionListItem a[data-test-selector='id-sort-asc']")).to be_nil
+      end
     end
 
     it "shows an action to move columns left and right" do
