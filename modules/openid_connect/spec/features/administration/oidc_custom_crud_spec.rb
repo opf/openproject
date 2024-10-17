@@ -33,6 +33,7 @@ RSpec.describe "OIDC administration CRUD",
                :js,
                :with_cuprite do
   shared_let(:user) { create(:admin) }
+  let(:danger_zone) { DangerZone.new(page) }
 
   before do
     login_as(user)
@@ -107,11 +108,24 @@ RSpec.describe "OIDC administration CRUD",
       expect(provider.mapping_first_name).to eq "myName"
       expect(provider.mapping_last_name).to eq "myLastName"
 
-      accept_confirm do
-        click_link_or_button "Delete"
-      end
+      click_link_or_button "Delete"
+      # Confirm the deletion
+      # Without confirmation, the button is disabled
+      expect(danger_zone).to be_disabled
+
+      # With wrong confirmation, the button is disabled
+      danger_zone.confirm_with("foo")
+
+      expect(danger_zone).to be_disabled
+
+      # With correct confirmation, the button is enabled
+      # and the project can be deleted
+      danger_zone.confirm_with(provider.display_name)
+      expect(danger_zone).not_to be_disabled
+      danger_zone.danger_button.click
 
       expect(page).to have_text "No OpenID providers configured yet."
+      expect { provider.reload }.to raise_error ActiveRecord::RecordNotFound
     end
 
     it "can import metadata from URL", :webmock do
