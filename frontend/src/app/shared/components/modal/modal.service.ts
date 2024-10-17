@@ -30,7 +30,7 @@ import { ComponentType, PortalInjector } from '@angular/cdk/portal';
 import {
   Injectable,
   InjectionToken,
-  Injector,
+  Injector, Renderer2, RendererFactory2,
 } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
@@ -54,8 +54,11 @@ export class OpModalService {
 
   public activeModalData$ = new BehaviorSubject<ModalData|null>(null);
 
+  private bodyRenderer:Renderer2;
+
   constructor(
     private readonly injector:Injector,
+    private readonly rendererFactory:RendererFactory2,
   ) {
     // Listen to keystrokes on window to close context menus
     window.addEventListener('keydown', (evt:KeyboardEvent) => {
@@ -65,6 +68,8 @@ export class OpModalService {
 
       this.close();
     });
+
+    this.bodyRenderer = rendererFactory.createRenderer('body', null);
   }
 
   /**
@@ -77,6 +82,7 @@ export class OpModalService {
    * @param notFullscreen
    * @param mobileTopPosition
    * @param target An optional target override for the modal portal outlet
+   * @param anchor An optional HTML element that is fixed on opening the modal
    */
   public show<T extends OpModalComponent>(
     modal:ComponentType<T>,
@@ -85,6 +91,7 @@ export class OpModalService {
     notFullscreen = false,
     mobileTopPosition = false,
     target = PortalOutletTarget.Default,
+    anchor:HTMLElement|null = null,
   ):Observable<T> {
     this.close();
 
@@ -101,6 +108,8 @@ export class OpModalService {
       target,
     });
 
+    this.fixElementPosition(anchor);
+
     return this.activeModalInstance$
       .pipe(
         filter((m) => m instanceof modal),
@@ -111,8 +120,37 @@ export class OpModalService {
   /**
    * Closes currently open modal window
    */
-  public close():void {
+  public close(anchor:HTMLElement|null = null):void {
+    this.unfixElementPosition(anchor);
+
     this.activeModalData$.next(null);
+  }
+
+  private fixElementPosition(element:HTMLElement|null):void {
+    let anchor = document.body;
+
+    if (element !== null) {
+      anchor = element;
+    }
+
+    const scrollY:string = document.documentElement.style.getPropertyValue('--scroll-y');
+    this.bodyRenderer.setStyle(anchor, 'position', 'fixed');
+    this.bodyRenderer.setStyle(anchor, 'top', `-${scrollY}`);
+  }
+
+  private unfixElementPosition(element:HTMLElement|null):void {
+    let anchor = document.body;
+
+    if (element !== null) {
+      anchor = element;
+    }
+
+    const scrollY:string = anchor.style.top;
+
+    this.bodyRenderer.setStyle(anchor, 'position', '');
+    this.bodyRenderer.setStyle(anchor, 'top', '');
+
+    window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
   }
 
   /**
