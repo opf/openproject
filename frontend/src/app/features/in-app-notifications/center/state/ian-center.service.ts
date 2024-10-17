@@ -284,6 +284,8 @@ export class IanCenterService extends UntilDestroyedMixin {
    */
   @EffectCallback(notificationCountChanged)
   private handleChangedNotificationCount() {
+    if (!this.primerizedActivitiesEnabled) return;
+
     // update the UI state for increased AND decreased notifications, not only increased count
     // decreasing the notification count could happen when the user itself
     // marks notifications as read in the split view or on another tab
@@ -295,15 +297,13 @@ export class IanCenterService extends UntilDestroyedMixin {
         true,
       );
 
-      if (this.configurationService.activeFeatureFlags.includes('primerizedWorkPackageActivities')) {
-        // new concept for notification center:
-        if (hasNewNotifications) {
-          this.informAboutUnreadNotification();
-        }
-        // directly update the UI state in both cases (count increased or decreased)
-        this.store.update({ activeCollection: collection });
-        this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
+      // new concept for notification center:
+      if (hasNewNotifications) {
+        this.informAboutUnreadNotification();
       }
+      // directly update the UI state in both cases (count increased or decreased)
+      this.store.update({ activeCollection: collection });
+      this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
     });
     this.reload.next(false);
   }
@@ -313,13 +313,11 @@ export class IanCenterService extends UntilDestroyedMixin {
    */
   @EffectCallback(notificationCountIncreased)
   private checkForNewNotifications() {
-    this.onReload.pipe(take(1)).subscribe((collection) => {
-      // There is a new concept for primerized work package activities bound to notificationCountChanged
-      // See @EffectCallback(notificationCountChanged)
-      if (this.configurationService.activeFeatureFlags.includes('primerizedWorkPackageActivities')) {
-        return;
-      }
+    // There is a new concept for primerized work package activities bound to notificationCountChanged
+    // See @EffectCallback(notificationCountChanged)
+    if (this.primerizedActivitiesEnabled) return;
 
+    this.onReload.pipe(take(1)).subscribe((collection) => {
       const { activeCollection } = this.query.getValue();
       const hasNewNotifications = !collection.ids.reduce(
         (allInOldCollection, id) => allInOldCollection && activeCollection.ids.includes(id),
@@ -359,6 +357,10 @@ export class IanCenterService extends UntilDestroyedMixin {
       // notification center is not visible (as far as it can be determined - e.g. another browser tab is selected)
       this.showNotificationIndicatorInIcon();
     }
+  }
+
+  private get primerizedActivitiesEnabled():boolean {
+    return this.configurationService.activeFeatureFlags.includes('primerizedWorkPackageActivities');
   }
 
   private showNewNotificationToast():void {
