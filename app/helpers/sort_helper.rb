@@ -349,7 +349,8 @@ module SortHelper
     options[:title] = sort_header_title(column, caption, options)
 
     within_sort_header_tag_hierarchy(options, sort_class(column)) do
-      yield(column, caption, default_order, allowed_params:, param:, lang:, title: options[:title], data:)
+      yield(column, caption, default_order, allowed_params:, param:, lang:, title: options[:title],
+                                            sortable: options.fetch(:sortable, false), data:)
     end
   end
 
@@ -390,6 +391,7 @@ module SortHelper
     caption ||= column.to_s.humanize
 
     filter = find_filter_for_column(column, filter_column_mapping)
+    sortable = html_options.delete(:sortable)
 
     # `param` is not needed in the `content_arguments`, but should remain in the `html_options`.
     # It is important for keeping the current state in the GET parameters of each link used in
@@ -398,9 +400,9 @@ module SortHelper
 
     render Primer::Alpha::ActionMenu.new(menu_id: "menu-#{column}") do |menu|
       action_button(menu, caption)
-      sort_actions(menu, column, default_order, content_args:, allowed_params:, **html_options)
 
-      # Some columns do not offer a filter. Only show the option when filtering is possible.
+      # Some columns are not sortable or do not offer a suitable filter. Omit those actions for them.
+      sort_actions(menu, column, default_order, content_args:, allowed_params:, **html_options) if sortable
       filter_action(menu, column, filter, content_args:) if filter
 
       move_column_actions(menu, column, table_columns, content_args:, allowed_params:, **html_options)
@@ -439,10 +441,10 @@ module SortHelper
                                   href: asc_sort_link)) do |item|
       item.with_leading_visual_icon(icon: :"sort-asc")
     end
+    menu.with_divider
   end
 
   def filter_action(menu, column, filter, content_args:)
-    menu.with_divider
     menu.with_item(**menu_options(label: t(:label_filter_by),
                                   content_args: content_args.merge(
                                     data: {
@@ -453,13 +455,12 @@ module SortHelper
                                   ))) do |item|
       item.with_leading_visual_icon(icon: :filter)
     end
+    menu.with_divider
   end
 
   def move_column_actions(menu, column, selected_columns, content_args:, allowed_params: nil, **html_options)
     column_pos = selected_columns.index(column)
     return unless column_pos
-
-    menu.with_divider
 
     # Add left shift action if possible (i.e. current column is not the leftmost one)
     if column_pos > 0

@@ -31,10 +31,12 @@ module ProjectsHelper
 
   PROJECTS_QUERY_PARAM_NAMES = %i[query_id filters columns sortBy per_page page].freeze
   PROJECTS_FILTER_FOR_COLUMN_MAPPING = {
+    "description" => nil,
     "identifier" => nil,
     "name" => "id",
     "project_status" => "project_status_code",
-    "required_disk_space" => nil
+    "required_disk_space" => nil,
+    "status_explanation" => nil
   }.freeze
 
   # Just like sort_header tag but removes sorting by

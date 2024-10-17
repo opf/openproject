@@ -487,6 +487,11 @@ module Pages
         find(".generic-table--sort-header a[data-test-selector='#{column_name.downcase}-sort-#{direction}']").click
       end
 
+      def expect_no_sorting_option_in_action_menu(column_name)
+        expect(page).to have_no_css("[data-test-selector='#{column_name.downcase}-sort-asc']")
+        expect(page).to have_no_css("[data-test-selector='#{column_name.downcase}-sort-desc']")
+      end
+
       def move_column_via_action_menu(column_name, direction:)
         raise ArgumentError, "direction should be :left or :right" unless %i[left right].include?(direction)
 

@@ -1537,6 +1537,16 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       end
     end
 
+    describe "sorting a column",
+             with_settings: { enabled_projects_columns: %w[created_at name project_status description] } do
+      it "does not offer the sorting options for columns that are not sortable" do
+        projects_page.expect_columns_in_order("Created on", "Name", "Status", "Description")
+
+        projects_page.click_table_header_to_open_action_menu("Description")
+        projects_page.expect_no_sorting_option_in_action_menu("Description")
+      end
+    end
+
     describe "removing a column" do
       it "removes the column from the table view" do
         projects_page.expect_columns_in_order("Created on", "Name", "Status")

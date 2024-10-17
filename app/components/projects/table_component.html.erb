@@ -54,8 +54,6 @@ See COPYRIGHT and LICENSE files for more details.
                         </div>
                       </div>
                     </th>
-                  <% elsif sortable_column?(column) %>
-                    <%= build_sort_header column.attribute, order_options(column, turbo: true) %>
                   <% elsif column.attribute == :favored %>
                     <th>
                       <div class="generic-table--header-outer">
@@ -67,15 +65,7 @@ See COPYRIGHT and LICENSE files for more details.
                       </div>
                     </th>
                   <% else %>
-                    <th>
-                      <div class="generic-table--sort-header-outer">
-                        <div class="generic-table--sort-header">
-                          <span>
-                            <%= column.caption %>
-                          </span>
-                        </div>
-                      </div>
-                    </th>
+                    <%= quick_action_table_header column.attribute, order_options(column, turbo: true) %>
                   <% end %>
                 <% end %>
                 <th>
