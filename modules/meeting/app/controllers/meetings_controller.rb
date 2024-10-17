@@ -57,7 +57,9 @@ class MeetingsController < ApplicationController
   def index
     @query = load_query
     @meetings = load_meetings(@query)
-    render "index", locals: { menu_name: project_or_global_menu }
+
+    render "index",
+           locals: { menu_name: project_or_global_menu }
   end
 
   current_menu_item :index do
@@ -67,7 +69,11 @@ class MeetingsController < ApplicationController
   def show
     html_title "#{t(:label_meeting)}: #{@meeting.title}"
     if @meeting.is_a?(StructuredMeeting)
-      render(Meetings::ShowComponent.new(meeting: @meeting, project: @project))
+      respond_to do |format|
+        format.html do
+          render(Meetings::ShowComponent.new(meeting: @meeting, project: @project), layout: true)
+        end
+      end
     elsif @meeting.agenda.present? && @meeting.agenda.locked?
       params[:tab] ||= "minutes"
     end
