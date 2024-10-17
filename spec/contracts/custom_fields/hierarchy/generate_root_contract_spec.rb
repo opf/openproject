@@ -38,7 +38,7 @@ RSpec.describe CustomFields::Hierarchy::GenerateRootContract do
       let(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root: nil) }
 
       it "is valid" do
-        result = subject.call(hierarchy_root: custom_field.hierarchy_root)
+        result = subject.call(custom_field:)
         expect(result).to be_success
       end
     end
@@ -48,19 +48,17 @@ RSpec.describe CustomFields::Hierarchy::GenerateRootContract do
       let(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root:) }
 
       it "is invalid" do
-        result = subject.call(hierarchy_root: custom_field.hierarchy_root)
+        result = subject.call(custom_field:)
         expect(result).to be_failure
-        # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
-        expect(result.errors.to_h).to include(hierarchy_root: ["Hierarchical root already set"])
-        # rubocop:enable Rails/DeprecatedActiveModelErrorsMethods
+        expect(result.errors[:custom_field]).to match_array("cannot be defined")
       end
     end
 
     context "when inputs are valid" do
+      let(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root: nil) }
+
       it "creates a success result" do
-        [
-          { hierarchy_root: nil }
-        ].each { |params| expect(subject.call(params)).to be_success }
+        expect(subject.call(custom_field:)).to be_success
       end
     end
 

@@ -34,19 +34,13 @@ module CustomFields
       config.messages.backend = :i18n
 
       params do
-        required(:parent).filled
+        required(:parent).filled(type?: CustomField::Hierarchy::Item)
         required(:label).filled(:string)
         optional(:short).filled(:string)
       end
 
       rule(:parent) do
-        if value.is_a?(CustomField::Hierarchy::Item)
-          unless value.persisted?
-            key.failure("Parent must exist")
-          end
-        else
-          key.failure("Parent must be of type 'Item'")
-        end
+        key.failure("must exist") unless value.persisted?
       end
 
       rule(:label) do

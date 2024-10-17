@@ -43,7 +43,7 @@ class CustomField < ApplicationRecord
 
   has_one :hierarchy_root,
           class_name: "CustomField::Hierarchy::Item",
-          dependent: :delete, # todo: cascade into children with service
+          dependent: :destroy,
           inverse_of: "custom_field"
 
   acts_as_list scope: [:type]

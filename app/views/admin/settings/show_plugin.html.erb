@@ -27,7 +27,20 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-
 <% html_title t(:label_administration), @plugin.name %>
 
-<%= render partial: @partial, locals: {settings: @settings}%>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { @page_title }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                             *(@breadcrumb_elements if @breadcrumb_elements.present?),
+                             @page_title])
+  end
+%>
+
+<div id="settings">
+  <%= styled_form_tag({controller: '/admin/settings', action: 'update_plugin' }) do %>
+    <%= render partial: @partial, locals: {settings: @settings}%>
+    <%= styled_submit_tag t(:button_apply), class: '-primary' %>
+  <% end %>
+</div>

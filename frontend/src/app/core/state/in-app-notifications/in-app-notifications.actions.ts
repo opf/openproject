@@ -54,6 +54,11 @@ export const notificationCountIncreased = action(
   props<{ origin:string, count:number }>(),
 );
 
+export const notificationCountChanged = action(
+  '[IAN] The backend sent a notification count that was different to the last known',
+  props<{ origin:string, count:number }>(),
+);
+
 export const centerUpdatedInPlace = action(
   '[IAN] The notification center updated the notification list without a full page refresh',
   props<{ origin:string }>(),

@@ -1,0 +1,13 @@
+.work-packages-activities-tab-journals-index-component
+    &--journals-inner-container
+        z-index: 10
+    &--stem-connection
+        @media screen and (min-width: $breakpoint-xl)
+            position: absolute
+            z-index: 9
+            border-left: var(--borderWidth-thin, 1px) solid var(--borderColor-default)
+            margin-left: 19px
+            margin-top: 20px
+            height: 100vh
+        @media screen and (max-width: $breakpoint-xl)
+            display: none

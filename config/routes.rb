@@ -546,7 +546,7 @@ Rails.application.routes.draw do
       get "/", to: redirect("/admin/settings/general")
 
       # Plugin settings
-      get "plugin/:id", action: :show_plugin
+      get "plugin/:id", action: :show_plugin, as: :show_plugin
       post "plugin/:id", action: :update_plugin
     end
 
@@ -592,6 +592,17 @@ Rails.application.routes.draw do
     post "move" => "work_packages/moves#create", on: :collection, as: "move"
     # move individual wp
     resource :move, controller: "work_packages/moves", only: %i[new create]
+
+    resources :activities, controller: "work_packages/activities_tab", only: %i[index create edit update] do
+      member do
+        get :cancel_edit
+      end
+      collection do
+        get :update_streams
+        get :update_filter # filter not persisted
+        put :update_sorting # sorting is persisted
+      end
+    end
 
     resource :progress, only: %i[new edit update], controller: "work_packages/progress"
     collection do

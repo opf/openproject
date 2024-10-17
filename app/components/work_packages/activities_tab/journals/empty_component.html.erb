@@ -1,0 +1,11 @@
+<%=
+  component_wrapper do
+    render(Primer::Beta::Blankslate.new(
+      border: true, 
+      data: { test_selector: "op-wp-journals-container-empty"})) do |component|
+      component.with_visual_icon(icon: :pulse)
+      component.with_heading(tag: :h2).with_content(t("activities.work_packages.activity_tab.no_results_title_text"))
+      component.with_description { t("activities.work_packages.activity_tab.no_results_description_text") }
+    end
+  end
+%>

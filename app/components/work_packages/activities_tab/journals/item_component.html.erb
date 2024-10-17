@@ -1,0 +1,94 @@
+<%=
+  component_wrapper(data: wrapper_data_attributes, class: "work-packages-activities-tab-journals-item-component") do
+    flex_layout(data: { "test_selector": "op-wp-journal-entry-#{journal.id}" }) do |journal_container|
+      if show_comment_container?
+        journal_container.with_row do
+          render(border_box_container(
+            id: "activity-anchor-#{journal.version}",
+            padding: :condensed,
+            "aria-label": I18n.t("activities.work_packages.activity_tab.commented")
+          )) do |border_box_component|
+            border_box_component.with_header(px: 2, py: 1, data: { test_selector: "op-journal-notes-header" }) do
+              flex_layout(align_items: :center, justify_content: :space_between) do |header_container|
+                header_container.with_column(flex_layout: true, classes: "work-packages-activities-tab-journals-item-component--header-start-container ellipsis") do |header_start_container|
+                  header_start_container.with_column(mr: 2) do
+                    render Users::AvatarComponent.new(user: journal.user, show_name: false, size: :mini)
+                  end
+                  header_start_container.with_column(mr: 1, flex_layout: true, classes: "work-packages-activities-tab-journals-item-component--user-name-container hidden-for-desktop") do |user_name_container|
+                    user_name_container.with_row(classes: "work-packages-activities-tab-journals-item-component--user-name ellipsis") do
+                      truncated_user_name(journal.user)
+                    end
+                    user_name_container.with_row do
+                      render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) { format_time(journal.created_at) }
+                    end 
+                  end
+                  header_start_container.with_column(mr: 1, classes: "work-packages-activities-tab-journals-item-component--user-name ellipsis hidden-for-mobile") do
+                    truncated_user_name(journal.user)
+                  end
+                  header_start_container.with_column(mr: 1, classes: "hidden-for-mobile") do
+                    render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) { format_time(journal.updated_at) }
+                  end
+                end
+                header_container.with_column(flex_layout: true, align_items: :center) do |header_end_container|
+                  if has_unread_notifications?
+                    header_end_container.with_column(mr: 2, pt: 1) do
+                      render(Primer::Beta::Octicon.new(
+                        :"dot-fill",  # color is set via CSS as requested by UI/UX Team
+                        classes: "work-packages-activities-tab-journals-item-component--notification-dot-icon",
+                        size: :medium, 
+                        data: { test_selector: "op-journal-unread-notification", "op-ian-center-update-immediate": true }
+                      ))
+                    end
+                  end
+                  header_end_container.with_column do
+                    render(Primer::Beta::Link.new(
+                      href: "#",
+                      scheme: :secondary,
+                      underline: false, 
+                      font_size: :small,
+                      data: {
+                        turbo: false, 
+                        action: "click->work-packages--activities-tab--index#setAnchor:prevent", 
+                        "work-packages--activities-tab--index-id-param": journal.version  
+                      }
+                    )) do
+                      "##{journal.version}"
+                    end
+                  end
+                  header_end_container.with_column(ml: 1, classes: "work-packages-activities-tab-journals-item-component--action-menu") do
+                    render(Primer::Alpha::ActionMenu.new(data: { "test_selector": "op-wp-journal-#{journal.id}-action-menu" })) do |menu|
+                      menu.with_show_button(icon: "kebab-horizontal",
+                                            'aria-label': I18n.t(:button_actions),
+                                            scheme: :invisible)
+                      copy_url_action_item(menu)
+                      edit_action_item(menu) if allowed_to_edit?
+                      quote_action_item(menu) if journal.notes.present? && allowed_to_quote?
+                    end
+                  end
+                end
+              end
+            end
+            border_box_component.with_body(
+              classes: "work-packages-activities-tab-journals-item-component--journal-notes-body",
+              data: { "test_selector": "op-journal-notes-body" }
+            ) do
+              unless noop?
+                case state
+                when :show
+                  render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Show.new(journal:, filter:))
+                when :edit
+                  render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Edit.new(journal:, filter:))
+                end
+              else
+                render(Primer::Beta::Text.new(font_style: :italic, color: :subtle, mt: 1)) { I18n.t(:"journals.changes_retracted") }
+              end
+            end
+          end
+        end
+      end
+      journal_container.with_row do
+        render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Details.new(journal:, has_unread_notifications: notification_on_details?, filter:))
+      end
+    end
+  end
+%>
