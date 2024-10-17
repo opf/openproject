@@ -44,6 +44,7 @@ module OpenIDConnect
         "client_id" => options["identifier"],
         "client_secret" => options["secret"],
         "issuer" => options["issuer"],
+        "host" => options["host"],
         "claims" => options["claims"],
         "tenant" => options["tenant"],
         "limit_self_registration" => options["limit_self_registration"],
