@@ -2,154 +2,154 @@ fa:
   activemodel:
     attributes:
       saml/provider:
-        display_name: Name
-        identifier: Identifier
-        secret: Secret
-        scope: Scope
-        assertion_consumer_service_url: ACS (Assertion consumer service) URL
-        limit_self_registration: Limit self registration
-        sp_entity_id: Service entity ID
-        metadata_url: Identity provider metadata URL
-        name_identifier_format: Name identifier format
-        idp_sso_service_url: Identity provider login endpoint
-        idp_slo_service_url: Identity provider logout endpoint
-        idp_cert: Public certificate of identity provider
-        authn_requests_signed: Sign SAML AuthnRequests
-        want_assertions_signed: Require signed responses
-        want_assertions_encrypted: Require encrypted responses
-        certificate: Certificate used by OpenProject for SAML requests
-        private_key: Corresponding private key for OpenProject SAML requests
-        signature_method: Signature algorithm
-        digest_method: Digest algorithm
-        format: "Format"
-        icon: "Custom icon"
+        display_name: نام
+        identifier: شناسه
+        secret: مخفی
+        scope: حوزه
+        assertion_consumer_service_url: آدرس ACS(سرویس احراز هویت سخت افزاری)
+        limit_self_registration: محدودیت ثبت
+        sp_entity_id: شناسه سرویس
+        metadata_url: آدرس فراداده سرور احراز هویت
+        name_identifier_format: قالب متغیر نام
+        idp_sso_service_url: مسیر ورود سرور احراز هویت
+        idp_slo_service_url: مسیر خروج سرور احراز هویت
+        idp_cert: مدرک عمومی سرور احراز هویت
+        authn_requests_signed: امضای سخت افزاری درخواست احراز هویت
+        want_assertions_signed: نیاز به پاسخ های دارای امضا
+        want_assertions_encrypted: نیاز به پاسخ رمزنگاری شده
+        certificate: مدرک استفاده شده توسط OpenProject درخواست های احراز هویت سخت افزاری
+        private_key: کلید خصوصی مرتبط به احراز هویت های سخت افزاری
+        signature_method: الگوریتم امضا
+        digest_method: الگوریتم خلاصه سازی در رمزنگاری
+        format: "قالب"
+        icon: "نماد دلخواه"
   activerecord:
     errors:
       models:
         saml/provider:
-          invalid_certificate: "is not a valid PEM-formatted certificate: %{additional_message}"
-          invalid_private_key: "is not a valid PEM-formatted private key: %{additional_message}"
-          certificate_expired: "is expired and can no longer be used."
-          unmatched_private_key: "does not belong to the given certificate"
+          invalid_certificate: "گواهی معتبر با قالب PEM نیست: %{additional_message}"
+          invalid_private_key: "یک کلید خصوصی با قالب PEM معتبر نیست: %{additional_message}"
+          certificate_expired: "منقضی شده و قابل استفاده نیست."
+          unmatched_private_key: "متعلق به مدرک ارائه شده نیست"
   saml:
-    menu_title: SAML providers
+    menu_title: ارائه دهندگان سخت افزاری
     info:
-      title: "SAML Protocol Configuration Parameters"
+      title: "پارامترهای پیکربندی پروتکل احراز هویت سخت افزاری"
       description: >
-        Use these parameters to configure your identity provider connection to OpenProject.
+        جهت پیکربندی ابزار احراز هویت سخت افزاری از این پارامترها استفاده نمایید.
     metadata_parser:
-      success: "Successfully updated the configuration using the identity provider metadata."
-      invalid_url: "Provided metadata URL is invalid. Provide a HTTP(s) URL."
-      error: "Failed to retrieve the identity provider metadata: %{error}"
+      success: "ارتقای تنظیمات بوسیله فراداده سرویس احراز هویت با موفقیت انجام شد."
+      invalid_url: "مسیر فراداده صحیح نیست. لطفا آدرس صحیح HTTP(S) ارائه دهید."
+      error: "فراداده ارائه دهنده هویت بازیابی نشد: %{error}"
     providers:
-      label_empty_title: "No SAML providers configured yet."
-      label_empty_description: "Add a provider to see them here."
-      label_automatic_configuration: Automatic configuration
-      label_metadata: Metadata
-      label_metadata_endpoint: OpenProject metadata endpoint
-      label_openproject_information: OpenProject information
-      label_configuration_details: "Identity provider endpoints and certificates"
-      label_configuration_encryption: "Signatures and Encryption"
-      label_add_new: New SAML identity provider
-      label_edit: Edit SAML identity provider %{name}
-      label_uid: Internal user id
-      label_mapping: Mapping
-      label_mapping_for: "Mapping for: %{attribute}"
-      label_requested_attribute_for: "Requested attribute for: %{attribute}"
-      no_results_table: No SAML identity providers have been defined yet.
-      plural: SAML identity providers
-      singular: SAML identity provider
-      requested_attributes: Requested attributes
-      attribute_mapping: Attribute mapping
+      label_empty_title: "هیچ سخت‌افزار احراز هویتی پیکربندی نشده است."
+      label_empty_description: "یک ارائه دهنده اضافه کنید تا آن را در اینجا ببینید."
+      label_automatic_configuration: پیکربندی خودکار
+      label_metadata: فراداده
+      label_metadata_endpoint: مسیر فراداده OpenProject
+      label_openproject_information: اطلاعات OpenProject
+      label_configuration_details: "آدرس ها و مدارک سرویس احراز هویت"
+      label_configuration_encryption: "امضا ها و رمزنگاری ها"
+      label_add_new: سخت‌افزار احراز هویت جدید
+      label_edit: ویرایش ارائه دهنده احراز هویت سخت افزاری %{name}
+      label_uid: شناسه کاربری داخلی
+      label_mapping: نگاشت
+      label_mapping_for: "نگاشت مرتبط با: %{attribute}"
+      label_requested_attribute_for: "ویژگی درخواست شده برای: %{attribute}"
+      no_results_table: هیچ ارائه دهنده سخت‌افزار احراز هویتی تعریف نشده است.
+      plural: ارائه دهنده های سخت‌افزار احراز هویت
+      singular: ارائه دهنده سخت‌افزار احراز هویت
+      requested_attributes: ویژگی های درخواست شده
+      attribute_mapping: نگاشت ویژگی ها
       attribute_mapping_text: >
-        The following fields control which attributes provided by the SAML identity provider are used to provide user attributes in OpenProject
+        فیلدهای زیر کنترل می کنند که کدام ویژگی های ارائه شده توسط ارائه دهنده هویت SAML برای ارائه ویژگی های کاربر در OpenProject استفاده می شود
       metadata:
-        dialog: "This is the URL where the OpenProject SAML metadata is available. Optionally use it to configure your identity provider:"
+        dialog: "این نشانی اینترنتی است که فراداده SAML OpenProject در آن موجود است. به صورت اختیاری از آن برای پیکربندی ارائه دهنده هویت خود استفاده کنید:"
       upsale:
-        description: Connect OpenProject to a SAML identity provider
+        description: OpenProject را به یک ارائه دهنده هویت SAML متصل کنید
       request_attributes:
-        title: 'Requested attributes'
+        title: 'ویژگی های درخواستی'
         legend: >
-          These attributes are added to the SAML XML metadata to signify to the identify provider which attributes OpenProject requires. You may still need to explicitly configure your identity provider to send these attributes. Please refer to your IdP's documentation.
-        name: 'Requested attribute key'
-        format: 'Attribute format'
+          این ویژگی‌ها به فراداده SAML XML اضافه می‌شوند تا به ارائه‌دهنده شناسایی مشخص کنند که OpenProject به کدام ویژگی‌ها نیاز دارد. ممکن است همچنان نیاز باشد که ارائه دهنده هویت خود را برای ارسال این ویژگی ها به صراحت پیکربندی کنید. لطفاً به اسناد IdP خود مراجعه کنید.
+        name: 'کلید ویژگی های درخواستی'
+        format: 'قالب ویژگی'
       section_headers:
-        configuration: "Primary configuration"
-        attributes: "Attributes"
+        configuration: "پیکربندی اصلی"
+        attributes: "ویژگی ها"
       section_texts:
-        display_name: "Configure the display name of the SAML provider."
-        metadata: "Pre-fill configuration using a metadata URL or by pasting metadata XML"
-        metadata_form: "If your identity provider has a metadata endpoint or XML download, add it below to pre-fill the configuration."
-        metadata_form_banner: "Editing the metadata may override existing values in other sections. "
-        configuration: "Configure the endpoint URLs for the identity provider, certificates, and further SAML options."
-        configuration_metadata: "This information has been pre-filled using the supplied metadata. In most cases, they do not require editing."
-        encryption: "Configure assertion signatures and encryption for SAML requests and responses."
-        encryption_form: "You may optionally want to encrypt the assertion response, or have requests from OpenProject signed."
-        mapping: "Manually adjust the mapping between the SAML response and user attributes in OpenProject."
-        requested_attributes: "Define the set of attributes to be requested in the SAML request sent to your identity provider."
-      seeded_from_env: "This provider was seeded from the environment configuration. It cannot be edited."
+        display_name: "نام نمایشی ارائه دهنده SAML را پیکربندی کنید."
+        metadata: "با استفاده از URL فراداده یا با چسباندن XML فراداده، پیکربندی را از قبل پر کنید"
+        metadata_form: "اگر ارائه‌دهنده هویت شما یک نقطه پایانی فراداده یا دانلود XML دارد، آن را در زیر اضافه کنید تا پیکربندی را از قبل تکمیل کنید."
+        metadata_form_banner: "ویرایش ابرداده ممکن است مقادیر موجود در بخش‌های دیگر را لغو کند."
+        configuration: "URL های نقطه پایانی را برای ارائه دهنده هویت، گواهی ها و گزینه های SAML دیگر پیکربندی کنید."
+        configuration_metadata: "این اطلاعات با استفاده از ابرداده ارائه شده از قبل پر شده است. در بیشتر موارد، آنها نیازی به ویرایش ندارند."
+        encryption: "امضاهای ادعا و رمزگذاری را برای درخواست ها و پاسخ های SAML پیکربندی کنید."
+        encryption_form: "ممکن است به صورت اختیاری بخواهید پاسخ ادعا را رمزگذاری کنید، یا درخواست های OpenProject را امضا کنید."
+        mapping: "نگاشت بین پاسخ SAML و ویژگی های کاربر در OpenProject را به صورت دستی تنظیم کنید."
+        requested_attributes: "مجموعه ای از ویژگی هایی که در درخواست SAML ارسال شده به ارائه دهنده هویت شما درخواست می شود را تعریف کنید."
+      seeded_from_env: "این ارائه دهنده از پیکربندی محیط استخراج شده است. قابل ویرایش نیست."
     settings:
-      metadata_none: "I don't have metadata"
-      metadata_url: "Metadata URL"
-      metadata_xml: "Metadata XML"
+      metadata_none: "من فراداده ندارم"
+      metadata_url: "آدرس فراداده"
+      metadata_xml: "XML فراداده"
     instructions:
       documentation_link: >
-        Please refer to our [documentation on configuring SAML providers](docs_url) for more information on these configuration options.
+        لطفاً برای اطلاعات بیشتر در مورد این گزینه های پیکربندی به [اسناد مربوط به پیکربندی ارائه دهندگان SAML] (docs_url) ما مراجعه کنید.
       display_name: >
-        The name of the provider. This will be displayed as the login button and in the list of providers.
+        نام ارائه دهنده. این به عنوان دکمه ورود به سیستم و در لیست ارائه دهندگان نمایش داده می شود.
       metadata_none: >
-        Your identity provider does not have a metadata endpoint or XML download option. You can configure it manually.
+        ارائه‌دهنده هویت شما نقطه پایانی فراداده یا گزینه دانلود XML ندارد. می توانید آن را به صورت دستی پیکربندی کنید.
       metadata_url: >
-        Your identity provider provides a metadata URL.
+        ارائه دهنده هویت شما یک URL فراداده ارائه می دهد.
       metadata_xml: >
-        Your identity provider provides a metadata XML download.
+        ارائه دهنده هویت شما یک دانلود XML فراداده ارائه می دهد.
       limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+        در صورت فعال بودن، کاربران تنها در صورتی می توانند با استفاده از این ارائه دهنده ثبت نام کنند که تنظیمات ثبت نام خود اجازه می دهد.
       sp_entity_id: >
-        The entity ID of the service provider (SP). Sometimes also referred to as Audience. This is the unique client identifier of the OpenProject instance.
+        شناسه نهاد ارائه دهنده خدمات (SP). گاهی اوقات به عنوان مخاطب نیز شناخته می شود. این شناسه مشتری منحصر به فرد نمونه OpenProject است.
       idp_sso_service_url: >
-        The URL of the identity provider login endpoint.
+        آدرس سرور ارائه دهنده احراز هویت.
       idp_slo_service_url: >
-        The URL of the identity provider login endpoint.
+        آدرس سرور ارائه دهنده احراز هویت.
       idp_cert: >
-        Enter the X509 PEM-formatted public certificate of the identity provider. You can enter multiple certificates by separating them with a newline.
+        گواهی عمومی ارائه دهنده هویت با قالب X509 PEM را وارد کنید. می توانید چندین گواهی را با جدا کردن آنها با یک خط جدید وارد کنید.
       name_identifier_format: >
-        Set the name identifier format to be used for the SAML assertion.
+        قالب شناسه نام را برای استفاده برای ادعای SAML تنظیم کنید.
       sp_metadata_endpoint: >
-        This is the URL where the OpenProject SAML metadata is available. Optionally use it to configure your identity provider.
+        این نشانی اینترنتی است که فراداده SAML OpenProject در آن موجود است. به صورت اختیاری از آن برای پیکربندی ارائه دهنده هویت خود استفاده کنید.
       mapping: >
-        Configure the mapping between the SAML response and user attributes in OpenProject. You can configure multiple attribute names to look for. OpenProject will choose the first available attribute from the SAML response.
+        نگاشت بین پاسخ SAML و ویژگی های کاربر را در OpenProject پیکربندی کنید. شما می توانید چندین نام ویژگی را برای جستجو پیکربندی کنید. OpenProject اولین ویژگی موجود را از پاسخ SAML انتخاب می کند.
       mapping_login: >
-        SAML attributes from the response used for the login.
+        ویژگی های SAML از پاسخ مورد استفاده برای ورود به سیستم.
       mapping_mail: >
-        SAML attributes from the response used for the email of the user.
+        ویژگی های SAML از پاسخ استفاده شده برای ایمیل کاربر.
       mapping_firstname: >
-        SAML attributes from the response used for the given name.
+        ویژگی های SAML از پاسخ استفاده شده برای نام وارد شده.
       mapping_lastname: >
-        SAML attributes from the response used for the last name.
+        ویژگی های SAML از پاسخ استفاده شده برای نام خانوادگی وارد شده.
       mapping_uid: >
-        SAML attribute to use for the internal user ID. Leave empty to use the name_id attribute instead
+        ویژگی AML برای استفاده از شناسه کاربری داخلی. برای استفاده از ویژگی name_id به جای آن، خالی بگذارید
       request_uid: >
-        SAML attribute to request for the internal user ID. By default, the name_id will be used for this field.
+        ویژگی SAML برای درخواست شناسه کاربری داخلی. به طور پیش فرض، name_id برای این فیلد استفاده خواهد شد.
       requested_attributes: >
-        These attributes are added to the SAML request XML to communicate to the identity provider which attributes OpenProject requires.
+        این ویژگی‌ها به درخواست SAML XML اضافه می‌شوند تا با ارائه‌دهنده هویت که ویژگی‌هایی را که OpenProject نیاز دارد، ارتباط برقرار کند.
       requested_format: >
-        The format of the requested attribute. This is used to specify the format of the attribute in the SAML request. Please see [documentation on configuring requested attributes](docs_url) for more information.
+        قالب ویژگی درخواستی این برای تعیین فرمت ویژگی در درخواست SAML استفاده می شود. لطفاً برای اطلاعات بیشتر به [مستندات مربوط به پیکربندی ویژگی‌های درخواستی] (docs_url) مراجعه کنید.
       authn_requests_signed: >
-        If checked, OpenProject will sign the SAML AuthnRequest. You will have to provide a signing certificate and private key using the fields below.
+        اگر علامت زده شود، OpenProject SAML AuthnRequest را امضا خواهد کرد. باید گواهی امضا و کلید خصوصی را با استفاده از فیلدهای زیر ارائه دهید.
       want_assertions_signed: >
-        If checked, OpenProject will required signed responses from the identity provider using it's own certificate keypair. OpenProject will verify the signature against the certificate from the basic configuration section.
+        اگر علامت زده شود، OpenProject به پاسخ‌های امضا شده از ارائه‌دهنده هویت با استفاده از جفت کلید گواهی خود نیاز دارد. OpenProject امضای گواهی را از قسمت تنظیمات اولیه تأیید می کند.
       want_assertions_encrypted: >
-        If enabled, require the identity provider to encrypt the assertion response using the certificate pair that you provide.
+        در صورت فعال بودن، از ارائه‌دهنده هویت بخواهید که پاسخ ادعا را با استفاده از جفت گواهی ارائه شده رمزگذاری کند.
       certificate: >
-        Enter the X509 PEM-formatted certificate used by OpenProject for signing SAML requests.
+        گواهی X509 با قالب PEM را که توسط OpenProject برای امضای درخواست های SAML استفاده می شود، وارد کنید.
       private_key: >
-        Enter the X509 PEM-formatted private key for the above certificate. This needs to be an RSA private key.
+        کلید خصوصی با فرمت PEM X509 را برای گواهی فوق وارد کنید. این باید یک کلید خصوصی RSA باشد.
       signature_method: >
-        Select the signature algorithm to use for the SAML request signature performed by OpenProject (Default: %{default_option}).
+        الگوریتم امضا را برای استفاده برای امضای درخواست SAML که توسط OpenProject انجام می شود انتخاب کنید (پیش فرض: %{default_option}).
       digest_method: >
-        Select the digest algorithm to use for the SAML request signature performed by OpenProject (Default: %{default_option}).
+        الگوریتم خلاصه را برای استفاده برای امضای درخواست SAML انجام شده توسط OpenProject انتخاب کنید (پیش‌فرض: %{default_option}).
       icon: >
-        Optionally provide a public URL to an icon graphic that will be displayed next to the provider name.
+        به صورت اختیاری یک URL عمومی برای یک نماد گرافیکی ارائه کنید که در کنار نام ارائه دهنده نمایش داده می شود.
       metadata_for_idp: >
-        This information might be requested by your SAML identity provider.
+        این اطلاعات ممکن است توسط ارائه دهنده هویت SAML شما درخواست شود.
