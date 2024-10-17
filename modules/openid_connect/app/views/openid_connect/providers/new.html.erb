@@ -10,16 +10,4 @@
   end
 %>
 
-<%= error_messages_for @provider %>
-
-<% content_controller 'admin--openid-connect-providers',
-                      dynamic: true %>
-
-<%= labelled_tabular_form_for @provider,
-                              html: { class: 'form', autocomplete: 'off' } do |f| %>
-  <%= render partial: "form", locals: { f: f } %>
-  <p>
-    <%= styled_button_tag t(:button_create), class: '-primary -with-icon icon-checkmark' %>
-    <%= link_to t(:button_cancel), { action: :index }, class: 'button -with-icon icon-cancel' %>
-  </p>
-<% end %>
+<%= render(OpenIDConnect::Providers::ViewComponent.new(@provider, edit_mode: true, edit_state: :name)) %>

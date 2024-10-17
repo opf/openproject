@@ -58,6 +58,27 @@ See COPYRIGHT and LICENSE files for more details.
     </fieldset>
 
     <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t(:'settings.authentication.single_sign_on') %></legend>
+      <div class="form--field">
+        <% providers = AuthProvider
+          .where(available: true)
+          .order("lower(display_name) ASC")
+          .select(:type, :display_name, :slug)
+          .to_a
+          .map { |p| ["#{p.display_name} (#{p.human_type})", p.slug] }
+        %>
+        <%= setting_select :omniauth_direct_login_provider,
+                           [[t(:label_disabled), ""]] + providers,
+                           container_class: '-middle' %>
+        <span class="form--field-instructions">
+          <%= t("settings.authentication.omniauth_direct_login_hint_html",
+                internal_path: internal_signin_url) %>
+        </span>
+      </div>
+    </fieldset>
+
+
+    <fieldset class="form--fieldset">
       <fieldset id="registration_footer" class="form--fieldset">
         <legend class="form--fieldset-legend"><%= I18n.t(:setting_registration_footer) %></legend>
         <%= render Settings::TextSettingComponent.new(I18n.locale, name: "registration_footer") %>

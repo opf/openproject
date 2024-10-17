@@ -33,6 +33,7 @@ RSpec.describe "OpenID Google provider callback", with_ee: %i[sso_auth_providers
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
+  let(:provider) { create(:oidc_provider_google, limit_self_registration: false) }
   let(:auth_hash) do
     { "state" => "623960f1b4f1020941387659f022497f536ad3c95fa7e53b0f03bdbf36debd59f76320801ea2723df520",
       "code" => "4/0AVHEtk6HMPLH08Uw8OVoSaAbd2oTi7Z6wOlBsMQ99Yj3qgKhhyKAxUQBvQ2MZuRzvueOgQ",
@@ -41,7 +42,7 @@ RSpec.describe "OpenID Google provider callback", with_ee: %i[sso_auth_providers
       "prompt" => "none" }
   end
   let(:uri) do
-    uri = URI("/auth/google/callback")
+    uri = URI("/auth/#{provider.slug}/callback")
     uri.query = URI.encode_www_form([["code", auth_hash["code"]],
                                      ["state", auth_hash["state"]],
                                      ["scope", auth_hash["scope"]],
@@ -51,14 +52,7 @@ RSpec.describe "OpenID Google provider callback", with_ee: %i[sso_auth_providers
   end
 
   before do
-    # enable self registration for Google which is limited by default
-    expect(OpenProject::Plugins::AuthPlugin)
-      .to receive(:limit_self_registration?)
-      .with(provider: "google")
-      .twice
-      .and_return false
-
-    stub_request(:post, "https://accounts.google.com/o/oauth2/token").to_return(
+    stub_request(:post, "https://oauth2.googleapis.com/token").to_return(
       status: 200,
       body: {
         "access_token" =>
@@ -72,7 +66,7 @@ RSpec.describe "OpenID Google provider callback", with_ee: %i[sso_auth_providers
       }.to_json,
       headers: { "content-type" => "application/json; charset=utf-8" }
     )
-    stub_request(:get, Addressable::Template.new("https://www.googleapis.com/oauth2/v3/userinfo{?alt}")).to_return(
+    stub_request(:get, "https://openidconnect.googleapis.com/v1/userinfo").to_return(
       status: 200,
       body: { "sub" => "107403511037921355307",
               "name" => "Firstname Lastname",
@@ -86,16 +80,14 @@ RSpec.describe "OpenID Google provider callback", with_ee: %i[sso_auth_providers
     )
 
     allow_any_instance_of(OmniAuth::Strategies::OpenIDConnect).to receive(:session) {
-      { "omniauth.state" => auth_hash["state"] }
+      {
+        "omniauth.state" => auth_hash["state"]
+      }
     }
   end
 
-  it "redirects user without errors", :webmock, with_settings: {
-    plugin_openproject_openid_connect: {
-      "providers" => { "google" => { "identifier" => "identifier", "secret" => "secret" } }
-    }
-  } do
-    response = get uri.to_s
+  it "redirects user without errors", :webmock do
+    response = get(uri.to_s)
     expect(response).to have_http_status(:found)
     expect(response.location).to eq("http://#{Setting.host_name}/two_factor_authentication/request")
   end

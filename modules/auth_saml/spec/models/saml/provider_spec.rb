@@ -281,4 +281,16 @@ RSpec.describe Saml::Provider do
       it { is_expected.to be false }
     end
   end
+
+  describe "#destroy" do
+    let(:provider) { create(:saml_provider) }
+
+    it "unsets the setting" do
+      Setting.omniauth_direct_login_provider = provider.slug
+
+      provider.destroy!
+
+      expect(Setting.omniauth_direct_login_provider).to be_blank
+    end
+  end
 end
