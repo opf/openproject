@@ -76,9 +76,7 @@ import { DynamicContentModalComponent } from 'core-app/shared/components/modals/
 import {
   PasswordConfirmationModalComponent,
 } from 'core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal';
-import {
-  HoverCardComponent,
-} from 'core-app/shared/components/modals/preview-modal/hover-card-modal/hover-card.modal';
+import { HoverCardComponent } from 'core-app/shared/components/modals/preview-modal/hover-card-modal/hover-card.modal';
 import {
   OpHeaderProjectSelectComponent,
 } from 'core-app/shared/components/header-project-select/header-project-select.component';
@@ -449,7 +447,6 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-remote-field-updater', RemoteFieldUpdaterComponent, { injector });
     registerCustomElement('opce-modal-single-date-picker', OpModalSingleDatePickerComponent, { injector });
     registerCustomElement('opce-basic-single-date-picker', OpBasicSingleDatePickerComponent, { injector });
-    registerCustomElement('opce-storage-login-button', StorageLoginButtonComponent, { injector });
     registerCustomElement('opce-spot-drop-modal-portal', SpotDropModalPortalComponent, { injector });
     registerCustomElement('opce-spot-switch', SpotSwitchComponent, { injector });
     registerCustomElement('opce-modal-overlay', OpModalOverlayComponent, { injector });
