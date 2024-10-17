@@ -39,7 +39,7 @@ import {
   markNotificationsAsRead,
   notificationCountIncreased,
   notificationCountChanged,
-  notificationsMarkedRead
+  notificationsMarkedRead,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { EffectCallback, EffectHandler } from 'core-app/core/state/effects/effect-handler.decorator';
