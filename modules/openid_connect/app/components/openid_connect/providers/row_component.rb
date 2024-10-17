@@ -45,7 +45,7 @@ module OpenIDConnect
       end
 
       def users
-        User.where("identity_url LIKE ?", "#{provider.slug}%").count.to_s
+        provider.user_count.to_s
       end
 
       def creator
