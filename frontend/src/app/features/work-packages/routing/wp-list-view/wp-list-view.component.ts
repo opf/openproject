@@ -202,7 +202,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     if (event.requestedState === 'split') {
       this.keepTab.goCurrentDetailsState(params);
     } else {
-      this.keepTab.goCurrentShowState(params);
+      this.keepTab.goCurrentShowState(params.workPackageId);
     }
   }
 

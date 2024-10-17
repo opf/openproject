@@ -256,6 +256,14 @@ export class PathHelperService {
     return `${this.staticBase}/work_packages/${id}`;
   }
 
+  public genericWorkPackagePath(projectIdentifier:string|null, workPackageId:string|number, tab = 'activity') {
+    if (projectIdentifier) {
+      return `${this.projectWorkPackagePath(projectIdentifier, workPackageId)}/${tab}`;
+    }
+
+    return `${this.workPackagePath(workPackageId)}/${tab}`;
+  }
+
   public workPackageShortPath(id:string|number) {
     return `${this.staticBase}/wp/${id}`;
   }

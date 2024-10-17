@@ -70,7 +70,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Directive()
 export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
-  // TODO
+  // TODO: Get variable from angular routes
   @Input() workPackageId:string;
 
   @Input() activeTab:string = 'activity';
