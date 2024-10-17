@@ -76,8 +76,6 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   selectedWorkPackage$ = this.storeService.selectedWorkPackage$;
 
-  handleVisibilityChangeBound:EventListener;
-
   reasonMenuItems = [
     {
       key: 'mentioned',
