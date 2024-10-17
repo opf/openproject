@@ -31,29 +31,15 @@
 module Admin
   module CustomFields
     module Hierarchy
-      class ItemComponent < ApplicationComponent
+      class DeleteItemDialogComponent < ApplicationComponent
         include OpTurbo::Streamable
-        include OpPrimer::ComponentHelpers
+
+        DIALOG_ID = "op-hierarchy-item--deletion-confirmation"
 
         def initialize(custom_field:, hierarchy_item:)
           super
           @custom_field = custom_field
           @hierarchy_item = hierarchy_item
-        end
-
-        def short_text
-          "(#{@hierarchy_item.short})"
-        end
-
-        def deletion_action_item(menu)
-          menu.with_item(label: I18n.t(:button_delete),
-                         scheme: :danger,
-                         tag: :a,
-                         href: deletion_dialog_custom_field_item_path(custom_field_id: @custom_field.id,
-                                                                      id: @hierarchy_item.id),
-                         content_arguments: { data: { controller: "async-dialog" } }) do |item|
-            item.with_leading_visual_icon(icon: :trash)
-          end
         end
       end
     end

@@ -248,7 +248,7 @@ en:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
