@@ -42,6 +42,10 @@ class AuthProvider < ApplicationRecord
     @user_count ||= User.where("identity_url LIKE ?", "#{slug}%").count
   end
 
+  def human_type
+    raise NotImplementedError
+  end
+
   def auth_url
     root_url = OpenProject::StaticRouting::StaticUrlHelpers.new.root_url
     URI.join(root_url, "auth/#{slug}/").to_s
