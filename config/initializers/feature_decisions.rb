@@ -38,6 +38,8 @@ require_relative "../../lib_static/open_project/feature_decisions"
 #   initializer 'the_engine.feature_decisions' do
 #     OpenProject::FeatureDecisions.add :some_flag
 #   end
+
+OpenProject::FeatureDecisions.add :primerized_work_package_activities
 OpenProject::FeatureDecisions.add :built_in_oauth_applications,
                                   description: "Allows the display and use of built-in OAuth applications."
 

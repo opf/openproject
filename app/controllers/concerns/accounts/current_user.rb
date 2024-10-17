@@ -181,7 +181,7 @@ module Accounts::CurrentUser
 
         auth_header = OpenProject::Authentication::WWWAuthenticate.response_header(request_headers: request.headers)
 
-        format.any(:xml, :js, :json) do
+        format.any(:xml, :js, :json, :turbo_stream) do
           head :unauthorized,
                "X-Reason" => "login needed",
                "WWW-Authenticate" => auth_header

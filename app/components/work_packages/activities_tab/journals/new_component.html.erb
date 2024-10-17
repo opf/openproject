@@ -1,0 +1,72 @@
+<%=
+  component_wrapper(class: "work-packages-activities-tab-journals-new-component") do
+    flex_layout(my: 2, data: { test_selector: "op-work-package-journal-form" }) do |new_form_container|
+      new_form_container.with_row(
+        display: button_row_display_value,
+        data: { 
+          "work-packages--activities-tab--index-target": "buttonRow"
+        }) do
+        flex_layout(justify_content: :space_between) do |button_row|
+          button_row.with_column(classes: "work-packages-activities-tab-journals-new-component--input-trigger-column", mr: 2) do
+            render(Primer::Beta::Button.new(
+                text_align: :left,
+                scheme: :default,
+                size: :medium,
+                block: true,
+                data: {
+                  "action": "click->work-packages--activities-tab--index#showForm dragover->work-packages--activities-tab--index#showForm",
+                  "test_selector": "op-open-work-package-journal-form-trigger"
+                }
+              )) do
+              render(Primer::Beta::Text.new(color: :muted, font_weight: :normal)) { t("activities.work_packages.activity_tab.label_type_to_comment") }
+            end
+          end
+          button_row.with_column do
+            render(Primer::Beta::IconButton.new(
+                scheme: :default,
+                icon: :"paper-airplane",
+                "aria-label": t("activities.work_packages.activity_tab.label_submit_comment"),
+                disabled: true
+              ))
+          end
+        end
+      end
+      new_form_container.with_row(
+        display: form_row_display_value,
+        data: { "work-packages--activities-tab--index-target": "formRow" }
+      ) do
+        primer_form_with(
+          id: "work-package-journal-form-element", # required for specs
+          model: journal,
+          method: :post,
+          data: { 
+            turbo: true, 
+            turbo_stream: true, 
+            "work-packages--activities-tab--index-target": "form", 
+            action: "submit->work-packages--activities-tab--index#onSubmit",
+            "test_selector": "op-work-package-journal-form-element"
+          },
+          url: work_package_activities_path(work_package_id: work_package.id),
+        ) do |f|
+          flex_layout(justify_content: :space_between, align_items: :flex_end) do |form_container|
+            form_container.with_column(
+              classes: "work-packages-activities-tab-journals-new-component--ck-editor-column",
+              mr: 2
+            ) do
+              render(WorkPackages::ActivitiesTab::Journals::NotesForm.new(f))
+            end
+            form_container.with_column do
+              render(Primer::Beta::IconButton.new(
+                scheme: :default,
+                icon: :"paper-airplane",
+                "aria-label": t("activities.work_packages.activity_tab.label_submit_comment"),
+                type: :submit,
+                data: { "test_selector": "op-submit-work-package-journal-form" }
+              ))
+            end
+          end
+        end
+      end
+    end
+  end
+%>

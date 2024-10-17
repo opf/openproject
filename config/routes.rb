@@ -582,6 +582,17 @@ Rails.application.routes.draw do
     # states managed by client-side routing on work_package#index
     get "details/*state" => "work_packages#index", on: :collection, as: :details
 
+    resources :activities, controller: "work_packages/activities_tab", only: %i[index create edit update] do
+      member do
+        get :cancel_edit
+      end
+      collection do
+        get :update_streams
+        get :update_filter # filter not persisted
+        put :update_sorting # sorting is persisted
+      end
+    end
+
     resource :progress, only: %i[new edit update], controller: "work_packages/progress"
     collection do
       resource :progress,

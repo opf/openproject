@@ -32,6 +32,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Component({
   templateUrl: './overview-tab.html',
@@ -44,16 +45,21 @@ export class WorkPackageOverviewTabComponent extends UntilDestroyedMixin impleme
 
   public tabName = this.I18n.t('js.label_latest_activity');
 
+  public primerizedActivitiesEnabled:boolean;
+
   public constructor(
     readonly I18n:I18nService,
     readonly $state:StateService,
     readonly apiV3Service:ApiV3Service,
+    readonly configurationService:ConfigurationService,
   ) {
     super();
   }
 
   ngOnInit() {
     this.workPackageId = this.workPackage?.id || this.$state.params.workPackageId as string;
+
+    this.primerizedActivitiesEnabled = this.configurationService.activeFeatureFlags.includes('primerizedWorkPackageActivities');
 
     this
       .apiV3Service

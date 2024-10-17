@@ -1,0 +1,36 @@
+.work-packages-activities-tab-index-component
+    &--errors
+        position: absolute
+        width: calc(100% - 22px)
+        z-index: 11
+        @media screen and (max-width: $breakpoint-xl)
+            position: fixed
+            bottom: 20px
+            width: calc(100% - 30px)
+    &--journals-container
+        z-index: 10
+        padding-top: 3px
+        overflow-y: auto
+
+        &_with-initial-input-compensation
+            margin-bottom: 65px // initial margin-bottom, will be increased by stimulus when opening ckeditor
+            @media screen and (max-width: $breakpoint-xl)
+                margin-bottom: -16px
+
+        &_with-input-compensation
+            margin-bottom: 180px
+            @media screen and (max-width: $breakpoint-xl)
+                margin-bottom: -16px
+                
+    &--input-container
+        z-index: 10
+        @media screen and (min-width: $breakpoint-xl)
+            position: absolute
+            min-height: 60px
+            bottom: 0
+            left: 0
+            right: 0
+
+        &_sort-desc
+            @media screen and (max-width: $breakpoint-xl)
+                order: -1

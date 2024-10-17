@@ -5,6 +5,8 @@
     (initializeDone)="setup($event)"
     (contentChanged)="markEdited()"
     (saveRequested)="saveForm()"
+    (editorKeyup)="editorKeyup.emit()"
+    (editorBlur)="editorBlur.emit()"
   ></op-ckeditor>
 </div>
 

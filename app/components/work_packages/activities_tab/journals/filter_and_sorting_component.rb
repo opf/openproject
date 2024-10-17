@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,17 +26,51 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-require "spec_helper"
-require File.expand_path("../support/permission_specs", __dir__)
+module WorkPackages
+  module ActivitiesTab
+    module Journals
+      class FilterAndSortingComponent < ApplicationComponent
+        include ApplicationHelper
+        include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
 
-RSpec.describe Projects::Settings::ProjectCustomFieldsController, "manage_project_custom_field mappings permission",
-               type: :controller do
-  include PermissionSpecs
+        def initialize(work_package:, filter: :all)
+          super
 
-  check_permission_required_for("projects/settings/project_custom_fields#show", :select_project_custom_fields)
-  check_permission_required_for("projects/settings/project_custom_fields#toggle", :select_project_custom_fields)
-  check_permission_required_for("projects/settings/project_custom_fields#enable_all_of_section", :select_project_custom_fields)
-  check_permission_required_for("projects/settings/project_custom_fields#disable_all_of_section", :select_project_custom_fields)
+          @work_package = work_package
+          @filter = filter
+        end
+
+        private
+
+        attr_reader :work_package, :filter
+
+        def show_all?
+          filter == :all
+        end
+
+        def show_only_comments?
+          filter == :only_comments
+        end
+
+        def show_only_changes?
+          filter == :only_changes
+        end
+
+        def journal_sorting
+          User.current.preference&.comments_sorting || "desc"
+        end
+
+        def desc_sorting?
+          journal_sorting == "desc"
+        end
+
+        def asc_sorting?
+          journal_sorting == "asc"
+        end
+      end
+    end
+  end
 end

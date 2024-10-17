@@ -222,6 +222,7 @@ Rails.application.reloader.to_prepare do
                        work_packages: %i[show index],
                        work_packages_api: [:get],
                        "work_packages/reports": %i[report report_details],
+                       "work_packages/activities_tab": %i[index update_streams update_sorting update_filter],
                        "work_packages/menus": %i[show],
                        "work_packages/hover_card": %i[show]
                      },
@@ -260,19 +261,24 @@ Rails.application.reloader.to_prepare do
                      {
                        # FIXME: Although the endpoint is removed, the code checking whether a user
                        # is eligible to add work packages through the API still seems to rely on this.
-                       journals: [:new]
+                       journals: [:new],
+                       "work_packages/activities_tab": %i[create]
                      },
                      permissible_on: %i[work_package project],
                      dependencies: :view_work_packages
 
       wpt.permission :edit_work_package_notes,
-                     {},
+                     {
+                       "work_packages/activities_tab": %i[edit cancel_edit update]
+                     },
                      permissible_on: :project,
                      require: :loggedin,
                      dependencies: :view_work_packages
 
       wpt.permission :edit_own_work_package_notes,
-                     {},
+                     {
+                       "work_packages/activities_tab": %i[edit cancel_edit update]
+                     },
                      permissible_on: %i[work_package project],
                      require: :loggedin,
                      dependencies: :view_work_packages
