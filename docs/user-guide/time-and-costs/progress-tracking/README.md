@@ -98,8 +98,8 @@ When you add, edit, or remove a value for *Work*, *Remaining Work*, or *% Comple
 When none of the three fields (% Complete, Work, or Remaining Work) have values set, the field you fill in first will determine how the others are calculated:
 
 - If you enter % Complete only, no other fields will be automatically updated. Work and Remaining Work will remain empty.
-- If you enter Work only, Remaining Work will automatically match the Work value, and % Complete will be set to 100%. You can manually clear these values if needed.
-- If you enter Remaining Work only, Work will automatically match the Remaining Work value, and % Complete will be set to 100%. You can manually clear these values if needed.
+- If you enter Work only, Remaining Work will automatically match the Work value, and % Complete will be set to 0%. You can manually clear these values if needed.
+- If you enter Remaining Work only, Work will automatically match the Remaining Work value, and % Complete will be set to 0%. You can manually clear these values if needed.
 
 **When one field is set**
 
