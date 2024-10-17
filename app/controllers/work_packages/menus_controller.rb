@@ -30,7 +30,7 @@ module WorkPackages
     before_action :load_and_authorize_in_optional_project
 
     def show
-      @sidebar_menu_items = WorkPackages::Menu.new(project: @project, params:, request:).menu_items
+      @sidebar_menu_items = WorkPackages::Menu.new(project: @project, params:).menu_items
       render layout: nil
     end
   end

@@ -53,7 +53,7 @@ zh-TW:
   permission_manage_file_links: 管理文件鏈接
   permission_manage_files_in_project: 管理專案中的檔案
   permission_read_files: '自動管理專案資料夾 : 讀取檔案'
-  permission_share_files: '自動管理專案資料夾 : 共用檔案'
+  permission_share_files: '自動管理專案資料夾: 分享檔案'
   permission_share_files_explanation:
   permission_view_file_links: 查看文件鏈接
   permission_write_files: '自動管理專案資料夾 : 寫入檔案'
@@ -321,9 +321,6 @@ zh-TW:
       not_connected: 未連線。使用者應透過下列方式登入儲存設備 %{link}。
     members_no_results: 沒有可顯示的成員
     no_results: 尚未設定檔案儲存區
-    notice_successful_storage_connection: |-
-      儲存已成功連接！請記得在每個所需專案的專案設定
-      中啟用模組和特定儲存設備，以便使用。
     oauth_access_granted_modal:
       access_granted: 已授權存取
       project_settings:
@@ -386,6 +383,7 @@ zh-TW:
     storage_list_blank_slate:
       description: 新增的儲存空間將在此顯示
       heading: 目前沒有任何儲存空間
+    successful_storage_connection: 儲存已成功連接！請記住在每個所需專案的專案索引標籤中啟動儲存，以便使用。
     upsale:
       description: |-
         整合您的 OneDrive/SharePoint 作為 OpenProject 的檔案儲存空間。上傳檔案並將其直接連結至專案中的

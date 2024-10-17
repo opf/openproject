@@ -75,7 +75,8 @@ module OpenProject::TextFormatting
       def work_package_mention(work_package)
         link_to("##{work_package.id}",
                 work_package_path_or_url(id: work_package.id, only_path: context[:only_path]),
-                class: "issue work_package preview-trigger")
+                class: "issue work_package op-hover-card--preview-trigger",
+                data: { "hover-card-url": hover_card_work_package_path(work_package.id) })
       end
 
       def class_from_mention(mention)

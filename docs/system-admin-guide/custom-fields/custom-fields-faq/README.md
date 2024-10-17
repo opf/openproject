@@ -22,3 +22,9 @@ Yes, this is possible. When you edit existing work packages for which the custom
 ## Where do custom fields for document categories show up?
 
 You can find them when navigating to *Administration -> Enumerations* and clicking on an existing document category (or creating a new one).
+
+## Can I activate custom fields for multiple projects at the same time?
+
+Yes, you can. Select the custom field and use the **Add projects** button to add it to multiple projects at the same time.
+
+

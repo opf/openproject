@@ -39,7 +39,8 @@ module CustomFields
 
       details_form.check_box(
         name: :multi_value,
-        label: I18n.t("activerecord.attributes.custom_field.multi_value")
+        label: I18n.t("activerecord.attributes.custom_field.multi_value"),
+        caption: I18n.t("custom_fields.instructions.multi_select")
       )
 
       details_form.check_box(

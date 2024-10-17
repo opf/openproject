@@ -39,16 +39,9 @@ fr:
         accent-color: "Couleur d'accentuation"
         header-bg-color: "Fond de l'en-tête"
         header-item-bg-hover-color: "Fond d’en-tête au survol"
-        header-item-font-color: "Police de l'en-tête"
-        header-item-font-hover-color: "Police d'en-tête au survol"
-        header-border-bottom-color: "Bordure de l'en-tête"
         main-menu-bg-color: "Arrière-plan du menu principal"
         main-menu-bg-selected-background: "Menu principal quand sélectionné"
         main-menu-bg-hover-background: "Menu principal au survol"
-        main-menu-font-color: "Police du menu principal"
-        main-menu-selected-font-color: "Police du menu principal lorsque sélectionné"
-        main-menu-hover-font-color: "Police du menu principal au survol"
-        main-menu-border-color: "Bordure du menu principal"
       custom_colors: "Couleurs personnalisées"
       customize: "Personnalisez votre installation OpenProject avec votre propre logo et couleurs."
       enterprise_notice: "Comme remerciement spécial pour leur contribution financière au développement d'OpenProject, cet add-on n’est disponible que pour les titulaires d'une version Entreprise."
@@ -215,6 +208,10 @@ fr:
         blankslate:
           title: "Votre liste d'articles est vide"
           description: "Commencez par ajouter des éléments au champ personnalisé de type hiérarchie. Chaque élément peut être utilisé pour créer une hiérarchie en dessous de lui. Pour naviguer et créer des sous-éléments à l'intérieur d'une hiérarchie, cliquez sur l'élément créé."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
       notice:
         remember_items_and_projects: "N'oubliez pas de définir les éléments et les projets dans les onglets respectifs de ce champ personnalisé."
     text_add_new_custom_field: >
@@ -229,6 +226,7 @@ fr:
       is_required: "Marquer le champ personnalisé comme requis. Cela rendra obligatoire de remplir le champ lors de la création ou de la mise à jour des ressources existantes."
       is_required_for_project: "Cocher pour activer cet attribut et le rendre nécessaire dans tous les projets. Il ne peut pas être désactivé pour certains projets."
       is_for_all: "Marquer le champ personnalisé comme disponible dans tous les projets existants et nouveaux."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "Inclure les valeurs des champs lors de l'utilisation de la fonctionnalité de recherche globale."
       searchable_for_project: "Cocher pour rendre cet attribut disponible en tant que filtre dans les listes de projets."
       editable: "Autoriser les utilisateurs à modifier eux-mêmes le champ"
@@ -240,6 +238,14 @@ fr:
       no_results_content_text: Créer un nouveau champ personnalisé
   concatenation:
     single: "ou"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "Rechercher dans %{app_title}"
     overwritten_tabs:
@@ -479,16 +485,22 @@ fr:
       no_results_content_text: Ajouter un rapport d'état
   statuses:
     edit:
+      status_color_text: |
+        Cliquez pour assigner ou modifier la couleur de ce statut.
+        Elle peut être utilisée pour mettre en évidence les lots de travaux dans le tableau.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
+      status_excluded_from_totals_text: |-
+        Cochez cette option pour exclure les lots de travaux ayant ce statut des totaux de Travail, Travail restant et % réalisé dans une hiérarchie.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Cochez cette option pour marquer les paquets de travail avec ce statut en lecture seule.
         Aucuns attributs ne peut être changés à l’exception de l’État.
         <br/>
         <strong>Note</strong>: les valeurs héritées (ex: des enfants ou relations) continueront de s’appliquer.
-      status_excluded_from_totals_text: |-
-        Cochez cette option pour exclure les lots de travaux ayant ce statut des totaux de Travail, Travail restant et % réalisé dans une hiérarchie.
-      status_color_text: |
-        Cliquez pour assigner ou modifier la couleur de ce statut.
-        Elle peut être utilisée pour mettre en évidence les lots de travaux dans le tableau.
     index:
       no_results_title_text: Aucun statut de lots de travaux pour le moment.
       no_results_content_text: Ajouter un nouveau statut
@@ -1810,6 +1822,7 @@ fr:
       progress_mode_changed_to_status_based: "Mise à jour du calcul de la progression"
       status_changed: "Statut  « %{status_name} »"
       system_update: "Mise à jour du système OpenProject :"
+      work_package_duplicate_closed: "Duplicate work package updated:"
       total_percent_complete_mode_changed_to_work_weighted_average: "Le calcul des totaux de % d'achèvement est désormais pondéré par le travail."
       total_percent_complete_mode_changed_to_simple_average: "Le calcul des totaux de % d'achèvement est désormais basé sur une simple moyenne des seules valeurs de % d'achèvement."
     cause_descriptions:
@@ -1817,6 +1830,7 @@ fr:
       work_package_parent_changed_times: par changement vers le parent %{link}
       work_package_children_changed_times: par changement vers l'enfant %{link}
       work_package_related_changed_times: par changement vers %{link} connexe
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: par changement vers un lot de travaux connexe
       working_days_changed:
         changed: "par changement vers des jours ouvrables (%{changes})"
@@ -2910,6 +2924,7 @@ fr:
   permission_view_shared_work_packages: "Voir les partages du lot des travaux"
   permission_view_time_entries: "Voir temps passé"
   permission_view_timelines: "Voir les lignes du temps"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Voir l'historique du wiki"
   permission_view_wiki_pages: "Voir le wiki"
   permission_work_package_assigned: "Devenir assigné/responsable"

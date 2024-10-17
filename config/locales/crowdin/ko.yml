@@ -39,16 +39,9 @@ ko:
         accent-color: "강조 색"
         header-bg-color: "헤더 배경"
         header-item-bg-hover-color: "가리킬 때 헤더 배경"
-        header-item-font-color: "헤더 글꼴"
-        header-item-font-hover-color: "가리킬 때 헤더 글꼴"
-        header-border-bottom-color: "헤더 테두리"
         main-menu-bg-color: "기본 메뉴 배경"
         main-menu-bg-selected-background: "선택할 때 기본 메뉴"
         main-menu-bg-hover-background: "가리킬 때 기본 메뉴"
-        main-menu-font-color: "기본 메뉴 글꼴"
-        main-menu-selected-font-color: "선택할 때 기본 메뉴 글꼴"
-        main-menu-hover-font-color: "가리킬 때 기본 메뉴 글꼴"
-        main-menu-border-color: "기본 메뉴 테두리"
       custom_colors: "사용자 정의 색상"
       customize: "고유한 로고와 색상으로 OpenProject 설치를 사용자 지정하세요."
       enterprise_notice: "OpenProject 개발의 금전적인 후원에 대한 특별한 감사로 이 작은 기능은 Enterprise edition 구독자에게만 지원됩니다."
@@ -215,6 +208,10 @@ ko:
         blankslate:
           title: "항목 목록이 비어 있습니다"
           description: "먼저 유형 계층의 사용자 지정 필드에 항목을 추가하여 시작하세요. 각 항목을 사용하여 그 아래에 계층을 만들 수 있습니다. 계층 내에서 하위 항목을 탐색하고 만들려면 생성된 항목을 클릭하세요."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
       notice:
         remember_items_and_projects: "이 사용자 지정 필드의 각 탭에서 항목과 프로젝트를 설정해야 합니다."
     text_add_new_custom_field: >
@@ -229,6 +226,7 @@ ko:
       is_required: "사용자 지정 필드를 필수로 표시합니다. 이렇게 하면 새 리소스를 생성하거나 기존 리소스를 업데이트할 때 이 필드를 반드시 입력해야 합니다."
       is_required_for_project: "이 특성을 활성화하려면 선택하고 모든 프로젝트에서 필수로 지정하세요. 개별 프로젝트에 대해 비활성화할 수는 없습니다."
       is_for_all: "모든 기존 프로젝트와 새 프로젝트에서 사용자 지정 필드를 사용 가능으로 표시합니다."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "글로벌 검색 기능을 사용할 때 필드 값을 포함합니다."
       searchable_for_project: "프로젝트 목록에서 이 특성을 필터로 사용 가능하게 설정하려면 선택하세요."
       editable: "사용자가 필드를 편집할 수 있도록 허용합니다."
@@ -240,6 +238,14 @@ ko:
       no_results_content_text: 새 사용자 필드 생성
   concatenation:
     single: "또는"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "%{app_title}에서 검색"
     overwritten_tabs:
@@ -473,16 +479,22 @@ ko:
       no_results_content_text: 상태 보고 추가
   statuses:
     edit:
+      status_color_text: |
+        이 상태 색상을 할당하거나 변경하려면 클릭하세요.
+        상태 버튼에 표시되고 테이블의 작업 패키지를 강조 표시하는 데 사용할 수 있습니다.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
+      status_excluded_from_totals_text: |-
+        계층의 총 작업, 남은 작업 및 완료 %에서 이 상태의 작업 패키지를
+        제외하려면 이 옵션을 선택하세요.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         이 상태를 읽기 전용으로 작업 패키지에 표시하려면 이 옵션을 선택합니다. 상태를 제외하고 특성은 변경할 수 없습니다.
         <br/>
         <strong>참고</strong>: 상속된 값(예: 자식 또는 관계)은 계속 적용됩니다.
-      status_excluded_from_totals_text: |-
-        계층의 총 작업, 남은 작업 및 완료 %에서 이 상태의 작업 패키지를
-        제외하려면 이 옵션을 선택하세요.
-      status_color_text: |
-        이 상태 색상을 할당하거나 변경하려면 클릭하세요.
-        상태 버튼에 표시되고 테이블의 작업 패키지를 강조 표시하는 데 사용할 수 있습니다.
     index:
       no_results_title_text: 작업 패키지 상태가 없습니다.
       no_results_content_text: 새 상태 추가
@@ -1775,6 +1787,7 @@ ko:
       progress_mode_changed_to_status_based: "진행률 계산 업데이트됨"
       status_changed: "상태 '%{status_name}'"
       system_update: "OpenProject 시스템 업데이트:"
+      work_package_duplicate_closed: "Duplicate work package updated:"
       total_percent_complete_mode_changed_to_work_weighted_average: "이제 완료 % 합계 계산에는 작업별로 가중치가 적용됩니다."
       total_percent_complete_mode_changed_to_simple_average: "이제 완료 % 합계 계산은 완료 % 값의 단순 평균만을 기반으로 합니다."
     cause_descriptions:
@@ -1782,6 +1795,7 @@ ko:
       work_package_parent_changed_times: 부모 %{link}에 대한 변경 사항 기준
       work_package_children_changed_times: 자식 %{link}에 대한 변경 사항 기준
       work_package_related_changed_times: 관련 %{link}에 대한 변경 사항 기준
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: 관련 작업 패키지에 대한 변경 사항 기준
       working_days_changed:
         changed: "근무일에 대한 변경 사항 기준(%{changes})"
@@ -2872,6 +2886,7 @@ ko:
   permission_view_shared_work_packages: "작업 패키지 공유 보기"
   permission_view_time_entries: "소요 시간 보기"
   permission_view_timelines: "타임라인 보기"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "위키 기록 보기"
   permission_view_wiki_pages: "위키 보기"
   permission_work_package_assigned: "담당자/책임자 되기"

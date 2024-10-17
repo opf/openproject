@@ -39,16 +39,9 @@ pt-PT:
         accent-color: "Destaque"
         header-bg-color: "Fundo do cabeçalho"
         header-item-bg-hover-color: "Fundo do cabeçalho ao passar o rato"
-        header-item-font-color: "Fonte do cabeçalho"
-        header-item-font-hover-color: "Fonte do cabeçalho ao passar o rato"
-        header-border-bottom-color: "Borda do cabeçalho"
         main-menu-bg-color: "Fundo do menu principal"
         main-menu-bg-selected-background: "Menu principal quando selecionado"
         main-menu-bg-hover-background: "Menu principal ao passar o rato"
-        main-menu-font-color: "Fonte do menu principal"
-        main-menu-selected-font-color: "Fonte do menu principal quando selecionado"
-        main-menu-hover-font-color: "Fonte do menu principal ao passar o rato"
-        main-menu-border-color: "Borda do menu principal"
       custom_colors: "Cores personalizadas"
       customize: "Personalize a instalação do OpenProject com as suas cores e o seu logótipo."
       enterprise_notice: "Como forma de agradecimento pela sua contribuição financeira para o desenvolvimento do OpenProject, este pequeno complemento só esetá disponível para os subscritores da edição Enterprise."
@@ -213,6 +206,10 @@ pt-PT:
         blankslate:
           title: "A sua lista de itens está vazia"
           description: "Comece por adicionar itens ao campo personalizado do tipo hierarquia. Cada item pode ser utilizado para criar uma hierarquia abaixo dele. Para navegar e criar subitens dentro de uma hierarquia, clique no item criado."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
       notice:
         remember_items_and_projects: "Lembre-se de definir itens e projetos nos respetivos separadores para este campo personalizado."
     text_add_new_custom_field: >
@@ -227,6 +224,7 @@ pt-PT:
       is_required: "Marque o campo personalizado como obrigatório. Isto tornará obrigatório o preenchimento do campo ao criar novos recursos ou ao atualizar recursos existentes."
       is_required_for_project: "Selecione para ativar este atributo e torná-lo obrigatório em todos os projetos. Não pode ser desativado para projetos individuais."
       is_for_all: "Marque o campo personalizado como disponível em todos os projetos existentes e novos."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "Inclua os valores dos campos ao utilizar a funcionalidade de pesquisa global."
       searchable_for_project: "Selecione para tornar este atributo disponível como um filtro nas listas de projetos."
       editable: "Permita que o campo seja editável pelos próprios utilizadores."
@@ -238,6 +236,14 @@ pt-PT:
       no_results_content_text: Criar um novo campo personalizado
   concatenation:
     single: "ou"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "Pesquisar em %{app_title}"
     overwritten_tabs:
@@ -477,17 +483,23 @@ pt-PT:
       no_results_content_text: Adicionar um relatório de estado
   statuses:
     edit:
+      status_color_text: |
+        Clique para atribuir ou alterar a cor deste status.
+        É mostrada no botão de status e pode ser usada para destacar os pacotes de trabalho na tabela.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
+      status_excluded_from_totals_text: |-
+        Assinale esta opção para excluir pacotes de trabalho com este estado dos totais de Trabalho,
+        Trabalho restante e % Completo numa hierarquia.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Verifique esta opção para marcar pacotes de trabalho com este estado como só de leitura.
         Nenhum atributo pode ser alterado com a exceção do estado.
         <br/>
         <strong>Nota</strong>: Valores herdados (ex: por crianças ou relações) ainda serão aplicados.
-      status_excluded_from_totals_text: |-
-        Assinale esta opção para excluir pacotes de trabalho com este estado dos totais de Trabalho,
-        Trabalho restante e % Completo numa hierarquia.
-      status_color_text: |
-        Clique para atribuir ou alterar a cor deste status.
-        É mostrada no botão de status e pode ser usada para destacar os pacotes de trabalho na tabela.
     index:
       no_results_title_text: Atualmente, não existem estados de pacote de trabalho.
       no_results_content_text: Adicione um novo estado
@@ -1809,6 +1821,7 @@ pt-PT:
       progress_mode_changed_to_status_based: "Cálculo do progresso atualizado"
       status_changed: "Estado \"%{status_name}\""
       system_update: "Atualização do sistema OpenProject:"
+      work_package_duplicate_closed: "Duplicate work package updated:"
       total_percent_complete_mode_changed_to_work_weighted_average: "O cálculo dos totais da % de conclusão é agora ponderado pelo Trabalho."
       total_percent_complete_mode_changed_to_simple_average: "O cálculo dos totais da % de conclusão baseia-se agora numa média simples de apenas os valores da % de conclusão."
     cause_descriptions:
@@ -1816,6 +1829,7 @@ pt-PT:
       work_package_parent_changed_times: por alterações no %{link} principal
       work_package_children_changed_times: por alterações no %{link} secundário
       work_package_related_changed_times: por alterações no %{link} relacionado
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: por alterações num pacote de trabalho relacionado
       working_days_changed:
         changed: "por alterações nos dias úteis (%{changes})"
@@ -2908,6 +2922,7 @@ pt-PT:
   permission_view_shared_work_packages: "Ver partilhas do pacote de trabalho"
   permission_view_time_entries: "Ver o tempo gasto"
   permission_view_timelines: "Ver cronogramas"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Ver histórico da wiki"
   permission_view_wiki_pages: "Ver wiki"
   permission_work_package_assigned: "Torne-se responsável"

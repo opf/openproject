@@ -1,0 +1,53 @@
+<%=
+  content_tag("turbo-frame", id: "work-package-activities-tab-content") do
+    flex_layout(classes: "work-packages-activities-tab-index-component") do |activties_tab_wrapper_container|
+      activties_tab_wrapper_container.with_row(classes: "work-packages-activities-tab-index-component--errors") do
+        render(
+          WorkPackages::ActivitiesTab::ErrorStreamComponent.new
+        )
+      end
+      activties_tab_wrapper_container.with_row do
+        component_wrapper(data: wrapper_data_attributes) do
+          flex_layout do |activties_tab_container|
+            activties_tab_container.with_row(mb: 2) do
+              render(
+                WorkPackages::ActivitiesTab::Journals::FilterAndSortingComponent.new(
+                  work_package:,
+                  filter:
+                )
+              )
+            end
+            activties_tab_container.with_row(flex_layout: true, mt: 3) do |journals_wrapper_container|
+              journals_wrapper_container.with_row(
+                classes: "work-packages-activities-tab-index-component--journals-container work-packages-activities-tab-index-component--journals-container_with-initial-input-compensation",
+                data: { "work-packages--activities-tab--index-target": "journalsContainer" }
+              ) do
+                render(
+                  WorkPackages::ActivitiesTab::Journals::IndexComponent.new(work_package:, filter:)
+                )
+              end
+              if adding_comment_allowed?
+                journals_wrapper_container.with_row(
+                  classes: "work-packages-activities-tab-index-component--input-container work-packages-activities-tab-index-component--input-container_sort-#{journal_sorting}",
+                  mt: 3,
+                  mb: [3, nil, nil, nil, 0],
+                  pt: 2,
+                  pb: 2,
+                  pl: 3,
+                  pr: [3, nil, nil, nil, 2],
+                  border: [nil, nil, nil, nil, :top],
+                  border_radius: [2, nil, nil, nil, 0],
+                  bg: :subtle
+                ) do
+                  render(
+                    WorkPackages::ActivitiesTab::Journals::NewComponent.new(work_package:)
+                  )
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+%>

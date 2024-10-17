@@ -1,0 +1,5 @@
+// This is rather ugly. Due to `appendTo=body`, we loose the context information for the dropdown.
+// So in order to know, when the dropdown is part of a user-autocompleter, we look whether there is a specific class inside.
+// The user-autocompleter gets an enforced min-width because the names are often times cut off way too early.
+ng-dropdown-panel:has( .op-user-autocompleter--name)
+  min-width: 300px !important

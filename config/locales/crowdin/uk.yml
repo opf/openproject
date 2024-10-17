@@ -39,16 +39,9 @@ uk:
         accent-color: "Акцент"
         header-bg-color: "Фон заголовка"
         header-item-bg-hover-color: "Фон заголовка в разі наведення курсора"
-        header-item-font-color: "Шрифт заголовка"
-        header-item-font-hover-color: "Шрифт заголовка в разі наведення курсора"
-        header-border-bottom-color: "Контур заголовка"
         main-menu-bg-color: "Фон головного меню"
         main-menu-bg-selected-background: "Головне меню в разі вибору"
         main-menu-bg-hover-background: "Головне меню в разі наведення"
-        main-menu-font-color: "Шрифт головного меню"
-        main-menu-selected-font-color: "Шрифт головного меню в разі вибору"
-        main-menu-hover-font-color: "Шрифт головного меню в разі наведення"
-        main-menu-border-color: "Контур головного меню"
       custom_colors: "Кольори за власними вподобаннями"
       customize: "Персоналізуйте свій екземпляр OpenProject за допомогою власного логотипа й кольорів."
       enterprise_notice: "Це крихітне доповнення доступне тільки для підписників версії Enterprise як особлива подяка за їхню фінансову підтримку розвитку OpenProject."
@@ -210,6 +203,10 @@ uk:
         blankslate:
           title: "Ваш список елементів порожній"
           description: "Спочатку додайте елементи до користувацького поля ієрархії типів. Створити ієрархію можна для кожного елемента. Щоб переходити між піделементами ієрархії і додавати\nїх, натисніть створений елемент."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
       notice:
         remember_items_and_projects: "Обов’язково задайте елементи й проєкти на відповідних вкладках для цього користувацького поля."
     text_add_new_custom_field: >
@@ -224,6 +221,7 @@ uk:
       is_required: "Позначте користувацьке поле як обов’язкове. Так його потрібно буде заповнювати під час створення нових або оновлення наявних ресурсів."
       is_required_for_project: "Установіть прапорець, щоб увімкнути цей атрибут і зробити його обов’язковим в усіх проєктах. Його не можна деактивувати для окремих проєктів."
       is_for_all: "Позначте користувацьке поле як доступне в усіх наявних і нових проєктах."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "Включіть значення полів під час використання функції глобального пошуку."
       searchable_for_project: "Установіть прапорець, щоб зробити цей атрибут доступним як фільтр у списках проєктів."
       editable: "Дозвольте користувачам самостійно редагувати це поле."
@@ -235,6 +233,14 @@ uk:
       no_results_content_text: Створіть нове спеціальне поле
   concatenation:
     single: "або"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "Пошук у додатку %{app_title}"
     overwritten_tabs:
@@ -486,16 +492,22 @@ uk:
       no_results_content_text: Додати звіт про стан
   statuses:
     edit:
+      status_color_text: |
+        Натисніть, щоб призначити або змінити колір цього статусу.
+        Він відображається в кнопці стану і може використовуватися для виділення робочих пакетів у таблиці.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
+      status_excluded_from_totals_text: |-
+        Поставте цей прапорець, щоб виключити пакети робіт із цим статусом із підсумків атрибутів «Робота», «Залишок роботи» й «% завершення» в ієрархії.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Відмітьте цю опцію, щоб позначити пакети робіт з таким статусом, як доступні лише для перегляду.
         Жоден атрибут не можуть бути змінені за виключенням статусу.
         <br/>
         <strong>Примітки</strong>: Будуть застосовані успадковані значення (наприклад, елементів попередників чи нащадків).
-      status_excluded_from_totals_text: |-
-        Поставте цей прапорець, щоб виключити пакети робіт із цим статусом із підсумків атрибутів «Робота», «Залишок роботи» й «% завершення» в ієрархії.
-      status_color_text: |
-        Натисніть, щоб призначити або змінити колір цього статусу.
-        Він відображається в кнопці стану і може використовуватися для виділення робочих пакетів у таблиці.
     index:
       no_results_title_text: Наразі немає статусів робочих пакетів.
       no_results_content_text: Додати новий статус
@@ -1875,6 +1887,7 @@ uk:
       progress_mode_changed_to_status_based: "Обчислення прогресу оновлено"
       status_changed: "Статус «%{status_name}»"
       system_update: "Оновлення системи OpenProject"
+      work_package_duplicate_closed: "Duplicate work package updated:"
       total_percent_complete_mode_changed_to_work_weighted_average: "Під час обчислення підсумків атрибута «% завершення» тепер враховується значення атрибута «Робота»."
       total_percent_complete_mode_changed_to_simple_average: "Обчислення підсумків атрибута «% завершення» тепер ґрунтується на середньому арифметичному значень лише атрибута «% завершення»."
     cause_descriptions:
@@ -1882,6 +1895,7 @@ uk:
       work_package_parent_changed_times: внесенням змін у батькіський елемент %{link}
       work_package_children_changed_times: внесенням змін у дочірній елемент %{link}
       work_package_related_changed_times: внесенням змін у пов’язаний елемент %{link}
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: внесенням змін у пов’язаний пакет робіт
       working_days_changed:
         changed: "внесенням змін у робочі дні (%{changes})"
@@ -2976,6 +2990,7 @@ uk:
   permission_view_shared_work_packages: "Переглянути дозволи на доступ до пакета робіт"
   permission_view_time_entries: "Перегляд трудовитрат"
   permission_view_timelines: "Переглянути часові рамки"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Перегляд історії wiki"
   permission_view_wiki_pages: "Перегляд wiki"
   permission_work_package_assigned: "Стати виконавцем / відповідальним"

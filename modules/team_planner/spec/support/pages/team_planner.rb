@@ -172,15 +172,11 @@ module Pages
     end
 
     def expect_create_button
-      within '[data-test-selector="add-team-planner-button"]' do
-        expect(page).to have_link text: "Team planner"
-      end
+      expect(page).to have_test_selector "add-team-planner-button"
     end
 
     def expect_no_create_button
-      within '[data-test-selector="add-team-planner-button"]' do
-        expect(page).to have_no_link text: "Team planner"
-      end
+      expect(page).not_to have_test_selector "add-team-planner-button"
     end
 
     def expect_views_listed_in_order(*queries)
@@ -192,9 +188,7 @@ module Pages
     end
 
     def click_on_create_button
-      within '[data-test-selector="add-team-planner-button"]' do
-        click_link "Team planner"
-      end
+      page.find_test_selector("add-team-planner-button").click
     end
 
     def click_on_cancel_button

@@ -60,6 +60,172 @@ module Components
           end
         end
       end
+
+      # helpers for new primerized activities
+
+      def within_journal_entry(journal, &)
+        page.within_test_selector("op-wp-journal-entry-#{journal.id}", &)
+      end
+
+      def expect_journal_changed_attribute(text:)
+        expect(page).to have_test_selector("op-journal-detail-description", text:)
+      end
+
+      def expect_no_journal_changed_attribute(text: nil)
+        expect(page).not_to have_test_selector("op-journal-detail-description", text:)
+      end
+
+      def expect_no_journal_notes(text: nil)
+        expect(page).not_to have_test_selector("op-journal-notes-body", text:)
+      end
+
+      def expect_journal_details_header(text: nil)
+        expect(page).to have_test_selector("op-journal-details-header", text:)
+      end
+
+      def expect_no_journal_details_header(text: nil)
+        expect(page).not_to have_test_selector("op-journal-details-header", text:)
+      end
+
+      def expect_journal_notes_header(text: nil)
+        expect(page).to have_test_selector("op-journal-notes-header", text:)
+      end
+
+      def expect_no_journal_notes_header(text: nil)
+        expect(page).not_to have_test_selector("op-journal-notes-header", text:)
+      end
+
+      def expect_journal_notes(text: nil)
+        expect(page).to have_test_selector("op-journal-notes-body", text:)
+      end
+
+      def expect_notification_bubble
+        expect(page).to have_test_selector("op-journal-unread-notification")
+      end
+
+      def expect_no_notification_bubble
+        expect(page).not_to have_test_selector("op-journal-unread-notification")
+      end
+
+      def expect_journal_container_at_bottom
+        scroll_position = page.evaluate_script('document.querySelector(".tabcontent").scrollTop')
+        scroll_height = page.evaluate_script('document.querySelector(".tabcontent").scrollHeight')
+        client_height = page.evaluate_script('document.querySelector(".tabcontent").clientHeight')
+
+        expect(scroll_position).to be_within(10).of(scroll_height - client_height)
+      end
+
+      def expect_journal_container_at_top
+        scroll_position = page.evaluate_script('document.querySelector(".tabcontent").scrollTop')
+
+        expect(scroll_position).to eq(0)
+      end
+
+      def expect_journal_container_at_position(position)
+        scroll_position = page.evaluate_script('document.querySelector(".tabcontent").scrollTop')
+
+        expect(scroll_position).to be_within(50).of(scroll_position - position)
+      end
+
+      def expect_empty_state
+        expect(page).to have_test_selector("op-wp-journals-container-empty")
+      end
+
+      def expect_no_empty_state
+        expect(page).not_to have_test_selector("op-wp-journals-container-empty")
+      end
+
+      def expect_input_field
+        expect(page).to have_test_selector("op-work-package-journal-form")
+      end
+
+      def expect_no_input_field
+        expect(page).not_to have_test_selector("op-work-package-journal-form")
+      end
+
+      def add_comment(text: nil, save: true)
+        # TODO: get rid of static sleep
+        sleep 1 # otherwise the stimulus component is not mounted yet and the click does not work
+
+        if page.find_test_selector("op-open-work-package-journal-form-trigger")
+          page.find_test_selector("op-open-work-package-journal-form-trigger").click
+        else
+          expect(page).to have_test_selector("op-work-package-journal-form-element")
+        end
+
+        page.within_test_selector("op-work-package-journal-form-element") do
+          FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form-element").set_value(text)
+          page.find_test_selector("op-submit-work-package-journal-form").click if save
+        end
+
+        if save
+          page.within_test_selector("op-wp-journals-container") do
+            expect(page).to have_text(text)
+          end
+        end
+      end
+
+      def edit_comment(journal, text: nil)
+        within_journal_entry(journal) do
+          page.find_test_selector("op-wp-journal-#{journal.id}-action-menu").click
+          page.find_test_selector("op-wp-journal-#{journal.id}-edit").click
+
+          page.within_test_selector("op-work-package-journal-form-element") do
+            FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form-element").set_value(text)
+            page.find_test_selector("op-submit-work-package-journal-form").click
+          end
+
+          expect(page).to have_text(text)
+        end
+      end
+
+      def quote_comment(journal)
+        # TODO: get rid of static sleep
+        sleep 1 # otherwise the stimulus component is not mounted yet and the click does not work
+
+        within_journal_entry(journal) do
+          page.find_test_selector("op-wp-journal-#{journal.id}-action-menu").click
+          page.find_test_selector("op-wp-journal-#{journal.id}-quote").click
+        end
+
+        expect(page).to have_test_selector("op-work-package-journal-form-element")
+
+        page.within_test_selector("op-work-package-journal-form-element") do
+          page.find_test_selector("op-submit-work-package-journal-form").click
+        end
+      end
+
+      def get_all_comments_as_arrary
+        page.all(".work-packages-activities-tab-journals-item-component--journal-notes-body").map(&:text)
+      end
+
+      def filter_journals(filter)
+        page.find_test_selector("op-wp-journals-filter-menu").click
+
+        case filter
+        when :all
+          page.find_test_selector("op-wp-journals-filter-show-all").click
+        when :only_comments
+          page.find_test_selector("op-wp-journals-filter-show-only-comments").click
+        when :only_changes
+          page.find_test_selector("op-wp-journals-filter-show-only-changes").click
+        end
+
+        sleep 1 # wait for the journals to be reloaded, TODO: get rid of static sleep
+      end
+
+      def set_journal_sorting(sorting)
+        page.find_test_selector("op-wp-journals-sorting-menu").click
+
+        case sorting
+        when :asc
+          page.find_test_selector("op-wp-journals-sorting-asc").click
+        when :desc
+          page.find_test_selector("op-wp-journals-sorting-desc").click
+        end
+
+        sleep 1 # wait for the journals to be reloaded, TODO: get rid of static sleep
+      end
     end
   end
 end

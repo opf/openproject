@@ -38,6 +38,7 @@ import {
   centerUpdatedInPlace,
   markNotificationsAsRead,
   notificationCountIncreased,
+  notificationCountChanged,
   notificationsMarkedRead,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
@@ -61,6 +62,8 @@ import { ApiV3ListFilter, ApiV3ListParameters } from 'core-app/core/apiv3/paths/
 import { FrameElement } from '@hotwired/turbo';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export interface INotificationPageQueryParameters {
   filter?:string|null;
@@ -192,6 +195,8 @@ export class IanCenterService extends UntilDestroyedMixin {
     readonly state:StateService,
     readonly deviceService:DeviceService,
     readonly pathHelper:PathHelperService,
+    readonly ianBellService:IanBellService,
+    readonly configurationService:ConfigurationService,
   ) {
     super();
     this.reload.subscribe();
@@ -260,10 +265,40 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   /**
+   * Pull latest notifications from API directly and trigger all related UI updates
+   */
+  updateImmediate() {
+    this.ianBellService.fetchUnread().subscribe();
+  }
+
+  /**
+   * Handle updates after bell count changed (+/-)
+   */
+  @EffectCallback(notificationCountChanged)
+  private handleChangedNotificationCount() {
+    if (!this.primerizedActivitiesEnabled) return;
+
+    // update the UI state for increased AND decreased notifications, not only increased count
+    // decreasing the notification count could happen when the user itself
+    // marks notifications as read in the split view or on another tab
+    this.onReload.pipe(take(1)).subscribe((collection) => {
+      // directly update the UI state in both cases (count increased or decreased)
+      this.store.update({ activeCollection: collection });
+      this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
+    });
+
+    this.reload.next(false);
+  }
+
+  /**
    * Check for updates after bell count increased
    */
   @EffectCallback(notificationCountIncreased)
   private checkForNewNotifications() {
+    // There is a new concept for primerized work package activities bound to notificationCountChanged
+    // See @EffectCallback(notificationCountChanged)
+    if (this.primerizedActivitiesEnabled) return;
+
     this.onReload.pipe(take(1)).subscribe((collection) => {
       const { activeCollection } = this.query.getValue();
       const hasNewNotifications = !collection.ids.reduce(
@@ -295,6 +330,10 @@ export class IanCenterService extends UntilDestroyedMixin {
       });
     });
     this.reload.next(false);
+  }
+
+  private get primerizedActivitiesEnabled():boolean {
+    return this.configurationService.activeFeatureFlags.includes('primerizedWorkPackageActivities');
   }
 
   /**

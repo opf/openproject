@@ -63,8 +63,8 @@ See COPYRIGHT and LICENSE files for more details.
     <label class="form--label" for="board_type"><%= t('boards.label_board_type') %></label>
     <div class="form--field-container -enterprise-restricted">
       <% unless EnterpriseToken.allows_to?(:board_view) %>
-        <p>
-          <%= angular_component_tag 'op-enterprise-banner',
+        <p class="boards-enterprise-banner-wide">
+          <%= angular_component_tag 'opce-enterprise-banner',
                                     inputs: {
                                       collapsible: false,
                                       opReferrer: 'boards',

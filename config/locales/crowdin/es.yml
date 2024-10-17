@@ -39,16 +39,9 @@ es:
         accent-color: "Acento"
         header-bg-color: "Fondo de encabezado"
         header-item-bg-hover-color: "Fondo de encabezado al mantener el cursor"
-        header-item-font-color: "Fuente de encabezado"
-        header-item-font-hover-color: "Fuente de encabezado al mantener el cursor"
-        header-border-bottom-color: "Borde de encabezado"
         main-menu-bg-color: "Fondo del menú principal"
         main-menu-bg-selected-background: "Menú principal seleccionado"
         main-menu-bg-hover-background: "Menú principal al mantener el cursor"
-        main-menu-font-color: "Fuente del menú principal"
-        main-menu-selected-font-color: "Fuente del menú principal seleccionado"
-        main-menu-hover-font-color: "Fuente del menú principal al mantener el cursor"
-        main-menu-border-color: "Borde del menú principal"
       custom_colors: "Colores personalizados"
       customize: "Personalice su instalación de OpenProject con su logotipo y colores."
       enterprise_notice: "Como un agradecimiento especial por su contribución financiera para desarrollar OpenProject, esta pequeña extensión solo está disponible para suscriptores de Enterprise."
@@ -212,6 +205,10 @@ es:
         blankslate:
           title: "Su lista de artículos está vacía"
           description: "Comience añadiendo elementos al campo personalizado de tipo jerarquía. Cada elemento puede utilizarse para crear una jerarquía debajo de él. Para navegar y crear subelementos dentro de una jerarquía, haga clic en el elemento creado."
+        more_actions: "More actions"
+        placeholder:
+          label: "Item label"
+          short: "Short name"
       notice:
         remember_items_and_projects: "Recuerde configurar los artículos y proyectos en las pestañas respectivas para este campo personalizado."
     text_add_new_custom_field: >
@@ -226,6 +223,7 @@ es:
       is_required: "Marcar el campo personalizado como necesario. Esto hará obligatorio rellenar el campo cuando se creen nuevos o se actualicen los recursos existentes."
       is_required_for_project: "Marque esta casilla para activar este atributo y hacerlo obligatorio en todos los proyectos. No puede desactivarse para proyectos individuales."
       is_for_all: "Marque el campo personalizado como disponible en todos los proyectos existentes y nuevos."
+      multi_select: "Allows the user to assign multiple values to this custom field."
       searchable: "Incluye los valores de los campos al usar la funcionalidad de búsqueda global."
       searchable_for_project: "Marque esta casilla para que este atributo esté disponible como filtro en las listas de proyectos."
       editable: "Permitir que el campo sea editable por los propios usuarios."
@@ -237,6 +235,14 @@ es:
       no_results_content_text: Crear un nuevo campo personalizado
   concatenation:
     single: "o bien"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "must be filled"
+          not_unique: "must be unique within the same hierarchy level"
+    rules:
+      label: "Label"
   global_search:
     placeholder: "Buscar en %{app_title}"
     overwritten_tabs:
@@ -476,17 +482,23 @@ es:
       no_results_content_text: Añadir un informe de estado
   statuses:
     edit:
+      status_color_text: |
+        Haga clic para asignar o cambiar el color de este estado.
+        Se muestra en el botón de estado y puede usarse para resaltar paquetes de trabajo en la tabla.
+      status_default_text: |-
+        New work packages are by default set to this type. They cannot be read-only.
+      status_excluded_from_totals_text: |-
+        Marque esta opción para excluir los paquetes de trabajo con este estado de los totales de Trabajo,
+        Trabajo restante y % completado en una jerarquía.
+      status_percent_complete_text: |-
+        In <a href="%{href}">status-based progress calculation mode</a>, the % Complete of a work
+        package is automatically set to this value when this status is selected.
+        Ignored in work-based mode.
       status_readonly_html: |
         Seleccione esta opción para marcar los paquetes de trabajo que tengan este estado como de solo lectura.
         Excepto el estado, ningún otro atributo se puede modificar.
         <br/>
         <strong>Nota</strong>: Los valores heredados (por ejemplo, de elementos secundarios o relaciones) seguirán aplicándose.
-      status_excluded_from_totals_text: |-
-        Marque esta opción para excluir los paquetes de trabajo con este estado de los totales de Trabajo,
-        Trabajo restante y % completado en una jerarquía.
-      status_color_text: |
-        Haga clic para asignar o cambiar el color de este estado.
-        Se muestra en el botón de estado y puede usarse para resaltar paquetes de trabajo en la tabla.
     index:
       no_results_title_text: Actualmente no hay estados de paquetes de trabajo.
       no_results_content_text: Añadir un nuevo estado
@@ -1808,6 +1820,7 @@ es:
       progress_mode_changed_to_status_based: "Cálculo del progreso actualizado"
       status_changed: "Estado «%{status_name}»"
       system_update: "Actualización del sistema OpenProject:"
+      work_package_duplicate_closed: "Duplicate work package updated:"
       total_percent_complete_mode_changed_to_work_weighted_average: "El cálculo de los totales de % completado ahora se pondera por Trabajo."
       total_percent_complete_mode_changed_to_simple_average: "El cálculo de los totales de % completado se basa ahora en una media simple de solo los valores de % completado."
     cause_descriptions:
@@ -1815,6 +1828,7 @@ es:
       work_package_parent_changed_times: por cambios al %{link} principal
       work_package_children_changed_times: por cambios en el secundario %{link}
       work_package_related_changed_times: por cambios en los %{link} relacionados
+      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       unaccessable_work_package_changed: por cambios en un paquete de trabajo relacionado
       working_days_changed:
         changed: "por cambios en días laborables (%{changes})"
@@ -2907,6 +2921,7 @@ es:
   permission_view_shared_work_packages: "Ver paquetes de trabajo compartidos"
   permission_view_time_entries: "Ver tiempo invertido"
   permission_view_timelines: "Ver cronogramas"
+  permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "Ver historial wiki"
   permission_view_wiki_pages: "Ver wiki"
   permission_work_package_assigned: "Hazte asignado/responsable"

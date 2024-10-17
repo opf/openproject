@@ -4,7 +4,13 @@
 ![GitHub branch checks state](https://img.shields.io/github/checks-status/opf/openproject/dev)
 [![Github Tests](https://github.com/opf/openproject/actions/workflows/test-core.yml/badge.svg?branch=dev)](https://github.com/opf/openproject/actions/workflows/test-core.yml)
 
-OpenProject is a web-based project management software. Its key features are:
+**We empower teams to achieve great things together for the good of society.**
+
+OpenProject is a web-based project management software. Use OpenProject to manage your projects, tasks and goals. Collaborate via work packages and link them to your pull requests on Github. [Read more about the OpenProject GitHub integration](https://www.openproject.org/docs/system-admin-guide/integrations/github-integration/).
+
+![Screenshot of OpenProject, showing the GitHub tab on a work package](GitHub-tab-new.png)
+
+OpenProject's key features are:
 
 * [Project planning and scheduling](https://www.openproject.org/collaboration-software-features/#project-planning)
 * [Product roadmap and release planning](https://www.openproject.org/collaboration-software-features/#product-management)
@@ -18,35 +24,44 @@ OpenProject is a web-based project management software. Its key features are:
 
 More information and screenshots can be found on our [website](https://www.openproject.org).
 
-## Installation
+## Start now with OpenProject
 
-If you want to run an instance of OpenProject in production (or for evaluation), refer to our
-in-depth [installation guides](https://www.openproject.org/download-and-installation/).
+- **Free Trial**:[Start a 14-days free trial of OpenProject](https://start.openproject.com/).
+- **Community Edition**, free of charge: Download OpenProject and get started with the self-hosted Community edition. If you want to run an instance of OpenProject in production (or for evaluation), refer to our in-depth [installation guides](https://www.openproject.org/download-and-installation/).
+- **Enterprise Edition**: Sign up for the Enterprise version, choose between cloud or on-premises and benefit from comprehensive support and Enterprise add-ons.
+- **Documentation**: Explore our [comprehensive documentation](https://www.openproject.org/docs/) to help you get up and running quickly.
+- **Training**: [Book one of our training or consulting offers](https://www.openproject.org/training-and-consulting/#training-signup) to get your team on board in no time.
 
-## Reporting bugs
+## Report bugs
 
-You found a bug? Please [report it](https://www.openproject.org/docs/development/report-a-bug/) to our [OpenProject community](https://community.openproject.org/projects/openproject). Thank you!
+You found a bug? Please [report it](https://www.openproject.org/docs/development/report-a-bug/) to our [OpenProject Community](https://community.openproject.org/projects/openproject). Thank you!
 
 ## Contribute
 
-OpenProject is supported by its community members, both companies and individuals.
+OpenProject is supported by its Community members, both companies and individuals.
 
-We are always looking for new members to our community, so if you are interested in improving OpenProject we would be glad to welcome and support you getting into the code. There are guides as well, e.g. a [Quick Start for Developers](https://www.openproject.org/development/setting-up-development-environment/), but don't hesitate to simply [contact us](https://www.openproject.org/contact) if you have questions.
+We are always looking for new members to our Community, so if you are interested in improving OpenProject we would be glad to welcome and support you getting into the code. There are guides as well, e.g. a [Quick Start for Developers](https://www.openproject.org/development/setting-up-development-environment/), but don't hesitate to simply [contact us](https://www.openproject.org/contact) if you have questions.
 
 Working on OpenProject comes with the satisfaction of working on a widely used open source application.
 
 Also, if you do not want to be limited to working on open source in your free time, OpenProject GmbH, the company contributing to the OpenProject development, [is hiring](https://www.openproject.org/career/).
 
 
-## Contact
+## Stay in contact
 
-Here you can find our [contact information](https://www.openproject.org/contact/). If you are interested in development or have general questions, feel free to also join our [community discussion forums](https://community.openproject.org/projects/openproject/forums).
+Here you can find our [contact information](https://www.openproject.org/contact/). As we regularly update OpenProject, we recommend staying in touch – here is where you can find us:
+
+- [OpenProject Community](https://www.openproject.org/blog/community-instance/) with [forum discussions](https://community.openproject.org/projects/openproject/forums): The open instance where we develop our features – transparent and open for discussions, bug reports or feature requests.
+- [LinkedIn](https://www.linkedin.com/company/18706985)
+- [Reddit](https://www.reddit.com/r/openproject/)
+- [Fosstodon](https://fosstodon.org/@openproject)
+- [Twitter/X](https://twitter.com/openproject)
 
 ## Security / responsible disclosure
 
 We take security very seriously at OpenProject. We value any kind of feedback that
-will keep our community secure. If you happen to come across a security issue we urge
-you to disclose it to us privately to allow our users and community enough time to
+will keep our Community secure. If you happen to come across a security issue we urge
+you to disclose it to us privately to allow our users and Community enough time to
 upgrade. Security issues will always take precedence over anything else in the pipeline.
 
 For more information on how to disclose a security vulnerability, [please see this page](docs/security-and-privacy/statement-on-security/README.md).

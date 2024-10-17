@@ -1,0 +1,11 @@
+<%=
+  if @start_date == @due_date
+    render(Primer::Beta::Text.new(**text_arguments, classes: date_classes(@start_date))) { parsed_date(@start_date) }
+  else
+    component_wrapper do
+      concat(render(Primer::Beta::Text.new(**text_arguments)) { parsed_date(@start_date) })
+      concat(render(Primer::Beta::Text.new(**text_arguments)) { " - " }) if @due_date.present?
+      concat(render(Primer::Beta::Text.new(**text_arguments, classes: date_classes(@due_date))) { parsed_date(@due_date) })
+    end
+  end
+%>

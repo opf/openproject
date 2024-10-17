@@ -35,30 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title (@query.persisted? ? "#{t(:label_cost_report)}: #{@query.name}" : t(:label_new_report)) %>
 
-<%=
-  render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { render_widget Widget::Controls::QueryName, @query, :can_rename => allowed_in_report?(:rename, @query, current_user) }
-    header.with_breadcrumbs([{ href: home_path, text: organization_name},
-                             *([href: project_overview_path(@project.id), text: @project.name] if @project),
-                             t(:label_news_plural)])
-  end
-%>
-<% if User.current.allowed_in_any_work_package?(:export_work_packages, in_project: @project) %>
-  <%=
-    render(Primer::OpenProject::SubHeader.new) do |subheader|
-      subheader.with_action_button(scheme: :default,
-                                   aria: { label: t(:export_to_excel)},
-                                   title: t(:export_to_excel),
-                                   tag: :a,
-                                   href: url_for({ controller: "cost_reports" , action: :index, format: 'xls', project_id: @project })
-                                   ) do |button|
-        button.with_leading_visual_icon(icon: "op-file-xls-descriptions")
-        t(:export_to_excel)
-      end
-    end
-  %>
-  <%= call_hook(:view_cost_report_toolbar) %>
-<% end %>
+<%= render CostReports::IndexPageHeaderComponent.new(query: @query, project: @project) %>
 
 <%= render_widget Widget::Settings, @query, :cost_types => @cost_types, :selected_type_id => @unit_id %>
 

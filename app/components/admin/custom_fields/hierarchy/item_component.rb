@@ -32,6 +32,15 @@ module Admin
       class ItemComponent < ApplicationComponent
         include OpTurbo::Streamable
         include OpPrimer::ComponentHelpers
+
+        def initialize(hierarchy_item:)
+          super
+          @hierarchy_item = hierarchy_item
+        end
+
+        def short_text
+          "(#{@hierarchy_item.short})"
+        end
       end
     end
   end

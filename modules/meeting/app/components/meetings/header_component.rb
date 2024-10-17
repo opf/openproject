@@ -66,7 +66,7 @@ module Meetings
       if @project.present?
         { href: project_overview_path(@project.id), text: @project.name }
       else
-        { href: home_path, text: I18n.t(:label_home) }
+        { href: home_path, text: helpers.organization_name }
       end
     end
   end
