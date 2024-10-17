@@ -28,6 +28,9 @@ module OpenIDConnect
     store_attribute :options, :client_id, :string
     store_attribute :options, :client_secret, :string
     store_attribute :options, :tenant, :string
+    store_attribute :options, :host, :string
+    store_attribute :options, :scheme, :string
+    store_attribute :options, :port, :string
 
     store_attribute :options, :claims, :string
     store_attribute :options, :acr_values, :string
