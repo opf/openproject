@@ -228,14 +228,6 @@ export class IanCenterService extends UntilDestroyedMixin {
     this.reload.next(true);
   }
 
-  setCenterHidden(hidden:boolean):void {
-    this.store.update({ centerHidden: hidden });
-
-    if (!hidden) {
-      this.removeNotificationIndicatorInIcon();
-    }
-  }
-
   markAsRead(notifications:ID[]):void {
     this.actions$.dispatch(
       markNotificationsAsRead({ origin: this.id, notifications }),
@@ -290,21 +282,11 @@ export class IanCenterService extends UntilDestroyedMixin {
     // decreasing the notification count could happen when the user itself
     // marks notifications as read in the split view or on another tab
     this.onReload.pipe(take(1)).subscribe((collection) => {
-      // check for new notifications and inform the user via desired notification method: currently red dot in icon
-      const { activeCollection } = this.query.getValue();
-      const hasNewNotifications = !collection.ids.reduce(
-        (allInOldCollection, id) => allInOldCollection && activeCollection.ids.includes(id),
-        true,
-      );
-
-      // new concept for notification center:
-      if (hasNewNotifications) {
-        this.informAboutUnreadNotification();
-      }
       // directly update the UI state in both cases (count increased or decreased)
       this.store.update({ activeCollection: collection });
       this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
     });
+
     this.reload.next(false);
   }
 
@@ -350,47 +332,8 @@ export class IanCenterService extends UntilDestroyedMixin {
     this.reload.next(false);
   }
 
-  private informAboutUnreadNotification():void {
-    const state = this.store.getValue();
-
-    if (state.centerHidden) {
-      // notification center is not visible (as far as it can be determined - e.g. another browser tab is selected)
-      this.showNotificationIndicatorInIcon();
-    }
-  }
-
   private get primerizedActivitiesEnabled():boolean {
     return this.configurationService.activeFeatureFlags.includes('primerizedWorkPackageActivities');
-  }
-
-  private showNewNotificationToast():void {
-    this.hideNewNotifcationToast();
-    this.activeReloadToast = this.toastService.add({
-      type: 'info',
-      icon: 'bell',
-      message: this.I18n.t('js.notifications.center.new_notifications.message'),
-    });
-  }
-
-  private hideNewNotifcationToast():void {
-    if (this.activeReloadToast) {
-      this.toastService.remove(this.activeReloadToast);
-      this.activeReloadToast = null;
-    }
-  }
-
-  private showNotificationIndicatorInIcon():void {
-    const iconLink = window.document.querySelector("link[rel*='icon']");
-    if (iconLink) {
-      (iconLink as HTMLLinkElement).href = 'favicon_notification.ico';
-    }
-  }
-
-  private removeNotificationIndicatorInIcon():void {
-    const iconLink = window.document.querySelector("link[rel*='icon']");
-    if (iconLink) {
-      (iconLink as HTMLLinkElement).href = 'favicon.ico';
-    }
   }
 
   /**
