@@ -45,7 +45,7 @@ module Admin
           "(#{@hierarchy_item.short})"
         end
 
-        def delete_item(menu)
+        def deletion_action_item(menu)
           menu.with_item(label: I18n.t(:button_delete),
                          scheme: :danger,
                          tag: :a,

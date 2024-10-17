@@ -66,9 +66,14 @@ module Admin
         end
 
         def destroy
-          # TODO: user persistence service
-          @hierarchy_item.destroy
-          update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field))
+          ::CustomFields::Hierarchy::HierarchicalItemService
+            .new
+            .delete_branch(item: @hierarchy_item)
+            .either(
+              ->(_) { update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field)) },
+              ->(errors) { update_flash_message_via_turbo_stream(message: errors.full_messages, scheme: :danger) }
+            )
+
           respond_with_turbo_streams
         end
 
