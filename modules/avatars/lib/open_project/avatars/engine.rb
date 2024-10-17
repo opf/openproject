@@ -30,6 +30,7 @@ module OpenProject::Avatars
                  enable_local_avatars: !Rails.env.test?
                },
                partial: "settings/openproject_avatars",
+               breadcrumb_elements: -> { [{ href: admin_settings_users_path, text: I18n.t(:label_user_and_permission) }] },
                menu_item: :user_avatars
              },
              bundled: true do

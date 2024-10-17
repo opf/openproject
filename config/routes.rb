@@ -533,7 +533,7 @@ Rails.application.routes.draw do
       get "/", to: redirect("/admin/settings/general")
 
       # Plugin settings
-      get "plugin/:id", action: :show_plugin
+      get "plugin/:id", action: :show_plugin, as: :show_plugin
       post "plugin/:id", action: :update_plugin
     end
 
