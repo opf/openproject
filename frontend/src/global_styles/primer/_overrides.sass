@@ -117,3 +117,9 @@ sub-header,
 // Todo: Remove once https://github.com/primer/view_components/pull/3087 is merged
 .FormControl-spacingWrapper
   row-gap: var(--stack-gap-normal)
+
+// When our generic table uses the quick action menu, column headers are cut off and no longer fully readable.
+// This fix ensures that column headers are always displayed. An example for such a table is the project list.
+.generic-table
+  .generic-table--action-menu-button
+    min-width: max-content !important
