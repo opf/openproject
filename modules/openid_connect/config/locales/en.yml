@@ -37,8 +37,22 @@ en:
               response_is_not_json: " does not return JSON body."
               response_misses_required_attributes: " does not return required attributes. Missing attributes are: %{missing_attributes}."
 
+  provider:
+    delete_warning:
+      input_delete_confirmation: Enter the provider name %{name} to confirm deletion.
+      irreversible_notice: Deleting an SSO provider is an irreversible action.
+      provider: 'Are you sure you want to delete the SSO provider %{name}? To confirm this action please enter the name of the provider in the field below, this will:'
+      delete_result_1: Remove the provider from the list of available providers.
+      delete_result_user_count:
+        zero: No users are currently using this provider. No further action is required.
+        one: "One user is currently still using this provider. They will need to be re-invited or logging in with another provider."
+        other: "%{count} users are currently still using this provider. They will need to be re-invited or logging in with another provider."
+      delete_result_direct: This provider is marked as a direct login provider. The setting will be removed and users will no longer be redirected to the provider for login.
+
   openid_connect:
     menu_title: OpenID providers
+    delete_title: "Delete OpenID Connect provider"
+
     instructions:
       endpoint_url: The endpoint URL given to you by the OpenID Connect provider
       metadata_none: I don't have this information

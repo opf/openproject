@@ -7,7 +7,7 @@ module OpenIDConnect
 
     before_action :require_admin
     before_action :check_ee
-    before_action :find_provider, only: %i[edit update destroy]
+    before_action :find_provider, only: %i[edit update confirm_destroy destroy]
     before_action :set_edit_state, only: %i[create edit update]
 
     def index
@@ -62,6 +62,8 @@ module OpenIDConnect
         failed_save_response(edit)
       end
     end
+
+    def confirm_destroy; end
 
     def destroy
       if @provider.destroy
