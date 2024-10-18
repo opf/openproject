@@ -3,6 +3,8 @@ class WorkPackageRelationsTab::IndexComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
   include Turbo::FramesHelper
 
+  attr_reader :work_package, :relations
+
   def initialize(work_package:, relations:)
     super()
 

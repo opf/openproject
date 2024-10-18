@@ -38,7 +38,6 @@ class WorkPackageRelationsTabController < ApplicationController
     @relations = @work_package
       .relations
       .includes(:to, :from)
-      .visible
 
     render(
       WorkPackageRelationsTab::IndexComponent.new(
