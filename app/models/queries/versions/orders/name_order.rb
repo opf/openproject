@@ -36,7 +36,7 @@ class Queries::Versions::Orders::NameOrder < Queries::Orders::Base
   private
 
   def order
-    ordered = Version.order_by_name
+    ordered = Version.order(:name)
 
     if direction == :desc
       ordered = ordered.reverse_order
