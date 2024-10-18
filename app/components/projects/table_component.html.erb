@@ -54,16 +54,16 @@ See COPYRIGHT and LICENSE files for more details.
                         </div>
                       </div>
                     </th>
-                  <% elsif column.attribute == :favored %>
-                    <th>
-                      <div class="generic-table--header-outer">
-                        <div class="generic-table--header generic-table--header_centered generic-table--header_no-min-width">
-                          <span>
-                            <%= render(Primer::Beta::Octicon.new(icon: "star-fill", color: :subtle, "aria-label": I18n.t(:label_favorite))) %>
-                          </span>
-                        </div>
-                      </div>
-                    </th>
+                  <%# elsif column.attribute == :favored %>
+<!--                    <th>-->
+<!--                      <div class="generic-table--header-outer">-->
+<!--                        <div class="generic-table--header generic-table--header_centered generic-table--header_no-min-width">-->
+<!--                          <span>-->
+                            <%#= render(Primer::Beta::Octicon.new(icon: "star-fill", color: :subtle, "aria-label": I18n.t(:label_favorite))) %>
+<!--                          </span>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </th>-->
                   <% else %>
                     <%= quick_action_table_header column.attribute, order_options(column, turbo: true) %>
                   <% end %>

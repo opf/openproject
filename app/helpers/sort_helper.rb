@@ -348,7 +348,12 @@ module SortHelper
 
     options[:title] = sort_header_title(column, caption, options)
 
-    within_sort_header_tag_hierarchy(options, sort_class(column)) do
+    additional_classes = ""
+    if column == :favored
+      additional_classes = "generic-table--header_centered generic-table--header_no-min-width"
+    end
+
+    within_sort_header_tag_hierarchy(options, sort_class(column), additional_classes) do
       yield(column, caption, default_order, allowed_params:, param:, lang:, title: options[:title],
                                             sortable: options.fetch(:sortable, false), data:)
     end
@@ -399,7 +404,7 @@ module SortHelper
     content_args = html_options.merge(rel: :nofollow, param: nil)
 
     render Primer::Alpha::ActionMenu.new(menu_id: "menu-#{column}") do |menu|
-      action_button(menu, caption)
+      action_button(menu, caption, favorite: column == :favored)
 
       # Some columns are not sortable or do not offer a suitable filter. Omit those actions for them.
       sort_actions(menu, column, default_order, content_args:, allowed_params:, **html_options) if sortable
@@ -410,12 +415,18 @@ module SortHelper
     end
   end
 
-  def action_button(menu, caption)
+  def action_button(menu, caption, favorite: false)
     menu.with_show_button(scheme: :link, color: :default, text_transform: :uppercase,
                           underline: false, display: :inline_flex,
                           classes: "generic-table--action-menu-button") do |button|
-      button.with_trailing_action_icon(icon: :"triangle-down")
-      h(caption).to_s
+      if favorite
+        # This column only shows an icon, no text.
+        render Primer::Beta::Octicon.new(icon: "star-fill", color: :subtle, "aria-label": I18n.t(:label_favorite))
+      else
+        button.with_trailing_action_icon(icon: :"triangle-down")
+
+        h(caption).to_s
+      end
     end
   end
 
@@ -562,10 +573,10 @@ module SortHelper
     end
   end
 
-  def within_sort_header_tag_hierarchy(options, classes, &)
+  def within_sort_header_tag_hierarchy(options, classes, sort_header_classes = "", &)
     content_tag "th", options do
       content_tag "div", class: "generic-table--sort-header-outer" do
-        content_tag "div", class: "generic-table--sort-header" do
+        content_tag "div", class: "generic-table--sort-header #{sort_header_classes}" do
           content_tag("span", class: classes, &)
         end
       end
