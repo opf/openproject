@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,18 +29,23 @@
 #++
 
 require "spec_helper"
-require File.expand_path("../support/permission_specs", __dir__)
 
-RSpec.describe Overviews::OverviewsController, "manage_project_custom_values permission",
-               type: :controller do
-  include PermissionSpecs
+RSpec.describe CustomField::Hierarchy::Item, :model do
+  let(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root: nil) }
+  let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
 
-  # render sidebar on project overview page with view_project permission
-  check_permission_required_for("overviews/overviews#project_custom_fields_sidebar", :view_project_attributes)
+  let(:root) { service.generate_root(custom_field).value! }
 
-  # render dialog with inputs for editing project attributes with edit_project permission
-  check_permission_required_for("overviews/overviews#project_custom_field_section_dialog", :edit_project_attributes)
+  context "when custom field is deleted" do
+    let!(:luke) { service.insert_item(parent: root, label: "luke").value! }
+    let!(:mara) { service.insert_item(parent: luke, label: "mara").value! }
+    let!(:leia) { service.insert_item(parent: root, label: "leia").value! }
+    let!(:kylo) { service.insert_item(parent: leia, label: "kylo").value! }
 
-  # update project attributes with edit_project permission, deeper permission check via contract in place
-  check_permission_required_for("overviews/overviews#update_project_custom_values", :edit_project_attributes)
+    before { custom_field.reload }
+
+    it "removes the entire hierarchy tree" do
+      expect { custom_field.destroy }.to change(described_class, :count).to(0)
+    end
+  end
 end

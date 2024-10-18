@@ -24,6 +24,22 @@ id:
   activities:
     index:
       no_results_title_text: Belum ada kegiatan untuk proyek dalam jangka waktu ini.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: There are currently no plugins installed.
@@ -202,7 +218,7 @@ id:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -1999,7 +2015,6 @@ id:
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Sub-elemen"
   label_choices: "Choices"
-  label_chronological_order: "Terlama dulu"
   label_close_versions: "Tutup versi yang sudah komplit"
   label_closed_work_packages: "berakhir"
   label_collapse: "Tampilkan"
@@ -2365,7 +2380,6 @@ id:
   label_required: "dibutuhkan"
   label_requires: "dibutuhkan"
   label_result_plural: "Hasil"
-  label_reverse_chronological_order: "Newest first"
   label_revision: "Revisi"
   label_revision_id: "Revisi %{value}"
   label_revision_plural: "Revisi"

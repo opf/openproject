@@ -71,6 +71,12 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
   // Output save requests (ctrl+enter and cmd+enter)
   @Output() saveRequested = new EventEmitter<string>();
 
+  // Output key up events
+  @Output() editorKeyup = new EventEmitter<string>();
+
+  // Output blur events
+  @Output() editorBlur = new EventEmitter<string>();
+
   // View container of the replacement used to initialize CKEditor5
   @ViewChild('opCkeditorReplacementContainer', { static: true }) opCkeditorReplacementContainer:ElementRef;
 
@@ -235,6 +241,12 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
         // Capture CTRL+ENTER commands
         this.interceptModifiedEnterKeystrokes(editor);
 
+        // Capture and emit key up events
+        this.interceptKeyup(editor);
+
+        // Capture and emit blur events
+        this.interceptBlur(editor);
+
         // Emit global dragend events for other drop zones to react.
         // This is needed, as CKEditor does not bubble any drag events
         const model = watchdog.editor.model;
@@ -259,6 +271,37 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
           this.saveRequested.emit();
           evt.stop();
         }
+      },
+      { priority: 'highest' },
+    );
+  }
+
+  private interceptKeyup(editor:ICKEditorInstance) {
+    editor.listenTo(
+      editor.editing.view.document,
+      'keyup',
+      (event) => {
+        this.editorKeyup.emit();
+        event.stop();
+      },
+      { priority: 'highest' },
+    );
+  }
+
+  private interceptBlur(editor:ICKEditorInstance) {
+    editor.listenTo(
+      editor.editing.view.document,
+      'change:isFocused',
+      () => {
+        // without the timeout `isFocused` is still true even if the editor was blurred
+        // current limitation:
+        // clicking on empty toolbar space and the somewhere else on the page does not trigger the blur anymore
+        setTimeout(() => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          if (!editor.ui.focusTracker.isFocused) {
+            this.editorBlur.emit();
+          }
+        }, 0);
       },
       { priority: 'highest' },
     );

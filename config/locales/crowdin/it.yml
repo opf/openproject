@@ -24,6 +24,22 @@ it:
   activities:
     index:
       no_results_title_text: Non c'è stata alcuna attività per il progetto in questo lasso di tempo.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: Al momento non vi sono plugin installati.
@@ -205,7 +221,7 @@ it:
         blankslate:
           title: "La tua lista di elementi è vuota"
           description: "Inizia aggiungendo elementi al campo personalizzato di tipo gerarchia. Ogni elemento può essere utilizzato per creare una gerarchia sottostante. Per navigare e creare sottoelementi all'interno di una gerarchia, fai clic sull'elemento creato."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -2038,7 +2054,6 @@ it:
   label_check_uncheck_all_in_row: "Seleziona/deseleziona tutto nella riga"
   label_child_element: "Elemento figlio"
   label_choices: "Scelte"
-  label_chronological_order: "Prima i meno recenti"
   label_close_versions: "Chiudi le versioni complete"
   label_closed_work_packages: "chiuso"
   label_collapse: "Comprimi"
@@ -2404,7 +2419,6 @@ it:
   label_required: "obbligatorio"
   label_requires: "richiede"
   label_result_plural: "Risultati"
-  label_reverse_chronological_order: "Prima i più recenti"
   label_revision: "Revisione"
   label_revision_id: "Revisione %{value}"
   label_revision_plural: "Revisioni"

@@ -27,32 +27,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { I18n.t(:project_module_costs) }
-    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
-                             { href: url_for({ controller: "/admin/settings", action: "show_plugin", id: :costs }), text: t(:project_module_costs) },
-                             I18n.t(:label_setting_plural)])
-  end
-%>
 
-<div id="settings">
-  <%= styled_form_tag({controller: '/admin/settings', action: 'update_plugin' }) do %>
+<div class="form--field">
+  <%= styled_label_tag :label_currency, t(:label_currency) %>
+  <div class="form--field-container">
+    <%= styled_text_field_tag 'settings[costs_currency]', @settings['costs_currency'], container_class: '-xslim' %>
+  </div>
+</div>
 
-    <div class="form--field">
-      <%= styled_label_tag :label_currency, t(:label_currency) %>
-      <div class="form--field-container">
-        <%= styled_text_field_tag 'settings[costs_currency]', @settings['costs_currency'], container_class: '-xslim' %>
-      </div>
-    </div>
-
-    <div class="form--field">
-      <%= styled_label_tag :label_currency_format, t(:label_currency_format) %>
-      <div class="form--field-container">
-        <%=  styled_text_field_tag 'settings[costs_currency_format]', @settings['costs_currency_format'], container_class: '-xslim' %>
-      </div>
-    </div>
-
-    <%= styled_submit_tag t(:button_apply), class: '-primary' %>
-  <% end %>
+<div class="form--field">
+  <%= styled_label_tag :label_currency_format, t(:label_currency_format) %>
+  <div class="form--field-container">
+    <%=  styled_text_field_tag 'settings[costs_currency_format]', @settings['costs_currency_format'], container_class: '-xslim' %>
+  </div>
 </div>

@@ -43,6 +43,7 @@ import { IanBellQuery } from 'core-app/features/in-app-notifications/bell/state/
 import { EffectCallback, EffectHandler } from 'core-app/core/state/effects/effect-handler.decorator';
 import {
   notificationCountIncreased,
+  notificationCountChanged,
   notificationsMarkedRead,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
@@ -68,6 +69,9 @@ export class IanBellService {
     readonly actions$:ActionsService,
     readonly resourceService:InAppNotificationsResourceService,
   ) {
+    this.query.unreadCountChanged$.subscribe((count) => {
+      this.actions$.dispatch(notificationCountChanged({ origin: this.id, count }));
+    });
     this.query.unreadCountIncreased$.pipe(skip(1)).subscribe((count) => {
       this.actions$.dispatch(notificationCountIncreased({ origin: this.id, count }));
     });

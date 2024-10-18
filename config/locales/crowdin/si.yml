@@ -24,6 +24,22 @@ si:
   activities:
     index:
       no_results_title_text: මෙම කාල රාමුව තුළ ව්යාපෘතිය සඳහා කිසිදු ක්රියාකාරකමක් සිදු වී නොමැත.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: There are currently no plugins installed.
@@ -208,7 +224,7 @@ si:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -2041,7 +2057,6 @@ si:
   label_check_uncheck_all_in_row: "පේළියේ සියලු පරීක්ෂා කරන්න/ඉවත් කරන්න"
   label_child_element: "ළමා අංගයක්"
   label_choices: "Choices"
-  label_chronological_order: "Oldest first"
   label_close_versions: "අවසන් කරන ලද අනුවාද"
   label_closed_work_packages: "වසා"
   label_collapse: "බිඳවැටීම"
@@ -2407,7 +2422,6 @@ si:
   label_required: "අවශ්ය"
   label_requires: "අවශ්ය"
   label_result_plural: "ප්රතිඵල"
-  label_reverse_chronological_order: "Newest first"
   label_revision: "සංශෝධනය"
   label_revision_id: "සංශෝධනය %{value}"
   label_revision_plural: "සංශෝධන"

@@ -51,6 +51,7 @@ import { WorkPackagesActivityService } from 'core-app/features/work-packages/com
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 import { HalError } from 'core-app/features/hal/services/hal-error';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import {
   filter,
   take,
@@ -83,6 +84,10 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
 
   public showAbove:boolean;
 
+  public primerizedActivitiesEnabled:boolean;
+
+  public turboFrameSrc:string;
+
   public htmlId = 'wp-comment-field';
 
   constructor(protected elementRef:ElementRef,
@@ -95,7 +100,9 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     protected workPackageNotificationService:WorkPackageNotificationService,
     protected toastService:ToastService,
     protected cdRef:ChangeDetectorRef,
-    protected I18n:I18nService) {
+    protected I18n:I18nService,
+    readonly PathHelper:PathHelperService,
+  ) {
     super(elementRef, injector);
   }
 
@@ -104,6 +111,8 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
 
     this.canAddComment = !!this.workPackage.addComment;
     this.showAbove = this.configurationService.commentsSortedInDescendingOrder();
+    this.primerizedActivitiesEnabled = this.configurationService.activeFeatureFlags.includes('primerizedWorkPackageActivities');
+    this.turboFrameSrc = `${this.PathHelper.staticBase}/work_packages/${this.workPackage.id}/activities`;
 
     this.commentService.draft$
       .pipe(

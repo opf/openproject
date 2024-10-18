@@ -5,12 +5,13 @@ module Primer
     module Forms
       module Dsl
         class RichTextAreaInput < Primer::Forms::Dsl::Input
-          attr_reader :name, :label
+          attr_reader :name, :label, :classes
 
           def initialize(name:, label:, rich_text_options:, **system_arguments)
             @name = name
             @label = label
             @rich_text_options = rich_text_options
+            @classes = system_arguments[:classes]
 
             super(**system_arguments)
           end

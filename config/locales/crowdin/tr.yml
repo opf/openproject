@@ -24,6 +24,22 @@ tr:
   activities:
     index:
       no_results_title_text: Bu zaman dilimi içerisinde proje için herhangi bir faaliyet olmamıştır.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: There are currently no plugins installed.
@@ -208,7 +224,7 @@ tr:
         blankslate:
           title: "Öğeler listeniz boş"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -2040,7 +2056,6 @@ tr:
   label_check_uncheck_all_in_row: "Sıralı tümü işaretle / işaretini kaldır"
   label_child_element: "Alt eleman"
   label_choices: "Choices"
-  label_chronological_order: "Önce en eski"
   label_close_versions: "Tamamlanmış sürümleri kapat"
   label_closed_work_packages: "kapalı"
   label_collapse: "Daralt"
@@ -2406,7 +2421,6 @@ tr:
   label_required: "gerekli"
   label_requires: "gerektirir"
   label_result_plural: "Sonuçlar"
-  label_reverse_chronological_order: "Önce en yeni"
   label_revision: "Gözden geçirme"
   label_revision_id: "Düzeltme %{value}"
   label_revision_plural: "Düzeltmeler"
