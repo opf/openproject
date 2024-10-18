@@ -28,22 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ProjectCustomFieldProjectMappings
-  class BulkCreateService < ::BulkServices::ProjectMappings::BaseCreateService
-    def initialize(user:, projects:, model:, include_sub_projects: false)
-      mapping_context = ::BulkServices::ProjectMappings::MappingContext.new(
-        mapping_model_class: ProjectCustomFieldProjectMapping,
-        model:,
-        projects:,
-        model_foreign_key_id:,
-        include_sub_projects:
-      )
-      super(user:, mapping_context:)
+# Gives the projects to map and the attributes to be used for the mapping.
+module BulkServices
+  module ProjectMappings
+    class MappingContextBase
+      attr_reader :mapping_model_class
+
+      def initialize(mapping_model_class:)
+        @mapping_model_class = mapping_model_class
+      end
+
+      def mapping_attributes_for_all_projects(params)
+        raise NotImplementedError, "This method must be implemented in a subclass"
+      end
+
+      def incoming_projects
+        raise NotImplementedError, "This method must be implemented in a subclass"
+      end
     end
-
-    private
-
-    def permission = :select_project_custom_fields
-    def model_foreign_key_id = :custom_field_id
   end
 end
