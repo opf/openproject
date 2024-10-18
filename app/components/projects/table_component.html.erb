@@ -55,7 +55,19 @@ See COPYRIGHT and LICENSE files for more details.
                       </div>
                     </th>
                   <% else %>
-                    <%= quick_action_table_header column.attribute, order_options(column, turbo: true) %>
+                    <% if use_quick_action_table_headers? %>
+                      <%= quick_action_table_header column.attribute, order_options(column, turbo: true) %>
+                    <% else %>
+                      <th>
+                        <div class="generic-table--sort-header-outer">
+                          <div class="generic-table--sort-header">
+                          <span>
+                            <%= column.caption %>
+                          </span>
+                          </div>
+                        </div>
+                      </th>
+                    <% end %>
                   <% end %>
                 <% end %>
                 <th>

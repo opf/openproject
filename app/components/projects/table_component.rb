@@ -135,6 +135,10 @@ module Projects
       sortable? && query.known_order?(select.attribute)
     end
 
+    def use_quick_action_table_headers?
+      true
+    end
+
     def columns
       @columns ||= begin
         columns = query.selects.reject { |select| select.is_a?(::Queries::Selects::NotExistingSelect) }
