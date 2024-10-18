@@ -28,56 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class WorkPackages::IndexPageHeaderComponent < ApplicationComponent
-  include OpPrimer::ComponentHelpers
-  include ApplicationHelper
+module WorkPackages
+  module Baseline
+    class ModalDialogComponent < ApplicationComponent
+      MODAL_ID = "op-work-packages-baseline-dialog"
+      EXPORT_FORM_ID = "op-work-packages-baseline-dialog-form"
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
 
-  def initialize(query: nil, project: nil)
-    super
+      attr_reader :query, :project, :query_params
 
-    @query = query
-    @project = project
-  end
+      def initialize(query:, project:, title:)
+        super
 
-  def breadcrumb_items
-    items = [{ href: @project ? project_work_packages_path : work_packages_path, text: t(:label_work_package_plural) },
-             title]
+        @query = query
+        @project = project
+        @query_params = ::API::V3::Queries::QueryParamsRepresenter.new(query).to_url_query(merge_params: { columns: [], title: })
+      end
 
-    if @project
-      items.prepend({ href: project_overview_path(@project.id), text: @project.name })
+      def subtitle_text
+        # TODO: show different text and EE icon if no EE licence
+        I18n.t("js.baseline.header_description")
+      end
     end
-
-    items
-  end
-
-  def title
-    @query&.name ? @query.name : t(:label_work_package_plural)
-  end
-
-  def project_include_button_callback
-    lambda do |button|
-      button.with_leading_visual_icon(icon: :"op-include-projects")
-      I18n.t("js.include_projects.toggle_title")
-    end
-  end
-
-  def can_rename?
-    # TODO
-    true
-  end
-
-  def can_save?
-    # TODO
-    true
-  end
-
-  def can_save_as?
-    # TODO
-    true
-  end
-
-  def can_delete?
-    # TODO
-    true
   end
 end

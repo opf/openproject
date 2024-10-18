@@ -13,12 +13,19 @@
       d.with_body { "TODO" }
     end
 
-    header.with_action_dialog(mobile_icon: :"op-baseline",
+    header.with_action_button(tag: :a,
+                              mobile_icon: :"op-baseline",
                               mobile_label: I18n.t("js.baseline.toggle_title"),
-                              dialog_arguments: { id: "my_dialog2", title: "A great dialog" },
-                              button_arguments: { button_block: baseline_button_callback, test_selector: "baseline-button" }) do |d|
-      d.with_body { "TODO" }
+                              href: @project.present? ? baseline_dialog_project_work_packages_path(@project) : baseline_dialog_project_work_packages_path(),
+                              aria: { label: I18n.t("js.baseline.toggle_title") },
+                              title: I18n.t("js.baseline.toggle_title"),
+                              data: { controller: "async-dialog" },
+                              rel: "nofollow") do |button|
+      button.with_leading_visual_icon(icon: :"op-baseline")
+      I18n.t("js.baseline.toggle_title")
     end
+
+
 
     header.with_action_zen_mode_button
 

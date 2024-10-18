@@ -40,11 +40,11 @@ class WorkPackagesController < ApplicationController
                 :project, only: :show
   before_action :check_allowed_export,
                 :protect_from_unauthorized_export, only: %i[index export_dialog]
-  before_action :find_optional_project, only: %i[split_view split_create]
+  before_action :find_optional_project, only: %i[split_view split_create baseline_dialog]
   before_action :load_and_authorize_in_optional_project, only: %i[index export_dialog new copy]
-  authorization_checked! :index, :show, :new, :copy, :export_dialog, :split_view, :split_create
+  authorization_checked! :index, :show, :new, :copy, :export_dialog, :split_view, :split_create, :baseline_dialog
 
-  before_action :load_and_validate_query, only: %i[index split_view split_create copy]
+  before_action :load_and_validate_query, only: %i[index split_view split_create copy baseline_dialog]
   before_action :load_work_packages, only: :index, if: -> { request.format.atom? }
   before_action :load_and_validate_query_for_export, only: :export_dialog
 
@@ -114,6 +114,10 @@ class WorkPackagesController < ApplicationController
 
   def export_dialog
     respond_with_dialog WorkPackages::Exports::ModalDialogComponent.new(query: @query, project: @project, title: params[:title])
+  end
+
+  def baseline_dialog
+    respond_with_dialog WorkPackages::Baseline::ModalDialogComponent.new(query: @query, project: @project, title: params[:title])
   end
 
   protected

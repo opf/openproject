@@ -1,0 +1,23 @@
+<%= render(Primer::Alpha::Dialog.new(
+  title: I18n.t("js.baseline.baseline_comparison"),
+  subtitle: subtitle_text,
+  size: :medium_portrait,
+  id: MODAL_ID
+)) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
+  <% dialog.with_body do %>
+    <%= helpers.angular_component_tag "opce-baseline",
+                                      inputs: {
+                                        showHeaderText: false,
+                                      } %>
+  <% end %>
+  <% dialog.with_footer do %>
+    <%= render(Primer::ButtonComponent.new(data: { "close-dialog-id": MODAL_ID })) { I18n.t(:button_cancel) } %>
+    <%= render(Primer::ButtonComponent.new(
+      data: {
+        "close-dialog-id": MODAL_ID,
+      },
+      scheme: :primary,
+      type: :submit)) { I18n.t(:button_apply) } %>
+  <% end %>
+<% end %>
