@@ -30,10 +30,11 @@
 
 class WorkPackages::ActivitiesTabController < ApplicationController
   include OpTurbo::ComponentStream
+  include FlashMessagesOutputSafetyHelper
 
   before_action :find_work_package
   before_action :find_project
-  before_action :find_journal, only: %i[edit cancel_edit update]
+  before_action :find_journal, only: %i[edit cancel_edit update toggle_reaction]
   before_action :set_filter
   before_action :authorize
 
@@ -50,6 +51,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   def update_streams
     if params[:last_update_timestamp].present?
       generate_time_based_update_streams(params[:last_update_timestamp])
+      generate_time_based_reaction_update_streams(params[:last_update_timestamp])
     else
       @turbo_status = :bad_request
     end
@@ -141,6 +143,37 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     respond_with_turbo_streams
   end
 
+  def toggle_reaction # rubocop:disable Metrics/AbcSize
+    emoji_reaction_service =
+      if @journal.emoji_reactions.exists?(user: User.current, emoji: params[:emoji])
+        EmojiReactions::DeleteService
+         .new(user: User.current,
+              model: @journal.emoji_reactions.find_by(user: User.current, emoji: params[:emoji]))
+         .call
+      else
+        EmojiReactions::CreateService
+         .new(user: User.current)
+         .call(user: User.current, reactable: @journal, emoji: params[:emoji])
+      end
+
+    emoji_reaction_service.on_success do
+      update_via_turbo_stream(
+        component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Show.new(
+          journal: @journal,
+          filter: params[:filter]&.to_sym || :all
+        )
+      )
+    end
+
+    emoji_reaction_service.on_failure do
+      render_error_flash_message_via_turbo_stream(
+        message: join_flash_messages(emoji_reaction_service.errors.full_messages)
+      )
+    end
+
+    respond_with_turbo_streams
+  end
+
   private
 
   def respond_with_error(error_message)
@@ -221,6 +254,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       update_index_component # update the whole index component to reset empty state
     else
       generate_time_based_update_streams(params[:last_update_timestamp])
+      generate_time_based_reaction_update_streams(params[:last_update_timestamp])
     end
   end
 
@@ -296,6 +330,19 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     if journals.any?
       remove_potential_empty_state
       update_activity_counter
+    end
+  end
+
+  def generate_time_based_reaction_update_streams(last_update_timestamp)
+    # Current limitation: Only shows added reactions, not removed ones
+    EmojiReaction
+      .where(reactable_id: @work_package.journal_ids)
+      .where("updated_at > ?", last_update_timestamp).find_each do |reaction|
+      update_via_turbo_stream(
+        component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions.new(
+          journal: reaction.reactable
+        )
+      )
     end
   end
 
